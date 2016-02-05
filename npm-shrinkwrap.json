@@ -1,5 +1,5 @@
 {
-  "name": "login",
+  "name": "@okta/okta-signin-widget",
   "version": "1.1.0",
   "dependencies": {
     "abbrev": {
@@ -7,10 +7,25 @@
       "from": "abbrev@>=1.0.0 <2.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/abbrev/-/abbrev-1.0.7.tgz"
     },
+    "accepts": {
+      "version": "1.2.13",
+      "from": "accepts@>=1.2.13 <1.3.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/accepts/-/accepts-1.2.13.tgz"
+    },
     "adm-zip": {
       "version": "0.4.4",
       "from": "adm-zip@0.4.4",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/adm-zip/-/adm-zip-0.4.4.tgz"
+    },
+    "align-text": {
+      "version": "0.1.4",
+      "from": "align-text@>=0.1.3 <0.2.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/align-text/-/align-text-0.1.4.tgz"
+    },
+    "amdefine": {
+      "version": "1.0.0",
+      "from": "amdefine@>=0.0.4",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/amdefine/-/amdefine-1.0.0.tgz"
     },
     "ansi-regex": {
       "version": "2.0.0",
@@ -33,6 +48,11 @@
           "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/underscore.string/-/underscore.string-2.4.0.tgz"
         }
       }
+    },
+    "array-find-index": {
+      "version": "1.0.1",
+      "from": "array-find-index@>=1.0.0 <2.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/array-find-index/-/array-find-index-1.0.1.tgz"
     },
     "array-uniq": {
       "version": "1.0.2",
@@ -64,6 +84,16 @@
       "from": "balanced-match@>=0.3.0 <0.4.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/balanced-match/-/balanced-match-0.3.0.tgz"
     },
+    "basic-auth": {
+      "version": "1.0.3",
+      "from": "basic-auth@>=1.0.3 <1.1.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/basic-auth/-/basic-auth-1.0.3.tgz"
+    },
+    "batch": {
+      "version": "0.5.3",
+      "from": "batch@0.5.3",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/batch/-/batch-0.5.3.tgz"
+    },
     "bin-version": {
       "version": "1.0.4",
       "from": "bin-version@>=1.0.0 <2.0.0",
@@ -72,12 +102,19 @@
     "bin-version-check": {
       "version": "2.1.0",
       "from": "bin-version-check@>=2.0.0 <3.0.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/bin-version-check/-/bin-version-check-2.1.0.tgz"
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/bin-version-check/-/bin-version-check-2.1.0.tgz",
+      "dependencies": {
+        "semver": {
+          "version": "4.3.6",
+          "from": "semver@>=4.0.3 <5.0.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/semver/-/semver-4.3.6.tgz"
+        }
+      }
     },
     "bl": {
-      "version": "0.9.4",
+      "version": "0.9.5",
       "from": "bl@>=0.9.0 <0.10.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/bl/-/bl-0.9.4.tgz"
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/bl/-/bl-0.9.5.tgz"
     },
     "bluebird": {
       "version": "2.10.2",
@@ -100,9 +137,9 @@
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/builtin-modules/-/builtin-modules-1.1.1.tgz"
     },
     "camelcase": {
-      "version": "2.0.1",
+      "version": "2.1.0",
       "from": "camelcase@>=2.0.0 <3.0.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/camelcase/-/camelcase-2.0.1.tgz"
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/camelcase/-/camelcase-2.1.0.tgz"
     },
     "camelcase-keys": {
       "version": "2.0.0",
@@ -113,6 +150,11 @@
       "version": "0.6.0",
       "from": "caseless@>=0.6.0 <0.7.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/caseless/-/caseless-0.6.0.tgz"
+    },
+    "center-align": {
+      "version": "0.1.3",
+      "from": "center-align@>=0.1.1 <0.2.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/center-align/-/center-align-0.1.3.tgz"
     },
     "chalk": {
       "version": "1.1.1",
@@ -141,6 +183,18 @@
         }
       }
     },
+    "cliui": {
+      "version": "2.1.0",
+      "from": "cliui@>=2.1.0 <3.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/cliui/-/cliui-2.1.0.tgz",
+      "dependencies": {
+        "wordwrap": {
+          "version": "0.0.2",
+          "from": "wordwrap@0.0.2",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/wordwrap/-/wordwrap-0.0.2.tgz"
+        }
+      }
+    },
     "coffee-script": {
       "version": "1.3.3",
       "from": "coffee-script@>=1.3.3 <1.4.0",
@@ -162,9 +216,19 @@
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/concat-map/-/concat-map-0.0.1.tgz"
     },
     "config-chain": {
-      "version": "1.1.9",
+      "version": "1.1.10",
       "from": "config-chain@>=1.1.8 <1.2.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/config-chain/-/config-chain-1.1.9.tgz"
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/config-chain/-/config-chain-1.1.10.tgz"
+    },
+    "connect": {
+      "version": "3.4.1",
+      "from": "connect@>=3.4.0 <4.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/connect/-/connect-3.4.1.tgz"
+    },
+    "connect-livereload": {
+      "version": "0.5.4",
+      "from": "connect-livereload@>=0.5.0 <0.6.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/connect-livereload/-/connect-livereload-0.5.4.tgz"
     },
     "console-browserify": {
       "version": "1.1.0",
@@ -206,6 +270,11 @@
       "from": "dateformat@1.0.2-1.2.3",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/dateformat/-/dateformat-1.0.2-1.2.3.tgz"
     },
+    "debug": {
+      "version": "2.2.0",
+      "from": "debug@>=2.2.0 <2.3.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/debug/-/debug-2.2.0.tgz"
+    },
     "decamelize": {
       "version": "1.1.2",
       "from": "decamelize@>=1.1.2 <2.0.0",
@@ -215,6 +284,16 @@
       "version": "0.0.5",
       "from": "delayed-stream@0.0.5",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/delayed-stream/-/delayed-stream-0.0.5.tgz"
+    },
+    "depd": {
+      "version": "1.0.1",
+      "from": "depd@>=1.0.1 <1.1.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/depd/-/depd-1.0.1.tgz"
+    },
+    "destroy": {
+      "version": "1.0.4",
+      "from": "destroy@>=1.0.4 <1.1.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/destroy/-/destroy-1.0.4.tgz"
     },
     "dom-serializer": {
       "version": "0.1.0",
@@ -248,6 +327,11 @@
       "from": "domutils@>=1.5.0 <1.6.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/domutils/-/domutils-1.5.1.tgz"
     },
+    "ee-first": {
+      "version": "1.1.1",
+      "from": "ee-first@1.1.1",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/ee-first/-/ee-first-1.1.1.tgz"
+    },
     "entities": {
       "version": "1.0.0",
       "from": "entities@>=1.0.0 <1.1.0",
@@ -259,9 +343,14 @@
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/error-ex/-/error-ex-1.3.0.tgz"
     },
     "es5-shim": {
-      "version": "4.4.1",
+      "version": "4.5.2",
       "from": "es5-shim@>=4.0.1 <5.0.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/es5-shim/-/es5-shim-4.4.1.tgz"
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/es5-shim/-/es5-shim-4.5.2.tgz"
+    },
+    "escape-html": {
+      "version": "1.0.3",
+      "from": "escape-html@>=1.0.3 <1.1.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/escape-html/-/escape-html-1.0.3.tgz"
     },
     "escape-string-regexp": {
       "version": "1.0.4",
@@ -272,6 +361,11 @@
       "version": "1.0.4",
       "from": "esprima@>=1.0.2 <1.1.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/esprima/-/esprima-1.0.4.tgz"
+    },
+    "etag": {
+      "version": "1.7.0",
+      "from": "etag@>=1.7.0 <1.8.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/etag/-/etag-1.7.0.tgz"
     },
     "eventemitter2": {
       "version": "0.4.14",
@@ -287,6 +381,11 @@
       "version": "0.1.1",
       "from": "file-sync-cmp@>=0.1.0 <0.2.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/file-sync-cmp/-/file-sync-cmp-0.1.1.tgz"
+    },
+    "finalhandler": {
+      "version": "0.4.1",
+      "from": "finalhandler@0.4.1",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/finalhandler/-/finalhandler-0.4.1.tgz"
     },
     "find-up": {
       "version": "1.1.0",
@@ -334,8 +433,18 @@
           "version": "0.9.2",
           "from": "async@>=0.9.0 <0.10.0",
           "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/async/-/async-0.9.2.tgz"
+        },
+        "mime": {
+          "version": "1.2.11",
+          "from": "mime@>=1.2.11 <1.3.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/mime/-/mime-1.2.11.tgz"
         }
       }
+    },
+    "fresh": {
+      "version": "0.3.0",
+      "from": "fresh@0.3.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/fresh/-/fresh-0.3.0.tgz"
     },
     "fs-extra": {
       "version": "0.23.1",
@@ -343,9 +452,9 @@
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/fs-extra/-/fs-extra-0.23.1.tgz",
       "dependencies": {
         "graceful-fs": {
-          "version": "4.1.2",
+          "version": "4.1.3",
           "from": "graceful-fs@>=4.1.2 <5.0.0",
-          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/graceful-fs/-/graceful-fs-4.1.2.tgz"
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/graceful-fs/-/graceful-fs-4.1.3.tgz"
         }
       }
     },
@@ -405,6 +514,18 @@
         }
       }
     },
+    "grunt-contrib-connect": {
+      "version": "0.11.2",
+      "from": "grunt-contrib-connect@>=0.11.2 <0.12.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/grunt-contrib-connect/-/grunt-contrib-connect-0.11.2.tgz",
+      "dependencies": {
+        "async": {
+          "version": "0.9.2",
+          "from": "async@>=0.9.0 <0.10.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/async/-/async-0.9.2.tgz"
+        }
+      }
+    },
     "grunt-contrib-copy": {
       "version": "0.8.2",
       "from": "grunt-contrib-copy@>=0.8.0 <0.9.0",
@@ -426,11 +547,6 @@
       "version": "0.11.3",
       "from": "grunt-contrib-jshint@>=0.11.2 <0.12.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/grunt-contrib-jshint/-/grunt-contrib-jshint-0.11.3.tgz"
-    },
-    "grunt-contrib-rename": {
-      "version": "0.0.3",
-      "from": "grunt-contrib-rename@0.0.3",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/grunt-contrib-rename/-/grunt-contrib-rename-0.0.3.tgz"
     },
     "grunt-contrib-requirejs": {
       "version": "0.4.4",
@@ -496,7 +612,14 @@
     "grunt-lib-phantomjs": {
       "version": "0.7.1",
       "from": "grunt-lib-phantomjs@>=0.7.1 <0.8.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/grunt-lib-phantomjs/-/grunt-lib-phantomjs-0.7.1.tgz"
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/grunt-lib-phantomjs/-/grunt-lib-phantomjs-0.7.1.tgz",
+      "dependencies": {
+        "semver": {
+          "version": "4.3.6",
+          "from": "semver@>=4.3.0 <5.0.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/semver/-/semver-4.3.6.tgz"
+        }
+      }
     },
     "grunt-properties-to-json": {
       "version": "0.5.1",
@@ -512,30 +635,25 @@
     },
     "grunt-rename": {
       "version": "0.1.4",
-      "from": "grunt-rename@*",
+      "from": "grunt-rename@>=0.1.4 <0.2.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/grunt-rename/-/grunt-rename-0.1.4.tgz"
-    },
-    "grunt-scss-lint": {
-      "version": "0.3.8",
-      "from": "grunt-scss-lint@>=0.3.6 <0.4.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/grunt-scss-lint/-/grunt-scss-lint-0.3.8.tgz",
-      "dependencies": {
-        "lodash": {
-          "version": "3.10.1",
-          "from": "lodash@>=3.6.0 <4.0.0",
-          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/lodash/-/lodash-3.10.1.tgz"
-        },
-        "which": {
-          "version": "1.2.1",
-          "from": "which@>=1.1.1 <2.0.0",
-          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/which/-/which-1.2.1.tgz"
-        }
-      }
     },
     "grunt-template-jasmine-requirejs": {
       "version": "0.2.3",
       "from": "grunt-template-jasmine-requirejs@>=0.2.3 <0.3.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/grunt-template-jasmine-requirejs/-/grunt-template-jasmine-requirejs-0.2.3.tgz"
+    },
+    "handlebars": {
+      "version": "4.0.5",
+      "from": "handlebars@>=4.0.5 <5.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/handlebars/-/handlebars-4.0.5.tgz",
+      "dependencies": {
+        "async": {
+          "version": "1.5.2",
+          "from": "async@>=1.4.0 <2.0.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/async/-/async-1.5.2.tgz"
+        }
+      }
     },
     "has-ansi": {
       "version": "2.0.0",
@@ -574,6 +692,11 @@
         }
       }
     },
+    "http-errors": {
+      "version": "1.3.1",
+      "from": "http-errors@>=1.3.1 <1.4.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/http-errors/-/http-errors-1.3.1.tgz"
+    },
     "http-signature": {
       "version": "0.10.1",
       "from": "http-signature@>=0.10.0 <0.11.0",
@@ -599,11 +722,6 @@
       "from": "ini@>=1.2.0 <2.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/ini/-/ini-1.3.4.tgz"
     },
-    "is-absolute": {
-      "version": "0.1.7",
-      "from": "is-absolute@>=0.1.7 <0.2.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/is-absolute/-/is-absolute-0.1.7.tgz"
-    },
     "is-arrayish": {
       "version": "0.2.1",
       "from": "is-arrayish@>=0.2.1 <0.3.0",
@@ -623,11 +741,6 @@
       "version": "1.0.1",
       "from": "is-finite@>=1.0.0 <2.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/is-finite/-/is-finite-1.0.1.tgz"
-    },
-    "is-relative": {
-      "version": "0.1.3",
-      "from": "is-relative@>=0.1.0 <0.2.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/is-relative/-/is-relative-0.1.3.tgz"
     },
     "is-utf8": {
       "version": "0.2.1",
@@ -681,27 +794,42 @@
       "from": "kew@0.4.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/kew/-/kew-0.4.0.tgz"
     },
+    "kind-of": {
+      "version": "3.0.2",
+      "from": "kind-of@>=3.0.2 <4.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/kind-of/-/kind-of-3.0.2.tgz"
+    },
+    "lazy-cache": {
+      "version": "1.0.3",
+      "from": "lazy-cache@>=1.0.3 <2.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/lazy-cache/-/lazy-cache-1.0.3.tgz"
+    },
     "load-json-file": {
       "version": "1.1.0",
       "from": "load-json-file@>=1.0.0 <2.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/load-json-file/-/load-json-file-1.1.0.tgz",
       "dependencies": {
         "graceful-fs": {
-          "version": "4.1.2",
+          "version": "4.1.3",
           "from": "graceful-fs@>=4.1.2 <5.0.0",
-          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/graceful-fs/-/graceful-fs-4.1.2.tgz"
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/graceful-fs/-/graceful-fs-4.1.3.tgz"
         }
       }
     },
     "lodash": {
-      "version": "4.1.0",
-      "from": "lodash@*",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/lodash/-/lodash-4.1.0.tgz"
+      "version": "4.2.1",
+      "from": "lodash@>=4.1.0 <5.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/lodash/-/lodash-4.2.1.tgz"
+    },
+    "longest": {
+      "version": "1.0.1",
+      "from": "longest@>=1.0.1 <2.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/longest/-/longest-1.0.1.tgz"
     },
     "loud-rejection": {
-      "version": "1.2.0",
+      "version": "1.2.1",
       "from": "loud-rejection@>=1.0.0 <2.0.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/loud-rejection/-/loud-rejection-1.2.0.tgz"
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/loud-rejection/-/loud-rejection-1.2.1.tgz"
     },
     "lru-cache": {
       "version": "2.7.3",
@@ -724,14 +852,19 @@
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/meow/-/meow-3.7.0.tgz"
     },
     "mime": {
-      "version": "1.2.11",
-      "from": "mime@>=1.2.11 <1.3.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/mime/-/mime-1.2.11.tgz"
+      "version": "1.3.4",
+      "from": "mime@1.3.4",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/mime/-/mime-1.3.4.tgz"
+    },
+    "mime-db": {
+      "version": "1.21.0",
+      "from": "mime-db@>=1.21.0 <1.22.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/mime-db/-/mime-db-1.21.0.tgz"
     },
     "mime-types": {
-      "version": "1.0.2",
-      "from": "mime-types@>=1.0.1 <1.1.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/mime-types/-/mime-types-1.0.2.tgz"
+      "version": "2.1.9",
+      "from": "mime-types@>=2.1.9 <2.2.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/mime-types/-/mime-types-2.1.9.tgz"
     },
     "minimatch": {
       "version": "0.2.14",
@@ -754,6 +887,21 @@
           "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/minimist/-/minimist-0.0.8.tgz"
         }
       }
+    },
+    "morgan": {
+      "version": "1.6.1",
+      "from": "morgan@>=1.6.1 <2.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/morgan/-/morgan-1.6.1.tgz"
+    },
+    "ms": {
+      "version": "0.7.1",
+      "from": "ms@0.7.1",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/ms/-/ms-0.7.1.tgz"
+    },
+    "negotiator": {
+      "version": "0.5.3",
+      "from": "negotiator@0.5.3",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/negotiator/-/negotiator-0.5.3.tgz"
     },
     "node-uuid": {
       "version": "1.4.7",
@@ -779,6 +927,11 @@
           "version": "3.0.6",
           "from": "nopt@>=3.0.1 <3.1.0",
           "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/nopt/-/nopt-3.0.6.tgz"
+        },
+        "semver": {
+          "version": "4.3.6",
+          "from": "semver@>=2.0.0 <3.0.0||>=3.0.0 <4.0.0||>=4.0.0 <5.0.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/semver/-/semver-4.3.6.tgz"
         }
       }
     },
@@ -797,6 +950,16 @@
       "from": "object-assign@>=4.0.1 <5.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/object-assign/-/object-assign-4.0.1.tgz"
     },
+    "on-finished": {
+      "version": "2.3.0",
+      "from": "on-finished@>=2.3.0 <2.4.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/on-finished/-/on-finished-2.3.0.tgz"
+    },
+    "on-headers": {
+      "version": "1.0.1",
+      "from": "on-headers@>=1.0.0 <1.1.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/on-headers/-/on-headers-1.0.1.tgz"
+    },
     "once": {
       "version": "1.3.3",
       "from": "once@>=1.3.0 <1.4.0",
@@ -811,6 +974,23 @@
       "version": "0.0.5",
       "from": "open@0.0.5",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/open/-/open-0.0.5.tgz"
+    },
+    "opn": {
+      "version": "1.0.2",
+      "from": "opn@>=1.0.0 <2.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/opn/-/opn-1.0.2.tgz"
+    },
+    "optimist": {
+      "version": "0.6.1",
+      "from": "optimist@>=0.6.1 <0.7.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/optimist/-/optimist-0.6.1.tgz",
+      "dependencies": {
+        "minimist": {
+          "version": "0.0.10",
+          "from": "minimist@>=0.0.1 <0.1.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/minimist/-/minimist-0.0.10.tgz"
+        }
+      }
     },
     "os-homedir": {
       "version": "1.0.1",
@@ -837,6 +1017,11 @@
       "from": "parse-json@>=2.2.0 <3.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/parse-json/-/parse-json-2.2.0.tgz"
     },
+    "parseurl": {
+      "version": "1.3.1",
+      "from": "parseurl@>=1.3.1 <1.4.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/parseurl/-/parseurl-1.3.1.tgz"
+    },
     "path-exists": {
       "version": "2.1.0",
       "from": "path-exists@>=2.0.0 <3.0.0",
@@ -853,9 +1038,9 @@
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/path-type/-/path-type-1.1.0.tgz",
       "dependencies": {
         "graceful-fs": {
-          "version": "4.1.2",
+          "version": "4.1.3",
           "from": "graceful-fs@>=4.1.2 <5.0.0",
-          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/graceful-fs/-/graceful-fs-4.1.2.tgz"
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/graceful-fs/-/graceful-fs-4.1.3.tgz"
         }
       }
     },
@@ -870,14 +1055,26 @@
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/pify/-/pify-2.3.0.tgz"
     },
     "pinkie": {
-      "version": "2.0.1",
+      "version": "2.0.4",
       "from": "pinkie@>=2.0.0 <3.0.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/pinkie/-/pinkie-2.0.1.tgz"
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/pinkie/-/pinkie-2.0.4.tgz"
     },
     "pinkie-promise": {
       "version": "2.0.0",
       "from": "pinkie-promise@>=2.0.0 <3.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/pinkie-promise/-/pinkie-promise-2.0.0.tgz"
+    },
+    "portscanner": {
+      "version": "1.0.0",
+      "from": "portscanner@>=1.0.0 <2.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/portscanner/-/portscanner-1.0.0.tgz",
+      "dependencies": {
+        "async": {
+          "version": "0.1.15",
+          "from": "async@0.1.15",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/async/-/async-0.1.15.tgz"
+        }
+      }
     },
     "progress": {
       "version": "1.1.8",
@@ -899,6 +1096,11 @@
       "from": "qs@>=1.2.0 <1.3.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/qs/-/qs-1.2.2.tgz"
     },
+    "range-parser": {
+      "version": "1.0.3",
+      "from": "range-parser@>=1.0.3 <1.1.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/range-parser/-/range-parser-1.0.3.tgz"
+    },
     "read-pkg": {
       "version": "1.1.0",
       "from": "read-pkg@>=1.0.0 <2.0.0",
@@ -919,6 +1121,11 @@
       "from": "redent@>=1.0.0 <2.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/redent/-/redent-1.0.0.tgz"
     },
+    "repeat-string": {
+      "version": "1.5.2",
+      "from": "repeat-string@>=1.5.2 <2.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/repeat-string/-/repeat-string-1.5.2.tgz"
+    },
     "repeating": {
       "version": "2.0.0",
       "from": "repeating@>=2.0.0 <3.0.0",
@@ -927,7 +1134,14 @@
     "request": {
       "version": "2.42.0",
       "from": "request@2.42.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/request/-/request-2.42.0.tgz"
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/request/-/request-2.42.0.tgz",
+      "dependencies": {
+        "mime-types": {
+          "version": "1.0.2",
+          "from": "mime-types@>=1.0.1 <1.1.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/mime-types/-/mime-types-1.0.2.tgz"
+        }
+      }
     },
     "request-progress": {
       "version": "0.3.1",
@@ -936,7 +1150,7 @@
     },
     "request-promise": {
       "version": "2.0.0",
-      "from": "request-promise@*",
+      "from": "request-promise@>=2.0.0 <3.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/request-promise/-/request-promise-2.0.0.tgz",
       "dependencies": {
         "lodash": {
@@ -956,15 +1170,20 @@
       "from": "resolve@>=0.3.1 <0.4.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/resolve/-/resolve-0.3.1.tgz"
     },
+    "right-align": {
+      "version": "0.1.3",
+      "from": "right-align@>=0.1.1 <0.2.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/right-align/-/right-align-0.1.3.tgz"
+    },
     "rimraf": {
       "version": "2.2.8",
       "from": "rimraf@>=2.2.8 <2.3.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/rimraf/-/rimraf-2.2.8.tgz"
     },
     "semver": {
-      "version": "4.3.6",
-      "from": "semver@>=4.0.3 <5.0.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/semver/-/semver-4.3.6.tgz"
+      "version": "5.1.0",
+      "from": "semver@>=5.1.0 <6.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/semver/-/semver-5.1.0.tgz"
     },
     "semver-regex": {
       "version": "1.0.0",
@@ -974,14 +1193,29 @@
     "semver-truncate": {
       "version": "1.1.0",
       "from": "semver-truncate@>=1.0.0 <2.0.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/semver-truncate/-/semver-truncate-1.1.0.tgz",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/semver-truncate/-/semver-truncate-1.1.0.tgz"
+    },
+    "send": {
+      "version": "0.13.1",
+      "from": "send@0.13.1",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/send/-/send-0.13.1.tgz",
       "dependencies": {
-        "semver": {
-          "version": "5.1.0",
-          "from": "semver@>=5.0.3 <6.0.0",
-          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/semver/-/semver-5.1.0.tgz"
+        "depd": {
+          "version": "1.1.0",
+          "from": "depd@>=1.1.0 <1.2.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/depd/-/depd-1.1.0.tgz"
         }
       }
+    },
+    "serve-index": {
+      "version": "1.7.3",
+      "from": "serve-index@>=1.7.1 <2.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/serve-index/-/serve-index-1.7.3.tgz"
+    },
+    "serve-static": {
+      "version": "1.10.2",
+      "from": "serve-static@>=1.10.0 <2.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/serve-static/-/serve-static-1.10.2.tgz"
     },
     "shelljs": {
       "version": "0.3.0",
@@ -1003,6 +1237,11 @@
       "from": "sntp@>=0.2.0 <0.3.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/sntp/-/sntp-0.2.4.tgz"
     },
+    "source-map": {
+      "version": "0.4.4",
+      "from": "source-map@>=0.4.4 <0.5.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/source-map/-/source-map-0.4.4.tgz"
+    },
     "spdx-correct": {
       "version": "1.0.2",
       "from": "spdx-correct@>=1.0.0 <1.1.0",
@@ -1022,6 +1261,11 @@
       "version": "1.2.0",
       "from": "spdx-license-ids@>=1.0.2 <2.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/spdx-license-ids/-/spdx-license-ids-1.2.0.tgz"
+    },
+    "statuses": {
+      "version": "1.2.1",
+      "from": "statuses@>=1.0.0 <2.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/statuses/-/statuses-1.2.1.tgz"
     },
     "string_decoder": {
       "version": "0.10.31",
@@ -1088,6 +1332,28 @@
       "from": "tunnel-agent@>=0.4.0 <0.5.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/tunnel-agent/-/tunnel-agent-0.4.2.tgz"
     },
+    "uglify-js": {
+      "version": "2.6.1",
+      "from": "uglify-js@>=2.6.0 <3.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/uglify-js/-/uglify-js-2.6.1.tgz",
+      "dependencies": {
+        "async": {
+          "version": "0.2.10",
+          "from": "async@>=0.2.6 <0.3.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/async/-/async-0.2.10.tgz"
+        },
+        "source-map": {
+          "version": "0.5.3",
+          "from": "source-map@>=0.5.1 <0.6.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/source-map/-/source-map-0.5.3.tgz"
+        }
+      }
+    },
+    "uglify-to-browserify": {
+      "version": "1.0.2",
+      "from": "uglify-to-browserify@>=1.0.0 <1.1.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/uglify-to-browserify/-/uglify-to-browserify-1.0.2.tgz"
+    },
     "uid-number": {
       "version": "0.0.5",
       "from": "uid-number@0.0.5",
@@ -1103,6 +1369,16 @@
       "from": "underscore.string@>=2.2.1 <2.3.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/underscore.string/-/underscore.string-2.2.1.tgz"
     },
+    "unpipe": {
+      "version": "1.0.0",
+      "from": "unpipe@>=1.0.0 <1.1.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/unpipe/-/unpipe-1.0.0.tgz"
+    },
+    "utils-merge": {
+      "version": "1.0.0",
+      "from": "utils-merge@1.0.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/utils-merge/-/utils-merge-1.0.0.tgz"
+    },
     "validate-npm-package-license": {
       "version": "3.0.1",
       "from": "validate-npm-package-license@>=3.0.1 <4.0.0",
@@ -1113,20 +1389,30 @@
       "from": "which@>=1.0.5 <1.1.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/which/-/which-1.0.9.tgz"
     },
+    "window-size": {
+      "version": "0.1.0",
+      "from": "window-size@0.1.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/window-size/-/window-size-0.1.0.tgz"
+    },
+    "wordwrap": {
+      "version": "0.0.3",
+      "from": "wordwrap@>=0.0.2 <0.1.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/wordwrap/-/wordwrap-0.0.3.tgz"
+    },
     "wrappy": {
       "version": "1.0.1",
       "from": "wrappy@>=1.0.0 <2.0.0",
       "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/wrappy/-/wrappy-1.0.1.tgz"
     },
-    "xmlbuilder": {
-      "version": "2.6.5",
-      "from": "xmlbuilder@>=2.6.2 <3.0.0",
-      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/xmlbuilder/-/xmlbuilder-2.6.5.tgz",
+    "yargs": {
+      "version": "3.10.0",
+      "from": "yargs@>=3.10.0 <3.11.0",
+      "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/yargs/-/yargs-3.10.0.tgz",
       "dependencies": {
-        "lodash": {
-          "version": "3.10.1",
-          "from": "lodash@>=3.5.0 <4.0.0",
-          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/lodash/-/lodash-3.10.1.tgz"
+        "camelcase": {
+          "version": "1.2.1",
+          "from": "camelcase@>=1.0.2 <2.0.0",
+          "resolved": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta-master/camelcase/-/camelcase-1.2.1.tgz"
         }
       }
     }
