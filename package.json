@@ -9,7 +9,10 @@
     "lint": "grunt lint",
     "test": "grunt test",
     "build:dev": "grunt build",
-    "build:prod": "grunt build:minified"
+    "build:prod": "grunt build:minified",
+    "prestart": "npm run build:dev",
+    "start": "grunt start-server-open",
+    "prepublish": "grunt dist"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

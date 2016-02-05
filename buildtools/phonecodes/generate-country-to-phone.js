@@ -1,3 +1,5 @@
+/*global module, JSON */
+/*jshint maxlen:150, unused:false */
 var rp = require('request-promise');
 var _ = require('lodash');
 
@@ -9,7 +11,7 @@ module.exports = function (grunt) {
     'generate-latest-phone-codes',
     'Downloads latest metadata from google libphonenumber and generates ' +
     'json we use to map region codes to country calling codes',
-    function (done) {
+    function () {
       var done = this.async();
       var fileToWrite = grunt.config()['generate-latest-phone-codes'].options.out;
       grunt.log.writeln('Downloading latest metadata from google libphonenumber...');
@@ -42,8 +44,8 @@ module.exports = function (grunt) {
         grunt.file.write(fileToWrite, contents);
         grunt.log.ok('Wrote to: ' + fileToWrite);
       })
-      .catch(grunt.log.error)
-      .finally(done);
+      .fail(grunt.log.error)
+      .fin(done);
     }
   );
 

@@ -1,4 +1,4 @@
-/*global module */
+/*global module, JSON */
 var fn = require('./lib/fn');
 
 //reads in .json files and writes out requirejs files
