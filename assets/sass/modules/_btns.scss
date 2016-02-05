@@ -1,6 +1,7 @@
 /* ======= Buttons ======= */
 
-.button, .button.link-button {
+.button,
+.button.link-button {
   display: inline-block;
   height: $input-height;
   line-height: $button-line-height;
@@ -11,7 +12,8 @@
   @include box-sizing(border-box);
 }
 
-.button-wide, .button-wide.button-primary {
+.button-wide,
+.button-wide.button-primary {
   width: 100%;
   height: 50px;
   line-height: 48px;
@@ -53,7 +55,7 @@
   @include border-radius;
   @include box-sizing(border-box);
 
-  color: #FFF;
+  color: #fff;
   display: block;
   font-size: $font-size;
   line-height: 50px;
@@ -65,7 +67,10 @@
     margin-bottom: 25px;
   }
 
-  &:active, &:focus, &:hover, &:visited {
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited {
     text-decoration: none;
   }
 }
@@ -77,7 +82,9 @@
     linear-gradient(90deg, $icon-bg-color 50px, $label-bg-color 50px), $label-bg-color);
   border: 1px solid $border-color;
 
-  &:active, &:focus, &:hover {
+  &:active,
+  &:focus,
+  &:hover {
     background: $bg-image no-repeat 10px,
     linear-gradient(90deg, lighten($icon-bg-color, 3%) 50px, lighten($label-bg-color, 3%) 50px);
   }

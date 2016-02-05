@@ -6,11 +6,12 @@
     width: 100%;
 
     &:after {
-      content: "";
+      content: '';
       display: block;
       height: 70px;
     }
   }
+  
   .footer {
     background-color: #fff;
     min-width: $container-min-width;

@@ -1,11 +1,14 @@
-@import "compass/css3";
-@import "variables";
-@import "helpers";
+@import 'compass/css3';
+@import 'variables';
+@import 'helpers';
 
 @mixin light-button-template($bg-color) {
   @include button-template($bg-color, 1%, $dark-text-color, 22%, 25%);
   @include button-shadow(0.05);
-  &:hover, &:focus, &:active, &:focus {
+  &:hover,
+  &:focus,
+  &:active,
+  &:focus {
   /* -- Buttons' Colors -- */
     box-shadow: none;
   }
@@ -14,31 +17,37 @@
 @mixin dark-button-template($bg-color) {
   @include button-template($bg-color, 3%, #fff, 15%, 17%);
   @include button-shadow(0.15);
-  &:hover, &:focus, &:active, &:focus {
+  &:hover,
+  &:focus,
+  &:active,
+  &:focus {
   /* -- Buttons' Colors -- */
     box-shadow: none;
   }
 }
 
 @mixin button-shadow($drop-shadow-opacity) {
-  @include box-shadow(rgba(black, $drop-shadow-opacity) 0 1px 0, rgba(255, 255, 255, 0.1) 0 1px 0 0 inset);
+  @include box-shadow(rgba(#000, $drop-shadow-opacity) 0 1px 0, rgba(255, 255, 255, 0.1) 0 1px 0 0 inset);
 }
 
 @mixin button-template($bg-color, $gradient-factor, $text-color, $border-factor, $border-bottom-factor) {
   color: $text-color;
   @include filter-gradient($bg-color, darken($bg-color, $gradient-factor), vertical);
-  background: -o-linear-gradient(top,  $bg-color 0%, darken($bg-color, $gradient-factor) 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  $bg-color 0%, darken($bg-color, $gradient-factor) 100%); /* IE10+ */
+  background: -o-linear-gradient(top, $bg-color 0%, darken($bg-color, $gradient-factor) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, $bg-color 0%, darken($bg-color, $gradient-factor) 100%); /* IE10+ */
   @include background-with-css2-fallback(linear-gradient($bg-color, darken($bg-color, $gradient-factor)), $bg-color);
   border-color: darken($bg-color, $border-factor);
   border-bottom-color: darken($bg-color, $border-bottom-factor);
 
-  &:hover, &:focus, &:active, &:focus {
+  &:hover,
+  &:focus,
+  &:active,
+  &:focus {
   /* -- Buttons' Colors -- */
     $hover-bg-color: lighten($bg-color, 3%);
     @include filter-gradient($hover-bg-color, darken($hover-bg-color, $gradient-factor), vertical);
-    background: -o-linear-gradient(top,  $hover-bg-color 0%, darken($hover-bg-color, $gradient-factor) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  $hover-bg-color 0%, darken($hover-bg-color, $gradient-factor) 100%); /* IE10+ */
+    background: -o-linear-gradient(top, $hover-bg-color 0%, darken($hover-bg-color, $gradient-factor) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, $hover-bg-color 0%, darken($hover-bg-color, $gradient-factor) 100%); /* IE10+ */
     @include background-image(linear-gradient($hover-bg-color, darken($hover-bg-color, $gradient-factor)));
     border-color: darken($bg-color, $border-factor * 1.3);
     border-bottom-color: darken($bg-color, $border-bottom-factor * 1.2);
@@ -48,7 +57,9 @@
 }
 
 
+// scss-lint:disable IdSelector
 #okta-sign-in {
+// scss-lint:enable IdSelector
 
   &.main-container {
   /* -- Fonts and Text Colors -- */
@@ -56,7 +67,8 @@
     color: $light-text-color;
   }
 
-  h2, h3 {
+  h2,
+  h3 {
   /* -- Fonts and Text Colors -- */
     color: $header-text-color;
   }
@@ -66,7 +78,8 @@
     color: $header-text-color;
   }
 
-  .okta-form-subtitle, .okta-form-label {
+  .okta-form-subtitle,
+  .okta-form-label {
   /* -- Fonts and Text Colors -- */
     color: $light-text-color;
   }
@@ -75,7 +88,10 @@
   /* -- Fonts and Text Colors: links -- */
     color: $light-text-color;
 
-    &:link, &:visited, &:hover, &:active {
+    &:link,
+    &:visited,
+    &:hover,
+    &:active {
     /* -- Fonts and Text Colors: links -- */
       color: $light-text-color;
     }
@@ -85,13 +101,17 @@
   /* -- Fonts and Text Colors: links -- */
     color: $link-text-color;
 
-    &:link, &:visited, &:hover, &:active {
+    &:link,
+    &:visited,
+    &:hover,
+    &:active {
     /* -- Fonts and Text Colors: links -- */
       color: $link-text-color;
     }
   }
 
-  input[type="submit"], input[type="button"] {
+  input[type="submit"],
+  input[type="button"] {
     /* -- Submit Buttons' Fonts -- */
     font-family: $fonts;
   }
@@ -126,16 +146,18 @@
 
   .okta-form-divider {
   /* -- Main Background and Border Colors -- */
-    border-bottom-color: #E8E8E8;
+    border-bottom-color: #e8e8e8;
   }
 
-  .factor-icon, .qrcode-image {
+  .factor-icon,
+  .qrcode-image {
   /* -- Main Background and Border Colors -- */
     border-color: #ccc;
   }
 
 
-  .mfa-okta-verify-30, .enroll-factor-row .mfa-okta-verify {
+  .mfa-okta-verify-30,
+  .enroll-factor-row .mfa-okta-verify {
     /* -- Factor Icons (small): Okta Verify -- */
     background-image: url('../img/icons/mfa/oktaVerify_38x38.png');
 
@@ -159,7 +181,8 @@
     }
   }
 
-  .mfa-google-auth-30, .enroll-factor-row .mfa-google-auth {
+  .mfa-google-auth-30,
+  .enroll-factor-row .mfa-google-auth {
     /* -- Factor Icons (small): Google Authenticator -- */
     background-image: url('../img/icons/mfa/googleAuth_38x38.png');
 
@@ -183,7 +206,8 @@
     }
   }
 
-  .mfa-symantec-30, .enroll-factor-row .mfa-symantec {
+  .mfa-symantec-30,
+  .enroll-factor-row .mfa-symantec {
     /* -- Factor Icons (small): Symantec VIP -- */
     background-image: url('../img/icons/mfa/symantec_38x38.png');
 
@@ -207,7 +231,8 @@
     }
   }
 
-  .mfa-rsa-30, .enroll-factor-row .mfa-rsa {
+  .mfa-rsa-30,
+  .enroll-factor-row .mfa-rsa {
     /* -- Factor Icons (small): RSA SecurID -- */
     background-image: url('../img/icons/mfa/rsa_38x38.png');
 
@@ -231,7 +256,8 @@
     }
   }
 
-  .mfa-duo-30, .enroll-factor-row .mfa-duo {
+  .mfa-duo-30,
+  .enroll-factor-row .mfa-duo {
     /* -- Factor Icons (small): DUO -- */
     background-image: url('../img/icons/mfa/duo_38x38.png');
 
@@ -255,7 +281,8 @@
     }
   }
 
-  .mfa-yubikey-30, .enroll-factor-row .mfa-yubikey {
+  .mfa-yubikey-30,
+  .enroll-factor-row .mfa-yubikey {
     /* -- Factor Icons (small): Yubikey -- */
     background-image: url('../img/icons/mfa/yubico_38x38.png');
 
@@ -279,7 +306,8 @@
     }
   }
 
-  .mfa-sms-30, .enroll-factor-row .mfa-okta-sms {
+  .mfa-sms-30,
+  .enroll-factor-row .mfa-okta-sms {
     /* -- Factor Icons (small): SMS -- */
     background-image: url('../img/icons/mfa/sms_38x38.png');
 
@@ -303,7 +331,8 @@
     }
   }
 
-  .mfa-question-30, .enroll-factor-row .mfa-okta-security-question {
+  .mfa-question-30,
+  .enroll-factor-row .mfa-okta-security-question {
     /* -- Factor Icons (small): Sequrity Question -- */
     background-image: url('../img/icons/mfa/question_38x38.png');
 
@@ -346,7 +375,11 @@
   .button.link-button-disabled {
     /* -- Buttons' Colors -- */
     color: $disabled-button-text-color;
-    &:hover, &:focus, &:active, &:focus {
+
+    &:hover,
+    &:focus,
+    &:active,
+    &:focus {
     /* -- Buttons' Colors -- */
       cursor: default;
       background-image: none;
@@ -360,7 +393,11 @@
     border-color: $disabled-primary-button-bg-color;
     background-image: none;
     box-shadow: none;
-    &:hover, &:focus, &:active, &:focus {
+
+    &:hover,
+    &:focus,
+    &:active,
+    &:focus {
     /* -- Buttons' Colors -- */
       cursor: default;
       background-image: none;
@@ -381,8 +418,10 @@
 
   .factors-dropdown-wrap .okta-dropdown-list {
   /* -- Dropdown Colors -- */
+    // scss-lint:disable DuplicateProperty
     border-color: #ccc;
     border-color: rgba(0, 0, 0, 0.2);
+    // scss-lint:disable DuplicateProperty
   }
 
   .okta-dropdown-option {
@@ -493,7 +532,8 @@
     }
   }
 
-  .input-icon:before, .input-tooltip:before {
+  .input-icon:before,
+  .input-tooltip:before {
   /* -- Input Fields: icons -- */
     color: $light-text-color;
   }
@@ -539,17 +579,20 @@
   }
 
   .chzn-with-drop {
-    .chzn-single, .chzn-drop {
+    .chzn-single,
+    .chzn-drop {
     /* -- Input Fields: Select Input -- */
       background-color: $input-bg-color;
       border-color: $input-border-color-hover;
     }
 
     .chzn-results {
+
       li {
       /* -- Input Fields: Select Input -- */
         /* border-color: #fff; */
       }
+
       .highlighted {
       /* -- Input Fields: Select Input -- */
         /* background-color: #f9f9f9; */

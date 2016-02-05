@@ -1,5 +1,6 @@
 // social icons //
-
+// TODO: Remove this disable line!!
+// scss-lint:disable all
 @function unicode($str){
   @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
 }
@@ -7,14 +8,14 @@
 $facebook:                 unicode("e005");
 $google:                   unicode("e004");
 $windows:                  unicode("e003");
-
+// scss-lint:enable all
 
 .social-icon {
   position: relative;
   display: inline-block;
   text-decoration: none;
   font-size: 20px;
-  font-family: "social";
+  font-family: 'social';
   font-weight: 300;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
@@ -23,13 +24,14 @@ $windows:                  unicode("e003");
   margin: 0 0 0 40px;
   top: 3px;
 }
+
 .social-icon:hover {
   text-decoration: none;
 }
 
 .facebook:before {
   content: $facebook;
-  color: #999999;
+  color: #999;
 }
 
 .facebook:hover:before {
@@ -43,8 +45,9 @@ $windows:                  unicode("e003");
 
 .google:before {
   content: $google;
-  color: #999999;
+  color: #999;
 }
+
 .google:hover:before {
   color: #1f93d0;
   cursor: pointer;
@@ -56,9 +59,9 @@ $windows:                  unicode("e003");
 
 .windows:before {
   content: $windows;
-  color: #999999;
-
+  color: #999;
 }
+
 .windows:hover:before {
   color: #1f93d0;
   cursor: pointer;

@@ -46,12 +46,16 @@
     &:last-child {
       margin-bottom: 15px;
     }
+
     &.margin-btm-0 {
       margin-bottom: 0;
     }
   }
 
-  .o-form-label, label, input, textarea {
+  .o-form-label,
+  label,
+  input,
+  textarea {
     font-size: $font-size;
   }
 
@@ -67,13 +71,15 @@
     }
   }
 
-  .input-fix, .textarea-fix {
+  .input-fix,
+  .textarea-fix {
     height: $input-height;
     border: 1px solid $input-border-color;
     display: inline-block;
     float: left;
 
-    input[disabled], input[readonly] {
+    input[disabled],
+    input[readonly] {
       @include disabled-readonly-text-input;
     }
 
@@ -105,7 +111,7 @@
       }
 
       &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0 1000px white inset;
+        -webkit-box-shadow: 0 0 0 1000px #fff inset;
         border-radius: 3px;
       }
 
@@ -126,7 +132,8 @@
 
   // prevent zooming when input/select field is focused on mobile phone
   @include mobile {
-    select, select:focus,
+    select,
+    select:focus,
     .chzn-container-single .chzn-search input {
       font-size: $font-size-default;
     }
@@ -137,15 +144,19 @@
   }
 
   .o-form-input {
-    input[name="passCode"], input[name="nextPassCode"] {
+    input[name="passCode"],
+    input[name="nextPassCode"] {
       font-family: "Anonymous Pro", "Andale Mono", "Courier New", "Courier", serif;
       font-size: 17px;
       letter-spacing: 1px;
     }
+
     .o-form-control {
       position: relative;
     }
-    .input-tooltip, .input-icon {
+
+    .input-tooltip,
+    .input-icon {
       width: 16px;
       height: 16px;
       position: absolute;
@@ -160,6 +171,7 @@
         }
       }
     }
+
     .input-icon {
       left: 10px;
       opacity: 0.25;
@@ -172,6 +184,7 @@
         }
       }
     }
+
     .input-tooltip {
       right: 10px;
       opacity: 0.5;
@@ -187,7 +200,7 @@
 }
 
 .form-divider {
-  border-bottom: 1px solid #E8E8E8;
+  border-bottom: 1px solid #e8e8e8;
   margin-bottom: 25px;
   padding-top: 5px;
   clear: both;

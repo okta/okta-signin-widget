@@ -1,6 +1,7 @@
 html {
   height: 100%;
 }
+
 body {
   font-family: $fonts;
   font-size: $font-size;
@@ -16,12 +17,15 @@ body {
 a {
   color: $light-text-color;
 
-  &:link, &:visited, &:active {
+  &:link,
+  &:visited,
+  &:active {
     text-decoration: none;
     color: $light-text-color;
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     text-decoration: underline;
     color: $light-text-color;
   }
@@ -31,7 +35,8 @@ h1 {
   color: $header-text-color;
 }
 
-h2, h3 {
+h2,
+h3 {
   font-size: $font-size-header;
   line-height: 1.5;
 }

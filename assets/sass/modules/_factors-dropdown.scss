@@ -16,7 +16,9 @@
     .link-button {
       height: 22px;
       // overrides padding in mega-drop-down.css
+      // scss-lint:disable ImportantRule
       padding: 0 !important;
+      // scss-lint:enable ImportantRule
     }
 
     span.icon-dm {
@@ -71,12 +73,15 @@
     .suboption.option {
       border-bottom: none;
       padding-left: 50px;
+
       a {
         padding-left: 36px;
       }
+
       + .suboption.option a {
         border-top: 1px solid #eaeaea;
       }
+
       + .option:not(.suboption) {
         border-top: 1px solid #eaeaea;
       }
@@ -86,8 +91,14 @@
 
 /* MFA */
 
-.mfa-okta-verify-30, .mfa-google-auth-30, .mfa-sms-30, .mfa-symantec-30,
-.mfa-rsa-30, .mfa-duo-30, .mfa-yubikey-30, .mfa-question-30 {
+.mfa-okta-verify-30,
+.mfa-google-auth-30,
+.mfa-sms-30,
+.mfa-symantec-30,
+.mfa-rsa-30,
+.mfa-duo-30,
+.mfa-yubikey-30,
+.mfa-question-30 {
   height: 30px;
   width: 30px;
   display: inline-block;
