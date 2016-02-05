@@ -1,9 +1,19 @@
 {
-  "name": "okta-signin-widget",
+  "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
   "version": "1.1.0",
-  "homepage": "http://developer.okta.com/docs/guides/okta_sign-in_widget.html",
+  "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/okta/okta-signin-widget.git"
+  },
+  "bugs": {
+    "url": "https://github.com/okta/okta-signin-widget/issues"
+  },
+  "publishConfig": {
+    "registry": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta"
+  },
   "scripts": {
     "lint:report": "grunt lint --checkstyle",
     "lint": "grunt lint",
@@ -12,7 +22,7 @@
     "build:prod": "grunt build:minified",
     "prestart": "npm run build:dev",
     "start": "grunt start-server-open",
-    "prepublish": "grunt dist"
+    "package": "grunt package"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -31,6 +41,7 @@
     "handlebars": "^4.0.5",
     "lodash": "^4.1.0",
     "open": "0.0.5",
-    "request-promise": "^2.0.0"
+    "request-promise": "^2.0.0",
+    "semver": "^5.1.0"
   }
 }

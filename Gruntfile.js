@@ -22,11 +22,13 @@ module.exports = function (grunt) {
       SASS                  = ASSETS + 'sass',
       SCSSLINT_OUT_FILE     = 'build2/loginscss-checkstyle-result.xml',
       CSS                   = 'target/css',
+      VERSION_OUT_FILE      = 'build2/loginversion-checkstyle-result.xml',
       COPYRIGHT_TEXT        = grunt.file.read('src/widget/copyright.frag'),
       WIDGET_RC             = '.widgetrc',
       DEFAULT_SERVER_PORT   = 1804;
 
   var hasCheckStyle = process.argv.indexOf('--checkstyle') > -1;
+  var hasPublished = process.argv.indexOf('--published=1') > -1;
 
   // .widgetrc is a json file that can be used by a dev to override
   // things like the widget options in the test server, the server port, etc
@@ -264,6 +266,23 @@ module.exports = function (grunt) {
       }
     },
 
+    'check-version': {
+      options: (function () {
+        if (hasCheckStyle) {
+          return {
+            force: true,
+            reporter: 'checkstyle',
+            reporterOutput: VERSION_OUT_FILE
+          };
+        }
+        else {
+          return {
+            force: false
+          };
+        }
+      }())
+    },
+
     exec: {
       build: 'node buildtools/r.js -o target/js/build.js'
     },
@@ -385,6 +404,7 @@ module.exports = function (grunt) {
   grunt.loadTasks('buildtools/JSONtoJs');
   grunt.loadTasks('buildtools/phonecodes');
   grunt.loadTasks('buildtools/scsslint');
+  grunt.loadTasks('buildtools/checkversion');
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
@@ -439,7 +459,7 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask(
-    'dist',
+    'package',
     'Generates versioned assets and copies them to the dist/ dir',
     [
       'prebuild:minified',
@@ -452,6 +472,15 @@ module.exports = function (grunt) {
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
 
-  grunt.task.registerTask('lint', ['jshint', 'scss-lint']);
+  grunt.task.registerTask('lint', function () {
+    var tasks = ['jshint', 'scss-lint'];
+    if (!hasPublished) {
+      // Because of the build order, we only want to run the check-version
+      // script if we have not just published to npm.
+      tasks.push('check-version');
+    }
+    grunt.task.run(tasks);
+  });
+
   grunt.task.registerTask('default', ['lint', 'test']);
 };

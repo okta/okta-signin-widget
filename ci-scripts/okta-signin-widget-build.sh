@@ -1,0 +1,96 @@
+#!/bin/bash -vx
+JOB_NAME=`basename $0`
+LOGDIRECTORY=/tmp/ci-builder
+mkdir -p $LOGDIRECTORY
+LOGFILE=$LOGDIRECTORY/$JOB_NAME.log
+exec > >(tee $LOGFILE)
+exec 2>&1
+set -e
+
+# Bacon does not pass a parameter, so default to the one we want (deploy)
+TASK="${1:-deploy}"
+PUBLISHED=0
+
+BUILD_TEST_SUITE_ID=D33E21EE-E0D0-401D-8162-56B9A7BA0539
+LINT_TEST_SUITE_ID=2D4D1259-92C2-45BA-A74D-E665B7EC17FB
+UNIT_TEST_SUITE_ID=12DFDE73-F3D5-4EEB-BF12-DDE72E66DE61
+
+REGISTRY=https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta
+
+function usage() {
+  OUTPUTCODE=$1
+  echo """
+USAGE:
+    ./okta-signin-widget-build.sh {TASK}
+
+    Example:
+    ./okta-signin-widget-build.sh build
+
+TASKS:
+    help              Prints this guide.
+    deploy            Publishes widget to NPM after successful build
+                      Requires valid Artifactory credentials.
+"""
+  [ -z $OUTPUTCODE ] && OUTPUTCODE=0
+  exit $OUTPUTCODE
+}
+
+function publish() {
+  if [ "$BRANCH" == "master" ]; then
+    echo "Publishing master build"
+    if npm publish --registry ${REGISTRY}; then
+      PUBLISHED=1
+      echo "Publish Success"
+    else
+      echo "Publish Failed"
+    fi
+  fi
+}
+
+function build() {
+  start_test_suite ${BUILD_TEST_SUITE_ID}
+  if bundle install && npm install && npm run package && publish; then
+    echo "Finishing up test suite $BUILD_TEST_SUITE_ID"
+    finish_test_suite "build"
+  else
+    echo "Build failed"
+    finish_failed_test_suite "build"
+    exit 1
+  fi
+}
+
+function lint() {
+  start_test_suite ${LINT_TEST_SUITE_ID}
+  if npm run lint:report -- --published=${PUBLISHED}; then
+    echo "Finishing up test suite $LINT_TEST_SUITE_ID"
+    finish_test_suite "checkstyle" "okta-signin-widget/build2/"
+  else
+    echo "Lint failed"
+    finish_failed_test_suite "checkstyle" "okta-signin-widget/build2/"
+  fi
+}
+
+function unit() {
+  start_test_suite ${UNIT_TEST_SUITE_ID}
+  if npm test; then
+    echo "Finishing up test suite $UNIT_TEST_SUITE_ID"
+    finish_test_suite "jsunit" "okta-signin-widget/build2/reports/jasmine/"
+  else
+    echo "Unit failed"
+    finish_failed_test_suite "jsunit" "okta-signin-widget/build2/reports/jasmine/"
+  fi
+}
+
+case $TASK in
+  help)
+    usage
+    ;;
+  deploy)
+    build
+    lint
+    unit
+    ;;
+  *)
+    usage $TASK
+    ;;
+esac
