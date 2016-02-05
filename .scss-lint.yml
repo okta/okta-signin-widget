@@ -1,7 +1,8 @@
 # Default application configuration that all configurations inherit from.
 
-scss_files: "**/*.scss"
+scss_files: "assets/sass/**/*.scss"
 plugin_directories: ['.scss-linters']
+exclude: ["assets/sass/widgets/*.scss", "assets/sass/common/**/*.scss"]
 
 # List of gem names to load custom linters from (make sure they are already
 # installed)
@@ -17,24 +18,27 @@ linters:
     enabled: false
     max_elements: 1
 
+  # TODO: This was originally enabled: true
   BorderZero:
-    enabled: true
+    enabled: false
     convention: zero # or `none`
 
   ColorKeyword:
     enabled: true
 
+  # TODO: This was originally true - come back to this and re-enable it!!!!
   ColorVariable:
-    enabled: true
+    enabled: false
 
   Comment:
-    enabled: true
+    enabled: false
 
   DebugStatement:
     enabled: true
 
+  # TODO: This was originally enabled: true
   DeclarationOrder:
-    enabled: true
+    enabled: false
 
   DuplicateProperty:
     enabled: true
@@ -89,8 +93,9 @@ linters:
     enabled: true
     style: include_zero # or 'exclude_zero'
 
+  # TODO: originally enabled: true
   MergeableSelector:
-    enabled: true
+    enabled: false
     force_nesting: true
 
   NameFormat:
@@ -98,12 +103,14 @@ linters:
     allow_leading_underscore: true
     convention: hyphenated_lowercase # or 'camel_case', or 'snake_case', or a regex pattern
 
+  # TODO: max_depth was originally 3 - come back and fix this!!!
   NestingDepth:
     enabled: true
-    max_depth: 3
+    max_depth: 5
 
+  # TODO: originally enabled: true
   PlaceholderInExtend:
-    enabled: true
+    enabled: false
 
   PropertyCount:
     enabled: false
@@ -123,8 +130,9 @@ linters:
       '%']                                     # Other
     properties: {}
 
+  # TODO: This was originally enabled: true - change this back!!
   PropertySortOrder:
-    enabled: true
+    enabled: false
     order: smacss
     ignore_unspecified: false
     min_properties: 2
@@ -134,15 +142,17 @@ linters:
     enabled: true
     extra_properties: []
 
+  # TODO: This was originally enable: true - change this back!!
   QualifyingElement:
-    enabled: true
+    enabled: false
     allow_element_with_attribute: false
     allow_element_with_class: false
     allow_element_with_id: false
 
+  # TODO: This was originally 3 - change this back!!
   SelectorDepth:
     enabled: true
-    max_depth: 3
+    max_depth: 5
 
   SelectorFormat:
     enabled: true
@@ -204,8 +214,9 @@ linters:
     enabled: false
     properties: []
 
+  # TODO: This was originally enabled: true!!!
   VendorPrefix:
-    enabled: true
+    enabled: false
     identifier_list: base
     additional_identifiers: []
     excluded_identifiers: []

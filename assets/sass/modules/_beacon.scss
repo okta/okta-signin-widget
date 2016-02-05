@@ -22,7 +22,7 @@
 .radial-progress-bar {
   position: absolute;
   // This clip shows everything from 12 to 6 o'clock
-  clip: rect(0px, 96px, 96px, 48px);
+  clip: rect(0, 96px, 96px, 48px);
   bottom: -5px;
   left: -5px;
   right: -5px;
@@ -36,7 +36,7 @@
     border-radius: 50%;
     position: absolute;
     // This clip shows everything from 6 to 12 o'clock
-    clip: rect(0px, 48px, 96px, 0px);
+    clip: rect(0, 48px, 96px, 0);
     transform: rotate(0deg);
     transform-origin: center;
   }
@@ -87,7 +87,7 @@
 
 /* loading animation */
 .beacon-loading:after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   top: -5px;
@@ -109,6 +109,7 @@
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
@@ -119,6 +120,7 @@
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);

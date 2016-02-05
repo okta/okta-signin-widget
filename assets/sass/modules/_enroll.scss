@@ -1,11 +1,11 @@
-@import "compass/css3/filter";
-@import "compass/css3/opacity";
+@import 'compass/css3/filter';
+@import 'compass/css3/opacity';
 
 .enroll-factor-list {
   margin-bottom: 30px;
 
   .list-subtitle {
-    float: right
+    float: right;
   }
 
   .list-title {
@@ -18,6 +18,7 @@
   .enroll-factor-button {
     display: none;
   }
+
   .enroll-factor-row-min {
     margin-bottom: 30px;
 
@@ -44,7 +45,7 @@
     }
 
     .button {
-      margin-top: 0px;
+      margin-top: 0;
       height: 30px;
       line-height: 28px;
       padding: 0 10px;
@@ -91,6 +92,7 @@
   h3 {
     padding-top: 10px;
   }
+
   p {
     display: none;
   }
@@ -130,7 +132,7 @@
     float: right;
     width: 111px;
     margin-top: 0;
-    padding: 0px;
+    padding: 0;
 
     @include max-width-mq($container-width) {
       width: 100%;
@@ -152,7 +154,10 @@
     display: table-cell;
   }
 
-  label, label.checked, label.hover, label.focus {
+  label,
+  label.checked,
+  label.hover,
+  label.focus {
     height: 60px;
     width: 60px;
     margin: 0 auto;
@@ -264,22 +269,25 @@
     background: url('../img/ui/indicators/scanerror.png') no-repeat center;
   }
 
-  .qrcode-success, .qrcode-error {
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    top:0;
-    right:0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; /* IE8, has to go first */
+  .qrcode-success,
+  .qrcode-error {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)'; /* IE8, has to go first */
     filter: alpha(opacity=0); /* IE7 */
     opacity: 0;
     transition: all 0.5s;
     -moz-transition: all 0.5s;
     -o-transition: all 0.5s;
     -webkit-transition: all 0.5s;
+    // scss-lint:disable DuplicateProperty
     background-color: transparent;
-    background-color: rgba(255,255,255,0.6);
+    background-color: rgba(255, 255, 255, 0.6);
+    // scss-lint:enable DuplicateProperty
   }
 
   .refresh-qrcode {
@@ -289,7 +297,7 @@
   &.qrcode-expired {
 
     .qrcode-error {
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)"; /* IE8, has to go first */
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=1)'; /* IE8, has to go first */
       filter: alpha(opacity=1); /* IE7 */
       opacity: 1;
     }
@@ -306,7 +314,7 @@
   &.qrcode-success {
 
     .qrcode-success {
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)"; /* IE8, has to go first */
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=1)'; /* IE8, has to go first */
       filter: alpha(opacity=1); /* IE7 */
       opacity: 1;
     }

@@ -19,17 +19,19 @@
     top: -2px;
   }
 
-   // The copyright includes a link to www.okta.com
-   // Our home page does not render in IE8 and below.
-   // So we remove the link for older browsers.
+  // The copyright includes a link to www.okta.com
+  // Our home page does not render in IE8 and below.
+  // So we remove the link for older browsers.
+  // scss-lint:disable IdSelector
   #copyright a {
     text-decoration: none;
 
     &:hover {
       cursor: pointer;
-      color: red;
+      color: #f00;
     }
   }
+  // scss-lint:enable IdSelector
 
   .beacon-blank {
     display: none;
