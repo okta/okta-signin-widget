@@ -1,3 +1,5 @@
+# If a change is made in here, add it to .npmignore as well unless you
+# explicitly want to include it in the published artifact
 node_modules
 npm-debug.log
 test/SpecRunner.html
@@ -6,3 +8,6 @@ build2
 .grunt
 .sass-cache
 .widgetrc
+
+# These paths should be included in the published artifact, but not the repo
+dist

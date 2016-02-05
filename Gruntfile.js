@@ -3,25 +3,37 @@
 // npm install (to install all dependencies, including grunt)
 // grunt test (to run test task)
 
-/*global module, process */
+/*global module, process, JSON */
 
 module.exports = function (grunt) {
   /* jshint maxstatements: false */
 
-  var open = require('open');
+  var open        = require('open'),
+      Handlebars  = require('handlebars'),
+      _           = require('lodash');
 
-  var OKTA_HOME             = process.env.OKTA_HOME + '/okta-core/',
-      JS                    = 'target/js',
+  var JS                    = 'target/js',
       JASMINE_TEST_FOLDER   = 'build2/reports/jasmine',
       JASMINE_TEST_FILE     = JASMINE_TEST_FOLDER + '/login.html',
-      JSHINT_OUT_FILE       = OKTA_HOME + 'build2/login_jshint_checkstyle.xml',
+      JSHINT_OUT_FILE       = 'build2/loginjs-checkstyle-result.xml',
       SPEC_HOME             = JS + '/test/spec/',
-      SDK                   = 'target/sdk',
+      DIST                  = 'dist',
       ASSETS                = 'assets/',
       SASS                  = ASSETS + 'sass',
-      SCSSLINT_OUT_FILE     = OKTA_HOME + 'build2/login_scsslint.xml',
+      SCSSLINT_OUT_FILE     = 'build2/loginscss-checkstyle-result.xml',
       CSS                   = 'target/css',
-      COPYRIGHT_TEXT        = grunt.file.read('src/widget/copyright.frag');
+      COPYRIGHT_TEXT        = grunt.file.read('src/widget/copyright.frag'),
+      WIDGET_RC             = '.widgetrc',
+      DEFAULT_SERVER_PORT   = 1804;
+
+  var hasCheckStyle = process.argv.indexOf('--checkstyle') > -1;
+
+  // .widgetrc is a json file that can be used by a dev to override
+  // things like the widget options in the test server, the server port, etc
+  var widgetRc = {};
+  if (grunt.file.isFile(WIDGET_RC)) {
+    widgetRc = grunt.file.readJSON(WIDGET_RC);
+  }
 
   function getRequireOptions(options) {
     var requireOptions,
@@ -86,16 +98,18 @@ module.exports = function (grunt) {
         var conf = {
           jshintrc: './.jshintrc'
         };
-        if (process.argv.indexOf('--checkstyle') > -1) {
+        if (hasCheckStyle) {
           conf.reporter = 'checkstyle';
           conf.reporterOutput = JSHINT_OUT_FILE;
-          conf.force = 'true';
+          conf.force = true;
         }
         return conf;
       }()),
       all: [
         'Gruntfile.js',
         'src/**/*.js',
+        'buildtools/**/*.js',
+        '!buildtools/r.js',
         'test/helpers/**/*.js',
         'test/spec/**/*.js',
         '!test/helpers/xhr/*.js',
@@ -119,13 +133,51 @@ module.exports = function (grunt) {
           }
         }
       },
-      assets: {
+      'assets-to-target': {
         files: [
           {
             expand: true,
             cwd: 'assets/',
             src: ['font/**/*', 'img/**/*'],
             dest: 'target/'
+          }
+        ]
+      },
+      'assets-to-dist': {
+        files: [
+          {
+            expand: true,
+            cwd: 'assets/',
+            src: ['font/**/*', 'img/**/*'],
+            dest: DIST
+          }
+        ]
+      },
+      server: {
+        options: {
+          process: function (content) {
+            var template = Handlebars.compile(content),
+                options = _.extend({
+                  baseUrl: 'http://rain.okta1.com:1802',
+                  logo: '/img/logo_widgico.png',
+                  features: {
+                    router: true,
+                    rememberMe: true,
+                    multiOptionalFactorEnroll: true
+                  }
+                }, widgetRc.widgetOptions);
+            return template({ options: JSON.stringify(options) });
+          }
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'buildtools/templates/',
+            src: 'index.tpl',
+            dest: 'target/',
+            rename: function () {
+              return 'target/index.html';
+            }
           }
         ]
       },
@@ -137,17 +189,21 @@ module.exports = function (grunt) {
     },
 
     rename: {
-      js: {
+      'js': {
         src: JS + '/okta-sign-in.js',
-        dest: SDK + '/okta-sign-in-<%= pkg.version %>.min.js'
+        dest: DIST + '/js/okta-sign-in-<%= pkg.version %>.min.js'
       },
-      css: {
+      'js-no-jquery': {
+        src: JS + '/okta-sign-in-no-jquery.js',
+        dest: DIST + '/js/okta-sign-in-no-jquery-<%= pkg.version %>.js'
+      },
+      'css': {
         src: CSS + '/okta-sign-in.css',
-        dest: SDK + '/okta-sign-in-<%= pkg.version %>.min.css'
+        dest: DIST + '/css/okta-sign-in-<%= pkg.version %>.min.css'
       },
-      theme: {
+      'css-theme': {
         src: CSS + '/okta-theme.css',
-        dest: SDK + '/okta-theme-<%= pkg.version %>.css'
+        dest: DIST + '/css/okta-theme-<%= pkg.version %>.css'
       }
     },
 
@@ -156,38 +212,14 @@ module.exports = function (grunt) {
     // is resolved, we can switch back to using grunt-contrib-requirejs.
     // More info here:
     // https://github.com/jrburke/r.js/issues/880
-    requirejs: {
-      // This is the version that we will use internally for the loginpage:
-      // - Non-uglified (will happen later when we're building loginpage)
-      // - Does not include jquery
-      okta: {
-        options: getRequireOptions({
-          includeJquery: false,
-          uglify: false,
-          outFile: JS + '/login/okta-sign-in-no-jquery.js'
-        })
-      },
-      // This generates the artifact that is used by widget consumers. In the
-      // future, we'll probably publish several artifacts (i.e. one that
-      // does not package jquery, etc)
-      compile: {
-        options: getRequireOptions({
-          includeJquery: true,
-          uglify: true,
-          outFile: JS + '/login/okta-sign-in.js'
-        })
-      }
-    },
+    requirejs: {},
 
     // While we're waiting for requirejs to update with the fix, we instead
     // use our own r.js (buildtools/r.js) and execute it using the grunt-exec
     // plugin. We pass the build options through the json file generated
     // from these tasks.
     'json_generator': {
-      // This is the version that we will use internally for the loginpage:
-      // - Non-uglified (will happen later when we're building loginpage)
-      // - Does not include jquery
-      okta: {
+      'no-jquery': {
         dest: JS + '/build.js',
         options: getRequireOptions({
           includeJquery: false,
@@ -195,16 +227,40 @@ module.exports = function (grunt) {
           outFile: 'okta-sign-in-no-jquery.js'
         })
       },
-      // This generates the artifact that is used by widget consumers. In the
-      // future, we'll probably publish several artifacts (i.e. one that
-      // does not package jquery, etc)
-      compile: {
+      dev: {
+        dest: JS + '/build.js',
+        options: getRequireOptions({
+          includeJquery: true,
+          uglify: false,
+          outFile: 'okta-sign-in.js'
+        })
+      },
+      prod: {
         dest: JS + '/build.js',
         options: getRequireOptions({
           includeJquery: true,
           uglify: true,
           outFile: 'okta-sign-in.js'
         })
+      }
+    },
+
+    'scss-lint': {
+      all: {
+        options: (function () {
+          if (hasCheckStyle) {
+            return {
+              force: true,
+              reporter: 'checkstyle',
+              reporterOutput: SCSSLINT_OUT_FILE
+            };
+          }
+          else {
+            return {
+              force: false
+            };
+          }
+        }())
       }
     },
 
@@ -221,8 +277,7 @@ module.exports = function (grunt) {
             SPEC_HOME + '**/*_spec.js'
           ],
           junit: {
-            path: OKTA_HOME + JASMINE_TEST_FOLDER,
-            consolidate: true
+            path: JASMINE_TEST_FOLDER
           },
           display: grunt.option('display') || 'full',
           summary: true, // show stack traces and errors
@@ -299,21 +354,24 @@ module.exports = function (grunt) {
       }
     },
 
-    scsslint: {
-      all: [SASS + '/**/*.scss'],
-      options: (function () {
-        var conf = {
-          bundleExec: true,
-          config: '.scss-lint.yml',
-          reporterOutput: null,
-          maxBuffer: 'Infinite'
-        };
-        if (process.argv.indexOf('--checkstyle') > -1) {
-          conf.reporterOutput = SCSSLINT_OUT_FILE;
-          conf.force = true;
+    connect: {
+      options: {
+        port: (function () {
+          return widgetRc.serverPort || DEFAULT_SERVER_PORT;
+        }()),
+        base: 'target',
+        keepalive: true
+      },
+      server: {
+        options: {
+          open: false
         }
-        return conf;
-      }())
+      },
+      open: {
+        options: {
+          open: true
+        }
+      }
     },
 
     'generate-latest-phone-codes': {
@@ -326,13 +384,14 @@ module.exports = function (grunt) {
 
   grunt.loadTasks('buildtools/JSONtoJs');
   grunt.loadTasks('buildtools/phonecodes');
+  grunt.loadTasks('buildtools/scsslint');
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-scss-lint');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-json-generator');
   grunt.loadNpmTasks('grunt-rename');
@@ -357,25 +416,42 @@ module.exports = function (grunt) {
     grunt.task.run(['test:build', 'open-jasmine-specs-in-browser']);
   });
 
-  // Used by pom.xml to build
-  grunt.task.registerTask('build', function (flag) {
-    var tasks = ['copy:src', 'copy:assets', 'propertiesToJSON', 'JSONtoJs'];
+  grunt.task.registerTask('prebuild', function (flag) {
+    var tasks = ['copy:src', 'copy:assets-to-target', 'propertiesToJSON', 'JSONtoJs'];
     if (flag === 'minified') {
       tasks.push('compass:minify');
     } else {
       tasks.push('compass:build');
     }
-    tasks.push('compass:buildtheme', 'json_generator:okta', 'exec');
+    tasks.push('compass:buildtheme');
+    grunt.task.run(tasks);
+  });
+
+  grunt.task.registerTask('build', function (flag) {
+    var tasks = [];
+    if (flag === 'minified') {
+      tasks.push('prebuild:minified', 'json_generator:prod');
+    } else {
+      tasks.push('prebuild', 'json_generator:dev');
+    }
+    tasks.push('exec');
     grunt.task.run(tasks);
   });
 
   grunt.task.registerTask(
-    'cut-new-version',
-    'Temporary task to cut new version of the widget',
-    ['copy:src', 'propertiesToJSON', 'JSONtoJs', 'compass:minify', 'compass:buildtheme',
-     'json_generator:compile', 'exec', 'rename']
+    'dist',
+    'Generates versioned assets and copies them to the dist/ dir',
+    [
+      'prebuild:minified',
+      'json_generator:prod', 'exec',
+      'json_generator:no-jquery', 'exec',
+      'rename', 'copy:assets-to-dist'
+    ]
   );
 
-  grunt.task.registerTask('lint', ['scsslint', 'jshint']);
+  grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
+  grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
+
+  grunt.task.registerTask('lint', ['jshint', 'scss-lint']);
   grunt.task.registerTask('default', ['lint', 'test']);
 };
