@@ -74,6 +74,8 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
             this.options.title = Okta.loc('mfa.sent', 'login');
             this.disable();
             this.render();
+            // render and focus on the passcode input field.
+            self.getInputs().first().render().focus();
             return Q.delay(API_RATE_LIMIT);
           }, this))
           .then(_.bind(function () {
