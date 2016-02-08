@@ -704,7 +704,8 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
                 return setupPolling(test, {status: 0})
                 .then(function () { return tick(test); }) // Final response - failed
                 .then(function (test) {
-                  expect(test.form.errorMessage()).toBe('There was an unexpected internal error. Please try again.');
+                  expect(test.form.errorMessage()).toBe(
+                    'Unable to connect to the server. Please check your network connection.');
                   expect(test.form.submitButton().prop('disabled')).toBe(false);
                 });
               });

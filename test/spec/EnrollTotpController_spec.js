@@ -579,7 +579,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           expect(test.scanCodeForm.hasRefreshQrcodeLink()).toBe(true);
           expect(test.scanCodeForm.hasErrors()).toBe(true);
           expect(test.scanCodeForm.errorMessage())
-            .toEqual(StringUtil.localize('oform.error.unexpected', 'login'));
+            .toEqual(StringUtil.localize('error.network.connection', 'login'));
 
           // on "Refresh code" link click
           // it sends reactivation request and starts polling again
