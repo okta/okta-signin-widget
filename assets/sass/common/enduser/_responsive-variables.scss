@@ -1,0 +1,45 @@
+// Generated from okta-core sha: 900f683
+// Note: Do not modify this file directly.
+
+// Break Points
+$x-large: 1209px;
+$large: 1024px;
+$medium: 768px;
+$small: 600px;
+$x-small: 480px;
+
+// Container Widths (Use multiple of 5)
+$x-large-container-width: 980px;
+$large-container-width: 725px;
+$medium-container-width: 555px;
+$small-container-width: 435px;
+$x-small-container-width: 275px;
+
+// Nav
+$small-nav-height: 60px;
+$large-max-org-logo-width: 100px;
+$medium-max-org-logo-width: 90px;
+$x-small-max-org-logo-width: 55px;
+
+// Tab Size
+$x-large-tab-width: floor($x-large-container-width / $num-tabs);
+$large-tab-width: floor($large-container-width / $num-tabs);
+$medium-tab-width: floor($medium-container-width / $num-tabs);
+$small-tab-width: floor($small-container-width / $num-tabs);
+$x-small-tab-width: floor($x-small-container-width / $num-tabs);
+
+// App Button Size
+$large-app-wrapper-spacing: 28px;
+$large-app-wrapper-bottom-spacing: $large-app-wrapper-spacing - 9px;
+
+$medium-app-wrapper-spacing: 29px;
+$medium-app-wrapper-bottom-spacing: $medium-app-wrapper-spacing - 9px;
+
+$small-app-wrapper-width: 116px;
+$small-app-name-width: $small-app-wrapper-width - 2px;
+$small-app-max-logo-width: 95px;
+$small-app-wrapper-spacing: 22px;
+$small-app-wrapper-bottom-spacing: $small-app-wrapper-spacing - 9px;
+
+$x-small-app-wrapper-spacing: 14px;
+$x-small-app-wrapper-bottom-spacing: $x-small-app-wrapper-spacing - 4px;

@@ -1,0 +1,1081 @@
+// Generated from okta-core sha: 900f683
+// Note: Do not modify this file directly.
+
+// TODO: Fix lint
+// scss-lint:disable all
+
+@import 'compass/css3/box-sizing';
+@import 'compass/css3/opacity';
+@import './o-form-variable';
+
+/*
+ * Okta form styles
+ */
+/* Form layout and base styling */
+
+/* Build clearfix into o-form fieldset */
+.o-form-fieldset:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.o-form-fieldset {
+  height: auto;
+  word-wrap: break-word;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.o-form-fieldset:last-child {
+  margin-bottom: 0;
+}
+
+/* Required for helper to work with Opera \*/
+* html .o-form-fieldset {
+  height: 1%;
+}
+.o-form-fieldset {
+  display: block;
+}
+
+/* end clearfix */
+
+.o-form-label,
+.o-form-input {
+  float: left;
+}
+
+.o-form-label {
+  width: 38%;
+  font-weight: bold;
+  padding: 7px 10px 7px 0;
+  line-height: 16px;
+  color: $text-color-dark;
+  @include box-sizing;
+
+  a.icon-16 {
+    display: inline;
+    margin-left: 6px;
+    top: -1px;
+  }
+}
+
+.o-form-input {
+  width: 62%;
+
+  /* o-form dynamic array inputs */
+  .o-form-input-group + .o-form-input-group,
+  .o-form-input-group + .link-button {
+    margin-top: 15px;
+  }
+
+  .array-inputs-button {
+    clear: both;
+  }
+
+  .o-form-input-group-controls {
+    width: 100%;
+  }
+
+}
+
+/* Input and label */
+.o-form {
+  .input-fix {
+    height: 30px;
+
+    input[type="text"],
+    input[type="textbox"], /* Some custom type created by ghost dev */
+    input[type="number"],
+    input[type="password"] {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 6px 8px;
+      line-height: 16px;
+      border: none;
+      background: transparent;
+      @include box-sizing;
+    }
+
+    input[type="number"] {
+      border: none;
+    }
+  }
+  .input-fix, .textarea-fix {
+    border-radius: 3px;
+    width: 100%;
+    @include box-sizing;
+  }
+
+  .textarea-fix textarea {
+    height: auto;
+    width: 100%;
+    margin: 0;
+    padding: 6px 8px;
+    line-height: 16px;
+    @include box-sizing;
+    min-height: 30px;
+    max-width: 100% !important;
+  }
+
+
+  select {
+    width: 62%;
+    margin-top: 6px; /* For standard select boxes, not Chosen */
+  }
+}
+
+.o-form-wide {
+  select {
+    width: 100%;
+  }
+}
+
+/* Label appears attached to an input, works best with fields and selects */
+.o-form-label-attached {
+  .o-form-label {
+    background-color: #e2e2e2;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+    border: 1px solid #c8c8c8;
+    border-right-width: 0;
+    font-weight: normal;
+    padding: 6px 10px;
+    width: auto;
+  }
+  .input-fix,
+  .textarea-fix,
+  .input[type="text"],
+  .chzn-single {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
+
+  .link-button.option-selected {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    box-shadow: none;
+  }
+}
+
+.data-list-toolbar .o-form-label-attached .o-form-label {
+  background: transparent;
+}
+
+/* Input groups */
+
+.o-form-input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+
+  .o-form-control,
+  .link-button,
+  .o-form-label-inline {
+    display: table-cell;
+    float: none;
+    border-radius: 0;
+    white-space: nowrap;
+
+    input[type=number] {
+      padding-bottom: 0;
+    }
+  }
+
+  :first-child {
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+  }
+
+  :last-child {
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    border-left-width: 0;
+    border-right-width: 1px;
+  }
+
+  .link-button:first-child,
+  .o-form-label-inline:first-child {
+    border-right-width: 0;
+  }
+
+  .o-form-control:last-child {
+    border-left-width: 1px;
+  }
+
+  .o-form-control + .o-form-control {
+    margin: 0;
+  }
+
+  .link-button {
+    box-shadow: none;
+    padding: 0 16px;
+  }
+
+  .link-button-icon.icon-only {
+    padding: 0 8px;
+  }
+
+  .link-button-icon span.icon {
+    top: 5px;
+  }
+
+  .o-form-control .chzn-single {
+    box-shadow: none;
+  }
+
+  select:first-child + .o-form-control.chzn-container .chzn-single {
+    border-bottom-right-radius: 0;
+    border-right-width: 0;
+    border-top-right-radius: 0;
+  }
+
+  .o-form-control:last-child .chzn-single {
+    border-bottom-left-radius: 0;
+    border-left-width: 0;
+    border-top-left-radius: 0;
+  }
+
+  .o-form-control.chzn-container-active.chzn-with-drop:last-child {
+    .chzn-single {
+      border-left-width: 1px;
+      margin-left: -1px;
+    }
+    .chzn-drop {
+      border-left-width: 1px;
+      border-top-right-radius: 0;
+      left: -1px;
+      width: 101%;  /* This could break with wider fields */
+    }
+  }
+  select:first-child + .o-form-control.chzn-container-active.chzn-with-drop {
+    .chzn-single {
+      border-right-width: 1px;
+      margin-right: -1px;
+    }
+    .chzn-drop {
+      border-left-width: 1px;
+      right: -1px;
+      width: 101%;  /* This could break with wider fields */
+    }
+  }
+}
+
+.o-form-label-inline {
+  padding: 6px 10px;
+  color: #999;
+  background-color: $component-bg-color-dark;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  border: 1px solid #c8c8c8;
+  border-right-width: 0;
+  font-weight: normal;
+}
+
+.o-form-input-group.o-form-input-group-2 {
+  .o-form-control {
+    width: 50%;
+  }
+  .o-form-label-inline {
+    border-left-width: 0;
+  }
+}
+
+/* Multiple inputs on the separate lines */
+
+.o-form-control + .o-form-control {
+  margin-top: 20px;
+}
+
+/* Multiple inputs on the same line */
+
+.o-form-multi-input .o-form-control,
+.o-form-multi-input-2 .o-form-control,
+.o-form-multi-input-3 .o-form-control,
+.o-form-multi-input-4 .o-form-control {
+  @include box-sizing;
+}
+
+.o-form-multi-input-2 .o-form-control,
+.o-form-multi-input-3 .o-form-control,
+.o-form-multi-input-4 .o-form-control{
+  margin-top: 0;
+}
+
+.o-form-multi-input-2 .o-form-control,
+.o-form-multi-input-2 .o-form-input-group {
+  width: 49%;
+}
+
+.o-form-multi-input-2 .o-form-input-group,
+.o-form-multi-input-3 .o-form-input-group,
+.o-form-multi-input-4 .o-form-input-group {
+  float: left;
+}
+
+.o-form-multi-input-3 .o-form-control,
+.o-form-multi-input-3 .o-form-input-group  {
+  width: 32%;
+}
+
+.o-form-multi-input-2 .o-form-control + .o-form-control,
+.o-form-multi-input-3 .o-form-control + .o-form-control {
+  margin-left: 2%;
+}
+
+.o-form-multi-input-2 .o-form-input-group,
+.o-form-multi-input-3 .o-form-input-group  {
+  margin-top: 0 !important;
+}
+
+.o-form-multi-input-2 .o-form-control + .o-form-control,
+.o-form-multi-input-3 .o-form-control + .o-form-control,
+.o-form-multi-input-2 .chzn-done + .o-form-control,  /* Ugly, need to work around the fact that the original select is in the dom */
+.o-form-multi-input-3 .chzn-done + .o-form-control {
+  margin-left: 2%;
+}
+
+.o-form-multi-input-group-2 .o-form-control:not(:first-child),
+.o-form-multi-input-group-3 .o-form-control:not(:first-child),
+.o-form-multi-input-group-2 .o-form-input-group:not(:first-child),
+.o-form-multi-input-group-3 .o-form-input-group:not(:first-child) {
+  margin-left: 2%;
+}
+
+.o-form-select {
+  width: 100%;
+  display: inline-block;
+  float: left;
+}
+
+.o-form-multi-input-2 .o-form-select .chzn-container,
+.o-form-multi-input-3 .o-form-select .chzn-container {
+  width: 100% !important;
+}
+
+/* Temporary overrides: Uzi has this solved in the JS */
+
+.o-form-multi-input-2 .chzn-container {
+  width: 49% !important;
+}
+
+.o-form-multi-input-3 .chzn-container {
+  width: 32% !important;
+}
+
+.o-form-wide .chzn-container {
+  width: 100% !important;
+}
+
+
+/*
+ * Custom input/select hybrid
+ */
+.text-select .input-fix {
+  width: 84%;
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.chzn-container-single.text-select .chzn-single {
+  width: 16%;
+  height: 30px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-color: #bbb #bbb #b1b1b1 #bbb;
+  cursor: pointer;
+  @include box-sizing;
+}
+
+.text-select.chzn-with-drop input[type=text] {
+  border-color: #888;
+  border-bottom-left-radius: 0;
+  box-shadow: 0 -1px 0 0 #aaa inset;
+}
+
+
+/*
+ * Custom checkboxes, radios
+ */
+%custom-checkbox {
+  position: relative;
+  clear: both;
+}
+
+%custom-checkbox-input {
+  /* experimental : make sure this doesn't break older browsers */
+  opacity: 0;
+  filter: Alpha(Opacity=0);
+  /* end experimental */
+  position: absolute;
+  left: 0;
+  top: 7px;
+  margin: 0;
+}
+
+%custom-checkbox-label {
+  display: block;
+  position: relative;
+  line-height: 16px;
+  margin: 0;
+  padding: 7px 10px 7px 24px;
+  cursor: pointer;
+}
+
+.custom-checkbox {
+  @extend %custom-checkbox;
+  input {
+    @extend %custom-checkbox-input;
+  }
+  label {
+    @extend %custom-checkbox-label;
+    background: url('../img/ui/forms/checkbox-01.png') no-repeat;
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 2dppx) {
+  .custom-checkbox {
+    label {
+      background: url('../img/ui/forms/checkbox-01@2x.png') no-repeat;
+      background-size: 50px 1055px;
+    }
+  }
+}
+
+
+.custom-radio {
+  @extend %custom-checkbox;
+  input {
+    @extend %custom-checkbox-input;
+  }
+  label {
+    @extend %custom-checkbox-label;
+    background: url('../img/ui/forms/radiobutton-01.png') no-repeat;
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 2dppx) {
+  .custom-radio {
+    label {
+      background: url('../img/ui/forms/radiobutton-01@2x.png') no-repeat;
+      background-size: 50px 820px;
+    }
+  }
+}
+
+.custom-checkbox + .o-form-explain,
+.custom-radio + .o-form-explain,
+.custom-checkbox + input + .o-form-explain,  /* some ajax-forms form add hidden inputs */
+.custom-radio + input + .o-form-explain {
+  padding-top: 0;
+}
+
+/* Miscellaneous input types */
+.o-form-input kbd {
+  box-shadow: 0 1px 1px rgba(150, 150, 150, 0.16) inset;
+  background: $white;
+  padding: 10px;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid #cacaca;
+}
+
+/* Button bar */
+
+.o-form-button-bar,
+.o-form-toolbar,
+.o-form-toolbar.ui-tabs {
+  background: $component-bg-color-dark;
+  padding: 16px;
+  box-shadow: 0 1px 1px rgba(175, 175, 175, 0.16);
+  border-width: 1px;
+  border-style: solid;
+  border-color: #dadada #dddddd;
+  margin-top: -1px;
+  border-radius: 0 0 3px 3px;
+  text-align: right;
+
+  .button + .button {
+    margin-left: 10px;
+  }
+
+}
+
+.o-form-button-bar-no-border {
+  border-width: 1px 0 0;
+}
+
+/* Pillbar: tabs styled like buttons, place in a toolbar */
+/* TODO: Convert to SASS */
+
+
+.o-form-toolbar.ui-tabs {
+  margin: 0;
+}
+
+.o-form-toolbar.ui-tabs .o-form-pillbar.ui-tabs-nav {
+  border-bottom: 0;
+  border-top: 0;
+  padding: 0;
+}
+
+.o-form-toolbar.ui-tabs .o-form-pillbar.ui-tabs-nav li a {
+  margin: 0;
+  padding: 0 14px;
+  border-width: 1px 0 1px 1px;
+  border-color: #d1d1d1;
+  border-style: solid;
+  color: #5e5e5e;
+  background: #fbfbfb;
+  display: block;
+  float: none;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 28px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.o-form-toolbar.ui-tabs .o-form-pillbar.ui-tabs-nav li + li {
+  margin-left: 0;
+}
+
+.o-form-toolbar.ui-tabs .o-form-pillbar.ui-tabs-nav li:first-child a {
+  border-radius: 3px 0 0 3px;
+}
+
+.o-form-toolbar.ui-tabs .o-form-pillbar.ui-tabs-nav li:last-child > a {
+  border-right-width: 1px;
+  border-radius: 0 3px 3px 0;
+}
+
+.o-form-toolbar.ui-tabs .o-form-pillbar.ui-tabs-nav li.ui-state-active a {
+  border-right-width: 1px;
+  padding-right: 19px;
+  color: $white;
+  border-color: $primary-medium-border-color;
+  background-color: $primary-medium-color;
+}
+
+.o-form-toolbar.ui-tabs .o-form-pillbar.ui-tabs-nav li.ui-state-active:last-child > a {
+  border-right-color: $primary-medium-border-color;
+}
+
+.o-form-toolbar.ui-tabs .o-form-pillbar.ui-tabs-nav li.ui-state-active + li > a {
+  border-left-width: 0;
+  padding-left: 21px;
+}
+
+.o-form-pillbar.ui-tabs-nav > .ui-corner-top {
+  background: transparent;
+  border-top: none;
+}
+
+.o-form-pillbar.ui-tabs-nav li + li {
+  margin-left: 0;
+}
+
+
+/* Edit/read toggle variant */
+/* The primary heading for the form and can contain the edit-toggle button */
+
+.o-form-title-bar {
+  padding: 0 20px;
+  line-height: 44px;
+  font-size: 17px;
+  font-weight: normal;
+  background: $component-bg-color-dark;
+  color: $text-color-dark;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border: 1px solid $border-color-default;
+  border-bottom-width: 0;
+  margin: 0;
+  position: relative;
+}
+
+.o-form-toggle {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+
+  /* Differs from link-button only in height and width */
+  a {
+    display: block;
+    font-size: $body-font-size;
+    height: 26px;
+    line-height: 26px;
+    padding: 0;
+    width: 60px;
+  }
+}
+
+/* data list overrides: data list does not use the dark heading */
+
+.data-list {
+  .o-form-title-bar {
+    padding: 0;
+    margin: 0 0 15px;
+    color: $text-color-dark;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .o-form-toggle {
+    right: 0;
+  }
+}
+
+/* Headings and explain text */
+
+
+
+/* A sub section within a form, not the title bar */
+.o-form-head {
+  color: $form-heading-color;
+  line-height: 30px;
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 200;
+}
+
+/* A variant of the o-form-head, should be used as a level beneath o-form-head */
+.o-form-subhead {
+  color: $text-color-light;
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 30px;
+  margin: 0 0 15px;
+  padding: 0;
+}
+
+.o-form-fieldset + .o-form-head,
+.o-form-explain + .o-form-head,
+.o-form-separator {
+  border-top: 1px solid #e3e3e3;
+  margin-top: 30px;
+  padding-top: 30px;
+}
+
+.o-form-explain + .o-form-fieldset {
+  margin-top: 20px;
+}
+
+.o-form-explain {
+  color: $text-color-light;
+  font-weight: normal;
+}
+
+.o-form-explain + .o-form-explain {
+  margin-top: 0;
+}
+
+.o-form-input .o-form-explain {
+  clear: both;
+  line-height: 18px;
+  padding: 8px 0 6px;
+}
+
+.o-form-explain.o-form-input-error {
+  color: #d93934;
+  padding-left: 18px;
+  position: relative;
+  display: none;
+}
+
+.o-form-has-errors .o-form-explain.o-form-input-error {
+  display: block;
+}
+
+.o-form-input-error .icon-16 {
+  left: -2px;
+  position: absolute !important;
+  top: 7px;
+}
+
+.o-form-tooltip.icon-only {
+  margin-left: 4px;
+  vertical-align: top;
+}
+
+/*
+ * Themes and layouts
+ */
+
+.o-form-theme {
+  padding: 30px;
+  background: $component-bg-color;
+  box-shadow: 0 1px 1px rgba(175, 175, 175, 0.16);
+  border: 1px solid $border-color-default;
+  border-bottom-color: #d2d2d2;
+  border-radius: 4px;
+}
+
+.o-form-theme-no-border {
+  border: none;
+  border-radius: 0;
+}
+
+.o-form-title-bar + .o-form-theme {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+}
+
+.o-form-has-title-bar {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.o-form-has-button-bar {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* o-form in a modal */
+
+.simplemodal-wrap .o-form-wrap {
+  padding: 30px;
+}
+
+.simplemodal-wrap .o-form-button-bar,
+.simplemodal-container .o-form-button-bar {
+  border-radius: 0;
+  margin-top: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+}
+
+.simplemodal-wrap .o-form-toolbar,
+.simplemodal-container .o-form-toolbar {
+  border-radius: 0;
+  border-width: 0 1px 1px;
+}
+
+.simplemodal-wrap .o-form-content,
+.simplemodal-container .o-form-content {
+  overflow: auto;
+}
+
+// simple modal with o-form relies on the o-form-content to be border-box to be resized correctly
+// if this rule needs to be changed, besides of the UIs extend directly from BaseFormDialog,
+// please make sure the following UIs look OK since they have one-off resize implementation
+// - AA & GAA's add assignment modal (wiki: Universal Directory Assignment UIs Implementation)
+// - Group Rule modal
+// - Profile mappings edit modal
+.simplemodal-wrap .o-form-content {
+  @include box-sizing(border-box);
+}
+
+.simplemodal-wrap .o-form-content.o-form-theme,
+.simplemodal-container .o-form-theme {
+  border-width: 0 1px 0 1px;
+  border-color: #ddd;
+  border-radius: 0;
+  padding: 30px;
+}
+
+/* 3:4 proportion */
+
+.o-form-3-4 .o-form-label {
+  width: 25%;
+}
+
+.o-form-3-4 .o-form-input {
+  width: 75%;
+}
+
+
+/*
+ * States
+ */
+
+.o-form .o-form-focus {
+  border: 1px solid #888;
+  box-shadow: 0 1px 1px $white;
+}
+
+/* Read mode overrides */
+
+.o-form-read-mode .o-form-input,
+.o-form-read-mode.o-form-input {
+  padding: 7px 10px 7px 0;
+  line-height: 16px;
+  @include box-sizing;
+  word-wrap: break-word;
+}
+
+.o-form-read-mode .custom-checkbox:first-child,
+.o-form-read-mode .custom-radio:first-child,
+.o-form-read-mode.custom-checkbox:first-child,
+.o-form-read-mode.custom-radio:first-child {
+  margin-top: -8px;
+}
+
+/* Edit mode */
+.o-form-edit-mode .o-form-content {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Checkbox and radio states */
+.custom-checkbox label,
+.custom-radio label {
+  background-position: -16px -13px;
+}
+
+.custom-checkbox label.hover,
+.custom-checkbox label.focus,
+.custom-radio label.hover,
+.custom-radio label.focus {
+  background-position: -16px -113px;
+}
+
+.custom-checkbox label.checked,
+.custom-radio label.checked {
+  background-position: -16px -213px;
+}
+
+.custom-checkbox label.checked.hover,
+.custom-checkbox label.checked.focus {
+  background-position: -16px -313px;
+}
+
+/* Label top */
+
+.o-form-label-top .o-form-label,
+.o-form-label-top .o-form-input {
+  width: 100%;
+}
+
+.o-form-read-mode .o-form-label-top .o-form-input,
+.o-form-label-top .o-form-read-mode.o-form-input {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Read only mode */
+
+.o-form-read-mode .custom-checkbox label,
+.o-form-read-mode.custom-checkbox label {
+  background-position: -16px -413px !important; /* can't be sure of hierachy so using important */
+}
+
+.o-form-read-mode .custom-radio label,
+.o-form-read-mode.custom-radio label{
+  background-position: -16px -313px !important; /* can't be sure of hierachy so using important */
+}
+
+.o-form-read-mode .custom-checkbox label.hover,
+.o-form-read-mode .custom-checkbox label.focus,
+.o-form-read-mode.custom-checkbox label.hover,
+.o-form-read-mode.custom-checkbox label.focus {
+  background-position: -16px -513px !important; /* can't be sure of hierachy so using important */
+  cursor: text !important; /* can't be sure of hierachy so using important */
+}
+
+.o-form-read-mode .custom-radio label.hover,
+.o-form-read-mode .custom-radio label.focus,
+.o-form-read-mode.custom-radio label.hover,
+.o-form-read-mode.custom-radio label.focus {
+  background-position: -16px -413px !important; /* can't be sure of hierachy so using important */
+  cursor: text;
+}
+
+.o-form-read-mode .custom-checkbox label.checked,
+.o-form-read-mode.custom-checkbox label.checked {
+  background-position: -16px -613px !important; /* can't be sure of hierachy so using important */
+}
+
+.o-form-read-mode .custom-radio label.checked,
+.o-form-read-mode.custom-radio label.checked {
+  background-position: -16px -513px !important; /* can't be sure of hierachy so using important */
+}
+
+.o-form-read-mode .custom-checkbox label.checked.hover,
+.o-form-read-mode .custom-checkbox label.checked.focus,
+.o-form-read-mode.custom-checkbox label.checked.hover,
+.o-form-read-mode.custom-checkbox label.checked.focus {
+  background-position: -16px -713px;
+  cursor: text;
+}
+
+/* Styles for group picker in read mode */
+.o-form-read-mode .group-picker-wrap .as-selections {
+  border-width: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Forms in a two column layout, old style form look */
+
+.two_col_left .o-form-title-bar,
+.two_col_right .o-form-title-bar {
+  font-size: 17px;
+  padding-left: 20px;
+  padding-right: 12px;
+}
+.two_col_left .o-form-read-mode .o-form-content,
+.two_col_right .o-form-read-mode .o-form-content {
+  padding: 30px 31px;
+}
+
+.two_col_left .o-form-read-mode .o-form-theme,
+.two_col_right .o-form-read-mode .o-form-theme {
+  background: none;
+  border-width: 0;
+  box-shadow: none;
+}
+
+.two_col_left .o-form-read-mode .o-form-explain,
+.two_col_right .o-form-read-mode .o-form-explain {
+  background: $component-bg-color;
+  padding: 15px;
+  margin: -30px -31px 20px;
+  border: 1px solid $border-color-default;
+}
+
+.two_col_left .o-form-edit-mode .o-form-explain,
+.two_col_right .o-form-edit-mode .o-form-explain {
+  padding: 15px;
+  margin: -30px -30px 20px;
+  border: 0;
+  border-bottom: 1px solid $border-color-default;
+}
+
+/* disabled state */
+.o-form-disabled,
+.o-form-saving .o-form-input > *:not(.o-form-disabled) {
+  @include opacity(0.4);
+  pointer-events: none;
+  display: block;
+}
+.o-form-saving .o-form-content {
+  overflow: hidden;
+  * {
+    cursor: default !important;
+  }
+}
+
+
+/* checkbox and radio disabled */
+.o-form-disabled.custom-checkbox label,
+.o-form-disabled .custom-checkbox label  {
+  background-position: -16px -13px; /* prevents change on hover */
+}
+
+.o-form-disabled.custom-radio label,
+.o-form-disabled .custom-radio label {
+  background-position: -16px -13px; /* prevents change on hover */
+}
+
+.o-form-disabled .custom-checkbox label.checked,
+.o-form-disabled.custom-checkbox label.checked,
+.o-form-disabled.custom-checkbox label.checked.hover,
+.o-form-disabled.custom-radio label.checked,
+.o-form-disabled.custom-radio label.checked.hover {
+  background-position: -16px -213px; /* prevents change on hover */
+}
+
+.o-form-disabled.custom-radio label.checked,
+.o-form-disabled .custom-radio label.checked {
+  background-position: -16px -713px; /* prevents change on hover */
+}
+
+/* error state */
+.o-form-has-errors {
+  &.input-fix,
+  &.textarea-fix,
+  &.chzn-container-single .chzn-single,
+  &.link-button {
+    border-color: $error-input-border-color;
+  }
+
+  .o-form-control.o-form-focus,
+  .link-button:hover {
+    border-color: #888;
+  }
+
+  .custom-radio label {
+    background-position: -16px -613px;
+  }
+
+  .custom-checkbox label {
+    background-position: -16px -813px;
+  }
+
+  .custom-checkbox label.hover,
+  .custom-checkbox label.focus,
+  .custom-radio label.hover,
+  .custom-radio label.focus {
+    background-position: -16px -113px;
+  }
+
+  .custom-checkbox label.checked {
+    background-position: -16px -913px;
+  }
+
+  .custom-radio label.checked {
+    background-position: -16px -713px;
+  }
+
+  .o-form-input-group .o-form-control .chzn-single {
+    border-color: #bbbbbb #bbbbbb #b1b1b1;
+  }
+
+  .o-form-input-group .chzn-container-active.chzn-with-drop .chzn-single {
+    border-color: #888;
+  }
+
+  .chzn-container-active .chzn-single {
+    -webkit-box-shadow: 0 1px 2px rgba(175,175,175, 0.3);
+    -moz-box-shadow:  0 1px 2px rgba(175,175,175, 0.3);
+    box-shadow:  0 1px 2px rgba(175,175,175, 0.3);
+    border: 1px solid #888;
+  }
+
+  .infobox-error {
+    display: block !important;
+    margin-bottom: 15px;
+  }
+}
+
+/* o-form + ajax-form hybrid */
+
+.o-form .infobox-error + form .o-form-focus {
+  border-color: #888 !important;
+}
+
+
+/* data-list styles */
+
+.data-list-inline-form .o-form-head {
+  color: #444444;
+  font-size: 16px;
+  margin: 0;
+}
+
+.data-list-inline-form .o-form-button-bar {
+  border-width: 1px 0 0;
+  margin: 5px -30px -20px;
+}
+
+/* form level explain text  */
+
+.o-form-content > .o-form-explain {
+  margin-bottom: 20px;
+}

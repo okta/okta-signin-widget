@@ -1,0 +1,99 @@
+.factors-dropdown-wrap {
+  position: absolute;
+  top: 50%;
+  right: -32px;
+  margin-top: -11px;
+
+  .dropdown.more-actions {
+
+    .bg-helper {
+      // a box shadow color will be the same as 'color' prop value
+      // if no color value passed to 'box-shadow' prop
+      color: $primary-bg-color;
+      @include box-shadow(10px 0 0 0);
+    }
+
+    .link-button {
+      height: 22px;
+      // overrides padding in mega-drop-down.css
+      padding: 0 !important;
+    }
+
+    span.icon-dm {
+      top: 9px;
+      background: url('../img/ui/indicators/drop-menu-s.png') no-repeat scroll 0 0 transparent;
+    }
+
+    .options-wrap {
+      @include dropdown-env;
+      overflow: auto;
+      max-height: 306px;
+      width: 320px;
+      left: -212px;
+      top: 38px;
+      border-radius: $default-border-radius;
+
+      @include max-width-mq(325px) {
+        width: 280px;
+        left: -192px;
+      }
+    }
+
+    .options-wrap:after {
+      display: none;
+    }
+
+    .option {
+      a {
+        line-height: 30px;
+        padding-left: 50px;
+
+        .icon {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
+
+    .dropdown-list-title {
+      text-align: center;
+
+      &:hover {
+        background: transparent;
+      }
+
+      a {
+        padding-left: 5px;
+        cursor: default;
+      }
+    }
+
+    .suboption.option {
+      border-bottom: none;
+      padding-left: 50px;
+      a {
+        padding-left: 36px;
+      }
+      + .suboption.option a {
+        border-top: 1px solid #eaeaea;
+      }
+      + .option:not(.suboption) {
+        border-top: 1px solid #eaeaea;
+      }
+    }
+  }
+}
+
+/* MFA */
+
+.mfa-okta-verify-30, .mfa-google-auth-30, .mfa-sms-30, .mfa-symantec-30,
+.mfa-rsa-30, .mfa-duo-30, .mfa-yubikey-30, .mfa-question-30 {
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+}

@@ -1,0 +1,625 @@
+@import "compass/css3";
+@import "variables";
+@import "helpers";
+
+@mixin light-button-template($bg-color) {
+  @include button-template($bg-color, 1%, $dark-text-color, 22%, 25%);
+  @include button-shadow(0.05);
+  &:hover, &:focus, &:active, &:focus {
+  /* -- Buttons' Colors -- */
+    box-shadow: none;
+  }
+}
+
+@mixin dark-button-template($bg-color) {
+  @include button-template($bg-color, 3%, #fff, 15%, 17%);
+  @include button-shadow(0.15);
+  &:hover, &:focus, &:active, &:focus {
+  /* -- Buttons' Colors -- */
+    box-shadow: none;
+  }
+}
+
+@mixin button-shadow($drop-shadow-opacity) {
+  @include box-shadow(rgba(black, $drop-shadow-opacity) 0 1px 0, rgba(255, 255, 255, 0.1) 0 1px 0 0 inset);
+}
+
+@mixin button-template($bg-color, $gradient-factor, $text-color, $border-factor, $border-bottom-factor) {
+  color: $text-color;
+  @include filter-gradient($bg-color, darken($bg-color, $gradient-factor), vertical);
+  background: -o-linear-gradient(top,  $bg-color 0%, darken($bg-color, $gradient-factor) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  $bg-color 0%, darken($bg-color, $gradient-factor) 100%); /* IE10+ */
+  @include background-with-css2-fallback(linear-gradient($bg-color, darken($bg-color, $gradient-factor)), $bg-color);
+  border-color: darken($bg-color, $border-factor);
+  border-bottom-color: darken($bg-color, $border-bottom-factor);
+
+  &:hover, &:focus, &:active, &:focus {
+  /* -- Buttons' Colors -- */
+    $hover-bg-color: lighten($bg-color, 3%);
+    @include filter-gradient($hover-bg-color, darken($hover-bg-color, $gradient-factor), vertical);
+    background: -o-linear-gradient(top,  $hover-bg-color 0%, darken($hover-bg-color, $gradient-factor) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  $hover-bg-color 0%, darken($hover-bg-color, $gradient-factor) 100%); /* IE10+ */
+    @include background-image(linear-gradient($hover-bg-color, darken($hover-bg-color, $gradient-factor)));
+    border-color: darken($bg-color, $border-factor * 1.3);
+    border-bottom-color: darken($bg-color, $border-bottom-factor * 1.2);
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+
+#okta-sign-in {
+
+  &.main-container {
+  /* -- Fonts and Text Colors -- */
+    font-family: $fonts;
+    color: $light-text-color;
+  }
+
+  h2, h3 {
+  /* -- Fonts and Text Colors -- */
+    color: $header-text-color;
+  }
+
+  .okta-sign-in-header {
+  /* -- Fonts and Text Colors -- */
+    color: $header-text-color;
+  }
+
+  .okta-form-subtitle, .okta-form-label {
+  /* -- Fonts and Text Colors -- */
+    color: $light-text-color;
+  }
+
+  .link {
+  /* -- Fonts and Text Colors: links -- */
+    color: $light-text-color;
+
+    &:link, &:visited, &:hover, &:active {
+    /* -- Fonts and Text Colors: links -- */
+      color: $light-text-color;
+    }
+  }
+
+  .inline-link {
+  /* -- Fonts and Text Colors: links -- */
+    color: $link-text-color;
+
+    &:link, &:visited, &:hover, &:active {
+    /* -- Fonts and Text Colors: links -- */
+      color: $link-text-color;
+    }
+  }
+
+  input[type="submit"], input[type="button"] {
+    /* -- Submit Buttons' Fonts -- */
+    font-family: $fonts;
+  }
+
+
+  &.main-container {
+  /* -- Main Background and Border Colors -- */
+    background-color: $primary-bg-color;
+    border-color: #ddd #ddd #d8d8d8;
+    @include box-shadow(0 2px 0 rgba(175, 175, 175, 0.12));
+    @include mobile {
+      border-width: 0;
+      @include box-shadow(none);
+    }
+
+    .bg-helper {
+    /* -- Main Background and Border Colors -- */
+    /* set the helper's color value to the same color as the main-container's background */
+      color: $primary-bg-color;
+    }
+  }
+
+  .okta-sign-in-header {
+  /* -- Main Background and Border Colors -- */
+    border-bottom-color: #ddd;
+  }
+
+  .okta-sign-in-beacon-border {
+  /* -- Main Background and Border Colors -- */
+    border-color: rgb(221, 221, 221);
+  }
+
+  .okta-form-divider {
+  /* -- Main Background and Border Colors -- */
+    border-bottom-color: #E8E8E8;
+  }
+
+  .factor-icon, .qrcode-image {
+  /* -- Main Background and Border Colors -- */
+    border-color: #ccc;
+  }
+
+
+  .mfa-okta-verify-30, .enroll-factor-row .mfa-okta-verify {
+    /* -- Factor Icons (small): Okta Verify -- */
+    background-image: url('../img/icons/mfa/oktaVerify_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Okta Verify -- */
+      background-image: url('../img/icons/mfa/oktaVerify_ico@2x.png');
+    }
+  }
+
+  .mfa-okta-verify {
+    /* -- Factor Icons (large): Okta Verify -- */
+    background-image: url('../img/icons/mfa/oktaVerify_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Okta Verify -- */
+      background-image: url('../img/icons/mfa/oktaVerify@2x.png');
+    }
+  }
+
+  .mfa-google-auth-30, .enroll-factor-row .mfa-google-auth {
+    /* -- Factor Icons (small): Google Authenticator -- */
+    background-image: url('../img/icons/mfa/googleAuth_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Google Authenticator -- */
+      background-image: url('../img/icons/mfa/googleAuth_ico@2x.png');
+    }
+  }
+
+  .mfa-google-auth {
+    /* -- Factor Icons (large): Google Authenticator -- */
+    background-image: url('../img/icons/mfa/googleAuth_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Google Authenticator  -- */
+      background-image: url('../img/icons/mfa/googleAuth@2x.png');
+    }
+  }
+
+  .mfa-symantec-30, .enroll-factor-row .mfa-symantec {
+    /* -- Factor Icons (small): Symantec VIP -- */
+    background-image: url('../img/icons/mfa/symantec_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Symantec VIP -- */
+      background-image: url('../img/icons/mfa/symantec_ico@2x.png');
+    }
+  }
+
+  .mfa-symantec {
+    /* -- Factor Icons (large): Symantec VIP -- */
+    background-image: url('../img/icons/mfa/symantec_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Symantec VIP -- */
+      background-image: url('../img/icons/mfa/symantec@2x.png');
+    }
+  }
+
+  .mfa-rsa-30, .enroll-factor-row .mfa-rsa {
+    /* -- Factor Icons (small): RSA SecurID -- */
+    background-image: url('../img/icons/mfa/rsa_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): RSA SecurID -- */
+      background-image: url('../img/icons/mfa/rsa_ico@2x.png');
+    }
+  }
+
+  .mfa-rsa {
+    /* -- Factor Icons (large): RSA SecurID -- */
+    background-image: url('../img/icons/mfa/rsa_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): RSA SecurID -- */
+      background-image: url('../img/icons/mfa/rsa@2x.png');
+    }
+  }
+
+  .mfa-duo-30, .enroll-factor-row .mfa-duo {
+    /* -- Factor Icons (small): DUO -- */
+    background-image: url('../img/icons/mfa/duo_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): DUO -- */
+      background-image: url('../img/icons/mfa/duo_ico@2x.png');
+    }
+  }
+
+  .mfa-duo {
+    /* -- Factor Icons (large): DUO -- */
+    background-image: url('../img/icons/mfa/duo_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): DUO -- */
+      background-image: url('../img/icons/mfa/duo@2x.png');
+    }
+  }
+
+  .mfa-yubikey-30, .enroll-factor-row .mfa-yubikey {
+    /* -- Factor Icons (small): Yubikey -- */
+    background-image: url('../img/icons/mfa/yubico_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Yubikey -- */
+      background-image: url('../img/icons/mfa/yubico_ico@2x.png');
+    }
+  }
+
+  .mfa-yubikey {
+    /* -- Factor Icons (large): Yubikey -- */
+    background-image: url('../img/icons/mfa/yubico_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Yubikey -- */
+      background-image: url('../img/icons/mfa/yubico@2x.png');
+    }
+  }
+
+  .mfa-sms-30, .enroll-factor-row .mfa-okta-sms {
+    /* -- Factor Icons (small): SMS -- */
+    background-image: url('../img/icons/mfa/sms_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): SMS -- */
+      background-image: url('../img/icons/mfa/sms_ico@2x.png');
+    }
+  }
+
+  .mfa-okta-sms {
+    /* -- Factor Icons (large): SMS -- */
+    background-image: url('../img/icons/mfa/sms_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): SMS -- */
+      background-image: url('../img/icons/mfa/sms@2x.png');
+    }
+  }
+
+  .mfa-question-30, .enroll-factor-row .mfa-okta-security-question {
+    /* -- Factor Icons (small): Sequrity Question -- */
+    background-image: url('../img/icons/mfa/question_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Sequrity Question -- */
+      background-image: url('../img/icons/mfa/question_ico@2x.png');
+    }
+  }
+
+  .mfa-okta-security-question {
+    /* -- Factor Icons (large): Sequrity Question -- */
+    background-image: url('../img/icons/mfa/question_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Sequrity Question -- */
+      background-image: url('../img/icons/mfa/question@2x.png');
+    }
+  }
+
+
+  .button {
+  /* -- Buttons' Colors -- */
+    @include light-button-template($button-bg-color);
+  }
+
+  .button-primary {
+  /* -- Buttons' Colors -- */
+    @include dark-button-template($primary-button-bg-color);
+  }
+
+  .button-success {
+  /* -- Buttons' Colors -- */
+    @include dark-button-template($success-button-bg-color);
+  }
+
+  .button.link-button-disabled {
+    /* -- Buttons' Colors -- */
+    color: $disabled-button-text-color;
+    &:hover, &:focus, &:active, &:focus {
+    /* -- Buttons' Colors -- */
+      cursor: default;
+      background-image: none;
+    }
+  }
+
+  .button.button-primary.link-button-disabled {
+    /* -- Buttons' Colors -- */
+    color: $disabled-primary-button-text-color;
+    background-color: $disabled-primary-button-bg-color;
+    border-color: $disabled-primary-button-bg-color;
+    background-image: none;
+    box-shadow: none;
+    &:hover, &:focus, &:active, &:focus {
+    /* -- Buttons' Colors -- */
+      cursor: default;
+      background-image: none;
+    }
+  }
+
+  .icon-button {
+  /* -- Buttons' Colors -- */
+    @include button-template($icon-button-bg-color, 0%, $dark-text-color, 23%, 26%);
+  }
+
+
+  .okta-dropdown-list {
+  /* -- Dropdown Colors -- */
+    /* background: #fff; */
+    border-color: $input-border-color-hover;
+  }
+
+  .factors-dropdown-wrap .okta-dropdown-list {
+  /* -- Dropdown Colors -- */
+    border-color: #ccc;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .okta-dropdown-option {
+  /* -- Dropdown Colors -- */
+    /* background: transparent; */
+    /* border-bottom-color: #fff; */
+
+    &:hover {
+    /* -- Dropdown Colors -- */
+      /* background: #f9f9f9; */
+    }
+
+    &.dropdown-list-title:hover {
+    /* -- Dropdown Colors -- */
+      background: transparent;
+    }
+
+    a {
+    /* -- Dropdown Colors -- */
+      color: $dark-text-color;
+    }
+  }
+
+
+  .okta-infobox-error {
+  /* -- Error Infobox Colors -- */
+    /* background-color: #fff; */
+    /* border: 1px solid #ddd; */
+
+    &:before {
+    /* -- Error Infobox Colors -- */
+      /* background-color: #e34843; */
+    }
+
+    .error-16:before {
+    /* -- Error Infobox Colors: error icon -- */
+      /* color: #fff; */
+
+      /* Use the rules below to replace an error icon in error infoboxes */
+      /* content: ''; */
+      /* width: 16px; */
+      /* height: 16px; */
+      /* background-image: none; */
+    }
+
+  }
+
+  .enroll-required-factor-list {
+    .enroll-factor-row-min .enroll-factor-description {
+      h3 {
+        /* -- Enroll required factors, factors that are not the current step -- */
+        color: $light-text-color;
+      }
+    }
+
+  }
+
+  .okta-form-input-field {
+  /* -- Input Fields -- */
+    background-color: $input-bg-color;
+    border-color: $input-border-color;
+
+    &:hover {
+    /* -- Input Fields -- */
+      border-color: $input-border-color-hover;
+    }
+
+    input {
+    /* -- Input Fields -- */
+      font-family: $fonts;
+      color: $dark-text-color;
+
+      &::-webkit-input-placeholder {
+      /* -- Input Fields: placeholder -- */
+        font-family: $fonts;
+        color: $placeholder-text-color;
+      }
+
+      &::-moz-placeholder {
+      /* -- Input Fields: placeholder -- */
+        font-family: $fonts;
+        color: $placeholder-text-color;
+      }
+
+      &:-ms-input-placeholder {
+      /* -- Input Fields: placeholder -- */
+        font-family: $fonts;
+        color: $placeholder-text-color;
+      }
+
+      &[disabled] {
+      /* -- Input Fields: disabled input field -- */
+        color: $medium-text-color;
+        /* background: #f4f4f4; */
+      }
+
+      &[type="password"] {
+      /* -- Input Fields: password input field -- */
+        font-family: Verdana, sans-serif;
+      }
+
+    }
+
+    placeholder {
+    /* -- Input Fields: placeholder -- */
+      font-family: $fonts;
+      color: $placeholder-text-color;
+    }
+  }
+
+  .input-icon:before, .input-tooltip:before {
+  /* -- Input Fields: icons -- */
+    color: $light-text-color;
+  }
+
+  .okta-form-label-inline {
+  /* -- Input Fields -- */
+    /* background-color: #f2f2f2; */
+    /* border-color: #c8c8c8; */
+    /* color: #999; */
+  }
+
+  .okta-form-input-error {
+  /* -- Input Fields: error highlight -- */
+    /* color: #d93934; */
+
+    .error-16-small:before {
+    /* -- Input Fields: error icon -- */
+      /* color: #e34843; */
+
+      /* Use the rules below to replace input fields error icon */
+      /* content: ''; */
+      /* width: 16px; */
+      /* height: 16px; */
+      /* background-image: none; */
+    }
+  }
+
+
+  .chzn-single {
+  /* -- Input Fields: Select Input -- */
+    background-color: $input-bg-color;
+    border-color: $input-border-color;
+
+    span {
+    /* -- Input Fields: Select Input -- */
+      color: $light-text-color;
+    }
+
+    &:hover {
+    /* -- Input Fields: Select Input -- */
+      border-color: $input-border-color-hover;
+    }
+  }
+
+  .chzn-with-drop {
+    .chzn-single, .chzn-drop {
+    /* -- Input Fields: Select Input -- */
+      background-color: $input-bg-color;
+      border-color: $input-border-color-hover;
+    }
+
+    .chzn-results {
+      li {
+      /* -- Input Fields: Select Input -- */
+        /* border-color: #fff; */
+      }
+      .highlighted {
+      /* -- Input Fields: Select Input -- */
+        /* background-color: #f9f9f9; */
+      }
+    }
+  }
+
+  .primary-auth { /* -- Page specific top level selectors -- */ }
+  .password-expired { /* -- Page specific top level selectors -- */ }
+  .password-reset { /* -- Page specific top level selectors -- */ }
+  .password-reset-email-sent { /* -- Page specific top level selectors -- */ }
+  .forgot-password { /* -- Page specific top level selectors -- */ }
+  .account-unlock { /* -- Page specific top level selectors -- */ }
+  .account-unlock-email-sent { /* -- Page specific top level selectors -- */ }
+  .recovery-challenge { /* -- Page specific top level selectors -- */ }
+  .recovery-loading { /* -- Page specific top level selectors -- */ }
+  .recovery-question { /* -- Page specific top level selectors -- */ }
+  .refresh-auth-state { /* -- Page specific top level selectors -- */ }
+
+  .enroll-choices { /* -- Page specific top level selectors -- */ }
+  .enroll-totp { /* -- Page specific top level selectors -- */ }
+  .barcode-totp { /* -- Page specific top level selectors -- */ }
+  .activate-totp { /* -- Page specific top level selectors -- */ }
+  .enroll-manual-totp { /* -- Page specific top level selectors -- */ }
+  .barcode-push { /* -- Page specific top level selectors -- */ }
+  .activate-push { /* -- Page specific top level selectors -- */ }
+  .enroll-manual-push { /* -- Page specific top level selectors -- */ }
+  .enroll-activation-link-sent { /* -- Page specific top level selectors -- */ }
+  .enroll-symantec { /* -- Page specific top level selectors -- */ }
+  .enroll-rsa { /* -- Page specific top level selectors -- */ }
+  .enroll-duo { /* -- Page specific top level selectors -- */ }
+  .enroll-sms { /* -- Page specific top level selectors -- */ }
+  .enroll-question { /* -- Page specific top level selectors -- */ }
+
+  .mfa-verify-duo { /* -- Page specific top level selectors -- */ }
+  .mfa-verify { /* -- Page specific top level selectors: all challenge pages except duo -- */ }
+  .mfa-verify-totp { /* -- Page specific top level selectors -- */ }
+  .mfa-verify-push { /* -- Page specific top level selectors -- */ }
+  .mfa-verify-totp-inline { /* -- Page specific top level selectors -- */ }
+  .mfa-verify-question { /* -- Page specific top level selectors -- */ }
+  .mfa-verify-sms { /* -- Page specific top level selectors -- */ }
+
+}
+
+
+.okta-sign-in-tooltip.qtip-custom {
+/* -- Tooltips -- */
+  font-family: $fonts;
+  /* background-color: #4d4d4d; */
+  /* border-color: #303030; */
+
+  .qtip-content {
+  /* -- Tooltips -- */
+    /* color: #f3f3f3; */
+  }
+
+  .qtip-titlebar {
+  /* -- Tooltips -- */
+    /* background-color: #404040 */
+  }
+}
+
+.okta-sign-in-security-image-tooltip.qtip-custom {
+  /* -- Tooltips -- */
+  font-family: $fonts;
+  /* background-color: #4d4d4d; */
+  /* border-color: #303030; */
+
+  .qtip-content {
+    /* -- Tooltips -- */
+    /* color: #f3f3f3; */
+  }
+}

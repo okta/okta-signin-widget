@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.okta.okta-core</groupId>
+        <artifactId>okta-core.parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../..</relativePath>
+    </parent>
+
+    <artifactId>okta-core.clients.login</artifactId>
+
+    <properties>
+        <root-basedir>${basedir}/../..</root-basedir>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${maven-pmd-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <targetPath>css</targetPath>
+                <directory>${project.build.directory}/css</directory>
+            </resource>
+            <resource>
+                <targetPath>lib</targetPath>
+                <directory>${project.build.directory}/js</directory>
+                <includes>
+                    <include>okta-sign-in-no-jquery.js</include>
+                </includes>
+            </resource>
+            <resource>
+                <targetPath>img</targetPath>
+                <directory>${project.build.directory}/img</directory>
+            </resource>
+            <resource>
+                <targetPath>font</targetPath>
+                <directory>${project.build.directory}/font</directory>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev-build</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>grunt</id>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <target>
+                                        <!-- Windows -->
+                                        <exec executable="cmd" dir="${root-basedir}" osfamily="windows">
+                                            <arg value="/c"/>
+                                            <arg value="bundle"/>
+                                            <arg value="install"/>
+                                        </exec>
+                                        <exec executable="cmd" dir="${root-basedir}" osfamily="windows">
+                                            <arg value="/c"/>
+                                            <arg value="npm"/>
+                                            <arg value="install"/>
+                                        </exec>
+                                        <exec executable="cmd" dir="${root-basedir}" osfamily="windows">
+                                            <arg value="/c"/>
+                                            <arg value="./node_modules/.bin/grunt"/>
+                                            <arg value="build"/>
+                                        </exec>
+                                        <!-- OSX / Linux -->
+                                        <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+                                        <exec executable="bundle" osfamily="unix" searchpath="true">
+                                            <arg value="install"/>
+                                        </exec>
+                                        <exec executable="npm" osfamily="unix">
+                                            <arg value="install"/>
+                                        </exec>
+                                        <exec executable="./node_modules/.bin/grunt" osfamily="unix" failonerror="true">
+                                            <arg value="--no-color"/>
+                                            <arg value="build"/>
+                                        </exec>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>pmd-build</id>
+            <activation>
+                <file>
+                    <missing>./node_modules/.bin/grunt</missing>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>grunt</id>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <target>
+                                        <!-- Windows -->
+                                        <exec executable="cmd" dir="${root-basedir}" osfamily="windows">
+                                            <arg value="/c"/>
+                                            <arg value="npm"/>
+                                            <arg value="install"/>
+                                        </exec>
+
+                                        <exec executable="cmd" dir="${root-basedir}" osfamily="windows">
+                                            <arg value="/c"/>
+                                            <arg value="bundle"/>
+                                            <arg value="install"/>
+                                        </exec>
+
+                                        <exec executable="cmd" dir="${root-basedir}" osfamily="windows">
+                                            <arg value="/c"/>
+                                            <arg value="./node_modules/.bin/grunt"/>
+                                            <arg value="build:minified"/>
+                                        </exec>
+
+                                        <!-- OSX / Linux -->
+                                        <exec executable="npm" osfamily="unix">
+                                            <arg value="install"/>
+                                        </exec>
+
+                                        <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+                                        <exec executable="bundle" osfamily="unix" searchpath="true">
+                                            <arg value="install"/>
+                                        </exec>
+
+                                        <exec executable="./node_modules/.bin/grunt" osfamily="unix" failonerror="true">
+                                            <arg value="--no-color"/>
+                                            <arg value="build:minified"/>
+                                        </exec>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

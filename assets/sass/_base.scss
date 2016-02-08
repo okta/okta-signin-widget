@@ -1,0 +1,45 @@
+html {
+  height: 100%;
+}
+body {
+  font-family: $fonts;
+  font-size: $font-size;
+  font-weight: $font-weight-body;
+  line-height: 1.4;
+  background-color: $secondary-bg-color;
+  min-width: 100%;
+  min-height: 100%;
+  color: $light-text-color;
+  position: relative;
+}
+
+a {
+  color: $light-text-color;
+
+  &:link, &:visited, &:active {
+    text-decoration: none;
+    color: $light-text-color;
+  }
+
+  &:hover, &:focus {
+    text-decoration: underline;
+    color: $light-text-color;
+  }
+}
+
+h1 {
+  color: $header-text-color;
+}
+
+h2, h3 {
+  font-size: $font-size-header;
+  line-height: 1.5;
+}
+
+h3 {
+  margin-bottom: 2px;
+}
+
+.text-align-c {
+  text-align: center;
+}

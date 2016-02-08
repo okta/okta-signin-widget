@@ -1,0 +1,133 @@
+.beacon-container {
+  position: absolute;
+  bottom: -42px;
+  right: 0;
+  left: 0;
+  margin: auto;
+  width: 85px;
+  height: 85px;
+  transform: scale(0, 0);
+}
+
+.beacon-blank {
+  background-image: none;
+  background-color: $primary-bg-color;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.radial-progress-bar {
+  position: absolute;
+  // This clip shows everything from 12 to 6 o'clock
+  clip: rect(0px, 96px, 96px, 48px);
+  bottom: -5px;
+  left: -5px;
+  right: -5px;
+  top: -5px;
+
+  .circle {
+    z-index: 10;
+    width: 91px;
+    height: 91px;
+    border: 2px solid rgb(221, 221, 221);
+    border-radius: 50%;
+    position: absolute;
+    // This clip shows everything from 6 to 12 o'clock
+    clip: rect(0px, 48px, 96px, 0px);
+    transform: rotate(0deg);
+    transform-origin: center;
+  }
+}
+
+
+.auth-beacon {
+  position: absolute;
+  border-radius: 50%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $primary-bg-color;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-clip: content-box;
+  color: $primary-bg-color;
+  @include box-shadow(0 0 0 15px);
+}
+
+.undefined-user {
+  background-image: url('../img/security/default.png');
+
+  @include retina2x {
+    background-image: url('../img/security/default@2x.png');
+  }
+}
+
+.new-user {
+  background-image: url('../img/security/unknown-device.png');
+
+  @include retina2x {
+    background-image: url('../img/security/unknown-device@2x.png');
+  }
+}
+
+.auth-beacon-border {
+  position: absolute;
+  border: 2px solid rgb(221, 221, 221);
+  border-radius: 50%;
+  bottom: -5px;
+  left: -5px;
+  right: -5px;
+  top: -5px;
+}
+
+/* loading animation */
+.beacon-loading:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  left: -5px;
+  right: -5px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: #bbb;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/* auth beacon types */
+
+.auth-beacon-factor {
+  background-size: 100% auto;
+  cursor: pointer;
+}

@@ -1,0 +1,52 @@
+@import "compass/css3/opacity";
+
+.applogin-banner {
+  position: relative;
+  margin-bottom: 10px;
+  min-width: $container-min-width;
+
+  @include max-height-mq(700px) {
+    display: none;
+  }
+
+  .applogin-background {
+    background-color: #fff;
+    @include opacity(0.8);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -5;
+    @include box-shadow(0 0 2px 1px rgba(175, 175, 175, 0.3));
+  }
+
+  .applogin-container {
+    width: $container-width;
+    min-width: $container-min-width;
+    margin: 0 auto;
+    padding: 20px 0;
+    @include box-sizing(border-box);
+    text-align: center;
+
+    @include max-width-mq($container-width) {
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: lighter;
+      line-height: 26px;
+    }
+  }
+
+  .applogin-app-logo {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+
+    img {
+      max-height: 26px;
+    }
+  }
+}

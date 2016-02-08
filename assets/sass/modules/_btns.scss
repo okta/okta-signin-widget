@@ -1,0 +1,99 @@
+/* ======= Buttons ======= */
+
+.button, .button.link-button {
+  display: inline-block;
+  height: $input-height;
+  line-height: $button-line-height;
+  padding: $button-padding;
+  border: 1px solid;
+  @include border-radius;
+  font-size: $font-size;
+  @include box-sizing(border-box);
+}
+
+.button-wide, .button-wide.button-primary {
+  width: 100%;
+  height: 50px;
+  line-height: 48px;
+  text-align: center;
+}
+
+.icon-button {
+  display: block;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  border: 1px solid;
+  @include border-radius;
+
+  .icon {
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    opacity: 0.25;
+  }
+
+  &:hover .icon {
+    opacity: 0.5;
+  }
+}
+
+.sms-request-button {
+  text-align: center;
+  @include max-width-text(120px);
+
+  @include max-width-mq($container-width) {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+}
+
+.social-auth-button.link-button {
+  @extend .button-wide;
+  @include border-radius;
+  @include box-sizing(border-box);
+
+  color: #FFF;
+  display: block;
+  font-size: $font-size;
+  line-height: 50px;
+  margin-top: 15px;
+  padding-left: 90px;
+  text-align: left;
+
+  &:last-of-type {
+    margin-bottom: 25px;
+  }
+
+  &:active, &:focus, &:hover, &:visited {
+    text-decoration: none;
+  }
+}
+
+@mixin social-auth-button-template($bg-image, $icon-bg-color, $label-bg-color, $border-color) {
+  background: $bg-image no-repeat 10px,
+    linear-gradient(90deg, $icon-bg-color 50px, $label-bg-color 50px);
+  @include background-with-css2-fallback($bg-image no-repeat 10px,
+    linear-gradient(90deg, $icon-bg-color 50px, $label-bg-color 50px), $label-bg-color);
+  border: 1px solid $border-color;
+
+  &:active, &:focus, &:hover {
+    background: $bg-image no-repeat 10px,
+    linear-gradient(90deg, lighten($icon-bg-color, 3%) 50px, lighten($label-bg-color, 3%) 50px);
+  }
+}
+
+.social-auth-facebook-button {
+  @include social-auth-button-template(url('../img/icons/login/facebook_logo.png'),
+          $facebook-icon-bg-color, $facebook-label-bg-color, $facebook-border-color);
+}
+
+.social-auth-google-button {
+  @include social-auth-button-template(url('../img/icons/login/google_logo.png'),
+          $google-icon-bg-color, $google-label-bg-color, $google-border-color);
+}
+
+.social-auth-linkedin-button {
+  @include social-auth-button-template(url('../img/icons/login/linkedin_logo.png'),
+          $linkedin-icon-bg-color, $linkedin-label-bg-color, $linkedin-border-color);
+}
