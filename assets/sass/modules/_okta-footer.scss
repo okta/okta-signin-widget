@@ -1,0 +1,49 @@
+.auth {
+  .content {
+    min-height: 100%;
+    min-width: $container-min-width;
+    display: inline-block;
+    width: 100%;
+
+    &:after {
+      content: "";
+      display: block;
+      height: 70px;
+    }
+  }
+  .footer {
+    background-color: #fff;
+    min-width: $container-min-width;
+    position: absolute;
+    font-size: $font-size-footer;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 34px;
+    overflow: hidden;
+
+    .footer-container {
+      padding: 9px 80px;
+      margin: 0 auto;
+      @include box-sizing(border-box);
+
+      @include max-width-mq(560px) {
+        width: $container-width;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      @include max-width-mq($container-width) {
+        width: 100%;
+      }
+    }
+
+    .copyright {
+      float: left;
+    }
+
+    .privacy-policy {
+      float: right;
+    }
+  }
+}

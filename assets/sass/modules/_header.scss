@@ -1,0 +1,23 @@
+.auth-header {
+  padding: 30px 90px 75px;
+  position: relative;
+  border-bottom: 1px solid #ddd;
+  z-index: 10;
+
+  -moz-transition: padding-bottom 0.4s;
+  -webkit-transition: padding-bottom 0.4s;
+  transition: padding-bottom 0.4s;
+}
+
+.no-beacon .auth-header {
+  padding-bottom: 30px;
+}
+
+/* Org Logo */
+
+.auth-org-logo {
+  display: block;
+  margin: 0 auto;
+  max-width: 200px;
+  max-height: 40px;
+}

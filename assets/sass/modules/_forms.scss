@@ -1,0 +1,209 @@
+/* Form */
+
+.o-form-head {
+  font-size: $font-size-header;
+  line-height: 1.5;
+  margin-top: 10px;
+  text-align: center;
+  text-transform: none;
+
+  + .o-form-explain {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+
+.o-form-button-bar {
+  background: transparent;
+  border: none;
+  padding: 0 0 25px;
+  border-radius: 0;
+  box-shadow: none;
+
+  .button {
+    display: block;
+    width: 100%;
+    height: $button-height;
+  }
+
+  .button-success {
+    position: absolute;
+    text-align: center;
+  }
+}
+
+.o-form-theme {
+  background: transparent;
+  box-shadow: none;
+  padding: 0 0 14px;
+  border-radius: 0;
+  border: none;
+}
+
+.o-form {
+
+  .o-form-fieldset {
+    &:last-child {
+      margin-bottom: 15px;
+    }
+    &.margin-btm-0 {
+      margin-bottom: 0;
+    }
+  }
+
+  .o-form-label, label, input, textarea {
+    font-size: $font-size;
+  }
+
+  .o-form-label {
+    font-weight: normal;
+  }
+
+  .o-form-label-inline + .input-fix {
+    input {
+      &[type="text"] {
+        line-height: 27px;
+      }
+    }
+  }
+
+  .input-fix, .textarea-fix {
+    height: $input-height;
+    border: 1px solid $input-border-color;
+    display: inline-block;
+    float: left;
+
+    input[disabled], input[readonly] {
+      @include disabled-readonly-text-input;
+    }
+
+    input {
+      padding: 8px;
+      line-height: 22px;
+      font-size: $font-size;
+      border: none;
+      background: none;
+      box-shadow: none;
+
+      // prevent zooming when input field is focused on mobile phone
+      @include mobile {
+        font-size: $font-size-default;
+      }
+
+      &::-webkit-input-placeholder {
+        font-size: $font-size;
+        letter-spacing: 0;
+      }
+
+      &::-moz-placeholder {
+        font-size: $font-size;
+      }
+
+      &:-ms-input-placeholder {
+        font-size: $font-size;
+        line-height: 27px;
+      }
+
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px white inset;
+        border-radius: 3px;
+      }
+
+      &[type="password"] {
+        font-size: $font-size;
+        // prevent zooming when field is focused on mobile phone
+        @include mobile {
+          font-size: $font-size-default;
+        }
+      }
+
+    }
+
+    .placeholder {
+      color: #aaa;
+    }
+  }
+
+  // prevent zooming when input/select field is focused on mobile phone
+  @include mobile {
+    select, select:focus,
+    .chzn-container-single .chzn-search input {
+      font-size: $font-size-default;
+    }
+  }
+
+  .custom-checkbox label {
+    font-size: $font-size-small;
+  }
+
+  .o-form-input {
+    input[name="passCode"], input[name="nextPassCode"] {
+      font-family: "Anonymous Pro", "Andale Mono", "Courier New", "Courier", serif;
+      font-size: 17px;
+      letter-spacing: 1px;
+    }
+    .o-form-control {
+      position: relative;
+    }
+    .input-tooltip, .input-icon {
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      top: 50%;
+      margin-top: -11px;
+
+      + input {
+        padding-right: 30px;
+        // IE8 and IE9 has an extra input used for a placeholder
+        + input {
+          padding-right: 30px;
+        }
+      }
+    }
+    .input-icon {
+      left: 10px;
+      opacity: 0.25;
+
+      + input {
+        padding-left: 30px;
+        // IE8 and IE9 has an extra input used for a placeholder
+        + input {
+          padding-left: 30px;
+        }
+      }
+    }
+    .input-tooltip {
+      right: 10px;
+      opacity: 0.5;
+    }
+  }
+
+}
+
+.o-form-input-group .o-form-control {
+  display: table-cell;
+  float: none;
+  white-space: nowrap;
+}
+
+.form-divider {
+  border-bottom: 1px solid #E8E8E8;
+  margin-bottom: 25px;
+  padding-top: 5px;
+  clear: both;
+}
+
+.chzn-container-single .chzn-single {
+  border: 1px solid $input-border-color;
+  border-radius: 3px;
+  height: 38px;
+  line-height: 38px;
+}
+
+.chzn-container-single .chzn-single div b {
+  background-position: 0 6px;
+}
+
+.chzn-container-active.chzn-with-drop .chzn-single div b {
+  background-position: -17px 7px;
+}

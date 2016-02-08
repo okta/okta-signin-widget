@@ -1,0 +1,34 @@
+// qtip //
+
+.qtip {
+  font-size: $font-size;
+}
+
+.qtip-new.qtip-custom .qtip-titlebar {
+  background-color: transparent;
+  border: 0;
+  font-weight: normal;
+}
+
+.security-image-qtip.qtip-custom {
+  font-size: $font-size-small;
+  line-height: 1.4;
+  padding: 8px 8px 5px;
+
+  canvas {
+    margin-top: 2px;
+  }
+
+  .qtip-icon {
+    background: transparent url('../img/icons/login/tooltip_close.png') no-repeat center;
+    border: none;
+    color: transparent;
+    right: 2px;
+    top: 4px;
+    text-decoration: none;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
+}

@@ -1,0 +1,1905 @@
+// Generated from okta-core sha: 900f683
+// Note: Do not modify this file directly.
+
+// TODO: Fix lint after icon styles have been refactored OKTA-59974
+// scss-lint:disable all
+
+@charset 'UTF-8';
+
+//----------------------------------------------------------//
+// General styling for all classes with the word icon in it //
+//----------------------------------------------------------//
+
+[class^='-16'],
+[class*='-16'] {
+
+  vertical-align: top;
+  position: relative;
+
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+[class^='-16']:before,
+[class*='-16']:before,
+[class^='-16']:after,
+[class*='-16']:after {
+
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: block;
+  font-family: 'okticon';
+
+  font-size: 16px;
+  font-smoothing: antialiased;
+  font-style: normal !important;
+  font-weight: 300 !important;
+  position: absolute;
+  speak: none;
+  text-indent: 0;
+  white-space: normal;
+}
+
+[class^='-13']:before,
+[class*='-13']:before,
+[class^='-13']:after,
+[class*='-13']:after,
+[class^='-14']:before,
+[class*='-14']:before,
+[class^='-14']:after,
+[class*='-14']:after{
+
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+
+  font-size: 14px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+
+[class^='-24'],
+[class*='-24'] {
+
+  vertical-align: top;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+[class^='-24']:before,
+[class*='-24']:before,
+[class^='-24']:after,
+[class*='-24']:after {
+
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+
+  font-size: 24px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+
+[class^='-48'],
+[class*='-48'] {
+
+  vertical-align: top;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+[class^='-48']:before,
+[class*='-48']:before,
+[class^='-48']:after,
+[class*='-48']:after {
+
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+
+  font-size: 48px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+
+
+
+
+[class^='-32'],
+[class*='-32'] {
+
+  vertical-align: top;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+[class^='-32']:before,
+[class*='-32']:before,
+[class^='-32']:after,
+[class*='-32']:after {
+
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+
+  font-size: 32px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+
+
+//----------------------------------------------------------//
+//                   Rotate and flip icons                  //
+//----------------------------------------------------------//
+
+@mixin icon-rotate90 {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+@mixin icon-rotate180 {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+@mixin icon-rotate270 {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+
+//----------------------------------------------------------//
+//                       Dismiss icon                       //
+//----------------------------------------------------------//
+
+.dismiss-icon {
+
+  display: block;
+  position: relative;
+  white-space: normal;
+  text-indent: 0;
+
+  font-size: 16px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+
+.admin-banner .dismiss-icon:before {
+  content: $cir-remove;
+  color: $icon-color-white;
+}
+
+.dismiss-icon:before {
+  content: $cir-remove;
+  color: $icon-color-light;
+}
+
+.dismiss-icon:hover:before {
+  content: $cir-remove;
+  color: $icon-color-dark;
+}
+
+#hide-getting-started.dismiss-icon {
+  float: none;
+  margin: 0;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+#hide-getting-started.dismiss-icon:hover {
+  text-decoration: none;
+}
+
+#getting-started-shortcut .dismiss-icon {
+  content: $cir-remove;
+  color: $icon-color-light-green;
+
+}
+#getting-started-shortcut .dismiss-icon:hover {
+  content: $cir-remove;
+  color: $icon-color-light;
+}
+
+#hide-getting-started-shortcut {
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+
+  text-decoration: none;
+  position: absolute;
+  right: 15px;
+  text-align: center;
+  font-size: 16px;
+}
+
+#hide-getting-started-shortcut:before {
+  content: $cir-remove;
+  color: $icon-color-light-green;
+}
+
+#hide-getting-started-shortcut:hover:before {
+  content: $cir-remove;
+  text-decoration: none;
+  color:#cfeb76;
+}
+
+// Okta Logo
+
+.oktamainlogo:before{
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+  vertical-align: top;
+  top: -7px;
+  font-size: 66px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+
+  content: $okta-logo;
+  color: $icon-color-white;
+
+}
+
+.oktaicon:before {
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+  vertical-align: top;
+  top: -10px;
+  font-size: 80px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+
+  content: $oktaicon-1;
+  color: $icon-color-info;
+}
+.oktaicon:after {
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+  vertical-align: top;
+  top: -10px;
+  font-size: 80px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+
+  content: $oktaicon-2;
+  color: #000000;
+}
+
+//----------------------------------------------------------//
+//                        16x16 icons                       //
+//----------------------------------------------------------//
+
+.person-add-16:before {
+  color: $icon-color-dark;
+  content: $user-add;
+}
+.person-add-16:after {
+  color: $icon-color-info;
+  content: $action-add;
+}
+.app-add-16:before {
+  color: $icon-color-dark;
+  content: $apps-add;
+}
+.app-add-16:after {
+  color: $icon-color-info;
+  content: $action-add;
+}
+.app-add-16-gray:before {
+  color: $icon-color-dark;
+  content: $apps-add;
+}
+.app-add-16-gray:after {
+  color: $icon-color-dark;
+  content: $action-add;
+}
+.app-refresh-16:before {
+  color: $icon-color-dark;
+  content: $apps-refresh;
+}
+.app-refresh-16:after {
+  color: $icon-color-info;
+  content: $action-refresh;
+}
+.app-remove-16:before {
+  color: $icon-color-dark;
+  content: $apps-remove;
+}
+.app-remove-16:after {
+  color: $icon-color-danger;
+  content: $action-remove;
+}
+.person-import-16:before {
+  color: $icon-color-dark;
+  content: $user-import;
+}
+.person-import-16:after {
+  color: $icon-color-dark;
+  content: $action-import;
+}
+.person-import-16-green:before {
+  color: $icon-color-dark;
+  content: $user-import;
+}
+.person-import-16-green:after {
+  color: $icon-color-green;
+  content: $action-import;
+}
+.admin-add-16:before {
+  color: $icon-color-dark;
+  content: $user-admin-add;
+}
+.admin-add-16:after {
+  color: $icon-color-info;
+  content: $action-add;
+}
+.logo-upload-16:before {
+  content: $image-upload;
+  color: $icon-color-dark;
+}
+.logo-upload-16:after {
+  content: $action-upload;
+  color: $icon-color-info;
+}
+.person-activate-16:before {
+  content: $user-activate;
+  color: $icon-color-dark;
+}
+.person-activate-16:after {
+  content: $action-activate;
+  color: $icon-color-info;
+}
+.person-suspend-16:before {
+  content: $user-suspend;
+  color: $icon-color-dark;
+}
+.person-suspend-16:after {
+  content: $action-pause;
+  color: $icon-color-info;
+}
+.person-unsuspend-16:before {
+  content: $user-unsuspend;
+  color: $icon-color-dark;
+}
+.person-unsuspend-16:after {
+  content: $action-play;
+  color: $icon-color-info;
+}
+.app-assign-16:before {
+  content: $apps-assign;
+  color: $icon-color-dark;
+}
+.app-assign-16:after {
+  content: $action-assign;
+  color: $icon-color-info;
+}
+.app-unassign-16:before {
+  content: $apps-unassign;
+  color: $icon-color-dark;
+}
+.app-unassign-16:after {
+  content: $action-unassign;
+  color: $icon-color-info;
+}
+.person-deactivate-16:before {
+  content: $user-remove;
+  color: $icon-color-dark;
+}
+.person-deactivate-16:after {
+  content: $action-remove;
+  color: $icon-color-info;
+}
+.arrow-left-16:before {
+  content: $arrow;
+  color: $icon-color-info;
+  @include icon-rotate180;
+}
+.arrow-left-16-gray:before {
+  content: $arrow;
+  color: $icon-color-dark;
+  @include icon-rotate180;
+}
+.arrow-right-16:before {
+  content: $arrow;
+  color: $icon-color-info;
+}
+.arrow-down-16:before {
+  content: $arrow;
+  color: $icon-color-info;
+  @include icon-rotate90;
+}
+.arrow-up-16:before {
+  content: $arrow;
+  color: $icon-color-info;
+  @include icon-rotate270;
+}
+.form-help-16:before {
+  content: $cir-help;
+  color: $icon-color-light;
+}
+.password-reset-16:before {
+  content: $reset-1;
+  color: $icon-color-dark;
+}
+.password-reset-16:after {
+  content: $reset-2;
+  color: $icon-color-info;
+}
+.support-16:before {
+  content: $support;
+  color: $icon-color-dark;
+}
+.status-16:before {
+  content: $status;
+  color: $icon-color-dark
+}
+.help-16:before {
+  content: $cir-help;
+  color: $icon-color-medium;
+}
+.help-14:before {
+  content: $cir-help;
+  color: $icon-color-warning;
+  font-size: 14px;
+}
+.help-13:before {
+  content: $cir-help;
+  color: $icon-color-light;
+  font-size: 14px;
+}
+.feedback-16:before {
+  content: $feedback;
+  color: $icon-color-dark;
+}
+.suggest-feature-16:before {
+  content: $lightbulb;
+  color: $icon-color-dark;
+}
+.light-bulb-16:before {
+  content: $lightbulb;
+  color: $icon-color-white;
+}
+.report-bug-16:before {
+  content: $bug;
+  color: $icon-color-dark;
+}
+.person-16-blue:before {
+  content: $user;
+  color: $icon-color-info;
+}
+.confirm-16:before {
+  content: $check-big;
+  color: $icon-color-dark;
+}
+.confirm-16-small:before {
+  content: $check-small;
+  color: $icon-color-dark;
+}
+.confirm-16-small-disabled:before {
+  content: $check-small;
+  color: $icon-color-light;
+}
+.confirm-16-disabled:before {
+  content: $check-big;
+  color: $icon-color-light;
+}
+.confirm-16-blue:before {
+  content: $check-big;
+  color: $icon-color-info;
+}
+.confirm-16-green:before {
+  content: $check-big;
+  color: $icon-color-green;
+}
+.visibility-16:before {
+  content: $visibility;
+  color: $icon-color-dark;
+}
+.person-16-gray:before {
+  content: $user;
+  color: $icon-color-dark;
+}
+.cancel-16:before {
+  content: $cross;
+  color: $icon-color-dark;
+}
+.cancel-16-small:before {
+  content: $cross;
+  color: $icon-color-dark;
+}
+.cancel-16-disabled:before {
+  content: $cross;
+  color: $icon-color-light;
+}
+.cancel-16-small-disabled:before {
+  content: $cross;
+  color: $icon-color-light;
+}
+.cancel-16-blue:before {
+  content: $cross;
+  color: $icon-color-info;
+}
+.cancel-16-light-gray:before {
+  content: $cross;
+  color: $icon-color-light;
+}
+.cancel-16-small-red:before {
+  content: $cross;
+  color: $icon-color-danger;
+}
+.checkbox-16:before {
+  content: $task-1;
+  color: $icon-color-dark;
+}
+.checkbox-16:before {
+  content: $task-2;
+  color: $icon-color-info;
+}
+.message-16:before {
+  content: $feedback;
+  color: $icon-color-dark;
+}
+.activate-on-green-16:before {
+  content: $activate;
+  color: $icon-color-green;
+}
+.deactivate-16:before {
+  content: $activate;
+  color: $icon-color-dark;
+}
+.deactivate-off-red-16:before {
+  content: $activate;
+  color: $icon-color-danger;
+}
+.delete-16:before {
+  content: $garbage;
+  color: $icon-color-danger;
+}
+.delete-16-gray:before {
+  content: $garbage;
+  color: $icon-color-dark;
+}
+.app-16-blue:before {
+  content: $apps;
+  color: $icon-color-info;
+}
+.edit-16:before {
+  content: $pencil;
+  color: $icon-color-dark;
+}
+.edit-16-disabled:before {
+  content: $pencil;
+  color: $icon-color-light;
+}
+.edit-16-blue:before {
+  content: $pencil;
+  color: $icon-color-info;
+}
+.edit-16-white:before {
+  content: $pencil;
+  color: $icon-color-white;
+}
+.credentials-16:before {
+  content: $key;
+  color: $icon-color-dark;
+}
+.launch-16:before {
+  content: $launch;
+  color: $icon-color-dark;
+}
+.app-16-gray:before {
+  content: $apps;
+  color: $icon-color-dark;
+}
+.prev-16:before {
+  content: $chevron-big;
+  color: $icon-color-dark;
+  @include icon-rotate180;
+}
+.prev-13:before {
+  content: $chevron-small;
+  color: $icon-color-dark;
+  @include icon-rotate180;
+}
+.next-16:before {
+  content: $chevron-big;
+  color: $icon-color-dark;
+}
+.next-13:before {
+  content: $chevron-small;
+  color: $icon-color-dark;
+  font-size: 16px;
+}
+.org-settings-16:before {
+  content: $settings-1;
+  color: $icon-color-dark;
+}
+.org-settings-16:after {
+  content: $settings-2;
+  color: $icon-color-dark;
+}
+.settings-white-16:before {
+  content: $settings-1;
+  color: $icon-color-white;
+}
+.settings-white-16:after {
+  content: $settings-2;
+  color: $icon-color-white;
+}
+.remove-16:before {
+  content: $cir-delete;
+  color: $icon-color-dark;
+}
+.remove-16-color:before {
+  content: $cir-delete;
+  color: $icon-color-danger;
+}
+.remove-16-disabled:before {
+  content: $cir-delete;
+  color: $icon-color-light;
+}
+.remove-16-red:before {
+  content: $cir-delete;
+  color: $icon-color-danger;
+}
+.clear-input-16:before {
+  content: $cross;
+  color: $icon-color-dark;
+}
+.reports-16:before {
+  content: $report-1;
+  color: $icon-color-dark;
+}
+.reports-16:after {
+  content: $report-2;
+  color: $icon-color-info;
+}
+.add-16:before {
+  content: $cir-add;
+  color: $icon-color-dark;
+}
+.add-16-color:before {
+  content: $cir-add;
+  color: $icon-color-green;
+}
+.add-16-disabled:before {
+  content: $cir-add;
+  color: $icon-color-light;
+}
+.add-16-white:before {
+  content: $cir-add;
+  color: $icon-color-white;
+}
+.add-16-thin:before {
+  content: $plus;
+  color: $icon-color-info;
+}
+.expand-l-16-gray:before {
+  content: $cir-expand;
+  color: $icon-color-dark;
+  @include icon-rotate180;
+}
+.expand-r-16-gray:before {
+  content: $cir-expand;
+  color: $icon-color-dark;
+}
+.collapse-16-gray:before {
+  content: $cir-expand;
+  color: $icon-color-dark;
+  @include icon-rotate90;
+}
+
+.icon-ios-16:before {
+  content: $ios;
+  color: $icon-color-dark
+}
+
+.icon-android-16:before {
+  content: $android;
+  color: $icon-color-android
+}
+
+.icon-windows-16:before {
+  content: $windows;
+  color: $icon-color-windows
+}
+.icon-osx-16:before {
+  content: $osx;
+  color: $icon-color-dark
+}
+
+.expand-l-gray .icon:before {
+  content: $cir-expand;
+  color: $icon-color-light;
+  @include icon-rotate180;
+
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+
+  font-size: 16px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+.expand-r-gray .icon:before {
+  content: $cir-expand;
+  color: $icon-color-light;
+
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+
+  font-size: 16px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+.collapse-gray .icon:before {
+  content: $cir-expand;
+  color: $icon-color-light;
+  @include icon-rotate90;
+
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+
+  font-size: 16px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+.collapse-16-up-gray:before {
+  content: $cir-expand;
+  color: $icon-color-dark;
+  @include icon-rotate270;
+}
+.expand-l-16-blue:before {
+  content: $cir-expand;
+  color: $icon-color-info;
+  @include icon-rotate180;
+}
+.expand-r-16-blue:before {
+  content: $cir-expand;
+  color: $icon-color-info;
+}
+.collapse-16-blue:before {
+  content: $cir-expand;
+  color: $icon-color-info;
+  @include icon-rotate90;
+}
+.info-16:before {
+  content: $cir-info;
+  color: $icon-color-white;
+}
+.info-16-white:before {
+  content: $cir-info;
+  color: $icon-color-white;
+}
+.info-16-gray:before {
+  content: $cir-info;
+  color: $icon-color-dark;
+}
+.warning-16:before {
+  content: $warning;
+  color: $icon-color-white;
+}
+.warning-16-yellow:before {
+  content: $warning;
+  color: $icon-color-warning;
+}
+.error-16:before {
+  content: $cir-error;
+  color: $icon-color-white;
+}
+.error-16-small:before {
+  content: $cir-error;
+  color: $icon-color-danger;
+}
+.error-16-red:before {
+  content: $cir-error;
+  color: $icon-color-danger;
+}
+.success-16:before {
+  content: $cir-success;
+  color: $icon-color-white;
+}
+.success-16-green:before {
+  content: $cir-success;
+  color: $icon-color-green;
+}
+.directory-add-16:before {
+  content: $directory-add;
+  color: $icon-color-dark;
+}
+.directory-add-16:after {
+  content: $action-add;
+  color: $icon-color-info;
+}
+.directory-remove-16:before {
+  content: $directory-remove;
+  color: $icon-color-dark;
+}
+.directory-remove-16:after {
+  content: $action-remove;
+  color: $icon-color-info;
+}
+.directory-16:before {
+  content: $directory;
+  color: $icon-color-dark;
+}
+.directory-16-light-gray:before {
+  content: $directory;
+  color: $icon-color-light;
+}
+.token-add-16:before {
+  content: $token;
+  color: $icon-color-dark;
+}
+.token-add-16:after {
+  content: $action-add;
+  color: $icon-color-info;
+}
+.user-provisioning-16:before {
+  content: $user-push;
+  color: $icon-color-light;
+}
+.user-provisioning-16:after {
+  content: $action-push;
+  color: $icon-color-light;
+}
+.user-provisioning-16-green:before,
+.user-provisioning-16.active:before {
+  content: $user-push;
+  color: $icon-color-dark;
+}
+.user-provisioning-16-green:after,
+.user-provisioning-16.active:after {
+  content: $action-push;
+  color: $icon-color-green;
+}
+.user-deprovisioning-16:before {
+  content: $user-deprovision;
+  color: $icon-color-dark;
+}
+.user-deprovisioning-16:after {
+  content: $action-deprovision;
+  color: $icon-color-info;  
+}
+.import-users-16:before {
+  content: $user-import;
+  color: $icon-color-light;
+}
+.import-users-16:after {
+  content: $action-import;
+  color: $icon-color-light;
+}
+.import-users-16-green:before,
+.import-users-16-green.active:before {
+  content: $user-import;
+  color: $icon-color-dark;
+}
+.import-users-16-green:after,
+.import-users-16-green.active:after {
+  content: $action-import;
+  color: $icon-color-green;
+}
+.password-sync-16:before {
+  content: $reset-1;
+  color: $icon-color-light;
+}
+.password-sync-16:after {
+  content: $reset-2;
+  color: $icon-color-light;
+}
+.password-sync-16-green:before,
+.password-sync-16-green.active:before {
+  content: $reset-1;
+  color: $icon-color-dark;
+}
+.password-sync-16-green:after,
+.password-sync-16-green.active:after {
+  content: $reset-2;
+  color: $icon-color-green;
+}
+.user-deactivation-16:before {
+  content: $user-activate;
+  color: $icon-color-light;
+}
+.user-deactivation-16:after {
+  content: $action-activate;
+  color: $icon-color-light;
+}
+.user-deactivation-16-green:before,
+.user-deactivation-16-green.active:before {
+  content: $user-activate;
+  color: $icon-color-dark;
+}
+.user-deactivation-16-green:after,
+.user-deactivation-16-green.active:after {
+  content: $action-activate;
+  color: $icon-color-green;
+}
+.swa-16:before {
+  content: $lockkey;
+  color: $icon-color-light;
+}
+.swa-16:after {
+  content: $action-assign;
+  color: $icon-color-light;
+}
+.swa-16-green:before,
+.swa-16-green.active:before {
+  content: $lockkey;
+  color: $icon-color-dark;
+}
+.swa-16-green:after,
+.swa-16-green.active:after {
+  content: $action-assign;
+  color: $icon-color-green;
+}
+.advanced-sso-16:before {
+  content: $handshake-1;
+  color: $icon-color-light;
+}
+.advanced-sso-16:after {
+  content: $handshake-2;
+  color: $icon-color-light;
+}
+.advanced-sso-16-green:before,
+.advanced-sso-16-green.active:before {
+  content: $handshake-1;
+  color: $icon-color-green;
+}
+.advanced-sso-16-green:after,
+.advanced-sso-16-green.active:after {
+  content: $handshake-2;
+  color: $icon-color-dark;
+}
+.advanced-sso-16-blue:before {
+  content: $handshake-1;
+  color: $icon-color-info;
+}
+.advanced-sso-16-blue:after {
+  content: $handshake-2;
+  color: $icon-color-dark;
+}
+.bookmark-16:before {
+  content: $bookmark;
+  color: $icon-color-light;
+}
+.bookmark-16-green:before,
+.bookmark-16-green.active:before {
+  content: $bookmark;
+  color: $icon-color-green;
+}
+.run-16:before {
+  content: $cir-run;
+  color: $icon-color-info;
+}
+.run-16-gray:before {
+  content: $cir-run;
+  color: $icon-color-dark;
+}
+.run-16-white:before {
+  content: $cir-run;
+  color: $icon-color-white;
+}
+.download-16:before {
+  content: $download;
+  color: $icon-color-info;
+}
+.group-16:before {
+  content: $group;
+  color: $icon-color-dark;
+}
+.group-add-16:before {
+  content: $group-add;
+  color: $icon-color-dark;
+}
+.group-add-16:after {
+  content: $action-add;
+  color: $icon-color-info;
+}
+.group-remove-16:before {
+  content: $group-delete;
+  color: $icon-color-dark;
+}
+.group-remove-16:after {
+  content: $action-unassign;
+  color: $icon-color-info;
+}
+.group-member-add-16:before {
+  content: $user-add;
+  color: $icon-color-dark;
+}
+.group-member-add-16:after {
+  content: $action-add;
+  color: $icon-color-info;
+}
+.group-member-remove-16:before {
+  content: $user-remove;
+  color: $icon-color-dark;
+}
+.group-member-remove-16:after {
+  content: $action-remove;
+  color: $icon-color-info;
+}
+.config-16:before {
+  content: $wrench;
+  color: $icon-color-dark;
+}
+.group-override-16:before {
+  content: $group-override;
+  color: $icon-color-dark;
+}
+.group-override-16:after {
+  content: $action-override;
+  color: $icon-color-info;
+}
+.search-add-16:before {
+  content: $cir-add;
+  color: $icon-color-light;
+}
+.search-green-add-16:before {
+  content: $cir-add;
+  color: $icon-color-green;
+}
+.magnifying-glass-16:before {
+  content: $search;
+  color: $icon-color-light;
+}
+.location-16:before {
+  content: $location;
+  color: $icon-color-dark;
+}
+.time-16:before {
+  content: $cir-time;
+  color: $icon-color-dark;
+}
+.time-alt-16:before {
+  content: $cir-time-alt;
+  color: $icon-color-light;
+}
+.calendar-16:before {
+  content: $calendar;
+  color: $icon-color-light;
+}
+.people-16:before {
+  content: $group;
+  color: $icon-color-dark;
+}
+.conversation-16:before {
+  content: $conversation;
+  color: $icon-color-dark;
+}
+.conversation-16-white:before {
+  content: $conversation;
+  color: $icon-color-white;
+}
+.megaphone-16:before {
+  content: $megaphone;
+  color: $icon-color-dark;
+}
+.active-sync-16:before {
+  content: $group-push;
+  color: $icon-color-dark;
+}
+.active-sync-16:after {
+  content: $action-push;
+  color: $icon-color-green;
+}
+.active-sync-16-reverse:before {
+  content: $group-push;
+  color: $icon-color-white;
+}
+.active-sync-16-reverse:after {
+  content: $action-push;
+  color: $icon-color-green;
+}
+.inactive-sync-16:before {
+  content: $group-push;
+  color: $icon-color-light;
+}
+.inactive-sync-16:after {
+  content: $action-push;
+  color: $icon-color-light;
+}
+.error-sync-16:before {
+  content: $group-push;
+  color: $icon-color-dark;
+}
+.error-sync-16:after {
+  content: $action-push;
+  color: $icon-color-danger;
+}
+.tasks-16-pending:before {
+  content: $task-1;
+  color: $icon-color-dark;
+}
+.tasks-16-pending:after {
+  content: $task-2;
+  color: $icon-color-warning;
+}
+.password-reset-16-red:before {
+  content: $reset-1;
+  color: $icon-color-dark;
+}
+.password-reset-16-red:after {
+  content: $reset-2;
+  color: $icon-color-danger;
+}
+.person-activate-16-yellow:before {
+  content: $user-activate;
+  color: $icon-color-dark;
+}
+.person-activate-16-yellow:after {
+  content: $action-activate;
+  color: $icon-color-warning;
+}
+.person-import-16-yellow:before {
+  content: $user-import;
+  color: $icon-color-dark;
+}
+.person-import-16-yellow:after {
+  content: $action-import;
+  color: $icon-color-warning;
+}
+.apps-16-red:before {
+  content: $apps;
+  color: $icon-color-danger;
+}
+.code-brackets-16:before {
+  content: $code;
+  color: $icon-color-dark;
+}
+.refresh-16:before {
+  content: $refresh;
+  color: $icon-color-dark;
+}
+.refresh-16-blue:before {
+  content: $refresh;
+  color: $icon-color-info;
+}
+.refresh-16-white:before {
+  content: $refresh;
+  color: $icon-color-white;
+}
+.back-16:before {
+  content: $arrow;
+  color: $icon-color-white;
+  @include icon-rotate180;
+}
+.filter-16:before {
+  content: $filter;
+  color: $icon-color-dark;
+}
+.filter-16-reverse:before {
+  content: $filter;
+  color: $icon-color-white;
+}
+.clone-16:before {
+  content: $clone-1;
+  color: $icon-color-dark;
+}
+.clone-16:after {
+  content: $clone-2;
+  color: $icon-color-info;
+}
+.duo-push-16:before {
+  content: $cir-success;
+  color: $icon-color-dark;
+}
+.okta-push-16:before {
+  content: $cir-success;
+  color: $icon-color-dark;
+}
+.duo-sms-16:before {
+  content: $sms;
+  color: $icon-color-dark;
+}
+.duo-call-16:before {
+  content: $voicecall;
+  color: $icon-color-dark;
+}
+.factory-reset-16:before {
+  content: $factory-reset;
+  color: $icon-color-dark;
+}
+.no-16:before {
+  content: $no;
+  color: $icon-color-dark;
+}
+.expression-16:before {
+  content: $cir-expression;
+  color: $icon-color-info;
+}
+.omm-enrolling-16:before {
+  content: $cir-enroll;
+  color: $icon-color-green;
+}
+.remote-lock-16:before{
+  content: $lock;
+  color: $icon-color-dark;
+}
+.asterisk-16:before {
+  content: $asterisk;
+  color: $icon-color-info;
+  font-size: 12px;
+}
+.asterisk-16-white:before {
+  content: $asterisk;
+  color: $icon-color-white;
+}
+.configure-16:before {
+  content: $configure;
+  color: $icon-color-dark;
+}
+
+.instructions-16:before {
+  content: $cir-instructions;
+  color: $icon-color-white;
+}
+.tombstone-16:before {
+  content: $tombstone;
+  color: $icon-color-dark;
+}
+
+.send-16:before {
+  content: $paper-plane;
+  color: $icon-color-dark;
+}
+
+.add:before {
+  content: $cir-add;
+  color: $icon-color-green;
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+  font-size: 16px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+.success-icon:before {
+  content: $cir-success;
+  color: $icon-color-green;
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+  font-size: 16px;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+
+//----------------------------------------------------------//
+//                       24x24 icons                        //
+//----------------------------------------------------------//
+
+.person-add-24:before {
+  content: $user-add;
+  color: $icon-color-dark;
+}
+.person-add-24:after {
+  content: $action-add;
+  color: $icon-color-info;
+}
+.app-add-24:before {
+  content: $apps-add;
+  color: $icon-color-dark;
+}
+.app-add-24:after {
+  content: $action-add;
+  color: $icon-color-info;
+}
+.app-add-24-gray:before {
+  content: $apps-add;
+  color: $icon-color-dark;
+}
+.app-add-24-gray:after {
+  content: $action-add;
+  color: $icon-color-dark;
+}
+.app-refresh-24:before {
+  content: $apps-refresh;
+  color: $icon-color-dark;
+}
+.app-refresh-24:after {
+  content: $action-refresh;
+  color: $icon-color-info;
+}
+.person-import-24:before {
+  content: $user-import;
+  color: $icon-color-dark;
+}
+.person-import-24:after {
+  content: $action-import;
+  color: $icon-color-info;
+}
+.person-import-24-yellow:before {
+  content: $user-import;
+  color: $icon-color-dark;
+}
+.person-import-24-yellow:after {
+  content: $action-import;
+  color: $icon-color-warning;
+}
+.admin-add-24:before {
+  content: $user-admin-add;
+  color: $icon-color-dark;
+}
+.admin-add-24:after {
+  content: $action-add;
+  color: $icon-color-info;
+}
+.logo-upload-24:before {
+  content: $image-upload;
+  color: $icon-color-dark;
+}
+.logo-upload-24:after {
+  content: $action-upload;
+  color: $icon-color-info;
+}
+.person-activate-24:before {
+  content: $user-activate;
+  color: $icon-color-dark;
+}
+.person-activate-24:after {
+  content: $action-activate;
+  color: $icon-color-info;
+}
+.person-activate-24-yellow:before {
+  content: $user-activate;
+  color: $icon-color-dark;
+}
+.person-activate-24-yellow:after {
+  content: $action-activate;
+  color: $icon-color-warning;
+}
+.person-edit-24:before {
+  content: $user-edit;
+  color: $icon-color-dark;
+}
+.person-edit-24:after {
+  content: $action-edit;
+  color: $icon-color-info;
+}
+.app-assign-24:before {
+  content: $apps-assign;
+  color: $icon-color-dark;
+}
+.app-assign-24:after {
+  content: $action-assign;
+  color: $icon-color-info;
+}
+.apps-24:before {
+  content: $apps;
+  color: $icon-color-dark;
+}
+.apps-24-green:before {
+  content: $apps;
+  color: $icon-color-green;
+}
+.apps-24-red:before {
+  content: $apps;
+  color: $icon-color-danger;
+}
+.app-unassign-24:before {
+  content: $apps-unassign;
+  color: $icon-color-dark;
+}
+.app-unassign-24:after {
+  content: $action-unassign;
+  color: $icon-color-info;
+}
+.app-unassign-24-yellow:before {
+  content: $apps-unassign;
+  color: $icon-color-dark;
+}
+.app-unassign-24-yellow:after {
+  content: $action-unassign;
+  color: $icon-color-warning;
+}
+.person-deactivate-24:before {
+  content: $user-remove;
+  color: $icon-color-dark;
+}
+.person-deactivate-24:after {
+  content: $action-remove;
+  color: $icon-color-info;
+}
+.password-reset-24:before {
+  content: $reset-1;
+  color: $icon-color-dark;
+}
+.password-reset-24:after {
+  content: $reset-2;
+  color: $icon-color-info;
+}
+.password-reset-24-red:before {
+  content: $reset-1;
+  color: $icon-color-dark;
+}
+.password-reset-24-red:after {
+  content: $reset-2;
+  color: $icon-color-danger;
+}
+.feedback-24:before {
+  content: $feedback;
+  color: $icon-color-dark;
+}
+.person-24:before {
+  content: $user;
+  color: $icon-color-dark;
+}
+.person-24-green:before {
+  content: $user;
+  color: $icon-color-green;
+}
+.person-24-red:before {
+  content: $user;
+  color: $icon-color-danger;
+}
+.people-24:before {
+  content: $group;
+  color: $icon-color-dark;
+}
+.instructions-24:before {
+  content: $cir-instructions;
+  color: $icon-color-white;
+}
+.plugin-required-24:before {
+  content: $cir-plugin;
+  color: $icon-color-dark;
+}
+.info-24:before {
+  content: $cir-info;
+  color: $icon-color-white;
+}
+.warning-24:before {
+  content: $warning;
+  color: $icon-color-white;
+}
+.warning-24-yellow:before {
+  content: $warning;
+  color: $icon-color-warning;
+}
+.error-24:before {
+  content: $cir-error;
+  color: $icon-color-white;
+}
+.success-24:before {
+  content: $cir-success;
+  color: $icon-color-white;
+}
+.directory-add-24:before {
+  content: $directory-add;
+  color: $icon-color-dark;
+}
+.directory-add-24:after {
+  content: $action-add;
+  color: $icon-color-info;
+}
+.directory-remove-24:before {
+  content: $directory-remove;
+  color: $icon-color-dark;
+}
+.directory-remove-24:after {
+  content: $action-remove;
+  color: $icon-color-info;
+}
+.directory-24:before {
+  content: $directory;
+  color: $icon-color-dark;
+}
+.directory-24-green:before {
+  content: $directory;
+  color: $icon-color-green;
+}
+.directory-24-red:before {
+  content: $directory;
+  color: $icon-color-danger;
+}
+.preview-24:before {
+  content: $visibility;
+  color: $icon-color-danger;
+}
+.token-add-24:before {
+  content: $token;
+  color: $icon-color-dark;
+}
+.token-add-24:after {
+  content: $action-assign;
+  color: $icon-color-info;
+}
+.group-24:before {
+  content: $group;
+  color: $icon-color-dark;
+}
+.group-add-24:before {
+  content: $group-add;
+  color: $icon-color-dark;
+}
+.group-add-24:after {
+  content: $action-add;
+  color: $icon-color-info;
+}
+.settings-24:before {
+  content: $settings-1;
+  color: $icon-color-dark;
+}
+.settings-24:after {
+  content: $settings-2;
+  color: $icon-color-dark;
+}
+.reports-24:before {
+  content: $report-1;
+  color: $icon-color-dark;
+}
+.reports-24:after {
+  content: $report-2;
+  color: $icon-color-info;
+}
+.security-24:before {
+  content: $lock;
+  color: $icon-color-dark;
+}
+.dashboard-24:before {
+  content: $dashboard-1;
+  color: $icon-color-dark;
+}
+.dashboard-24:after {
+  content: $dashboard-2;
+  color: $icon-color-info;
+}
+.tasks-notepad-24:before {
+  content: $notepadtask-1;
+  color: $icon-color-dark;
+}
+.tasks-notepad-24:after {
+  content: $notepadtask-2;
+  color: $icon-color-info;
+}
+.profile-sync-24:before {
+  content: $profile-edit;
+  color: $icon-color-dark;
+}
+.profile-sync-24:after {
+  content: $action-edit;
+  color: $icon-color-info;
+}
+.light-bulb-24:before {
+  content: $lightbulb;
+  color: $icon-color-white;
+}
+.warning-important-24:before {
+  content: $warning;
+  color: $icon-color-white;
+}
+.download-24:before {
+  content: $download;
+  color: $icon-color-dark;
+}
+.icon-devices-24:before {
+  content: $devices;
+  color: $icon-color-dark
+}
+
+
+//----------------------------------------------------------//
+//                       32x32 icons                        //
+//----------------------------------------------------------//
+
+.icon-laptop-32:before {
+  content: $laptop;
+  color: $icon-color-dark
+}
+
+.icon-iphone-32:before {
+  content: $iphone;
+  color: $icon-color-dark
+}
+
+.icon-ipad-32:before {
+  content: $ipad;
+  color: $icon-color-dark
+}
+
+.icon-ipod-touch-32:before {
+  content: $iphone;
+  color: $icon-color-dark
+}
+
+.icon-unknown-32:before {
+  content: $iphone;
+  color: $icon-color-dark
+}
+
+.icon-android-phone-32:before {
+  content: $android-phone;
+  color: $icon-color-dark
+}
+
+.icon-android-tab-32:before {
+  content: $android-tab;
+  color: $icon-color-dark
+}
+
+
+//----------------------------------------------------------//
+//                       48x48 icons                        //
+//----------------------------------------------------------//
+
+.teach-48:before {
+  content: $teach;
+  color: $icon-color-white;
+}
+
+/*
+//----------------------------------------------------------//
+//                      Misc Icons                          //
+//----------------------------------------------------------//
+
+
+.option-selected-text {
+  vertical-align: top !important;
+}
+
+.icon-dm:before {
+  content: $dropdown;
+  color: $ico-color-medium;
+  font-size: 16px;
+  white-space: normal;
+  text-indent: 0;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+
+.icon-dm-white:before {
+  content: $dropdown;
+  color: $ico-color-white;
+  font-size: 16px;
+  white-space: normal;
+  text-indent: 0;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+*/
+
+
+
+#universal-directory-profiles .data-list-empty-img {
+  background-image: none;
+  top: 0;
+  left: 0;
+  position: relative;
+  margin-left: 0;
+}
+
+#universal-directory-profiles .data-list-empty-img:before {
+  content: $profile-edit;
+  color: $icon-color-light;
+  font-size: 100px;
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  margin-left: 345px;
+  top: -95px;
+}
+
+#universal-directory-profiles .data-list-empty-img:after {
+  content: $action-edit;
+  color: $icon-color-light;
+  font-size: 100px;
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  margin-left: 345px;
+  top: -98px;
+}
+
+
+//----------------------------------------------------------//
+//                   Agent Light Icons                      //
+//----------------------------------------------------------//
+
+[class^='-light']:before,
+[class*='-light']:before,
+[class^='-light']:after,
+[class*='-light']:after {
+  font-size: 14px;
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+
+.green-light:before {
+  content: $circle;
+  color: $icon-color-green;
+}
+.yellow-light:before {
+  content: $circle;
+  color: $icon-color-warning;
+}
+.red-light:before {
+  content: $circle;
+  color: $icon-color-danger;
+}
+.gray-light:before {
+  content: $circle;
+  color: $icon-color-light;
+  font-size: 14px;
+  display: block;
+  position: absolute;
+  white-space: normal;
+  text-indent: 0;
+  font-family: 'okticon';
+  font-weight: 300 !important;
+  font-style: normal !important;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+}
+.legend-light:before {
+  color: #f9f9f9;
+  content: $circle;
+}
+.legend-light:after {
+  color: $icon-color-dark;
+  content: $circle-border;
+}
+
+//----------------------------------------------------------//
+//               Link buttons + only icons                  //
+//----------------------------------------------------------//
+
+.link-button.button-error .icon.info-16-gray:before {
+  color: $icon-color-white;
+}
+
+.link-button.button-primary .icon.active-sync-16:before {
+  color: $icon-color-white;
+}
+
+.link-button.button-primary .icon.active-sync-16:after {
+  color: $icon-color-white;
+}
+
+.single-click-edit-controls .icon.cancel-16-small:before {
+  font-size: 12px;
+  left: 2px;
+}
+
+//----------------------------------------------------------//
+//                    Size overrides                      //
+//----------------------------------------------------------//
+
+.search-box .clear-input-16:before {
+  font-size: 12px;
+}

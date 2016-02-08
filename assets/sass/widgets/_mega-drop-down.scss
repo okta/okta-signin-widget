@@ -1,0 +1,218 @@
+
+.dropdown {
+    background: #fff;
+    border-radius: 4px;
+}
+.dropdown .options {
+    position: relative;
+}
+.dropdown .option-selected {
+    display: block;
+    cursor: pointer;
+    padding: 5px;
+    position: relative;
+}
+.dropdown .option-selected:hover {
+    cursor: pointer;
+}
+.dropdown .option-selected span.more-options {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 4px;
+    height: 30px;
+    width: 30px;
+}
+.dropdown .option-selected:hover span.more-options {
+    display: block;
+}
+.dropdown .options {
+    display: none;
+}
+.dropdown .options-wrap {
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    z-index: 4;
+    background: #fff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #bbb;
+    width: 417px;
+    box-shadow: 0 2px 0 rgba(160, 160, 160, 0.2);
+}
+.dropdown .options li.option {
+    padding: 5px;
+    display: block;
+    border-bottom: 1px solid #eaeaea;
+    background: #fff;
+    position: relative;
+}
+.dropdown .options li.option:last-child {
+    border-bottom: none;
+}
+.dropdown .options li.error {
+	padding: 10px 5px 10px 25px;
+	background: url('../img/icons/16x16/error-01.png') 5px 8px no-repeat !important;
+	background-color: #fff2f2 !important;
+}
+.dropdown .options li.error:hover {
+    background-color: #fce5e6 !important;
+    cursor: pointer;
+}
+.dropdown .options li.option:hover {
+    background: #f9f9f9;
+    cursor: pointer;
+}
+
+/**
+ *  More actions variant
+ */
+ .dropdown.more-actions .option-selected {
+    float: none !important;
+    position: relative;
+    padding: 0 22px 0 8px !important;
+    overflow: hidden;
+    color: #333;
+    white-space: nowrap;
+ }
+ .page-links .dropdown.more-actions .option-selected {
+    margin: 0 !important;
+ }
+ .dropdown.more-actions .option-selected span.icon-dm {
+    position: absolute;
+    height: 6px;
+    width: 9px;
+    margin: 0;
+    top: 12px;
+    right: 6px;
+}
+
+.dropdown.more-actions .button-primary.option-selected span.icon-dm {
+    background: url('../img/ui/indicators/drop-menu-s-white.png') no-repeat scroll 0 0 transparent;
+}
+.dropdown.more-actions .options-wrap {
+    border-style: solid;
+    width: 200px;
+    left: -100px;
+    margin: 0;
+}
+
+#add-idp-dropdown.more-actions .options-wrap {
+    left: 0;
+}
+
+#idp-container .btnCol .dropdown.more-actions .options-wrap {
+    left: -95px;
+}
+
+.dropdown.more-actions .options {
+    position: absolute;
+    z-index: 5;
+}
+.dropdown.more-actions .options .option {
+    padding: 0;
+}
+.dropdown.more-actions .option a {
+    color: #5e5e5e;
+    font-size: 13px;
+    padding: 10px 5px 10px 30px;
+    display: block;
+    line-height: 16px;
+}
+.dropdown.more-actions .option a:hover {
+    text-decoration: none;
+}
+.dropdown.more-actions .option a .icon {
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    top: 9px;
+    left: 8px;
+}
+
+/* Editable drop down variant (Drop down control associated with a button) */
+.dropdown-edit {
+    background: transparent;
+}
+.dropdown-edit .option-selected {
+    width: 300px;
+    margin: 0;
+    border-radius: 4px 0 0 4px;
+    border-right: none;
+}
+#customize-user-account-dropdown .option-selected.dropdown-disabled,
+#customize-user-account-dropdown .option-selected.dropdown-disabled:hover {
+    background: transparent !important;
+    box-shadow: none;
+    cursor: default;
+    opacity: 0.5;
+    border-color: #BBBBBB #BBBBBB #B1B1B1;
+}
+.dropdown-edit .option-selected.dropdown-disabled .dropdown-selected-text {
+    color: #888;
+}
+
+.dropdown-edit .option-selected.dropdown-disabled .icon-dm {
+    opacity: 0.4;
+    filter: Alpha(Opacity=40);
+}
+
+.dropdown-edit .option-selected.dropdown-disabled span:hover {
+    cursor: default;
+}
+
+.dropdown-edit .option-selected.dropdown-disabled:hover,
+.dropdown-edit .option-selected.dropdown-disabled:active {
+    background: url('../img/ui/button/okta-buttons-sprite-001.png') repeat-x scroll 0 0 #EAEAEA !important;
+}
+
+.dropdown.dropdown-edit .options-wrap {
+    left: 0;
+    width: 330px;
+}
+
+.dropdown.dropdown-edit .option .option-link {
+    padding: 6px 8px;
+}
+
+.dropdown-edit-button {
+    width: 55px;
+    margin: 0 !important;
+    border-radius: 0 4px 4px 0;
+    border-left-color: #bbb !important;
+}
+
+/* Dropdown option content */
+
+.option-subtitle {
+    color: #a7a7a7;
+    font-weight: normal;
+}
+
+p.option-subtitle {
+    margin-top: 3px;
+}
+
+/* Overrides */
+#more-actions-dropdown.more-actions .options-wrap {
+    left: -142px;
+}
+
+#people-more-actions-dropdown.more-actions .options-wrap {
+    left: 10px;
+}
+
+#import-people-dropdown.more-actions .options-wrap {
+    left: -150px;
+    width: 280px;
+}
+#add-directory-dropdown.more-actions .options-wrap {
+    left: 0;
+    width: 240px;
+}
+#download-agent-dropdown.more-actions .options-wrap {
+    left: 0;
+}

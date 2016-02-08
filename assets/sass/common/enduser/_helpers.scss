@@ -1,0 +1,117 @@
+// Generated from okta-core sha: 900f683
+// Note: Do not modify this file directly.
+
+// ======= Mixins =======
+
+@mixin dropdown-env($bg-color: $white) {
+  @include border-rgba($black, 0.2);
+  @include box-shadow(rgba($black, 0.2) 0 1px 3px);
+  @include border-radius;
+  background-color: $bg-color;
+  background-clip: padding-box;
+}
+
+@mixin disabled-readonly-text-input {
+  background: darken($modal-bg-color, 2%);
+  color: $medium-text-color;
+  @include border-radius;
+  @include box-shadow(rgba($black, 0.1) 0 1px 1px 0 inset);
+}
+
+@mixin hide-overflow-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-bottom: 0.0625em;
+}
+
+@mixin env-styles {
+  // scss-lint:disable ImportantRule
+  @include border-rgba($black, 0.19);
+  @include box-shadow(rgba($black, 0.1) 0 0 1px);
+  background-clip: padding-box !important;
+}
+
+@mixin active-tab-styles($active-nav-item-color) {
+  border-bottom: 4px solid $active-nav-item-color;
+  box-shadow: 0 1px 0 $active-nav-item-color;
+}
+
+@mixin active-tab-styles-inner($active-nav-item-color) {
+  color: $dark-text-color;
+  text-decoration: none;
+}
+
+@mixin placeholder-text($text-color: $light-text-color, $opacity: 1) {
+  @include input-placeholder {
+    color: $text-color;
+    opacity: $opacity;
+  }
+}
+
+@mixin mq($size) {
+  @if $size == x-small {
+    @media only screen and (max-width: $x-small) {
+      @content;
+    }
+  } @else if $size == small {
+    @media only screen and (max-width: $small) {
+      @content;
+    }
+  } @else if $size == medium {
+    @media only screen and (max-width: $medium) {
+      @content;
+    }
+  } @else if $size == large {
+    @media only screen and (max-width: $large) {
+      @content;
+    }
+  } @else if $size == x-large {
+    @media only screen and (max-width: $x-large) {
+      @content;
+    }
+  }
+}
+
+@mixin device-mq($size) {
+  @if $size == x-small {
+    @media only screen and (max-device-width: $x-small) {
+      @content;
+    }
+  } @else if $size == small {
+    @media only screen and (max-device-width: $small) {
+      @content;
+    }
+  }
+}
+// ======= Functions =======
+
+@function compute-color-brightness($color) {
+  @return ((red($color) * 299) + (green($color) * 587) + (blue($color) * 114)) / 1000;
+}
+
+// ======= Classes (Classes should rarely be added) =======
+
+.float-r {
+  // scss-lint:disable ImportantRule
+  float: right !important;
+}
+
+.clearfix {
+  // height: 1%; // For Opera   DO WE NEED THIS DECLARATION?
+  display: block;
+
+  &:before,
+  &:after {
+    display: block;
+    height: 0;
+    clear: both;
+    content: '.';
+    visibility: hidden;
+  }
+}
+
+.hide {
+  display: none;
+}
+

@@ -1,0 +1,174 @@
+// Generated from okta-core sha: 900f683
+// Note: Do not modify this file directly.
+
+// logos
+$okta-logo:                 unicode('e06e');
+$oktaicon-1:                unicode('e06c');
+$oktaicon-2:                unicode('e06d');
+
+
+// actions
+$action-add:                unicode('e001');
+$action-unassign:           unicode('e00a');
+$action-remove:             unicode('e009');
+$action-activate:           unicode('e000');
+$action-override:           unicode('e006');
+$action-deprovision:        unicode('e003');
+$action-assign:             unicode('e002');
+$action-import:             unicode('e005');
+$action-refresh:            unicode('e008');
+$action-push:               unicode('e007');
+$action-upload:             unicode('e00b');
+$action-edit:               unicode('e004');
+$action-pause:              unicode('e091');
+$action-play:               unicode('e092');
+
+// app icons
+$apps:                      unicode('e042');
+$apps-add:                  unicode('e043');
+$apps-remove:               unicode('e044');
+$apps-unassign:             unicode('e045');
+$apps-assign:               unicode('e046');
+$apps-refresh:              unicode('e047');
+
+// directory icons
+$directory:                 unicode('e028');
+$directory-add:             unicode('e027');
+$directory-remove:          unicode('e029');
+
+
+// user icons
+$user:                      unicode('e00c');
+$user-add:                  unicode('e00d');
+$user-activate:             unicode('e00f');
+$user-delete:               unicode('e014');
+$user-deprovision:          unicode('e013');
+$user-remove:               unicode('e00e');
+$user-import:               unicode('e010');
+$user-push:                 unicode('e011');
+$user-edit:                 unicode('e066');
+$user-admin-add:            unicode('e012');
+$user-suspend:              unicode('e093');
+$user-unsuspend:            unicode('e095');
+
+// group icons
+$group:                     unicode('e019');
+$group-add:                 unicode('e01a');
+$group-delete:              unicode('e01d');
+$group-push:                unicode('e01c');
+$group-remove:              unicode('e01b');
+$group-override:            unicode('e01e');
+
+// image icons
+$image-upload:              unicode('e016');
+
+// lock icons
+$lockkey:                   unicode('e03d');
+
+// profile icon
+$profile-edit:              unicode('e067');
+
+// circle style icons
+$cir-add:                   unicode('e050');
+$cir-delete:                unicode('e052');
+$cir-remove:                unicode('e04f');
+$cir-success:               unicode('e051');
+$cir-error:                 unicode('e055');
+$cir-help:                  unicode('e054');
+$cir-info:                  unicode('e053');
+$cir-time:                  unicode('e057');
+$cir-time-alt:              unicode('e082');
+$cir-expand:                unicode('e056');
+$cir-run:                   unicode('e04b');
+$cir-enroll:                unicode('e05a');
+$cir-plugin:                unicode('e063');
+$cir-instructions:          unicode('e064');
+$cir-expression:            unicode('e068');
+$cir-arrow:                 unicode('e070');
+$circle:                    unicode('e072');
+$circle-border:             unicode('e073');
+
+// miscellaneous icons
+$warning:                   unicode('e058');
+$conversation:              unicode('e023');
+$feedback:                  unicode('e02f');
+$sms:                       unicode('e02e');
+$garbage:                   unicode('e04e');
+$filter:                    unicode('e04a');
+$support:                   unicode('e015');
+$visibility:                unicode('e022');
+$check-big:                 unicode('e030');
+$check-small:               unicode('e031');
+$chevron-big:               unicode('e020');
+$chevron-small:             unicode('e01f');
+$code:                      unicode('e038');
+$plus:                      unicode('e03a');
+$cross:                     unicode('e02b');
+$factory-reset:             unicode('e04c');
+$refresh:                   unicode('e03e');
+$arrow:                     unicode('e02c');
+$download:                  unicode('e03f');
+$no:                        unicode('e04d');
+$activate:                  unicode('e02d');
+$bookmark:                  unicode('e02a');
+$key:                       unicode('e03c');
+$location:                  unicode('e039');
+$pencil:                    unicode('e040');
+$voicecall:                 unicode('e021');
+$wrench:                    unicode('e024');
+$search:                    unicode('e041');
+$bug:                       unicode('e05c');
+$lock:                      unicode('e05d');
+$lightbulb:                 unicode('e062');
+$megaphone:                 unicode('e065');
+$status:                    unicode('e05b');
+$asterisk:                  unicode('e071');
+$launch:                    unicode('e06f');
+$teach:                     unicode('e074');
+$dropdown:                  unicode('e075');
+$configure:                 unicode('e076');
+$calendar:                  unicode('e083');
+$tombstone:                 unicode('e084');
+$paper-plane:               unicode('e094');
+
+//devices:
+$devices:                   unicode('e069');
+$phone:                     unicode('e06a');
+$tablet:                    unicode('e06b');
+
+$dashboard-1:               unicode('e05e');
+$dashboard-2:               unicode('e05f');
+
+$notepadtask-1:             unicode('e060');
+$notepadtask-2:             unicode('e061');
+
+$handshake-1:               unicode('e017');
+$handshake-2:               unicode('e018');
+
+$clone-1:                   unicode('e036');
+$clone-2:                   unicode('e037');
+
+$report-1:                  unicode('e048');
+$report-2:                  unicode('e049');
+
+$reset-1:                   unicode('e034');
+$reset-2:                   unicode('e035');
+
+$task-1:                    unicode('e032');
+$task-2:                    unicode('e033');
+
+$settings-1:                unicode('e025');
+$settings-2:                unicode('e026');
+
+$token:                     unicode('e03b');
+
+$laptop:                    unicode('e08d');
+$iphone:                    unicode('e08c');
+$ipad:                      unicode('e08b');
+$android-phone:             unicode('e086');
+$android-tab:               unicode('e087');
+
+$ios:                       unicode('e088');
+$android:                   unicode('e085');
+$windows:                   unicode('e08f');
+$osx:                       unicode('e08e');

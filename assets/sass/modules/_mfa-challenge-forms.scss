@@ -1,0 +1,63 @@
+// inline totp form //
+.mfa-verify-totp-inline {
+
+  .inline-input {
+    width: 212px;
+    float: left;
+
+    @include device-mq(x-small) {
+      width: 180px;
+    }
+
+    @include max-width-mq($container-width) {
+      width: 100%;
+    }
+  }
+
+  .inline-totp-verify {
+    @include max-width-mq($container-width) {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  }
+
+  a.button {
+    float: right;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  a.link-button {
+    display: block;
+    text-align: center;
+  }
+
+}
+
+// sms form
+.mfa-verify-sms {
+
+  .link-button {
+    float: left;
+  }
+
+  .o-form-input {
+    width: 190px;
+    float: right;
+
+    @include device-mq(x-small) {
+      width: 170px;
+    }
+
+    @include max-width-mq($container-width) {
+      width: 100%;
+    }
+  }
+
+}
+
+// Duo
+.duo-form iframe {
+  height: 400px;
+  width: 100%;
+}

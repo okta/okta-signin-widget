@@ -1,0 +1,6 @@
+// Generated from okta-core sha: 900f683
+// Note: Do not modify this file directly.
+
+@function unicode($str) {
+  @return unquote("'")+unquote(str-insert($str, '\\', 1))+unquote("'")
+}

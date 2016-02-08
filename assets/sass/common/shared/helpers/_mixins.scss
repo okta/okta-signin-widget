@@ -1,0 +1,17 @@
+// Generated from okta-core sha: 900f683
+// Note: Do not modify this file directly.
+
+@mixin rgba($property, $color: $black, $opacity: 0.75, $mix: $white) {
+  #{$property}: mix($color, $mix, $opacity * 100%);
+  #{$property}: rgba($color, $opacity);
+}
+
+@mixin border-rgba($color: $black, $opacity: 0.75, $property-suffix: null, $mix: $white) {
+  @if ($property-suffix == null) {
+    border: 1px solid mix($color, $mix, $opacity * 100%);
+    border: 1px solid rgba($color, $opacity);
+  } @else {
+    border-#{$property-suffix}: 1px solid mix($color, $mix, $opacity * 100%);
+    border-#{$property-suffix}: 1px solid rgba($color, $opacity);
+  }
+}

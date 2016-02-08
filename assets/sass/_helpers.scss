@@ -1,0 +1,80 @@
+// Mixins
+
+@mixin max-width-mq($width) {
+  @media only screen and (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin max-height-mq($height) {
+  @media only screen and (max-height: $height) {
+    @content;
+  }
+}
+
+@mixin max-width-text($width) {
+  width: $width;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin mobile {
+  @media only screen
+  /* ----------- iPhone 4 and 4S ----------- */
+  /* Portrait and Landscape */
+    and (min-device-width: 320px)
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2) {
+    @content;
+  }
+  @media only screen
+  /* ----------- iPhone 5 and 5S ----------- */
+  /* Portrait and Landscape */
+    and (min-device-width: 320px)
+    and (max-device-width: 568px)
+    and (-webkit-min-device-pixel-ratio: 2) {
+    @content;
+  }
+  @media only screen
+  /* ----------- iPhone 6 ----------- */
+  /* Portrait and Landscape */
+    and (min-device-width: 375px)
+    and (max-device-width: 667px)
+    and (-webkit-min-device-pixel-ratio: 2) {
+    @content;
+  }
+  @media only screen
+  /* ----------- iPhone 6+ ----------- */
+  /* Portrait and Landscape */
+    and (min-device-width: 414px)
+    and (max-device-width: 736px)
+    and (-webkit-min-device-pixel-ratio: 3) {
+    @content;
+  }
+  @media screen
+  /* ----------- Galaxy S3 ----------- */
+  /* Portrait and Landscape */
+    and (device-width: 320px)
+    and (device-height: 640px)
+    and (-webkit-device-pixel-ratio: 2) {
+    @content;
+  }
+  @media screen
+  /* ----------- HTC One ----------- */
+  /* Portrait and Landscape */
+    and (device-width: 360px)
+    and (device-height: 640px)
+    and (-webkit-device-pixel-ratio: 3) {
+    @content;
+  }
+}
+
+@mixin retina2x {
+  @media
+  (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi) {
+    @content
+  }
+}

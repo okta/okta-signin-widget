@@ -1,0 +1,69 @@
+// social icons //
+
+@function unicode($str){
+  @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
+}
+
+$facebook:                 unicode("e005");
+$google:                   unicode("e004");
+$windows:                  unicode("e003");
+
+
+.social-icon {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 20px;
+  font-family: "social";
+  font-weight: 300;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  margin: 0 0 0 40px;
+  top: 3px;
+}
+.social-icon:hover {
+  text-decoration: none;
+}
+
+.facebook:before {
+  content: $facebook;
+  color: #999999;
+}
+
+.facebook:hover:before {
+  color: #1f93d0;
+  cursor: pointer;
+  -webkit-transition: color 0.3s ease-out;
+  -moz-transition: color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out;
+  transition: color 0.3s ease-out;
+}
+
+.google:before {
+  content: $google;
+  color: #999999;
+}
+.google:hover:before {
+  color: #1f93d0;
+  cursor: pointer;
+  -webkit-transition: color 0.3s ease-in;
+  -moz-transition: color 0.3s ease-in;
+  -o-transition: color 0.3s ease-in;
+  transition: color 0.3s ease-in;
+}
+
+.windows:before {
+  content: $windows;
+  color: #999999;
+
+}
+.windows:hover:before {
+  color: #1f93d0;
+  cursor: pointer;
+  -webkit-transition: color 0.3s ease-in;
+  -moz-transition: color 0.3s ease-in;
+  -o-transition: color 0.3s ease-in;
+  transition: color 0.3s ease-in;
+}
