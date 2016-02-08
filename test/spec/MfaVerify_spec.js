@@ -393,6 +393,22 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             expectHasAnswerField(test);
           });
         });
+        itp('clears the passcode text field on clicking the "Send code" button', function () {
+          return setupSMS().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.button = test.form.smsSendCode();
+            test.form.setAnswer('123456');
+            test.setNextResponse(resChallengeSms);
+            expect(test.button.trimmedText()).toEqual('Send code');
+            expect(test.form.answerField().val()).toEqual('123456');
+            test.form.smsSendCode().click();
+            return tick().then(function () {
+              expect(test.button.trimmedText()).toEqual('Sent');
+              expect(test.form.answerField().val()).toEqual('');
+              return test;
+            });
+          });
+        });
         itp('calls verifyFactor with empty code if send code button is clicked', function () {
           return setupSMS().then(function (test) {
             $.ajax.calls.reset();
