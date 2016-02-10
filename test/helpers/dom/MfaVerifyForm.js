@@ -82,8 +82,12 @@ define(['./Form'], function (Form) {
       return this.$('iframe');
     },
 
-    passCodeErrorField: function() {
+    passCodeErrorField: function () {
       return this.error('answer');
+    },
+
+    getAutocomplete: function () {
+      return this.autocomplete(ANSWER_FIELD);
     }
 
   });

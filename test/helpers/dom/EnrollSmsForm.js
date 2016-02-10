@@ -38,6 +38,10 @@ define(['./Form'], function (Form) {
       return this.input(CODE_FIELD);
     },
 
+    getCodeFieldAutocomplete: function () {
+      return this.autocomplete(CODE_FIELD);
+    },
+
     backLink: function () {
       return this.el('back-link');
     },

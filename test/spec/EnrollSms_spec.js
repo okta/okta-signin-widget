@@ -177,6 +177,11 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           expect(_.findWhere(countries, { val: 'TF'})).toBe(undefined);
         });
       });
+      itp('has autocomplete set to false', function () {
+        return setup().then(function (test) {
+          expect(test.form.getCodeFieldAutocomplete()).toBe('off');
+        });
+      });
       itp('defaults to United States for the country', function () {
         return setup().then(function (test) {
           expect(test.form.selectedCountry()).toBe('United States');

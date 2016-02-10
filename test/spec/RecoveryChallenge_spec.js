@@ -100,6 +100,11 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
         Expect.isTextField(test.form.codeField());
       });
     });
+    itp('does not allow autocomplete', function () {
+      return setup().then(function (test) {
+        expect(test.form.getAutocompleteCodeField()).toBe('off');
+      });
+    });
     itp('has a disabled "Sent" button on initialize', function () {
       return setup().then(function (test) {
         $.ajax.calls.reset();

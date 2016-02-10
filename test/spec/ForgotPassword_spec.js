@@ -75,6 +75,11 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect($username.attr('placeholder')).toEqual('Email or Username');
         });
       });
+      itp('does not allow autocomplete', function () {
+        return setup().then(function (test) {
+          expect(test.form.getUsernameAutocomplete()).toBe('off');
+        });
+      });
       itp('uses default for username tooltip', function () {
         return setup().then(function (test) {
           var tip = test.form.usernameTooltipText();

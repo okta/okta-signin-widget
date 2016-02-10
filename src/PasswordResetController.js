@@ -39,12 +39,11 @@
 define([
   'okta',
   'util/FormController',
-  'views/shared/TextBox',
   'util/FormType',
   'views/shared/PasswordJammer',
   'views/shared/FooterSignout'
 ],
-function (Okta, FormController, TextBox, FormType, PasswordJammer, FooterSignout) {
+function (Okta, FormController, FormType, PasswordJammer, FooterSignout) {
 
   var _ = Okta._;
 
@@ -85,7 +84,6 @@ function (Okta, FormController, TextBox, FormType, PasswordJammer, FooterSignout
           placeholder: Okta.loc('password.newPassword.placeholder', 'login'),
           name: 'newPassword',
           type: 'password',
-          input: TextBox,
           params: {
             innerTooltip: Okta.loc('password.newPassword.tooltip', 'login'),
             icon: 'credentials-16'
@@ -95,7 +93,6 @@ function (Okta, FormController, TextBox, FormType, PasswordJammer, FooterSignout
           placeholder: Okta.loc('password.confirmPassword.placeholder', 'login'),
           name: 'confirmPassword',
           type: 'password',
-          input: TextBox,
           params: {
             innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login'),
             icon: 'credentials-16'

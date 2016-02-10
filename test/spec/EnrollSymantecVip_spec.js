@@ -62,6 +62,11 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           expect(test.beacon.hasClass('mfa-symantec')).toBe(true);
         });
       });
+      itp('has autocomplete off', function () {
+        return setup().then(function (test) {
+          expect(test.form.getCodeFieldAutocomplete()).toBe('off');
+        });
+      });
       itp('has a "back" link in the footer', function () {
         return setup().then(function (test) {
           Expect.isVisible(test.form.backLink());

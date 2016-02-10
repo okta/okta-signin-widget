@@ -30,6 +30,10 @@ define(['jquery', 'underscore', './Dom'], function ($, _, Dom) {
       return this.inputWrap(field).find('select');
     },
 
+    autocomplete: function (field) {
+      return this.input(field).attr('autocomplete');
+    },
+
     selectOptions: function (field) {
       return _.map(this.select(field).find('option'), function (el) {
         return {
@@ -84,7 +88,7 @@ define(['jquery', 'underscore', './Dom'], function ($, _, Dom) {
       } else {
         element = this.el(field);
       }
-      
+
       api = $(element).qtip('api');
       return api ? api.show().tooltip.text() : undefined;
     },

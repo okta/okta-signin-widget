@@ -11,6 +11,10 @@ define(['./Form'], function (Form) {
       return this.input(USERNAME_FIELD);
     },
 
+    getUsernameAutocomplete: function () {
+      return this.autocomplete(USERNAME_FIELD);
+    },
+
     usernameErrorField: function () {
       return this.error(USERNAME_FIELD);
     },

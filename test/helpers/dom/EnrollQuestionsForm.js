@@ -15,6 +15,10 @@ define(['./Form'], function (Form) {
       field.trigger('change');
     },
 
+    getAnswerAutocomplete: function () {
+      return this.autocomplete(ANSWER_FIELD);
+    },
+
     questionList: function () {
       return this.selectOptions(QUESTIONS_FIELD);
     },

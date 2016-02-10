@@ -54,6 +54,9 @@ function getRequireConfig() {
         'shared/util/markdownToHtml': 'empty',
         'moment': 'empty'
       },
+      'shared/views/forms/helpers/InputFactory': {
+        'shared/views/forms/inputs/TextBox': 'views/shared/TextBox'
+      },
       'shared/util/StringUtil': {
         // due to _.template conflict
         'underscore': 'underscore'

@@ -38,9 +38,8 @@
 
 define([
   'okta',
-  'views/shared/TextBox',
   'views/shared/PasswordJammer'
-], function (Okta, TextBox, PasswordJammer) {
+], function (Okta, PasswordJammer) {
 
   var _ = Okta._;
 
@@ -84,7 +83,6 @@ define([
           placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
           name: 'username',
           type: 'text',
-          input: TextBox,
           params: {
             innerTooltip: {
               title: Okta.loc('primaryauth.username.placeholder', 'login'),
@@ -99,7 +97,6 @@ define([
           placeholder: Okta.loc('primaryauth.password.placeholder', 'login'),
           name: 'password',
           type: 'password',
-          input: TextBox,
           params: {
             innerTooltip: {
               title: Okta.loc('primaryauth.password.placeholder', 'login'),
