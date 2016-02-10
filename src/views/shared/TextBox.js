@@ -36,8 +36,15 @@
  * PARTY COMPONENTS, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-define(['okta', 'shared/views/forms/inputs/TextBox', 'qtip'], function (Okta, TextBox) {
-  var $ = Okta.$;
+//note: not including Okta here and explicitly including jquery and Handlebars
+//because we want to be explicit about which TextBox we are extending here
+//and want to avoid the cirucular dependency that occurs if we
+//include Okta
+define(['jquery',
+  'vendor/lib/handlebars-wrapper',
+  'shared/views/forms/inputs/TextBox',
+  'qtip'],
+  function ($, Handlebars, TextBox) {
 
   // options may be a string or an object.
   function createQtipContent(options) {
@@ -59,7 +66,7 @@ define(['okta', 'shared/views/forms/inputs/TextBox', 'qtip'], function (Okta, Te
 
   return TextBox.extend({
 
-    template: Okta.Handlebars.compile('\
+    template: Handlebars.compile('\
       {{#if params}}\
         {{#if params.innerTooltip}}\
           <span class="input-tooltip icon form-help-16"></span>\

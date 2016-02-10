@@ -64,6 +64,11 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
         expect(test.beacon.hasClass('mfa-okta-security-question')).toBe(true);
       });
     });
+    itp('does not allow autocomplete', function () {
+      return setup().then(function (test) {
+        expect(test.form.getAnswerAutocomplete()).toBe('off');
+      });
+    });
     itp('has a list of questions to choose from', function () {
       return setup().then(function (test) {
         var questions = test.form.questionList();

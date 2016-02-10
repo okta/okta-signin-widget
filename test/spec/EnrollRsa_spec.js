@@ -67,6 +67,11 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           Expect.isVisible(test.form.backLink());
         });
       });
+      itp('does not allow autocomplete', function () {
+        return setup().then(function (test) {
+            expect(test.form.getCodeFieldAutocomplete()).toBe('off');
+          });
+      });
       itp('returns to factor list when browser\'s back button is clicked', function () {
         return setup(true).then(function (test) {
           Util.triggerBrowserBackButton();

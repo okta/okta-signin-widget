@@ -39,10 +39,9 @@
 define([
   'okta',
   'util/FormController',
-  'views/enroll-factors/Footer',
-  'views/shared/TextBox'
+  'views/enroll-factors/Footer'
 ],
-function (Okta, FormController, Footer, TextBox) {
+function (Okta, FormController, Footer) {
 
   var _ = Okta._;
 
@@ -95,7 +94,6 @@ function (Okta, FormController, Footer, TextBox) {
           className: 'o-form-fieldset o-form-label-top auth-passcode',
           name: 'answer',
           type: 'text',
-          input: TextBox,
           params: {
             innerTooltip: Okta.loc('mfa.challenge.answer.tooltip', 'login')
           }

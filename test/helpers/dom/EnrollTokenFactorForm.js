@@ -14,6 +14,10 @@ define(['./Form'], function (Form) {
       return this.input(CODE_FIELD);
     },
 
+    getCodeFieldAutocomplete: function () {
+      return this.autocomplete(CODE_FIELD);
+    },
+
     secondCodeField: function () {
       return this.input(SECOND_CODE_FIELD);
     },

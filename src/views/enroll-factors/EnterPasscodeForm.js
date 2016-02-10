@@ -39,9 +39,8 @@
 define([
   'okta',
   'util/FactorUtil',
-  'util/FormType',
-  'views/shared/TextBox'
-], function (Okta, FactorUtil, FormType, TextBox) {
+  'util/FormType'
+], function (Okta, FactorUtil, FormType) {
 
   var form = {
     title: function () {
@@ -57,7 +56,6 @@ define([
       FormType.Input({
         name: 'passCode',
         type: 'text',
-        input: TextBox,
         placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
         params: {
           innerTooltip: Okta.loc('mfa.challenge.enterCode.tooltip', 'login')

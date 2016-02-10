@@ -139,6 +139,16 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           expect($username.attr('placeholder')).toEqual('Username');
         });
       });
+      itp('prevents autocomplete on username', function () {
+        return setup().then(function (test) {
+          expect(test.form.getUsernameFieldAutocomplete()).toBe('off');
+        });
+      });
+      itp('prevents autocomplete on password', function () {
+        return setup().then(function (test) {
+          expect(test.form.getPasswordFieldAutocomplete()).toBe('off');
+        });
+      });
       itp('uses default for password placeholder', function () {
         return setup().then(function (test) {
           var $password = test.form.passwordField();

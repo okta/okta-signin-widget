@@ -25,12 +25,20 @@ define(['jquery', 'underscore', './Form'], function ($, _, Form) {
       return this.error(USERNAME_FIELD);
     },
 
+    getUsernameFieldAutocomplete: function () {
+      return this.autocomplete(USERNAME_FIELD);
+    },
+
     passwordField: function () {
       return this.input(PASSWORD_FIELD);
     },
 
     passwordErrorField: function () {
       return this.error(PASSWORD_FIELD);
+    },
+
+    getPasswordFieldAutocomplete: function () {
+      return this.autocomplete(PASSWORD_FIELD);
     },
 
     rememberMeCheckbox: function () {

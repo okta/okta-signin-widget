@@ -8,6 +8,10 @@ define(['./Form'], function (Form) {
       return this.input(CODE_FIELD);
     },
 
+    getAutocompleteCodeField: function () {
+      return this.autocomplete(CODE_FIELD);
+    },
+
     setCode: function (val) {
       var field = this.codeField();
       field.val(val);

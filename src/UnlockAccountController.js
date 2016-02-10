@@ -41,10 +41,9 @@ define([
   'util/FormController',
   'util/Enums',
   'util/FormType',
-  'views/shared/TextBox',
   'views/shared/ContactSupport'
 ],
-function (Okta, FormController, Enums, FormType, TextBox, ContactSupport) {
+function (Okta, FormController, Enums, FormType, ContactSupport) {
 
   var Footer = Okta.View.extend({
     template: '\
@@ -107,7 +106,6 @@ function (Okta, FormController, Enums, FormType, TextBox, ContactSupport) {
           placeholder: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
           name: 'username',
           type: 'text',
-          input: TextBox,
           params: {
             innerTooltip: Okta.loc('account.unlock.email.or.username.tooltip', 'login'),
             icon: 'person-16-gray'

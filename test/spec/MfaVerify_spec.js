@@ -255,6 +255,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
           });
 
         });
+        itp('does not autocomplete', function () {
+          return setupGoogleTOTP().then(function (test) {
+            expect(test.form.getAutocomplete()).toBe('off');
+          });
+        });
         itp('shows the right beacon for RSA TOTP', function () {
           return setupRsaTOTP().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-rsa');
@@ -331,6 +336,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             expectHasAnswerField(test, 'password');
           });
         });
+        itp('does not autocomplete', function () {
+          return setupYubikey().then(function (test) {
+            expect(test.form.getAutocomplete()).toBe('off');
+          });
+        });
         itp('shows the right title', function () {
           return setupYubikey().then(function (test) {
             expectTitleToBe(test, 'Yubikey');
@@ -373,6 +383,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         itp('shows the right beacon', function () {
           return setupSMS().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-okta-sms');
+          });
+        });
+        itp('does not autocomplete', function () {
+          return setupSMS().then(function (test) {
+            expect(test.form.getAutocomplete()).toBe('off');
           });
         });
         itp('shows the phone number in the title', function () {
