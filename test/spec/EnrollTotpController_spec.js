@@ -568,13 +568,26 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         });
       });
       itp('shows "Refresh code" link if got network error while polling', function () {
+        // Simulate polling with Auth SDK's exponential backoff (6 failed requests)
+        function setupFailurePolling(test) {
+          var failureResponse = {status: 0, response: {}};
+          Util.mockEnrollFactorPoll(test.ac);
+          test.setNextResponse([resActivatePushSms, resActivatePushSms,
+            failureResponse, failureResponse, failureResponse, failureResponse, failureResponse, failureResponse]);
+          test.form.selectDeviceType('APPLE');
+          test.form.submit();
+          return tick(test)    // 1: submit enrollFactor
+              .then(function () { return tick(test); }) // 2: submit enrollFactor poll
+              .then(function () { return tick(test); }) // 3: Failure requests
+              .then(function () { return tick(test); }); // 4: Error from Auth SDK
+        }
         Q.stopUnhandledRejectionTracking();
         return setupOktaPush().then(function (test) {
           spyOn(test.router.settings, 'callGlobalError');
-          return setupPolling(test, {status: 0, response: {}});
+          return setupFailurePolling(test);
         })
         .then(function (test) {
-          expect($.ajax.calls.count()).toBe(3);
+          expect($.ajax.calls.count()).toBe(9);
           expect(test.scanCodeForm.hasManualSetupLink()).toBe(false);
           expect(test.scanCodeForm.hasRefreshQrcodeLink()).toBe(true);
           expect(test.scanCodeForm.hasErrors()).toBe(true);

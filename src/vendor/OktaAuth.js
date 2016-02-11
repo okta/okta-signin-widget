@@ -429,6 +429,7 @@ function getPollFn(sdk) {
 
     sdk.isPolling = true;
 
+    var retryCount = 0;
     var recursivePoll = function () {
 
       // If the poll was manually stopped during the delay
@@ -438,6 +439,8 @@ function getPollFn(sdk) {
 
       return pollFn()
         .then(function (res) {
+          // Reset our retry counter on success
+          retryCount = 0;
 
           // If we're still waiting
           if (res.factorResult && res.factorResult === 'WAITING') {
@@ -460,6 +463,18 @@ function getPollFn(sdk) {
             setState(sdk, res.status);
             return res;
           }
+        })
+        .fail(function(err) {
+          // Exponential backoff, up to 16 seconds
+          if (err.xhr &&
+              (err.xhr.status === 0 || err.xhr.status === 429) &&
+              retryCount <= 4) {
+            var delayLength = Math.pow(2, retryCount) * 1000;
+            retryCount++;
+            return Q.delay(delayLength)
+              .then(recursivePoll);
+          }
+          throw err;
         });
     };
     return recursivePoll()

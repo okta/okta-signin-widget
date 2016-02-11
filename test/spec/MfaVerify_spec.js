@@ -714,10 +714,22 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
               });
             });
             itp('re-enables submit and displays an error when request fails', function () {
+              function setupFailurePolling(test) {
+                var failureResponse = {status: 0, response: {}};
+                $.ajax.calls.reset();
+                Util.mockEnrollFactorPoll(test.ac);
+                test.setNextResponse([resChallengePush, resChallengePush, failureResponse, failureResponse,
+                  failureResponse, failureResponse, failureResponse, failureResponse]);
+                test.form = test.form[0];
+                test.form.submit();
+                return tick(test)    // 1: submit verifyFactor
+                    .then(function () { return tick(test); }) // 2: submit verifyFactor poll
+                    .then(function () { return tick(test); }); // 3: Failure requests
+              }
               return setupOktaPush().then(function (test) {
                 spyOn(test.router.settings, 'callGlobalError');
                 Q.stopUnhandledRejectionTracking();
-                return setupPolling(test, {status: 0})
+                return setupFailurePolling(test)
                 .then(function () { return tick(test); }) // Final response - failed
                 .then(function (test) {
                   expect(test.form.errorMessage()).toBe(
