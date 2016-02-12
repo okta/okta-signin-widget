@@ -239,13 +239,18 @@ function (Okta, factorUtil) {
     // view can you choose to enable the other factor (which will be exposed
     // by the backupFactor property)
     parse: function (factors) {
+      // Keep a track of the last used factor, since
+      // we need it to determine the default factor.
+      this.lastUsedFactor = factors[0];
+
       var oktaPushFactor = _.findWhere(factors, { provider: 'OKTA', factorType: 'push' });
       if (!oktaPushFactor) {
         return factors;
       }
       var totpFactor = _.findWhere(factors, { provider: 'OKTA', factorType: 'token:software:totp' });
+      var isTotpFirst = (totpFactor === factors[0]);
 
-      return _.reduce(factors, function (memo, factor) {
+      var parsedFactors = _.reduce(factors, function (memo, factor) {
         var isOkta = factor.provider === 'OKTA';
         var isOktaTotp = isOkta && factor.factorType === 'token:software:totp';
         var isOktaPush = isOkta && factor.factorType === 'push';
@@ -264,6 +269,14 @@ function (Okta, factorUtil) {
         memo.push(factor);
         return memo;
       }, []);
+
+      // Use push factor instead of TOTP, if TOTP is first in the list
+      // (since it is stored as backupFactor for push).
+      if (isTotpFirst) {
+        this.lastUsedFactor = oktaPushFactor;
+      }
+
+      return parsedFactors;
     },
 
     // Will need to update this to use HAL link to get last used factor:
@@ -272,7 +285,8 @@ function (Okta, factorUtil) {
     // Also, will need to add priority - i.e. if they do not have a last used
     // factor, should try Okta Verify, then Okta SMS, etc.
     getDefaultFactor: function () {
-      return this.at(0);
+      var factor = _.pick(this.lastUsedFactor, 'factorType', 'provider');
+      return this.findWhere(factor);
     },
 
     getFirstUnenrolledRequiredFactor: function () {
