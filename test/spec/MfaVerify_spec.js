@@ -1,4 +1,5 @@
-/*jshint maxparams:25, maxstatements:22, camelcase:false */
+/*jshint maxparams:25, maxstatements:23, camelcase:false */
+/*global JSON */
 define([
   'vendor/lib/q',
   'underscore',
@@ -98,6 +99,15 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
       return setup(resAllFactors, { factorType: 'web', provider: 'DUO' });
     }
 
+    function setupWithFirstFactor(factorIdentifier) {
+      var res = JSON.parse(JSON.stringify(resAllFactors));
+      var factors = res.response._embedded.factors;
+      var index = _.findIndex(factors, factorIdentifier);
+      var factor = factors.splice(index,1);
+      factors.unshift(factor[0]);
+      return setup(res);
+    }
+
     function setupPolling(test, finalResponse) {
       $.ajax.calls.reset();
 
@@ -152,9 +162,34 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
     });
 
     describe('General', function () {
-      itp('defaults to the most secure factor', function () {
-        return setup(resAllFactors).then(function (test) {
-          expect(test.form[0].isPush()).toBe(true);
+      describe('Defaults to the last used factor', function () {
+        itp('Security Question', function () {
+          return setup(resAllFactors).then(function (test) {
+            expect(test.form.isSecurityQuestion()).toBe(true);
+          });
+        });
+        itp('Google TOTP', function () {
+          return setupWithFirstFactor({provider: 'GOOGLE', factorType: 'token:software:totp'})
+          .then(function (test) {
+            expect(test.form.isTOTP()).toBe(true);
+          });
+        });
+        // TOTP and push have the same form. If either of them is the last used, we show the push form.
+        itp('Okta TOTP/Push', function () {
+          return setupWithFirstFactor({provider: 'OKTA', factorType: 'token:software:totp'})
+          .then(function (test) {
+            expect(test.form[0].isPush()).toBe(true);
+          });
+        });
+        itp('Okta Push', function () {
+          return setupWithFirstFactor({factorType: 'push'}).then(function (test) {
+            expect(test.form[0].isPush()).toBe(true);
+          });
+        });
+        itp('Okta SMS', function () {
+          return setupWithFirstFactor({factorType: 'sms'}).then(function (test) {
+            expect(test.form.isSMS()).toBe(true);
+          });
         });
       });
     });
@@ -920,7 +955,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
       itp('updates beacon image when different factor is selected', function () {
         return setup(resAllFactors)
         .then(function (test) {
-          expectHasRightBeaconImage(test, 'mfa-okta-verify');
+          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
           test.beacon.dropDownButton().click();
           test.beacon.getOptionsLinks().eq(1).click();
           return tick(test);
