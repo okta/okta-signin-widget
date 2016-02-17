@@ -87,6 +87,14 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       <div class="auth-content"><div class="auth-content-inner"></div></div>\
     ',
 
+    // Attach a 'no-beacon' class if the security image feature
+    // is not passed in to prevent the beacon from jumping.
+    initialize: function (options) {
+      if (!options.settings.get('features.securityImage')) {
+        this.$el.addClass('no-beacon');
+      }
+    },
+
     /* jshint maxcomplexity:false */
     setBeacon: function (NextBeacon, options) {
       var selector = '[data-type="beacon-container"]',
