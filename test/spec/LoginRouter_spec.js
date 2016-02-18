@@ -339,7 +339,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
       })
       .then(function () {
         var form = new MfaVerifyForm($sandbox);
-        expect(form.isPush()).toBe(true);
+        expect(form.isSecurityQuestion()).toBe(true);
         expect(form.hasErrors()).toBe(false);
       });
     });
@@ -390,7 +390,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
         // response)
         expect($.ajax.calls.count()).toBe(2);
         var form = new MfaVerifyForm($sandbox);
-        expect(form.isPush()).toBe(true);
+        expect(form.isSecurityQuestion()).toBe(true);
       });
     });
 
