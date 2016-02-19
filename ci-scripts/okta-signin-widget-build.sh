@@ -9,7 +9,6 @@ set -e
 
 # Bacon does not pass a parameter, so default to the one we want (deploy)
 TASK="${1:-deploy}"
-PUBLISHED=0
 
 BUILD_TEST_SUITE_ID=D33E21EE-E0D0-401D-8162-56B9A7BA0539
 LINT_TEST_SUITE_ID=2D4D1259-92C2-45BA-A74D-E665B7EC17FB
@@ -36,14 +35,14 @@ TASKS:
 }
 
 function publish() {
-  if [ "$BRANCH" == "master" ]; then
-    echo "Publishing master build"
-    if npm publish --registry ${REGISTRY}; then
-      PUBLISHED=1
-      echo "Publish Success"
-    else
-      echo "Publish Failed"
-    fi
+  # Always publish a version to our npm registry:
+  # If topic branch, will create an alpha prerelease version
+  # If master branch, will create a beta prerelease version
+  echo "Updating the version number, and publishing"
+  if npm run prerelease -- --branch=${BRANCH} && npm publish --registry ${REGISTRY}; then
+    echo "Publish Success"
+  else
+    echo "Publish Failed"
   fi
 }
 

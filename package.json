@@ -22,7 +22,8 @@
     "build:prod": "grunt build:minified",
     "prestart": "npm run build:dev",
     "start": "grunt start-server-open",
-    "package": "grunt package"
+    "package": "grunt package",
+    "prerelease": "grunt bump-prerelease-version"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
