@@ -36,36 +36,68 @@
  * PARTY COMPONENTS, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-define(['okta', 'util/Enums'], function (Okta, Enums) {
+define([
+  'okta',
+  'vendor/lib/q'
+],
+function (Okta, Q) {
 
   var _ = Okta._;
 
-  return Okta.View.extend({
-    template: '\
-      <a href="#" class="link {{linkClassName}}" data-se="signout-link">\
-        {{linkText}}\
-      </a>\
-    ',
-    className: 'auth-footer clearfix',
-    events: {
-      'click a' : function (e) {
-        e.preventDefault();
-        var self = this;
-        this.model.doTransaction(function(transaction) {
-          return transaction.cancel();
-        })
-        .then(function() {
-          self.state.set('navigateDir', Enums.DIRECTION_BACK);
-          self.options.appState.trigger('navigate', '');
+  return Okta.Model.extend({
+    doTransaction: function (fn, rethrow) {
+      var self = this;
+      return fn.call(this, this.appState.get('transaction'))
+      .then(function(trans) {
+        self.appState.set('transaction', trans);
+        return trans;
+      })
+      .fail(function(err) {
+        self.appState.set('transactionError', err);
+        self.trigger('error', self, err.xhr);
+        if (rethrow) {
+          throw err;
+        }
+      });
+    },
+
+    manageTransaction: function (fn) {
+      var self = this,
+          res = fn.call(this, this.appState.get('transaction'), _.bind(this.setTransaction, this));
+      
+      // If it's a promise, listen for failures
+      if (Q.isPromise(res)) {
+        res.fail(function(err) {
+          self.appState.set('transactionError', err);
+          self.trigger('error', self, err.xhr);
         });
       }
+
+      return Q.resolve(res);
     },
-    getTemplateData: function () {
-      return {
-        linkClassName: _.isUndefined(this.options.linkClassName) ? 'goto' : this.options.linkClassName,
-        linkText: this.options.linkText || Okta.loc('signout', 'login')
-      };
+
+    startTransaction: function (fn) {
+      var self = this,
+          res = fn.call(this, this.settings.getAuthClient());
+
+      // If it's a promise, then chain to it
+      if (Q.isPromise(res)) {
+        return res.then(function(trans) {
+          self.appState.set('transaction', trans);
+          return trans;
+        })
+        .fail(function(err) {
+          self.appState.set('transactionError', err);
+          self.trigger('error', self, err.xhr);
+          throw err;
+        });
+      }
+
+      return Q.resolve(res);
+    },
+
+    setTransaction: function (trans) {
+      this.appState.set('transaction', trans);
     }
   });
-
 });

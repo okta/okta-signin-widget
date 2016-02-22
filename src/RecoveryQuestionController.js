@@ -44,8 +44,6 @@ define([
 ],
 function (Okta, FormController, FormType, FooterSignout) {
 
-  var _ = Okta._;
-
   return FormController.extend({
     className: 'recovery-question',
     Model: {
@@ -54,11 +52,10 @@ function (Okta, FormController, FormType, FooterSignout) {
         showAnswer: 'boolean'
       },
       save: function () {
-        return this.settings.getAuthClient().current
-          .answerRecoveryQuestion({ answer: this.get('answer') })
-          .fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+        return this.doTransaction(function(transaction) {
+          return transaction
+          .answerRecoveryQuestion({ answer: this.get('answer') });
+        });
       }
     },
     Form: {

@@ -86,15 +86,15 @@ function (Okta, FormController, Enums, FormType, ContactSupport) {
       },
       save: function () {
         var self = this;
-        return this.settings.getAuthClient().current
-          .forgotPassword({
-            username: this.get('username'),
-            factorType: this.get('factorType')
-          })
-          .fail(function (err) {
-            self.trigger('error', self, err.xhr);
-            self.set('factorType', Enums.RECOVERY_FACTOR_TYPE_EMAIL);
+        this.startTransaction(function(authClient) {
+          return authClient.forgotPassword({
+            username: self.get('username'),
+            factorType: self.get('factorType')
           });
+        })
+        .fail(function () {
+          self.set('factorType', Enums.RECOVERY_FACTOR_TYPE_EMAIL);
+        });
       }
     },
     Form: {
@@ -130,12 +130,6 @@ function (Okta, FormController, Enums, FormType, ContactSupport) {
             }
           }, { prepend: true });
         }
-
-        // It's possible to load this form with an incorrect authStatus - for
-        // example: start primaryAuth, reach a different state, and then
-        // navigate (manually) to this page. Reset the state here to ensure
-        // no errors are ever thrown.
-        this.settings.getAuthClient().resetState();
 
         this.listenTo(this.state, 'contactSupport', function () {
           this.add(ContactSupport, '.o-form-error-container');

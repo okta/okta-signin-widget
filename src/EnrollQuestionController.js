@@ -56,17 +56,16 @@ function (Okta, FormController, Footer) {
         securityQuestions: 'object'
       },
       save: function () {
-        return this.settings.getAuthClient().current
+        return this.doTransaction(function(transaction) {
+          return transaction
           .getFactorByTypeAndProvider('question', 'OKTA')
           .enrollFactor({
             profile: {
               question: this.get('question'),
               answer: this.get('answer')
             }
-          })
-          .fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+          });
+        });
       }
     },
 
@@ -104,16 +103,19 @@ function (Okta, FormController, Footer) {
     Footer: Footer,
 
     fetchInitialData: function () {
-      return this.settings.getAuthClient().current
-      .getFactorByTypeAndProvider('question', 'OKTA')
-      .getQuestions()
-      .then(_.bind(function (questionsRes) {
+      var self = this;
+      return this.model.manageTransaction(function(transaction) {
+        return transaction
+        .getFactorByTypeAndProvider('question', 'OKTA')
+        .getQuestions();
+      })
+      .then(function(questionsRes) {
         var questions = {};
         _.each(questionsRes, function (question) {
           questions[question.question] = question.questionText;
         });
-        this.model.set('securityQuestions', questions);
-      }, this));
+        self.model.set('securityQuestions', questions);
+      });
     }
 
   });

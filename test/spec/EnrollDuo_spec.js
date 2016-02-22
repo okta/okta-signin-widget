@@ -34,9 +34,12 @@ function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
       });
       Util.mockRouterNavigate(router, startRouter);
       Util.mockDuo();
-      setNextResponse(resAllFactors);
-      authClient.status();
       return tick()
+      .then(function() {
+        setNextResponse(resAllFactors);
+        router.refreshAuthState('dummy-token');
+        return tick();
+      })
       .then(function () {
         setNextResponse(resActivateDuo);
         router.enrollDuo();

@@ -72,39 +72,34 @@ define([
         e.preventDefault();
         var url = RouterUtil.createActivateFactorUrl(this.model.get('__provider__'),
           this.model.get('__factorType__'), 'manual');
-        var authClient = this.settings.getAuthClient().current;
-        // Check if the stopEnrollFactorPoll is on the authClient, since we don't poll for totp.
-        if (authClient.stopEnrollFactorPoll) {
-          authClient.stopEnrollFactorPoll();
-        }
+        this.model.manageTransaction(function (transaction) {
+          // Check if the stopEnrollFactorPoll is on the authClient, since we don't poll for totp.
+          if (transaction.stopEnrollFactorPoll) {
+            transaction.stopEnrollFactorPoll();
+          }
+        });
         this.options.appState.trigger('navigate', url);
       },
       'click [data-type="refresh-qrcode"]': function (e) {
         e.preventDefault();
         this.model.trigger('errors:clear');
 
-        var authClient = this.settings.getAuthClient();
-        var promise;
-
-        if (this.options.appState.get('isWaitingForActivation')) {
-          promise = authClient.current
-          .startEnrollFactorPoll();
-
-        } else {
-          promise = authClient.current
-          .activateFactor()
-          .then(_.bind(function (res) {
-            if (res.status === 'MFA_ENROLL_ACTIVATE' && res.factorResult === 'WAITING') {
-              // defer the render here to have a lastResponse set in AppState
-              // so that we get new QRcode rendered
-              _.defer(_.bind(this.render, this));
-            }
-          }, this));
-        }
-
-        promise.fail(_.bind(function (err) {
-          this.model.trigger('error', this.model, err.xhr);
-        }, this));
+        var self = this;
+        this.model.doTransaction(function (transaction) {
+          if (this.appState.get('isWaitingForActivation')) {
+            return transaction.startEnrollFactorPoll();
+          } else {
+            return transaction.activateFactor();
+          }
+        })
+        .then(function (trans) {
+          var res = trans.response;
+          if (res.status === 'MFA_ENROLL_ACTIVATE' && res.factorResult === 'WAITING') {
+            // defer the render here to have a lastResponse set in AppState
+            // so that we get new QRcode rendered
+            _.defer(_.bind(self.render, self));
+          }
+        });
       }
     },
 

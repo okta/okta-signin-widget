@@ -83,7 +83,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
         // are on
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resMfaRequiredOktaVerify);
-        test.ac.status();
+        test.router.refreshAuthState('dummy-token');
         return tick(test);
       })
       .then(function (test) {
@@ -177,7 +177,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
       return setup({ globalSuccessFn: successSpy })
       .then(function (test) {
         test.setNextResponse(resSuccess);
-        test.ac.status();
+        test.router.refreshAuthState('dummy-token');
         return tick().then(tick);
       })
       .then(function () {
@@ -203,7 +203,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
       return setup({ globalSuccessFn: successSpy })
       .then(function (test) {
         test.setNextResponse(resSuccess);
-        test.ac.status();
+        test.router.refreshAuthState('dummy-token');
         return tick().then(tick);
       })
       .then(function () {
@@ -267,13 +267,10 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
       });
     });
     itp('refreshes auth state on stateful url if it needs a refresh', function () {
-      var callCount = 0;
       return setup()
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
-        spyOn(test.ac, 'authStateNeedsRefresh').and.callFake(function () {
-          return callCount++ <= 1;
-        });
+        Util.mockSDKCookie(test.ac);
         test.setNextResponse(resRecovery);
         test.router.navigate('signin/recovery-question');
         return tick();
@@ -282,7 +279,9 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
         expect($.ajax.calls.count()).toBe(1);
         Expect.isJsonPost($.ajax.calls.argsFor(0), {
           url: 'https://foo.com/api/v1/authn',
-          data: {}
+          data: {
+            stateToken: 'testStateToken'
+          }
         });
         var form = new RecoveryForm($sandbox);
         expect(form.isRecoveryQuestion()).toBe(true);
@@ -313,7 +312,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resRecovery);
-        test.ac.status();
+        test.router.refreshAuthState('dummy-token');
         return tick(test);
       })
       .then(function (test) {
@@ -370,13 +369,10 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
       });
     });
     itp('makes a call to previous if the page is refreshed in an MFA_CHALLENGE state', function () {
-      var callCount = 0;
       return setup()
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
-        spyOn(test.ac, 'authStateNeedsRefresh').and.callFake(function () {
-          return callCount++ <= 1;
-        });
+        Util.mockSDKCookie(test.ac);
         test.setNextResponse([resMfaChallengeDuo, resMfa]);
         test.router.navigate('signin/verify/duo/web', { trigger: true });
         // The extra tick is necessary to navigate between the two controllers

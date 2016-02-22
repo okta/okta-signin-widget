@@ -63,49 +63,44 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       },
       'click .js-goto' : function (e) {
         e.preventDefault();
-        var authClient = this.settings.getAuthClient();
         var goToFactor = _.partial(goToFactorActivation, this.options.appState);
         this.options.appState.unset('factorActivationType');
         if (this.options.appState.get('activatedFactorType') !== 'push') {
-          authClient.previous()
-          .then(function () {
-            return authClient.current
+          this.model.doTransaction(function (transaction) {
+            return transaction.previous()
+            .then(function (trans) {
+              return trans
               .getFactorByTypeAndProvider('push', 'OKTA')
               .enrollFactor();
-          })
-          .then(goToFactor)
-          .fail(_.bind(function (err) {
-            this.model.trigger('error', this.model, err.xhr);
-          }, this));
-        } else {
-          authClient.refreshAuthState()
-          .then(function(res) {
-            // Sets to trigger on a tick after the appState has been set.
-            // This is due to calling the globalSuccessFn in a callback
-            setTimeout(function() {
-              goToFactor(res);
             });
           })
-          .fail(_.bind(function (err) {
-            this.model.trigger('error', this.model, err.xhr);
-          }, this));
+          .then(goToFactor);
+        } else {
+          this.model.startTransaction(function (authClient) {
+            return authClient.resumeTransaction();
+          })
+          .then(function() {
+            // Sets to trigger on a tick after the appState has been set.
+            // This is due to calling the globalSuccessFn in a callback
+            setTimeout(goToFactor);
+          });
         }
       }
     },
     back: function () {
-      this.options.appState.unset('factorActivationType');
-      if (this.options.appState.get('prevLink')) {
-        this.settings.getAuthClient().current.previous()
-        .then(_.bind(function () {
+      var self = this;
+      self.options.appState.unset('factorActivationType');
+      if (self.options.appState.get('prevLink')) {
+        this.model.doTransaction(function(transaction) {
+          return transaction.previous();
+        })
+        .then(function() {
           // we trap 'MFA_ENROLL' response that's why we need to trigger navigation from here
-          this.options.appState.trigger('navigate', 'signin/enroll');
-        }, this))
-        .fail(_.bind(function (err) {
-          this.model.trigger('error', this.model, err.xhr);
-        }, this));
+          self.options.appState.trigger('navigate', 'signin/enroll');
+        });
       }
       else {
-        this.options.appState.trigger('navigate', 'signin/enroll');
+        self.options.appState.trigger('navigate', 'signin/enroll');
       }
     }
   });

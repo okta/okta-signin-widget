@@ -40,7 +40,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
     setNextResponse(res || resPassExpired);
-    authClient.status();
+    router.refreshAuthState('dummy-token');
     return tick().then(function () {
       return {
         router: router,

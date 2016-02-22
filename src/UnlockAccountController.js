@@ -86,15 +86,15 @@ function (Okta, FormController, Enums, FormType, ContactSupport) {
       },
       save: function () {
         var self = this;
-        return this.settings.getAuthClient().current
-          .unlockAccount({
-            username: this.get('username'),
-            factorType: this.get('factorType')
-          })
-          .fail(function (err) {
-            self.trigger('error', self, err.xhr);
-            self.set('factorType', Enums.RECOVERY_FACTOR_TYPE_EMAIL);
+        return this.startTransaction(function (authClient) {
+          return authClient.unlockAccount({
+            username: self.get('username'),
+            factorType: self.get('factorType')
           });
+        })
+        .fail(function () {
+          self.set('factorType', Enums.RECOVERY_FACTOR_TYPE_EMAIL);
+        });
       }
     },
     Form: {

@@ -48,8 +48,7 @@ define([
 ],
 function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
 
-  var $ = Okta.$,
-      _ = Okta._;
+  var _ = Okta._;
 
   return FormController.extend({
 
@@ -65,15 +64,13 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
       },
 
       getInitOptions: function (appState) {
-        // Note: This should all be handled by OktaAuth.js. Currently, we cannot
-        // do this because polling is coupled with verify. We should not know
-        // about the stateToken!!
-        var authClient = this.settings.getAuthClient(),
-            factors = appState.get('factors'),
-            factor = factors.findWhere({ provider: 'DUO', factorType: 'web' }),
-            url = factor.get('_links').verify.href,
-            stateToken = appState.get('lastAuthResponse').stateToken;
-        return authClient.post(url, { stateToken: stateToken });
+        var factors = appState.get('factors'),
+            factor = factors.findWhere({ provider: 'DUO', factorType: 'web' });
+        return this.doTransaction(function(transaction) {
+          return transaction
+          .getFactorById(factor.id)
+          .verifyFactor();
+        });
       },
 
       verify: function (signedResponse) {
@@ -86,10 +83,11 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
               stateToken: this.get('stateToken'),
               sig_response: signedResponse
             };
-        return Q($.post(url, data))
+        return this.settings.getAuthClient().post(url, data)
         .then(function () {
-          var authClient = self.settings.getAuthClient();
-          return authClient.current.startVerifyFactorPoll();
+          return self.doTransaction(function(transaction) {
+            return transaction.startVerifyFactorPoll();
+          });
         })
         .fail(function (err) {
           self.trigger('error', self, err.xhr);
@@ -119,7 +117,8 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
     fetchInitialData: function () {
       var self = this;
       return this.model.getInitOptions(this.options.appState)
-      .then(function (res) {
+      .then(function (trans) {
+        var res = trans.response;
         if (!res._embedded || !res._embedded.factor || !res._embedded.factor._embedded ||
             !res._embedded.factor._embedded.verification) {
           throw new Error('Response does not have duo verification options');

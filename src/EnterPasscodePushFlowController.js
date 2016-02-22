@@ -44,8 +44,6 @@ define([
 ],
 function (Okta, FormController, RouterUtil, EnterPasscodeForm) {
 
-  var _ = Okta._;
-
   var Footer = Okta.View.extend({
     template: '\
       <a href="#" class="link help js-back" data-se="back-link">\
@@ -79,11 +77,12 @@ function (Okta, FormController, RouterUtil, EnterPasscodeForm) {
           '__provider__': ['string', false, this.options.provider]
         },
         save: function () {
-          return this.settings.getAuthClient().current.activateFactor({
-            passCode: this.get('passCode')
-          }).fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+          return this.doTransaction(function(transaction) {
+            return transaction
+            .activateFactor({
+              passCode: this.get('passCode')
+            });
+          });
         }
       };
     },

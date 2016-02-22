@@ -39,7 +39,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
     Util.mockJqueryCss();
 
     setNextResponse(resChallenge);
-    authClient.status();
+    router.refreshAuthState('dummy-token');
 
     // Two ticks because of the extra defer that happens when we disable
     // the sent button.

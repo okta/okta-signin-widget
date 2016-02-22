@@ -106,69 +106,68 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
         _.delay(_.bind(this.set, this), API_RATE_LIMIT, {ableToResend: true});
       },
       sendCode: function () {
-        var authClient = this.settings.getAuthClient();
-        var isMfaEnroll = authClient.getLastResponse().status === 'MFA_ENROLL';
-        var phoneNumber = this.get('fullPhoneNumber');
         var self = this;
-        var promise;
+        var phoneNumber = this.get('fullPhoneNumber');
+        
+        self.trigger('errors:clear');
+        return this.doTransaction(function(transaction) {
+          var lastResponse = transaction.response;
+          var isMfaEnroll = lastResponse.status === 'MFA_ENROLL';
 
-        this.trigger('errors:clear');
-
-        if (isMfaEnroll) {
-          promise = authClient.current
+          if (isMfaEnroll) {
+            return transaction
             .getFactorByTypeAndProvider('sms', 'OKTA')
             .enrollFactor({
               profile: {
                 phoneNumber: phoneNumber,
-                updatePhone: this.get('hasExistingPhones')
+                updatePhone: self.get('hasExistingPhones')
               }
             });
-        } else {
-          // We must transition to MfaEnroll before updating the phone number
-          self.set('trapEnrollment', true);
-          promise = authClient.current.previous()
-          .then(function () {
-            return authClient.current
-            .getFactorByTypeAndProvider('sms', 'OKTA')
-            .enrollFactor({
-              profile: {
-                phoneNumber: phoneNumber,
-                updatePhone: true
-              }
-            }).then(function () {
+            
+          } else {
+            // We must transition to MfaEnroll before updating the phone number
+            self.set('trapEnrollment', true);
+            return transaction.previous()
+            .then(function (trans) {
+              return trans
+              .getFactorByTypeAndProvider('sms', 'OKTA')
+              .enrollFactor({
+                profile: {
+                  phoneNumber: phoneNumber,
+                  updatePhone: true
+                }
+              });
+            })
+            .then(function (trans) {
               self.set('trapEnrollment', false);
+              return trans;
             });
-          });
-        }
-        return promise
-          .then(function () {
-            self.set('lastEnrolledPhoneNumber', phoneNumber);
-            self.limitResending();
-          })
-          .fail(function (err) {
-            self.set('ableToResend', true);
-            self.set('trapEnrollment', false);
-            self.trigger('error', self, err.xhr);
-          });
+          }
+        // Rethrow errors so we can change state 
+        // AFTER setting the new transaction
+        }, true)
+        .then(function () {
+          self.set('lastEnrolledPhoneNumber', phoneNumber);
+          self.limitResending();
+        })
+        .fail(function () {
+          self.set('ableToResend', true);
+          self.set('trapEnrollment', false);
+        });
       },
       resendCode: function () {
         this.trigger('errors:clear');
         this.limitResending();
-        var self = this;
-        return this.settings.getAuthClient().current
-        .resendByName('sms')
-        .fail(function (err) {
-          self.trigger('error', self, err.xhr);
+        return this.doTransaction(function(transaction) {
+          return transaction.resendByName('sms');
         });
       },
       save: function () {
-        return this.settings.getAuthClient().current
-          .activateFactor({
+        return this.doTransaction(function(transaction) {
+          return transaction.activateFactor({
             passCode: this.get('passCode')
-          })
-          .fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+          });
+        });
       }
     },
 

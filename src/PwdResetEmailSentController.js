@@ -69,12 +69,13 @@ function (Okta, Enums, FormController, FormType) {
           attributes: {'data-se': 'back-button'},
           click: function () {
             var self = this;
-            this.settings.getAuthClient().current
-              .cancel()
-              .then(function() {
-                self.state.set('navigateDir', Enums.DIRECTION_BACK);
-                self.options.appState.trigger('navigate', '');
-              });
+            return this.model.doTransaction(function (transaction) {
+              return transaction.cancel();
+            })
+            .then(function() {
+              self.state.set('navigateDir', Enums.DIRECTION_BACK);
+              self.options.appState.trigger('navigate', '');
+            });
           }
         })
       ]

@@ -62,13 +62,13 @@ function (Okta, FormController, FormType, PasswordJammer, FooterSignout) {
         }
       },
       save: function () {
-        return this.settings.getAuthClient().current
+        var self = this;
+        return this.doTransaction(function(transaction) {
+          return transaction
           .resetPassword({
-            newPassword: this.get('newPassword')
-          })
-          .fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+            newPassword: self.get('newPassword')
+          });
+        });
       }
     },
     Form: {

@@ -60,10 +60,13 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
       }, settings));
 
       Util.mockRouterNavigate(router, startRouter);
-      setNextResponse(res);
-      authClient.status();
 
       return tick()
+      .then(function () {
+        setNextResponse(res);
+        router.refreshAuthState('dummy-token');
+        return tick();
+      })
       .then(function () {
         router.enrollTotpFactor(selectedFactor.provider, selectedFactor.factorType);
         return tick();
@@ -368,6 +371,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           .then(function (test) {
             Expect.isVisible(test.manualSetupForm.form());
             test.setNextResponse(resTotpEnrollSuccess);
+            Util.mockSDKCookie(test.ac);
             test.manualSetupForm.gotoScanBarcode();
             return tick(test);
           })
@@ -461,7 +465,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         $.ajax.calls.reset();
 
         // Mock calls to startVerifyFactorPoll to include a faster poll
-        Util.mockEnrollFactorPoll(test.ac);
+        Util.speedUpPolling(test.ac);
 
         // 1: Set for first enrollFactor
         // 2: Set for startEnrollFactorPoll
@@ -571,7 +575,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         // Simulate polling with Auth SDK's exponential backoff (6 failed requests)
         function setupFailurePolling(test) {
           var failureResponse = {status: 0, response: {}};
-          Util.mockEnrollFactorPoll(test.ac);
+          Util.speedUpPolling(test.ac);
           test.setNextResponse([resActivatePushSms, resActivatePushSms,
             failureResponse, failureResponse, failureResponse, failureResponse, failureResponse, failureResponse]);
           test.form.selectDeviceType('APPLE');
@@ -628,7 +632,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
       itp('allows refresh after TIMEOUT', function () {
         return setupOktaPush().then(function (test) {
           $.ajax.calls.reset();
-          Util.mockEnrollFactorPoll(test.ac);
+          Util.speedUpPolling(test.ac);
 
           // 1: Set for first enrollFactor
           // 2: Set for activateFactor
@@ -844,26 +848,23 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           });
         });
         itp('removes the sms activation form on successful activation response', function () {
-          return setupOktaPush().then(function (test) {
-            return setupPolling(test, resSuccess);
-          })
-          .then(function (test) {
-            test.scanCodeForm.clickManualSetupLink();
-            return test;
-          })
+          return enrollOktaPushGoCannotScan()
           .then(function (test) {
             $.ajax.calls.reset();
             Expect.isVisible(test.manualSetupForm.form());
             test.manualSetupForm.setPhoneNumber('4152554668');
-            test.setNextResponse([resActivatePushSms, resActivatePushSms, resAllFactors]);
+            test.setNextResponse(resActivatePushSms);
             test.manualSetupForm.submit();
-            return tick(test);  // 1. sms request
+
+            Util.speedUpPolling(test.ac);
+            Util.stallEnrollFactorPoll(test.ac);
+            return tick(test);
           })
           .then(function (test) {
             Expect.isVisible(test.linkSentConfirmation.smsSentMsg());
             expect(test.linkSentConfirmation.getMsgText().indexOf('+14152554668') >= 0).toBe(true);
-            return tick(test)  // 2. poll request
-            .then(function () { return tick(test); });  // 3. final success response
+            Util.resumeEnrollFactorPoll(test.ac, resAllFactors.response);
+            return tick(test);
           })
           .then(function (test) {
             expect(test.linkSentConfirmation.smsSentMsg().length).toBe(0);
@@ -953,6 +954,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             $.ajax.calls.reset();
             Expect.isVisible(test.manualSetupForm.form());
             test.setNextResponse(resPushEnrollSuccessNewQR);
+            Util.mockSDKCookie(test.ac);
             test.manualSetupForm.gotoScanBarcode();
             return tick(test);
           })

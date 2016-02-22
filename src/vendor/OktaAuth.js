@@ -135,7 +135,7 @@ function verifyToken(idToken, key) {
 
 
 /* globals process, console, Q, JSON, escape, verifyToken, isVerifySupported */
-/*jshint maxcomplexity:14 */
+/*jshint maxcomplexity:15 */
 
 var LOG_PREFIX = '[OktaAuth]';
 var STATE_TOKEN_COOKIE_NAME = 'oktaStateToken';
@@ -365,76 +365,85 @@ function deleteCookie(name) {
   setCookie(name, '', '1970-01-01T00:00:00Z');
 }
 
-function addStateToken(sdk, options) {
+function addStateToken(trans, options) {
   var builtArgs = clone(options) || {};
 
   // Add the stateToken if one isn't passed and we have one
-  if (!builtArgs.stateToken && sdk.lastResponse && sdk.lastResponse.stateToken) {
-    builtArgs.stateToken = sdk.lastResponse.stateToken;
+  if (!builtArgs.stateToken && trans.response && trans.response.stateToken) {
+    builtArgs.stateToken = trans.response.stateToken;
   }
 
   return builtArgs;
 }
 
-function getStateToken(sdk) {
-  return addStateToken(sdk);
+function getStateToken(trans) {
+  return addStateToken(trans);
 }
 
-function callSubscribedFn(sdk, err, res) {
-  if (err === null) {
-    err = undefined;
-  }
+function AuthTransaction(sdk, res) {
+  if (res) {
+    this.response = res;
 
-  if (sdk.subscribedFn) {
-    // Call the function outside of the current promise chain
-    setTimeout(function() {
-      sdk.subscribedFn(err, res);
-    }, 0);
+    if (res.status) {
+      this.status = res.status;
+      var methods = STATE_MAP[res.status](sdk, this);
+      extend(this, methods);
+    }
   }
 }
 
-function getCancelFn(sdk) {
+function postToTransaction(sdk, uri, options) {
+  return sdk.post(uri, options)
+    .then(function(res) {
+      return new AuthTransaction(sdk, res);
+    });
+}
+
+function getCancelFn(sdk, trans, ref) {
   function cancel() {
-    sdk.isPolling = false;
-    var cancelLink = getLink(sdk.lastResponse, 'cancel');
-    return sdk.post(cancelLink.href, getStateToken(sdk))
-      .then(function(res) {
-        sdk.resetState();
-        return res;
-      });
+    if (ref) {
+      ref.isPolling = false;
+    }
+    var cancelLink = getLink(trans.response, 'cancel');
+    return postToTransaction(sdk, cancelLink.href, getStateToken(trans));
   }
   return cancel;
 }
 
-function getPreviousFn(sdk) {
+function getPreviousFn(sdk, trans, ref) {
   function previous() {
-    sdk.isPolling = false;
-    var previousLink = getLink(sdk.lastResponse, 'prev');
-    return sdk.post(previousLink.href, getStateToken(sdk));
+    if (ref) {
+      ref.isPolling = false;
+    }
+    var previousLink = getLink(trans.response, 'prev');
+    return postToTransaction(sdk, previousLink.href, getStateToken(trans));
   }
   return previous;
 }
 
-function getPollFn(sdk) {
+function getPollFn(sdk, trans, ref) {
   return function (delay) {
     if (!delay && delay !== 0) {
       delay = DEFAULT_POLLING_DELAY;
     }
 
     // Get the poll function
-    var pollLink = getLink(sdk.lastResponse, 'next', 'poll');
-    var pollFn = function() {
-      return sdk.post(pollLink.href, getStateToken(sdk), true, true);
-    };
+    var pollLink = getLink(trans.response, 'next', 'poll');
+    function pollFn() {
+      return sdk.post(pollLink.href, getStateToken(trans), true, true);
+    }
 
-    sdk.isPolling = true;
+    // Exposed to stop any polling in tests
+    pollFn.__ref = ref;
+
+    ref.isPolling = true;
 
     var retryCount = 0;
     var recursivePoll = function () {
 
       // If the poll was manually stopped during the delay
-      if (!sdk.isPolling) {
-        return Q.resolve();
+      if (!ref.isPolling) {
+        return Q.resolve(trans);
       }
 
       return pollFn()
@@ -446,8 +455,8 @@ function getPollFn(sdk) {
           if (res.factorResult && res.factorResult === 'WAITING') {
 
             // If the poll was manually stopped while the pollFn was called
-            if (!sdk.isPolling) {
-              return;
+            if (!ref.isPolling) {
+              return trans;
             }
 
             // Continue poll
@@ -457,11 +466,8 @@ function getPollFn(sdk) {
           } else {
             // Any non-waiting result, even if polling was stopped
             // during a request, will return
-            sdk.isPolling = false;
-            callSubscribedFn(sdk, null, res);
-            sdk.lastResponse = res;
-            setState(sdk, res.status);
-            return res;
+            ref.isPolling = false;
+            return new AuthTransaction(sdk, res);
           }
         })
         .fail(function(err) {
@@ -479,54 +485,28 @@ function getPollFn(sdk) {
     };
     return recursivePoll()
       .fail(function(err) {
-        sdk.isPolling = false;
-        callSubscribedFn(sdk, err);
+        ref.isPolling = false;
         throw err;
       });
   };
 }
 
 // STATE DEFINITIONS
-var STATE_MAP = {};
+var STATE_MAP = {}; /* jshint ignore: line */
 
-STATE_MAP['INITIAL'] = function (sdk) {
-  return {
-
-    // { username, password, (relayState), (context) }
-    primaryAuth: function (options) {
-      return sdk.post('/api/v1/authn', options);
-    },
-
-    // { username, (relayState) }
-    forgotPassword: function (options) {
-      return sdk.post('/api/v1/authn/recovery/password', options);
-    },
-
-    // { username, (relayState) }
-    unlockAccount: function (options) {
-      return sdk.post('/api/v1/authn/recovery/unlock', options);
-    },
-
-    // { recoveryToken }
-    verifyRecoveryToken: function (options) {
-      return sdk.post('/api/v1/authn/recovery/token', options);
-    }
-  };
-};
-
-STATE_MAP['RECOVERY'] = function (sdk) {
-  var answerLink = getLink(sdk.lastResponse, 'next', 'answer');
+STATE_MAP['RECOVERY'] = function (sdk, trans) {
+  var answerLink = getLink(trans.response, 'next', 'answer');
   if (answerLink) {
     return {
 
       // { answer }
       answerRecoveryQuestion: function (options) {
-        var data = addStateToken(sdk, options);
-        return sdk.post(answerLink.href, data);
+        var data = addStateToken(trans, options);
+        return postToTransaction(sdk, answerLink.href, data);
       },
 
       // no arguments
-      cancel: getCancelFn(sdk)
+      cancel: getCancelFn(sdk, trans)
     };
 
   } else {
@@ -534,25 +514,25 @@ STATE_MAP['RECOVERY'] = function (sdk) {
 
       // { recoveryToken }
       verifyRecoveryToken: function (options) {
-        var recoveryLink = getLink(sdk.lastResponse, 'next', 'recovery');
-        return sdk.post(recoveryLink.href, options);
+        var recoveryLink = getLink(trans.response, 'next', 'recovery');
+        return postToTransaction(sdk, recoveryLink.href, options);
       },
 
       // no arguments
-      cancel: getCancelFn(sdk)
+      cancel: getCancelFn(sdk, trans)
     };
   }
 };
 
-STATE_MAP['RECOVERY_CHALLENGE'] = function (sdk) {
+STATE_MAP['RECOVERY_CHALLENGE'] = function (sdk, trans) {
   // This state has some responses without _links.
   // Without _links, we emulate cancel to make it
-  // intuitive to return to the INITIAL state. We 
+  // intuitive to return to the starting state. We 
   // may remove this when OKTA-75434 is resolved
-  if (!sdk.lastResponse._links) {
+  if (!trans.response._links) {
     return {
       cancel: function() {
-        return new Q(sdk.resetState());
+        return new Q(new AuthTransaction(sdk));
       }
     };
   }
@@ -561,100 +541,100 @@ STATE_MAP['RECOVERY_CHALLENGE'] = function (sdk) {
 
     // { passCode }
     verifyRecovery: function(options) {
-      var data = addStateToken(sdk, options);
-      var verifyLink = getLink(sdk.lastResponse, 'next', 'verify');
+      var data = addStateToken(trans, options);
+      var verifyLink = getLink(trans.response, 'next', 'verify');
 
-      return sdk.post(verifyLink.href, data);
+      return postToTransaction(sdk, verifyLink.href, data);
     },
 
     resendByName: function(name) {
-      var resendLink = getLink(sdk.lastResponse, 'resend', name);
+      var resendLink = getLink(trans.response, 'resend', name);
       if (!resendLink) {
         var err = new AuthSdkError('"' + name + '" is not a valid name for recovery');
         return Q.reject(err);
       }
-      return sdk.post(resendLink.href, getStateToken(sdk));
+      return postToTransaction(sdk, resendLink.href, getStateToken(trans));
     },
 
     // no arguments
-    cancel: getCancelFn(sdk)
+    cancel: getCancelFn(sdk, trans)
   };
 };
 
-STATE_MAP['LOCKED_OUT'] = function (sdk) {
+STATE_MAP['LOCKED_OUT'] = function (sdk, trans) {
   return {
 
     // { username, (relayState) }
     unlockAccount: function (options) {
-      var unlockLink = getLink(sdk.lastResponse, 'next', 'unlock');
-      return sdk.post(unlockLink.href, options);
+      var unlockLink = getLink(trans.response, 'next', 'unlock');
+      return postToTransaction(sdk, unlockLink.href, options);
     },
     
     // no arguments
-    cancel: getCancelFn(sdk)
+    cancel: getCancelFn(sdk, trans)
   };
 };
 
-STATE_MAP['PASSWORD_EXPIRED'] = function (sdk) {
+STATE_MAP['PASSWORD_EXPIRED'] = function (sdk, trans) {
   return {
 
     // { newPassword }
     changePassword: function (options) {
-      var data = addStateToken(sdk, options);
-      var passwordLink = getLink(sdk.lastResponse, 'next', 'changePassword');
-      return sdk.post(passwordLink.href, data);
+      var data = addStateToken(trans, options);
+      var passwordLink = getLink(trans.response, 'next', 'changePassword');
+      return postToTransaction(sdk, passwordLink.href, data);
     },
 
     // no arguments
-    cancel: getCancelFn(sdk)
+    cancel: getCancelFn(sdk, trans)
   };
 };
 
-STATE_MAP['PASSWORD_WARN'] = function (sdk) {
+STATE_MAP['PASSWORD_WARN'] = function (sdk, trans) {
   return {
 
     // { newPassword }
     changePassword: function (options) {
-      var data = addStateToken(sdk, options);
-      var passwordLink = getLink(sdk.lastResponse, 'next', 'changePassword');
-      return sdk.post(passwordLink.href, data);
+      var data = addStateToken(trans, options);
+      var passwordLink = getLink(trans.response, 'next', 'changePassword');
+      return postToTransaction(sdk, passwordLink.href, data);
     },
 
     // no arguments
     skip: function () {
-      var skipLink = getLink(sdk.lastResponse, 'skip', 'skip');
-      return sdk.post(skipLink.href, getStateToken(sdk));
+      var skipLink = getLink(trans.response, 'skip', 'skip');
+      return postToTransaction(sdk, skipLink.href, getStateToken(trans));
     },
 
     // no arguments
-    cancel: getCancelFn(sdk)
+    cancel: getCancelFn(sdk, trans)
   };
 };
 
-STATE_MAP['PASSWORD_RESET'] = function (sdk) {
+STATE_MAP['PASSWORD_RESET'] = function (sdk, trans) {
   return {
 
     // { newPassword }
     resetPassword: function (options) {
-      var data = addStateToken(sdk, options);
-      var passwordLink = getLink(sdk.lastResponse, 'next', 'resetPassword');
-      return sdk.post(passwordLink.href, data);
+      var data = addStateToken(trans, options);
+      var passwordLink = getLink(trans.response, 'next', 'resetPassword');
+      return postToTransaction(sdk, passwordLink.href, data);
     },
 
     // no arguments
-    cancel: getCancelFn(sdk)
+    cancel: getCancelFn(sdk, trans)
   };
 };
 
-STATE_MAP['MFA_ENROLL'] = function (sdk) {
+STATE_MAP['MFA_ENROLL'] = function (sdk, trans) {
   var methods = {
 
     // no arguments
-    cancel: getCancelFn(sdk),
+    cancel: getCancelFn(sdk, trans),
 
     getFactorByTypeAndProvider: function (type, provider) {
 
-      var factor = find(sdk.lastResponse._embedded.factors, { factorType: type, provider: provider });
+      var factor = find(trans.response._embedded.factors, { factorType: type, provider: provider });
       if (!factor) {
         var err = 'No factor with a type of ' + type + ' and a provider of ' + provider;
         error(err);
@@ -685,8 +665,8 @@ STATE_MAP['MFA_ENROLL'] = function (sdk) {
           data.factorType = type;
           data.provider = provider;
 
-          data = addStateToken(sdk, data);
-          return sdk.post(enrollLink.href, data);
+          data = addStateToken(trans, data);
+          return postToTransaction(sdk, enrollLink.href, data);
         }
       };
 
@@ -702,38 +682,43 @@ STATE_MAP['MFA_ENROLL'] = function (sdk) {
     }
   };
 
-  var skipLink = getLink(sdk.lastResponse, 'skip');
+  var skipLink = getLink(trans.response, 'skip');
   if (skipLink) {
     methods.skip = function() {
-      return sdk.post(skipLink.href, getStateToken(sdk));
+      return postToTransaction(sdk, skipLink.href, getStateToken(trans));
     };
   }
 
   return methods;
 };
 
-STATE_MAP['MFA_ENROLL_ACTIVATE'] = function (sdk) {
+STATE_MAP['MFA_ENROLL_ACTIVATE'] = function (sdk, trans) {
+
+  // A reference to manage polling
+  var ref = {
+    isPolling: false
+  };
 
   // Default methods for MFA_CHALLENGE states
   var methods = {
 
     // no arguments
-    previous: getPreviousFn(sdk),
+    previous: getPreviousFn(sdk, trans, ref),
 
     // no arguments
-    cancel: getCancelFn(sdk)
+    cancel: getCancelFn(sdk, trans, ref)
   };
 
-  var pollLink = getLink(sdk.lastResponse, 'next', 'poll');
+  var pollLink = getLink(trans.response, 'next', 'poll');
   if (pollLink) {
 
     // polls until factorResult changes
     // optional polling interval in millis
-    methods.startEnrollFactorPoll = getPollFn(sdk);
+    methods.startEnrollFactorPoll = getPollFn(sdk, trans, ref);
 
     // no arguments
     methods.stopEnrollFactorPoll = function() {
-      sdk.isPolling = false;
+      ref.isPolling = false;
     };
 
   } else {
@@ -746,31 +731,31 @@ STATE_MAP['MFA_ENROLL_ACTIVATE'] = function (sdk) {
         push                | no profile
     */
     methods.activateFactor = function(options) {
-      var data = addStateToken(sdk, options);
-      var activateLink = getLink(sdk.lastResponse, 'next', 'activate');
-      return sdk.post(activateLink.href, data);
+      var data = addStateToken(trans, options);
+      var activateLink = getLink(trans.response, 'next', 'activate');
+      return postToTransaction(sdk, activateLink.href, data);
     };
   }
 
-  var resendLinks = getLink(sdk.lastResponse, 'resend');
+  var resendLinks = getLink(trans.response, 'resend');
   if (resendLinks) {
     methods.resendByName = function(name) {
       var resendLink = find(resendLinks, { name: name });
-      return sdk.post(resendLink.href, getStateToken(sdk));
+      return postToTransaction(sdk, resendLink.href, getStateToken(trans));
     };
   }
 
   return methods;
 };
 
-STATE_MAP['MFA_REQUIRED'] = function (sdk) {
+STATE_MAP['MFA_REQUIRED'] = function (sdk, trans) {
   return {
 
     // no arguments
-    cancel: getCancelFn(sdk),
+    cancel: getCancelFn(sdk, trans),
 
     getFactorById: function (id) {
-      var factor = find(sdk.lastResponse._embedded.factors, { id: id });
+      var factor = find(trans.response._embedded.factors, { id: id });
       if (!factor) {
         var err = 'No factor with an id of ' + id;
         error(err);
@@ -789,7 +774,7 @@ STATE_MAP['MFA_REQUIRED'] = function (sdk) {
           push                | no arguments
         */
         verifyFactor: function(options) {
-          var data = addStateToken(sdk, options);
+          var data = addStateToken(trans, options);
           var verifyLink = getLink(factor, 'verify');
 
           if (data && data.rememberDevice !== undefined) {
@@ -799,37 +784,41 @@ STATE_MAP['MFA_REQUIRED'] = function (sdk) {
             delete data.rememberDevice;
           }
 
-          return sdk.post(verifyLink.href, data);
+          return postToTransaction(sdk, verifyLink.href, data);
         }
       };
     }
   };
 };
 
+STATE_MAP['MFA_CHALLENGE'] = function (sdk, trans) {
 
-STATE_MAP['MFA_CHALLENGE'] = function (sdk) {
+  // A reference to manage polling
+  var ref = {
+    isPolling: false
+  };
 
   // Default methods for MFA_CHALLENGE states
   var methods = {
 
     // no arguments
-    previous: getPreviousFn(sdk),
+    previous: getPreviousFn(sdk, trans, ref),
 
     // no arguments
-    cancel: getCancelFn(sdk)
+    cancel: getCancelFn(sdk, trans, ref)
   };
 
-  var pollLink = getLink(sdk.lastResponse, 'next', 'poll');
+  var pollLink = getLink(trans.response, 'next', 'poll');
 
   if (pollLink) {
 
     // polls until factorResult changes
     // optional polling interval in millis
-    methods.startVerifyFactorPoll = getPollFn(sdk);
+    methods.startVerifyFactorPoll = getPollFn(sdk, trans, ref);
 
     // no arguments
     methods.stopVerifyFactorPoll = function() {
-      sdk.isPolling = false;
+      ref.isPolling = false;
     };
 
   } else {
@@ -841,8 +830,8 @@ STATE_MAP['MFA_CHALLENGE'] = function (sdk) {
       token:software:totp | { passCode }
     */
     methods.verifyFactor = function(options) {
-      var data = addStateToken(sdk, options);
-      var verifyLink = getLink(sdk.lastResponse, 'next', 'verify');
+      var data = addStateToken(trans, options);
+      var verifyLink = getLink(trans.response, 'next', 'verify');
 
       if (data.rememberDevice !== undefined) {
         if (data.rememberDevice) {
@@ -851,44 +840,35 @@ STATE_MAP['MFA_CHALLENGE'] = function (sdk) {
         delete data.rememberDevice;
       }
 
-      return sdk.post(verifyLink.href, data);
+      return postToTransaction(sdk, verifyLink.href, data);
     };
   }
 
-  var resendLinks = getLink(sdk.lastResponse, 'resend');
+  var resendLinks = getLink(trans.response, 'resend');
   if (resendLinks) {
     methods.resendByName = function(name) {
       var resendLink = find(resendLinks, { name: name });
-      return sdk.post(resendLink.href, getStateToken(sdk));
+      return postToTransaction(sdk, resendLink.href, getStateToken(trans));
     };
   }
 
   return methods;
 };
 
-function setState(sdk, state) { /* jshint ignore: line */
-
-  if (STATE_MAP[state]) {
-    sdk.current = STATE_MAP[state](sdk);
-  } else {
-    sdk.current = {};
-  }
-  sdk.state = state;
-}
+STATE_MAP['SUCCESS'] = function () { return {}; };
 
 // HTTP METHODS
 
-function httpRequest(sdk, url, method, args, preventBroadcast, dontSaveResponse) {
-  var self = sdk;
+function httpRequest(sdk, url, method, args, dontSaveResponse) {
   var options = {
-    headers: self.headers,
+    headers: sdk.headers,
     data: args || undefined
   };
 
   log('Request: ', method, url, options);
 
   var err, res;
-  return new Q(self.ajaxRequest(method, url, options))
+  return new Q(sdk.ajaxRequest(method, url, options))
     .then(function(resp) { /* jshint ignore: line */
       log('Response: ', resp);
 
@@ -898,9 +878,6 @@ function httpRequest(sdk, url, method, args, preventBroadcast, dontSaveResponse)
       }
 
       if (!dontSaveResponse) {
-        log('Last response set');
-        self.lastResponse = res;
-
         if (!res.stateToken) {
           deleteCookie(STATE_TOKEN_COOKIE_NAME);
         }
@@ -908,10 +885,6 @@ function httpRequest(sdk, url, method, args, preventBroadcast, dontSaveResponse)
 
       if (res && res.stateToken && res.expiresAt) {
         setCookie(STATE_TOKEN_COOKIE_NAME, res.stateToken, res.expiresAt);
-      }
-
-      if (res && res.status) {
-        setState(sdk, res.status);
       }
 
       return res;
@@ -945,12 +918,6 @@ function httpRequest(sdk, url, method, args, preventBroadcast, dontSaveResponse)
       }
 
       throw err;
-    })
-
-    .fin(function() {
-      if (!preventBroadcast) {
-        callSubscribedFn(sdk, err, res);
-      }
     });
 }
 
@@ -992,53 +959,69 @@ function OktaAuth(args) { // jshint ignore:line
     this.headers['Authorization'] = 'SSWS ' + args.apiToken;
   }
 
-  this.resetState();
-
   log('OktaAuth created');
 }
 
 var proto = OktaAuth.prototype;
 
-proto.get = function(url, broadcast, saveResponse) {
+proto.get = function(url, saveResponse) {
   url = isAbsoluteUrl(url) ? url : this.uri + url;
-  return httpRequest(this, url, 'GET', undefined, !broadcast, !saveResponse);
+  return httpRequest(this, url, 'GET', undefined, !saveResponse);
 };
 
-proto.post = function(url, args, preventBroadcast, dontSaveResponse) {
+proto.post = function(url, args, dontSaveResponse) {
   url = isAbsoluteUrl(url) ? url : this.uri + url;
-  return httpRequest(this, url, 'POST', args, preventBroadcast, dontSaveResponse);
+  return httpRequest(this, url, 'POST', args, dontSaveResponse);
+};
+
+// { username, password, (relayState), (context) }
+proto.primaryAuth = function (opts) {
+  return postToTransaction(this, '/api/v1/authn', opts);
+};
+
+// { username, (relayState) }
+proto.forgotPassword = function (opts) {
+  return postToTransaction(this, '/api/v1/authn/recovery/password', opts);
+};
+
+// { username, (relayState) }
+proto.unlockAccount = function (opts) {
+  return postToTransaction(this, '/api/v1/authn/recovery/unlock', opts);
+};
+
+// { recoveryToken }
+proto.verifyRecoveryToken = function (opts) {
+  return postToTransaction(this, '/api/v1/authn/recovery/token', opts);
 };
 
 // NON-STANDARD METHODS
 
-proto.subscribe = function(fn) {
-  this.subscribedFn = fn;
+proto.resumeTransaction = function(args) {
+  var sdk = this;
+  if (!args || !args.stateToken) {
+    var stateToken = sdk.transactionExists._getCookie(STATE_TOKEN_COOKIE_NAME);
+    if (stateToken) {
+      args = {
+        stateToken: stateToken
+      };
+    } else {
+      return Q.reject(new AuthSdkError('No transaction to resume'));
+    }
+  }
+  return sdk.status(args)
+    .then(function(res) {
+      return new AuthTransaction(sdk, res);
+    });
 };
 
-proto.unsubscribe = function() {
-  this.subscribedFn = undefined;
+proto.transactionExists = function() {
+  // We have a cookie state token
+  return !!this.transactionExists._getCookie(STATE_TOKEN_COOKIE_NAME);
 };
 
-proto.getLastResponse = function() {
-  return this.lastResponse;
-};
-
-proto.authStateExists = function() {
-  // A local state token exists
-  return !!(this.lastResponse && this.lastResponse.stateToken);
-};
-
-proto.authStateNeedsRefresh = function() {
-  // No local state token, but we have a cookie state token
-  return !(this.lastResponse && this.lastResponse.stateToken) && !!getCookie(STATE_TOKEN_COOKIE_NAME);
-};
-
-proto.refreshAuthState = function() {
-  var stateToken = (this.lastResponse && this.lastResponse.stateToken) ||
-    getCookie(STATE_TOKEN_COOKIE_NAME);
-  return this.status({
-    stateToken: stateToken
-  });
+// This is exposed so we can mock document.cookie in our tests
+proto.transactionExists._getCookie = function(name) {
+  return getCookie(name);
 };
 
 // STANDARD METHODS
@@ -1046,10 +1029,6 @@ proto.refreshAuthState = function() {
 proto.status = function(args) {
   args = addStateToken(this, args);
   return this.post(this.uri + '/api/v1/authn', args);
-};
-
-proto.resetState = function() {
-  setState(this, 'INITIAL');
 };
 
 proto.getWellKnown = function() {
@@ -1084,31 +1063,31 @@ function base64UrlToString(b64u) {
 
 function validateClaims(claims, iss, aud) {
   if (!claims || !iss || !aud) {
-    return new AuthSdkError('The jwt, iss, and aud arguments are all required');
+    throw new AuthSdkError('The jwt, iss, and aud arguments are all required');
   }
 
   var now = Math.floor(new Date().getTime()/1000);
 
   if (claims.iss !== iss) {
-    return new AuthSdkError('The issuer [' + claims.iss + '] ' +
+    throw new AuthSdkError('The issuer [' + claims.iss + '] ' +
       'does not match [' + iss + ']');
   }
 
   if (claims.aud !== aud) {
-    return new AuthSdkError('The audience [' + claims.aud + '] ' +
+    throw new AuthSdkError('The audience [' + claims.aud + '] ' +
       'does not match [' + aud + ']');
   }
 
   if (claims.iat > claims.exp) {
-    return new AuthSdkError('The JWT expired before it was issued');
+    throw new AuthSdkError('The JWT expired before it was issued');
   }
 
   if (now > claims.exp) {
-    return new AuthSdkError('The JWT expired and is no longer valid');
+    throw new AuthSdkError('The JWT expired and is no longer valid');
   }
 
   if (claims.iat > now) {
-    return new AuthSdkError('The JWT was issued in the future');
+    throw new AuthSdkError('The JWT was issued in the future');
   }
 }
 
@@ -1231,67 +1210,96 @@ proto.isPopupPostMessageSupported = function() {
   return false;
 };
 
-function addPostMessageListener(sdk, oauthParams, timeout) {
+function addListener(eventTarget, name, fn) {
+    if (eventTarget.addEventListener) {
+      eventTarget.addEventListener(name, fn);
+    } else {
+      eventTarget.attachEvent('on' + name, fn);
+    }
+  }
+
+function removeListener(eventTarget, name, fn) {
+  if (eventTarget.removeEventListener) {
+    eventTarget.removeEventListener(name, fn);
+  } else {
+    eventTarget.detachEvent('on' + name, fn);
+  }
+}
+
+function addPostMessageListener(sdk, timeout) {
   var deferred = Q.defer();
 
   function responseHandler(e) {
     if (!e.data || e.origin !== sdk.uri) {
       return;
     }
-
-    if (e.data['error'] || e.data['error_description']) {
-      return deferred.reject(
-        new OAuthError(e.data['error'], e.data['error_description'])
-      );
-
-    } else if (e.data['id_token']) {
-      if (e.data.state !== oauthParams.state) {
-        return deferred.reject(
-          new AuthSdkError('OAuth flow response state doesn\'t match request state')
-        );
-      }
-
-      var jwt = sdk.decodeIdToken(e.data['id_token']);
-
-      var err = validateClaims(jwt.payload, sdk.uri, oauthParams.clientId);
-      if (err) {
-        return deferred.reject(err);
-      }
-
-      return deferred.resolve({
-        idToken: e.data['id_token'],
-        claims: jwt.payload
-      });
-
-    } else {
-      return deferred.reject(
-        new AuthSdkError('Unable to parse OAuth flow response')
-      );
-    }
+    deferred.resolve(e.data);
   }
 
-  function addListener(name, fn) {
-    if (window.addEventListener) {
-      window.addEventListener(name, fn);
-    } else {
-      window.attachEvent('on' + name, fn);
-    }
-  }
-
-  function removeListener(name, fn) {
-    if (window.removeEventListener) {
-      window.removeEventListener(name, fn);
-    } else {
-      window.detachEvent('on' + name, fn);
-    }
-  }
-
-  addListener('message', responseHandler);
+  addListener(window, 'message', responseHandler);
 
   return deferred.promise.timeout(timeout || 120000, new AuthSdkError('OAuth flow timed out'))
     .fin(function() {
-      removeListener('message', responseHandler);
+      removeListener(window, 'message', responseHandler);
     });
+}
+
+function addFragmentListener(sdk, windowEl, timeout) {
+  var deferred = Q.defer();
+
+  // Predefine regexs for parsing hash
+  var plus2space = /\+/g;
+  var paramSplit = /([^&=]+)=?([^&]*)/g;
+
+  function hashToObject(hash) {
+    // Remove the leading hash
+    var fragment = hash.substring(1);
+
+    var obj = {};
+
+    // Loop until we have no more params
+    var param;
+    while (true) {
+      param = paramSplit.exec(fragment);
+      if (!param) { break; }
+
+      var key = param[1];
+      var value = param[2];
+
+      // id_token should remain base64url encoded
+      if (key === 'id_token') {
+        obj[key] = value;
+      } else {
+        obj[key] = decodeURIComponent(value.replace(plus2space, ' '));
+      }
+    }
+    return obj;
+  }
+
+  function hashChangeHandler() {
+    /*
+      We are only able to access window.location.hash on a window
+      that has the same domain. A try/catch is necessary because
+      there's no other way to determine that the popup is in
+      another domain. When we try to access a window on another 
+      domain, an error is thrown.
+    */
+    try {
+      if (windowEl &&
+          windowEl.location &&
+          windowEl.location.hash) {
+        deferred.resolve(hashToObject(windowEl.location.hash));
+      } else if (windowEl && !windowEl.closed) {
+        setTimeout(hashChangeHandler, 500);
+      }
+    } catch (err) {
+      setTimeout(hashChangeHandler, 500);
+    }
+  }
+
+  hashChangeHandler();
+
+  return deferred.promise.timeout(timeout || 120000, new AuthSdkError('OAuth flow timed out'));
 }
 
 /*
@@ -1424,12 +1432,38 @@ proto.getIdToken = function (oauthOptions, options) {
     flowType = 'IMPLICIT';
   }
 
+  function handleOAuthResponse(res) {
+    if (res['error'] || res['error_description']) {
+      throw new OAuthError(res['error'], res['error_description']);
+
+    } else if (res['id_token']) {
+      if (res.state !== oauthParams.state) {
+        throw new AuthSdkError('OAuth flow response state doesn\'t match request state');
+      }
+      var jwt = sdk.decodeIdToken(res['id_token']);
+      validateClaims(jwt.payload, sdk.uri, oauthParams.clientId);
+      return {
+        idToken: res['id_token'],
+        claims: jwt.payload
+      };
+
+    } else {
+      throw new AuthSdkError('Unable to parse OAuth flow response');
+    }
+  }
+
+  function getOrigin(uri) {
+    var originRegex = /^(https?\:\/\/)?([^:\/?#]*(?:\:[0-9]+)?)/;
+    return originRegex.exec(uri)[0];
+  }
+
   // Execute the flow type
   switch (flowType) {
     case 'IFRAME':
-      var iframePromise = addPostMessageListener(sdk, oauthParams, options.timeout);
+      var iframePromise = addPostMessageListener(sdk, options.timeout);
       var iframeEl = loadFrame(requestUrl, FRAME_ID);
       return iframePromise
+        .then(handleOAuthResponse)
         .fin(function() {
           if (document.body.contains(iframeEl)) {
             iframeEl.parentElement.removeChild(iframeEl);
@@ -1437,17 +1471,59 @@ proto.getIdToken = function (oauthOptions, options) {
         });
 
     case 'POPUP':
-      if (!sdk.isPopupPostMessageSupported()) {
-        throw new AuthSdkError('This browser doesn\'t have full postMessage support');
+      var popupPromise;
+
+      // Add listener on postMessage before window creation, so
+      // postMessage isn't triggered before we're listening
+      if (oauthParams.responseMode === 'okta_post_message') {
+        if (!sdk.isPopupPostMessageSupported()) {
+          return Q.reject(new AuthSdkError('This browser doesn\'t have full postMessage support'));
+        }
+        popupPromise = addPostMessageListener(sdk, options.timeout);
       }
-      var popupPromise = addPostMessageListener(sdk, oauthParams, options.timeout);
+
+      // Create the window
       var windowOptions = {
         popupTitle: options.popupTitle
       };
       var windowEl = loadPopup(requestUrl, windowOptions);
-      return popupPromise
+
+      // Poll until we get a valid hash fragment
+      if (oauthParams.responseMode === 'fragment') {
+        var windowOrigin = getOrigin(sdk.getIdToken._getLocationHref());
+        var redirectUriOrigin = getOrigin(oauthParams.redirectUri);
+        if (windowOrigin !== redirectUriOrigin) {
+          return Q.reject(new AuthSdkError('Using fragment, the redirectUri origin (' + redirectUriOrigin +
+            ') must match the origin of this page (' + windowOrigin + ')'));
+        }
+        popupPromise = addFragmentListener(sdk, windowEl, options.timeout);
+      }
+
+      // Both postMessage and fragment require a poll to see if the popup closed
+      var popupDeferred = Q.defer();
+      function hasClosed(win) {
+        if (win.closed) {
+          popupDeferred.reject(new AuthSdkError('Unable to parse OAuth flow response'));
+        }
+      }
+      var closePoller = setInterval(function() {
+        hasClosed(windowEl);
+      }, 500);
+
+      // Proxy the promise results into the deferred
+      popupPromise
+      .then(function(res) {
+        popupDeferred.resolve(res);
+      })
+      .fail(function(err) {
+        popupDeferred.reject(err);
+      });
+
+      return popupDeferred.promise
+        .then(handleOAuthResponse)
         .fin(function() {
           if (!windowEl.closed) {
+            clearInterval(closePoller);
             windowEl.close();
           }
         });
@@ -1455,6 +1531,11 @@ proto.getIdToken = function (oauthOptions, options) {
     default:
       return Q.reject(new AuthSdkError('The full page redirect flow is not supported'));
   }
+};
+
+// This is exposed so we can mock window.location.href in our tests
+proto.getIdToken._getLocationHref = function() {
+  return window.location.href;
 };
 
 /**

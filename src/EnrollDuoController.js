@@ -46,8 +46,7 @@ define([
 ],
 function (Okta, Duo, Q, FormController, Footer) {
 
-  var $ = Okta.$,
-      _ = Okta._;
+  var _ = Okta._;
 
   return FormController.extend({
 
@@ -63,9 +62,11 @@ function (Okta, Duo, Q, FormController, Footer) {
       },
 
       getInitOptions: function () {
-        return this.settings.getAuthClient().current
+        return this.doTransaction(function (transaction) {
+          return transaction
           .getFactorByTypeAndProvider('web', 'DUO')
           .enrollFactor();
+        });
       },
 
       activate: function (signedResponse) {
@@ -78,13 +79,14 @@ function (Okta, Duo, Q, FormController, Footer) {
               stateToken: this.get('stateToken'),
               sig_response: signedResponse
             };
-        return Q($.post(url, data))
+        return this.settings.getAuthClient().post(url, data)
         .then(function () {
-          return self.settings.getAuthClient().current
-            .startEnrollFactorPoll();
+          return self.doTransaction(function (transaction) {
+            return transaction.startEnrollFactorPoll();
+          });
         })
-        .fail(function (res) {
-          self.trigger('error', self, res.xhr);
+        .fail(function (err) {
+          self.trigger('error', self, err.xhr);
         });
       }
     },
@@ -110,7 +112,8 @@ function (Okta, Duo, Q, FormController, Footer) {
     fetchInitialData: function () {
       var self = this;
       return this.model.getInitOptions(this.options.appState)
-      .then(function (res) {
+      .then(function (trans) {
+        var res = trans.response;
         if (!res ||
             !res._embedded ||
             !res._embedded.factor ||
