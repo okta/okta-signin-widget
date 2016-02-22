@@ -39,9 +39,10 @@
 /* jshint maxstatements: 18 */
 define([
   'okta',
-  'util/FactorUtil'
+  'util/FactorUtil',
+  './BaseLoginModel'
 ],
-function (Okta, factorUtil) {
+function (Okta, factorUtil, BaseLoginModel) {
   var _ = Okta._;
   var $ = Okta.$;
   var LAST_USERNAME_COOKIE_NAME = 'ln';
@@ -50,7 +51,7 @@ function (Okta, factorUtil) {
   // in network connection lost errors in Safari and IE.
   var PUSH_INTERVAL = 6000;
 
-  var Factor = Okta.Model.extend({
+  var Factor = BaseLoginModel.extend({
     extraProperties: true,
     flat: false,
 
@@ -178,9 +179,10 @@ function (Okta, factorUtil) {
       }
     },
 
-    parse: function (options) {
-      this.settings = options.settings;
-      return _.omit(options, 'settings');
+    parse: function (attributes) {
+      this.settings = attributes.settings;
+      this.appState = attributes.appState;
+      return _.omit(attributes, ['settings', 'appState']);
     },
 
     validate: function() {
@@ -190,46 +192,43 @@ function (Okta, factorUtil) {
     },
 
     save: function () {
-      var authClient = this.settings.getAuthClient();
       var rememberDevice = this.settings.get('features.forceRememberDevice') ? true :
           $.cookie(LAST_USERNAME_COOKIE_NAME);
-      var data = {
-        rememberDevice: !!rememberDevice
-      };
-      if (this.get('factorType') === 'question') {
-        data.answer = this.get('answer');
-      } else {
-        data.passCode = this.get('answer');
-      }
+      return this.doTransaction(function(transaction) {
+        var data = {
+          rememberDevice: !!rememberDevice
+        };
+        if (this.get('factorType') === 'question') {
+          data.answer = this.get('answer');
+        } else {
+          data.passCode = this.get('answer');
+        }
 
-      var promise;
-      // MFA_REQUIRED
-      if (authClient.current.getFactorById) {
-        promise = authClient.current
+        var promise;
+        // MFA_REQUIRED
+        if (transaction.getFactorById) {
+          promise = transaction
           .getFactorById(this.get('id'))
           .verifyFactor(data);
-      }
+        }
 
-      // MFA_CHALLENGE
-      else if (this.get('canUseResend') && authClient.current.resendByName) {
-        var firstLink = authClient.lastResponse._links.resend[0];
-        promise = authClient.current
-          .resendByName(firstLink.name);
-      } else {
-        promise = authClient.current
-          .verifyFactor(data);
-      }
+        // MFA_CHALLENGE
+        else if (this.get('canUseResend') && transaction.resendByName) {
+          var firstLink = transaction.response._links.resend[0];
+          promise = transaction.resendByName(firstLink.name);
+        } else {
+          promise = transaction.verifyFactor(data);
+        }
 
-      return promise
-        .then(function (res) {
+        return promise
+        .then(function (trans) {
+          var res = trans.response;
           if (res.status === 'MFA_CHALLENGE' && res._links.next.name === 'poll') {
-            return authClient.current.startVerifyFactorPoll(PUSH_INTERVAL);
+            return trans.startVerifyFactorPoll(PUSH_INTERVAL);
           }
-          return res;
-        })
-        .fail(_.bind(function (res) {
-          this.trigger('error', this, res.xhr);
-        }, this));
+          return trans;
+        });
+      });
     }
   });
 
@@ -252,6 +251,7 @@ function (Okta, factorUtil) {
         return factors;
       }
       var totpFactor = _.findWhere(factors, { provider: 'OKTA', factorType: 'token:software:totp' });
+
       var isTotpFirst = (totpFactor === factors[0]);
 
       var parsedFactors = _.reduce(factors, function (memo, factor) {

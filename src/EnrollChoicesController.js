@@ -103,8 +103,9 @@ function (Okta, FormController, Enums, RouterUtil, Toolbar, FactorList,
             ));
             break;
           default:
-            this.settings.getAuthClient().current.skip();
-            break;
+            return this.model.doTransaction(function(transaction) {
+              return transaction.skip();
+            });
           }
         });
       },
@@ -208,7 +209,9 @@ function (Okta, FormController, Enums, RouterUtil, Toolbar, FactorList,
       //    (API return OktaVerify push factor as unenrolled in this case and as we always merge
       //    push and totp in UI so we redirect to skip link here).
       else {
-        this.settings.getAuthClient().current.skip();
+        this.model.doTransaction(function(transaction) {
+          return transaction.skip();
+        });
       }
 
       this.state.set('pageType', pageType);

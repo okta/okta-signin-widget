@@ -153,20 +153,19 @@ function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
     },
 
     remove: function () {
-      var authClient = this.settings.getAuthClient().current;
-      if (authClient.stopEnrollFactorPoll) {
-        authClient.stopEnrollFactorPoll();
-      }
+      this.model.manageTransaction(function(transaction) {
+        if (transaction.stopEnrollFactorPoll) {
+          transaction.stopEnrollFactorPoll();
+        }
+      });
       return FormController.prototype.remove.apply(this, arguments);
     },
 
     pollForEnrollment: function () {
-      var self = this;
-      self.settings.getAuthClient().current
-        .startEnrollFactorPoll(PUSH_INTERVAL)
-        .fail(function (err) {
-          self.model.trigger('error', self.model, err.xhr);
-        });
+      return this.model.doTransaction(function(transaction) {
+        return transaction
+        .startEnrollFactorPoll(PUSH_INTERVAL);
+      });
     },
 
     trapAuthResponse: function () {

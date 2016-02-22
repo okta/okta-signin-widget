@@ -19,6 +19,12 @@ function ($, _, Backbone, Q, Duo) {
     return $.cookie;
   };
 
+  fn.mockSDKCookie = function (authClient, key, value) {
+    key = key || 'oktaStateToken';
+    value = value || 'testStateToken';
+    spyOn(authClient.transactionExists, '_getCookie').and.returnValue(value);
+  };
+
   fn.mockRemoveCookie = function () {
     spyOn($, 'removeCookie');
     return $.removeCookie;
@@ -120,14 +126,7 @@ function ($, _, Backbone, Q, Duo) {
     });
   };
 
-  fn.mockEnrollFactorPoll = function () {
-    var original = Q.delay;
-    spyOn(Q, 'delay').and.callFake(function() {
-      return original.call(this, 0);
-    });
-  };
-
-  fn.mockVerifyFactorPoll = function () {
+  fn.speedUpPolling = function () {
     var original = Q.delay;
     spyOn(Q, 'delay').and.callFake(function() {
       return original.call(this, 0);
@@ -139,10 +138,73 @@ function ($, _, Backbone, Q, Duo) {
     spyOn(Math, 'random').and.returnValue(0.1);
   };
 
+  // A crazy hack to stop polling without an exposed isPolling property
+  var maxdepth = 10;
+  function findPollFnParent(caller, count) {
+    count = count || 1;
+    if (caller) {
+      if (caller.name === 'pollFn') {
+        return caller;
+      } else if (count < maxdepth) {
+        count++;
+        return findPollFnParent(caller.caller, count);
+      }
+    }
+  }
+
+  // Needed in order to reset the mock. Jasmine spies don't have restore()
+  var originalPost;
   fn.disableEnrollFactorPoll = function (authClient) {
-    Object.defineProperty(authClient, 'isPolling', {
-      get: function() { return false; },
-      set: function() { }
+    originalPost = authClient.post;
+    spyOn(authClient, 'post').and.callFake(function () {
+      var caller = arguments.callee.caller; /* jshint ignore: line */
+      var pollFn = findPollFnParent(caller);
+      if (pollFn) {
+        pollFn.__ref.isPolling = false;
+        // return waiting xhr
+        return Q.resolve({
+          'stateToken': 'testStateToken',
+          'factorResult': 'WAITING'
+        });
+      }
+
+      return originalPost.apply(this, arguments);
+    });
+  };
+
+  fn.stallEnrollFactorPoll = function (authClient) {
+    if (authClient.post.calls) {
+      authClient.post = originalPost;
+    }
+    originalPost = authClient.post;
+    spyOn(authClient, 'post').and.callFake(function () {
+      var caller = arguments.callee.caller; /* jshint ignore: line */
+      var pollFn = findPollFnParent(caller);
+      if (pollFn) {
+        // return waiting xhr
+        return Q.resolve({
+          'stateToken': 'testStateToken',
+          'factorResult': 'WAITING'
+        });
+      }
+
+      return originalPost.apply(this, arguments);
+    });
+  };
+
+  fn.resumeEnrollFactorPoll = function (authClient, response) {
+    if (authClient.post.calls) {
+      authClient.post = originalPost;
+    }
+    originalPost = authClient.post;
+    spyOn(authClient, 'post').and.callFake(function () {
+      var caller = arguments.callee.caller; /* jshint ignore: line */
+      var pollFn = findPollFnParent(caller);
+      if (pollFn) {
+        authClient.post = originalPost;
+        return Q.resolve(response);
+      }
+      return originalPost.apply(this, arguments);
     });
   };
 

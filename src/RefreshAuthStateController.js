@@ -48,22 +48,23 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
     },
 
     preRender: function () {
-      var appState = this.options.appState,
-          authClient = this.settings.getAuthClient();
+      var token = this.options.token;
+      var appState = this.options.appState;
+      this.model.startTransaction(function(authClient) {
+        if (token) {
+          appState.trigger('loading', true);
+          return authClient.resumeTransaction({
+            stateToken: token
+          });
+        }
 
-      if (this.options.token) {
-        appState.trigger('loading', true);
-        authClient.status({ stateToken: this.options.token }).done();
-        return;
-      }
+        if (authClient.transactionExists()) {
+          appState.trigger('loading', true);
+          return authClient.resumeTransaction();
+        }
 
-      if (authClient.authStateNeedsRefresh()) {
-        appState.trigger('loading', true);
-        authClient.refreshAuthState().done();
-        return;
-      }
-
-      appState.trigger('navigate', '');
+        appState.trigger('navigate', '');
+      });
     },
 
     remove: function () {

@@ -41,18 +41,20 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
   var action = function (model) {
     var url = RouterUtil.createVerifyUrl(model.get('provider'), model.get('factorType')),
-        authClient = this.settings.getAuthClient(),
         self = this;
 
-    if (authClient.state === 'MFA_CHALLENGE' && authClient.current.previous) {
-      authClient.current.previous().then(function () {
+    this.model.manageTransaction(function (transaction, setTransaction) {
+      if (transaction.status === 'MFA_CHALLENGE' && transaction.previous) {
+        transaction.previous().then(function (trans) {
+          self.trigger('options:toggle');
+          self.options.appState.trigger('navigate', url);
+          setTransaction(trans);
+        });
+      } else {
         self.trigger('options:toggle');
         self.options.appState.trigger('navigate', url);
-      });
-    } else {
-      this.trigger('options:toggle');
-      this.options.appState.trigger('navigate', url);
-    }
+      }
+    });
   };
 
   var dropdownOptions = {

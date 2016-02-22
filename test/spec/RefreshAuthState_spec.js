@@ -58,7 +58,7 @@ function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
     itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
       return setup()
       .then(function (test) {
-        spyOn(test.ac, 'authStateNeedsRefresh').and.returnValue(false);
+        spyOn(test.ac, 'transactionExists').and.returnValue(false);
         test.router.refreshAuthState();
         return tick(test);
       })
@@ -67,12 +67,9 @@ function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
       });
     });
     itp('refreshes auth state on render if it does need a refresh', function () {
-      var callCount = 0;
       return setup()
       .then(function (test) {
-        spyOn(test.ac, 'authStateNeedsRefresh').and.callFake(function () {
-          return callCount++ === 0;
-        });
+        Util.mockSDKCookie(test.ac);
         test.setNextResponse(resEnroll);
         test.router.refreshAuthState();
         return tick(test);
@@ -81,7 +78,9 @@ function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
         expect($.ajax.calls.count()).toBe(1);
         Expect.isJsonPost($.ajax.calls.argsFor(0), {
           url: 'https://foo.com/api/v1/authn',
-          data: {}
+          data: {
+            stateToken: 'testStateToken'
+          }
         });
       });
     });

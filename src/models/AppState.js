@@ -112,6 +112,8 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
     local: {
       baseUrl: 'string',
       lastAuthResponse: ['object', true, {}],
+      transaction: 'object',
+      transactionError: 'object',
       username: 'string',
       factors: 'object',
       securityImage: ['string', true, UNDEFINED_USER],
@@ -125,10 +127,12 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       // Because of MFA_CHALLENGE (i.e. DUO), we need to remember factors
       // across auth responses. Not doing this, for example, results in being
       // unable to switch away from the duo factor dropdown.
+      var self = this;
       if (res._embedded && res._embedded.factors) {
         var settings = this.settings;
         var factors = _.map(res._embedded.factors, function (factor) {
           factor.settings = settings;
+          factor.appState = self;
           return factor;
         });
         this.set('factors', new Factor.Collection(factors, { parse: true }));

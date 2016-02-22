@@ -40,8 +40,9 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       Util.mockRouterNavigate(router);
       Util.mockJqueryCss();
       setNextResponse(res);
-      authClient.status();
-      return tick().then(function () {
+      router.refreshAuthState('dummy-token');
+      return tick()
+      .then(function () {
         return {
           ac: authClient,
           setNextResponse: setNextResponse,

@@ -36,14 +36,19 @@
  * PARTY COMPONENTS, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-define(['okta', 'vendor/plugins/jquery.cookie'], function (Okta) {
+define([
+  'okta',
+  './BaseLoginModel',
+  'vendor/plugins/jquery.cookie'
+],
+function (Okta, BaseLoginModel) {
 
   var $ = Okta.$;
   var _ = Okta._;
   var LAST_USERNAME_COOKIE_NAME = 'ln';
   var DAYS_SAVE_REMEMBER = 365;
 
-  return Okta.Model.extend({
+  return BaseLoginModel.extend({
 
     props: function() {
       var settingsUsername = this.settings && this.settings.get('username'),
@@ -71,13 +76,14 @@ define(['okta', 'vendor/plugins/jquery.cookie'], function (Okta) {
 
     constructor: function (options) {
       this.settings = options && options.settings;
+      this.appState = options && options.appState;
       Okta.Model.apply(this, arguments);
       this.listenTo(this, 'change:username', function (model, username) {
         this.set({remember: username === this.get('lastUsername')});
       });
     },
     parse: function(options) {
-      return _.omit(options, 'settings');
+      return _.omit(options, ['settings', 'appState']);
     },
 
     save: function () {
@@ -99,21 +105,19 @@ define(['okta', 'vendor/plugins/jquery.cookie'], function (Okta) {
         });
       }
 
-      var authClient = this.settings.getAuthClient();
-      authClient.resetState();
-      return authClient.current
-        .primaryAuth({
+      return this.startTransaction(function (authClient) {
+        return authClient.primaryAuth({
           username: username,
           password: password,
           options: {
             warnBeforePasswordExpired: true,
             multiOptionalFactorEnroll: multiOptionalFactorEnroll
           }
-        })
-        .fail(_.bind(function (res) {
-          $.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
-          this.trigger('error', this, res.xhr);
-        }, this));
+        });
+      })
+      .fail(function () {
+        $.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
+      });
     }
 
   });

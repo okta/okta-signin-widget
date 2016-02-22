@@ -93,12 +93,9 @@ function (Okta, FactorUtil, FormController, FormType, RouterUtil, BarcodeView, F
     },
 
     pollForEnrollment: function () {
-      var self = this;
-      self.settings.getAuthClient().current
-        .startEnrollFactorPoll(PUSH_INTERVAL)
-        .fail(function (res) {
-          self.model.trigger('error', self.model, res.xhr);
-        });
+      return this.model.doTransaction(function(transaction) {
+        return transaction.startEnrollFactorPoll(PUSH_INTERVAL);
+      });
     },
 
     trapAuthResponse: function () {

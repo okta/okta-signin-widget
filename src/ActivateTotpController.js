@@ -44,8 +44,6 @@ define([
 ],
 function (Okta, FormController, EnterPasscodeForm, Footer) {
 
-  var _ = Okta._;
-
   return FormController.extend({
     className: 'activate-totp',
     Model: function () {
@@ -59,11 +57,11 @@ function (Okta, FormController, EnterPasscodeForm, Footer) {
           '__provider__': ['string', false, this.options.provider]
         },
         save: function () {
-          return this.settings.getAuthClient().current.activateFactor({
-            passCode: this.get('passCode')
-          }).fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+          return this.doTransaction(function(transaction) {
+            return transaction.activateFactor({
+              passCode: this.get('passCode')
+            });
+          });
         }
       };
     },

@@ -43,7 +43,6 @@ define([
   'views/enroll-factors/Footer'
 ],
 function (Okta, FormType, FormController, Footer) {
-  var _ = Okta._;
 
   return FormController.extend({
     className: 'enroll-yubikey',
@@ -53,14 +52,13 @@ function (Okta, FormType, FormController, Footer) {
         factorId: 'string'
       },
       save: function () {
-        return this.settings.getAuthClient().current
+        return this.doTransaction(function(transaction) {
+          return transaction
           .getFactorByTypeAndProvider('token:hardware', 'YUBICO')
           .enrollFactor({
             passCode: this.get('passCode')
-          })
-          .fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+          });
+        });
       }
     },
 

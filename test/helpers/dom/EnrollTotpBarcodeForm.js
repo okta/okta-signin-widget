@@ -9,6 +9,10 @@ define(['./Form'], function (Form) {
 
   return Form.extend({
 
+    isEnrollTotpBarcodeForm: function () {
+      return this.container().length === 1;
+    },
+
     form: function () {
       return this.el(SCAN_FORM);
     },

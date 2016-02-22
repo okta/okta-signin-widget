@@ -39,7 +39,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
     setNextResponse(resPasswordReset);
-    authClient.status();
+    router.refreshAuthState('dummy-token');
     return tick().then(function () {
       return {
         router: router,

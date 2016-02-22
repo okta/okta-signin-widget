@@ -39,7 +39,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
 
     resRecovery.response = _.extend(resRecovery.response, res);
     setNextResponse(resRecovery);
-    authClient.status();
+    router.refreshAuthState('dummy-token');
 
     return tick().then(function () {
       return {

@@ -38,8 +38,6 @@
 
 define(['okta', 'util/FormController'], function (Okta, FormController) {
 
-  var _ = Okta._;
-
   return FormController.extend({
     className: 'recovery-loading',
 
@@ -49,14 +47,15 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
     },
 
     initialize: function (options) {
-      this.settings.getAuthClient().current
-        .verifyRecoveryToken({
+      var self = this;
+      return this.model.startTransaction(function (authClient) {
+        return authClient.verifyRecoveryToken({
           recoveryToken: options.token
-        })
-        .fail(_.bind(function (err) {
-          this.model.trigger('error', this.model, err.xhr);
-          this.options.appState.trigger('loading', false);
-        }, this));
+        });
+      })
+      .fail(function () {
+        self.options.appState.trigger('loading', false);
+      });
     },
 
     preRender: function () {

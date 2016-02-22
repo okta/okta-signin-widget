@@ -71,52 +71,53 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
   }
 
   function enrollFactor(view, factorType) {
-    var authClient = view.settings.getAuthClient();
-    authClient.current.previous()
-    .then(function () {
-      return authClient.current
-        .getFactorByTypeAndProvider(factorType, 'OKTA')
-        .enrollFactor();
-    })
-    .then(function (res) {
-      var textActivationLinkUrl,
-          emailActivationLinkUrl,
-          sharedSecret;
+    return view.model.doTransaction(function(transaction) {
+      return transaction.previous()
+      .then(function (trans) {
+        return trans
+          .getFactorByTypeAndProvider(factorType, 'OKTA')
+          .enrollFactor();
+      })
+      .then(function (trans) {
+        var textActivationLinkUrl,
+            emailActivationLinkUrl,
+            sharedSecret,
+            res = trans.response;
 
-      if (res &&
-          res._embedded &&
-          res._embedded.factor &&
-          res._embedded.factor._embedded &&
-          res._embedded.factor._embedded.activation) {
+        if (res &&
+            res._embedded &&
+            res._embedded.factor &&
+            res._embedded.factor._embedded &&
+            res._embedded.factor._embedded.activation) {
 
-        var factor = res._embedded.factor;
+          var factor = res._embedded.factor;
 
-        // Shared secret
-        sharedSecret = factor._embedded.activation.sharedSecret;
+          // Shared secret
+          sharedSecret = factor._embedded.activation.sharedSecret;
 
-        if (factor._embedded.activation._links &&
-            factor._embedded.activation._links.send) {
+          if (factor._embedded.activation._links &&
+              factor._embedded.activation._links.send) {
 
-          var activationSendLinks = factor._embedded.activation._links.send;
+            var activationSendLinks = factor._embedded.activation._links.send;
 
-          // SMS activation url
-          var smsItem = _.findWhere(activationSendLinks, {name: 'sms'});
-          textActivationLinkUrl = smsItem ? smsItem.href : null;
+            // SMS activation url
+            var smsItem = _.findWhere(activationSendLinks, {name: 'sms'});
+            textActivationLinkUrl = smsItem ? smsItem.href : null;
 
-          // Email activation url
-          var emailItem = _.findWhere(activationSendLinks, {name: 'email'});
-          emailActivationLinkUrl = emailItem ? emailItem.href : null;
+            // Email activation url
+            var emailItem = _.findWhere(activationSendLinks, {name: 'email'});
+            emailActivationLinkUrl = emailItem ? emailItem.href : null;
+          }
         }
-      }
 
-      view.model.set({
-        'SMS': textActivationLinkUrl,
-        'EMAIL': emailActivationLinkUrl,
-        'sharedSecret': sharedSecret
+        view.model.set({
+          'SMS': textActivationLinkUrl,
+          'EMAIL': emailActivationLinkUrl,
+          'sharedSecret': sharedSecret
+        });
+
+        return trans;
       });
-    })
-    .fail(function (err) {
-      view.model.trigger('error', view.model, err.xhr);
     });
   }
 
@@ -257,7 +258,8 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
           stateToken: this.options.appState.get('lastAuthResponse').stateToken,
           profile: profile
         })
-        .then(function () {
+        .then(function (res) {
+          self.options.appState.setAuthResponse(res);
           setStateValues(self);
           // Note: Need to defer because OktaAuth calls our router success
           // handler on the next tick - if we immediately called, appState would
@@ -266,8 +268,8 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
             goToFactorActivation(self, 'sent');
           });
         })
-        .fail(function (res) {
-          self.model.trigger('error', self.model, res.xhr);
+        .fail(function (err) {
+          self.model.trigger('error', self.model, err.xhr);
         });
       });
 
