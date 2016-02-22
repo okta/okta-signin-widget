@@ -1,0 +1,59 @@
+// @license
+//Copyright (c) 2011-2012, Julieta Ulanovsky (julieta.ulanovsky@gmail.com), with Reserved Font Names 'Montserrat'
+//This Font Software is licensed under the SIL Open Font License, Version 1.1.
+//This license is copied below, and is also available with a FAQ at:
+//http://scripts.sil.org/OFL
+//
+//This Font Software is licensed under the SIL Open Font License, Version 1.1.
+//This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+//
+//-----------------------------------------------------------
+//SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+//-----------------------------------------------------------
+@font-face {
+  font-family: 'montserrat';
+  src: url('../font/montserrat-light-webfont.eot');
+  src: url('../font/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../font/montserrat-light-webfont.woff') format('woff'),
+  url('../font/montserrat-light-webfont.ttf') format('truetype'),
+  url('../font/montserrat-light-webfont.svg#Montserrat-Light') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'montserrat';
+  src: url('../font/montserrat-regular-webfont.eot');
+  src: url('../font/montserrat-regular-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../font/montserrat-regular-webfont.woff') format('woff'),
+  url('../font/montserrat-regular-webfont.ttf') format('truetype'),
+  url('../font/montserrat-regular-webfont.svg#Montserrat-SemiBold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'okticon';
+  src: url('../font/okticon.eot');
+  src: url('../font/okticon.eot?#iefix') format('embedded-opentype'),
+  url('../font/okticon.woff') format('woff'),
+  url('../font/okticon.ttf') format('truetype'),
+  url('../font/okticon.svg#okticon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// Web Font Loader classes
+.wf-loading {
+  visibility: hidden;
+
+  // Fix for dashboard
+  // scss-lint:disable ImportantRule
+  .ajax-include-feedback-content {
+    visibility: hidden !important;
+  }
+}
+
+.wf-active {
+  visibility: visible;
+}
