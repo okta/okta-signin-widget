@@ -148,7 +148,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'assets/',
-            src: ['font/**/*', 'img/**/*'],
+            src: ['sass/**/*', 'font/**/*', 'img/**/*'],
             dest: DIST
           }
         ]
