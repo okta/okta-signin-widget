@@ -48,6 +48,7 @@ define([
     noCancelButton: true,
     save: Okta.loc('primaryauth.submit', 'login'),
     layout: 'o-form-theme',
+
     // If socialAuth is configured, the title moves from the form to
     // the top of the container (and is rendered in socialAuth).
     title: function () {

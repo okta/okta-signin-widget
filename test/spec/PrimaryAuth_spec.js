@@ -488,7 +488,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         })
         .then(function (test) {
           var spyCalls = test.securityBeacon.toggleClass.calls;
-          expect(spyCalls.count()).toBe(2);
+          expect(spyCalls.count()).toBe(3);
           expect(spyCalls.argsFor(0)).toEqual(['beacon-loading', true]);
           expect(spyCalls.argsFor(1)).toEqual(['beacon-loading', false]);
         });
@@ -512,7 +512,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         })
         .then(function (test) {
           var spyCalls = test.securityBeacon.toggleClass.calls;
-          expect(spyCalls.count()).toBe(2);
+          expect(spyCalls.count()).toBe(3);
           expect(spyCalls.argsFor(0)).toEqual(['beacon-loading', true]);
           expect(spyCalls.argsFor(1)).toEqual(['beacon-loading', false]);
         });
@@ -651,7 +651,43 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           $.ajax.calls.reset();
           test.form.submit();
           expect(test.form.passwordErrorField().length).toBe(1);
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).not.toContain('link-button-disabled');
           expect($.ajax).not.toHaveBeenCalled();
+        });
+      });
+      itp('reenables the button after a CORS error', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse({status: 0, response: {}});
+          test.form.submit();
+          return tick(test);
+        })
+        .then(function (test) {
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).not.toContain('link-button-disabled');
+        });
+      });
+      itp('disables the "sign in" button when clicked', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resUnauthorized);
+          test.form.submit();
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).toContain('link-button-disabled');
+          return tick(test);
+        })
+        .then(function (test) {
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).not.toContain('link-button-disabled');
         });
       });
       itp('calls authClient primaryAuth with form values when submitted', function () {

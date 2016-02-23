@@ -50,7 +50,7 @@ function (Okta, BaseLoginModel) {
 
   return BaseLoginModel.extend({
 
-    props: function() {
+    props: function () {
       var settingsUsername = this.settings && this.settings.get('username'),
           cookieUsername = $.cookie(LAST_USERNAME_COOKIE_NAME),
           remember = false,
@@ -82,7 +82,7 @@ function (Okta, BaseLoginModel) {
         this.set({remember: username === this.get('lastUsername')});
       });
     },
-    parse: function(options) {
+    parse: function (options) {
       return _.omit(options, ['settings', 'appState']);
     },
 
@@ -105,6 +105,10 @@ function (Okta, BaseLoginModel) {
         });
       }
 
+      //the 'save' event here is triggered and used in the BaseLoginController
+      //to disable the primary button on the primary auth form
+      this.trigger('save');
+
       return this.startTransaction(function (authClient) {
         return authClient.primaryAuth({
           username: username,
@@ -115,11 +119,11 @@ function (Okta, BaseLoginModel) {
           }
         });
       })
-      .fail(function () {
+      .fail(_.bind(function () {
+        this.trigger('error');
         $.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
-      });
+      }, this));
     }
-
   });
 
 });
