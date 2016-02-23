@@ -40,9 +40,33 @@
 define(['okta', 'vendor/lib/q'], function (Okta, Q) {
   var _ = Okta._;
 
+  function getForm(controller) {
+    return _.find(controller.getChildren(), function (item) {
+      return (item instanceof Okta.Form);
+    });
+  }
+
   return Okta.Controller.extend({
 
-    // Override this method to delay switching to this screen until return
+    constructor: function () {
+      Okta.Controller.apply(this, arguments);
+      this.listenTo(this.model, 'save', function () {
+        //disable the submit button on forms while making the request
+        //to prevent users from hitting rate limiting exceptions of
+        //1 per second on the auth api
+        var form = getForm(this);
+        var disableSubmitButton = form.disableSubmitButton;
+        if (disableSubmitButton && !form.disableSubmitButton()) {
+          return;
+        }
+        this.toggleButtonState(true);
+      });
+      this.listenTo(this.model, 'error', function () {
+        this.toggleButtonState(false);
+      });
+    },
+
+    // Override this method to delay switching to thies screen until return
     // promise is resolved. This is useful for cases like enrolling a security
     // question, which requires an additional request to fetch the question
     // list.
@@ -60,6 +84,11 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
     toJSON: function () {
       var data = Okta.Controller.prototype.toJSON.apply(this, arguments);
       return _.extend(_.pick(this.options, 'appState'), data);
+    },
+
+    toggleButtonState: function (state) {
+      var button = this.$el.find('.button');
+      button.toggleClass('link-button-disabled', state);
     }
 
   });

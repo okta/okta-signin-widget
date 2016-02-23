@@ -194,7 +194,7 @@ function (Okta, factorUtil, BaseLoginModel) {
     save: function () {
       var rememberDevice = this.settings.get('features.forceRememberDevice') ? true :
           $.cookie(LAST_USERNAME_COOKIE_NAME);
-      return this.doTransaction(function(transaction) {
+      return this.doTransaction(function (transaction) {
         var data = {
           rememberDevice: !!rememberDevice
         };
@@ -219,6 +219,9 @@ function (Okta, factorUtil, BaseLoginModel) {
         } else {
           promise = transaction.verifyFactor(data);
         }
+        //the 'save' event here is triggered and used in the BaseLoginController
+        //to disable the primary button on the factor form
+        this.trigger('save');
 
         return promise
         .then(function (trans) {

@@ -52,6 +52,7 @@ define(['okta'], function (Okta) {
     events: {
       submit: 'submit'
     },
+
     initialize: function () {
       this.enabled = true;
       this.listenTo(this.options.appState, 'change:isMfaRejectedByUser',
