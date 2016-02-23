@@ -262,6 +262,26 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             });
           });
         });
+        itp('calls authClient verifyFactor with correct args when logged in from a mobile device', function () {
+          return setupSecurityQuestion({ features: { forceRememberDevice: true }})
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('food');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=true',
+              data: {
+                answer: 'food',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
         itp('shows an error if error response from authClient', function () {
           return setupSecurityQuestion()
           .then(function (test) {
