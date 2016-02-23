@@ -78,6 +78,8 @@ function (Okta, Errors, BrowserFeatures) {
       'features.selfServiceUnlock': ['boolean', true, false],
       'features.multiOptionalFactorEnroll': ['boolean', true, false],
       'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
+      // forces "remember device" instead of reading from the cookie.
+      'features.forceRememberDevice': 'boolean',
 
       // OAUTH2
       'authScheme': ['string', false, 'OAUTH2'],

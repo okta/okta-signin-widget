@@ -190,8 +190,9 @@ function (Okta, factorUtil) {
     },
 
     save: function () {
-      var rememberDevice = $.cookie(LAST_USERNAME_COOKIE_NAME);
       var authClient = this.settings.getAuthClient();
+      var rememberDevice = this.settings.get('features.forceRememberDevice') ? true :
+          $.cookie(LAST_USERNAME_COOKIE_NAME);
       var data = {
         rememberDevice: !!rememberDevice
       };
