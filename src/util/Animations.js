@@ -42,6 +42,44 @@ define(['vendor/lib/q', './Enums'], function (Q, Enums) {
 
   var fn = {};
 
+  function zoom ($el, start, finish) {
+    var deferred = Q.defer();
+    $el.animate({
+      'text-indent': 1
+    }, {
+      duration: 200,
+      easing: 'swing',
+      step: function (now, fx) {
+        fx.start = start;
+        fx.end = finish;
+        $el.css('transform', 'scale(' + now + ', ' + now + ')');
+      },
+      always: function () {
+        deferred.resolve($el);
+      }
+    });
+    return deferred.promise;
+  }
+
+  function rotate ($el, start, finish) {
+    var deferred = Q.defer();
+    $el.animate({
+      'text-indent': 1
+    }, {
+      duration: 150,
+      easing: 'swing',
+      step: function (now, fx) {
+        fx.start = start;
+        fx.end = finish;
+        $el.css('transform', 'rotate(' + now + 'deg)');
+      },
+      always: function () {
+        deferred.resolve($el);
+      }
+    });
+    return deferred.promise;
+  }
+
   // Note: It is necessary to pass in a success callback because we must
   // remove the old dom node (and controller) in the same tick of the event
   // loop. Waiting for "then" results in a glitchy animation.
@@ -126,44 +164,6 @@ define(['vendor/lib/q', './Enums'], function (Q, Enums) {
       });
     });
   };
-
-  function zoom ($el, start, finish) {
-    var deferred = Q.defer();
-    $el.animate({
-      'text-indent': 1
-    }, {
-      duration: 200,
-      easing: 'swing',
-      step: function (now, fx) {
-        fx.start = start;
-        fx.end = finish;
-        $el.css('transform', 'scale(' + now + ', ' + now + ')');
-      },
-      always: function () {
-        deferred.resolve($el);
-      }
-    });
-    return deferred.promise;
-  }
-
-  function rotate ($el, start, finish) {
-    var deferred = Q.defer();
-    $el.animate({
-      'text-indent': 1
-    }, {
-      duration: 150,
-      easing: 'swing',
-      step: function (now, fx) {
-        fx.start = start;
-        fx.end = finish;
-        $el.css('transform', 'rotate(' + now + 'deg)');
-      },
-      always: function () {
-        deferred.resolve($el);
-      }
-    });
-    return deferred.promise;
-  }
 
   return fn;
 
