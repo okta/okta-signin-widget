@@ -386,6 +386,7 @@ module.exports = function (grunt) {
   grunt.loadTasks('buildtools/phonecodes');
   grunt.loadTasks('buildtools/scsslint');
   grunt.loadTasks('buildtools/bumpprereleaseversion');
+  grunt.loadTasks('buildtools/shrinkwrap');
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-jasmine');

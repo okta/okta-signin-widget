@@ -41,52 +41,6 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
   var _ = Okta._,
       $ = Okta.$;
 
-  function updateSecurityImage($el, appState, animate) {
-    var image = $el.find('.auth-beacon-security'),
-        border = $el.find('.js-auth-beacon-border'),
-        hasBorder = !appState.get('isUndefinedUser'),
-        hasAntiPhishing = appState.get('isNewUser'),
-        radialProgressBar = $el.find('.radial-progress-bar'),
-        host = appState.get('baseUrl').match(/https?:\/\/(.[^\/]+)/)[1],
-        duration = 200;
-    if (!animate) {
-      // Do not animate the security beacon
-      // This occurs when initializing the form
-      setBackgroundImage(image, appState);
-      border.toggleClass('auth-beacon-border', hasBorder);
-      return;
-    }
-    // Animate loading the security beacon
-    if (!hasBorder) {
-      // This occurrs when appState username is blank
-      // we do not yet know if the user is recognized
-      image.qtip('destroy');
-      image.fadeOut(duration, function () {
-        setBackgroundImage(image, appState);
-        border.removeClass('auth-beacon-border');
-        image.fadeIn(duration);
-      });
-    } else {
-      // Animate loading the security beacon with a loading bar for the border
-      // This occurrs when the username has been checked against Okta.
-      image.qtip('destroy');
-      border.removeClass('auth-beacon-border');
-      Animations.radialProgressBar({
-        $el: radialProgressBar,
-        swap: function () {
-          image.fadeOut(duration, function () {
-            setBackgroundImage(image, appState);
-            image.fadeIn(duration);
-          });
-        }
-      }).then(function () {
-        border.addClass('auth-beacon-border');
-      }).then(function () {
-        antiPhishingMessage(image, host, hasAntiPhishing);
-      });
-    }
-  }
-
   function setBackgroundImage (el, appState) {
     // NOTE: The imgSrc is returned by the server so that every
     // user has a unique image. However new and undefined user states
@@ -135,6 +89,52 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       show: {event: false, delay: 200}
     });
     image.qtip('toggle', shown);
+  }
+
+  function updateSecurityImage($el, appState, animate) {
+    var image = $el.find('.auth-beacon-security'),
+        border = $el.find('.js-auth-beacon-border'),
+        hasBorder = !appState.get('isUndefinedUser'),
+        hasAntiPhishing = appState.get('isNewUser'),
+        radialProgressBar = $el.find('.radial-progress-bar'),
+        host = appState.get('baseUrl').match(/https?:\/\/(.[^\/]+)/)[1],
+        duration = 200;
+    if (!animate) {
+      // Do not animate the security beacon
+      // This occurs when initializing the form
+      setBackgroundImage(image, appState);
+      border.toggleClass('auth-beacon-border', hasBorder);
+      return;
+    }
+    // Animate loading the security beacon
+    if (!hasBorder) {
+      // This occurrs when appState username is blank
+      // we do not yet know if the user is recognized
+      image.qtip('destroy');
+      image.fadeOut(duration, function () {
+        setBackgroundImage(image, appState);
+        border.removeClass('auth-beacon-border');
+        image.fadeIn(duration);
+      });
+    } else {
+      // Animate loading the security beacon with a loading bar for the border
+      // This occurrs when the username has been checked against Okta.
+      image.qtip('destroy');
+      border.removeClass('auth-beacon-border');
+      Animations.radialProgressBar({
+        $el: radialProgressBar,
+        swap: function () {
+          image.fadeOut(duration, function () {
+            setBackgroundImage(image, appState);
+            image.fadeIn(duration);
+          });
+        }
+      }).then(function () {
+        border.addClass('auth-beacon-border');
+      }).then(function () {
+        antiPhishingMessage(image, host, hasAntiPhishing);
+      });
+    }
   }
 
   return Okta.View.extend({

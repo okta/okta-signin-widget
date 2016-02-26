@@ -40,19 +40,13 @@
 //because we want to be explicit about which TextBox we are extending here
 //and want to avoid the cirucular dependency that occurs if we
 //include Okta
-define(['jquery',
+define([
+  'jquery',
   'vendor/lib/handlebars-wrapper',
   'shared/views/forms/inputs/TextBox',
-  'qtip'],
-  function ($, Handlebars, TextBox) {
-
-  // options may be a string or an object.
-  function createQtipContent(options) {
-    if (hasTitleAndText(options)) {
-      return options;
-    }
-    return {text: options.text || options};
-  }
+  'qtip'
+],
+function ($, Handlebars, TextBox) {
 
   function hasTitleAndText(options) {
     var title = options.title,
@@ -62,6 +56,14 @@ define(['jquery',
       return true;
     }
     return false;
+  }
+
+  // options may be a string or an object.
+  function createQtipContent(options) {
+    if (hasTitleAndText(options)) {
+      return options;
+    }
+    return {text: options.text || options};
   }
 
   return TextBox.extend({
@@ -101,7 +103,6 @@ define(['jquery',
         });
       }
     }
-
 
   });
 
