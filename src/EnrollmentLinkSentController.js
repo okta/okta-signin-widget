@@ -45,7 +45,9 @@ define([
 ],
 function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
 
-  var PUSH_INTERVAL = 5000;
+  // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
+  // in network connection lost errors in Safari and IE.
+  var PUSH_INTERVAL = 6000;
 
   var Footer = Okta.View.extend({
     template: '\

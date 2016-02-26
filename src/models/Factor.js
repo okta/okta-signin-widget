@@ -45,7 +45,10 @@ function (Okta, factorUtil) {
   var _ = Okta._;
   var $ = Okta.$;
   var LAST_USERNAME_COOKIE_NAME = 'ln';
-  var PUSH_INTERVAL = 5000;
+
+  // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
+  // in network connection lost errors in Safari and IE.
+  var PUSH_INTERVAL = 6000;
 
   var Factor = Okta.Model.extend({
     extraProperties: true,
