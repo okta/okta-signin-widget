@@ -41,9 +41,10 @@ define([
   './FormType',
   'shared/views/forms/components/Toolbar',
   'shared/views/forms/helpers/FormUtil',
-  './BaseLoginController'
+  './BaseLoginController',
+  'models/BaseLoginModel'
 ],
-function (Okta, FormType, Toolbar, FormUtil, BaseLoginController) {
+function (Okta, FormType, Toolbar, FormUtil, BaseLoginController, BaseLoginModel) {
 
   var _ = Okta._;
 
@@ -91,13 +92,17 @@ function (Okta, FormType, Toolbar, FormUtil, BaseLoginController) {
       BaseLoginController.apply(this, arguments);
 
       if (this.Model && this.Form) {
-        var Model = Okta.Model.extend(_.extend({
-          parse: function (options) {
-            this.settings = options.settings;
-            return _.omit(options, 'settings');
+        var Model = BaseLoginModel.extend(_.extend({
+          parse: function (attributes) {
+            this.settings = attributes.settings;
+            this.appState = attributes.appState;
+            return _.omit(attributes, ['settings', 'appState']);
           }
         }, _.result(this, 'Model')));
-        this.model = new Model({ settings: this.settings }, { parse: true });
+        this.model = new Model({
+          settings: this.settings,
+          appState: this.options.appState
+        }, { parse: true });
         var Form = SimpleForm.extend(_.result(this, 'Form', this));
         this.form = new Form(this.toJSON());
         this.add(this.form);

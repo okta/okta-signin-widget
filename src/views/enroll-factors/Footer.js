@@ -58,7 +58,9 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
         // Once we are in the MFA_ENROLL_ACTIVATE, we need to reset to the
         // correct state. Fortunately, this means that the router will
         // handle navigation once the request is finished.
-        this.settings.getAuthClient().current.previous();
+        this.model.doTransaction(function (transaction) {
+          return transaction.previous();
+        });
       }
       else {
         this.options.appState.trigger('navigate', 'signin/enroll');

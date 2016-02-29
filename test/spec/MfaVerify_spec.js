@@ -48,7 +48,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
       }, settings));
       Util.mockRouterNavigate(router);
       setNextResponse(res);
-      authClient.status();
+      router.refreshAuthState('dummy-token');
       return tick()
       .then(function () {
         if (selectedFactorProps) {
@@ -112,7 +112,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
       $.ajax.calls.reset();
 
       // Mock calls to startVerifyFactorPoll to include a faster poll
-      Util.mockVerifyFactorPoll(test.ac);
+      Util.speedUpPolling(test.ac);
 
       // 1: Set for first verifyFactor
       // 2: Set for startVerifyFactorPoll
@@ -787,7 +787,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
               function setupFailurePolling(test) {
                 var failureResponse = {status: 0, response: {}};
                 $.ajax.calls.reset();
-                Util.mockEnrollFactorPoll(test.ac);
+                Util.speedUpPolling(test.ac);
                 test.setNextResponse([resChallengePush, resChallengePush, failureResponse, failureResponse,
                   failureResponse, failureResponse, failureResponse, failureResponse]);
                 test.form = test.form[0];

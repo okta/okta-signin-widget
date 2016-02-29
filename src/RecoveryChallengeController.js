@@ -60,26 +60,22 @@ function (Okta, FormController, FormType, FooterSignout) {
         // Note: This does not require a trapAuthResponse because Backbone's
         // router will not navigate if the url path is the same
         this.limitResending();
-        var authClient = this.settings.getAuthClient();
-        var firstLink = authClient.lastResponse._links.resend;
-        return authClient.current
-          .resendByName(firstLink.name)
-          .fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+        return this.doTransaction(function(transaction) {
+          var firstLink = transaction.response._links.resend;
+          return transaction.resendByName(firstLink.name);
+        });
       },
       limitResending: function () {
         this.set({ableToResend: false});
         _.delay(_.bind(this.set, this), API_RATE_LIMIT, {ableToResend: true});
       },
       save: function () {
-        return this.settings.getAuthClient().current
+        return this.doTransaction(function(transaction) {
+          return transaction
           .verifyRecovery({
             passCode: this.get('passCode')
-          })
-          .fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+          });
+        });
       }
     },
     Form: {

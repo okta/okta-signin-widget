@@ -35,9 +35,12 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
         globalSuccessFn: function () {}
       });
       Util.mockRouterNavigate(router, startRouter);
-      setNextResponse(resAllFactors);
-      authClient.status();
       return tick()
+      .then(function () {
+        setNextResponse(resAllFactors);
+        router.refreshAuthState('dummy-token');
+        return tick();
+      })
       .then(function () {
         setNextResponse(resQuestions);
         router.enrollQuestion();

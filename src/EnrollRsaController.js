@@ -43,7 +43,6 @@ define([
   'views/enroll-factors/Footer'
 ],
 function (Okta, FormType, FormController, Footer) {
-  var _ = Okta._;
 
   return FormController.extend({
     className: 'enroll-rsa',
@@ -54,15 +53,14 @@ function (Okta, FormType, FormController, Footer) {
         factorId: 'string'
       },
       save: function () {
-        return this.settings.getAuthClient().current
+        return this.doTransaction(function(transaction) {
+          return transaction
           .getFactorByTypeAndProvider('token', 'RSA')
           .enrollFactor({
             passCode: this.get('passCode'),
             profile: {credentialId: this.get('credentialId')}
-          })
-          .fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+          });
+        });
       }
     },
 

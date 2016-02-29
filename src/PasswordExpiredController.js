@@ -59,16 +59,20 @@ function (Okta, FormController, Enums, FormType) {
     events: {
       'click .js-signout' : function (e) {
         e.preventDefault();
-        this.settings.getAuthClient().current
-          .cancel()
-          .then(_.bind(function () {
-            this.state.set('navigateDir', Enums.DIRECTION_BACK);
-            this.options.appState.trigger('navigate', '');
-          }, this));
+        var self = this;
+        this.model.doTransaction(function (transaction) {
+          return transaction.cancel();
+        })
+        .then(function () {
+          self.state.set('navigateDir', Enums.DIRECTION_BACK);
+          self.options.appState.trigger('navigate', '');
+        });
       },
       'click .js-skip' : function (e) {
         e.preventDefault();
-        this.settings.getAuthClient().current.skip();
+        this.model.doTransaction(function (transaction) {
+          return transaction.skip();
+        });
       }
     },
     getTemplateData: function () {
@@ -92,14 +96,12 @@ function (Okta, FormController, Enums, FormType) {
         }
       },
       save: function () {
-        return this.settings.getAuthClient().current
-          .changePassword({
+        return this.doTransaction(function(transaction) {
+          return transaction.changePassword({
             oldPassword: this.get('oldPassword'),
             newPassword: this.get('newPassword')
-          })
-          .fail(_.bind(function (err) {
-            this.trigger('error', this, err.xhr);
-          }, this));
+          });
+        });
       }
     },
     Form: {

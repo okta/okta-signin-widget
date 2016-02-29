@@ -53,19 +53,21 @@ define(['okta'], function (Okta) {
       className: 'button inline-totp-verify',
       title: Okta.loc('mfa.challenge.verify', 'login'),
       click: function () {
-        var authClient = this.settings.getAuthClient();
-        // This is the case where we enter the TOTP code and verify while there is an
-        // active Push request (or polling) running. We need to invoke previous() on authClient
-        // and then call model.save(). If not, we would still be in MFA_CHALLENGE state and
-        // verify would result in a wrong request (push verify instead of a TOTP verify).
-        if (authClient.state === 'MFA_CHALLENGE' && authClient.current.previous) {
-          authClient.current.previous().then(function () {
+        form.model.manageTransaction(function (transaction, setTransaction) {
+          // This is the case where we enter the TOTP code and verify while there is an
+          // active Push request (or polling) running. We need to invoke previous() on authClient
+          // and then call model.save(). If not, we would still be in MFA_CHALLENGE state and
+          // verify would result in a wrong request (push verify instead of a TOTP verify).
+          if (transaction.status === 'MFA_CHALLENGE' && transaction.previous) {
+            transaction.previous().then(function (trans) {
+              form.model.save();
+              setTransaction(trans);
+            });
+          } else {
+            // Push is not active and we enter the code to verify.
             form.model.save();
-          });
-        } else {
-          // Push is not active and we enter the code to verify.
-          form.model.save();
-        }
+          }
+        });
       }
     }));
     form.at(1).focus();

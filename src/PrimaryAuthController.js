@@ -134,7 +134,8 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
 
       this.model = new PrimaryAuthModel({
         multiOptionalFactorEnroll: options.settings.get('features.multiOptionalFactorEnroll'),
-        settings: options.settings
+        settings: options.settings,
+        appState: options.appState
       }, { parse: true });
 
       BaseLoginController.apply(this, arguments);

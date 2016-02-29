@@ -49,8 +49,6 @@ define([
 function (Okta, FactorUtil, FormController, FormType,
   RouterUtil, StoreLinks, BarcodeView, Footer) {
 
-  var _ = Okta._;
-
   var showWhenDeviceTypeSelected = {
     '__deviceType__': function (val) {
       return val !== undefined;
@@ -98,12 +96,11 @@ function (Okta, FactorUtil, FormController, FormType,
           '__provider__': ['string', false, this.options.provider]
         },
         save: function () {
-          return this.settings.getAuthClient().current
+          return this.doTransaction(function(transaction) {
+            return transaction
             .getFactorByTypeAndProvider(this.get('__factorType__'), this.get('__provider__'))
-            .enrollFactor()
-            .fail(_.bind(function (err) {
-              this.trigger('error', this, err.xhr);
-            }, this));
+            .enrollFactor();
+          });
         }
       };
     },
