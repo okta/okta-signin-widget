@@ -378,6 +378,17 @@ module.exports = function (grunt) {
       options: {
         out: 'src/util/countryCallingCodes.js'
       }
+    },
+
+    retire: {
+      js: [
+        'src/**/*.js',
+        'test/**/*.js'
+      ],
+      node: ['node_modules'],
+      options: {
+        packageOnly: false
+      }
     }
 
   });
@@ -397,6 +408,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-json-generator');
   grunt.loadNpmTasks('grunt-rename');
+  grunt.loadNpmTasks('grunt-retire');
   grunt.loadNpmTasks('grunt-properties-to-json');
 
   grunt.task.registerTask(
@@ -419,7 +431,7 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask('prebuild', function (flag) {
-    var tasks = ['copy:src', 'copy:assets-to-target', 'propertiesToJSON', 'JSONtoJs'];
+    var tasks = ['retire', 'copy:src', 'copy:assets-to-target', 'propertiesToJSON', 'JSONtoJs'];
     if (flag === 'minified') {
       tasks.push('compass:minify');
     } else {
