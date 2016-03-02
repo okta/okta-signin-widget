@@ -282,6 +282,23 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             });
           });
         });
+        itp('disables the "verify button" when clicked', function () {
+          return setupSecurityQuestion().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('who cares');
+            test.setNextResponse(resInvalid);
+            test.form.submit();
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).toContain('link-button-disabled');
+            return tick(test);
+          })
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+          });
+        });
         itp('shows an error if error response from authClient', function () {
           return setupSecurityQuestion()
           .then(function (test) {
@@ -364,6 +381,23 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             });
           });
         });
+        itp('disables the "verify button" when clicked', function () {
+          return setupGoogleTOTP().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('who cares');
+            test.setNextResponse(resInvalid);
+            test.form.submit();
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).toContain('link-button-disabled');
+            return tick(test);
+          })
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+          });
+        });
         itp('shows an error if error response from authClient', function () {
           return setupGoogleTOTP()
           .then(function (test) {
@@ -399,6 +433,23 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         itp('shows the right title', function () {
           return setupYubikey().then(function (test) {
             expectTitleToBe(test, 'Yubikey');
+          });
+        });
+        itp('disables the "verify button" when clicked', function () {
+          return setupYubikey().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('who cares');
+            test.setNextResponse(resInvalid);
+            test.form.submit();
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).toContain('link-button-disabled');
+            return tick(test);
+          })
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
           });
         });
         itp('calls authClient verifyFactor with correct args when submitted', function () {
@@ -475,6 +526,9 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             return tick().then(function () {
               expect(test.button.trimmedText()).toEqual('Sent');
               expect(test.form.answerField().val()).toEqual('');
+              var button = test.form.submitButton();
+              var buttonClass = button.attr('class');
+              expect(buttonClass).not.toContain('link-button-disabled');
               return test;
             });
           });
@@ -518,7 +572,6 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
           });
         });
-
         itp('calls verifyFactor with given code if verify button is clicked', function () {
           return setupSMS().then(function (test) {
             $.ajax.calls.reset();

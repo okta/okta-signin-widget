@@ -51,6 +51,10 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
     layout: 'o-form-theme',
     attributes: { 'data-se': 'factor-sms' },
 
+    disableSubmitButton: function () {
+      return this.model.appState.get('isMfaChallenge');
+    },
+
     initialize: function () {
       var self = this;
       this.title = this.model.get('factorLabel');
