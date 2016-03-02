@@ -39,6 +39,7 @@
     "grunt-json-generator": "0.1.0",
     "grunt-properties-to-json": "0.5.1",
     "grunt-rename": "0.1.4",
+    "grunt-retire": "0.3.12",
     "grunt-template-jasmine-requirejs": "0.2.3",
     "handlebars": "4.0.5",
     "lodash": "4.1.0",
