@@ -113,6 +113,7 @@ function (Okta, FormType, Toolbar, FormUtil, BaseLoginController, BaseLoginModel
         this.add(this.footer);
       }
 
+      this.addListeners();
       initialize.apply(this, arguments);
     },
 

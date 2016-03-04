@@ -659,6 +659,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       });
       itp('reenables the button after a CORS error', function () {
         return setup().then(function (test) {
+          Q.stopUnhandledRejectionTracking();
           $.ajax.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
@@ -674,6 +675,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       });
       itp('disables the "sign in" button when clicked', function () {
         return setup().then(function (test) {
+          Q.stopUnhandledRejectionTracking();
           $.ajax.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');

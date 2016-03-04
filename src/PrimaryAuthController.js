@@ -140,6 +140,8 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
 
       BaseLoginController.apply(this, arguments);
 
+      this.addListeners();
+
       // Add SocialAuth view only when the idps are configured. If configured, 'socialAuthPositionTop'
       // will determine the order in which the social auth and primary auth are shown on the screen.
       if (options.settings.get('socialAuthConfigured')) {
