@@ -88,6 +88,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
         throw new Error('Unrecognized factor/provider');
       }
 
+      this.addListeners();
       this.add(new View(this.toJSON()));
 
       // Okta Push is different from the other factors - it has a backup

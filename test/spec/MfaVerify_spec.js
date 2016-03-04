@@ -284,6 +284,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         });
         itp('disables the "verify button" when clicked', function () {
           return setupSecurityQuestion().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
             $.ajax.calls.reset();
             test.form.setAnswer('who cares');
             test.setNextResponse(resInvalid);
@@ -383,6 +384,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         });
         itp('disables the "verify button" when clicked', function () {
           return setupGoogleTOTP().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
             $.ajax.calls.reset();
             test.form.setAnswer('who cares');
             test.setNextResponse(resInvalid);
@@ -437,6 +439,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         });
         itp('disables the "verify button" when clicked', function () {
           return setupYubikey().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
             $.ajax.calls.reset();
             test.form.setAnswer('who cares');
             test.setNextResponse(resInvalid);
