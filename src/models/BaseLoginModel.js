@@ -49,11 +49,11 @@ function (Okta, Q) {
       var self = this;
       return fn.call(this, this.appState.get('transaction'))
       .then(function(trans) {
-        self.appState.set('transaction', trans);
+        self.trigger('setTransaction', trans);
         return trans;
       })
       .fail(function(err) {
-        self.appState.set('transactionError', err);
+        self.trigger('setTransactionError', err);
         self.trigger('error', self, err.xhr);
         if (rethrow) {
           throw err;
@@ -68,7 +68,7 @@ function (Okta, Q) {
       // If it's a promise, listen for failures
       if (Q.isPromise(res)) {
         res.fail(function(err) {
-          self.appState.set('transactionError', err);
+          self.trigger('setTransactionError', err);
           self.trigger('error', self, err.xhr);
         });
       }
@@ -83,11 +83,11 @@ function (Okta, Q) {
       // If it's a promise, then chain to it
       if (Q.isPromise(res)) {
         return res.then(function(trans) {
-          self.appState.set('transaction', trans);
+          self.trigger('setTransaction', trans);
           return trans;
         })
         .fail(function(err) {
-          self.appState.set('transactionError', err);
+          self.trigger('setTransactionError', err);
           self.trigger('error', self, err.xhr);
           throw err;
         });

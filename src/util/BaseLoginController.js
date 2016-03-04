@@ -48,8 +48,15 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
 
   return Okta.Controller.extend({
 
-    constructor: function () {
-      Okta.Controller.apply(this, arguments);
+    // Ideally we should be attaching the listeners in the constructor, but because of the way
+    // we construct the FormController (this.model is generated after the BaseLoginController's
+    // constructor is called), this.model is undefined in when try to attach the events and
+    // therefore we don't listen to events for such forms. And changing the order in which we call
+    // the constructor doesn't help either (JS errors etc.). This at least guarantees that we
+    // are listening to the model events.
+    // Note - Figure out a way to call the constructor in the right order.
+    addListeners: function () {
+      // Events to enable/disable the primary button on the forms
       this.listenTo(this.model, 'save', function () {
         //disable the submit button on forms while making the request
         //to prevent users from hitting rate limiting exceptions of
@@ -63,6 +70,14 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
       });
       this.listenTo(this.model, 'error', function () {
         this.toggleButtonState(false);
+      });
+
+      // Events to set the transaction attributes on the app state.
+      this.listenTo(this.model, 'setTransaction', function (transaction) {
+        this.options.appState.set('transaction', transaction);
+      });
+      this.listenTo(this.model, 'setTransactionError', function (err) {
+        this.options.appState.set('transactionError', err);
       });
     },
 
