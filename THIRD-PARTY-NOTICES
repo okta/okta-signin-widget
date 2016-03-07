@@ -544,7 +544,7 @@ SOFTWARE.
 
 
 jQuery
-Version (if any):	1.11.3	
+Version (if any):	1.12.1
 Brief Description:	jQuery is a fast, small, and feature-rich JavaScript 
 library. It makes things like HTML document traversal and manipulation, event 
 handling, animation, and Ajax much simpler with an easy-to-use API that works 
@@ -553,7 +553,7 @@ extensibility, jQuery has changed the way that millions of people write
 JavaScript.	
 License:	MIT	
 
-Copyright 2005, 2014 jQuery Foundation, Inc. and other contributors.
+Copyright jQuery Foundation and other contributors
  
 Released under the MIT license. http://jquery.org/license
 
