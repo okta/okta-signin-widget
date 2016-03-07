@@ -1,5 +1,4 @@
-Okta Sign-In Widget 
-Third Party Licenses and Notices
+Okta Sign-In Widget Third Party Licenses and Notices
 
 This document contains third party open source licenses and notices for the 
 Okta Sign-In Widget product. Certain licenses and notices may appear in other 
@@ -7,16 +6,16 @@ parts of the product in accordance with the applicable license requirements.
 
 The Okta product that this document references does not necessarily use all the 
 open source software packages referred to below and may also only use portions 
-of a given package. 
+of a given package.
 
 Third Party Notices
 
 Almond
-Version (if any):	0.3.1	
+Version (if any):	0.3.1
 Brief Description:	A replacement AMD loader for RequireJS. It provides a 
 minimal AMD API footprint that includes loader plugin support. Only useful for 
-built/bundled AMD modules, does not do dynamic loading.	
-License:	MIT or New BSD, MIT selected	
+built/bundled AMD modules, does not do dynamic loading.
+License:	MIT or New BSD, MIT selected
 
 Almond is released under two licenses: new BSD, and MIT. You may pick the 
 license that best suits your development needs. The text of both licenses are 
@@ -75,12 +74,12 @@ SOFTWARE.
 
 
 Backbone
-Version (if any):	1.2.1	
+Version (if any):	1.2.1
 Brief Description:	Backbone.js gives structure to web applications by 
 providing models with key-value binding and custom events, collections with a 
 rich API of enumerable functions,views with declarative event handling, and 
-connects it all to your existing API over a RESTful JSON interface.	
-License:	MIT	
+connects it all to your existing API over a RESTful JSON interface.
+License:	MIT
 
 Copyright (c) 2010-2015 Jeremy Ashkenas, DocumentCloud
 Permission is hereby granted, free of charge, to any person obtaining a copy of 
@@ -103,13 +102,13 @@ SOFTWARE.
 
 
 Base64.js
-Version (if any):	0.3.0	
+Version (if any):	0.3.0
 Brief Description:	Duo two-factor authentication for Java web 
 applications. This package allows a web developer to quickly add Duo's 
 interactive, self-service, two-factor authentication to any web login form - 
 without setting up secondary user accounts, directory synchronization, servers, 
-or hardware.	
-License:	Apache 2.0 or WTFPL, WTFPL selected	
+or hardware.
+License:	Apache 2.0 or WTFPL, WTFPL selected
 
 Copyright 2015 David Chambers
 
@@ -289,7 +288,7 @@ Copyright 2015 David Chambers
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 this file except in compliance with the License. You may obtain a copy of the 
-License at 
+License at
 
 http://www.apache.org/licenses/LICENSE-2.0
 
@@ -315,10 +314,10 @@ DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 
 
 Chosen.jQuery
-Version (if any):	0.11.1	
+Version (if any):	0.11.1
 Brief Description:	Chosen is a library for making long, unwieldy select 
-boxes more user friendly.	
-License	MIT	
+boxes more user friendly.
+License	MIT
 
 by Patrick Filler for Harvest
 Copyright (c) 2011-2013 by Harvest
@@ -345,10 +344,10 @@ SOFTWARE.
 
 
 Duo Web SDK
-Version (if any):	2	
+Version (if any):	2
 Brief Description:	≈ 500 byte* polyfill for browsers which don't provide 
-window.btoa and window.atob.	
-License	BSD 3 Clause	
+window.btoa and window.atob.
+License	BSD 3 Clause
 
 Copyright (c) 2015, Duo Security, Inc. All rights reserved.
 
@@ -376,9 +375,9 @@ OF SUCH DAMAGE.
 
 
 EventEmitter
-Version (if any):	4.2.0	
-Brief Description:	Event based JavaScript for the browser.	
-License:	MIT	
+Version (if any):	4.2.0
+Brief Description:	Event based JavaScript for the browser.
+License:	MIT
 
 Copyright (c) 2011-2013 Oliver Caldwell
 
@@ -402,9 +401,9 @@ SOFTWARE.
 
 
 Eventie
-Version (if any):	1.0.4	
-Brief Description:	Makes dealing with events in IE8 bearable.	
-License:	MIT	
+Version (if any):	1.0.4
+Brief Description:	Makes dealing with events in IE8 bearable.
+License:	MIT
 
 Copyright © 2015 David DeSandro
 
@@ -428,12 +427,12 @@ SOFTWARE.
 
 
 Handlebars
-Version (if any):	2.0.0	
+Version (if any):	2.0.0
 Brief Description:	Handlebars.js is an extension to the Mustache 
 templating language created by Chris Wanstrath. Handlebars.js and Mustache are 
 both logicless templating languages that keep the view and the code separated 
-like we all know they should be.	
-License:	MIT	
+like we all know they should be.
+License:	MIT
 
 Copyright (C) 2011-2015 by Yehuda Katz
 
@@ -457,10 +456,10 @@ SOFTWARE.
 
 
 i18n
-Version (if any):		
+Version (if any):
 Brief Description:	An AMD loader plugin for loading 
-internationalization/localization string resources.	
-License:	New BSD or MIT, MIT selected	
+internationalization/localization string resources.
+License:	New BSD or MIT, MIT selected
 
 RequireJS is released under two licenses: new BSD, and MIT. You may pick the 
 license that best suits your development needs. The text of both licenses are 
@@ -518,9 +517,9 @@ SOFTWARE.
 
 
 Imagesloaded
-Version (if any):	3.0.4	
-Brief Description:	Detect when images have been loaded.	
-License:	MIT	
+Version (if any):	3.0.4
+Brief Description:	Detect when images have been loaded.
+License:	MIT
 
 Copyright © 2015 David DeSandro
 
@@ -550,8 +549,8 @@ library. It makes things like HTML document traversal and manipulation, event
 handling, animation, and Ajax much simpler with an easy-to-use API that works 
 across a multitude of browsers. With a combination of versatility and 
 extensibility, jQuery has changed the way that millions of people write 
-JavaScript.	
-License:	MIT	
+JavaScript.
+License:	MIT
 
 Copyright jQuery Foundation and other contributors
  
@@ -577,10 +576,10 @@ SOFTWARE.
 
 
 jQuery.cookie
-Version (if any):	1.4.0	
+Version (if any):	1.4.0
 Brief Description:	A simple, lightweight jQuery plugin for reading, 
-writing and deleting cookies.	
-License	MIT	
+writing and deleting cookies.
+License	MIT
 
 Copyright 2014 Klaus Hartl
 
@@ -604,10 +603,10 @@ SOFTWARE.
 
 
 jQuery.custominput
-Version (if any):		
+Version (if any):
 Brief Description:	Accessible, custom designed checkbox and radio button 
-inputs styled with CSS (and a dash of jQuery).	
-License	MIT	
+inputs styled with CSS (and a dash of jQuery).
+License	MIT
 
 The MIT License
 
@@ -633,10 +632,10 @@ SOFTWARE.
 
 
 jQuery.placeholder
-Version (if any):		
+Version (if any):
 Brief Description:	A jQuery plugin that enables HTML5 placeholder behavior 
-for browsers that aren’t trying hard enough yet.	
-License	MIT	
+for browsers that aren’t trying hard enough yet.
+License	MIT
 
 Copyright Mathias Bynens <http://mathiasbynens.be/>
 
@@ -660,9 +659,9 @@ SOFTWARE.
 
 
 jQuery.qTip
-Version (if any):	2.1.1	
-Brief Description:	Pretty powerful tooltips	
-License	MIT and GPL, MIT selected	
+Version (if any):	2.1.1
+Brief Description:	Pretty powerful tooltips
+License	MIT and GPL, MIT selected
 
 Copyright (c) 2013 Craig Michael Thompson
 
@@ -688,17 +687,17 @@ SOFTWARE.
 
 
 q.js
-Version (if any):		
+Version (if any):
 Brief Description:	If a function cannot return a value or throw an 
 exception without blocking, it can return a promise instead. A promise is an 
 object that represents the return value or the thrown exception that the 
 function may eventually provide. A promise can also be used as a proxy for a 
 remote object to overcome latency. On the first pass, promises can mitigate the 
 “Pyramid of Doom”: the situation where code marches to the right faster than it 
-marches forward.	
-License	MIT	
- 
-Copyright 2009–2014 Kristopher Michael Kowal. All rights reserved. 
+marches forward.
+License	MIT
+
+Copyright 2009–2014 Kristopher Michael Kowal. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of 
 this software and associated documentation files (the "Software"), to deal in 
@@ -720,10 +719,10 @@ SOFTWARE.
 
 
 Sizzle
-Version (if any):		
+Version (if any):
 Brief Description:	A pure-JavaScript CSS selector engine designed to be 
-easily dropped in to a host library.	
-License:	MIT	
+easily dropped in to a host library.
+License:	MIT
 
 Copyright jQuery Foundation and other contributors, https://jquery.org/
 
@@ -762,11 +761,11 @@ recommend you read them, as their terms may differ from the terms above.
 
 
 Underscore
-Version (if any):	1.8.3	
+Version (if any):	1.8.3
 Brief Description:	Underscore.js is a utility-belt library for JavaScript 
 that provides support for the usual functional suspects (each, map, reduce, 
-filter...) without extending any core JavaScript objects.	
-License:	MIT	
+filter...) without extending any core JavaScript objects.
+License:	MIT
 
 Copyright (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative 
 Reporters & Editors
@@ -791,12 +790,12 @@ SOFTWARE.
 
 
 XDomain
-Version (if any):	0.7.3	
+Version (if any):	0.7.3
 Brief Description:	A pure JavaScript CORS alternative. No server 
 configuration required - just add a proxy.html on the domain you wish to 
 communicate with. This library utilizes XHook to hook all XHR, so XDomain will 
-work seamlessly with any library.	
-License	MIT	
+work seamlessly with any library.
+License	MIT
 
 Copyright © 2014 Jaime Pillora <dev@jpillora.com>
 
@@ -816,7 +815,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
-SOFTWARE.		
+SOFTWARE.
 
 Disclaimer and Limitation of Liability
 
@@ -826,7 +825,7 @@ TO, ANY WARRANTIES OF NON-INFRINGEMENT OF THIRD PARTY RIGHTS WITH RESPECT TO
 OPEN SOURCE SOFTWARE, TITLE, MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
 PURPOSE.  THE PARTIES ARE NOT RELYING AND HAVE NOT RELIED ON ANY 
 REPRESENTATIONS OR WARRANTIES WHATSOEVER REGARDING OKTA AND OKTA MAKES NO 
-WARRANTY REGARDING ANY THIRD PARTY SOFTWARE.   
+WARRANTY REGARDING ANY THIRD PARTY SOFTWARE.
 
 Limitation of Liability. OKTA AND ITS SUPPLIERS, SHALL NOT BE RESPONSIBLE OR 
 LIABLE UNDER ANY CONTRACT, NEGLIGENCE, STRICT LIABILITY OR OTHER THEORY ARISING 
@@ -835,10 +834,10 @@ LOSS OR INACCURACY OR CORRUPTION OF DATA, (B) FOR COST OF PROCUREMENT OF
 SUBSTITUTE GOODS, SERVICES, RIGHTS, OR TECHNOLOGY, (C) FOR ANY LOST PROFITS OR 
 REVENUES, OR FOR ANY INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL OR PUNITIVE 
 DAMAGES, WHETHER OR NOT A OKTA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH 
-DAMAGE.  
+DAMAGE.
 IN NO EVENT WILL OKTA NOR ITS SUPPLIER’S AGGREGATE AND CUMULATIVE LIABILITY FOR 
 ANY CLAIMS ARISING OUT OF OR RELATED TO OPEN SOURCE SOFTWARE EXCEED ONE HUNDRED 
-DOLLARS ($100). 
+DOLLARS ($100).
 
 GPL Licensed Software
 
