@@ -46,7 +46,8 @@ define([
 ],
 function (Okta, Duo, Q, FormController, Footer) {
 
-  var _ = Okta._;
+  var $ = Okta.$,
+      _ = Okta._;
 
   return FormController.extend({
 
@@ -79,7 +80,13 @@ function (Okta, Duo, Q, FormController, Footer) {
               stateToken: this.get('stateToken'),
               sig_response: signedResponse
             };
-        return this.settings.getAuthClient().post(url, data)
+        // We don't actually use authClient.post() here (unlike all the other cases in the
+        // sign-in widget) since the endpoint is wired to accept serialized form post instead
+        // of a JSON post ($.post() is different from authClient.post() in that in $.post(),
+        // jquery decides the Content-Type instead of it being a JSON type). Enroll/Verify DUO
+        // are the only two places where we actually do this.
+        // NOTE - If we ever decide to change this, we should test this very carefully.
+        return Q($.post(url, data))
         .then(function () {
           return self.doTransaction(function (transaction) {
             return transaction.startEnrollFactorPoll();
