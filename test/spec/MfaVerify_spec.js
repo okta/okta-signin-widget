@@ -1,4 +1,4 @@
-/*jshint maxparams:25, maxstatements:23, camelcase:false */
+/*jshint maxparams:25, maxstatements:26, camelcase:false */
 /*global JSON */
 define([
   'vendor/lib/q',
@@ -12,6 +12,7 @@ define([
   'helpers/dom/Beacon',
   'helpers/util/Expect',
   'LoginRouter',
+  'util/RouterUtil',
   'sandbox',
   'helpers/xhr/MFA_REQUIRED_allFactors',
   'helpers/xhr/MFA_REQUIRED_oktaVerify',
@@ -26,7 +27,7 @@ define([
   'helpers/xhr/SMS_RESEND_error',
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS'
 ],
-function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect, Router, $sandbox,
+function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect, Router, RouterUtil, $sandbox,
           resAllFactors, resVerify, resChallengeDuo, resChallengeSms, resChallengePush,
           resRejectedPush, resTimeoutPush, resSuccess, resInvalid, resInvalidTotp,
           resResendError, resMfaLocked) {
@@ -93,6 +94,39 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
     var setupSMS = _.partial(setup, resAllFactors, { factorType: 'sms' });
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerify, { factorType: 'token:software:totp' });
+
+    // Mocks the right calls for Auth SDK's transactions handled in the widget
+    function mockTransactions(controller) {
+      spyOn(controller.model, 'trigger').and.callThrough();
+      spyOn(controller.options.appState, 'set').and.callThrough();
+      spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
+    }
+
+    // Expect -
+    // 1. model triggers the setTransaction event
+    // 2. controller sets the transaction property on the appState
+    // 3. routerAfterAuthStatusChange is called with the right parameters (success response)
+    function expectSetTransaction(router, res) {
+      var mockTransaction = jasmine.objectContaining({response: res.response, status: res.response.status});
+      // Make sure that the transaction event is called on the model
+      expect(router.controller.model.trigger).toHaveBeenCalledWith('setTransaction', mockTransaction);
+      // Make sure that the controller catches the model's event and sets the transaction property on appState
+      expect(router.controller.options.appState.set).toHaveBeenCalledWith('transaction', mockTransaction);
+      expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, null, res.response);
+    }
+
+    // Expect -
+    // 1. model triggers the setTransactionError event
+    // 2. controller sets the transactionError property on the appState
+    // 3. routerAfterAuthStatusChange is called with the right parameters (error response)
+    function expectSetTransactionError(router, res) {
+      var mockError = jasmine.objectContaining(res.response);
+      // Make sure that the transaction event is called on the model
+      expect(router.controller.model.trigger).toHaveBeenCalledWith('setTransactionError', mockError);
+      // Make sure that the controller catches the model's event and sets the transactionError property on appState
+      expect(router.controller.options.appState.set).toHaveBeenCalledWith('transactionError', mockError);
+      expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, mockError);
+    }
 
     function setupDuo() {
       Util.mockDuo();
@@ -314,6 +348,35 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             expect(test.form.errorMessage()).toBe('Your answer doesn\'t match our records. Please try again.');
           });
         });
+        itp('sets the transaction on the appState on success response', function () {
+          return setupSecurityQuestion({ features: { forceRememberDevice: true }})
+          .then(function (test) {
+            mockTransactions(test.router.controller);
+            $.ajax.calls.reset();
+            test.form.setAnswer('food');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expectSetTransaction(test.router, resSuccess);
+          });
+        });
+        itp('sets the transaction error on the appState on error response', function () {
+          return setupSecurityQuestion({ features: { forceRememberDevice: true }})
+          .then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            mockTransactions(test.router.controller);
+            $.ajax.calls.reset();
+            test.form.setAnswer('food');
+            test.setNextResponse(resInvalid);
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expectSetTransactionError(test.router, resInvalid);
+          });
+        });
       });
 
       describe('TOTP', function () {
@@ -414,6 +477,31 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             expect(test.form.errorMessage()).toBe('Invalid Passcode/Answer');
           });
         });
+        itp('sets the transaction on the appState on success response', function () {
+          return setupGoogleTOTP().then(function (test) {
+            mockTransactions(test.router.controller);
+            test.form.setAnswer('123456');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expectSetTransaction(test.router, resSuccess);
+          });
+        });
+        itp('sets the transaction error on the appState on error response', function () {
+          return setupGoogleTOTP().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            mockTransactions(test.router.controller);
+            test.setNextResponse(resInvalidTotp);
+            test.form.setAnswer('wrong');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expectSetTransactionError(test.router, resInvalidTotp);
+          });
+        });
       });
 
       describe('Yubikey', function () {
@@ -472,6 +560,31 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
                 stateToken: 'testStateToken'
               }
             });
+          });
+        });
+        itp('sets the transaction on the appState on success response', function () {
+          return setupYubikey().then(function (test) {
+            mockTransactions(test.router.controller);
+            test.form.setAnswer('123456');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expectSetTransaction(test.router, resSuccess);
+          });
+        });
+        itp('sets the transaction error on the appState on error response', function () {
+          return setupYubikey().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            mockTransactions(test.router.controller);
+            test.setNextResponse(resInvalid);
+            test.form.setAnswer('wrong');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expectSetTransactionError(test.router, resInvalid);
           });
         });
       });
@@ -920,6 +1033,53 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             .then(function (form) {
               expect(form.hasErrors()).toBe(true);
               expect(form.errorMessage()).toBe('Invalid Passcode/Answer');
+            });
+          });
+          itp('sets the transaction on the appState on success response', function () {
+            return setupOktaPush().then(function (test) {
+              // Spy on backup factor model, since TOTP is special
+              spyOn(test.router.controller.model.get('backupFactor'), 'trigger').and.callThrough();
+              spyOn(test.router.controller.options.appState, 'set').and.callThrough();
+              spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
+
+              test.form[1].inlineTOTPAdd().click();
+              test.form[1].setAnswer('654321');
+              test.setNextResponse(resSuccess);
+              test.form[1].inlineTOTPVerify().click();
+              return tick(test);
+            })
+            .then(function (test) {
+              var mockTransaction = jasmine.objectContaining(
+                  {response: resSuccess.response, status: resSuccess.response.status});
+              // Test on backup factor model, since TOTP is special
+              expect(test.router.controller.model.get('backupFactor').trigger)
+                  .toHaveBeenCalledWith('setTransaction', mockTransaction);
+              expect(test.router.controller.options.appState.set).toHaveBeenCalledWith('transaction', mockTransaction);
+              expect(RouterUtil.routeAfterAuthStatusChange)
+                  .toHaveBeenCalledWith(test.router, null, resSuccess.response);
+            });
+          });
+          itp('sets the transaction error on the appState on error response', function () {
+            return setupOktaPush().then(function (test) {
+              // Spy on backup factor model, since TOTP is special
+              spyOn(test.router.controller.model.get('backupFactor'), 'trigger').and.callThrough();
+              spyOn(test.router.controller.options.appState, 'set').and.callThrough();
+              spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
+
+              Q.stopUnhandledRejectionTracking();
+              test.setNextResponse(resInvalidTotp);
+              var form = test.form[1];
+              form.inlineTOTPAdd().click();
+              form.setAnswer('wrong');
+              form.inlineTOTPVerify().click();
+              return tick(test);
+            })
+            .then(function (test) {
+              var mockError = jasmine.objectContaining(resInvalidTotp.response);
+              expect(test.router.controller.model.get('backupFactor').trigger)
+                  .toHaveBeenCalledWith('setTransactionError', mockError);
+              expect(test.router.controller.options.appState.set).toHaveBeenCalledWith('transactionError', mockError);
+              expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(test.router, mockError);
             });
           });
         });
