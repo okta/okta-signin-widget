@@ -9,7 +9,7 @@
 function getRequireConfig() {
   var require = {
     paths: {
-      jquery: 'vendor/jquery-1.11.3',
+      jquery: 'vendor/jquery-1.12.1',
       i18n: 'vendor/i18n',
       imagesloaded: 'vendor/plugins/imagesloaded',
       qtip: 'vendor/plugins/jquery.qtip',
