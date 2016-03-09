@@ -1,12 +1,13 @@
 # Okta Sign-In Widget
 
-If you want to use the widget, use the instructions on [the Okta Sign-In Widget developer page](http://developer.okta.com/docs/guides/okta_sign-in_widget.html).
+The Okta Sign-In Widget is a JavaScript widget from Okta that gives you a fully featured and customizable login experience which can be used to authenticate users on any web site.
 
-If you want to modify the widget, use the following instructions:
+If you want to use the widget, see the instructions on [the Okta Sign-In Widget developer page](http://developer.okta.com/docs/guides/okta_sign-in_widget.html).
 
-## Including the widget with NPM
+If you want to modify the widget, use the following instructions.
 
-Does anything go here? Can we delete the heading above?
+<!-- ## Including the widget with NPM -->
+<!-- Content for this section to be added later. -->
 
 ## Building the widget
 
@@ -15,7 +16,7 @@ Does anything go here? Can we delete the heading above?
   [path]$ git clone git@github.com:okta/okta-signin-widget.git
   ```
 
-2. Navigate to the new okta-signin-widget folder, and [install Bundler](http://bundler.io/) if you don't already have it.
+2. Navigate to the new ```okta-signin-widget``` folder, and [install Bundler](http://bundler.io/) if you don't already have it.
 
   ```bash
   [path/okta-signin-widget]$ gem install bundler
@@ -27,18 +28,18 @@ Does anything go here? Can we delete the heading above?
   [path/okta-signin-widget]$ bundle install
   ```
 
-4. Install Okta node dependencies.
+4. Install the Okta node dependencies.
 
   ```bash
   [path/okta-signin-widget]$ npm install
   ```
 
-5. Create a `.widgetrc` file in the okta-signin-widget/ directory. Add a base URL entry in `.widgetrc`.
+5. Create a `.widgetrc` file in the ```okta-signin-widget/``` directory. Add a base URL entry in `.widgetrc`.
 
   ```javascript
     {
       "widgetOptions": {
-        "baseUrl": "https://<your-org>.okta.com"
+        "baseUrl": "https://your-org.okta.com"
       }
     }
   ```
@@ -51,7 +52,7 @@ Does anything go here? Can we delete the heading above?
 
 7. Finally, enable CORS support for our new server by [following these instructions](http://developer.okta.com/docs/guides/okta_sign-in_widget.html#configuring-cors-support-on-your-okta-organization). You can now authenticate to Okta using your very own, customizable widget!
 
-## The .widgetrc config file
+## The `.widgetrc` config file
 
 The `.widgetrc` file is a configuration file that saves your local widget settings.
 
