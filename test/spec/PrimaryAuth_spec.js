@@ -18,6 +18,7 @@ define([
   'helpers/xhr/security_image_fail',
   'helpers/xhr/SUCCESS',
   'helpers/xhr/ACCOUNT_LOCKED_OUT',
+  'helpers/xhr/PASSWORD_EXPIRED',
   'helpers/xhr/UNAUTHORIZED_ERROR',
   'helpers/xhr/ERROR_NON_JSON_RESPONSE',
   'helpers/xhr/ERROR_INVALID_TEXT_RESPONSE',
@@ -26,13 +27,14 @@ define([
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           Router, BrowserFeatures, Errors, SharedUtil, Expect, resSecurityImage,
-          resSecurityImageFail, resSuccess, resLockedOut, resUnauthorized,
+          resSecurityImageFail, resSuccess, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, $sandbox) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
   var processCredsSpy = jasmine.createSpy();
 
+  var BEACON_LOADING_CLS = 'beacon-loading';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
   var VALID_ID_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXIiOjEsImlzc' +
                        'yI6Imh0dHBzOi8vZm9vLmNvbSIsInN1YiI6IjAwdWlsdE5RSzJXc3p' +
@@ -466,8 +468,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         })
         .then(function (test) {
           var spyCalls = test.securityBeacon.toggleClass.calls;
-          expect(spyCalls.count()).toBe(1);
-          expect(spyCalls.argsFor(0)).toEqual(['beacon-loading', true]);
+          expect(spyCalls.count()).toBe(2);
+          expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+          expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
         });
       });
       itp('does not show beacon-loading animation when primaryAuth fails', function () {
@@ -488,9 +491,30 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         })
         .then(function (test) {
           var spyCalls = test.securityBeacon.toggleClass.calls;
-          expect(spyCalls.count()).toBe(3);
-          expect(spyCalls.argsFor(0)).toEqual(['beacon-loading', true]);
-          expect(spyCalls.argsFor(1)).toEqual(['beacon-loading', false]);
+          expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+          expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+        });
+      });
+      itp('does not show beacon-loading animation when password expires', function () {
+        return setup({ features: { securityImage: true }})
+        .then(function (test) {
+          test.securityBeacon = test.router.header.currentBeacon.$el;
+          test.setNextResponse(resSecurityImage);
+          test.form.setUsername('testuser');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          Q.stopUnhandledRejectionTracking();
+          spyOn(test.securityBeacon, 'toggleClass');
+          test.setNextResponse(resPwdExpired);
+          test.form.setPassword('pass');
+          test.form.submit();
+          return tick(test);
+        })
+        .then(function (test) {
+          var spyCalls = test.securityBeacon.toggleClass.calls;
+          expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+          expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
         });
       });
       itp('does not show beacon-loading animation on CORS error', function () {
@@ -512,9 +536,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         })
         .then(function (test) {
           var spyCalls = test.securityBeacon.toggleClass.calls;
-          expect(spyCalls.count()).toBe(3);
-          expect(spyCalls.argsFor(0)).toEqual(['beacon-loading', true]);
-          expect(spyCalls.argsFor(1)).toEqual(['beacon-loading', false]);
+          expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+          expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
         });
       });
       itp('shows an unknown user message when user enters unfamiliar username', function () {
