@@ -1,0 +1,41 @@
+{
+  "env": {
+    "browser": true,
+    "jasmine": true,
+    "amd": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 3
+  },
+  "globals": {
+    "spyOnEvent": false,
+    "JSON": true
+  },
+  rules: {
+    "camelcase": 2,
+    "complexity": [2, 6],
+    "curly": 2,
+    "dot-notation": 0,
+    "guard-for-in": 2,
+    "new-cap": [2, { properties: false }],
+    "no-caller": 2,
+    "no-empty": 2,
+    "no-eval": 0,
+    "no-multi-str": 0,
+    "no-new": 2,
+    "no-plusplus": 0,
+    "no-undef": 2,
+    "no-use-before-define": [2, "nofunc"],
+    "no-unused-expressions": [2, { allowShortCircuit: true, allowTernary: true }],
+    "no-unused-vars": [2, { "args": "none" }],
+    "max-depth": [2, 2],
+    "max-len": [2, 120],
+    "max-params": [2, 10],
+    "max-statements": [2, 20],
+    "quotes": [2, "single"],
+    "semi": 0,
+    "strict": 0,
+    "wrap-iife": [2, "any"]
+  },
+  "root": true
+}

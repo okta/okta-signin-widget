@@ -1,5 +1,5 @@
-/*jshint maxcomplexity:20 */
 /* globals JSON */
+/* eslint no-caller: 0 */
 define([
   'jquery',
   'underscore',

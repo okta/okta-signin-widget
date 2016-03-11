@@ -1,4 +1,4 @@
-/*jshint maxparams:28,newcap:false,maxstatements:100,camelcase:false,maxlen:180 */
+/* eslint max-params:[2, 28], max-statements:[2, 35], camelcase:0, max-len:[2, 180] */
 define([
   'underscore',
   'jquery',

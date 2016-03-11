@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint camelcase:false, newcap:false */
+/* eslint camelcase: 0 */
 define([
   'okta',
   'duo',
@@ -20,7 +20,7 @@ define([
   'util/FormType',
   'views/shared/FooterSignout'
 ],
-function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
+function (Okta, Duo, q, FormController, Enums, FormType, FooterSignout) {
 
   var $ = Okta.$,
       _ = Okta._;
@@ -64,7 +64,7 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
         // jquery decides the Content-Type instead of it being a JSON type). Enroll/Verify DUO
         // are the only two places where we actually do this.
         // NOTE - If we ever decide to change this, we should test this very carefully.
-        return Q($.post(url, data))
+        return q($.post(url, data))
         .then(function () {
           return self.doTransaction(function(transaction) {
             return transaction.startVerifyFactorPoll();

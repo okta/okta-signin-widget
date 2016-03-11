@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* jshint maxcomplexity: 8 */
+/* eslint complexity: [2, 8] */
 define([
   'okta',
   'vendor/lib/q',

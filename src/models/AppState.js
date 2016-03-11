@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint newcap:false, camelcase:false */
 define([
   'okta',
   'vendor/lib/q',
@@ -18,7 +17,7 @@ define([
   'util/BrowserFeatures',
   'util/Errors'
 ],
-function (Okta, Q, Factor, BrowserFeatures, Errors) {
+function (Okta, q, Factor, BrowserFeatures, Errors) {
 
   // Keep track of stateMachine with this special model. Some reasons to not
   // keep it generic:
@@ -40,10 +39,10 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
 
     // When the username is empty, we want to show the default image.
     if (_.isEmpty(username) || _.isUndefined(username)) {
-      return Q(UNDEFINED_USER);
+      return q(UNDEFINED_USER);
     }
 
-    return Q($.get(url)).then(function (res) {
+    return q($.get(url)).then(function (res) {
       if (res.pwdImg === USER_NOT_SEEN_ON_DEVICE) {
         // When we get an unknown.png security image from OKTA,
         // we want to show the unknown-device security image.

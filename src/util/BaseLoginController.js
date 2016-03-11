@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint newcap:false */
-define(['okta', 'vendor/lib/q'], function (Okta, Q) {
+define(['okta', 'vendor/lib/q'], function (Okta, q) {
   var _ = Okta._;
 
   function getForm(controller) {
@@ -74,7 +73,7 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
     // question, which requires an additional request to fetch the question
     // list.
     fetchInitialData: function () {
-      return Q();
+      return q();
     },
 
     // Override this method to prevent route navigation. This is useful for
