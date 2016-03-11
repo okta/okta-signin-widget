@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* jshint maxparams: 100 */
+/* eslint max-params: [2, 32] */
 define([
   'util/BaseLoginRouter',
   'PrimaryAuthController',

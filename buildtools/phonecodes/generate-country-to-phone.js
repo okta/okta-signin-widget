@@ -1,5 +1,5 @@
 /*global module, JSON */
-/*jshint maxlen:150, unused:false */
+/* eslint max-len: [2, 150], no-unused-vars: 0 */
 var rp = require('request-promise');
 var _ = require('lodash');
 

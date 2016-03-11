@@ -6,7 +6,7 @@
 /*global module, process, JSON */
 
 module.exports = function (grunt) {
-  /* jshint maxstatements: false */
+  /* eslint max-statements: 0 */
 
   var open        = require('open'),
       Handlebars  = require('handlebars'),
@@ -16,6 +16,7 @@ module.exports = function (grunt) {
       JASMINE_TEST_FOLDER   = 'build2/reports/jasmine',
       JASMINE_TEST_FILE     = JASMINE_TEST_FOLDER + '/login.html',
       JSHINT_OUT_FILE       = 'build2/loginjs-checkstyle-result.xml',
+      ESLINT_OUT_FILE       = 'build2/loginjs-eslint-checkstyle.xml',
       SPEC_HOME             = JS + '/test/spec/',
       DIST                  = 'dist',
       ASSETS                = 'assets/',
@@ -24,7 +25,18 @@ module.exports = function (grunt) {
       CSS                   = 'target/css',
       COPYRIGHT_TEXT        = grunt.file.read('src/widget/copyright.frag'),
       WIDGET_RC             = '.widgetrc',
-      DEFAULT_SERVER_PORT   = 1804;
+      DEFAULT_SERVER_PORT   = 1804,
+      JS_LINT_FILES         = [
+                                'Gruntfile.js',
+                                'src/**/*.js',
+                                'buildtools/**/*.js',
+                                '!buildtools/r.js',
+                                'test/helpers/**/*.js',
+                                'test/spec/**/*.js',
+                                '!test/helpers/xhr/*.js',
+                                '!src/vendor/*.js',
+                                '!src/util/countryCallingCodes.js'
+                              ];
 
   var hasCheckStyle = process.argv.indexOf('--checkstyle') > -1;
 
@@ -105,17 +117,19 @@ module.exports = function (grunt) {
         }
         return conf;
       }()),
-      all: [
-        'Gruntfile.js',
-        'src/**/*.js',
-        'buildtools/**/*.js',
-        '!buildtools/r.js',
-        'test/helpers/**/*.js',
-        'test/spec/**/*.js',
-        '!test/helpers/xhr/*.js',
-        '!src/vendor/*.js',
-        '!src/util/countryCallingCodes.js'
-      ]
+      all: JS_LINT_FILES
+    },
+
+    eslint: {
+      options: (function () {
+        var conf = {};
+        if (process.argv.indexOf('--checkstyle') > -1) {
+          conf.format = 'checkstyle';
+          conf.outputFile = ESLINT_OUT_FILE;
+        }
+        return conf;
+      }()),
+      all: JS_LINT_FILES
     },
 
     copy: {
@@ -400,6 +414,7 @@ module.exports = function (grunt) {
   grunt.loadTasks('buildtools/shrinkwrap');
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -466,7 +481,7 @@ module.exports = function (grunt) {
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
 
-  grunt.task.registerTask('lint', ['jshint', 'scss-lint']);
+  grunt.task.registerTask('lint', ['scss-lint', 'jshint', 'eslint']);
 
   grunt.task.registerTask('default', ['lint', 'test']);
 };

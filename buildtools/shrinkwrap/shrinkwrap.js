@@ -14,7 +14,7 @@
 // https://github.com/npm/npm/issues/6445
 
 /*global module, JSON */
-/*jshint quotmark:false */
+/* eslint quotes: 0 */
 
 var _ = require('lodash'),
     exec = require('child_process').execSync,

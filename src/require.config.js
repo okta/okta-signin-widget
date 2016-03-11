@@ -1,4 +1,4 @@
-/*jshint unused:false */
+/* exported getRequireConfig */
 
 // RequireJS has an interesting way of specifying the mainConfigFile - it
 // parses this file to find a requireJs({}), require({}), or in our case

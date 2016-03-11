@@ -69,7 +69,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       }
     },
 
-    /* jshint maxcomplexity:false */
+    /* eslint complexity: 0 */
     setBeacon: function (NextBeacon, options) {
       var selector = '[data-type="beacon-container"]',
           container = this.$(selector),

@@ -1,4 +1,4 @@
-/*jshint maxparams:25, maxstatements:26, camelcase:false */
+/* eslint max-params: [2, 25], max-statements: [2, 26], camelcase: 0 */
 /*global JSON */
 define([
   'vendor/lib/q',

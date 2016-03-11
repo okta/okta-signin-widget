@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+/* eslint complexity: [2, 10], max-statements: [2, 18] */
 define(['okta'], function (Okta) {
 
   var fn = {};
@@ -71,7 +72,6 @@ define(['okta'], function (Okta) {
     }
   };
 
-  /* jshint maxcomplexity: 10 */
   fn.getFactorName = function (provider, factorType) {
     if (provider === 'OKTA' && factorType === 'token:software:totp') {
       return 'OKTA_VERIFY';

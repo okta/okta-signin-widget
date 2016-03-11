@@ -11,7 +11,7 @@
  */
 
 /*global JSON */
-/*jshint maxcomplexity:8 */
+/* eslint complexity: [2, 8] */
 define(['okta'], function (Okta) {
 
   var Util = {};

@@ -22,7 +22,7 @@
 // https://oktawiki.atlassian.net/wiki/x/sIDABQ
 
 /*global module, process, JSON */
-/*jshint quotmark:false */
+/* eslint quotes: 0 */
 
 var semver = require('semver'),
     exec = require('child_process').execSync,
@@ -72,7 +72,7 @@ module.exports = function (grunt) {
   function getPrereleaseLine(currentVersion, prereleaseName) {
     grunt.log.subhead('Finding prerelease line');
     var version, line;
-    version = semver.inc(currentVersion, 'prerelease', prereleaseName),
+    version = semver.inc(currentVersion, 'prerelease', prereleaseName);
     grunt.log.ok('Current stable version:', currentVersion);
     grunt.log.ok('Next prerelease version:', version);
     line = version.substring(0, version.lastIndexOf('.'));
