@@ -93,6 +93,10 @@ function (Okta, BaseLoginModel) {
           }
         });
       })
+      .then(_.bind(function () {
+        // Transition from the loading state on beacon on success response
+        this.appState.trigger('loading', false);
+      }, this))
       .fail(_.bind(function () {
         this.trigger('error');
         $.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
