@@ -14,7 +14,8 @@ BUILD_TEST_SUITE_ID=D33E21EE-E0D0-401D-8162-56B9A7BA0539
 LINT_TEST_SUITE_ID=2D4D1259-92C2-45BA-A74D-E665B7EC17FB
 UNIT_TEST_SUITE_ID=12DFDE73-F3D5-4EEB-BF12-DDE72E66DE61
 
-REGISTRY=https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta
+REGISTRY_URLBASE="https://artifacts.aue1d.saasure.com/artifactory"
+REGISTRY="${REGISTRY_URLBASE}/api/npm/npm-okta"
 
 function usage() {
   OUTPUTCODE=$1
@@ -27,6 +28,7 @@ USAGE:
 
 TASKS:
     help              Prints this guide.
+    build             Builds and runs unit tests.
     deploy            Publishes widget to NPM after successful build
                       Requires valid Artifactory credentials.
 """
@@ -34,21 +36,9 @@ TASKS:
   exit $OUTPUTCODE
 }
 
-function publish() {
-  # Always publish a version to our npm registry:
-  # If topic branch, will create an alpha prerelease version
-  # If master branch, will create a beta prerelease version
-  echo "Updating the version number, and publishing"
-  if npm run prerelease -- --branch=${BRANCH} && npm publish --registry ${REGISTRY}; then
-    echo "Publish Success"
-  else
-    echo "Publish Failed"
-  fi
-}
-
 function build() {
   start_test_suite ${BUILD_TEST_SUITE_ID}
-  if bundle install && npm install && npm run package && publish; then
+  if bundle install && npm install && npm run package; then
     echo "Finishing up test suite $BUILD_TEST_SUITE_ID"
     finish_test_suite "build"
   else
@@ -80,14 +70,41 @@ function unit() {
   fi
 }
 
+function publish_fullversion() {
+  FULLVERSION=$(npm run getfullversion --silent)
+
+  DATALOAD="${REGISTRY_URLBASE}/api/storage/npm-okta/${PKGNAME}/-/${PKGNAME}-${SEMVER}.tgz?properties=buildVersion=${FULLVERSION}"
+  echo "${DATALOAD}"
+  artifactory_curl -X PUT -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} ${DATALOAD} -v -f
+}
+
+function publish() {
+  # Always publish a version to our npm registry:
+  # If topic branch, will create an alpha prerelease version
+  # If master branch, will create a beta prerelease version
+  echo "Updating the version number, and publishing"
+  if npm run prerelease -- --branch=${BRANCH} && npm publish --registry ${REGISTRY}; then
+    publish_fullversion
+    echo "Publish Success"
+  else
+    echo "Publish Failed"
+  fi
+}
+
 case $TASK in
   help)
     usage
+    ;;
+  build)
+    build
+    lint
+    unit
     ;;
   deploy)
     build
     lint
     unit
+    publish
     ;;
   *)
     usage $TASK

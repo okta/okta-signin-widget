@@ -24,9 +24,12 @@
     "start": "grunt start-server-open",
     "package": "grunt package",
     "prerelease": "grunt bump-prerelease-version",
-    "shrinkwrap": "grunt shrinkwrap-remove-resolved"
+    "shrinkwrap": "grunt shrinkwrap-remove-resolved",
+    "getfullversion": "node buildtools/getcifullversion/ci-fullversion.js"
   },
   "devDependencies": {
+    "app-root-path": "1.0.0",
+    "git-rev-sync": "1.4.0",
     "grunt": "0.4.5",
     "grunt-cli": "0.1.13",
     "grunt-contrib-compass": "1.0.3",
@@ -43,6 +46,7 @@
     "grunt-template-jasmine-requirejs": "0.2.3",
     "handlebars": "4.0.5",
     "lodash": "4.1.0",
+    "moment": "2.12.0",
     "open": "0.0.5",
     "request-promise": "2.0.0",
     "semver": "5.1.0"
