@@ -96,8 +96,10 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
     var setupOktaTOTP = _.partial(setup, resVerify, { factorType: 'token:software:totp' });
 
     // Mocks the right calls for Auth SDK's transactions handled in the widget
-    function mockTransactions(controller) {
-      spyOn(controller.model, 'trigger').and.callThrough();
+    function mockTransactions(controller, isTotp) {
+      // Spy on backup factor model for TOTP, since TOTP is special
+      var model = isTotp ? controller.model.get('backupFactor') : controller.model;
+      spyOn(model, 'trigger').and.callThrough();
       spyOn(controller.options.appState, 'set').and.callThrough();
       spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
     }
@@ -106,10 +108,15 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
     // 1. model triggers the setTransaction event
     // 2. controller sets the transaction property on the appState
     // 3. routerAfterAuthStatusChange is called with the right parameters (success response)
-    function expectSetTransaction(router, res) {
+    function expectSetTransaction(router, res, isTotp) {
       var mockTransaction = jasmine.objectContaining({response: res.response, status: res.response.status});
+      // Spy on backup factor model for TOTP, since TOTP is special
+      var model = router.controller.model;
+      if (isTotp) {
+        model = model.get('backupFactor');
+      }
       // Make sure that the transaction event is called on the model
-      expect(router.controller.model.trigger).toHaveBeenCalledWith('setTransaction', mockTransaction);
+      expect(model.trigger).toHaveBeenCalledWith('setTransaction', mockTransaction);
       // Make sure that the controller catches the model's event and sets the transaction property on appState
       expect(router.controller.options.appState.set).toHaveBeenCalledWith('transaction', mockTransaction);
       expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, null, res.response);
@@ -119,10 +126,15 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
     // 1. model triggers the setTransactionError event
     // 2. controller sets the transactionError property on the appState
     // 3. routerAfterAuthStatusChange is called with the right parameters (error response)
-    function expectSetTransactionError(router, res) {
+    function expectSetTransactionError(router, res, isTotp) {
       var mockError = jasmine.objectContaining(res.response);
+      // Spy on backup factor model for TOTP, since TOTP is special
+      var model = router.controller.model;
+      if (isTotp) {
+        model = model.get('backupFactor');
+      }
       // Make sure that the transaction event is called on the model
-      expect(router.controller.model.trigger).toHaveBeenCalledWith('setTransactionError', mockError);
+      expect(model.trigger).toHaveBeenCalledWith('setTransactionError', mockError);
       // Make sure that the controller catches the model's event and sets the transactionError property on appState
       expect(router.controller.options.appState.set).toHaveBeenCalledWith('transactionError', mockError);
       expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, mockError);
@@ -1037,11 +1049,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
           });
           itp('sets the transaction on the appState on success response', function () {
             return setupOktaPush().then(function (test) {
-              // Spy on backup factor model, since TOTP is special
-              spyOn(test.router.controller.model.get('backupFactor'), 'trigger').and.callThrough();
-              spyOn(test.router.controller.options.appState, 'set').and.callThrough();
-              spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
-
+              mockTransactions(test.router.controller, true);
               test.form[1].inlineTOTPAdd().click();
               test.form[1].setAnswer('654321');
               test.setNextResponse(resSuccess);
@@ -1049,23 +1057,12 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
               return tick(test);
             })
             .then(function (test) {
-              var mockTransaction = jasmine.objectContaining(
-                  {response: resSuccess.response, status: resSuccess.response.status});
-              // Test on backup factor model, since TOTP is special
-              expect(test.router.controller.model.get('backupFactor').trigger)
-                  .toHaveBeenCalledWith('setTransaction', mockTransaction);
-              expect(test.router.controller.options.appState.set).toHaveBeenCalledWith('transaction', mockTransaction);
-              expect(RouterUtil.routeAfterAuthStatusChange)
-                  .toHaveBeenCalledWith(test.router, null, resSuccess.response);
+              expectSetTransaction(test.router, resSuccess, true);
             });
           });
           itp('sets the transaction error on the appState on error response', function () {
             return setupOktaPush().then(function (test) {
-              // Spy on backup factor model, since TOTP is special
-              spyOn(test.router.controller.model.get('backupFactor'), 'trigger').and.callThrough();
-              spyOn(test.router.controller.options.appState, 'set').and.callThrough();
-              spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
-
+              mockTransactions(test.router.controller, true);
               Q.stopUnhandledRejectionTracking();
               test.setNextResponse(resInvalidTotp);
               var form = test.form[1];
@@ -1075,11 +1072,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
               return tick(test);
             })
             .then(function (test) {
-              var mockError = jasmine.objectContaining(resInvalidTotp.response);
-              expect(test.router.controller.model.get('backupFactor').trigger)
-                  .toHaveBeenCalledWith('setTransactionError', mockError);
-              expect(test.router.controller.options.appState.set).toHaveBeenCalledWith('transactionError', mockError);
-              expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(test.router, mockError);
+              expectSetTransactionError(test.router, resInvalidTotp, true);
             });
           });
         });
@@ -1316,6 +1309,56 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
                 stateToken: 'testStateToken'
               }
             });
+          });
+        });
+      });
+      itp('Verify Okta TOTP success on Push MFA_REJECTED', function () {
+        return setupOktaPush().then(function (test) {
+          return setupPolling(test, resRejectedPush)
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse([resAllFactors, resSuccess]);
+            test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
+            // click or enter code in the the Totp form
+            test.totpForm.inlineTOTPAdd().click();
+            test.totpForm.setAnswer('654321');
+            test.totpForm.inlineTOTPVerify().click();
+            return tick(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(2);
+            // MFA_CHALLENGE to MFA_REQUIRED
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/previous',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+              url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify',
+              data: {
+                passCode: '654321',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+      });
+      itp('Verify Okta TOTP success (after Push MFA_REJECTED) sets the transaction on the appState', function () {
+        return setupOktaPush().then(function (test) {
+          return setupPolling(test, resRejectedPush)
+          .then(function (test) {
+            mockTransactions(test.router.controller, true);
+            test.setNextResponse([resAllFactors, resSuccess]);
+            test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
+            // click or enter code in the the Totp form
+            test.totpForm.inlineTOTPAdd().click();
+            test.totpForm.setAnswer('654321');
+            test.totpForm.inlineTOTPVerify().click();
+            return tick(test);
+          })
+          .then(function () {
+            expectSetTransaction(test.router, resSuccess, true);
           });
         });
       });

@@ -34,8 +34,8 @@ define(['okta'], function (Okta) {
           // verify would result in a wrong request (push verify instead of a TOTP verify).
           if (transaction.status === 'MFA_CHALLENGE' && transaction.previous) {
             transaction.previous().then(function (trans) {
-              form.model.save();
               setTransaction(trans);
+              form.model.save();
             });
           } else {
             // Push is not active and we enter the code to verify.
