@@ -84,7 +84,7 @@ function (Okta, BaseLoginModel) {
       this.trigger('save');
 
       return this.startTransaction(function (authClient) {
-        return authClient.primaryAuth({
+        return authClient.signIn({
           username: username,
           password: password,
           options: {

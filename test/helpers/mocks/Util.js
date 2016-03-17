@@ -22,7 +22,7 @@ function ($, _, Backbone, Q, Duo) {
   fn.mockSDKCookie = function (authClient, key, value) {
     key = key || 'oktaStateToken';
     value = value || 'testStateToken';
-    spyOn(authClient.transactionExists, '_getCookie').and.returnValue(value);
+    spyOn(authClient.tx.exists, '_getCookie').and.returnValue(value);
   };
 
   fn.mockRemoveCookie = function () {
@@ -153,58 +153,73 @@ function ($, _, Backbone, Q, Duo) {
   }
 
   // Needed in order to reset the mock. Jasmine spies don't have restore()
-  var originalPost;
+  var originalAjax;
   fn.disableEnrollFactorPoll = function (authClient) {
-    originalPost = authClient.post;
-    spyOn(authClient, 'post').and.callFake(function () {
+    originalAjax = authClient.ajaxRequest;
+    spyOn(authClient.options, 'ajaxRequest').and.callFake(function () {
       var caller = arguments.callee.caller; /* jshint ignore: line */
       var pollFn = findPollFnParent(caller);
       if (pollFn) {
         pollFn.__ref.isPolling = false;
+
+        // The poll function now throws an error when the poll is
+        // forced to stop. Q considers it unhandled, but it's
+        // caught for every polling transaction in BaseLoginModel.
+        Q.stopUnhandledRejectionTracking();
+
         // return waiting xhr
         return Q.resolve({
-          'stateToken': 'testStateToken',
-          'factorResult': 'WAITING'
+          status: 200,
+          responseText: JSON.stringify({
+            'stateToken': 'testStateToken',
+            'factorResult': 'WAITING'
+          })
         });
       }
 
-      return originalPost.apply(this, arguments);
+      return originalAjax.apply(this, arguments);
     });
   };
 
   fn.stallEnrollFactorPoll = function (authClient) {
-    if (authClient.post.calls) {
-      authClient.post = originalPost;
+    if (authClient.options.ajaxRequest.calls) {
+      authClient.options.ajaxRequest = originalAjax;
     }
-    originalPost = authClient.post;
-    spyOn(authClient, 'post').and.callFake(function () {
+    originalAjax = authClient.options.ajaxRequest;
+    spyOn(authClient.options, 'ajaxRequest').and.callFake(function () {
       var caller = arguments.callee.caller; /* jshint ignore: line */
       var pollFn = findPollFnParent(caller);
       if (pollFn) {
         // return waiting xhr
         return Q.resolve({
-          'stateToken': 'testStateToken',
-          'factorResult': 'WAITING'
+          status: 200,
+          responseText: JSON.stringify({
+            'stateToken': 'testStateToken',
+            'factorResult': 'WAITING'
+          })
         });
       }
 
-      return originalPost.apply(this, arguments);
+      return originalAjax.apply(this, arguments);
     });
   };
 
   fn.resumeEnrollFactorPoll = function (authClient, response) {
-    if (authClient.post.calls) {
-      authClient.post = originalPost;
+    if (authClient.options.ajaxRequest.calls) {
+      authClient.options.ajaxRequest = originalAjax;
     }
-    originalPost = authClient.post;
-    spyOn(authClient, 'post').and.callFake(function () {
+    if (response.response && !response.responseText) {
+      response.responseText = JSON.stringify(response.response);
+    }
+    originalAjax = authClient.options.ajaxRequest;
+    spyOn(authClient.options, 'ajaxRequest').and.callFake(function () {
       var caller = arguments.callee.caller; /* jshint ignore: line */
       var pollFn = findPollFnParent(caller);
       if (pollFn) {
-        authClient.post = originalPost;
+        authClient.options.ajaxRequest = originalAjax;
         return Q.resolve(response);
       }
-      return originalPost.apply(this, arguments);
+      return originalAjax.apply(this, arguments);
     });
   };
 

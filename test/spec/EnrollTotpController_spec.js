@@ -130,7 +130,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
     function enrollOktaPushGoCannotScan() {
       return setupAndEnrollOktaPush().then(function (test) {
         test.scanCodeForm.clickManualSetupLink();
-        return test;
+        return tick(test);
       });
     }
 
@@ -863,7 +863,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           .then(function (test) {
             Expect.isVisible(test.linkSentConfirmation.smsSentMsg());
             expect(test.linkSentConfirmation.getMsgText().indexOf('+14152554668') >= 0).toBe(true);
-            Util.resumeEnrollFactorPoll(test.ac, resAllFactors.response);
+            Util.resumeEnrollFactorPoll(test.ac, resAllFactors);
             return tick(test);
           })
           .then(function (test) {
@@ -934,7 +934,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(0);
             Expect.isVisible(test.manualSetupForm.form());
-            Expect.isNotVisible(test.manualSetupForm.countryCodeSelect());
+            expect(test.manualSetupForm.countryCodeSelect().length).toBe(0);
             Expect.isNotVisible(test.manualSetupForm.phoneNumberField());
             Expect.isVisible(test.manualSetupForm.sharedSecretField());
             Expect.isNotVisible(test.manualSetupForm.submitButton());

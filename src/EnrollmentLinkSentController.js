@@ -127,18 +127,12 @@ function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
     },
 
     remove: function () {
-      this.model.manageTransaction(function(transaction) {
-        if (transaction.stopEnrollFactorPoll) {
-          transaction.stopEnrollFactorPoll();
-        }
-      });
       return FormController.prototype.remove.apply(this, arguments);
     },
 
     pollForEnrollment: function () {
       return this.model.doTransaction(function(transaction) {
-        return transaction
-        .startEnrollFactorPoll(PUSH_INTERVAL);
+        return transaction.poll(PUSH_INTERVAL);
       });
     },
 

@@ -109,7 +109,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
     // 2. controller sets the transaction property on the appState
     // 3. routerAfterAuthStatusChange is called with the right parameters (success response)
     function expectSetTransaction(router, res, isTotp) {
-      var mockTransaction = jasmine.objectContaining({response: res.response, status: res.response.status});
+      var mockTransaction = jasmine.objectContaining({data: res.response, status: res.response.status});
       // Spy on backup factor model for TOTP, since TOTP is special
       var model = router.controller.model;
       if (isTotp) {

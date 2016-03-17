@@ -33,7 +33,7 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
         // correct state. Fortunately, this means that the router will
         // handle navigation once the request is finished.
         this.model.doTransaction(function (transaction) {
-          return transaction.previous();
+          return transaction.prev();
         });
       }
       else {

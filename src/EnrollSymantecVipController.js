@@ -17,6 +17,8 @@ define([
   'views/enroll-factors/Footer'],
 function (Okta, FormType, FormController, Footer) {
 
+  var _ = Okta._;
+
   return FormController.extend({
     className: 'enroll-symantec',
     Model: {
@@ -28,9 +30,12 @@ function (Okta, FormType, FormController, Footer) {
       },
       save: function () {
         return this.doTransaction(function(transaction) {
-          return transaction
-          .getFactorByTypeAndProvider('token', 'SYMANTEC')
-          .enrollFactor({
+
+          var factor = _.find(transaction.factors, {
+            factorType: 'token',
+            provider: 'SYMANTEC'
+          });
+          return factor.enroll({
             passCode: this.get('passCode'),
             nextPassCode: this.get('nextPassCode'),
             profile: {credentialId: this.get('credentialId')}

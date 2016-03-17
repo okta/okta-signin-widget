@@ -85,13 +85,12 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
         
         self.trigger('errors:clear');
         return this.doTransaction(function(transaction) {
-          var lastResponse = transaction.response;
-          var isMfaEnroll = lastResponse.status === 'MFA_ENROLL';
-
-          if (isMfaEnroll) {
-            return transaction
-            .getFactorByTypeAndProvider('sms', 'OKTA')
-            .enrollFactor({
+          if (transaction.status === 'MFA_ENROLL') {
+            var factor = _.find(transaction.factors, {
+              factorType: 'sms',
+              provider: 'OKTA'
+            });
+            return factor.enroll({
               profile: {
                 phoneNumber: phoneNumber,
                 updatePhone: self.get('hasExistingPhones')
@@ -101,11 +100,13 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
           } else {
             // We must transition to MfaEnroll before updating the phone number
             self.set('trapEnrollment', true);
-            return transaction.previous()
+            return transaction.prev()
             .then(function (trans) {
-              return trans
-              .getFactorByTypeAndProvider('sms', 'OKTA')
-              .enrollFactor({
+              var factor = _.find(trans.factors, {
+                factorType: 'sms',
+                provider: 'OKTA'
+              });
+              return factor.enroll({
                 profile: {
                   phoneNumber: phoneNumber,
                   updatePhone: true
@@ -133,12 +134,12 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
         this.trigger('errors:clear');
         this.limitResending();
         return this.doTransaction(function(transaction) {
-          return transaction.resendByName('sms');
+          return transaction.resend('sms');
         });
       },
       save: function () {
         return this.doTransaction(function(transaction) {
-          return transaction.activateFactor({
+          return transaction.activate({
             passCode: this.get('passCode')
           });
         });

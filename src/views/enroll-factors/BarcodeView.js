@@ -46,12 +46,6 @@ define([
         e.preventDefault();
         var url = RouterUtil.createActivateFactorUrl(this.model.get('__provider__'),
           this.model.get('__factorType__'), 'manual');
-        this.model.manageTransaction(function (transaction) {
-          // Check if the stopEnrollFactorPoll is on the authClient, since we don't poll for totp.
-          if (transaction.stopEnrollFactorPoll) {
-            transaction.stopEnrollFactorPoll();
-          }
-        });
         this.options.appState.trigger('navigate', url);
       },
       'click [data-type="refresh-qrcode"]': function (e) {
@@ -61,13 +55,13 @@ define([
         var self = this;
         this.model.doTransaction(function (transaction) {
           if (this.appState.get('isWaitingForActivation')) {
-            return transaction.startEnrollFactorPoll();
+            return transaction.poll();
           } else {
-            return transaction.activateFactor();
+            return transaction.activate();
           }
         })
         .then(function (trans) {
-          var res = trans.response;
+          var res = trans.data;
           if (res.status === 'MFA_ENROLL_ACTIVATE' && res.factorResult === 'WAITING') {
             // defer the render here to have a lastResponse set in AppState
             // so that we get new QRcode rendered

@@ -58,7 +58,7 @@ function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
     itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
       return setup()
       .then(function (test) {
-        spyOn(test.ac, 'transactionExists').and.returnValue(false);
+        spyOn(test.ac.tx, 'exists').and.returnValue(false);
         test.router.refreshAuthState();
         return tick(test);
       })

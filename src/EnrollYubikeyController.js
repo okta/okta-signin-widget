@@ -18,6 +18,8 @@ define([
 ],
 function (Okta, FormType, FormController, Footer) {
 
+  var _ = Okta._;
+
   return FormController.extend({
     className: 'enroll-yubikey',
     Model: {
@@ -27,9 +29,11 @@ function (Okta, FormType, FormController, Footer) {
       },
       save: function () {
         return this.doTransaction(function(transaction) {
-          return transaction
-          .getFactorByTypeAndProvider('token:hardware', 'YUBICO')
-          .enrollFactor({
+          var factor = _.find(transaction.factors, {
+            factorType: 'token:hardware',
+            provider: 'YUBICO'
+          });
+          return factor.enroll({
             passCode: this.get('passCode')
           });
         });
