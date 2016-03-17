@@ -25,12 +25,12 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  describe('EnrollSms', function () {
+  Expect.describe('EnrollSms', function () {
 
     function setup(resp, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({uri: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -111,15 +111,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       expect(button.hasClass('button-primary')).toBe(true);
     }
 
-    beforeEach(function () {
-      $.fx.off = true;
-    });
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
-    });
-
-    describe('Header & Footer', function () {
+    Expect.describe('Header & Footer', function () {
       itp('displays the correct factorBeacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
@@ -163,7 +155,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       });
     });
 
-    describe('Enroll phone number', function () {
+    Expect.describe('Enroll phone number', function () {
       itp('has a list of countries in alphabetical order', function () {
         return setup().then(function (test) {
           var countries = test.form.countriesList();
@@ -283,7 +275,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       });
     });
 
-    describe('Verify phone number', function () {
+    Expect.describe('Verify phone number', function () {
       itp('replaces send code with sent button, disabled and with no primary class', function () {
         return setupAndSendValidCode().then(function (test) {
           expectSentButton(test);

@@ -22,12 +22,12 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  describe('EnrollQuestions', function () {
+  Expect.describe('EnrollQuestions', function () {
 
     function setup(startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({uri: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -56,10 +56,6 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
         };
       });
     }
-
-    afterEach(function () {
-      $sandbox.empty();
-    });
 
     itp('displays the correct factorBeacon', function () {
       $.fx.off = true;

@@ -21,13 +21,13 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  describe('EnrollChoices', function () {
+  Expect.describe('EnrollChoices', function () {
 
     function setup(res, showSecurityImage) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({
-        uri: baseUrl
+        url: baseUrl
       });
       var router = new Router({
         el: $sandbox,
@@ -139,11 +139,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       });
     }
 
-    afterEach(function () {
-      $sandbox.empty();
-    });
-
-    describe('General', function () {
+    Expect.describe('General', function () {
       itp('has correct title', function () {
         return setup(resAllFactors).then(function (test) {
           expect(test.form.titleText()).toBe('Set up multifactor authentication');
@@ -156,9 +152,9 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       });
     });
 
-    describe('Wizard', function () {
+    Expect.describe('Wizard', function () {
 
-      describe('Required', function () {
+      Expect.describe('Required', function () {
         itp('has the correct subtitle text', function () {
           return setupWithRequiredNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
@@ -237,7 +233,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         });
       });
 
-      describe('Optional/Finish', function () {
+      Expect.describe('Optional/Finish', function () {
         itp('displays the general subtitle if there are only optional factors and none are enrolled', function () {
           return setupWithAllOptionalNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
@@ -376,8 +372,8 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
 
     });
 
-    describe('Factor list', function () {
-      describe('OKTA_VERIFY', function () {
+    Expect.describe('Factor list', function () {
+      Expect.describe('OKTA_VERIFY', function () {
         itHasIconAndText(
           'OKTA_VERIFY',
           'mfa-okta-verify',
@@ -386,7 +382,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           resAllFactors
         );
       });
-      describe('OKTA_VERIFY_PUSH', function () {
+      Expect.describe('OKTA_VERIFY_PUSH', function () {
         itHasIconAndText(
           'OKTA_VERIFY_PUSH',
           'mfa-okta-verify',
@@ -425,7 +421,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           });
         });
       });
-      describe('GOOGLE_AUTH', function () {
+      Expect.describe('GOOGLE_AUTH', function () {
         itHasIconAndText(
           'GOOGLE_AUTH',
           'mfa-google-auth',
@@ -434,7 +430,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           resAllFactors
         );
       });
-      describe('SYMANTEC_VIP', function () {
+      Expect.describe('SYMANTEC_VIP', function () {
         itHasIconAndText(
           'SYMANTEC_VIP',
           'mfa-symantec',
@@ -443,7 +439,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           resAllFactors
         );
       });
-      describe('RSA_SECURID', function () {
+      Expect.describe('RSA_SECURID', function () {
         itHasIconAndText(
           'RSA_SECURID',
           'mfa-rsa',
@@ -452,7 +448,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           resAllFactors
         );
       });
-      describe('ON_PREM', function () {
+      Expect.describe('ON_PREM', function () {
         itHasIconAndText(
           'ON_PREM',
           'mfa-onprem',
@@ -461,7 +457,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           resAllFactorsOnPrem
         );
       });
-      describe('DUO', function () {
+      Expect.describe('DUO', function () {
         itHasIconAndText(
           'DUO',
           'mfa-duo',
@@ -470,7 +466,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           resAllFactors
         );
       });
-      describe('SMS', function () {
+      Expect.describe('SMS', function () {
         itHasIconAndText(
           'SMS',
           'mfa-okta-sms',
@@ -486,7 +482,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           });
         });
       });
-      describe('CALL', function () {
+      Expect.describe('CALL', function () {
         itHasIconAndText(
           'CALL',
           'mfa-okta-call',
@@ -502,7 +498,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           });
         });
       });
-      describe('QUESTION', function () {
+      Expect.describe('QUESTION', function () {
         itHasIconAndText(
           'QUESTION',
           'mfa-okta-security-question',

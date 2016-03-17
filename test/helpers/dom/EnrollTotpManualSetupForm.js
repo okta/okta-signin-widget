@@ -26,7 +26,7 @@ define(['./Form'], function (Form) {
     },
 
     countryCodeSelect: function () {
-      return this.select(COUNTRY_CODE_SELECTOR);
+      return this.inputWrap(COUNTRY_CODE_SELECTOR).find('.chzn-container');
     },
 
     phoneNumberField: function () {
@@ -40,7 +40,7 @@ define(['./Form'], function (Form) {
     },
 
     dropdownElement: function () {
-      return this.select(DROPDOWN);
+      return this.inputWrap(DROPDOWN).find('.chzn-container');
     },
 
     dropdownOptions: function () {

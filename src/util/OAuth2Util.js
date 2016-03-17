@@ -37,7 +37,7 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
       extraOptions.timeOut = options.oAuthTimeout;
     }
 
-    authClient.getIdToken(oauthParams, extraOptions)
+    authClient.idToken.authorize(oauthParams, extraOptions)
     .then(function (result) {
       settings.callGlobalSuccess(Enums.SUCCESS, result);
     })

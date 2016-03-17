@@ -27,8 +27,7 @@ function (Okta, FormController, FormType, FooterSignout) {
       },
       save: function () {
         return this.doTransaction(function(transaction) {
-          return transaction
-          .answerRecoveryQuestion({ answer: this.get('answer') });
+          return transaction.answer({ answer: this.get('answer') });
         });
       }
     },

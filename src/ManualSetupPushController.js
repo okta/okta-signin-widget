@@ -46,17 +46,19 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
 
   function enrollFactor(view, factorType) {
     return view.model.doTransaction(function(transaction) {
-      return transaction.previous()
+      return transaction.prev()
       .then(function (trans) {
-        return trans
-          .getFactorByTypeAndProvider(factorType, 'OKTA')
-          .enrollFactor();
+        var factor = _.findWhere(trans.factors, {
+          factorType: factorType,
+          provider: 'OKTA'
+        });
+        return factor.enroll();
       })
       .then(function (trans) {
         var textActivationLinkUrl,
             emailActivationLinkUrl,
             sharedSecret,
-            res = trans.response;
+            res = trans.data;
 
         if (res &&
             res._embedded &&
@@ -219,31 +221,26 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
       this.setInitialModel();
       // Move this logic to a model when AuthClient supports sending email and sms
       this.listenTo(this.form, 'save', function () {
-        var activationType = this.model.get('activationType'),
-            self = this,
-            profile;
-        if (activationType === 'SMS') {
-          profile = {phoneNumber: this.model.get('fullPhoneNumber')};
-        } else {
-          profile = undefined;
-        }
+        var self = this;
+        this.model.doTransaction(function(transaction) {
+          var activationType = this.get('activationType').toLowerCase(),
+              opts = {};
 
-        this.settings.getAuthClient().post(this.model.get(activationType), {
-          stateToken: this.options.appState.get('lastAuthResponse').stateToken,
-          profile: profile
-        })
-        .then(function (res) {
-          self.options.appState.setAuthResponse(res);
-          setStateValues(self);
-          // Note: Need to defer because OktaAuth calls our router success
-          // handler on the next tick - if we immediately called, appState would
-          // still be populated with the last response
-          _.defer(function () {
-            goToFactorActivation(self, 'sent');
+          if (activationType === 'sms') {
+            opts.profile = {phoneNumber: this.get('fullPhoneNumber')};
+          }
+
+          return transaction.factor.activation.send(activationType, opts)
+          .then(function(trans) {
+            setStateValues(self);
+            // Note: Need to defer because OktaAuth calls our router success
+            // handler on the next tick - if we immediately called, appState would
+            // still be populated with the last response
+            _.defer(function () {
+              goToFactorActivation(self, 'sent');
+            });
+            return trans;
           });
-        })
-        .fail(function (err) {
-          self.model.trigger('error', self.model, err.xhr);
         });
       });
 

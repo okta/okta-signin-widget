@@ -119,7 +119,7 @@ var OktaSignIn = (function () {
     LoginRouter = require('LoginRouter');
 
 
-    authClient = new OktaAuth({ uri: options.baseUrl, transformErrorXHR: Util.transformErrorXHR });
+    authClient = new OktaAuth({ url: options.baseUrl, transformErrorXHR: Util.transformErrorXHR });
     _.extend(this, LoginRouter.prototype.Events, getProperties(authClient, LoginRouter, options));
 
     // Triggers the event up the chain so it is available to the consumers of the widget.

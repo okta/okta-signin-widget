@@ -1,4 +1,5 @@
-/*jshint maxcomplexity:20, maxstatements:22 */
+/*jshint maxcomplexity:20, maxstatements:27 */
+/*jshint -W020 */
 /* globals JSON */
 define([
   'jquery',
@@ -27,7 +28,7 @@ function ($, _, Backbone, Q, Duo) {
   fn.mockSDKCookie = function (authClient, key, value) {
     key = key || 'oktaStateToken';
     value = value || 'testStateToken';
-    spyOn(authClient.transactionExists, '_getCookie').and.returnValue(value);
+    spyOn(authClient.tx.exists, '_getCookie').and.returnValue(value);
   };
 
   fn.mockRemoveCookie = function () {
@@ -158,74 +159,48 @@ function ($, _, Backbone, Q, Duo) {
     spyOn(Math, 'random').and.returnValue(0.1);
   };
 
-  // A crazy hack to stop polling without an exposed isPolling property
-  var maxdepth = 10;
-  function findPollFnParent(caller, count) {
-    count = count || 1;
-    if (caller) {
-      if (caller.name === 'pollFn') {
-        return caller;
-      } else if (count < maxdepth) {
-        count++;
-        return findPollFnParent(caller.caller, count);
-      }
+  fn.stallEnrollFactorPoll = function (authClient, originalAjax) {
+    // Needed in order to reset the mock. Jasmine spies don't have restore()
+    if (authClient.options.ajaxRequest.calls) {
+      authClient.options.ajaxRequest = originalAjax;
     }
-  }
-
-  // Needed in order to reset the mock. Jasmine spies don't have restore()
-  var originalPost;
-  fn.disableEnrollFactorPoll = function (authClient) {
-    originalPost = authClient.post;
-    spyOn(authClient, 'post').and.callFake(function () {
-      var caller = arguments.callee.caller; /* jshint ignore: line */
-      var pollFn = findPollFnParent(caller);
-      if (pollFn) {
-        pollFn.__ref.isPolling = false;
+    originalAjax = authClient.options.ajaxRequest;
+    spyOn(authClient.options, 'ajaxRequest').and.callFake(function (method, uri) {
+      var isPollFn = uri.indexOf('/lifecycle/activate') !== -1;
+      if (isPollFn) {
         // return waiting xhr
         return Q.resolve({
-          'stateToken': 'testStateToken',
-          'factorResult': 'WAITING'
+          status: 200,
+          responseText: JSON.stringify({
+            'stateToken': 'testStateToken',
+            'factorResult': 'WAITING'
+          })
         });
       }
 
-      return originalPost.apply(this, arguments);
+      return originalAjax.apply(this, arguments);
     });
+
+    return originalAjax;
   };
 
-  fn.stallEnrollFactorPoll = function (authClient) {
-    if (authClient.post.calls) {
-      authClient.post = originalPost;
+  fn.resumeEnrollFactorPoll = function (authClient, originalAjax, response) {
+    if (authClient.options.ajaxRequest.calls) {
+      authClient.options.ajaxRequest = originalAjax;
     }
-    originalPost = authClient.post;
-    spyOn(authClient, 'post').and.callFake(function () {
-      var caller = arguments.callee.caller; /* jshint ignore: line */
-      var pollFn = findPollFnParent(caller);
-      if (pollFn) {
-        // return waiting xhr
-        return Q.resolve({
-          'stateToken': 'testStateToken',
-          'factorResult': 'WAITING'
-        });
-      }
-
-      return originalPost.apply(this, arguments);
-    });
-  };
-
-  fn.resumeEnrollFactorPoll = function (authClient, response) {
-    if (authClient.post.calls) {
-      authClient.post = originalPost;
+    if (response.response && !response.responseText) {
+      response.responseText = JSON.stringify(response.response);
     }
-    originalPost = authClient.post;
-    spyOn(authClient, 'post').and.callFake(function () {
-      var caller = arguments.callee.caller; /* jshint ignore: line */
-      var pollFn = findPollFnParent(caller);
-      if (pollFn) {
-        authClient.post = originalPost;
+    originalAjax = authClient.options.ajaxRequest;
+    spyOn(authClient.options, 'ajaxRequest').and.callFake(function (method, uri) {
+      var isPollFn = uri.indexOf('/activate') !== -1;
+      if (isPollFn) {
+        authClient.options.ajaxRequest = originalAjax;
         return Q.resolve(response);
       }
-      return originalPost.apply(this, arguments);
+      return originalAjax.apply(this, arguments);
     });
+    return originalAjax;
   };
 
   fn.stopRouter = function () {
@@ -240,6 +215,56 @@ function ($, _, Backbone, Q, Duo) {
       preventDefault: function () {},
       stopImmediatePropagation: function () {}
     });
+  };
+
+  function isNative(fn) {
+    return fn.toString().indexOf('[native code]') > 0;
+  }
+
+  /*
+    We track timeouts and intervals so we can remove them between
+    Jasmine tests. This ensures our tests are independent.
+
+    ex: polling no longer makes requests that we don't expect
+  */
+  var timeouts = [];
+  var originalSetTimeout;
+
+  fn.mockSetTimeout = function() {
+    if (isNative(setTimeout)) {
+      originalSetTimeout = setTimeout;
+      setTimeout = function() {
+        var id = originalSetTimeout.apply(this, arguments);
+        timeouts.push(id);
+        return id;
+      };
+    }
+  };
+
+  fn.clearAllTimeouts = function() {
+    while (timeouts.length) {
+      clearTimeout(timeouts.pop());
+    }
+  };
+
+  var intervals = [];
+  var originalSetInterval;
+
+  fn.mockSetInterval = function() {
+    if (isNative(setInterval)) {
+      originalSetInterval = setInterval;
+      setInterval = function() {
+        var id = originalSetInterval.apply(this, arguments);
+        timeouts.push(id);
+        return id;
+      };
+    }
+  };
+
+  fn.clearAllIntervals = function() {
+    while (intervals.length) {
+      clearTimeout(intervals.pop());
+    }
   };
 
   return fn;

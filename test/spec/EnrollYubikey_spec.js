@@ -17,12 +17,12 @@ function ($, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  describe('EnrollYubikey', function () {
+  Expect.describe('EnrollYubikey', function () {
 
     function setup(startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({uri: baseUrl});
+      var authClient = new OktaAuth({url: baseUrl});
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -51,11 +51,7 @@ function ($, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       });
     }
 
-    afterEach(function () {
-      $sandbox.empty();
-    });
-
-    describe('Header & Footer', function () {
+    Expect.describe('Header & Footer', function () {
       itp('displays the correct factorBeacon', function () {
         $.fx.off = true;
         return setup().then(function (test) {
@@ -71,7 +67,7 @@ function ($, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       });
     });
 
-    describe('Enroll factor', function () {
+    Expect.describe('Enroll factor', function () {
       itp('has passCode field', function () {
         return setup().then(function (test) {
           Expect.isPasswordField(test.form.codeField());

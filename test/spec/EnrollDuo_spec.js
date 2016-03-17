@@ -20,12 +20,12 @@ function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  describe('EnrollDuo', function () {
+  Expect.describe('EnrollDuo', function () {
 
     function setup(startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({uri: baseUrl});
+      var authClient = new OktaAuth({url: baseUrl});
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -55,14 +55,6 @@ function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
         };
       });
     }
-
-    beforeEach(function () {
-      $.fx.off = true;
-    });
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
-    });
 
     itp('displays the correct factorBeacon', function () {
       return setup().then(function (test) {

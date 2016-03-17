@@ -42,6 +42,7 @@
     "expect": false,
     "it": false,
     "xit": false,
+    "beforeAll": false,
     "beforeEach": false,
     "afterEach": false,
     "waitsFor": false,

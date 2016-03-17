@@ -31,9 +31,11 @@ function (Okta, FormController, Footer) {
       },
       save: function () {
         return this.doTransaction(function(transaction) {
-          return transaction
-          .getFactorByTypeAndProvider('question', 'OKTA')
-          .enrollFactor({
+          var factor = _.findWhere(transaction.factors, {
+            factorType: 'question',
+            provider: 'OKTA'
+          });
+          return factor.enroll({
             profile: {
               question: this.get('question'),
               answer: this.get('answer')
@@ -79,9 +81,11 @@ function (Okta, FormController, Footer) {
     fetchInitialData: function () {
       var self = this;
       return this.model.manageTransaction(function(transaction) {
-        return transaction
-        .getFactorByTypeAndProvider('question', 'OKTA')
-        .getQuestions();
+        var factor = _.findWhere(transaction.factors, {
+          factorType: 'question',
+          provider: 'OKTA'
+        });
+        return factor.questions();
       })
       .then(function(questionsRes) {
         var questions = {};

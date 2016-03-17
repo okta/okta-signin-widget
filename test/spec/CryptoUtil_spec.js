@@ -1,9 +1,10 @@
 define([
+  'helpers/util/Expect',
   'jquery',
   'util/CryptoUtil'
 ],
-function ($, CryptoUtil) {
-  describe('CryptoUtil', function () {
+function (Expect, $, CryptoUtil) {
+  Expect.describe('CryptoUtil', function () {
     it('hash string to unique integer', function () {
       var original = {};
       var hashed = {};

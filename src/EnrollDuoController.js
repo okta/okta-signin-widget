@@ -38,9 +38,11 @@ function (Okta, Duo, Q, FormController, Footer) {
 
       getInitOptions: function () {
         return this.doTransaction(function (transaction) {
-          return transaction
-          .getFactorByTypeAndProvider('web', 'DUO')
-          .enrollFactor();
+          var factor = _.findWhere(transaction.factors, {
+            factorType: 'web',
+            provider: 'DUO'
+          });
+          return factor.enroll();
         });
       },
 
@@ -63,7 +65,7 @@ function (Okta, Duo, Q, FormController, Footer) {
         return Q($.post(url, data))
         .then(function () {
           return self.doTransaction(function (transaction) {
-            return transaction.startEnrollFactorPoll();
+            return transaction.poll();
           });
         })
         .fail(function (err) {
@@ -94,7 +96,7 @@ function (Okta, Duo, Q, FormController, Footer) {
       var self = this;
       return this.model.getInitOptions(this.options.appState)
       .then(function (trans) {
-        var res = trans.response;
+        var res = trans.data;
         if (!res ||
             !res._embedded ||
             !res._embedded.factor ||

@@ -42,9 +42,11 @@ function (Okta, FormType, FormController, Footer) {
         },
         save: function () {
           return this.doTransaction(function(transaction) {
-            return transaction
-            .getFactorByTypeAndProvider('token', provider)
-            .enrollFactor({
+            var factor = _.findWhere(transaction.factors, {
+              factorType: 'token',
+              provider: provider
+            });
+            return factor.enroll({
               passCode: this.get('passCode'),
               profile: {credentialId: this.get('credentialId')}
             });

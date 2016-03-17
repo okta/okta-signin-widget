@@ -38,12 +38,12 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  describe('MFA Verify', function () {
+  Expect.describe('MFA Verify', function () {
 
     function setup(res, selectedFactorProps, settings) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({uri: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -114,7 +114,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
     // 2. controller sets the transaction property on the appState
     // 3. routerAfterAuthStatusChange is called with the right parameters (success response)
     function expectSetTransaction(router, res, isTotp) {
-      var mockTransaction = jasmine.objectContaining({response: res.response, status: res.response.status});
+      var mockTransaction = jasmine.objectContaining({data: res.response, status: res.response.status});
       // Spy on backup factor model for TOTP, since TOTP is special
       var model = router.controller.model;
       if (isTotp) {
@@ -204,16 +204,8 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
       expect(answer.attr('type')).toEqual(fieldType);
     }
 
-    beforeEach(function () {
-      $.fx.off = true;
-    });
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
-    });
-
-    describe('General', function () {
-      describe('Defaults to the last used factor', function () {
+    Expect.describe('General', function () {
+      Expect.describe('Defaults to the last used factor', function () {
         itp('Security Question', function () {
           return setup(resAllFactors).then(function (test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
@@ -243,7 +235,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
           });
         });
       });
-      describe('Remember device', function () {
+      Expect.describe('Remember device', function () {
         itp('is rendered', function () {
           return setup(resAllFactors).then(function (test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
@@ -267,9 +259,9 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
       });
     });
 
-    describe('Factor types', function () {
+    Expect.describe('Factor types', function () {
 
-      describe('Security Question', function () {
+      Expect.describe('Security Question', function () {
         itp('is security question', function () {
           return setupSecurityQuestion().then(function (test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
@@ -428,7 +420,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
         });
       });
 
-      describe('TOTP', function () {
+      Expect.describe('TOTP', function () {
         itp('is totp', function () {
           return setupGoogleTOTP().then(function (test) {
             expect(test.form.isTOTP()).toBe(true);
@@ -588,7 +580,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
         });
       });
 
-      describe('Yubikey', function () {
+      Expect.describe('Yubikey', function () {
         itp('shows the right beacon for Yubikey', function () {
           return setupYubikey().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-yubikey');
@@ -698,7 +690,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
         });
       });
 
-      describe('SMS', function () {
+      Expect.describe('SMS', function () {
         beforeEach(function () {
           var  throttle = _.throttle;
           spyOn(_, 'throttle').and.callFake(function (fn) {
@@ -953,7 +945,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
         });
       });
 
-      describe('Call', function () {
+      Expect.describe('Call', function () {
         beforeEach(function () {
           var  throttle = _.throttle;
           spyOn(_, 'throttle').and.callFake(function (fn) {
@@ -1203,7 +1195,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
         });
       });
 
-      describe('Okta Push', function () {
+      Expect.describe('Okta Push', function () {
         // Remember device for Push form exists out of the form.
         function getRememberDeviceForPushForm(test) {
           var rememberDevice = test.router.controller.$('[data-se="o-form-input-rememberDevice"]');
@@ -1242,7 +1234,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
           });
         });
 
-        describe('Auto Push', function () {
+        Expect.describe('Auto Push', function () {
           itp('has auto push checkbox', function () {
             return setupOktaPush({'features.autoPush': true}).then(function (test) {
               Expect.isVisible(getAutoPushCheckbox(test));
@@ -1260,7 +1252,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
           });
         });
 
-        describe('Push', function () {
+        Expect.describe('Push', function () {
           itp('shows a title that includes the device name', function () {
             return setupOktaPush().then(function (test) {
               expect(test.form[0].titleText()).toBe('Okta Verify (Reman\'s iPhone)');
@@ -1285,7 +1277,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
               });
             });
           });
-          describe('polling', function () {
+          Expect.describe('polling', function () {
             itp('will pass rememberMe on the first request', function () {
               return setupOktaPush().then(function (test) {
                 setRememberDeviceForPushForm(test, true);
@@ -1430,7 +1422,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
           // Do this when we have implemented push errors in OktaAuth and have an example
           xit('shows an error if error response from authClient');
         });
-        describe('TOTP', function () {
+        Expect.describe('TOTP', function () {
           itp('has a link to enter code', function () {
             return setupOktaPush().then(function (test) {
               Expect.isLink(test.form[1].inlineTOTPAdd());
@@ -1535,7 +1527,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
         });
       });
 
-      describe('Duo', function () {
+      Expect.describe('Duo', function () {
         itp('is duo', function () {
           return setupDuo().then(function (test) {
             expect(test.form.isDuo()).toBe(true);
@@ -1623,7 +1615,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
       });
     });
 
-    describe('Beacon', function () {
+    Expect.describe('Beacon', function () {
       itp('has no dropdown if there is only one factor', function () {
         return setup(resVerifyTOTPOnly).then(function (test) {
           var options = test.beacon.getOptionsLinks();
@@ -1707,7 +1699,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
       });
     });
 
-    describe('Switch between different factors and verify a factor', function () {
+    Expect.describe('Switch between different factors and verify a factor', function () {
       itp('Verify Security Question after switching from SMS MFA_CHALLENGE', function () {
         return setupSMS().then(function (test) {
           test.setNextResponse(resChallengeSms);
