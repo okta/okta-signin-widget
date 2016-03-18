@@ -14,8 +14,7 @@ BUILD_TEST_SUITE_ID=D33E21EE-E0D0-401D-8162-56B9A7BA0539
 LINT_TEST_SUITE_ID=2D4D1259-92C2-45BA-A74D-E665B7EC17FB
 UNIT_TEST_SUITE_ID=12DFDE73-F3D5-4EEB-BF12-DDE72E66DE61
 
-REGISTRY_URLBASE="https://artifacts.aue1d.saasure.com/artifactory"
-REGISTRY="${REGISTRY_URLBASE}/api/npm/npm-okta"
+REGISTRY="https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta"
 
 function usage() {
   OUTPUTCODE=$1
@@ -70,21 +69,14 @@ function unit() {
   fi
 }
 
-function publish_fullversion() {
-  FULLVERSION=$(npm run getfullversion --silent)
-
-  DATALOAD="${REGISTRY_URLBASE}/api/storage/npm-okta/${PKGNAME}/-/${PKGNAME}-${SEMVER}.tgz?properties=buildVersion=${FULLVERSION}"
-  echo "${DATALOAD}"
-  artifactory_curl -X PUT -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} ${DATALOAD} -v -f
-}
-
 function publish() {
   # Always publish a version to our npm registry:
   # If topic branch, will create an alpha prerelease version
   # If master branch, will create a beta prerelease version
   echo "Updating the version number, and publishing"
   if npm run prerelease -- --branch=${BRANCH} && npm publish --registry ${REGISTRY}; then
-    publish_fullversion
+    DATALOAD=$(npm run getpkg:dataload --silent)
+    artifactory_curl -X PUT -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} ${DATALOAD} -v -f
     echo "Publish Success"
   else
     echo "Publish Failed"
