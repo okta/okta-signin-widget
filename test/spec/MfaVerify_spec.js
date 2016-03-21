@@ -1,4 +1,4 @@
-/*jshint maxparams:27, maxstatements:28, camelcase:false */
+/*jshint maxparams:28, maxstatements:28, camelcase:false */
 /*global JSON */
 define([
   'vendor/lib/q',
@@ -7,6 +7,7 @@ define([
   'duo',
   'vendor/OktaAuth',
   'util/Util',
+  'util/CryptoUtil',
   'helpers/mocks/Util',
   'helpers/dom/MfaVerifyForm',
   'helpers/dom/Beacon',
@@ -16,7 +17,7 @@ define([
   'sandbox',
   'helpers/xhr/MFA_REQUIRED_allFactors',
   'helpers/xhr/MFA_REQUIRED_allFactors_OnPrem',
-  'helpers/xhr/MFA_REQUIRED_oktaVerify',
+  'helpers/xhr/MFA_REQUIRED_oktaVerifyTotpOnly',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
@@ -29,9 +30,9 @@ define([
   'helpers/xhr/SMS_RESEND_error',
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS'
 ],
-function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect, Router, RouterUtil, $sandbox,
-          resAllFactors, resAllFactorsOnPrem, resVerify, resChallengeDuo, resChallengeSms, resChallengeCall,
-          resChallengePush, resRejectedPush, resTimeoutPush, resSuccess, resInvalid, resInvalidTotp,
+function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Beacon, Expect, Router, RouterUtil,
+          $sandbox, resAllFactors, resAllFactorsOnPrem, resVerifyTOTPOnly, resChallengeDuo, resChallengeSms,
+          resChallengeCall, resChallengePush, resRejectedPush, resTimeoutPush, resSuccess, resInvalid, resInvalidTotp,
           resResendError, resMfaLocked) {
 
   var itp = Expect.itp;
@@ -97,7 +98,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
     var setupSMS = _.partial(setup, resAllFactors, { factorType: 'sms' });
     var setupCall = _.partial(setup, resAllFactors, { factorType: 'call' });
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
-    var setupOktaTOTP = _.partial(setup, resVerify, { factorType: 'token:software:totp' });
+    var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
 
     // Mocks the right calls for Auth SDK's transactions handled in the widget
     function mockTransactions(controller, isTotp) {
@@ -307,6 +308,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
+        itp('no auto push checkbox', function () {
+          return setupSecurityQuestion({'features.autoPush': true}).then(function (test) {
+            expect(test.form.autoPushCheckbox().length).toBe(0);
+          });
+        });
         itp('an answer field type is "password" initially and changed to text \
           when a "show answer" checkbox is checked', function () {
           return setupSecurityQuestion().then(function (test) {
@@ -452,6 +458,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         itp('shows the right beacon for Okta TOTP', function () {
           return setupOktaTOTP().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-okta-verify');
+          });
+        });
+        itp('no auto push checkbox for Okta TOTP', function () {
+          return setupOktaTOTP({'features.autoPush': true}).then(function (test) {
+            expect(test.form.autoPushCheckbox().length).toBe(0);
           });
         });
         itp('shows the right beacon for Symantec TOTP', function () {
@@ -1194,7 +1205,6 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
 
       describe('Okta Push', function () {
         // Remember device for Push form exists out of the form.
-        // Remember device for Push form exists out of the form.
         function getRememberDeviceForPushForm(test) {
           var rememberDevice = test.router.controller.$('[data-se="o-form-input-rememberDevice"]');
           var checkbox = rememberDevice.find(':checkbox');
@@ -1204,6 +1214,16 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
           var checkbox = getRememberDeviceForPushForm(test);
           checkbox.prop('checked', val);
           checkbox.trigger('change');
+        }
+        function getAutoPushCheckbox(test) {
+          var autoPush = test.router.controller.$('[data-se="o-form-input-autoPush"]');
+          var checkbox = autoPush.find(':checkbox');
+          return checkbox;
+        }
+        function getAutoPushLabel(test) {
+          var autoPush = test.router.controller.$('[data-se="o-form-input-autoPush"]');
+          var autoPushLabel = autoPush.find('Label').text();
+          return autoPushLabel;
         }
         itp('has push and an inline totp form', function () {
           return setupOktaPush().then(function (test) {
@@ -1221,6 +1241,25 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             Expect.isVisible(getRememberDeviceForPushForm(test));
           });
         });
+
+        describe('Auto Push', function () {
+          itp('has auto push checkbox', function () {
+            return setupOktaPush({'features.autoPush': true}).then(function (test) {
+              Expect.isVisible(getAutoPushCheckbox(test));
+            });
+          });
+          itp('auto push has the right text', function () {
+            return setupOktaPush({'features.autoPush': true}).then(function (test) {
+              expect(getAutoPushLabel(test)).toEqual('Send push automatically');
+            });
+          });
+          itp('has no auto push checkbox when feature is off', function () {
+            return setupOktaPush({'features.autoPush': false}).then(function (test) {
+              expect(getAutoPushCheckbox(test).length).toBe(0);
+            });
+          });
+        });
+
         describe('Push', function () {
           itp('shows a title that includes the device name', function () {
             return setupOktaPush().then(function (test) {
@@ -1586,7 +1625,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
 
     describe('Beacon', function () {
       itp('has no dropdown if there is only one factor', function () {
-        return setup(resVerify).then(function (test) {
+        return setup(resVerifyTOTPOnly).then(function (test) {
           var options = test.beacon.getOptionsLinks();
           expect(options.length).toBe(0);
         });

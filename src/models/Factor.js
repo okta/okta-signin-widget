@@ -75,7 +75,8 @@ function (Okta, CookieUtil, factorUtil, BaseLoginModel) {
       'answer': 'string',
       'backupFactor': 'object',
       'showAnswer': 'boolean',
-      'rememberDevice': 'boolean'
+      'rememberDevice': 'boolean',
+      'autoPush': ['boolean', true, false]
     },
 
     derived: {

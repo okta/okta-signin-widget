@@ -3,6 +3,7 @@ define(['./Form'], function (Form) {
   var ANSWER_FIELD = 'answer';
   var SHOW_ANSWER_FIELD = 'showAnswer';
   var REMEMBER_DEVICE = 'rememberDevice';
+  var AUTO_PUSH = 'autoPush';
 
   return Form.extend({
 
@@ -79,6 +80,28 @@ define(['./Form'], function (Form) {
       var rememberDevice = this.rememberDeviceCheckbox();
       rememberDevice.prop('checked', val);
       rememberDevice.trigger('change');
+    },
+
+    autoPushCheckbox: function () {
+      return this.checkbox(AUTO_PUSH);
+    },
+
+    autoPushLabelText: function () {
+      return this.checkboxLabelText(AUTO_PUSH);
+    },
+
+    isAutoPushChecked: function () {
+      return this.checkbox(AUTO_PUSH).prop('checked');
+    },
+
+    setAutoPush: function (val) {
+      var autoPush = this.autoPushCheckbox();
+      autoPush.prop('checked', val);
+      autoPush.trigger('change');
+    },
+
+    isPushSent: function () {
+      return this.button('.mfa-verify ').val() === 'Push sent!';
     },
 
     smsSendCode: function () {

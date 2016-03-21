@@ -10,8 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
+define(['okta',
+        'util/CookieUtil'
+], function (Okta, CookieUtil) {
 
+  var _ = Okta._;
   // deviceName is escaped on BaseForm (see BaseForm's template)
   var titleTpl = Okta.Handlebars.compile('{{factorName}} ({{{deviceName}}})');
 
@@ -49,6 +52,12 @@ define(['okta'], function (Okta) {
         factorName: this.model.get('factorLabel'),
         deviceName: this.model.get('deviceName')
       });
+
+      if (this.settings.get('features.autoPush') && CookieUtil.isAutoPushEnabled(this.options.appState.get('userId'))) {
+        this.model.set('autoPush', true);
+        // trigger push once DOM is fully loaded
+        _.defer(_.bind(this.submit, this));
+      }
     },
     setSubmitState: function (ableToSubmit) {
       var button = this.$el.find('.button');
@@ -62,7 +71,9 @@ define(['okta'], function (Okta) {
       }
     },
     submit: function (e) {
-      e.preventDefault();
+      if (e !== undefined) {
+        e.preventDefault();
+      }
       if (this.enabled) {
         this.setSubmitState(false);
         this.doSave();

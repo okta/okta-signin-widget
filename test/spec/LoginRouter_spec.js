@@ -5,6 +5,8 @@ define([
   'backbone',
   'xdomain',
   'shared/util/Util',
+  'util/CryptoUtil',
+  'util/CookieUtil',
   'vendor/OktaAuth',
   'helpers/mocks/Util',
   'helpers/util/Expect',
@@ -23,7 +25,7 @@ define([
   'util/Errors',
   'util/BrowserFeatures'
 ],
-function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router,
+function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
           $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, resSuccess, resRecovery,
           resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
           errorInvalidToken, Errors, BrowserFeatures) {
@@ -429,6 +431,87 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
         var form = new MfaVerifyForm($sandbox);
         expect(form.isRememberDeviceChecked()).toBe(true);
       });
+    });
+    itp('checks auto push by default for a returning user', function () {
+      Util.mockCookie('auto_push_' + CryptoUtil.getStringHash('00uhn6dAGR4nUB4iY0g3'), 'true');
+      return setup({'features.autoPush': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('signin');
+        return tick(test);
+      })
+      .then(function (test) {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+        test.setNextResponse(resMfaRequiredOktaVerify);
+        form.setUsername('testuser');
+        form.setPassword('pass');
+        form.submit();
+        return tick(test);
+      }).then(function (test) {
+        test.setNextResponse(resSuccess);
+        var form = new MfaVerifyForm($sandbox);
+        expect(form.autoPushCheckbox().length).toBe(1);
+        expect(form.isAutoPushChecked()).toBe(true);
+        expect(form.isPushSent()).toBe(true);
+        expect($.ajax.calls.count()).toBe(2);
+        Expect.isJsonPost($.ajax.calls.argsFor(1), {
+          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify',
+          data: {
+            stateToken: 'testStateToken'
+          }
+        });
+      });
+    });
+    itp('no auto push for a new user', function () {
+      return setup({'features.autoPush': true})
+          .then(function (test) {
+            Util.mockRouterNavigate(test.router);
+            test.router.navigate('signin');
+            return tick(test);
+          })
+          .then(function (test) {
+            var form = new PrimaryAuthForm($sandbox);
+            expect(form.isPrimaryAuth()).toBe(true);
+            test.setNextResponse(resMfaRequiredOktaVerify);
+            form.setUsername('testuser');
+            form.setPassword('pass');
+            form.submit();
+            return tick(test);
+          })
+          .then(function () {
+            var form = new MfaVerifyForm($sandbox);
+            expect(form.autoPushCheckbox().length).toBe(1);
+            expect(form.isAutoPushChecked()).toBe(false);
+            expect(form.isPushSent()).toBe(false);
+          });
+    });
+    itp('auto push updates cookie on MFA success', function () {
+      spyOn(CookieUtil, 'removeAutoPushCookie');
+      return setup({'features.autoPush': true})
+          .then(function (test) {
+            Util.mockRouterNavigate(test.router);
+            test.router.navigate('signin');
+            return tick(test);
+          })
+          .then(function (test) {
+            var form = new PrimaryAuthForm($sandbox);
+            expect(form.isPrimaryAuth()).toBe(true);
+            test.setNextResponse(resMfaRequiredOktaVerify);
+            form.setUsername('testuser');
+            form.setPassword('pass');
+            form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            test.setNextResponse(resSuccess);
+            var form = new MfaVerifyForm($sandbox);
+            form.submit();
+            return tick(test);
+          })
+          .then(function () {
+            expect(CookieUtil.removeAutoPushCookie).toHaveBeenCalledWith('00ui0jgywTAHxYGMM0g3');
+          });
     });
 
     describe('OIDC - okta is the idp and oauth2 is enabled', function () {

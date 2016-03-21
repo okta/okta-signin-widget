@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint maxcomplexity:11, maxparams:10 */
+/*jshint maxcomplexity:12, maxparams:11 */
 define([
   'okta',
   'shared/views/forms/inputs/CheckBox',
   'util/BaseLoginController',
+  'util/CookieUtil',
   'views/mfa-verify/TOTPForm',
   'views/mfa-verify/YubikeyForm',
   'views/mfa-verify/SecurityQuestionForm',
@@ -23,7 +24,7 @@ define([
   'views/mfa-verify/InlineTOTPForm',
   'views/shared/FooterSignout'
 ],
-function (Okta, Checkbox, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm, CallAndSMSForm,
+function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm, SecurityQuestionForm, CallAndSMSForm,
           PushForm, InlineTOTPForm, FooterSignout) {
 
   return BaseLoginController.extend({
@@ -73,6 +74,20 @@ function (Okta, Checkbox, BaseLoginController, TOTPForm, YubikeyForm, SecurityQu
         this.add(InlineTOTPForm, {
           options: { model: this.model.get('backupFactor') }
         });
+
+        if (this.settings.get('features.autoPush')) {
+          this.add(Checkbox, {
+            options: {
+              model: this.model,
+              name: 'autoPush',
+              placeholder: Okta.loc('autoPush', 'login'),
+              label: false,
+              'label-top': false,
+              className: 'margin-btm-0'
+            }
+          });
+        }
+
         // Remember Device checkbox resides outside of the Push and TOTP forms.
         if (this.settings.get('features.rememberDevice')) {
           this.add(Checkbox, {
@@ -100,6 +115,15 @@ function (Okta, Checkbox, BaseLoginController, TOTPForm, YubikeyForm, SecurityQu
           this.options.appState.get('isMfaRequired')) {
         return true;
       }
+      // update auto push cookie after user accepts Okta Verify MFA
+      if (this.options.factorType == 'push') {
+        if (this.settings.get('features.autoPush') && this.model.get('autoPush')) {
+          CookieUtil.setAutoPushCookie(this.options.appState.get('userId'));
+        } else {
+          CookieUtil.removeAutoPushCookie(this.options.appState.get('userId'));
+        }
+      }
+      return false;
     }
   });
 
