@@ -62,7 +62,7 @@ function (Okta, FormController, Enums, FormType, ContactSupport) {
         var self = this;
         return this.startTransaction(function (authClient) {
           return authClient.unlockAccount({
-            username: self.get('username'),
+            username: self.settings.transformUsername(self.get('username'), Enums.UNLOCK_ACCOUNT),
             factorType: self.get('factorType')
           });
         })

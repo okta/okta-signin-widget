@@ -33,6 +33,9 @@ function (Okta, Errors, BrowserFeatures) {
       'recoveryToken': ['string', false, undefined],
       'stateToken': ['string', false, undefined],
       'username' : ['string', false],
+      // Function to transform the username before passing it to the API
+      // for Primary Auth, Forgot Password and Unlock Account.
+      'transformUsername' : ['function', false],
 
       // CALLBACKS
       'globalSuccessFn': 'function',
@@ -192,6 +195,15 @@ function (Okta, Errors, BrowserFeatures) {
         globalErrorFn(err);
       }
       throw err;
+    },
+
+    // Get the username by applying the transform function if it exists.
+    transformUsername: function (username, operation) {
+      var transformFn = this.get('transformUsername');
+      if (transformFn && _.isFunction(transformFn)) {
+        return transformFn(username, operation);
+      }
+      return username;
     }
 
   });

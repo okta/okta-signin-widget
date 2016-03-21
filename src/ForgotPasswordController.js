@@ -62,7 +62,7 @@ function (Okta, FormController, Enums, FormType, ContactSupport) {
         var self = this;
         this.startTransaction(function(authClient) {
           return authClient.forgotPassword({
-            username: self.get('username'),
+            username: self.settings.transformUsername(self.get('username'), Enums.FORGOT_PASSWORD),
             factorType: self.get('factorType')
           });
         })
