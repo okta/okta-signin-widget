@@ -13,9 +13,10 @@
 define([
   'okta',
   './BaseLoginModel',
+  'util/Enums',
   'vendor/plugins/jquery.cookie'
 ],
-function (Okta, BaseLoginModel) {
+function (Okta, BaseLoginModel, Enums) {
 
   var $ = Okta.$;
   var _ = Okta._;
@@ -61,7 +62,7 @@ function (Okta, BaseLoginModel) {
     },
 
     save: function () {
-      var username = this.get('username'),
+      var username = this.settings.transformUsername(this.get('username'), Enums.PRIMARY_AUTH),
           password = this.get('password'),
           remember = this.get('remember'),
           lastUsername = this.get('lastUsername'),

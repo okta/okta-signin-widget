@@ -45,7 +45,13 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
     });
   }
 
+  function transformUsername(name) {
+    var suffix = '@example.com';
+    return (name.indexOf(suffix) !== -1) ? name : (name + suffix);
+  }
+
   var setupWithSms = _.partial(setup, { 'features.smsRecovery': true });
+  var setupWithTransformUsername = _.partial(setup, { transformUsername: transformUsername });
 
   describe('UnlockAccount', function () {
     beforeEach(function () {
@@ -133,6 +139,35 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
             url: 'https://foo.com/api/v1/authn/recovery/unlock',
             data: {
               username: 'foo',
+              factorType: 'EMAIL'
+            }
+          });
+        });
+      });
+      itp('calls the transformUsername function with the right parameters', function () {
+        return setupWithTransformUsername().then(function (test) {
+          spyOn(test.router.settings, 'transformUsername');
+          test.setNextResponse(resChallengeEmail);
+          test.form.setUsername('foo');
+          test.form.submit();
+          expect(test.router.settings.transformUsername.calls.count()).toBe(1);
+          expect(test.router.settings.transformUsername.calls.argsFor(0)).toEqual(['foo', 'UNLOCK_ACCOUNT']);
+        });
+      });
+      itp('appends the suffix returned by the transformUsername function to the username', function () {
+        return setupWithTransformUsername().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeEmail);
+          test.form.setUsername('foo');
+          test.form.submit();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/unlock',
+            data: {
+              username: 'foo@example.com',
               factorType: 'EMAIL'
             }
           });

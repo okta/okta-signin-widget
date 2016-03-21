@@ -120,6 +120,21 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
     .then(function () { return test; });
   }
 
+  function transformUsername(name) {
+    var suffix = '@example.com';
+    return (name.indexOf(suffix) !== -1) ? name : (name + suffix);
+  }
+
+  function transformUsernameOnUnlock(name, operation) {
+    if (operation === 'UNLOCK_ACCOUNT') {
+      transformUsername(name);
+    }
+    return name;
+  }
+
+  var setupWithTransformUsername = _.partial(setup, {username: 'foobar', transformUsername: transformUsername});
+  var setupWithTransformUsernameOnUnlock = _.partial(setup, {transformUsername: transformUsernameOnUnlock});
+
   describe('PrimaryAuth', function () {
     beforeEach(function () {
       $.fx.off = true;
@@ -382,6 +397,135 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         return setup({ 'helpLinks.custom': customLinks }).then(function (test) {
           var links = test.form.customLinks();
           expect(links).toEqual(customLinks);
+        });
+      });
+    });
+
+    describe('transform username', function () {
+      itp('calls the transformUsername function with the right parameters', function () {
+        return setupWithTransformUsername().then(function (test) {
+          spyOn(test.router.settings, 'transformUsername');
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          expect(test.router.settings.transformUsername.calls.count()).toBe(1);
+          expect(test.router.settings.transformUsername.calls.argsFor(0)).toEqual(['testuser', 'PRIMARY_AUTH']);
+        });
+      });
+      itp('does not call transformUsername while loading security image', function () {
+        return setup({ features: { securityImage: true }, transformUsername: transformUsername })
+        .then(function (test) {
+          spyOn(test.router.settings, 'transformUsername');
+          test.setNextResponse(resSecurityImage);
+          test.form.setUsername('testuser');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          expect(test.router.settings.transformUsername.calls.count()).toBe(0);
+          expect($.ajax.calls.count()).toBe(1);
+          expect($.ajax.calls.argsFor(0)[0]).toEqual({
+            url: 'https://foo.com/login/getimage?username=testuser',
+            type: 'get',
+            dataType: undefined,
+            data: undefined,
+            success: undefined
+          });
+        });
+      });
+      itp('adds the suffix to the username if the username does not have it', function () {
+        return setupWithTransformUsername().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser@example.com',
+              password: 'pass',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+      itp('adds the suffix to the inital username if it is provided', function () {
+        return setupWithTransformUsername().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'foobar@example.com',
+              password: 'pass',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+      itp('does not add the suffix to the username if the username already has it', function () {
+        return setupWithTransformUsername().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser@example.com');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser@example.com',
+              password: 'pass',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+      itp('does not add the suffix to the username if "PRIMARY_AUTH" operation is not handled', function () {
+        return setupWithTransformUsernameOnUnlock().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser',
+              password: 'pass',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
         });
       });
     });
