@@ -11,6 +11,11 @@ function ($, _, Backbone, Q, Duo) {
 
   var fn = {};
 
+  fn.LoremIpsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
+      'Sed lacinia neque at ligula ornare accumsan. Nullam interdum pellentesque nisl, ' +
+      'ut tempor eros gravida egestas. Curabitur tempus dignissim justo et pellentesque. ' +
+      'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.';
+
   // Can mock both set and get
   fn.mockCookie = function (name, value) {
     spyOn($, 'cookie').and.callFake(function (nameGiven) {
