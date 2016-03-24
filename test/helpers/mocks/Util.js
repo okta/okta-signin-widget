@@ -152,10 +152,8 @@ function ($, _, Backbone, Q, Duo) {
     }
   }
 
-  // Needed in order to reset the mock. Jasmine spies don't have restore()
-  var originalAjax;
   fn.disableEnrollFactorPoll = function (authClient) {
-    originalAjax = authClient.ajaxRequest;
+    var originalAjax = authClient.ajaxRequest;
     spyOn(authClient.options, 'ajaxRequest').and.callFake(function () {
       var caller = arguments.callee.caller; /* jshint ignore: line */
       var pollFn = findPollFnParent(caller);
@@ -179,9 +177,12 @@ function ($, _, Backbone, Q, Duo) {
 
       return originalAjax.apply(this, arguments);
     });
+
+    return originalAjax;
   };
 
-  fn.stallEnrollFactorPoll = function (authClient) {
+  fn.stallEnrollFactorPoll = function (authClient, originalAjax) {
+    // Needed in order to reset the mock. Jasmine spies don't have restore()
     if (authClient.options.ajaxRequest.calls) {
       authClient.options.ajaxRequest = originalAjax;
     }
@@ -202,9 +203,11 @@ function ($, _, Backbone, Q, Duo) {
 
       return originalAjax.apply(this, arguments);
     });
+
+    return originalAjax;
   };
 
-  fn.resumeEnrollFactorPoll = function (authClient, response) {
+  fn.resumeEnrollFactorPoll = function (authClient, originalAjax, response) {
     if (authClient.options.ajaxRequest.calls) {
       authClient.options.ajaxRequest = originalAjax;
     }
@@ -221,6 +224,7 @@ function ($, _, Backbone, Q, Duo) {
       }
       return originalAjax.apply(this, arguments);
     });
+    return originalAjax;
   };
 
   fn.stopRouter = function () {

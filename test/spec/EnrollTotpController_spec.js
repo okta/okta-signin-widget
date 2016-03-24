@@ -122,7 +122,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
 
     function setupAndEnrollOktaPush() {
       return setupOktaPush().then(function (test) {
-        Util.disableEnrollFactorPoll(test.ac);
+        test.originalAjax = Util.disableEnrollFactorPoll(test.ac);
         return enrollFactor(test, resPushEnrollSuccess);
       });
     }
@@ -733,7 +733,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         });
         itp('returns to factor list when browser\'s back button is clicked', function () {
           return setupOktaPush({}, true).then(function (test) {
-            Util.disableEnrollFactorPoll(test.ac);
+            test.originalAjax = Util.disableEnrollFactorPoll(test.ac);
             return enrollFactor(test, resPushEnrollSuccess);
           })
           .then(function (test) {
@@ -857,13 +857,13 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             test.manualSetupForm.submit();
 
             Util.speedUpPolling(test.ac);
-            Util.stallEnrollFactorPoll(test.ac);
+            test.originalAjax = Util.stallEnrollFactorPoll(test.ac, test.originalAjax);
             return tick(test);
           })
           .then(function (test) {
             Expect.isVisible(test.linkSentConfirmation.smsSentMsg());
             expect(test.linkSentConfirmation.getMsgText().indexOf('+14152554668') >= 0).toBe(true);
-            Util.resumeEnrollFactorPoll(test.ac, resAllFactors);
+            test.originalAjax = Util.resumeEnrollFactorPoll(test.ac, test.originalAjax, resAllFactors);
             return tick(test);
           })
           .then(function (test) {
