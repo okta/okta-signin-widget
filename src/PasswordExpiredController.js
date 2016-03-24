@@ -14,9 +14,10 @@ define([
   'okta',
   'util/FormController',
   'util/Enums',
-  'util/FormType'
+  'util/FormType',
+  'util/ValidationUtil'
 ],
-function (Okta, FormController, Enums, FormType) {
+function (Okta, FormController, Enums, FormType, ValidationUtil) {
 
   var _ = Okta._;
 
@@ -63,11 +64,7 @@ function (Okta, FormController, Enums, FormType) {
         confirmPassword: ['string', true]
       },
       validate: function () {
-        if (this.get('newPassword') !== this.get('confirmPassword')) {
-          return {
-            confirmPassword: Okta.loc('password.error.match', 'login')
-          };
-        }
+        return ValidationUtil.validatePasswordMatch(this);
       },
       save: function () {
         return this.doTransaction(function(transaction) {

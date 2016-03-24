@@ -14,10 +14,11 @@ define([
   'okta',
   'util/FormController',
   'util/FormType',
+  'util/ValidationUtil',
   'views/shared/PasswordJammer',
   'views/shared/FooterSignout'
 ],
-function (Okta, FormController, FormType, PasswordJammer, FooterSignout) {
+function (Okta, FormController, FormType, ValidationUtil, PasswordJammer, FooterSignout) {
 
   var _ = Okta._;
 
@@ -29,11 +30,7 @@ function (Okta, FormController, FormType, PasswordJammer, FooterSignout) {
         confirmPassword: ['string', true]
       },
       validate: function () {
-        if (this.get('newPassword') !== this.get('confirmPassword')) {
-          return {
-            confirmPassword: Okta.loc('password.error.match', 'login')
-          };
-        }
+        return ValidationUtil.validatePasswordMatch(this);
       },
       save: function () {
         var self = this;

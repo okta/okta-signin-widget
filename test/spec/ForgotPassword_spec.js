@@ -133,6 +133,13 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.usernameErrorField().length).toBe(1);
         });
       });
+      itp('shows an error if username is too long', function () {
+        return setup().then(function (test) {
+          test.form.setUsername(Util.LoremIpsum);
+          test.form.submit();
+          expect(test.form.usernameErrorField().length).toBe(1);
+        });
+      });
       itp('sends email', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();

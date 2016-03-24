@@ -15,9 +15,10 @@ define([
   'util/FormController',
   'util/Enums',
   'util/FormType',
+  'util/ValidationUtil',
   'views/shared/ContactSupport'
 ],
-function (Okta, FormController, Enums, FormType, ContactSupport) {
+function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport) {
 
   var Footer = Okta.View.extend({
     template: '\
@@ -57,6 +58,9 @@ function (Okta, FormController, Enums, FormType, ContactSupport) {
       props: {
         username: ['string', true],
         factorType: ['string', true, Enums.RECOVERY_FACTOR_TYPE_EMAIL]
+      },
+      validate: function () {
+        return ValidationUtil.validateUsername(this);
       },
       save: function () {
         var self = this;
