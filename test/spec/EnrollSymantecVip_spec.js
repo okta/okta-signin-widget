@@ -60,9 +60,11 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
 
     describe('Header & Footer', function () {
       itp('displays the correct factorBeacon', function () {
+        $.fx.off = true;
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-symantec')).toBe(true);
+          $.fx.off = false;
         });
       });
       itp('has autocomplete off', function () {
