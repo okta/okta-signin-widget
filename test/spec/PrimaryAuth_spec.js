@@ -531,6 +531,152 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
     });
 
     describe('events', function () {
+
+      describe('beacon loading', function () {
+        itp('shows beacon-loading animation when primaryAuth is submitted', function () {
+          return setup({ features: { securityImage: true }})
+          .then(function (test) {
+            test.securityBeacon = test.router.header.currentBeacon.$el;
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            spyOn(test.securityBeacon, 'toggleClass');
+            test.setNextResponse(resSuccess);
+            test.form.setPassword('pass');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            var spyCalls = test.securityBeacon.toggleClass.calls;
+            expect(spyCalls.count()).toBe(2);
+            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+          });
+        });
+        itp('does not show beacon-loading animation when primaryAuth fails', function () {
+          return setup({ features: { securityImage: true }})
+          .then(function (test) {
+            test.securityBeacon = test.router.header.currentBeacon.$el;
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            spyOn(test.securityBeacon, 'toggleClass');
+            test.setNextResponse(resUnauthorized);
+            test.form.setPassword('pass');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            var spyCalls = test.securityBeacon.toggleClass.calls;
+            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+          });
+        });
+        itp('does not show beacon-loading animation when password expires', function () {
+          return setup({ features: { securityImage: true }})
+          .then(function (test) {
+            test.securityBeacon = test.router.header.currentBeacon.$el;
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            spyOn(test.securityBeacon, 'toggleClass');
+            test.setNextResponse(resPwdExpired);
+            test.form.setPassword('pass');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            var spyCalls = test.securityBeacon.toggleClass.calls;
+            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+          });
+        });
+        itp('does not show beacon-loading animation on CORS error', function () {
+          return setup({ features: { securityImage: true }})
+          .then(function (test) {
+            test.securityBeacon = test.router.header.currentBeacon.$el;
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            spyOn(test.securityBeacon, 'toggleClass');
+            spyOn(test.router.settings, 'callGlobalError');
+            test.setNextResponse({status: 0, response: {}});
+            test.form.setPassword('pass');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            var spyCalls = test.securityBeacon.toggleClass.calls;
+            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+          });
+        });
+        itp('shows beacon-loading animation when primaryAuth is submitted (no security image)', function () {
+          return setup().then(function (test) {
+            test.setNextResponse(resSuccess);
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.form.submit();
+            expect(test.beacon.isLoadingBeacon()).toBe(true);
+          });
+        });
+        itp('does not show beacon-loading animation when primaryAuth fails (no security image)', function () {
+          return setup().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse(resUnauthorized);
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.form.submit();
+            expect(test.beacon.isLoadingBeacon()).toBe(true);
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.beacon.isLoadingBeacon()).toBe(false);
+            expect(test.beacon.beacon().length).toBe(0);
+          });
+        });
+        itp('does not show beacon-loading animation when password expires (no security image)', function () {
+          return setup().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse(resPwdExpired);
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.form.submit();
+            expect(test.beacon.isLoadingBeacon()).toBe(true);
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.beacon.isLoadingBeacon()).toBe(false);
+            expect(test.beacon.beacon().length).toBe(0);
+          });
+        });
+        itp('does not show beacon-loading animation on CORS error (no security image)', function () {
+          return setup().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse({status: 0, response: {}});
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.form.submit();
+            expect(test.beacon.isLoadingBeacon()).toBe(true);
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.beacon.isLoadingBeacon()).toBe(false);
+            expect(test.beacon.beacon().length).toBe(0);
+          });
+        });
+      });
       itp('does not make securityImage requests if features.securityImage is false', function () {
         return setup()
         .then(function (test) {
@@ -595,95 +741,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           expect(test.form.securityBeacon().css('background-image')).toBe('none');
         });
       });
-      itp('shows beacon-loading animation when primaryAuth is submitted', function () {
-        return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.securityBeacon = test.router.header.currentBeacon.$el;
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          spyOn(test.securityBeacon, 'toggleClass');
-          test.setNextResponse(resSuccess);
-          test.form.setPassword('pass');
-          test.form.submit();
-          return tick(test);
-        })
-        .then(function (test) {
-          var spyCalls = test.securityBeacon.toggleClass.calls;
-          expect(spyCalls.count()).toBe(2);
-          expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-          expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-        });
-      });
-      itp('does not show beacon-loading animation when primaryAuth fails', function () {
-        return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.securityBeacon = test.router.header.currentBeacon.$el;
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
-          spyOn(test.securityBeacon, 'toggleClass');
-          test.setNextResponse(resUnauthorized);
-          test.form.setPassword('pass');
-          test.form.submit();
-          return tick(test);
-        })
-        .then(function (test) {
-          var spyCalls = test.securityBeacon.toggleClass.calls;
-          expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-          expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-        });
-      });
-      itp('does not show beacon-loading animation when password expires', function () {
-        return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.securityBeacon = test.router.header.currentBeacon.$el;
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
-          spyOn(test.securityBeacon, 'toggleClass');
-          test.setNextResponse(resPwdExpired);
-          test.form.setPassword('pass');
-          test.form.submit();
-          return tick(test);
-        })
-        .then(function (test) {
-          var spyCalls = test.securityBeacon.toggleClass.calls;
-          expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-          expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-        });
-      });
-      itp('does not show beacon-loading animation on CORS error', function () {
-        return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.securityBeacon = test.router.header.currentBeacon.$el;
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
-          spyOn(test.securityBeacon, 'toggleClass');
-          spyOn(test.router.settings, 'callGlobalError');
-          test.setNextResponse({status: 0, response: {}});
-          test.form.setPassword('pass');
-          test.form.submit();
-          return tick(test);
-        })
-        .then(function (test) {
-          var spyCalls = test.securityBeacon.toggleClass.calls;
-          expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-          expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-        });
-      });
       itp('shows an unknown user message when user enters unfamiliar username', function () {
         return setup({ features: { securityImage: true }})
         .then(function (test) {
@@ -700,14 +757,14 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
           features: { securityImage: true }
         })
-            .then(function (test) {
-              test.setNextResponse(resSecurityImageFail);
-              test.form.setUsername('testuser');
-              return waitForBeaconChange(test);
-            })
-            .then(function (test) {
-              expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo<i>xss< from this browser×');
-            });
+        .then(function (test) {
+          test.setNextResponse(resSecurityImageFail);
+          test.form.setUsername('testuser');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo<i>xss< from this browser×');
+        });
       });
       itp('updates security beacon immediately if rememberMe is available', function () {
         Util.mockCookie('ln', 'testuser');

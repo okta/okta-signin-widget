@@ -44,10 +44,6 @@ define([
           });
         }
         this.model.save();
-        this.options.appState.trigger('loading', true);
-      });
-      this.listenTo(this.model, 'error', function () {
-        this.options.appState.trigger('loading', false);
       });
       if (this.settings.get('features.preventBrowserFromSavingOktaPassword')) {
         this.add(PasswordJammer);

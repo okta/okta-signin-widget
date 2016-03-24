@@ -10,7 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/Animations'], function (Okta, Animations) {
+/*jshint maxcomplexity:9*/
+define([
+  'okta',
+  'util/Animations',
+  'views/shared/LoadingBeacon'
+],
+function (Okta, Animations, LoadingBeacon) {
+
+  var NO_BEACON_CLS = 'no-beacon';
+  var LOADING_BEACON_CLS = 'beacon-small beacon-loading';
+
+  function isLoadingBeacon (beacon) {
+    return beacon && beacon.equals(LoadingBeacon);
+  }
 
   function removeBeacon (view) {
     view.currentBeacon.remove();
@@ -28,6 +41,14 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
   function typeOfTransition (currentBeacon, NextBeacon, options) {
     if (!currentBeacon && !NextBeacon) {
       return 'none';
+    }
+    // Show Loading beacon
+    if (!currentBeacon && options.loading) {
+      return 'load';
+    }
+    // Swap/Hide Loading beacon
+    if (currentBeacon && isLoadingBeacon(currentBeacon)) {
+      return NextBeacon ? 'swap' : 'unload';
     }
     if (currentBeacon && currentBeacon.equals(NextBeacon, options)) {
       return 'same';
@@ -65,7 +86,11 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
     // is not passed in to prevent the beacon from jumping.
     initialize: function (options) {
       if (!options.settings.get('features.securityImage')) {
-        this.$el.addClass('no-beacon');
+        this.$el.addClass(NO_BEACON_CLS);
+        // To show/hide the spinner when there is no security image,
+        // listen to the appState's loading/removeLoading events.
+        this.listenTo(options.appState, 'loading', this.setLoadingBeacon);
+        this.listenTo(options.appState, 'removeLoading', this.removeLoadingBeacon);
       }
     },
 
@@ -78,16 +103,16 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
 
       switch (transition) {
         case 'none':
-          this.$el.addClass('no-beacon');
+          this.$el.addClass(NO_BEACON_CLS);
           return;
         case 'same':
           return;
         case 'add':
-          this.$el.removeClass('no-beacon');
+          this.$el.removeClass(NO_BEACON_CLS);
           addBeacon(this, NextBeacon, selector, options);
           return Animations.explode(container);
         case 'remove':
-          this.$el.addClass('no-beacon');
+          this.$el.addClass(NO_BEACON_CLS);
           return Animations.implode(container)
           .then(function () {
             removeBeacon(self);
@@ -113,13 +138,49 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
           return Animations.swapBeacons({
             $el: container,
             swap: function () {
+              var isLoading = isLoadingBeacon(self.currentBeacon);
+              // Order of these calls is important for -
+              // loader --> security/factor beacon swap.
               removeBeacon(self);
+              if (isLoading) {
+                container.removeClass(LOADING_BEACON_CLS);
+                self.$el.removeClass(NO_BEACON_CLS);
+              }
               addBeacon(self, NextBeacon, selector, options);
             }
           });
+        case 'load':
+          // Show the loading beacon. Add a couple of classes
+          // before triggering the add beacon code.
+          container.addClass(LOADING_BEACON_CLS);
+          addBeacon(self, NextBeacon, selector, options);
+          return Animations.explode(container);
+        case 'unload':
+          // Hide the loading beacon.
+          return this.removeLoadingBeacon();
         default:
           throw new Error('the "' + transition + '" is not recognized');
       }
+    },
+
+    // Show the loading beacon when the security image feature is not enabled.
+    setLoadingBeacon: function (isLoading) {
+      if (!isLoading) {
+        return;
+      }
+      this.setBeacon(LoadingBeacon, { loading: true });
+    },
+
+    // Hide the beacon on primary auth failure. On primary auth success, setBeacon does this job.
+    removeLoadingBeacon: function () {
+      var self = this,
+          container = this.$('[data-type="beacon-container"]');
+
+      return Animations.implode(container)
+      .then(function () {
+        removeBeacon(self);
+        container.removeClass(LOADING_BEACON_CLS);
+      });
     },
 
     getTemplateData: function () {

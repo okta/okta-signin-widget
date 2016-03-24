@@ -62,9 +62,11 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
     });
 
     itp('displays the correct factorBeacon', function () {
+      $.fx.off = true;
       return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-okta-security-question')).toBe(true);
+        $.fx.off = false;
       });
     });
     itp('does not allow autocomplete', function () {
