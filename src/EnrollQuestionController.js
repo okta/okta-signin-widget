@@ -31,7 +31,7 @@ function (Okta, FormController, Footer) {
       },
       save: function () {
         return this.doTransaction(function(transaction) {
-          var factor = _.find(transaction.factors, {
+          var factor = _.findWhere(transaction.factors, {
             factorType: 'question',
             provider: 'OKTA'
           });
@@ -81,7 +81,7 @@ function (Okta, FormController, Footer) {
     fetchInitialData: function () {
       var self = this;
       return this.model.manageTransaction(function(transaction) {
-        var factor = _.find(transaction.factors, {
+        var factor = _.findWhere(transaction.factors, {
           factorType: 'question',
           provider: 'OKTA'
         });

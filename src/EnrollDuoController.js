@@ -38,7 +38,7 @@ function (Okta, Duo, Q, FormController, Footer) {
 
       getInitOptions: function () {
         return this.doTransaction(function (transaction) {
-          var factor = _.find(transaction.factors, {
+          var factor = _.findWhere(transaction.factors, {
             factorType: 'web',
             provider: 'DUO'
           });

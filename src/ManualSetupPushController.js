@@ -48,7 +48,7 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
     return view.model.doTransaction(function(transaction) {
       return transaction.prev()
       .then(function (trans) {
-        var factor = _.find(trans.factors, {
+        var factor = _.findWhere(trans.factors, {
           factorType: factorType,
           provider: 'OKTA'
         });
@@ -222,7 +222,7 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
       // Move this logic to a model when AuthClient supports sending email and sms
       this.listenTo(this.form, 'save', function () {
         var self = this;
-        self.model.doTransaction(function(transaction) {
+        this.model.doTransaction(function(transaction) {
           var activationType = this.get('activationType'),
               opts = {};
 

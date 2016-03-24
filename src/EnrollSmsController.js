@@ -86,7 +86,7 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
         self.trigger('errors:clear');
         return this.doTransaction(function(transaction) {
           if (transaction.status === 'MFA_ENROLL') {
-            var factor = _.find(transaction.factors, {
+            var factor = _.findWhere(transaction.factors, {
               factorType: 'sms',
               provider: 'OKTA'
             });
@@ -102,7 +102,7 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
             self.set('trapEnrollment', true);
             return transaction.prev()
             .then(function (trans) {
-              var factor = _.find(trans.factors, {
+              var factor = _.findWhere(trans.factors, {
                 factorType: 'sms',
                 provider: 'OKTA'
               });

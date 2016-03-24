@@ -31,7 +31,7 @@ function (Okta, FormType, FormController, Footer) {
       save: function () {
         return this.doTransaction(function(transaction) {
 
-          var factor = _.find(transaction.factors, {
+          var factor = _.findWhere(transaction.factors, {
             factorType: 'token',
             provider: 'SYMANTEC'
           });

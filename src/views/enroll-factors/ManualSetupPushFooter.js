@@ -43,7 +43,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
           this.model.doTransaction(function (transaction) {
             return transaction.prev()
             .then(function (trans) {
-              var factor = _.find(trans.factors, {
+              var factor = _.findWhere(trans.factors, {
                 factorType: 'push',
                 provider: 'OKTA'
               });

@@ -181,7 +181,7 @@ function (Okta, factorUtil, BaseLoginModel) {
         var promise;
         // MFA_REQUIRED
         if (transaction.status === 'MFA_REQUIRED') {
-          var factor = _.find(transaction.factors, {
+          var factor = _.findWhere(transaction.factors, {
             id: this.get('id')
           });
           promise = factor.verify(data);

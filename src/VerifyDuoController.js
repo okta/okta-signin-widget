@@ -38,14 +38,13 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
         stateToken: 'string'
       },
 
-      getInitOptions: function (appState) {
-        var factors = appState.get('factors'),
-            factor = factors.findWhere({ provider: 'DUO', factorType: 'web' });
+      getInitOptions: function () {
         return this.doTransaction(function(transaction) {
-          var f = _.find(transaction.factors, {
-            id: factor.id
+          var factor = _.findWhere(transaction.factors, {
+            provider: 'DUO',
+            factorType: 'web'
           });
-          return f.verify();
+          return factor.verify();
         });
       },
 
@@ -98,7 +97,7 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
 
     fetchInitialData: function () {
       var self = this;
-      return this.model.getInitOptions(this.options.appState)
+      return this.model.getInitOptions()
       .then(function (trans) {
         var res = trans.data;
         if (!res._embedded || !res._embedded.factor || !res._embedded.factor._embedded ||

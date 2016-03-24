@@ -73,7 +73,7 @@ function (Okta, FactorUtil, FormController, FormType,
         },
         save: function () {
           return this.doTransaction(function(transaction) {
-            var factor = _.find(transaction.factors, {
+            var factor = _.findWhere(transaction.factors, {
               factorType: this.get('__factorType__'),
               provider: this.get('__provider__')
             });
