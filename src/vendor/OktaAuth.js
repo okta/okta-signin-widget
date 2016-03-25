@@ -434,9 +434,6 @@ function getPollFn(sdk, res, ref) {
       return post(sdk, pollLink.href, getStateToken(res), true, true);
     }
 
-    // Exposed to stop any polling in tests
-    pollFn.__ref = ref;
-
     ref.isPolling = true;
 
     var retryCount = 0;

@@ -122,7 +122,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
 
     function setupAndEnrollOktaPush() {
       return setupOktaPush().then(function (test) {
-        test.originalAjax = Util.disableEnrollFactorPoll(test.ac);
+        test.originalAjax = Util.stallEnrollFactorPoll(test.ac);
         return enrollFactor(test, resPushEnrollSuccess);
       });
     }
@@ -733,7 +733,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         });
         itp('returns to factor list when browser\'s back button is clicked', function () {
           return setupOktaPush({}, true).then(function (test) {
-            test.originalAjax = Util.disableEnrollFactorPoll(test.ac);
+            test.originalAjax = Util.stallEnrollFactorPoll(test.ac);
             return enrollFactor(test, resPushEnrollSuccess);
           })
           .then(function (test) {

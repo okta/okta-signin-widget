@@ -138,59 +138,15 @@ function ($, _, Backbone, Q, Duo) {
     spyOn(Math, 'random').and.returnValue(0.1);
   };
 
-  // A crazy hack to stop polling without an exposed isPolling property
-  var maxdepth = 10;
-  function findPollFnParent(caller, count) {
-    count = count || 1;
-    if (caller) {
-      if (caller.name === 'pollFn') {
-        return caller;
-      } else if (count < maxdepth) {
-        count++;
-        return findPollFnParent(caller.caller, count);
-      }
-    }
-  }
-
-  fn.disableEnrollFactorPoll = function (authClient) {
-    var originalAjax = authClient.ajaxRequest;
-    spyOn(authClient.options, 'ajaxRequest').and.callFake(function () {
-      var caller = arguments.callee.caller; /* jshint ignore: line */
-      var pollFn = findPollFnParent(caller);
-      if (pollFn) {
-        pollFn.__ref.isPolling = false;
-
-        // The poll function now throws an error when the poll is
-        // forced to stop. Q considers it unhandled, but it's
-        // caught for every polling transaction in BaseLoginModel.
-        Q.stopUnhandledRejectionTracking();
-
-        // return waiting xhr
-        return Q.resolve({
-          status: 200,
-          responseText: JSON.stringify({
-            'stateToken': 'testStateToken',
-            'factorResult': 'WAITING'
-          })
-        });
-      }
-
-      return originalAjax.apply(this, arguments);
-    });
-
-    return originalAjax;
-  };
-
   fn.stallEnrollFactorPoll = function (authClient, originalAjax) {
     // Needed in order to reset the mock. Jasmine spies don't have restore()
     if (authClient.options.ajaxRequest.calls) {
       authClient.options.ajaxRequest = originalAjax;
     }
     originalAjax = authClient.options.ajaxRequest;
-    spyOn(authClient.options, 'ajaxRequest').and.callFake(function () {
-      var caller = arguments.callee.caller; /* jshint ignore: line */
-      var pollFn = findPollFnParent(caller);
-      if (pollFn) {
+    spyOn(authClient.options, 'ajaxRequest').and.callFake(function (method, uri) {
+      var isPollFn = uri.indexOf('/lifecycle/activate') !== -1;
+      if (isPollFn) {
         // return waiting xhr
         return Q.resolve({
           status: 200,
@@ -215,10 +171,9 @@ function ($, _, Backbone, Q, Duo) {
       response.responseText = JSON.stringify(response.response);
     }
     originalAjax = authClient.options.ajaxRequest;
-    spyOn(authClient.options, 'ajaxRequest').and.callFake(function () {
-      var caller = arguments.callee.caller; /* jshint ignore: line */
-      var pollFn = findPollFnParent(caller);
-      if (pollFn) {
+    spyOn(authClient.options, 'ajaxRequest').and.callFake(function (method, uri) {
+      var isPollFn = uri.indexOf('/activate') !== -1;
+      if (isPollFn) {
         authClient.options.ajaxRequest = originalAjax;
         return Q.resolve(response);
       }
