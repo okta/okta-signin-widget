@@ -130,7 +130,7 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       // Since we normally trap MFA_CHALLENGE, this will only get called on a
       // page refresh. We need to return to MFA_REQUIRED to initialize the
       // page correctly (i.e. factors dropdown, etc)
-      router.appState.get('transaction').previous()
+      router.appState.get('transaction').prev()
       .then(function(trans) {
         router.appState.set('transaction', trans);
       }).done();

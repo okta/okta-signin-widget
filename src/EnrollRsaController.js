@@ -18,6 +18,8 @@ define([
 ],
 function (Okta, FormType, FormController, Footer) {
 
+  var _ = Okta._;
+
   return FormController.extend({
     className: 'enroll-rsa',
     Model: {
@@ -28,9 +30,11 @@ function (Okta, FormType, FormController, Footer) {
       },
       save: function () {
         return this.doTransaction(function(transaction) {
-          return transaction
-          .getFactorByTypeAndProvider('token', 'RSA')
-          .enrollFactor({
+          var factor = _.findWhere(transaction.factors, {
+            factorType: 'token',
+            provider: 'RSA'
+          });
+          return factor.enroll({
             passCode: this.get('passCode'),
             profile: {credentialId: this.get('credentialId')}
           });

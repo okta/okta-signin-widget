@@ -35,8 +35,7 @@ function (Okta, FormController, FormType, FooterSignout) {
         // router will not navigate if the url path is the same
         this.limitResending();
         return this.doTransaction(function(transaction) {
-          var firstLink = transaction.response._links.resend;
-          return transaction.resendByName(firstLink.name);
+          return transaction.resend();
         });
       },
       limitResending: function () {
@@ -45,8 +44,7 @@ function (Okta, FormController, FormType, FooterSignout) {
       },
       save: function () {
         return this.doTransaction(function(transaction) {
-          return transaction
-          .verifyRecovery({
+          return transaction.verify({
             passCode: this.get('passCode')
           });
         });

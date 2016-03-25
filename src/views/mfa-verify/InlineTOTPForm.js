@@ -32,8 +32,8 @@ define(['okta'], function (Okta) {
           // active Push request (or polling) running. We need to invoke previous() on authClient
           // and then call model.save(). If not, we would still be in MFA_CHALLENGE state and
           // verify would result in a wrong request (push verify instead of a TOTP verify).
-          if (transaction.status === 'MFA_CHALLENGE' && transaction.previous) {
-            transaction.previous().then(function (trans) {
+          if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
+            return transaction.prev().then(function (trans) {
               setTransaction(trans);
               form.model.save();
             });

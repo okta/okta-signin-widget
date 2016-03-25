@@ -38,13 +38,13 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
         stateToken: 'string'
       },
 
-      getInitOptions: function (appState) {
-        var factors = appState.get('factors'),
-            factor = factors.findWhere({ provider: 'DUO', factorType: 'web' });
+      getInitOptions: function () {
         return this.doTransaction(function(transaction) {
-          return transaction
-          .getFactorById(factor.id)
-          .verifyFactor();
+          var factor = _.findWhere(transaction.factors, {
+            provider: 'DUO',
+            factorType: 'web'
+          });
+          return factor.verify();
         });
       },
 
@@ -67,7 +67,7 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
         return Q($.post(url, data))
         .then(function () {
           return self.doTransaction(function(transaction) {
-            return transaction.startVerifyFactorPoll();
+            return transaction.poll();
           });
         })
         .fail(function (err) {
@@ -97,9 +97,9 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
 
     fetchInitialData: function () {
       var self = this;
-      return this.model.getInitOptions(this.options.appState)
+      return this.model.getInitOptions()
       .then(function (trans) {
-        var res = trans.response;
+        var res = trans.data;
         if (!res._embedded || !res._embedded.factor || !res._embedded.factor._embedded ||
             !res._embedded.factor._embedded.verification) {
           throw new Error('Response does not have duo verification options');

@@ -27,6 +27,9 @@ function (Okta, Q) {
         return trans;
       })
       .fail(function(err) {
+        if (err.name === 'AuthPollStopError') {
+          return;
+        }
         self.trigger('setTransactionError', err);
         self.trigger('error', self, err.xhr);
         if (rethrow) {
@@ -42,6 +45,9 @@ function (Okta, Q) {
       // If it's a promise, listen for failures
       if (Q.isPromise(res)) {
         res.fail(function(err) {
+          if (err.name === 'AuthPollStopError') {
+            return;
+          }
           self.trigger('setTransactionError', err);
           self.trigger('error', self, err.xhr);
         });

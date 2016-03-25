@@ -18,8 +18,9 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
         self = this;
 
     this.model.manageTransaction(function (transaction, setTransaction) {
-      if (transaction.status === 'MFA_CHALLENGE' && transaction.previous) {
-        transaction.previous().then(function (trans) {
+      if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
+        return transaction.prev()
+        .then(function (trans) {
           self.trigger('options:toggle');
           self.options.appState.trigger('navigate', url);
           setTransaction(trans);

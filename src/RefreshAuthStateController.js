@@ -27,14 +27,14 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
       this.model.startTransaction(function(authClient) {
         if (token) {
           appState.trigger('loading', true);
-          return authClient.resumeTransaction({
+          return authClient.tx.resume({
             stateToken: token
           });
         }
 
-        if (authClient.transactionExists()) {
+        if (authClient.tx.exists()) {
           appState.trigger('loading', true);
-          return authClient.resumeTransaction();
+          return authClient.tx.resume();
         }
 
         appState.trigger('navigate', '');
