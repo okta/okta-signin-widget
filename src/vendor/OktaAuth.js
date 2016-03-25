@@ -1575,6 +1575,59 @@ proto.checkSession = function(callback) {
     });
 };
 
+proto.existingSession = function() {
+  var sdk = this;
+  return sdk.get('/api/v1/sessions/me')
+    .then(function() {
+      return true;
+    })
+    .fail(function() {
+      return false;
+    });
+};
+
+proto.refreshSession = function() {
+  var sdk = this;
+  return sdk.post('/api/v1/sessions/me/lifecycle/refresh')
+    .then(function(session) {
+
+      // Build the response
+      var res = {
+        status: 'ACTIVE',
+        session: omit(session, '_links')
+      };
+
+      // Expose refresh() on the session object
+      res.session.refresh = function() {
+        return sdk.post(getLink(session, 'refresh').href);
+      };
+
+      // Expose the user() information
+      res.session.user = function() {
+        return sdk.get(getLink(session, 'user').href);
+      };
+
+      return res;
+    })
+    .fail(function() {
+
+      // Call the callback function with INACTIVE status on failure
+      return {status: 'INACTIVE'};
+    });
+};
+
+proto.closeSession = function() {
+  var sdk = this;
+  return httpRequest(sdk, '/api/v1/sessions/me', 'DELETE', undefined, true);
+};
+
+proto.refreshIdToken = function(idToken) {
+  var sdk = this;
+  return sdk.getIdToken({
+    clientId: idToken.aud,
+    display: null
+  });
+};
 
   function jqueryRequest(method, uri, args) {
     var deferred = $.Deferred();
