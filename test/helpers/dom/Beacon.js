@@ -7,7 +7,18 @@ define(['underscore', 'jquery', './Dom'], function (_, $, Dom) {
       if (!beacon.length) {
         beacon = this.factorBeacon();
       }
+      if (!beacon.length) {
+        beacon = this.loadingBeacon();
+      }
       return beacon;
+    },
+
+    loadingBeacon: function () {
+      return this.el('loading-beacon');
+    },
+
+    isLoadingBeacon: function () {
+      return this.loadingBeacon().length === 1;
     },
 
     securityBeacon: function () {

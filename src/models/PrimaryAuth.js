@@ -84,6 +84,7 @@ function (Okta, BaseLoginModel, Enums) {
       //to disable the primary button on the primary auth form
       this.trigger('save');
 
+      this.appState.trigger('loading', true);
       return this.startTransaction(function (authClient) {
         return authClient.primaryAuth({
           username: username,
@@ -94,13 +95,15 @@ function (Okta, BaseLoginModel, Enums) {
           }
         });
       })
-      .then(_.bind(function () {
-        // Transition from the loading state on beacon on success response
-        this.appState.trigger('loading', false);
-      }, this))
       .fail(_.bind(function () {
         this.trigger('error');
+        // Specific event handled by the Header for the case where the security image is not
+        // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
+        this.appState.trigger('removeLoading');
         $.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
+      }, this))
+      .fin(_.bind(function () {
+        this.appState.trigger('loading', false);
       }, this));
     }
   });

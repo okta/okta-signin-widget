@@ -50,7 +50,7 @@ function build() {
 
 function lint() {
   start_test_suite ${LINT_TEST_SUITE_ID}
-  if npm run lint:report -- --published=${PUBLISHED}; then
+  if npm run lint:report; then
     echo "Finishing up test suite $LINT_TEST_SUITE_ID"
     finish_test_suite "checkstyle" "okta-signin-widget/build2/"
   else
