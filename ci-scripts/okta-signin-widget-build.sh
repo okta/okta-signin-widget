@@ -13,6 +13,7 @@ TASK="${1:-deploy}"
 BUILD_TEST_SUITE_ID=D33E21EE-E0D0-401D-8162-56B9A7BA0539
 LINT_TEST_SUITE_ID=2D4D1259-92C2-45BA-A74D-E665B7EC17FB
 UNIT_TEST_SUITE_ID=12DFDE73-F3D5-4EEB-BF12-DDE72E66DE61
+PUBLISH_TEST_SUITE_ID=D2E90D99-59B8-42FB-9B45-E0E10C1369E1
 
 REGISTRY="https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta"
 
@@ -73,13 +74,16 @@ function publish() {
   # Always publish a version to our npm registry:
   # If topic branch, will create an alpha prerelease version
   # If master branch, will create a beta prerelease version
+  start_test_suite ${PUBLISH_TEST_SUITE_ID}
   echo "Updating the version number, and publishing"
   if npm run prerelease -- --branch=${BRANCH} && npm publish --registry ${REGISTRY}; then
     DATALOAD=$(npm run getpkg:dataload --silent)
     artifactory_curl -X PUT -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} ${DATALOAD} -v -f
     echo "Publish Success"
+    finish_test_suite "no-test-suite" "."
   else
     echo "Publish Failed"
+    finish_failed_test_suite "no-test-suite" "."
   fi
 }
 
