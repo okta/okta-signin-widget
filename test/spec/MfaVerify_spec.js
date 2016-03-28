@@ -1,4 +1,4 @@
-/*jshint maxparams:25, maxstatements:26, camelcase:false */
+/*jshint maxparams:26, maxstatements:27, camelcase:false */
 /*global JSON */
 define([
   'vendor/lib/q',
@@ -15,6 +15,7 @@ define([
   'util/RouterUtil',
   'sandbox',
   'helpers/xhr/MFA_REQUIRED_allFactors',
+  'helpers/xhr/MFA_REQUIRED_allFactors_OnPrem',
   'helpers/xhr/MFA_REQUIRED_oktaVerify',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
@@ -28,7 +29,7 @@ define([
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS'
 ],
 function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect, Router, RouterUtil, $sandbox,
-          resAllFactors, resVerify, resChallengeDuo, resChallengeSms, resChallengePush,
+          resAllFactors, resAllFactorsOnPrem, resVerify, resChallengeDuo, resChallengeSms, resChallengePush,
           resRejectedPush, resTimeoutPush, resSuccess, resInvalid, resInvalidTotp,
           resResendError, resMfaLocked) {
 
@@ -89,6 +90,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupRsaTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'RSA' });
+    var setupOnPremTOTP = _.partial(setup, resAllFactorsOnPrem, { factorType: 'token', provider: 'DEL_OATH' });
     var setupSymantecTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'SYMANTEC' });
     var setupYubikey = _.partial(setup, resAllFactors, { factorType: 'token:hardware', provider: 'YUBICO' });
     var setupSMS = _.partial(setup, resAllFactors, { factorType: 'sms' });
@@ -391,6 +393,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         itp('shows the right beacon for RSA TOTP', function () {
           return setupRsaTOTP().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-rsa');
+          });
+        });
+        itp('shows the right beacon for On Prem TOTP', function () {
+          return setupOnPremTOTP().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-onprem');
           });
         });
         itp('shows the right beacon for Okta TOTP', function () {
@@ -1263,6 +1270,17 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
           expect(options).toEqual([
             'Okta Verify', 'Google Authenticator', 'Symantec VIP',
             'RSA SecurID', 'Duo Security', 'Yubikey', 'SMS Authentication',
+            'Security Question'
+          ]);
+        });
+      });
+      itp('shows the right options in the dropdown, removes okta totp if ' +
+          'okta push exists, and orders factors by security (On-Prem)', function () {
+        return setup(resAllFactorsOnPrem).then(function (test) {
+          var options = test.beacon.getOptionsLinksText();
+          expect(options).toEqual([
+            'Okta Verify', 'Google Authenticator', 'Symantec VIP',
+            'On-Prem MFA', 'Duo Security', 'Yubikey', 'SMS Authentication',
             'Security Question'
           ]);
         });

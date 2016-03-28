@@ -120,16 +120,16 @@ define({
           }
         }
       }, {
-        "id": "rsa1baroNBtPLgGPn0g4",
+        "id": "rsa1kisCXcMI0ESZp0g4",
         "factorType": "token",
-        "provider": "RSA",
-        "vendorName": "RSA",
+        "provider": "DEL_OATH",
+        "vendorName": "On-Prem MFA",
         "profile": {
-          "credentialId": "nadiia.dmytrenko"
+          "credentialId": "ujjwal.reddy"
         },
         "_links": {
           "verify": {
-            "href": "https://foo.com/api/v1/authn/factors/rsa1baroNBtPLgGPn0g4/verify",
+            "href": "https://foo.com/api/v1/authn/factors/rsa1kisCXcMI0ESZp0g4/verify",
             "hints": {
               "allow": [
                 "POST"

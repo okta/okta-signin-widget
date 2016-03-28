@@ -45,6 +45,7 @@ function (Okta, factorUtil, BaseLoginModel) {
         values: [
           'OKTA',
           'RSA',
+          'DEL_OATH',
           'SYMANTEC',
           'GOOGLE',
           'YUBICO'
@@ -64,7 +65,8 @@ function (Okta, factorUtil, BaseLoginModel) {
           'ACTIVE'
         ]
       },
-      profile: ['object']
+      profile: ['object'],
+      vendorName: 'string'
     },
 
     local: {
@@ -86,8 +88,13 @@ function (Okta, factorUtil, BaseLoginModel) {
         fn: factorUtil.getFactorName
       },
       factorLabel: {
-        deps: ['provider', 'factorType'],
-        fn: factorUtil.getFactorLabel
+        deps: ['provider', 'factorType', 'vendorName'],
+        fn: function (provider, factorType, vendorName) {
+          if (provider === 'DEL_OATH') {
+            return vendorName;
+          }
+          return factorUtil.getFactorLabel(provider, factorType);
+        }
       },
       factorDescription: {
         deps: ['provider', 'factorType'],
