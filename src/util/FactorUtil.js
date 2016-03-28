@@ -69,15 +69,21 @@ define(['okta' , './CookieUtil'], function (Okta, CookieUtil) {
       iconClassName: 'mfa-okta-sms',
       sortOrder: 7
     },
+    'CALL': {
+      label: Okta.loc('factor.call', 'login'),
+      description: Okta.loc('factor.call.description', 'login'),
+      iconClassName: 'mfa-okta-call',
+      sortOrder: 8
+    },
     'QUESTION': {
       label: Okta.loc('factor.securityQuestion', 'login'),
       description: Okta.loc('factor.securityQuestion.description', 'login'),
       iconClassName: 'mfa-okta-security-question',
-      sortOrder: 8
+      sortOrder: 9
     }
   };
 
-  /* jshint maxcomplexity: 11 */
+  /* jshint maxstatements: 22, maxcomplexity: 12 */
   fn.getFactorName = function (provider, factorType) {
     if (provider === 'OKTA' && factorType === 'token:software:totp') {
       return 'OKTA_VERIFY';
@@ -105,6 +111,9 @@ define(['okta' , './CookieUtil'], function (Okta, CookieUtil) {
     }
     if (provider === 'OKTA' && factorType === 'sms') {
       return 'SMS';
+    }
+    if (provider === 'OKTA' && factorType === 'call') {
+      return 'CALL';
     }
     if (provider === 'OKTA' && factorType === 'question') {
       return 'QUESTION';

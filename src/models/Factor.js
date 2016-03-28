@@ -34,6 +34,7 @@ function (Okta, CookieUtil, factorUtil, BaseLoginModel) {
         type: 'string',
         values: [
           'sms',
+          'call',
           'token',
           'token:software:totp',
           'token:hardware',
@@ -121,10 +122,10 @@ function (Okta, CookieUtil, factorUtil, BaseLoginModel) {
       phoneNumber: {
         deps: ['profile', 'factorType'],
         fn: function (profile, factorType) {
-          if (factorType !== 'sms') {
-            return null;
+          if (_.contains(['sms', 'call'], factorType)) {
+            return profile && profile.phoneNumber;
           }
-          return profile && profile.phoneNumber;
+          return null;
         }
       },
       deviceName: {
@@ -157,6 +158,12 @@ function (Okta, CookieUtil, factorUtil, BaseLoginModel) {
           // so we're turning it off for now.
           return (provider === 'OKTA' && factorType === 'push');
         }
+      },
+      isSMSorCall: {
+        deps: ['factorType'],
+        fn: function (factorType) {
+          return _.contains(['sms', 'call'], factorType);
+        }
       }
     },
 
@@ -168,8 +175,8 @@ function (Okta, CookieUtil, factorUtil, BaseLoginModel) {
       return _.omit(attributes, ['settings', 'appState']);
     },
 
-    validate: function() {
-      if (this.get('factorType') === 'sms' && !this.get('answer')) {
+    validate: function () {
+      if (this.get('isSMSorCall') && !this.get('answer')) {
         return {'answer': Okta.loc('model.validation.field.blank')};
       }
     },

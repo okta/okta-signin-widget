@@ -6,13 +6,13 @@ define([
   'vendor/OktaAuth',
   'util/Util',
   'helpers/mocks/Util',
-  'helpers/dom/EnrollSmsForm',
+  'helpers/dom/EnrollCallForm',
   'helpers/dom/Beacon',
   'helpers/util/Expect',
   'sandbox',
   'helpers/xhr/MFA_ENROLL_allFactors',
-  'helpers/xhr/MFA_ENROLL_smsFactor_existingPhone',
-  'helpers/xhr/MFA_ENROLL_ACTIVATE_success',
+  'helpers/xhr/MFA_ENROLL_callFactor_existingPhone',
+  'helpers/xhr/MFA_ENROLL_ACTIVATE_call_success',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_error',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_errorActivate',
   'helpers/xhr/SUCCESS',
@@ -25,7 +25,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  describe('EnrollSms', function () {
+  describe('EnrollCall', function () {
 
     function setup(resp, startRouter) {
       var setNextResponse = Util.mockAjax();
@@ -45,8 +45,8 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         return tick();
       })
       .then(function () {
-        router.enrollSms();
-        return tick(null);
+        router.enrollCall();
+        return tick();
       })
       .then(function () {
         return {
@@ -59,21 +59,22 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       });
     }
 
-    function enterCode(test, countryCode, phoneNumber) {
+    function enterPhone(test, countryCode, phoneNumber, phoneExtension) {
       test.form.selectCountry(countryCode);
       test.form.setPhoneNumber(phoneNumber);
+      test.form.setPhoneExtension(phoneExtension);
     }
 
-    function sendCode(test, res, countryCode, phoneNumber) {
+    function sendCode(test, res, countryCode, phoneNumber, phoneExtension) {
       test.setNextResponse(res);
-      enterCode(test, countryCode, phoneNumber);
+      enterPhone(test, countryCode, phoneNumber, phoneExtension);
       test.form.sendCodeButton().click();
       return tick(test);
     }
 
-    function sendCodeOnEnter(test, res, countryCode, phoneNumber) {
+    function sendCodeOnEnter(test, res, countryCode, phoneNumber, phoneExtension) {
       test.setNextResponse(res);
-      enterCode(test, countryCode, phoneNumber);
+      enterPhone(test, countryCode, phoneNumber, phoneExtension);
       var keydown = $.Event('keydown');
       keydown.which = 13;
       test.form.phoneNumberField().trigger(keydown);
@@ -83,31 +84,31 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       return tick(test);
     }
 
-    function setupAndSendCode(res, countryCode, phoneNumber) {
+    function setupAndSendCode(res, countryCode, phoneNumber, phoneExtension) {
       return setup().then(function (test) {
-        return sendCode(test, res, countryCode, phoneNumber);
+        return sendCode(test, res, countryCode, phoneNumber, phoneExtension);
       });
     }
 
-    var setupAndSendValidCode = _.partial(setupAndSendCode, resEnrollSuccess, 'US', '4151234567');
-    var setupAndSendInvalidCode = _.partial(setupAndSendCode, resEnrollError, 'US', '415');
+    var setupAndSendValidCode = _.partial(setupAndSendCode, resEnrollSuccess, 'US', '6501231234');
+    var setupAndSendInvalidCode = _.partial(setupAndSendCode, resEnrollError, 'US', '650');
 
-    function expectResendButton(test) {
+    function expectRedialButton(test) {
       var button = test.form.sendCodeButton();
-      expect(button.trimmedText()).toEqual('Re-send code');
+      expect(button.trimmedText()).toEqual('Redial');
       expect(button.hasClass('button-primary')).toBe(false);
     }
 
-    function expectSentButton(test) {
+    function expectCallingButton(test) {
       var button = test.form.sendCodeButton();
-      expect(button.trimmedText()).toEqual('Sent');
+      expect(button.trimmedText()).toEqual('Calling');
       expect(button.attr('class')).not.toMatch('button-primary');
       expect(button.attr('class')).toMatch('link-button-disabled');
     }
 
-    function expectSendButton(test) {
+    function expectCallButton(test) {
       var button = test.form.sendCodeButton();
-      expect(button.trimmedText()).toEqual('Send code');
+      expect(button.trimmedText()).toEqual('Call');
       expect(button.hasClass('button-primary')).toBe(true);
     }
 
@@ -123,7 +124,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       itp('displays the correct factorBeacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
-          expect(test.beacon.hasClass('mfa-okta-sms')).toBe(true);
+          expect(test.beacon.hasClass('mfa-okta-call')).toBe(true);
         });
       });
       itp('links back to factors directly if phone has not been enrolled', function () {
@@ -202,9 +203,14 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           Expect.isTextField(test.form.phoneNumberField());
         });
       });
-      itp('has a button with primary class and text "Send Code"', function () {
+      itp('has a phone extension text field', function () {
         return setup().then(function (test) {
-          expectSendButton(test);
+          Expect.isTextField(test.form.phoneExtensionField());
+        });
+      });
+      itp('has a button with primary class and text "Call"', function () {
+        return setup().then(function (test) {
+          expectCallButton(test);
         });
       });
       itp('does not show divider', function () {
@@ -222,27 +228,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           Expect.isNotVisible(test.form.submitButton());
         });
       });
-      itp('sends sms when return key is pressed in phoneNumber field', function () {
-        return setup().then(function (test) {
-          $.ajax.calls.reset();
-          return sendCodeOnEnter(test, resEnrollSuccess, 'US', '4151111111');
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors',
-            data: {
-              factorType: 'sms',
-              provider: 'OKTA',
-              profile: {
-                phoneNumber: '+14151111111'
-              },
-              stateToken: 'testStateToken'
-            }
-          });
-        });
-      });
-      itp('clears previous errors in form when resend code', function () {
+      itp('clears previous errors in form when redial', function () {
         Q.stopUnhandledRejectionTracking();
         return setupAndSendInvalidCode().then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -253,17 +239,18 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           expect(test.form.hasErrors()).toBe(false);
         });
       });
-      itp('enrolls with correct info when sendCode is clicked', function () {
+      itp('enrolls with correct info when call button is clicked', function () {
         return setupAndSendCode(resEnrollSuccess, 'AQ', '12345678900')
         .then(function () {
           expect($.ajax.calls.count()).toBe(2);
           Expect.isJsonPost($.ajax.calls.argsFor(1), {
             url: 'https://foo.com/api/v1/authn/factors',
             data: {
-              factorType: 'sms',
+              factorType: 'call',
               provider: 'OKTA',
               profile: {
-                phoneNumber: '+67212345678900'
+                phoneNumber: '+67212345678900',
+                phoneExtension: ''
               },
               stateToken: 'testStateToken'
             }
@@ -273,7 +260,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       itp('shows error and does not go to next step if error response', function () {
         Q.stopUnhandledRejectionTracking();
         return setupAndSendInvalidCode().then(function (test) {
-          expectSendButton(test);
+          expectCallButton(test);
           Expect.isNotVisible(test.form.divider());
           Expect.isNotVisible(test.form.codeField());
           Expect.isNotVisible(test.form.submitButton());
@@ -284,32 +271,33 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
     });
 
     describe('Verify phone number', function () {
-      itp('replaces send code with sent button, disabled and with no primary class', function () {
+      itp('replaces button text from "call" to "calling", disables it and with no primary class', function () {
         return setupAndSendValidCode().then(function (test) {
-          expectSentButton(test);
+          expectCallingButton(test);
         });
       });
-      itp('uses send code button with updatePhone=true, if user has an existing phone', function () {
+      itp('appends updatePhone=true to the request if user has an existing phone', function () {
         return setup(resExistingPhone).then(function (test) {
           $.ajax.calls.reset();
-          return sendCode(test, resEnrollSuccess, 'US', '4151234567');
+          return sendCode(test, resEnrollSuccess, 'US', '6501231234');
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
             data: {
-              factorType: 'sms',
+              factorType: 'call',
               provider: 'OKTA',
               profile: {
-                phoneNumber: '+14151234567'
+                phoneNumber: '+16501231234',
+                phoneExtension: ''
               },
               stateToken: 'testStateToken'
             }
           });
         });
       });
-      itp('uses resend and not enrollFactor when re-send is clicked', function () {
+      itp('uses resend and not enrollFactor when redial is clicked', function () {
         Util.speedUpDelay();
         return setupAndSendValidCode()
         .then(function (test) {
@@ -324,7 +312,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/resend',
+            url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g4/lifecycle/resend',
             data: {
               stateToken: 'testStateToken'
             }
@@ -334,10 +322,10 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       itp('if phone number is changed after enroll, resets the status to MFA_Enroll ' +
           'and then enrolls with updatePhone=true', function () {
         return setupAndSendValidCode().then(function (test) {
-          expectSentButton(test);
+          expectCallingButton(test);
           Expect.isVisible(test.form.codeField());
-          enterCode(test, 'US', '4151112222');
-          expectSendButton(test);
+          enterPhone(test, 'US', '4151112222');
+          expectCallButton(test);
           $.ajax.calls.reset();
           test.setNextResponse([resAllFactors, resEnrollSuccess]);
           test.form.sendCodeButton().click();
@@ -352,10 +340,11 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           Expect.isJsonPost($.ajax.calls.argsFor(1), {
             url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
             data: {
-              factorType: 'sms',
+              factorType: 'call',
               provider: 'OKTA',
               profile: {
-                phoneNumber: '+14151112222'
+                phoneNumber: '+14151112222',
+                phoneExtension: ''
               },
               stateToken: 'testStateToken'
             }
@@ -365,27 +354,27 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         .then(function (test) {
           // form wasn't rerendered
           expect(test.form.phoneNumberField().val()).toEqual('4151112222');
-          expectSentButton(test);
+          expectCallingButton(test);
           Expect.isVisible(test.form.codeField());
           Expect.isVisible(test.form.submitButton());
         });
       });
       itp('submitting a number, then changing it, and then changing it back ' +
         'will still use the resend endpoint', function () {
-        // The send button is normally diabled for several seconds
+        // The call button is normally disabled for several seconds
         // to prevent too many calls to the API, but for testing
         // we mock out the delay function to wait 0 seconds.
         Util.speedUpDelay();
         return setupAndSendValidCode().then(function (test) {
           // change the number from 'US' to 'AQ'
-          enterCode(test, 'AQ', '4151234567');
-          expectSendButton(test);
+          enterPhone(test, 'AQ', '6501231234');
+          expectCallButton(test);
           return tick(test);
         })
         .then(function (test) {
           // change the number back to 'US'
-          enterCode(test, 'US', '4151234567');
-          expectResendButton(test);
+          enterPhone(test, 'US', '6501231234');
+          expectRedialButton(test);
           return tick(test);
         })
         .then(function (test) {
@@ -393,13 +382,13 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           $.ajax.calls.reset();
           test.setNextResponse(resEnrollSuccess);
           test.form.sendCodeButton().click();
-          expectSentButton(test);
+          expectCallingButton(test);
           return tick(test);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/resend',
+            url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g4/lifecycle/resend',
             data: {
               'stateToken': 'testStateToken'
             }
@@ -441,7 +430,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/activate',
+            url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g4/lifecycle/activate',
             data: {
               passCode: '123456',
               stateToken: 'testStateToken'

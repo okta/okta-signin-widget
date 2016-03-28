@@ -40,7 +40,8 @@
   }
 }
 
-.sms-request-button {
+.sms-request-button,
+.call-request-button {
   text-align: center;
   @include max-width-text(120px);
 

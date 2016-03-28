@@ -1,4 +1,4 @@
-/*jshint maxcomplexity:20 */
+/*jshint maxcomplexity:20, maxstatements:22 */
 /* globals JSON */
 define([
   'jquery',
@@ -135,6 +135,21 @@ function ($, _, Backbone, Q, Duo) {
     var original = Q.delay;
     spyOn(Q, 'delay').and.callFake(function() {
       return original.call(this, 0);
+    });
+  };
+
+  fn.mockRateLimiting = function () {
+    var deferred = Q.defer();
+    spyOn(Q, 'delay').and.callFake(function () {
+      return deferred.promise;
+    });
+    return deferred;
+  };
+
+  fn.speedUpDelay = function () {
+    var delay = _.delay;
+    spyOn(_, 'delay').and.callFake(function (func, wait, args) {
+      return delay(func, 0, args);
     });
   };
 
