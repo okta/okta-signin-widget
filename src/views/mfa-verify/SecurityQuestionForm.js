@@ -47,6 +47,17 @@ define(['okta'], function (Okta) {
         name: 'showAnswer',
         type: 'checkbox'
       });
+
+      if (this.settings.get('features.rememberDevice')) {
+        this.addInput({
+          label: false,
+          'label-top': true,
+          placeholder: Okta.loc('rememberDevice', 'login'),
+          className: 'margin-btm-0',
+          name: 'rememberDevice',
+          type: 'checkbox'
+        });
+      }
     },
 
     remove: function () {

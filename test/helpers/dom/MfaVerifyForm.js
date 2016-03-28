@@ -2,6 +2,7 @@ define(['./Form'], function (Form) {
 
   var ANSWER_FIELD = 'answer';
   var SHOW_ANSWER_FIELD = 'showAnswer';
+  var REMEMBER_DEVICE = 'rememberDevice';
 
   return Form.extend({
 
@@ -56,6 +57,16 @@ define(['./Form'], function (Form) {
       var showAnswer = this.showAnswerCheckbox();
       showAnswer.prop('checked', val);
       showAnswer.trigger('change');
+    },
+
+    rememberDeviceCheckbox: function () {
+      return this.checkbox(REMEMBER_DEVICE);
+    },
+
+    setRememberDevice: function (val) {
+      var rememberDevice = this.rememberDeviceCheckbox();
+      rememberDevice.prop('checked', val);
+      rememberDevice.trigger('change');
     },
 
     smsSendCode: function () {

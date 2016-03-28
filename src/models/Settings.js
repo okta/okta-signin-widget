@@ -50,13 +50,12 @@ function (Okta, Errors, BrowserFeatures) {
       'features.router': ['boolean', true, false],
       'features.securityImage': ['boolean', true, false],
       'features.rememberMe': ['boolean', true, true],
+      'features.rememberDevice': ['boolean', true, true],
       'features.smsRecovery': ['boolean', true, false],
       'features.windowsVerify': ['boolean', true, false],
       'features.selfServiceUnlock': ['boolean', true, false],
       'features.multiOptionalFactorEnroll': ['boolean', true, false],
       'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
-      // forces "remember device" instead of reading from the cookie.
-      'features.forceRememberDevice': 'boolean',
 
       // OAUTH2
       'authScheme': ['string', false, 'OAUTH2'],

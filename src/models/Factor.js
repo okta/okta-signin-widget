@@ -18,8 +18,6 @@ define([
 ],
 function (Okta, factorUtil, BaseLoginModel) {
   var _ = Okta._;
-  var $ = Okta.$;
-  var LAST_USERNAME_COOKIE_NAME = 'ln';
 
   // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
   // in network connection lost errors in Safari and IE.
@@ -72,7 +70,8 @@ function (Okta, factorUtil, BaseLoginModel) {
     local: {
       'answer': 'string',
       'backupFactor': 'object',
-      'showAnswer': 'boolean'
+      'showAnswer': 'boolean',
+      'rememberDevice': 'boolean'
     },
 
     derived: {
@@ -166,11 +165,9 @@ function (Okta, factorUtil, BaseLoginModel) {
     },
 
     save: function () {
-      var rememberDevice = this.settings.get('features.forceRememberDevice') ? true :
-          $.cookie(LAST_USERNAME_COOKIE_NAME);
       return this.doTransaction(function (transaction) {
         var data = {
-          rememberDevice: !!rememberDevice
+          rememberDevice: !!this.get('rememberDevice')
         };
         if (this.get('factorType') === 'question') {
           data.answer = this.get('answer');
