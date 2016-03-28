@@ -291,28 +291,8 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         itp('calls authClient verifyFactor with correct args when submitted', function () {
           return setupSecurityQuestion().then(function (test) {
             $.ajax.calls.reset();
-            Util.mockCookie('ln', 'testuser');
             test.form.setAnswer('food');
-            test.setNextResponse(resSuccess);
-            test.form.submit();
-            return tick();
-          })
-          .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=true',
-              data: {
-                answer: 'food',
-                stateToken: 'testStateToken'
-              }
-            });
-          });
-        });
-        itp('calls authClient verifyFactor with correct args when logged in from a mobile device', function () {
-          return setupSecurityQuestion({ features: { forceRememberDevice: true }})
-          .then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setAnswer('food');
+            test.form.setRememberDevice(true);
             test.setNextResponse(resSuccess);
             test.form.submit();
             return tick();
@@ -361,7 +341,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
           });
         });
         itp('sets the transaction on the appState on success response', function () {
-          return setupSecurityQuestion({ features: { forceRememberDevice: true }})
+          return setupSecurityQuestion()
           .then(function (test) {
             mockTransactions(test.router.controller);
             $.ajax.calls.reset();
@@ -375,7 +355,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
           });
         });
         itp('sets the transaction error on the appState on error response', function () {
-          return setupSecurityQuestion({ features: { forceRememberDevice: true }})
+          return setupSecurityQuestion()
           .then(function (test) {
             Q.stopUnhandledRejectionTracking();
             mockTransactions(test.router.controller);
@@ -450,6 +430,26 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify',
+              data: {
+                passCode: '123456',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+          return setupGoogleTOTP().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('123456');
+            test.form.setRememberDevice(true);
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=true',
               data: {
                 passCode: '123456',
                 stateToken: 'testStateToken'
@@ -574,6 +574,26 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             });
           });
         });
+        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+          return setupYubikey().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('123456');
+            test.form.setRememberDevice(true);
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ykf2l0aUIe5VBplDj0g4/verify?rememberDevice=true',
+              data: {
+                passCode: '123456',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
         itp('sets the transaction on the appState on success response', function () {
           return setupYubikey().then(function (test) {
             mockTransactions(test.router.controller);
@@ -679,6 +699,25 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             });
           });
         });
+        itp('calls verifyFactor with rememberDevice URL param', function () {
+          return setupSMS().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setRememberDevice(true);
+            test.setNextResponse(resChallengeSms);
+            test.form.smsSendCode().click();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
+              data: {
+                passCode: '',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
         itp('calls verifyFactor with empty code if verify button is clicked', function () {
           return setupSMS().then(function (test) {
             $.ajax.calls.reset();
@@ -718,6 +757,32 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify',
+              data: {
+                passCode: '123456',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+          return setupSMS().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setRememberDevice(true);
+            test.setNextResponse(resChallengeSms);
+            test.form.smsSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.setAnswer('123456');
+            test.form.submit();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
               data: {
                 passCode: '123456',
                 stateToken: 'testStateToken'
@@ -813,6 +878,13 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
       });
 
       describe('Okta Push', function () {
+        // Remember device for Push form exists out of the form.
+        function setRememberDeviceForPushForm(test, val) {
+          var rememberDevice = test.router.controller.$('[data-se="o-form-input-rememberDevice"]');
+          var checkbox = rememberDevice.find(':checkbox');
+          checkbox.prop('checked', val);
+          checkbox.trigger('change');
+        }
         itp('has push and an inline totp form', function () {
           return setupOktaPush().then(function (test) {
             expect(test.form[0].isPush()).toBe(true);
@@ -834,7 +906,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
           itp('calls authClient verifyFactor with correct args when submitted', function () {
             return setupOktaPush().then(function (test) {
               $.ajax.calls.reset();
-              Util.mockCookie('ln', 'testuser');
+              setRememberDeviceForPushForm(test, true);
               test.setNextResponse(resSuccess);
               test.form[0].submit();
               return tick();
@@ -852,7 +924,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
           describe('polling', function () {
             itp('will pass rememberMe on the first request', function () {
               return setupOktaPush().then(function (test) {
-                Util.mockCookie('ln', 'testuser');
+                setRememberDeviceForPushForm(test, true);
                 return setupPolling(test, resSuccess)
                 .then(tick) // Final tick - SUCCESS
                 .then(function () {
@@ -1024,6 +1096,27 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
                 url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify',
+                data: {
+                  passCode: '654321',
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+          });
+          itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+            return setupOktaPush().then(function (test) {
+              $.ajax.calls.reset();
+              test.form[1].inlineTOTPAdd().click();
+              test.form[1].setAnswer('654321');
+              setRememberDeviceForPushForm(test, true);
+              test.setNextResponse(resSuccess);
+              test.form[1].inlineTOTPVerify().click();
+              return tick();
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify?rememberDevice=true',
                 data: {
                   passCode: '654321',
                   stateToken: 'testStateToken'

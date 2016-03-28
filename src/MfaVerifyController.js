@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint maxcomplexity:9 */
+/*jshint maxcomplexity:10 */
 define([
   'okta',
+  'shared/views/forms/inputs/CheckBox',
   'util/BaseLoginController',
   'views/mfa-verify/TOTPForm',
   'views/mfa-verify/YubikeyForm',
@@ -22,7 +23,7 @@ define([
   'views/mfa-verify/InlineTOTPForm',
   'views/shared/FooterSignout'
 ],
-function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm, SMSForm,
+function (Okta, Checkbox, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm, SMSForm,
           PushForm, InlineTOTPForm, FooterSignout) {
 
   return BaseLoginController.extend({
@@ -70,6 +71,23 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
       if (factorType === 'push' && this.model.get('isOktaFactor')) {
         this.add(InlineTOTPForm, {
           options: { model: this.model.get('backupFactor') }
+        });
+        // Remember Device checkbox resides outside of the Push and TOTP forms.
+        if (this.settings.get('features.rememberDevice')) {
+          this.add(Checkbox, {
+            options: {
+              model: this.model,
+              name: 'rememberDevice',
+              placeholder: Okta.loc('rememberDevice', 'login'),
+              label: false,
+              'label-top': true,
+              className: 'margin-btm-0'
+            }
+          });
+        }
+        // Set the rememberDevice on the TOTP factor since it is stored as backupFactor.
+        this.listenTo(this.model, 'change:rememberDevice', function (model, rememberDevice) {
+          model.get('backupFactor').set('rememberDevice', rememberDevice);
         });
       }
 
