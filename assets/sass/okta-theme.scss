@@ -256,6 +256,31 @@
     }
   }
 
+  .mfa-onprem-30,
+  .enroll-factor-row .mfa-onprem {
+    /* -- Factor Icons (small): OnPrem -- */
+    background-image: url('../img/icons/mfa/onprem_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): OnPrem -- */
+      background-image: url('../img/icons/mfa/onprem_ico@2x.png');
+    }
+  }
+
+  .mfa-onprem {
+    /* -- Factor Icons (large): OnPrem -- */
+    background-image: url('../img/icons/mfa/onprem_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): OnPrem -- */
+      background-image: url('../img/icons/mfa/onprem@2x.png');
+    }
+  }
+
   .mfa-duo-30,
   .enroll-factor-row .mfa-duo {
     /* -- Factor Icons (small): DUO -- */
@@ -623,6 +648,7 @@
   .enroll-activation-link-sent { /* -- Page specific top level selectors -- */ }
   .enroll-symantec { /* -- Page specific top level selectors -- */ }
   .enroll-rsa { /* -- Page specific top level selectors -- */ }
+  .enroll-onprem { /* -- Page specific top level selectors -- */ }
   .enroll-duo { /* -- Page specific top level selectors -- */ }
   .enroll-sms { /* -- Page specific top level selectors -- */ }
   .enroll-question { /* -- Page specific top level selectors -- */ }

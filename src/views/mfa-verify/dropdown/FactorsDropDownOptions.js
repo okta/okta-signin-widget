@@ -85,6 +85,16 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       }
     },
 
+    'ON_PREM': {
+      icon: 'factor-icon mfa-onprem-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    },
+
     'DUO': {
       icon: 'factor-icon mfa-duo-30',
       title: function () {

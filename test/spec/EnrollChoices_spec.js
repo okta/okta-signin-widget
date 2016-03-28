@@ -11,11 +11,12 @@ define([
   'LoginRouter',
   'sandbox',
   'helpers/xhr/MFA_ENROLL_allFactors',
+  'helpers/xhr/MFA_ENROLL_allFactors_OnPrem',
   'helpers/xhr/MFA_ENROLL_push',
   'helpers/xhr/SUCCESS'
 ],
 function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
-          $sandbox, resAllFactors, resPush, resSuccess) {
+          $sandbox, resAllFactors, resAllFactorsOnPrem, resPush, resSuccess) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -58,8 +59,9 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return JSON.parse(JSON.stringify(res));
     }
 
-    function setupWithRequiredNoneEnrolled() {
-      var res = deepClone(resAllFactors);
+    function setupWithRequiredNoneEnrolled(includeOnPrem) {
+      var response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
+      var res = deepClone(response);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
       res.response._embedded.factors[2].enrollment = 'REQUIRED';
@@ -76,8 +78,9 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
-    function setupWithRequiredAllRequiredEnrolled() {
-      var res = deepClone(resAllFactors);
+    function setupWithRequiredAllRequiredEnrolled(includeOnPrem) {
+      var response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
+      var res = deepClone(response);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[0].status = 'ACTIVE';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
@@ -91,8 +94,9 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(resAllFactors);
     }
 
-    function setupWithAllOptionalSomeEnrolled() {
-      var res = deepClone(resAllFactors);
+    function setupWithAllOptionalSomeEnrolled(includeOnPrem) {
+      var response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
+      var res = deepClone(response);
       res.response._embedded.factors[0].status = 'ACTIVE';
       return setup(res);
     }
@@ -187,6 +191,16 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.isFactorMinimized('GOOGLE_AUTH')).toBe(true);
             expect(test.form.isFactorMinimized('QUESTION')).toBe(true);
             expect(test.form.isFactorMinimized('RSA_SECURID')).toBe(true);
+          });
+        });
+        itp('minimizes factors that are not current (On-Prem)', function () {
+          return setupWithRequiredNoneEnrolled(true).then(function (test) {
+            // OKTA_VERIFY is the current factor, and GOOGLE_AUTH, QUESTION, and ON_PREM are
+            // the other required factors in this test
+            expect(test.form.isFactorMinimized('OKTA_VERIFY')).toBe(false);
+            expect(test.form.isFactorMinimized('GOOGLE_AUTH')).toBe(true);
+            expect(test.form.isFactorMinimized('QUESTION')).toBe(true);
+            expect(test.form.isFactorMinimized('ON_PREM')).toBe(true);
           });
         });
         itp('does not show optional factors', function () {
@@ -284,6 +298,15 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.isFactorMinimized('SMS')).toBe(false);
           });
         });
+        itp('shows optional factors in their expanded title + description state (On-Prem)', function () {
+          return setupWithRequiredAllRequiredEnrolled(true).then(function (test) {
+            expect(test.form.isFactorMinimized('OKTA_VERIFY')).toBe(false);
+            expect(test.form.isFactorMinimized('SYMANTEC_VIP')).toBe(false);
+            expect(test.form.isFactorMinimized('ON_PREM')).toBe(false);
+            expect(test.form.isFactorMinimized('DUO')).toBe(false);
+            expect(test.form.isFactorMinimized('SMS')).toBe(false);
+          });
+        });
         itp('has a setup button for each unenrolled optional factor which navigates to the correct page', function () {
           return setupWithAllOptionalSomeEnrolled().then(function (test) {
             expect(test.form.factorButton('OKTA_VERIFY').length).toBe(1);
@@ -296,6 +319,20 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.router.navigate)
               .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
 
+          });
+        });
+        itp('has a setup button for each unenrolled optional factor which navigates to the correct page (On-Prem)',
+          function () {
+          return setupWithAllOptionalSomeEnrolled(true).then(function (test) {
+            expect(test.form.factorButton('OKTA_VERIFY').length).toBe(1);
+            expect(test.form.factorButton('GOOGLE_AUTH').length).toBe(1);
+            expect(test.form.factorButton('SYMANTEC_VIP').length).toBe(1);
+            expect(test.form.factorButton('ON_PREM').length).toBe(1);
+            expect(test.form.factorButton('DUO').length).toBe(1);
+            expect(test.form.factorButton('SMS').length).toBe(1);
+            test.form.factorButton('SMS').click();
+            expect(test.router.navigate)
+              .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
           });
         });
         itp('has the button "Finish" if all required factors have been enrolled', function () {
@@ -411,6 +448,15 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           'RSA SecurID',
           'Enter a single-use code from a hardware token.',
           resAllFactors
+        );
+      });
+      describe('ON_PREM', function () {
+        itHasIconAndText(
+          'ON_PREM',
+          'mfa-onprem',
+          'On-Prem MFA',
+          'Enter a single-use code from a hardware token.',
+          resAllFactorsOnPrem
         );
       });
       describe('DUO', function () {

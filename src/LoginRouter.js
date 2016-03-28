@@ -20,7 +20,7 @@ define([
   'EnrollDuoController',
   'EnrollQuestionController',
   'EnrollSmsController',
-  'EnrollRsaController',
+  'EnrollOnPremController',
   'EnrollSymantecVipController',
   'EnrollYubikeyController',
   'EnrollTotpController',
@@ -46,7 +46,7 @@ define([
 ],
 function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerifyController,
           EnrollChoicesController, EnrollDuoController, EnrollQuestionController, EnrollSmsController,
-          EnrollRsaController, EnrollSymantecVipController, EnrollYubikeyController, EnrollTotpController,
+          EnrollOnPremController, EnrollSymantecVipController, EnrollYubikeyController, EnrollTotpController,
           BarcodeTotpController, BarcodePushController, ActivateTotpController, ManualSetupTotpController,
           ManualSetupPushController, EnrollmentLinkSentController, EnterPasscodePushFlowController,
           PasswordExpiredController, ForgotPasswordController, RecoveryChallengeController,
@@ -67,6 +67,7 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
       'signin/enroll/okta/sms': 'enrollSms',
       'signin/enroll-activate/okta/sms': 'enrollSms',
       'signin/enroll/rsa/token': 'enrollRsa',
+      'signin/enroll/del_oath/token': 'enrollOnPrem',
       'signin/enroll/symantec/token': 'enrollSymantecVip',
       'signin/enroll/yubico/token:hardware': 'enrollYubikey',
       'signin/enroll/:provider/:factorType': 'enrollTotpFactor',
@@ -148,8 +149,16 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
     },
 
     enrollRsa: function () {
-      this.render(EnrollRsaController, {
+      this.render(EnrollOnPremController, {
         provider: 'RSA',
+        factorType: 'token',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollOnPrem: function () {
+      this.render(EnrollOnPremController, {
+        provider: 'DEL_OATH',
         factorType: 'token',
         Beacon: FactorBeacon
       });

@@ -76,8 +76,8 @@ define({
         "enrollment": "OPTIONAL",
         "status": "NOT_SETUP",
         "factorType": "token",
-        "provider": "RSA",
-        "vendorName": "RSA",
+        "provider": "DEL_OATH",
+        "vendorName": "On-Prem MFA",
         "_links": {
           "enroll": {
             "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",

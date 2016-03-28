@@ -45,6 +45,12 @@ define(['okta'], function (Okta) {
       iconClassName: 'mfa-rsa',
       sortOrder: 4
     },
+    'ON_PREM': {
+      label: '',
+      description: Okta.loc('factor.totpHard.description', 'login'),
+      iconClassName: 'mfa-onprem',
+      sortOrder: 4
+    },
     'DUO': {
       label: Okta.loc('factor.duo', 'login'),
       description: Okta.loc('factor.duo.description', 'login'),
@@ -71,7 +77,7 @@ define(['okta'], function (Okta) {
     }
   };
 
-  /* jshint maxcomplexity: 10 */
+  /* jshint maxcomplexity: 11 */
   fn.getFactorName = function (provider, factorType) {
     if (provider === 'OKTA' && factorType === 'token:software:totp') {
       return 'OKTA_VERIFY';
@@ -87,6 +93,9 @@ define(['okta'], function (Okta) {
     }
     if (provider === 'RSA' && factorType === 'token') {
       return 'RSA_SECURID';
+    }
+    if (provider === 'DEL_OATH' && factorType === 'token') {
+      return 'ON_PREM';
     }
     if (provider === 'DUO' && factorType === 'web') {
       return 'DUO';
