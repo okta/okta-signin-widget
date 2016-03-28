@@ -137,6 +137,22 @@ define({
       }, {
         "enrollment": "OPTIONAL",
         "status": "NOT_SETUP",
+        "factorType": "call",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "_links": {
+          "enroll": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      }, {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
         "factorType": "web",
         "provider": "DUO",
         "vendorName": "DUO",

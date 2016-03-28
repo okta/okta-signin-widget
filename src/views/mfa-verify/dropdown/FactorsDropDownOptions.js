@@ -146,6 +146,16 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       }
     },
 
+    'CALL': {
+      icon: 'factor-icon mfa-call-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    },
+
     'QUESTION': {
       icon: 'factor-icon mfa-question-30',
       title: function () {

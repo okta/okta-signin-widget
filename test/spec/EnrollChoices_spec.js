@@ -296,6 +296,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.isFactorMinimized('RSA_SECURID')).toBe(false);
             expect(test.form.isFactorMinimized('DUO')).toBe(false);
             expect(test.form.isFactorMinimized('SMS')).toBe(false);
+            expect(test.form.isFactorMinimized('CALL')).toBe(false);
           });
         });
         itp('shows optional factors in their expanded title + description state (On-Prem)', function () {
@@ -315,6 +316,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.factorButton('RSA_SECURID').length).toBe(1);
             expect(test.form.factorButton('DUO').length).toBe(1);
             expect(test.form.factorButton('SMS').length).toBe(1);
+            expect(test.form.factorButton('CALL').length).toBe(1);
             test.form.factorButton('SMS').click();
             expect(test.router.navigate)
               .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
@@ -481,6 +483,22 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             test.form.factorButton('SMS').click();
             expect(test.router.navigate)
               .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
+          });
+        });
+      });
+      describe('CALL', function () {
+        itHasIconAndText(
+          'CALL',
+          'mfa-okta-call',
+          'Voice Call Authentication',
+          'Use a phone to authenticate by following voice instructions.',
+          resAllFactors
+        );
+        itp('has the right click event', function () {
+          return setup(resAllFactors).then(function (test) {
+            test.form.factorButton('CALL').click();
+            expect(test.router.navigate)
+              .toHaveBeenCalledWith('signin/enroll/okta/call', { trigger: true });
           });
         });
       });

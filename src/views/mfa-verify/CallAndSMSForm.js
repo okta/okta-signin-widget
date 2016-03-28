@@ -16,22 +16,37 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
 
+  function isCallFactor(factorType) {
+    return factorType === 'call';
+  }
+
   return Okta.Form.extend({
-    className: 'mfa-verify-sms',
+    className: 'mfa-verify-sms-call',
     autoSave: true,
     noCancelButton: true,
     save: Okta.loc('mfa.challenge.verify', 'login'),
     scrollOnError: false,
     layout: 'o-form-theme',
-    attributes: { 'data-se': 'factor-sms' },
 
     disableSubmitButton: function () {
       return this.model.appState.get('isMfaChallenge');
     },
 
     initialize: function () {
+      /*jshint maxcomplexity:7*/
       var self = this;
       this.title = this.model.get('factorLabel');
+
+      var factorType = this.model.get('factorType');
+      var isCall = isCallFactor(factorType);
+      this.$el.attr('data-se', 'factor-' + factorType);
+      var buttonDataSe = isCall ? 'make-call' : 'sms-send-code';
+      var buttonClassName = isCall ? 'call-request-button' : 'sms-request-button';
+
+      var formSubmit = Okta.loc(isCall ? 'mfa.call' : 'mfa.sendCode', 'login');
+      var formRetry = Okta.loc(isCall ? 'mfa.redial' : 'mfa.resendCode', 'login');
+      var formSubmitted = Okta.loc(isCall ? 'mfa.calling' : 'mfa.sent', 'login');
+
       this.subtitle = subtitleTpl({
         phoneNumber: this.model.get('phoneNumber')
       });
@@ -39,9 +54,9 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
         this.clearErrors();
       });
       this.add(Okta.createButton({
-        attributes: { 'data-se': 'sms-send-code' },
-        className: 'button sms-request-button',
-        title: Okta.loc('mfa.sendCode', 'login'),
+        attributes: { 'data-se': buttonDataSe },
+        className: 'button ' + buttonClassName,
+        title: formSubmit,
         click: function () {
           self.clearErrors();
           // To send an OTP to the device, make the same request but use
@@ -49,7 +64,7 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
           this.model.set('answer', '');
           this.model.save()
           .then(_.bind(function () {
-            this.options.title = Okta.loc('mfa.sent', 'login');
+            this.options.title = formSubmitted;
             this.disable();
             this.render();
             // render and focus on the passcode input field.
@@ -57,7 +72,7 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
             return Q.delay(API_RATE_LIMIT);
           }, this))
           .then(_.bind(function () {
-            this.options.title = Okta.loc('mfa.resendCode', 'login');
+            this.options.title = formRetry;
             this.enable();
             this.render();
           }, this));

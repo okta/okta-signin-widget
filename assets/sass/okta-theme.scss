@@ -357,6 +357,31 @@
     }
   }
 
+  .mfa-call-30,
+  .enroll-factor-row .mfa-okta-call {
+    /* -- Factor Icons (small): CALL -- */
+    background-image: url('../img/icons/mfa/voicecall_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): CALL -- */
+      background-image: url('../img/icons/mfa/voicecall_ico@2x.png');
+    }
+  }
+
+  .mfa-okta-call {
+    /* -- Factor Icons (large): CALL -- */
+    background-image: url('../img/icons/mfa/voicecall_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): CALL -- */
+      background-image: url('../img/icons/mfa/voicecall@2x.png');
+    }
+  }
+
   .mfa-question-30,
   .enroll-factor-row .mfa-okta-security-question {
     /* -- Factor Icons (small): Sequrity Question -- */
@@ -652,6 +677,7 @@
   .enroll-onprem { /* -- Page specific top level selectors -- */ }
   .enroll-duo { /* -- Page specific top level selectors -- */ }
   .enroll-sms { /* -- Page specific top level selectors -- */ }
+  .enroll-call { /* -- Page specific top level selectors -- */ }
   .enroll-question { /* -- Page specific top level selectors -- */ }
 
   .mfa-verify-duo { /* -- Page specific top level selectors -- */ }
@@ -660,7 +686,7 @@
   .mfa-verify-push { /* -- Page specific top level selectors -- */ }
   .mfa-verify-totp-inline { /* -- Page specific top level selectors -- */ }
   .mfa-verify-question { /* -- Page specific top level selectors -- */ }
-  .mfa-verify-sms { /* -- Page specific top level selectors -- */ }
+  .mfa-verify-sms-call { /* -- Page specific top level selectors -- */ }
 
 }
 

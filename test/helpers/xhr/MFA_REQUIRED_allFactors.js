@@ -90,6 +90,24 @@ define({
           }
         }
       }, {
+        "id": "clfk6mRsVLrhHznVe0g3",
+        "factorType": "call",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "profile": {
+          "phoneNumber": "+1 XXX-XXX-7799"
+        },
+        "_links": {
+          "verify": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/clfk6mRsVLrhHznVe0g3\/verify",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      }, {
         "id": "opfhw7v2OnxKpftO40g3",
         "factorType": "push",
         "provider": "OKTA",

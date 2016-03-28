@@ -26,6 +26,10 @@ define(['./Form'], function (Form) {
       return this.el('factor-sms').length === 1;
     },
 
+    isCall: function () {
+      return this.el('factor-call').length === 1;
+    },
+
     isInlineTOTP: function () {
       return this.el('factor-inline-totp').length === 1;
     },
@@ -79,6 +83,10 @@ define(['./Form'], function (Form) {
 
     smsSendCode: function () {
       return this.el('sms-send-code');
+    },
+
+    makeCall: function () {
+      return this.el('make-call');
     },
 
     inlineTOTPVerify: function () {

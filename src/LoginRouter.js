@@ -19,7 +19,7 @@ define([
   'EnrollChoicesController',
   'EnrollDuoController',
   'EnrollQuestionController',
-  'EnrollSmsController',
+  'EnrollCallAndSmsController',
   'EnrollOnPremController',
   'EnrollSymantecVipController',
   'EnrollYubikeyController',
@@ -45,7 +45,7 @@ define([
   'views/shared/FactorBeacon'
 ],
 function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerifyController,
-          EnrollChoicesController, EnrollDuoController, EnrollQuestionController, EnrollSmsController,
+          EnrollChoicesController, EnrollDuoController, EnrollQuestionController, EnrollCallAndSmsController,
           EnrollOnPremController, EnrollSymantecVipController, EnrollYubikeyController, EnrollTotpController,
           BarcodeTotpController, BarcodePushController, ActivateTotpController, ManualSetupTotpController,
           ManualSetupPushController, EnrollmentLinkSentController, EnterPasscodePushFlowController,
@@ -53,7 +53,6 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
           PwdResetEmailSentController, RecoveryQuestionController, PasswordResetController,
           RecoveryLoadingController, UnlockAccountController, UnlockEmailSentController,
           RefreshAuthStateController, SecurityBeacon, FactorBeacon) {
-
   return BaseLoginRouter.extend({
 
     routes: {
@@ -65,6 +64,7 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
       'signin/enroll/duo/web': 'enrollDuo',
       'signin/enroll/okta/question': 'enrollQuestion',
       'signin/enroll/okta/sms': 'enrollSms',
+      'signin/enroll/okta/call': 'enrollCall',
       'signin/enroll-activate/okta/sms': 'enrollSms',
       'signin/enroll/rsa/token': 'enrollRsa',
       'signin/enroll/del_oath/token': 'enrollOnPrem',
@@ -141,9 +141,17 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
     },
 
     enrollSms: function () {
-      this.render(EnrollSmsController, {
+      this.render(EnrollCallAndSmsController, {
         provider: 'OKTA',
         factorType: 'sms',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollCall: function () {
+      this.render(EnrollCallAndSmsController, {
+        provider: 'OKTA',
+        factorType: 'call',
         Beacon: FactorBeacon
       });
     },

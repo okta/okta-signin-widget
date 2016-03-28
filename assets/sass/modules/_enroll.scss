@@ -142,6 +142,42 @@
 
 }
 
+// CALL Enrollment
+.enroll-call {
+
+  .enroll-call-phone {
+    width: 196px;
+    float: left;
+
+    @include device-mq(x-small) {
+      width: 165px;
+    }
+
+    @include max-width-mq($container-width) {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  }
+
+  .enroll-call-extension {
+    float: right;
+    width: 111px;
+    margin-top: 0;
+    padding: 0;
+
+    @include max-width-mq($container-width) {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  }
+
+  .call-request-button {
+    width: 100%;
+    text-align: center;
+  }
+
+}
+
 /* TOTP Factor Enrollment */
 .device-type-input {
 

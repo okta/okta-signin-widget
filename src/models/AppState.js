@@ -342,12 +342,27 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         deps: ['lastAuthResponse'],
         fn: function (res) {
           if (!res._embedded || !res._embedded.factors) {
-            return null;
+            return false;
           }
           var factors = res._embedded.factors;
           var factor = _.findWhere(factors, {factorType: 'sms', provider: 'OKTA'});
           if (!factor || !factor._embedded) {
-            return null;
+            return false;
+          }
+
+          return !!factor._embedded.phones.length;
+        }
+      },
+      'hasExistingPhonesForCall': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._embedded || !res._embedded.factors) {
+            return false;
+          }
+          var factors = res._embedded.factors;
+          var factor = _.findWhere(factors, {factorType: 'call', provider: 'OKTA'});
+          if (!factor || !factor._embedded) {
+            return false;
           }
 
           return !!factor._embedded.phones.length;
