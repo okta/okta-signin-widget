@@ -64,12 +64,13 @@
   &.main-container {
   /* -- Fonts and Text Colors -- */
     font-family: $fonts;
-    color: $light-text-color;
+    color: $medium-text-color;
   }
 
   h2,
   h3 {
   /* -- Fonts and Text Colors -- */
+    font-weight: $font-weight-header;
     color: $header-text-color;
   }
 
@@ -81,19 +82,19 @@
   .okta-form-subtitle,
   .okta-form-label {
   /* -- Fonts and Text Colors -- */
-    color: $light-text-color;
+    color: $medium-text-color;
   }
 
   .link {
   /* -- Fonts and Text Colors: links -- */
-    color: $light-text-color;
+    color: $medium-text-color;
 
     &:link,
     &:visited,
     &:hover,
     &:active {
     /* -- Fonts and Text Colors: links -- */
-      color: $light-text-color;
+      color: $medium-text-color;
     }
   }
 
@@ -594,7 +595,7 @@
 
     span {
     /* -- Input Fields: Select Input -- */
-      color: $light-text-color;
+      color: $medium-text-color;
     }
 
     &:hover {
