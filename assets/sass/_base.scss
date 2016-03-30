@@ -10,24 +10,24 @@ body {
   background-color: $secondary-bg-color;
   min-width: 100%;
   min-height: 100%;
-  color: $light-text-color;
+  color: $medium-text-color;
   position: relative;
 }
 
 a {
-  color: $light-text-color;
+  color: $medium-text-color;
 
   &:link,
   &:visited,
   &:active {
     text-decoration: none;
-    color: $light-text-color;
+    color: $medium-text-color;
   }
 
   &:hover,
   &:focus {
     text-decoration: underline;
-    color: $light-text-color;
+    color: $medium-text-color;
   }
 }
 
@@ -37,8 +37,9 @@ h1 {
 
 h2,
 h3 {
-  font-size: $font-size-header;
+  font-size: $font-size;
   line-height: 1.5;
+  font-weight: $font-weight-header;
 }
 
 h3 {
