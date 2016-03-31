@@ -15,12 +15,14 @@ define([
   'okta',
   'duo',
   'vendor/lib/q',
+  'util/CookieUtil',
+  'util/FactorUtil',
   'util/FormController',
   'util/Enums',
   'util/FormType',
   'views/shared/FooterSignout'
 ],
-function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
+function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType, FooterSignout) {
 
   var $ = Okta.$,
       _ = Okta._;
@@ -35,16 +37,41 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
         signature: 'string',
         postAction: 'string',
         factorId: 'string',
-        stateToken: 'string'
+        stateToken: 'string',
+        rememberDevice: 'boolean'
+      },
+
+      initialize: function () {
+        var rememberDevice = FactorUtil.getRememberDeviceValue(this.settings, this.appState);
+        // set the initial value for remember device (Cannot do this while defining the
+        // local property because this.settings would not be initialized there yet).
+        this.set('rememberDevice', rememberDevice);
       },
 
       getInitOptions: function (appState) {
         var factors = appState.get('factors'),
             factor = factors.findWhere({ provider: 'DUO', factorType: 'web' });
+        var rememberDevice = !!this.get('rememberDevice');
+        var username = this.appState.get('username');
+        // Set/Remove the remember device cookie based on the remember device input.
+        if (rememberDevice) {
+          CookieUtil.setDeviceCookie(username);
+        } else {
+          CookieUtil.removeDeviceCookie();
+        }
+
         return this.doTransaction(function(transaction) {
+          var data = {
+            rememberDevice: rememberDevice
+          };
           return transaction
           .getFactorById(factor.id)
-          .verifyFactor();
+          .verifyFactor(data)
+          .fail(function (err) {
+            // Clean up the cookie on failure.
+            CookieUtil.removeDeviceCookie();
+            throw err;
+          });
         });
       },
 
@@ -71,6 +98,7 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
           });
         })
         .fail(function (err) {
+          CookieUtil.removeDeviceCookie();
           self.trigger('error', self, err.xhr);
         });
       }
@@ -84,6 +112,16 @@ function (Okta, Duo, Q, FormController, Enums, FormType, FooterSignout) {
 
       postRender: function () {
         this.add('<iframe frameborder="0"></iframe>');
+        if (this.settings.get('features.rememberDevice')) {
+          this.addInput({
+            label: false,
+            'label-top': true,
+            placeholder: Okta.loc('rememberDevice', 'login'),
+            className: 'margin-btm-0',
+            name: 'rememberDevice',
+            type: 'checkbox'
+          });
+        }
         Duo.init({
           'host': this.model.get('host'),
           'sig_request': this.model.get('signature'),

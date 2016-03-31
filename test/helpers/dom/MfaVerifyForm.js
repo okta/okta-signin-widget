@@ -63,6 +63,14 @@ define(['./Form'], function (Form) {
       return this.checkbox(REMEMBER_DEVICE);
     },
 
+    rememberDeviceLabelText: function () {
+      return this.checkboxLabelText(REMEMBER_DEVICE);
+    },
+
+    isRememberDeviceChecked: function () {
+      return this.checkbox(REMEMBER_DEVICE).prop('checked');
+    },
+
     setRememberDevice: function (val) {
       var rememberDevice = this.rememberDeviceCheckbox();
       rememberDevice.prop('checked', val);

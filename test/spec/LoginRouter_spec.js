@@ -389,6 +389,28 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
         expect(form.isSecurityQuestion()).toBe(true);
       });
     });
+    itp('checks the remember device by default for a returning user', function () {
+      Util.mockCookie('rdln', 'testuser');
+      return setup()
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('signin');
+        return tick(test);
+      })
+      .then(function (test) {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+        test.setNextResponse(resMfa);
+        form.setUsername('testuser');
+        form.setPassword('pass');
+        form.submit();
+        return tick(test);
+      })
+      .then(function () {
+        var form = new MfaVerifyForm($sandbox);
+        expect(form.isRememberDeviceChecked()).toBe(true);
+      });
+    });
 
     describe('OIDC - okta is the idp and oauth2 is enabled', function () {
       itp('creates an iframe with the correct url when authStatus is SUCCESS', function () {

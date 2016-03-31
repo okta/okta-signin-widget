@@ -51,6 +51,7 @@ function (Okta, Errors, BrowserFeatures) {
       'features.securityImage': ['boolean', true, false],
       'features.rememberMe': ['boolean', true, true],
       'features.rememberDevice': ['boolean', true, true],
+      'features.rememberDeviceAlways': ['boolean', true, false],
       'features.smsRecovery': ['boolean', true, false],
       'features.windowsVerify': ['boolean', true, false],
       'features.selfServiceUnlock': ['boolean', true, false],

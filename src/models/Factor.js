@@ -13,10 +13,11 @@
 /* jshint maxstatements: 18 */
 define([
   'okta',
+  'util/CookieUtil',
   'util/FactorUtil',
   './BaseLoginModel'
 ],
-function (Okta, factorUtil, BaseLoginModel) {
+function (Okta, CookieUtil, factorUtil, BaseLoginModel) {
   var _ = Okta._;
 
   // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
@@ -162,6 +163,8 @@ function (Okta, factorUtil, BaseLoginModel) {
     parse: function (attributes) {
       this.settings = attributes.settings;
       this.appState = attributes.appState;
+      // set the initial value for remember device.
+      attributes.rememberDevice = factorUtil.getRememberDeviceValue(this.settings, this.appState);
       return _.omit(attributes, ['settings', 'appState']);
     },
 
@@ -172,9 +175,18 @@ function (Okta, factorUtil, BaseLoginModel) {
     },
 
     save: function () {
+      var rememberDevice = !!this.get('rememberDevice');
+      var username = this.appState.get('username');
+      // Set/Remove the remember device cookie based on the remember device input.
+      if (rememberDevice) {
+        CookieUtil.setDeviceCookie(username);
+      } else {
+        CookieUtil.removeDeviceCookie();
+      }
+
       return this.doTransaction(function (transaction) {
         var data = {
-          rememberDevice: !!this.get('rememberDevice')
+          rememberDevice: rememberDevice
         };
         if (this.get('factorType') === 'question') {
           data.answer = this.get('answer');
@@ -208,6 +220,11 @@ function (Okta, factorUtil, BaseLoginModel) {
             return trans.startVerifyFactorPoll(PUSH_INTERVAL);
           }
           return trans;
+        })
+        .fail(function (err) {
+          // Clean up the cookie on failure.
+          CookieUtil.removeDeviceCookie();
+          throw err;
         });
       });
     }

@@ -13,21 +13,18 @@
 define([
   'okta',
   './BaseLoginModel',
-  'util/Enums',
-  'vendor/plugins/jquery.cookie'
+  'util/CookieUtil',
+  'util/Enums'
 ],
-function (Okta, BaseLoginModel, Enums) {
+function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
-  var $ = Okta.$;
   var _ = Okta._;
-  var LAST_USERNAME_COOKIE_NAME = 'ln';
-  var DAYS_SAVE_REMEMBER = 365;
 
   return BaseLoginModel.extend({
 
     props: function () {
       var settingsUsername = this.settings && this.settings.get('username'),
-          cookieUsername = $.cookie(LAST_USERNAME_COOKIE_NAME),
+          cookieUsername = CookieUtil.getCookieUsername(),
           remember = false,
           username;
       if (settingsUsername) {
@@ -71,13 +68,10 @@ function (Okta, BaseLoginModel, Enums) {
       // Only delete the cookie if its owner says so. This allows other
       // users to log in on a one-off basis.
       if (!remember && lastUsername === username) {
-        $.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
+        CookieUtil.removeUsernameCookie();
       }
       else if (remember) {
-        $.cookie(LAST_USERNAME_COOKIE_NAME, username, {
-          expires: DAYS_SAVE_REMEMBER,
-          path: '/'
-        });
+        CookieUtil.setUsernameCookie(username);
       }
 
       //the 'save' event here is triggered and used in the BaseLoginController
@@ -100,7 +94,7 @@ function (Okta, BaseLoginModel, Enums) {
         // Specific event handled by the Header for the case where the security image is not
         // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
         this.appState.trigger('removeLoading');
-        $.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
+        CookieUtil.removeUsernameCookie();
       }, this))
       .fin(_.bind(function () {
         this.appState.trigger('loading', false);
