@@ -42,9 +42,10 @@ var OktaSignIn = (function () {
      * @param callback - function to invoke after refreshing the idToken.
      *        The callback will be passed a new idToken if successful and
      *        an error message if not.
+     * @param opts - OAUTH options to refresh the idToken
      */
-    function refreshIdToken(idToken, callback) {
-      authClient.refreshIdToken(idToken).then(callback)
+    function refreshIdToken(idToken, callback, opts) {
+      authClient.refreshIdToken(idToken, opts).then(callback)
       .fail(function () {
         callback('There was a problem refreshing the id_token');
       });
