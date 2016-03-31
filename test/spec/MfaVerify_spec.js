@@ -142,9 +142,9 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
       expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, mockError);
     }
 
-    function setupDuo() {
+    function setupDuo(settings) {
       Util.mockDuo();
-      return setup(resAllFactors, { factorType: 'web', provider: 'DUO' });
+      return setup(resAllFactors, { factorType: 'web', provider: 'DUO' }, settings);
     }
 
     function setupWithFirstFactor(factorIdentifier) {
@@ -240,6 +240,28 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
           });
         });
       });
+      describe('Remember device', function () {
+        itp('is rendered', function () {
+          return setup(resAllFactors).then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
+        itp('has the right text', function () {
+          return setup(resAllFactors).then(function (test) {
+            expect(test.form.rememberDeviceLabelText()).toEqual('Trust this device');
+          });
+        });
+        itp('is not rendered when features.rememberDevice is false', function () {
+          return setup(resAllFactors, null, { 'features.rememberDevice': false }).then(function (test) {
+            expect(test.form.rememberDeviceCheckbox().length).toBe(0);
+          });
+        });
+        itp('is checked by default if features.rememberDeviceAlways is true', function () {
+          return setup(resAllFactors, null, { 'features.rememberDeviceAlways': true }).then(function (test) {
+            expect(test.form.isRememberDeviceChecked()).toBe(true);
+          });
+        });
+      });
     });
 
     describe('Factor types', function () {
@@ -278,6 +300,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             expect(test.form.showAnswerLabelText()).toEqual('Show answer');
           });
         });
+        itp('has remember device checkbox', function () {
+          return setupSecurityQuestion().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
         itp('an answer field type is "password" initially and changed to text \
           when a "show answer" checkbox is checked', function () {
           return setupSecurityQuestion().then(function (test) {
@@ -295,6 +322,26 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             $.ajax.calls.reset();
             test.form.setAnswer('food');
             test.form.setRememberDevice(true);
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=true',
+              data: {
+                answer: 'food',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+        itp('calls authClient verifyFactor with rememberDevice URL param if rememberDeviceAlways is enabled',
+          function () {
+          return setupSecurityQuestion({ 'features.rememberDeviceAlways': true }).then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('food');
             test.setNextResponse(resSuccess);
             test.form.submit();
             return tick();
@@ -425,6 +472,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             expectHasAnswerField(test);
           });
         });
+        itp('has remember device checkbox', function () {
+          return setupGoogleTOTP().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
         itp('calls authClient verifyFactor with correct args when submitted', function () {
           return setupGoogleTOTP().then(function (test) {
             $.ajax.calls.reset();
@@ -542,6 +594,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         itp('shows the right title', function () {
           return setupYubikey().then(function (test) {
             expectTitleToBe(test, 'Yubikey');
+          });
+        });
+        itp('has remember device checkbox', function () {
+          return setupYubikey().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
         itp('disables the "verify button" when clicked', function () {
@@ -667,6 +724,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         itp('has a passCode field', function () {
           return setupSMS().then(function (test) {
             expectHasAnswerField(test);
+          });
+        });
+        itp('has remember device checkbox', function () {
+          return setupSMS().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
         itp('clears the passcode text field on clicking the "Send code" button', function () {
@@ -886,9 +948,14 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
 
       describe('Okta Push', function () {
         // Remember device for Push form exists out of the form.
-        function setRememberDeviceForPushForm(test, val) {
+        // Remember device for Push form exists out of the form.
+        function getRememberDeviceForPushForm(test) {
           var rememberDevice = test.router.controller.$('[data-se="o-form-input-rememberDevice"]');
           var checkbox = rememberDevice.find(':checkbox');
+          return checkbox;
+        }
+        function setRememberDeviceForPushForm(test, val) {
+          var checkbox = getRememberDeviceForPushForm(test);
           checkbox.prop('checked', val);
           checkbox.trigger('change');
         }
@@ -901,6 +968,11 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
         itp('shows the right beacon', function () {
           return setupOktaPush().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-okta-verify');
+          });
+        });
+        itp('has remember device checkbox', function () {
+          return setupOktaPush().then(function (test) {
+            Expect.isVisible(getRememberDeviceForPushForm(test));
           });
         });
         describe('Push', function () {
@@ -1194,11 +1266,27 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, Util, MfaVerifyForm, Beacon, Expect
             expectTitleToBe(test, 'Duo Security');
           });
         });
+        itp('has remember device checkbox', function () {
+          return setupDuo().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
         itp('makes the right init request', function () {
           return setupDuo().then(function () {
             expect($.ajax.calls.count()).toBe(2);
             Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/verify',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+        itp('makes the right init request when rememberDevice is checked', function () {
+          return setupDuo({ 'features.rememberDeviceAlways': true }).then(function () {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+              url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/verify?rememberDevice=true',
               data: {
                 stateToken: 'testStateToken'
               }
