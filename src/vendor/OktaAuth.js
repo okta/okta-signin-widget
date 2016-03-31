@@ -1621,12 +1621,19 @@ proto.closeSession = function() {
   return httpRequest(sdk, '/api/v1/sessions/me', 'DELETE', undefined, true);
 };
 
-proto.refreshIdToken = function(idToken) {
+proto.refreshIdToken = function(idToken, opts) {
   var sdk = this;
-  return sdk.getIdToken({
-    clientId: idToken.aud,
-    display: null
-  });
+  opts = opts || {};
+  try {
+    var decodedToken = sdk.decodeIdToken(idToken);
+    opts.clientId = decodedToken.payload.aud;
+    opts.display = opts.display || null;
+    return sdk.getIdToken(sdk, opts);
+
+  // decodeIdToken could throw an error
+  } catch (e) {
+    return Q.reject(e);
+  }
 };
 
   function jqueryRequest(method, uri, args) {
