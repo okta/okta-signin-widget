@@ -48,6 +48,14 @@ define([
       if (this.settings.get('features.preventBrowserFromSavingOktaPassword')) {
         this.add(PasswordJammer);
       }
+      this.listenTo(this.state, 'change:enabled', function(model, enable) {
+        if(enable) {
+          this.enable();
+        }
+        else {
+          this.disable();
+        }
+      });
     },
 
     inputs: function () {

@@ -333,6 +333,18 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           expect(test.form.forgotPasswordLinkVisible()).toBe(true);
         });
       });
+      itp('does not show forgot password link when disabled and clicked', function () {
+        return setup().then(function (test) {
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick(test);
+        }).then(function(test) {
+          test.form.helpFooter().click();
+          expect(test.form.forgotPasswordLinkVisible()).not.toBe(true);
+        });
+      });
       itp('navigates to forgot password page when click forgot password link', function () {
         return setup().then(function (test) {
           spyOn(test.router, 'navigate');
@@ -341,12 +353,40 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           expect(test.router.navigate).toHaveBeenCalledWith('signin/forgot-password', {trigger: true});
         });
       });
+      itp('does not navigate to forgot password page when link disabled and clicked', function () {
+        return setup().then(function (test) {
+          spyOn(test.router, 'navigate');
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick(test);
+        }).then(function(test) {
+          test.form.helpFooter().click();
+          test.form.forgotPasswordLink().click();
+          expect(test.router.navigate).not.toHaveBeenCalledWith('signin/forgot-password', {trigger: true});
+        });
+      });
       itp('navigates to custom forgot password page when available', function () {
         return setup({ 'helpLinks.forgotPassword': 'https://foo.com' }).then(function (test) {
           spyOn(SharedUtil, 'redirect');
           test.form.helpFooter().click();
           test.form.forgotPasswordLink().click();
           expect(SharedUtil.redirect).toHaveBeenCalledWith('https://foo.com');
+        });
+      });
+      itp('does not navigate to custom forgot password page when link disabled and clicked', function () {
+        return setup({ 'helpLinks.forgotPassword': 'https://foo.com' }).then(function (test) {
+          spyOn(SharedUtil, 'redirect');
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick(test);
+        }).then(function(test) {
+          test.form.helpFooter().click();
+          test.form.forgotPasswordLink().click();
+          expect(SharedUtil.redirect).not.toHaveBeenCalledWith('https://foo.com');
         });
       });
       itp('unlock link is hidden on load', function () {
@@ -368,6 +408,20 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
         });
       });
+      itp('does not navigate to unlock page when link disabled and clicked', function () {
+        return setup().then(function (test) {
+          spyOn(test.router, 'navigate');
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick(test);
+        }).then(function(test) {
+          test.form.helpFooter().click();
+          test.form.unlockLink().click();
+          expect(test.router.navigate).not.toHaveBeenCalledWith('signin/unlock', {trigger: true});
+        });
+      });
       itp('navigates to custom unlock page when available', function () {
         return setup({
           'helpLinks.unlock': 'https://foo.com',
@@ -377,6 +431,23 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.helpFooter().click();
           test.form.unlockLink().click();
           expect(SharedUtil.redirect).toHaveBeenCalledWith('https://foo.com');
+        });
+      });
+      itp('does not navigate to custom unlock page when link disabled and clicked', function () {
+        return setup({
+          'helpLinks.unlock': 'https://foo.com',
+          'features.selfServiceUnlock': true
+        }).then(function (test) {
+          spyOn(SharedUtil, 'redirect');
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick(test);
+        }).then(function(test) {
+          test.form.helpFooter().click();
+          test.form.unlockLink().click();
+          expect(SharedUtil.redirect).not.toHaveBeenCalledWith('https://foo.com');
         });
       });
       itp('does not show unlock link if feature is off', function () {
@@ -867,6 +938,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           $.ajax.calls.reset();
           test.form.submit();
           expect(test.form.usernameErrorField().length).toBe(1);
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).not.toContain('link-button-disabled');
+          expect(test.form.isDisabled()).toBe(false);
           expect($.ajax).not.toHaveBeenCalled();
         });
       });
@@ -878,10 +953,11 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           var button = test.form.submitButton();
           var buttonClass = button.attr('class');
           expect(buttonClass).not.toContain('link-button-disabled');
+          expect(test.form.isDisabled()).toBe(false);
           expect($.ajax).not.toHaveBeenCalled();
         });
       });
-      itp('reenables the button after a CORS error', function () {
+      itp('reenables button and fields after a CORS error', function () {
         return setup().then(function (test) {
           Q.stopUnhandledRejectionTracking();
           $.ajax.calls.reset();
@@ -895,6 +971,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           var button = test.form.submitButton();
           var buttonClass = button.attr('class');
           expect(buttonClass).not.toContain('link-button-disabled');
+          expect(test.form.isDisabled()).toBe(false);
         });
       });
       itp('disables the "sign in" button when clicked', function () {
@@ -908,12 +985,14 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           var button = test.form.submitButton();
           var buttonClass = button.attr('class');
           expect(buttonClass).toContain('link-button-disabled');
+          expect(test.form.isDisabled()).toBe(true);
           return tick(test);
         })
         .then(function (test) {
           var button = test.form.submitButton();
           var buttonClass = button.attr('class');
           expect(buttonClass).not.toContain('link-button-disabled');
+          expect(test.form.isDisabled()).toBe(false);
         });
       });
       itp('calls authClient primaryAuth with form values when submitted', function () {
@@ -923,6 +1002,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
+          expect(test.form.isDisabled()).toBe(true);
           return tick();
         })
         .then(function () {
@@ -962,6 +1042,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
+          expect(test.form.isDisabled()).toBe(true);
           return tick();
         })
         .then(function () {
