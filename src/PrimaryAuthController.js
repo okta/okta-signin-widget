@@ -46,13 +46,20 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
           <a href="{{href}}" class="link js-custom">{{text}}</a></li>\
         {{/each}}\
         <li>\
-        <a href="{{helpLinkUrl}}" data-se="help-link" class="link js-help-link">\
+        <a href="{{helpLinkUrl}}" data-se="help-link" class="link js-help-link" target="_blank">\
         {{i18n code="help" bundle="login"}}\
         </a>\
         </li>\
       </ul>\
     ',
     className: 'auth-footer',
+
+    initialize: function () {
+      this.listenTo(this.state, 'change:enabled', function(model, enable) {
+        this.$(':link').toggleClass('o-form-disabled', !enable);
+      });
+    },
+
     getTemplateData: function () {
       var helpLinkUrl;
       var customHelpPage = this.settings.get('helpLinks.help');
@@ -73,10 +80,18 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
     events: {
       'click .js-help': function (e) {
         e.preventDefault();
+        if(!this.state.get('enabled')) {
+          return;
+        }
+
         this.toggleLinks(e);
       },
       'click .js-forgot-password' : function (e) {
         e.preventDefault();
+        if(!this.state.get('enabled')) {
+          return;
+        }
+
         var customResetPasswordPage = this.settings.get('helpLinks.forgotPassword');
         if (customResetPasswordPage) {
           Util.redirect(customResetPasswordPage);
@@ -87,6 +102,10 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
       },
       'click .js-unlock' : function (e) {
         e.preventDefault();
+        if(!this.state.get('enabled')) {
+          return;
+        }
+
         var customUnlockPage = this.settings.get('helpLinks.unlock');
         if (customUnlockPage) {
           Util.redirect(customUnlockPage);
@@ -100,6 +119,9 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
 
   return BaseLoginController.extend({
     className: 'primary-auth',
+
+    state: { enabled: true },
+
     View: PrimaryAuthForm,
 
     constructor: function (options) {
@@ -144,6 +166,12 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
           // reset AppState to an undefined user.
           this.options.appState.set('username', '');
         }
+      });
+      this.listenTo(this.model, 'save', function () {
+        this.state.set('enabled', false);
+      });
+      this.listenTo(this.model, 'error', function () {
+        this.state.set('enabled', true);
       });
     }
 

@@ -177,8 +177,21 @@ define(['jquery', 'underscore', './Form'], function ($, _, Form) {
 
     socialAuthButtons: function () {
       return this.$('.social-auth-button');
-    }
+    },
 
+    linksAppearDisabled: function() {
+      return this.$('a.link.o-form-disabled').length === this.$('a.link').length;
+    },
+
+    inputsDisabled: function() {
+      return this.usernameField().is(':disabled') &&
+          this.passwordField().is(':disabled') &&
+          this.rememberMeCheckbox().is(':disabled');
+    },
+
+    isDisabled: function() {
+      return this.inputsDisabled() && this.linksAppearDisabled();
+    }
   });
 
 });
