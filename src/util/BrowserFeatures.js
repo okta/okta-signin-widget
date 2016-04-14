@@ -49,6 +49,11 @@ define(function () {
     }
   };
 
+  fn.supportsPushState = function (win) {
+    win = win || window;
+    return !!(win.history && win.history.pushState);
+  };
+
   return fn;
 
 });
