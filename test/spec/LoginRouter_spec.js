@@ -149,6 +149,22 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
       var fn = function () { setup({ globalSuccessFn: undefined }); };
       expect(fn).toThrowError('A success handler is required');
     });
+    itp('set pushState true if pushState is supported', function () {
+      spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(true);
+      spyOn(Okta.Router.prototype, 'start');
+      return setup().then(function (test) {
+        test.router.start();
+        expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: true });
+      });
+    });
+    itp('set pushState false if pushState is not supported', function () {
+      spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(false);
+      spyOn(Okta.Router.prototype, 'start');
+      return setup().then(function (test) {
+        test.router.start();
+        expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: false });
+      });
+    });
     itp('initializes xdomain if cors is limited', function () {
       spyOn(xdomain, 'slaves');
       spyOn(BrowserFeatures, 'corsIsLimited').and.returnValue(true);
