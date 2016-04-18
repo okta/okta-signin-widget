@@ -16,9 +16,10 @@ define([
   'views/primary-auth/SocialAuth',
   'models/PrimaryAuth',
   'shared/util/Util',
-  'util/BaseLoginController'
+  'util/BaseLoginController',
+  'util/Util'
 ],
-function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginController) {
+function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginController, SrcUtil) {
 
   var compile = Okta.Handlebars.compile;
   var _ = Okta._;
@@ -145,6 +146,12 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
           this.options.appState.set('username', '');
         }
       });
+    },
+
+    postRender: function() {
+      _.defer(_.bind(function () {
+        SrcUtil.triggerGeneralHookEvent();
+      }, this));
     }
 
   });
