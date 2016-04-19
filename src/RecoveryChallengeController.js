@@ -98,6 +98,7 @@ function (Okta, FormController, FormType, FooterSignout) {
     },
 
     postRender: function () {
+      FormController.prototype.postRender.apply(this, arguments);
       this.model.limitResending();
     }
 

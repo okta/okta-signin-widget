@@ -47,8 +47,8 @@ define(['okta'], function (Okta) {
     return xhr;
   },
 
-  Util.triggerGeneralHookEvent = function () {
-      $(document).trigger('generalHookEvent');
+  Util.triggerGeneralHookEvent = function (formName) {
+      $(document).trigger('generalHookEvent',[formName]);
   };
 
   return Util;

@@ -148,12 +148,6 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
       });
     },
 
-    postRender: function() {
-      _.defer(_.bind(function () {
-        SrcUtil.triggerGeneralHookEvent();
-      }, this));
-    }
-
   });
 
 });

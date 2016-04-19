@@ -83,12 +83,6 @@ function (Okta, FormController, FormType, ValidationUtil, FooterSignout, SrcUtil
       });
     },
 
-    postRender: function() {
-      _.defer(_.bind(function () {
-        SrcUtil.triggerGeneralHookEvent();
-      }, this));
-    }
-
   });
 
 });

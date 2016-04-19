@@ -13,6 +13,7 @@
 /*jshint newcap:false */
 define(['okta', 'vendor/lib/q'], function (Okta, Q) {
   var _ = Okta._;
+  var $ = Okta.$;
 
   function getForm(controller) {
     return _.find(controller.getChildren(), function (item) {
@@ -21,6 +22,7 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
   }
 
   return Okta.Controller.extend({
+    className: 'base-login-controller',
 
     // Ideally we should be attaching the listeners in the constructor, but because of the way
     // we construct the FormController (this.model is generated after the BaseLoginController's
@@ -92,6 +94,13 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
     toggleButtonState: function (state) {
       var button = this.$el.find('.button');
       button.toggleClass('link-button-disabled', state);
+    },
+
+    postRender: function() {
+      _.defer(_.bind(function () {
+        this.trigger('pageRenderedEvent',[this.className]);
+        console.log("Event triggered "+ this.className.toString());
+      }, this));
     }
 
   });

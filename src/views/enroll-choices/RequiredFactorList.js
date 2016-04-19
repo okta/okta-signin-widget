@@ -26,7 +26,6 @@ define(['okta', './FactorList'], function (Okta, FactorList) {
           currentStep = numCompleted + 1;
       this.listSubtitle = Okta.loc('enroll.choices.step', 'login', [currentStep, numRequired]);
     },
-
     postRender: function () {
       var currentModel, currentRow;
       FactorList.prototype.postRender.apply(this, arguments);

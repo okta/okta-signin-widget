@@ -79,6 +79,7 @@ function (Okta, FormController, FormType, FooterSignout) {
         ];
       }
     },
+
     Footer: FooterSignout
 
   });
