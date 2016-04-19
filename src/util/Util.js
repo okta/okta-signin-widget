@@ -16,6 +16,7 @@ define(['okta'], function (Okta) {
 
   var Util = {};
   var _ = Okta._;
+  var $ = Okta.$;
 
   Util.transformErrorXHR = function (xhr) {
     // Handle network connection error
@@ -44,6 +45,10 @@ define(['okta'], function (Okta) {
       }
     }
     return xhr;
+  },
+
+  Util.triggerGeneralHookEvent = function () {
+      $(document).trigger('generalHookEvent');
   };
 
   return Util;

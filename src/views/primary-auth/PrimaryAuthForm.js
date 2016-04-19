@@ -12,8 +12,8 @@
 
 define([
   'okta',
-  'views/shared/PasswordJammer'
-], function (Okta, PasswordJammer) {
+  'util/Util'
+], function (Okta) {
 
   var _ = Okta._;
 
@@ -45,9 +45,6 @@ define([
         }
         this.model.save();
       });
-      if (this.settings.get('features.preventBrowserFromSavingOktaPassword')) {
-        this.add(PasswordJammer);
-      }
     },
 
     inputs: function () {
