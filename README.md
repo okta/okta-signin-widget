@@ -11,12 +11,12 @@ If you want to modify the widget, use the following instructions.
 
 ## Building the widget
 
-1. Clone the widget repo.
+1. Clone the widget repo and navigate to the new `okta-signin-widget` folder.
   ```bash
-  [path]$ git clone git@github.com:okta/okta-signin-widget.git
+  [path]$ git clone git@github.com:okta/okta-signin-widget.git && cd okta-signin-widget
   ```
 
-2. Navigate to the new ```okta-signin-widget``` folder, and [install Bundler](http://bundler.io/) if you don't already have it.
+2. [Install Bundler](http://bundler.io/) if you don't already have it.
 
   ```bash
   [path/okta-signin-widget]$ gem install bundler
@@ -28,7 +28,7 @@ If you want to modify the widget, use the following instructions.
   [path/okta-signin-widget]$ bundle install
   ```
 
-4. Install the Okta node dependencies.
+4. Install our node dependencies.
 
   ```bash
   [path/okta-signin-widget]$ npm install
