@@ -6,12 +6,9 @@ If you want to use the widget, see the instructions on [the Okta Sign-In Widget 
 
 If you want to modify the widget, use the following instructions.
 
-<!-- ## Including the widget with NPM -->
-<!-- Content for this section to be added later. -->
-
 ## Building the widget
 
-1. Clone the widget repo and navigate to the new `okta-signin-widget` folder.
+1. Clone this repo and navigate to the new `okta-signin-widget` folder.
   ```bash
   [path]$ git clone git@github.com:okta/okta-signin-widget.git && cd okta-signin-widget
   ```
@@ -28,7 +25,7 @@ If you want to modify the widget, use the following instructions.
   [path/okta-signin-widget]$ bundle install
   ```
 
-4. Install our node dependencies.
+4. Install our Node dependencies.
 
   ```bash
   [path/okta-signin-widget]$ npm install
