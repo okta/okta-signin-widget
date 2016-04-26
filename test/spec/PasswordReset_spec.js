@@ -96,19 +96,6 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         Expect.isPasswordField(test.form.confirmPasswordField());
       });
     });
-    itp('has a password jammer if features.preventBrowserFromSavingOktaPassword is true', function () {
-      return setup({'features.preventBrowserFromSavingOktaPassword': true})
-      .then(function (test) {
-        expect(test.form.passwordJammer().length).toBe(1);
-      });
-    });
-    itp('does not have a password jammer if features.preventBrowserFromSavingOktaPassword is false', function () {
-      return setup({'features.preventBrowserFromSavingOktaPassword': false})
-      .then(function (test) {
-        var pj = test.form.passwordJammer();
-        expect(pj.length).toBe(0);
-      });
-    });
     itp('calls processCreds function before saving a model', function () {
       return setup().then(function (test) {
         $.ajax.calls.reset();

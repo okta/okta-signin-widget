@@ -5,7 +5,7 @@ var OktaSignIn = (function () {
 
   var _ = require('underscore');
 
-  function getProperties(authClient, config) {
+  function getProperties(authClient, LoginRouter, config) {
 
     /**
      * Check if a session exists
@@ -76,7 +76,6 @@ var OktaSignIn = (function () {
      * @param error - error callback function
      */
     function render(options, success, error) {
-      var LoginRouter = require('LoginRouter');
       var router = new LoginRouter(_.extend({}, config, options, {
         authClient: authClient,
         globalSuccessFn: success,
@@ -103,7 +102,7 @@ var OktaSignIn = (function () {
 
   function OktaSignIn(options) {
     var requireConfig = getRequireConfig(),
-        OktaAuth, Util, authClient;
+        OktaAuth, Util, authClient, LoginRouter;
 
     // Labels are special - we need to pass them directly to the Bundles module
     // to easily extend our existing properties. Other widget options should be
@@ -117,9 +116,15 @@ var OktaSignIn = (function () {
     require.config(requireConfig);
     OktaAuth = require('vendor/OktaAuth');
     Util = require('util/Util');
+    LoginRouter = require('LoginRouter');
+
 
     authClient = new OktaAuth({ uri: options.baseUrl, transformErrorXHR: Util.transformErrorXHR });
-    _.extend(this, getProperties(authClient, options));
+    _.extend(this, LoginRouter.prototype.Events, getProperties(authClient, LoginRouter, options));
+
+    // Triggers the event up the chain so it is available to the consumers of the widget.
+    this.listenTo(LoginRouter.prototype, 'all', this.trigger);
+
   }
 
   return OktaSignIn;

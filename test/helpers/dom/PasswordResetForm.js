@@ -33,10 +33,6 @@ define(['./Form'], function (Form) {
       return this.error(CONFIRM_PASSWORD_FIELD);
     },
 
-    passwordJammer: function () {
-      return this.$('.password-jammer');
-    },
-
     signoutLink: function () {
       return this.el('signout-link');
     }

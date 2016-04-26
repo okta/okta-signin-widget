@@ -281,20 +281,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           expect(cb.length).toBe(0);
         });
       });
-      itp('has a password jammer if features.preventBrowserFromSavingOktaPassword is true', function () {
-        return setup({'features.preventBrowserFromSavingOktaPassword': true})
-        .then(function (test) {
-          var pj = test.form.passwordJammer();
-          expect(pj.length).toBe(1);
-        });
-      });
-      itp('does not have a password jammer if features.preventBrowserFromSavingOktaPassword is false', function () {
-        return setup({'features.preventBrowserFromSavingOktaPassword': false})
-        .then(function (test) {
-          var pj = test.form.passwordJammer();
-          expect(pj.length).toBe(0);
-        });
-      });
       itp('has "Need help?" link', function () {
         return setup().then(function (test) {
           expect(test.form.helpFooterLabel().trim()).toBe('Need help signing in?');

@@ -52,6 +52,7 @@ function (Okta, Backbone, xdomain, RefreshAuthStateController, Settings, Header,
   }
 
   return Okta.Router.extend({
+    Events:  Backbone.Events,
 
     initialize: function (options) {
       var xdomainSlaves;
@@ -113,6 +114,7 @@ function (Okta, Backbone, xdomain, RefreshAuthStateController, Settings, Header,
       this.listenTo(this.appState, 'navigate', function (url) {
         this.navigate(url, { trigger: true });
       });
+
     },
 
     execute: function (cb, args) {
@@ -183,6 +185,9 @@ function (Okta, Backbone, xdomain, RefreshAuthStateController, Settings, Header,
       var oldController = this.controller;
       this.controller = new Controller(controllerOptions);
 
+      // Bubble up all controller events
+      this.listenTo(this.controller, 'all', this.trigger);
+
       // First run fetchInitialData, in case the next controller needs data
       // before it's initial render. This will leave the current page in a
       // loading state.
@@ -199,9 +204,10 @@ function (Okta, Backbone, xdomain, RefreshAuthStateController, Settings, Header,
 
         if (!oldController) {
           this.el.append(this.controller.el);
+          this.controller.postRenderAnimation();
           return;
         }
-
+        
         return Animations.swapPages({
           $parent: this.el,
           $oldRoot: oldController.$el,
@@ -213,6 +219,7 @@ function (Okta, Backbone, xdomain, RefreshAuthStateController, Settings, Header,
                 model = this.controller.model;
             oldController.remove();
             oldController.$el.remove();
+            this.controller.postRenderAnimation();
             if (flashError) {
               model.trigger('error', model, {
                 responseJSON: {

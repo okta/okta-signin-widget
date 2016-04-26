@@ -15,10 +15,9 @@ define([
   'util/FormController',
   'util/FormType',
   'util/ValidationUtil',
-  'views/shared/PasswordJammer',
   'views/shared/FooterSignout'
 ],
-function (Okta, FormController, FormType, ValidationUtil, PasswordJammer, FooterSignout) {
+function (Okta, FormController, FormType, ValidationUtil, FooterSignout) {
 
   var _ = Okta._;
 
@@ -45,11 +44,6 @@ function (Okta, FormController, FormType, ValidationUtil, PasswordJammer, Footer
     Form: {
       save: Okta.loc('password.reset', 'login'),
       title: Okta.loc('password.reset.title', 'login'),
-      initialize: function () {
-        if (this.settings.get('features.preventBrowserFromSavingOktaPassword')) {
-          this.add(PasswordJammer);
-        }
-      },
       formChildren: [
         FormType.Input({
           placeholder: Okta.loc('password.newPassword.placeholder', 'login'),

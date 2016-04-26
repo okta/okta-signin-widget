@@ -54,10 +54,6 @@ define(['jquery', 'underscore', './Form'], function ($, _, Form) {
       return isChecked ? 'checked' : 'unchecked';
     },
 
-    passwordJammer: function () {
-      return this.$('.password-jammer');
-    },
-
     usernameTooltipText: function () {
       return this.tooltipText(USERNAME_FIELD);
     },
