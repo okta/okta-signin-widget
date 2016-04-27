@@ -39,6 +39,7 @@ define([
   'PasswordResetController',
   'RecoveryLoadingController',
   'UnlockAccountController',
+  'AccountUnlockedController',
   'UnlockEmailSentController',
   'RefreshAuthStateController',
   'views/shared/SecurityBeacon',
@@ -51,8 +52,8 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
           ManualSetupPushController, EnrollmentLinkSentController, EnterPasscodePushFlowController,
           PasswordExpiredController, ForgotPasswordController, RecoveryChallengeController,
           PwdResetEmailSentController, RecoveryQuestionController, PasswordResetController,
-          RecoveryLoadingController, UnlockAccountController, UnlockEmailSentController,
-          RefreshAuthStateController, SecurityBeacon, FactorBeacon) {
+          RecoveryLoadingController, UnlockAccountController, AccountUnlockedController,
+          UnlockEmailSentController, RefreshAuthStateController, SecurityBeacon, FactorBeacon) {
   return BaseLoginRouter.extend({
 
     routes: {
@@ -89,6 +90,7 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
       'signin/recovery/:token': 'recoveryLoading',
       'signin/unlock-emailed': 'unlockEmailSent',
       'signin/unlock': 'unlockAccount',
+      'signin/account-unlocked': 'accountUnlocked',
       'signin/refresh-auth-state(/:token)': 'refreshAuthState',
       '*wildcard': 'primaryAuth'
     },
@@ -289,6 +291,10 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
 
     unlockAccount: function () {
       this.render(UnlockAccountController);
+    },
+
+    accountUnlocked: function () {
+      this.render(AccountUnlockedController, { Beacon: SecurityBeacon });
     },
 
     refreshAuthState: function (token) {

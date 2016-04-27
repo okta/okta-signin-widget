@@ -3,6 +3,7 @@ define(['./Form'], function (Form) {
   var ANSWER_FIELD = 'answer';
   var SHOW_ANSWER_FIELD = 'showAnswer';
   var CLASS_SELECTOR = '.recovery-question';
+  var BACK_TO_LOGIN_BTN = 'back-button';
 
   return Form.extend({
 
@@ -41,8 +42,18 @@ define(['./Form'], function (Form) {
 
     signoutLink: function () {
       return this.el('signout-link');
-    }
+    },
 
+    // unlock confirmation form
+
+    backToLoginButton: function () {
+      return this.el(BACK_TO_LOGIN_BTN);
+    },
+
+    goBackToLogin: function () {
+      this.backToLoginButton().click();
+    }
+    
   });
 
 });
