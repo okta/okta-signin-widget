@@ -1,4 +1,4 @@
-/*jshint maxparams:14 */
+/*jshint maxparams:15 */
 define([
   'vendor/lib/q',
   'underscore',
@@ -13,10 +13,11 @@ define([
   'helpers/xhr/RECOVERY',
   'helpers/xhr/RECOVERY_ANSWER_error',
   'helpers/xhr/200',
-  'helpers/xhr/SUCCESS'
+  'helpers/xhr/SUCCESS',
+  'helpers/xhr/SUCCESS_unlock'
 ],
 function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
-          $sandbox, resRecovery, resError, res200, resSuccess) {
+          $sandbox, resRecovery, resError, res200, resSuccess, resSuccessUnlock) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -154,6 +155,32 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
             stateToken: 'testStateToken'
           }
         });
+      });
+    });
+    itp('shows unlock page when response is success with unlock recoveryType', function () {
+      return setup().then(function (test) {
+        $.ajax.calls.reset();
+        test.form.setAnswer('4444');
+        test.setNextResponse(resSuccessUnlock);
+        test.form.submit();
+        return tick(test);
+      })
+      .then(function (test) {
+        expect($.ajax.calls.count()).toBe(1);
+        Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          url: 'https://foo.com/api/v1/authn/recovery/answer',
+          data: {
+            answer: '4444',
+            stateToken: 'testStateToken'
+          }
+        });
+        return tick(test);
+      })
+      .then(function (test) {
+        expect(test.form.titleText()).toBe('Account successfully unlocked!');
+        expect(test.form.backToLoginButton().length).toBe(1);
+        test.form.goBackToLogin();
+        expect(test.router.navigate).toHaveBeenCalledWith('', {trigger: true});
       });
     });
     itp('validates that the answer is not empty before submitting', function () {
