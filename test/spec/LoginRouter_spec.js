@@ -55,17 +55,20 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({uri: baseUrl});
+      var eventSpy = jasmine.createSpy('eventSpy');
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         globalSuccessFn: function () {}
       }, settings));
+      router.on('pageRendered', eventSpy);
       return tick().then(function () {
         return {
           router: router,
           ac: authClient,
-          setNextResponse: setNextResponse
+          setNextResponse: setNextResponse,
+          eventSpy: eventSpy
         };
       });
     }
@@ -531,6 +534,38 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, OktaAuth, Util, Expect, Router
           expect(err.message).toBe('There was a problem generating the id_token for the user. Please try again.');
         });
       });
+    });
+
+    describe('Events', function () {
+      itp('triggers a pageRendered event when first controller is loaded', function() {
+        return setup()
+        .then(function (test) {
+          test.router.primaryAuth();
+          return tick(test);
+        })
+        .then(function(test){
+          expect(test.eventSpy.calls.count()).toBe(1);
+          expect(test.eventSpy).toHaveBeenCalledWith({ page: 'primary-auth'});
+        });
+      });
+      itp('triggers a pageRendered event when navigating to a new controller', function() {
+        return setup()
+        .then(function (test) {
+          // Test navigation from primary Auth to Forgot password page
+          test.router.primaryAuth();
+          Util.mockRouterNavigate(test.router);
+          test.router.navigate('signin/forgot-password');
+            // Wait an extra tick for the animation success function to run
+          return tick(test);
+        })
+        .then(function (test) {
+          // since the event is triggered from the success function of the animation
+          // as well as after render, we expect two calls
+          expect(test.eventSpy.calls.count()).toBe(2);
+          expect(test.eventSpy.calls.allArgs()[0]).toEqual([{page: 'forgot-password'}]);
+          expect(test.eventSpy.calls.allArgs()[1]).toEqual([{page: 'forgot-password'}]);
+          });
+        });
     });
 
   });

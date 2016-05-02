@@ -47,6 +47,7 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
         }
         this.toggleButtonState(true);
       });
+
       this.listenTo(this.model, 'error', function () {
         this.toggleButtonState(false);
       });
@@ -69,7 +70,7 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
       }
     },
 
-    // Override this method to delay switching to thies screen until return
+    // Override this method to delay switching to this screen until return
     // promise is resolved. This is useful for cases like enrolling a security
     // question, which requires an additional request to fetch the question
     // list.
@@ -92,8 +93,13 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
     toggleButtonState: function (state) {
       var button = this.$el.find('.button');
       button.toggleClass('link-button-disabled', state);
-    }
+    },
 
+
+    postRenderAnimation: function() {
+      // Event triggered after a page is rendered along with the classname to identify the page
+      this.trigger('pageRendered', {page: this.className});
+    }
   });
 
 });
