@@ -11,7 +11,7 @@
  */
 
 define([
-  'okta',
+  'okta'
 ], function (Okta) {
 
   var _ = Okta._;
