@@ -175,6 +175,15 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return factors && factors.length > 1;
         }
       },
+      'userId': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._embedded || !res._embedded.user) {
+            return null;
+          }
+          return res._embedded.user.id;
+        }
+      },
       'isPwdExpiringSoon': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
