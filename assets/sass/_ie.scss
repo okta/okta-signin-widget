@@ -12,6 +12,16 @@
     }
   }
 
+  .auth {
+    max-height: 500px;
+    overflow: auto;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+  }
+
   .auth-beacon-border {
     bottom: -2px;
     left: -2px;
