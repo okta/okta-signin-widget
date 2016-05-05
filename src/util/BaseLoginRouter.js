@@ -108,7 +108,7 @@ function (Okta, Backbone, xdomain, RefreshAuthStateController, Settings, Header,
       });
 
       this.listenTo(this.appState, 'change:transaction', function (appState, trans) {
-        RouterUtil.routeAfterAuthStatusChange(this, null, trans.response);
+        RouterUtil.routeAfterAuthStatusChange(this, null, trans.data);
       });
 
       this.listenTo(this.appState, 'navigate', function (url) {
@@ -138,13 +138,13 @@ function (Okta, Backbone, xdomain, RefreshAuthStateController, Settings, Header,
       // Normal flow - we've either navigated to a stateless page, or are
       // in the middle of an auth flow
       var trans = this.appState.get('transaction');
-      if ((trans && trans.response) || isStateLessRouteHandler(this, cb)) {
+      if ((trans && trans.data) || isStateLessRouteHandler(this, cb)) {
         cb.apply(this, args);
         return;
       }
 
       // StateToken cookie exists on page load, and we are on a stateful url
-      if (this.settings.getAuthClient().transactionExists()) {
+      if (this.settings.getAuthClient().tx.exists()) {
         this.navigate(RouterUtil.createRefreshUrl(), { trigger: true });
         return;
       }

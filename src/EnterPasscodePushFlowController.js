@@ -52,8 +52,7 @@ function (Okta, FormController, RouterUtil, EnterPasscodeForm) {
         },
         save: function () {
           return this.doTransaction(function(transaction) {
-            return transaction
-            .activateFactor({
+            return transaction.activate({
               passCode: this.get('passCode')
             });
           });

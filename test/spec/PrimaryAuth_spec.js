@@ -36,6 +36,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
 
   var BEACON_LOADING_CLS = 'beacon-loading';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
+  var OIDC_NONCE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
   var VALID_ID_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXIiOjEsImlzc' +
                        'yI6Imh0dHBzOi8vZm9vLmNvbSIsInN1YiI6IjAwdWlsdE5RSzJXc3p' +
                        'zMlJWMGczIiwibG9naW4iOiJzYW1samFja3NvbkBnYWNrLm1lIiwiY' +
@@ -60,7 +61,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
 
     var setNextResponse = Util.mockAjax(requests);
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({uri: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+    var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
 
     var router = new Router(_.extend({
       el: $sandbox,
@@ -135,16 +136,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
   var setupWithTransformUsername = _.partial(setup, {username: 'foobar', transformUsername: transformUsername});
   var setupWithTransformUsernameOnUnlock = _.partial(setup, {transformUsername: transformUsernameOnUnlock});
 
-  describe('PrimaryAuth', function () {
-    beforeEach(function () {
-      $.fx.off = true;
-    });
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
-    });
+  Expect.describe('PrimaryAuth', function () {
 
-    describe('settings', function () {
+    Expect.describe('settings', function () {
       itp('uses default title', function () {
         return setup().then(function (test) {
           expect(test.form.titleText()).toEqual('Sign In');
@@ -205,7 +199,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       });
     });
 
-    describe('customizing the tooltip', function () {
+    Expect.describe('customizing the tooltip', function () {
       itp('if the placeholder and tooltip differ,' +
        'display both in the tooltip', function () {
         spyOn(Okta, 'loc').and.callFake(function (key) {
@@ -244,7 +238,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       });
     });
 
-    describe('elements', function () {
+    Expect.describe('elements', function () {
       itp('has a security beacon if features.securityImage is true', function () {
         return setup({ features: { securityImage: true }}, [resSecurityImage]).then(function (test) {
           expect(test.beacon.isSecurityBeacon()).toBe(true);
@@ -458,7 +452,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       });
     });
 
-    describe('transform username', function () {
+    Expect.describe('transform username', function () {
       itp('calls the transformUsername function with the right parameters', function () {
         return setupWithTransformUsername().then(function (test) {
           spyOn(test.router.settings, 'transformUsername');
@@ -587,9 +581,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       });
     });
 
-    describe('events', function () {
+    Expect.describe('events', function () {
 
-      describe('beacon loading', function () {
+      Expect.describe('beacon loading', function () {
         itp('shows beacon-loading animation when primaryAuth is submitted', function () {
           return setup({ features: { securityImage: true }})
           .then(function (test) {
@@ -1224,7 +1218,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       });
     });
 
-    describe('Social Auth', function () {
+    Expect.describe('Social Auth', function () {
       itp('does not show the divider or buttons if no idps are passed in', function () {
         return setup().then(function (test) {
           expect(test.form.hasSocialAuthDivider()).toBe(false);
@@ -1385,8 +1379,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
             'response_type=id_token&' +
             'response_mode=okta_post_message&' +
             'state=' + OIDC_STATE +
-            '&prompt=none&' +
-            'display=popup&' +
+            '&nonce=' + OIDC_NONCE +
+            '&display=popup&' +
             'idp=0oaidiw9udOSceD1234&' +
             'scope=openid%20email%20profile',
             'External Identity Provider User Authentication',
@@ -1409,7 +1403,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
             origin: 'https://foo.com',
             data: {
               id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE
+              state: OIDC_STATE,
+              nonce: OIDC_NONCE
             }
           });
           return tick();
@@ -1507,7 +1502,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
             origin: 'https://foo.com',
             data: {
               id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE
+              state: OIDC_STATE,
+              nonce: OIDC_NONCE
             }
           });
           return tick(test);

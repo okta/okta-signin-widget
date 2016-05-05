@@ -26,7 +26,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
   function setup(settings) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({uri: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+    var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -51,14 +51,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     });
   }
 
-  describe('PasswordReset', function () {
-    beforeEach(function () {
-      $.fx.off = true;
-    });
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
-    });
+  Expect.describe('PasswordReset', function () {
     itp('displays the security beacon if enabled', function () {
       return setup({ 'features.securityImage': true }).then(function (test) {
         expect(test.beacon.isSecurityBeacon()).toBe(true);

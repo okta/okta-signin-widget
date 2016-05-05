@@ -13,11 +13,12 @@
 /* jshint maxstatements: 18 */
 define([
   'okta',
+  'vendor/lib/q',
   'util/CookieUtil',
   'util/FactorUtil',
   './BaseLoginModel'
 ],
-function (Okta, CookieUtil, factorUtil, BaseLoginModel) {
+function (Okta, Q, CookieUtil, factorUtil, BaseLoginModel) {
   var _ = Okta._;
 
   // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
@@ -204,18 +205,19 @@ function (Okta, CookieUtil, factorUtil, BaseLoginModel) {
 
         var promise;
         // MFA_REQUIRED
-        if (transaction.getFactorById) {
-          promise = transaction
-          .getFactorById(this.get('id'))
-          .verifyFactor(data);
+        if (transaction.status === 'MFA_REQUIRED') {
+          var factor = _.findWhere(transaction.factors, {
+            id: this.get('id')
+          });
+          promise = factor.verify(data);
         }
 
         // MFA_CHALLENGE
-        else if (this.get('canUseResend') && transaction.resendByName) {
-          var firstLink = transaction.response._links.resend[0];
-          promise = transaction.resendByName(firstLink.name);
+        else if (this.get('canUseResend') && transaction.resend) {
+          var firstLink = transaction.data._links.resend[0];
+          promise = transaction.resend(firstLink.name);
         } else {
-          promise = transaction.verifyFactor(data);
+          promise = transaction.verify(data);
         }
         //the 'save' event here is triggered and used in the BaseLoginController
         //to disable the primary button on the factor form
@@ -223,9 +225,10 @@ function (Okta, CookieUtil, factorUtil, BaseLoginModel) {
 
         return promise
         .then(function (trans) {
-          var res = trans.response;
-          if (res.status === 'MFA_CHALLENGE' && res._links.next.name === 'poll') {
-            return trans.startVerifyFactorPoll(PUSH_INTERVAL);
+          if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
+            return Q.delay(PUSH_INTERVAL).then(function() {
+              return trans.poll(PUSH_INTERVAL);
+            });
           }
           return trans;
         })

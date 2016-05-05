@@ -23,7 +23,7 @@ function (Q, _, $, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView
   function setup(settings, callRecoveryLoading) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({uri: baseUrl});
+    var authClient = new OktaAuth({url: baseUrl});
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -51,10 +51,7 @@ function (Q, _, $, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView
     });
   }
 
-  describe('Recovery Loading', function () {
-    afterEach(function () {
-      $sandbox.empty();
-    });
+  Expect.describe('Recovery Loading', function () {
 
     itp('makes a request with correct token passed in url', function () {
       return setup({}, true).then(function (test) {

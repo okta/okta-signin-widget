@@ -48,9 +48,7 @@ function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType,
         this.set('rememberDevice', rememberDevice);
       },
 
-      getInitOptions: function (appState) {
-        var factors = appState.get('factors'),
-            factor = factors.findWhere({ provider: 'DUO', factorType: 'web' });
+      getInitOptions: function () {
         var rememberDevice = !!this.get('rememberDevice');
         var username = this.appState.get('username');
         // Set/Remove the remember device cookie based on the remember device input.
@@ -59,14 +57,15 @@ function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType,
         } else {
           CookieUtil.removeDeviceCookie();
         }
-
         return this.doTransaction(function(transaction) {
           var data = {
             rememberDevice: rememberDevice
           };
-          return transaction
-          .getFactorById(factor.id)
-          .verifyFactor(data)
+          var factor = _.findWhere(transaction.factors, {
+            provider: 'DUO',
+            factorType: 'web'
+          });
+          return factor.verify(data)
           .fail(function (err) {
             // Clean up the cookie on failure.
             CookieUtil.removeDeviceCookie();
@@ -94,7 +93,7 @@ function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType,
         return Q($.post(url, data))
         .then(function () {
           return self.doTransaction(function(transaction) {
-            return transaction.startVerifyFactorPoll();
+            return transaction.poll();
           });
         })
         .fail(function (err) {
@@ -135,9 +134,9 @@ function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType,
 
     fetchInitialData: function () {
       var self = this;
-      return this.model.getInitOptions(this.options.appState)
+      return this.model.getInitOptions()
       .then(function (trans) {
-        var res = trans.response;
+        var res = trans.data;
         if (!res._embedded || !res._embedded.factor || !res._embedded.factor._embedded ||
             !res._embedded.factor._embedded.verification) {
           throw new Error('Response does not have duo verification options');

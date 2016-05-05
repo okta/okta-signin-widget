@@ -1,4 +1,19 @@
+/*!
+ * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
+
+
+
 define(['vendor/lib/q', 'jquery'], function(Q, $) {
+
 
 /* Base64.js
  *
@@ -85,10 +100,13 @@ if (!Array.prototype.indexOf) {
   };
 }
 
-
-function isVerifySupported() {
-  return typeof crypto !== 'undefined' && crypto.subtle && typeof Uint8Array !== 'undefined';
+if (!Array.isArray) {
+  Array.isArray = function(obj) {
+    return Object.prototype.toString.call(obj) === '[object Array]';
+  };
 }
+
+
 
 function stringToBuffer(str) {
   var res = new Uint8Array(str.length);
@@ -134,9 +152,11 @@ function verifyToken(idToken, key) {
 }
 
 
-/* globals process, console, Q, JSON, escape, verifyToken, isVerifySupported */
+
+/* globals process, console, Q, JSON, escape, verifyToken, crypto */
 /*jshint maxcomplexity:15 */
 
+var SDK_VERSION = '1.0.1'; // Will be replaced by grunt
 var LOG_PREFIX = '[OktaAuth]';
 var STATE_TOKEN_COOKIE_NAME = 'oktaStateToken';
 var FRAME_ID = 'okta-oauth-helper-frame';
@@ -175,6 +195,12 @@ function AuthSdkError(msg, xhr) {
 }
 AuthSdkError.prototype = new Error();
 
+function AuthPollStopError() {
+  this.name = 'AuthPollStopError';
+  this.message = 'The poll was stopped by the sdk';
+}
+AuthPollStopError.prototype = new Error();
+
 function OAuthError(errorCode, summary) {
   this.name = 'OAuthError';
   this.message = summary;
@@ -206,6 +232,15 @@ function error() {
 }
 
 // UTILS
+function bind(fn, ctx) {
+  var additionalArgs = Array.prototype.slice.call(arguments, 2);
+  return function() {
+    var args = Array.prototype.slice.call(arguments);
+    args = additionalArgs.concat(args);
+    return fn.apply(ctx, args);
+  };
+}
+
 function isAbsoluteUrl(url) {
   return /^(?:[a-z]+:)?\/\//i.test(url);
 }
@@ -365,76 +400,57 @@ function deleteCookie(name) {
   setCookie(name, '', '1970-01-01T00:00:00Z');
 }
 
-function addStateToken(trans, options) {
+function addStateToken(res, options) {
   var builtArgs = clone(options) || {};
 
   // Add the stateToken if one isn't passed and we have one
-  if (!builtArgs.stateToken && trans.response && trans.response.stateToken) {
-    builtArgs.stateToken = trans.response.stateToken;
+  if (!builtArgs.stateToken && res.stateToken) {
+    builtArgs.stateToken = res.stateToken;
   }
 
   return builtArgs;
 }
 
-function getStateToken(trans) {
-  return addStateToken(trans);
+function getStateToken(res) {
+  return addStateToken(res);
 }
 
 function AuthTransaction(sdk, res) {
   if (res) {
-    this.response = res;
+    this.data = res;
+    extend(this, flattenEmbedded(sdk, res, res, {}));
+    delete this.stateToken;
 
-    if (res.status) {
-      this.status = res.status;
-      var methods = STATE_MAP[res.status](sdk, this);
-      extend(this, methods);
+    // RECOVERY_CHALLENGE has some responses without _links.
+    // Without _links, we emulate cancel to make it intuitive
+    // to return to the starting state. We may remove this
+    // when OKTA-75434 is resolved
+    if (res.status === 'RECOVERY_CHALLENGE' && !res._links) {
+      this.cancel = function() {
+        return new Q(new AuthTransaction(sdk));
+      };
     }
   }
 }
 
-function postToTransaction(sdk, uri, options) {
-  return sdk.post(uri, options)
+function postToTransaction(sdk, url, options) {
+  return post(sdk, url, options)
     .then(function(res) {
       return new AuthTransaction(sdk, res);
     });
 }
 
-function getCancelFn(sdk, trans, ref) {
-  function cancel() {
-    if (ref) {
-      ref.isPolling = false;
-    }
-    var cancelLink = getLink(trans.response, 'cancel');
-    return postToTransaction(sdk, cancelLink.href, getStateToken(trans));
-  }
-  return cancel;
-}
-
-function getPreviousFn(sdk, trans, ref) {
-  function previous() {
-    if (ref) {
-      ref.isPolling = false;
-    }
-    var previousLink = getLink(trans.response, 'prev');
-    return postToTransaction(sdk, previousLink.href, getStateToken(trans));
-  }
-  return previous;
-}
-
-function getPollFn(sdk, trans, ref) {
+function getPollFn(sdk, res, ref) {
   return function (delay) {
     if (!delay && delay !== 0) {
       delay = DEFAULT_POLLING_DELAY;
     }
 
     // Get the poll function
-    var pollLink = getLink(trans.response, 'next', 'poll');
+    var pollLink = getLink(res, 'next', 'poll');
     function pollFn() {
-      return sdk.post(pollLink.href, getStateToken(trans), true, true);
+      return post(sdk, pollLink.href, getStateToken(res), true, true);
     }
-
-    // Exposed to stop any polling in tests
-    pollFn.__ref = ref;
 
     ref.isPolling = true;
 
@@ -443,20 +459,20 @@ function getPollFn(sdk, trans, ref) {
 
       // If the poll was manually stopped during the delay
       if (!ref.isPolling) {
-        return Q.resolve(trans);
+        return Q.reject(new AuthPollStopError());
       }
 
       return pollFn()
-        .then(function (res) {
+        .then(function (pollRes) {
           // Reset our retry counter on success
           retryCount = 0;
 
           // If we're still waiting
-          if (res.factorResult && res.factorResult === 'WAITING') {
+          if (pollRes.factorResult && pollRes.factorResult === 'WAITING') {
 
             // If the poll was manually stopped while the pollFn was called
             if (!ref.isPolling) {
-              return trans;
+              throw new AuthPollStopError();
             }
 
             // Continue poll
@@ -467,7 +483,7 @@ function getPollFn(sdk, trans, ref) {
             // Any non-waiting result, even if polling was stopped
             // during a request, will return
             ref.isPolling = false;
-            return new AuthTransaction(sdk, res);
+            return new AuthTransaction(sdk, pollRes);
           }
         })
         .fail(function(err) {
@@ -491,389 +507,162 @@ function getPollFn(sdk, trans, ref) {
   };
 }
 
-// STATE DEFINITIONS
-var STATE_MAP = {}; /* jshint ignore: line */
-
-STATE_MAP['RECOVERY'] = function (sdk, trans) {
-  var answerLink = getLink(trans.response, 'next', 'answer');
-  if (answerLink) {
-    return {
-
-      // { answer }
-      answerRecoveryQuestion: function (options) {
-        var data = addStateToken(trans, options);
-        return postToTransaction(sdk, answerLink.href, data);
-      },
-
-      // no arguments
-      cancel: getCancelFn(sdk, trans)
-    };
-
-  } else {
-    return {
-
-      // { recoveryToken }
-      verifyRecoveryToken: function (options) {
-        var recoveryLink = getLink(trans.response, 'next', 'recovery');
-        return postToTransaction(sdk, recoveryLink.href, options);
-      },
-
-      // no arguments
-      cancel: getCancelFn(sdk, trans)
-    };
-  }
-};
-
-STATE_MAP['RECOVERY_CHALLENGE'] = function (sdk, trans) {
-  // This state has some responses without _links.
-  // Without _links, we emulate cancel to make it
-  // intuitive to return to the starting state. We 
-  // may remove this when OKTA-75434 is resolved
-  if (!trans.response._links) {
-    return {
-      cancel: function() {
-        return new Q(new AuthTransaction(sdk));
-      }
-    };
-  }
-
-  return {
-
-    // { passCode }
-    verifyRecovery: function(options) {
-      var data = addStateToken(trans, options);
-      var verifyLink = getLink(trans.response, 'next', 'verify');
-
-      return postToTransaction(sdk, verifyLink.href, data);
-    },
-
-    resendByName: function(name) {
-      var resendLink = getLink(trans.response, 'resend', name);
-      if (!resendLink) {
-        var err = new AuthSdkError('"' + name + '" is not a valid name for recovery');
-        return Q.reject(err);
-      }
-      return postToTransaction(sdk, resendLink.href, getStateToken(trans));
-    },
-
-    // no arguments
-    cancel: getCancelFn(sdk, trans)
-  };
-};
-
-STATE_MAP['LOCKED_OUT'] = function (sdk, trans) {
-  return {
-
-    // { username, (relayState) }
-    unlockAccount: function (options) {
-      var unlockLink = getLink(trans.response, 'next', 'unlock');
-      return postToTransaction(sdk, unlockLink.href, options);
-    },
-    
-    // no arguments
-    cancel: getCancelFn(sdk, trans)
-  };
-};
-
-STATE_MAP['PASSWORD_EXPIRED'] = function (sdk, trans) {
-  return {
-
-    // { newPassword }
-    changePassword: function (options) {
-      var data = addStateToken(trans, options);
-      var passwordLink = getLink(trans.response, 'next', 'changePassword');
-      return postToTransaction(sdk, passwordLink.href, data);
-    },
-
-    // no arguments
-    cancel: getCancelFn(sdk, trans)
-  };
-};
-
-STATE_MAP['PASSWORD_WARN'] = function (sdk, trans) {
-  return {
-
-    // { newPassword }
-    changePassword: function (options) {
-      var data = addStateToken(trans, options);
-      var passwordLink = getLink(trans.response, 'next', 'changePassword');
-      return postToTransaction(sdk, passwordLink.href, data);
-    },
-
-    // no arguments
-    skip: function () {
-      var skipLink = getLink(trans.response, 'skip', 'skip');
-      return postToTransaction(sdk, skipLink.href, getStateToken(trans));
-    },
-
-    // no arguments
-    cancel: getCancelFn(sdk, trans)
-  };
-};
-
-STATE_MAP['PASSWORD_RESET'] = function (sdk, trans) {
-  return {
-
-    // { newPassword }
-    resetPassword: function (options) {
-      var data = addStateToken(trans, options);
-      var passwordLink = getLink(trans.response, 'next', 'resetPassword');
-      return postToTransaction(sdk, passwordLink.href, data);
-    },
-
-    // no arguments
-    cancel: getCancelFn(sdk, trans)
-  };
-};
-
-STATE_MAP['MFA_ENROLL'] = function (sdk, trans) {
-  var methods = {
-
-    // no arguments
-    cancel: getCancelFn(sdk, trans),
-
-    getFactorByTypeAndProvider: function (type, provider) {
-
-      var factor = find(trans.response._embedded.factors, { factorType: type, provider: provider });
-      if (!factor) {
-        var err = 'No factor with a type of ' + type + ' and a provider of ' + provider;
-        error(err);
-        throw new AuthSdkError(err);
+function link2fn(sdk, res, obj, link, ref) {
+  if (Array.isArray(link)) {
+    return function(name, opts) {
+      if (!name) {
+        throw new AuthSdkError('Must provide a link name');
       }
 
-      var factorMethods = {
+      var lk = find(link, {name: name});
+      if (!lk) {
+        throw new AuthSdkError('No link found for that name');
+      }
 
-        /*
-          Append the profile property to the factor
-          Type                | Profile
-          question            | { question, answer }
-          sms                 | { phoneNumber, updatePhone }
-          token:software:totp | no profile
-          push                | no profile
-        */
-        enrollFactor: function(options) {
-          var enrollLink = getLink(factor, 'enroll');
-          var data = clone(options) || {};
+      return link2fn(sdk, res, obj, lk, ref)(opts);
+    };
 
-          if (data.profile && data.profile.updatePhone !== undefined) {
-            if (data.profile.updatePhone) {
-              enrollLink.href += '?updatePhone=true';
-            }
-            delete data.profile.updatePhone;
-          }
+  } else if (link.hints &&
+      link.hints.allow &&
+      link.hints.allow.length === 1) {
+    var method = link.hints.allow[0];
+    switch (method) {
 
-          data.factorType = type;
-          data.provider = provider;
-
-          data = addStateToken(trans, data);
-          return postToTransaction(sdk, enrollLink.href, data);
-        }
-      };
-
-      if (type === 'question') {
-        // no arguments
-        factorMethods.getQuestions = function() {
-          var questionLink = getLink(factor, 'questions');
-          return sdk.get(questionLink.href);
+      case 'GET':
+        return function() {
+          return get(sdk, link.href);
         };
-      }
 
-      return factorMethods;
-    }
-  };
-
-  var skipLink = getLink(trans.response, 'skip');
-  if (skipLink) {
-    methods.skip = function() {
-      return postToTransaction(sdk, skipLink.href, getStateToken(trans));
-    };
-  }
-
-  return methods;
-};
-
-STATE_MAP['MFA_ENROLL_ACTIVATE'] = function (sdk, trans) {
-
-  // A reference to manage polling
-  var ref = {
-    isPolling: false
-  };
-
-  // Default methods for MFA_CHALLENGE states
-  var methods = {
-
-    // no arguments
-    previous: getPreviousFn(sdk, trans, ref),
-
-    // no arguments
-    cancel: getCancelFn(sdk, trans, ref)
-  };
-
-  var pollLink = getLink(trans.response, 'next', 'poll');
-  if (pollLink) {
-
-    // polls until factorResult changes
-    // optional polling interval in millis
-    methods.startEnrollFactorPoll = getPollFn(sdk, trans, ref);
-
-    // no arguments
-    methods.stopEnrollFactorPoll = function() {
-      ref.isPolling = false;
-    };
-
-  } else {
-
-    /*
-        Just send the profile
-        Type                | Profile
-        sms                 | { passCode }
-        token:software:totp | { passCode }
-        push                | no profile
-    */
-    methods.activateFactor = function(options) {
-      var data = addStateToken(trans, options);
-      var activateLink = getLink(trans.response, 'next', 'activate');
-      return postToTransaction(sdk, activateLink.href, data);
-    };
-  }
-
-  var resendLinks = getLink(trans.response, 'resend');
-  if (resendLinks) {
-    methods.resendByName = function(name) {
-      var resendLink = find(resendLinks, { name: name });
-      return postToTransaction(sdk, resendLink.href, getStateToken(trans));
-    };
-  }
-
-  return methods;
-};
-
-STATE_MAP['MFA_REQUIRED'] = function (sdk, trans) {
-  return {
-
-    // no arguments
-    cancel: getCancelFn(sdk, trans),
-
-    getFactorById: function (id) {
-      var factor = find(trans.response._embedded.factors, { id: id });
-      if (!factor) {
-        var err = 'No factor with an id of ' + id;
-        error(err);
-        throw new AuthSdkError(err);
-      }
-
-      return {
-
-        /*
-          Just send the profile
-          Type                | Profile
-          question            | { answer }
-          sms (send passCode) | no arguments
-          sms (validate)      | { passCode }
-          token:software:totp | { passCode }
-          push                | no arguments
-        */
-        verifyFactor: function(options) {
-          var data = addStateToken(trans, options);
-          var verifyLink = getLink(factor, 'verify');
-
-          if (data && data.rememberDevice !== undefined) {
-            if (data.rememberDevice) {
-              verifyLink.href += '?rememberDevice=true';
-            }
-            delete data.rememberDevice;
+      case 'POST':
+        return function(opts) {
+          if (ref && ref.isPolling) {
+            ref.isPolling = false;
           }
 
-          return postToTransaction(sdk, verifyLink.href, data);
-        }
-      };
+          var data = addStateToken(res, opts);
+
+          if (res.status === 'MFA_ENROLL') {
+            // Add factorType and provider
+            extend(data, {
+              factorType: obj.factorType,
+              provider: obj.provider
+            });
+          }
+
+          var href = link.href;
+          if (data.rememberDevice !== undefined) {
+            if (data.rememberDevice) {
+              href += '?rememberDevice=true';
+            }
+            data = omit(data, 'rememberDevice');
+
+          } else if (data.profile &&
+                    data.profile.updatePhone !== undefined) {
+            if (data.profile.updatePhone) {
+              href += '?updatePhone=true';
+            }
+            data.profile = omit(data.profile, 'updatePhone');
+          }
+
+          return postToTransaction(sdk, href, data);
+        };
     }
-  };
-};
+  }
+}
 
-STATE_MAP['MFA_CHALLENGE'] = function (sdk, trans) {
+function links2fns(sdk, res, obj, ref) {
+  var fns = {};
+  for (var linkName in obj._links) {
+    if (!obj._links.hasOwnProperty(linkName)) {
+      continue;
+    }
 
-  // A reference to manage polling
-  var ref = {
-    isPolling: false
-  };
+    var link = obj._links[linkName];
+    
+    if (linkName === 'next') {
+      linkName = link.name;
+    }
 
-  // Default methods for MFA_CHALLENGE states
-  var methods = {
+    if (link.type) {
+      fns[linkName] = link;
+      continue;
+    }
 
-    // no arguments
-    previous: getPreviousFn(sdk, trans, ref),
+    switch (linkName) {
+      // poll is only found at the transaction
+      // level, so we don't need to pass the link
+      case 'poll':
+        fns.poll = getPollFn(sdk, res, ref);
+        break;
 
-    // no arguments
-    cancel: getCancelFn(sdk, trans, ref)
-  };
-
-  var pollLink = getLink(trans.response, 'next', 'poll');
-
-  if (pollLink) {
-
-    // polls until factorResult changes
-    // optional polling interval in millis
-    methods.startVerifyFactorPoll = getPollFn(sdk, trans, ref);
-
-    // no arguments
-    methods.stopVerifyFactorPoll = function() {
-      ref.isPolling = false;
-    };
-
-  } else {
-
-    /*
-      Just send the profile
-      Type                | Profile
-      question            | { answer }
-      token:software:totp | { passCode }
-    */
-    methods.verifyFactor = function(options) {
-      var data = addStateToken(trans, options);
-      var verifyLink = getLink(trans.response, 'next', 'verify');
-
-      if (data.rememberDevice !== undefined) {
-        if (data.rememberDevice) {
-          verifyLink.href += '?rememberDevice=true';
+      default:
+        var fn = link2fn(sdk, res, obj, link, ref);
+        if (fn) {
+          fns[linkName] = fn;
         }
-        delete data.rememberDevice;
-      }
+    }
+  }
+  return fns;
+}
 
-      return postToTransaction(sdk, verifyLink.href, data);
-    };
+function flattenEmbedded(sdk, res, obj, ref) { /* jshint ignore:line */
+  obj = obj || res;
+  obj = clone(obj);
+
+  if (Array.isArray(obj)) {
+    var objArr = [];
+    for (var o = 0, ol = obj.length; o < ol; o++) {
+      objArr.push(flattenEmbedded(sdk, res, obj[o], ref));
+    }
+    return objArr;
   }
 
-  var resendLinks = getLink(trans.response, 'resend');
-  if (resendLinks) {
-    methods.resendByName = function(name) {
-      var resendLink = find(resendLinks, { name: name });
-      return postToTransaction(sdk, resendLink.href, getStateToken(trans));
-    };
+  var embedded = obj._embedded || {};
+
+  for (var key in embedded) {
+    if (!embedded.hasOwnProperty(key)) {
+      continue;
+    }
+
+    // Flatten any nested _embedded objects
+    if (embedded[key] !== null && embedded[key] !== undefined) {
+      embedded[key] = flattenEmbedded(sdk, res, embedded[key], ref);
+    }
   }
 
-  return methods;
-};
+  // Convert any links on the embedded object
+  var fns = links2fns(sdk, res, obj, ref);
+  extend(embedded, fns);
 
-STATE_MAP['SUCCESS'] = function () { return {}; };
+  obj = omit(obj, '_embedded', '_links');
+  extend(obj, embedded);
+  return obj;
+}
 
 // HTTP METHODS
 
 function httpRequest(sdk, url, method, args, dontSaveResponse) {
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'X-Okta-SDK': 'okta-auth-js-' + SDK_VERSION
+  };
+  extend(headers, sdk.options.headers || {});
+
   var options = {
-    headers: sdk.headers,
+    headers: headers,
     data: args || undefined
   };
 
   log('Request: ', method, url, options);
 
   var err, res;
-  return new Q(sdk.ajaxRequest(method, url, options))
-    .then(function(resp) { /* jshint ignore: line */
+  return new Q(sdk.options.ajaxRequest(method, url, options))
+    .then(function(resp) {
       log('Response: ', resp);
 
       res = resp.responseText;
-      if (isString(res)) {
+      if (res && isString(res)) {
         res = JSON.parse(res);
       }
 
@@ -907,8 +696,8 @@ function httpRequest(sdk, url, method, args, dontSaveResponse) {
 
       error('Error: ' + resp);
 
-      if (sdk.transformErrorXHR) {
-        resp = sdk.transformErrorXHR(clone(resp));
+      if (sdk.options.transformErrorXHR) {
+        resp = sdk.options.transformErrorXHR(clone(resp));
       }
 
       err = new AuthApiError(serverErr, resp);
@@ -921,62 +710,106 @@ function httpRequest(sdk, url, method, args, dontSaveResponse) {
     });
 }
 
-function OktaAuth(args) { // jshint ignore:line
+function get(sdk, url, saveResponse) { /* jshint ignore:line */
+  url = isAbsoluteUrl(url) ? url : sdk.options.url + url;
+  return httpRequest(sdk, url, 'GET', undefined, !saveResponse);
+}
+
+function post(sdk, url, args, dontSaveResponse) { /* jshint ignore:line */
+  url = isAbsoluteUrl(url) ? url : sdk.options.url + url;
+  return httpRequest(sdk, url, 'POST', args, dontSaveResponse);
+}
+
+function OktaAuth(args) {
+  var sdk = this;
 
   if (!(this instanceof OktaAuth)) {
     return new OktaAuth(args);
   }
 
   if (!args) {
-    throw new AuthSdkError('OktaAuth must be provided arguments');
+    throw new AuthSdkError('No arguments passed to constructor. ' +
+      'Required usage: new OktaAuth(args)');
   }
 
-  if (!args.uri) {
-    throw new AuthSdkError('OktaAuth must be provided a uri');
+  if (!args.url) {
+    throw new AuthSdkError('No url passed to constructor. ' +
+      'Required usage: new OktaAuth({url: "https://sample.okta.com"})');
   }
 
   DEBUG = args.debug;
 
-  this.uri = args.uri;
-
-  // Remove trailing forward slash
-  if (this.uri.slice(-1) === '/') {
-    this.uri = this.uri.slice(0, -1);
-  }
-
-  this.apiToken = args.apiToken;
-  this.ajaxRequest = args.ajaxRequest || this.ajaxRequest;
-  this.transformErrorXHR = args.transformErrorXHR;
-  this.clientId = args.clientId;
-  this.redirectUri = args.redirectUri;
-
-  this.headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
+  this.options = {
+    url: args.url,
+    clientId: args.clientId,
+    redirectUri: args.redirectUri,
+    ajaxRequest: args.ajaxRequest || this.ajaxRequest,
+    transformErrorXHR: args.transformErrorXHR,
+    headers: args.headers
   };
 
-  if (args.apiToken) {
-    this.headers['Authorization'] = 'SSWS ' + args.apiToken;
+  // Remove trailing forward slash from url
+  if (this.options.url.slice(-1) === '/') {
+    this.options.url = this.options.url.slice(0, -1);
   }
+
+  sdk.session = {
+    close: bind(closeSession, sdk, sdk),
+    exists: bind(sessionExists, sdk, sdk),
+    get: bind(getSession, sdk, sdk),
+    refresh: bind(refreshSession, sdk, sdk),
+    setCookieAndRedirect: bind(setCookieAndRedirect, sdk, sdk)
+  };
+
+  sdk.tx = {
+    status: bind(transactionStatus, sdk, sdk),
+    resume: bind(resumeTransaction, sdk, sdk),
+    exists: bind(transactionExists, sdk, sdk)
+  };
+
+  // This is exposed so we can mock document.cookie in our tests
+  sdk.tx.exists._getCookie = function(name) {
+    return getCookie(name);
+  };
+
+  sdk.idToken = {
+    authorize: bind(getIdToken, sdk, sdk),
+    verify: bind(verifyIdToken, sdk, sdk),
+    refresh: bind(refreshIdToken, sdk, sdk),
+    decode: bind(decodeIdToken, sdk)
+  };
+
+  // This is exposed so we can mock window.location.href in our tests
+  sdk.idToken.authorize._getLocationHref = function() {
+    return window.location.href;
+  };
 
   log('OktaAuth created');
 }
 
 var proto = OktaAuth.prototype;
 
-proto.get = function(url, saveResponse) {
-  url = isAbsoluteUrl(url) ? url : this.uri + url;
-  return httpRequest(this, url, 'GET', undefined, !saveResponse);
+proto.features = {};
+
+proto.features.isPopupPostMessageSupported = function() {
+  var isIE8or9 = document.documentMode && document.documentMode < 10;
+  if (window.postMessage && !isIE8or9) {
+    return true;
+  }
+  return false;
 };
 
-proto.post = function(url, args, dontSaveResponse) {
-  url = isAbsoluteUrl(url) ? url : this.uri + url;
-  return httpRequest(this, url, 'POST', args, dontSaveResponse);
+proto.features.isTokenVerifySupported = function() {
+  return typeof crypto !== 'undefined' && crypto.subtle && typeof Uint8Array !== 'undefined';
 };
 
 // { username, password, (relayState), (context) }
-proto.primaryAuth = function (opts) {
+proto.signIn = function (opts) {
   return postToTransaction(this, '/api/v1/authn', opts);
+};
+
+proto.signOut = function () {
+  return this.session.close();
 };
 
 // { username, (relayState) }
@@ -994,12 +827,14 @@ proto.verifyRecoveryToken = function (opts) {
   return postToTransaction(this, '/api/v1/authn/recovery/token', opts);
 };
 
-// NON-STANDARD METHODS
+function transactionStatus(sdk, args) { /* jshint ignore:line */
+  args = addStateToken(this, args);
+  return post(this, sdk.options.url + '/api/v1/authn', args);
+}
 
-proto.resumeTransaction = function(args) {
-  var sdk = this;
+function resumeTransaction(sdk, args) { /* jshint ignore:line */
   if (!args || !args.stateToken) {
-    var stateToken = sdk.transactionExists._getCookie(STATE_TOKEN_COOKIE_NAME);
+    var stateToken = sdk.tx.exists._getCookie(STATE_TOKEN_COOKIE_NAME);
     if (stateToken) {
       args = {
         stateToken: stateToken
@@ -1008,32 +843,20 @@ proto.resumeTransaction = function(args) {
       return Q.reject(new AuthSdkError('No transaction to resume'));
     }
   }
-  return sdk.status(args)
+  return sdk.tx.status(args)
     .then(function(res) {
       return new AuthTransaction(sdk, res);
     });
-};
+}
 
-proto.transactionExists = function() {
+function transactionExists(sdk) { /* jshint ignore:line */
   // We have a cookie state token
-  return !!this.transactionExists._getCookie(STATE_TOKEN_COOKIE_NAME);
-};
+  return !!sdk.tx.exists._getCookie(STATE_TOKEN_COOKIE_NAME);
+}
 
-// This is exposed so we can mock document.cookie in our tests
-proto.transactionExists._getCookie = function(name) {
-  return getCookie(name);
-};
-
-// STANDARD METHODS
-
-proto.status = function(args) {
-  args = addStateToken(this, args);
-  return this.post(this.uri + '/api/v1/authn', args);
-};
-
-proto.getWellKnown = function() {
-  return this.get(this.uri + '/.well-known/openid-configuration');
-};
+function getWellKnown(sdk) {
+  return get(sdk, sdk.options.url + '/.well-known/openid-configuration');
+}
 
 function base64UrlToBase64(b64u) {
   return b64u.replace(/\-/g, '+').replace(/_/g, '/');
@@ -1091,7 +914,7 @@ function validateClaims(claims, iss, aud) {
   }
 }
 
-proto.decodeIdToken = function(idToken) {
+function decodeIdToken(idToken) { /* jshint ignore:line */
   var jwt = idToken.split('.');
   var decodedToken;
 
@@ -1106,15 +929,12 @@ proto.decodeIdToken = function(idToken) {
   }
 
   return decodedToken;
-};
+}
 
-proto.isVerifySupported = isVerifySupported;
-
-proto.verifyIdToken = function(idToken, options) {
-  var sdk = this;
+function verifyIdToken(sdk, idToken, options) { /* jshint ignore:line */
   options = options || {};
 
-  if (!sdk.isVerifySupported()) {
+  if (!sdk.features.isTokenVerifySupported()) {
     return Q.reject(new AuthSdkError('This browser doesn\'t support crypto.subtle'));
   }
 
@@ -1146,9 +966,9 @@ proto.verifyIdToken = function(idToken, options) {
     }
   }
 
-  return sdk.getWellKnown()
+  return getWellKnown(sdk)
     .then(function(res) {
-      return sdk.get(res['jwks_uri']);
+      return get(sdk, res['jwks_uri']);
     })
     .then(function(res) {
       var key = res.keys[0];
@@ -1158,7 +978,7 @@ proto.verifyIdToken = function(idToken, options) {
       if (!res) {
         return false;
       }
-      var jwt = sdk.decodeIdToken(idToken);
+      var jwt = sdk.idToken.decode(idToken);
 
       if (isExpired(jwt.payload.exp)) {
         return false;
@@ -1175,7 +995,14 @@ proto.verifyIdToken = function(idToken, options) {
 
       return true;
     });
-};
+}
+
+function refreshIdToken(sdk, opts) { /* jshint ignore:line */
+  opts = opts || {};
+  opts.display = null;
+  opts.prompt = 'none';
+  return getIdToken(sdk, opts);
+}
 
 function loadFrame(src, iframeId) {
   if (typeof iframeId === 'undefined') {
@@ -1202,14 +1029,6 @@ function loadPopup(src, options) {
   return window.open(src, title, appearance);
 }
 
-proto.isPopupPostMessageSupported = function() {
-  var isIE8or9 = document.documentMode && document.documentMode < 10;
-  if (window.postMessage && !isIE8or9) {
-    return true;
-  }
-  return false;
-};
-
 function addListener(eventTarget, name, fn) {
     if (eventTarget.addEventListener) {
       eventTarget.addEventListener(name, fn);
@@ -1230,7 +1049,7 @@ function addPostMessageListener(sdk, timeout) {
   var deferred = Q.defer();
 
   function responseHandler(e) {
-    if (!e.data || e.origin !== sdk.uri) {
+    if (!e.data || e.origin !== sdk.options.url) {
       return;
     }
     deferred.resolve(e.data);
@@ -1331,7 +1150,7 @@ function addFragmentListener(sdk, windowEl, timeout) {
  *      redirectUri: defaults to window.location.href
  *      scopes: defaults to ['openid', 'email']
  *      idp: defaults to Okta as an idp
- *      prompt: defaults to 'none'
+ *      prompt: no default. Pass 'none' to throw an error if user is not signed in
  *
  *    Forced:
  *      display: 'popup'
@@ -1352,9 +1171,7 @@ function addFragmentListener(sdk, windowEl, timeout) {
  * @param {String} [options.popupTitle] Title dispayed in the popup.
  *                                      Defaults to 'External Identity Provider User Authentication'
  */
-proto.getIdToken = function (oauthOptions, options) {
-  var sdk = this;
-
+function getIdToken(sdk, oauthOptions, options) { /* jshint ignore:line */
   if (!oauthOptions) {
     oauthOptions = {};
   }
@@ -1365,13 +1182,13 @@ proto.getIdToken = function (oauthOptions, options) {
 
   // Default OAuth query params
   var oauthParams = {
-    clientId: sdk.clientId,
-    redirectUri: sdk.redirectUri || window.location.href,
+    clientId: sdk.options.clientId,
+    redirectUri: sdk.options.redirectUri || window.location.href,
     responseType: 'id_token',
     responseMode: 'okta_post_message',
     state: genRandomString(64),
-    scope: ['openid', 'email'],
-    prompt: 'none'
+    nonce: genRandomString(64),
+    scope: ['openid', 'email']
   };
 
   // Add user-provided options
@@ -1390,14 +1207,13 @@ proto.getIdToken = function (oauthOptions, options) {
 
   if (oauthOptions.sessionToken) {
     extend(oauthParams, sessionTokenOverrides);
-  } else {
-    // NOTE: this prevents us from ever going into the IMPLICIT flow
+  } else if (oauthOptions.idp) {
     extend(oauthParams, idpOverrides);
   }
 
   // Quick validation
   if (!oauthParams.clientId) {
-    throw new AuthSdkError('The clientId must be specified');
+    throw new AuthSdkError('A clientId must be specified in the OktaAuth constructor to get an idToken');
   }
 
   // Convert our params to their actual OAuth equivalents
@@ -1407,6 +1223,7 @@ proto.getIdToken = function (oauthOptions, options) {
     'response_type': oauthParams.responseType,
     'response_mode': oauthParams.responseMode,
     'state': oauthParams.state,
+    'nonce': oauthParams.nonce,
     'prompt': oauthParams.prompt,
     'display': oauthParams.display,
     'sessionToken': oauthParams.sessionToken,
@@ -1420,11 +1237,11 @@ proto.getIdToken = function (oauthOptions, options) {
   }
 
   // Use the query params to build the authorize url
-  var requestUrl = sdk.uri + '/oauth2/v1/authorize' + toQueryParams(oauthQueryHash);
+  var requestUrl = sdk.options.url + '/oauth2/v1/authorize' + toQueryParams(oauthQueryHash);
 
   // Determine the flow type
   var flowType;
-  if (oauthParams.sessionToken) {
+  if (oauthParams.sessionToken || oauthParams.display === null) {
     flowType = 'IFRAME';
   } else if (oauthParams.display === 'popup') {
     flowType = 'POPUP';
@@ -1440,8 +1257,11 @@ proto.getIdToken = function (oauthOptions, options) {
       if (res.state !== oauthParams.state) {
         throw new AuthSdkError('OAuth flow response state doesn\'t match request state');
       }
-      var jwt = sdk.decodeIdToken(res['id_token']);
-      validateClaims(jwt.payload, sdk.uri, oauthParams.clientId);
+      if (res.nonce !== oauthParams.nonce) {
+        throw new AuthSdkError('OAuth flow response nonce doesn\'t match request nonce');
+      }
+      var jwt = sdk.idToken.decode(res['id_token']);
+      validateClaims(jwt.payload, sdk.options.url, oauthParams.clientId);
       return {
         idToken: res['id_token'],
         claims: jwt.payload
@@ -1452,9 +1272,9 @@ proto.getIdToken = function (oauthOptions, options) {
     }
   }
 
-  function getOrigin(uri) {
+  function getOrigin(url) {
     var originRegex = /^(https?\:\/\/)?([^:\/?#]*(?:\:[0-9]+)?)/;
-    return originRegex.exec(uri)[0];
+    return originRegex.exec(url)[0];
   }
 
   // Execute the flow type
@@ -1476,7 +1296,7 @@ proto.getIdToken = function (oauthOptions, options) {
       // Add listener on postMessage before window creation, so
       // postMessage isn't triggered before we're listening
       if (oauthParams.responseMode === 'okta_post_message') {
-        if (!sdk.isPopupPostMessageSupported()) {
+        if (!sdk.features.isPopupPostMessageSupported()) {
           return Q.reject(new AuthSdkError('This browser doesn\'t have full postMessage support'));
         }
         popupPromise = addPostMessageListener(sdk, options.timeout);
@@ -1490,7 +1310,7 @@ proto.getIdToken = function (oauthOptions, options) {
 
       // Poll until we get a valid hash fragment
       if (oauthParams.responseMode === 'fragment') {
-        var windowOrigin = getOrigin(sdk.getIdToken._getLocationHref());
+        var windowOrigin = getOrigin(sdk.idToken.authorize._getLocationHref());
         var redirectUriOrigin = getOrigin(oauthParams.redirectUri);
         if (windowOrigin !== redirectUriOrigin) {
           return Q.reject(new AuthSdkError('Using fragment, the redirectUri origin (' + redirectUriOrigin +
@@ -1531,116 +1351,67 @@ proto.getIdToken = function (oauthOptions, options) {
     default:
       return Q.reject(new AuthSdkError('The full page redirect flow is not supported'));
   }
-};
+}
 
-// This is exposed so we can mock window.location.href in our tests
-proto.getIdToken._getLocationHref = function() {
-  return window.location.href;
-};
-
-/**
- * Check if there is an active session. If there is one, the callback is 
- * invoked with the session and user information. Otherwise, the callback is 
- * invoked with {status: 'INACTIVE'}.
- *
- * @param callback - function to invoke after checking if there is an active session.
- */
-proto.checkSession = function(callback) {
-  var sdk = this;
-  return sdk.get('/api/v1/sessions/me')
-    .then(function(session) {
-
-      // Build the response
-      var res = {
-        status: 'ACTIVE',
-        session: omit(session, '_links')
-      };
-
-      // Expose refresh() on the session object
-      res.session.refresh = function() {
-        return sdk.post(getLink(session, 'refresh').href);
-      };
-
-      // Get the user information
-      return sdk.get(getLink(session, 'user').href)
-        .then(function(user) {
-          res.user = user;
-          callback(res);
-        });
-    })
-    .fail(function() {
-
-      // Call the callback function with INACTIVE status on failure
-      callback({status: 'INACTIVE'});
-    });
-};
-
-proto.existingSession = function() {
-  var sdk = this;
-  return sdk.get('/api/v1/sessions/me')
-    .then(function() {
-      return true;
+function sessionExists(sdk) { /* jshint ignore:line */
+  return sdk.session.get()
+    .then(function(res) {
+      if (res.status === 'ACTIVE') {
+        return true;
+      }
+      return false;
     })
     .fail(function() {
       return false;
     });
-};
+}
 
-proto.refreshSession = function() {
-  var sdk = this;
-  return sdk.post('/api/v1/sessions/me/lifecycle/refresh')
-    .then(function(session) {
+function getSession(sdk) { /* jshint ignore:line */
+  return get(sdk, '/api/v1/sessions/me')
+  .then(function(session) {
+    var res = omit(session, '_links');
 
-      // Build the response
-      var res = {
-        status: 'ACTIVE',
-        session: omit(session, '_links')
-      };
+    res.refresh = function() {
+      return post(sdk, getLink(session, 'refresh').href);
+    };
 
-      // Expose refresh() on the session object
-      res.session.refresh = function() {
-        return sdk.post(getLink(session, 'refresh').href);
-      };
+    res.user = function() {
+      return get(sdk, getLink(session, 'user').href);
+    };
 
-      // Expose the user() information
-      res.session.user = function() {
-        return sdk.get(getLink(session, 'user').href);
-      };
+    return res;
+  })
+  .fail(function() {
+    // Return INACTIVE status on failure
+    return {status: 'INACTIVE'};
+  });
+}
 
-      return res;
-    })
-    .fail(function() {
+function closeSession(sdk) { /* jshint ignore:line */
+  return httpRequest(sdk, sdk.options.url + '/api/v1/sessions/me', 'DELETE', undefined, true);
+}
 
-      // Call the callback function with INACTIVE status on failure
-      return {status: 'INACTIVE'};
+function refreshSession(sdk) { /* jshint ignore:line */
+  return post(sdk, '/api/v1/sessions/me/lifecycle/refresh');
+}
+
+function setCookieAndRedirect(sdk, sessionToken, redirectUrl) { /* jshint ignore:line */
+  redirectUrl = redirectUrl || window.location.href;
+  window.location = sdk.options.url + '/login/sessionCookieRedirect' +
+    toQueryParams({
+      checkAccountSetupComplete: true,
+      token: sessionToken,
+      redirectUrl: redirectUrl
     });
-};
+}
 
-proto.closeSession = function() {
-  var sdk = this;
-  return httpRequest(sdk, '/api/v1/sessions/me', 'DELETE', undefined, true);
-};
 
-proto.refreshIdToken = function(idToken, opts) {
-  var sdk = this;
-  opts = opts || {};
-  try {
-    var decodedToken = sdk.decodeIdToken(idToken);
-    opts.clientId = decodedToken.payload.aud;
-    opts.display = opts.display || null;
-    return sdk.getIdToken(sdk, opts);
 
-  // decodeIdToken could throw an error
-  } catch (e) {
-    return Q.reject(e);
-  }
-};
-
-  function jqueryRequest(method, uri, args) {
+  function jqueryRequest(method, url, args) {
     var deferred = $.Deferred();
     $.ajax({
       type: method,
-      url: uri,
+      url: url,
       headers: args.headers,
       data: JSON.stringify(args.data),
       xhrFields: {

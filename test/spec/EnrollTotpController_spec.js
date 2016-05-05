@@ -36,21 +36,12 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  describe('EnrollTotp', function () {
-
-    beforeEach(function () {
-      $.fx.off = true;
-    });
-
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
-    });
+  Expect.describe('EnrollTotp', function () {
 
     function setup(res, selectedFactor, settings, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({uri: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
 
       var router = new Router(_.extend({
         el: $sandbox,
@@ -122,7 +113,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
 
     function setupAndEnrollOktaPush() {
       return setupOktaPush().then(function (test) {
-        Util.disableEnrollFactorPoll(test.ac);
+        test.originalAjax = Util.stallEnrollFactorPoll(test.ac);
         return enrollFactor(test, resPushEnrollSuccess);
       });
     }
@@ -130,7 +121,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
     function enrollOktaPushGoCannotScan() {
       return setupAndEnrollOktaPush().then(function (test) {
         test.scanCodeForm.clickManualSetupLink();
-        return test;
+        return tick(test);
       });
     }
 
@@ -145,7 +136,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
       });
     }
 
-    describe('Header & Footer', function () {
+    Expect.describe('Header & Footer', function () {
       itp('displays the correct factorBeacon for Okta Verify', function () {
         return setupOktaTotp().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
@@ -165,7 +156,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
       });
     });
 
-    describe('Enroll factor', function () {
+    Expect.describe('Enroll factor', function () {
       itp('has correct device type options for Okta Verify', function () {
         return setupOktaTotp().then(function (test) {
           expect(test.form.deviceTypeOptions().length).toBe(2);
@@ -274,7 +265,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
       });
     });
 
-    describe('Scan qrcode', function () {
+    Expect.describe('Scan qrcode', function () {
       itp('has qrcode image', function () {
         return setupAndEnrollOktaTotp().then(function (test) {
           expect(test.scanCodeForm.qrcodeImg().length).toBe(1);
@@ -311,7 +302,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         });
       });
 
-      describe('Manual setup', function () {
+      Expect.describe('Manual setup', function () {
         itp('is rendered on "Can\'t scan" link click', function () {
           return setupAndEnrollOktaTotp()
           .then(function (test) {
@@ -386,7 +377,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         });
       });
 
-      describe('Pass code form', function () {
+      Expect.describe('Pass code form', function () {
         itp('renders pass code form on "Next" button click', function () {
           return setupAndEnrollOktaTotp().then(function (test) {
             test.scanCodeForm.submit();
@@ -460,7 +451,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
       });
     });
 
-    describe('Okta Verify with Push', function () {
+    Expect.describe('Okta Verify with Push', function () {
       function setupPolling(test, finalResponse) {
         $.ajax.calls.reset();
 
@@ -686,7 +677,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         });
       });
 
-      describe('Manual setup', function () {
+      Expect.describe('Manual setup', function () {
         itp('is rendered on "Can\'t scan" link click', function () {
           return enrollOktaPushGoCannotScan()
           .then(function (test) {
@@ -733,7 +724,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         });
         itp('returns to factor list when browser\'s back button is clicked', function () {
           return setupOktaPush({}, true).then(function (test) {
-            Util.disableEnrollFactorPoll(test.ac);
+            test.originalAjax = Util.stallEnrollFactorPoll(test.ac);
             return enrollFactor(test, resPushEnrollSuccess);
           })
           .then(function (test) {
@@ -857,13 +848,13 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             test.manualSetupForm.submit();
 
             Util.speedUpPolling(test.ac);
-            Util.stallEnrollFactorPoll(test.ac);
+            test.originalAjax = Util.stallEnrollFactorPoll(test.ac, test.originalAjax);
             return tick(test);
           })
           .then(function (test) {
             Expect.isVisible(test.linkSentConfirmation.smsSentMsg());
             expect(test.linkSentConfirmation.getMsgText().indexOf('+14152554668') >= 0).toBe(true);
-            Util.resumeEnrollFactorPoll(test.ac, resAllFactors.response);
+            test.originalAjax = Util.resumeEnrollFactorPoll(test.ac, test.originalAjax, resAllFactors);
             return tick(test);
           })
           .then(function (test) {
@@ -905,8 +896,14 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             Expect.isVisible(test.passCodeForm.form());
             Expect.isVisible(test.passCodeForm.codeField());
             test.passCodeForm.setCode('1234');
+
+            // Reset the ajaxRequest (changed during push setup)
+            test.ac.options.ajaxRequest = test.originalAjax;
             test.setNextResponse(resSuccess);
             test.passCodeForm.submit();
+            return tick(test);
+          })
+          .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors/id1234/lifecycle/activate',
@@ -934,7 +931,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(0);
             Expect.isVisible(test.manualSetupForm.form());
-            Expect.isNotVisible(test.manualSetupForm.countryCodeSelect());
+            expect(test.manualSetupForm.countryCodeSelect().length).toBe(0);
             Expect.isNotVisible(test.manualSetupForm.phoneNumberField());
             Expect.isVisible(test.manualSetupForm.sharedSecretField());
             Expect.isNotVisible(test.manualSetupForm.submitButton());

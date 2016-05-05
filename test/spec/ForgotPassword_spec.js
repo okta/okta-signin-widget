@@ -27,7 +27,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
   function setup(settings, startRouter) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({uri: baseUrl});
+    var authClient = new OktaAuth({url: baseUrl});
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -59,17 +59,9 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
   var setupWithSms = _.partial(setup, { 'features.smsRecovery': true });
   var setupWithTransformUsername = _.partial(setup, { transformUsername: transformUsername });
 
-  describe('ForgotPassword', function () {
-    beforeEach(function () {
-      $.fx.off = true;
-    });
+  Expect.describe('ForgotPassword', function () {
 
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
-    });
-
-    describe('settings', function () {
+    Expect.describe('settings', function () {
       itp('uses default title', function () {
         return setup().then(function (test) {
           expect(test.form.titleText()).toEqual('Reset Password');
@@ -94,7 +86,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       });
     });
 
-    describe('elements', function () {
+    Expect.describe('elements', function () {
       itp('has a username field', function () {
         return setup().then(function (test) {
           var username = test.form.usernameField();
@@ -124,7 +116,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       });
     });
 
-    describe('events', function () {
+    Expect.describe('events', function () {
       itp('shows an error if username is empty and request email', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();

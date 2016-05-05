@@ -28,7 +28,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
   function setup(res) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({uri: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+    var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
     var router = new Router({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -64,17 +64,9 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
     test.form.submit();
   }
 
-  describe('PasswordExpiration', function () {
+  Expect.describe('PasswordExpiration', function () {
 
-    beforeEach(function () {
-      $.fx.off = true;
-    });
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
-    });
-
-    describe('PasswordExpired', function () {
+    Expect.describe('PasswordExpired', function () {
 
       itp('shows security beacon', function () {
         return setup().then(function (test) {
@@ -207,7 +199,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
 
     });
 
-    describe('PasswordAboutToExpire', function () {
+    Expect.describe('PasswordAboutToExpire', function () {
 
       itp('has the correct title if expiring in > 0 days', function () {
         return setupWarn(4).then(function (test) {

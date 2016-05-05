@@ -37,7 +37,7 @@ function (Okta, RouterUtil, Enums) {
         // go to a different screen with current auth status:
         // refresh the latest response
         this.model.startTransaction(function (authClient) {
-          return authClient.resumeTransaction();
+          return authClient.tx.resume();
         });
       }
     },
@@ -48,7 +48,7 @@ function (Okta, RouterUtil, Enums) {
         // correct state. Fortunately, this means that the router will
         // handle navigation once the request is finished.
         this.model.doTransaction(function (transaction) {
-          return transaction.previous();
+          return transaction.prev();
         });
       }
       else {

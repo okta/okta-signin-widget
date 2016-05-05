@@ -41,17 +41,19 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
         this.options.appState.unset('factorActivationType');
         if (this.options.appState.get('activatedFactorType') !== 'push') {
           this.model.doTransaction(function (transaction) {
-            return transaction.previous()
+            return transaction.prev()
             .then(function (trans) {
-              return trans
-              .getFactorByTypeAndProvider('push', 'OKTA')
-              .enrollFactor();
+              var factor = _.findWhere(trans.factors, {
+                factorType: 'push',
+                provider: 'OKTA'
+              });
+              return factor.enroll();
             });
           })
           .then(goToFactor);
         } else {
           this.model.startTransaction(function (authClient) {
-            return authClient.resumeTransaction();
+            return authClient.tx.resume();
           })
           .then(function() {
             // Sets to trigger on a tick after the appState has been set.
@@ -66,7 +68,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       self.options.appState.unset('factorActivationType');
       if (self.options.appState.get('prevLink')) {
         this.model.doTransaction(function(transaction) {
-          return transaction.previous();
+          return transaction.prev();
         })
         .then(function() {
           // we trap 'MFA_ENROLL' response that's why we need to trigger navigation from here

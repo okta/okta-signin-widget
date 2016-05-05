@@ -25,7 +25,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
   function setup(settings) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({uri: baseUrl});
+    var authClient = new OktaAuth({url: baseUrl});
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -54,19 +54,14 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
     });
   }
 
-  describe('RecoveryChallenge', function () {
+  Expect.describe('RecoveryChallenge', function () {
     beforeEach(function () {
-      $.fx.off = true;
       var  throttle = _.throttle;
       spyOn(_, 'throttle').and.callFake(function (fn) {
         return throttle(fn, 0);
       });
       this.originalDelay = _.delay;
       spyOn(_, 'delay');
-    });
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
     });
     itp('displays the security beacon', function () {
       return setup().then(function (test) {

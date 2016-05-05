@@ -80,7 +80,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
       this.appState.trigger('loading', true);
       return this.startTransaction(function (authClient) {
-        return authClient.primaryAuth({
+        return authClient.signIn({
           username: username,
           password: password,
           options: {

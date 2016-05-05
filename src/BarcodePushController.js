@@ -62,13 +62,9 @@ function (Okta, FactorUtil, FormController, FormType, RouterUtil, BarcodeView, F
       this.pollForEnrollment();
     },
 
-    remove: function () {
-      return FormController.prototype.remove.apply(this, arguments);
-    },
-
     pollForEnrollment: function () {
       return this.model.doTransaction(function(transaction) {
-        return transaction.startEnrollFactorPoll(PUSH_INTERVAL);
+        return transaction.poll(PUSH_INTERVAL);
       });
     },
 

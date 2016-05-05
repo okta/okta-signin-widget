@@ -1,9 +1,38 @@
 /*global JSON */
-define(['vendor/lib/q'], function (Q) {
+define([
+  'okta',
+  'vendor/lib/q',
+  'helpers/mocks/Util',
+  'sandbox'
+], function (Okta, Q, Util, $sandbox) {
 
   var fn = {};
   var PRIMARY_AUTH = 'primary-auth';
   var ENROLL_CHOICES = 'enroll-choices';
+  var $ = Okta.$;
+
+  fn.describe = function(desc, fn) {
+    return describe(desc, function() {
+
+      beforeAll(function () {
+        Util.mockSetTimeout();
+        Util.mockSetInterval();
+      });
+
+      beforeEach(function () {
+        $.fx.off = true;
+      });
+
+      afterEach(function () {
+        Util.clearAllTimeouts();
+        Util.clearAllIntervals();
+        $.fx.off = false;
+        $sandbox.empty();
+      });
+
+      fn();
+    });
+  };
 
   // Helper function to work with promises - when the return promise is
   // resolved, done is called
@@ -84,10 +113,10 @@ define(['vendor/lib/q'], function (Q) {
     }
     expect(args.url).toBe(expected.url);
     expect(args.type).toBe('POST');
-    expect(args.headers).toEqual({
+    expect(args.headers).toEqual(jasmine.objectContaining({
       'Accept': 'application/json',
       'Content-Type': 'application/json'
-    });
+    }));
     expect(JSON.parse(args.data)).toEqual(expected.data);
   };
 

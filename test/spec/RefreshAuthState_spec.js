@@ -22,7 +22,7 @@ function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
   function setup(settings) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({uri: baseUrl});
+    var authClient = new OktaAuth({url: baseUrl});
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -45,20 +45,12 @@ function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
     });
   }
 
-  describe('RefreshAuthState', function () {
-
-    beforeEach(function () {
-      $.fx.off = true;
-    });
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
-    });
+  Expect.describe('RefreshAuthState', function () {
 
     itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
       return setup()
       .then(function (test) {
-        spyOn(test.ac, 'transactionExists').and.returnValue(false);
+        spyOn(test.ac.tx, 'exists').and.returnValue(false);
         test.router.refreshAuthState();
         return tick(test);
       })

@@ -97,10 +97,8 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
         var phoneExtension = this.get('phoneExtension');
 
         self.trigger('errors:clear');
-        return this.doTransaction(function (transaction) {
-          var lastResponse = transaction.response;
-          var isMfaEnroll = lastResponse.status === 'MFA_ENROLL';
-
+        return this.doTransaction(function(transaction) {
+          var isMfaEnroll = transaction.status === 'MFA_ENROLL';
           var profileData = {
             phoneNumber: phoneNumber,
             updatePhone: isMfaEnroll ? self.get('hasExistingPhones') : true
@@ -110,22 +108,26 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
           }
 
           if (isMfaEnroll) {
-            return transaction
-            .getFactorByTypeAndProvider(self.get('factorType'), 'OKTA')
-            .enrollFactor({
+            var factor = _.findWhere(transaction.factors, {
+              factorType: self.get('factorType'),
+              provider: 'OKTA'
+            });
+            return factor.enroll({
               profile: profileData
             });
 
           } else {
             // We must transition to MfaEnroll before updating the phone number
             self.set('trapEnrollment', true);
-            return transaction.previous()
+            return transaction.prev()
             .then(function (trans) {
-              return trans
-              .getFactorByTypeAndProvider(self.get('factorType'), 'OKTA')
-              .enrollFactor({
-                profile: profileData
+              var factor = _.findWhere(trans.factors, {
+                factorType: self.get('factorType'),
+                provider: 'OKTA'
               });
+              return factor.enroll({
+                profile: profileData
+             });
             })
             .then(function (trans) {
               self.set('trapEnrollment', false);
@@ -147,14 +149,13 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
       resendCode: function () {
         this.trigger('errors:clear');
         this.limitResending();
-        var self = this;
-        return this.doTransaction(function (transaction) {
-          return transaction.resendByName(self.get('factorType'));
+        return this.doTransaction(function(transaction) {
+          return transaction.resend(this.get('factorType'));
         });
       },
       save: function () {
-        return this.doTransaction(function (transaction) {
-          return transaction.activateFactor({
+        return this.doTransaction(function(transaction) {
+          return transaction.activate({
             passCode: this.get('passCode')
           });
         });

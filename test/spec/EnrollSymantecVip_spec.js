@@ -20,16 +20,12 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  describe('EnrollSymantecVip', function () {
-
-    afterEach(function () {
-      $sandbox.empty();
-    });
+  Expect.describe('EnrollSymantecVip', function () {
 
     function setup(startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({uri: baseUrl});
+      var authClient = new OktaAuth({url: baseUrl});
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -58,7 +54,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       });
     }
 
-    describe('Header & Footer', function () {
+    Expect.describe('Header & Footer', function () {
       itp('displays the correct factorBeacon', function () {
         $.fx.off = true;
         return setup().then(function (test) {
@@ -89,7 +85,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       });
     });
 
-    describe('Enroll factor', function () {
+    Expect.describe('Enroll factor', function () {
       itp('has a credentialId text field', function () {
         return setup().then(function (test) {
           Expect.isTextField(test.form.credentialIdField());

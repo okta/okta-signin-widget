@@ -21,13 +21,14 @@ define([
   'helpers/xhr/MFA_REQUIRED_duo',
   'helpers/xhr/MFA_REQUIRED_oktaVerify',
   'helpers/xhr/MFA_CHALLENGE_duo',
+  'helpers/xhr/MFA_CHALLENGE_push',
   'helpers/xhr/ERROR_invalid_token',
   'util/Errors',
   'util/BrowserFeatures'
 ],
 function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
           $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, resSuccess, resRecovery,
-          resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
+          resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
           errorInvalidToken, Errors, BrowserFeatures) {
 
   var itp = Expect.itp,
@@ -37,6 +38,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
 
   var OIDC_IFRAME_ID = 'okta-oauth-helper-frame';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
+  var OIDC_NONCE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
   var VALID_ID_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXIiOjEsImlzc' +
                        'yI6Imh0dHBzOi8vZm9vLmNvbSIsInN1YiI6IjAwdWlsdE5RSzJXc3p' +
                        'zMlJWMGczIiwibG9naW4iOiJzYW1samFja3NvbkBnYWNrLm1lIiwiY' +
@@ -51,12 +53,12 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
                        'kBnYWNrLm1lIiwiZW1haWxfdmVyaWZpZWQiOnRydWV9.GL6mrUcXxJ' +
                        'QBzlgF2ZFYfI4nl39HsA2LI9XlQuCBfDs';
 
-  describe('LoginRouter', function () {
+  Expect.describe('LoginRouter', function () {
 
     function setup(settings) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({uri: baseUrl});
+      var authClient = new OktaAuth({url: baseUrl});
       var eventSpy = jasmine.createSpy('eventSpy');
       var router = new Router(_.extend({
         el: $sandbox,
@@ -113,14 +115,6 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         return tick(test);
       });
     }
-
-    beforeEach(function () {
-      $.fx.off = true;
-    });
-    afterEach(function () {
-      $.fx.off = false;
-      $sandbox.empty();
-    });
 
     it('throws a ConfigError if unknown option is passed as a widget param', function () {
       var fn = function () { setup({ foo: 'bla' }); };
@@ -443,13 +437,14 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       .then(function (test) {
         var form = new PrimaryAuthForm($sandbox);
         expect(form.isPrimaryAuth()).toBe(true);
-        test.setNextResponse(resMfaRequiredOktaVerify);
+        // Respond with MFA_REQUIRED
+        // Verify is immediately called, so respond with MFA_CHALLENGE
+        test.setNextResponse([resMfaRequiredOktaVerify, resMfaChallengePush]);
         form.setUsername('testuser');
         form.setPassword('pass');
         form.submit();
         return tick(test);
-      }).then(function (test) {
-        test.setNextResponse(resSuccess);
+      }).then(function () {
         var form = new MfaVerifyForm($sandbox);
         expect(form.autoPushCheckbox().length).toBe(1);
         expect(form.isAutoPushChecked()).toBe(true);
@@ -514,7 +509,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           });
     });
 
-    describe('OIDC - okta is the idp and oauth2 is enabled', function () {
+    Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function () {
       itp('creates an iframe with the correct url when authStatus is SUCCESS', function () {
         return setupOAuth2().then(function (test) {
           expect(test.iframeElem.src).toBe(
@@ -524,6 +519,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
             'response_type=id_token&' +
             'response_mode=okta_post_message&' +
             'state=' + OIDC_STATE +
+            '&nonce=' + OIDC_NONCE +
             '&prompt=none&' +
             'sessionToken=THE_SESSION_TOKEN&' +
             'scope=openid%20email'
@@ -544,7 +540,8 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
             origin: 'https://foo.com',
             data: {
               id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE
+              state: OIDC_STATE,
+              nonce: OIDC_NONCE
             }
           });
           return tick();
@@ -564,7 +561,8 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
             origin: 'https://foo.com',
             data: {
               id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE
+              state: OIDC_STATE,
+              nonce: OIDC_NONCE
             }
           });
           return tick();
@@ -619,7 +617,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       });
     });
 
-    describe('Events', function () {
+    Expect.describe('Events', function () {
       itp('triggers a pageRendered event when first controller is loaded', function() {
         return setup()
         .then(function (test) {
