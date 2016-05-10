@@ -197,6 +197,22 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           expect(tip).toEqual('Password');
         });
       });
+      itp('focuses on username field in browsers other than IE', function () {
+        spyOn(BrowserFeatures, 'isIE').and.returnValue(false);
+        return setup().then(function (test) {
+          var $username = test.form.usernameField();
+          // Focused element would be username DOM element
+          expect($username[0]).toBe(document.activeElement);
+        });
+      });
+      itp('does not focus on username field in IE', function () {
+        spyOn(BrowserFeatures, 'isIE').and.returnValue(true);
+        return setup().then(function (test) {
+          var $username = test.form.usernameField();
+          // Focused element would be body element
+          expect($username[0]).not.toBe(document.activeElement);
+        });
+      });
     });
 
     Expect.describe('customizing the tooltip', function () {
