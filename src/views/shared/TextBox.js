@@ -17,10 +17,11 @@
 define([
   'jquery',
   'vendor/lib/handlebars-wrapper',
+  'util/BrowserFeatures',
   'shared/views/forms/inputs/TextBox',
   'qtip'
 ],
-function ($, Handlebars, TextBox) {
+function ($, Handlebars, BrowserFeatures, TextBox) {
 
   function hasTitleAndText(options) {
     var title = options.title,
@@ -76,6 +77,15 @@ function ($, Handlebars, TextBox) {
           show: {delay: 0}
         });
       }
+    },
+
+    // Override the focus() to ignore focus in IE. IE (8-11) has a known bug where
+    // the placeholder text disappears when the input field is focused.
+    focus: function () {
+      if (BrowserFeatures.isIE()) {
+        return;
+      }
+      return TextBox.prototype.focus.apply(this, arguments);
     }
 
   });

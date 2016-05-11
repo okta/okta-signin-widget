@@ -54,6 +54,10 @@ define(function () {
     return !!(win.history && win.history.pushState);
   };
 
+  fn.isIE = function () {
+    return /msie/i.test(navigator.userAgent);
+  };
+
   return fn;
 
 });
