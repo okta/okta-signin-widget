@@ -1,4 +1,4 @@
-/* jshint maxparams:50 */
+/* jshint maxparams:50,maxstatements:24 */
 define([
   'vendor/lib/q',
   'underscore',
@@ -102,6 +102,17 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       itp('supports sms reset', function () {
         return setupWithSms().then(function (test) {
           expect(test.form.hasSmsButton()).toBe(true);
+        });
+      });
+      itp('has sms hint', function () {
+        return setupWithSms().then(function (test) {
+          expect(test.form.hasSmsHint()).toBe(true);
+          expect(test.form.smsHintText()).toEqual('SMS can only be used if a mobile phone number has been configured.');
+        });
+      });
+      itp('does not have sms hint if sms is not enabled', function () {
+        return setup().then(function (test) {
+          expect(test.form.hasSmsHint()).toBe(false);
         });
       });
       itp('shows a link to contact support when a help number is given', function () {
@@ -445,6 +456,80 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.form.clickCantAccessEmail();
           expect(test.form.contactSupportText()).toMatch(/\(999\) 123-4567/);
           expect(test.form.hasCantAccessEmailLink()).toBe(false);
+        });
+      });
+      itp('shows the "Reset via email" link after sending sms', function () {
+        return setupWithSms().then(function (test) {
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.sendSms();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasSendEmailLink()).toBe(true);
+          expect(test.form.sendEmailLink().trimmedText()).toEqual('Didn\'t receive an SMS? Reset via email');
+        });
+      });
+      itp('sends an email when user clicks the "Reset via email" link, after sending sms', function () {
+        return setupWithSms().then(function (test) {
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo@bar');
+          test.form.sendSms();
+          return tick(test);
+        })
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeEmail);
+          test.form.clickSendEmailLink();
+          return tick(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              username: 'foo@bar',
+              factorType: 'EMAIL'
+            }
+          });
+        });
+      });
+      itp('shows email sent confirmation screen when user clicks the "Reset via email" link, after sending sms',
+        function () {
+        return setupWithSms().then(function (test) {
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo@bar');
+          test.form.sendSms();
+          return tick(test);
+        })
+        .then(function (test) {
+          test.setNextResponse(resChallengeEmail);
+          test.form.clickSendEmailLink();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.form.titleText()).toBe('Email sent!');
+          expect(test.form.getEmailSentConfirmationText().indexOf('foo@bar') >= 0).toBe(true);
+          expect(test.form.backToLoginButton().length).toBe(1);
+        });
+      });
+      itp('shows an error if sending email via "Reset via email" link results in an error, after sending sms',
+        function () {
+        return setupWithSms().then(function (test) {
+          Q.stopUnhandledRejectionTracking();
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.sendSms();
+          return tick(test);
+        })
+        .then(function (test) {
+          test.setNextResponse(resError);
+          test.form.clickSendEmailLink();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
         });
       });
     });
