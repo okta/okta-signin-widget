@@ -2,8 +2,10 @@ define(['./Form'], function (Form) {
 
   var USERNAME_FIELD = 'username';
   var SMS_BUTTON_SELECTOR = '.sms-button';
+  var SMS_HINT_SELECTOR = '.sms-hint';
   var CANT_ACCESS_EMAIL_SELECTOR = '.js-contact-support';
   var EMAIL_SENT_BACK_BTN = 'back-button';
+  var SEND_EMAIL_LINK_SELECTOR = '.send-email-link';
 
   return Form.extend({
 
@@ -31,6 +33,14 @@ define(['./Form'], function (Form) {
 
     hasSmsButton: function () {
       return this.button(SMS_BUTTON_SELECTOR).length > 0;
+    },
+
+    smsHintText: function () {
+      return this.$(SMS_HINT_SELECTOR).trimmedText();
+    },
+
+    hasSmsHint: function () {
+      return this.$(SMS_HINT_SELECTOR).is(':visible');
     },
 
     sendSms: function () {
@@ -69,6 +79,18 @@ define(['./Form'], function (Form) {
 
     contactSupportText: function () {
       return this.contactSupport().trimmedText();
+    },
+
+    sendEmailLink: function () {
+      return this.$(SEND_EMAIL_LINK_SELECTOR);
+    },
+
+    hasSendEmailLink: function () {
+      return this.sendEmailLink().is(':visible');
+    },
+
+    clickSendEmailLink: function () {
+      this.sendEmailLink().click();
     }
 
   });

@@ -81,6 +81,7 @@ define(['jquery', 'underscore', './Dom'], function ($, _, Dom) {
     tooltipText: function (field) {
       var api,
           element,
+          tooltipText,
           formInput = this.inputWrap(field);
 
       if (formInput.length) {
@@ -90,7 +91,13 @@ define(['jquery', 'underscore', './Dom'], function ($, _, Dom) {
       }
 
       api = $(element).qtip('api');
-      return api ? api.show().tooltip.text() : undefined;
+      tooltipText = api ? api.show().tooltip.text() : undefined;
+
+      // Remove the tooltip from the DOM to
+      // prevent elements from lingering around.
+      api.tooltip.remove();
+
+      return tooltipText;
     },
 
     button: function (selector) {

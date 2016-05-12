@@ -79,17 +79,28 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport)
       autoSave: true,
       save: Okta.loc('account.unlock.sendEmail', 'login'),
       title: Okta.loc('account.unlock.title', 'login'),
-      formChildren: [
-        FormType.Input({
-          placeholder: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
-          name: 'username',
-          type: 'text',
-          params: {
-            innerTooltip: Okta.loc('account.unlock.email.or.username.tooltip', 'login'),
-            icon: 'person-16-gray'
-          }
-        })
-      ],
+      formChildren: function () {
+        var formChildren = [
+          FormType.Input({
+            placeholder: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
+            name: 'username',
+            type: 'text',
+            params: {
+              innerTooltip: Okta.loc('account.unlock.email.or.username.tooltip', 'login'),
+              icon: 'person-16-gray'
+            }
+          })
+        ];
+        if (this.settings.get('features.smsRecovery')) {
+          formChildren.push(FormType.View({View: '\
+            <p class="sms-hint">\
+              {{i18n code="recovery.sms.hint" bundle="login"}}\
+            </p>\
+          '}));
+        }
+
+        return formChildren;
+      },
       initialize: function () {
         var form = this;
 
