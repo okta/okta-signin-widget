@@ -81,18 +81,6 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    propertiesToJSON: {
-      main: {
-        src: ['resources/nls/*.properties'],
-        dest: 'target/json/'
-      }
-    },
-
-    JSONtoJs: {
-      src: 'target/json',
-      dest: 'target/js/nls/'
-    },
-
     jshint: {
       options: (function () {
         var conf = {
@@ -132,6 +120,16 @@ module.exports = function (grunt) {
             }
           }
         }
+      },
+      'i18n-to-target': {
+        files: [
+          {
+            expand: true,
+            cwd: 'node_modules/@okta/i18n/dist/requirejs/',
+            src: ['country.js', 'login.js', '*/country.js', '*/login.js'],
+            dest: JS + '/nls/'
+          }
+        ]
       },
       'assets-to-target': {
         files: [
@@ -302,17 +300,6 @@ module.exports = function (grunt) {
             }
           }
         }
-      },
-      JSONtoJs: {
-        options: {
-          specs: [
-            'buildtools/JSONtoJs/spec/*.js'
-          ],
-          template: require('grunt-template-jasmine-requirejs'),
-          outfile: 'test/SpecRunner.html',
-          keepRunner: true,
-          summary: true
-        }
       }
     },
 
@@ -393,7 +380,6 @@ module.exports = function (grunt) {
 
   });
 
-  grunt.loadTasks('buildtools/JSONtoJs');
   grunt.loadTasks('buildtools/phonecodes');
   grunt.loadTasks('buildtools/scsslint');
   grunt.loadTasks('buildtools/bumpprereleaseversion');
@@ -409,7 +395,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-json-generator');
   grunt.loadNpmTasks('grunt-rename');
   grunt.loadNpmTasks('grunt-retire');
-  grunt.loadNpmTasks('grunt-properties-to-json');
 
   grunt.task.registerTask(
     'test',
@@ -417,8 +402,7 @@ module.exports = function (grunt) {
     '`grunt btest`, run `grunt test:build` to copy your changed files ' +
     'and refresh the browser',
     function (build) {
-      grunt.task.run(['copy', 'propertiesToJSON', 'JSONtoJs', 'jasmine:test' + (build ? ':build' : ''),
-       'jasmine:JSONtoJs']);
+      grunt.task.run(['copy', 'jasmine:test' + (build ? ':build' : '')]);
     }
   );
 
@@ -431,7 +415,7 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask('prebuild', function (flag) {
-    var tasks = ['retire', 'copy:src', 'copy:assets-to-target', 'propertiesToJSON', 'JSONtoJs'];
+    var tasks = ['retire', 'copy:src', 'copy:i18n-to-target', 'copy:assets-to-target'];
     if (flag === 'minified') {
       tasks.push('compass:minify');
     } else {
