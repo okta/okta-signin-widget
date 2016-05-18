@@ -1,6 +1,9 @@
 # If a change is made in here, add it to .npmignore as well unless you
 # explicitly want to include it in the published artifact
-node_modules
+node_modules/*
+!node_modules/@okta
+node_modules/@okta/*
+!node_modules/@okta/i18n
 npm-debug.log
 test/SpecRunner.html
 target
@@ -10,4 +13,4 @@ build2
 .widgetrc
 
 # These paths should be included in the published artifact, but not the repo
-dist
+/dist
