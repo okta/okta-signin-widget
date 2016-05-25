@@ -52,12 +52,6 @@ define(['okta',
         factorName: this.model.get('factorLabel'),
         deviceName: this.model.get('deviceName')
       });
-
-      if (this.settings.get('features.autoPush') && CookieUtil.isAutoPushEnabled(this.options.appState.get('userId'))) {
-        this.model.set('autoPush', true);
-        // trigger push once DOM is fully loaded
-        _.defer(_.bind(this.submit, this));
-      }
     },
     setSubmitState: function (ableToSubmit) {
       var button = this.$el.find('.button');
@@ -77,6 +71,13 @@ define(['okta',
       if (this.enabled) {
         this.setSubmitState(false);
         this.doSave();
+      }
+    },
+    postRender: function() {
+      if (this.settings.get('features.autoPush') && CookieUtil.isAutoPushEnabled(this.options.appState.get('userId'))) {
+        this.model.set('autoPush', true);
+        // bind after $el has been rendered, and trigger push once DOM is fully loaded
+        _.defer(_.bind(this.submit, this));
       }
     },
     doSave: function () {
