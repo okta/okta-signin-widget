@@ -4,6 +4,7 @@
 // grunt test (to run test task)
 
 /*global module, process, JSON */
+var packageJson = require('./package.json');
 
 module.exports = function (grunt) {
   /* jshint maxstatements: false */
@@ -78,6 +79,10 @@ module.exports = function (grunt) {
     return requireOptions;
   }
 
+  function substituteWidgetVersion(content) {
+    return content.replace('<%= widgetversion %>', packageJson.version);
+  }
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
@@ -113,6 +118,7 @@ module.exports = function (grunt) {
         ],
         options: {
           process: function (content, srcpath) {
+            content = substituteWidgetVersion(content);
             if (srcpath.indexOf('copyright.frag') > 0) {
               return content;
             } else {
