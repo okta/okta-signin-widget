@@ -4,6 +4,7 @@
 // grunt test (to run test task)
 
 /*global module, process, JSON */
+var packageJson = require('./package.json');
 
 module.exports = function (grunt) {
   /* jshint maxstatements: false */
@@ -78,6 +79,17 @@ module.exports = function (grunt) {
     return requireOptions;
   }
 
+  var WIDGET_VERSION_TEXT = '<%= widgetversion %>';
+
+  function escapeRegexText(text) {
+    return text.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+  }
+
+  function substituteWidgetVersion(content) {
+    var widgetVersionRegex = new RegExp(escapeRegexText(WIDGET_VERSION_TEXT));
+    return content.replace(widgetVersionRegex, packageJson.version);
+  }
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
@@ -113,6 +125,7 @@ module.exports = function (grunt) {
         ],
         options: {
           process: function (content, srcpath) {
+            content = substituteWidgetVersion(content);
             if (srcpath.indexOf('copyright.frag') > 0) {
               return content;
             } else {
