@@ -79,15 +79,8 @@ module.exports = function (grunt) {
     return requireOptions;
   }
 
-  var WIDGET_VERSION_TEXT = '<%= widgetversion %>';
-
-  function escapeRegexText(text) {
-    return text.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-  }
-
   function substituteWidgetVersion(content) {
-    var widgetVersionRegex = new RegExp(escapeRegexText(WIDGET_VERSION_TEXT));
-    return content.replace(widgetVersionRegex, packageJson.version);
+    return content.replace('<%= widgetversion %>', packageJson.version);
   }
 
   grunt.initConfig({
