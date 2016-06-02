@@ -45,7 +45,7 @@ module.exports = function (grunt) {
           // the wrapper files (i.e. OktaSigin.js) need to be included here
           // since they are not parsed for dependencies by require.
           'util/BrowserFeatures',
-          'vendor/xdomain-0.7.3',
+          'vendor/xdomain-0.7.5',
           'vendor/common-signin',
           'vendor/OktaAuth',
           'util/Util',

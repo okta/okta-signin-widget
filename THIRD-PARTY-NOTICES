@@ -790,7 +790,7 @@ SOFTWARE.
 
 
 XDomain
-Version (if any):	0.7.3
+Version (if any):	0.7.5
 Brief Description:	A pure JavaScript CORS alternative. No server 
 configuration required - just add a proxy.html on the domain you wish to 
 communicate with. This library utilizes XHook to hook all XHR, so XDomain will 
