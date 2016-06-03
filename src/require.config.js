@@ -16,7 +16,7 @@ function getRequireConfig() {
       'eventie/eventie': 'vendor/plugins/eventie',
       'eventEmitter/EventEmitter': 'vendor/plugins/EventEmitter',
       duo: 'vendor/Duo-Web-v2',
-      xdomain: 'vendor/xdomain-0.7.3',
+      xdomain: 'vendor/xdomain-0.7.5',
       empty: 'widget/empty'
     },
     map: {
