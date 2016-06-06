@@ -8,6 +8,4 @@ script:
   - npm run package
   - npm run lint
   - npm test
-cache:
-  directories:
-    - node_modules
+cache: false
