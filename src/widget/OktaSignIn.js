@@ -12,7 +12,7 @@ var OktaSignIn = (function () {
      * @param callback - callback function invoked with 'true'/'false' as the argument.
      */
     function checkSession(callback) {
-      authClient.existingSession().then(callback);
+      authClient.session.exists().then(callback);
     }
 
     /**
@@ -21,7 +21,7 @@ var OktaSignIn = (function () {
      * @param callback - function to invoke after closing the session.
      */
     function closeSession(callback) {
-      authClient.closeSession().then(callback)
+      authClient.session.close().then(callback)
       .fail(function () {
         callback('There was a problem closing the session');
       });
@@ -33,7 +33,10 @@ var OktaSignIn = (function () {
      * @param callback - function to invoke after refreshing the session.
      */
     function refreshSession(callback) {
-      authClient.refreshSession().then(callback);
+      authClient.session.refresh().then(callback)
+      .fail(function() {
+        callback({status: 'INACTIVE'});
+      });
     }
 
     /**
@@ -45,7 +48,7 @@ var OktaSignIn = (function () {
      * @param opts - OAUTH options to refresh the idToken
      */
     function refreshIdToken(idToken, callback, opts) {
-      authClient.refreshIdToken(idToken, opts).then(callback)
+      authClient.idToken.refresh(opts).then(callback)
       .fail(function () {
         callback('There was a problem refreshing the id_token');
       });
@@ -59,7 +62,8 @@ var OktaSignIn = (function () {
      * @param callback - function to invoke after checking if there is an active session.
      */
     function getSession(callback) {
-      authClient.checkSession(function(res) {
+      authClient.session.get()
+      .then(function(res) {
         if (res.status === 'ACTIVE' && res.user) {
           // only include the attributes that are passed into the successFn on primary auth.
           res.user = _.pick(res.user, 'id', 'profile', 'passwordChanged');
@@ -124,7 +128,9 @@ var OktaSignIn = (function () {
       transformErrorXHR: Util.transformErrorXHR,
       headers: {
         'X-Okta-SDK': 'okta-signin-widget-<%= widgetversion %>'
-      }
+      },
+      clientId: options.clientId,
+      redirectUri: options.redirectUri
     });
     _.extend(this, LoginRouter.prototype.Events, getProperties(authClient, LoginRouter, options));
 

@@ -37,19 +37,24 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
   var BEACON_LOADING_CLS = 'beacon-loading';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
   var OIDC_NONCE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
-  var VALID_ID_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXIiOjEsImlzc' +
-                       'yI6Imh0dHBzOi8vZm9vLmNvbSIsInN1YiI6IjAwdWlsdE5RSzJXc3p' +
-                       'zMlJWMGczIiwibG9naW4iOiJzYW1samFja3NvbkBnYWNrLm1lIiwiY' +
-                       'XVkIjoic29tZUNsaWVudElkIiwiaWF0IjoxNDUxNjA2NDAwLCJleHA' +
-                       'iOjE2MDk0NTkyMDAsImFtciI6WyJwd2QiXSwiaWRwIjoiMG9haWRpd' +
-                       'zl1ZE9TY2VEcXcwZzMiLCJhdXRoX3RpbWUiOjE0NTE2MDY0MDAsIml' +
-                       'kcF90eXBlIjoiRkFDRUJPT0siLCJuYW1lIjoiU2FtbCBKYWNrc29uI' +
-                       'iwicHJvZmlsZSI6Imh0dHBzOi8vd3d3LmZhY2Vib29rLmNvbS9hcHB' +
-                       'fc2NvcGVkX3VzZXJfaWQvMTIyODE5NjU4MDc2MzU3LyIsImdpdmVuX' +
-                       '25hbWUiOiJTYW1sIiwiZmFtaWx5X25hbWUiOiJKYWNrc29uIiwidXB' +
-                       'kYXRlZF9hdCI6MTQ1MTYwNjQwMCwiZW1haWwiOiJzYW1samFja3Nvb' +
-                       'kBnYWNrLm1lIiwiZW1haWxfdmVyaWZpZWQiOnRydWV9.GL6mrUcXxJ' +
-                       'QBzlgF2ZFYfI4nl39HsA2LI9XlQuCBfDs';
+  var VALID_ID_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXIiOjEsIml' +
+                       'zcyI6Imh0dHBzOi8vZm9vLmNvbSIsInN1YiI6IjAwdWlsdE5RSzJ' +
+                       'Xc3pzMlJWMGczIiwibG9naW4iOiJzYW1samFja3NvbkBnYWNrLm1' +
+                       'lIiwiYXVkIjoic29tZUNsaWVudElkIiwiaWF0IjoxNDUxNjA2NDA' +
+                       'wLCJleHAiOjE2MDk0NTkyMDAsImFtciI6WyJwd2QiXSwiaWRwIjo' +
+                       'iMG9haWRpdzl1ZE9TY2VEcXcwZzMiLCJub25jZSI6ImdnZ2dnZ2d' +
+                       'nZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2d' +
+                       'nZ2dnZ2dnZ2dnZ2dnZ2dnZ2ciLCJhdXRoX3RpbWUiOjE0NTE2MDY' +
+                       '0MDAsImlkcF90eXBlIjoiRkFDRUJPT0siLCJuYW1lIjoiU2FtbCB' +
+                       'KYWNrc29uIiwicHJvZmlsZSI6Imh0dHBzOi8vd3d3LmZhY2Vib29' +
+                       'rLmNvbS9hcHBfc2NvcGVkX3VzZXJfaWQvMTIyODE5NjU4MDc2MzU' +
+                       '3LyIsImdpdmVuX25hbWUiOiJTYW1sIiwiZmFtaWx5X25hbWUiOiJ' +
+                       'KYWNrc29uIiwidXBkYXRlZF9hdCI6MTQ1MTYwNjQwMCwiZW1haWw' +
+                       'iOiJzYW1samFja3NvbkBnYWNrLm1lIiwiZW1haWxfdmVyaWZpZWQ' +
+                       'iOnRydWV9.Aq_42PVQwGW7WIT02fSaSLF5jvIZjnIy6pJvsXyduR' +
+                       'bx6SUbTzKr3R5dsZRskau9Awi91aDv4a1QRWANPmJZabzxScg9LA' +
+                       'e4J-RRZxZ0EbQZ6n8l9KVdUb_ndhcKmVAhmhK0GcQbuwk8frcVou' +
+                       '6gAQPJowg832umoCss-gEvimU';
 
   function setup(settings, requests) {
     // To speed up the test suite, calls to debounce are
@@ -1419,8 +1424,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
             origin: 'https://foo.com',
             data: {
               id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE,
-              nonce: OIDC_NONCE
+              state: OIDC_STATE
             }
           });
           return tick();
@@ -1441,6 +1445,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
             given_name: 'Saml',
             iat: 1451606400,
             idp: '0oaidiw9udOSceDqw0g3',
+            nonce: OIDC_NONCE,
             idp_type: 'FACEBOOK',
             iss: 'https://foo.com',
             login: 'samljackson@gack.me',
@@ -1518,8 +1523,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
             origin: 'https://foo.com',
             data: {
               id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE,
-              nonce: OIDC_NONCE
+              state: OIDC_STATE
             }
           });
           return tick(test);
