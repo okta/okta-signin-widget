@@ -16,6 +16,11 @@ define({
           "timeZone": "America\/Los_Angeles"
         }
       },
+      "policy": {
+        "allowRememberDevice": true,
+        "rememberDeviceLifetimeInMinutes": 0,
+        "rememberDeviceByDefault": false
+      },
       "factors": [{
         "id": "ufshpdkgNun3xNE3W0g3",
         "factorType": "question",

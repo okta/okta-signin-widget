@@ -409,28 +409,6 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         expect(form.isSecurityQuestion()).toBe(true);
       });
     });
-    itp('checks the remember device by default for a returning user', function () {
-      Util.mockCookie('rdln', 'testuser');
-      return setup()
-      .then(function (test) {
-        Util.mockRouterNavigate(test.router);
-        test.router.navigate('signin');
-        return tick(test);
-      })
-      .then(function (test) {
-        var form = new PrimaryAuthForm($sandbox);
-        expect(form.isPrimaryAuth()).toBe(true);
-        test.setNextResponse(resMfa);
-        form.setUsername('testuser');
-        form.setPassword('pass');
-        form.submit();
-        return tick(test);
-      })
-      .then(function () {
-        var form = new MfaVerifyForm($sandbox);
-        expect(form.isRememberDeviceChecked()).toBe(true);
-      });
-    });
     itp('checks auto push by default for a returning user', function () {
       Util.mockCookie('auto_push_' + CryptoUtil.getStringHash('00uhn6dAGR4nUB4iY0g3'), 'true');
       return setup({'features.autoPush': true})

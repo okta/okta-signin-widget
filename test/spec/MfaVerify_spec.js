@@ -1,4 +1,4 @@
-/*jshint maxparams:28, maxstatements:28, camelcase:false */
+/*jshint maxparams:34, maxstatements:28, camelcase:false */
 /*global JSON */
 define([
   'vendor/lib/q',
@@ -28,12 +28,19 @@ define([
   'helpers/xhr/MFA_VERIFY_invalid_answer',
   'helpers/xhr/MFA_VERIFY_totp_invalid_answer',
   'helpers/xhr/SMS_RESEND_error',
-  'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS'
+  'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS',
+  'helpers/xhr/MFA_REQUIRED_policy_device_based',
+  'helpers/xhr/MFA_REQUIRED_policy_time_based',
+  'helpers/xhr/MFA_REQUIRED_policy_always',
+  'helpers/xhr/MFA_REQUIRED_policy_time_based_min',
+  'helpers/xhr/MFA_REQUIRED_policy_time_based_hours',
+  'helpers/xhr/MFA_REQUIRED_policy_time_based_days'
 ],
 function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Beacon, Expect, Router, RouterUtil,
           $sandbox, resAllFactors, resAllFactorsOnPrem, resVerifyTOTPOnly, resChallengeDuo, resChallengeSms,
           resChallengeCall, resChallengePush, resRejectedPush, resTimeoutPush, resSuccess, resInvalid, resInvalidTotp,
-          resResendError, resMfaLocked) {
+          resResendError, resMfaLocked, resMfaDevicePolicy, resMfaTimePolicy, resMfaAlwaysPolicy,
+          resMfaTimePolicy_1Min, resMfaTimePolicy_2Hrs, resMfaTimePolicy_2Days) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -241,19 +248,48 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
             Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
-        itp('has the right text', function () {
-          return setup(resAllFactors).then(function (test) {
-            expect(test.form.rememberDeviceLabelText()).toEqual('Trust this device');
+        itp('has the right text for device based policy', function () {
+          return setup(resMfaDevicePolicy).then(function (test) {
+            expect(test.form.rememberDeviceLabelText()).toEqual('Do not challenge me on this device again');
           });
         });
-        itp('is not rendered when features.rememberDevice is false', function () {
-          return setup(resAllFactors, null, { 'features.rememberDevice': false }).then(function (test) {
-            expect(test.form.rememberDeviceCheckbox().length).toBe(0);
+        itp('has the right text for time based policy (1 minute)', function () {
+          return setup(resMfaTimePolicy_1Min).then(function (test) {
+            expect(test.form.rememberDeviceLabelText()).toEqual(
+              'Do not challenge me on this device for the next minute');
           });
         });
-        itp('is checked by default if features.rememberDeviceAlways is true', function () {
-          return setup(resAllFactors, null, { 'features.rememberDeviceAlways': true }).then(function (test) {
+        itp('has the right text for time based policy (minutes)', function () {
+          return setup(resMfaTimePolicy).then(function (test) {
+            expect(test.form.rememberDeviceLabelText()).toEqual(
+              'Do not challenge me on this device for the next 15 minutes');
+          });
+        });
+        itp('has the right text for time based policy (hours)', function () {
+          return setup(resMfaTimePolicy_2Hrs).then(function (test) {
+            expect(test.form.rememberDeviceLabelText()).toEqual(
+              'Do not challenge me on this device for the next 2 hours');
+          });
+        });
+        itp('has the right text for time based policy (days)', function () {
+          return setup(resMfaTimePolicy_2Days).then(function (test) {
+            expect(test.form.rememberDeviceLabelText()).toEqual(
+              'Do not challenge me on this device for the next 2 days');
+          });
+        });
+        itp('is not rendered when policy is always ask for mfa', function () {
+          return setup(resMfaAlwaysPolicy).then(function (test) {
+            expect(test.form.rememberDeviceCheckbox().length).toEqual(0);
+          });
+        });
+        itp('is checked by default if policy rememberDeviceByDefault is true', function () {
+          return setup(resMfaTimePolicy).then(function (test) {
             expect(test.form.isRememberDeviceChecked()).toBe(true);
+          });
+        });
+        itp('is not checked by default if policy rememberDeviceByDefault is false', function () {
+          return setup(resMfaDevicePolicy).then(function (test) {
+            expect(test.form.isRememberDeviceChecked()).toBe(false);
           });
         });
       });
@@ -322,26 +358,6 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
             $.ajax.calls.reset();
             test.form.setAnswer('food');
             test.form.setRememberDevice(true);
-            test.setNextResponse(resSuccess);
-            test.form.submit();
-            return tick();
-          })
-          .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=true',
-              data: {
-                answer: 'food',
-                stateToken: 'testStateToken'
-              }
-            });
-          });
-        });
-        itp('calls authClient verifyFactor with rememberDevice URL param if rememberDeviceAlways is enabled',
-          function () {
-          return setupSecurityQuestion({ 'features.rememberDeviceAlways': true }).then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setAnswer('food');
             test.setNextResponse(resSuccess);
             test.form.submit();
             return tick();
@@ -1559,8 +1575,23 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
             });
           });
         });
-        itp('makes the right init request when rememberDevice is checked', function () {
-          return setupDuo({ 'features.rememberDeviceAlways': true }).then(function () {
+        itp('makes the correct request when rememberDevice is checked', function () {
+          return setupDuo()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setRememberDevice(true);
+            test.setNextResponse(resSuccess);
+            // Duo callback (returns an empty response)
+            test.setNextResponse({
+              status: 200,
+              responseType: 'json',
+              response: {}
+            });
+            var postAction = Duo.init.calls.mostRecent().args[0].post_action;
+            postAction('someSignedResponse');
+            return tick();
+          })
+          .then(function () {
             expect($.ajax.calls.count()).toBe(2);
             Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/verify?rememberDevice=true',

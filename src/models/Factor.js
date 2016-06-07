@@ -14,11 +14,10 @@
 define([
   'okta',
   'vendor/lib/q',
-  'util/CookieUtil',
   'util/FactorUtil',
   './BaseLoginModel'
 ],
-function (Okta, Q, CookieUtil, factorUtil, BaseLoginModel) {
+function (Okta, Q, factorUtil, BaseLoginModel) {
   var _ = Okta._;
 
   // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
@@ -173,7 +172,7 @@ function (Okta, Q, CookieUtil, factorUtil, BaseLoginModel) {
       this.settings = attributes.settings;
       this.appState = attributes.appState;
       // set the initial value for remember device.
-      attributes.rememberDevice = factorUtil.getRememberDeviceValue(this.settings, this.appState);
+      attributes.rememberDevice = factorUtil.getRememberDeviceValue(this.appState);
       return _.omit(attributes, ['settings', 'appState']);
     },
 
@@ -185,13 +184,7 @@ function (Okta, Q, CookieUtil, factorUtil, BaseLoginModel) {
 
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
-      var username = this.appState.get('username');
       // Set/Remove the remember device cookie based on the remember device input.
-      if (rememberDevice) {
-        CookieUtil.setDeviceCookie(username);
-      } else {
-        CookieUtil.removeDeviceCookie();
-      }
 
       return this.doTransaction(function (transaction) {
         var data = {
@@ -234,7 +227,6 @@ function (Okta, Q, CookieUtil, factorUtil, BaseLoginModel) {
         })
         .fail(function (err) {
           // Clean up the cookie on failure.
-          CookieUtil.removeDeviceCookie();
           throw err;
         });
       });

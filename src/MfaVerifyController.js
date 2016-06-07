@@ -89,12 +89,12 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
         }
 
         // Remember Device checkbox resides outside of the Push and TOTP forms.
-        if (this.settings.get('features.rememberDevice')) {
+        if (this.options.appState.get('allowRememberDevice')) {
           this.add(Checkbox, {
             options: {
               model: this.model,
               name: 'rememberDevice',
-              placeholder: Okta.loc('rememberDevice', 'login'),
+              placeholder: this.options.appState.get('rememberDeviceLabel'),
               label: false,
               'label-top': true,
               className: 'margin-btm-0'

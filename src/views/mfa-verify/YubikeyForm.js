@@ -35,12 +35,12 @@ define(['okta'], function (Okta) {
         type: 'password'
       });
 
-      if (this.settings.get('features.rememberDevice')) {
+      if (this.options.appState.get('allowRememberDevice')) {
         this.addInput({
           label: false,
           'label-top': true,
           className: 'margin-btm-0',
-          placeholder: Okta.loc('rememberDevice', 'login'),
+          placeholder: this.options.appState.get('rememberDeviceLabel'),
           name: 'rememberDevice',
           type: 'checkbox'
         });

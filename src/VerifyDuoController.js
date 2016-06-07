@@ -15,14 +15,13 @@ define([
   'okta',
   'duo',
   'vendor/lib/q',
-  'util/CookieUtil',
   'util/FactorUtil',
   'util/FormController',
   'util/Enums',
   'util/FormType',
   'views/shared/FooterSignout'
 ],
-function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType, FooterSignout) {
+function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSignout) {
 
   var $ = Okta.$,
       _ = Okta._;
@@ -42,7 +41,7 @@ function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType,
       },
 
       initialize: function () {
-        var rememberDevice = FactorUtil.getRememberDeviceValue(this.settings, this.appState);
+        var rememberDevice = FactorUtil.getRememberDeviceValue(this.appState);
         // set the initial value for remember device (Cannot do this while defining the
         // local property because this.settings would not be initialized there yet).
         this.set('rememberDevice', rememberDevice);
@@ -50,13 +49,6 @@ function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType,
 
       getInitOptions: function () {
         var rememberDevice = !!this.get('rememberDevice');
-        var username = this.appState.get('username');
-        // Set/Remove the remember device cookie based on the remember device input.
-        if (rememberDevice) {
-          CookieUtil.setDeviceCookie(username);
-        } else {
-          CookieUtil.removeDeviceCookie();
-        }
         return this.doTransaction(function(transaction) {
           var data = {
             rememberDevice: rememberDevice
@@ -68,7 +60,6 @@ function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType,
           return factor.verify(data)
           .fail(function (err) {
             // Clean up the cookie on failure.
-            CookieUtil.removeDeviceCookie();
             throw err;
           });
         });
@@ -90,14 +81,18 @@ function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType,
         // jquery decides the Content-Type instead of it being a JSON type). Enroll/Verify DUO
         // are the only two places where we actually do this.
         // NOTE - If we ever decide to change this, we should test this very carefully.
+        var rememberDevice = this.get('rememberDevice');
         return Q($.post(url, data))
         .then(function () {
           return self.doTransaction(function(transaction) {
-            return transaction.poll();
+            var data;
+            if (rememberDevice) {
+              data = {rememberDevice: rememberDevice};
+            }
+            return transaction.poll(data);
           });
         })
         .fail(function (err) {
-          CookieUtil.removeDeviceCookie();
           self.trigger('error', self, err.xhr);
         });
       }
@@ -111,11 +106,11 @@ function (Okta, Duo, Q, CookieUtil, FactorUtil, FormController, Enums, FormType,
 
       postRender: function () {
         this.add('<iframe frameborder="0"></iframe>');
-        if (this.settings.get('features.rememberDevice')) {
+        if (this.options.appState.get('allowRememberDevice')) {
           this.addInput({
             label: false,
             'label-top': true,
-            placeholder: Okta.loc('rememberDevice', 'login'),
+            placeholder: this.options.appState.get('rememberDeviceLabel'),
             className: 'margin-btm-0',
             name: 'rememberDevice',
             type: 'checkbox'

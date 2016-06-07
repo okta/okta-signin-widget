@@ -14,7 +14,6 @@ define(['okta', 'util/CryptoUtil', 'vendor/plugins/jquery.cookie'], function (Ok
 
   var $ = Okta.$;
   var LAST_USERNAME_COOKIE_NAME = 'ln';
-  var REMEMBER_DEVICE_COOKIE_NAME = 'rdln';
   var AUTO_PUSH_COOKIE_PREFIX  = 'auto_push_';
   var DAYS_SAVE_REMEMBER = 365;
 
@@ -45,18 +44,6 @@ define(['okta', 'util/CryptoUtil', 'vendor/plugins/jquery.cookie'], function (Ok
 
   fn.removeUsernameCookie = function () {
     removeCookie(LAST_USERNAME_COOKIE_NAME);
-  };
-
-  fn.getCookieDeviceUsername = function () {
-    return $.cookie(REMEMBER_DEVICE_COOKIE_NAME);
-  };
-
-  fn.setDeviceCookie = function (username) {
-    setCookie(REMEMBER_DEVICE_COOKIE_NAME, username);
-  };
-
-  fn.removeDeviceCookie = function () {
-    removeCookie(REMEMBER_DEVICE_COOKIE_NAME);
   };
 
   fn.isAutoPushEnabled = function (userId) {

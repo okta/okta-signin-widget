@@ -55,6 +55,21 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
     });
   }
 
+  function getMinutesString(factorLifetimeInMinutes) {
+    if (factorLifetimeInMinutes > 60 && factorLifetimeInMinutes <= 1440) {
+      var lifetimeInHours = (factorLifetimeInMinutes / 60);
+      return Okta.loc('hours', 'login', [lifetimeInHours]);
+    } else if (factorLifetimeInMinutes > 1440) {
+      var lifetimeInDays = (factorLifetimeInMinutes / 1440);
+      return Okta.loc('days', 'login', [lifetimeInDays]);
+    }
+    //Use minutes as the time unit by default
+    if (factorLifetimeInMinutes === 1) {
+      return Okta.loc('minutes.oneMinute', 'login');
+    }
+    return Okta.loc('minutes', 'login', [factorLifetimeInMinutes]);
+  }
+
   return Okta.Model.extend({
 
     initialize: function () {
@@ -90,6 +105,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       transactionError: 'object',
       username: 'string',
       factors: 'object',
+      policy: 'object',
       securityImage: ['string', true, UNDEFINED_USER],
       userCountryCode: 'string',
       userPhoneNumber: 'string',
@@ -102,6 +118,9 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       // across auth responses. Not doing this, for example, results in being
       // unable to switch away from the duo factor dropdown.
       var self = this;
+      if (res._embedded && res._embedded.policy) {
+        this.set('policy', res._embedded.policy);
+      }
       if (res._embedded && res._embedded.factors) {
         var settings = this.settings;
         var factors = _.map(res._embedded.factors, function (factor) {
@@ -387,6 +406,30 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         deps: ['securityImage'],
         fn: function (securityImage) {
           return (securityImage === NEW_USER);
+        }
+      },
+      'allowRememberDevice': {
+        deps: ['policy'],
+        fn: function (policy) {
+          return policy && policy.allowRememberDevice;
+        }
+      },
+      'rememberDeviceLabel': {
+        deps: ['policy'],
+        fn: function (policy) {
+          if (policy && policy.rememberDeviceLifetimeInMinutes > 0) {
+            var timeString = getMinutesString(policy.rememberDeviceLifetimeInMinutes);
+            return Okta.loc('rememberDevice.timebased', 'login', [timeString]);
+          } else if (policy && policy.rememberDeviceLifetimeInMinutes === 0) {
+            return Okta.loc('rememberDevice.devicebased', 'login');
+          }
+          return Okta.loc('rememberDevice', 'login');
+        }
+      },
+      'rememberDeviceByDefault': {
+        deps: ['policy'],
+        fn: function (policy) {
+          return policy && policy.rememberDeviceByDefault;
         }
       }
     },
