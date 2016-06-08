@@ -53,5 +53,9 @@
   },
   "dependencies": {
     "@okta/i18n": "1.3.0-beta.3"
+  },
+  "optionalDependencies": {
+    "@okta/ci-pkginfo": "1.2.0",
+    "@okta/ci-update-package": "1.4.0"
   }
 }
