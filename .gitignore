@@ -4,6 +4,8 @@ node_modules/*
 !node_modules/@okta
 node_modules/@okta/*
 !node_modules/@okta/i18n
+!node_modules/@okta/ci-pkginfo
+!node_modules/@okta/ci-update-package
 npm-debug.log
 test/SpecRunner.html
 target
