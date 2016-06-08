@@ -9,3 +9,10 @@ build2
 .grunt
 .sass-cache
 .widgetrc
+
+# @okta/i18n module specific ignores
+**/node_modules/@okta/**/*.*
+!**/node_modules/@okta/**/login*.properties
+!**/node_modules/@okta/**/login*.js
+!**/node_modules/@okta/**/country*.properties
+!**/node_modules/@okta/**/country*.js
