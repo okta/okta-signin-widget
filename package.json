@@ -23,9 +23,10 @@
     "prestart": "npm run build:dev",
     "start": "grunt start-server-open",
     "package": "grunt package",
-    "prerelease": "grunt bump-prerelease-version",
     "shrinkwrap": "grunt shrinkwrap-remove-resolved",
-    "getpkg:dataload": "node buildtools/getpkginfo/getpkginfo.js -t dataload"
+    "ci-update-package": "ci-update-package",
+    "ci-pkginfo:dataload": "ci-pkginfo -t dataload",
+    "installsw": "install-with-shrinkwrap"
   },
   "devDependencies": {
     "app-root-path": "1.0.0",
@@ -52,6 +53,11 @@
     "semver": "5.1.0"
   },
   "dependencies": {
-    "@okta/i18n": "1.20.0"
+    "@okta/i18n": "1.22.0"
+  },
+  "optionalDependencies": {
+    "@okta/ci-pkginfo": "1.2.0",
+    "@okta/ci-update-package": "1.4.0",
+    "@okta/install-with-shrinkwrap": "1.4.0"
   }
 }
