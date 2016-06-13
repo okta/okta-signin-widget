@@ -5,10 +5,6 @@
   margin-bottom: 10px;
   min-width: $container-min-width;
 
-  @include max-height-mq(700px) {
-    display: none;
-  }
-
   .applogin-background {
     background-color: #fff;
     @include opacity(0.9);
@@ -31,6 +27,10 @@
 
     @include max-width-mq($container-width) {
       width: 100%;
+    }
+
+    @include max-height-mq(750px) {
+      padding: 10px 0;
     }
 
     h1 {
