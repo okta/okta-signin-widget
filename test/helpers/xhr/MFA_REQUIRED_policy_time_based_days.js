@@ -18,19 +18,21 @@ define({
       },
       "policy": {
         "allowRememberDevice": true,
-        "rememberDeviceLifetimeInMinutes": 0,
-        "rememberDeviceByDefault": false
+        "rememberDeviceLifetimeInMinutes": 2880,
+        "rememberDeviceByDefault": true
       },
       "factors": [{
-        "id": "ost947vv5GOSPjt9C0g4",
-        "factorType": "web",
-        "provider": "DUO",
+        "id": "ufshpdkgNun3xNE3W0g3",
+        "factorType": "question",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
         "profile": {
-          "credentialId": "new@mail.com"
+          "question": "disliked_food",
+          "questionText": "What is the food you least liked as a child?"
         },
         "_links": {
           "verify": {
-            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/ost947vv5GOSPjt9C0g4\/verify",
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/ufshpdkgNun3xNE3W0g3\/verify",
             "hints": {
               "allow": [
                 "POST"

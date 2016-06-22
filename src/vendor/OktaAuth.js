@@ -237,7 +237,7 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
       if (!(this instanceof OktaAuth)) {
         return new OktaAuth(args);
       }
-      
+
       if (args && !args.ajaxRequest) {
         args.ajaxRequest = ajaxRequest;
       }
@@ -485,6 +485,10 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
     return Object.prototype.toString.call(obj) === '[object Object]';
   }
 
+  function isNumber(obj) {
+    return Object.prototype.toString.call(obj) === '[object Number]';
+  }
+
   function isoToUTCString(str) {
     var parts = str.match(/\d+/g),
         isoTime = Date.UTC(parts[0], parts[1] - 1, parts[2], parts[3], parts[4], parts[5]),
@@ -587,7 +591,7 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
     if (!obj || !obj._links) {
       return;
     }
-    
+
     var link = clone(obj._links[linkName]);
 
     // If a link has a name and we have an altName, return if they match
@@ -609,6 +613,7 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
     isAbsoluteUrl: isAbsoluteUrl,
     isString: isString,
     isObject: isObject,
+    isNumber: isNumber,
     isoToUTCString: isoToUTCString,
     toQueryParams: toQueryParams,
     genRandomString: genRandomString,
@@ -683,7 +688,17 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
   }
 
   function getPollFn(sdk, res, ref) {
-    return function (delay) {
+    return function (options) {
+      var delay;
+      var rememberDevice;
+
+      if (util.isNumber(options)) {
+        delay = options;
+      } else if (util.isObject(options)) {
+        delay = options.delay;
+        rememberDevice = options.rememberDevice;
+      }
+
       if (!delay && delay !== 0) {
         delay = (500);
       }
@@ -691,7 +706,11 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
       // Get the poll function
       var pollLink = util.getLink(res, 'next', 'poll');
       function pollFn() {
-        return http.post(sdk, pollLink.href, getStateToken(res), true, true);
+        var href = pollLink.href;
+        if (rememberDevice) {
+          href += '?rememberDevice=true';
+        }
+        return http.post(sdk, href, getStateToken(res), true, true);
       }
 
       ref.isPolling = true;
@@ -820,7 +839,7 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
       }
 
       var link = obj._links[linkName];
-      
+
       if (linkName === 'next') {
         linkName = link.name;
       }
@@ -951,7 +970,7 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
 
         return res;
       })
-      .fail(function(resp) { 
+      .fail(function(resp) {
         var serverErr = resp.responseText || {};
         if (util.isString(serverErr)) {
           try {
@@ -1156,7 +1175,7 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
       });
   }
 
-  function getSession(sdk) { 
+  function getSession(sdk) {
     return http.get(sdk, '/api/v1/sessions/me')
     .then(function(session) {
       var res = util.omit(session, '_links');
@@ -1350,7 +1369,7 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
     if (iframe) {
       return iframe;
     }
-    
+
     iframe = document.createElement('iframe');
     iframe.setAttribute('id', iframeId);
     iframe.style.display = 'none';
@@ -1437,7 +1456,7 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
         We are only able to access window.location.hash on a window
         that has the same domain. A try/catch is necessary because
         there's no other way to determine that the popup is in
-        another domain. When we try to access a window on another 
+        another domain. When we try to access a window on another
         domain, an error is thrown.
       */
       try {
@@ -1460,11 +1479,11 @@ define(["jquery","vendor/lib/q"], function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBP
 
   /*
    * Retrieve an idToken from an Okta or a third party idp
-   * 
+   *
    * Two main flows:
    *
    *  1) Exchange a sessionToken for an idToken
-   * 
+   *
    *    Required:
    *      clientId: passed via the OktaAuth constructor or into getIdToken
    *      sessionToken: 'yourtoken'

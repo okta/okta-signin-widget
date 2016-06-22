@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta' , './CookieUtil'], function (Okta, CookieUtil) {
+define(['okta'], function (Okta) {
 
   var fn = {};
 
@@ -140,21 +140,8 @@ define(['okta' , './CookieUtil'], function (Okta, CookieUtil) {
     return factorData[fn.getFactorName(provider, factorType)].sortOrder;
   };
 
-  fn.getRememberDeviceValue = function (settings, appState) {
-    var username = appState && appState.get('username');
-    var rememberDeviceAlways = settings && settings.get('features.rememberDeviceAlways');
-    var rememberDeviceUsername = CookieUtil.getCookieDeviceUsername();
-    var rememberDevice = false;
-
-    // rememberDevice is true if 'rememberDeviceAlways' is on or
-    // if the last username is same as the current username.
-    if (rememberDeviceAlways) {
-      rememberDevice = true;
-    } else if (rememberDeviceUsername || username) {
-      rememberDevice = (rememberDeviceUsername === username);
-    }
-
-    return rememberDevice;
+  fn.getRememberDeviceValue = function (appState) {
+    return appState && appState.get('rememberDeviceByDefault');
   };
 
   return fn;
