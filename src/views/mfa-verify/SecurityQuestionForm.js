@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
+define(['okta', './inputs/ShowPasswordBox'], function (Okta, PasswordBox) {
 
   return Okta.Form.extend({
     className: 'mfa-verify-question',
@@ -30,23 +30,8 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
         placeholder: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
         className: 'auth-passcode',
         name: 'answer',
-        input: TextBox,
         type: 'password',
-        initialize: function () {
-          this.listenTo(this.model, 'change:showAnswer', function () {
-            var type = this.model.get('showAnswer') ? 'text' : 'password';
-            this.getInputs()[0].changeType(type);
-          });
-        }
-      });
-
-      this.addInput({
-        label: false,
-        'label-top': true,
-        placeholder: Okta.loc('mfa.challenge.answer.showAnswer', 'login'),
-        className: 'auth-passcode-show margin-btm-0',
-        name: 'showAnswer',
-        type: 'checkbox'
+        input: PasswordBox
       });
 
       if (this.options.appState.get('allowRememberDevice')) {
@@ -59,13 +44,6 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
           type: 'checkbox'
         });
       }
-    },
-
-    remove: function () {
-      this.model.unset('showAnswer');
-      return Okta.Form.prototype.remove.apply(this, arguments);
     }
-
   });
-
 });

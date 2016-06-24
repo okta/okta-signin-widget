@@ -324,14 +324,6 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVe
             expectHasAnswerField(test, 'password');
           });
         });
-        itp('has a show answer checkbox', function () {
-          return setupSecurityQuestion().then(function (test) {
-            var showAnswer = test.form.showAnswerCheckbox();
-            expect(showAnswer.length).toBe(1);
-            expect(showAnswer.attr('type')).toEqual('checkbox');
-            expect(test.form.showAnswerLabelText()).toEqual('Show answer');
-          });
-        });
         itp('has remember device checkbox', function () {
           return setupSecurityQuestion().then(function (test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
@@ -342,15 +334,30 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVe
             expect(test.form.autoPushCheckbox().length).toBe(0);
           });
         });
-        itp('an answer field type is "password" initially and changed to text \
-          when a "show answer" checkbox is checked', function () {
+        itp('when click the "show" button, the buttons container has class "password-toggle-on",\
+          and don\'t have it after clicking the "hide" button', function () {
+          return setupSecurityQuestion().then(function (test) {
+            var buttonsContainer = test.form.answerButtonsContainer();
+
+            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
+
+            test.form.showAnswerButton().click();
+            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(true);
+
+            test.form.hideAnswerButton().click();
+            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
+          });
+        });
+        itp('an answer field type is "password" initially and can be switched between "text" and "password" \
+          by clicking on "show"/"hide" buttons', function () {
           return setupSecurityQuestion().then(function (test) {
             var answer = test.form.answerField();
-            expect(test.form.showAnswerCheckboxStatus()).toEqual('unchecked');
             expect(answer.attr('type')).toEqual('password');
-            test.form.setShowAnswer(true);
+
+            test.form.showAnswerButton().click();
             expect(test.form.answerField().attr('type')).toEqual('text');
-            test.form.setShowAnswer(false);
+
+            test.form.hideAnswerButton().click();
             expect(test.form.answerField().attr('type')).toEqual('password');
           });
         });
