@@ -1,4 +1,4 @@
-/*jshint maxparams:34, maxstatements:28, camelcase:false */
+/*jshint maxparams:35, maxstatements:28, camelcase:false */
 /*global JSON */
 define([
   'vendor/lib/q',
@@ -8,6 +8,7 @@ define([
   'vendor/OktaAuth',
   'util/Util',
   'util/CryptoUtil',
+  'util/CookieUtil',
   'helpers/mocks/Util',
   'helpers/dom/MfaVerifyForm',
   'helpers/dom/Beacon',
@@ -36,8 +37,8 @@ define([
   'helpers/xhr/MFA_REQUIRED_policy_time_based_hours',
   'helpers/xhr/MFA_REQUIRED_policy_time_based_days'
 ],
-function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Beacon, Expect, Router, RouterUtil,
-          $sandbox, resAllFactors, resAllFactorsOnPrem, resVerifyTOTPOnly, resChallengeDuo, resChallengeSms,
+function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVerifyForm, Beacon, Expect, Router,
+          RouterUtil, $sandbox, resAllFactors, resAllFactorsOnPrem, resVerifyTOTPOnly, resChallengeDuo, resChallengeSms,
           resChallengeCall, resChallengePush, resRejectedPush, resTimeoutPush, resSuccess, resInvalid, resInvalidTotp,
           resResendError, resMfaLocked, resMfaDevicePolicy, resMfaTimePolicy, resMfaAlwaysPolicy,
           resMfaTimePolicy_1Min, resMfaTimePolicy_2Hrs, resMfaTimePolicy_2Days) {
@@ -1762,6 +1763,20 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, Util, MfaVerifyForm, Be
               stateToken: 'testStateToken'
             }
           });
+        });
+      });
+      itp('Verify Push after switching from Google TOTP', function () {
+        return setupGoogleTOTP({'features.autoPush': true})
+        .then(function (test) {
+          spyOn(CookieUtil, 'isAutoPushEnabled').and.returnValue(true);
+          test.beacon.dropDownButton().click();
+          test.beacon.getOptionsLinks().eq(0).click();
+          return tick(test);
+        })
+        .then(function (test) {
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).toContain('link-button-disabled');
         });
       });
       itp('Verify Google TOTP after switching from Push MFA_CHALLENGE', function () {
