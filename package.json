@@ -53,6 +53,7 @@
     "semver": "5.1.0"
   },
   "dependencies": {
+    "@okta/courage": "1.3.0-beta.30",
     "@okta/i18n": "1.22.0"
   },
   "optionalDependencies": {

@@ -4,6 +4,7 @@ node_modules/*
 !node_modules/@okta
 node_modules/@okta/*
 !node_modules/@okta/i18n
+!node_modules/@okta/courage
 npm-debug.log
 test/SpecRunner.html
 target
