@@ -17,8 +17,10 @@ build2
 /dist
 
 # @okta/i18n module specific ignores
-**/node_modules/@okta/**/*.*
-!**/node_modules/@okta/**/login*.properties
-!**/node_modules/@okta/**/login*.js
-!**/node_modules/@okta/**/country*.properties
-!**/node_modules/@okta/**/country*.js
+**/node_modules/@okta/i18n/**/*.*
+!**/node_modules/@okta/i18n/**/login*.json
+!**/node_modules/@okta/i18n/**/login*.properties
+!**/node_modules/@okta/i18n/**/login*.js
+!**/node_modules/@okta/i18n/**/country*.json
+!**/node_modules/@okta/i18n/**/country*.properties
+!**/node_modules/@okta/i18n/**/country*.js

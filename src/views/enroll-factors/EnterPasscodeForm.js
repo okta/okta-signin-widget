@@ -13,8 +13,9 @@
 define([
   'okta',
   'util/FactorUtil',
-  'util/FormType'
-], function (Okta, FactorUtil, FormType) {
+  'util/FormType',
+  'views/shared/TextBox'
+], function (Okta, FactorUtil, FormType, TextBox) {
 
   var form = {
     title: function () {
@@ -29,6 +30,7 @@ define([
     formChildren: [
       FormType.Input({
         name: 'passCode',
+        input: TextBox,
         type: 'text',
         placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
         params: {

@@ -11,19 +11,17 @@ module.exports = function (grunt) {
 
   var open        = require('open'),
       Handlebars  = require('handlebars'),
-      _           = require('lodash');
+      _           = require('underscore');
 
   var JS                    = 'target/js',
       JASMINE_TEST_FOLDER   = 'build2/reports/jasmine',
       JASMINE_TEST_FILE     = JASMINE_TEST_FOLDER + '/login.html',
       JSHINT_OUT_FILE       = 'build2/loginjs-checkstyle-result.xml',
-      SPEC_HOME             = JS + '/test/spec/',
       DIST                  = 'dist',
       ASSETS                = 'assets/',
       SASS                  = ASSETS + 'sass',
       SCSSLINT_OUT_FILE     = 'build2/loginscss-checkstyle-result.xml',
       CSS                   = 'target/css',
-      COPYRIGHT_TEXT        = grunt.file.read('src/widget/copyright.frag'),
       WIDGET_RC             = '.widgetrc',
       DEFAULT_SERVER_PORT   = 1804;
 
@@ -34,49 +32,6 @@ module.exports = function (grunt) {
   var widgetRc = {};
   if (grunt.file.isFile(WIDGET_RC)) {
     widgetRc = grunt.file.readJSON(WIDGET_RC);
-  }
-
-  function getRequireOptions(options) {
-    var requireOptions,
-        startFiles = ['widget/copyright.frag'],
-        includes = [
-          // Note: BrowserFeatures must be loaded before xdomain, because
-          // xdomain overwrites the XHR object. Any files that are used by
-          // the wrapper files (i.e. OktaSigin.js) need to be included here
-          // since they are not parsed for dependencies by require.
-          'util/BrowserFeatures',
-          'vendor/xdomain-0.7.5',
-          'vendor/common-signin',
-          'vendor/OktaAuth',
-          'util/Util',
-          'LoginRouter'
-        ];
-    if (options.includeJquery) {
-      startFiles.push('widget/start.frag');
-      includes.unshift('jquery');
-    }
-    else {
-      startFiles.push('widget/start-no-jquery.frag');
-      includes.unshift('widget/external-deps');
-    }
-    requireOptions = {
-      baseUrl: '.',
-      mainConfigFile: 'require.config.js',
-      preserveLicenseComments: true,
-      name: 'vendor/almond-0.3.1',
-      optimize: options.uglify ? 'uglify2' : 'none',
-      out: options.outFile,
-      include: includes,
-      wrap: {
-        startFile: startFiles,
-        endFile: [
-          'require.config.js',
-          'widget/OktaSignIn.js',
-          'widget/end.frag'
-        ]
-      }
-    };
-    return requireOptions;
   }
 
   function substituteWidgetVersion(content) {
@@ -117,15 +72,20 @@ module.exports = function (grunt) {
           {expand: true, cwd: 'src/', src: ['**'], dest: JS + '/'}
         ],
         options: {
-          process: function (content, srcpath) {
-            content = substituteWidgetVersion(content);
-            if (srcpath.indexOf('copyright.frag') > 0) {
-              return content;
-            } else {
-              return content.replace(COPYRIGHT_TEXT, '');
-            }
+          process: function (content) {
+            return substituteWidgetVersion(content);
           }
         }
+      },
+      courage: {
+        files: [
+          {expand: true, cwd: 'node_modules/@okta/courage/src/', src: ['**'], dest: JS + '/shared/'}
+        ]
+      },
+      'courage-vendor': {
+        files: [
+          {expand: true, cwd: 'node_modules/@okta/courage/src/vendor', src: ['**'], dest: JS + '/vendor/'}
+        ]
       },
       'i18n-to-target': {
         files: [
@@ -211,44 +171,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // Note: This is currently not being used. There is a bug in r.js which
-    // causes this to fail when pulling in common-signin.js. When that bug
-    // is resolved, we can switch back to using grunt-contrib-requirejs.
-    // More info here:
-    // https://github.com/jrburke/r.js/issues/880
-    requirejs: {},
-
-    // While we're waiting for requirejs to update with the fix, we instead
-    // use our own r.js (buildtools/r.js) and execute it using the grunt-exec
-    // plugin. We pass the build options through the json file generated
-    // from these tasks.
-    'json_generator': {
-      'no-jquery': {
-        dest: JS + '/build.js',
-        options: getRequireOptions({
-          includeJquery: false,
-          uglify: false,
-          outFile: 'okta-sign-in-no-jquery.js'
-        })
-      },
-      dev: {
-        dest: JS + '/build.js',
-        options: getRequireOptions({
-          includeJquery: true,
-          uglify: false,
-          outFile: 'okta-sign-in.js'
-        })
-      },
-      prod: {
-        dest: JS + '/build.js',
-        options: getRequireOptions({
-          includeJquery: true,
-          uglify: true,
-          outFile: 'okta-sign-in.js'
-        })
-      }
-    },
-
     'scss-lint': {
       all: {
         options: (function () {
@@ -269,7 +191,10 @@ module.exports = function (grunt) {
     },
 
     exec: {
-      build: 'node buildtools/r.js -o target/js/build.js'
+      'build-dev': 'npm run build:webpack-dev',
+      'build-prod': 'npm run build:webpack-prod',
+      'build-no-jquery': 'npm run build:webpack-no-jquery',
+      'build-test': 'npm run build:test'
     },
 
     jasmine: {
@@ -278,33 +203,13 @@ module.exports = function (grunt) {
           keepRunner: true,
           outfile: JASMINE_TEST_FILE,
           specs: [
-            SPEC_HOME + '**/*_spec.js'
+            'dist/test/tests.js'
           ],
           junit: {
             path: JASMINE_TEST_FOLDER
           },
           display: grunt.option('display') || 'full',
-          summary: true, // show stack traces and errors
-          template: require('grunt-template-jasmine-requirejs'),
-          templateOptions: {
-            requireConfigFile: JS + '/require.config.js',
-            requireConfig: {
-              // baseUrl is relative to build2/reports/jasmine/login.html
-              baseUrl: '../../../' + JS,
-              deps: ['jquery', 'jasmine-jquery', 'vendor/common-signin'],
-              paths: {
-                spec: 'test/spec',
-                helpers: 'test/helpers',
-                sandbox: 'test/helpers/sandbox',
-                'jasmine-jquery': 'test/vendor/jasmine-jquery'
-              },
-              callback: function ($) {
-                $(function () {
-                  $('<div>').attr('id', 'sandbox').css({height: 1, overflow: 'hidden'}).appendTo('body');
-                });
-              }
-            }
-          }
+          summary: true // show stack traces and errors
         }
       }
     },
@@ -407,7 +312,7 @@ module.exports = function (grunt) {
     '`grunt btest`, run `grunt test:build` to copy your changed files ' +
     'and refresh the browser',
     function (build) {
-      grunt.task.run(['copy', 'jasmine:test' + (build ? ':build' : '')]);
+      grunt.task.run(['copy', 'exec:build-test', 'jasmine:test' + (build ? ':build' : '')]);
     }
   );
 
@@ -420,7 +325,8 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask('prebuild', function (flag) {
-    var tasks = ['retire', 'copy:src', 'copy:i18n-to-target', 'copy:assets-to-target'];
+    var tasks = ['retire', 'copy:src', 'copy:i18n-to-target', 'copy:assets-to-target',
+      'copy:courage', 'copy:courage-vendor'];
     if (flag === 'minified') {
       tasks.push('compass:minify');
     } else {
@@ -433,11 +339,10 @@ module.exports = function (grunt) {
   grunt.task.registerTask('build', function (flag) {
     var tasks = [];
     if (flag === 'minified') {
-      tasks.push('prebuild:minified', 'json_generator:prod');
+      tasks.push('prebuild:minified', 'exec:build-prod');
     } else {
-      tasks.push('prebuild', 'json_generator:dev');
+      tasks.push('prebuild', 'exec:build-dev');
     }
-    tasks.push('exec');
     grunt.task.run(tasks);
   });
 
@@ -446,8 +351,8 @@ module.exports = function (grunt) {
     'Generates versioned assets and copies them to the dist/ dir',
     [
       'prebuild:minified',
-      'json_generator:prod', 'exec',
-      'json_generator:no-jquery', 'exec',
+      'exec:build-prod',
+      'exec:build-no-jquery',
       'rename', 'copy:assets-to-dist'
     ]
   );

@@ -16,9 +16,10 @@ define([
   'util/FormController',
   'util/FormType',
   'util/RouterUtil',
-  'views/enroll-factors/ManualSetupFooter'
+  'views/enroll-factors/ManualSetupFooter',
+  'views/shared/TextBox'
 ],
-function (Okta, FactorUtil, FormController, FormType, RouterUtil, ManualSetupFooter) {
+function (Okta, FactorUtil, FormController, FormType, RouterUtil, ManualSetupFooter, TextBox) {
 
   return FormController.extend({
     className: 'enroll-manual-totp',
@@ -50,6 +51,7 @@ function (Okta, FactorUtil, FormController, FormType, RouterUtil, ManualSetupFoo
 
         FormType.Input({
           name: 'sharedSecret',
+          input: TextBox,
           type: 'text',
           disabled: true
         }),

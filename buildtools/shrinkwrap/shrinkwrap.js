@@ -22,27 +22,28 @@ var _ = require('lodash'),
 
 module.exports = function (grunt) {
 
-  function removeResolved(json) {
+  function removeResolvedAndFrom(json) {
     _.each(json.dependencies, function (dependency) {
       if (dependency.dependencies) {
-        removeResolved(dependency);
+        removeResolvedAndFrom(dependency);
       }
       delete dependency.resolved;
+      delete dependency.from;
     });
   }
 
   grunt.registerTask(
-    'shrinkwrap-remove-resolved',
-    'Runs shrinkwrap and removes resolved properties',
+    'shrinkwrap-remove-resolved-and-from',
+    'Runs shrinkwrap and removes resolved and from properties',
     function () {
       var json;
 
       grunt.log.ok('Running npm shrinkwrap');
       exec('npm shrinkwrap --dev');
 
-      grunt.log.ok('Removing resolved fields');
+      grunt.log.ok('Removing resolved and from fields');
       json = grunt.file.readJSON(SHRINKWRAP_FILE);
-      removeResolved(json);
+      removeResolvedAndFrom(json);
 
       grunt.log.ok('Writing back to shrinkwrap');
       grunt.file.write(SHRINKWRAP_FILE, JSON.stringify(json, null, 2) + "\n");

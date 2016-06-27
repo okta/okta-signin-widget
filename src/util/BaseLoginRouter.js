@@ -17,6 +17,7 @@
 define([
   'okta',
   'backbone',
+  './BrowserFeatures', // Note: BrowserFeatures must be loaded before xdomain, because xdomain overwrites the XHR object
   'xdomain',
   'RefreshAuthStateController',
   'models/Settings',
@@ -25,12 +26,10 @@ define([
   'models/AppState',
   './RouterUtil',
   './Animations',
-  './BrowserFeatures',
   './Errors'
 ],
-function (Okta, Backbone, xdomain, RefreshAuthStateController, Settings, Header,
-          SecurityBeacon, AppState, RouterUtil, Animations,
-          BrowserFeatures, Errors) {
+function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, Settings, Header,
+          SecurityBeacon, AppState, RouterUtil, Animations, Errors) {
 
   var _ = Okta._,
       $ = Okta.$;
@@ -239,8 +238,10 @@ function (Okta, Backbone, xdomain, RefreshAuthStateController, Settings, Header,
         // if we get some other type of error which doesn't force a redirect,
         // we will probably be left in a bad state. I.e. old controller is
         // dropped and new controller is not rendered.
-        oldController.remove();
-        oldController.$el.remove();
+        if (oldController) {
+          oldController.remove();
+          oldController.$el.remove();
+        }
       })
       .done();
 

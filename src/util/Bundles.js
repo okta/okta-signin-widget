@@ -11,13 +11,11 @@
  */
 
 define([
-  'module',
   'i18n!nls/login',
   'i18n!nls/country'
-], function (module, login, country) {
-  var config = module.config();
-  var customLabels = config.labels;
-  var localizedCountry = config.country;
+], function (login, country) {
+  var customLabels;
+  var localizedCountry;
 
   function valid(property, defaultStrings, customStrings) {
     return customStrings.hasOwnProperty(property) &&

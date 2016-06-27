@@ -15,9 +15,10 @@ define([
   'util/FormController',
   'util/Enums',
   'util/FormType',
-  'util/ValidationUtil'
+  'util/ValidationUtil',
+  'views/shared/TextBox'
 ],
-function (Okta, FormController, Enums, FormType, ValidationUtil) {
+function (Okta, FormController, Enums, FormType, ValidationUtil, TextBox) {
 
   var _ = Okta._;
 
@@ -101,6 +102,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil) {
           label: false,
           placeholder: Okta.loc('password.oldPassword.placeholder', 'login'),
           name: 'oldPassword',
+          input: TextBox,
           type: 'password',
           params: {
             innerTooltip: Okta.loc('password.oldPassword.tooltip', 'login'),
@@ -113,6 +115,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil) {
           label: false,
           placeholder: Okta.loc('password.newPassword.placeholder', 'login'),
           name: 'newPassword',
+          input: TextBox,
           type: 'password',
           params: {
             innerTooltip: Okta.loc('password.newPassword.tooltip', 'login'),
@@ -124,6 +127,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil) {
           label: false,
           placeholder: Okta.loc('password.confirmPassword.placeholder', 'login'),
           name: 'confirmPassword',
+          input: TextBox,
           type: 'password',
           params: {
             innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login'),

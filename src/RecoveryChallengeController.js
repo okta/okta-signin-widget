@@ -15,9 +15,10 @@ define([
   'util/FormController',
   'util/FormType',
   'util/Enums',
-  'views/shared/FooterSignout'
+  'views/shared/FooterSignout',
+  'views/shared/TextBox'
 ],
-function (Okta, FormController, FormType, Enums, FooterSignout) {
+function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
 
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
@@ -87,6 +88,7 @@ function (Okta, FormController, FormType, Enums, FooterSignout) {
           placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
           className: 'enroll-sms-phone',
           name: 'passCode',
+          input: TextBox,
           type: 'text'
         })
       ]

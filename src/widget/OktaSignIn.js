@@ -1,9 +1,14 @@
-/*global getRequireConfig */
+/*globals module */
 /*jshint unused:false */
 
 var OktaSignIn = (function () {
 
   var _ = require('underscore');
+
+  // Remove once these are explicitly required in Courage
+  require('vendor/lib/underscore-wrapper');
+  require('vendor/lib/handlebars-wrapper');
+  require('vendor/lib/jquery-wrapper');
 
   function getProperties(authClient, LoginRouter, config) {
 
@@ -105,19 +110,16 @@ var OktaSignIn = (function () {
   }
 
   function OktaSignIn(options) {
-    var requireConfig = getRequireConfig(),
-        OktaAuth, Util, authClient, LoginRouter;
+    var OktaAuth, Util, authClient, LoginRouter;
 
     // Labels are special - we need to pass them directly to the Bundles module
     // to easily extend our existing properties. Other widget options should be
     // passed through a normal function call (like LoginRouter below).
     if (options.labels || options.country) {
-      requireConfig.config['util/Bundles'] = {labels: options.labels, country: options.country};
       delete options.labels;
       delete options.country;
     }
 
-    require.config(requireConfig);
     OktaAuth = require('vendor/OktaAuth');
     Util = require('util/Util');
     LoginRouter = require('LoginRouter');
@@ -142,3 +144,5 @@ var OktaSignIn = (function () {
   return OktaSignIn;
 
 })();
+
+module.exports = OktaSignIn;

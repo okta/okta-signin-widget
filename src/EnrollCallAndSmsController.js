@@ -17,9 +17,10 @@ define([
   'views/enroll-factors/PhoneTextBox',
   'util/CountryUtil',
   'util/FormType',
-  'shared/util/Keys'
+  'shared/util/Keys',
+  'views/shared/TextBox'
 ],
-function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Keys) {
+function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Keys, TextBox) {
 
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
@@ -201,6 +202,7 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
           placeholder: Okta.loc('mfa.phoneNumber.ext.placeholder', 'login'),
           className: 'enroll-call-extension',
           name: 'phoneExtension',
+          input: TextBox,
           type: 'text'
         }));
       }
@@ -240,6 +242,7 @@ function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Key
         FormType.Input({
           placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
           name: 'passCode',
+          input: TextBox,
           type: 'text',
           params: {
             innerTooltip: Okta.loc('mfa.challenge.enterCode.tooltip', 'login')

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'vendor/lib/q'], function (Okta, Q) {
+define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
 
   var subtitleTpl = Okta.Handlebars.compile('({{phoneNumber}})');
   var _ = Okta._;
@@ -84,6 +84,7 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
         placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
         className: 'o-form-fieldset o-form-label-top auth-passcode',
         name: 'answer',
+        input: TextBox,
         type: 'text'
       });
       if (this.options.appState.get('allowRememberDevice')) {

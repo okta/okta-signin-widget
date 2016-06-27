@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
+define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
 
   function addInlineTotp(form) {
     form.addDivider();
@@ -20,6 +20,7 @@ define(['okta'], function (Okta) {
       placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
       className: 'o-form-fieldset o-form-label-top inline-input auth-passcode',
       name: 'answer',
+      input: TextBox,
       type: 'text'
     });
     form.add(Okta.createButton({

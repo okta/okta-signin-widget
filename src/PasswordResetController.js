@@ -15,9 +15,10 @@ define([
   'util/FormController',
   'util/FormType',
   'util/ValidationUtil',
-  'views/shared/FooterSignout'
+  'views/shared/FooterSignout',
+  'views/shared/TextBox'
 ],
-function (Okta, FormController, FormType, ValidationUtil, FooterSignout) {
+function (Okta, FormController, FormType, ValidationUtil, FooterSignout, TextBox) {
 
   var _ = Okta._;
 
@@ -48,6 +49,7 @@ function (Okta, FormController, FormType, ValidationUtil, FooterSignout) {
         FormType.Input({
           placeholder: Okta.loc('password.newPassword.placeholder', 'login'),
           name: 'newPassword',
+          input: TextBox,
           type: 'password',
           params: {
             innerTooltip: Okta.loc('password.newPassword.tooltip', 'login'),
@@ -57,6 +59,7 @@ function (Okta, FormController, FormType, ValidationUtil, FooterSignout) {
         FormType.Input({
           placeholder: Okta.loc('password.confirmPassword.placeholder', 'login'),
           name: 'confirmPassword',
+          input: TextBox,
           type: 'password',
           params: {
             innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login'),

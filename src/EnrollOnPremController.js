@@ -14,9 +14,10 @@ define([
   'okta',
   'util/FormType',
   'util/FormController',
-  'views/enroll-factors/Footer'
+  'views/enroll-factors/Footer',
+  'views/shared/TextBox'
 ],
-function (Okta, FormType, FormController, Footer) {
+function (Okta, FormType, FormController, Footer, TextBox) {
 
   var _ = Okta._;
 
@@ -70,6 +71,7 @@ function (Okta, FormType, FormController, Footer) {
         formChildren: [
           FormType.Input({
             name: 'credentialId',
+            input: TextBox,
             type: 'text',
             placeholder: Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName]),
             params: {
@@ -78,6 +80,7 @@ function (Okta, FormType, FormController, Footer) {
           }),
           FormType.Input({
             name: 'passCode',
+            input: TextBox,
             type: 'text',
             placeholder: Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
             params: {
