@@ -115,8 +115,19 @@ var OktaSignIn = (function () {
     // Labels are special - we need to pass them directly to the Bundles module
     // to easily extend our existing properties. Other widget options should be
     // passed through a normal function call (like LoginRouter below).
-    if (options.labels || options.country) {
+    if (options.labels) {
+      // Populate cache
+      require('i18n!nls/login');
+      // Modify cache to include modifications
+      var labelsCache = require.cache[require.resolve('i18n!nls/login')];
+      _.extend(labelsCache.exports, options.labels);
       delete options.labels;
+    }
+
+    if (options.country) {
+      require('i18n!nls/country');
+      var countryCache = require.cache[require.resolve('i18n!nls/country')];
+      _.extend(countryCache.exports, options.country);
       delete options.country;
     }
 
