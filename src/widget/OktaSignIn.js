@@ -1,14 +1,9 @@
-/*globals module */
-/*jshint unused:false */
+/*globals module, __webpack_modules__ */
+/*jshint unused:false, camelcase: false */
 
 var OktaSignIn = (function () {
 
   var _ = require('underscore');
-
-  // Remove once these are explicitly required in Courage
-  require('vendor/lib/underscore-wrapper');
-  require('vendor/lib/handlebars-wrapper');
-  require('vendor/lib/jquery-wrapper');
 
   function getProperties(authClient, LoginRouter, config) {
 
@@ -112,29 +107,38 @@ var OktaSignIn = (function () {
   function OktaSignIn(options) {
     var OktaAuth, Util, authClient, LoginRouter;
 
-    // Labels are special - we need to pass them directly to the Bundles module
+    // Labels are special - we need to create a custom Bundles module
     // to easily extend our existing properties. Other widget options should be
     // passed through a normal function call (like LoginRouter below).
-    if (options.labels) {
-      // Populate cache
-      require('i18n!nls/login');
-      // Modify cache to include modifications
-      var labelsCache = require.cache[require.resolve('i18n!nls/login')];
-      _.extend(labelsCache.exports, options.labels);
-      delete options.labels;
-    }
 
-    if (options.country) {
-      require('i18n!nls/country');
-      var countryCache = require.cache[require.resolve('i18n!nls/country')];
-      _.extend(countryCache.exports, options.country);
-      delete options.country;
-    }
+    // Create copies of the label and country
+    // options so we can safely delete them
+    var labelsOptions = _.clone(options.labels);
+    var countryOptions = _.clone(options.country);
+    delete options.labels;
+    delete options.country;
+
+    // Dynamically create a Bundles module so we can extend it
+    var bundleIdModule = require.resolve('shared/util/Bundles');
+    __webpack_modules__[bundleIdModule] = function(module) {
+      var login = require('i18n!nls/login');
+      var country = require('i18n!nls/country');
+
+      module.exports = {
+        login: _.extend(login, labelsOptions),
+        country: _.extend(country, countryOptions)
+      };
+    };
+
+    // Modify the underscore, handlebars, and jquery modules
+    // Remove once these are explicitly required in Courage
+    require('vendor/lib/underscore-wrapper');
+    require('vendor/lib/handlebars-wrapper');
+    require('vendor/lib/jquery-wrapper');
 
     OktaAuth = require('vendor/OktaAuth');
     Util = require('util/Util');
     LoginRouter = require('LoginRouter');
-
 
     authClient = new OktaAuth({
       url: options.baseUrl,

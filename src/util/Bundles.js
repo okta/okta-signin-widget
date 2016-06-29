@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'i18n!nls/login',
-  'i18n!nls/country'
-], function (login, country) {
-  return {
-    login: login,
-    country: country
-  };
+define([], function () {
+	// This module will be built at runtime to include
+	// user overrides. This file is a placeholder.
+	// This file isn't empty, because it'd have the
+	// same id as the other empty modules if optimized
+	// using the Dedupe plugin.
+	return 1;
 });

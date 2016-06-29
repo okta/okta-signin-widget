@@ -14,7 +14,5 @@ build2
 **/node_modules/@okta/i18n/**/*.*
 !**/node_modules/@okta/i18n/**/login*.json
 !**/node_modules/@okta/i18n/**/login*.properties
-!**/node_modules/@okta/i18n/**/login*.js
 !**/node_modules/@okta/i18n/**/country*.json
 !**/node_modules/@okta/i18n/**/country*.properties
-!**/node_modules/@okta/i18n/**/country*.js

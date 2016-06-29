@@ -15,12 +15,12 @@ define([
   'util/FormController',
   'views/enroll-factors/Footer',
   'views/enroll-factors/PhoneTextBox',
+  'views/shared/TextBox',
   'util/CountryUtil',
   'util/FormType',
-  'shared/util/Keys',
-  'views/shared/TextBox'
+  'shared/util/Keys'
 ],
-function (Okta, FormController, Footer, PhoneTextBox, CountryUtil, FormType, Keys, TextBox) {
+function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, FormType, Keys) {
 
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds

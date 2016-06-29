@@ -21,7 +21,7 @@ module.exports = {
       'nls': '@okta/i18n/dist/json',
       'okta': 'shared/util/Okta',
 
-      // Remove unnecessary i18n files
+      // Will be populated at runtime
       'shared/util/Bundles': 'util/Bundles',
 
       // Aliases for Courage

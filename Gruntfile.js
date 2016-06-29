@@ -79,11 +79,7 @@ module.exports = function (grunt) {
       },
       courage: {
         files: [
-          {expand: true, cwd: 'node_modules/@okta/courage/src/', src: ['**'], dest: JS + '/shared/'}
-        ]
-      },
-      'courage-vendor': {
-        files: [
+          {expand: true, cwd: 'node_modules/@okta/courage/src/', src: ['**'], dest: JS + '/shared/'},
           {expand: true, cwd: 'node_modules/@okta/courage/src/vendor', src: ['**'], dest: JS + '/vendor/'}
         ]
       },
@@ -293,7 +289,6 @@ module.exports = function (grunt) {
 
   grunt.loadTasks('buildtools/phonecodes');
   grunt.loadTasks('buildtools/scsslint');
-  grunt.loadTasks('buildtools/shrinkwrap');
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
@@ -325,8 +320,7 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask('prebuild', function (flag) {
-    var tasks = ['retire', 'copy:src', 'copy:i18n-to-target', 'copy:assets-to-target',
-      'copy:courage', 'copy:courage-vendor'];
+    var tasks = ['retire', 'copy:src', 'copy:i18n-to-target', 'copy:assets-to-target', 'copy:courage'];
     if (flag === 'minified') {
       tasks.push('compass:minify');
     } else {
