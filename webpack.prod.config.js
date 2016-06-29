@@ -12,8 +12,9 @@ commonConfig.plugins = commonConfig.plugins.concat([
     sourceMap: false,
     comments: function(node, comment) {
       // Remove other Okta copyrights
-      var isLicense = /^!/.test(comment.value);
+      var isLicense = /.*(([Ll]icense)|([Cc]opyright)|(\([Cc]\))).*/.test(comment.value);
       var isOkta = /.*Okta.*/.test(comment.value);
+
       return isLicense && !isOkta;
     }
   }),
