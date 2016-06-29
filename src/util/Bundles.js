@@ -10,11 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([], function () {
-	// This module will be built at runtime to include
-	// user overrides. This file is a placeholder.
-	// This file isn't empty, because it'd have the
-	// same id as the other empty modules if optimized
-	// using the Dedupe plugin.
-	return 1;
+define([
+  'i18n!nls/login',
+  'i18n!nls/country'
+], function (login, country) {
+  // This module will be built at runtime to include
+  // user overrides. This file is currently necessary
+  // to run tests. Even when it's no longer required,
+  // it shouldn't be empty, because it'd have the
+  // same id as the other empty modules if optimized
+  // using the Dedupe plugin.
+  return {
+    login: login,
+    country: country
+  };
 });
