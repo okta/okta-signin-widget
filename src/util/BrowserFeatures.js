@@ -55,7 +55,7 @@ define(function () {
   };
 
   fn.isIE = function () {
-    return /msie/i.test(navigator.userAgent);
+    return /(msie|trident)/i.test(navigator.userAgent);
   };
 
   return fn;
