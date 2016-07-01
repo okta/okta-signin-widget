@@ -18,10 +18,11 @@ define([
   'util/FormType',
   'util/RouterUtil',
   'views/enroll-factors/ManualSetupPushFooter',
-  'views/enroll-factors/PhoneTextBox'
+  'views/enroll-factors/PhoneTextBox',
+  'views/shared/TextBox'
 ],
 function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
-          Footer, PhoneTextBox) {
+          Footer, PhoneTextBox, TextBox) {
 
   var _ = Okta._;
 
@@ -178,6 +179,7 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
 
           FormType.Input({
             name: 'sharedSecret',
+            input: TextBox,
             type: 'text',
             disabled: true,
             showWhen: {activationType: 'MANUAL'},

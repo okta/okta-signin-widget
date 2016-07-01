@@ -14,8 +14,9 @@ define([
   'okta',
   'util/FormType',
   'util/FormController',
-  'views/enroll-factors/Footer'],
-function (Okta, FormType, FormController, Footer) {
+  'views/enroll-factors/Footer',
+  'views/shared/TextBox'],
+function (Okta, FormType, FormController, Footer, TextBox) {
 
   var _ = Okta._;
 
@@ -53,6 +54,7 @@ function (Okta, FormType, FormController, Footer) {
       formChildren: [
         FormType.Input({
           name: 'credentialId',
+          input: TextBox,
           type: 'text',
           placeholder: Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login'),
           params: {
@@ -61,6 +63,7 @@ function (Okta, FormType, FormController, Footer) {
         }),
         FormType.Input({
           name: 'passCode',
+          input: TextBox,
           type: 'text',
           placeholder: Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login'),
           params: {
@@ -69,6 +72,7 @@ function (Okta, FormType, FormController, Footer) {
         }),
         FormType.Input({
           name: 'nextPassCode',
+          input: TextBox,
           type: 'text',
           placeholder: Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login'),
           params: {

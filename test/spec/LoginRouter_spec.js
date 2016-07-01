@@ -7,7 +7,7 @@ define([
   'shared/util/Util',
   'util/CryptoUtil',
   'util/CookieUtil',
-  'vendor/OktaAuth',
+  '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/util/Expect',
   'LoginRouter',

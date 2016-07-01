@@ -11,37 +11,17 @@
  */
 
 define([
-  'module',
   'i18n!nls/login',
   'i18n!nls/country'
-], function (module, login, country) {
-  var config = module.config();
-  var customLabels = config.labels;
-  var localizedCountry = config.country;
-
-  function valid(property, defaultStrings, customStrings) {
-    return customStrings.hasOwnProperty(property) &&
-           defaultStrings.hasOwnProperty(property) &&
-           customStrings[property] !== '';
-  }
-
-  // This works like _.extend but prevents an empty custom key
-  // from overriding a login key. Also, this removes the need
-  // for underscore.
-  function customizeLogin(defaultStrings, customStrings) {
-    for (var prop in customStrings) {
-      if (valid(prop, defaultStrings, customStrings)) {
-        defaultStrings[prop] = customStrings[prop];
-      }
-    }
-    return defaultStrings;
-  }
-
+], function (login, country) {
+  // This module will be built at runtime to include
+  // user overrides. This file is currently necessary
+  // to run tests. Even when it's no longer required,
+  // it shouldn't be empty, because it'd have the
+  // same id as the other empty modules if optimized
+  // using the Dedupe plugin.
   return {
-    // The consumer of the widget may specify their own label values.
-    // These values are stored in requires module.config() object.
-    // We use this to override our own bundle values.
-    login: customizeLogin(login, customLabels),
-    country: customizeLogin(country, localizedCountry)
+    login: login,
+    country: country
   };
 });

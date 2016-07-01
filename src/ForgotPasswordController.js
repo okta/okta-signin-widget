@@ -16,9 +16,10 @@ define([
   'util/Enums',
   'util/FormType',
   'util/ValidationUtil',
-  'views/shared/ContactSupport'
+  'views/shared/ContactSupport',
+  'views/shared/TextBox'
 ],
-function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport) {
+function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport, TextBox) {
 
   var Footer = Okta.View.extend({
     template: '\
@@ -84,6 +85,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport)
           FormType.Input({
             placeholder: Okta.loc('password.forgot.email.or.username.placeholder', 'login'),
             name: 'username',
+            input: TextBox,
             type: 'text',
             params: {
               innerTooltip: Okta.loc('password.forgot.email.or.username.tooltip', 'login'),

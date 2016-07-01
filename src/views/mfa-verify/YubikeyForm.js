@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
+define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
 
   return Okta.Form.extend({
     className: 'mfa-verify-yubikey',
@@ -32,6 +32,7 @@ define(['okta'], function (Okta) {
         'label-top': true,
         className: 'o-form-fieldset o-form-label-top auth-passcode',
         name: 'answer',
+        input: TextBox,
         type: 'password'
       });
 

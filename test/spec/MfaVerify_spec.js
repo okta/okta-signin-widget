@@ -5,7 +5,7 @@ define([
   'underscore',
   'jquery',
   'duo',
-  'vendor/OktaAuth',
+  '@okta/okta-auth-js/jquery',
   'util/Util',
   'util/CryptoUtil',
   'util/CookieUtil',

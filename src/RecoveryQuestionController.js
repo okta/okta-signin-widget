@@ -14,9 +14,10 @@ define([
   'okta',
   'util/FormController',
   'util/FormType',
-  'views/shared/FooterSignout'
+  'views/shared/FooterSignout',
+  'views/shared/TextBox'
 ],
-function (Okta, FormController, FormType, FooterSignout) {
+function (Okta, FormController, FormType, FooterSignout, TextBox) {
 
   return FormController.extend({
     className: 'recovery-question',
@@ -59,6 +60,7 @@ function (Okta, FormController, FormType, FooterSignout) {
             label: this.options.appState.get('recoveryQuestion'),
             placeholder: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
             name: 'answer',
+            input: TextBox,
             type: 'password',
             initialize: function () {
               this.listenTo(this.model, 'change:showAnswer', function () {

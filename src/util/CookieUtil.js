@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/CryptoUtil', 'vendor/plugins/jquery.cookie'], function (Okta, CryptoUtil) {
+define(['okta', 'util/CryptoUtil', 'jquery.cookie'], function (Okta, CryptoUtil) {
 
   var $ = Okta.$;
   var LAST_USERNAME_COOKIE_NAME = 'ln';

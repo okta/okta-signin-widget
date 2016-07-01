@@ -1,5 +1,5 @@
-/*global getRequireConfig */
-/*jshint unused:false */
+/*globals module, __webpack_modules__ */
+/*jshint unused:false, camelcase: false */
 
 var OktaSignIn = (function () {
 
@@ -105,23 +105,40 @@ var OktaSignIn = (function () {
   }
 
   function OktaSignIn(options) {
-    var requireConfig = getRequireConfig(),
-        OktaAuth, Util, authClient, LoginRouter;
+    var OktaAuth, Util, authClient, LoginRouter;
 
-    // Labels are special - we need to pass them directly to the Bundles module
+    // Labels are special - we need to create a custom Bundles module
     // to easily extend our existing properties. Other widget options should be
     // passed through a normal function call (like LoginRouter below).
-    if (options.labels || options.country) {
-      requireConfig.config['util/Bundles'] = {labels: options.labels, country: options.country};
-      delete options.labels;
-      delete options.country;
-    }
 
-    require.config(requireConfig);
-    OktaAuth = require('vendor/OktaAuth');
+    // Create copies of the label and country
+    // options so we can safely delete them
+    var labelsOptions = _.clone(options.labels);
+    var countryOptions = _.clone(options.country);
+    delete options.labels;
+    delete options.country;
+
+    // Dynamically create a Bundles module so we can extend it
+    var bundleIdModule = require.resolve('shared/util/Bundles');
+    __webpack_modules__[bundleIdModule] = function(module) {
+      var login = require('i18n!nls/login');
+      var country = require('i18n!nls/country');
+
+      module.exports = {
+        login: _.extend(login, labelsOptions),
+        country: _.extend(country, countryOptions)
+      };
+    };
+
+    // Modify the underscore, handlebars, and jquery modules
+    // Remove once these are explicitly required in Courage
+    require('vendor/lib/underscore-wrapper');
+    require('vendor/lib/handlebars-wrapper');
+    require('vendor/lib/jquery-wrapper');
+
+    OktaAuth = require('@okta/okta-auth-js/jquery');
     Util = require('util/Util');
     LoginRouter = require('LoginRouter');
-
 
     authClient = new OktaAuth({
       url: options.baseUrl,
@@ -142,3 +159,5 @@ var OktaSignIn = (function () {
   return OktaSignIn;
 
 })();
+
+module.exports = OktaSignIn;

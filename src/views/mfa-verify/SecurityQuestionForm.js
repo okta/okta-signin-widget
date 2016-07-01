@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
+define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
 
   return Okta.Form.extend({
     className: 'mfa-verify-question',
@@ -30,6 +30,7 @@ define(['okta'], function (Okta) {
         placeholder: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
         className: 'auth-passcode',
         name: 'answer',
+        input: TextBox,
         type: 'password',
         initialize: function () {
           this.listenTo(this.model, 'change:showAnswer', function () {
