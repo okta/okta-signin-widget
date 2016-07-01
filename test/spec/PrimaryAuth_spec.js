@@ -3,7 +3,7 @@ define([
   'underscore',
   'jquery',
   'vendor/lib/q',
-  'vendor/OktaAuth',
+  '@okta/okta-auth-js/jquery',
   'util/Util',
   'okta',
   'helpers/mocks/Util',

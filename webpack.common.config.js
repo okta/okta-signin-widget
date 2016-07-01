@@ -70,7 +70,10 @@ module.exports = {
     new webpack.DefinePlugin({
       // This is a temporary fix for okta-auth-js not populating
       // this when consumed via npm
-      SDK_VERSION: JSON.stringify(0)
+      SDK_VERSION: JSON.stringify(0),
+      STATE_TOKEN_COOKIE_NAME: JSON.stringify('oktaStateToken'),
+      DEFAULT_POLLING_DELAY: 500,
+      FRAME_ID: JSON.stringify('okta-oauth-helper-frame')
     })
   ],
   resolveLoader: {
