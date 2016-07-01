@@ -63,7 +63,8 @@
     "backbone": "1.2.1",
     "request-promise": "2.0.0",
     "underscore": "1.8.3",
-    "q": "1.4.1"
+    "q": "1.4.1",
+    "@okta/okta-auth-js": "1.1.2"
   },
   "optionalDependencies": {
     "@okta/ci-pkginfo": "1.2.0",
