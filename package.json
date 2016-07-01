@@ -14,6 +14,10 @@
   "publishConfig": {
     "registry": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta"
   },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/js/okta-sign-in.min.js",
   "scripts": {
     "lint:report": "grunt lint --checkstyle",
     "lint": "grunt lint",
@@ -26,6 +30,7 @@
     "build:test": "webpack --config webpack.test.config.js",
     "prestart": "npm run build:dev",
     "start": "grunt start-server-open",
+    "prepublish": "grunt prep-release",
     "package": "grunt package",
     "ci-update-package": "ci-update-package",
     "ci-pkginfo:dataload": "ci-pkginfo -t dataload",

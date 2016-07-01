@@ -10,8 +10,8 @@ _.extend(commonConfig.resolve.alias, {
 module.exports = _.extend(commonConfig, {
   entry: './target/js/test/main.js',
   output: {
-    path: path.resolve(__dirname, 'dist/test'),
-    filename: 'tests.js'
+    path: path.resolve(__dirname, 'target/test'),
+    filename: 'main-tests.js'
   },
   devtool: '#inline-source-map'
 });

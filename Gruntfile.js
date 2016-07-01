@@ -151,17 +151,35 @@ module.exports = function (grunt) {
     rename: {
       'js': {
         src: JS + '/okta-sign-in.js',
-        dest: DIST + '/js/okta-sign-in-<%= pkg.version %>.min.js'
+        dest: DIST + '/js/okta-sign-in.min.js'
       },
       'js-no-jquery': {
         src: JS + '/okta-sign-in-no-jquery.js',
-        dest: DIST + '/js/okta-sign-in-no-jquery-<%= pkg.version %>.js'
+        dest: DIST + '/js/okta-sign-in-no-jquery.js'
       },
       'css': {
         src: CSS + '/okta-sign-in.css',
-        dest: DIST + '/css/okta-sign-in-<%= pkg.version %>.min.css'
+        dest: DIST + '/css/okta-sign-in.min.css'
       },
       'css-theme': {
+        src: CSS + '/okta-theme.css',
+        dest: DIST + '/css/okta-theme.css'
+      },
+
+      // Remove these after removing the package target
+      'version-js': {
+        src: JS + '/okta-sign-in.js',
+        dest: DIST + '/js/okta-sign-in-<%= pkg.version %>.min.js'
+      },
+      'version-js-no-jquery': {
+        src: JS + '/okta-sign-in-no-jquery.js',
+        dest: DIST + '/js/okta-sign-in-no-jquery-<%= pkg.version %>.js'
+      },
+      'version-css': {
+        src: CSS + '/okta-sign-in.css',
+        dest: DIST + '/css/okta-sign-in-<%= pkg.version %>.min.css'
+      },
+      'version-css-theme': {
         src: CSS + '/okta-theme.css',
         dest: DIST + '/css/okta-theme-<%= pkg.version %>.css'
       }
@@ -199,7 +217,7 @@ module.exports = function (grunt) {
           keepRunner: true,
           outfile: JASMINE_TEST_FILE,
           specs: [
-            'dist/test/tests.js'
+            'target/test/main-tests.js'
           ],
           junit: {
             path: JASMINE_TEST_FOLDER
@@ -340,6 +358,8 @@ module.exports = function (grunt) {
     grunt.task.run(tasks);
   });
 
+  // Note: This can probably be replaced later with prep-release now that the
+  // naming convention in /js/sdk includes the version number.
   grunt.task.registerTask(
     'package',
     'Generates versioned assets and copies them to the dist/ dir',
@@ -347,7 +367,26 @@ module.exports = function (grunt) {
       'prebuild:minified',
       'exec:build-prod',
       'exec:build-no-jquery',
-      'rename', 'copy:assets-to-dist'
+      'rename:version-js',
+      'rename:version-js-no-jquery',
+      'rename:version-css',
+      'rename:version-css-theme',
+      'copy:assets-to-dist'
+    ]
+  );
+
+  grunt.task.registerTask(
+    'prep-release',
+    'Generates dist/ directory with publish assets',
+    [
+      'prebuild:minified',
+      'exec:build-prod',
+      'exec:build-no-jquery',
+      'rename:js',
+      'rename:js-no-jquery',
+      'rename:css',
+      'rename:css-theme',
+      'copy:assets-to-dist'
     ]
   );
 
