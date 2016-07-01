@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/okta/okta-signin-widget.svg?branch=master)](https://travis-ci.org/okta/okta-signin-widget)
+
 <img src="/assets/img/okta-signin-widget.png" title="Okta Sign-In Widget" align="right"/>
 
 # Okta Sign-In Widget
