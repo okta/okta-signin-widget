@@ -60,10 +60,10 @@
     "handlebars": "4.0.5",
     "jquery": "1.12.1",
     "jquery.cookie": "1.4.1",
-    "q": "1.4.1",
     "backbone": "1.2.1",
     "request-promise": "2.0.0",
-    "underscore": "1.8.3"
+    "underscore": "1.8.3",
+    "q": "1.4.1"
   },
   "optionalDependencies": {
     "@okta/ci-pkginfo": "1.2.0",
