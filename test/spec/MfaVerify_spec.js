@@ -494,6 +494,16 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVe
             expectHasAnswerField(test);
           });
         });
+        itp('has a masked passCode field for RSA', function () {
+          return setupRsaTOTP().then(function (test) {
+            expectHasAnswerField(test, 'password');
+          });
+        });
+        itp('has a masked passCode field for On-Prem', function () {
+          return setupOnPremTOTP().then(function (test) {
+            expectHasAnswerField(test, 'password');
+          });
+        });
         itp('has remember device checkbox', function () {
           return setupGoogleTOTP().then(function (test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());

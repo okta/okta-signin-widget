@@ -103,7 +103,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         });
         itp('has passCode text field', function () {
           return setup().then(function (test) {
-            Expect.isTextField(test.form.codeField());
+            Expect.isPasswordField(test.form.codeField());
           });
         });
         itp('has a verify button', function () {
@@ -203,7 +203,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         });
         itp('has passCode text field', function () {
           return setupOnPrem().then(function (test) {
-            Expect.isTextField(test.form.codeField());
+            Expect.isPasswordField(test.form.codeField());
           });
         });
         itp('has a verify button', function () {

@@ -23,6 +23,7 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
 
     initialize: function () {
       var factorName = this.model.get('factorLabel');
+      var maskPasswordField = this.model.get('provider') === 'RSA' || this.model.get('provider') === 'DEL_OATH';
 
       this.title = factorName;
       this.subtitle = Okta.loc('mfa.challenge.title', 'login', [factorName]);
@@ -34,7 +35,7 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
         className: 'o-form-fieldset o-form-label-top auth-passcode',
         name: 'answer',
         input: TextBox,
-        type: 'text'
+        type: maskPasswordField ? 'password' : 'text'
       });
 
       if (this.options.appState.get('allowRememberDevice')) {

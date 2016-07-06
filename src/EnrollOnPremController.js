@@ -81,7 +81,7 @@ function (Okta, FormType, FormController, Footer, TextBox) {
           FormType.Input({
             name: 'passCode',
             input: TextBox,
-            type: 'text',
+            type: 'password',
             placeholder: Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
             params: {
               innerTooltip: Okta.loc('enroll.onprem.passcode.tooltip', 'login', [vendorName])
