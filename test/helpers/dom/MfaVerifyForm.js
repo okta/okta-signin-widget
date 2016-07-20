@@ -45,23 +45,20 @@ define(['./Form'], function (Form) {
       field.trigger('change');
     },
 
-    showAnswerCheckbox: function () {
-      return this.checkbox(SHOW_ANSWER_FIELD);
-    },
-
     showAnswerLabelText: function () {
       return this.checkboxLabelText(SHOW_ANSWER_FIELD);
     },
 
-    showAnswerCheckboxStatus: function () {
-      var isChecked = this.showAnswerCheckbox().prop('checked');
-      return isChecked ? 'checked' : 'unchecked';
+    answerButtonsContainer: function () {
+      return this.el('o-form-input-answer').find('.password-toggle');
     },
 
-    setShowAnswer: function (val) {
-      var showAnswer = this.showAnswerCheckbox();
-      showAnswer.prop('checked', val);
-      showAnswer.trigger('change');
+    showAnswerButton: function () {
+      return this.el('o-form-input-answer').find('.button-show');
+    },
+
+    hideAnswerButton: function () {
+      return this.el('o-form-input-answer').find('.button-hide');
     },
 
     rememberDeviceCheckbox: function () {

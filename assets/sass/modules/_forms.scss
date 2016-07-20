@@ -189,6 +189,33 @@
       right: 10px;
       opacity: 0.5;
     }
+
+    .password-toggle {
+      .button {
+        right: 5px;
+        position: absolute;
+        top: 50%;
+        margin-top: -13px;
+        line-height: 24px;
+        height: 26px;
+        padding: 0 5px;
+        font-size: 11px;
+      }
+
+      .button-hide {
+        display: none;
+      }
+    }
+
+    .password-toggle-on {
+      .button-show {
+        display: none;
+      }
+
+      .button-hide {
+        display: block;
+      }
+    }
   }
 
 }

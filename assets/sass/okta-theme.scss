@@ -413,6 +413,11 @@
     @include light-button-template($button-bg-color);
   }
 
+  .button-dark {
+    /* -- Buttons' Colors -- */
+    @include dark-button-template($dark-button-bg-color);
+  }
+
   .button-primary {
   /* -- Buttons' Colors -- */
     @include dark-button-template($primary-button-bg-color);
