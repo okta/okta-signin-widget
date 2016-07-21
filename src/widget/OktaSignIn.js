@@ -1,4 +1,4 @@
-/*globals module, __webpack_modules__ */
+/*globals module, __webpack_modules__, WIDGET_VERSION */
 /*jshint unused:false, camelcase: false */
 
 var OktaSignIn = (function () {
@@ -144,7 +144,7 @@ var OktaSignIn = (function () {
       url: options.baseUrl,
       transformErrorXHR: Util.transformErrorXHR,
       headers: {
-        'X-Okta-SDK': 'okta-signin-widget-<%= widgetversion %>'
+        'X-Okta-User-Agent-Extended': 'okta-signin-widget-' + WIDGET_VERSION
       },
       clientId: options.clientId,
       redirectUri: options.redirectUri

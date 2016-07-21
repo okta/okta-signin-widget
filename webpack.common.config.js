@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path    = require('path');
 var empty = 'widget/empty';
+var packageJson = require('./package.json');
 
 module.exports = {
   entry: './target/js/widget/OktaSignIn.js',
@@ -65,6 +66,10 @@ module.exports = {
     new webpack.ProvidePlugin({
       process: empty,
       setImmediate: empty
+    }),
+
+    new webpack.DefinePlugin({
+      WIDGET_VERSION: JSON.stringify(packageJson.version)
     })
   ],
   resolveLoader: {
