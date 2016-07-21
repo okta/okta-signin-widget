@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path    = require('path');
 var empty = 'widget/empty';
+var packageJson = require('./package.json');
 
 module.exports = {
   entry: './target/js/widget/OktaSignIn.js',
@@ -68,17 +69,22 @@ module.exports = {
     }),
 
     new webpack.DefinePlugin({
-      // This is a temporary fix for okta-auth-js not populating
-      // this when consumed via npm
-      SDK_VERSION: JSON.stringify(0),
-      STATE_TOKEN_COOKIE_NAME: JSON.stringify('oktaStateToken'),
-      DEFAULT_POLLING_DELAY: 500,
-      FRAME_ID: JSON.stringify('okta-oauth-helper-frame')
+      WIDGET_VERSION: JSON.stringify(packageJson.version)
     })
   ],
   resolveLoader: {
     'alias': {
       'i18n': 'json'
     }
+  },
+  module: {
+    loaders: [
+      // Use json-loader only for config.json, because
+      // we alias i18n to the json loader, which
+      // causes webpack to attempt using json-loader
+      // twice. This behavior causes the build to fail 
+      // on i18n json files.
+      { test: /config\.json$/, loader: 'json' }
+    ]
   }
 };
