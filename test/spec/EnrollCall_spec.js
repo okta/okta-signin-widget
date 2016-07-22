@@ -162,7 +162,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           var countries = test.form.countriesList();
           expect(countries[0]).toEqual({ val: 'AF', text: 'Afghanistan' });
           expect(countries[1]).toEqual({ val: 'AL', text: 'Albania' });
-          expect(countries[237]).toEqual({ val: 'ZW', text: 'Zimbabwe' });
+          expect(countries[238]).toEqual({ val: 'ZW', text: 'Zimbabwe' });
         });
       });
       itp('does not include countries with no calling codes', function () {
