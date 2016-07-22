@@ -48,6 +48,13 @@ define(['okta',
           }
         }
       );
+      this.listenTo(this.options.appState, 'change:isMfaRequired',
+        function (state, isMfaRequired) {
+          if (isMfaRequired) {
+            this.clearErrors();
+          }
+        }
+      );
       this.title = titleTpl({
         factorName: this.model.get('factorLabel'),
         deviceName: this.model.get('deviceName')
