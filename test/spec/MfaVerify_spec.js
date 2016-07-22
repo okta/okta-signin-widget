@@ -1493,6 +1493,31 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVe
               });
             });
           });
+          itp('clears any errors from push when submitting inline totp', function () {
+            return setupOktaPush()
+            .then(function (test) {
+              var inlineForm = test.form[1];
+              return setupPolling(test, resRejectedPush)
+              .then(function () {
+                // Final response - REJECTED
+                return tick({
+                  test: test,
+                  inlineForm: inlineForm
+                });
+              });
+            })
+            .then(function (res) {
+              expect(res.test.form.errorMessage()).toBe('You have chosen to reject this login.');
+              res.inlineForm.inlineTOTPAdd().click();
+              res.inlineForm.setAnswer('654321');
+              res.test.setNextResponse(resAllFactors);
+              res.inlineForm.inlineTOTPVerify().click();
+              return tick(res.test);
+            })
+            .then(function (test) {
+              expect(test.form.hasErrors()).toBe(false);
+            });
+          });
           itp('calls authClient verifyFactor with rememberDevice URL param', function () {
             return setupOktaPush().then(function (test) {
               $.ajax.calls.reset();
