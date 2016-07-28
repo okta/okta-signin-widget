@@ -80,10 +80,16 @@ define(['okta'], function (Okta) {
       description: Okta.loc('factor.securityQuestion.description', 'login'),
       iconClassName: 'mfa-okta-security-question',
       sortOrder: 9
+    },
+    'WINDOWS_HELLO': {
+      label: Okta.loc('factor.windowsHello', 'login'),
+      description: Okta.loc('factor.windowsHello.description', 'login'),
+      iconClassName: 'mfa-windows-hello',
+      sortOrder: 10
     }
   };
 
-  /* jshint maxstatements: 22, maxcomplexity: 12 */
+  /* jshint maxstatements: 30, maxcomplexity: 15 */
   fn.getFactorName = function (provider, factorType) {
     if (provider === 'OKTA' && factorType === 'token:software:totp') {
       return 'OKTA_VERIFY';
@@ -117,6 +123,9 @@ define(['okta'], function (Okta) {
     }
     if (provider === 'OKTA' && factorType === 'question') {
       return 'QUESTION';
+    }
+    if (provider === 'FIDO' && factorType === 'webauthn') {
+      return 'WINDOWS_HELLO';
     }
   };
 

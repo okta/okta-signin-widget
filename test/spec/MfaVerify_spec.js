@@ -1,4 +1,4 @@
-/*jshint maxparams:35, maxstatements:28, camelcase:false */
+/*jshint maxparams:40, maxstatements:40, camelcase:false */
 /*global JSON */
 define([
   'vendor/lib/q',
@@ -16,12 +16,14 @@ define([
   'LoginRouter',
   'util/RouterUtil',
   'sandbox',
+  'util/webauthn',
   'helpers/xhr/MFA_REQUIRED_allFactors',
   'helpers/xhr/MFA_REQUIRED_allFactors_OnPrem',
   'helpers/xhr/MFA_REQUIRED_oktaVerifyTotpOnly',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
+  'helpers/xhr/MFA_CHALLENGE_Webauthn',
   'helpers/xhr/MFA_CHALLENGE_push',
   'helpers/xhr/MFA_CHALLENGE_push_rejected',
   'helpers/xhr/MFA_CHALLENGE_push_timeout',
@@ -37,11 +39,43 @@ define([
   'helpers/xhr/MFA_REQUIRED_policy_time_based_hours',
   'helpers/xhr/MFA_REQUIRED_policy_time_based_days'
 ],
-function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVerifyForm, Beacon, Expect, Router,
-          RouterUtil, $sandbox, resAllFactors, resAllFactorsOnPrem, resVerifyTOTPOnly, resChallengeDuo, resChallengeSms,
-          resChallengeCall, resChallengePush, resRejectedPush, resTimeoutPush, resSuccess, resInvalid, resInvalidTotp,
-          resResendError, resMfaLocked, resMfaDevicePolicy, resMfaTimePolicy, resMfaAlwaysPolicy,
-          resMfaTimePolicy_1Min, resMfaTimePolicy_2Hrs, resMfaTimePolicy_2Days) {
+function (Q,
+          _,
+          $,
+          Duo,
+          OktaAuth,
+          LoginUtil,
+          CryptoUtil,
+          CookieUtil,
+          Util,
+          MfaVerifyForm,
+          Beacon,
+          Expect,
+          Router,
+          RouterUtil,
+          $sandbox,
+          webauthn,
+          resAllFactors,
+          resAllFactorsOnPrem,
+          resVerifyTOTPOnly,
+          resChallengeDuo,
+          resChallengeSms,
+          resChallengeCall,
+          resChallengeWebauthn,
+          resChallengePush,
+          resRejectedPush,
+          resTimeoutPush,
+          resSuccess,
+          resInvalid,
+          resInvalidTotp,
+          resResendError,
+          resMfaLocked,
+          resMfaDevicePolicy,
+          resMfaTimePolicy,
+          resMfaAlwaysPolicy,
+          resMfaTimePolicy_1Min,
+          resMfaTimePolicy_2Hrs,
+          resMfaTimePolicy_2Days) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -71,6 +105,10 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVe
           if (provider === 'DUO' && factorType === 'web') {
             setNextResponse(resChallengeDuo);
             router.verifyDuo();
+          }
+          else if (provider === 'FIDO' && factorType === 'webauthn') {
+            setNextResponse(resChallengeWebauthn);
+            router.verifyWindowsHello();
           }
           else {
             router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
@@ -107,6 +145,33 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVe
     var setupCall = _.partial(setup, resAllFactors, { factorType: 'call' });
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
+    var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
+
+    function emulateNotWindows() {
+      spyOn(webauthn, 'isAvailable').and.returnValue(false);
+      spyOn(webauthn, 'makeCredential');
+      spyOn(webauthn, 'getAssertion');
+
+      return tick();
+    }
+
+    function emulateWindows() {
+      spyOn(webauthn, 'isAvailable').and.returnValue(true);
+
+      spyOn(webauthn, 'getAssertion').and.callFake(function () {
+        var deferred = Q.defer();
+
+        deferred.resolve({
+          authenticatorData: 'authenticatorData1234',
+          clientData: 'clientData1234',
+          signature: 'signature1234'
+        });
+
+        return tick(deferred.promise);
+      });
+
+      return tick();
+    }
 
     // Mocks the right calls for Auth SDK's transactions handled in the widget
     function mockTransactions(controller, isTotp) {
@@ -1687,6 +1752,62 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVe
           });
         });
       });
+
+      Expect.describe('Windows Hello', function (){
+        itp('shows the right beacon for Windows Hello', function () {
+          return emulateNotWindows().
+          then(setupWebauthn)
+          .then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-windows-hello');
+          });
+        });
+
+        itp('displays error message if not Windows', function () {
+          return emulateNotWindows().
+          then(setupWebauthn)
+          .then(function (test) {
+            expect(test.form.el('o-form-error-not-windows').length).toBe(1);
+            expect(test.form.submitButton().length).toBe(0);
+          });
+        });
+
+        itp('does not display error message if Windows', function () {
+          return emulateWindows().
+          then(setupWebauthn)
+          .then(function (test) {
+            expect(test.form.el('o-form-error-not-windows').length).toBe(0);
+            expect(test.form.submitButton().length).toBe(1);
+          });
+        });
+
+        itp('calls webauthn.getAssertion and verifies factor', function () {
+          return emulateWindows().
+          then(setupWebauthn)
+          .then(function (test) {
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(webauthn.getAssertion).toHaveBeenCalledWith(
+              'NONCE',
+              [{ id: 'credentialId' }]
+            );
+            return tick(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(3);
+            Expect.isJsonPost($.ajax.calls.argsFor(2), {
+              url: 'https://foo.com/api/v1/authn/factors/webauthnFactorId/verify',
+              data: {
+                authenticatorData: 'authenticatorData1234',
+                clientData: 'clientData1234',
+                signatureData: 'signature1234',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+      });
     });
 
     Expect.describe('Beacon', function () {
@@ -1699,7 +1820,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVe
       itp('has a dropdown if there is more than one factor', function () {
         return setup(resAllFactors).then(function (test) {
           var options = test.beacon.getOptionsLinks();
-          expect(options.length).toBe(9);
+          expect(options.length).toBe(10);
         });
       });
       itp('shows the right options in the dropdown, removes okta totp if ' +
@@ -1709,7 +1830,7 @@ function (Q, _, $, Duo, OktaAuth, LoginUtil, CryptoUtil, CookieUtil, Util, MfaVe
           expect(options).toEqual([
             'Okta Verify', 'Google Authenticator', 'Symantec VIP',
             'RSA SecurID', 'Duo Security', 'Yubikey', 'SMS Authentication',
-            'Voice Call Authentication', 'Security Question'
+            'Voice Call Authentication', 'Security Question', 'Windows Hello'
           ]);
         });
       });

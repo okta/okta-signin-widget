@@ -165,6 +165,16 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       action: function () {
         action.call(this, this.model);
       }
+    },
+
+    'WINDOWS_HELLO': {
+      icon: 'factor-icon mfa-windows-hello-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
     }
   };
 

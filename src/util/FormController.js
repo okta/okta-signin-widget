@@ -47,7 +47,7 @@ function (Okta, FormType, Toolbar, FormUtil, BaseLoginController, BaseLoginModel
           FormUtil.applyShowWhen(this.last(), child.viewOptions && child.viewOptions.showWhen);
           break;
         case FormType.VIEW:
-          this.add(child.viewOptions.View);
+          this.add(child.viewOptions.View, child.addOptions);
           FormUtil.applyShowWhen(this.last(), child.viewOptions.showWhen);
           break;
         default:

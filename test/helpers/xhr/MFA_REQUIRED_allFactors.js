@@ -214,6 +214,18 @@ define({
             }
           }
         }
+      }, {
+        "id": "webauthnFactorId",
+        "factorType": "webauthn",
+        "provider": "FIDO",
+        "vendorName": "FIDO",
+        "profile": {"credentialId": "00uk9z38LFBdMXeWw0g3"},
+        "_links": {
+          "verify": {
+            "href": "https://foo.com/api/v1/authn/factors/webauthnFactorId/verify",
+            "hints": {"allow": ["POST"]}
+          }
+        }
       }]
     },
     "_links": {
@@ -228,3 +240,5 @@ define({
     }
   }
 });
+
+
