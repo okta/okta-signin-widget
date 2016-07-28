@@ -116,7 +116,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
         var showAnswer = test.form.showAnswerCheckbox();
         expect(showAnswer.length).toBe(1);
         expect(showAnswer.attr('type')).toEqual('checkbox');
-        expect(test.form.showAnswerLabelText()).toEqual('Show answer');
+        expect(test.form.showAnswerLabelText()).toEqual('Show');
       });
     });
     itp('the answer field type is "password" initially and is changed to text \
