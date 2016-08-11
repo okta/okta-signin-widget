@@ -16,9 +16,11 @@ define([
   'PrimaryAuthController',
   'VerifyDuoController',
   'MfaVerifyController',
+  'VerifyWindowsHelloController',
   'EnrollChoicesController',
   'EnrollDuoController',
   'EnrollQuestionController',
+  'EnrollWindowsHelloController',
   'EnrollCallAndSmsController',
   'EnrollOnPremController',
   'EnrollSymantecVipController',
@@ -45,21 +47,47 @@ define([
   'views/shared/SecurityBeacon',
   'views/shared/FactorBeacon'
 ],
-function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerifyController,
-          EnrollChoicesController, EnrollDuoController, EnrollQuestionController, EnrollCallAndSmsController,
-          EnrollOnPremController, EnrollSymantecVipController, EnrollYubikeyController, EnrollTotpController,
-          BarcodeTotpController, BarcodePushController, ActivateTotpController, ManualSetupTotpController,
-          ManualSetupPushController, EnrollmentLinkSentController, EnterPasscodePushFlowController,
-          PasswordExpiredController, ForgotPasswordController, RecoveryChallengeController,
-          PwdResetEmailSentController, RecoveryQuestionController, PasswordResetController,
-          RecoveryLoadingController, UnlockAccountController, AccountUnlockedController,
-          UnlockEmailSentController, RefreshAuthStateController, SecurityBeacon, FactorBeacon) {
+function (BaseLoginRouter,
+          PrimaryAuthController,
+          VerifyDuoController,
+          MfaVerifyController,
+          VerifyWindowsHelloController,
+          EnrollChoicesController,
+          EnrollDuoController,
+          EnrollQuestionController,
+          EnrollWindowsHelloController,
+          EnrollCallAndSmsController,
+          EnrollOnPremController,
+          EnrollSymantecVipController,
+          EnrollYubikeyController,
+          EnrollTotpController,
+          BarcodeTotpController,
+          BarcodePushController,
+          ActivateTotpController,
+          ManualSetupTotpController,
+          ManualSetupPushController,
+          EnrollmentLinkSentController,
+          EnterPasscodePushFlowController,
+          PasswordExpiredController,
+          ForgotPasswordController,
+          RecoveryChallengeController,
+          PwdResetEmailSentController,
+          RecoveryQuestionController,
+          PasswordResetController,
+          RecoveryLoadingController,
+          UnlockAccountController,
+          AccountUnlockedController,
+          UnlockEmailSentController,
+          RefreshAuthStateController,
+          SecurityBeacon,
+          FactorBeacon) {
   return BaseLoginRouter.extend({
 
     routes: {
       '': 'primaryAuth',
       'signin': 'primaryAuth',
       'signin/verify/duo/web': 'verifyDuo',
+      'signin/verify/fido/webauthn': 'verifyWindowsHello',
       'signin/verify/:provider/:factorType': 'verify',
       'signin/enroll': 'enrollChoices',
       'signin/enroll/duo/web': 'enrollDuo',
@@ -71,6 +99,7 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
       'signin/enroll/del_oath/token': 'enrollOnPrem',
       'signin/enroll/symantec/token': 'enrollSymantecVip',
       'signin/enroll/yubico/token:hardware': 'enrollYubikey',
+      'signin/enroll/fido/webauthn': 'enrollWindowsHello',
       'signin/enroll/:provider/:factorType': 'enrollTotpFactor',
       'signin/enroll-activate/okta/push': 'scanBarcodePushFactor',
       'signin/enroll-activate/okta/push/manual': 'manualSetupPushFactor',
@@ -98,8 +127,7 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
     // Route handlers that do not require a stateToken. If the page is refreshed,
     // these functions will not require a status call to refresh the stateToken.
     stateLessRouteHandlers: [
-      'primaryAuth', 'forgotPassword', 'recoveryLoading', 'unlockAccount',
-      'refreshAuthState'
+      'primaryAuth', 'forgotPassword', 'recoveryLoading', 'unlockAccount', 'refreshAuthState'
     ],
 
     primaryAuth: function () {
@@ -110,6 +138,14 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
       this.render(VerifyDuoController, {
         provider: 'DUO',
         factorType: 'web',
+        Beacon: FactorBeacon
+      });
+    },
+
+    verifyWindowsHello: function () {
+      this.render(VerifyWindowsHelloController, {
+        provider: 'FIDO',
+        factorType: 'webauthn',
         Beacon: FactorBeacon
       });
     },
@@ -194,6 +230,14 @@ function (BaseLoginRouter, PrimaryAuthController, VerifyDuoController, MfaVerify
       this.render(EnrollTotpController, {
         provider: provider.toUpperCase(),
         factorType: factorType,
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollWindowsHello: function () {
+      this.render(EnrollWindowsHelloController, {
+        provider: 'FIDO',
+        factorType: 'webauthn',
         Beacon: FactorBeacon
       });
     },

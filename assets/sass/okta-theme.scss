@@ -384,27 +384,46 @@
 
   .mfa-question-30,
   .enroll-factor-row .mfa-okta-security-question {
-    /* -- Factor Icons (small): Sequrity Question -- */
+    /* -- Factor Icons (small): Security Question -- */
     background-image: url('../img/icons/mfa/question_38x38.png');
 
     @media
     (-webkit-min-device-pixel-ratio: 2),
     (min-resolution: 192dpi) {
-      /* -- Factor Icons (high DPI): Sequrity Question -- */
+      /* -- Factor Icons (high DPI): Security Question -- */
       background-image: url('../img/icons/mfa/question_ico@2x.png');
     }
   }
 
   .mfa-okta-security-question {
-    /* -- Factor Icons (large): Sequrity Question -- */
+    /* -- Factor Icons (large): Security Question -- */
     background-image: url('../img/icons/mfa/question_70x70.png');
 
     @media
     (-webkit-min-device-pixel-ratio: 2),
     (min-resolution: 192dpi) {
-      /* -- Factor Icons (high DPI): Sequrity Question -- */
+      /* -- Factor Icons (high DPI): Security Question -- */
       background-image: url('../img/icons/mfa/question@2x.png');
     }
+  }
+
+  .mfa-windows-hello-30,
+  .enroll-factor-row .mfa-windows-hello {
+    /* -- Factor Icons (small): Windows Hello -- */
+    background-image: url('../img/icons/mfa/windows_60x60.png');
+    background-size: contain;
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Windows Hello -- */
+      background-size: initial;
+    }
+  }
+
+  .mfa-windows-hello {
+    /* -- Factor Icons (large): Windows Hello -- */
+    background-image: url('../img/icons/mfa/windows_60x60.png');
   }
 
 
