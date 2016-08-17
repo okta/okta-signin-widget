@@ -175,6 +175,16 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       action: function () {
         action.call(this, this.model);
       }
+    },
+
+    'U2F': {
+      icon: 'factor-icon mfa-u2f-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
     }
   };
 

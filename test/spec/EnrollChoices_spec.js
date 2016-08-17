@@ -498,6 +498,15 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           });
         });
       });
+      Expect.describe('U2F', function () {
+        itHasIconAndText(
+          'U2F',
+          'mfa-u2f',
+          'Security Key (U2F)',
+          'Use a Universal 2nd Factor (U2F) security key to sign on to Okta.',
+          resAllFactors
+        );
+      });
       Expect.describe('QUESTION', function () {
         itHasIconAndText(
           'QUESTION',

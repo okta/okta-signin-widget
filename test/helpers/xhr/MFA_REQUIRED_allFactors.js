@@ -226,6 +226,18 @@ define({
             "hints": {"allow": ["POST"]}
           }
         }
+      }, {
+        "id": "u2fFactorId",
+        "factorType": "u2f",
+        "provider": "FIDO",
+        "vendorName": "FIDO",
+        "profile": {"credentialId": "someCredentialId"},
+        "_links": {
+          "verify": {
+            "href": "https://foo.com/api/v1/authn/factors/u2fFactorId/verify",
+            "hints": {"allow": ["POST"]}
+          }
+        }
       }]
     },
     "_links": {

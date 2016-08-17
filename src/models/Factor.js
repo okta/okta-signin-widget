@@ -39,7 +39,8 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           'token:software:totp',
           'token:hardware',
           'question',
-          'push'
+          'push',
+          'u2f'
         ]
       },
       provider: {
@@ -50,7 +51,8 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           'DEL_OATH',
           'SYMANTEC',
           'GOOGLE',
-          'YUBICO'
+          'YUBICO',
+          'FIDO'
         ]
       },
       enrollment: {

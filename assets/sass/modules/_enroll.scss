@@ -178,6 +178,20 @@
 
 }
 
+// U2F Enrollment
+.enroll-u2f {
+
+  .u2f-instructions ol {
+    list-style: decimal;
+    margin-left: 15px;
+  }
+
+  .u2f-instructions ol li {
+    margin-bottom: 15px;
+  }
+
+}
+
 /* TOTP Factor Enrollment */
 .device-type-input {
 
@@ -384,6 +398,44 @@
   .auth-footer {
     margin-top: 15px;
   }
+}
+
+.verify-u2f-form,
+.enroll-u2f-form {
+
+  .o-form-fieldset-container p {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .okta-waiting-spinner {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .u2f-devices-images {
+    display: inline-block;
+
+    .u2f-usb {
+      background: url('../img/icons/mfa/u2f_usb.png') no-repeat center;
+      height: 109px;
+      width: 148px;
+      margin-right: 15px;
+      float: left;
+    }
+
+    .u2f-bluetooth {
+      background: url('../img/icons/mfa/u2f_bluetooth.png') no-repeat center;
+      height: 109px;
+      width: 148px;
+      float: left;
+    }
+  }
+}
+
+.okta-waiting-spinner {
+  background: url('../img/ui/indicators/sign-on-widget-spinner.gif') no-repeat center;
+  height: 18px;
 }
 
 // 2x override because factor OS icons do not support retina and have different background image sprites

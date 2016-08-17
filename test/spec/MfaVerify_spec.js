@@ -24,6 +24,7 @@ define([
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
   'helpers/xhr/MFA_CHALLENGE_Webauthn',
+  'helpers/xhr/MFA_CHALLENGE_u2f',
   'helpers/xhr/MFA_CHALLENGE_push',
   'helpers/xhr/MFA_CHALLENGE_push_rejected',
   'helpers/xhr/MFA_CHALLENGE_push_timeout',
@@ -62,6 +63,7 @@ function (Q,
           resChallengeSms,
           resChallengeCall,
           resChallengeWebauthn,
+          resChallengeU2F,
           resChallengePush,
           resRejectedPush,
           resTimeoutPush,
@@ -110,6 +112,10 @@ function (Q,
             setNextResponse(resChallengeWebauthn);
             router.verifyWindowsHello();
           }
+          else if (provider === 'FIDO' && factorType === 'u2f') {
+            setNextResponse(resChallengeU2F);
+            router.verifyU2F();
+          }
           else {
             router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
           }
@@ -146,6 +152,7 @@ function (Q,
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
+    var setupU2F = _.partial(setup, resAllFactors, {  factorType: 'u2f', provider: 'FIDO' });
 
     function emulateNotWindows() {
       spyOn(webauthn, 'isAvailable').and.returnValue(false);
@@ -1753,18 +1760,18 @@ function (Q,
         });
       });
 
-      Expect.describe('Windows Hello', function (){
+      Expect.describe('Windows Hello', function () {
         itp('shows the right beacon for Windows Hello', function () {
-          return emulateNotWindows().
-          then(setupWebauthn)
+          return emulateNotWindows()
+          .then(setupWebauthn)
           .then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-windows-hello');
           });
         });
 
         itp('displays error message if not Windows', function () {
-          return emulateNotWindows().
-          then(setupWebauthn)
+          return emulateNotWindows()
+          .then(setupWebauthn)
           .then(function (test) {
             expect(test.form.el('o-form-error-not-windows').length).toBe(1);
             expect(test.form.submitButton().length).toBe(0);
@@ -1772,8 +1779,8 @@ function (Q,
         });
 
         itp('does not display error message if Windows', function () {
-          return emulateWindows().
-          then(setupWebauthn)
+          return emulateWindows()
+          .then(setupWebauthn)
           .then(function (test) {
             expect(test.form.el('o-form-error-not-windows').length).toBe(0);
             expect(test.form.submitButton().length).toBe(1);
@@ -1781,8 +1788,8 @@ function (Q,
         });
 
         itp('calls webauthn.getAssertion and verifies factor', function () {
-          return emulateWindows().
-          then(setupWebauthn)
+          return emulateWindows()
+          .then(setupWebauthn)
           .then(function (test) {
             test.form.submit();
             return tick(test);
@@ -1808,6 +1815,72 @@ function (Q,
           });
         });
       });
+
+      Expect.describe('Security Key (U2F)', function () {
+        itp('shows the right beacon for Security Key (U2F)', function () {
+          return setupU2F().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-u2f');
+          });
+        });
+
+        itp('shows the right title', function () {
+          return setupU2F().then(function (test) {
+            expectTitleToBe(test, 'Security Key (U2F)');
+          });
+        });
+
+        itp('shows a spinner while waiting for u2f challenge', function () {
+          return setupU2F().then(function (test) {
+            expect(test.form.el('u2f-waiting').length).toBe(1);
+          });
+        });
+
+        itp('calls u2f.sign and verifies factor', function () {
+          window.u2f = {
+            sign: function (appId, nonce, registeredKeys, callback) {
+              callback({
+                keyHandle: 'someKeyHandle',
+                clientData: 'someClientData',
+                signatureData: 'someSignature'
+              });
+            }
+          };
+          spyOn(window.u2f, 'sign').and.callThrough();
+          return setupU2F().then(function () {
+            expect(window.u2f.sign).toHaveBeenCalledWith(
+              'https://test.okta.com',
+              'NONCE',
+              [ { version: 'U2F_V2', keyHandle: 'someCredentialId' } ],
+              jasmine.any(Function)
+            );
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(3);
+            Expect.isJsonPost($.ajax.calls.argsFor(2), {
+              url: 'https://foo.com/api/v1/authn/factors/u2fFactorId/verify',
+              data: {
+                clientData: 'someClientData',
+                signatureData: 'someSignature',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+
+        itp('shows an error if u2f.sign fails', function () {
+          window.u2f = {
+            sign: function (appId, nonce, registeredKeys, callback) {
+              callback({ errorCode: '2' });
+            }
+          };
+          spyOn(window.u2f, 'sign').and.callThrough();
+          return setupU2F().then(function (test) {
+            expect(window.u2f.sign).toHaveBeenCalled();
+            test.form.el('o-form-error-container').children().length > 0;
+          });
+        });
+      });
     });
 
     Expect.describe('Beacon', function () {
@@ -1820,7 +1893,7 @@ function (Q,
       itp('has a dropdown if there is more than one factor', function () {
         return setup(resAllFactors).then(function (test) {
           var options = test.beacon.getOptionsLinks();
-          expect(options.length).toBe(10);
+          expect(options.length).toBe(11);
         });
       });
       itp('shows the right options in the dropdown, removes okta totp if ' +
@@ -1830,7 +1903,8 @@ function (Q,
           expect(options).toEqual([
             'Okta Verify', 'Google Authenticator', 'Symantec VIP',
             'RSA SecurID', 'Duo Security', 'Yubikey', 'SMS Authentication',
-            'Voice Call Authentication', 'Security Question', 'Windows Hello'
+            'Voice Call Authentication', 'Security Question', 'Windows Hello',
+            'Security Key (U2F)'
           ]);
         });
       });
