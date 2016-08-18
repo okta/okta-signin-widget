@@ -17,6 +17,7 @@ define([
   'VerifyDuoController',
   'MfaVerifyController',
   'VerifyWindowsHelloController',
+  'VerifyU2FController',
   'EnrollChoicesController',
   'EnrollDuoController',
   'EnrollQuestionController',
@@ -26,6 +27,7 @@ define([
   'EnrollSymantecVipController',
   'EnrollYubikeyController',
   'EnrollTotpController',
+  'EnrollU2FController',
   'BarcodeTotpController',
   'BarcodePushController',
   'ActivateTotpController',
@@ -52,6 +54,7 @@ function (BaseLoginRouter,
           VerifyDuoController,
           MfaVerifyController,
           VerifyWindowsHelloController,
+          VerifyU2FController,
           EnrollChoicesController,
           EnrollDuoController,
           EnrollQuestionController,
@@ -61,6 +64,7 @@ function (BaseLoginRouter,
           EnrollSymantecVipController,
           EnrollYubikeyController,
           EnrollTotpController,
+          EnrollU2FController,
           BarcodeTotpController,
           BarcodePushController,
           ActivateTotpController,
@@ -88,6 +92,7 @@ function (BaseLoginRouter,
       'signin': 'primaryAuth',
       'signin/verify/duo/web': 'verifyDuo',
       'signin/verify/fido/webauthn': 'verifyWindowsHello',
+      'signin/verify/fido/u2f': 'verifyU2F',
       'signin/verify/:provider/:factorType': 'verify',
       'signin/enroll': 'enrollChoices',
       'signin/enroll/duo/web': 'enrollDuo',
@@ -100,6 +105,7 @@ function (BaseLoginRouter,
       'signin/enroll/symantec/token': 'enrollSymantecVip',
       'signin/enroll/yubico/token:hardware': 'enrollYubikey',
       'signin/enroll/fido/webauthn': 'enrollWindowsHello',
+      'signin/enroll/fido/u2f': 'enrollU2F',
       'signin/enroll/:provider/:factorType': 'enrollTotpFactor',
       'signin/enroll-activate/okta/push': 'scanBarcodePushFactor',
       'signin/enroll-activate/okta/push/manual': 'manualSetupPushFactor',
@@ -146,6 +152,14 @@ function (BaseLoginRouter,
       this.render(VerifyWindowsHelloController, {
         provider: 'FIDO',
         factorType: 'webauthn',
+        Beacon: FactorBeacon
+      });
+    },
+
+    verifyU2F: function () {
+      this.render(VerifyU2FController, {
+        provider: 'FIDO',
+        factorType: 'u2f',
         Beacon: FactorBeacon
       });
     },
@@ -238,6 +252,14 @@ function (BaseLoginRouter,
       this.render(EnrollWindowsHelloController, {
         provider: 'FIDO',
         factorType: 'webauthn',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollU2F: function () {
+      this.render(EnrollU2FController, {
+        provider: 'FIDO',
+        factorType: 'u2f',
         Beacon: FactorBeacon
       });
     },

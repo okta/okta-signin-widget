@@ -410,22 +410,52 @@
   .mfa-windows-hello-30,
   .enroll-factor-row .mfa-windows-hello {
     /* -- Factor Icons (small): Windows Hello -- */
-    background-image: url('../img/icons/mfa/windows_60x60.png');
-    background-size: contain;
+    background-image: url('../img/icons/mfa/windowsHello_38x38.png');
 
     @media
     (-webkit-min-device-pixel-ratio: 2),
     (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Windows Hello -- */
-      background-size: initial;
+      background-image: url('../img/icons/mfa/windowsHello_ico@2x.png');
     }
   }
 
   .mfa-windows-hello {
     /* -- Factor Icons (large): Windows Hello -- */
-    background-image: url('../img/icons/mfa/windows_60x60.png');
+    background-image: url('../img/icons/mfa/windowsHello_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Windows Hello -- */
+      background-image: url('../img/icons/mfa/windowsHello@2x.png');
+    }
   }
 
+  .mfa-u2f-30,
+  .enroll-factor-row .mfa-u2f {
+    /* -- Factor Icons (small): U2F -- */
+    background-image: url('../img/icons/mfa/u2f_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): U2F -- */
+      background-image: url('../img/icons/mfa/u2f_ico@2x.png');
+    }
+  }
+
+  .mfa-u2f {
+    /* -- Factor Icons (large): U2F -- */
+    background-image: url('../img/icons/mfa/u2f_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): U2F -- */
+      background-image: url('../img/icons/mfa/u2f@2x.png');
+    }
+  }
 
   .button {
   /* -- Buttons' Colors -- */

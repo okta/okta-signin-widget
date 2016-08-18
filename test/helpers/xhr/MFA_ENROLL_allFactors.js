@@ -182,6 +182,22 @@ define({
             }
           }
         }
+      }, {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
+        "factorType": "u2f",
+        "provider": "FIDO",
+        "vendorName": "FIDO",
+        "_links": {
+          "enroll": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
       }]
     },
     "_links": {

@@ -86,6 +86,12 @@ define(['okta'], function (Okta) {
       description: Okta.loc('factor.windowsHello.description', 'login'),
       iconClassName: 'mfa-windows-hello',
       sortOrder: 10
+    },
+    'U2F': {
+      label: Okta.loc('factor.u2f', 'login'),
+      description: Okta.loc('factor.u2f.description', 'login'),
+      iconClassName: 'mfa-u2f',
+      sortOrder: 11
     }
   };
 
@@ -126,6 +132,9 @@ define(['okta'], function (Okta) {
     }
     if (provider === 'FIDO' && factorType === 'webauthn') {
       return 'WINDOWS_HELLO';
+    }
+    if (provider === 'FIDO' && factorType === 'u2f') {
+      return 'U2F';
     }
   };
 

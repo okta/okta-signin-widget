@@ -1,6 +1,6 @@
 {
   "name": "@okta/okta-signin-widget",
-  "version": "1.3.2",
+  "version": "1.5.0",
   "dependencies": {
     "@okta/courage": {
       "version": "1.3.0-beta.30"
@@ -9,7 +9,7 @@
       "version": "1.3.0"
     },
     "@okta/i18n": {
-      "version": "15.23.0"
+      "version": "15.36.0"
     },
     "abbrev": {
       "version": "1.0.9"
@@ -198,6 +198,9 @@
     "clone": {
       "version": "1.0.2"
     },
+    "code-point-at": {
+      "version": "1.0.0"
+    },
     "coffee-script": {
       "version": "1.3.3"
     },
@@ -239,6 +242,9 @@
     },
     "currently-unhandled": {
       "version": "0.4.1"
+    },
+    "cycle": {
+      "version": "1.0.3"
     },
     "dargs": {
       "version": "2.1.0"
@@ -377,6 +383,9 @@
     "extsprintf": {
       "version": "1.0.2"
     },
+    "eyes": {
+      "version": "0.1.8"
+    },
     "fd-slicer": {
       "version": "1.0.1"
     },
@@ -430,11 +439,17 @@
     "fs-extra": {
       "version": "0.26.7"
     },
+    "fs.realpath": {
+      "version": "1.0.0"
+    },
     "generate-function": {
       "version": "2.0.0"
     },
     "generate-object-property": {
       "version": "1.2.0"
+    },
+    "get-caller-file": {
+      "version": "1.0.2"
     },
     "get-stdin": {
       "version": "4.0.1"
@@ -686,6 +701,9 @@
     "interpret": {
       "version": "0.6.6"
     },
+    "invert-kv": {
+      "version": "1.0.0"
+    },
     "is-arrayish": {
       "version": "0.2.1"
     },
@@ -712,6 +730,9 @@
     },
     "is-finite": {
       "version": "1.0.1"
+    },
+    "is-fullwidth-code-point": {
+      "version": "1.0.0"
     },
     "is-glob": {
       "version": "2.0.1"
@@ -826,6 +847,9 @@
     "lazy-cache": {
       "version": "1.0.4"
     },
+    "lcid": {
+      "version": "1.0.0"
+    },
     "load-json-file": {
       "version": "1.1.0"
     },
@@ -834,6 +858,9 @@
     },
     "lodash": {
       "version": "3.10.1"
+    },
+    "lodash.assign": {
+      "version": "4.2.0"
     },
     "longest": {
       "version": "1.0.1"
@@ -961,6 +988,9 @@
     "os-browserify": {
       "version": "0.1.2"
     },
+    "os-locale": {
+      "version": "1.4.0"
+    },
     "package": {
       "version": "1.0.1"
     },
@@ -1019,6 +1049,9 @@
     },
     "pinkie-promise": {
       "version": "2.0.1"
+    },
+    "pkginfo": {
+      "version": "0.3.1"
     },
     "portscanner": {
       "version": "1.0.0",
@@ -1128,6 +1161,12 @@
     "request-promise": {
       "version": "2.0.0"
     },
+    "require-directory": {
+      "version": "2.1.1"
+    },
+    "require-main-filename": {
+      "version": "1.0.1"
+    },
     "requirejs": {
       "version": "2.1.22"
     },
@@ -1171,6 +1210,9 @@
     },
     "serve-static": {
       "version": "1.11.1"
+    },
+    "set-blocking": {
+      "version": "2.0.0"
     },
     "set-immediate-shim": {
       "version": "1.0.1"
@@ -1225,6 +1267,9 @@
         }
       }
     },
+    "stack-trace": {
+      "version": "0.0.9"
+    },
     "statuses": {
       "version": "1.3.0"
     },
@@ -1244,6 +1289,9 @@
     },
     "string_decoder": {
       "version": "0.10.31"
+    },
+    "string-width": {
+      "version": "1.0.2"
     },
     "stringstream": {
       "version": "0.0.5"
@@ -1295,6 +1343,9 @@
     },
     "typedarray": {
       "version": "0.0.6"
+    },
+    "u2f-api-polyfill": {
+      "version": "0.4.1"
     },
     "uglify-js": {
       "version": "2.6.4",
@@ -1373,11 +1424,28 @@
     "which": {
       "version": "1.0.9"
     },
+    "which-module": {
+      "version": "1.0.0"
+    },
     "window-size": {
       "version": "0.1.0"
     },
+    "winston": {
+      "version": "2.2.0",
+      "dependencies": {
+        "async": {
+          "version": "1.0.0"
+        },
+        "colors": {
+          "version": "1.0.3"
+        }
+      }
+    },
     "wordwrap": {
       "version": "0.0.3"
+    },
+    "wrap-ansi": {
+      "version": "2.0.0"
     },
     "wrappy": {
       "version": "1.0.2"
@@ -1388,8 +1456,19 @@
     "xtend": {
       "version": "4.0.1"
     },
+    "y18n": {
+      "version": "3.2.1"
+    },
     "yargs": {
       "version": "3.10.0"
+    },
+    "yargs-parser": {
+      "version": "2.4.1",
+      "dependencies": {
+        "camelcase": {
+          "version": "3.0.0"
+        }
+      }
     },
     "yauzl": {
       "version": "2.4.1"
