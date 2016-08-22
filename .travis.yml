@@ -5,7 +5,7 @@ install:
   - bundle install
   - npm install
 script:
-  - npm run package
+  - npm run prepublish
   - npm run lint
   - npm test
 cache: false
