@@ -72,13 +72,16 @@ module.exports = function (grunt) {
           {expand: true, cwd: 'node_modules/@okta/courage/src/vendor', src: ['**'], dest: JS + '/vendor/'}
         ]
       },
-      'i18n-to-target': {
+      'i18n-to-dist': {
         files: [
           {
             expand: true,
-            cwd: 'node_modules/@okta/i18n/dist/requirejs/',
-            src: ['country.js', 'login.js', '*/country.js', '*/login.js'],
-            dest: JS + '/nls/'
+            cwd: 'node_modules/@okta/i18n/dist/',
+            src: [
+              'json/{login,country}*.json',
+              'properties/{login,country}*.properties'
+            ],
+            dest: DIST + '/labels'
           }
         ]
       },
@@ -153,24 +156,6 @@ module.exports = function (grunt) {
       'css-theme': {
         src: CSS + '/okta-theme.css',
         dest: DIST + '/css/okta-theme.css'
-      },
-
-      // Remove these after removing the package target
-      'version-js': {
-        src: JS + '/okta-sign-in.js',
-        dest: DIST + '/js/okta-sign-in-<%= pkg.version %>.min.js'
-      },
-      'version-js-no-jquery': {
-        src: JS + '/okta-sign-in-no-jquery.js',
-        dest: DIST + '/js/okta-sign-in-no-jquery-<%= pkg.version %>.js'
-      },
-      'version-css': {
-        src: CSS + '/okta-sign-in.css',
-        dest: DIST + '/css/okta-sign-in-<%= pkg.version %>.min.css'
-      },
-      'version-css-theme': {
-        src: CSS + '/okta-theme.css',
-        dest: DIST + '/css/okta-theme-<%= pkg.version %>.css'
       }
     },
 
@@ -327,7 +312,7 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask('prebuild', function (flag) {
-    var tasks = ['retire', 'copy:src', 'copy:i18n-to-target', 'copy:assets-to-target', 'copy:courage'];
+    var tasks = ['retire', 'copy:src', 'copy:assets-to-target', 'copy:courage'];
     if (flag === 'minified') {
       tasks.push('compass:minify');
     } else {
@@ -347,23 +332,6 @@ module.exports = function (grunt) {
     grunt.task.run(tasks);
   });
 
-  // Note: This can probably be replaced later with prep-release now that the
-  // naming convention in /js/sdk includes the version number.
-  grunt.task.registerTask(
-    'package',
-    'Generates versioned assets and copies them to the dist/ dir',
-    [
-      'prebuild:minified',
-      'exec:build-prod',
-      'exec:build-no-jquery',
-      'rename:version-js',
-      'rename:version-js-no-jquery',
-      'rename:version-css',
-      'rename:version-css-theme',
-      'copy:assets-to-dist'
-    ]
-  );
-
   grunt.task.registerTask(
     'prep-release',
     'Generates dist/ directory with publish assets',
@@ -375,7 +343,8 @@ module.exports = function (grunt) {
       'rename:js-no-jquery',
       'rename:css',
       'rename:css-theme',
-      'copy:assets-to-dist'
+      'copy:assets-to-dist',
+      'copy:i18n-to-dist'
     ]
   );
 

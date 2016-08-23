@@ -10,7 +10,7 @@ define([
   'sandbox',
   'LoginRouter',
   'helpers/xhr/MFA_ENROLL_allFactors',
-  'helpers/xhr/MFA_ENROLL_ACTIVATE_U2F'
+  'helpers/xhr/MFA_ENROLL_ACTIVATE_u2f'
 ],
 function (Okta,
           $,
