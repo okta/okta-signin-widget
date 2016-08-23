@@ -31,7 +31,6 @@
     "prestart": "npm run build:dev",
     "start": "grunt start-server-open",
     "prepublish": "grunt prep-release",
-    "package": "grunt package",
     "ci-update-package": "ci-update-package",
     "ci-pkginfo:dataload": "ci-pkginfo -t dataload",
     "installsw": "install-with-shrinkwrap"
