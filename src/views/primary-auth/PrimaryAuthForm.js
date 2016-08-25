@@ -97,7 +97,14 @@ define([
           'label-top': true,
           className: 'margin-btm-0',
           initialize: function () {
-            this.listenTo(this.model, 'change:username', this.render);
+            this.listenTo(this.model, 'change:remember', function (model, val) {
+              // OKTA-98946: We normally re-render on changes to model values,
+              // but in this case we will manually update the checkbox due to
+              // iOS Safari and how it handles autofill - it will autofill the
+              // form anytime the dom elements are re-rendered, which prevents
+              // the user from editing their username.
+              this.$(':checkbox').prop('checked', val).trigger('updateState');
+            });
           }
         });
       }
