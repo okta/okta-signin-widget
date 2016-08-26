@@ -589,7 +589,7 @@
     background-color: $input-bg-color;
     border-color: $input-border-color;
 
-    &:hover {
+    &:hover, &.focused-input {
     /* -- Input Fields -- */
       border-color: $input-border-color-hover;
     }
