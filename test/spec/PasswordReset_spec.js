@@ -1,4 +1,4 @@
-/*jshint maxparams:15 */
+/*jshint maxparams:20 */
 define([
   'vendor/lib/q',
   'underscore',
@@ -12,18 +12,35 @@ define([
   'LoginRouter',
   'sandbox',
   'helpers/xhr/PASSWORD_RESET',
+  'helpers/xhr/PASSWORD_RESET_withMinComplexity',
+  'helpers/xhr/PASSWORD_RESET_withMaxComplexity',
   'helpers/xhr/PASSWORD_RESET_error',
   'helpers/xhr/200',
   'helpers/xhr/SUCCESS'
 ],
 function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect, Router,
-          $sandbox, resPasswordReset, resError, res200, resSuccess) {
+          $sandbox, resPasswordReset, resPasswordResetWithMinComplexity, resPasswordResetWithMaxComplexity,
+          resError, res200, resSuccess) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
   var processCredsSpy = jasmine.createSpy();
 
   function setup(settings) {
+    var passwordResetResponse = resPasswordReset;
+    if(settings) {
+      switch (settings.policyComplexity) {
+      case 'min':
+        passwordResetResponse = resPasswordResetWithMinComplexity;
+        break;
+
+      case 'max':
+        passwordResetResponse = resPasswordResetWithMaxComplexity;
+        break;
+      }
+      delete settings.policyComplexity;
+    }
+
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -38,7 +55,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     var beacon = new Beacon($sandbox);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
-    setNextResponse(resPasswordReset);
+    setNextResponse(passwordResetResponse);
     router.refreshAuthState('dummy-token');
     return tick().then(function () {
       return {
@@ -77,6 +94,24 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         });
         expect(test.router.navigate.calls.mostRecent().args)
           .toEqual(['', { trigger: true }]);
+      });
+    });
+    itp('has a valid subtitle if NO password complexity defined', function () {
+      return setup().then(function (test) {
+        expect(test.form.subtitleText()).toEqual('');
+      });
+    });
+
+    itp('has a valid subtitle if MIN password complexity defined', function () {
+      return setup({policyComplexity: 'min'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters.');
+      });
+    });
+
+    itp('has a valid subtitle if MAX password complexity defined', function () {
+      return setup({policyComplexity: 'max'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters, a lowercase letter,' +
+          ' an uppercase letter, a number, a symbol, no parts of your username.');
       });
     });
     itp('has a password field to enter the new password', function () {
