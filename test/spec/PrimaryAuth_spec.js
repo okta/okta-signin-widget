@@ -904,6 +904,17 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           expect(test.form.rememberMeCheckboxStatus()).toBe('unchecked');
         });
       });
+      itp('does not re-render rememberMe checkbox on changes', function () {
+        Util.mockCookie('ln', 'testuser');
+        var options = {
+          'features.rememberMe': true
+        };
+        return setup(options).then(function (test) {
+          var orig = test.form.rememberMeCheckbox().get(0);
+          test.form.setUsername('new-user');
+          expect(test.form.rememberMeCheckbox().get(0)).toBe(orig);
+        });
+      });
       itp('populate username if username is available', function () {
         var options = {
           'username': 'testuser@ABC.com'
