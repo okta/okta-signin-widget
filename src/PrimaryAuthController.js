@@ -22,6 +22,7 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
 
   var compile = Okta.Handlebars.compile;
   var _ = Okta._;
+  var $ = Okta.$;
 
   var Footer = Okta.View.extend({
     template: '\
@@ -154,6 +155,12 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
     events: {
       'focusout input[name=username]': function () {
         this.options.appState.set('username', this.model.get('username'));
+      },
+      'focusin input': function (e) {
+        $(e.target.parentElement).addClass('focused-input');
+      },
+      'focusout input': function (e) {
+        $(e.target.parentElement).removeClass('focused-input');
       }
     },
 
