@@ -22,7 +22,7 @@
     "lint:report": "grunt lint --checkstyle",
     "lint": "grunt lint",
     "test": "grunt test",
-    "test:protractor": "grunt test-protractor",
+    "test:protractor": "webdriver-manager update && grunt test-protractor",
     "protractor": "protractor target/protractor/conf.js",
     "build:dev": "grunt build",
     "build:prod": "grunt build:minified",
@@ -32,7 +32,7 @@
     "build:test": "webpack --config webpack.test.config.js",
     "prestart": "npm run build:dev",
     "start": "grunt start-server-open",
-    "prepublish": "grunt prep-release && webdriver-manager update",
+    "prepublish": "grunt prep-release",
     "ci-update-package": "ci-update-package",
     "ci-pkginfo:dataload": "ci-pkginfo -t dataload",
     "installsw": "install-with-shrinkwrap"
