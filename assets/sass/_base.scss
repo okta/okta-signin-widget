@@ -12,6 +12,7 @@ body {
   min-height: 100%;
   color: $medium-text-color;
   position: relative;
+  overflow: auto;
 }
 
 a {
