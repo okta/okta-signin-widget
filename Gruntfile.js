@@ -9,7 +9,8 @@ module.exports = function (grunt) {
 
   var open        = require('open'),
       Handlebars  = require('handlebars'),
-      _           = require('underscore');
+      _           = require('underscore'),
+      path        = require('path');
 
   var JS                    = 'target/js',
       JASMINE_TEST_FOLDER   = 'build2/reports/jasmine',
@@ -137,6 +138,59 @@ module.exports = function (grunt) {
         files: [
           {expand: true, src: ['test/**'], dest: JS + '/'}
         ]
+      },
+      'protractor-conf': {
+        files: [
+          {
+            expand: true,
+            cwd: 'test/protractor/',
+            src: 'conf.js',
+            dest: 'target/protractor/'
+          }
+        ]
+      },
+      'protractor-specs': {
+        options: {
+          process: function (content) {
+            var specTemplate = Handlebars.compile(content);
+            return specTemplate({
+              WIDGET_BASIC_PASSWORD: JSON.stringify(process.env.WIDGET_BASIC_PASSWORD)
+            });
+          }
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'test/protractor/specs/',
+            src: '*',
+            dest: 'target/protractor/specs/'
+          }
+        ]
+      },
+      'protractor-pages': {
+        options: {
+          process: function (content) {
+            var harnessTemplateString = grunt.file.read('./test/protractor/harness.tpl', {
+              encoding: 'utf8'
+            });
+            var harnessTemplate = Handlebars.compile(harnessTemplateString);
+            var testTemplate = Handlebars.compile(content);
+            return harnessTemplate({testCode: testTemplate({
+              WIDGET_TEST_SERVER: JSON.stringify(process.env.WIDGET_TEST_SERVER)
+            })});
+          }
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'test/protractor/templates/',
+            src: '*.tpl',
+            dest: 'target/protractor/pages/',
+            rename: function(dest, src) {
+              return dest + path.basename(src, '.tpl') + '.html';
+            }
+          }
+        ]
       }
     },
 
@@ -182,7 +236,8 @@ module.exports = function (grunt) {
       'build-dev': 'npm run build:webpack-dev',
       'build-prod': 'npm run build:webpack-prod',
       'build-no-jquery': 'npm run build:webpack-no-jquery',
-      'build-test': 'npm run build:test'
+      'build-test': 'npm run build:test',
+      'run-protractor': 'npm run protractor'
     },
 
     jasmine: {
@@ -256,6 +311,12 @@ module.exports = function (grunt) {
       open: {
         options: {
           open: true
+        }
+      },
+      protractor: {
+        options: {
+          open: false,
+          keepalive: false
         }
       }
     },
@@ -350,6 +411,14 @@ module.exports = function (grunt) {
 
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
+  grunt.task.registerTask('test-protractor', [
+    'copy:protractor-conf',
+    'copy:protractor-specs',
+    'copy:protractor-pages',
+    'build',
+    'connect:protractor',
+    'exec:run-protractor'
+  ]);
 
   grunt.task.registerTask('lint', ['jshint', 'scss-lint']);
 
