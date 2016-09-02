@@ -100,7 +100,8 @@ var OktaSignIn = (function () {
         exists: checkSession,
         get: getSession,
         refresh: refreshSession
-      }
+      },
+      tokenManager: authClient.tokenManager
     };
   }
 
