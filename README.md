@@ -60,7 +60,7 @@ The `.widgetrc` file is a configuration file that saves your local widget settin
 | Property | Description |
 | --- | --- |
 | **widgetOptions** | Options that are passed to the widget on initialization - reference the [developer docs](http://developer.okta.com/docs/guides/okta_sign-in_widget.html#customizing-widget-features-and-text-labels-with-javascript) to see a complete list of configurable features. |
-| **serverPort** | The port the local server runs on. Defaults to *1804* |
+| **serverPort** | The port the local server runs on. Defaults to *3000* |
 
 ## Build and test commmands
 

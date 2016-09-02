@@ -1,5 +1,5 @@
 var options = {
-  'baseUrl': {{{WIDGET_TEST_SERVER}}}
+  'baseUrl': '{{{WIDGET_TEST_SERVER}}}'
 };
 var oktaSignIn = new OktaSignIn(options);
 
