@@ -14,6 +14,7 @@
   "latedef": true,
   "newcap": true,
   "noempty": true,
+  "node": true,
   "plusplus": false,
   "trailing": true,
   "maxparams": 10,
@@ -49,6 +50,11 @@
     "waits": false,
     "spyOn": false,
     "runs": false,
-    "jasmine": false
+    "jasmine": false,
+    "element": false,
+    "by": false,
+    "browser": false,
+    "process": false,
+    "module": false
   }
 }

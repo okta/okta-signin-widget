@@ -22,7 +22,9 @@ module.exports = function (grunt) {
       SCSSLINT_OUT_FILE     = 'build2/loginscss-checkstyle-result.xml',
       CSS                   = 'target/css',
       WIDGET_RC             = '.widgetrc',
-      DEFAULT_SERVER_PORT   = 1804;
+
+      // Note: 3000 is necessary to test against certain browsers in SauceLabs
+      DEFAULT_SERVER_PORT   = 3000;
 
   var hasCheckStyle = process.argv.indexOf('--checkstyle') > -1;
 
@@ -53,9 +55,9 @@ module.exports = function (grunt) {
         'src/**/*.js',
         'buildtools/**/*.js',
         '!buildtools/r.js',
-        'test/helpers/**/*.js',
-        'test/spec/**/*.js',
-        '!test/helpers/xhr/*.js',
+        'test/**/*.js',
+        '!test/unit/helpers/xhr/*.js',
+        '!test/unit/vendor/**/*.js',
         '!src/vendor/*.js',
         '!src/util/countryCallingCodes.js'
       ]
@@ -139,53 +141,64 @@ module.exports = function (grunt) {
           {expand: true, src: ['test/**'], dest: JS + '/'}
         ]
       },
-      'protractor-conf': {
-        files: [
-          {
-            expand: true,
-            cwd: 'test/protractor/',
-            src: 'conf.js',
-            dest: 'target/protractor/'
-          }
-        ]
-      },
-      'protractor-specs': {
+      'e2e': {
         options: {
           process: function (content) {
-            var specTemplate = Handlebars.compile(content);
-            return specTemplate({
-              WIDGET_BASIC_PASSWORD: JSON.stringify(process.env.WIDGET_BASIC_PASSWORD)
+            var browserName = grunt.option('browserName') || 'phantomjs',
+                tpl = Handlebars.compile(content);
+            return tpl({
+              browserName: browserName,
+              WIDGET_BASIC_USER: process.env.WIDGET_BASIC_USER,
+              WIDGET_BASIC_PASSWORD: process.env.WIDGET_BASIC_PASSWORD
             });
           }
         },
         files: [
           {
             expand: true,
-            cwd: 'test/protractor/specs/',
+            cwd: 'test/e2e/',
+            src: 'conf.js',
+            dest: 'target/e2e/'
+          },
+          {
+            expand: true,
+            cwd: 'test/e2e/specs/',
             src: '*',
-            dest: 'target/protractor/specs/'
+            dest: 'target/e2e/specs/'
+          },
+          {
+            expand: true,
+            cwd: 'test/e2e/util/',
+            src: '*',
+            dest: 'target/e2e/util/'
+          },
+          {
+            expand: true,
+            cwd: 'test/e2e/page-objects/',
+            src: '*',
+            dest: 'target/e2e/page-objects/'
           }
         ]
       },
-      'protractor-pages': {
+      'e2e-pages': {
         options: {
           process: function (content) {
-            var harnessTemplateString = grunt.file.read('./test/protractor/harness.tpl', {
+            var harnessTplString = grunt.file.read('./test/e2e/harness.tpl', {
               encoding: 'utf8'
             });
-            var harnessTemplate = Handlebars.compile(harnessTemplateString);
-            var testTemplate = Handlebars.compile(content);
-            return harnessTemplate({testCode: testTemplate({
-              WIDGET_TEST_SERVER: JSON.stringify(process.env.WIDGET_TEST_SERVER)
+            var harnessTpl = Handlebars.compile(harnessTplString);
+            var testTpl = Handlebars.compile(content);
+            return harnessTpl({testCode: testTpl({
+              WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER
             })});
           }
         },
         files: [
           {
             expand: true,
-            cwd: 'test/protractor/templates/',
+            cwd: 'test/e2e/templates/',
             src: '*.tpl',
-            dest: 'target/protractor/pages/',
+            dest: 'target/e2e/pages/',
             rename: function(dest, src) {
               return dest + path.basename(src, '.tpl') + '.html';
             }
@@ -246,7 +259,7 @@ module.exports = function (grunt) {
           keepRunner: true,
           outfile: JASMINE_TEST_FILE,
           specs: [
-            'target/test/main-tests.js'
+            'target/test/unit/main-tests.js'
           ],
           junit: {
             path: JASMINE_TEST_FOLDER
@@ -313,7 +326,7 @@ module.exports = function (grunt) {
           open: true
         }
       },
-      protractor: {
+      e2e: {
         options: {
           open: false,
           keepalive: false
@@ -353,6 +366,29 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-json-generator');
   grunt.loadNpmTasks('grunt-rename');
   grunt.loadNpmTasks('grunt-retire');
+
+  grunt.task.registerTask(
+    'test-e2e',
+    'Runs end to end webdriver tests. Pass in `--browserName {{browser}}` to ' +
+    'override default phantomjs browser',
+    function () {
+      // We will only run webdriver tests in these two environments:
+      // 1. Travis, non pull request builds
+      // 2. Local, developer has set up an org to test against and has their
+      //    credentials stored in the relevant ENV variables
+      if (!process.env.WIDGET_TEST_SERVER) {
+        grunt.log.writeln('Environment variables not available. Skipping.');
+        return;
+      }
+      grunt.task.run([
+        'copy:e2e',
+        'copy:e2e-pages',
+        'build',
+        'connect:e2e',
+        'exec:run-protractor'
+      ]);
+    }
+  );
 
   grunt.task.registerTask(
     'test',
@@ -411,14 +447,6 @@ module.exports = function (grunt) {
 
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
-  grunt.task.registerTask('test-protractor', [
-    'copy:protractor-conf',
-    'copy:protractor-specs',
-    'copy:protractor-pages',
-    'build',
-    'connect:protractor',
-    'exec:run-protractor'
-  ]);
 
   grunt.task.registerTask('lint', ['jshint', 'scss-lint']);
 
