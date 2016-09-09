@@ -78,7 +78,7 @@
     "@okta/ci-pkginfo": "1.2.0",
     "@okta/ci-update-package": "1.4.0",
     "@okta/courage": "1.3.0-beta.30",
-    "@okta/i18n": "15.36.0",
+    "@okta/i18n": "17.2.0",
     "@okta/install-with-shrinkwrap": "1.4.0"
   }
 }
