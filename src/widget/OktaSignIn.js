@@ -5,7 +5,7 @@ var OktaSignIn = (function () {
 
   var _ = require('underscore');
 
-  function getProperties(authClient, LoginRouter, config) {
+  function getProperties(authClient, LoginRouter, Util, config) {
 
     /**
      * Check if a session exists
@@ -88,6 +88,25 @@ var OktaSignIn = (function () {
       router.start();
     }
 
+    /**
+     * Check if tokens have been passed back into the url, which happens in 
+     * the social auth IDP redirect flow.
+     */
+    function hasTokensInUrl() {
+      return Util.hasTokensInHash(window.location.hash);
+    }
+
+    /**
+     * Parses tokens from the url. 
+     * @param success - success callback function (usually the same as passed to render)
+     * @param error - error callback function (usually the same as passed to render)
+     */
+    function parseTokensFromUrl(success, error) {
+      authClient.token.parseFromUrl()
+      .then(success)
+      .fail(error);
+    }
+
     // Properties exposed on OktaSignIn object.
     return {
       renderEl: render,
@@ -100,6 +119,10 @@ var OktaSignIn = (function () {
         exists: checkSession,
         get: getSession,
         refresh: refreshSession
+      },
+      token: {
+        hasTokensInUrl: hasTokensInUrl,
+        parseTokensFromUrl: parseTokensFromUrl
       },
       tokenManager: authClient.tokenManager
     };
@@ -150,7 +173,7 @@ var OktaSignIn = (function () {
       clientId: options.clientId,
       redirectUri: options.redirectUri
     });
-    _.extend(this, LoginRouter.prototype.Events, getProperties(authClient, LoginRouter, options));
+    _.extend(this, LoginRouter.prototype.Events, getProperties(authClient, LoginRouter, Util, options));
 
     // Triggers the event up the chain so it is available to the consumers of the widget.
     this.listenTo(LoginRouter.prototype, 'all', this.trigger);

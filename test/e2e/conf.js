@@ -11,7 +11,8 @@
  */
 var config = {
   framework: 'jasmine2',
-  specs: ['specs/*.js']
+  specs: ['specs/*.js'],
+  restartBrowserBetweenTests: false
 };
 
 // Travis sauceLabs tests

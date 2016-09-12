@@ -167,8 +167,15 @@ module.exports = function (grunt) {
                 tpl = Handlebars.compile(content);
             return tpl({
               browserName: browserName,
+              WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER,
               WIDGET_BASIC_USER: process.env.WIDGET_BASIC_USER,
-              WIDGET_BASIC_PASSWORD: process.env.WIDGET_BASIC_PASSWORD
+              WIDGET_BASIC_PASSWORD: process.env.WIDGET_BASIC_PASSWORD,
+              WIDGET_BASIC_USER_2: process.env.WIDGET_BASIC_USER_2,
+              WIDGET_BASIC_PASSWORD_2: process.env.WIDGET_BASIC_PASSWORD_2,
+              WIDGET_FB_USER: process.env.WIDGET_FB_USER,
+              WIDGET_FB_PASSWORD: process.env.WIDGET_FB_PASSWORD,
+              WIDGET_FB_USER_2: process.env.WIDGET_FB_USER_2,
+              WIDGET_FB_PASSWORD_2: process.env.WIDGET_FB_PASSWORD_2
             });
           }
         },
@@ -217,7 +224,7 @@ module.exports = function (grunt) {
             expand: true,
             cwd: 'test/e2e/templates/',
             src: '*.tpl',
-            dest: 'target/e2e/pages/',
+            dest: 'target/',
             rename: function(dest, src) {
               return dest + path.basename(src, '.tpl') + '.html';
             }
@@ -332,7 +339,12 @@ module.exports = function (grunt) {
         port: (function () {
           return widgetRc.serverPort || DEFAULT_SERVER_PORT;
         }()),
-        base: 'target',
+        base: {
+          path: 'target',
+          options: {
+            extensions: ['html']
+          }
+        },
         keepalive: true
       },
       server: {

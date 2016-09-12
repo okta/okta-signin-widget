@@ -55,6 +55,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
                        'bx6SUbTzKr3R5dsZRskau9Awi91aDv4a1QRWANPmJZabzxScg9LA' +
                        'e4J-RRZxZ0EbQZ6n8l9KVdUb_ndhcKmVAhmhK0GcQbuwk8frcVou' +
                        '6gAQPJowg832umoCss-gEvimU';
+  var VALID_ACCESS_TOKEN = 'anythingbecauseitsopaque';
 
   function setup(settings, requests) {
     // To speed up the test suite, calls to debounce are
@@ -67,12 +68,13 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
     var setNextResponse = Util.mockAjax(requests);
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+    var successSpy = jasmine.createSpy('success');
 
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
-      globalSuccessFn: function () {},
+      globalSuccessFn: successSpy,
       processCreds: processCredsSpy
     }, settings));
     Util.registerRouter(router);
@@ -85,7 +87,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       form: form,
       beacon: beacon,
       ac: authClient,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
+      successSpy: successSpy
     });
   }
 
@@ -1404,10 +1407,51 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           );
         });
       });
+      itp('opens a popup with the correct url when an idp button is clicked and asking for an accessToken', function () {
+        return setupSocial({ 'authParams.responseType': 'token' })
+        .then(function (test) {
+          test.form.facebookButton().click();
+          expect(window.open.calls.count()).toBe(1);
+          expect(window.open).toHaveBeenCalledWith(
+            'https://foo.com/oauth2/v1/authorize?' +
+            'client_id=someClientId&' +
+            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+            'response_type=token&' +
+            'response_mode=okta_post_message&' +
+            'state=' + OIDC_STATE +
+            '&nonce=' + OIDC_NONCE +
+            '&display=popup&' +
+            'idp=0oaidiw9udOSceD1234&' +
+            'scope=openid%20email%20profile',
+            'External Identity Provider User Authentication',
+            'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
+          );
+        });
+      });
+      itp('opens a popup with the correct url when an idp button is clicked and asking for an accessToken and idToken', function () {
+        return setupSocial({ 'authParams.responseType': ['id_token', 'token']})
+        .then(function (test) {
+          test.form.facebookButton().click();
+          expect(window.open.calls.count()).toBe(1);
+          expect(window.open).toHaveBeenCalledWith(
+            'https://foo.com/oauth2/v1/authorize?' +
+            'client_id=someClientId&' +
+            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+            'response_type=id_token%20token&' +
+            'response_mode=okta_post_message&' +
+            'state=' + OIDC_STATE +
+            '&nonce=' + OIDC_NONCE +
+            '&display=popup&' +
+            'idp=0oaidiw9udOSceD1234&' +
+            'scope=openid%20email%20profile',
+            'External Identity Provider User Authentication',
+            'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
+          );
+        });
+      });
       itp('calls the global success function with the idToken and user data when the popup sends a message with idToken', function () {
-        var successSpy = jasmine.createSpy('successSpy');
         spyOn(window, 'addEventListener');
-        return setupSocial({ globalSuccessFn: successSpy })
+        return setupSocial()
         .then(function (test) {
           test.form.facebookButton().click();
           expect(window.addEventListener).toHaveBeenCalled();
@@ -1422,11 +1466,11 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
               state: OIDC_STATE
             }
           });
-          return tick();
+          return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function () {
-          expect(successSpy.calls.count()).toBe(1);
-          var data = successSpy.calls.argsFor(0)[0];
+        .then(function (test) {
+          expect(test.successSpy.calls.count()).toBe(1);
+          var data = test.successSpy.calls.argsFor(0)[0];
           expect(data.status).toBe('SUCCESS');
           expect(data.idToken).toBe(VALID_ID_TOKEN);
           expect(data.claims).toEqual({
@@ -1450,6 +1494,40 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
             updated_at: 1451606400,
             ver: 1
           });
+        });
+      });
+      itp('calls the global success function with the idToken and accessToken', function () {
+        spyOn(window, 'addEventListener');
+        return setupSocial({ 'authParams.responseType': ['id_token', 'token'] })
+        .then(function (test) {
+          test.form.facebookButton().click();
+          expect(window.addEventListener).toHaveBeenCalled();
+          var args = window.addEventListener.calls.argsFor(0);
+          var type = args[0];
+          var callback = args[1];
+          expect(type).toBe('message');
+          callback.call(null, {
+            origin: 'https://foo.com',
+            data: {
+              id_token: VALID_ID_TOKEN,
+              state: OIDC_STATE,
+              access_token: VALID_ACCESS_TOKEN,
+              expires_in: 3600,
+              scope: 'openid email profile',
+              token_type: 'Bearer'
+            }
+          });
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function (test) {
+          expect(test.successSpy.calls.count()).toBe(1);
+          var data = test.successSpy.calls.argsFor(0)[0];
+          expect(data.status).toBe('SUCCESS');
+          expect(data[0].idToken).toBe(VALID_ID_TOKEN);
+
+          expect(data[1].accessToken).toBe(VALID_ACCESS_TOKEN);
+          expect(data[1].scopes).toEqual(['openid', 'email', 'profile']);
+          expect(data[1].tokenType).toBe('Bearer');
         });
       });
       itp('calls the global error function if there is no valid id token returned', function () {
@@ -1520,6 +1598,11 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           expect(test.oidcWindow.close).toHaveBeenCalled();
         });
       });
+
+      // Reminder: Think about how to mock this out in the future - currently
+      // cannot mock it because we defer to AuthJs to do set window.location.
+      // On the plus side, there is an e2e test that covers this.
+      xit('redirects to the correct url in the social idp redirect flow');
     });
 
   });

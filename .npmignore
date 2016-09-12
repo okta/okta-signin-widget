@@ -9,6 +9,7 @@ build2
 .grunt
 .sass-cache
 .widgetrc
+.vscode
 
 # @okta/i18n module specific ignores
 **/node_modules/@okta/i18n/**/*.*
