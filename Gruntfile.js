@@ -136,11 +136,30 @@ module.exports = function (grunt) {
           }
         ]
       },
-      test: {
-        files: [
-          {expand: true, src: ['test/**'], dest: JS + '/'}
-        ]
-      },
+      test: (function () {
+        var src = ['assets/**/*', 'helpers/**/*', 'vendor/**/*', 'main.js'],
+            spec = grunt.option('spec');
+
+        if (spec) {
+          // To run only one spec file, pass in the --spec option, i.e.
+          // "grunt test --spec CryptoUtil"
+          src.push('spec/' + spec + '_spec.js');
+        }
+        else {
+          src.push('spec/**/*');
+        }
+
+        return {
+          files: [
+            {
+              expand: true,
+              cwd: 'test/unit/',
+              src: src,
+              dest: JS + '/test/unit/'
+            }
+          ]
+        };
+      }()),
       'e2e': {
         options: {
           process: function (content) {

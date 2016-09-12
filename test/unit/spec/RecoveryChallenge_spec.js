@@ -35,6 +35,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
     }, settings));
     var form = new RecoveryChallengeForm($sandbox);
     var beacon = new Beacon($sandbox);
+    Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
 
@@ -43,15 +44,14 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
 
     // Two ticks because of the extra defer that happens when we disable
     // the sent button.
-    return tick().then(tick).then(function () {
-      return {
-        router: router,
-        form: form,
-        beacon: beacon,
-        ac: authClient,
-        setNextResponse: setNextResponse
-      };
-    });
+    return Expect.waitForRecoveryChallenge({
+      router: router,
+      form: form,
+      beacon: beacon,
+      ac: authClient,
+      setNextResponse: setNextResponse
+    })
+    .then(tick);
   }
 
   Expect.describe('RecoveryChallenge', function () {
@@ -76,7 +76,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
         var $link = test.form.signoutLink();
         expect($link.length).toBe(1);
         $link.click();
-        return tick(test);
+        return Expect.waitForPrimaryAuth(test);
       })
       .then(function (test) {
         expect($.ajax.calls.count()).toBe(1);
@@ -86,8 +86,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
             stateToken: 'testStateToken'
           }
         });
-        expect(test.router.navigate.calls.mostRecent().args)
-          .toEqual(['', { trigger: true }]);
+        Expect.isPrimaryAuth(test.router.controller);
       });
     });
     itp('has a text field to enter the recovery sms code', function () {
@@ -149,7 +148,6 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
         return delay(func, 0, args);
       });
       return setup().then(function (test) {
-        Q.stopUnhandledRejectionTracking();
         test.setNextResponse(resResendError);
         test.form.resendButton().click();
         return tick(test);
@@ -200,7 +198,6 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
       });
       return setup()
       .then(function (test) {
-        Q.stopUnhandledRejectionTracking();
         test.setNextResponse(resResendError);
         test.form.resendButton().click();
         return tick(test);
@@ -213,7 +210,6 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
     itp('shows an error msg if there is an error submitting the code', function () {
       return setup()
       .then(function (test) {
-        Q.stopUnhandledRejectionTracking();
         test.setNextResponse(resVerifyError);
         test.form.setCode('1234');
         test.form.submit();

@@ -32,7 +32,7 @@ define({
             "factorResult": "WAITING",
             "_links": {
               "qrcode": {
-                "href": "../../../test/assets/1x1.gif",
+                "href": "../../../test/unit/assets/1x1.gif",
                 "type": "image/png"
               }
             }

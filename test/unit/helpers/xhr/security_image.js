@@ -3,6 +3,6 @@ define({
   "responseType": "json",
   "response": {
     result: 'success',
-    pwdImg: '/some/img'
+    pwdImg: '../../../test/unit/assets/1x1.gif'
   }
 });

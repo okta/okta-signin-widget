@@ -62,7 +62,11 @@ function (Okta, Errors, BrowserFeatures) {
       'authParams.display': ['string', false],
       'authParams.responseMode': ['string', false],
       'authParams.responseType': ['string', false, 'id_token'],
+
+      // 'scope' is deprecated in favor of 'scopes'
+      'authParams.scopes': ['array', false],
       'authParams.scope': ['array', false],
+
       'clientId': 'string',
       'redirectUri': 'string',
       'idps': ['array', false, []],
@@ -189,11 +193,12 @@ function (Okta, Errors, BrowserFeatures) {
       // arguments - globalErrorFn will not have been set yet
       var globalErrorFn = this.get('globalErrorFn') || this.options.globalErrorFn;
       if (globalErrorFn) {
-        // Call their function immediately to ensure that they get a chance
-        // to react before the error is thrown
         globalErrorFn(err);
       }
-      throw err;
+      else {
+        // Only throw the error if they have not registered a globalErrorFn
+        throw err;
+      }
     },
 
     // Get the username by applying the transform function if it exists.

@@ -33,15 +33,14 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
     }, settings));
     var form = new AccountRecoveryForm($sandbox);
     var beacon = new Beacon($sandbox);
+    Util.registerRouter(router);
     Util.mockRouterNavigate(router, startRouter);
     router.unlockAccount();
-    return tick().then(function () {
-      return {
-        router: router,
-        form: form,
-        beacon: beacon,
-        setNextResponse: setNextResponse
-      };
+    return Expect.waitForUnlockAccount({
+      router: router,
+      form: form,
+      beacon: beacon,
+      setNextResponse: setNextResponse
     });
   }
 
@@ -201,7 +200,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           test.form.setUsername('foo@bar');
           test.setNextResponse(resChallengeEmail);
           test.form.submit();
-          return tick(test);
+          return Expect.waitForUnlockEmailSent(test);
         })
         .then(function (test) {
           expect(test.form.titleText()).toBe('Email sent!');
@@ -218,8 +217,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           test.form.setUsername('foo@bar');
           test.setNextResponse(resChallengeEmail);
           test.form.submit();
-          return tick()
-            .then(tick);
+          return Expect.waitForUnlockEmailSent(test);
         })
         .then(function () {
           expect(successSpy).toHaveBeenCalledWith({
@@ -231,7 +229,6 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
       itp('shows an error if sending email results in an error', function () {
         return setup()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resError);
           test.form.setUsername('foo');
           test.form.submit();
@@ -284,7 +281,6 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
       itp('shows an error if sending sms results in an error', function () {
         return setupWithSms()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resError);
           test.form.setUsername('foo');
           test.form.sendSms();
@@ -298,7 +294,6 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
       itp('does not have a problem with sending email after sending sms', function () {
         return setupWithSms()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resError);
           test.form.setUsername('foo');
           test.form.sendSms();
@@ -308,7 +303,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
           test.form.submit();
-          return tick();
+          return Expect.waitForUnlockEmailSent(test);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -330,17 +325,16 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
       itp('returns to primary auth when browser\'s back button is clicked', function () {
         return setup(null, true).then(function (test) {
           Util.triggerBrowserBackButton();
-          return tick(test);
+          return Expect.waitForPrimaryAuth(test);
         })
         .then(function (test) {
-          Expect.isPrimaryAuthController(test.router.controller);
+          Expect.isPrimaryAuth(test.router.controller);
           Util.stopRouter();
         });
       });
       itp('shows an org\'s contact form when user clicks no email access link', function () {
-        return setup({
-          helpSupportNumber: '(999) 123-4567'
-        }).then(function (test) {
+        return setup({ helpSupportNumber: '(999) 123-4567' })
+        .then(function (test) {
           expect(test.form.hasCantAccessEmailLink()).toBe(true);
           test.form.clickCantAccessEmail();
           expect(test.form.contactSupportText()).toMatch(/\(999\) 123-4567/);
@@ -352,7 +346,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           expect(test.form.hasSendEmailLink()).toBe(true);
@@ -364,13 +358,13 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo@bar');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
           test.form.clickSendEmailLink();
-          return tick(test);
+          return Expect.waitForUnlockEmailSent(test);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -389,12 +383,12 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo@bar');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           test.setNextResponse(resChallengeEmail);
           test.form.clickSendEmailLink();
-          return tick(test);
+          return Expect.waitForUnlockEmailSent(test);
         })
         .then(function (test) {
           expect(test.form.titleText()).toBe('Email sent!');
@@ -409,7 +403,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           test.setNextResponse(resError);

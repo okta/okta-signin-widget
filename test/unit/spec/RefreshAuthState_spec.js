@@ -34,6 +34,7 @@ function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
     }, settings));
     var beacon = new Beacon($sandbox);
     var form = new FormView($sandbox);
+    Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
     return Q({
@@ -52,10 +53,10 @@ function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
       .then(function (test) {
         spyOn(test.ac.tx, 'exists').and.returnValue(false);
         test.router.refreshAuthState();
-        return tick(test);
+        return Expect.waitForPrimaryAuth(test);
       })
       .then(function (test) {
-        expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
+        Expect.isPrimaryAuth(test.router.controller);
       });
     });
     itp('refreshes auth state on render if it does need a refresh', function () {

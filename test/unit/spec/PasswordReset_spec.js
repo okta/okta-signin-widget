@@ -53,18 +53,17 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     }, settings));
     var form = new PasswordResetForm($sandbox);
     var beacon = new Beacon($sandbox);
+    Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
     setNextResponse(passwordResetResponse);
     router.refreshAuthState('dummy-token');
-    return tick().then(function () {
-      return {
-        router: router,
-        form: form,
-        beacon: beacon,
-        ac: authClient,
-        setNextResponse: setNextResponse
-      };
+    return Expect.waitForPasswordReset({
+      router: router,
+      form: form,
+      beacon: beacon,
+      ac: authClient,
+      setNextResponse: setNextResponse
     });
   }
 
@@ -82,7 +81,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         var $link = test.form.signoutLink();
         expect($link.length).toBe(1);
         $link.click();
-        return tick(test);
+        return Expect.waitForPrimaryAuth(test);
       })
       .then(function (test) {
         expect($.ajax.calls.count()).toBe(1);
@@ -92,8 +91,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
             stateToken: 'testStateToken'
           }
         });
-        expect(test.router.navigate.calls.mostRecent().args)
-          .toEqual(['', { trigger: true }]);
+        Expect.isPrimaryAuth(test.router.controller);
       });
     });
     itp('has a valid subtitle if NO password complexity defined', function () {

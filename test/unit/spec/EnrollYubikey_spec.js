@@ -29,35 +29,31 @@ function ($, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         authClient: authClient,
         globalSuccessFn: function () {}
       });
+      Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
       .then(function () {
         setNextResponse(resAllFactors);
         router.refreshAuthState('dummy-token');
-        return tick();
+        return Expect.waitForEnrollChoices();
       })
       .then(function () {
         router.enrollYubikey();
-        return tick();
-      })
-      .then(function () {
-        return {
+        return Expect.waitForEnrollYubikey({
           router: router,
           beacon: new Beacon($sandbox),
           form: new Form($sandbox),
           ac: authClient,
           setNextResponse: setNextResponse
-        };
+        });
       });
     }
 
     Expect.describe('Header & Footer', function () {
       itp('displays the correct factorBeacon', function () {
-        $.fx.off = true;
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-yubikey')).toBe(true);
-          $.fx.off = false;
         });
       });
       itp('has a "back" link in the footer', function () {
@@ -86,10 +82,10 @@ function ($, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       itp('returns to factor list when browser\'s back button is clicked', function () {
         return setup(true).then(function (test) {
           Util.triggerBrowserBackButton();
-          return test;
+          return Expect.waitForEnrollChoices(test);
         })
         .then(function (test) {
-          Expect.isEnrollChoicesController(test.router.controller);
+          Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
       });

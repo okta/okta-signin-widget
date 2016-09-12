@@ -34,35 +34,31 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
         authClient: authClient,
         globalSuccessFn: function () {}
       });
+      Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
       .then(function () {
         setNextResponse(resAllFactors);
         router.refreshAuthState('dummy-token');
-        return tick();
+        return Expect.waitForEnrollChoices();
       })
       .then(function () {
         setNextResponse(resQuestions);
         router.enrollQuestion();
-        return tick();
-      })
-      .then(function () {
-        return {
+        return Expect.waitForEnrollQuestion({
           router: router,
           beacon: new Beacon($sandbox),
           form: new Form($sandbox),
           ac: authClient,
           setNextResponse: setNextResponse
-        };
+        });
       });
     }
 
     itp('displays the correct factorBeacon', function () {
-      $.fx.off = true;
       return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-okta-security-question')).toBe(true);
-        $.fx.off = false;
       });
     });
     itp('does not allow autocomplete', function () {
@@ -94,10 +90,10 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
     itp('returns to factor list when browser\'s back button is clicked', function () {
       return setup(true).then(function (test) {
         Util.triggerBrowserBackButton();
-        return test;
+        return Expect.waitForEnrollChoices(test);
       })
       .then(function (test) {
-        Expect.isEnrollChoicesController(test.router.controller);
+        Expect.isEnrollChoices(test.router.controller);
         Util.stopRouter();
       });
     });

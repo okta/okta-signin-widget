@@ -1,4 +1,4 @@
-/*jshint maxcomplexity:20, maxstatements:27 */
+/*jshint maxcomplexity:20, maxstatements:30 */
 /*jshint -W020 */
 /* globals JSON */
 define([
@@ -124,7 +124,6 @@ function ($, _, Backbone, Q, Duo) {
       switch (data['background-image']) {
         case 'url(/img/security/unknown-device.png)':
         case 'url(/img/security/default.png)':
-        case 'url(/some/img)':
           return;
       }
 
@@ -264,6 +263,26 @@ function ($, _, Backbone, Q, Duo) {
   fn.clearAllIntervals = function() {
     while (intervals.length) {
       clearTimeout(intervals.pop());
+    }
+  };
+
+  var registeredRouters = [];
+
+  // Call this method in each setup function so that we can do cleanup
+  // after the test has run
+  fn.registerRouter = function (router) {
+    registeredRouters.push(router);
+  };
+
+  fn.cleanupRouter = function () {
+    var current;
+    while (registeredRouters.length) {
+      current = registeredRouters.pop();
+      if (current.controller) {
+        current.stopListening(current.controller);
+        current.stopListening(current.controller.state);
+        current.controller.remove();
+      }
     }
   };
 

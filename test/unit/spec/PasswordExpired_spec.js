@@ -37,18 +37,17 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
       globalSuccessFn: function () {},
       processCreds: processCredsSpy
     });
+    Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
     setNextResponse(res || resPassExpired);
     router.refreshAuthState('dummy-token');
-    return tick().then(function () {
-      return {
-        router: router,
-        beacon: new Beacon($sandbox),
-        form: new PasswordExpiredForm($sandbox),
-        ac: authClient,
-        setNextResponse: setNextResponse
-      };
+    return Expect.waitForPasswordExpired({
+      router: router,
+      beacon: new Beacon($sandbox),
+      form: new PasswordExpiredForm($sandbox),
+      ac: authClient,
+      setNextResponse: setNextResponse
     });
   }
 
@@ -146,7 +145,6 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
       itp('shows an error if the server returns a wrong old pass error', function () {
         return setup()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resErrorOldPass);
           submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
           return tick(test);
@@ -161,7 +159,6 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
       itp('shows an error if the server returns a complexity error', function () {
         return setup()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resErrorComplexity);
           submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
           return tick(test);
