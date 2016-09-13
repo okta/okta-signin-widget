@@ -44,7 +44,7 @@ define({
                 }
               }],
               "qrcode": {
-                "href": "https://foo.com/api/qr/code",
+                "href": "../../../test/unit/assets/1x1.gif",
                 "type": "image/png"
               }
             }

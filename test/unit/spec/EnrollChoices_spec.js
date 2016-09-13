@@ -38,19 +38,17 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         authClient: authClient,
         globalSuccessFn: function () {}
       });
+      Util.registerRouter(router);
       Util.mockRouterNavigate(router);
       Util.mockJqueryCss();
       setNextResponse(res);
       router.refreshAuthState('dummy-token');
-      return tick()
-      .then(function () {
-        return {
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new EnrollChoicesForm($sandbox)
-        };
+      return Expect.waitForEnrollChoices({
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        router: router,
+        beacon: new Beacon($sandbox),
+        form: new EnrollChoicesForm($sandbox) 
       });
     }
 

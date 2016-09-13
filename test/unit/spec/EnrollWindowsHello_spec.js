@@ -1,4 +1,4 @@
-/*jshint maxparams:17 */
+/*jshint maxparams:17, newcap:false */
 define([
   'okta',
   'vendor/lib/q',
@@ -14,7 +14,8 @@ define([
   'util/webauthn',
   'LoginRouter',
   'helpers/xhr/MFA_ENROLL_allFactors',
-  'helpers/xhr/MFA_ENROLL_ACTIVATE_Webauthn'
+  'helpers/xhr/MFA_ENROLL_ACTIVATE_Webauthn',
+  'helpers/xhr/SUCCESS'
 ],
 function (Okta,
           Q,
@@ -30,7 +31,8 @@ function (Okta,
           webauthn,
           Router,
           responseMfaEnrollAll,
-          responseMfaEnrollActivateWebauthn) {
+          responseMfaEnrollActivateWebauthn,
+          responseSuccess) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -41,30 +43,30 @@ function (Okta,
       var setNextResponse = Util.mockAjax([responseMfaEnrollAll, responseMfaEnrollActivateWebauthn]);
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var successSpy = jasmine.createSpy('success');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {}
+        globalSuccessFn: successSpy
       });
+      Util.registerRouter(router);
       Util.mockRouterNavigate(router);
       return tick()
       .then(function () {
         router.refreshAuthState('dummy-token');
-        return tick();
+        return Expect.waitForEnrollChoices();
       })
       .then(function () {
         router.enrollWindowsHello();
-        return tick(null);
-      })
-      .then(function () {
-        return {
+        return Expect.waitForEnrollWindowsHello({
           router: router,
           beacon: new Beacon($sandbox),
           form: new Form($sandbox),
           ac: authClient,
-          setNextResponse: setNextResponse
-        };
+          setNextResponse: setNextResponse,
+          successSpy: successSpy
+        });
       });
     }
 
@@ -72,8 +74,7 @@ function (Okta,
       spyOn(webauthn, 'isAvailable').and.returnValue(false);
       spyOn(webauthn, 'makeCredential');
       spyOn(webauthn, 'getAssertion');
-
-      return tick();
+      return Q();
     }
 
     function emulateWindows() {
@@ -134,8 +135,8 @@ function (Okta,
         return emulateWindows()
         .then(setup)
         .then(function (test) {
-          expect(test.form.subtitleText())
-          .toEqual(Okta.loc('enroll.windowsHello.subtitle', 'login'));
+          test.setNextResponse(responseSuccess);
+          expect(test.form.subtitleText()).toEqual(Okta.loc('enroll.windowsHello.subtitle', 'login'));
           test.form.submit();
           expect(test.form.subtitleText()).toEqual(Okta.loc('enroll.windowsHello.subtitle.loading', 'login'));
         });
@@ -145,8 +146,9 @@ function (Okta,
         return emulateWindows()
         .then(setup)
         .then(function (test) {
+          test.setNextResponse(responseSuccess);
           test.form.submit();
-          return tick();
+          return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(2);
@@ -165,15 +167,12 @@ function (Okta,
         return emulateWindows()
         .then(setup)
         .then(function (test) {
-          test.setNextResponse(responseMfaEnrollActivateWebauthn);
+          test.setNextResponse([responseMfaEnrollActivateWebauthn, responseSuccess]);
           test.form.submit();
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(webauthn.makeCredential).toHaveBeenCalled();
-          return tick(test);
+          return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
+          expect(webauthn.makeCredential).toHaveBeenCalled();
           expect($.ajax.calls.count()).toBe(3);
           Expect.isJsonPost($.ajax.calls.argsFor(2), {
             url: 'https://foo.com/api/v1/authn/factors/factorId1234/lifecycle/activate',

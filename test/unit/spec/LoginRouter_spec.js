@@ -71,14 +71,13 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         authClient: authClient,
         globalSuccessFn: function () {}
       }, settings));
+      Util.registerRouter(router);
       router.on('pageRendered', eventSpy);
-      return tick().then(function () {
-        return {
-          router: router,
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          eventSpy: eventSpy
-        };
+      return tick({
+        router: router,
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        eventSpy: eventSpy
       });
     }
 
@@ -96,7 +95,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resMfaRequiredOktaVerify);
         test.router.refreshAuthState('dummy-token');
-        return tick(test);
+        return Expect.waitForMfaVerify(test);
       })
       .then(function (test) {
         var origAppend = document.appendChild;
@@ -235,12 +234,18 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         );
       });
     });
+    it('throws an error on unrecoverable errors if no globalErrorFn is defined', function () {
+      var fn = function () {
+        setup({ foo: 'bar' });
+      };
+      expect(fn).toThrowError('field not allowed: foo');
+    });
     it('calls globalErrorFn on unrecoverable errors if it is defined', function () {
       var errorSpy = jasmine.createSpy('errorSpy');
       var fn = function () {
         setup({ globalErrorFn: errorSpy, foo: 'bar' });
       };
-      expect(fn).toThrowError('field not allowed: foo');
+      expect(fn).not.toThrow();
       var err = errorSpy.calls.mostRecent().args[0];
       expect(err instanceof Errors.ConfigError).toBe(true);
       expect(err.name).toBe('CONFIG_ERROR');
@@ -252,7 +257,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       var fn = function () {
         setup({ globalErrorFn: errorSpy });
       };
-      expect(fn).toThrowError('Unsupported browser - missing CORS support');
+      expect(fn).not.toThrow();
       var err = errorSpy.calls.mostRecent().args[0];
       expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
       expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
@@ -279,7 +284,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('signin/recovery-question');
-        return tick();
+        return Expect.waitForPrimaryAuth();
       })
       .then(function () {
         var form = new PrimaryAuthForm($sandbox);
@@ -293,7 +298,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         Util.mockSDKCookie(test.ac);
         test.setNextResponse(resRecovery);
         test.router.navigate('signin/recovery-question');
-        return tick();
+        return Expect.waitForRecoveryQuestion();
       })
       .then(function () {
         expect($.ajax.calls.count()).toBe(1);
@@ -313,7 +318,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resRecovery);
         test.router.navigate('');
-        return tick();
+        return Expect.waitForRecoveryQuestion();
       })
       .then(function () {
         expect($.ajax.calls.count()).toBe(1);
@@ -333,15 +338,14 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resRecovery);
         test.router.refreshAuthState('dummy-token');
-        return tick(test);
+        return Expect.waitForRecoveryQuestion(test);
       })
       .then(function (test) {
-        Q.stopUnhandledRejectionTracking();
         test.setNextResponse(errorInvalidToken);
         var form = new RecoveryForm($sandbox);
         form.setAnswer('4444');
         form.submit();
-        return tick(test);
+        return Expect.waitForPrimaryAuth(test);
       })
       .then(function (test) {
         var form = new PrimaryAuthForm($sandbox);
@@ -354,7 +358,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         form.setUsername('testuser');
         form.setPassword('pass');
         form.submit();
-        return tick();
+        return Expect.waitForMfaVerify(test);
       })
       .then(function () {
         var form = new MfaVerifyForm($sandbox);
@@ -368,7 +372,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
         test.router.primaryAuth();
-        return tick(test);
+        return Expect.waitForPrimaryAuth(test);
       })
       .then(function (test) {
         Q.stopUnhandledRejectionTracking();
@@ -395,11 +399,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         Util.mockSDKCookie(test.ac);
         test.setNextResponse([resMfaChallengeDuo, resMfa]);
         test.router.navigate('signin/verify/duo/web', { trigger: true });
-        // The extra tick is necessary to navigate between the two controllers
-        // (RefreshAuthState and MfaVerify)
-        return tick().then(function () {
-          return tick(test);
-        });
+        return Expect.waitForMfaVerify();
       })
       .then(function () {
         // Expect that we are on the MFA_CHALLENGE page (default is push for this
@@ -415,7 +415,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('signin');
-        return tick(test);
+        return Expect.waitForPrimaryAuth(test);
       })
       .then(function (test) {
         var form = new PrimaryAuthForm($sandbox);
@@ -426,8 +426,9 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         form.setUsername('testuser');
         form.setPassword('pass');
         form.submit();
-        return tick(test);
-      }).then(function () {
+        return Expect.waitForMfaVerify();
+      })
+      .then(function () {
         var form = new MfaVerifyForm($sandbox);
         expect(form.autoPushCheckbox().length).toBe(1);
         expect(form.isAutoPushChecked()).toBe(true);
@@ -443,58 +444,59 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
     });
     itp('no auto push for a new user', function () {
       return setup({'features.autoPush': true})
-          .then(function (test) {
-            Util.mockRouterNavigate(test.router);
-            test.router.navigate('signin');
-            return tick(test);
-          })
-          .then(function (test) {
-            var form = new PrimaryAuthForm($sandbox);
-            expect(form.isPrimaryAuth()).toBe(true);
-            test.setNextResponse(resMfaRequiredOktaVerify);
-            form.setUsername('testuser');
-            form.setPassword('pass');
-            form.submit();
-            return tick(test);
-          })
-          .then(function () {
-            var form = new MfaVerifyForm($sandbox);
-            expect(form.autoPushCheckbox().length).toBe(1);
-            expect(form.isAutoPushChecked()).toBe(false);
-            expect(form.isPushSent()).toBe(false);
-          });
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('signin');
+        return Expect.waitForPrimaryAuth(test);
+      })
+      .then(function (test) {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+        test.setNextResponse(resMfaRequiredOktaVerify);
+        form.setUsername('testuser');
+        form.setPassword('pass');
+        form.submit();
+        return Expect.waitForMfaVerify();
+      })
+      .then(function () {
+        var form = new MfaVerifyForm($sandbox);
+        expect(form.autoPushCheckbox().length).toBe(1);
+        expect(form.isAutoPushChecked()).toBe(false);
+        expect(form.isPushSent()).toBe(false);
+      });
     });
     itp('auto push updates cookie on MFA success', function () {
       spyOn(CookieUtil, 'removeAutoPushCookie');
       return setup({'features.autoPush': true})
-          .then(function (test) {
-            Util.mockRouterNavigate(test.router);
-            test.router.navigate('signin');
-            return tick(test);
-          })
-          .then(function (test) {
-            var form = new PrimaryAuthForm($sandbox);
-            expect(form.isPrimaryAuth()).toBe(true);
-            test.setNextResponse(resMfaRequiredOktaVerify);
-            form.setUsername('testuser');
-            form.setPassword('pass');
-            form.submit();
-            return tick(test);
-          })
-          .then(function (test) {
-            test.setNextResponse(resSuccess);
-            var form = new MfaVerifyForm($sandbox);
-            form.submit();
-            return tick(test);
-          })
-          .then(function () {
-            expect(CookieUtil.removeAutoPushCookie).toHaveBeenCalledWith('00ui0jgywTAHxYGMM0g3');
-          });
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('signin');
+        return Expect.waitForPrimaryAuth(test);
+      })
+      .then(function (test) {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+        test.setNextResponse(resMfaRequiredOktaVerify);
+        form.setUsername('testuser');
+        form.setPassword('pass');
+        form.submit();
+        return Expect.waitForMfaVerify(test);
+      })
+      .then(function (test) {
+        test.setNextResponse(resSuccess);
+        var form = new MfaVerifyForm($sandbox);
+        form.submit();
+        return tick(test);
+      })
+      .then(function () {
+        expect(CookieUtil.removeAutoPushCookie).toHaveBeenCalledWith('00ui0jgywTAHxYGMM0g3');
+      });
     });
 
     Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function () {
       itp('creates an iframe with the correct url when authStatus is SUCCESS', function () {
-        return setupOAuth2().then(function (test) {
+        return setupOAuth2()
+        .then(function (test) {
           expect(test.iframeElem.src).toBe(
             'https://foo.com/oauth2/v1/authorize?' +
             'client_id=someClientId&' +
@@ -580,7 +582,6 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         var errorSpy = jasmine.createSpy('errorSpy');
         return setupOAuth2({ globalErrorFn: errorSpy })
         .then(function () {
-          Q.stopUnhandledRejectionTracking();
           var args = window.addEventListener.calls.argsFor(0);
           var callback = args[1];
           callback.call(null, {
@@ -589,12 +590,12 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           });
           return tick();
         })
-        .fail(function () {
+        .then(function () {
           expect(errorSpy.calls.count()).toBe(1);
           var err = errorSpy.calls.argsFor(0)[0];
           expect(err instanceof Errors.OAuthError).toBe(true);
           expect(err.name).toBe('OAUTH_ERROR');
-          expect(err.message).toBe('There was a problem generating the id_token for the user. Please try again.');
+          expect(err.message).toBe('OAuth flow response state doesn\'t match request state');
         });
       });
     });
@@ -604,7 +605,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         return setup()
         .then(function (test) {
           test.router.primaryAuth();
-          return tick(test);
+          return Expect.waitForPrimaryAuth(test);
         })
         .then(function(test){
           expect(test.eventSpy.calls.count()).toBe(1);
@@ -618,8 +619,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           test.router.primaryAuth();
           Util.mockRouterNavigate(test.router);
           test.router.navigate('signin/forgot-password');
-            // Wait an extra tick for the animation success function to run
-          return tick(test);
+          return Expect.waitForForgotPassword(test);
         })
         .then(function (test) {
           // since the event is triggered from the success function of the animation

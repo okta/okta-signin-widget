@@ -32,6 +32,7 @@ function (Q, _, $, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView
     }, settings));
     var beacon = new Beacon($sandbox);
     var form = new RecoveryFormView($sandbox);
+    Util.registerRouter(router);
     Util.mockRouterNavigate(router);
 
     setNextResponse(resRecovery);
@@ -79,7 +80,7 @@ function (Q, _, $, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView
         // the token in settings is unset after the initial navigation
         // so the following navigations are not affected
         test.router.navigate('', { trigger: true });
-        return tick();
+        return Expect.waitForPrimaryAuth();
       }).then(function () {
         var form = new PrimaryAuthFormView($sandbox);
         expect(form.isPrimaryAuth()).toBe(true);

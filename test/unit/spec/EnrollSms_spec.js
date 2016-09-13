@@ -37,25 +37,23 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         authClient: authClient,
         globalSuccessFn: function () {}
       });
+      Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
       .then(function () {
         setNextResponse(resp || resAllFactors);
         router.refreshAuthState('dummy-token');
-        return tick();
+        return Expect.waitForEnrollChoices();
       })
       .then(function () {
         router.enrollSms();
-        return tick(null);
-      })
-      .then(function () {
-        return {
+        return Expect.waitForEnrollSms({
           router: router,
           beacon: new Beacon($sandbox),
           form: new Form($sandbox),
           ac: authClient,
           setNextResponse: setNextResponse
-        };
+        });
       });
     }
 
@@ -128,10 +126,10 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       itp('returns to factor list when browser\'s back button is clicked', function () {
         return setup(null, true).then(function (test) {
           Util.triggerBrowserBackButton();
-          return test;
+          return Expect.waitForEnrollChoices(test);
         })
         .then(function (test) {
-          Expect.isEnrollChoicesController(test.router.controller);
+          Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
       });
@@ -140,7 +138,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           $.ajax.calls.reset();
           test.setNextResponse(resAllFactors);
           test.form.backLink().click();
-          return tick();
+          return Expect.waitForEnrollChoices();
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -235,7 +233,6 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         });
       });
       itp('clears previous errors in form when resend code', function () {
-        Q.stopUnhandledRejectionTracking();
         return setupAndSendInvalidCode().then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
@@ -263,7 +260,6 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         });
       });
       itp('shows error and does not go to next step if error response', function () {
-        Q.stopUnhandledRejectionTracking();
         return setupAndSendInvalidCode().then(function (test) {
           expectSendButton(test);
           Expect.isNotVisible(test.form.divider());
@@ -444,7 +440,6 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       itp('shows error if error response on verification', function () {
         return setupAndSendValidCode()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resActivateError);
           test.form.setCode(123);
           test.form.submit();

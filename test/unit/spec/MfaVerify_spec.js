@@ -1,4 +1,4 @@
-/*jshint maxparams:40, maxstatements:40, camelcase:false */
+/*jshint maxparams:40, maxstatements:40, camelcase:false, newcap:false */
 /*global JSON */
 define([
   'vendor/lib/q',
@@ -88,16 +88,18 @@ function (Q,
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var successSpy = jasmine.createSpy('success');
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {}
+        globalSuccessFn: successSpy
       }, settings));
+      Util.registerRouter(router);
       Util.mockRouterNavigate(router);
       setNextResponse(res);
       router.refreshAuthState('dummy-token');
-      return tick()
+      return Expect.waitForMfaVerify()
       .then(function () {
         if (selectedFactorProps) {
           var factors = router.appState.get('factors'),
@@ -107,19 +109,22 @@ function (Q,
           if (provider === 'DUO' && factorType === 'web') {
             setNextResponse(resChallengeDuo);
             router.verifyDuo();
+            return Expect.waitForVerifyDuo();
           }
           else if (provider === 'FIDO' && factorType === 'webauthn') {
             setNextResponse(resChallengeWebauthn);
             router.verifyWindowsHello();
+            return Expect.waitForVerifyWindowsHello();
           }
           else if (provider === 'FIDO' && factorType === 'u2f') {
             setNextResponse(resChallengeU2F);
             router.verifyU2F();
+            return Expect.waitForVerifyU2F();
           }
           else {
             router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
+            return Expect.waitForMfaVerify();
           }
-          return tick();
         }
       })
       .then(function () {
@@ -136,7 +141,8 @@ function (Q,
           form: forms,
           beacon: beacon,
           ac: authClient,
-          setNextResponse: setNextResponse
+          setNextResponse: setNextResponse,
+          successSpy: successSpy
         };
       });
     }
@@ -152,14 +158,26 @@ function (Q,
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
-    var setupU2F = _.partial(setup, resAllFactors, {  factorType: 'u2f', provider: 'FIDO' });
+
+    function setupU2F(options) {
+      return setup(resAllFactors, { factorType: 'u2f', provider: 'FIDO' })
+      .then(function (test) {
+        if (!window.u2f || !window.u2f.sign) {
+          window.u2f = { sign: function () {} };
+        }
+        spyOn(window.u2f, 'sign');
+        if (options && options.signStub) {
+          window.u2f.sign.and.callFake(options.signStub);
+        }
+        return test;
+      });
+    }
 
     function emulateNotWindows() {
       spyOn(webauthn, 'isAvailable').and.returnValue(false);
       spyOn(webauthn, 'makeCredential');
       spyOn(webauthn, 'getAssertion');
-
-      return tick();
+      return Q();
     }
 
     function emulateWindows() {
@@ -177,7 +195,7 @@ function (Q,
         return tick(deferred.promise);
       });
 
-      return tick();
+      return Q();
     }
 
     // Mocks the right calls for Auth SDK's transactions handled in the widget
@@ -440,7 +458,7 @@ function (Q,
             test.form.setRememberDevice(true);
             test.setNextResponse(resSuccess);
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -455,7 +473,6 @@ function (Q,
         });
         itp('disables the "verify button" when clicked', function () {
           return setupSecurityQuestion().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             $.ajax.calls.reset();
             test.form.setAnswer('who cares');
             test.setNextResponse(resInvalid);
@@ -463,7 +480,7 @@ function (Q,
             var button = test.form.submitButton();
             var buttonClass = button.attr('class');
             expect(buttonClass).toContain('link-button-disabled');
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             var button = test.form.submitButton();
@@ -474,11 +491,10 @@ function (Q,
         itp('shows an error if error response from authClient', function () {
           return setupSecurityQuestion()
           .then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.setNextResponse(resInvalid);
             test.form.setAnswer('wrong');
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
@@ -493,7 +509,7 @@ function (Q,
             test.form.setAnswer('food');
             test.setNextResponse(resSuccess);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function (test) {
             expectSetTransaction(test.router, resSuccess);
@@ -502,13 +518,12 @@ function (Q,
         itp('sets the transaction error on the appState on error response', function () {
           return setupSecurityQuestion()
           .then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             mockTransactions(test.router.controller);
             $.ajax.calls.reset();
             test.form.setAnswer('food');
             test.setNextResponse(resInvalid);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expectSetTransactionError(test.router, resInvalid);
@@ -594,7 +609,7 @@ function (Q,
             test.form.setAnswer('123456');
             test.setNextResponse(resSuccess);
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -614,7 +629,7 @@ function (Q,
             test.form.setRememberDevice(true);
             test.setNextResponse(resSuccess);
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -629,7 +644,6 @@ function (Q,
         });
         itp('disables the "verify button" when clicked', function () {
           return setupGoogleTOTP().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             $.ajax.calls.reset();
             test.form.setAnswer('who cares');
             test.setNextResponse(resInvalid);
@@ -637,7 +651,7 @@ function (Q,
             var button = test.form.submitButton();
             var buttonClass = button.attr('class');
             expect(buttonClass).toContain('link-button-disabled');
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             var button = test.form.submitButton();
@@ -648,11 +662,10 @@ function (Q,
         itp('shows an error if error response from authClient', function () {
           return setupGoogleTOTP()
           .then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.setNextResponse(resInvalidTotp);
             test.form.setAnswer('wrong');
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
@@ -665,7 +678,7 @@ function (Q,
             test.form.setAnswer('123456');
             test.setNextResponse(resSuccess);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function (test) {
             expectSetTransaction(test.router, resSuccess);
@@ -673,12 +686,11 @@ function (Q,
         });
         itp('sets the transaction error on the appState on error response', function () {
           return setupGoogleTOTP().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             mockTransactions(test.router.controller);
             test.setNextResponse(resInvalidTotp);
             test.form.setAnswer('wrong');
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expectSetTransactionError(test.router, resInvalidTotp);
@@ -714,7 +726,6 @@ function (Q,
         });
         itp('disables the "verify button" when clicked', function () {
           return setupYubikey().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             $.ajax.calls.reset();
             test.form.setAnswer('who cares');
             test.setNextResponse(resInvalid);
@@ -722,7 +733,7 @@ function (Q,
             var button = test.form.submitButton();
             var buttonClass = button.attr('class');
             expect(buttonClass).toContain('link-button-disabled');
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             var button = test.form.submitButton();
@@ -736,7 +747,7 @@ function (Q,
             test.form.setAnswer('123456');
             test.setNextResponse(resSuccess);
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -756,7 +767,7 @@ function (Q,
             test.form.setRememberDevice(true);
             test.setNextResponse(resSuccess);
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -775,7 +786,7 @@ function (Q,
             test.form.setAnswer('123456');
             test.setNextResponse(resSuccess);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function (test) {
             expectSetTransaction(test.router, resSuccess);
@@ -783,12 +794,11 @@ function (Q,
         });
         itp('sets the transaction error on the appState on error response', function () {
           return setupYubikey().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             mockTransactions(test.router.controller);
             test.setNextResponse(resInvalid);
             test.form.setAnswer('wrong');
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expectSetTransactionError(test.router, resInvalid);
@@ -844,7 +854,6 @@ function (Q,
         });
         itp('clears the passcode text field on clicking the "Send code" button', function () {
           return setupSMS().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.button = test.form.smsSendCode();
             test.form.setAnswer('123456');
             test.setNextResponse(resChallengeSms);
@@ -931,7 +940,7 @@ function (Q,
             test.setNextResponse(resSuccess);
             test.form.setAnswer('123456');
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -957,7 +966,7 @@ function (Q,
             test.setNextResponse(resSuccess);
             test.form.setAnswer('123456');
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -975,7 +984,6 @@ function (Q,
           var deferred = Util.mockRateLimiting();
 
           return setupSMS().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.button = test.form.smsSendCode();
             expect(test.button.trimmedText()).toEqual('Send code');
             test.setNextResponse(resChallengeSms);
@@ -995,7 +1003,6 @@ function (Q,
         itp('displays only one error block if got an error resp on "Send code"', function () {
           var deferred = Util.mockRateLimiting();
           return setupSMS().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.setNextResponse(resResendError);
             test.form.smsSendCode().click();
             return tick(test);
@@ -1015,11 +1022,10 @@ function (Q,
         });
         itp('shows proper account locked error after too many failed MFA attempts.', function () {
           return setupSMS().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.setNextResponse(resMfaLocked);
             test.form.setAnswer('12345');
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
@@ -1029,7 +1035,6 @@ function (Q,
         });
         itp('hides error messages after clicking on send sms', function () {
           return setupSMS().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.form.setAnswer('');
             test.form.submit();
             return tick(test);
@@ -1037,9 +1042,6 @@ function (Q,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorBox().length).toBe(1);
-            return tick(test);
-          })
-          .then(function (test) {
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
             return tick(test);
@@ -1094,7 +1096,6 @@ function (Q,
         });
         itp('clears the passcode text field on clicking the "Call" button', function () {
           return setupCall().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.button = test.form.makeCall();
             test.form.setAnswer('123456');
             test.setNextResponse(resChallengeCall);
@@ -1181,7 +1182,7 @@ function (Q,
             test.setNextResponse(resSuccess);
             test.form.setAnswer('123456');
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -1207,7 +1208,7 @@ function (Q,
             test.setNextResponse(resSuccess);
             test.form.setAnswer('123456');
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -1225,7 +1226,6 @@ function (Q,
           var deferred = Util.mockRateLimiting();
 
           return setupCall().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.button = test.form.makeCall();
             expect(test.button.trimmedText()).toEqual('Call');
             test.setNextResponse(resChallengeCall);
@@ -1245,7 +1245,6 @@ function (Q,
         itp('displays only one error block if got an error resp on "Call"', function () {
           var deferred = Util.mockRateLimiting();
           return setupCall().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.setNextResponse(resResendError);
             test.form.makeCall().click();
             return tick(test);
@@ -1265,11 +1264,10 @@ function (Q,
         });
         itp('shows proper account locked error after too many failed MFA attempts.', function () {
           return setupCall().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.setNextResponse(resMfaLocked);
             test.form.setAnswer('12345');
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
@@ -1279,7 +1277,6 @@ function (Q,
         });
         itp('hides error messages after clicking on call', function () {
           return setupCall().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.form.setAnswer('');
             test.form.submit();
             return tick(test);
@@ -1568,11 +1565,11 @@ function (Q,
           itp('clears any errors from push when submitting inline totp', function () {
             return setupOktaPush()
             .then(function (test) {
-              var inlineForm = test.form[1];
+              var pushForm = test.form[0],
+                  inlineForm = test.form[1];
               return setupPolling(test, resRejectedPush)
               .then(function () {
-                // Final response - REJECTED
-                return tick({
+                return Expect.waitForFormError(pushForm, {
                   test: test,
                   inlineForm: inlineForm
                 });
@@ -1582,9 +1579,9 @@ function (Q,
               expect(res.test.form.errorMessage()).toBe('You have chosen to reject this login.');
               res.inlineForm.inlineTOTPAdd().click();
               res.inlineForm.setAnswer('654321');
-              res.test.setNextResponse(resAllFactors);
+              res.test.setNextResponse([resAllFactors, resSuccess]);
               res.inlineForm.inlineTOTPVerify().click();
-              return tick(res.test);
+              return Expect.waitForSpyCall(res.test.successSpy, res.test);
             })
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(false);
@@ -1704,7 +1701,7 @@ function (Q,
             });
             var postAction = Duo.init.calls.mostRecent().args[0].post_action;
             postAction('someSignedResponse');
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(2);
@@ -1738,7 +1735,7 @@ function (Q,
             });
             var postAction = Duo.init.calls.mostRecent().args[0].post_action;
             postAction('someSignedResponse');
-            return tick();
+            return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(2);
@@ -1791,17 +1788,15 @@ function (Q,
           return emulateWindows()
           .then(setupWebauthn)
           .then(function (test) {
+            test.setNextResponse([resChallengeWebauthn, resSuccess]);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function (test) {
+          .then(function () {
             expect(webauthn.getAssertion).toHaveBeenCalledWith(
               'NONCE',
               [{ id: 'credentialId' }]
             );
-            return tick(test);
-          })
-          .then(function () {
             expect($.ajax.calls.count()).toBe(3);
             Expect.isJsonPost($.ajax.calls.argsFor(2), {
               url: 'https://foo.com/api/v1/authn/factors/webauthnFactorId/verify',
@@ -1836,26 +1831,25 @@ function (Q,
         });
 
         itp('calls u2f.sign and verifies factor', function () {
-          window.u2f = {
-            sign: function (appId, nonce, registeredKeys, callback) {
-              callback({
-                keyHandle: 'someKeyHandle',
-                clientData: 'someClientData',
-                signatureData: 'someSignature'
-              });
-            }
+          var signStub = function (appId, nonce, registeredKeys, callback) {
+            callback({
+              keyHandle: 'someKeyHandle',
+              clientData: 'someClientData',
+              signatureData: 'someSignature'
+            });
           };
-          spyOn(window.u2f, 'sign').and.callThrough();
-          return setupU2F().then(function () {
+          return setupU2F({ signStub: signStub })
+          .then(function (test) {
+            test.setNextResponse(resSuccess);
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
             expect(window.u2f.sign).toHaveBeenCalledWith(
               'https://test.okta.com',
               'NONCE',
               [ { version: 'U2F_V2', keyHandle: 'someCredentialId' } ],
               jasmine.any(Function)
             );
-            return tick();
-          })
-          .then(function () {
             expect($.ajax.calls.count()).toBe(3);
             Expect.isJsonPost($.ajax.calls.argsFor(2), {
               url: 'https://foo.com/api/v1/authn/factors/u2fFactorId/verify',
@@ -1869,15 +1863,17 @@ function (Q,
         });
 
         itp('shows an error if u2f.sign fails', function () {
-          window.u2f = {
-            sign: function (appId, nonce, registeredKeys, callback) {
-              callback({ errorCode: '2' });
-            }
+          Q.stopUnhandledRejectionTracking();
+          var signStub = function (appId, nonce, registeredKeys, callback) {
+            callback({ errorCode: '2' });
           };
-          spyOn(window.u2f, 'sign').and.callThrough();
-          return setupU2F().then(function (test) {
+          return setupU2F({ signStub: signStub })
+          .then(function (test) {
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
             expect(window.u2f.sign).toHaveBeenCalled();
-            test.form.el('o-form-error-container').children().length > 0;
+            expect(test.form.hasErrors()).toBe(true);
           });
         });
       });
@@ -1979,7 +1975,7 @@ function (Q,
           test.setNextResponse(resAllFactors);
           test.beacon.dropDownButton().click();
           test.beacon.getOptionsLinks().eq(8).click();
-          return tick(test);
+          return Expect.waitForVerifyQuestion(test);
         })
         .then(function (test) {
           $.ajax.calls.reset();
@@ -1989,7 +1985,7 @@ function (Q,
           test.questionForm = new MfaVerifyForm($sandbox.find('.o-form'));
           test.questionForm.setAnswer('food');
           test.questionForm.submit();
-          return tick(test);
+          return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -2005,10 +2001,11 @@ function (Q,
       itp('Verify Push after switching from Google TOTP', function () {
         return setupGoogleTOTP({'features.autoPush': true})
         .then(function (test) {
+          test.setNextResponse(resChallengePush);
           spyOn(CookieUtil, 'isAutoPushEnabled').and.returnValue(true);
           test.beacon.dropDownButton().click();
           test.beacon.getOptionsLinks().eq(0).click();
-          return tick(test);
+          return Expect.waitForVerifyPush(test);
         })
         .then(function (test) {
           var button = test.form.submitButton();

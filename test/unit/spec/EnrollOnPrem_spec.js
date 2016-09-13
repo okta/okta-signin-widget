@@ -33,30 +33,30 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         authClient: authClient,
         globalSuccessFn: function () {}
       });
+      Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
       .then(function () {
         var res = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
         setNextResponse(res);
         router.refreshAuthState('dummy-token');
-        return tick();
+        return Expect.waitForEnrollChoices();
       })
       .then(function () {
-        if (includeOnPrem) {
-          router.enrollOnPrem();
-        } else {
-          router.enrollRsa();
-        }
-        return tick();
-      })
-      .then(function () {
-        return {
+        var test = {
           router: router,
           beacon: new Beacon($sandbox),
           form: new Form($sandbox),
           ac: authClient,
           setNextResponse: setNextResponse
         };
+        if (includeOnPrem) {
+          router.enrollOnPrem();
+          return Expect.waitForEnrollOnPrem(test);
+        } else {
+          router.enrollRsa();
+          return Expect.waitForEnrollRsa(test);
+        }
       });
     }
 
@@ -66,11 +66,9 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
 
       Expect.describe('Header & Footer', function () {
         itp('displays the correct factorBeacon', function () {
-          $.fx.off = true;
           return setup().then(function (test) {
             expect(test.beacon.isFactorBeacon()).toBe(true);
             expect(test.beacon.hasClass('mfa-rsa')).toBe(true);
-            $.fx.off = false;
           });
         });
         itp('has a "back" link in the footer', function () {
@@ -86,10 +84,10 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         itp('returns to factor list when browser\'s back button is clicked', function () {
           return setup(false, true).then(function (test) {
             Util.triggerBrowserBackButton();
-            return test;
+            return Expect.waitForEnrollChoices(test);
           })
           .then(function (test) {
-            Expect.isEnrollChoicesController(test.router.controller);
+            Expect.isEnrollChoices(test.router.controller);
             Util.stopRouter();
           });
         });
@@ -123,7 +121,6 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         itp('shows error in case of an error response', function () {
           return setup()
           .then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.setNextResponse(resEnrollError);
             test.form.setCredentialId('Username');
             test.form.setCode(123);
@@ -166,11 +163,9 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
 
       Expect.describe('Header & Footer', function () {
         itp('displays the correct factorBeacon', function () {
-          $.fx.off = true;
           return setupOnPrem().then(function (test) {
             expect(test.beacon.isFactorBeacon()).toBe(true);
             expect(test.beacon.hasClass('mfa-onprem')).toBe(true);
-            $.fx.off = false;
           });
         });
         itp('has a "back" link in the footer', function () {
@@ -186,10 +181,10 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         itp('returns to factor list when browser\'s back button is clicked', function () {
           return setupOnPrem(true).then(function (test) {
             Util.triggerBrowserBackButton();
-            return test;
+            return Expect.waitForEnrollChoices(test);
           })
           .then(function (test) {
-            Expect.isEnrollChoicesController(test.router.controller);
+            Expect.isEnrollChoices(test.router.controller);
             Util.stopRouter();
           });
         });
@@ -223,7 +218,6 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         itp('shows error in case of an error response', function () {
           return setupOnPrem()
           .then(function (test) {
-            Q.stopUnhandledRejectionTracking();
             test.setNextResponse(resEnrollError);
             test.form.setCredentialId('Username');
             test.form.setCode(123);

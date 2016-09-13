@@ -29,17 +29,18 @@ env:
     - secure: TeBYOgxCs0a+hA1u9Jwvqxnk1zANiqvKJkKFT27c/ZFSbFcU2PLXAx2r9bCsm0vSztJM0kiobO+IthXv9axnzbScUqNtgbx3W/gEbpfdXUfY2wQfaDfXLIJcEpM3Z7gpiaqnmQWHAW1jAfni5t9EG2+HqclQ+bzPGCWpsuJB/CD4YT8vKbWdORWGf5Lbdd2eV5DwfQtw1Ja9Cf5Tyc3qXq7IUMhXnwMM7UsO6xnq0jOleTsSYpPkaSzLJ7R3eKF3NeKnrOIoF4rEUhuyv5mQNam5WiJ9XLyi4LZQRiHguZIKm/AxgDKad/jeIEDun3XPat1vSVaD33SGz/uEN83JYsAhG3RKHI3ydVq0J83gV8EZej02uNFMwsAZmcrx9enz1dw6z4EhWdfNNpL28ZVcaOzduN19ETytwX1ey5QcUSyd2ZCKSspLhK7yD5+LMEQCINmoJW9Gpbl20WRoAoY+QklYg0aqPKhdtPoymCZ7SAKGr02jcYf3drcsNo9yfGvGcO2J43vPQ5XHgOX4m3ZWs+tZ8eKtFyHWfq8tyfEiAZoNxRjS6OGozfs9e0f3n93Pa7GyTDPgO5/Lmdnr6+cNj9AZWNiuB1azJp7qr24onZY9vKU5HW2Ii57Vf/3vUYQfIHy04E/c/TPwjwZaBt3GQHIQqzdxe34gzUVdZA0UuFE=
     - secure: yxK3f4jU1hllijngFx7nMgqmDO/RiN9BLhNw3nAfX4YEPCUsj54jkQlX3rSTMecRsPb7Pxy3Lrdu3nXIq81/MxWMXBfYyEbWyKA51IqE828S5jpeLdYP62XEu9wSugh9Zzyf6NOEcHK1R3Qf98y0bkYkzv8b/0cHb4tB77ZkGATmjLIDqZT2Fv7wn0NPtfU6wvNf40FqkLCPUZOO/VeoqBA4dsJzCypvbZcI8yw9KsoCUmaR3Jv+Zik3jOsWCpHvjN0dor4Vfpod5PEbBAkFH0EGc4YGI1rfUVmnlQj1VKuanBTgGvDNfTsP8iCV6PJeWri7iOcDpp9FcejX2c8QsBDpFpbgAPRWzQkRG+GEVHJwuY+klSCfxbheXasuUAxixtWpSsjwB1+JvzCKJd0FEg2m83Jdtzcg1mWs6NRRg50WvPGiisdm80C63T6S1ACf6TAvCPggAQXsQ6EKKIIPnRjo3r9zebYX3c10icwLeV4UzLmsAAVrI2eR580DEr+JviQanmx/s9cjS25pSKD3dSE7Mbhhv5J2JMF95SOfKA7vW3mM3mLBicEddelfzBxTiHxbqVHsnOoR1XhcLFrcFzixVd7upDhPDSKP4DFax7cUJ/A10DXCBK6EoMv1sFPP3qHhf9V5R4dNzDwt4XlD9FJfCte1EqF8ntPLIjfmAso=
 
-matrix:
-  include:
-    - env:
-      - SAUCE_BROWSER_NAME="safari"
-      - SAUCE_BROWSER_VERSION="9.0"
-      - SAUCE_PLATFORM="OS X 10.11"
-    - env:
-      - SAUCE_BROWSER_NAME="internet explorer"
-      - SAUCE_BROWSER_VERSION="10.0"
-      - SAUCE_PLATFORM="Windows 8"
-    - env:
-      - SAUCE_BROWSER_NAME="firefox"
-      - SAUCE_BROWSER_VERSION="latest"
-      - SAUCE_PLATFORM="Windows 10"
+# REMOVE THESE BROWSERS FOR NOW UNTIL WE CAN SOLVE THE 1 LOGIN/MIN/USER PROBLEM.
+# matrix:
+#   include:
+#     - env:
+#       - SAUCE_BROWSER_NAME="safari"
+#       - SAUCE_BROWSER_VERSION="9.0"
+#       - SAUCE_PLATFORM="OS X 10.11"
+#     - env:
+#       - SAUCE_BROWSER_NAME="internet explorer"
+#       - SAUCE_BROWSER_VERSION="10.0"
+#       - SAUCE_PLATFORM="Windows 8"
+#     - env:
+#       - SAUCE_BROWSER_NAME="firefox"
+#       - SAUCE_BROWSER_VERSION="latest"
+#       - SAUCE_PLATFORM="Windows 10"

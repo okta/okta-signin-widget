@@ -32,35 +32,31 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         authClient: authClient,
         globalSuccessFn: function () {}
       });
+      Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
       .then(function () {
         setNextResponse(resAllFactors);
         router.refreshAuthState('dummy-token');
-        return tick();
+        return Expect.waitForEnrollChoices();
       })
       .then(function () {
         router.enrollSymantecVip();
-        return tick();
-      })
-      .then(function () {
-        return {
+        return Expect.waitForEnrollSymantecVip({
           router: router,
           beacon: new Beacon($sandbox),
           form: new Form($sandbox),
           ac: authClient,
           setNextResponse: setNextResponse
-        };
+        });
       });
     }
 
     Expect.describe('Header & Footer', function () {
       itp('displays the correct factorBeacon', function () {
-        $.fx.off = true;
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-symantec')).toBe(true);
-          $.fx.off = false;
         });
       });
       itp('has autocomplete off', function () {
@@ -76,10 +72,10 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       itp('returns to factor list when browser\'s back button is clicked', function () {
         return setup(true).then(function (test) {
           Util.triggerBrowserBackButton();
-          return test;
+          return Expect.waitForEnrollChoices(test);
         })
         .then(function (test) {
-          Expect.isEnrollChoicesController(test.router.controller);
+          Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
       });
@@ -114,7 +110,6 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       itp('shows error in case of an error response', function () {
         return setup()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resEnrollError);
           test.form.setCredentialId('Cred_Id');
           test.form.setCode(123);

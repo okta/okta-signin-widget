@@ -35,6 +35,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     }, settings));
     var form = new RecoveryQuestionForm($sandbox);
     var beacon = new Beacon($sandbox);
+    Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
 
@@ -42,14 +43,12 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     setNextResponse(resRecovery);
     router.refreshAuthState('dummy-token');
 
-    return tick().then(function () {
-      return {
-        router: router,
-        form: form,
-        beacon: beacon,
-        ac: authClient,
-        setNextResponse: setNextResponse
-      };
+    return Expect.waitForRecoveryQuestion({
+      router: router,
+      form: form,
+      beacon: beacon,
+      ac: authClient,
+      setNextResponse: setNextResponse
     });
   }
 
@@ -67,7 +66,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
         var $link = test.form.signoutLink();
         expect($link.length).toBe(1);
         $link.click();
-        return tick(test);
+        return Expect.waitForPrimaryAuth(test);
       })
       .then(function (test) {
         expect($.ajax.calls.count()).toBe(1);
@@ -77,8 +76,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
             stateToken: 'testStateToken'
           }
         });
-        expect(test.router.navigate.calls.mostRecent().args)
-          .toEqual(['', { trigger: true }]);
+        Expect.isPrimaryAuth(test.router.controller);
       });
     });
     itp('sets the correct title for a forgotten password flow', function () {
@@ -156,7 +154,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
         test.form.setAnswer('4444');
         test.setNextResponse(resSuccessUnlock);
         test.form.submit();
-        return tick(test);
+        return Expect.waitForAccountUnlocked(test);
       })
       .then(function (test) {
         expect($.ajax.calls.count()).toBe(1);
@@ -167,9 +165,6 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
             stateToken: 'testStateToken'
           }
         });
-        return tick(test);
-      })
-      .then(function (test) {
         expect(test.form.titleText()).toBe('Account successfully unlocked!');
         expect(test.form.backToLoginButton().length).toBe(1);
         test.form.goBackToLogin();
@@ -187,7 +182,6 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     itp('shows an error msg if there is an error submitting the answer', function () {
       return setup()
       .then(function (test) {
-        Q.stopUnhandledRejectionTracking();
         test.setNextResponse(resError);
         test.form.setAnswer('4444');
         test.form.submit();

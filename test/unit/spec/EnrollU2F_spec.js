@@ -1,7 +1,8 @@
-/*jshint maxparams:11 */
+/*jshint maxparams:13 */
 define([
   'okta',
   'jquery',
+  'q',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollU2FForm',
@@ -10,10 +11,12 @@ define([
   'sandbox',
   'LoginRouter',
   'helpers/xhr/MFA_ENROLL_allFactors',
-  'helpers/xhr/MFA_ENROLL_ACTIVATE_u2f'
+  'helpers/xhr/MFA_ENROLL_ACTIVATE_u2f',
+  'helpers/xhr/SUCCESS'
 ],
 function (Okta,
           $,
+          Q,
           OktaAuth,
           Util,
           Form,
@@ -22,7 +25,8 @@ function (Okta,
           $sandbox,
           Router,
           resAllFactors,
-          resEnrollActivateU2F) {
+          resEnrollActivateU2F,
+          resSuccess) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -33,55 +37,55 @@ function (Okta,
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
+      var successSpy = jasmine.createSpy('success');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {}
+        globalSuccessFn: successSpy
       });
+      Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
       .then(function () {
         setNextResponse(resAllFactors);
         router.refreshAuthState('dummy-token');
-        return tick();
+        return Expect.waitForEnrollChoices();
       })
       .then(function () {
         router.enrollU2F();
-        return tick();
-      })
-      .then(function () {
-        return {
+        return Expect.waitForEnrollU2F({
           router: router,
           beacon: new Beacon($sandbox),
           form: new Form($sandbox),
           ac: authClient,
-          setNextResponse: setNextResponse
-        };
+          setNextResponse: setNextResponse,
+          successSpy: successSpy
+        });
       });
     }
 
     function mocku2fSuccessRegistration() {
-      window.u2f = {
-        register: function (appId, registerRequests, registeredKeys, callback) {
-          callback({
-            registrationData: 'someRegistrationData',
-            version: 'U2F_V2',
-            challenge: 'NONCE',
-            clientData: 'someClientData'
-          });
-        }
-      };
-      spyOn(window.u2f, 'register').and.callThrough();
+      if (!window.u2f) {
+        window.u2f = { register: function () {} };
+      }
+      spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
+        callback({
+          registrationData: 'someRegistrationData',
+          version: 'U2F_V2',
+          challenge: 'NONCE',
+          clientData: 'someClientData'
+        });
+      });
     }
 
     function mocku2fFailedRegistration() {
-      window.u2f = {
-        register: function (appId, registerRequests, registeredKeys, callback) {
-          callback({ errorCode: '2' });
-        }
-      };
-      spyOn(window.u2f, 'register').and.callThrough();
+      if (!window.u2f) {
+        window.u2f = { register: function () {} };
+      }
+      spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
+        callback({ errorCode: '2' });
+      });
     }
 
     Expect.describe('Header & Footer', function () {
@@ -107,9 +111,13 @@ function (Okta,
       });
 
       itp('shows a waiting spinner and devices images after submitting the form', function () {
+        mocku2fSuccessRegistration();
         return setup().then(function (test) {
-          test.setNextResponse(resEnrollActivateU2F);
+          test.setNextResponse([resEnrollActivateU2F, resSuccess]);
           test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function (test) {
           Expect.isVisible(test.form.enrollWaitingText());
           Expect.isVisible(test.form.enrollDeviceImages());
           Expect.isVisible(test.form.enrollSpinningIcon());
@@ -118,14 +126,16 @@ function (Okta,
       });
 
       itp('sends enroll request after submitting the form', function () {
+        mocku2fSuccessRegistration();
         return setup().then(function (test) {
-          test.setNextResponse(resEnrollActivateU2F);
+          $.ajax.calls.reset();
+          test.setNextResponse([resEnrollActivateU2F, resSuccess]);
           test.form.submit();
-          return tick();
+          return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(2);
-          Expect.isJsonPost($.ajax.calls.argsFor(1), {
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/factors',
             data: {
               stateToken: 'testStateToken',
@@ -139,14 +149,15 @@ function (Okta,
       itp('calls u2f.register and activates the factor', function () {
         mocku2fSuccessRegistration();
         return setup().then(function (test) {
-          test.setNextResponse(resEnrollActivateU2F);
+          $.ajax.calls.reset();
+          test.setNextResponse([resEnrollActivateU2F, resSuccess]);
           test.form.submit();
-          return tick(test);
+          return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
           expect(window.u2f.register).toHaveBeenCalled();
-          expect($.ajax.calls.count()).toBe(3);
-          Expect.isJsonPost($.ajax.calls.argsFor(2), {
+          expect($.ajax.calls.count()).toBe(2);
+          Expect.isJsonPost($.ajax.calls.argsFor(1), {
             url: 'https://test.okta.com/api/v1/authn/factors/u2fFactorId/lifecycle/activate',
             data: {
               registrationData: 'someRegistrationData',
@@ -160,6 +171,7 @@ function (Okta,
       });
 
       itp('shows error if u2f.register fails', function () {
+        Q.stopUnhandledRejectionTracking();
         mocku2fFailedRegistration();
         return setup().then(function (test) {
           test.setNextResponse(resEnrollActivateU2F);

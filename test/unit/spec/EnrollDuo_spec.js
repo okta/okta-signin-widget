@@ -32,27 +32,25 @@ function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
         authClient: authClient,
         globalSuccessFn: function () {}
       });
+      Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       Util.mockDuo();
       return tick()
       .then(function() {
         setNextResponse(resAllFactors);
         router.refreshAuthState('dummy-token');
-        return tick();
+        return Expect.waitForEnrollChoices();
       })
       .then(function () {
         setNextResponse(resActivateDuo);
         router.enrollDuo();
-        return tick();
-      })
-      .then(function () {
-        return {
+        return Expect.waitForEnrollDuo({
           router: router,
           beacon: new Beacon($sandbox),
           form: new Form($sandbox),
           ac: authClient,
           setNextResponse: setNextResponse
-        };
+        });
       });
     }
 
@@ -67,7 +65,7 @@ function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
         $.ajax.calls.reset();
         test.setNextResponse(resAllFactors);
         test.form.backLink().click();
-        return tick();
+        return Expect.waitForEnrollChoices();
       })
       .then(function () {
         expect($.ajax.calls.count()).toBe(1);
@@ -83,10 +81,10 @@ function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
       return setup(true).then(function (test) {
         test.setNextResponse(resAllFactors);
         Util.triggerBrowserBackButton();
-        return tick(test);
+        return Expect.waitForEnrollChoices(test);
       })
       .then(function (test) {
-        Expect.isEnrollChoicesController(test.router.controller);
+        Expect.isEnrollChoices(test.router.controller);
         Util.stopRouter();
       });
     });

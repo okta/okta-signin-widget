@@ -37,17 +37,16 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
     var form = new AccountRecoveryForm($sandbox);
     var loginForm = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
+    Util.registerRouter(router);
     Util.mockRouterNavigate(router, startRouter);
     router.forgotPassword();
-    return tick().then(function () {
-      return {
-        router: router,
-        form: form,
-        loginForm: loginForm,
-        beacon: beacon,
-        ac: authClient,
-        setNextResponse: setNextResponse
-      };
+    return Expect.waitForForgotPassword({
+      router: router,
+      form: form,
+      loginForm: loginForm,
+      beacon: beacon,
+      ac: authClient,
+      setNextResponse: setNextResponse
     });
   }
 
@@ -209,17 +208,17 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.form.setUsername('baz@bar');
           test.setNextResponse(resChallengeEmail);
           test.form.submit();
-          return tick(test);
+          return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function (test) {
           expect(test.form.titleText()).toBe('Email sent!');
           expect(test.form.getEmailSentConfirmationText().indexOf('baz@bar') >= 0).toBe(true);
           expect(test.form.backToLoginButton().length).toBe(1);
           test.form.goBackToLogin();
-          return tick(test);
+          return Expect.waitForPrimaryAuth(test);
         })
         .then(function (test) {
-          expect(test.router.navigate).toHaveBeenCalledWith('', {trigger: true});
+          Expect.isPrimaryAuth(test.router.controller);
         });
       });
       // Note: Let's remove this test when OKTA-69083 is resolved
@@ -238,7 +237,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             }
           });
           test.form.submit();
-          return tick(test);
+          return Expect.waitForUnlockEmailSent(test);
         })
         .then(function (test) {
           expect(test.form.titleText()).toBe('Email sent!');
@@ -251,8 +250,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.form.setUsername('foo@bar');
           test.setNextResponse(resChallengeEmail);
           test.form.submit();
-          return tick()
-            .then(tick);
+          return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function () {
           expect(successSpy).toHaveBeenCalledWith({
@@ -317,7 +315,6 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       itp('shows an error if sending sms results in an error', function () {
         return setupWithSms()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resError);
           test.form.setUsername('foo');
           test.form.sendSms();
@@ -331,7 +328,6 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       itp('does not have a problem with sending email after sending sms', function () {
         return setupWithSms()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resError);
           test.form.setUsername('foo');
           test.form.sendSms();
@@ -363,10 +359,10 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       itp('returns to primary auth when browser\'s back button is clicked', function () {
         return setup({}, {}, true).then(function (test) {
           Util.triggerBrowserBackButton();
-          return test;
+          return Expect.waitForPrimaryAuth(test);
         })
         .then(function (test) {
-          Expect.isPrimaryAuthController(test.router.controller);
+          Expect.isPrimaryAuth(test.router.controller);
           Util.stopRouter();
         });
       });
@@ -374,14 +370,14 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         return setup()
         .then(function (test) {
           test.form.goBack();
-          return tick(test);
+          return Expect.waitForPrimaryAuth(test);
         })
         .then(function (test) {
           test.loginForm.setUsername('testuser');
           test.loginForm.setPassword('pass');
           test.setNextResponse(resMfaRequired);
           test.loginForm.submit();
-          return tick(test);
+          return Expect.waitForMfaVerify(test);
         })
         .then(function (test) {
           test.router.navigate('signin/forgot-password');
@@ -404,7 +400,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function (test) {
           expect($.ajax.calls.count()).toBe(1);
@@ -415,18 +411,18 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
               'factorType': 'EMAIL'
             }
           });
-          return tick(test);
+          return test;
         })
         .then(function (test) {
           test.form.goBackToLogin();
-          return tick(test);
+          return Expect.waitForPrimaryAuth(test);
         })
         .then(function (test) {
-          expect(test.router.navigate).toHaveBeenCalledWith('', {trigger: true});
+          Expect.isPrimaryAuth(test.router.controller);
 
           // Click Forgot Password again
           test.loginForm.forgotPasswordLink().click();
-          return tick(test);
+          return Expect.waitForForgotPassword(test);
         })
         .then(function (test) {
           // Submit the user name again
@@ -434,7 +430,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function () {
           // Expect the same request as before
@@ -449,9 +445,8 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         });
       });
       itp('shows an org\'s contact form when user clicks no email access link', function () {
-        return setup({
-          helpSupportNumber: '(999) 123-4567'
-        }).then(function (test) {
+        return setup({ helpSupportNumber: '(999) 123-4567' })
+        .then(function (test) {
           expect(test.form.hasCantAccessEmailLink()).toBe(true);
           test.form.clickCantAccessEmail();
           expect(test.form.contactSupportText()).toMatch(/\(999\) 123-4567/);
@@ -459,11 +454,12 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         });
       });
       itp('shows the "Reset via email" link after sending sms', function () {
-        return setupWithSms().then(function (test) {
+        return setupWithSms()
+        .then(function (test) {
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           expect(test.form.hasSendEmailLink()).toBe(true);
@@ -475,13 +471,13 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo@bar');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
           test.form.clickSendEmailLink();
-          return tick(test);
+          return Expect.waitForPwdResetEmailSent();
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -495,17 +491,17 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         });
       });
       itp('shows email sent confirmation screen when user clicks the "Reset via email" link, after sending sms',
-        function () {
+      function () {
         return setupWithSms().then(function (test) {
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo@bar');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           test.setNextResponse(resChallengeEmail);
           test.form.clickSendEmailLink();
-          return tick(test);
+          return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function (test) {
           expect(test.form.titleText()).toBe('Email sent!');
@@ -514,15 +510,15 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         });
       });
       itp('shows an error if sending email via "Reset via email" link results in an error, after sending sms',
-        function () {
+      function () {
         return setupWithSms().then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
+          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resError);
           test.form.clickSendEmailLink();
           return tick(test);

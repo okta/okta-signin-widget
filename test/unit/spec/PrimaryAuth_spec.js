@@ -75,11 +75,12 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       globalSuccessFn: function () {},
       processCreds: processCredsSpy
     }, settings));
+    Util.registerRouter(router);
     var form = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
     router.primaryAuth();
     Util.mockJqueryCss();
-    return tick({
+    return Expect.waitForPrimaryAuth({
       router: router,
       form: form,
       beacon: beacon,
@@ -97,7 +98,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       authParams: {
         responseType: 'id_token',
         display: 'popup',
-        scope: [
+        scopes: [
           'openid',
           'email',
           'profile'
@@ -792,7 +793,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
             data: undefined,
             success: undefined
           });
-          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/some/img)');
+          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
         });
       });
       itp('waits for username field to lose focus before fetching the security image', function () {
@@ -857,7 +858,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         return setup(options, [resSecurityImage])
         .then(waitForBeaconChange)
         .then(function () {
-          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/some/img)');
+          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
         });
       });
       itp('calls globalErrorFn if cors is not enabled and security image request is made', function () {
@@ -866,7 +867,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           features: { securityImage: true }
         })
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse({
             responseType: 'json',
             response: '',
@@ -979,7 +979,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       });
       itp('reenables button and fields after a CORS error', function () {
         return setup().then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           $.ajax.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
@@ -996,7 +995,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       });
       itp('disables the "sign in" button when clicked', function () {
         return setup().then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           $.ajax.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
@@ -1117,7 +1115,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         var removeCookieSpy = Util.mockRemoveCookie();
         return setup()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.form.setUsername('invalidUser');
           test.form.setPassword('anyPwd');
           test.form.setRememberMe(true);
@@ -1132,13 +1129,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       itp('shows an error if authClient returns with an error', function () {
         return setup()
         .then(function (test) {
+          test.setNextResponse(resUnauthorized);
           test.form.setUsername('testuser');
           test.form.setPassword('invalidpass');
-          return tick(test);
-        })
-        .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
-          test.setNextResponse(resUnauthorized);
           test.form.submit();
           return tick(test);
         })
@@ -1150,13 +1143,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       itp('shows the right throttle error message', function () {
         return setup()
         .then(function (test) {
+          test.setNextResponse(resThrottle);
           test.form.setUsername('testuser');
           test.form.setPassword('testpass');
-          return tick(test);
-        })
-        .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
-          test.setNextResponse(resThrottle);
           test.form.submit();
           return tick(test);
         })
@@ -1169,14 +1158,11 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       itp('shows an error if authClient returns with an error that is plain text', function () {
         return setup()
         .then(function (test) {
+          test.setNextResponse(resNonJson, true);
           test.form.setUsername('testuser');
           test.form.setPassword('invalidpass');
-          Q.stopUnhandledRejectionTracking();
-          test.setNextResponse(resNonJson, true);
           test.form.submit();
-          return tick().then(function () {
-            return tick(test);
-          });
+          return tick(test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -1188,12 +1174,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         .then(function (test) {
           test.form.setUsername('testuser');
           test.form.setPassword('invalidpass');
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resInvalidText, true);
           test.form.submit();
-          return tick().then(function () {
-            return tick(test);
-          });
+          return tick(test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -1207,17 +1190,14 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.setPassword('pass');
           test.setNextResponse(resLockedOut);
           test.form.submit();
-          return tick().then(function () {
-            return tick(test);
-          });
+          return tick(test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe(Okta.loc('error.auth.lockedOut', 'login'));
         });
       });
-      itp('redirects to "unlock" if authClient returns with \
-        LOCKED_OUT response and selfServiceUnlock is on', function () {
+      itp('redirects to "unlock" if authClient returns with LOCKED_OUT response and selfServiceUnlock is on', function () {
         return setup({'features.selfServiceUnlock': true})
         .then(function (test) {
           spyOn(test.router, 'navigate');
@@ -1225,20 +1205,16 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.setPassword('pass');
           test.setNextResponse(resLockedOut);
           test.form.submit();
-          return tick().then(function () {
-            return tick(test);
-          });
+          return tick(test);
         })
         .then(function (test) {
           expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
         });
       });
       itp('calls globalErrorFn if authClient returns with a cors enabled error', function () {
-        var errorSpy;
         return setup()
         .then(function (test) {
-          errorSpy = spyOn(test.router.settings, 'callGlobalError');
-          Q.stopUnhandledRejectionTracking();
+          spyOn(test.router.settings, 'callGlobalError');
           test.setNextResponse({
             responseType: 'json',
             response: '',
@@ -1247,10 +1223,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.setUsername('testuser');
           test.form.setPassword('invalidpass');
           test.form.submit();
-          return tick();
+          return tick(test);
         })
-        .then(function () {
-          var err = errorSpy.calls.mostRecent().args[0];
+        .then(function (test) {
+          var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
           expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
           expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
           expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
@@ -1481,34 +1457,32 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         spyOn(window, 'addEventListener');
         return setupSocial({ globalErrorFn: errorSpy })
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.form.facebookButton().click();
           var args = window.addEventListener.calls.argsFor(0);
           var callback = args[1];
           callback.call(null, {
             origin: 'https://foo.com',
             data: {
-              error: 'OAuth Error'
+              error: 'OAuth Error',
+              error_description: 'Message from server'
             }
           });
           return tick();
         })
-        .fail(function () {
+        .then(function () {
           expect(errorSpy.calls.count()).toBe(1);
           var err = errorSpy.calls.argsFor(0)[0];
           expect(err instanceof Errors.OAuthError).toBe(true);
           expect(err.name).toBe('OAUTH_ERROR');
-          expect(err.message).toEqual(
-            'There was a problem generating the id_token for the user. Please try again.'
-          );
+          expect(err.message).toEqual('Message from server');
         });
       });
-      itp('calls the global error function if message has wrong origin', function () {
-        var errorSpy = jasmine.createSpy('errorSpy');
+      itp('ignores messages with the wrong origin', function () {
+        var successSpy = jasmine.createSpy('successSpy'),
+            errorSpy = jasmine.createSpy('errorSpy');
         spyOn(window, 'addEventListener');
-        return setupSocial({ globalErrorFn: errorSpy })
+        return setupSocial({ globalErrorFn: errorSpy, globalSuccessFn: successSpy })
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.form.facebookButton().click();
           var args = window.addEventListener.calls.argsFor(0);
           var callback = args[1];
@@ -1520,14 +1494,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           });
           return tick();
         })
-        .fail(function () {
-          expect(errorSpy.calls.count()).toBe(1);
-          var err = errorSpy.calls.argsFor(0)[0];
-          expect(err instanceof Errors.OAuthError).toBe(true);
-          expect(err.name).toBe('OAUTH_ERROR');
-          expect(err.message).toEqual(
-            'There was a problem generating the id_token for the user. Please try again.'
-          );
+        .then(function () {
+          expect(successSpy.calls.count()).toBe(0);
+          expect(errorSpy.calls.count()).toBe(0);
         });
       });
       itp('closes the popup after receiving the idToken message', function () {

@@ -26,7 +26,7 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     var authClient = settings.getAuthClient(),
         options = settings.toJSON({verbose: true}),
         oauthParams = _.extend({}, _.pick(options, 'clientId'),
-          _.pick(options.authParams, 'responseType', 'responseMode', 'display', 'scope')),
+          _.pick(options.authParams, 'responseType', 'responseMode', 'display', 'scope', 'scopes')),
         extraOptions = {};
 
     _.extend(oauthParams, params || {}, {redirectUri: options.oauthRedirectUri});

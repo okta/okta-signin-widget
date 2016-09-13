@@ -1,4 +1,4 @@
-define(['./Form'], function (Form) {
+define(['./Form', 'helpers/util/Expect'], function (Form, Expect) {
 
   var SHARED_SECRET_FIELD = 'sharedSecret';
   var SCAN_BARCODE_LINK = 'goto-link';
@@ -23,6 +23,10 @@ define(['./Form'], function (Form) {
 
     sharedSecretFieldValue: function () {
       return this.sharedSecretField().val();
+    },
+
+    hasSharedSecret: function () {
+      return this.sharedSecretFieldValue() !== '';
     },
 
     countryCodeSelect: function () {
@@ -81,6 +85,25 @@ define(['./Form'], function (Form) {
 
     backLink: function () {
       return this.el('back-link');
+    },
+
+    waitForManual: function (resolveValue) {
+      return Expect.wait(this.hasSharedSecret.bind(this), resolveValue);
+    },
+
+    waitForSms: function (resolveValue) {
+      var condition = function () {
+        var field = this.phoneNumberField();
+        return !this.hasSharedSecret() && field.length === 1 && field.is(':visible');
+      }.bind(this);
+      return Expect.wait(condition, resolveValue);
+    },
+
+    waitForEmail: function (resolveValue) {
+      var condition = function () {
+        return !this.hasSharedSecret() && this.phoneNumberField().is(':not(:visible)');
+      }.bind(this);
+      return Expect.wait(condition, resolveValue);
     }
 
   });
