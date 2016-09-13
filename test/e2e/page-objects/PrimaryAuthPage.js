@@ -12,7 +12,17 @@
 /*jshint esversion:6, es3:false */
 'use strict';
 
-var FormPage = require('./FormPage');
+var FormPage = require('./FormPage'),
+    FacebookPage = require('./FacebookPage');
+
+function getSocialIdpPage(idp) {
+  switch (idp) {
+  case 'facebook':
+    return new FacebookPage();
+  default:
+    throw new Error('Unknown social IDP: ' + idp);
+  }
+}
 
 class PrimaryAuthPage extends FormPage {
 
@@ -26,12 +36,30 @@ class PrimaryAuthPage extends FormPage {
     return 'primary-auth';
   }
 
-  setUsername(username) {
+  loginToForm(username, password) {
     this.usernameInput.sendKeys(username);
+    this.passwordInput.sendKeys(password);
+    this.submit();
   }
 
-  setPassword(password) {
-    this.passwordInput.sendKeys(password);
+  loginToSocialIdpPopup(idp, username, password) {
+    this.socialAuthButton(idp).click();
+    browser.getAllWindowHandles().then(function (handles) {
+      var parent = handles[0],
+          popup = handles[1];
+      browser.switchTo().window(popup);
+      getSocialIdpPage(idp).login(username, password);
+      browser.switchTo().window(parent);
+    });
+  }
+
+  loginToSocialIdpRedirect(idp, username, password) {
+    this.socialAuthButton(idp).click();
+    getSocialIdpPage(idp).login(username, password);
+  }
+
+  socialAuthButton(idp) {
+    return this.$dataSe('social-auth-' + idp + '-button');
   }
 
 }

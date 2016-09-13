@@ -71,6 +71,10 @@ class FormPage {
     return $('.' + this.getFormClass() + ' ' + selector);
   }
 
+  $dataSe(val) {
+    return this.$(dataSe(val));
+  }
+
 }
 
 module.exports = FormPage;

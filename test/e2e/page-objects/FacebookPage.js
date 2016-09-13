@@ -9,8 +9,27 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-var util = module.exports = {};
+/*jshint esversion:6, es3:false */
+/*global $, protractor */
+'use strict';
 
-util.loadTestPage = function (pageName) {
-  browser.get('http://localhost:3000/' + pageName + '.html');
-};
+var EC = protractor.ExpectedConditions;
+
+class FacebookPage {
+
+  login(username, password) {
+    $('#email').sendKeys(username);
+    $('#pass').sendKeys(password);
+    $('[name=login]').click();
+  }
+
+  logout() {
+    browser.get('https://m.facebook.com/');
+    $('#bookmarks_jewel').click();
+    browser.wait(EC.presenceOf($('[data-sigil=logout]')), 5000);
+    $('[data-sigil=logout]').click();
+  }
+
+}
+
+module.exports = FacebookPage;

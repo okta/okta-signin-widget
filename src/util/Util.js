@@ -17,6 +17,10 @@ define(['okta'], function (Okta) {
   var Util = {};
   var _ = Okta._;
 
+  Util.hasTokensInHash = function (hash) {
+    return /((id|access)_token=)/i.test(hash);
+  };
+
   Util.transformErrorXHR = function (xhr) {
     // Handle network connection error
     if (xhr.status === 0 && _.isEmpty(xhr.responseJSON)) {

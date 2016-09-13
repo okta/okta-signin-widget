@@ -73,7 +73,7 @@ define([
         events: {
           'click': function (e) {
             e.preventDefault();
-            OAuth2Util.getIdToken(this.settings, {idp: options.id});
+            OAuth2Util.getTokens(this.settings, {idp: options.id});
           }
         }
       });

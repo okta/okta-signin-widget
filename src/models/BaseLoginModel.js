@@ -17,6 +17,12 @@ define([
 function (Okta, Q) {
 
   var _ = Okta._;
+  var KNOWN_ERRORS = [
+    'OAuthError', 
+    'AuthSdkError', 
+    'AuthPollStopError', 
+    'AuthApiError'
+  ];
 
   return Okta.Model.extend({
     doTransaction: function (fn, rethrow) {
@@ -33,7 +39,7 @@ function (Okta, Q) {
         }
         self.trigger('setTransactionError', err);
         self.trigger('error', self, err.xhr);
-        if (rethrow) {
+        if (rethrow || _.indexOf(KNOWN_ERRORS, err.name) === -1) {
           throw err;
         }
       });

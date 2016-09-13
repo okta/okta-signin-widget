@@ -18,12 +18,18 @@ var EC = protractor.ExpectedConditions;
 class AppPage {
 
   constructor() {
-    this.containerEl = $('#oidc-app');
+    this.idTokenUserEl = $('#idtoken_user');
+    this.accessTokenTypeEl = $('#accesstoken_type');
   }
 
-  getMessage() {
-    browser.wait(EC.presenceOf(this.containerEl));
-    return this.containerEl.getText();
+  getIdTokenUser() {
+    browser.wait(EC.presenceOf(this.idTokenUserEl));
+    return this.idTokenUserEl.getText();
+  }
+
+  getAccessTokenType() {
+    browser.wait(EC.presenceOf(this.accessTokenTypeEl));
+    return this.accessTokenTypeEl.getText();
   }
 
 }

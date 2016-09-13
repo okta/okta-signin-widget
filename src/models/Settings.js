@@ -18,7 +18,9 @@ define([
 function (Okta, Errors, BrowserFeatures) {
 
   var supportedIdps = ['facebook', 'google', 'linkedin'],
+      supportedResponseTypes = ['token', 'id_token', 'code'],
       oauthRedirectTpl = Okta.tpl('{{origin}}');
+
   var _ = Okta._,
       ConfigError = Errors.ConfigError,
       UnsupportedBrowserError = Errors.UnsupportedBrowserError;
@@ -59,9 +61,23 @@ function (Okta, Errors, BrowserFeatures) {
 
       // OAUTH2
       'authScheme': ['string', false, 'OAUTH2'],
-      'authParams.display': ['string', false],
-      'authParams.responseMode': ['string', false],
-      'authParams.responseType': ['string', false, 'id_token'],
+      'authParams.display': {
+        type: 'string',
+        values: ['none', 'popup', 'page']
+      },
+
+      // Note: It shouldn't be necessary to override/pass in this property -
+      // it will be set correctly depending on what the value of display is
+      // and whether we are using Okta or a social IDP.
+      'authParams.responseMode': {
+        type: 'string',
+        values: ['query', 'fragment', 'form_post', 'okta_post_message']
+      },
+
+      // Can either be a string or an array, i.e.
+      // - Single value: 'id_token' or 'token'
+      // - Multiple values: ['id_token', 'token']
+      'authParams.responseType': ['any', false, 'id_token'],
 
       // 'scope' is deprecated in favor of 'scopes'
       'authParams.scopes': ['array', false],
@@ -70,7 +86,11 @@ function (Okta, Errors, BrowserFeatures) {
       'clientId': 'string',
       'redirectUri': 'string',
       'idps': ['array', false, []],
-      'idpDisplay': ['string', false, 'SECONDARY'], // PRIMARY | SECONDARY
+      'idpDisplay': {
+        type: 'string',
+        values: ['PRIMARY', 'SECONDARY'],
+        value: 'SECONDARY'
+      },
       'oAuthTimeout': ['number', false],
 
       // HELP LINKS
@@ -81,16 +101,17 @@ function (Okta, Errors, BrowserFeatures) {
     },
 
     derived: {
-      // checks if authscheme is 'OAUTH2' and if responseType is 'id_token'
       oauth2Enabled: {
         deps: ['clientId', 'authScheme', 'authParams.responseType'],
         fn: function (clientId, authScheme, responseType) {
-          var enabled = false;
-          if (clientId) {
-            enabled = (authScheme.toLowerCase() === 'oauth2') &&
-                (responseType.toLowerCase() === 'id_token');
+          if (!clientId) {
+            return false;
           }
-          return enabled;
+          if (authScheme.toLowerCase() !== 'oauth2') {
+            return false;
+          }
+          var responseTypes = _.isArray(responseType) ? responseType : [responseType];
+          return _.intersection(responseTypes, supportedResponseTypes).length > 0;
         },
         cache: true
       },

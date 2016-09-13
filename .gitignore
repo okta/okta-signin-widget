@@ -12,6 +12,7 @@ build2
 .grunt
 .sass-cache
 .widgetrc
+.vscode
 
 # These paths should be included in the published artifact, but not the repo
 /dist
