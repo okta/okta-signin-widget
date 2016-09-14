@@ -3,6 +3,8 @@ define(['./Form'], function (Form) {
   var USERNAME_FIELD = 'username';
   var SMS_BUTTON_SELECTOR = '.sms-button';
   var SMS_HINT_SELECTOR = '.sms-hint';
+  var CALL_BUTTON_SELECTOR = '.call-button';
+  var MOBILE_RECOVERY_HINT_SELECTOR = '.mobile-recovery-hint';
   var CANT_ACCESS_EMAIL_SELECTOR = '.js-contact-support';
   var EMAIL_SENT_BACK_BTN = 'back-button';
   var SEND_EMAIL_LINK_SELECTOR = '.send-email-link';
@@ -45,6 +47,22 @@ define(['./Form'], function (Form) {
 
     sendSms: function () {
       this.button(SMS_BUTTON_SELECTOR).click();
+    },
+
+    mobileRecoveryHintText: function () {
+      return this.$(MOBILE_RECOVERY_HINT_SELECTOR).trimmedText();
+    },
+
+    hasMobileRecoveryHint: function () {
+      return this.$(MOBILE_RECOVERY_HINT_SELECTOR).is(':visible');
+    },
+
+    hasCallButton: function () {
+      return this.button(CALL_BUTTON_SELECTOR).length > 0;
+    },
+
+    makeCall: function () {
+      this.button(CALL_BUTTON_SELECTOR).click();
     },
 
     goBack: function () {
