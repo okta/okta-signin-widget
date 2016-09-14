@@ -93,18 +93,46 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
             }
           })
         ];
-        if (this.settings.get('features.smsRecovery')) {
-          formChildren.push(FormType.View({View: '\
-            <p class="sms-hint">\
-              {{i18n code="recovery.sms.hint" bundle="login"}}\
-            </p>\
-          '}));
+        var smsEnabled = this.settings.get('features.smsRecovery');
+        var callEnabled = this.settings.get('features.callRecovery');
+        if (smsEnabled || callEnabled) {
+          formChildren.push(FormType.View({
+            View: Okta.View.extend({
+              template: '\
+                <p class="mobile-recovery-hint">\
+                  {{i18n code="recovery.mobile.hint" bundle="login" arguments="mobileFactors"}}\
+                </p>',
+              getTemplateData: function () {
+                var mobileFactors = (smsEnabled && callEnabled) ?
+                  Okta.loc('recovery.smsOrCall') : callEnabled ?
+                  Okta.loc('recovery.call') : Okta.loc('recovery.sms');
+                return { mobileFactors : mobileFactors };
+              }
+            })
+          }));
         }
 
         return formChildren;
       },
       initialize: function () {
         var form = this;
+
+        if (this.settings.get('features.callRecovery')) {
+          this.$el.addClass('forgot-password-call-enabled');
+          this.addButton({
+            attributes: { 'data-se': 'call-button'},
+            type: 'button',
+            className: 'button-primary call-button',
+            text: Okta.loc('password.forgot.call', 'login'),
+            action: function () {
+              form.clearErrors();
+              if (this.model.isValid()) {
+                this.model.set('factorType', Enums.RECOVERY_FACTOR_TYPE_CALL);
+                form.trigger('save', this.model);
+              }
+            }
+          }, { prepend: true });
+        }
         if (this.settings.get('features.smsRecovery')) {
           this.$el.addClass('forgot-password-sms-enabled');
           this.addButton({
