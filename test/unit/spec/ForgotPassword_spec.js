@@ -1,4 +1,4 @@
-/* jshint maxparams:50,maxstatements:24 */
+/* jshint maxparams:50,maxstatements:33 */
 define([
   'vendor/lib/q',
   'underscore',
@@ -29,11 +29,12 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
+    var successSpy = jasmine.createSpy('success');
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
-      globalSuccessFn: function () {}
+      globalSuccessFn: successSpy
     }, settings));
     var form = new AccountRecoveryForm($sandbox);
     var loginForm = new PrimaryAuthForm($sandbox);
@@ -47,7 +48,8 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       loginForm: loginForm,
       beacon: beacon,
       ac: authClient,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
+      successSpy: successSpy
     });
   }
 
@@ -400,7 +402,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeCall);
           test.form.setUsername('foo');
           test.form.makeCall();
-          return tick();
+          return Expect.waitForRecoveryChallenge();
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -419,7 +421,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeCall);
           test.form.setUsername('foo');
           test.form.makeCall();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           expect(test.router.appState.get('username')).toBe('foo');
@@ -428,11 +430,10 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       itp('shows an error if making a Voice Call results in an error', function () {
         return setupWithCall()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resError);
           test.form.setUsername('foo');
           test.form.makeCall();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -442,17 +443,16 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       itp('does not have a problem with sending email after making a Voice Call', function () {
         return setupWithCall()
         .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resError);
           test.form.setUsername('foo');
           test.form.makeCall();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           test.form.submit();
-          return tick();
+          return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -648,7 +648,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeCall);
           test.form.setUsername('foo');
           test.form.makeCall();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           expect(test.form.hasSendEmailLink()).toBe(true);
@@ -660,13 +660,13 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeCall);
           test.form.setUsername('foo@bar');
           test.form.makeCall();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
           test.form.clickSendEmailLink();
-          return tick(test);
+          return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -685,12 +685,12 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeCall);
           test.form.setUsername('foo@bar');
           test.form.makeCall();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           test.setNextResponse(resChallengeEmail);
           test.form.clickSendEmailLink();
-          return tick(test);
+          return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function (test) {
           expect(test.form.titleText()).toBe('Email sent!');
@@ -705,12 +705,12 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeCall);
           test.form.setUsername('foo');
           test.form.makeCall();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           test.setNextResponse(resError);
           test.form.clickSendEmailLink();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);

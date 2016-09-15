@@ -103,9 +103,16 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
                   {{i18n code="recovery.mobile.hint" bundle="login" arguments="mobileFactors"}}\
                 </p>',
               getTemplateData: function () {
-                var mobileFactors = (smsEnabled && callEnabled) ?
-                  Okta.loc('recovery.smsOrCall') : callEnabled ?
-                  Okta.loc('recovery.call') : Okta.loc('recovery.sms');
+                var mobileFactors;
+                if (smsEnabled && callEnabled) {
+                  mobileFactors = Okta.loc('recovery.smsOrCall');
+                }
+                else if (callEnabled) {
+                  mobileFactors = Okta.loc('recovery.call');
+                }
+                else {
+                  mobileFactors = Okta.loc('recovery.sms');
+                }
                 return { mobileFactors : mobileFactors };
               }
             })
@@ -119,35 +126,13 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
 
         if (this.settings.get('features.callRecovery')) {
           this.$el.addClass('forgot-password-call-enabled');
-          this.addButton({
-            attributes: { 'data-se': 'call-button'},
-            type: 'button',
-            className: 'button-primary call-button',
-            text: Okta.loc('password.forgot.call', 'login'),
-            action: function () {
-              form.clearErrors();
-              if (this.model.isValid()) {
-                this.model.set('factorType', Enums.RECOVERY_FACTOR_TYPE_CALL);
-                form.trigger('save', this.model);
-              }
-            }
-          }, { prepend: true });
+          this.addRecoveryFactorButton('call-button', 'password.forgot.call',
+            Enums.RECOVERY_FACTOR_TYPE_CALL, form);
         }
         if (this.settings.get('features.smsRecovery')) {
           this.$el.addClass('forgot-password-sms-enabled');
-          this.addButton({
-            attributes: { 'data-se': 'sms-button'},
-            type: 'button',
-            className: 'button-primary sms-button',
-            text: Okta.loc('password.forgot.sendText', 'login'),
-            action: function () {
-              form.clearErrors();
-              if (this.model.isValid()) {
-                this.model.set('factorType', Enums.RECOVERY_FACTOR_TYPE_SMS);
-                form.trigger('save', this.model);
-              }
-            }
-          }, { prepend: true });
+          this.addRecoveryFactorButton('sms-button', 'password.forgot.sendText',
+            Enums.RECOVERY_FACTOR_TYPE_SMS, form);
         }
 
         this.listenTo(this.state, 'contactSupport', function () {
@@ -157,6 +142,21 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
         this.listenTo(this, 'save', function () {
           this.options.appState.set('username', this.model.get('username'));
         });
+      },
+      addRecoveryFactorButton: function (className, labelCode, factorType, form) {
+        this.addButton({
+          attributes: { 'data-se': className},
+          type: 'button',
+          className: 'button-primary ' + className,
+          text: Okta.loc(labelCode, 'login'),
+          action: function () {
+            form.clearErrors();
+            if (this.model.isValid()) {
+              this.model.set('factorType', factorType);
+              form.trigger('save', this.model);
+            }
+          }
+        }, { prepend: true });
       }
     },
     Footer: Footer,
