@@ -54,6 +54,7 @@ function (Okta, Errors, BrowserFeatures) {
       'features.rememberMe': ['boolean', true, true],
       'features.autoPush': ['boolean', true, false],
       'features.smsRecovery': ['boolean', true, false],
+      'features.callRecovery': ['boolean', true, false],
       'features.windowsVerify': ['boolean', true, false],
       'features.selfServiceUnlock': ['boolean', true, false],
       'features.multiOptionalFactorEnroll': ['boolean', true, false],
