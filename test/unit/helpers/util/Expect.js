@@ -62,8 +62,7 @@ define([
         // back on.
         Q.resetUnhandledRejections();
         window.removeEventListener('error', errListener);
-        // Wait a tick to make sure the tests clean up
-        fn.tick().then(done);
+        done();
       })
       .done();
     });
