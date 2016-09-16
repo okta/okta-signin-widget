@@ -55,7 +55,13 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
     Form: {
       autoSave: true,
       save: Okta.loc('mfa.challenge.verify', 'login'),
-      title: Okta.loc('recoveryChallenge.sms.title', 'login'),
+      title: function () {
+        if (this.options.appState.get('factorType') === Enums.RECOVERY_FACTOR_TYPE_CALL) {
+          return Okta.loc('recoveryChallenge.call.title', 'login');
+        } else {
+          return Okta.loc('recoveryChallenge.sms.title', 'login');
+        }
+      },
       className: 'recovery-challenge',
       initialize: function () {
         this.listenTo(this.model, 'error', function () {
@@ -129,7 +135,7 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
         case Enums.RECOVERY_TYPE_PASSWORD:
           sendEmailLink = '\
             <a href="#" class="link send-email-link" data-se="send-email-link">\
-              {{i18n code="password.forgot.sms.notReceived" bundle="login"}}\
+              {{i18n code="password.forgot.code.notReceived" bundle="login"}}\
             </a>';
           break;
         case Enums.RECOVERY_TYPE_UNLOCK:

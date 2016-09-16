@@ -1136,7 +1136,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.setUsername('testuser');
           test.form.setPassword('invalidpass');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -1150,7 +1150,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.setUsername('testuser');
           test.form.setPassword('testpass');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -1165,7 +1165,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.setUsername('testuser');
           test.form.setPassword('invalidpass');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -1179,7 +1179,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.setPassword('invalidpass');
           test.setNextResponse(resInvalidText, true);
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -1193,7 +1193,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           test.form.setPassword('pass');
           test.setNextResponse(resLockedOut);
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
