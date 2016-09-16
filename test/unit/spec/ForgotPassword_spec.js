@@ -325,7 +325,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo');
           test.form.sendSms();
-          return tick();
+          return Expect.waitForRecoveryChallenge();
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -344,7 +344,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForRecoveryChallenge(test);
         })
         .then(function (test) {
           expect(test.router.appState.get('username')).toBe('foo');
@@ -356,7 +356,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resError);
           test.form.setUsername('foo');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -369,13 +369,13 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resError);
           test.form.setUsername('foo');
           test.form.sendSms();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           test.form.submit();
-          return tick();
+          return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
