@@ -133,6 +133,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       this.listenTo(options.appState, 'loading', function (isLoading) {
         this.$el.toggleClass('beacon-loading', isLoading);
       });
+      this.options.appState.set('beaconType', 'security');
     },
 
     postRender: function () {

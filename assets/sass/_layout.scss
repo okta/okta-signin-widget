@@ -19,7 +19,7 @@
   border-style: solid;
   border-width: 1px;
   height: auto;
-  margin: 100px auto 0;
+  margin: 100px auto 8px;
   width: $container-width;
   min-width: $container-min-width;
   @include box-sizing(border-box);
@@ -60,6 +60,14 @@
     padding-right: 20px;
   }
 
+  .can-remove-beacon & {
+    padding-top: 40px;
+
+    @include max-height-mq(550px) {
+      padding-top: 0;
+    }
+  }
+
   .auth-content-inner {
     position: relative;
   }
@@ -70,6 +78,16 @@
     }
   }
 
+}
+
+.enroll-choices {
+  padding-top: 20px;
+
+  .can-remove-beacon & {
+    @include max-height-mq(550px) {
+      padding-top: 15px;
+    }
+  }
 }
 
 .no-beacon .auth-content {

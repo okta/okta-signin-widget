@@ -23,6 +23,7 @@ define([
   'models/Settings',
   'views/shared/Header',
   'views/shared/SecurityBeacon',
+  'views/shared/AuthContainer',
   'models/AppState',
   './RouterUtil',
   './Animations',
@@ -30,7 +31,7 @@ define([
   'util/Bundles'
 ],
 function (Okta, Backbone, BrowserFeatures, XDomain, RefreshAuthStateController, Settings, Header,
-          SecurityBeacon, AppState, RouterUtil, Animations, Errors, Bundles) {
+          SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations, Errors, Bundles) {
 
   var _ = Okta._,
       $ = Okta.$;
@@ -109,13 +110,15 @@ function (Okta, Backbone, BrowserFeatures, XDomain, RefreshAuthStateController, 
         // and then the open tooltip will lose focus and close.
       });
 
-      Okta.$(options.el).append('<div id="okta-sign-in" class="auth-container main-container"></div>');
-      this.el = '#okta-sign-in';
-
       this.appState = new AppState({
         baseUrl: this.settings.get('baseUrl'),
         settings: this.settings
       }, { parse: true });
+
+      var wrapper = new AuthContainer({appState: this.appState});
+      Okta.$(options.el).append(wrapper.render().$el);
+      this.el = '#okta-sign-in';
+
       this.header = new Header({
         el: this.el,
         appState: this.appState,

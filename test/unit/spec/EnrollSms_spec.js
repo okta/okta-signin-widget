@@ -1,4 +1,4 @@
-/*jshint maxparams:17 */
+/*jshint maxparams:18 */
 define([
   'vendor/lib/q',
   'underscore',
@@ -6,6 +6,7 @@ define([
   '@okta/okta-auth-js/jquery',
   'util/Util',
   'helpers/mocks/Util',
+  'helpers/dom/AuthContainer',
   'helpers/dom/EnrollSmsForm',
   'helpers/dom/Beacon',
   'helpers/util/Expect',
@@ -18,7 +19,7 @@ define([
   'helpers/xhr/SUCCESS',
   'LoginRouter'
 ],
-function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
+function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, $sandbox,
           resAllFactors, resExistingPhone, resEnrollSuccess, resEnrollError, resActivateError,
           resSuccess, Router) {
 
@@ -49,6 +50,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         router.enrollSms();
         return Expect.waitForEnrollSms({
           router: router,
+          authContainer: new AuthContainer($sandbox),
           beacon: new Beacon($sandbox),
           form: new Form($sandbox),
           ac: authClient,
@@ -168,6 +170,11 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           expect(_.findWhere(countries, { val: 'HM'})).toBe(undefined);
           expect(_.findWhere(countries, { val: 'BV'})).toBe(undefined);
           expect(_.findWhere(countries, { val: 'TF'})).toBe(undefined);
+        });
+      });
+      itp('beacon could not be minimized if it is a factor beacon', function () {
+        return setup().then(function (test) {
+          expect(test.authContainer.canBeMinimized()).toBe(false);
         });
       });
       itp('has autocomplete set to false', function () {
