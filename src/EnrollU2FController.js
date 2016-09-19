@@ -79,8 +79,8 @@ function (Okta, FormType, FormController, Footer, Q) {
     },
 
     Form: {
-      title: Okta.loc('enroll.u2f.title', 'login'),
-      save: Okta.loc('enroll.u2f.save', 'login'),
+      title: _.partial(Okta.loc, 'enroll.u2f.title', 'login'),
+      save: _.partial(Okta.loc, 'enroll.u2f.save', 'login'),
       noCancelButton: true,
       hasSavingState: false,
       autoSave: true,

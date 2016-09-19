@@ -18,6 +18,8 @@ define([
 ],
 function (Okta, Enums, FormController, FormType) {
 
+  var _ = Okta._;
+
   return FormController.extend({
     className: 'password-reset-email-sent',
     Model: function () {
@@ -29,30 +31,32 @@ function (Okta, Enums, FormController, FormType) {
     },
 
     Form: {
-      title: Okta.loc('password.forgot.emailSent.title', 'login'),
+      title: _.partial(Okta.loc, 'password.forgot.emailSent.title', 'login'),
       subtitle: function () {
         var username = this.options.appState.get('username');
         return Okta.loc('password.forgot.emailSent.desc', 'login', [username]);
       },
       noButtonBar: true,
       attributes: { 'data-se': 'pwd-reset-email-sent' },
-      formChildren: [
-        FormType.Button({
-          title: Okta.loc('goback', 'login'),
-          className: 'button button-primary button-wide',
-          attributes: {'data-se': 'back-button'},
-          click: function () {
-            var self = this;
-            return this.model.doTransaction(function (transaction) {
-              return transaction.cancel();
-            })
-            .then(function() {
-              self.state.set('navigateDir', Enums.DIRECTION_BACK);
-              self.options.appState.trigger('navigate', '');
-            });
-          }
-        })
-      ]
+      formChildren: function () {
+        return [
+          FormType.Button({
+            title: Okta.loc('goback', 'login'),
+            className: 'button button-primary button-wide',
+            attributes: {'data-se': 'back-button'},
+            click: function () {
+              var self = this;
+              return this.model.doTransaction(function (transaction) {
+                return transaction.cancel();
+              })
+              .then(function() {
+                self.state.set('navigateDir', Enums.DIRECTION_BACK);
+                self.options.appState.trigger('navigate', '');
+              });
+            }
+          })
+        ];
+      }
     },
 
     initialize: function (options) {

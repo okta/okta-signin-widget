@@ -23,6 +23,8 @@ define([
 function (Okta, FormController, Enums, RouterUtil, Toolbar, FactorList,
           RequiredFactorList) {
 
+  var _ = Okta._;
+
   return FormController.extend({
     className: 'enroll-choices',
     state: {
@@ -34,7 +36,7 @@ function (Okta, FormController, Enums, RouterUtil, Toolbar, FactorList,
     Form: {
       noCancelButton: true,
 
-      title: Okta.loc('enroll.choices.title', 'login'),
+      title: _.partial(Okta.loc, 'enroll.choices.title', 'login'),
 
       noButtonBar: function () {
         return this.state.get('pageType') === Enums.ALL_OPTIONAL_NONE_ENROLLED;

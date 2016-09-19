@@ -21,6 +21,8 @@ define([
 ],
 function (Okta, FactorUtil, FormController, FormType, RouterUtil, BarcodeView, Footer) {
 
+  var _ = Okta._;
+
   return FormController.extend({
     className: 'barcode-totp',
     Model: function () {
@@ -37,8 +39,8 @@ function (Okta, FactorUtil, FormController, FormType, RouterUtil, BarcodeView, F
         var factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
         return Okta.loc('enroll.totp.title', 'login', [factorName]);
       },
-      subtitle: Okta.loc('mfa.scanBarcode', 'login'),
-      save: Okta.loc('oform.next', 'login'),
+      subtitle: _.partial(Okta.loc, 'mfa.scanBarcode', 'login'),
+      save: _.partial(Okta.loc, 'oform.next', 'login'),
       noCancelButton: true,
       attributes: { 'data-se': 'step-scan' },
       className: 'barcode-scan',

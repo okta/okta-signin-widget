@@ -88,7 +88,7 @@ function (Okta, FactorUtil, FormController, FormType,
         var factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
         return Okta.loc('enroll.totp.title', 'login', [factorName]);
       },
-      subtitle: Okta.loc('enroll.totp.selectDevice', 'login'),
+      subtitle: _.partial(Okta.loc, 'enroll.totp.selectDevice', 'login'),
       autoSave: true,
       noButtonBar: true,
       attributes: { 'data-se': 'step-device-type' },

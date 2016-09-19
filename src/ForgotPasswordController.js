@@ -21,6 +21,8 @@ define([
 ],
 function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport, TextBox) {
 
+  var _ = Okta._;
+
   var Footer = Okta.View.extend({
     template: '\
       <a href="#" class="link help js-back" data-se="back-link">\
@@ -78,8 +80,8 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
     },
     Form: {
       autoSave: true,
-      save: Okta.loc('password.forgot.sendEmail', 'login'),
-      title: Okta.loc('password.reset', 'login'),
+      save: _.partial(Okta.loc, 'password.forgot.sendEmail', 'login'),
+      title: _.partial(Okta.loc, 'password.reset', 'login'),
       formChildren: function () {
         var formChildren = [
           FormType.Input({

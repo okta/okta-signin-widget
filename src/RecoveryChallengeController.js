@@ -54,7 +54,7 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
     },
     Form: {
       autoSave: true,
-      save: Okta.loc('mfa.challenge.verify', 'login'),
+      save: _.partial(Okta.loc, 'mfa.challenge.verify', 'login'),
       title: function () {
         if (this.options.appState.get('factorType') === Enums.RECOVERY_FACTOR_TYPE_CALL) {
           return Okta.loc('recoveryChallenge.call.title', 'login');
@@ -68,36 +68,38 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
           this.clearErrors();
         });
       },
-      formChildren: [
-        FormType.Button({
-          title: Okta.loc('mfa.resendCode', 'login'),
-          attributes: { 'data-se': 'resend-button' },
-          className: 'button sms-request-button',
-          click: function () {
-            this.model.resendCode();
-          },
-          initialize: function () {
-            this.listenTo(this.model, 'change:ableToResend', function (model, ableToResend) {
-              if (ableToResend) {
-                this.options.title = Okta.loc('mfa.resendCode', 'login');
-                this.enable();
-                this.render();
-              } else {
-                this.options.title = Okta.loc('mfa.sent', 'login');
-                this.disable();
-                this.render();
-              }
-            });
-          }
-        }),
-        FormType.Input({
-          placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
-          className: 'enroll-sms-phone',
-          name: 'passCode',
-          input: TextBox,
-          type: 'text'
-        })
-      ]
+      formChildren: function () {
+        return [
+          FormType.Button({
+            title: Okta.loc('mfa.resendCode', 'login'),
+            attributes: { 'data-se': 'resend-button' },
+            className: 'button sms-request-button',
+            click: function () {
+              this.model.resendCode();
+            },
+            initialize: function () {
+              this.listenTo(this.model, 'change:ableToResend', function (model, ableToResend) {
+                if (ableToResend) {
+                  this.options.title = Okta.loc('mfa.resendCode', 'login');
+                  this.enable();
+                  this.render();
+                } else {
+                  this.options.title = Okta.loc('mfa.sent', 'login');
+                  this.disable();
+                  this.render();
+                }
+              });
+            }
+          }),
+          FormType.Input({
+            placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
+            className: 'enroll-sms-phone',
+            name: 'passCode',
+            input: TextBox,
+            type: 'text'
+          })
+        ];
+      }
     },
 
     events: {

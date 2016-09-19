@@ -21,6 +21,8 @@ define([
 ],
 function (Okta, FactorUtil, FormController, FormType, RouterUtil, BarcodeView, Footer) {
 
+  var _ = Okta._;
+
   // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
   // in network connection lost errors in Safari and IE.
   var PUSH_INTERVAL = 6000;
@@ -41,7 +43,7 @@ function (Okta, FactorUtil, FormController, FormType, RouterUtil, BarcodeView, F
         var factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
         return Okta.loc('enroll.totp.title', 'login', [factorName]);
       },
-      subtitle: Okta.loc('mfa.scanBarcode', 'login'),
+      subtitle: _.partial(Okta.loc, 'mfa.scanBarcode', 'login'),
       noButtonBar: true,
       attributes: { 'data-se': 'step-scan' },
       className: 'barcode-scan',

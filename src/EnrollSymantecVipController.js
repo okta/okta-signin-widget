@@ -46,44 +46,46 @@ function (Okta, FormType, FormController, Footer, TextBox) {
     },
 
     Form: {
-      title: Okta.loc('factor.totpHard.symantecVip', 'login'),
-      subtitle: Okta.loc('enroll.symantecVip.subtitle', 'login'),
+      title: _.partial(Okta.loc, 'factor.totpHard.symantecVip', 'login'),
+      subtitle: _.partial(Okta.loc, 'enroll.symantecVip.subtitle', 'login'),
       noButtonBar: true,
       autoSave: true,
       className: 'enroll-symantec',
-      formChildren: [
-        FormType.Input({
-          name: 'credentialId',
-          input: TextBox,
-          type: 'text',
-          placeholder: Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login'),
-          params: {
-            innerTooltip: Okta.loc('enroll.symantecVip.credentialId.tooltip', 'login')
-          }
-        }),
-        FormType.Input({
-          name: 'passCode',
-          input: TextBox,
-          type: 'text',
-          placeholder: Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login'),
-          params: {
-            innerTooltip: Okta.loc('enroll.symantecVip.passcode1.tooltip', 'login')
-          }
-        }),
-        FormType.Input({
-          name: 'nextPassCode',
-          input: TextBox,
-          type: 'text',
-          placeholder: Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login'),
-          params: {
-            innerTooltip: Okta.loc('enroll.symantecVip.passcode2.tooltip', 'login')
-          }
-        }),
-        FormType.Toolbar({
-          noCancelButton: true,
-          save: Okta.loc('mfa.challenge.verify', 'login')
-        })
-      ]
+      formChildren: function () {
+        return [
+          FormType.Input({
+            name: 'credentialId',
+            input: TextBox,
+            type: 'text',
+            placeholder: Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login'),
+            params: {
+              innerTooltip: Okta.loc('enroll.symantecVip.credentialId.tooltip', 'login')
+            }
+          }),
+          FormType.Input({
+            name: 'passCode',
+            input: TextBox,
+            type: 'text',
+            placeholder: Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login'),
+            params: {
+              innerTooltip: Okta.loc('enroll.symantecVip.passcode1.tooltip', 'login')
+            }
+          }),
+          FormType.Input({
+            name: 'nextPassCode',
+            input: TextBox,
+            type: 'text',
+            placeholder: Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login'),
+            params: {
+              innerTooltip: Okta.loc('enroll.symantecVip.passcode2.tooltip', 'login')
+            }
+          }),
+          FormType.Toolbar({
+            noCancelButton: true,
+            save: Okta.loc('mfa.challenge.verify', 'login')
+          })
+        ];
+      }
     },
 
     Footer: Footer

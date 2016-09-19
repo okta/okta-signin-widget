@@ -77,7 +77,7 @@ function (Okta, Duo, Q, FormController, Footer) {
     Form: {
       autoSave: true,
       noButtonBar: true,
-      title: Okta.loc('enroll.duo.title', 'login'),
+      title: _.partial(Okta.loc, 'enroll.duo.title', 'login'),
 
       postRender: function () {
         this.add('<iframe frameborder="0"></iframe>');

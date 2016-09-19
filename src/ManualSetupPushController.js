@@ -134,7 +134,7 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
         var factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
         return Okta.loc('enroll.totp.title', 'login', [factorName]);
       },
-      subtitle: Okta.loc('enroll.totp.cannotScanBarcode', 'login'),
+      subtitle: _.partial(Okta.loc, 'enroll.totp.cannotScanBarcode', 'login'),
       noButtonBar: true,
       attributes: { 'data-se': 'step-manual-setup' },
 
