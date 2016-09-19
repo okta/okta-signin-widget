@@ -1,9 +1,10 @@
-/*globals module, __webpack_modules__, WIDGET_VERSION */
+/*globals module */
 /*jshint unused:false, camelcase: false */
 
 var OktaSignIn = (function () {
 
-  var _ = require('underscore');
+  var config  = require('json!config/config'),
+      _ = require('underscore');
 
   function getProperties(authClient, LoginRouter, Util, config) {
 
@@ -89,7 +90,7 @@ var OktaSignIn = (function () {
     }
 
     /**
-     * Check if tokens have been passed back into the url, which happens in 
+     * Check if tokens have been passed back into the url, which happens in
      * the social auth IDP redirect flow.
      */
     function hasTokensInUrl() {
@@ -97,7 +98,7 @@ var OktaSignIn = (function () {
     }
 
     /**
-     * Parses tokens from the url. 
+     * Parses tokens from the url.
      * @param success - success callback function (usually the same as passed to render)
      * @param error - error callback function (usually the same as passed to render)
      */
@@ -131,29 +132,6 @@ var OktaSignIn = (function () {
   function OktaSignIn(options) {
     var OktaAuth, Util, authClient, LoginRouter;
 
-    // Labels are special - we need to create a custom Bundles module
-    // to easily extend our existing properties. Other widget options should be
-    // passed through a normal function call (like LoginRouter below).
-
-    // Create copies of the label and country
-    // options so we can safely delete them
-    var labelsOptions = _.clone(options.labels);
-    var countryOptions = _.clone(options.country);
-    delete options.labels;
-    delete options.country;
-
-    // Dynamically create a Bundles module so we can extend it
-    var bundleIdModule = require.resolve('shared/util/Bundles');
-    __webpack_modules__[bundleIdModule] = function(module) {
-      var login = require('i18n!nls/login');
-      var country = require('i18n!nls/country');
-
-      module.exports = {
-        login: _.extend(login, labelsOptions),
-        country: _.extend(country, countryOptions)
-      };
-    };
-
     // Modify the underscore, handlebars, and jquery modules
     // Remove once these are explicitly required in Courage
     require('vendor/lib/underscore-wrapper');
@@ -168,7 +146,7 @@ var OktaSignIn = (function () {
       url: options.baseUrl,
       transformErrorXHR: Util.transformErrorXHR,
       headers: {
-        'X-Okta-User-Agent-Extended': 'okta-signin-widget-' + WIDGET_VERSION
+        'X-Okta-User-Agent-Extended': 'okta-signin-widget-' + config.version
       },
       clientId: options.clientId,
       redirectUri: options.redirectUri

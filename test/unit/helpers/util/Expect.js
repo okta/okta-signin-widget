@@ -1,18 +1,21 @@
-/*jshint maxstatements:27 */
+/*jshint maxstatements:28 */
 /*global JSON */
 define([
   'okta',
   'vendor/lib/q',
   'helpers/mocks/Util',
+  'util/Logger',
+  'util/Bundles',
+  'json!config/config',
   'sandbox'
-], function (Okta, Q, Util, $sandbox) {
+], function (Okta, Q, Util, Logger, Bundles, config, $sandbox) {
 
   var fn = {};
   var $ = Okta.$;
   var _ = Okta._;
 
   var WAIT_MAX_TIME = 2000;
-  var WAIT_INTERVAL = 100;
+  var WAIT_INTERVAL = 20;
 
   fn.describe = function(desc, fn) {
     return describe(desc, function() {
@@ -23,17 +26,26 @@ define([
       });
 
       beforeEach(function () {
+        this._origDeprecate = Logger.deprecate;
+        Logger.deprecate = jasmine.createSpy('deprecate');
+
+        this._origVersion = config.version;
+        config.version = '9.9.99';
+
         $.fx.off = true;
         localStorage.clear();
       });
 
       afterEach(function () {
+        Logger.deprecate = this._origDeprecate;
+        config.version = this._origVersion;
         Util.clearAllTimeouts();
         Util.clearAllIntervals();
         Util.cleanupRouter();
         $.fx.off = false;
         $sandbox.empty();
         $('.qtip').remove();
+        Bundles.currentLanguage = null;
       });
 
       fn();
@@ -132,7 +144,7 @@ define([
         fail('Wait condition not met');
       }
       else {
-        setTimeout(check.bind(null, success, fail, triesLeft - 1));
+        setTimeout(check.bind(null, success, fail, triesLeft - 1), WAIT_INTERVAL);
       }
     }
     return Q.Promise(function (resolve, reject) {
@@ -174,6 +186,10 @@ define([
   fn.isController = function (className, controller) {
     expect(controller.className).toBe(className);
     fn.isVisible(controller.$el);
+  };
+
+  fn.deprecated = function (msg) {
+    expect(Logger.deprecate).toHaveBeenCalledWith(msg);
   };
 
   // Convenience function to test a json post - pass in url and data, and it

@@ -10,12 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+/*jshint maxcomplexity:7 */
+
 define([
   'okta',
   'util/Errors',
-  'util/BrowserFeatures'
+  'util/BrowserFeatures',
+  'util/Logger',
+  'json!config/config'
 ],
-function (Okta, Errors, BrowserFeatures) {
+function (Okta, Errors, BrowserFeatures, Logger, config) {
+
+  var DEFAULT_LANGUAGE = 'en';
 
   var supportedIdps = ['facebook', 'google', 'linkedin'],
       supportedResponseTypes = ['token', 'id_token', 'code'],
@@ -24,6 +30,23 @@ function (Okta, Errors, BrowserFeatures) {
   var _ = Okta._,
       ConfigError = Errors.ConfigError,
       UnsupportedBrowserError = Errors.UnsupportedBrowserError;
+
+  var assetBaseUrlTpl = Okta.tpl(
+    'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/{{version}}'
+  );
+
+  function isLanguageSupported(supportedLanguages, language) {
+    return _.contains(supportedLanguages, language);
+  }
+
+  function getDefaultLanguage(supportedLanguages, userLanguages) {
+    var isSupported = _.partial(isLanguageSupported, supportedLanguages),
+        languageCode = _.find(userLanguages, isSupported);
+    if (!languageCode) {
+      languageCode = DEFAULT_LANGUAGE;
+    }
+    return languageCode;
+  }
 
   return Okta.Model.extend({
 
@@ -35,6 +58,7 @@ function (Okta, Errors, BrowserFeatures) {
       'recoveryToken': ['string', false, undefined],
       'stateToken': ['string', false, undefined],
       'username' : ['string', false],
+
       // Function to transform the username before passing it to the API
       // for Primary Auth, Forgot Password and Unlock Account.
       'transformUsername' : ['function', false],
@@ -60,6 +84,11 @@ function (Okta, Errors, BrowserFeatures) {
       'features.multiOptionalFactorEnroll': ['boolean', true, false],
       'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
 
+      // TEXT
+      'language': ['any', false], // Can be a string or a function
+      'text': ['object', false],
+      'assetBaseUrl': ['string', false],
+
       // OAUTH2
       'authScheme': ['string', false, 'OAUTH2'],
       'authParams.display': {
@@ -79,10 +108,7 @@ function (Okta, Errors, BrowserFeatures) {
       // - Single value: 'id_token' or 'token'
       // - Multiple values: ['id_token', 'token']
       'authParams.responseType': ['any', false, 'id_token'],
-
-      // 'scope' is deprecated in favor of 'scopes'
       'authParams.scopes': ['array', false],
-      'authParams.scope': ['array', false],
 
       'clientId': 'string',
       'redirectUri': 'string',
@@ -102,6 +128,46 @@ function (Okta, Errors, BrowserFeatures) {
     },
 
     derived: {
+      supportedLanguages: {
+        deps: ['text'],
+        fn: function (text) {
+          // Developers can pass in their own languages
+          return _.union(config.supportedLanguages, _.keys(text));
+        },
+        cache: true
+      },
+      languageCode: {
+        deps: ['language', 'supportedLanguages'],
+        fn: function (language, supportedLanguages) {
+          var userLanguages = BrowserFeatures.getUserLanguages(),
+              languageCode;
+
+          // First, try to use their language preference:
+          // As a string, i.e. 'en', 'ja', 'zh-CN'
+          if (_.isString(language)) {
+            languageCode = language;
+          }
+          // As a callback function, which is passed the list of supported
+          // languages and detected user languages. This function must return
+          // a languageCode, i.e. 'en', 'ja', 'zh-CN'
+          else if (_.isFunction(language)) {
+            languageCode = language(supportedLanguages, userLanguages);
+          }
+          if (languageCode && !isLanguageSupported(supportedLanguages, languageCode)) {
+            Logger.warn('Unsupported language: ' + languageCode);
+            languageCode = null;
+          }
+
+          // If that was unsuccessful, try loading the language specified by the
+          // user's browser settings, or default to english
+          if (!languageCode) {
+            languageCode = getDefaultLanguage(supportedLanguages, userLanguages);
+          }
+
+          return languageCode;
+        },
+        cache: true
+      },
       oauth2Enabled: {
         deps: ['clientId', 'authScheme', 'authParams.responseType'],
         fn: function (clientId, authScheme, responseType) {
@@ -230,6 +296,44 @@ function (Okta, Errors, BrowserFeatures) {
         return transformFn(username, operation);
       }
       return username;
+    },
+
+    // Use the parse function to transform config options to the standard
+    // settings we currently support. This is a good place to deprecate old
+    // option formats.
+    parse: function (options) {
+      if (options.authParams && options.authParams.scope) {
+        Logger.deprecate('Use "scopes" instead of "scope"');
+        options.authParams.scopes = options.authParams.scope;
+        delete options.authParams.scope;
+      }
+
+      if (options.labels || options.country) {
+        Logger.deprecate('Use "text" instead of "labels" and "country"');
+        var overrides = options.labels || {};
+        _.each(options.country, function (val, key) {
+          overrides['country.' + key] = val;
+        });
+        // Old behavior is to treat the override as a global override, so we
+        // need to add these overrides to each language
+        options.text = {};
+        _.each(config.supportedLanguages, function (language) {
+          options.text[language] = overrides;
+        });
+        delete options.labels;
+        delete options.country;
+      }
+
+      // Default the assetBaseUrl to the cdn, or remove any trailing slashes
+      var abu = options.assetBaseUrl;
+      if (!abu) {
+        options.assetBaseUrl = assetBaseUrlTpl({ version: config.version });
+      }
+      else if (abu[abu.length - 1] === '/') {
+        options.assetBaseUrl = abu.substring(0, abu.length - 1);
+      }
+
+      return options;
     }
 
   });

@@ -73,11 +73,14 @@ function ($, _, Backbone, Q, Duo) {
       });
     });
 
-    spyOn($, 'ajax').and.callFake(function() {
+    spyOn($, 'ajax').and.callFake(function(req) {
 
       var xhr = allResponses.shift();
       if (!xhr) {
-        throw new Error('We are making a request that we have not anticipated.');
+        throw new Error(
+          'We are making a request that we have not anticipated: ' +
+          req.type.toUpperCase() + ' ' + req.url
+        );
       }
 
       // Place response into responseText (AuthClient SDK depends on this)
@@ -90,7 +93,9 @@ function ($, _, Backbone, Q, Duo) {
       var deferred = $.Deferred();
       if (xhr.status > 0 && xhr.status < 300) {
         // $.ajax send (data, textStatus, jqXHR) on success
-        _.defer(function () { deferred.resolve(xhr.response, null, xhr); });
+        setTimeout(function () {
+          deferred.resolve(xhr.response, null, xhr);
+        }, xhr.delay || 0);
       } else {
         // $.ajax send (jqXHR, textStatus, errorThrown) on failure
         if (!textOnly) {

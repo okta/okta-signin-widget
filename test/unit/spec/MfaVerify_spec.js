@@ -116,11 +116,6 @@ function (Q,
             router.verifyWindowsHello();
             return Expect.waitForVerifyWindowsHello();
           }
-          else if (provider === 'FIDO' && factorType === 'u2f') {
-            setNextResponse(resChallengeU2F);
-            router.verifyU2F();
-            return Expect.waitForVerifyU2F();
-          }
           else {
             router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
             return Expect.waitForMfaVerify();
@@ -160,16 +155,27 @@ function (Q,
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
 
     function setupU2F(options) {
-      return setup(resAllFactors, { factorType: 'u2f', provider: 'FIDO' })
+      if (!window.u2f || !window.u2f.sign) {
+        window.u2f = { sign: function () {} };
+      }
+      spyOn(window.u2f, 'sign');
+      if (options && options.signStub) {
+        window.u2f.sign.and.callFake(options.signStub);
+      }
+      return setup(resAllFactors)
       .then(function (test) {
-        if (!window.u2f || !window.u2f.sign) {
-          window.u2f = { sign: function () {} };
+        var responses = [resChallengeU2F];
+        if (options && options.res) {
+          responses.push(options.res);
         }
-        spyOn(window.u2f, 'sign');
-        if (options && options.signStub) {
-          window.u2f.sign.and.callFake(options.signStub);
-        }
-        return test;
+        test.setNextResponse(responses);
+        test.router.verifyU2F();
+        return Expect.waitForVerifyU2F(test);
+      })
+      .then(function (test) {
+        return _.extend(test, {
+          form: new MfaVerifyForm($sandbox.find('.o-form'))
+        });
       });
     }
 
@@ -1815,18 +1821,21 @@ function (Q,
         itp('shows the right beacon for Security Key (U2F)', function () {
           return setupU2F().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-u2f');
+            return Expect.waitForSpyCall(window.u2f.sign);
           });
         });
 
         itp('shows the right title', function () {
           return setupU2F().then(function (test) {
             expectTitleToBe(test, 'Security Key (U2F)');
+            return Expect.waitForSpyCall(window.u2f.sign);
           });
         });
 
         itp('shows a spinner while waiting for u2f challenge', function () {
           return setupU2F().then(function (test) {
             expect(test.form.el('u2f-waiting').length).toBe(1);
+            return Expect.waitForSpyCall(window.u2f.sign);
           });
         });
 
@@ -1838,9 +1847,8 @@ function (Q,
               signatureData: 'someSignature'
             });
           };
-          return setupU2F({ signStub: signStub })
+          return setupU2F({ signStub: signStub, res: resSuccess })
           .then(function (test) {
-            test.setNextResponse(resSuccess);
             return Expect.waitForSpyCall(test.successSpy);
           })
           .then(function () {

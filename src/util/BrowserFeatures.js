@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(function () {
+define(['underscore'], function (_) {
 
   // Save a reference to the original XHR object, before it's overwritten by
   // xdomain. Note: This file must be loaded before xdomain.
@@ -56,6 +56,33 @@ define(function () {
 
   fn.isIE = function () {
     return /(msie|trident)/i.test(navigator.userAgent);
+  };
+
+  // Returns a list of languages the user has configured for their browser, in
+  // order of preference.
+  fn.getUserLanguages = function () {
+    var languages, properties;
+
+    // Chrome, Firefox
+    if (navigator.languages) {
+      return navigator.languages;
+    }
+
+    languages = [];
+    properties = [
+      'language',         // Safari, IE11
+      'userLanguage',     // IE
+      'browserLanguage',  // IE
+      'systemLanguage'    // IE
+    ];
+
+    _.each(properties, function (property) {
+      if (navigator[property]) {
+        languages.push(navigator[property]);
+      }
+    });
+
+    return languages;
   };
 
   return fn;

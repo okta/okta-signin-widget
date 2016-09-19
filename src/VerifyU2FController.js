@@ -65,10 +65,10 @@ function (Okta, FormController, FormType, FooterSignout, Q) {
     Form: {
       autoSave: true,
       hasSavingState: false,
-      title: Okta.loc('factor.u2f', 'login'),
+      title: _.partial(Okta.loc, 'factor.u2f', 'login'),
       className: 'verify-u2f-form',
       noCancelButton: true,
-      save: Okta.loc('verify.u2f.retry', 'login'),
+      save: _.partial(Okta.loc, 'verify.u2f.retry', 'login'),
       modelEvents: {
         'error': '_showRetry',
         'request': '_hideRetry'
@@ -86,7 +86,9 @@ function (Okta, FormController, FormType, FooterSignout, Q) {
       ],
 
       postRender: function () {
-        this.model.save();
+        _.defer(_.bind(function () {
+          this.model.save();
+        }, this));
       },
 
       _showRetry: function () {

@@ -110,7 +110,13 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       userCountryCode: 'string',
       userPhoneNumber: 'string',
       factorActivationType: 'string',
-      flashError: 'object'
+      flashError: 'object',
+
+      // Note: languageCode is special in that it is shared between Settings
+      // and AppState. Settings is the *configured* language, and is static.
+      // AppState is the dynamic language state - it can be changed via a
+      // language picker, etc.
+      languageCode: ['string', true]
     },
 
     setAuthResponse: function (res) {
@@ -436,7 +442,10 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
 
     parse: function (options) {
       this.settings = options.settings;
-      return _.omit(options, 'settings');
+      return _.extend(
+        _.omit(options, 'settings'),
+        { languageCode: this.settings.get('languageCode' )}
+      );
     }
 
   });
