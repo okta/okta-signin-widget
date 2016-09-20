@@ -51,12 +51,19 @@ function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, 
     return true;
   }
 
-  function loadLanguage(appState, overrides, assetBaseUrl) {
+  function loadLanguage(appState, overrides, assetBaseUrl, assetRewrite) {
     var timeout = setTimeout(function () {
       // Trigger a spinner if we're waiting on a request for a new language.
       appState.trigger('loading', true);
     }, 200);
-    return Bundles.loadLanguage(appState.get('languageCode'), overrides, assetBaseUrl)
+    return Bundles.loadLanguage(
+      appState.get('languageCode'),
+      overrides,
+      {
+        baseUrl: assetBaseUrl,
+        rewrite: assetRewrite
+      }
+    )
     .then(function () {
       clearTimeout(timeout);
       appState.trigger('loading', false);
@@ -198,7 +205,8 @@ function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, 
         return loadLanguage(
           this.appState,
           this.settings.get('text'),
-          this.settings.get('assetBaseUrl')
+          this.settings.get('assets.baseUrl'),
+          this.settings.get('assets.rewrite')
         )
         .then(_.bind(this.render, this, Controller, options))
         .done();

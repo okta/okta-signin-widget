@@ -94,8 +94,7 @@ module.exports = function (grunt) {
             expand: true,
             cwd: 'node_modules/@okta/i18n/dist/',
             src: [
-              'json/{login,country}*.json',
-              'properties/{login,country}*.properties'
+              'json/{login,country}*.json'
             ],
             dest: 'target/labels'
           }
@@ -134,8 +133,11 @@ module.exports = function (grunt) {
                     multiOptionalFactorEnroll: true
                   },
                   // Host the assets (i.e. jsonp files) locally
-                  assetBaseUrl: ''
+                  assets: {
+                    baseUrl: '/'
+                  }
                 }, widgetRc.widgetOptions);
+
             return template({ options: JSON.stringify(options) });
           }
         },
@@ -496,9 +498,9 @@ module.exports = function (grunt) {
   grunt.task.registerTask('prebuild', function (flag) {
     var tasks = [
       'retire',
-      'generate-config',
       'copy:src',
       'copy:i18n-to-target',
+      'generate-config',
       'generate-jsonp:target',
       'copy:assets-to-target',
       'copy:courage'

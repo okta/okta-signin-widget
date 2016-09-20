@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint maxcomplexity:7 */
+/*jshint maxcomplexity:8 */
 
 define([
   'okta',
@@ -75,7 +75,13 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
       // TEXT
       'language': ['any', false], // Can be a string or a function
       'text': ['object', false],
-      'assetBaseUrl': ['string', false],
+
+      // ASSETS
+      'assets.baseUrl': ['string', false],
+      'assets.rewrite': {
+        type: 'function',
+        value: _.identity
+      },
 
       // OAUTH2
       'authScheme': ['string', false, 'OAUTH2'],
@@ -124,7 +130,6 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
         },
         cache: true
       },
-
       languageCode: {
         deps: ['language', 'supportedLanguages'],
         fn: function (language, supportedLanguages) {
@@ -318,13 +323,16 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
         delete options.country;
       }
 
-      // Default the assetBaseUrl to the cdn, or remove any trailing slashes
-      var abu = options.assetBaseUrl;
+      // Default the assets.baseUrl to the cdn, or remove any trailing slashes
+      if (!options.assets) {
+        options.assets = {};
+      }
+      var abu = options.assets.baseUrl;
       if (!abu) {
-        options.assetBaseUrl = assetBaseUrlTpl({ version: config.version });
+        options.assets.baseUrl = assetBaseUrlTpl({ version: config.version });
       }
       else if (abu[abu.length - 1] === '/') {
-        options.assetBaseUrl = abu.substring(0, abu.length - 1);
+        options.assets.baseUrl = abu.substring(0, abu.length - 1);
       }
 
       return options;

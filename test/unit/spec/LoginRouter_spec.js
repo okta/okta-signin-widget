@@ -736,9 +736,9 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       });
     });
 
-    Expect.describe('Config: "assetBaseUrl"', function () {
+    Expect.describe('Config: "assets"', function () {
 
-      function expectWithBase(baseUrl, test) {
+      function expectBundles(baseUrl, login, country) {
         expect($.ajax.calls.count()).toBe(3);
         var loginCall = $.ajax.calls.argsFor(0)[0];
         var countryCall = $.ajax.calls.argsFor(1)[0];
@@ -747,19 +747,30 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           dataType: 'jsonp',
           jsonpCallback: 'jsonp_login',
           timeout: 5000,
-          url: baseUrl + '/labels/jsonp/login_ja.jsonp'
+          url: baseUrl + login
         });
         expect(countryCall).toEqual({
           cache: true,
           dataType: 'jsonp',
           jsonpCallback: 'jsonp_country',
           timeout: 5000,
-          url: baseUrl + '/labels/jsonp/country_ja.jsonp'
+          url: baseUrl + country
         });
-        return test;
       }
 
-      itp('loads properties from the cdn if no assetBaseUrl supplied', function () {
+      var expectDefaultPaths = _.partial(
+        expectBundles,
+        _,
+        '/labels/jsonp/login_ja.jsonp',
+        '/labels/jsonp/country_ja.jsonp'
+      );
+
+      var expectDefaultCdn = _.partial(
+        expectBundles,
+        'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99'
+      );
+
+      itp('loads properties from the cdn if no baseUrl and path overrides are supplied', function () {
         return setupLanguage({
           mockLanguageRequest: 'ja',
           settings: {
@@ -767,7 +778,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           }
         })
         .then(function () {
-          expectWithBase('https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99');
+          expectDefaultPaths('https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99');
         });
       });
       itp('loads properties from the given baseUrl', function () {
@@ -775,23 +786,64 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           mockLanguageRequest: 'ja',
           settings: {
             language: 'ja',
-            assetBaseUrl: 'http://foo.com'
+            assets: {
+              baseUrl: 'http://foo.com'
+            }
           }
         })
         .then(function () {
-          expectWithBase('http://foo.com');
+          expectDefaultPaths('http://foo.com');
         });
       });
-      itp('will clean up any trailing slashes', function () {
+      itp('will clean up any trailing slashes in baseUrl', function () {
         return setupLanguage({
           mockLanguageRequest: 'ja',
           settings: {
             language: 'ja',
-            assetBaseUrl: 'http://foo.com/'
+            assets: {
+              baseUrl: 'http://foo.com/'
+            }
           }
         })
         .then(function () {
-          expectWithBase('http://foo.com');
+          expectDefaultPaths('http://foo.com');
+        });
+      });
+      itp('can override bundle paths with rewrite', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja',
+            assets: {
+              rewrite: function (file) {
+                return file.replace('.jsonp', '.sha.jsonp');
+              }
+            }
+          }
+        })
+        .then(function () {
+          expectDefaultCdn('/labels/jsonp/login_ja.sha.jsonp', '/labels/jsonp/country_ja.sha.jsonp');
+        });
+      });
+      itp('can override bundles with both baseUrl and rewrite', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja',
+            assets: {
+              baseUrl: 'http://foo.com',
+              rewrite: function (file) {
+                return file.replace('.jsonp', '.1.jsonp');
+              }
+            }
+          }
+        })
+        .then(function () {
+          expectBundles(
+            'http://foo.com',
+            '/labels/jsonp/login_ja.1.jsonp',
+            '/labels/jsonp/country_ja.1.jsonp'
+          );
         });
       });
     });
@@ -828,7 +880,9 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
             userLanguages: ['pt-br', 'ja'],
             mockLanguageRequest: 'ja',
             settings: {
-              assetBaseUrl: '/assets'
+              assets: {
+                baseUrl: '/assets'
+              }
             }
           })
           .then(function () {
@@ -843,7 +897,9 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
             userLanguages: ['ja-ZZ', 'ko', 'en'],
             mockLanguageRequest: 'ja',
             settings: {
-              assetBaseUrl: '/assets'
+              assets: {
+                baseUrl: '/assets'
+              }
             }
           })
           .then(function (test) {
@@ -859,7 +915,9 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
             userLanguages: ['pt-BR-zz', 'ko', 'en'],
             mockLanguageRequest: 'ja',
             settings: {
-              assetBaseUrl: '/assets'
+              assets: {
+                baseUrl: '/assets'
+              }
             }
           })
           .then(function (test) {

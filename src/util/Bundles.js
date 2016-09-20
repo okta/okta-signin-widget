@@ -25,9 +25,7 @@ define([
 
   var STORAGE_KEY = 'osw.languages';
 
-  var textUrlTpl = _.template(
-    '{{baseUrl}}/labels/jsonp/{{bundle}}_{{languageCode}}.jsonp'
-  );
+  var bundlePathTpl = _.template('/labels/jsonp/{{bundle}}_{{languageCode}}.jsonp');
 
   /**
    * Converts options to our internal format, which distinguishes between
@@ -101,20 +99,49 @@ define([
   }
 
   // We use jsonp to get around any CORS issues if the developer is using
-  // the hosted version of the widget - by default, the assetBundleUrl is
-  // tied to the Okta CDN. AssetBundleUrl is provided as a workaround if the
-  // developer wants to host these files on their own domain, or if they are
-  // using a new version of the widget whose language files haven't been
-  // published to the CDN yet.
-  function fetchJsonp(bundle, language, assetBaseUrl) {
-    var languageCode = language.replace('-', '_'),
-        url = textUrlTpl({
-          baseUrl: assetBaseUrl,
-          bundle: bundle,
-          languageCode: languageCode
-        });
+  // the hosted version of the widget - by default, the assets.bundleUrl is
+  // tied to the Okta CDN.
+  //
+  // There are two overrides available for modifying where we load the asset
+  // bundles from:
+  //
+  // 1. assets.baseUrl
+  //
+  //    This is the base path the OSW pulls assets from, which in this case is
+  //    the Okta CDN. Override this config option if you want to host the
+  //    files on your own domain, or if you're using a new version of the
+  //    widget whose language files haven't been published to the CDN yet.
+  //
+  // 2. assets.rewrite
+  //
+  //    This is a function that can be used to modify the path + fileName of
+  //    the bundle we're loading, relative to the baseUrl. When called, it
+  //    will pass the current path, and expect the new path to be returned.
+  //    This is useful, for example, if your build process has an extra
+  //    cachebusting step, i.e:
+  //
+  //    function rewrite(file) {
+  //      // file: /labels/jsonp/login_ja.jsonp
+  //      return file.replace('.jsonp', '.' + md5file(file) + '.jsonp');
+  //    }
+  //
+  // Note: Most developers will not need to use these overrides - the default
+  // is to use the Okta CDN and to use the same path + file structure the
+  // widget module publishes by default.
+  function fetchJsonp(bundle, language, assets) {
+    var languageCode, path;
+
+    // Our bundles use _ to separate country and region, i.e:
+    // zh-CN -> zh_CN
+    languageCode = language.replace('-', '_');
+
+    path = assets.rewrite(bundlePathTpl({
+      bundle: bundle,
+      languageCode: languageCode
+    }));
+
     return $.ajax({
-      url: url,
+      url: assets.baseUrl + path,
       dataType: 'jsonp',
       cache: true,
       // jQuery jsonp doesn't handle errors, so set a long timeout as a
@@ -124,7 +151,7 @@ define([
     });
   }
 
-  function getBundles(language, assetBaseUrl) {
+  function getBundles(language, assets) {
     // Two special cases:
     // 1. English is already bundled with the widget
     // 2. If the language is not in our config file, it means that they've
@@ -139,8 +166,8 @@ define([
     }
 
     return Q.all([
-      fetchJsonp('login', language, assetBaseUrl),
-      fetchJsonp('country', language, assetBaseUrl)
+      fetchJsonp('login', language, assets),
+      fetchJsonp('country', language, assets)
     ])
     .spread(function (loginJson, countryJson) {
       addLanguageToCache(language, loginJson, countryJson);
@@ -164,9 +191,9 @@ define([
       return this.currentLanguage === language;
     },
 
-    loadLanguage: function (language, overrides, assetBaseUrl) {
+    loadLanguage: function (language, overrides, assets) {
       var parsedOverrides = parseOverrides(overrides);
-      return getBundles(language, assetBaseUrl)
+      return getBundles(language, assets)
       .then(_.bind(function (bundles) {
         // Always extend from the built in defaults in the event that some
         // properties are not translated
