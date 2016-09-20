@@ -16,10 +16,11 @@ define([
   'okta',
   'util/Errors',
   'util/BrowserFeatures',
+  'util/Util',
   'util/Logger',
   'json!config/config'
 ],
-function (Okta, Errors, BrowserFeatures, Logger, config) {
+function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
 
   var DEFAULT_LANGUAGE = 'en';
 
@@ -34,19 +35,6 @@ function (Okta, Errors, BrowserFeatures, Logger, config) {
   var assetBaseUrlTpl = Okta.tpl(
     'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/{{version}}'
   );
-
-  function isLanguageSupported(supportedLanguages, language) {
-    return _.contains(supportedLanguages, language);
-  }
-
-  function getDefaultLanguage(supportedLanguages, userLanguages) {
-    var isSupported = _.partial(isLanguageSupported, supportedLanguages),
-        languageCode = _.find(userLanguages, isSupported);
-    if (!languageCode) {
-      languageCode = DEFAULT_LANGUAGE;
-    }
-    return languageCode;
-  }
 
   return Okta.Model.extend({
 
@@ -136,37 +124,43 @@ function (Okta, Errors, BrowserFeatures, Logger, config) {
         },
         cache: true
       },
+
       languageCode: {
         deps: ['language', 'supportedLanguages'],
         fn: function (language, supportedLanguages) {
           var userLanguages = BrowserFeatures.getUserLanguages(),
-              languageCode;
+              preferred = _.clone(userLanguages),
+              supportedLowerCase = Util.toLower(supportedLanguages),
+              expanded;
 
-          // First, try to use their language preference:
+          // Any developer defined "language" takes highest priority:
           // As a string, i.e. 'en', 'ja', 'zh-CN'
           if (_.isString(language)) {
-            languageCode = language;
+            preferred.unshift(language);
           }
           // As a callback function, which is passed the list of supported
           // languages and detected user languages. This function must return
           // a languageCode, i.e. 'en', 'ja', 'zh-CN'
           else if (_.isFunction(language)) {
-            languageCode = language(supportedLanguages, userLanguages);
-          }
-          if (languageCode && !isLanguageSupported(supportedLanguages, languageCode)) {
-            Logger.warn('Unsupported language: ' + languageCode);
-            languageCode = null;
+            preferred.unshift(language(supportedLanguages, userLanguages));
           }
 
-          // If that was unsuccessful, try loading the language specified by the
-          // user's browser settings, or default to english
-          if (!languageCode) {
-            languageCode = getDefaultLanguage(supportedLanguages, userLanguages);
+          // Add english as the default, and expand to include any language
+          // codes that do not include region, dialect, etc.
+          preferred.push(DEFAULT_LANGUAGE);
+          expanded = Util.toLower(Util.expandLanguages(preferred));
+
+          // Perform a case insensitive search - this is necessary in the case
+          // of browsers like Safari
+          var i, supportedPos;
+          for (i = 0; i < expanded.length; i++) {
+            supportedPos = supportedLowerCase.indexOf(expanded[i]);
+            if (supportedPos > -1) {
+              return supportedLanguages[supportedPos];
+            }
           }
 
-          return languageCode;
-        },
-        cache: true
+        }
       },
       oauth2Enabled: {
         deps: ['clientId', 'authScheme', 'authParams.responseType'],

@@ -823,6 +823,53 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           })
           .then(expectJa);
         });
+        itp('will ignore case differences when finding languages, i.e. for Safari', function () {
+          return setupLanguage({
+            userLanguages: ['pt-br', 'ja'],
+            mockLanguageRequest: 'ja',
+            settings: {
+              assetBaseUrl: '/assets'
+            }
+          })
+          .then(function () {
+            var loginCall = $.ajax.calls.argsFor(0)[0];
+            var countryCall = $.ajax.calls.argsFor(1)[0];
+            expect(loginCall.url).toBe('/assets/labels/jsonp/login_pt_BR.jsonp');
+            expect(countryCall.url).toBe('/assets/labels/jsonp/country_pt_BR.jsonp');
+          });
+        });
+        itp('will use base languageCode even if region is not supported', function () {
+          return setupLanguage({
+            userLanguages: ['ja-ZZ', 'ko', 'en'],
+            mockLanguageRequest: 'ja',
+            settings: {
+              assetBaseUrl: '/assets'
+            }
+          })
+          .then(function (test) {
+            expectJa(test);
+            var loginCall = $.ajax.calls.argsFor(0)[0];
+            var countryCall = $.ajax.calls.argsFor(1)[0];
+            expect(loginCall.url).toBe('/assets/labels/jsonp/login_ja.jsonp');
+            expect(countryCall.url).toBe('/assets/labels/jsonp/country_ja.jsonp');
+          });
+        });
+        itp('will use base languageCode with region even if dialect is not supported', function () {
+          return setupLanguage({
+            userLanguages: ['pt-BR-zz', 'ko', 'en'],
+            mockLanguageRequest: 'ja',
+            settings: {
+              assetBaseUrl: '/assets'
+            }
+          })
+          .then(function (test) {
+            expectJa(test);
+            var loginCall = $.ajax.calls.argsFor(0)[0];
+            var countryCall = $.ajax.calls.argsFor(1)[0];
+            expect(loginCall.url).toBe('/assets/labels/jsonp/login_pt_BR.jsonp');
+            expect(countryCall.url).toBe('/assets/labels/jsonp/country_pt_BR.jsonp');
+          });
+        });
         itp('accepts a language code string as "language"', function () {
           return setupLanguage({
             mockLanguageRequest: 'ja',
