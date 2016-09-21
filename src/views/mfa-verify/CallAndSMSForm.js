@@ -24,7 +24,7 @@ define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, Text
     className: 'mfa-verify-sms-call',
     autoSave: true,
     noCancelButton: true,
-    save: Okta.loc('mfa.challenge.verify', 'login'),
+    save: _.partial(Okta.loc, 'mfa.challenge.verify', 'login'),
     scrollOnError: false,
     layout: 'o-form-theme',
 

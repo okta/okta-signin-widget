@@ -19,6 +19,8 @@ define([
 ],
 function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
 
+  var _ = Okta._;
+
   // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
   // in network connection lost errors in Safari and IE.
   var PUSH_INTERVAL = 6000;
@@ -44,7 +46,7 @@ function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
   });
 
   var emailSentForm = {
-    title: Okta.loc('enroll.totp.enrollViaEmail.title', 'login'),
+    title: _.partial(Okta.loc, 'enroll.totp.enrollViaEmail.title', 'login'),
     noButtonBar: true,
     attributes: { 'data-se': 'sent-email-activation-link' },
     formChildren: [
@@ -63,7 +65,7 @@ function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
   };
 
   var smsSentForm = {
-    title: Okta.loc('enroll.totp.enrollViaSms.title', 'login'),
+    title: _.partial(Okta.loc, 'enroll.totp.enrollViaSms.title', 'login'),
     noButtonBar: true,
     attributes: { 'data-se': 'sent-sms-activation-link' },
     formChildren: [

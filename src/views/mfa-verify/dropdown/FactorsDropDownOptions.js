@@ -13,6 +13,8 @@
 /* jshint maxstatements: 16, maxcomplexity: 10 */
 define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
+  var _ = Okta._;
+
   var action = function (model) {
     var url = RouterUtil.createVerifyUrl(model.get('provider'), model.get('factorType')),
         self = this;
@@ -34,7 +36,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
   var dropdownOptions = {
     'TITLE': {
-      title: Okta.loc('mfa.factors.dropdown.title', 'login'),
+      title: _.partial(Okta.loc, 'mfa.factors.dropdown.title', 'login'),
       className: 'dropdown-list-title'
     },
 
@@ -80,7 +82,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'RSA_SECURID': {
       icon: 'factor-icon mfa-rsa-30',
-      title: Okta.loc('factor.totpHard.rsaSecurId', 'login'),
+      title: _.partial(Okta.loc, 'factor.totpHard.rsaSecurId', 'login'),
       action: function () {
         action.call(this, this.model);
       }
@@ -110,21 +112,21 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       icon: 'duo-push-16',
       className: 'suboption',
       // TODO: add phone number here
-      title: Okta.loc('mfa.duoSecurity.push', 'login', ['XXX-XXX-7890'])
+      title: _.partial(Okta.loc, 'mfa.duoSecurity.push', 'login', ['XXX-XXX-7890'])
     },
 
     'DUO_SMS': {
       icon: 'duo-sms-16',
       className: 'suboption',
       // TODO: add phone number here
-      title: Okta.loc('mfa.duoSecurity.sms', 'login', ['XXX-XXX-7890'])
+      title: _.partial(Okta.loc, 'mfa.duoSecurity.sms', 'login', ['XXX-XXX-7890'])
     },
 
     'DUO_CALL': {
       icon: 'duo-call-16',
       className: 'suboption',
       // TODO: add phone number here
-      title: Okta.loc('mfa.duoSecurity.call', 'login', ['XXX-XXX-7890'])
+      title: _.partial(Okta.loc, 'mfa.duoSecurity.call', 'login', ['XXX-XXX-7890'])
     },
 
     'YUBIKEY': {

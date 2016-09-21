@@ -20,7 +20,7 @@ define([
   return Okta.Form.extend({
     className: 'primary-auth-form',
     noCancelButton: true,
-    save: Okta.loc('primaryauth.submit', 'login'),
+    save: _.partial(Okta.loc, 'primaryauth.submit', 'login'),
     layout: 'o-form-theme',
 
     // If socialAuth is configured, the title moves from the form to

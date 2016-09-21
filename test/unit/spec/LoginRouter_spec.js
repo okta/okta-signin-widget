@@ -1,3 +1,4 @@
+/*global JSON */
 /*jshint maxparams:50, maxstatements:50, maxlen:180, camelcase:false */
 define([
   'okta',
@@ -15,6 +16,7 @@ define([
   'helpers/dom/PrimaryAuthForm',
   'helpers/dom/RecoveryQuestionForm',
   'helpers/dom/MfaVerifyForm',
+  'helpers/dom/EnrollCallForm',
   'helpers/xhr/SUCCESS',
   'helpers/xhr/RECOVERY',
   'helpers/xhr/MFA_REQUIRED_allFactors',
@@ -22,14 +24,17 @@ define([
   'helpers/xhr/MFA_REQUIRED_oktaVerify',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_push',
+  'helpers/xhr/MFA_ENROLL_allFactors',
   'helpers/xhr/ERROR_invalid_token',
   'util/Errors',
-  'util/BrowserFeatures'
+  'util/BrowserFeatures',
+  'helpers/xhr/labels_login_ja',
+  'helpers/xhr/labels_country_ja'
 ],
 function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
-          $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, resSuccess, resRecovery,
+          $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
           resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
-          errorInvalidToken, Errors, BrowserFeatures) {
+          resMfaEnroll, errorInvalidToken, Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
 
   var itp = Expect.itp,
       tick = Expect.tick,
@@ -73,6 +78,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       }, settings));
       Util.registerRouter(router);
       router.on('pageRendered', eventSpy);
+      spyOn(authClient.token, 'getWithoutPrompt').and.callThrough();
       return tick({
         router: router,
         ac: authClient,
@@ -117,6 +123,41 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         form.setAnswer('wrong');
         form.submit();
         return tick(test);
+      });
+    }
+
+    // { settings, userLanguages, supportedLanguages }
+    function setupLanguage(options) {
+      var loadingSpy = jasmine.createSpy('loading');
+      var delay = options.delay || 0;
+      spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(options.userLanguages || []);
+      return setup(options.settings)
+      .then(function (test) {
+        test.router.appState.on('loading', loadingSpy);
+        // Use the encrollCallAndSms controller because it uses both the login
+        // and country bundles
+        Util.mockRouterNavigate(test.router);
+        test.setNextResponse(resMfaEnroll);
+        if (options.mockLanguageRequest) {
+          switch (options.mockLanguageRequest) {
+          case 'ja':
+            test.setNextResponse([
+              _.extend({ delay: delay }, labelsLoginJa),
+              _.extend({ delay: delay }, labelsCountryJa)
+            ]);
+            break;
+          }
+        }
+        test.router.refreshAuthState('dummy-token');
+        return Expect.waitForEnrollChoices(test);
+      })
+      .then(function (test) {
+        test.router.appState.off('loading');
+        test.router.enrollCall();
+        return Expect.waitForEnrollCall(_.extend(test, {
+          form: new EnrollCallForm($sandbox),
+          loadingSpy: loadingSpy
+        }));
       });
     }
 
@@ -197,7 +238,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       .then(function (test) {
         test.setNextResponse(resSuccess);
         test.router.refreshAuthState('dummy-token');
-        return tick().then(tick);
+        return Expect.waitForSpyCall(successSpy);
       })
       .then(function () {
         var res = successSpy.calls.mostRecent().args[0];
@@ -223,7 +264,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       .then(function (test) {
         test.setNextResponse(resSuccess);
         test.router.refreshAuthState('dummy-token');
-        return tick().then(tick);
+        return Expect.waitForSpyCall(successSpy);
       })
       .then(function () {
         var setCookieAndRedirect = successSpy.calls.mostRecent().args[0].session.setCookieAndRedirect;
@@ -494,6 +535,20 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
     });
 
     Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function () {
+      itp('accepts the deprecated "authParams.scope" option, but converts it to "scopes"', function () {
+        var options = {
+          authParams: {
+            scope: 'testscope'
+          }
+        };
+        return setupOAuth2(options)
+        .then(function (test) {
+          var spy = test.ac.token.getWithoutPrompt;
+          expect(spy.calls.count()).toBe(1);
+          expect(spy.calls.argsFor(0)[0].scopes).toBe('testscope');
+          Expect.deprecated('Use "scopes" instead of "scope"');
+       });
+      });
       itp('creates an iframe with the correct url when authStatus is SUCCESS', function () {
         return setupOAuth2()
         .then(function (test) {
@@ -627,8 +682,450 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           expect(test.eventSpy.calls.count()).toBe(2);
           expect(test.eventSpy.calls.allArgs()[0]).toEqual([{page: 'forgot-password'}]);
           expect(test.eventSpy.calls.allArgs()[1]).toEqual([{page: 'forgot-password'}]);
+        });
+      });
+    });
+
+   Expect.describe('Config: "i18n"', function () {
+      itp('supports deprecated "labels" and "country" options', function () {
+        return setupLanguage({
+          settings: {
+            labels: {
+              'enroll.call.setup': 'test override title'
+            },
+            country: {
+              'JP': 'Nihon'
+            }
+          }
+        })
+        .then(function (test) {
+          test.form.selectCountry('JP');
+          expect(test.form.titleText()).toBe('test override title');
+          expect(test.form.selectedCountry()).toBe('Nihon');
+          Expect.deprecated('Use "i18n" instead of "labels" and "country"');
+        });
+      });
+      itp('overrides text in the login bundle', function () {
+        return setupLanguage({
+          settings: {
+            i18n: {
+              'en': {
+                'enroll.call.setup': 'test override title'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          expect(test.form.titleText()).toBe('test override title');
+        });
+      });
+      itp('uses "country.COUNTRY" to override text in the country bundle', function () {
+        return setupLanguage({
+          settings: {
+            i18n: {
+              'en': {
+                'country.JP': 'Nihon'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          test.form.selectCountry('JP');
+          expect(test.form.selectedCountry()).toBe('Nihon');
+        });
+      });
+    });
+
+    Expect.describe('Config: "assets"', function () {
+
+      function expectBundles(baseUrl, login, country) {
+        expect($.ajax.calls.count()).toBe(3);
+        var loginCall = $.ajax.calls.argsFor(0)[0];
+        var countryCall = $.ajax.calls.argsFor(1)[0];
+        expect(loginCall).toEqual({
+          cache: true,
+          dataType: 'jsonp',
+          jsonpCallback: 'jsonp_login',
+          timeout: 5000,
+          url: baseUrl + login
+        });
+        expect(countryCall).toEqual({
+          cache: true,
+          dataType: 'jsonp',
+          jsonpCallback: 'jsonp_country',
+          timeout: 5000,
+          url: baseUrl + country
+        });
+      }
+
+      var expectDefaultPaths = _.partial(
+        expectBundles,
+        _,
+        '/labels/jsonp/login_ja.jsonp',
+        '/labels/jsonp/country_ja.jsonp'
+      );
+
+      var expectDefaultCdn = _.partial(
+        expectBundles,
+        'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99'
+      );
+
+      itp('loads properties from the cdn if no baseUrl and path overrides are supplied', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja'
+          }
+        })
+        .then(function () {
+          expectDefaultPaths('https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99');
+        });
+      });
+      itp('loads properties from the given baseUrl', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja',
+            assets: {
+              baseUrl: 'http://foo.com'
+            }
+          }
+        })
+        .then(function () {
+          expectDefaultPaths('http://foo.com');
+        });
+      });
+      itp('will clean up any trailing slashes in baseUrl', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja',
+            assets: {
+              baseUrl: 'http://foo.com/'
+            }
+          }
+        })
+        .then(function () {
+          expectDefaultPaths('http://foo.com');
+        });
+      });
+      itp('can override bundle paths with rewrite', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja',
+            assets: {
+              rewrite: function (file) {
+                return file.replace('.jsonp', '.sha.jsonp');
+              }
+            }
+          }
+        })
+        .then(function () {
+          expectDefaultCdn('/labels/jsonp/login_ja.sha.jsonp', '/labels/jsonp/country_ja.sha.jsonp');
+        });
+      });
+      itp('can override bundles with both baseUrl and rewrite', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja',
+            assets: {
+              baseUrl: 'http://foo.com',
+              rewrite: function (file) {
+                return file.replace('.jsonp', '.1.jsonp');
+              }
+            }
+          }
+        })
+        .then(function () {
+          expectBundles(
+            'http://foo.com',
+            '/labels/jsonp/login_ja.1.jsonp',
+            '/labels/jsonp/country_ja.1.jsonp'
+          );
+        });
+      });
+    });
+
+    Expect.describe('Config: "language"', function () {
+
+      function expectLanguage(titleText, countryText, test) {
+        test.form.selectCountry('JP');
+        expect(test.form.selectedCountry()).toBe(countryText);
+        expect(test.form.titleText()).toBe(titleText);
+        return test;
+      }
+
+      var expectEn = _.partial(expectLanguage,'Follow phone call instructions to authenticate', 'Japan');
+      var expectJa = _.partial(expectLanguage, 'JA: enroll.call.setup', 'JA: country.JP');
+      var expectZz = _.partial(expectLanguage, 'ZZ: enroll.call.setup', 'ZZ: country.JP');
+
+      Expect.describe('Choosing a language', function () {
+        itp('defaults to english if "language" is not specified and there are no user languages detected', function () {
+          return setupLanguage({
+            userLanguages: []
+          })
+          .then(expectEn);
+        });
+        itp('uses the first match of user language and supported language if user languages detected', function () {
+          return setupLanguage({
+            userLanguages: ['ja', 'ko', 'en'],
+            mockLanguageRequest: 'ja'
+          })
+          .then(expectJa);
+        });
+        itp('will ignore case differences when finding languages, i.e. for Safari', function () {
+          return setupLanguage({
+            userLanguages: ['pt-br', 'ja'],
+            mockLanguageRequest: 'ja',
+            settings: {
+              assets: {
+                baseUrl: '/assets'
+              }
+            }
+          })
+          .then(function () {
+            var loginCall = $.ajax.calls.argsFor(0)[0];
+            var countryCall = $.ajax.calls.argsFor(1)[0];
+            expect(loginCall.url).toBe('/assets/labels/jsonp/login_pt_BR.jsonp');
+            expect(countryCall.url).toBe('/assets/labels/jsonp/country_pt_BR.jsonp');
           });
         });
+        itp('will use base languageCode even if region is not supported', function () {
+          return setupLanguage({
+            userLanguages: ['ja-ZZ', 'ko', 'en'],
+            mockLanguageRequest: 'ja',
+            settings: {
+              assets: {
+                baseUrl: '/assets'
+              }
+            }
+          })
+          .then(function (test) {
+            expectJa(test);
+            var loginCall = $.ajax.calls.argsFor(0)[0];
+            var countryCall = $.ajax.calls.argsFor(1)[0];
+            expect(loginCall.url).toBe('/assets/labels/jsonp/login_ja.jsonp');
+            expect(countryCall.url).toBe('/assets/labels/jsonp/country_ja.jsonp');
+          });
+        });
+        itp('will use base languageCode with region even if dialect is not supported', function () {
+          return setupLanguage({
+            userLanguages: ['pt-BR-zz', 'ko', 'en'],
+            mockLanguageRequest: 'ja',
+            settings: {
+              assets: {
+                baseUrl: '/assets'
+              }
+            }
+          })
+          .then(function (test) {
+            expectJa(test);
+            var loginCall = $.ajax.calls.argsFor(0)[0];
+            var countryCall = $.ajax.calls.argsFor(1)[0];
+            expect(loginCall.url).toBe('/assets/labels/jsonp/login_pt_BR.jsonp');
+            expect(countryCall.url).toBe('/assets/labels/jsonp/country_pt_BR.jsonp');
+          });
+        });
+        itp('accepts a language code string as "language"', function () {
+          return setupLanguage({
+            mockLanguageRequest: 'ja',
+            settings: {
+              language: 'ja'
+            }
+          })
+          .then(expectJa);
+        });
+        itp('accepts a function that returns a language code', function () {
+          return setupLanguage({
+            mockLanguageRequest: 'ja',
+            settings: {
+              language: function () {
+                return 'ja';
+              }
+            }
+          })
+          .then(expectJa);
+        });
+        itp('passes the list of supported languages and user languages to the function', function () {
+          var spy = jasmine.createSpy('language').and.returnValue('en');
+          return setupLanguage({
+            settings: {
+              language: spy
+            },
+            userLanguages: ['ja', 'ko', 'en']
+          })
+          .then(function () {
+            expect(spy.calls.count()).toBe(1);
+            var args = spy.calls.argsFor(0);
+            var supported = args[0];
+            var userLanguages = args[1];
+            expect(userLanguages).toEqual(['ja', 'ko', 'en']);
+            expect(supported).toEqual([
+              'en', 'cs', 'da', 'de', 'es', 'fi', 'fr', 'hu', 'it', 'ja', 'ko',
+              'nl-NL', 'pt-BR', 'ro', 'ru', 'sv', 'th', 'uk', 'zh-CN', 'zh-TW'
+            ]);
+          });
+        });
+        itp('allows the developer to pass in a new language and will add that to the list of supported languages', function () {
+          var spy = jasmine.createSpy('language').and.returnValue('zz-ZZ');
+          return setupLanguage({
+            settings: {
+              language: spy,
+              i18n: {
+                'zz-ZZ': {
+                  'enroll.call.setup': 'ZZ: enroll.call.setup',
+                  'country.JP': 'ZZ: country.JP'
+                }
+              }
+            }
+          })
+          .then(function (test) {
+            var supported = spy.calls.argsFor(0)[0];
+            expect(supported).toContain('zz-ZZ');
+            expectZz(test);
+          });
+        });
+        itp('will default to detection if the "language" property does not return a supported language', function () {
+          return setupLanguage({
+            mockLanguageRequest: 'ja',
+            userLanguages: ['ja'],
+            settings: {
+              language: 'yy-YY'
+            }
+          })
+          .then(expectJa);
+        });
+      });
+
+      Expect.describe('Behavior', function () {
+        itp('shows a spinner until the language is loaded if it takes longer than 200ms (i.e. ajax request)', function () {
+          return setupLanguage({
+            delay: 300,
+            mockLanguageRequest: 'ja',
+            settings: {
+              language: 'ja'
+            }
+          })
+          .then(function (test) {
+            // 2 for the initial refreshAuthState call, and 2 for our spinner
+            expect(test.loadingSpy.calls.count()).toBe(4);
+            expect(test.loadingSpy.calls.argsFor(2)[0]).toBe(true);
+            expect(test.loadingSpy.calls.argsFor(3)[0]).toBe(false);
+          });
+        });
+        itp('can load a new language dynamically by updating the appState', function () {
+          return setupLanguage({
+            settings: {
+              i18n: {
+                'zz-ZZ': {
+                  'enroll.call.setup': 'ZZ: enroll.call.setup',
+                  'country.JP': 'ZZ: country.JP'
+                }
+              }
+            }
+          })
+          .then(expectEn)
+          .then(function (test) {
+            // The new language will be rendered on the next router render, but we need
+            // navigate away from the page first for the wait to work.
+            test.router.forgotPassword();
+            return Expect.waitForForgotPassword(test);
+          })
+          .then(function (test) {
+            test.router.appState.set('languageCode', 'zz-ZZ');
+            test.router.enrollCall();
+            return Expect.waitForEnrollCall(test);
+          })
+          .then(expectZz);
+        });
+        itp('caches the language after the initial fetch', function () {
+          spyOn(localStorage, 'setItem').and.callThrough();
+          return setupLanguage({
+            mockLanguageRequest: 'ja',
+            settings: {
+              language: 'ja'
+            }
+          })
+          .then(function () {
+            expect(localStorage.setItem).toHaveBeenCalledWith('osw.languages', JSON.stringify({
+              version: '9.9.99',
+              ja: {
+                login: {
+                  'enroll.call.setup': 'JA: enroll.call.setup'
+                },
+                country: {
+                  'JP': 'JA: country.JP'
+                }
+              }
+            }));
+          });
+        });
+        itp('fetches from the cache if it is available', function () {
+          spyOn(localStorage, 'getItem').and.callFake(function (key) {
+            if (key === 'osw.languages') {
+              return JSON.stringify({
+                version: '9.9.99',
+                ja: {
+                  login: {
+                    'enroll.call.setup': 'JA: enroll.call.setup'
+                  },
+                  country: {
+                    'JP': 'JA: country.JP'
+                  }
+                }
+              });
+            }
+          });
+          return setupLanguage({
+            // Note: No mocked request because it should be pulled from localStorage
+            settings: {
+              language: 'ja'
+            }
+          })
+          .then(expectJa);
+        });
+        itp('fetches language again (even if its cached) after the osw version is updated', function () {
+          spyOn(localStorage, 'getItem').and.callFake(function (key) {
+            if (key === 'osw.languages') {
+              return JSON.stringify({
+                version: '0.0.00',
+                ja: {
+                  login: {
+                    'enroll.call.setup': 'JA: some different string'
+                  },
+                  country: {
+                    'JP': 'JA: some other country value'
+                  }
+                }
+              });
+            }
+          });
+          return setupLanguage({
+            mockLanguageRequest: 'ja',
+            settings: {
+              language: 'ja'
+            }
+          })
+          .then(expectJa);
+        });
+        itp('will default i18n to english if properties do not exist in a given language', function () {
+          return setupLanguage({
+            settings: {
+              i18n: {
+                'zz-ZZ': {
+                  'enroll.call.setup': 'ZZ: enroll.call.setup',
+                  'country.JP': 'ZZ: country.JP'
+                }
+              }
+            }
+          })
+          .then(function (test) {
+            expect(test.form.submitButtonText()).toBe('Verify');
+          });
+        });
+      });
     });
 
   });

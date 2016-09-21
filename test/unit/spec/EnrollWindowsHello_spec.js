@@ -136,9 +136,11 @@ function (Okta,
         .then(setup)
         .then(function (test) {
           test.setNextResponse(responseSuccess);
-          expect(test.form.subtitleText()).toEqual(Okta.loc('enroll.windowsHello.subtitle', 'login'));
+          expect(test.form.subtitleText())
+            .toBe('Click below to enroll Windows Hello as a second form of authentication');
           test.form.submit();
-          expect(test.form.subtitleText()).toEqual(Okta.loc('enroll.windowsHello.subtitle.loading', 'login'));
+          expect(test.form.subtitleText())
+            .toBe('Please wait while Windows Hello is loading...');
         });
       });
 

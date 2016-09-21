@@ -88,6 +88,18 @@ module.exports = function (grunt) {
           }
         ]
       },
+      'i18n-to-target': {
+        files: [
+          {
+            expand: true,
+            cwd: 'node_modules/@okta/i18n/dist/',
+            src: [
+              'json/{login,country}*.json'
+            ],
+            dest: 'target/labels'
+          }
+        ]
+      },
       'assets-to-target': {
         files: [
           {
@@ -119,8 +131,13 @@ module.exports = function (grunt) {
                     router: true,
                     rememberMe: true,
                     multiOptionalFactorEnroll: true
+                  },
+                  // Host the assets (i.e. jsonp files) locally
+                  assets: {
+                    baseUrl: '/'
                   }
                 }, widgetRc.widgetOptions);
+
             return template({ options: JSON.stringify(options) });
           }
         },
@@ -142,8 +159,8 @@ module.exports = function (grunt) {
 
         if (spec) {
           // To run only one spec file, pass in the --spec option, i.e.
-          // "grunt test --spec CryptoUtil"
-          src.push('spec/' + spec + '_spec.js');
+          // "grunt test --spec CryptoUtil_spec.js"
+          src.push('spec/' + spec);
         }
         else {
           src.push('spec/**/*');
@@ -272,6 +289,7 @@ module.exports = function (grunt) {
     },
 
     exec: {
+      'clean': 'npm run clean',
       'build-dev': 'npm run build:webpack-dev',
       'build-prod': 'npm run build:webpack-prod',
       'build-no-jquery': 'npm run build:webpack-no-jquery',
@@ -365,9 +383,39 @@ module.exports = function (grunt) {
       }
     },
 
+    'generate-config': {
+      options: {
+        languageGlob: 'target/labels/json/login_*.json',
+        out: JS + '/config/config.json'
+      }
+    },
+
     'generate-latest-phone-codes': {
       options: {
         out: 'src/util/countryCallingCodes.js'
+      }
+    },
+
+    'generate-jsonp': {
+      target: {
+        files: [
+          {
+            expand: true,
+            cwd: 'node_modules/@okta/i18n/dist/',
+            src: 'json/{login,country}*.json',
+            dest: 'target/labels'
+          }
+        ]
+      },
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: 'node_modules/@okta/i18n/dist/',
+            src: 'json/{login,country}*.json',
+            dest: 'dist/labels'
+          }
+        ]
       }
     },
 
@@ -386,6 +434,8 @@ module.exports = function (grunt) {
 
   grunt.loadTasks('buildtools/phonecodes');
   grunt.loadTasks('buildtools/scsslint');
+  grunt.loadTasks('buildtools/generate-config');
+  grunt.loadTasks('buildtools/generate-jsonp');
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
@@ -427,7 +477,13 @@ module.exports = function (grunt) {
     '`grunt btest`, run `grunt test:build` to copy your changed files ' +
     'and refresh the browser',
     function (build) {
-      grunt.task.run(['copy', 'exec:build-test', 'jasmine:test' + (build ? ':build' : '')]);
+      grunt.task.run([
+        'exec:clean',
+        'copy',
+        'generate-config',
+        'exec:build-test',
+        'jasmine:test' + (build ? ':build' : '')
+      ]);
     }
   );
 
@@ -440,7 +496,15 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask('prebuild', function (flag) {
-    var tasks = ['retire', 'copy:src', 'copy:assets-to-target', 'copy:courage'];
+    var tasks = [
+      'retire',
+      'copy:src',
+      'copy:i18n-to-target',
+      'generate-config',
+      'generate-jsonp:target',
+      'copy:assets-to-target',
+      'copy:courage'
+    ];
     if (flag === 'minified') {
       tasks.push('compass:minify');
     } else {
@@ -472,7 +536,8 @@ module.exports = function (grunt) {
       'rename:css',
       'rename:css-theme',
       'copy:assets-to-dist',
-      'copy:i18n-to-dist'
+      'copy:i18n-to-dist',
+      'generate-jsonp:dist'
     ]
   );
 

@@ -17,32 +17,36 @@ define([
   'views/shared/TextBox'
 ], function (Okta, FactorUtil, FormType, TextBox) {
 
+  var _ = Okta._;
+
   var form = {
     title: function () {
       var factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
       return Okta.loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: Okta.loc('enroll.totp.enterCode', 'login'),
+    subtitle: _.partial(Okta.loc, 'enroll.totp.enterCode', 'login'),
     autoSave: true,
     noButtonBar: true,
     attributes: { 'data-se': 'step-sendcode' },
 
-    formChildren: [
-      FormType.Input({
-        name: 'passCode',
-        input: TextBox,
-        type: 'text',
-        placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
-        params: {
-          innerTooltip: Okta.loc('mfa.challenge.enterCode.tooltip', 'login')
-        }
-      }),
+    formChildren: function () {
+      return [
+        FormType.Input({
+          name: 'passCode',
+          input: TextBox,
+          type: 'text',
+          placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
+          params: {
+            innerTooltip: Okta.loc('mfa.challenge.enterCode.tooltip', 'login')
+          }
+        }),
 
-      FormType.Toolbar({
-        noCancelButton: true,
-        save: Okta.loc('oform.verify', 'login')
-      })
-    ]
+        FormType.Toolbar({
+          noCancelButton: true,
+          save: Okta.loc('oform.verify', 'login')
+        })
+      ];
+    }
   };
 
   return form;

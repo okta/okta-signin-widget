@@ -31,7 +31,7 @@ function (Okta,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  Expect.describe('EnrollSecurityKey(U2F)', function () {
+  Expect.describe('EnrollU2F', function () {
 
     function setup(startRouter) {
       var setNextResponse = Util.mockAjax();

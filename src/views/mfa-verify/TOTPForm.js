@@ -12,11 +12,13 @@
 
 define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
 
+  var _ = Okta._;
+
   return Okta.Form.extend({
     className: 'mfa-verify-totp',
     autoSave: true,
     noCancelButton: true,
-    save: Okta.loc('mfa.challenge.verify', 'login'),
+    save: _.partial(Okta.loc, 'mfa.challenge.verify', 'login'),
     scrollOnError: false,
     layout: 'o-form-theme',
     attributes: { 'data-se': 'factor-totp' },

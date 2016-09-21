@@ -12,9 +12,11 @@
 
 define(['okta', './FactorList'], function (Okta, FactorList) {
 
+  var _ = Okta._;
+
   return FactorList.extend({
 
-    listTitle: Okta.loc('enroll.choices.list.setup', 'login'),
+    listTitle: _.partial(Okta.loc, 'enroll.choices.list.setup', 'login'),
 
     className: function () {
       return FactorList.prototype.className + ' enroll-required-factor-list';

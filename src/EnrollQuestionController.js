@@ -48,34 +48,36 @@ function (Okta, FormController, Footer, TextBox) {
 
     Form: {
       autoSave: true,
-      title: Okta.loc('enroll.securityQuestion.setup', 'login'),
-      inputs: [
-        {
-          label: false,
-          'label-top': true,
-          name: 'question',
-          type: 'select',
-          wide: true,
-          options: function () {
-            return this.model.get('securityQuestions');
+      title: _.partial(Okta.loc, 'enroll.securityQuestion.setup', 'login'),
+      inputs: function () {
+        return [
+          {
+            label: false,
+            'label-top': true,
+            name: 'question',
+            type: 'select',
+            wide: true,
+            options: function () {
+              return this.model.get('securityQuestions');
+            },
+            params: {
+              searchThreshold: 25
+            }
           },
-          params: {
-            searchThreshold: 25
+          {
+            label: false,
+            'label-top': true,
+            placeholder: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
+            className: 'o-form-fieldset o-form-label-top auth-passcode',
+            name: 'answer',
+            input: TextBox,
+            type: 'text',
+            params: {
+              innerTooltip: Okta.loc('mfa.challenge.answer.tooltip', 'login')
+            }
           }
-        },
-        {
-          label: false,
-          'label-top': true,
-          placeholder: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
-          className: 'o-form-fieldset o-form-label-top auth-passcode',
-          name: 'answer',
-          input: TextBox,
-          type: 'text',
-          params: {
-            innerTooltip: Okta.loc('mfa.challenge.answer.tooltip', 'login')
-          }
-        }
-      ]
+        ];
+      }
     },
 
     Footer: Footer,

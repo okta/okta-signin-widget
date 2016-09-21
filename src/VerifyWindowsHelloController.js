@@ -62,13 +62,13 @@ function (Okta, FormController, FormType, webauthn, FooterSignout, WindowsHelloE
 
     Form: {
       autoSave: true,
-      title: Okta.loc('factor.windowsHello', 'login'),
+      title: _.partial(Okta.loc, 'factor.windowsHello', 'login'),
       subtitle: function () {
         return webauthn.isAvailable() ? Okta.loc('verify.windowsHello.subtitle', 'login') : '';
       },
-      save: Okta.loc('verify.windowsHello.save', 'login'),
+      save: _.partial(Okta.loc, 'verify.windowsHello.save', 'login'),
 
-       modelEvents: function () {
+      modelEvents: function () {
         if (!webauthn.isAvailable()) {
           return {};
         }

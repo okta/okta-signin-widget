@@ -24,11 +24,6 @@ define([
   var formTitleTpl = Okta.tpl(
     '<h2 data-se="o-form-head" class="okta-form-title o-form-head">{{title}}</h2>'
   );
-  var socialAuthIdpLabels = {
-    'facebook': Okta.loc('socialauth.facebook.label', 'login'),
-    'google': Okta.loc('socialauth.google.label', 'login'),
-    'linkedin': Okta.loc('socialauth.linkedin.label', 'login')
-  };
 
   return Okta.View.extend({
 
@@ -69,7 +64,7 @@ define([
           'data-se': attr
         },
         className: 'social-auth-button ' + attr,
-        title: socialAuthIdpLabels[type],
+        title: Okta.loc('socialauth.' + type + '.label'),
         events: {
           'click': function (e) {
             e.preventDefault();

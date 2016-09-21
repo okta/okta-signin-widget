@@ -50,6 +50,42 @@ define(['okta'], function (Okta) {
     return xhr;
   };
 
+  // Simple helper function to lowercase all strings in the given array
+  Util.toLower = function (strings) {
+    return _.map(strings, function (str) {
+      return str.toLowerCase();
+    });
+  };
+
+  // A languageCode can be composed of multiple parts, i.e:
+  // {{langage}}-{{region}}-{{dialect}}
+  //
+  // In these cases, it's necessary to generate a list of other possible
+  // combinations that we might support (in preferred order).
+  //
+  // For example:
+  // en-US -> [en-US, en]
+  // de-DE-bavarian -> [de-DE-bavarian, de-DE, de]
+  function expandLanguage(language) {
+    var expanded = [language],
+        parts = language.split('-');
+    while (parts.pop() && parts.length > 0) {
+      expanded.push(parts.join('-'));
+    }
+    return expanded;
+  }
+
+  // Following the rules of expanding one language, this will generate
+  // all potential languages in the given order (where higher priority is
+  // given to expanded languages over other downstream languages).
+  Util.expandLanguages = function (languages) {
+    return _.chain(languages)
+      .map(expandLanguage)
+      .flatten()
+      .uniq()
+      .value();
+  };
+
   return Util;
 
 });

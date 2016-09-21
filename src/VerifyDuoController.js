@@ -101,7 +101,7 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
     Form: {
       autoSave: true,
       noButtonBar: true,
-      title: Okta.loc('factor.duo'),
+      title: _.partial(Okta.loc, 'factor.duo'),
       attributes: { 'data-se': 'factor-duo' },
 
       postRender: function () {

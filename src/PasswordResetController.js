@@ -43,8 +43,8 @@ function (Okta, FormController, FormType, ValidationUtil, FooterSignout, TextBox
       }
     },
     Form: {
-      save: Okta.loc('password.reset', 'login'),
-      title: Okta.loc('password.reset.title', 'login'),
+      save: _.partial(Okta.loc, 'password.reset', 'login'),
+      title: _.partial(Okta.loc, 'password.reset.title', 'login'),
       subtitle: function () {
         var policy = this.options.appState.get('policy');
         if (!policy || !policy.complexity) {
@@ -77,28 +77,30 @@ function (Okta, FormController, FormType, ValidationUtil, FooterSignout, TextBox
           return Okta.loc('password.complexity.description', 'login', [requirements]);
         }
       },
-      formChildren: [
-        FormType.Input({
-          placeholder: Okta.loc('password.newPassword.placeholder', 'login'),
-          name: 'newPassword',
-          input: TextBox,
-          type: 'password',
-          params: {
-            innerTooltip: Okta.loc('password.newPassword.tooltip', 'login'),
-            icon: 'credentials-16'
-          }
-        }),
-        FormType.Input({
-          placeholder: Okta.loc('password.confirmPassword.placeholder', 'login'),
-          name: 'confirmPassword',
-          input: TextBox,
-          type: 'password',
-          params: {
-            innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login'),
-            icon: 'credentials-16'
-          }
-        })
-      ]
+      formChildren: function () {
+        return [
+          FormType.Input({
+            placeholder: Okta.loc('password.newPassword.placeholder', 'login'),
+            name: 'newPassword',
+            input: TextBox,
+            type: 'password',
+            params: {
+              innerTooltip: Okta.loc('password.newPassword.tooltip', 'login'),
+              icon: 'credentials-16'
+            }
+          }),
+          FormType.Input({
+            placeholder: Okta.loc('password.confirmPassword.placeholder', 'login'),
+            name: 'confirmPassword',
+            input: TextBox,
+            type: 'password',
+            params: {
+              innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login'),
+              icon: 'credentials-16'
+            }
+          })
+        ];
+      }
     },
     Footer: FooterSignout,
 

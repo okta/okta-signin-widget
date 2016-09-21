@@ -1197,7 +1197,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe(Okta.loc('error.auth.lockedOut', 'login'));
+          expect(test.form.errorMessage())
+            .toBe('Your account is locked. Please contact your administrator.');
         });
       });
       itp('redirects to "unlock" if authClient returns with LOCKED_OUT response and selfServiceUnlock is on', function () {

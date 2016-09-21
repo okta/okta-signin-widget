@@ -26,10 +26,11 @@ define([
   'models/AppState',
   './RouterUtil',
   './Animations',
-  './Errors'
+  './Errors',
+  'util/Bundles'
 ],
 function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, Settings, Header,
-          SecurityBeacon, AppState, RouterUtil, Animations, Errors) {
+          SecurityBeacon, AppState, RouterUtil, Animations, Errors, Bundles) {
 
   var _ = Okta._,
       $ = Okta.$;
@@ -48,6 +49,25 @@ function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, 
       return settings.get('features.securityImage');
     }
     return true;
+  }
+
+  function loadLanguage(appState, i18n, assetBaseUrl, assetRewrite) {
+    var timeout = setTimeout(function () {
+      // Trigger a spinner if we're waiting on a request for a new language.
+      appState.trigger('loading', true);
+    }, 200);
+    return Bundles.loadLanguage(
+      appState.get('languageCode'),
+      i18n,
+      {
+        baseUrl: assetBaseUrl,
+        rewrite: assetRewrite
+      }
+    )
+    .then(function () {
+      clearTimeout(timeout);
+      appState.trigger('loading', false);
+    });
   }
 
   return Okta.Router.extend({
@@ -113,11 +133,9 @@ function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, 
       this.listenTo(this.appState, 'navigate', function (url) {
         this.navigate(url, { trigger: true });
       });
-
     },
 
     execute: function (cb, args) {
-
       // Recovery flow with a token passed through widget settings
       var recoveryToken = this.settings.get('recoveryToken');
       if (recoveryToken) {
@@ -181,6 +199,19 @@ function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, 
         this.el = this.header.render().getContentEl();
       }
 
+      // If we need to load a language (or apply custom i18n overrides), do
+      // this now and re-run render after it's finished.
+      if (!Bundles.isLoaded(this.appState.get('languageCode'))) {
+        return loadLanguage(
+          this.appState,
+          this.settings.get('i18n'),
+          this.settings.get('assets.baseUrl'),
+          this.settings.get('assets.rewrite')
+        )
+        .then(_.bind(this.render, this, Controller, options))
+        .done();
+      }
+
       var oldController = this.controller;
       this.controller = new Controller(controllerOptions);
 
@@ -206,7 +237,7 @@ function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, 
           this.controller.postRenderAnimation();
           return;
         }
-        
+
         return Animations.swapPages({
           $parent: this.el,
           $oldRoot: oldController.$el,

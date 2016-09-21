@@ -21,6 +21,8 @@ define([
 ],
 function (Okta, FactorUtil, FormController, FormType, RouterUtil, ManualSetupFooter, TextBox) {
 
+  var _ = Okta._;
+
   return FormController.extend({
     className: 'enroll-manual-totp',
     Model: function () {
@@ -38,29 +40,31 @@ function (Okta, FactorUtil, FormController, FormType, RouterUtil, ManualSetupFoo
         var factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
         return Okta.loc('enroll.totp.title', 'login', [factorName]);
       },
-      subtitle: Okta.loc('enroll.totp.cannotScanBarcode', 'login'),
+      subtitle: _.partial(Okta.loc, 'enroll.totp.cannotScanBarcode', 'login'),
       noButtonBar: true,
       attributes: { 'data-se': 'step-manual-setup' },
 
-      formChildren: [
-        FormType.View({View: '\
-          <p class="okta-form-subtitle o-form-explain text-align-c">\
-            {{i18n code="enroll.totp.manualSetupInstructions" bundle="login"}}\
-          </p>\
-        '}),
+      formChildren: function () {
+        return [
+          FormType.View({View: '\
+            <p class="okta-form-subtitle o-form-explain text-align-c">\
+              {{i18n code="enroll.totp.manualSetupInstructions" bundle="login"}}\
+            </p>\
+          '}),
 
-        FormType.Input({
-          name: 'sharedSecret',
-          input: TextBox,
-          type: 'text',
-          disabled: true
-        }),
+          FormType.Input({
+            name: 'sharedSecret',
+            input: TextBox,
+            type: 'text',
+            disabled: true
+          }),
 
-        FormType.Toolbar({
-          noCancelButton: true,
-          save: Okta.loc('oform.next', 'login')
-        })
-      ]
+          FormType.Toolbar({
+            noCancelButton: true,
+            save: Okta.loc('oform.next', 'login')
+          })
+        ];
+      }
     },
 
     Footer: ManualSetupFooter,

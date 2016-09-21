@@ -26,6 +26,11 @@ function (Okta, Animations, LoadingBeacon) {
   }
 
   function removeBeacon (view) {
+    // There are some timing issues with removing beacons (i.e. the case of
+    // transitioning from loadingBeacon -> loadingBeacon)
+    if (!view.currentBeacon) {
+      return;
+    }
     view.currentBeacon.remove();
     view.currentBeacon = null;
   }
@@ -116,7 +121,8 @@ function (Okta, Animations, LoadingBeacon) {
           return Animations.implode(container)
           .then(function () {
             removeBeacon(self);
-          });
+          })
+          .done();
         case 'fade':
           // Other transitions are performed on the beacon container,
           // but this transition is on the content inside the beacon.
@@ -133,7 +139,8 @@ function (Okta, Animations, LoadingBeacon) {
           .then(function () {
             removeBeacon(self);
             addBeacon(self, NextBeacon, selector, options);
-          });
+          })
+          .done();
         case 'swap':
           return Animations.swapBeacons({
             $el: container,
@@ -148,7 +155,8 @@ function (Okta, Animations, LoadingBeacon) {
               }
               addBeacon(self, NextBeacon, selector, options);
             }
-          });
+          })
+          .done();
         case 'load':
           // Show the loading beacon. Add a couple of classes
           // before triggering the add beacon code.
@@ -165,7 +173,7 @@ function (Okta, Animations, LoadingBeacon) {
 
     // Show the loading beacon when the security image feature is not enabled.
     setLoadingBeacon: function (isLoading) {
-      if (!isLoading) {
+      if (!isLoading || isLoadingBeacon(this.currentBeacon)) {
         return;
       }
       this.setBeacon(LoadingBeacon, { loading: true });
@@ -180,7 +188,8 @@ function (Okta, Animations, LoadingBeacon) {
       .then(function () {
         removeBeacon(self);
         container.removeClass(LOADING_BEACON_CLS);
-      });
+      })
+      .done();
     },
 
     getTemplateData: function () {

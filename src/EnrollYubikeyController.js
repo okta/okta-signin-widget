@@ -42,10 +42,10 @@ function (Okta, FormType, FormController, Footer, TextBox) {
     },
 
     Form: {
-      title: Okta.loc('enroll.yubikey.title', 'login'),
-      subtitle: Okta.loc('enroll.yubikey.subtitle', 'login'),
+      title: _.partial(Okta.loc, 'enroll.yubikey.title', 'login'),
+      subtitle: _.partial(Okta.loc, 'enroll.yubikey.subtitle', 'login'),
       noCancelButton: true,
-      save: Okta.loc('mfa.challenge.verify', 'login'),
+      save: _.partial(Okta.loc, 'mfa.challenge.verify', 'login'),
       autoSave: true,
       className: 'enroll-yubikey',
       formChildren: [

@@ -87,11 +87,11 @@ function (Okta, FormController, FormType, webauthn, Footer, WindowsHelloErrorMes
     Form: {
       autoSave: true,
       hasSavingState: true,
-      title: Okta.loc('enroll.windowsHello.title', 'login'),
+      title: _.partial(Okta.loc, 'enroll.windowsHello.title', 'login'),
       subtitle: function () {
         return webauthn.isAvailable() ? Okta.loc('enroll.windowsHello.subtitle', 'login') : '';
       },
-      save: Okta.loc('enroll.windowsHello.save', 'login'),
+      save: _.partial(Okta.loc, 'enroll.windowsHello.save', 'login'),
 
       modelEvents: function () {
         if (!webauthn.isAvailable()) {

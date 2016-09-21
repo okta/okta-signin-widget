@@ -19,6 +19,7 @@
   ],
   "main": "./dist/js/okta-sign-in.min.js",
   "scripts": {
+    "clean": "rm -rf target",
     "lint:report": "grunt lint --checkstyle",
     "lint": "grunt lint",
     "test": "grunt test",
@@ -57,11 +58,11 @@
     "moment": "2.12.0",
     "normalize-url": "1.4.1",
     "open": "0.0.5",
-    "semver": "5.1.0",
-    "webpack": "1.13.1",
-    "webdriver-manager": "10.2.3",
+    "phantomjs": "1.9.20",
     "protractor": "4.0.4",
-    "phantomjs": "1.9.20"
+    "semver": "5.1.0",
+    "webdriver-manager": "10.2.3",
+    "webpack": "1.13.1"
   },
   "dependencies": {
     "handlebars": "4.0.5",

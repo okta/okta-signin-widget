@@ -18,6 +18,8 @@ define([
 ],
 function (Okta, Enums, FormController, FormType) {
 
+  var _ = Okta._;
+
   return FormController.extend({
     className: 'account-unlocked',
     Model: function () {
@@ -29,21 +31,23 @@ function (Okta, Enums, FormController, FormType) {
     },
 
     Form: {
-      title: Okta.loc('account.unlock.unlocked.title', 'login'),
-      subtitle: Okta.loc('account.unlock.unlocked.desc', 'login'),
+      title: _.partial(Okta.loc, 'account.unlock.unlocked.title', 'login'),
+      subtitle: _.partial(Okta.loc, 'account.unlock.unlocked.desc', 'login'),
       noButtonBar: true,
       attributes: { 'data-se': 'account-unlocked' },
-      formChildren: [
-        FormType.Button({
-          title: Okta.loc('goback', 'login'),
-          className: 'button button-primary button-wide',
-          attributes: {'data-se': 'back-button'},
-          click: function () {
-            this.state.set('navigateDir', Enums.DIRECTION_BACK);
-            this.options.appState.trigger('navigate', '');
-          }
-        })
-      ]
+      formChildren: function () {
+        return [
+          FormType.Button({
+            title: Okta.loc('goback', 'login'),
+            className: 'button button-primary button-wide',
+            attributes: {'data-se': 'back-button'},
+            click: function () {
+              this.state.set('navigateDir', Enums.DIRECTION_BACK);
+              this.options.appState.trigger('navigate', '');
+            }
+          })
+        ];
+      }
     }
 
   });

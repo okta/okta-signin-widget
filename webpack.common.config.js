@@ -21,8 +21,6 @@ module.exports = {
       'xdomain': 'vendor/xdomain-0.7.5',
       'nls': '@okta/i18n/dist/json',
       'okta': 'shared/util/Okta',
-
-      // Will be populated at runtime
       'shared/util/Bundles': 'util/Bundles',
 
       // Aliases for Courage
@@ -45,6 +43,7 @@ module.exports = {
       // Currently using BaseDropDown - switch this out at some point:
       'shared/views/components/DropDown': empty,
       'shared/views/forms/inputs/TextArea': empty,
+      // NOTE: These are NOT actually being ignored currently!!!!
       'shared/views/forms/inputs/GroupPicker': empty,
       'shared/views/forms/inputs/AppPicker': empty,
       'shared/views/forms/inputs/AppInstancePicker': empty,
@@ -56,7 +55,9 @@ module.exports = {
       'shared/views/forms/inputs/NumberBox': empty,
       'shared/views/forms/inputs/TextSelect': empty,
       'shared/views/forms/components/ReadModeBar': empty,
-      'shared/util/markdownToHtml': empty
+      'shared/util/markdownToHtml': empty,
+      'shared/util/Metrics': empty,
+      'shared/views/wizard/BaseWizard': empty
     }
   },
   plugins: [
@@ -66,25 +67,6 @@ module.exports = {
     new webpack.ProvidePlugin({
       process: empty,
       setImmediate: empty
-    }),
-
-    new webpack.DefinePlugin({
-      WIDGET_VERSION: JSON.stringify(packageJson.version)
     })
-  ],
-  resolveLoader: {
-    'alias': {
-      'i18n': 'json'
-    }
-  },
-  module: {
-    loaders: [
-      // Use json-loader only for config.json, because
-      // we alias i18n to the json loader, which
-      // causes webpack to attempt using json-loader
-      // twice. This behavior causes the build to fail 
-      // on i18n json files.
-      { test: /config\.json$/, loader: 'json' }
-    ]
-  }
+  ]
 };
