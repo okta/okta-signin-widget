@@ -31,7 +31,7 @@ define([
    * Converts options to our internal format, which distinguishes between
    * login and country bundles.
    *
-   * Example options.text passed in by the developer:
+   * Example options.i18n passed in by the developer:
    * {
    *   'en': {
    *     'needhelp': 'need help override',
@@ -53,14 +53,14 @@ define([
    *  }
    * }
    */
-  function parseOverrides(textOption) {
-    if (!textOption) {
+  function parseOverrides(i18n) {
+    if (!i18n) {
       return {};
     }
-    return _.mapObject(textOption, function (props) {
+    return _.mapObject(i18n, function (props) {
       var mapped = { login: {}, country: {} };
       if (!_.isObject(props)) {
-        throw new Error('Invalid format for "text"');
+        throw new Error('Invalid format for "i18n"');
       }
       _.each(props, function (val, key) {
         var split = key.split(/^country\./);

@@ -51,14 +51,14 @@ function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, 
     return true;
   }
 
-  function loadLanguage(appState, overrides, assetBaseUrl, assetRewrite) {
+  function loadLanguage(appState, i18n, assetBaseUrl, assetRewrite) {
     var timeout = setTimeout(function () {
       // Trigger a spinner if we're waiting on a request for a new language.
       appState.trigger('loading', true);
     }, 200);
     return Bundles.loadLanguage(
       appState.get('languageCode'),
-      overrides,
+      i18n,
       {
         baseUrl: assetBaseUrl,
         rewrite: assetRewrite
@@ -199,12 +199,12 @@ function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, 
         this.el = this.header.render().getContentEl();
       }
 
-      // If we need to load a language (or apply custom text), do this now and
-      // re-run render after it's finished.
+      // If we need to load a language (or apply custom i18n overrides), do
+      // this now and re-run render after it's finished.
       if (!Bundles.isLoaded(this.appState.get('languageCode'))) {
         return loadLanguage(
           this.appState,
-          this.settings.get('text'),
+          this.settings.get('i18n'),
           this.settings.get('assets.baseUrl'),
           this.settings.get('assets.rewrite')
         )

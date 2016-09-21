@@ -686,7 +686,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       });
     });
 
-   Expect.describe('Config: "text"', function () {
+   Expect.describe('Config: "i18n"', function () {
       itp('supports deprecated "labels" and "country" options', function () {
         return setupLanguage({
           settings: {
@@ -702,13 +702,13 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           test.form.selectCountry('JP');
           expect(test.form.titleText()).toBe('test override title');
           expect(test.form.selectedCountry()).toBe('Nihon');
-          Expect.deprecated('Use "text" instead of "labels" and "country"');
+          Expect.deprecated('Use "i18n" instead of "labels" and "country"');
         });
       });
       itp('overrides text in the login bundle', function () {
         return setupLanguage({
           settings: {
-            text: {
+            i18n: {
               'en': {
                 'enroll.call.setup': 'test override title'
               }
@@ -722,7 +722,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       itp('uses "country.COUNTRY" to override text in the country bundle', function () {
         return setupLanguage({
           settings: {
-            text: {
+            i18n: {
               'en': {
                 'country.JP': 'Nihon'
               }
@@ -973,7 +973,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           return setupLanguage({
             settings: {
               language: spy,
-              text: {
+              i18n: {
                 'zz-ZZ': {
                   'enroll.call.setup': 'ZZ: enroll.call.setup',
                   'country.JP': 'ZZ: country.JP'
@@ -1018,7 +1018,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         itp('can load a new language dynamically by updating the appState', function () {
           return setupLanguage({
             settings: {
-              text: {
+              i18n: {
                 'zz-ZZ': {
                   'enroll.call.setup': 'ZZ: enroll.call.setup',
                   'country.JP': 'ZZ: country.JP'
@@ -1110,10 +1110,10 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           })
           .then(expectJa);
         });
-        itp('will default text to english if properties do not exist in a given language', function () {
+        itp('will default i18n to english if properties do not exist in a given language', function () {
           return setupLanguage({
             settings: {
-              text: {
+              i18n: {
                 'zz-ZZ': {
                   'enroll.call.setup': 'ZZ: enroll.call.setup',
                   'country.JP': 'ZZ: country.JP'

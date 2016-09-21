@@ -72,9 +72,9 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
       'features.multiOptionalFactorEnroll': ['boolean', true, false],
       'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
 
-      // TEXT
+      // I18N
       'language': ['any', false], // Can be a string or a function
-      'text': ['object', false],
+      'i18n': ['object', false],
 
       // ASSETS
       'assets.baseUrl': ['string', false],
@@ -123,10 +123,10 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
 
     derived: {
       supportedLanguages: {
-        deps: ['text'],
-        fn: function (text) {
+        deps: ['i18n'],
+        fn: function (i18n) {
           // Developers can pass in their own languages
-          return _.union(config.supportedLanguages, _.keys(text));
+          return _.union(config.supportedLanguages, _.keys(i18n));
         },
         cache: true
       },
@@ -308,16 +308,16 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
       }
 
       if (options.labels || options.country) {
-        Logger.deprecate('Use "text" instead of "labels" and "country"');
+        Logger.deprecate('Use "i18n" instead of "labels" and "country"');
         var overrides = options.labels || {};
         _.each(options.country, function (val, key) {
           overrides['country.' + key] = val;
         });
         // Old behavior is to treat the override as a global override, so we
         // need to add these overrides to each language
-        options.text = {};
+        options.i18n = {};
         _.each(config.supportedLanguages, function (language) {
-          options.text[language] = overrides;
+          options.i18n[language] = overrides;
         });
         delete options.labels;
         delete options.country;
