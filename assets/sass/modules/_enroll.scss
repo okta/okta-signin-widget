@@ -192,6 +192,25 @@
 
 }
 
+// Windows Hello Enrollment
+.enroll-windows-hello,
+.verify-windows-hello {
+  .o-form-fieldset-container > .okta-form-subtitle {
+    margin-top: 15px;
+    margin-bottom: 20px;
+  }
+
+  .okta-infobox-error b {
+    font-weight: bold;
+  }
+
+  .okta-waiting-spinner {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+}
+
 /* TOTP Factor Enrollment */
 .device-type-input {
 
