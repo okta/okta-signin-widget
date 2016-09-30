@@ -56,7 +56,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
     Model: {
       props: {
         countryCode: ['string', true, 'US'],
-        phoneNumber: ['string', true],
+        phoneNumber: ['string', false],
         phoneExtension: ['string', false],
         lastEnrolledPhoneNumber: 'string',
         passCode: ['string', true],
