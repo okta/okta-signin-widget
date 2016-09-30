@@ -1542,6 +1542,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           callback.call(null, {
             origin: 'https://foo.com',
             data: {
+              state: OIDC_STATE,
               error: 'OAuth Error',
               error_description: 'Message from server'
             }

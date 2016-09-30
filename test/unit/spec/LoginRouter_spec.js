@@ -538,14 +538,14 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       itp('accepts the deprecated "authParams.scope" option, but converts it to "scopes"', function () {
         var options = {
           authParams: {
-            scope: 'testscope'
+            scope: ['openid', 'testscope']
           }
         };
         return setupOAuth2(options)
         .then(function (test) {
           var spy = test.ac.token.getWithoutPrompt;
           expect(spy.calls.count()).toBe(1);
-          expect(spy.calls.argsFor(0)[0].scopes).toBe('testscope');
+          expect(spy.calls.argsFor(0)[0].scopes).toEqual(['openid', 'testscope']);
           Expect.deprecated('Use "scopes" instead of "scope"');
        });
       });
@@ -641,7 +641,11 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           var callback = args[1];
           callback.call(null, {
             origin: 'https://foo.com',
-            data: {}
+            data: {
+              state: OIDC_STATE,
+              error: 'invalid_client',
+              error_description: 'Invalid value for client_id parameter.'
+            }
           });
           return tick();
         })
@@ -650,7 +654,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           var err = errorSpy.calls.argsFor(0)[0];
           expect(err instanceof Errors.OAuthError).toBe(true);
           expect(err.name).toBe('OAUTH_ERROR');
-          expect(err.message).toBe('OAuth flow response state doesn\'t match request state');
+          expect(err.message).toBe('Invalid value for client_id parameter.');
         });
       });
     });
