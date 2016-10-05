@@ -1,72 +1,100 @@
-var webpack = require('webpack');
-var path    = require('path');
-var empty = 'widget/empty';
-var packageJson = require('./package.json');
+var path      = require('path');
+var EMPTY     = 'widget/empty';
+var TARGET_JS = path.resolve(__dirname, 'target/js/');
 
-module.exports = {
-  entry: './target/js/widget/OktaSignIn.js',
-  output: {
-    path: path.resolve(__dirname, 'target/js/'),
-    filename: 'okta-sign-in.js',
-    library: 'OktaSignIn',
-    libraryTarget: 'umd'
-  },
-  resolve: {
-    root: [
-      path.resolve(__dirname, 'target/js')
-    ],
-    alias: {
-      'handlebars': 'handlebars/dist/handlebars',
-      'duo': 'vendor/Duo-Web-v2',
-      'xdomain': 'vendor/xdomain-0.7.5',
-      'nls': '@okta/i18n/dist/json',
-      'okta': 'shared/util/Okta',
-      'shared/util/Bundles': 'util/Bundles',
+// Return a function so that all consumers get a new copy of the config
+module.exports = function (outputFilename) {
+  return {
+    entry: './target/js/widget/OktaSignIn.js',
+    output: {
+      path: TARGET_JS,
+      filename: outputFilename,
+      library: 'OktaSignIn',
+      libraryTarget: 'umd'
+    },
+    resolve: {
+      root: [TARGET_JS],
+      alias: {
+        // General remapping
+        'nls': '@okta/i18n/dist/json',
+        'okta': 'shared/util/Okta',
+        'shared/util/Bundles': 'util/Bundles',
 
-      // Aliases for Courage
-      'qtip': 'vendor/plugins/jquery.qtip',
-      'imagesloaded': 'shared/vendor/plugins/imagesloaded',
-      'vendor/lib/q': 'q',
-      'eventie/eventie': 'shared/vendor/plugins/eventie',
-      'eventEmitter/EventEmitter': 'shared/vendor/plugins/EventEmitter',
-      'moment': empty,
-      'jqueryui': empty,
-      'mixpanel': empty,
-      'shared/views/datalist/DeadSimpleDataList': empty,
-      'shared/views/Backbone.TableView': empty,
-      'shared/util/TabbedRouter': empty,
-      'shared/util/DataListController': empty,
-      'shared/views/components/BaseFormDialog': empty,
-      'shared/views/components/BaseModalDialog': empty,
-      'shared/views/components/ConfirmationDialog': empty,
-      'shared/views/components/MultiViewModalDialog': empty,
-      // Currently using BaseDropDown - switch this out at some point:
-      'shared/views/components/DropDown': empty,
-      'shared/views/forms/inputs/TextArea': empty,
-      // NOTE: These are NOT actually being ignored currently!!!!
-      'shared/views/forms/inputs/GroupPicker': empty,
-      'shared/views/forms/inputs/AppPicker': empty,
-      'shared/views/forms/inputs/AppInstancePicker': empty,
-      'shared/views/forms/inputs/SUOrgsPicker': empty,
-      'shared/views/forms/inputs/UserPicker': empty,
-      'shared/views/forms/inputs/BasePicker': empty,
-      'shared/views/forms/inputs/TextPlusSelect': empty,
-      'shared/views/forms/inputs/DateBox': empty,
-      'shared/views/forms/inputs/NumberBox': empty,
-      'shared/views/forms/inputs/TextSelect': empty,
-      'shared/views/forms/components/ReadModeBar': empty,
-      'shared/util/markdownToHtml': empty,
-      'shared/util/Metrics': empty,
-      'shared/views/wizard/BaseWizard': empty
-    }
-  },
-  plugins: [
+        // Vendor files from courage that are remapped in OSW to point to an npm
+        // module in our package.json dependencies
+        'vendor/lib/q': 'q',
+        'vendor/plugins/jquery.placeholder': 'jquery-placeholder',
+        'handlebars': 'handlebars/dist/handlebars',
+        'qtip': 'qtip2',
+
+        // Duo has an npm module, but the latest version does not expose the
+        // v2 version. Continue to use the vendor file that is checked into
+        // source.
+        'duo': 'vendor/Duo-Web-v2',
+
+        // Modules from courage that we are not using. Be proactive about
+        // checking these - new modules need to be blacklisted here.
+        // Note: If the module is included relatively in the source file,
+        // override it in the null-loader configs below.
+        'moment': EMPTY,
+        'jqueryui': EMPTY,
+        'mixpanel': EMPTY,
+        'shared/views/datalist/DeadSimpleDataList': EMPTY,
+        'shared/views/Backbone.TableView': EMPTY,
+        'shared/util/TabbedRouter': EMPTY,
+        'shared/util/DataListController': EMPTY,
+        'shared/views/components/BaseFormDialog': EMPTY,
+        'shared/views/components/BaseModalDialog': EMPTY,
+        'shared/views/components/ConfirmationDialog': EMPTY,
+        'shared/views/components/MultiViewModalDialog': EMPTY,
+        'shared/views/components/DropDown': EMPTY,
+        'shared/util/markdownToHtml': EMPTY,
+        'shared/util/Metrics': EMPTY,
+        'shared/views/wizard/BaseWizard': EMPTY
+      }
+    },
+
+    module: {
+      loaders: [
+        // Shims
+        {
+          loader: 'imports?this=>window,jQuery=jquery',
+          test: require.resolve('jquery-placeholder')
+        },
+
+        // These are courage files that are loaded with relative paths, which
+        // cannot be excluded using the EMPTY method above.
+        {
+          loader: 'null-loader',
+          include: [
+            'views/forms/inputs/GroupPicker',
+            'views/forms/inputs/AppPicker',
+            'views/forms/inputs/AppInstancePicker',
+            'views/forms/inputs/SUOrgsPicker',
+            'views/forms/inputs/UserPicker',
+            'views/forms/inputs/BasePicker',
+            'views/forms/inputs/ZonePicker',
+            'views/forms/inputs/TextArea',
+            'views/forms/inputs/TextPlusSelect',
+            'views/forms/inputs/DateBox',
+            'views/forms/inputs/NumberBox',
+            'views/forms/inputs/TextSelect',
+            'views/forms/components/ReadModeBar',
+            'views/forms/inputs/ListInput',
+            'views/forms/inputs/SimpleCheckBoxSet'
+          ].map(function (file) {
+            return path.resolve(TARGET_JS, 'shared', file);
+          })
+        }
+      ]
+    },
+
     // Webpack attempts to add a polyfill for process
     // and setImmediate, because q uses process to see
     // if it's in a Node.js environment
-    new webpack.ProvidePlugin({
-      process: empty,
-      setImmediate: empty
-    })
-  ]
+    node: {
+      process: false,
+      setImmediate: false
+    }
+  };
 };

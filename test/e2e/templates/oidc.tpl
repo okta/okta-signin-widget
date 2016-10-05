@@ -1,3 +1,4 @@
+{{#> cdnLayout}}
 var CONTAINER_ID = 'okta-login-container';
 
 function addMessageToPage(id, msg) {
@@ -39,4 +40,4 @@ function initialize(options) {
     }
   );
 }
-
+{{/cdnLayout}}
