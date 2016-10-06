@@ -94,7 +94,9 @@ function (Okta, FormController, Footer, TextBox) {
       .then(function(questionsRes) {
         var questions = {};
         _.each(questionsRes, function (question) {
-          questions[question.question] = question.questionText;
+          var localizedQuestion = Okta.loc('security.' + question.question);
+          questions[question.question] = localizedQuestion.indexOf('L10N_ERROR') < 0 ?
+            localizedQuestion : question.questionText;
         });
         self.model.set('securityQuestions', questions);
       });

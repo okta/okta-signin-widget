@@ -1,4 +1,4 @@
-/*jshint maxparams:15 */
+/*jshint maxparams:18 */
 define([
   'vendor/lib/q',
   'underscore',
@@ -9,22 +9,25 @@ define([
   'helpers/dom/Beacon',
   'helpers/util/Expect',
   'LoginRouter',
+  'util/BrowserFeatures',
   'util/Util',
   'sandbox',
   'helpers/xhr/MFA_ENROLL_allFactors',
   'helpers/xhr/MFA_ENROLL_question_questions',
   'helpers/xhr/MFA_ENROLL_question_error',
-  'helpers/xhr/SUCCESS'
+  'helpers/xhr/SUCCESS',
+  'helpers/xhr/labels_login_ja',
+  'helpers/xhr/labels_country_ja'
 ],
-function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $sandbox,
-          resAllFactors, resQuestions, resError, resSuccess) {
+function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures, LoginUtil,
+          $sandbox, resAllFactors, resQuestions, resError, resSuccess, labelsLoginJa, labelsCountryJa) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
 
   Expect.describe('EnrollQuestions', function () {
 
-    function setup(startRouter) {
+    function setup(startRouter, languagesResponse) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -39,6 +42,9 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
       return tick()
       .then(function () {
         setNextResponse(resAllFactors);
+        if (languagesResponse) {
+          setNextResponse(languagesResponse);
+        }
         router.refreshAuthState('dummy-token');
         return Expect.waitForEnrollChoices();
       })
@@ -53,6 +59,14 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
           setNextResponse: setNextResponse
         });
       });
+    }
+
+    function setupWithLanguage(startRouter) {
+      spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
+      return setup(startRouter, [
+        _.extend({ delay: 0 }, labelsLoginJa),
+        _.extend({ delay: 0 }, labelsCountryJa)
+      ]);
     }
 
     itp('displays the correct factorBeacon', function () {
@@ -74,6 +88,26 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
           text: 'What is the food you least liked as a child?',
           val: 'disliked_food'
         });
+        expect(questions[1]).toEqual({
+          text: 'What is the name of your first stuffed animal?',
+          val: 'name_of_first_plush_toy'
+        });
+      });
+    });
+    itp('has a localized list of questions if language is specified', function () {
+      return setupWithLanguage().then(function (test) {
+        var questions = test.form.questionList();
+        expect(questions.length).toBe(20);
+        expect(questions[0]).toEqual({
+          text: 'JA: What is the food you least liked as a child?',
+          val: 'disliked_food'
+        });
+      });
+    });
+    itp('fallbacks to English if the question is not in the specified language bundle', function () {
+      return setupWithLanguage().then(function (test) {
+        var questions = test.form.questionList();
+        expect(questions.length).toBe(20);
         expect(questions[1]).toEqual({
           text: 'What is the name of your first stuffed animal?',
           val: 'name_of_first_plush_toy'

@@ -1057,7 +1057,8 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
               version: '9.9.99',
               ja: {
                 login: {
-                  'enroll.call.setup': 'JA: enroll.call.setup'
+                  'enroll.call.setup': 'JA: enroll.call.setup',
+                  'security.disliked_food': 'JA: What is the food you least liked as a child?'
                 },
                 country: {
                   'JP': 'JA: country.JP'
@@ -1073,7 +1074,8 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
                 version: '9.9.99',
                 ja: {
                   login: {
-                    'enroll.call.setup': 'JA: enroll.call.setup'
+                    'enroll.call.setup': 'JA: enroll.call.setup',
+                    'security.disliked_food': 'JA: What is the food you least liked as a child?'
                   },
                   country: {
                     'JP': 'JA: country.JP'

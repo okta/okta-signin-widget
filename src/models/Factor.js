@@ -119,7 +119,11 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           if (factorType !== 'question') {
             return null;
           }
-          return profile && profile.questionText;
+          if (profile) {
+            var localizedQuestion = Okta.loc('security.' + profile.question);
+            return localizedQuestion.indexOf('L10N_ERROR') < 0 ? localizedQuestion : profile.questionText;
+          }
+          return null;
         }
       },
       phoneNumber: {
