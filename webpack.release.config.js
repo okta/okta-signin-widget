@@ -1,4 +1,4 @@
-// The release webpack config exports two configs:
+// The release webpack config exports three configs:
 // 1. entryConfig - generates okta-sign-in.entry.js, a non-minified built
 //    version of the widget that does not include any vendor dependencies. This
 //    is meant to be imported through a require() statement using webpack or
@@ -6,6 +6,9 @@
 // 2. cdnConfig - generates okta.sign-in.min.js, a minified built version of the
 //    widget that includes everything necessary to run (including all vendor
 //    libraries)
+// 3. noJqueryConfig - generates okta.sign-in.no-jquery.js, which is used by
+//    our own internal login flow. We can remove this once we update loginpage
+//    to use webpack.
 
 var webpack = require('webpack');
 var fs      = require('fs');
@@ -89,4 +92,16 @@ cdnConfig.plugins = [
   new webpack.BannerPlugin(license)
 ];
 
-module.exports = [entryConfig, cdnConfig];
+// 3. noJqueryConfig
+var noJqueryConfig = config('okta-sign-in-no-jquery.js');
+noJqueryConfig.plugins = cdnConfig.plugins;
+noJqueryConfig.externals = {
+  'jquery': {
+    'commonjs': 'jquery',
+    'commonjs2': 'jquery',
+    'amd': 'jquery',
+    'root': 'jQuery'
+  }
+};
+
+module.exports = [entryConfig, cdnConfig, noJqueryConfig];

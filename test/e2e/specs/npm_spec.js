@@ -31,6 +31,7 @@ describe('OIDC flows', function() {
   it('can login and auth in a basic flow', function() {
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_3}}}', '{{{WIDGET_BASIC_PASSWORD_3}}}');
     oktaHome.waitForPageLoad();
+    expect(oktaHome.getLoggedInUser()).toEqual('Test');
   });
 
 });

@@ -19,11 +19,17 @@ class OktaHomePage {
 
   constructor() {
     this.mainContentEl = $('.main-content');
+    this.usernameEl = $('[data-se=user-menu] .option-selected-text');
   }
 
   waitForPageLoad() {
     browser.wait(EC.presenceOf(this.mainContentEl));
     expect(browser.getCurrentUrl()).toMatch('/app/UserHome');
+  }
+
+  getLoggedInUser() {
+    browser.wait(EC.presenceOf(this.usernameEl));
+    return this.usernameEl.getText();
   }
 
 }
