@@ -164,5 +164,11 @@ define(['okta'], function (Okta) {
     return appState && appState.get('rememberDeviceByDefault');
   };
 
+  fn.getSecurityQuestionLabel = function (questionObj) {
+    var localizedQuestion = Okta.loc('security.' + questionObj.question);
+    return localizedQuestion.indexOf('L10N_ERROR') < 0 ? localizedQuestion : questionObj.questionText;
+  };
+
+
   return fn;
 });

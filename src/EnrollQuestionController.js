@@ -13,10 +13,11 @@
 define([
   'okta',
   'util/FormController',
+  'util/FactorUtil',
   'views/enroll-factors/Footer',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, Footer, TextBox) {
+function (Okta, FormController, FactorUtil, Footer, TextBox) {
 
   var _ = Okta._;
 
@@ -94,9 +95,7 @@ function (Okta, FormController, Footer, TextBox) {
       .then(function(questionsRes) {
         var questions = {};
         _.each(questionsRes, function (question) {
-          var localizedQuestion = Okta.loc('security.' + question.question);
-          questions[question.question] = localizedQuestion.indexOf('L10N_ERROR') < 0 ?
-            localizedQuestion : question.questionText;
+          questions[question.question] = FactorUtil.getSecurityQuestionLabel(question);
         });
         self.model.set('securityQuestions', questions);
       });
