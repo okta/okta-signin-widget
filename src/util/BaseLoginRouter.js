@@ -29,7 +29,7 @@ define([
   './Errors',
   'util/Bundles'
 ],
-function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, Settings, Header,
+function (Okta, Backbone, BrowserFeatures, XDomain, RefreshAuthStateController, Settings, Header,
           SecurityBeacon, AppState, RouterUtil, Animations, Errors, Bundles) {
 
   var _ = Okta._,
@@ -98,7 +98,7 @@ function (Okta, Backbone, BrowserFeatures, xdomain, RefreshAuthStateController, 
         $.support.cors = true;
         xdomainSlaves = {};
         xdomainSlaves[this.settings.get('baseUrl')] = '/cors/proxy';
-        xdomain.slaves(xdomainSlaves);
+        XDomain.xdomain.slaves(xdomainSlaves);
       }
 
       $('body > div').on('click', function () {

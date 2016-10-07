@@ -4,7 +4,7 @@
   font-size: $font-size;
 }
 
-.qtip-new.qtip-custom .qtip-titlebar {
+.qtip-custom .qtip-titlebar {
   background-color: transparent;
   border: 0;
   font-weight: normal;
@@ -35,4 +35,51 @@
       opacity: 0.5;
     }
   }
+}
+
+/*! Custom qtip styles, based on dark theme */
+.qtip-custom {
+  background-color: #4d4d4d;
+  border-color: #303030;
+  color: #f3f3f3;
+  padding: 5px 8px 8px;
+}
+
+.qtip-custom.qtip-pos-bl {
+  border-radius: 4px 4px 4px 0;
+}
+
+.qtip-custom.qtip-pos-br {
+  border-radius: 4px 4px 0;
+}
+
+.qtip-custom .qtip-content {
+  color: #f3f3f3;
+}
+
+.qtip-custom .qtip-titlebar {
+  background-color: #404040;
+}
+
+.qtip-custom .qtip-icon {
+  border-color: #444;
+}
+
+.qtip-custom .qtip-titlebar .ui-state-hover {
+  border-color: #303030;
+}
+
+.qtip-custom .qtip-content ul {
+  list-style: disc;
+}
+
+.qtip-custom .qtip-content ul > li {
+  color: #69882a;
+  font-size: 20px;
+}
+
+.qtip-custom .qtip-content ul > li span {
+  color: #f3f3f3;
+  font-size: 12px;
+  vertical-align: middle;
 }

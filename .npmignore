@@ -10,6 +10,7 @@ build2
 .sass-cache
 .widgetrc
 .vscode
+.DS_Store
 
 # @okta/i18n module specific ignores
 **/node_modules/@okta/i18n/**/*.*

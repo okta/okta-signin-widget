@@ -89,7 +89,7 @@ To install [@okta/okta-signin-widget](https://www.npmjs.com/package/@okta/okta-s
 The widget source files and assets will be installed to `node_modules/@okta/okta-signin-widget/dist`, and will have this directory structure:
 
 ```bash
-node_modules/@okta/okta-signin/dist/
+node_modules/@okta/okta-signin-widget/dist/
   css/
     # Main CSS file for widget styles. Try not to override the classes in this
     # file when creating a custom theme - the classes/elements are subject to
@@ -104,8 +104,16 @@ node_modules/@okta/okta-signin/dist/
   img/
 
   js/
-    # Main JS file that exports the OktaSignIn object in UMD format
+    # CDN JS file that exports the OktaSignIn object in UMD format. This is
+    # packaged with everything needed to run the widget, including third party
+    # vendor files.
     okta-sign-in.min.js
+
+    # Main entry file that is used in the npm require(@okta/okta-signin-widget)
+    # flow. This does not package third party dependencies - these are pulled
+    # down through `npm install` (which allows you to use your own version of
+    # jquery, etc).
+    okta-sign-in.entry.js
 
   # Localized strings that are used to display all text and labels in the
   # widget. Three output formats are included - json, jsonp, and properties
@@ -183,7 +191,7 @@ signIn.renderEl(
       // user metadata and a sessionToken that can be converted to an Okta
       // session cookie:
       console.log(res.user);
-      res.setCookieAndRedirect('https://acme.com/app');
+      res.session.setCookieAndRedirect('https://acme.com/app');
 
       // If the widget is configured for OIDC with a single responseType, the
       // response will be the token.
@@ -873,6 +881,6 @@ The `.widgetrc` file is a configuration file that saves your local widget settin
 | --- | --- |
 | `npm start` | Build the widget, start the server, and open a browser window with the widget loaded |
 | `npm run build:dev` | Build an unminified version of the widget |
-| `npm run build:prod` | Build a minified, uglified version of the widget |
+| `npm run build:release` | Build a minified, uglified version of the widget |
 | `npm test` | Run unit tests |
 | `npm run lint` | Run jshint and scss linting tests |
