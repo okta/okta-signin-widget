@@ -13,10 +13,11 @@
 define([
   'okta',
   'util/FormController',
+  'util/FactorUtil',
   'views/enroll-factors/Footer',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, Footer, TextBox) {
+function (Okta, FormController, FactorUtil, Footer, TextBox) {
 
   var _ = Okta._;
 
@@ -94,7 +95,7 @@ function (Okta, FormController, Footer, TextBox) {
       .then(function(questionsRes) {
         var questions = {};
         _.each(questionsRes, function (question) {
-          questions[question.question] = question.questionText;
+          questions[question.question] = FactorUtil.getSecurityQuestionLabel(question);
         });
         self.model.set('securityQuestions', questions);
       });

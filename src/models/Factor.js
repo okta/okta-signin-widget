@@ -119,7 +119,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           if (factorType !== 'question') {
             return null;
           }
-          return profile && profile.questionText;
+          return profile && factorUtil.getSecurityQuestionLabel(profile);
         }
       },
       phoneNumber: {
