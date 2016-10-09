@@ -37,14 +37,13 @@ describe('OIDC flows', function() {
 
   describe('Okta as IDP', function () {
 
-    it('can login and exchange a sessionToken for an idToken', function() {
+    it('can login and exchange a sessionToken for an id_token', function() {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: 'rW47c465c1wc3MKzHznu',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'id_token',
-          responseMode: 'okta_post_message',
           scope: ['openid', 'email', 'profile', 'address', 'phone']
         },
         idps: [
@@ -55,17 +54,16 @@ describe('OIDC flows', function() {
         ]
       });
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
-      expect(oidcApp.getIdTokenUser()).toEqual('Saml Jackson');
+      expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
     });
 
-    it('can login and get an accessToken and idToken', function () {
+    it('can login and get a token and id_token', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: 'rW47c465c1wc3MKzHznu',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: ['id_token', 'token'],
-          responseMode: 'okta_post_message',
           scope: ['openid', 'email', 'profile', 'address', 'phone']
         },
         idps: [
@@ -76,8 +74,22 @@ describe('OIDC flows', function() {
         ]
       });
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_2}}}', '{{{WIDGET_BASIC_PASSWORD_2}}}');
-      expect(oidcApp.getIdTokenUser()).toEqual('Alexander Hamilton');
-      expect(oidcApp.getAccessTokenType()).toEqual('Bearer');
+      expect(oidcApp.getIdTokenUser()).toBe('Alexander Hamilton');
+      expect(oidcApp.getAccessTokenType()).toBe('Bearer');
+    });
+
+    it('logs in and uses the redirect flow for responseType "code"', function () {
+      setup({
+        baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+        clientId: 'rW47c465c1wc3MKzHznu',
+        redirectUri: 'http://localhost:3000/done',
+        authParams: {
+          responseType: 'code',
+          scope: ['openid', 'email', 'profile', 'address', 'phone']
+        }
+      });
+      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_4}}}', '{{{WIDGET_BASIC_PASSWORD_4}}}');
+      expect(oidcApp.getCodeFromQuery()).not.toBeNull();
     });
 
   });
@@ -105,7 +117,7 @@ describe('OIDC flows', function() {
         ]
       });
       primaryAuth.loginToSocialIdpPopup('facebook', '{{{WIDGET_FB_USER}}}', '{{{WIDGET_FB_PASSWORD}}}');
-      expect(oidcApp.getIdTokenUser()).toEqual('Tom Alacddgjegbja Qinson');
+      expect(oidcApp.getIdTokenUser()).toBe('Tom Alacddgjegbja Qinson');
     });
 
     it('can login and get an idToken in the redirect flow', function () {
@@ -126,7 +138,28 @@ describe('OIDC flows', function() {
         ]
       });
       primaryAuth.loginToSocialIdpRedirect('facebook', '{{{WIDGET_FB_USER_2}}}', '{{{WIDGET_FB_PASSWORD_2}}}');
-      expect(oidcApp.getIdTokenUser()).toEqual('Joe Alacchebjdhcf Bharambewitz');
+      expect(oidcApp.getIdTokenUser()).toBe('Joe Alacchebjdhcf Bharambewitz');
+    });
+
+    it('can login and get a "code" using the redirect flow', function () {
+      setup({
+        baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+        clientId: 'rW47c465c1wc3MKzHznu',
+        redirectUri: 'http://localhost:3000/done',
+        authParams: {
+          responseType: 'code',
+          scope: ['openid', 'email', 'profile', 'address', 'phone'],
+          display: 'page'
+        },
+        idps: [
+          {
+            'type': 'FACEBOOK',
+            'id': '0oa85bk5q6KOPeHCT0h7'
+          }
+        ]
+      });
+      primaryAuth.loginToSocialIdpRedirect('facebook', '{{{WIDGET_FB_USER_3}}}', '{{{WIDGET_FB_PASSWORD_3}}}');
+      expect(oidcApp.getCodeFromQuery()).not.toBeNull();
     });
 
   });
