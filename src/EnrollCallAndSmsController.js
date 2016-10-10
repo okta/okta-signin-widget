@@ -176,6 +176,15 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
       var numberFieldClassName = isCall ? 'enroll-call-phone' : 'enroll-sms-phone';
       var buttonClassName = isCall ? 'call-request-button' : 'sms-request-button';
 
+      var getPhoneNumberPlaceholder = function (model) {
+        if (model.appState.get('hasExistingPhones') && model.appState.get('existingPhoneNumber')) {
+          return model.appState.get('existingPhoneNumber');
+        }
+        else {
+          return Okta.loc('mfa.phoneNumber.placeholder', 'login');
+        }
+      };
+
       var formChildren = [
         FormType.Input({
           name: 'countryCode',
@@ -184,7 +193,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
           options: CountryUtil.getCountries()
         }),
         FormType.Input({
-          placeholder: Okta.loc('mfa.phoneNumber.placeholder', 'login'),
+          placeholder: getPhoneNumberPlaceholder(this.model),
           className: numberFieldClassName,
           name: 'phoneNumber',
           input: PhoneTextBox,
