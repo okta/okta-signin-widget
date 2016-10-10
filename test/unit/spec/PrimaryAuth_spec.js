@@ -7,6 +7,7 @@ define([
   'util/Util',
   'okta',
   'helpers/mocks/Util',
+  'helpers/dom/AuthContainer',
   'helpers/dom/PrimaryAuthForm',
   'helpers/dom/Beacon',
   'LoginRouter',
@@ -25,8 +26,8 @@ define([
   'helpers/xhr/ERROR_throttle',
   'sandbox'
 ],
-function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
-          Router, BrowserFeatures, Errors, SharedUtil, Expect, resSecurityImage,
+function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm,
+          Beacon, Router, BrowserFeatures, Errors, SharedUtil, Expect, resSecurityImage,
           resSecurityImageFail, resSuccess, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, $sandbox) {
 
@@ -78,12 +79,14 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       processCreds: processCredsSpy
     }, settings));
     Util.registerRouter(router);
+    var authContainer = new AuthContainer($sandbox);
     var form = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
     router.primaryAuth();
     Util.mockJqueryCss();
     return Expect.waitForPrimaryAuth({
       router: router,
+      authContainer: authContainer,
       form: form,
       beacon: beacon,
       ac: authClient,
@@ -267,6 +270,11 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       itp('has a security beacon if features.securityImage is true', function () {
         return setup({ features: { securityImage: true }}, [resSecurityImage]).then(function (test) {
           expect(test.beacon.isSecurityBeacon()).toBe(true);
+        });
+      });
+      itp('beacon could be minimized if it is a security beacon', function () {
+        return setup({ features: { securityImage: true }}, [resSecurityImage]).then(function (test) {
+          expect(test.authContainer.canBeMinimized()).toBe(true);
         });
       });
       itp('does not show a beacon if features.securityImage is false', function () {

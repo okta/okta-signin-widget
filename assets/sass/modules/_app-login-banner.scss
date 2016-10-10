@@ -33,10 +33,20 @@
       padding: 10px 0;
     }
 
+    @include max-height-mq(660px) {
+      padding: 5px 0;
+    }
+
     h1 {
       font-size: 24px;
       font-weight: lighter;
       line-height: 26px;
+    }
+
+    p {
+      @include max-height-mq(660px) {
+        display: none;
+      }
     }
   }
 

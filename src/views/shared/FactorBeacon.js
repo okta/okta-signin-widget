@@ -42,6 +42,10 @@ function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
       }
     },
 
+    initialize: function () {
+      this.options.appState.set('beaconType', 'factor');
+    },
+
     getTemplateData: function () {
       var factors = this.options.appState.get('factors'),
           factor, className;
