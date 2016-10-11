@@ -79,6 +79,7 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       Util.registerRouter(router);
       router.on('pageRendered', eventSpy);
       spyOn(authClient.token, 'getWithoutPrompt').and.callThrough();
+      spyOn(authClient.token.getWithRedirect, '_setLocation');
       return tick({
         router: router,
         ac: authClient,
@@ -535,6 +536,35 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
     });
 
     Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function () {
+
+      function expectAuthorizeUrl(url, options) {
+          var expectedUrl = 'https://foo.com/oauth2/v1/authorize?' +
+            'client_id=someClientId&' +
+            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+            'response_type=' + options.responseType + '&' +
+            'response_mode=' + options.responseMode + '&' +
+            'state=' + OIDC_STATE + '&' +
+            'nonce=' + OIDC_NONCE + '&';
+          if (options.display) {
+            expectedUrl += 'display=' + options.display + '&';
+          }
+          if (options.prompt) {
+            expectedUrl += 'prompt=' + options.prompt + '&';
+          }
+          expectedUrl += '' +
+            'sessionToken=THE_SESSION_TOKEN&' +
+            'scope=openid%20email';
+          expect(url).toBe(expectedUrl);
+      }
+
+      function expectCodeRedirect(options) {
+        return function (test) {
+          var spy = test.ac.token.getWithRedirect._setLocation;
+          expect(spy.calls.count()).toBe(1);
+          expectAuthorizeUrl(spy.calls.argsFor(0)[0], options);
+        };
+      }
+
       itp('accepts the deprecated "authParams.scope" option, but converts it to "scopes"', function () {
         var options = {
           authParams: {
@@ -549,21 +579,30 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           Expect.deprecated('Use "scopes" instead of "scope"');
        });
       });
+      itp('redirects instead of using an iframe if the responseType is "code"', function () {
+        return setupOAuth2({'authParams.responseType': 'code'})
+        .then(expectCodeRedirect({responseMode: 'query', responseType:'code'}));
+      });
+      itp('redirects if there are multiple responseTypes, and one is "code"', function () {
+        return setupOAuth2({'authParams.responseType': ['id_token', 'code']})
+        .then(expectCodeRedirect({responseMode: 'fragment', 'responseType': 'id_token%20code'}));
+      });
+      itp('redirects instead of using an iframe if display is "page"', function () {
+        return setupOAuth2({'authParams.display': 'page'})
+        .then(expectCodeRedirect({
+          responseMode: 'fragment',
+          responseType: 'id_token',
+          display: 'page'
+        }));
+      });
       itp('creates an iframe with the correct url when authStatus is SUCCESS', function () {
         return setupOAuth2()
         .then(function (test) {
-          expect(test.iframeElem.src).toBe(
-            'https://foo.com/oauth2/v1/authorize?' +
-            'client_id=someClientId&' +
-            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-            'response_type=id_token&' +
-            'response_mode=okta_post_message&' +
-            'state=' + OIDC_STATE +
-            '&nonce=' + OIDC_NONCE +
-            '&prompt=none&' +
-            'sessionToken=THE_SESSION_TOKEN&' +
-            'scope=openid%20email'
-          );
+          expectAuthorizeUrl(test.iframeElem.src, {
+            responseType: 'id_token',
+            responseMode: 'okta_post_message',
+            prompt: 'none'
+          });
           Expect.isNotVisible($(test.iframeElem));
         });
       });

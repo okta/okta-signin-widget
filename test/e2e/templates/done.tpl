@@ -13,6 +13,7 @@ var oktaSignIn = new OktaSignIn({
   'baseUrl': '{{{WIDGET_TEST_SERVER}}}',
   'clientId': 'rW47c465c1wc3MKzHznu'
 });
+addMessageToPage('page', 'oidc_app');
 
 if (oktaSignIn.token.hasTokensInUrl()) {
   oktaSignIn.token.parseTokensFromUrl(
