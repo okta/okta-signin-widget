@@ -106,3 +106,8 @@
   @include social-auth-button-template(url('../img/icons/login/linkedin_logo.png'),
           $linkedin-icon-bg-color, $linkedin-label-bg-color, $linkedin-border-color);
 }
+
+.social-auth-microsoft-button {
+  @include social-auth-button-template(url('../img/icons/login/microsoft_logo.png'),
+          $microsoft-icon-bg-color, $microsoft-label-bg-color, $microsoft-border-color);
+}
