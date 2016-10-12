@@ -2,8 +2,12 @@ define(['./Form'], function (Form) {
 
   return Form.extend({
 
-    hasErrorNotWindows: function () {
-      return this.el('o-form-error-not-windows').length == 1;
+    hasErrorWindowsHello: function () {
+      return this.el('o-form-error-windows-hello').length == 1;
+    },
+
+    spinner: function () {
+      return this.el('o-form-okta-waiting-spinner');
     },
 
     backLink: function () {

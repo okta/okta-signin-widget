@@ -83,7 +83,7 @@ define(['okta'], function (Okta) {
     },
     'WINDOWS_HELLO': {
       label: 'factor.windowsHello',
-      description: 'factor.windowsHello.description',
+      description: 'factor.windowsHello.signin.description',
       iconClassName: 'mfa-windows-hello',
       sortOrder: 10
     },

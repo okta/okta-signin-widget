@@ -16,16 +16,31 @@ define([
   ],
   function (Okta, BaseView) {
 
+    // Have to be unescaped for the html in enroll.windowsHello.error.notConfiguredHtml
     var template = '\
       <span class="icon error-24"></span>\
-      <h4><strong>{{i18n code="enroll.windowsHello.error.notWindows" bundle="login"}}</strong></h4>\
+      <h4><strong>{{{message}}}</strong></h4>\
     ';
 
     return BaseView.extend({
       template: template,
       className: 'okta-infobox-error infobox infobox-error infobox-md margin-btm-25',
       attributes: {
-        'data-se': 'o-form-error-not-windows'
+        'data-se': 'o-form-error-windows-hello'
+      },
+
+      message: '',
+
+      initialize: function (options) {
+        if (options && options.message) {
+          this.message = options.message;
+        }
+      },
+
+      getTemplateData: function () {
+        return {
+          message: this.message
+        };
       }
     });
   });

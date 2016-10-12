@@ -4,59 +4,40 @@ define([
   'util/webauthn'
 ],
 function (Q, Expect, webauthn) {
-  /* globals fail */
 
   Expect.describe('webauthn', function () {
 
     function setupMsCredentials() {
       window.msCredentials = {
-        makeCredential: function (accountInfo/*, cryptoParams, challenge*/) {
+        makeCredential: function (/*accountInfo, cryptoParams, challenge*/) {
           var result = Q.defer();
-
-          switch (accountInfo.userId) {
-          case 'NotSupportedUserId':
-            result.reject({
-              message: 'NotSupportedError'
-            });
-            break;
-
-          default:
-            result.resolve({
-              id: 'msCredentials_ID',
-              algorithm: 'msCredentials_ALGO',
-              publicKey: 'msCredentials_PUBLIC'
-            });
-            break;
-          }
+          result.resolve({
+            id: 'msCredentials_ID',
+            algorithm: 'msCredentials_ALGO',
+            publicKey: 'msCredentials_PUBLIC'
+          });
 
           return result.promise;
         },
 
-        getAssertion: function (challenge/*, filters*/) {
+        getAssertion: function (/*challenge, filters*/) {
           var result = Q.defer();
 
-          switch (challenge) {
-          case 'NotSupported':
-            result.reject({
-              message: 'NotSupportedError'
-            });
-            break;
-
-          default:
-            result.resolve({
-              id: 'msCredentials_ID',
-              signature: {
-                clientData: 'CLIENT_DATA',
-                authnrData: 'AUTH_DATA',
-                signature: 'SIGNATURE'
-              }
-            });
-            break;
-          }
+          result.resolve({
+            id: 'msCredentials_ID',
+            signature: {
+              clientData: 'CLIENT_DATA',
+              authnrData: 'AUTH_DATA',
+              signature: 'SIGNATURE'
+            }
+          });
 
           return result.promise;
         }
       };
+
+      spyOn(window.msCredentials, 'makeCredential').and.callThrough();
+      spyOn(window.msCredentials, 'getAssertion').and.callThrough();
     }
 
     afterEach(function () {
@@ -72,32 +53,22 @@ function (Q, Expect, webauthn) {
       expect(webauthn.isAvailable()).toBe(true);
     });
 
-    it('makeCredential response has xhr.responseJSON.errorSummary if NotSupportedError is triggered',
-      function (done) {
+    it('msCredentials.makeCredential was called with correct parameters',
+      function () {
         setupMsCredentials();
 
-        webauthn.makeCredential({userId: 'NotSupportedUserId'}, [{algorithm: 'RSASSA-PKCS1-v1_5'}])
-        .then(function () {
-          fail('Promise should be failed.');
-        })
-        .fail(function (error) {
-          expect(error.xhr.responseJSON.errorSummary).toBeDefined();
-          done();
-        });
+        webauthn.makeCredential({userId: 'SomeUserId'}, [{algorithm: 'RSASSA-PKCS1-v1_5'}]);
+        expect(window.msCredentials.makeCredential)
+        .toHaveBeenCalledWith({userId: 'SomeUserId'}, [{type: 'FIDO_2_0', algorithm: 'RSASSA-PKCS1-v1_5'}], undefined);
       });
 
-    it('getAssertion response has xhr.responseJSON.errorSummary if NotSupportedError is triggered',
-      function (done) {
+    it('msCredentials.getAssertion was called with correct parameters',
+      function () {
         setupMsCredentials();
 
-        webauthn.getAssertion('NotSupported', [{id: 'msCredentials_ID'}])
-        .then(function () {
-          fail('Promise should be failed.');
-        })
-        .fail(function (error) {
-          expect(error.xhr.responseJSON.errorSummary).toBeDefined();
-          done();
-        });
+        webauthn.getAssertion('SomeChallenge', [{id: 'msCredentials_ID'}]);
+        expect(window.msCredentials.getAssertion)
+        .toHaveBeenCalledWith('SomeChallenge', {accept: [{type: 'FIDO_2_0', id: 'msCredentials_ID'}]});
       });
   });
 });

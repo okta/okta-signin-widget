@@ -203,17 +203,38 @@ function (Q,
       return Q();
     }
 
-    function emulateWindows() {
+    function emulateWindows(errorType) {
       spyOn(webauthn, 'isAvailable').and.returnValue(true);
 
       spyOn(webauthn, 'getAssertion').and.callFake(function () {
         var deferred = Q.defer();
 
-        deferred.resolve({
-          authenticatorData: 'authenticatorData1234',
-          clientData: 'clientData1234',
-          signature: 'signature1234'
-        });
+        switch (errorType) {
+        case 'AbortError':
+          deferred.reject({
+            message: 'AbortError'
+          });
+          break;
+
+        case 'NotSupportedError':
+          deferred.reject({
+            message: 'NotSupportedError'
+          });
+          break;
+
+        case 'NotFoundError':
+          deferred.reject({
+            message: 'NotFoundError'
+          });
+          break;
+
+        default:
+          deferred.resolve({
+            authenticatorData: 'authenticatorData1234',
+            clientData: 'clientData1234',
+            signature: 'signature1234'
+          });
+        }
 
         return tick(deferred.promise);
       });
@@ -1798,7 +1819,7 @@ function (Q,
           return emulateNotWindows()
           .then(setupWebauthn)
           .then(function (test) {
-            expect(test.form.el('o-form-error-not-windows').length).toBe(1);
+            expect(test.form.el('o-form-error-windows-hello').length).toBe(1);
             expect(test.form.submitButton().length).toBe(0);
           });
         });
@@ -1807,7 +1828,7 @@ function (Q,
           return emulateWindows()
           .then(setupWebauthn)
           .then(function (test) {
-            expect(test.form.el('o-form-error-not-windows').length).toBe(0);
+            expect(test.form.el('o-form-error-windows-hello').length).toBe(0);
             expect(test.form.submitButton().length).toBe(1);
           });
         });
@@ -1835,6 +1856,63 @@ function (Q,
                 stateToken: 'testStateToken'
               }
             });
+          });
+        });
+
+        itp('does not show error if webauthn.getAssertion fails with AbortError', function () {
+          return emulateWindows('AbortError')
+          .then(setupWebauthn)
+          .then(function (test) {
+            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(webauthn.getAssertion, test);
+          })
+          .then(function (test) {
+            expect(test.form.el('o-form-error-windows-hello').length).toBe(0);
+            expect($.ajax.calls.count()).toBe(2);
+          });
+        });
+
+        itp('shows error if webauthn.getAssertion fails with NotSupportedError', function () {
+          return emulateWindows('NotSupportedError')
+          .then(setupWebauthn)
+          .then(function (test) {
+            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(webauthn.getAssertion, test);
+          })
+          .then(function (test) {
+            expect(test.form.el('o-form-error-windows-hello').length).toBe(1);
+            expect($.ajax.calls.count()).toBe(2);
+          });
+        });
+
+        itp('shows error if webauthn.getAssertion fails with NotFound', function () {
+          return emulateWindows('NotFoundError')
+          .then(setupWebauthn)
+          .then(function (test) {
+            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(webauthn.getAssertion, test);
+          })
+          .then(function (test) {
+            expect(test.form.el('o-form-error-windows-hello').length).toBe(1);
+            expect($.ajax.calls.count()).toBe(2);
+          });
+        });
+
+        itp('subtitle changes after submitting the form', function () {
+          return emulateWindows()
+          .then(setupWebauthn)
+          .then(function (test) {
+            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            expect(test.form.subtitleText()).toBe('Verify your identity with Windows Hello');
+            test.form.submit();
+            expect(test.form.subtitleText()).toBe('Please wait while Windows Hello is loading...');
+            return Expect.waitForSpyCall(webauthn.getAssertion, test);
+          })
+          .then(function (test) {
+            expect(test.form.subtitleText()).toBe('Signing into Okta...');
           });
         });
       });
