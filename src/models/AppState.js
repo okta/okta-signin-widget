@@ -402,21 +402,6 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return !!factor._embedded.phones.length;
         }
       },
-      'existingPhoneNumber': {
-        deps: ['lastAuthResponse'],
-        fn: function (res) {
-          if (!res._embedded || !res._embedded.factors) {
-            return false;
-          }
-          var factors = res._embedded.factors;
-          var factor = _.findWhere(factors, {factorType: 'sms', provider: 'OKTA'});
-          if (!factor || !factor._embedded) {
-            return false;
-          }
-
-          return factor._embedded.phones.length ? factor._embedded.phones[0].profile.phoneNumber : null;
-        }
-      },
       'isUndefinedUser': {
         deps: ['securityImage'],
         fn: function (securityImage) {

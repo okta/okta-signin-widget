@@ -56,7 +56,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
     Model: {
       props: {
         countryCode: ['string', true, 'US'],
-        phoneNumber: ['string', false],
+        phoneNumber: ['string', true],
         phoneExtension: ['string', false],
         lastEnrolledPhoneNumber: 'string',
         passCode: ['string', true],
@@ -98,6 +98,12 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         var phoneExtension = this.get('phoneExtension');
 
         self.trigger('errors:clear');
+
+        if(!phoneNumber.length) {
+          self.trigger('invalid', self, {'phoneNumber': 'model.validation.field.blank'});
+          return;
+        }
+
         return this.doTransaction(function(transaction) {
           var isMfaEnroll = transaction.status === 'MFA_ENROLL';
           var profileData = {
@@ -176,15 +182,6 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
       var numberFieldClassName = isCall ? 'enroll-call-phone' : 'enroll-sms-phone';
       var buttonClassName = isCall ? 'call-request-button' : 'sms-request-button';
 
-      var getPhoneNumberPlaceholder = function (model) {
-        if (model.appState.get('hasExistingPhones') && model.appState.get('existingPhoneNumber')) {
-          return model.appState.get('existingPhoneNumber');
-        }
-        else {
-          return Okta.loc('mfa.phoneNumber.placeholder', 'login');
-        }
-      };
-
       var formChildren = [
         FormType.Input({
           name: 'countryCode',
@@ -193,7 +190,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
           options: CountryUtil.getCountries()
         }),
         FormType.Input({
-          placeholder: getPhoneNumberPlaceholder(this.model),
+          placeholder: Okta.loc('mfa.phoneNumber.placeholder', 'login'),
           className: numberFieldClassName,
           name: 'phoneNumber',
           input: PhoneTextBox,
