@@ -24,7 +24,7 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
 
   var DEFAULT_LANGUAGE = 'en';
 
-  var supportedIdps = ['facebook', 'google', 'linkedin'],
+  var supportedIdps = ['facebook', 'google', 'linkedin', 'microsoft'],
       supportedResponseTypes = ['token', 'id_token', 'code'],
       oauthRedirectTpl = Okta.tpl('{{origin}}');
 

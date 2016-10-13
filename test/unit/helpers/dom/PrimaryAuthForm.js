@@ -170,6 +170,10 @@ define(['jquery', 'underscore', './Form'], function ($, _, Form) {
     linkedInButton: function () {
       return this.socialAuthButton('linkedin');
     },
+    
+    microsoftButton: function () {
+      return this.socialAuthButton('microsoft');
+    },
 
     socialAuthButtons: function () {
       return this.$('.social-auth-button');

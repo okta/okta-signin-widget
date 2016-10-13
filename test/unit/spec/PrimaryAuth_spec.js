@@ -1289,6 +1289,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
               id: '0oaidiw9udOSceD1111'
             },
             {
+              type: 'MICROSOFT',
+              id: '0oaidiw9udOSceD3333'
+            },
+            {
               type: 'TWEETER',
               id: '0oaidiw9udOSceD2222'
             }
@@ -1296,9 +1300,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         };
         return setup(settings).then(function (test) {
           expect(test.form.hasSocialAuthDivider()).toBe(true);
-          expect(test.form.socialAuthButtons().length).toBe(3);
+          expect(test.form.socialAuthButtons().length).toBe(4);
           expect(test.form.facebookButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
+          expect(test.form.microsoftButton().length).toBe(1);
           expect(test.form.linkedInButton().length).toBe(1);
         });
       });
@@ -1316,6 +1321,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             {
               type: 'GOOGLE',
               id: '0oaidiw9udOSceD5678'
+            },
+            {
+              type: 'MICROSOFT',
+              id: '0oaidiw9udOSceD3333'
             }
           ]
         };
@@ -1324,6 +1333,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(buttons.eq(0).hasClass('social-auth-linkedin-button')).toBe(true);
           expect(buttons.eq(1).hasClass('social-auth-facebook-button')).toBe(true);
           expect(buttons.eq(2).hasClass('social-auth-google-button')).toBe(true);
+          expect(buttons.eq(3).hasClass('social-auth-microsoft-button')).toBe(true);
         });
       });
       itp('shows the buttons below the primary auth form by default', function () {
@@ -1340,16 +1350,21 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             {
               type: 'GOOGLE',
               id: '0oaidiw9udOSceD5678'
+            },
+            {
+              type: 'MICROSOFT',
+              id: '0oaidiw9udOSceD3333'
             }
           ]
         };
         return setup(settings).then(function (test) {
           expect(test.form.primaryAuthForm().index()).toBe(0);
           expect(test.form.socialAuthContainer().index()).toBe(1);
-          expect(test.form.socialAuthButtons().length).toBe(3);
+          expect(test.form.socialAuthButtons().length).toBe(4);
           expect(test.form.facebookButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
           expect(test.form.linkedInButton().length).toBe(1);
+          expect(test.form.microsoftButton().length).toBe(1);
         });
       });
       itp('shows the buttons above the primary auth form when "idpDisplay" is passed as "PRIMARY"', function () {
