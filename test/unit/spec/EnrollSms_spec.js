@@ -249,6 +249,12 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
           expect(test.form.hasErrors()).toBe(false);
         });
       });
+      itp('validation error if phone number field is blank', function () {
+        return setupAndSendCode(resEnrollSuccess, 'US', '')
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+          });
+      });
       itp('enrolls with correct info when sendCode is clicked', function () {
         return setupAndSendCode(resEnrollSuccess, 'AQ', '12345678900')
         .then(function () {

@@ -98,6 +98,12 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         var phoneExtension = this.get('phoneExtension');
 
         self.trigger('errors:clear');
+
+        if(!phoneNumber.length) {
+          self.trigger('invalid', self, {'phoneNumber': 'model.validation.field.blank'});
+          return;
+        }
+
         return this.doTransaction(function(transaction) {
           var isMfaEnroll = transaction.status === 'MFA_ENROLL';
           var profileData = {
