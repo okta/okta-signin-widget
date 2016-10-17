@@ -18,30 +18,6 @@ define([
 function (Okta, Q) {
 
   function adaptToOkta(promise) {
-    promise = promise['catch'](function (error) {
-      var errorSummary = null;
-
-      switch (error.message) {
-      case 'NotSupportedError':
-        errorSummary = Okta.loc('enroll.windowsHello.error.notConfigured', 'login');
-        break;
-
-      case 'NotFoundError':
-        break;
-
-      case 'AbortError':
-        break;
-      }
-
-      error.xhr = {
-        responseJSON: {
-          errorSummary: errorSummary
-        }
-      };
-
-      throw error;
-    });
-
     return new Q(promise);
   }
 

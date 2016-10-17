@@ -31,7 +31,7 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
+function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
           $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
           resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
           resMfaEnroll, errorInvalidToken, Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
@@ -79,6 +79,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       Util.registerRouter(router);
       router.on('pageRendered', eventSpy);
       spyOn(authClient.token, 'getWithoutPrompt').and.callThrough();
+      spyOn(authClient.token.getWithRedirect, '_setLocation');
       return tick({
         router: router,
         ac: authClient,
@@ -210,10 +211,10 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       });
     });
     itp('initializes xdomain if cors is limited', function () {
-      spyOn(xdomain, 'slaves');
+      spyOn(XDomain.xdomain, 'slaves');
       spyOn(BrowserFeatures, 'corsIsLimited').and.returnValue(true);
       return setup().then(function () {
-        expect(xdomain.slaves).toHaveBeenCalledWith({
+        expect(XDomain.xdomain.slaves).toHaveBeenCalledWith({
           'https://foo.com': '/cors/proxy'
         });
       });
@@ -225,10 +226,10 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       });
     });
     itp('does not initialize xdomain if cors is supported fully', function () {
-      spyOn(xdomain, 'slaves');
+      spyOn(XDomain.xdomain, 'slaves');
       spyOn(BrowserFeatures, 'corsIsLimited').and.returnValue(false);
       return setup().then(function () {
-        expect(xdomain.slaves).not.toHaveBeenCalled();
+        expect(XDomain.xdomain.slaves).not.toHaveBeenCalled();
       });
     });
 
@@ -535,35 +536,73 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
     });
 
     Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function () {
+
+      function expectAuthorizeUrl(url, options) {
+          var expectedUrl = 'https://foo.com/oauth2/v1/authorize?' +
+            'client_id=someClientId&' +
+            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+            'response_type=' + options.responseType + '&' +
+            'response_mode=' + options.responseMode + '&' +
+            'state=' + OIDC_STATE + '&' +
+            'nonce=' + OIDC_NONCE + '&';
+          if (options.display) {
+            expectedUrl += 'display=' + options.display + '&';
+          }
+          if (options.prompt) {
+            expectedUrl += 'prompt=' + options.prompt + '&';
+          }
+          expectedUrl += '' +
+            'sessionToken=THE_SESSION_TOKEN&' +
+            'scope=openid%20email';
+          expect(url).toBe(expectedUrl);
+      }
+
+      function expectCodeRedirect(options) {
+        return function (test) {
+          var spy = test.ac.token.getWithRedirect._setLocation;
+          expect(spy.calls.count()).toBe(1);
+          expectAuthorizeUrl(spy.calls.argsFor(0)[0], options);
+        };
+      }
+
       itp('accepts the deprecated "authParams.scope" option, but converts it to "scopes"', function () {
         var options = {
           authParams: {
-            scope: 'testscope'
+            scope: ['openid', 'testscope']
           }
         };
         return setupOAuth2(options)
         .then(function (test) {
           var spy = test.ac.token.getWithoutPrompt;
           expect(spy.calls.count()).toBe(1);
-          expect(spy.calls.argsFor(0)[0].scopes).toBe('testscope');
+          expect(spy.calls.argsFor(0)[0].scopes).toEqual(['openid', 'testscope']);
           Expect.deprecated('Use "scopes" instead of "scope"');
        });
+      });
+      itp('redirects instead of using an iframe if the responseType is "code"', function () {
+        return setupOAuth2({'authParams.responseType': 'code'})
+        .then(expectCodeRedirect({responseMode: 'query', responseType:'code'}));
+      });
+      itp('redirects if there are multiple responseTypes, and one is "code"', function () {
+        return setupOAuth2({'authParams.responseType': ['id_token', 'code']})
+        .then(expectCodeRedirect({responseMode: 'fragment', 'responseType': 'id_token%20code'}));
+      });
+      itp('redirects instead of using an iframe if display is "page"', function () {
+        return setupOAuth2({'authParams.display': 'page'})
+        .then(expectCodeRedirect({
+          responseMode: 'fragment',
+          responseType: 'id_token',
+          display: 'page'
+        }));
       });
       itp('creates an iframe with the correct url when authStatus is SUCCESS', function () {
         return setupOAuth2()
         .then(function (test) {
-          expect(test.iframeElem.src).toBe(
-            'https://foo.com/oauth2/v1/authorize?' +
-            'client_id=someClientId&' +
-            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-            'response_type=id_token&' +
-            'response_mode=okta_post_message&' +
-            'state=' + OIDC_STATE +
-            '&nonce=' + OIDC_NONCE +
-            '&prompt=none&' +
-            'sessionToken=THE_SESSION_TOKEN&' +
-            'scope=openid%20email'
-          );
+          expectAuthorizeUrl(test.iframeElem.src, {
+            responseType: 'id_token',
+            responseMode: 'okta_post_message',
+            prompt: 'none'
+          });
           Expect.isNotVisible($(test.iframeElem));
         });
       });
@@ -641,7 +680,11 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           var callback = args[1];
           callback.call(null, {
             origin: 'https://foo.com',
-            data: {}
+            data: {
+              state: OIDC_STATE,
+              error: 'invalid_client',
+              error_description: 'Invalid value for client_id parameter.'
+            }
           });
           return tick();
         })
@@ -650,7 +693,7 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           var err = errorSpy.calls.argsFor(0)[0];
           expect(err instanceof Errors.OAuthError).toBe(true);
           expect(err.name).toBe('OAUTH_ERROR');
-          expect(err.message).toBe('OAuth flow response state doesn\'t match request state');
+          expect(err.message).toBe('Invalid value for client_id parameter.');
         });
       });
     });
@@ -1053,7 +1096,8 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
               version: '9.9.99',
               ja: {
                 login: {
-                  'enroll.call.setup': 'JA: enroll.call.setup'
+                  'enroll.call.setup': 'JA: enroll.call.setup',
+                  'security.disliked_food': 'JA: What is the food you least liked as a child?'
                 },
                 country: {
                   'JP': 'JA: country.JP'
@@ -1069,7 +1113,8 @@ function (Okta, Q, Backbone, xdomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
                 version: '9.9.99',
                 ja: {
                   login: {
-                    'enroll.call.setup': 'JA: enroll.call.setup'
+                    'enroll.call.setup': 'JA: enroll.call.setup',
+                    'security.disliked_food': 'JA: What is the food you least liked as a child?'
                   },
                   country: {
                     'JP': 'JA: country.JP'

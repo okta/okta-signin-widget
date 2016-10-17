@@ -7,6 +7,7 @@ define([
   'util/Util',
   'okta',
   'helpers/mocks/Util',
+  'helpers/dom/AuthContainer',
   'helpers/dom/PrimaryAuthForm',
   'helpers/dom/Beacon',
   'LoginRouter',
@@ -25,8 +26,8 @@ define([
   'helpers/xhr/ERROR_throttle',
   'sandbox'
 ],
-function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
-          Router, BrowserFeatures, Errors, SharedUtil, Expect, resSecurityImage,
+function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm,
+          Beacon, Router, BrowserFeatures, Errors, SharedUtil, Expect, resSecurityImage,
           resSecurityImageFail, resSuccess, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, $sandbox) {
 
@@ -78,12 +79,14 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       processCreds: processCredsSpy
     }, settings));
     Util.registerRouter(router);
+    var authContainer = new AuthContainer($sandbox);
     var form = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
     router.primaryAuth();
     Util.mockJqueryCss();
     return Expect.waitForPrimaryAuth({
       router: router,
+      authContainer: authContainer,
       form: form,
       beacon: beacon,
       ac: authClient,
@@ -267,6 +270,11 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
       itp('has a security beacon if features.securityImage is true', function () {
         return setup({ features: { securityImage: true }}, [resSecurityImage]).then(function (test) {
           expect(test.beacon.isSecurityBeacon()).toBe(true);
+        });
+      });
+      itp('beacon could be minimized if it is a security beacon', function () {
+        return setup({ features: { securityImage: true }}, [resSecurityImage]).then(function (test) {
+          expect(test.authContainer.canBeMinimized()).toBe(true);
         });
       });
       itp('does not show a beacon if features.securityImage is false', function () {
@@ -1281,6 +1289,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
               id: '0oaidiw9udOSceD1111'
             },
             {
+              type: 'MICROSOFT',
+              id: '0oaidiw9udOSceD3333'
+            },
+            {
               type: 'TWEETER',
               id: '0oaidiw9udOSceD2222'
             }
@@ -1288,9 +1300,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
         };
         return setup(settings).then(function (test) {
           expect(test.form.hasSocialAuthDivider()).toBe(true);
-          expect(test.form.socialAuthButtons().length).toBe(3);
+          expect(test.form.socialAuthButtons().length).toBe(4);
           expect(test.form.facebookButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
+          expect(test.form.microsoftButton().length).toBe(1);
           expect(test.form.linkedInButton().length).toBe(1);
         });
       });
@@ -1308,6 +1321,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
             {
               type: 'GOOGLE',
               id: '0oaidiw9udOSceD5678'
+            },
+            {
+              type: 'MICROSOFT',
+              id: '0oaidiw9udOSceD3333'
             }
           ]
         };
@@ -1316,6 +1333,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           expect(buttons.eq(0).hasClass('social-auth-linkedin-button')).toBe(true);
           expect(buttons.eq(1).hasClass('social-auth-facebook-button')).toBe(true);
           expect(buttons.eq(2).hasClass('social-auth-google-button')).toBe(true);
+          expect(buttons.eq(3).hasClass('social-auth-microsoft-button')).toBe(true);
         });
       });
       itp('shows the buttons below the primary auth form by default', function () {
@@ -1332,16 +1350,21 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
             {
               type: 'GOOGLE',
               id: '0oaidiw9udOSceD5678'
+            },
+            {
+              type: 'MICROSOFT',
+              id: '0oaidiw9udOSceD3333'
             }
           ]
         };
         return setup(settings).then(function (test) {
           expect(test.form.primaryAuthForm().index()).toBe(0);
           expect(test.form.socialAuthContainer().index()).toBe(1);
-          expect(test.form.socialAuthButtons().length).toBe(3);
+          expect(test.form.socialAuthButtons().length).toBe(4);
           expect(test.form.facebookButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
           expect(test.form.linkedInButton().length).toBe(1);
+          expect(test.form.microsoftButton().length).toBe(1);
         });
       });
       itp('shows the buttons above the primary auth form when "idpDisplay" is passed as "PRIMARY"', function () {
@@ -1542,6 +1565,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, PrimaryAuthForm, Beacon,
           callback.call(null, {
             origin: 'https://foo.com',
             data: {
+              state: OIDC_STATE,
               error: 'OAuth Error',
               error_description: 'Message from server'
             }

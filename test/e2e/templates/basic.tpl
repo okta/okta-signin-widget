@@ -1,3 +1,4 @@
+{{#> cdnLayout}}
 var options = {
   'baseUrl': '{{{WIDGET_TEST_SERVER}}}'
 };
@@ -11,3 +12,4 @@ oktaSignIn.renderEl(
     }
   }
 );
+{{/cdnLayout}}

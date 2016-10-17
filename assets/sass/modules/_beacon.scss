@@ -18,6 +18,12 @@
       left: -20px;
     }
   }
+
+  .can-remove-beacon & {
+    @include max-height-mq(550px) {
+      display: none;
+    }
+  }
 }
 
 .beacon-blank {

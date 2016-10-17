@@ -83,7 +83,7 @@ define(['okta'], function (Okta) {
     },
     'WINDOWS_HELLO': {
       label: 'factor.windowsHello',
-      description: 'factor.windowsHello.description',
+      description: 'factor.windowsHello.signin.description',
       iconClassName: 'mfa-windows-hello',
       sortOrder: 10
     },
@@ -163,6 +163,12 @@ define(['okta'], function (Okta) {
   fn.getRememberDeviceValue = function (appState) {
     return appState && appState.get('rememberDeviceByDefault');
   };
+
+  fn.getSecurityQuestionLabel = function (questionObj) {
+    var localizedQuestion = Okta.loc('security.' + questionObj.question);
+    return localizedQuestion.indexOf('L10N_ERROR') < 0 ? localizedQuestion : questionObj.questionText;
+  };
+
 
   return fn;
 });

@@ -24,7 +24,7 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
 
   var DEFAULT_LANGUAGE = 'en';
 
-  var supportedIdps = ['facebook', 'google', 'linkedin'],
+  var supportedIdps = ['facebook', 'google', 'linkedin', 'microsoft'],
       supportedResponseTypes = ['token', 'id_token', 'code'],
       oauthRedirectTpl = Okta.tpl('{{origin}}');
 
@@ -99,7 +99,7 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
       },
 
       // Can either be a string or an array, i.e.
-      // - Single value: 'id_token' or 'token'
+      // - Single value: 'id_token', 'token', or 'code'
       // - Multiple values: ['id_token', 'token']
       'authParams.responseType': ['any', false, 'id_token'],
       'authParams.scopes': ['array', false],

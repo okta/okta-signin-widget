@@ -1,3 +1,4 @@
+{{#> cdnLayout}}
 // OIDC Redirect Flow - this is the page that is redirected to with
 // tokens in the parameters
 
@@ -12,6 +13,7 @@ var oktaSignIn = new OktaSignIn({
   'baseUrl': '{{{WIDGET_TEST_SERVER}}}',
   'clientId': 'rW47c465c1wc3MKzHznu'
 });
+addMessageToPage('page', 'oidc_app');
 
 if (oktaSignIn.token.hasTokensInUrl()) {
   oktaSignIn.token.parseTokensFromUrl(
@@ -23,4 +25,4 @@ if (oktaSignIn.token.hasTokensInUrl()) {
     }
   );
 }
-
+{{/cdnLayout}}

@@ -15,10 +15,11 @@ define([
   'util/FormController',
   'util/FormType',
   'util/webauthn',
+  'views/shared/Spinner',
   'views/enroll-factors/Footer',
   'views/mfa-verify/WindowsHelloErrorMessageView'
 ],
-function (Okta, FormController, FormType, webauthn, Footer, WindowsHelloErrorMessageView) {
+function (Okta, FormController, FormType, webauthn, Spinner, Footer, WindowsHelloErrorMessageView) {
 
   var _ = Okta._;
 
@@ -60,6 +61,7 @@ function (Okta, FormController, FormType, webauthn, Footer, WindowsHelloErrorMes
         return this.doTransaction(function (transaction) {
           var activation = transaction.factor.activation;
           var user = transaction.user;
+          var model = this;
 
           var accountInfo = {
             rpDisplayName: activation.rpDisplayName,
@@ -79,6 +81,17 @@ function (Okta, FormController, FormType, webauthn, Footer, WindowsHelloErrorMes
               publicKey: creds.publicKey,
               attestation: null
             });
+          })
+          .fail(function (error) {
+            switch (error.message) {
+            case 'AbortError':
+            case 'NotFoundError':
+            case 'NotSupportedError':
+              model.trigger('abort', error.message);
+              return transaction;
+            }
+
+            throw error;
           });
         });
       }
@@ -86,12 +99,16 @@ function (Okta, FormController, FormType, webauthn, Footer, WindowsHelloErrorMes
 
     Form: {
       autoSave: true,
-      hasSavingState: true,
+      hasSavingState: false,
       title: _.partial(Okta.loc, 'enroll.windowsHello.title', 'login'),
       subtitle: function () {
         return webauthn.isAvailable() ? Okta.loc('enroll.windowsHello.subtitle', 'login') : '';
       },
       save: _.partial(Okta.loc, 'enroll.windowsHello.save', 'login'),
+
+      customSavingState: {
+        stop: 'abort'
+      },
 
       modelEvents: function () {
         if (!webauthn.isAvailable()) {
@@ -100,7 +117,8 @@ function (Okta, FormController, FormType, webauthn, Footer, WindowsHelloErrorMes
 
         return {
           'request': '_startEnrollment',
-          'error': '_stopEnrollment'
+          'error': '_stopEnrollment',
+          'abort': '_stopEnrollment'
         };
       },
 
@@ -110,25 +128,65 @@ function (Okta, FormController, FormType, webauthn, Footer, WindowsHelloErrorMes
 
       formChildren: function () {
         var result = [];
+
         if (!webauthn.isAvailable()) {
           result.push(
             FormType.View(
-              { View: WindowsHelloErrorMessageView },
-              { selector: '.o-form-error-container' }
+              { View: new WindowsHelloErrorMessageView(
+                { message: Okta.loc('enroll.windowsHello.error.notWindows', 'login') }) },
+              { selector: '.o-form-error-container'}
             )
           );
         }
+
+        result.push(FormType.View({ View: new Spinner({ model: this.model, visible: false }) }));
+
         return result;
       },
 
       _startEnrollment: function () {
         this.subtitle = Okta.loc('enroll.windowsHello.subtitle.loading', 'login');
+
+        this.model.trigger('spinner:show');
+        this.$('.o-form-button-bar').addClass('hide');
+        this._resetErrorMessage();
+
         this.render();
       },
 
-      _stopEnrollment: function () {
+      _stopEnrollment: function (errorMessage) {
         this.subtitle = Okta.loc('enroll.windowsHello.subtitle', 'login');
+
+        this.model.trigger('spinner:hide');
+        this.$('.o-form-button-bar').removeClass('hide');
+
+        var message;
+        switch (errorMessage){
+        case 'NotSupportedError':
+          message = Okta.loc('enroll.windowsHello.error.notConfiguredHtml', 'login');
+          break;
+        }
+
+        this._resetErrorMessage();
+
+        if (message){
+          var messageView = new WindowsHelloErrorMessageView({
+            message: message
+          });
+
+          this.$('.o-form-error-container').addClass('o-form-has-errors');
+          this.add(messageView, { selector: '.o-form-error-container' });
+          this._errorMessageView = this.last();
+        }
+
         this.render();
+      },
+
+
+      _resetErrorMessage: function () {
+        this._errorMessageView && this._errorMessageView.remove();
+        this._errorMessageView = undefined;
+        this.clearErrors();
       }
     },
 

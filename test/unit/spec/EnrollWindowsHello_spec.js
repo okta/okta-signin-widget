@@ -77,16 +77,31 @@ function (Okta,
       return Q();
     }
 
-    function emulateWindows() {
+    function emulateWindows(errorType) {
       spyOn(webauthn, 'isAvailable').and.returnValue(true);
 
       spyOn(webauthn, 'makeCredential').and.callFake(function () {
         var deferred = Q.defer();
 
-        deferred.resolve({
-          credential: {id: 'credentialId'},
-          publicKey: 'publicKey'
-        });
+        switch (errorType) {
+        case 'AbortError':
+          deferred.reject({
+            message: 'AbortError'
+          });
+          break;
+
+        case 'NotSupportedError':
+          deferred.reject({
+            message: 'NotSupportedError'
+          });
+          break;
+
+        default:
+          deferred.resolve({
+            credential: {id: 'credentialId'},
+            publicKey: 'publicKey'
+          });
+        }
 
         return tick(deferred.promise);
       });
@@ -117,7 +132,7 @@ function (Okta,
         return emulateNotWindows()
         .then(setup)
         .then(function (test) {
-          expect(test.form.hasErrorNotWindows()).toBe(true);
+          expect(test.form.hasErrorWindowsHello()).toBe(true);
           expect(test.form.submitButton().length).toBe(0);
         });
       });
@@ -126,7 +141,7 @@ function (Okta,
         return emulateWindows()
         .then(setup)
         .then(function (test) {
-          expect(test.form.hasErrorNotWindows()).toBe(false);
+          expect(test.form.hasErrorWindowsHello()).toBe(false);
           expect(test.form.submitButton().length).toBe(1);
         });
       });
@@ -185,6 +200,34 @@ function (Okta,
               attestation: null
             }
           });
+        });
+      });
+
+      itp('does not show error if webauthn.makeCredential fails with AbortError', function () {
+        return emulateWindows('AbortError')
+        .then(setup)
+        .then(function (test) {
+          test.setNextResponse([responseMfaEnrollActivateWebauthn, responseSuccess]);
+          test.form.submit();
+          return Expect.waitForSpyCall(webauthn.makeCredential, test);
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(2);
+          expect(test.form.hasErrorWindowsHello()).toBe(false);
+        });
+      });
+
+      itp('shows error if webauthn.makeCredential fails with NotSupportedError', function () {
+        return emulateWindows('NotSupportedError')
+        .then(setup)
+        .then(function (test) {
+          test.setNextResponse([responseMfaEnrollActivateWebauthn, responseSuccess]);
+          test.form.submit();
+          return Expect.waitForSpyCall(webauthn.makeCredential, test);
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(2);
+          expect(test.form.hasErrorWindowsHello()).toBe(true);
         });
       });
     });

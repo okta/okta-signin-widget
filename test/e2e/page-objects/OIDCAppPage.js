@@ -18,6 +18,7 @@ var EC = protractor.ExpectedConditions;
 class AppPage {
 
   constructor() {
+    this.pageEl = $('#page');
     this.idTokenUserEl = $('#idtoken_user');
     this.accessTokenTypeEl = $('#accesstoken_type');
   }
@@ -30,6 +31,14 @@ class AppPage {
   getAccessTokenType() {
     browser.wait(EC.presenceOf(this.accessTokenTypeEl));
     return this.accessTokenTypeEl.getText();
+  }
+
+  getCodeFromQuery() {
+    browser.wait(EC.presenceOf(this.pageEl));
+    return browser.getCurrentUrl().then(function (url) {
+      var matches = url.match(/code=([^&]+)/i);
+      return matches && matches[1];
+    });
   }
 
 }

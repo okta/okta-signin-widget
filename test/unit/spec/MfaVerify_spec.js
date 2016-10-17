@@ -1,4 +1,4 @@
-/*jshint maxparams:40, maxstatements:40, camelcase:false, newcap:false */
+/*jshint maxparams:41, maxstatements:40, camelcase:false, newcap:false */
 /*global JSON */
 define([
   'vendor/lib/q',
@@ -14,6 +14,7 @@ define([
   'helpers/dom/Beacon',
   'helpers/util/Expect',
   'LoginRouter',
+  'util/BrowserFeatures',
   'util/RouterUtil',
   'sandbox',
   'util/webauthn',
@@ -38,7 +39,9 @@ define([
   'helpers/xhr/MFA_REQUIRED_policy_always',
   'helpers/xhr/MFA_REQUIRED_policy_time_based_min',
   'helpers/xhr/MFA_REQUIRED_policy_time_based_hours',
-  'helpers/xhr/MFA_REQUIRED_policy_time_based_days'
+  'helpers/xhr/MFA_REQUIRED_policy_time_based_days',
+  'helpers/xhr/labels_login_ja',
+  'helpers/xhr/labels_country_ja'
 ],
 function (Q,
           _,
@@ -53,6 +56,7 @@ function (Q,
           Beacon,
           Expect,
           Router,
+          BrowserFeatures,
           RouterUtil,
           $sandbox,
           webauthn,
@@ -77,14 +81,16 @@ function (Q,
           resMfaAlwaysPolicy,
           resMfaTimePolicy_1Min,
           resMfaTimePolicy_2Hrs,
-          resMfaTimePolicy_2Days) {
+          resMfaTimePolicy_2Days,
+          labelsLoginJa,
+          labelsCountryJa) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
 
   Expect.describe('MFA Verify', function () {
 
-    function setup(res, selectedFactorProps, settings) {
+    function setup(res, selectedFactorProps, settings, languagesResponse) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -98,6 +104,9 @@ function (Q,
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
       setNextResponse(res);
+      if (languagesResponse) {
+        setNextResponse(languagesResponse);
+      }
       router.refreshAuthState('dummy-token');
       return Expect.waitForMfaVerify()
       .then(function () {
@@ -153,6 +162,14 @@ function (Q,
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
+    function setupSecurityQuestionLocalized() {
+      spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
+      return setup(resAllFactors, { factorType: 'question' }, {}, [
+        _.extend({ delay: 0 }, labelsLoginJa),
+        _.extend({ delay: 0 }, labelsCountryJa)
+      ]);
+    }
+
 
     function setupU2F(options) {
       if (!window.u2f || !window.u2f.sign) {
@@ -186,17 +203,38 @@ function (Q,
       return Q();
     }
 
-    function emulateWindows() {
+    function emulateWindows(errorType) {
       spyOn(webauthn, 'isAvailable').and.returnValue(true);
 
       spyOn(webauthn, 'getAssertion').and.callFake(function () {
         var deferred = Q.defer();
 
-        deferred.resolve({
-          authenticatorData: 'authenticatorData1234',
-          clientData: 'clientData1234',
-          signature: 'signature1234'
-        });
+        switch (errorType) {
+        case 'AbortError':
+          deferred.reject({
+            message: 'AbortError'
+          });
+          break;
+
+        case 'NotSupportedError':
+          deferred.reject({
+            message: 'NotSupportedError'
+          });
+          break;
+
+        case 'NotFoundError':
+          deferred.reject({
+            message: 'NotFoundError'
+          });
+          break;
+
+        default:
+          deferred.resolve({
+            authenticatorData: 'authenticatorData1234',
+            clientData: 'clientData1234',
+            signature: 'signature1234'
+          });
+        }
 
         return tick(deferred.promise);
       });
@@ -413,6 +451,11 @@ function (Q,
         itp('sets the label to the user\'s security question', function () {
           return setupSecurityQuestion().then(function (test) {
             expectLabelToBe(test, 'What is the food you least liked as a child?', 'answer');
+          });
+        });
+        itp('sets the label to the user\'s security question (localized)', function () {
+          return setupSecurityQuestionLocalized().then(function (test) {
+            expectLabelToBe(test, 'JA: What is the food you least liked as a child?', 'answer');
           });
         });
         itp('has an answer field', function () {
@@ -1776,7 +1819,7 @@ function (Q,
           return emulateNotWindows()
           .then(setupWebauthn)
           .then(function (test) {
-            expect(test.form.el('o-form-error-not-windows').length).toBe(1);
+            expect(test.form.el('o-form-error-windows-hello').length).toBe(1);
             expect(test.form.submitButton().length).toBe(0);
           });
         });
@@ -1785,7 +1828,7 @@ function (Q,
           return emulateWindows()
           .then(setupWebauthn)
           .then(function (test) {
-            expect(test.form.el('o-form-error-not-windows').length).toBe(0);
+            expect(test.form.el('o-form-error-windows-hello').length).toBe(0);
             expect(test.form.submitButton().length).toBe(1);
           });
         });
@@ -1813,6 +1856,63 @@ function (Q,
                 stateToken: 'testStateToken'
               }
             });
+          });
+        });
+
+        itp('does not show error if webauthn.getAssertion fails with AbortError', function () {
+          return emulateWindows('AbortError')
+          .then(setupWebauthn)
+          .then(function (test) {
+            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(webauthn.getAssertion, test);
+          })
+          .then(function (test) {
+            expect(test.form.el('o-form-error-windows-hello').length).toBe(0);
+            expect($.ajax.calls.count()).toBe(2);
+          });
+        });
+
+        itp('shows error if webauthn.getAssertion fails with NotSupportedError', function () {
+          return emulateWindows('NotSupportedError')
+          .then(setupWebauthn)
+          .then(function (test) {
+            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(webauthn.getAssertion, test);
+          })
+          .then(function (test) {
+            expect(test.form.el('o-form-error-windows-hello').length).toBe(1);
+            expect($.ajax.calls.count()).toBe(2);
+          });
+        });
+
+        itp('shows error if webauthn.getAssertion fails with NotFound', function () {
+          return emulateWindows('NotFoundError')
+          .then(setupWebauthn)
+          .then(function (test) {
+            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(webauthn.getAssertion, test);
+          })
+          .then(function (test) {
+            expect(test.form.el('o-form-error-windows-hello').length).toBe(1);
+            expect($.ajax.calls.count()).toBe(2);
+          });
+        });
+
+        itp('subtitle changes after submitting the form', function () {
+          return emulateWindows()
+          .then(setupWebauthn)
+          .then(function (test) {
+            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            expect(test.form.subtitleText()).toBe('Verify your identity with Windows Hello');
+            test.form.submit();
+            expect(test.form.subtitleText()).toBe('Please wait while Windows Hello is loading...');
+            return Expect.waitForSpyCall(webauthn.getAssertion, test);
+          })
+          .then(function (test) {
+            expect(test.form.subtitleText()).toBe('Signing into Okta...');
           });
         });
       });

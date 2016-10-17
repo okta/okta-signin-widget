@@ -111,6 +111,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       userPhoneNumber: 'string',
       factorActivationType: 'string',
       flashError: 'object',
+      beaconType: 'string',
 
       // Note: languageCode is special in that it is shared between Settings
       // and AppState. Settings is the *configured* language, and is static.

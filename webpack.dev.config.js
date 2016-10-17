@@ -1,6 +1,5 @@
-var _ = require('underscore');
-var commonConfig = require('./webpack.common.config');
+var common = require('./webpack.common.config');
+var devConfig = common('okta-sign-in.js');
+devConfig.devtool = '#inline-source-map';
+module.exports = devConfig;
 
-module.exports = _.extend(commonConfig, {
-  devtool: '#inline-source-map'
-});

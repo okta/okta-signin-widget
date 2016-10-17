@@ -17,10 +17,8 @@ module.exports = function (grunt) {
       JASMINE_TEST_FILE     = JASMINE_TEST_FOLDER + '/login.html',
       JSHINT_OUT_FILE       = 'build2/loginjs-checkstyle-result.xml',
       DIST                  = 'dist',
-      ASSETS                = 'assets/',
-      SASS                  = ASSETS + 'sass',
+      SASS                  = 'target/sass',
       SCSSLINT_OUT_FILE     = 'build2/loginscss-checkstyle-result.xml',
-      CSS                   = 'target/css',
       WIDGET_RC             = '.widgetrc',
 
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
@@ -64,19 +62,16 @@ module.exports = function (grunt) {
     },
 
     copy: {
-      src: {
+      'app-to-target': {
         files: [
-          {expand: true, cwd: 'src/', src: ['**'], dest: JS + '/'}
-        ]
-      },
-      courage: {
-        files: [
+          // Source Files
+          {expand: true, cwd: 'src/', src: ['**'], dest: JS + '/'},
+
+          // Courage files
           {expand: true, cwd: 'node_modules/@okta/courage/src/', src: ['**'], dest: JS + '/shared/'},
-          {expand: true, cwd: 'node_modules/@okta/courage/src/vendor', src: ['**'], dest: JS + '/vendor/'}
-        ]
-      },
-      'i18n-to-dist': {
-        files: [
+          {expand: true, cwd: 'node_modules/@okta/courage/src/vendor', src: ['**'], dest: JS + '/vendor/'},
+
+          // i18n files
           {
             expand: true,
             cwd: 'node_modules/@okta/i18n/dist/',
@@ -84,42 +79,59 @@ module.exports = function (grunt) {
               'json/{login,country}*.json',
               'properties/{login,country}*.properties'
             ],
-            dest: DIST + '/labels'
-          }
-        ]
-      },
-      'i18n-to-target': {
-        files: [
-          {
-            expand: true,
-            cwd: 'node_modules/@okta/i18n/dist/',
-            src: [
-              'json/{login,country}*.json'
-            ],
             dest: 'target/labels'
-          }
-        ]
-      },
-      'assets-to-target': {
-        files: [
-          {
-            expand: true,
-            cwd: 'assets/',
-            src: ['font/**/*', 'img/**/*'],
-            dest: 'target/'
-          }
-        ]
-      },
-      'assets-to-dist': {
-        files: [
+          },
+
+          // Assets
           {
             expand: true,
             cwd: 'assets/',
             src: ['sass/**/*', 'font/**/*', 'img/**/*'],
-            dest: DIST
+            dest: 'target/'
+          },
+
+          // jquery.qtip.css -> _jquery.qtip.scss
+          {
+            expand: true,
+            cwd: 'node_modules/qtip2/dist/',
+            src: 'jquery.qtip.css',
+            dest: 'target/sass/widgets',
+            rename: function () {
+              return 'target/sass/widgets/_jquery.qtip.scss';
+            }
           }
         ]
       },
+
+      'target-to-dist': {
+        files: [
+          {
+            expand: true,
+            cwd: 'target/',
+            src: ['sass/**/*', 'font/**/*', 'img/**/*', 'labels/**/*'],
+            dest: DIST
+          },
+          {
+            expand: true,
+            cwd: JS,
+            src: ['okta-sign-in*'],
+            dest: DIST + '/js'
+          },
+          {
+            expand: true,
+            cwd: 'target/css',
+            src: ['*.css'],
+            dest: DIST + '/css',
+            rename: function (dest, src) {
+              if (src === 'okta-sign-in.css') {
+                return path.resolve(dest, 'okta-sign-in.min.css');
+              }
+              return path.resolve(dest, src);
+            }
+          }
+        ]
+      },
+
       server: {
         options: {
           process: function (content) {
@@ -153,6 +165,7 @@ module.exports = function (grunt) {
           }
         ]
       },
+
       test: (function () {
         var src = ['assets/**/*', 'helpers/**/*', 'vendor/**/*', 'main.js'],
             spec = grunt.option('spec');
@@ -177,6 +190,7 @@ module.exports = function (grunt) {
           ]
         };
       }()),
+
       'e2e': {
         options: {
           process: function (content) {
@@ -189,10 +203,16 @@ module.exports = function (grunt) {
               WIDGET_BASIC_PASSWORD: process.env.WIDGET_BASIC_PASSWORD,
               WIDGET_BASIC_USER_2: process.env.WIDGET_BASIC_USER_2,
               WIDGET_BASIC_PASSWORD_2: process.env.WIDGET_BASIC_PASSWORD_2,
+              WIDGET_BASIC_USER_3: process.env.WIDGET_BASIC_USER_3,
+              WIDGET_BASIC_PASSWORD_3: process.env.WIDGET_BASIC_PASSWORD_3,
+              WIDGET_BASIC_USER_4: process.env.WIDGET_BASIC_USER_4,
+              WIDGET_BASIC_PASSWORD_4: process.env.WIDGET_BASIC_PASSWORD_4,
               WIDGET_FB_USER: process.env.WIDGET_FB_USER,
               WIDGET_FB_PASSWORD: process.env.WIDGET_FB_PASSWORD,
               WIDGET_FB_USER_2: process.env.WIDGET_FB_USER_2,
-              WIDGET_FB_PASSWORD_2: process.env.WIDGET_FB_PASSWORD_2
+              WIDGET_FB_PASSWORD_2: process.env.WIDGET_FB_PASSWORD_2,
+              WIDGET_FB_USER_3: process.env.WIDGET_FB_USER_3,
+              WIDGET_FB_PASSWORD_3: process.env.WIDGET_FB_PASSWORD_3
             });
           }
         },
@@ -220,20 +240,27 @@ module.exports = function (grunt) {
             cwd: 'test/e2e/page-objects/',
             src: '*',
             dest: 'target/e2e/page-objects/'
+          },
+          {
+            expand: true,
+            cwd: 'test/e2e/app/',
+            src: '*',
+            dest: 'target/e2e/app/'
           }
         ]
       },
+
       'e2e-pages': {
         options: {
           process: function (content) {
-            var harnessTplString = grunt.file.read('./test/e2e/harness.tpl', {
-              encoding: 'utf8'
-            });
-            var harnessTpl = Handlebars.compile(harnessTplString);
-            var testTpl = Handlebars.compile(content);
-            return harnessTpl({testCode: testTpl({
+            var cdnLayout = grunt.file.read('./test/e2e/layouts/cdn.tpl', {encoding: 'utf8'}),
+                npmLayout = grunt.file.read('./test/e2e/layouts/npm.tpl', {encoding: 'utf8'}),
+                testTpl = Handlebars.compile(content);
+            Handlebars.registerPartial('cdnLayout', cdnLayout);
+            Handlebars.registerPartial('npmLayout', npmLayout);
+            return testTpl({
               WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER
-            })});
+            });
           }
         },
         files: [
@@ -247,25 +274,6 @@ module.exports = function (grunt) {
             }
           }
         ]
-      }
-    },
-
-    rename: {
-      'js': {
-        src: JS + '/okta-sign-in.js',
-        dest: DIST + '/js/okta-sign-in.min.js'
-      },
-      'js-no-jquery': {
-        src: JS + '/okta-sign-in-no-jquery.js',
-        dest: DIST + '/js/okta-sign-in-no-jquery.js'
-      },
-      'css': {
-        src: CSS + '/okta-sign-in.css',
-        dest: DIST + '/css/okta-sign-in.min.css'
-      },
-      'css-theme': {
-        src: CSS + '/okta-theme.css',
-        dest: DIST + '/css/okta-theme.css'
       }
     },
 
@@ -291,9 +299,9 @@ module.exports = function (grunt) {
     exec: {
       'clean': 'npm run clean',
       'build-dev': 'npm run build:webpack-dev',
-      'build-prod': 'npm run build:webpack-prod',
-      'build-no-jquery': 'npm run build:webpack-no-jquery',
-      'build-test': 'npm run build:test',
+      'build-release': 'npm run build:webpack-release',
+      'build-test': 'npm run build:webpack-test',
+      'build-e2e-app': 'npm run build:webpack-e2e-app',
       'run-protractor': 'npm run protractor'
     },
 
@@ -401,29 +409,16 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd: 'node_modules/@okta/i18n/dist/',
+            cwd: 'target/labels/',
             src: 'json/{login,country}*.json',
             dest: 'target/labels'
-          }
-        ]
-      },
-      dist: {
-        files: [
-          {
-            expand: true,
-            cwd: 'node_modules/@okta/i18n/dist/',
-            src: 'json/{login,country}*.json',
-            dest: 'dist/labels'
           }
         ]
       }
     },
 
     retire: {
-      js: [
-        'src/**/*.js',
-        'test/**/*.js'
-      ],
+      js: ['src/**/*.js', 'test/**/*.js'],
       node: ['node_modules'],
       options: {
         packageOnly: false
@@ -445,7 +440,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-json-generator');
-  grunt.loadNpmTasks('grunt-rename');
   grunt.loadNpmTasks('grunt-retire');
 
   grunt.task.registerTask(
@@ -462,9 +456,10 @@ module.exports = function (grunt) {
         return;
       }
       grunt.task.run([
+        'build:release',
         'copy:e2e',
         'copy:e2e-pages',
-        'build',
+        'exec:build-e2e-app',
         'connect:e2e',
         'exec:run-protractor'
       ]);
@@ -495,56 +490,39 @@ module.exports = function (grunt) {
     grunt.task.run(['test:build', 'open-jasmine-specs-in-browser']);
   });
 
-  grunt.task.registerTask('prebuild', function (flag) {
-    var tasks = [
-      'retire',
-      'copy:src',
-      'copy:i18n-to-target',
-      'generate-config',
-      'generate-jsonp:target',
-      'copy:assets-to-target',
-      'copy:courage'
-    ];
-    if (flag === 'minified') {
-      tasks.push('compass:minify');
-    } else {
-      tasks.push('compass:build');
+  grunt.task.registerTask('build', function (target) {
+    var preBuildTasks = [],
+        buildTasks = [],
+        postBuildTasks = [];
+    switch (target) {
+    case 'release':
+      preBuildTasks.push('retire');
+      buildTasks.push('compass:minify', 'exec:build-release');
+      postBuildTasks.push('copy:target-to-dist');
+      break;
+    case 'dev':
+      buildTasks.push('compass:build', 'exec:build-dev');
+      break;
+    default:
+      grunt.fail.fatal('Unknown target: ' + target);
+      break;
     }
-    tasks.push('compass:buildtheme');
-    grunt.task.run(tasks);
+    grunt.task.run([].concat(
+      preBuildTasks,
+      [
+        'exec:clean',
+        'copy:app-to-target',
+        'generate-config',
+        'generate-jsonp:target',
+        'compass:buildtheme'
+      ],
+      buildTasks,
+      postBuildTasks
+    ));
   });
-
-  grunt.task.registerTask('build', function (flag) {
-    var tasks = [];
-    if (flag === 'minified') {
-      tasks.push('prebuild:minified', 'exec:build-prod');
-    } else {
-      tasks.push('prebuild', 'exec:build-dev');
-    }
-    grunt.task.run(tasks);
-  });
-
-  grunt.task.registerTask(
-    'prep-release',
-    'Generates dist/ directory with publish assets',
-    [
-      'prebuild:minified',
-      'exec:build-prod',
-      'exec:build-no-jquery',
-      'rename:js',
-      'rename:js-no-jquery',
-      'rename:css',
-      'rename:css-theme',
-      'copy:assets-to-dist',
-      'copy:i18n-to-dist',
-      'generate-jsonp:dist'
-    ]
-  );
 
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
-
   grunt.task.registerTask('lint', ['jshint', 'scss-lint']);
-
   grunt.task.registerTask('default', ['lint', 'test']);
 };

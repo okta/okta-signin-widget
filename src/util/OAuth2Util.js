@@ -15,6 +15,15 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
   var util = {};
   var _ = Okta._;
 
+  function hasResponseType(params, type) {
+    if (_.isArray(params.responseType)) {
+      return _.contains(params.responseType, type);
+    }
+    else {
+      return type === params.responseType;
+    }
+  }
+
   /**
    * Get the tokens in the OIDC/OAUTH flows
    *
@@ -48,20 +57,25 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     extraOptions.popupTitle = Okta.loc('socialauth.popup.title', 'login');
     extraOptions.timeout = options.oAuthTimeout;
 
-    // Okta as IDP - convert sessionToken to idToken in hidden iframe
-    if (oauthParams.sessionToken) {
+    // Redirect flow - this can be used when logging into an external IDP, or
+    // converting the Okta sessionToken to an access_token, id_token, and/or
+    // authorization code. Note: The authorization code flow will always redirect.
+    if (oauthParams.display === 'page' || hasResponseType(oauthParams, 'code')) {
+      authClient.token.getWithRedirect(oauthParams, extraOptions);
+    }
+
+    // Default flow if logging in with Okta as the IDP - convert sessionToken to
+    // tokens in a hidden iframe. Used in Single Page Apps where the app does
+    // not want to redirect away from the page to convert the token.
+    else if (oauthParams.sessionToken) {
       authClient.token.getWithoutPrompt(oauthParams, extraOptions)
       .then(success)
       .fail(error)
       .done();
     }
 
-    // SocialAuth IDP, redirect flow
-    else if (oauthParams.display === 'page') {
-      authClient.token.getWithRedirect(oauthParams, extraOptions);
-    }
-
-    // SocialAuth IDP, popup flow (default for social idps)
+    // Default flow if logging in with an external IDP - opens a popup and
+    // gets the token from a postMessage response.
     else {
       authClient.token.getWithPopup(oauthParams, extraOptions)
       .then(success)
