@@ -24,8 +24,11 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Wind
   var _ = Okta._;
 
   return FormController.extend({
-    className: 'verify-windows-hello',
+    className: 'mfa-verify verify-windows-hello',
     Model: {
+      local: {
+        __autoTriggered__: 'boolean'
+      },
 
       save: function () {
         if (!webauthn.isAvailable()) {
@@ -125,7 +128,8 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Wind
       },
 
       postRender: function () {
-        if (this.options.appState.get('factors').length === 1 && !this.model.get('__enrollmentState__')) {
+        if (this.options.appState.get('factors').length === 1 && !this.model.get('__autoTriggered__')) {
+          this.model.set('__autoTriggered__', true);
           this.model.save();
         }
       },

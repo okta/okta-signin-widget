@@ -1,4 +1,4 @@
-/*jshint maxparams:41, maxstatements:40, camelcase:false, newcap:false */
+/*jshint maxparams:50, maxstatements:40, camelcase:false, newcap:false */
 /*global JSON */
 define([
   'vendor/lib/q',
@@ -21,6 +21,7 @@ define([
   'helpers/xhr/MFA_REQUIRED_allFactors',
   'helpers/xhr/MFA_REQUIRED_allFactors_OnPrem',
   'helpers/xhr/MFA_REQUIRED_oktaVerifyTotpOnly',
+  'helpers/xhr/MFA_REQUIRED_webauthn',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
@@ -63,6 +64,7 @@ function (Q,
           resAllFactors,
           resAllFactorsOnPrem,
           resVerifyTOTPOnly,
+          resRequiredWebauthn,
           resChallengeDuo,
           resChallengeSms,
           resChallengeCall,
@@ -162,6 +164,8 @@ function (Q,
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
+    var setupWebauthnOnly = _.partial(setup, [resRequiredWebauthn, resChallengeWebauthn, resSuccess],
+      {  factorType: 'webauthn', provider: 'FIDO' });
     function setupSecurityQuestionLocalized() {
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
       return setup(resAllFactors, { factorType: 'question' }, {}, [
@@ -1920,6 +1924,17 @@ function (Q,
           .then(function (test) {
             expect(test.form.subtitleText()).toBe('Signing into Okta...');
             expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
+          });
+        });
+
+        itp('automatically triggers Windows Hello only once', function () {
+          return emulateWindows()
+          .then(setupWebauthnOnly)
+          .then(function (test) {
+            expect(test.router.controller.model.get('__autoTriggered__')).toBe(true);
+            spyOn(test.router.controller.model, 'save');
+            test.router.controller.render();
+            expect(test.router.controller.model.save).not.toHaveBeenCalled();
           });
         });
       });
