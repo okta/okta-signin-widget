@@ -153,9 +153,12 @@ function (Okta,
           test.setNextResponse(responseSuccess);
           expect(test.form.subtitleText())
             .toBe('Click below to enroll Windows Hello as a second form of authentication');
+          expect(test.form.buttonBar().hasClass('hide')).toBe(false);
+
           test.form.submit();
           expect(test.form.subtitleText())
             .toBe('Please wait while Windows Hello is loading...');
+          expect(test.form.buttonBar().hasClass('hide')).toBe(true);
         });
       });
 
