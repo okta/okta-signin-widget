@@ -57,6 +57,20 @@ describe('OIDC flows', function() {
       expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
     });
 
+    it('throws form error if auth client returns with OAuth error', function() {
+      setup({
+        baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+        clientId: 'rW47c465c1wc3MKzHznu',
+        redirectUri: 'http://localhost:3000/done',
+        authParams: {
+          responseType: 'id_token',
+          scope: ['openid', 'email', 'profile', 'address', 'phone']
+        }
+      });
+      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_5}}}', '{{{WIDGET_BASIC_PASSWORD_5}}}');
+      expect(primaryAuth.getErrorMessage()).toBe('User is not assigned to the client application.');
+    });
+
     it('can login and get a token and id_token', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',

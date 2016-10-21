@@ -103,7 +103,7 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       // If the desired end result object needs to have idToken (and not sessionToken),
       // get the id token from session token before calling the global success function.
       if (router.settings.get('oauth2Enabled')) {
-        OAuth2Util.getTokens(router.settings, {sessionToken: res.sessionToken});
+        OAuth2Util.getTokens(router.settings, {sessionToken: res.sessionToken}, router.controller);
         return;
       }
 
