@@ -7,6 +7,8 @@ The Okta Sign-In Widget is a Javascript widget that provides a fully featured an
 
 For a high level overview of the widget's features and authentication flows, check out [our developer docs](http://developer.okta.com/code/javascript/okta_sign-in_widget.html).
 
+Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if they wish to contribute.
+
 # Table of Contents
 
 * [Install](#install)
