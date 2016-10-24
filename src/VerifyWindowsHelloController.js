@@ -50,12 +50,16 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Wind
               [{ id: factorData.profile.credentialId }]
             )
             .then(function (assertion) {
-              model.trigger('sync');
               return factor.verify({
                 authenticatorData: assertion.authenticatorData,
                 clientData: assertion.clientData,
                 signatureData: assertion.signature
               });
+            })
+            .then(function (data) {
+              model.trigger('sync');
+              model.trigger('signIn');
+              return data;
             })
             .fail(function (error) {
               switch (error.message) {
@@ -95,7 +99,7 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Wind
           'request': '_startEnrollment',
           'error': '_stopEnrollment',
           'abort': '_stopEnrollment',
-          'sync': '_successEnrollment'
+          'signIn': '_successEnrollment'
         };
       },
 
@@ -130,10 +134,10 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Wind
         this.subtitle = Okta.loc('verify.windowsHello.subtitle.loading', 'login');
 
         this.model.trigger('spinner:show');
-        this.$('.o-form-button-bar').addClass('hide');
         this._resetErrorMessage();
 
         this.render();
+        this.$('.o-form-button-bar').addClass('hide');
       },
 
 
@@ -174,6 +178,7 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Wind
       _successEnrollment: function () {
         this.subtitle = Okta.loc('verify.windowsHello.subtitle.signingIn', 'login');
         this.render();
+        this.$('.o-form-button-bar').addClass('hide');
       },
 
       _resetErrorMessage: function () {
