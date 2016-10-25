@@ -1907,12 +1907,19 @@ function (Q,
           .then(function (test) {
             test.setNextResponse([resChallengeWebauthn, resSuccess]);
             expect(test.form.subtitleText()).toBe('Verify your identity with Windows Hello');
+            expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(false);
+
             test.form.submit();
             expect(test.form.subtitleText()).toBe('Please wait while Windows Hello is loading...');
+            expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
           .then(function (test) {
+            return tick(test);
+          })
+          .then(function (test) {
             expect(test.form.subtitleText()).toBe('Signing into Okta...');
+            expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
           });
         });
       });
