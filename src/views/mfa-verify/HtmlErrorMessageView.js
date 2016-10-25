@@ -26,7 +26,7 @@ define([
       template: template,
       className: 'okta-infobox-error infobox infobox-error infobox-md margin-btm-25',
       attributes: {
-        'data-se': 'o-form-error-windows-hello'
+        'data-se': 'o-form-error-html'
       },
 
       message: '',

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*global u2f */
+/* global u2f */
 
 define([
   'okta',
@@ -18,11 +18,28 @@ define([
   'util/FormController',
   'views/enroll-factors/Footer',
   'vendor/lib/q',
+  'views/mfa-verify/HtmlErrorMessageView',
+  'util/BrowserFeatures',
   'u2f-api-polyfill'
 ],
-function (Okta, FormType, FormController, Footer, Q) {
+function (Okta, FormType, FormController, Footer, Q, HtmlErrorMessageView, BrowserFeatures) {
 
   var _ = Okta._;
+
+  function getErrorMessageKeyByCode(errorCode) {
+    switch (errorCode) {
+    default:
+    case 1:
+      return 'u2f.error.other';
+    case 2:
+    case 3:
+      return 'u2f.error.badRequest';
+    case 4:
+      return 'u2f.error.unsupported';
+    case 5:
+      return 'u2f.error.timeout';
+    }
+  }
 
   return FormController.extend({
     className: 'enroll-u2f',
@@ -63,7 +80,9 @@ function (Okta, FormType, FormController, Footer, Q) {
           u2f.register(appId, registerRequests, [], function (data) {
             self.trigger('errors:clear');
             if (data.errorCode && data.errorCode !== 0) {
-              deferred.reject({ responseJSON: {errorSummary: 'Error Code: ' + data.errorCode}});
+              deferred.reject({
+                xhr: {responseJSON: {errorSummary: Okta.loc(getErrorMessageKeyByCode(data.errorCode), 'login')}}
+              });
             } else {
               deferred.resolve(transaction.activate({
                 registrationData: data.registrationData,
@@ -85,32 +104,55 @@ function (Okta, FormType, FormController, Footer, Q) {
       hasSavingState: false,
       autoSave: true,
       className: 'enroll-u2f-form',
+      noButtonBar: function () {
+        return !window.hasOwnProperty('u2f');
+      },
       modelEvents: {
         'request': '_startEnrollment',
         'error': '_stopEnrollment'
       },
-      formChildren: [
-        //There is html in enroll.u2f.general2 in our properties file, reason why is unescaped
-        FormType.View({
-          View: '<div class="u2f-instructions"><ol>\
-            <li>{{i18n code="enroll.u2f.general1" bundle="login"}}</li>\
-            <li>{{{i18n code="enroll.u2f.general2" bundle="login"}}}</li>\
-            <li>{{i18n code="enroll.u2f.general3" bundle="login"}}</li>\
-            </ol></div>'
-        }),
-        FormType.View({
-          View: '\
-            <div class="u2f-enroll-text hide">\
-              <p>{{i18n code="enroll.u2f.instructions" bundle="login"}}</p>\
-              <p>{{i18n code="enroll.u2f.instructionsBluetooth" bundle="login"}}</p>\
-              <div data-se="u2f-devices" class="u2f-devices-images">\
-                <div class="u2f-usb"></div>\
-                <div class="u2f-bluetooth"></div>\
-              </div>\
-              <div data-se="u2f-waiting" class="okta-waiting-spinner"></div>\
-            </div>'
-        })
-      ],
+      formChildren: function () {
+        var result = [];
+
+        if (!window.hasOwnProperty('u2f')) {
+          var errorMessageKey = 'u2f.error.notSupportedBrowser';
+
+          if (BrowserFeatures.isFirefox()) {
+            errorMessageKey = 'u2f.error.noFirefoxExtension';
+          }
+
+          result.push(FormType.View(
+            {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
+            {selector: '.o-form-error-container'}
+          ));
+        }
+        else {
+          //There is html in enroll.u2f.general2 in our properties file, reason why is unescaped
+          result.push(FormType.View({
+            View: '<div class="u2f-instructions"><ol>\
+          <li>{{i18n code="enroll.u2f.general1" bundle="login"}}</li>\
+          <li>{{{i18n code="enroll.u2f.general2" bundle="login"}}}</li>\
+          <li>{{i18n code="enroll.u2f.general3" bundle="login"}}</li>\
+          </ol></div>'
+          }));
+
+          result.push(FormType.View({
+            View: '\
+          <div class="u2f-enroll-text hide">\
+            <p>{{i18n code="enroll.u2f.instructions" bundle="login"}}</p>\
+            <p>{{i18n code="enroll.u2f.instructionsBluetooth" bundle="login"}}</p>\
+            <div data-se="u2f-devices" class="u2f-devices-images">\
+              <div class="u2f-usb"></div>\
+              <div class="u2f-bluetooth"></div>\
+            </div>\
+            <div data-se="u2f-waiting" class="okta-waiting-spinner"></div>\
+          </div>'
+          }));
+        }
+
+        return result;
+      },
+
       _startEnrollment: function () {
         this.$('.u2f-instructions').addClass('hide');
         this.$('.u2f-enroll-text').removeClass('hide');

@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*global u2f */
+/* global u2f */
+/* jshint maxcomplexity:9 */
 
 define([
   'okta',
@@ -18,11 +19,27 @@ define([
   'util/FormType',
   'views/shared/FooterSignout',
   'vendor/lib/q',
+  'views/mfa-verify/HtmlErrorMessageView',
+  'util/BrowserFeatures',
   'u2f-api-polyfill'
 ],
-function (Okta, FormController, FormType, FooterSignout, Q) {
+function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView, BrowserFeatures) {
 
   var _ = Okta._;
+
+  function getErrorMessageKeyByCode(errorCode, isOneFactor) {
+    switch (errorCode){
+    case 1: // OTHER_ERROR
+      return isOneFactor ? 'u2f.error.other.oneFactor' : 'u2f.error.other';
+    case 2: // BAD_REQUEST
+    case 3: // CONFIGURATION_UNSUPPORTED
+      return isOneFactor ? 'u2f.error.badRequest.oneFactor' : 'u2f.error.badRequest';
+    case 4: // DEVICE_INELIGIBLE
+      return isOneFactor ? 'u2f.error.unsupported.oneFactor' : 'u2f.error.unsupported';
+    case 5: // TIMEOUT
+      return 'u2f.error.timeout';
+    }
+  }
 
   return FormController.extend({
     className: 'verify-u2f',
@@ -47,7 +64,9 @@ function (Okta, FormController, FormType, FooterSignout, Q) {
             u2f.sign(appId, factorData.challenge.nonce, registeredKeys, function (data) {
               self.trigger('errors:clear');
               if (data.errorCode && data.errorCode !== 0) {
-                deferred.reject({ responseJSON: {errorSummary: 'Error Code: ' + data.errorCode}});
+                var isOneFactor = self.options.appState.get('factors').length === 1;
+                deferred.reject({xhr: {responseJSON:
+                  {errorSummary: Okta.loc(getErrorMessageKeyByCode(data.errorCode, isOneFactor), 'login')}}});
               } else {
                 return factor.verify({
                   clientData: data.clientData,
@@ -69,36 +88,65 @@ function (Okta, FormController, FormType, FooterSignout, Q) {
       className: 'verify-u2f-form',
       noCancelButton: true,
       save: _.partial(Okta.loc, 'verify.u2f.retry', 'login'),
+      noButtonBar: function () {
+        return !window.hasOwnProperty('u2f');
+      },
       modelEvents: {
-        'error': '_showRetry',
-        'request': '_hideRetry'
+        'request': '_startEnrollment',
+        'error': '_stopEnrollment'
       },
 
-      formChildren: [
-        FormType.View({
-          View: '\
+      formChildren: function () {
+        var result = [];
+
+        if (!window.hasOwnProperty('u2f')) {
+          var errorMessageKey = 'u2f.error.notSupportedBrowser';
+
+          if (BrowserFeatures.isFirefox()) {
+            errorMessageKey = 'u2f.error.noFirefoxExtension';
+          }
+          else if (this.options.appState.get('factors').length === 1) {
+            errorMessageKey = 'u2f.error.notSupportedBrowser.oneFactor';
+          }
+
+          result.push(FormType.View(
+            {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
+            {selector: '.o-form-error-container'}
+          ));
+        }
+        else {
+          result.push(FormType.View({
+            View: '\
             <div class="u2f-verify-text">\
               <p>{{i18n code="verify.u2f.instructions" bundle="login"}}</p>\
               <p>{{i18n code="verify.u2f.instructionsBluetooth" bundle="login"}}</p>\
               <div data-se="u2f-waiting" class="okta-waiting-spinner"></div>\
             </div>'
-        })
-      ],
+          }));
+        }
+
+        return result;
+      },
 
       postRender: function () {
         _.defer(_.bind(function () {
-          this.model.save();
+          if (window.hasOwnProperty('u2f')) {
+            this.model.save();
+          }
+          else {
+            this.$('[data-se="u2f-waiting"]').addClass('hide');
+          }
         }, this));
       },
 
-      _showRetry: function () {
-        this.$('.okta-waiting-spinner').addClass('hide');
-        this.$('.o-form-button-bar').show();
-      },
-
-      _hideRetry: function () {
+      _startEnrollment: function () {
         this.$('.okta-waiting-spinner').removeClass('hide');
         this.$('.o-form-button-bar').hide();
+      },
+
+      _stopEnrollment: function () {
+        this.$('.okta-waiting-spinner').addClass('hide');
+        this.$('.o-form-button-bar').show();
       }
     },
 

@@ -2,8 +2,8 @@ define(['./Form'], function (Form) {
 
   return Form.extend({
 
-    hasErrorWindowsHello: function () {
-      return this.el('o-form-error-windows-hello').length == 1;
+    hasErrorHtml: function () {
+      return this.el('o-form-error-html').length == 1;
     },
 
     spinner: function () {
