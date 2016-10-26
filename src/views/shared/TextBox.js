@@ -52,8 +52,8 @@ function ($, Handlebars, BrowserFeatures, TextBox) {
           <span class="icon input-icon {{params.icon}}"></span>\
         {{/if}}\
       {{/if}}\
-      <input type="{{type}}" placeholder="{{placeholder}}" name="{{name}}" \
-        id="{{inputId}}" value="{{value}}" autocomplete="off"/>\
+      <input type="{{type}}" placeholder="{{placeholder}}" aria-label="{{placeholder}}"\
+        name="{{name}}" id="{{inputId}}" value="{{value}}" autocomplete="off"/>\
     '),
 
     postRender: function () {
