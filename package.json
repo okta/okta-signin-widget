@@ -63,8 +63,10 @@
     "protractor": "4.0.4",
     "request-promise": "2.0.0",
     "semver": "5.1.0",
-    "webdriver-manager": "10.2.3",
-    "webpack": "1.13.1"
+    "webdriver-manager": "10.2.5",
+    "webpack": "1.13.1",
+    "axe-core": "2.0.7",
+    "axe-webdriverjs": "0.4.0"
   },
   "dependencies": {
     "@okta/okta-auth-js": "1.5.0",

@@ -11,7 +11,8 @@
  */
 var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OktaHomePage = require('../page-objects/OktaHomePage'),
-    util = require('../util/util');
+    util = require('../util/util'),
+    Expect = require('../util/Expect');
 
 describe('OIDC flows', function() {
   var primaryAuth = new PrimaryAuthPage(),
@@ -29,8 +30,10 @@ describe('OIDC flows', function() {
   });
 
   it('can login and auth in a basic flow', function() {
+    Expect.toBeA11yCompliant();
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_3}}}', '{{{WIDGET_BASIC_PASSWORD_3}}}');
     oktaHome.waitForPageLoad();
+    Expect.toBeA11yCompliant();
     expect(oktaHome.getLoggedInUser()).toEqual('Test');
   });
 
