@@ -214,7 +214,10 @@ module.exports = function (grunt) {
               WIDGET_FB_USER_2: process.env.WIDGET_FB_USER_2,
               WIDGET_FB_PASSWORD_2: process.env.WIDGET_FB_PASSWORD_2,
               WIDGET_FB_USER_3: process.env.WIDGET_FB_USER_3,
-              WIDGET_FB_PASSWORD_3: process.env.WIDGET_FB_PASSWORD_3
+              WIDGET_FB_PASSWORD_3: process.env.WIDGET_FB_PASSWORD_3,
+              // To include accessibility check in the test, pass in -a11y option, i.e.
+              // "grunt test-e2e --browserName chrome -a11y"
+              CHECK_A11Y: !!grunt.option('a11y')
             });
           }
         },

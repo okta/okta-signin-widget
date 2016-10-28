@@ -1,6 +1,6 @@
 {
   "name": "@okta/okta-signin-widget",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "dependencies": {
     "@okta/courage": {
       "version": "1.3.0-beta.30"
@@ -107,6 +107,12 @@
     },
     "aws4": {
       "version": "1.4.1"
+    },
+    "axe-core": {
+      "version": "2.0.7"
+    },
+    "axe-webdriverjs": {
+      "version": "0.4.0"
     },
     "backbone": {
       "version": "1.2.1"
@@ -1583,7 +1589,7 @@
       }
     },
     "webdriver-manager": {
-      "version": "10.2.3",
+      "version": "10.2.5",
       "dependencies": {
         "ansi-styles": {
           "version": "2.2.1"

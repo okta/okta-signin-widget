@@ -13,7 +13,8 @@
 var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OIDCAppPage = require('../page-objects/OIDCAppPage'),
     FacebookPage = require('../page-objects/FacebookPage'),
-    util = require('../util/util');
+    util = require('../util/util'),
+    Expect = require('../util/Expect');
 
 function setup(options) {
   browser.executeScript('initialize(' + JSON.stringify(options) + ')');
@@ -53,6 +54,7 @@ describe('OIDC flows', function() {
           }
         ]
       });
+      Expect.toBeA11yCompliant();
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
       expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
     });
@@ -87,6 +89,7 @@ describe('OIDC flows', function() {
           }
         ]
       });
+      Expect.toBeA11yCompliant();
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_2}}}', '{{{WIDGET_BASIC_PASSWORD_2}}}');
       expect(oidcApp.getIdTokenUser()).toBe('Alexander Hamilton');
       expect(oidcApp.getAccessTokenType()).toBe('Bearer');
@@ -102,6 +105,7 @@ describe('OIDC flows', function() {
           scope: ['openid', 'email', 'profile', 'address', 'phone']
         }
       });
+      Expect.toBeA11yCompliant();
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_4}}}', '{{{WIDGET_BASIC_PASSWORD_4}}}');
       expect(oidcApp.getCodeFromQuery()).not.toBeNull();
     });
