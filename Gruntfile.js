@@ -207,6 +207,8 @@ module.exports = function (grunt) {
               WIDGET_BASIC_PASSWORD_3: process.env.WIDGET_BASIC_PASSWORD_3,
               WIDGET_BASIC_USER_4: process.env.WIDGET_BASIC_USER_4,
               WIDGET_BASIC_PASSWORD_4: process.env.WIDGET_BASIC_PASSWORD_4,
+              WIDGET_BASIC_USER_5: process.env.WIDGET_BASIC_USER_5,
+              WIDGET_BASIC_PASSWORD_5: process.env.WIDGET_BASIC_PASSWORD_5,
               WIDGET_FB_USER: process.env.WIDGET_FB_USER,
               WIDGET_FB_PASSWORD: process.env.WIDGET_FB_PASSWORD,
               WIDGET_FB_USER_2: process.env.WIDGET_FB_USER_2,
