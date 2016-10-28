@@ -17,8 +17,9 @@ define([
 function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           resAllFactors, resEnrollError, Router, resSuccess) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollSymantecVip', function () {
 
@@ -53,7 +54,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
     }
 
     Expect.describe('Header & Footer', function () {
-      itp('displays the correct factorBeacon', function () {
+      itpa('displays the correct factorBeacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-symantec')).toBe(true);
@@ -98,7 +99,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           Expect.isVisible(test.form.submitButton());
         });
       });
-      itp('does not send request and shows error if codes are not entered', function () {
+      itpa('does not send request and shows error if codes are not entered', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
           test.form.setCredentialId('Cred_Id');
@@ -121,7 +122,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           expect(test.form.hasErrors()).toBe(true);
         });
       });
-      itp('calls activate with the right params', function () {
+      itpa('calls activate with the right params', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
           test.form.setCredentialId('Cred_Id');

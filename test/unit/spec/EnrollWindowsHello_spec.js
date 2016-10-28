@@ -34,8 +34,9 @@ function (Okta,
           responseMfaEnrollActivateWebauthn,
           responseSuccess) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollWindowsHello', function () {
 
@@ -110,7 +111,7 @@ function (Okta,
     }
 
     Expect.describe('Header & Footer', function () {
-      itp('displays the correct factorBeacon', function () {
+      itpa('displays the correct factorBeacon', function () {
         return emulateNotWindows()
         .then(setup)
         .then(function (test) {
@@ -137,7 +138,7 @@ function (Okta,
         });
       });
 
-      itp('does not display error if Windows', function () {
+      itpa('does not display error if Windows', function () {
         return emulateWindows()
         .then(setup)
         .then(function (test) {
@@ -162,7 +163,7 @@ function (Okta,
         });
       });
 
-      itp('sends enroll request after submitting the form', function () {
+      itpa('sends enroll request after submitting the form', function () {
         return emulateWindows()
         .then(setup)
         .then(function (test) {
@@ -206,7 +207,7 @@ function (Okta,
         });
       });
 
-      itp('does not show error if webauthn.makeCredential fails with AbortError', function () {
+      itpa('does not show error if webauthn.makeCredential fails with AbortError', function () {
         return emulateWindows('AbortError')
         .then(setup)
         .then(function (test) {

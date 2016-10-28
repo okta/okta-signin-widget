@@ -1,5 +1,5 @@
-/*jshint maxstatements:28 */
-/*global JSON */
+/*jshint maxstatements:30 */
+/*global JSON*/
 define([
   'okta',
   'vendor/lib/q',
@@ -7,8 +7,9 @@ define([
   'util/Logger',
   'util/Bundles',
   'json!config/config',
-  'sandbox'
-], function (Okta, Q, Util, Logger, Bundles, config, $sandbox) {
+  'sandbox',
+  'axe-core'
+], function (Okta, Q, Util, Logger, Bundles, config, $sandbox, axe) {
 
   var fn = {};
   var $ = Okta.$;
@@ -54,7 +55,8 @@ define([
 
   // Helper function to work with promises - when the return promise is
   // resolved, done is called
-  fn.itp = function (desc, testFn) {
+  fn.itp = function (desc, testFn, checkA11y) {
+    _.isBoolean(checkA11y) || (checkA11y = false);
     it(desc, function (done) {
       var errListener = function (err) {
         // We've thrown an unexpected error in the test - setup a fake
@@ -64,6 +66,11 @@ define([
       window.addEventListener('error', errListener);
       testFn.call(this)
       .then(fn.tick) // Wait a tick for the tests to clean up
+      .then(function () {
+        if (checkA11y) {
+          return fn.waitForA11yCheck(desc);
+        }
+      })
       .then(function () {
         expect(Q.getUnhandledReasons()).toEqual([]);
         // Reset unhandled exceptions (which in the normal case come from the
@@ -78,6 +85,11 @@ define([
       })
       .done();
     });
+  };
+
+  // run regular unit test, then accessibility test
+  fn.itpa = function (desc, testFn) {
+    fn.itp.call(this, desc, testFn, true);
   };
 
   fn.tick = function (returnVal) {
@@ -190,6 +202,26 @@ define([
 
   fn.deprecated = function (msg) {
     expect(Logger.deprecate).toHaveBeenCalledWith(msg);
+  };
+
+  fn.waitForA11yCheck = function (desc) {
+    var deferred = Q.defer();
+    axe.a11yCheck(
+      document.getElementById('okta-sign-in'),
+      { runOnly: { type: 'tag', values: ['section508'] } },
+      function (result) {
+      if (result.violations.length > 0) {
+        console.log('  ' + desc + ' accessibility violations:');
+      }
+      _.each(result.violations, function (violation) {
+        console.log('    ' + violation.impact + ' - ' + violation.help);
+        _.each(violation.nodes, function (node) {
+          console.log('    - ' + node.html);
+        });
+      });
+      deferred.resolve();
+    });
+    return deferred.promise;
   };
 
   // Convenience function to test a json post - pass in url and data, and it

@@ -33,8 +33,9 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           resPushEnrollSuccess, resPushEnrollSuccessNewQR, resActivateError, resActivatePushEmail,
           resActivatePushSms, resActivatePushTimeout, resSuccess, Router) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollTotp', function () {
 
@@ -145,13 +146,13 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
     }
 
     Expect.describe('Header & Footer', function () {
-      itp('displays the correct factorBeacon for Okta Verify', function () {
+      itpa('displays the correct factorBeacon for Okta Verify', function () {
         return setupOktaTotp().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-okta-verify')).toBe(true);
         });
       });
-      itp('displays the correct factorBeacon for Google Authenticator', function () {
+      itpa('displays the correct factorBeacon for Google Authenticator', function () {
         return setupGoogleTotp().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-google-auth')).toBe(true);
@@ -203,7 +204,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           Expect.isVisible(test.form.appDownloadInstructions());
         });
       });
-      itp('has correct app download instructions displayed for Okta Verify', function () {
+      itpa('has correct app download instructions displayed for Okta Verify', function () {
         return setupOktaTotp().then(function (test) {
           test.form.selectDeviceType('APPLE');
           expect(test.form.appDownloadInstructionsLinkText()).toEqual('Okta Verify from the App Store');
@@ -292,7 +293,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           Expect.isVisible(test.scanCodeForm.submitButton());
         });
       });
-      itp('returns to factor list when browser\'s back button is clicked', function () {
+      itpa('returns to factor list when browser\'s back button is clicked', function () {
         return setupOktaTotp({}, true)
         .then(function (test) {
           return enrollFactor(test, resTotpEnrollSuccess);
@@ -312,7 +313,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
       });
 
       Expect.describe('Manual setup', function () {
-        itp('is rendered on "Can\'t scan" link click', function () {
+        itpa('is rendered on "Can\'t scan" link click', function () {
           return setupAndEnrollOktaTotp()
           .then(function (test) {
             test.scanCodeForm.clickManualSetupLink();
@@ -325,7 +326,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             Expect.isVisible(test.manualSetupForm.gotoScanBarcodeLink());
           });
         });
-        itp('renders pass code form on "Next" button click', function () {
+        itpa('renders pass code form on "Next" button click', function () {
           return setupAndEnrollOktaTotp()
           .then(function (test) {
             test.scanCodeForm.clickManualSetupLink();
@@ -398,7 +399,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             Expect.isVisible(test.passCodeForm.codeField());
           });
         });
-        itp('shows error in case of an error response', function () {
+        itpa('shows error in case of an error response', function () {
           return setupAndEnrollOktaTotp().then(function (test) {
             test.scanCodeForm.submit();
             return Expect.waitForActivateTotp(test);
@@ -481,7 +482,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           .then(function () { return tick(test); }) // 2: submit enrollFactor poll
           .then(function () { return tick(test); }); // Final response tick
       }
-      itp('has qrcode image', function () {
+      itpa('has qrcode image', function () {
         return setupAndEnrollOktaPush().then(function (test) {
           expect(test.scanCodeForm.qrcodeImg().length).toBe(1);
           expect(test.scanCodeForm.qrcodeImg().attr('src'))
@@ -535,7 +536,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           Util.stopRouter();
         });
       });
-      itp('polls until SUCCESS when submitted', function () {
+      itpa('polls until SUCCESS when submitted', function () {
         return setupOktaPush().then(function (test) {
           return setupPolling(test, resSuccess);
         })
@@ -569,7 +570,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           });
         });
       });
-      itp('shows "Refresh code" link if got network error while polling', function () {
+      itpa('shows "Refresh code" link if got network error while polling', function () {
         // Simulate polling with Auth SDK's exponential backoff (6 failed requests)
         function setupFailurePolling(test) {
           var failureResponse = {status: 0, response: {}};
@@ -684,7 +685,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
       });
 
       Expect.describe('Manual setup', function () {
-        itp('is rendered on "Can\'t scan" link click', function () {
+        itpa('is rendered on "Can\'t scan" link click', function () {
           return enrollOktaPushGoCannotScan()
           .then(function (test) {
             Expect.isVisible(test.manualSetupForm.form());
@@ -692,7 +693,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             Expect.isVisible(test.manualSetupForm.gotoScanBarcodeLink());
           });
         });
-        itp('has correct fields displayed when different dropdown options selected', function () {
+        itpa('has correct fields displayed when different dropdown options selected', function () {
           return enrollOktaPushGoCannotScan()
           .then(function (test) {
             Expect.isVisible(test.manualSetupForm.dropdownElement());
@@ -749,7 +750,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             Util.stopRouter();
           });
         });
-        itp('goes to previous link and then enrolls in totp when choosing manual', function () {
+        itpa('goes to previous link and then enrolls in totp when choosing manual', function () {
           return enrollOktaPushUseManualTotp()
           .then(function () {
             expect($.ajax.calls.count()).toBe(4);
@@ -811,7 +812,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             Expect.isVisible(test.manualSetupForm.phoneNumberField());
           });
         });
-        itp('sends sms activation link request with correct params and shows confirmation', function () {
+        itpa('sends sms activation link request with correct params and shows confirmation', function () {
           return enrollOktaPushGoCannotScan()
           .then(function (test) {
             $.ajax.calls.reset();

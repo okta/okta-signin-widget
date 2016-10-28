@@ -19,8 +19,9 @@ define([
 function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
           $sandbox, resRecovery, resError, res200, resSuccess, resSuccessUnlock) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   function setup(settings, res) {
     var setNextResponse = Util.mockAjax();
@@ -53,7 +54,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
   }
 
   Expect.describe('RecoveryQuestion', function () {
-    itp('displays the security beacon', function () {
+    itpa('displays the security beacon', function () {
       return setup().then(function (test) {
         expect(test.beacon.isSecurityBeacon()).toBe(true);
       });
@@ -89,7 +90,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
         expect(test.form.submitButton().val()).toBe('Reset Password');
       });
     });
-    itp('sets the correct title for an unlock account flow', function () {
+    itpa('sets the correct title for an unlock account flow', function () {
       return setup({}, {recoveryType: 'UNLOCK'}).then(function (test) {
         expect(test.form.titleText()).toBe('Answer Unlock Account Challenge');
       });

@@ -85,8 +85,9 @@ function (Q,
           labelsLoginJa,
           labelsCountryJa) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('MFA Verify', function () {
 
@@ -348,81 +349,81 @@ function (Q,
 
     Expect.describe('General', function () {
       Expect.describe('Defaults to the last used factor', function () {
-        itp('Security Question', function () {
+        itpa('Security Question', function () {
           return setup(resAllFactors).then(function (test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
           });
         });
-        itp('Google TOTP', function () {
+        itpa('Google TOTP', function () {
           return setupWithFirstFactor({provider: 'GOOGLE', factorType: 'token:software:totp'})
           .then(function (test) {
             expect(test.form.isTOTP()).toBe(true);
           });
         });
         // TOTP and push have the same form. If either of them is the last used, we show the push form.
-        itp('Okta TOTP/Push', function () {
+        itpa('Okta TOTP/Push', function () {
           return setupWithFirstFactor({provider: 'OKTA', factorType: 'token:software:totp'})
           .then(function (test) {
             expect(test.form[0].isPush()).toBe(true);
           });
         });
-        itp('Okta Push', function () {
+        itpa('Okta Push', function () {
           return setupWithFirstFactor({factorType: 'push'}).then(function (test) {
             expect(test.form[0].isPush()).toBe(true);
           });
         });
-        itp('Okta SMS', function () {
+        itpa('Okta SMS', function () {
           return setupWithFirstFactor({factorType: 'sms'}).then(function (test) {
             expect(test.form.isSMS()).toBe(true);
           });
         });
       });
       Expect.describe('Remember device', function () {
-        itp('is rendered', function () {
+        itpa('is rendered', function () {
           return setup(resAllFactors).then(function (test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
-        itp('has the right text for device based policy', function () {
+        itpa('has the right text for device based policy', function () {
           return setup(resMfaDevicePolicy).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual('Do not challenge me on this device again');
           });
         });
-        itp('has the right text for time based policy (1 minute)', function () {
+        itpa('has the right text for time based policy (1 minute)', function () {
           return setup(resMfaTimePolicy_1Min).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next minute');
           });
         });
-        itp('has the right text for time based policy (minutes)', function () {
+        itpa('has the right text for time based policy (minutes)', function () {
           return setup(resMfaTimePolicy).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next 15 minutes');
           });
         });
-        itp('has the right text for time based policy (hours)', function () {
+        itpa('has the right text for time based policy (hours)', function () {
           return setup(resMfaTimePolicy_2Hrs).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next 2 hours');
           });
         });
-        itp('has the right text for time based policy (days)', function () {
+        itpa('has the right text for time based policy (days)', function () {
           return setup(resMfaTimePolicy_2Days).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next 2 days');
           });
         });
-        itp('is not rendered when policy is always ask for mfa', function () {
+        itpa('is not rendered when policy is always ask for mfa', function () {
           return setup(resMfaAlwaysPolicy).then(function (test) {
             expect(test.form.rememberDeviceCheckbox().length).toEqual(0);
           });
         });
-        itp('is checked by default if policy rememberDeviceByDefault is true', function () {
+        itpa('is checked by default if policy rememberDeviceByDefault is true', function () {
           return setup(resMfaTimePolicy).then(function (test) {
             expect(test.form.isRememberDeviceChecked()).toBe(true);
           });
         });
-        itp('is not checked by default if policy rememberDeviceByDefault is false', function () {
+        itpa('is not checked by default if policy rememberDeviceByDefault is false', function () {
           return setup(resMfaDevicePolicy).then(function (test) {
             expect(test.form.isRememberDeviceChecked()).toBe(false);
           });
@@ -433,7 +434,7 @@ function (Q,
     Expect.describe('Factor types', function () {
 
       Expect.describe('Security Question', function () {
-        itp('is security question', function () {
+        itpa('is security question', function () {
           return setupSecurityQuestion().then(function (test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
           });
@@ -453,7 +454,7 @@ function (Q,
             expectLabelToBe(test, 'What is the food you least liked as a child?', 'answer');
           });
         });
-        itp('sets the label to the user\'s security question (localized)', function () {
+        itpa('sets the label to the user\'s security question (localized)', function () {
           return setupSecurityQuestionLocalized().then(function (test) {
             expectLabelToBe(test, 'JA: What is the food you least liked as a child?', 'answer');
           });
@@ -581,12 +582,12 @@ function (Q,
       });
 
       Expect.describe('TOTP', function () {
-        itp('is totp', function () {
+        itpa('is totp', function () {
           return setupGoogleTOTP().then(function (test) {
             expect(test.form.isTOTP()).toBe(true);
           });
         });
-        itp('shows the right beacon for google TOTP', function () {
+        itpa('shows the right beacon for google TOTP', function () {
           return setupGoogleTOTP().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-google-auth');
           });
@@ -597,17 +598,17 @@ function (Q,
             expect(test.form.getAutocomplete()).toBe('off');
           });
         });
-        itp('shows the right beacon for RSA TOTP', function () {
+        itpa('shows the right beacon for RSA TOTP', function () {
           return setupRsaTOTP().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-rsa');
           });
         });
-        itp('shows the right beacon for On Prem TOTP', function () {
+        itpa('shows the right beacon for On Prem TOTP', function () {
           return setupOnPremTOTP().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-onprem');
           });
         });
-        itp('shows the right beacon for Okta TOTP', function () {
+        itpa('shows the right beacon for Okta TOTP', function () {
           return setupOktaTOTP().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-okta-verify');
           });
@@ -617,7 +618,7 @@ function (Q,
             expect(test.form.autoPushCheckbox().length).toBe(0);
           });
         });
-        itp('shows the right beacon for Symantec TOTP', function () {
+        itpa('shows the right beacon for Symantec TOTP', function () {
           return setupSymantecTOTP().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-symantec');
           });
@@ -708,7 +709,7 @@ function (Q,
             expect(buttonClass).not.toContain('link-button-disabled');
           });
         });
-        itp('shows an error if error response from authClient', function () {
+        itpa('shows an error if error response from authClient', function () {
           return setupGoogleTOTP()
           .then(function (test) {
             test.setNextResponse(resInvalidTotp);
@@ -748,7 +749,7 @@ function (Q,
       });
 
       Expect.describe('Yubikey', function () {
-        itp('shows the right beacon for Yubikey', function () {
+        itpa('shows the right beacon for Yubikey', function () {
           return setupYubikey().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-yubikey');
           });
@@ -863,7 +864,7 @@ function (Q,
           });
         });
 
-        itp('is sms', function () {
+        itpa('is sms', function () {
           return setupSMS().then(function (test) {
             expect(test.form.isSMS()).toBe(true);
           });
@@ -1110,7 +1111,7 @@ function (Q,
           });
         });
 
-        itp('is call', function () {
+        itpa('is call', function () {
           return setupCall().then(function (test) {
             expect(test.form.isCall()).toBe(true);
           });
@@ -1369,7 +1370,7 @@ function (Q,
           var autoPushLabel = autoPush.find('Label').text();
           return autoPushLabel;
         }
-        itp('has push and an inline totp form', function () {
+        itpa('has push and an inline totp form', function () {
           return setupOktaPush().then(function (test) {
             expect(test.form[0].isPush()).toBe(true);
             expect(test.form[1].isInlineTOTP()).toBe(true);
@@ -1705,7 +1706,7 @@ function (Q,
       });
 
       Expect.describe('Duo', function () {
-        itp('is duo', function () {
+        itpa('is duo', function () {
           return setupDuo().then(function (test) {
             expect(test.form.isDuo()).toBe(true);
           });
@@ -1807,7 +1808,7 @@ function (Q,
       });
 
       Expect.describe('Windows Hello', function () {
-        itp('shows the right beacon for Windows Hello', function () {
+        itpa('shows the right beacon for Windows Hello', function () {
           return emulateNotWindows()
           .then(setupWebauthn)
           .then(function (test) {
@@ -1824,7 +1825,7 @@ function (Q,
           });
         });
 
-        itp('does not display error message if Windows', function () {
+        itpa('does not display error message if Windows', function () {
           return emulateWindows()
           .then(setupWebauthn)
           .then(function (test) {
@@ -1873,7 +1874,7 @@ function (Q,
           });
         });
 
-        itp('shows error if webauthn.getAssertion fails with NotSupportedError', function () {
+        itpa('shows error if webauthn.getAssertion fails with NotSupportedError', function () {
           return emulateWindows('NotSupportedError')
           .then(setupWebauthn)
           .then(function (test) {
@@ -1925,7 +1926,7 @@ function (Q,
       });
 
       Expect.describe('Security Key (U2F)', function () {
-        itp('shows the right beacon for Security Key (U2F)', function () {
+        itpa('shows the right beacon for Security Key (U2F)', function () {
           return setupU2F().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-u2f');
             return Expect.waitForSpyCall(window.u2f.sign);
@@ -1946,7 +1947,7 @@ function (Q,
           });
         });
 
-        itp('calls u2f.sign and verifies factor', function () {
+        itpa('calls u2f.sign and verifies factor', function () {
           var signStub = function (appId, nonce, registeredKeys, callback) {
             callback({
               keyHandle: 'someKeyHandle',
@@ -1995,13 +1996,13 @@ function (Q,
     });
 
     Expect.describe('Beacon', function () {
-      itp('has no dropdown if there is only one factor', function () {
+      itpa('has no dropdown if there is only one factor', function () {
         return setup(resVerifyTOTPOnly).then(function (test) {
           var options = test.beacon.getOptionsLinks();
           expect(options.length).toBe(0);
         });
       });
-      itp('has a dropdown if there is more than one factor', function () {
+      itpa('has a dropdown if there is more than one factor', function () {
         return setup(resAllFactors).then(function (test) {
           var options = test.beacon.getOptionsLinks();
           expect(options.length).toBe(11);
@@ -2030,7 +2031,7 @@ function (Q,
           ]);
         });
       });
-      itp('opens dropDown options when dropDown link is clicked', function () {
+      itpa('opens dropDown options when dropDown link is clicked', function () {
         return setup(resAllFactors).then(function (test) {
           expect(test.beacon.getOptionsList().is(':visible')).toBe(false);
           test.beacon.dropDownButton().click();

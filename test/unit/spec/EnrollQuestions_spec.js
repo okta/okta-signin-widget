@@ -22,8 +22,9 @@ define([
 function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures, LoginUtil,
           $sandbox, resAllFactors, resQuestions, resError, resSuccess, labelsLoginJa, labelsCountryJa) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollQuestions', function () {
 
@@ -69,7 +70,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
       ]);
     }
 
-    itp('displays the correct factorBeacon', function () {
+    itpa('displays the correct factorBeacon', function () {
       return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-okta-security-question')).toBe(true);
@@ -94,7 +95,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
         });
       });
     });
-    itp('has a localized list of questions if language is specified', function () {
+    itpa('has a localized list of questions if language is specified', function () {
       return setupWithLanguage().then(function (test) {
         var questions = test.form.questionList();
         expect(questions.length).toBe(20);
@@ -131,7 +132,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
         Util.stopRouter();
       });
     });
-    itp('calls enroll with the right arguments when save is clicked', function () {
+    itpa('calls enroll with the right arguments when save is clicked', function () {
       return setup().then(function (test) {
         $.ajax.calls.reset();
         test.form.selectQuestion('favorite_security_question');
@@ -156,7 +157,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
         });
       });
     });
-    itp('validates answer field and errors before the request', function () {
+    itpa('validates answer field and errors before the request', function () {
       return setup().then(function (test) {
         $.ajax.calls.reset();
         test.form.submit();
@@ -164,7 +165,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
         expect($.ajax).not.toHaveBeenCalled();
       });
     });
-    itp('shows error if error response on enrollment', function () {
+    itpa('shows error if error response on enrollment', function () {
       return setup()
       .then(function (test) {
         Q.stopUnhandledRejectionTracking();

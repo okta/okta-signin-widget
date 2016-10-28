@@ -21,9 +21,10 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
           $sandbox, resPassWarn, resPassExpired, resErrorComplexity,
           resErrorOldPass, resSuccess) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
-  var processCredsSpy = jasmine.createSpy('processCredsSpy');
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick,
+      processCredsSpy = jasmine.createSpy('processCredsSpy');
 
   function setup(res) {
     var setNextResponse = Util.mockAjax();
@@ -67,7 +68,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
 
     Expect.describe('PasswordExpired', function () {
 
-      itp('shows security beacon', function () {
+      itpa('shows security beacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isSecurityBeacon()).toBe(true);
         });
@@ -142,7 +143,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
           });
         });
       });
-      itp('shows an error if the server returns a wrong old pass error', function () {
+      itpa('shows an error if the server returns a wrong old pass error', function () {
         return setup()
         .then(function (test) {
           test.setNextResponse(resErrorOldPass);
@@ -156,7 +157,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
           );
         });
       });
-      itp('shows an error if the server returns a complexity error', function () {
+      itpa('shows an error if the server returns a complexity error', function () {
         return setup()
         .then(function (test) {
           test.setNextResponse(resErrorComplexity);

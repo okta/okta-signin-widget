@@ -17,8 +17,9 @@ define([
 function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
           resAllFactors, resActivateDuo, resSuccess) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollDuo', function () {
 
@@ -54,7 +55,7 @@ function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
       });
     }
 
-    itp('displays the correct factorBeacon', function () {
+    itpa('displays the correct factorBeacon', function () {
       return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-duo')).toBe(true);
@@ -110,7 +111,7 @@ function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
         expect(_.isFunction(initOptions.post_action)).toBe(true);
       });
     });
-    itp('notifies okta when duo is done, and completes enrollment', function () {
+    itpa('notifies okta when duo is done, and completes enrollment', function () {
       return setup()
       .then(function (test) {
         $.ajax.calls.reset();

@@ -18,8 +18,9 @@ define([
 function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           resAllFactors, resAllFactorsOnPrem, resEnrollError, resSuccess, Router) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollOnPrem', function () {
 
@@ -65,7 +66,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
     Expect.describe('RSA', function () {
 
       Expect.describe('Header & Footer', function () {
-        itp('displays the correct factorBeacon', function () {
+        itpa('displays the correct factorBeacon', function () {
           return setup().then(function (test) {
             expect(test.beacon.isFactorBeacon()).toBe(true);
             expect(test.beacon.hasClass('mfa-rsa')).toBe(true);
@@ -109,7 +110,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             Expect.isVisible(test.form.submitButton());
           });
         });
-        itp('does not send request and shows error if code is not entered', function () {
+        itpa('does not send request and shows error if code is not entered', function () {
           return setup().then(function (test) {
             $.ajax.calls.reset();
             test.form.setCredentialId('Username');
@@ -118,7 +119,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             expect($.ajax).not.toHaveBeenCalled();
           });
         });
-        itp('shows error in case of an error response', function () {
+        itpa('shows error in case of an error response', function () {
           return setup()
           .then(function (test) {
             test.setNextResponse(resEnrollError);
@@ -162,7 +163,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
     Expect.describe('On Prem (custom)', function () {
 
       Expect.describe('Header & Footer', function () {
-        itp('displays the correct factorBeacon', function () {
+        itpa('displays the correct factorBeacon', function () {
           return setupOnPrem().then(function (test) {
             expect(test.beacon.isFactorBeacon()).toBe(true);
             expect(test.beacon.hasClass('mfa-onprem')).toBe(true);
@@ -191,7 +192,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       });
 
       Expect.describe('Enroll factor', function () {
-        itp('has a credentialId text field', function () {
+        itpa('has a credentialId text field', function () {
           return setupOnPrem().then(function (test) {
             Expect.isTextField(test.form.credentialIdField());
           });
@@ -215,7 +216,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             expect($.ajax).not.toHaveBeenCalled();
           });
         });
-        itp('shows error in case of an error response', function () {
+        itpa('shows error in case of an error response', function () {
           return setupOnPrem()
           .then(function (test) {
             test.setNextResponse(resEnrollError);

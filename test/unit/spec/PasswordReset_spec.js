@@ -22,9 +22,10 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           $sandbox, resPasswordReset, resPasswordResetWithMinComplexity, resPasswordResetWithMaxComplexity,
           resError, res200, resSuccess) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
-  var processCredsSpy = jasmine.createSpy();
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick,
+      processCredsSpy = jasmine.createSpy();
 
   function setup(settings) {
     var passwordResetResponse = resPasswordReset;
@@ -68,7 +69,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
   }
 
   Expect.describe('PasswordReset', function () {
-    itp('displays the security beacon if enabled', function () {
+    itpa('displays the security beacon if enabled', function () {
       return setup({ 'features.securityImage': true }).then(function (test) {
         expect(test.beacon.isSecurityBeacon()).toBe(true);
       });
@@ -178,7 +179,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         expect(test.form.hasErrors()).toBe(true);
       });
     });
-    itp('shows an error msg if there is an error submitting', function () {
+    itpa('shows an error msg if there is an error submitting', function () {
       return setup()
       .then(function (test) {
         Q.stopUnhandledRejectionTracking();

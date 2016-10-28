@@ -17,8 +17,9 @@ define([
 function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           Router, $sandbox, resError, resChallengeEmail, resChallengeSms) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   function setup(settings, startRouter) {
     var setNextResponse = Util.mockAjax();
@@ -55,12 +56,12 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
   Expect.describe('UnlockAccount', function () {
     
     Expect.describe('settings', function () {
-      itp('has correct title', function () {
+      itpa('has correct title', function () {
         return setup().then(function (test) {
           expect(test.form.titleText()).toEqual('Unlock account');
         });
       });
-      itp('has correct username placeholder', function () {
+      itpa('has correct username placeholder', function () {
         return setup().then(function (test) {
           var $username = test.form.usernameField();
           expect($username.attr('placeholder')).toEqual('Email or username');
@@ -90,7 +91,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           expect(test.form.hasSmsButton()).toBe(false);
         });
       });
-      itp('supports sms reset', function () {
+      itpa('supports sms reset', function () {
         return setupWithSms().then(function (test) {
           expect(test.form.hasSmsButton()).toBe(true);
         });
@@ -134,7 +135,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           expect(test.form.usernameErrorField().length).toBe(1);
         });
       });
-      itp('sends email', function () {
+      itpa('sends email', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
@@ -153,7 +154,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           });
         });
       });
-      itp('calls the transformUsername function with the right parameters', function () {
+      itpa('calls the transformUsername function with the right parameters', function () {
         return setupWithTransformUsername().then(function (test) {
           spyOn(test.router.settings, 'transformUsername');
           test.setNextResponse(resChallengeEmail);
@@ -194,7 +195,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           expect(test.router.appState.get('username')).toBe('foo');
         });
       });
-      itp('shows email sent confirmation screen, and has a button that navigates back', function () {
+      itpa('shows email sent confirmation screen, and has a button that navigates back', function () {
         return setup()
         .then(function (test) {
           test.form.setUsername('foo@bar');
@@ -210,7 +211,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           expect(test.router.navigate).toHaveBeenCalledWith('', {trigger: true});
         });
       });
-      itp('calls globalSuccessFn when an email has been sent', function () {
+      itpa('calls globalSuccessFn when an email has been sent', function () {
         var successSpy = jasmine.createSpy('successSpy');
         return setup({ globalSuccessFn: successSpy })
         .then(function (test) {
@@ -226,7 +227,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           });
         });
       });
-      itp('shows an error if sending email results in an error', function () {
+      itpa('shows an error if sending email results in an error', function () {
         return setup()
         .then(function (test) {
           test.setNextResponse(resError);
@@ -332,7 +333,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           Util.stopRouter();
         });
       });
-      itp('shows an org\'s contact form when user clicks no email access link', function () {
+      itpa('shows an org\'s contact form when user clicks no email access link', function () {
         return setup({ helpSupportNumber: '(999) 123-4567' })
         .then(function (test) {
           expect(test.form.hasCantAccessEmailLink()).toBe(true);

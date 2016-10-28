@@ -18,8 +18,9 @@ define([
 function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           $sandbox, resAllFactors, resAllFactorsOnPrem, resPush, resSuccess) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollChoices', function () {
 
@@ -138,7 +139,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
     }
 
     Expect.describe('General', function () {
-      itp('has correct title', function () {
+      itpa('has correct title', function () {
         return setup(resAllFactors).then(function (test) {
           expect(test.form.titleText()).toBe('Set up multifactor authentication');
         });
@@ -153,7 +154,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
     Expect.describe('Wizard', function () {
 
       Expect.describe('Required', function () {
-        itp('has the correct subtitle text', function () {
+        itpa('has the correct subtitle text', function () {
           return setupWithRequiredNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
@@ -171,7 +172,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.requiredFactorListSubtitle()).toBe('1 of 4');
           });
         });
-        itp('chooses the first unenrolled required factor as the current factor', function () {
+        itpa('chooses the first unenrolled required factor as the current factor', function () {
           return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
             // GOOGLE_AUTH is the current factor in this test
             expect(test.form.isFactorMinimized('GOOGLE_AUTH')).toBe(false);
@@ -232,7 +233,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       });
 
       Expect.describe('Optional/Finish', function () {
-        itp('displays the general subtitle if there are only optional factors and none are enrolled', function () {
+        itpa('displays the general subtitle if there are only optional factors and none are enrolled', function () {
           return setupWithAllOptionalNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
@@ -240,14 +241,14 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             );
           });
         });
-        itp('displays add optional subtitle if there are only optional factors and some are enrolled', function () {
+        itpa('displays add optional subtitle if there are only optional factors and some are enrolled', function () {
           return setupWithAllOptionalSomeEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'You can configure any additional optional factor or click finish'
             );
           });
         });
-        itp('displays add optional subtitle if all required factors have been enrolled', function () {
+        itpa('displays add optional subtitle if all required factors have been enrolled', function () {
           return setupWithRequiredAllRequiredEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'You can configure any additional optional factor or click finish'
@@ -302,7 +303,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.isFactorMinimized('SMS')).toBe(false);
           });
         });
-        itp('has a setup button for each unenrolled optional factor which navigates to the correct page', function () {
+        itpa('has a setup button for each unenrolled optional factor which navigates to the correct page', function () {
           return setupWithAllOptionalSomeEnrolled().then(function (test) {
             expect(test.form.factorButton('OKTA_VERIFY').length).toBe(1);
             expect(test.form.factorButton('GOOGLE_AUTH').length).toBe(1);
@@ -314,10 +315,9 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             test.form.factorButton('SMS').click();
             expect(test.router.navigate)
               .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
-
           });
         });
-        itp('has a setup button for each unenrolled optional factor which navigates to the correct page (On-Prem)',
+        itpa('has a setup button for each unenrolled optional factor which navigates to the correct page (On-Prem)',
           function () {
           return setupWithAllOptionalSomeEnrolled(true).then(function (test) {
             expect(test.form.factorButton('OKTA_VERIFY').length).toBe(1);
@@ -341,7 +341,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.submitButtonText()).toBe('Finish');
           });
         });
-        itp('it uses the finish link to finish enrollment if Finish is clicked', function () {
+        itpa('it uses the finish link to finish enrollment if Finish is clicked', function () {
           return setupWithAllOptionalSomeEnrolled().then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse(resAllFactors);
@@ -388,26 +388,26 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           'Use a push notification sent to the mobile app.',
           resPush
         );
-        itp('does not show okta totp row when push is available', function () {
+        itpa('does not show okta totp row when push is available', function () {
           return setup(resPush).then(function (test) {
             expect(test.form.factorRow('OKTA_VERIFY').length).toBe(0);
           });
         });
-        itp('does not show okta totp row when push is enrolled', function () {
+        itpa('does not show okta totp row when push is enrolled', function () {
           return setupWithOktaVerifyPushWithPushEnrolled().then(function (test) {
             expect(test.form.factorRow('OKTA_VERIFY').length).toBe(0);
             expect(test.form.factorRow('OKTA_VERIFY_PUSH').length).toBe(1);
             expect(test.form.factorHasSuccessCheck('OKTA_VERIFY_PUSH')).toBe(true);
           });
         });
-        itp('does not show okta push row when softtoken is enrolled', function () {
+        itpa('does not show okta push row when softtoken is enrolled', function () {
           return setupWithOktaVerifyPushWithSofttokenEnrolled().then(function (test) {
             expect(test.form.factorRow('OKTA_VERIFY_PUSH').length).toBe(0);
             expect(test.form.factorRow('OKTA_VERIFY').length).toBe(1);
             expect(test.form.factorHasSuccessCheck('OKTA_VERIFY')).toBe(true);
           });
         });
-        itp('redirects straight to finish link when all factors are enrolled \
+        itpa('redirects straight to finish link when all factors are enrolled \
           and OktaVerify softtoken factor enrolled while push is on', function () {
           return setupWithAllEnrolledButOktaVerifyPushWithSofttokenEnrolled().then(function () {
             Expect.isJsonPost($.ajax.calls.mostRecent().args, {
