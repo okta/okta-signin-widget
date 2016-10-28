@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /*jshint esversion:6, es3:false */
-/*global $ */
+/*global $, protractor*/
 'use strict';
+
+var EC = protractor.ExpectedConditions;
 
 /**
  * Helper functions to compose css selectors
@@ -52,6 +54,12 @@ class FormPage {
 
   submit() {
     return this.submitButton().click();
+  }
+
+  getErrorMessage() {
+    var errorEl = this.$('.okta-form-infobox-error.infobox.infobox-error p');
+    browser.wait(EC.presenceOf(errorEl));
+    return errorEl.getText();
   }
 
   /**

@@ -31,14 +31,20 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
    * @param params - {idp: 'xxx'} for social auth
    *                 {sessionToken: 'xxx'} for okta idp
    */
-  util.getTokens = function (settings, params) {
+  util.getTokens = function (settings, params, controller) {
 
     function success(result) {
       settings.callGlobalSuccess(Enums.SUCCESS, result);
     }
 
     function error(error) {
-      settings.callGlobalError(new Errors.OAuthError(error.message));
+      // OKTA-104330- Handle error case where user is not assigned to OIDC client
+      if (error.errorCode === 'access_denied') {
+        controller.model.trigger('error', controller.model, {'responseJSON': error});
+        controller.model.appState.trigger('removeLoading');
+      } else {
+        settings.callGlobalError(new Errors.OAuthError(error.message));
+      }
     }
 
     var authClient = settings.getAuthClient(),
