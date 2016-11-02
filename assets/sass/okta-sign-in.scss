@@ -1,33 +1,37 @@
 @import 'compass/css3';
-
 @import 'widgets/jquery.qtip';
-@import 'widgets/mega-drop-down';
-@import 'widgets/chosen';
-
 @import 'common/enduser/reset';
 @import 'common/shared/helpers/all';
 @import 'common/admin/icons/all';
 @import 'variables';
-@import 'common/enduser/responsive-variables';
-@import 'common/enduser/helpers';
-@import 'common/shared/o-forms/o-form';
-@import 'common/admin/modules/infobox/infobox';
 @import 'fonts';
 @import 'helpers';
-@import 'base';
-@import 'layout';
-@import 'modules/forms';
-@import 'modules/infobox';
-@import 'modules/qtip';
-@import 'modules/mfa-challenge-forms';
-@import 'modules/forgot-password';
-@import 'modules/btns';
-@import 'modules/header';
-@import 'modules/beacon';
-@import 'modules/factors-dropdown';
-@import 'modules/footer';
-@import 'modules/enroll';
-@import 'modules/app-login-banner';
-@import 'modules/okta-footer';
-@import 'modules/accessibility';
-@import 'ie';
+@import 'common/enduser/responsive-variables';
+@import 'common/enduser/helpers';
+@import 'container';
+
+// scss-lint:disable IdSelector
+#okta-sign-in {
+// scss-lint:enable IdSelector
+  @import 'widgets/mega-drop-down';
+  @import 'widgets/chosen';
+  @import 'common/shared/o-forms/o-form';
+  @import 'common/admin/modules/infobox/infobox';
+  @import 'base';
+  @import 'layout';
+  @import 'modules/forms';
+  @import 'modules/infobox';
+  @import 'modules/qtip';
+  @import 'modules/mfa-challenge-forms';
+  @import 'modules/forgot-password';
+  @import 'modules/btns';
+  @import 'modules/header';
+  @import 'modules/beacon';
+  @import 'modules/factors-dropdown';
+  @import 'modules/footer';
+  @import 'modules/enroll';
+  @import 'modules/app-login-banner';
+  @import 'modules/okta-footer';
+  @import 'modules/accessibility';
+  @import 'ie'; 
+}
