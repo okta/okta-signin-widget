@@ -2,7 +2,7 @@
 
 scss_files: "assets/sass/**/*.scss"
 plugin_directories: ['.scss-linters']
-exclude: ["assets/sass/widgets/*.scss", "assets/sass/common/**/*.scss"]
+exclude: ["assets/sass/widgets/*.scss", "assets/sass/common/**/*.scss", "assets/sass/_container.scss", "assets/sass/okta-sign-in.scss"]
 
 # List of gem names to load custom linters from (make sure they are already
 # installed)
