@@ -28,8 +28,9 @@ function (Okta,
           resEnrollActivateU2F,
           resSuccess) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollU2F', function () {
 
@@ -89,7 +90,7 @@ function (Okta,
     }
 
     Expect.describe('Header & Footer', function () {
-      itp('displays the correct factorBeacon', function () {
+      itpa('displays the correct factorBeacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-u2f')).toBe(true);
@@ -110,7 +111,7 @@ function (Okta,
         });
       });
 
-      itp('shows a waiting spinner and devices images after submitting the form', function () {
+      itpa('shows a waiting spinner and devices images after submitting the form', function () {
         mocku2fSuccessRegistration();
         return setup().then(function (test) {
           test.setNextResponse([resEnrollActivateU2F, resSuccess]);
@@ -146,7 +147,7 @@ function (Okta,
         });
       });
 
-      itp('calls u2f.register and activates the factor', function () {
+      itpa('calls u2f.register and activates the factor', function () {
         mocku2fSuccessRegistration();
         return setup().then(function (test) {
           $.ajax.calls.reset();
@@ -170,7 +171,7 @@ function (Okta,
         });
       });
 
-      itp('shows error if u2f.register fails', function () {
+      itpa('shows error if u2f.register fails', function () {
         Q.stopUnhandledRejectionTracking();
         mocku2fFailedRegistration();
         return setup().then(function (test) {

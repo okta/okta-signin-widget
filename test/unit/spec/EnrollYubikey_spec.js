@@ -14,8 +14,9 @@ define([
 function ($, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           resAllFactors, resSuccess, Router) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollYubikey', function () {
 
@@ -50,7 +51,7 @@ function ($, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
     }
 
     Expect.describe('Header & Footer', function () {
-      itp('displays the correct factorBeacon', function () {
+      itpa('displays the correct factorBeacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-yubikey')).toBe(true);

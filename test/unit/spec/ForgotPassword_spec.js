@@ -22,8 +22,9 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           Router, $sandbox, resError, resChallengeEmail, resChallengeSms, resChallengeCall,
           resMfaRequired, resSuccess) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   function setup(settings, startRouter) {
     var setNextResponse = Util.mockAjax();
@@ -66,7 +67,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
   Expect.describe('ForgotPassword', function () {
 
     Expect.describe('settings', function () {
-      itp('uses default title', function () {
+      itpa('uses default title', function () {
         return setup().then(function (test) {
           expect(test.form.titleText()).toEqual('Reset Password');
         });
@@ -108,7 +109,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.hasCallButton()).toBe(false);
         });
       });
-      itp('supports sms reset', function () {
+      itpa('supports sms reset', function () {
         return setupWithSms().then(function (test) {
           expect(test.form.hasSmsButton()).toBe(true);
           expect(test.form.hasCallButton()).toBe(false);
@@ -126,7 +127,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.hasMobileRecoveryHint()).toBe(false);
         });
       });
-      itp('supports Voice Call reset', function () {
+      itpa('supports Voice Call reset', function () {
         return setupWithCall().then(function (test) {
           expect(test.form.hasCallButton()).toBe(true);
           expect(test.form.hasSmsButton()).toBe(false);
@@ -139,7 +140,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             .toEqual('Voice Call can only be used if a mobile phone number has been configured.');
         });
       });
-      itp('supports SMS and Voice Call reset factors together', function () {
+      itpa('supports SMS and Voice Call reset factors together', function () {
         return setupWithSmsAndCall().then(function (test) {
           expect(test.form.hasSmsButton()).toBe(true);
           expect(test.form.hasCallButton()).toBe(true);
@@ -165,7 +166,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
     });
 
     Expect.describe('events', function () {
-      itp('shows an error if username is empty and request email', function () {
+      itpa('shows an error if username is empty and request email', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
           test.form.submit();
@@ -180,7 +181,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.usernameErrorField().length).toBe(1);
         });
       });
-      itp('sends email', function () {
+      itpa('sends email', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
@@ -199,7 +200,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           });
         });
       });
-      itp('calls the transformUsername function with the right parameters', function () {
+      itpa('calls the transformUsername function with the right parameters', function () {
         return setupWithTransformUsername().then(function (test) {
           spyOn(test.router.settings, 'transformUsername');
           test.setNextResponse(resChallengeEmail);
@@ -209,7 +210,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.router.settings.transformUsername.calls.argsFor(0)).toEqual(['foo', 'FORGOT_PASSWORD']);
         });
       });
-      itp('appends the suffix returned by the transformUsername function to the username', function () {
+      itpa('appends the suffix returned by the transformUsername function to the username', function () {
         return setupWithTransformUsername().then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
@@ -260,7 +261,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         });
       });
       // Note: Let's remove this test when OKTA-69083 is resolved
-      itp('shows email sent confirmation screen even if API response is bad (OKTA-69083)', function () {
+      itpa('shows email sent confirmation screen even if API response is bad (OKTA-69083)', function () {
         return setup()
         .then(function (test) {
           test.form.setUsername('baz@bar');
@@ -281,7 +282,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.titleText()).toBe('Email sent!');
         });
       });
-      itp('calls globalSuccessFn when an email has been sent', function () {
+      itpa('calls globalSuccessFn when an email has been sent', function () {
         var successSpy = jasmine.createSpy('successSpy');
         return setup({ globalSuccessFn: successSpy })
         .then(function (test) {
@@ -319,7 +320,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.usernameErrorField().length).toBe(1);
         });
       });
-      itp('sends sms', function () {
+      itpa('sends sms', function () {
         return setupWithSms().then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeSms);
@@ -350,7 +351,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.router.appState.get('username')).toBe('foo');
         });
       });
-      itp('shows an error if sending sms results in an error', function () {
+      itpa('shows an error if sending sms results in an error', function () {
         return setupWithSms()
         .then(function (test) {
           test.setNextResponse(resError);
@@ -363,7 +364,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
         });
       });
-      itp('does not have a problem with sending email after sending sms', function () {
+      itpa('does not have a problem with sending email after sending sms', function () {
         return setupWithSms()
         .then(function (test) {
           test.setNextResponse(resError);
@@ -396,7 +397,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.usernameErrorField().length).toBe(1);
         });
       });
-      itp('makes a Voice Call', function () {
+      itpa('makes a Voice Call', function () {
         return setupWithCall().then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeCall);
@@ -427,7 +428,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.router.appState.get('username')).toBe('foo');
         });
       });
-      itp('shows an error if making a Voice Call results in an error', function () {
+      itpa('shows an error if making a Voice Call results in an error', function () {
         return setupWithCall()
         .then(function (test) {
           test.setNextResponse(resError);
@@ -440,7 +441,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
         });
       });
-      itp('does not have a problem with sending email after making a Voice Call', function () {
+      itpa('does not have a problem with sending email after making a Voice Call', function () {
         return setupWithCall()
         .then(function (test) {
           test.setNextResponse(resError);
@@ -481,7 +482,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           Util.stopRouter();
         });
       });
-      itp('resets auth status on initialization', function () {
+      itpa('resets auth status on initialization', function () {
         return setup()
         .then(function (test) {
           test.form.goBack();
@@ -509,7 +510,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect($.ajax.calls.count()).toBe(1);
         });
       });
-      itp('sends email, goes back to login page and allows resending', function () {
+      itpa('sends email, goes back to login page and allows resending', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
@@ -624,7 +625,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.backToLoginButton().length).toBe(1);
         });
       });
-      itp('shows an error if sending email via "Reset via email" link results in an error, after sending sms',
+      itpa('shows an error if sending email via "Reset via email" link results in an error, after sending sms',
       function () {
         return setupWithSms().then(function (test) {
           test.setNextResponse(resChallengeSms);
@@ -643,7 +644,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
         });
       });
-      itp('shows the "Reset via email" link after making a Voice Call', function () {
+      itpa('shows the "Reset via email" link after making a Voice Call', function () {
         return setupWithCall().then(function (test) {
           test.setNextResponse(resChallengeCall);
           test.form.setUsername('foo');

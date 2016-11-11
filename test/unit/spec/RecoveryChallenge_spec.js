@@ -19,8 +19,9 @@ define([
 function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
           $sandbox, resChallenge, resResendError, resVerifyError, res200, resSuccess) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp  = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   function setup(settings) {
     var setNextResponse = Util.mockAjax();
@@ -63,9 +64,10 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
       this.originalDelay = _.delay;
       spyOn(_, 'delay');
     });
-    itp('displays the security beacon', function () {
+    itpa('displays the security beacon', function () {
       return setup().then(function (test) {
         expect(test.beacon.isSecurityBeacon()).toBe(true);
+        return Expect.waitForA11yCheck();
       });
     });
     itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
@@ -205,6 +207,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
       .then(function (test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+        return Expect.waitForA11yCheck();
       });
     });
     itp('shows an error msg if there is an error submitting the code', function () {

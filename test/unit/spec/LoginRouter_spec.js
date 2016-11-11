@@ -37,6 +37,7 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           resMfaEnroll, errorInvalidToken, Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
 
   var itp = Expect.itp,
+      itpa = Expect.itpa,
       tick = Expect.tick,
       _ = Okta._,
       $ = Okta.$;
@@ -374,7 +375,7 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         expect(form.isRecoveryQuestion()).toBe(true);
       });
     });
-    itp('navigates to PrimaryAuth and shows a flash error if the stateToken expires', function () {
+    itpa('navigates to PrimaryAuth and shows a flash error if the stateToken expires', function () {
       return setup()
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
@@ -408,7 +409,7 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         expect(form.hasErrors()).toBe(false);
       });
     });
-    itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {
+    itpa('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {
       Util.mockDuo();
       return setup()
       .then(function (test) {
@@ -434,7 +435,7 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         expect(form.usernameField().length).toBe(1);
       });
     });
-    itp('makes a call to previous if the page is refreshed in an MFA_CHALLENGE state', function () {
+    itpa('makes a call to previous if the page is refreshed in an MFA_CHALLENGE state', function () {
       return setup()
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
@@ -451,7 +452,7 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         expect(form.isSecurityQuestion()).toBe(true);
       });
     });
-    itp('checks auto push by default for a returning user', function () {
+    itpa('checks auto push by default for a returning user', function () {
       Util.mockCookie('auto_push_' + CryptoUtil.getStringHash('00uhn6dAGR4nUB4iY0g3'), 'true');
       return setup({'features.autoPush': true})
       .then(function (test) {
@@ -583,11 +584,11 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
         return setupOAuth2({'authParams.responseType': 'code'})
         .then(expectCodeRedirect({responseMode: 'query', responseType:'code'}));
       });
-      itp('redirects if there are multiple responseTypes, and one is "code"', function () {
+      itpa('redirects if there are multiple responseTypes, and one is "code"', function () {
         return setupOAuth2({'authParams.responseType': ['id_token', 'code']})
         .then(expectCodeRedirect({responseMode: 'fragment', 'responseType': 'id_token%20code'}));
       });
-      itp('redirects instead of using an iframe if display is "page"', function () {
+      itpa('redirects instead of using an iframe if display is "page"', function () {
         return setupOAuth2({'authParams.display': 'page'})
         .then(expectCodeRedirect({
           responseMode: 'fragment',
@@ -595,7 +596,7 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
           display: 'page'
         }));
       });
-      itp('creates an iframe with the correct url when authStatus is SUCCESS', function () {
+      itpa('creates an iframe with the correct url when authStatus is SUCCESS', function () {
         return setupOAuth2()
         .then(function (test) {
           expectAuthorizeUrl(test.iframeElem.src, {
@@ -730,7 +731,7 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
     });
 
    Expect.describe('Config: "i18n"', function () {
-      itp('supports deprecated "labels" and "country" options', function () {
+      itpa('supports deprecated "labels" and "country" options', function () {
         return setupLanguage({
           settings: {
             labels: {

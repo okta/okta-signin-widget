@@ -22,8 +22,9 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           resAllFactors, resExistingPhone, resEnrollSuccess, resEnrollError, resActivateError,
           resSuccess, Router) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollCall', function () {
 
@@ -111,7 +112,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
     }
 
     Expect.describe('Header & Footer', function () {
-      itp('displays the correct factorBeacon', function () {
+      itpa('displays the correct factorBeacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-okta-call')).toBe(true);
@@ -124,7 +125,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             .toEqual(['signin/enroll', { trigger: true }]);
         });
       });
-      itp('returns to factor list when browser\'s back button is clicked', function () {
+      itpa('returns to factor list when browser\'s back button is clicked', function () {
         return setup(null, true).then(function (test) {
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
@@ -134,7 +135,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           Util.stopRouter();
         });
       });
-      itp('visits previous link if phone is enrolled, but not activated', function () {
+      itpa('visits previous link if phone is enrolled, but not activated', function () {
         return setupAndSendValidCode().then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resAllFactors);
@@ -155,7 +156,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
     });
 
     Expect.describe('Enroll phone number', function () {
-      itp('has a list of countries in alphabetical order', function () {
+      itpa('has a list of countries in alphabetical order', function () {
         return setup().then(function (test) {
           var countries = test.form.countriesList();
           expect(countries[0]).toEqual({ val: 'AF', text: 'Afghanistan' });
@@ -224,7 +225,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             expect(test.form.hasErrors()).toBe(true);
           });
       });
-      itp('clears previous errors in form when redial', function () {
+      itpa('clears previous errors in form when redial', function () {
         return setupAndSendInvalidCode().then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
@@ -270,11 +271,12 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           expectCallingButton(test);
         });
       });
-      itp('appends updatePhone=true to the request if user has an existing phone', function () {
-        return setup(resExistingPhone).then(function (test) {
+      itpa('appends updatePhone=true to the request if user has an existing phone', function () {
+        return setup(resExistingPhone)
+        .then(function (test) {
           $.ajax.calls.reset();
           return sendCode(test, resEnrollSuccess, 'US', '6501231234');
-        })
+        })      
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
@@ -313,7 +315,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           });
         });
       });
-      itp('if phone number is changed after enroll, resets the status to MFA_Enroll ' +
+      itpa('if phone number is changed after enroll, resets the status to MFA_Enroll ' +
           'and then enrolls with updatePhone=true', function () {
         return setupAndSendValidCode().then(function (test) {
           expectCallingButton(test);
@@ -404,7 +406,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           Expect.isVisible(test.form.submitButton());
         });
       });
-      itp('does not send request and shows error if code is not entered', function () {
+      itpa('does not send request and shows error if code is not entered', function () {
         return setupAndSendValidCode().then(function (test) {
           $.ajax.calls.reset();
           test.form.submit();
@@ -412,7 +414,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           expect(test.form.hasErrors()).toBe(true);
         });
       });
-      itp('calls activate with the right params if passes validation', function () {
+      itpa('calls activate with the right params if passes validation', function () {
         return setupAndSendValidCode()
         .then(function (test) {
           $.ajax.calls.reset();
@@ -432,7 +434,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           });
         });
       });
-      itp('shows error if error response on verification', function () {
+      itpa('shows error if error response on verification', function () {
         return setupAndSendValidCode()
         .then(function (test) {
           Q.stopUnhandledRejectionTracking();

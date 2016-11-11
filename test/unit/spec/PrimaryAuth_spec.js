@@ -31,9 +31,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           resSecurityImageFail, resSuccess, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, $sandbox) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
-  var processCredsSpy = jasmine.createSpy();
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick,
+      processCredsSpy = jasmine.createSpy();
 
   var BEACON_LOADING_CLS = 'beacon-loading';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
@@ -151,7 +152,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
   Expect.describe('PrimaryAuth', function () {
 
     Expect.describe('settings', function () {
-      itp('uses default title', function () {
+      itpa('uses default title', function () {
         return setup().then(function (test) {
           expect(test.form.titleText()).toEqual('Sign In');
         });
@@ -178,13 +179,13 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect($password.attr('placeholder')).toEqual('Password');
         });
       });
-      itp('uses default for rememberMe', function () {
+      itpa('uses default for rememberMe', function () {
         return setup({ 'features.rememberMe': true }).then(function (test) {
           var label = test.form.rememberMeLabelText();
           expect(label).toEqual('Remember me');
         });
       });
-      itp('uses default for unlock account', function () {
+      itpa('uses default for unlock account', function () {
         return setup({'features.selfServiceUnlock': true}).then(function (test) {
           var label = test.form.unlockLabel();
           expect(label.trim()).toBe('Unlock account?');
@@ -209,7 +210,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(tip).toEqual('Password');
         });
       });
-      itp('focuses on username field in browsers other than IE', function () {
+      itpa('focuses on username field in browsers other than IE', function () {
         spyOn(BrowserFeatures, 'isIE').and.returnValue(false);
         return setup().then(function (test) {
           var $username = test.form.usernameField();

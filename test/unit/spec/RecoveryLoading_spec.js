@@ -17,8 +17,9 @@ define([
 function (Q, _, $, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView,
           Expect, Router, resRecovery, resSecurityImage, $sandbox) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp  = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   function setup(settings, callRecoveryLoading) {
     var setNextResponse = Util.mockAjax();
@@ -54,7 +55,7 @@ function (Q, _, $, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView
 
   Expect.describe('Recovery Loading', function () {
 
-    itp('makes a request with correct token passed in url', function () {
+    itpa('makes a request with correct token passed in url', function () {
       return setup({}, true).then(function (test) {
         expect($.ajax.calls.count()).toBe(1);
         Expect.isJsonPost($.ajax.calls.argsFor(0), {

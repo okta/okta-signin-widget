@@ -23,8 +23,9 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
           resAllFactors, resExistingPhone, resEnrollSuccess, resEnrollError, resActivateError,
           resSuccess, Router) {
 
-  var itp = Expect.itp;
-  var tick = Expect.tick;
+  var itp = Expect.itp,
+      itpa = Expect.itpa,
+      tick = Expect.tick;
 
   Expect.describe('EnrollSms', function () {
 
@@ -112,7 +113,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
     }
 
     Expect.describe('Header & Footer', function () {
-      itp('displays the correct factorBeacon', function () {
+      itpa('displays the correct factorBeacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-okta-sms')).toBe(true);
@@ -136,7 +137,8 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
         });
       });
       itp('visits previous link if phone is enrolled, but not activated', function () {
-        return setupAndSendValidCode().then(function (test) {
+        return setupAndSendValidCode()
+        .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resAllFactors);
           test.form.backLink().click();
@@ -187,7 +189,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
           expect(test.form.selectedCountry()).toBe('United States');
         });
       });
-      itp('updates the phone number country calling code when country is changed', function () {
+      itpa('updates the phone number country calling code when country is changed', function () {
         return setup().then(function (test) {
           expect(test.form.phonePrefixText()).toBe('+1');
           test.form.selectCountry('AQ');
@@ -219,7 +221,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
           Expect.isNotVisible(test.form.submitButton());
         });
       });
-      itp('sends sms when return key is pressed in phoneNumber field', function () {
+      itpa('sends sms when return key is pressed in phoneNumber field', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
           return sendCodeOnEnter(test, resEnrollSuccess, 'US', '4151111111');
@@ -310,7 +312,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
           });
         });
       });
-      itp('uses resend and not enrollFactor when re-send is clicked', function () {
+      itpa('uses resend and not enrollFactor when re-send is clicked', function () {
         Util.speedUpDelay();
         return setupAndSendValidCode()
         .then(function (test) {
@@ -371,7 +373,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
           Expect.isVisible(test.form.submitButton());
         });
       });
-      itp('submitting a number, then changing it, and then changing it back ' +
+      itpa('submitting a number, then changing it, and then changing it back ' +
         'will still use the resend endpoint', function () {
         // The send button is normally diabled for several seconds
         // to prevent too many calls to the API, but for testing
@@ -450,7 +452,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
           });
         });
       });
-      itp('shows error if error response on verification', function () {
+      itpa('shows error if error response on verification', function () {
         return setupAndSendValidCode()
         .then(function (test) {
           test.setNextResponse(resActivateError);
