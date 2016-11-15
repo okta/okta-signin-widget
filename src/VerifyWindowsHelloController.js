@@ -17,9 +17,9 @@ define([
   'util/webauthn',
   'views/shared/Spinner',
   'views/shared/FooterSignout',
-  'views/mfa-verify/WindowsHelloErrorMessageView'
+  'views/mfa-verify/HtmlErrorMessageView'
 ],
-function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, WindowsHelloErrorMessageView) {
+function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, HtmlErrorMessageView) {
 
   var _ = Okta._;
 
@@ -115,7 +115,7 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Wind
         if (!webauthn.isAvailable()) {
           result.push(
             FormType.View(
-              { View: new WindowsHelloErrorMessageView(
+              { View: new HtmlErrorMessageView(
                 { message: Okta.loc('enroll.windowsHello.error.notWindows', 'login') })},
               { selector: '.o-form-error-container' }
             )
@@ -167,7 +167,7 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Wind
         this._resetErrorMessage();
 
         if (message) {
-          var messageView = new WindowsHelloErrorMessageView({
+          var messageView = new HtmlErrorMessageView({
             message: message
           });
 

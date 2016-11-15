@@ -132,7 +132,7 @@ function (Okta,
         return emulateNotWindows()
         .then(setup)
         .then(function (test) {
-          expect(test.form.hasErrorWindowsHello()).toBe(true);
+          expect(test.form.hasErrorHtml()).toBe(true);
           expect(test.form.submitButton().length).toBe(0);
         });
       });
@@ -141,7 +141,7 @@ function (Okta,
         return emulateWindows()
         .then(setup)
         .then(function (test) {
-          expect(test.form.hasErrorWindowsHello()).toBe(false);
+          expect(test.form.hasErrorHtml()).toBe(false);
           expect(test.form.submitButton().length).toBe(1);
         });
       });
@@ -216,7 +216,7 @@ function (Okta,
         })
         .then(function (test) {
           expect($.ajax.calls.count()).toBe(2);
-          expect(test.form.hasErrorWindowsHello()).toBe(false);
+          expect(test.form.hasErrorHtml()).toBe(false);
         });
       });
 
@@ -230,7 +230,7 @@ function (Okta,
         })
         .then(function (test) {
           expect($.ajax.calls.count()).toBe(2);
-          expect(test.form.hasErrorWindowsHello()).toBe(true);
+          expect(test.form.hasErrorHtml()).toBe(true);
         });
       });
     });

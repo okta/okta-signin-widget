@@ -58,6 +58,10 @@ define(['underscore'], function (_) {
     return /(msie|trident)/i.test(navigator.userAgent);
   };
 
+  fn.isFirefox = function () {
+    return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+  };
+
   // Returns a list of languages the user has configured for their browser, in
   // order of preference.
   fn.getUserLanguages = function () {

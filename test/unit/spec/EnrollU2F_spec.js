@@ -1,4 +1,4 @@
-/*jshint maxparams:13 */
+/*jshint maxparams:20 */
 define([
   'okta',
   'jquery',
@@ -8,6 +8,7 @@ define([
   'helpers/dom/EnrollU2FForm',
   'helpers/dom/Beacon',
   'helpers/util/Expect',
+  'util/BrowserFeatures',
   'sandbox',
   'LoginRouter',
   'helpers/xhr/MFA_ENROLL_allFactors',
@@ -22,6 +23,7 @@ function (Okta,
           Form,
           Beacon,
           Expect,
+          BrowserFeatures,
           $sandbox,
           Router,
           resAllFactors,
@@ -65,10 +67,16 @@ function (Okta,
       });
     }
 
+    function mockFirefox(isAvailable){
+      spyOn(BrowserFeatures, 'isFirefox').and.returnValue(isAvailable);
+    }
+
+    function mockU2f(){
+      window.u2f = { register: function () {} };
+    }
+
     function mocku2fSuccessRegistration() {
-      if (!window.u2f) {
-        window.u2f = { register: function () {} };
-      }
+      mockU2f();
       spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
         callback({
           registrationData: 'someRegistrationData',
@@ -79,13 +87,25 @@ function (Okta,
       });
     }
 
-    function mocku2fFailedRegistration() {
-      if (!window.u2f) {
-        window.u2f = { register: function () {} };
-      }
+    function setupU2fFails(errorCode) {
+      Q.stopUnhandledRejectionTracking();
+      mockU2f();
       spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
-        callback({ errorCode: '2' });
+        callback({ errorCode: errorCode });
       });
+
+      return setup().then(function (test) {
+        test.setNextResponse(resEnrollActivateU2F);
+        test.form.submit();
+        return tick(test);
+      });
+    }
+
+    function expectErrorHtml(test, errorMessage){
+      expect(window.u2f.register).toHaveBeenCalled();
+      expect(test.form.hasErrors()).toBe(true);
+      expect(test.form.errorBox()).toHaveLength(1);
+      expect(test.form.errorMessage()).toEqual(errorMessage);
     }
 
     Expect.describe('Header & Footer', function () {
@@ -103,7 +123,50 @@ function (Okta,
     });
 
     Expect.describe('Enroll factor', function () {
+      itp('shows error if wrong browser', function () {
+        delete window.u2f;
+        mockFirefox(false);
+
+        return setup().then(function (test) {
+          expect(test.form.errorHtml()).toHaveLength(1);
+          expect(test.form.errorHtml().html()).toEqual('The Security Key is only supported for Chrome or ' +
+            'Firefox browsers. Select another factor or contact your admin for assistance.');
+        });
+      });
+
+      itp('shows error if Firefox without extension', function () {
+        delete window.u2f;
+        mockFirefox(true);
+
+        return setup().then(function (test) {
+          expect(test.form.errorHtml()).toHaveLength(1);
+          expect(test.form.errorHtml().html()).toEqual('<a target="_blank" ' +
+            'href="https://addons.mozilla.org/en-US/firefox/addon/u2f-support-add-on/">Download</a> ' +
+            'and install the Firefox U2F browser extension before proceeding. You may be required to restart ' +
+            'your browser after installation.');
+        });
+      });
+
+      itp('does not show error if Chrome', function () {
+        mockU2f();
+
+        return setup().then(function (test) {
+          expect(test.form.errorHtml()).toHaveLength(0);
+        });
+      });
+
+      itp('does not show error if Firefox with extension', function () {
+        mockU2f();
+        mockFirefox(true);
+
+        return setup().then(function (test) {
+          expect(test.form.errorHtml()).toHaveLength(0);
+        });
+      });
+
       itp('shows instructions and a register button', function () {
+        mockU2f();
+
         return setup().then(function (test) {
           Expect.isVisible(test.form.enrollInstructions());
           Expect.isVisible(test.form.submitButton());
@@ -170,17 +233,38 @@ function (Okta,
         });
       });
 
-      itp('shows error if u2f.register fails', function () {
-        Q.stopUnhandledRejectionTracking();
-        mocku2fFailedRegistration();
-        return setup().then(function (test) {
-          test.setNextResponse(resEnrollActivateU2F);
-          test.form.submit();
-          return tick(test);
-        })
+      itp('shows proper error if u2f.register fails with code 1', function () {
+        return setupU2fFails(1)
         .then(function (test) {
-          expect(window.u2f.register).toHaveBeenCalled();
-          expect(test.form.hasErrors()).toBe(true);
+          expectErrorHtml(test, 'An unknown error has occured. Try again or select another factor.');
+        });
+      });
+
+      itp('shows proper error if u2f.register fails with code 2', function () {
+        return setupU2fFails(2)
+        .then(function (test) {
+          expectErrorHtml(test, 'There was an error with the U2F request. Try again or select another factor.');
+        });
+      });
+
+      itp('shows proper error if u2f.register fails with code 3', function () {
+        return setupU2fFails(3)
+        .then(function (test) {
+          expectErrorHtml(test, 'There was an error with the U2F request. Try again or select another factor.');
+        });
+      });
+
+      itp('shows proper error if u2f.register fails with code 4', function () {
+        return setupU2fFails(4)
+        .then(function (test) {
+          expectErrorHtml(test, 'The security key is unsupported. Select another factor.');
+        });
+      });
+
+      itp('shows proper error if u2f.register fails with code 5', function () {
+        return setupU2fFails(5)
+        .then(function (test) {
+          expectErrorHtml(test, 'You have timed out of the authentication period. Please try again.');
         });
       });
     });

@@ -1,6 +1,7 @@
 /*jshint maxparams:50, maxstatements:40, camelcase:false, newcap:false */
 /*global JSON */
 define([
+  'okta',
   'vendor/lib/q',
   'underscore',
   'jquery',
@@ -44,7 +45,8 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Q,
+function (Okta,
+          Q,
           _,
           $,
           Duo,
@@ -174,15 +176,29 @@ function (Q,
       ]);
     }
 
+    function mockFirefox(isAvailable){
+      spyOn(BrowserFeatures, 'isFirefox').and.returnValue(isAvailable);
+    }
 
     function setupU2F(options) {
-      if (!window.u2f || !window.u2f.sign) {
-        window.u2f = { sign: function () {} };
+      options || (options = {});
+
+      mockFirefox(options.firefox);
+
+      if (options.u2f) {
+        window.u2f = {
+          sign: function () {
+          }
+        };
+        spyOn(window.u2f, 'sign');
+        if (options && options.signStub) {
+          window.u2f.sign.and.callFake(options.signStub);
+        }
       }
-      spyOn(window.u2f, 'sign');
-      if (options && options.signStub) {
-        window.u2f.sign.and.callFake(options.signStub);
+      else {
+        delete window.u2f;
       }
+
       return setup(resAllFactors)
       .then(function (test) {
         var responses = [resChallengeU2F];
@@ -1823,7 +1839,7 @@ function (Q,
           return emulateNotWindows()
           .then(setupWebauthn)
           .then(function (test) {
-            expect(test.form.el('o-form-error-windows-hello').length).toBe(1);
+            expect(test.form.el('o-form-error-html').length).toBe(1);
             expect(test.form.submitButton().length).toBe(0);
           });
         });
@@ -1832,7 +1848,7 @@ function (Q,
           return emulateWindows()
           .then(setupWebauthn)
           .then(function (test) {
-            expect(test.form.el('o-form-error-windows-hello').length).toBe(0);
+            expect(test.form.el('o-form-error-html').length).toBe(0);
             expect(test.form.submitButton().length).toBe(1);
           });
         });
@@ -1872,7 +1888,7 @@ function (Q,
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
           .then(function (test) {
-            expect(test.form.el('o-form-error-windows-hello').length).toBe(0);
+            expect(test.form.el('o-form-error-html').length).toBe(0);
             expect($.ajax.calls.count()).toBe(2);
           });
         });
@@ -1886,7 +1902,7 @@ function (Q,
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
           .then(function (test) {
-            expect(test.form.el('o-form-error-windows-hello').length).toBe(1);
+            expect(test.form.el('o-form-error-html').length).toBe(1);
             expect($.ajax.calls.count()).toBe(2);
           });
         });
@@ -1900,7 +1916,7 @@ function (Q,
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
           .then(function (test) {
-            expect(test.form.el('o-form-error-windows-hello').length).toBe(1);
+            expect(test.form.el('o-form-error-html').length).toBe(1);
             expect($.ajax.calls.count()).toBe(2);
           });
         });
@@ -1941,21 +1957,46 @@ function (Q,
 
       Expect.describe('Security Key (U2F)', function () {
         itp('shows the right beacon for Security Key (U2F)', function () {
-          return setupU2F().then(function (test) {
+          return setupU2F({u2f: true}).then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-u2f');
             return Expect.waitForSpyCall(window.u2f.sign);
           });
         });
 
         itp('shows the right title', function () {
-          return setupU2F().then(function (test) {
+          return setupU2F({u2f: true}).then(function (test) {
             expectTitleToBe(test, 'Security Key (U2F)');
             return Expect.waitForSpyCall(window.u2f.sign);
           });
         });
 
+        itp('shows error if wrong browser', function () {
+          return setupU2F({u2f: false, firefox: false}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').find('strong').html())
+            .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
+              'Select another factor or contact your admin for assistance.');
+          });
+        });
+
+        itp('shows error if Firefox without extension', function () {
+          return setupU2F({u2f: false, firefox: true}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').find('strong').html())
+            .toEqual('<a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/u2f-support-add-on/">' +
+              'Download</a> and install the Firefox U2F browser extension before proceeding. You may be required to ' +
+              'restart your browser after installation.');
+          });
+        });
+
+        itp('does not show error if correct browser', function () {
+          return setupU2F({u2f: true}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(0);
+          });
+        });
+
         itp('shows a spinner while waiting for u2f challenge', function () {
-          return setupU2F().then(function (test) {
+          return setupU2F({u2f: true}).then(function (test) {
             expect(test.form.el('u2f-waiting').length).toBe(1);
             return Expect.waitForSpyCall(window.u2f.sign);
           });
@@ -1969,7 +2010,7 @@ function (Q,
               signatureData: 'someSignature'
             });
           };
-          return setupU2F({ signStub: signStub, res: resSuccess })
+          return setupU2F({u2f: true, signStub: signStub, res: resSuccess})
           .then(function (test) {
             return Expect.waitForSpyCall(test.successSpy);
           })
@@ -1995,9 +2036,9 @@ function (Q,
         itp('shows an error if u2f.sign fails', function () {
           Q.stopUnhandledRejectionTracking();
           var signStub = function (appId, nonce, registeredKeys, callback) {
-            callback({ errorCode: '2' });
+            callback({ errorCode: 2 });
           };
-          return setupU2F({ signStub: signStub })
+          return setupU2F({u2f: true, signStub: signStub})
           .then(function (test) {
             return Expect.waitForFormError(test.form, test);
           })
