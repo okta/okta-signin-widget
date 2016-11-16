@@ -538,23 +538,26 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
     Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function () {
 
       function expectAuthorizeUrl(url, options) {
-          var expectedUrl = 'https://foo.com/oauth2/v1/authorize?' +
-            'client_id=someClientId&' +
-            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-            'response_type=' + options.responseType + '&' +
-            'response_mode=' + options.responseMode + '&' +
-            'state=' + OIDC_STATE + '&' +
-            'nonce=' + OIDC_NONCE + '&';
-          if (options.display) {
-            expectedUrl += 'display=' + options.display + '&';
-          }
-          if (options.prompt) {
-            expectedUrl += 'prompt=' + options.prompt + '&';
-          }
-          expectedUrl += '' +
-            'sessionToken=THE_SESSION_TOKEN&' +
-            'scope=openid%20email';
-          expect(url).toBe(expectedUrl);
+        var authorizeUrl = options.authorizeUrl || 'https://foo.com/oauth2/v1/authorize';
+        var state = options.state || OIDC_STATE;
+        var nonce = options.nonce || OIDC_NONCE;
+        var expectedUrl = authorizeUrl + '?' +
+          'client_id=someClientId&' +
+          'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+          'response_type=' + options.responseType + '&' +
+          'response_mode=' + options.responseMode + '&' +
+          'state=' + state + '&' +
+          'nonce=' + nonce + '&';
+        if (options.display) {
+          expectedUrl += 'display=' + options.display + '&';
+        }
+        if (options.prompt) {
+          expectedUrl += 'prompt=' + options.prompt + '&';
+        }
+        expectedUrl += '' +
+          'sessionToken=THE_SESSION_TOKEN&' +
+          'scope=openid%20email';
+        expect(url).toBe(expectedUrl);
       }
 
       function expectCodeRedirect(options) {
@@ -582,6 +585,75 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       itp('redirects instead of using an iframe if the responseType is "code"', function () {
         return setupOAuth2({'authParams.responseType': 'code'})
         .then(expectCodeRedirect({responseMode: 'query', responseType:'code'}));
+      });
+      itp('redirects to alternate authorizeUrl if the responseType is "code"', function () {
+        return setupOAuth2({
+          'authParams.responseType': 'code',
+          'authParams.authorizeUrl': 'https://altfoo.com/oauth2/v1/authorize'
+        })
+        .then(expectCodeRedirect({
+          authorizeUrl: 'https://altfoo.com/oauth2/v1/authorize',
+          responseMode: 'query',
+          responseType:'code'
+        }));
+      });
+      itp('redirects to alternate authorizeUrl if an alternate issuer is provided', function () {
+        return setupOAuth2({
+          'authParams.responseType': 'code',
+          'authParams.issuer': 'https://altfoo.com'
+        })
+        .then(expectCodeRedirect({
+          authorizeUrl: 'https://altfoo.com/oauth2/v1/authorize',
+          responseMode: 'query',
+          responseType:'code'
+        }));
+      });
+      itp('redirects to alternate authorizeUrl if an alternate issuer and alternate authorizeUrl is provided', function () {
+        return setupOAuth2({
+          'authParams.responseType': 'code',
+          'authParams.issuer': 'https://altfoo.com',
+          'authParams.authorizeUrl': 'https://reallyaltfoo.com/oauth2/v1/authorize'
+        })
+        .then(expectCodeRedirect({
+          authorizeUrl: 'https://reallyaltfoo.com/oauth2/v1/authorize',
+          responseMode: 'query',
+          responseType:'code'
+        }));
+      });
+      itp('redirects with alternate state provided', function () {
+        return setupOAuth2({
+          'authParams.responseType': 'code',
+          'authParams.state': 'myalternatestate'
+        })
+        .then(expectCodeRedirect({
+          state: 'myalternatestate',
+          responseMode: 'query',
+          responseType:'code'
+        }));
+      });
+      itp('redirects with alternate nonce provided', function () {
+        return setupOAuth2({
+          'authParams.responseType': 'code',
+          'authParams.nonce': 'myalternatenonce'
+        })
+        .then(expectCodeRedirect({
+          nonce: 'myalternatenonce',
+          responseMode: 'query',
+          responseType:'code'
+        }));
+      });
+      itp('redirects with alternate state and nonce provided', function () {
+        return setupOAuth2({
+          'authParams.responseType': 'code',
+          'authParams.state': 'myalternatestate',
+          'authParams.nonce': 'myalternatenonce'
+        })
+        .then(expectCodeRedirect({
+          state: 'myalternatestate',
+          nonce: 'myalternatenonce',
+          responseMode: 'query',
+          responseType:'code'
+        }));
       });
       itp('redirects if there are multiple responseTypes, and one is "code"', function () {
         return setupOAuth2({'authParams.responseType': ['id_token', 'code']})

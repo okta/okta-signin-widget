@@ -104,6 +104,11 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
       'authParams.responseType': ['any', false, 'id_token'],
       'authParams.scopes': ['array', false],
 
+      'authParams.issuer': ['string', false],
+      'authParams.authorizeUrl': ['string', false],
+      'authParams.state': ['string', false],
+      'authParams.nonce': ['string', false],
+
       'clientId': 'string',
       'redirectUri': 'string',
       'idps': ['array', false, []],
