@@ -55,13 +55,18 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     _.extend(
       oauthParams,
       _.pick(options, 'clientId', 'redirectUri'),
-      _.pick(options.authParams, 'responseType', 'responseMode', 'display', 'scopes'),
+      _.pick(options.authParams, 'responseType', 'responseMode', 'display', 'scopes', 'state', 'nonce'),
       params
     );
 
     // Extra Options for Social Idp popup window title and id_token response timeout
     extraOptions.popupTitle = Okta.loc('socialauth.popup.title', 'login');
     extraOptions.timeout = options.oAuthTimeout;
+
+    _.extend(
+      extraOptions,
+      _.pick(options.authParams, 'issuer', 'authorizeUrl')
+    );
 
     // Redirect flow - this can be used when logging into an external IDP, or
     // converting the Okta sessionToken to an access_token, id_token, and/or
