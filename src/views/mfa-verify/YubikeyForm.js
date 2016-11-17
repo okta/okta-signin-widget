@@ -35,7 +35,8 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
         className: 'o-form-fieldset o-form-label-top auth-passcode',
         name: 'answer',
         input: TextBox,
-        type: 'password'
+        type: 'password',
+        placeholder: Okta.loc('factor.totpHard.yubikey.placeholder','login')
       });
 
       if (this.options.appState.get('allowRememberDevice')) {
