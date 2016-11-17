@@ -784,7 +784,7 @@ function (Okta,
         });
         itp('has right placeholder text in answer field', function () {
           return setupYubikey().then(function (test) {
-            expectHasRightPlaceholderText(test,'Click here, then tap your Yubikey');
+            expectHasRightPlaceholderText(test, 'Click here, then tap your Yubikey');
           });
         });
         itp('does not autocomplete', function () {
