@@ -17,8 +17,7 @@
 define([
   'okta',
   'backbone',
-  './BrowserFeatures', // Note: BrowserFeatures must be loaded before xdomain, because xdomain overwrites the XHR object
-  'xdomain',
+  './BrowserFeatures',
   'RefreshAuthStateController',
   'models/Settings',
   'views/shared/Header',
@@ -30,7 +29,7 @@ define([
   './Errors',
   'util/Bundles'
 ],
-function (Okta, Backbone, BrowserFeatures, XDomain, RefreshAuthStateController, Settings, Header,
+function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings, Header,
           SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations, Errors, Bundles) {
 
   var _ = Okta._,
@@ -75,8 +74,6 @@ function (Okta, Backbone, BrowserFeatures, XDomain, RefreshAuthStateController, 
     Events:  Backbone.Events,
 
     initialize: function (options) {
-      var xdomainSlaves;
-
       this.settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });
       this.settings.setAuthClient(options.authClient);
 
@@ -84,22 +81,6 @@ function (Okta, Backbone, BrowserFeatures, XDomain, RefreshAuthStateController, 
         this.settings.callGlobalError(new Errors.ConfigError(
           Okta.loc('error.required.el')
         ));
-      }
-
-      // Use xdomain for IE8 and IE9 cross origin requests
-      // Note: xdomain only runs in a cross origin context, so it is safe to
-      // always start it (even if, for example, we're using this code on the
-      // okta login page)
-      if (BrowserFeatures.corsIsLimited()) {
-        // Notes:
-        // 1. Must manually set $.support.cors here since this is called after
-        //    jQuery has already determined cors support
-        // 2. After updating OktaAuth to not use reqwest, we should also add:
-        //    xhook.addWithCredentials = false
-        $.support.cors = true;
-        xdomainSlaves = {};
-        xdomainSlaves[this.settings.get('baseUrl')] = '/cors/proxy';
-        XDomain.xdomain.slaves(xdomainSlaves);
       }
 
       $('body > div').on('click', function () {

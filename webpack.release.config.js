@@ -38,8 +38,7 @@ entryConfig.externals = {
   'qtip': 'qtip2',
   'u2f-api-polyfill': true,
   'underscore': true,
-  'vendor/lib/q': 'q',
-  'xdomain': true
+  'vendor/lib/q': 'q'
 
   // We explicitly choose not to include jquery.placeholder in the externals
   // array because it requires a shim (requires work in their webpack.config).
@@ -68,10 +67,6 @@ cdnConfig.plugins = [
       // UglifyJS2 treats consecutive inline comments as separate comments, so we
       // need exceptions to include all relevant licenses.
       var exceptions = [
-        'XDomain - v0.7.5 - https://github.com/jpillora/xdomain',
-
-        'XHook - v1.3.5 - https://github.com/jpillora/xhook',
-
         'Chosen, a Select Box Enhancer',
         'by Patrick Filler for Harvest',
         'Version 0.11.1',
