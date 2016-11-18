@@ -783,6 +783,39 @@ Options for the [OpenId Connect](http://developer.okta.com/docs/api/resources/oi
     }
     ```
 
+- **authParams.state:** Specify a state that will be validated in an OAuth response. This is usually only provided during redirect flows to obtain an authorization code. Defaults to a random string.
+
+    ```javascript
+    authParams: {
+      state: '8rFzn3MH5q'
+    }
+    ```
+
+- **authParams.nonce:** Specify a nonce that will be validated in an id_token. This is usually only provided during redirect flows to obtain an authorization code that will be exchanged for an id_token. Defaults to a random string.
+
+    ```javascript
+    authParams: {
+      nonce: '51GePTswrm'
+    }
+    ```
+
+- **authParams.issuer:** Specify a custom issuer to perform the OIDC flow. Defaults to the baseUrl.
+
+    ```javascript
+    authParams: {
+      issuer: 'https://your-org.okta.com/oauth2/aus8aus76q8iphupD0h7'
+    }
+    ```
+
+- **authParams.authorizeUrl:** Specify a custom authorizeUrl to perform the OIDC flow. Defaults to the issuer plus "/v1/authorize".
+
+    ```javascript
+    authParams: {
+      issuer: 'https://your-org.okta.com/oauth2/aus8aus76q8iphupD0h7',
+      authorizeUrl: 'https://your-org.okta.com/oauth2/aus8aus76q8iphupD0h7/v1/authorize'
+    }
+    ```
+
 - **authScheme:** Authentication scheme for OIDC authentication. You will normally not need to override this value. Defaults to `OAUTH2`.
 
     ```javascript
