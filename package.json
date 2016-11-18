@@ -69,7 +69,7 @@
     "axe-webdriverjs": "0.4.0"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "1.5.0",
+    "@okta/okta-auth-js": "1.6.0",
     "backbone": "1.2.1",
     "handlebars": "4.0.5",
     "jquery": "1.12.1",
