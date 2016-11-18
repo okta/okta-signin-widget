@@ -4,7 +4,6 @@ define([
   'okta',
   'vendor/lib/q',
   'backbone',
-  'xdomain',
   'shared/util/Util',
   'util/CryptoUtil',
   'util/CookieUtil',
@@ -31,7 +30,7 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
+function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
           $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
           resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
           resMfaEnroll, errorInvalidToken, Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
@@ -208,28 +207,6 @@ function (Okta, Q, Backbone, XDomain, SharedUtil, CryptoUtil, CookieUtil, OktaAu
       return setup().then(function (test) {
         test.router.start();
         expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: false });
-      });
-    });
-    itp('initializes xdomain if cors is limited', function () {
-      spyOn(XDomain.xdomain, 'slaves');
-      spyOn(BrowserFeatures, 'corsIsLimited').and.returnValue(true);
-      return setup().then(function () {
-        expect(XDomain.xdomain.slaves).toHaveBeenCalledWith({
-          'https://foo.com': '/cors/proxy'
-        });
-      });
-    });
-    itp('manually sets $.support.cors = true if cors is limited', function () {
-      spyOn(BrowserFeatures, 'corsIsLimited').and.returnValue(false);
-      return setup().then(function () {
-        expect($.support.cors).toBe(true);
-      });
-    });
-    itp('does not initialize xdomain if cors is supported fully', function () {
-      spyOn(XDomain.xdomain, 'slaves');
-      spyOn(BrowserFeatures, 'corsIsLimited').and.returnValue(false);
-      return setup().then(function () {
-        expect(XDomain.xdomain.slaves).not.toHaveBeenCalled();
       });
     });
 

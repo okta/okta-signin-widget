@@ -1692,9 +1692,6 @@
     "ws": {
       "version": "1.1.1"
     },
-    "xdomain": {
-      "version": "0.7.3"
-    },
     "xhr2": {
       "version": "0.1.3"
     },

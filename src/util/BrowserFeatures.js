@@ -12,18 +12,9 @@
 
 define(['underscore'], function (_) {
 
-  // Save a reference to the original XHR object, before it's overwritten by
-  // xdomain. Note: This file must be loaded before xdomain.
-  var XHR = window.XMLHttpRequest,
-      fn = {},
-      hasFullCorsSupport = 'withCredentials' in new XHR(),
+  var fn = {},
+      hasFullCorsSupport = 'withCredentials' in new window.XMLHttpRequest(),
       hasXDomainRequest = typeof XDomainRequest !== 'undefined';
-
-  // IE8 and IE9
-  fn.corsIsLimited = function () {
-    // IE10 has XDomainRequest, but it is removed in IE11
-    return hasXDomainRequest && !hasFullCorsSupport;
-  };
 
   fn.corsIsNotSupported = function () {
     return !(hasFullCorsSupport || hasXDomainRequest);
