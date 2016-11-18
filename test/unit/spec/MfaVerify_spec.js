@@ -366,6 +366,10 @@ function (Okta,
       expect(answer.attr('type')).toEqual(fieldType);
     }
 
+    function expectHasRightPlaceholderText(test,placeholderText){
+      var answer = test.form.answerField();
+      expect(answer.attr('placeholder')).toEqual(placeholderText);
+    }
     Expect.describe('General', function () {
       Expect.describe('Defaults to the last used factor', function () {
         itp('Security Question', function () {
@@ -776,6 +780,11 @@ function (Okta,
         itp('has an answer field', function () {
           return setupYubikey().then(function (test) {
             expectHasAnswerField(test, 'password');
+          });
+        });
+        itp('has right placeholder text in answer field', function () {
+          return setupYubikey().then(function (test) {
+            expectHasRightPlaceholderText(test, 'Click here, then tap your Yubikey');
           });
         });
         itp('does not autocomplete', function () {
