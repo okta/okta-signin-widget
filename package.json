@@ -11,9 +11,6 @@
   "bugs": {
     "url": "https://github.com/okta/okta-signin-widget/issues"
   },
-  "publishConfig": {
-    "registry": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta"
-  },
   "files": [
     "dist"
   ],
@@ -31,9 +28,9 @@
     "build:webpack-release": "webpack --config webpack.release.config.js",
     "build:webpack-test": "webpack --config webpack.test.config.js",
     "build:webpack-e2e-app": "webpack target/e2e/app/app-using-osw-entry.js target/js/app-bundle.js",
-    "prestart": "npm run build:dev",
+    "prestart": "yarn build:dev",
     "start": "grunt start-server-open",
-    "prepublish": "npm run build:release",
+    "prepublish": "yarn build:release",
     "ci-update-package": "ci-update-package",
     "ci-pkginfo:dataload": "ci-pkginfo -t dataload",
     "installsw": "install-with-shrinkwrap"
@@ -80,11 +77,11 @@
     "u2f-api-polyfill": "0.4.1",
     "underscore": "1.8.3"
   },
-  "optionalDependencies": {
-    "@okta/ci-pkginfo": "1.2.0",
-    "@okta/ci-update-package": "1.4.0",
-    "@okta/courage": "1.13.0",
-    "@okta/i18n": "19.76.0",
-    "@okta/install-with-shrinkwrap": "1.4.0"
-  }
+  "bundledDependencies": [
+    "@okta/ci-pkginfo",
+    "@okta/ci-update-package",
+    "@okta/courage",
+    "@okta/i18n",
+    "@okta/install-with-shrinkwrap"
+  ]
 }
