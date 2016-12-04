@@ -1,14 +1,16 @@
 language: node_js
 node_js:
-- '5.8'
+- '6'
+before_install:
+- npm i -g yarn --cache-min 999999999
 install:
 - bundle install
-- npm install
+- yarn
 script:
-- npm run build:release
-- npm run lint
-- npm test
-- npm run test:e2e
+- yarn build:release
+- yarn lint
+- yarn test
+- yarn test:e2e
 cache: false
 addons:
   sauce_connect:
