@@ -131,6 +131,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
       var loadingSpy = jasmine.createSpy('loading');
       var delay = options.delay || 0;
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(options.userLanguages || []);
+      spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       return setup(options.settings)
       .then(function (test) {
         test.router.appState.on('loading', loadingSpy);
@@ -779,6 +780,25 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
     });
 
    Expect.describe('Config: "i18n"', function () {
+      itp('supports deprecated "labels" and "country" options no locatl storage', function () {
+        return setupLanguage({
+          settings: {
+            labels: {
+              'enroll.call.setup': 'test override title'
+            },
+            country: {
+              'JP': 'Nihon'
+            }
+          },
+          localStorageIsNotSupported: true
+        })
+        .then(function (test) {
+          test.form.selectCountry('JP');
+          expect(test.form.titleText()).toBe('test override title');
+          expect(test.form.selectedCountry()).toBe('Nihon');
+          Expect.deprecated('Use "i18n" instead of "labels" and "country"');
+        });
+      });
       itp('supports deprecated "labels" and "country" options', function () {
         return setupLanguage({
           settings: {
@@ -788,7 +808,8 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
             country: {
               'JP': 'Nihon'
             }
-          }
+          },
+          localStorageIsNotSupported: false
         })
         .then(function (test) {
           test.form.selectCountry('JP');
@@ -820,6 +841,22 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
               }
             }
           }
+        })
+        .then(function (test) {
+          test.form.selectCountry('JP');
+          expect(test.form.selectedCountry()).toBe('Nihon');
+        });
+      });
+      itp('uses "country.COUNTRY" to override text in the country bundle no local storage', function () {
+        return setupLanguage({
+          settings: {
+            i18n: {
+              'en': {
+                'country.JP': 'Nihon'
+              }
+            }
+          },
+          localStorageIsNotSupported: true
         })
         .then(function (test) {
           test.form.selectCountry('JP');
