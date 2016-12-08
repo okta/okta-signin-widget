@@ -20,8 +20,9 @@ define([
   'json!nls/login',
   'json!nls/country',
   'util/Logger',
-  'json!config/config'
-], function (_, Q, $, login, country, Logger, config) {
+  'json!config/config',
+  'util/BrowserFeatures'
+], function (_, Q, $, login, country, Logger, config, BrowserFeatures) {
 
   var STORAGE_KEY = 'osw.languages';
 
@@ -160,9 +161,14 @@ define([
       return Q({});
     }
 
-    var cached = getCachedLanguages();
-    if (cached[language]) {
-      return Q(cached[language]);
+    //local storage does not work correctly with android web views (embeded browers)
+    //so skip the caching and just make the request to get the local info
+    var localStorageIsSupported = !BrowserFeatures.localStorageIsNotSupported();
+    if (localStorageIsSupported) {
+      var cached = getCachedLanguages();
+      if (cached[language]) {
+        return Q(cached[language]);
+      }
     }
 
     return Q.all([
@@ -170,7 +176,9 @@ define([
       fetchJsonp('country', language, assets)
     ])
     .spread(function (loginJson, countryJson) {
-      addLanguageToCache(language, loginJson, countryJson);
+      if (localStorageIsSupported) {
+        addLanguageToCache(language, loginJson, countryJson);
+      }
       return { login: loginJson, country: countryJson };
     })
     .fail(function () {

@@ -61,7 +61,8 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
       });
     }
 
-    function setupWithLanguage(startRouter) {
+    function setupWithLanguage(options, startRouter) {
+      spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
       return setup(startRouter, [
         _.extend({ delay: 0 }, labelsLoginJa),
@@ -94,8 +95,8 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
         });
       });
     });
-    itp('has a localized list of questions if language is specified', function () {
-      return setupWithLanguage().then(function (test) {
+    itp('has a localized list of questions if language is specified no local storage', function () {
+      return setupWithLanguage({localStorageIsNotSupported: true}).then(function (test) {
         var questions = test.form.questionList();
         expect(questions.length).toBe(20);
         expect(questions[0]).toEqual({
@@ -104,8 +105,48 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
         });
       });
     });
-    itp('fallbacks to English if the question is not in the specified language bundle', function () {
-      return setupWithLanguage().then(function (test) {
+    itp('has a localized list of questions if language is specified', function () {
+      return setupWithLanguage({localStorageIsNotSupported: false}).then(function (test) {
+        var questions = test.form.questionList();
+        expect(questions.length).toBe(20);
+        expect(questions[0]).toEqual({
+          text: 'JA: What is the food you least liked as a child?',
+          val: 'disliked_food'
+        });
+      });
+    });
+    itp('has a localized list of questions if language is specified and no local storage', function () {
+      return setupWithLanguage({ localStorageIsNotSupported: true }).then(function (test) {
+        var questions = test.form.questionList();
+        expect(questions.length).toBe(20);
+        expect(questions[0]).toEqual({
+          text: 'JA: What is the food you least liked as a child?',
+          val: 'disliked_food'
+        });
+      });
+    });
+    itp('has a localized list of questions if language is specified', function () {
+      return setupWithLanguage({ localStorageIsNotSupported: false }).then(function (test) {
+        var questions = test.form.questionList();
+        expect(questions.length).toBe(20);
+        expect(questions[0]).toEqual({
+          text: 'JA: What is the food you least liked as a child?',
+          val: 'disliked_food'
+        });
+      });
+    });
+    itp('fallbacks to English if the question is not in the specified language bundle with local storage', function () {
+      return setupWithLanguage({ localStorageIsNotSupported: false }).then(function (test) {
+        var questions = test.form.questionList();
+        expect(questions.length).toBe(20);
+        expect(questions[1]).toEqual({
+          text: 'What is the name of your first stuffed animal?',
+          val: 'name_of_first_plush_toy'
+        });
+      });
+    });
+    itp('fallbacks to English if the question is not in the specified language bundle no local storage', function () {
+      return setupWithLanguage({ localStorageIsNotSupported: true }).then(function (test) {
         var questions = test.form.questionList();
         expect(questions.length).toBe(20);
         expect(questions[1]).toEqual({

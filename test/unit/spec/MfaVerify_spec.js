@@ -168,7 +168,8 @@ function (Okta,
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
     var setupWebauthnOnly = _.partial(setup, [resRequiredWebauthn, resChallengeWebauthn, resSuccess],
       {  factorType: 'webauthn', provider: 'FIDO' });
-    function setupSecurityQuestionLocalized() {
+    function setupSecurityQuestionLocalized(options) {
+      spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
       return setup(resAllFactors, { factorType: 'question' }, {}, [
         _.extend({ delay: 0 }, labelsLoginJa),
@@ -478,7 +479,12 @@ function (Okta,
           });
         });
         itp('sets the label to the user\'s security question (localized)', function () {
-          return setupSecurityQuestionLocalized().then(function (test) {
+          return setupSecurityQuestionLocalized({localStorageIsNotSupported : false}).then(function (test) {
+            expectLabelToBe(test, 'JA: What is the food you least liked as a child?', 'answer');
+          });
+        });
+        itp('sets the label to the user\'s security question (localized + no local storage)', function () {
+          return setupSecurityQuestionLocalized({localStorageIsNotSupported : true}).then(function (test) {
             expectLabelToBe(test, 'JA: What is the food you least liked as a child?', 'answer');
           });
         });

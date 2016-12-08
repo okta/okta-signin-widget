@@ -169,7 +169,6 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
               return supportedLanguages[supportedPos];
             }
           }
-
         }
       },
       oauth2Enabled: {
