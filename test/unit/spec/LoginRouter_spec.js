@@ -1092,8 +1092,9 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
             var userLanguages = args[1];
             expect(userLanguages).toEqual(['ja', 'ko', 'en']);
             expect(supported).toEqual([
-              'en', 'cs', 'da', 'de', 'es', 'fi', 'fr', 'hu', 'it', 'ja', 'ko',
-              'nl-NL', 'pt-BR', 'ro', 'ru', 'sv', 'th', 'uk', 'zh-CN', 'zh-TW'
+              'en', 'cs', 'da', 'de', 'es', 'fi', 'fr', 'hu', 'id', 'in', 'it',
+              'ja', 'ko', 'ms', 'nl-NL', 'pl', 'pt-BR', 'ro', 'ru', 'sv', 'th',
+              'uk', 'zh-CN', 'zh-TW'
             ]);
           });
         });
