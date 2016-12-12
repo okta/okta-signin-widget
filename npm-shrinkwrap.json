@@ -3,7 +3,7 @@
   "version": "1.8.0",
   "dependencies": {
     "@okta/courage": {
-      "version": "1.13.0"
+      "version": "1.14.0"
     },
     "@okta/okta-auth-js": {
       "version": "1.6.0"
