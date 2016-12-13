@@ -58,6 +58,7 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
 
       // IMAGES
       'logo': 'string',
+      'logoText' : ['string', false],
       'helpSupportNumber': 'string',
 
       // FEATURES

@@ -139,6 +139,7 @@ module.exports = function (grunt) {
                 options = _.extend({
                   baseUrl: 'http://rain.okta1.com:1802',
                   logo: '/img/logo_widgico.png',
+                  logoText: 'Windico',
                   features: {
                     router: true,
                     rememberMe: true,
