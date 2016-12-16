@@ -24,7 +24,7 @@ module.exports = function (grunt) {
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
 
-  var hasCheckStyle = process.argv.indexOf('--checkstyle') > -1;
+  var hasCheckStyle =  grunt.option('checkstyle');
 
   // .widgetrc is a json file that can be used by a dev to override
   // things like the widget options in the test server, the server port, etc
