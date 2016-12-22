@@ -1755,6 +1755,11 @@ function (Okta,
             expectTitleToBe(test, 'Duo Security');
           });
         });
+        itp('iframe has title', function () {
+          return setupDuo().then(function (test) {
+            expect(test.form.$('iframe').attr('title')).toBe(test.form.titleText());
+          });
+        });
         itp('has remember device checkbox', function () {
           return setupDuo().then(function (test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
