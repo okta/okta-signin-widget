@@ -339,6 +339,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           .then(function (test) {
             Expect.isVisible(test.passCodeForm.form());
             Expect.isVisible(test.passCodeForm.codeField());
+            expect(test.passCodeForm.codeField().attr('type')).toBe('number');
           });
         });
         itp('returns to factor list when browser\'s back button is clicked', function () {
