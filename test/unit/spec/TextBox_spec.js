@@ -18,5 +18,19 @@ function (Expect, Okta, TextBox, $sandbox) {
       $sandbox.html(textbox.render().el);  
       expect(textbox.$('#' + textbox.options.inputId).attr('aria-label')).toEqual(placeHolderValue);
     });
+
+    it('has appropriate attributes for type="number"', function () {
+      var textbox = new TextBox({
+        model: new Okta.BaseModel(),
+        id: Okta._.uniqueId('textbox'),
+        type: 'number'
+      });
+
+      $sandbox.html(textbox.render().el);
+      var input = textbox.$('#' + textbox.options.inputId);
+      expect(input.attr('type')).toEqual('number');
+      expect(input.attr('pattern')).toEqual('[0-9]*');
+      expect(input.attr('inputmode')).toEqual('numeric');
+    });
   });
 });
