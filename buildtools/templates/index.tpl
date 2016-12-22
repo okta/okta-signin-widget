@@ -15,9 +15,9 @@
   <script src="js/okta-sign-in.js"></script>
   <script type="text/javascript">
     var options = {{{options}}};
-    var oktaSignIn = new OktaSignIn(options);
+    var signIn = new OktaSignIn(options);
 
-    oktaSignIn.renderEl(
+    signIn.renderEl(
       { el: '#okta-login-container' },
 
       function success(res) {

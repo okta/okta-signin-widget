@@ -17,6 +17,8 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
 * [API](#api)
   * [OktaSignIn](#new-oktasigninconfig)
   * [renderEl](#rendereloptions-success-error)
+  * [on](#onevent-callback-context)
+  * [off](#offevent-callback)
   * [session.get](#sessiongetcallback)
   * [session.refresh](#sessionrefreshcallback)
   * [session.close](#sessionclosecallback)
@@ -27,7 +29,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [tokenManager.remove](#oidc-tokenmanagerremovekey)
   * [tokenManager.clear](#oidc-tokenmanagerclear)
   * [tokenManager.refresh](#oidc-tokenmanagerrefreshkey)
-  * [tokenManager.on](#oidc-tokenmanagerontokenevent-callback-context)
+  * [tokenManager.on](#oidc-tokenmanageronevent-callback-context)
   * [tokenManager.off](#oidc-tokenmanageroffevent-callback)
 * [Configuration](#configuration)
   * [Basic config options](#basic-config-options)
@@ -37,6 +39,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [OpenId Connect](#openid-connect)
   * [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   * [Feature flags](#feature-flags)
+* [Events](#events)
 * [Developing the Sign-In Widget](#developing-the-sign-in-widget)
   * [Building the widget](#building-the-widget)
   * [The .widgetrc config file](#the-widgetrc-config-file)
@@ -221,6 +224,38 @@ signIn.renderEl(
     // 2. Uncaught exceptions
   }
 );
+```
+
+## on(event, callback[, context])
+
+Subscribe to an event published by the widget.
+
+- `event` - [Event](#events) to subscribe to
+- `callback` - Function to call when the event is triggered
+- `context` - Optional context to bind the callback to
+
+```javascript
+signIn.on('pageRendered', function (data) {
+  console.log(data);
+});
+```
+
+## off([event, callback])
+
+Unsubscribe from widget events. If no callback is provided, unsubscribes all listeners from the event.
+
+- `event` - Optional event to unsubscribe from
+- `callback` - Optional callback that was used to subscribe to the event
+
+```javascript
+// Unsubscribe all listeners from all events
+signIn.off();
+
+// Unsubscribe all listeners that have been registered to the 'pageRendered' event
+signIn.off('pageRendered');
+
+// Unsubscribe the onPageRendered listener from the 'pageRendered' event
+signIn.off('pageRendered', onPageRendered);
 ```
 
 ## session.get(callback)
@@ -859,6 +894,27 @@ features: {
 - **features.selfServiceUnlock** - Display the "Unlock Account" link to allow users to unlock their accounts. Defaults to `false`.
 
 - **features.multiOptionalFactorEnroll** - Allow users to enroll in multiple optional factors before finishing the authentication flow. Default behavior is to force enrollment of all required factors and skip optional factors. Defaults to `false`.
+
+# Events
+
+Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
+
+- **pageRendered** - triggered when the widget transitions to a new page, and animations have finished.
+
+    ```javascript
+    // Overriding the "Back to Sign In" click action on the Forgot Password page
+    signIn.on('pageRendered', function (data) {
+      if (data.page !== 'forgot-password') {
+        return;
+      }
+      var backLink = document.getElementsByClassName('js-back')[0];
+      backLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        // Custom link behavior
+      });
+    });
+    ```
 
 # Developing the Sign-In Widget
 
