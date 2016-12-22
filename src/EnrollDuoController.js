@@ -80,7 +80,7 @@ function (Okta, Duo, Q, FormController, Footer) {
       title: _.partial(Okta.loc, 'enroll.duo.title', 'login'),
 
       postRender: function () {
-        this.add('<iframe frameborder="0"></iframe>');
+        this.add('<iframe frameborder="0" title="' + this.title() + '"></iframe>');
         Duo.init({
           'host': this.model.get('host'),
           'sig_request': this.model.get('signature'),

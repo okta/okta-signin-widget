@@ -60,6 +60,11 @@ function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
         expect(test.beacon.hasClass('mfa-duo')).toBe(true);
       });
     });
+    itp('iframe has title', function () {
+      return setup().then(function (test) {
+        expect(test.form.iframe().attr('title')).toBe(test.form.titleText());
+      });
+    });
     itp('visits previous link when back link is clicked', function () {
       return setup().then(function (test) {
         $.ajax.calls.reset();

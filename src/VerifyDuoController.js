@@ -105,7 +105,7 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
       attributes: { 'data-se': 'factor-duo' },
 
       postRender: function () {
-        this.add('<iframe frameborder="0"></iframe>');
+        this.add('<iframe frameborder="0" title="' + this.title() + '"></iframe>');
         if (this.options.appState.get('allowRememberDevice')) {
           this.addInput({
             label: false,
