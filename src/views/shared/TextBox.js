@@ -67,14 +67,29 @@ function ($, Handlebars, BrowserFeatures, TextBox) {
           style: {classes: 'okta-sign-in-tooltip qtip-custom qtip-shadow'},
           position: {
             my: 'bottom left',
-            at: 'top center',
+            // Note: qTip2 has a known issue calculating the tooltip offset when:
+            // 1. A container element has both:
+            //    a) position: relative/absolute
+            //    b) overlay: value other than 'visible'
+            // 2. The page is scrolled
+            //
+            // We set position:relative and overlay:auto on the body element,
+            // where both are required for:
+            // - Positioning the footer correctly
+            // - Displaying long pages in embedded browsers
+            //
+            // The original design called for a fixed position relative to the
+            // tooltip icon - this has been switched to "relative to mouse, and
+            // update position when mouse moves" because of this constraint.
+            target: 'mouse',
             adjust: {
-              method: 'flip'
+              method: 'flip',
+              mouse: true,
+              y: -5,
+              x: 5
             },
             viewport: $('body')
-          },
-          hide: {fixed: true},
-          show: {delay: 0}
+          }
         });
       }
     },
