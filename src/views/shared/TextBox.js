@@ -60,6 +60,14 @@ function ($, Handlebars, BrowserFeatures, TextBox) {
       var params = this.options.params,
           content;
 
+      if (this.options.type === 'number') {
+        var input = this.$('input');
+        input.attr({
+          pattern: '[0-9]*',
+          inputmode: 'numeric'
+        });
+      }
+
       if (params && params.innerTooltip) {
         content = createQtipContent(params.innerTooltip);
         this.$('.input-tooltip').qtip({
