@@ -71,7 +71,7 @@
     "webpack": "1.13.1"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "1.6.0",
+    "@okta/okta-auth-js": "1.7.0",
     "backbone": "1.2.1",
     "handlebars": "4.0.5",
     "jquery": "1.12.1",
