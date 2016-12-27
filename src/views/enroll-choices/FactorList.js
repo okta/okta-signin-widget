@@ -42,6 +42,10 @@ define([
       if (this.model.get('enrolled')) {
         return [['<span class="icon success-16-green"></span>', '.enroll-factor-label']];
       }
+      else if (this.model.get('enrollment') === 'REQUIRED') {
+        return [['<span class="icon success-16-gray"></span>', '.enroll-factor-label']];
+      }
+
       return [[Okta.createButton({
         className: 'button',
         title: Okta.loc('enroll.choices.setup', 'login'),

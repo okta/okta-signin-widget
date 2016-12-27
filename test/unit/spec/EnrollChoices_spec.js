@@ -215,11 +215,18 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.submitButtonText()).toBe('Configure next factor');
           });
         });
-        itp('shows a checkmark next to factors that have been enrolled', function () {
+        itp('shows a green checkmark next to factors that have been enrolled', function () {
           return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
             expect(test.form.factorHasSuccessCheck('OKTA_VERIFY')).toBe(true);
             expect(test.form.factorHasSuccessCheck('GOOGLE_AUTH')).toBe(false);
             expect(test.form.factorHasSuccessCheck('QUESTION')).toBe(false);
+          });
+        });
+        itp('shows a gray checkmark next to factors that have been enrolled', function () {
+          return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
+            expect(test.form.factorHasPendingCheck('OKTA_VERIFY')).toBe(false);
+            expect(test.form.factorHasPendingCheck('GOOGLE_AUTH')).toBe(true);
+            expect(test.form.factorHasPendingCheck('QUESTION')).toBe(true);
           });
         });
         itp('navigates to the current factor on save', function () {

@@ -15,10 +15,6 @@
 }
 
 .enroll-required-factor-list {
-  .enroll-factor-button {
-    display: none;
-  }
-
   .enroll-factor-row-min {
     margin-bottom: 30px;
 
@@ -73,14 +69,16 @@
     background-size: 38px 38px;
   }
 
-  .success-16-green {
+  .success-16-green,
+  .success-16-gray {
     float: right;
     width: 20px;
     height: 20px;
     line-height: 24px;
   }
 
-  .success-16-green:before {
+  .success-16-green:before,
+  .success-16-gray:before {
     font-size: 20px;
   }
 
