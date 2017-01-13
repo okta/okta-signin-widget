@@ -12,8 +12,9 @@
 
 define([
   'okta',
-  'views/shared/TextBox'
-], function (Okta, TextBox) {
+  'views/shared/TextBox',
+  'util/DeviceFingerprint'
+], function (Okta, TextBox, DeviceFingerprint) {
 
   var _ = Okta._;
 
@@ -43,10 +44,23 @@ define([
             password: this.model.get('password')
           });
         }
-        this.model.save();
+        if (this.settings.get('features.deviceFingerprinting')) {
+          var self = this;
+          DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'))
+          .then(function (fingerprint) {
+            self.model.set('deviceFingerprint', fingerprint);
+            self.model.save();
+          })
+          .fail(function () {
+            // Keep going even if device fingerprint fails
+            self.model.save();
+          });
+        } else {
+          this.model.save();
+        }
       });
-      this.listenTo(this.state, 'change:enabled', function(model, enable) {
-        if(enable) {
+      this.listenTo(this.state, 'change:enabled', function (model, enable) {
+        if (enable) {
           this.enable();
         }
         else {

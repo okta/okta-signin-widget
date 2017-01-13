@@ -46,6 +46,10 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       };
     },
 
+    local: {
+      deviceFingerprint: ['string', false]
+    },
+
     constructor: function (options) {
       this.settings = options && options.settings;
       this.appState = options && options.appState;
@@ -64,6 +68,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
           remember = this.get('remember'),
           lastUsername = this.get('lastUsername'),
           multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
+      var deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting');
 
       // Only delete the cookie if its owner says so. This allows other
       // users to log in on a one-off basis.
@@ -80,7 +85,13 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
       this.appState.trigger('loading', true);
       return this.startTransaction(function (authClient) {
-        return authClient.signIn({
+
+        // Add the custom header for fingerprint if needed, and then remove it afterwards
+        // Since we only need to send it for primary auth
+        if (deviceFingerprintEnabled) {
+          authClient.options.headers['X-Device-Fingerprint'] = this.get('deviceFingerprint');
+        }
+        var signInPromise = authClient.signIn({
           username: username,
           password: password,
           options: {
@@ -88,6 +99,10 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
             multiOptionalFactorEnroll: multiOptionalFactorEnroll
           }
         });
+        if (deviceFingerprintEnabled) {
+          delete authClient.options.headers['X-Device-Fingerprint'];
+        }
+        return signInPromise;
       })
       .fail(_.bind(function () {
         this.trigger('error');
