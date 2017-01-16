@@ -24,8 +24,8 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
         return transaction.prev()
         .then(function (trans) {
           self.trigger('options:toggle');
-          self.options.appState.trigger('navigate', url);
           setTransaction(trans);
+          self.options.appState.trigger('navigate', url);
         });
       } else {
         self.trigger('options:toggle');
