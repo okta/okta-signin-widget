@@ -247,3 +247,28 @@
 .chzn-container-active.chzn-with-drop .chzn-single div b {
   background-position: -17px 7px;
 }
+
+.custom-checkbox {
+  label {
+    background-image: url('/img/ui/forms/checkbox-sign-in-widget.png');
+  }
+
+  label.focus {
+    background-position: -16px -1013px;
+  }
+
+  label.focus::before {
+    background-position: -16px -1020px;
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 2dppx) {
+  .custom-checkbox {
+    label {
+      background-image: url('/img/ui/forms/checkbox-sign-in-widget@2x.png');
+      background-size: 50px 1155px;
+    }
+  }
+}
