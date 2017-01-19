@@ -12,6 +12,8 @@
 
 define(['okta'], function (Okta) {
 
+  var _ = Okta._;
+
   var fn = {};
 
   var factorData = {
@@ -167,6 +169,34 @@ define(['okta'], function (Okta) {
   fn.getSecurityQuestionLabel = function (questionObj) {
     var localizedQuestion = Okta.loc('security.' + questionObj.question);
     return localizedQuestion.indexOf('L10N_ERROR') < 0 ? localizedQuestion : questionObj.questionText;
+  };
+
+  fn.getPasswordComplexityDescription = function (policyComplexity) {
+    var fields = {
+      minLength: {i18n: 'password.complexity.length', args: true},
+      minLowerCase: {i18n: 'password.complexity.lowercase'},
+      minUpperCase: {i18n: 'password.complexity.uppercase'},
+      minNumber: {i18n: 'password.complexity.number'},
+      minSymbol: {i18n: 'password.complexity.symbol'},
+      excludeUsername: {i18n: 'password.complexity.no_username'}
+    };
+
+    var requirements = _.map(policyComplexity, function (complexityValue, complexityType) {
+      var params = fields[complexityType];
+
+      return params.args ?
+        Okta.loc(params.i18n, 'login', [complexityValue]) : Okta.loc(params.i18n, 'login');
+    });
+
+    if (requirements.length) {
+      requirements = _.reduce(requirements, function (result, requirement) {
+        return result ?
+          (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) :
+          requirement;
+      });
+
+      return Okta.loc('password.complexity.description', 'login', [requirements]);
+    }
   };
 
 

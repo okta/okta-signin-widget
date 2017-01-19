@@ -15,10 +15,11 @@ define([
   'util/FormController',
   'util/FormType',
   'util/ValidationUtil',
+  'util/FactorUtil',
   'views/shared/FooterSignout',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, FormType, ValidationUtil, FooterSignout, TextBox) {
+function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSignout, TextBox) {
 
   var _ = Okta._;
 
@@ -51,31 +52,7 @@ function (Okta, FormController, FormType, ValidationUtil, FooterSignout, TextBox
           return;
         }
 
-        var fields = {
-          minLength: {i18n: 'password.complexity.length', args: true},
-          minLowerCase: {i18n: 'password.complexity.lowercase'},
-          minUpperCase: {i18n: 'password.complexity.uppercase'},
-          minNumber: {i18n: 'password.complexity.number'},
-          minSymbol: {i18n: 'password.complexity.symbol'},
-          excludeUsername: {i18n: 'password.complexity.no_username'}
-        };
-
-        var requirements = _.map(policy.complexity, function (complexityValue, complexityType) {
-          var params = fields[complexityType];
-
-          return params.args ?
-            Okta.loc(params.i18n, 'login', [complexityValue]) : Okta.loc(params.i18n, 'login');
-        });
-
-        if (requirements.length) {
-          requirements = _.reduce(requirements, function (result, requirement) {
-            return result ?
-              (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) :
-              requirement;
-          });
-
-          return Okta.loc('password.complexity.description', 'login', [requirements]);
-        }
+        return FactorUtil.getPasswordComplexityDescription(policy.complexity);
       },
       formChildren: function () {
         return [

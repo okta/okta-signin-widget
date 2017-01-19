@@ -77,9 +77,10 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
           expect(test.form.titleText()).toBe('Your Okta password has expired');
         });
       });
-      itp('does not have a subtitle', function () {
+      itp('has a valid subtitle', function () {
         return setup().then(function (test) {
-          expect(test.form.subtitle().length).toBe(0);
+          expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters,' +
+            ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username.');
         });
       });
       itp('has an old password field', function () {
