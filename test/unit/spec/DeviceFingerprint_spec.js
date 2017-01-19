@@ -23,11 +23,13 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
     });
 
     it('iframe is created with the right src and it is hidden', function () {
+      spyOn(window, 'addEventListener');
       DeviceFingerprint.generateDeviceFingerprint('baseUrl');
       var $iFrame = $('#okta_fingerprint_iframe');
       expect($iFrame).toExist();
       expect($iFrame.attr('src')).toBe('baseUrl/auth/services/devicefingerprint');
       expect($iFrame.is(':visible')).toBe(false);
+      expect(window.addEventListener).toHaveBeenCalledWith('message', jasmine.any(Function), false);
     });
 
     it('returns a fingerprint if the communication with the iframe is successfull', function (done) {
