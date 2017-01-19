@@ -15,25 +15,25 @@
 
 define(['vendor/lib/q', 'jquery'], function (Q, $) {
 
-  var iframeId = 'okta_fingerprint_iframe';
-
-  function removeIframe() {
-    var $fingerprintIFrame = $('#' + iframeId);
-    $fingerprintIFrame.off();
-    $fingerprintIFrame.remove();
-  }
-
   return {
     generateDeviceFingerprint: function (oktaDomainUrl) {
       var deferred = Q.defer();
 
-      function removeListener() {
+      // Create iframe
+      var $iframe = $('<iframe>', {
+        id: 'okta_fingerprint_iframe',
+        style: 'display: none;'
+      });
+      $iframe.appendTo('.auth-content');
+
+      function removeIframe() {
+        $iframe.off();
+        $iframe.remove();
         window.removeEventListener('message', onMessageReceivedFromOkta, false);
       }
 
       function handleError(reason) {
         removeIframe();
-        removeListener();
         deferred.reject(reason);
       }
 
@@ -43,25 +43,26 @@ define(['vendor/lib/q', 'jquery'], function (Q, $) {
           handleError('no data');
         }
         try {
-          var message = eval('(' + event.data + ')');
+          var message = JSON.parse(event.data);
           if (message && message.type == 'FingerprintServiceReady') {
             var actionMessage = {};
             actionMessage.type = 'GetFingerprint';
             sendMessageToOkta(actionMessage);
           } else if (message && message.type == 'FingerprintAvailable') {
             removeIframe();
-            removeListener();
             deferred.resolve(message.fingerprint);
+          } else {
+            handleError('no data');
           }
         } catch (error) {
           handleError(error);
           //Ignore any errors since we could get other messages too
         }
-        handleError('no data');
       }
 
       function sendMessageToOkta(message) {
-        var win = document.getElementById(iframeId).contentWindow;
+        // var win = document.getElementById(iframeId).contentWindow;
+        var win = $iframe[0].contentWindow;
         if (win) {
           win.postMessage(JSON.stringify(message), oktaDomainUrl);
         }
@@ -69,12 +70,8 @@ define(['vendor/lib/q', 'jquery'], function (Q, $) {
 
       // Attach listener
       window.addEventListener('message', onMessageReceivedFromOkta, false);
-      // Create iframe
-      $('<iframe>', {
-        src: oktaDomainUrl + '/auth/services/devicefingerprint',
-        id:  iframeId,
-        style: 'display: none;'
-      }).appendTo('.auth-content');
+      // Load devicefingerprint page inside the iframe
+      $iframe.attr('src', oktaDomainUrl + '/auth/services/devicefingerprint');
 
       return deferred.promise;
     }

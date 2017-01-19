@@ -67,8 +67,8 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
           password = this.get('password'),
           remember = this.get('remember'),
           lastUsername = this.get('lastUsername'),
-          multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
-      var deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting');
+          multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll'),
+          deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting');
 
       // Only delete the cookie if its owner says so. This allows other
       // users to log in on a one-off basis.
@@ -98,10 +98,12 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
             warnBeforePasswordExpired: true,
             multiOptionalFactorEnroll: multiOptionalFactorEnroll
           }
+        })
+        .fin(function () {
+          if (deviceFingerprintEnabled) {
+            delete authClient.options.headers['X-Device-Fingerprint'];
+          }
         });
-        if (deviceFingerprintEnabled) {
-          delete authClient.options.headers['X-Device-Fingerprint'];
-        }
         return signInPromise;
       })
       .fail(_.bind(function () {

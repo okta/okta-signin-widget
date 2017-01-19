@@ -49,10 +49,11 @@ define([
           DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'))
           .then(function (fingerprint) {
             self.model.set('deviceFingerprint', fingerprint);
-            self.model.save();
           })
           .fail(function () {
             // Keep going even if device fingerprint fails
+          })
+          .fin(function () {
             self.model.save();
           });
         } else {
