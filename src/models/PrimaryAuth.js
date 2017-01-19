@@ -91,7 +91,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         if (deviceFingerprintEnabled) {
           authClient.options.headers['X-Device-Fingerprint'] = this.get('deviceFingerprint');
         }
-        var signInPromise = authClient.signIn({
+        return authClient.signIn({
           username: username,
           password: password,
           options: {
@@ -104,7 +104,6 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
             delete authClient.options.headers['X-Device-Fingerprint'];
           }
         });
-        return signInPromise;
       })
       .fail(_.bind(function () {
         this.trigger('error');
