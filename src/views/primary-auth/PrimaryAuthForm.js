@@ -46,7 +46,7 @@ define([
         }
         if (this.settings.get('features.deviceFingerprinting')) {
           var self = this;
-          DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'))
+          DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
           .then(function (fingerprint) {
             self.model.set('deviceFingerprint', fingerprint);
           })

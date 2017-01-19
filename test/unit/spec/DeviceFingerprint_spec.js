@@ -18,14 +18,10 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
       window.postMessage(JSON.stringify(message), '*');
     }
 
-    beforeEach(function () {
-      $sandbox.append('<div class="auth-content"></div>');
-    });
-
     it('iframe is created with the right src and it is hidden', function () {
       spyOn(window, 'addEventListener');
-      DeviceFingerprint.generateDeviceFingerprint('baseUrl');
-      var $iFrame = $('#okta_fingerprint_iframe');
+      DeviceFingerprint.generateDeviceFingerprint('baseUrl', $sandbox);
+      var $iFrame = $sandbox.find('iframe');
       expect($iFrame).toExist();
       expect($iFrame.attr('src')).toBe('baseUrl/auth/services/devicefingerprint');
       expect($iFrame.is(':visible')).toBe(false);
@@ -34,9 +30,8 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
     it('returns a fingerprint if the communication with the iframe is successfull', function (done) {
       mockIFrameMessages(true);
-      DeviceFingerprint.generateDeviceFingerprint('file://')
+      DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
       .then(function (fingerprint) {
-        expect(fingerprint).not.toBeUndefined();
         expect(fingerprint).toBe('thisIsTheFingerprint');
         done();
       })
@@ -47,7 +42,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
     it('fails if there is a problem with communicating with the iframe', function (done) {
       mockIFrameMessages(false, null);
-      DeviceFingerprint.generateDeviceFingerprint('file://')
+      DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
       .then(function () {
         done.fail('Fingerprint promise incorrectly resolved successful');
       })
@@ -59,7 +54,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
     it('fails if there iframe sends and invalid message content', function (done) {
       mockIFrameMessages(false, { type: 'InvalidMessageType' });
-      DeviceFingerprint.generateDeviceFingerprint('file://')
+      DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
       .then(function () {
         done.fail('Fingerprint promise incorrectly resolved successful');
       })
