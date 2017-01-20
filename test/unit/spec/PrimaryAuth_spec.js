@@ -13,6 +13,7 @@ define([
   'LoginRouter',
   'util/BrowserFeatures',
   'util/Errors',
+  'util/DeviceFingerprint',
   'shared/util/Util',
   'helpers/util/Expect',
   'helpers/xhr/security_image',
@@ -27,7 +28,7 @@ define([
   'sandbox'
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm,
-          Beacon, Router, BrowserFeatures, Errors, SharedUtil, Expect, resSecurityImage,
+          Beacon, Router, BrowserFeatures, Errors, DeviceFingerprint, SharedUtil, Expect, resSecurityImage,
           resSecurityImageFail, resSuccess, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, $sandbox) {
 
@@ -68,7 +69,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
 
     var setNextResponse = Util.mockAjax(requests);
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+    var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR, headers: {}});
     var successSpy = jasmine.createSpy('success');
 
     var router = new Router(_.extend({
@@ -608,6 +609,81 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser',
+              password: 'pass',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+    });
+
+    Expect.describe('Device Fingerprint', function () {
+      itp('does not contain device fingerprint header in primaryAuth if feature is enabled', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBeUndefined();
+        });
+      });
+      itp('contains device fingerprint header in primaryAuth if feature is enabled', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
+          var deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        return setup({ features: { deviceFingerprinting: true }})
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).not.toBeUndefined();
+        });
+      });
+      itp('continues with primary auth if there is an error getting fingerprint when feature is enabled', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
+          var deferred = Q.defer();
+          deferred.reject('there was an error');
+          return deferred.promise;
+        });
+        return setup({ features: { deviceFingerprinting: true }})
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBeUndefined();
+          Expect.isJsonPost(ajaxArgs, {
             url: 'https://foo.com/api/v1/authn',
             data: {
               username: 'testuser',

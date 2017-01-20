@@ -72,6 +72,7 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
       'features.selfServiceUnlock': ['boolean', true, false],
       'features.multiOptionalFactorEnroll': ['boolean', true, false],
       'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
+      'features.deviceFingerprinting': ['boolean', false, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function
