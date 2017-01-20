@@ -36,6 +36,10 @@ define(['jquery', './Form'], function ($, Form) {
       return this.factorRow(factorName).find('.success-16-green').length > 0;
     },
 
+    factorHasPendingCheck: function (factorName) {
+      return this.factorRow(factorName).find('.success-16-gray').length > 0;
+    },
+
     requiredFactorList: function () {
       return this.$('.enroll-required-factor-list');
     },
