@@ -839,6 +839,7 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .custom-checkbox label.hover,
+.custom-checkbox label.focus,
 .custom-radio label.hover,
 .custom-radio label.focus {
   background-position: -16px -113px;
@@ -852,14 +853,6 @@ only screen and (min-resolution: 2dppx) {
 .custom-checkbox label.checked.hover,
 .custom-checkbox label.checked.focus {
   background-position: -16px -313px;
-}
-
-.custom-checkbox label.focus {
-  background-position: -16px -1013px;
-}
-
-.custom-radio label.focus::before {
-  background-position: -16px -1020px;
 }
 
 /* Label top */
