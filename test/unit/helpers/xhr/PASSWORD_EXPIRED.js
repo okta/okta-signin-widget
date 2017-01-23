@@ -15,6 +15,16 @@ define({
           "locale": "en_US",
           "timeZone": "America\/Los_Angeles"
         }
+      },
+      "policy": {
+        "complexity": {
+          "minLength": 8,
+          "minLowerCase": 1,
+          "minUpperCase": 1,
+          "minNumber": 1,
+          "minSymbol": 1,
+          "excludeUsername": true
+        }
       }
     },
     "_links": {

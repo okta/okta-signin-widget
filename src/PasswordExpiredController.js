@@ -16,9 +16,10 @@ define([
   'util/Enums',
   'util/FormType',
   'util/ValidationUtil',
+  'util/FactorUtil',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, Enums, FormType, ValidationUtil, TextBox) {
+function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, TextBox) {
 
   var _ = Okta._;
 
@@ -95,6 +96,13 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, TextBox) {
         if (this.options.appState.get('isPwdExpiringSoon')) {
           return Okta.loc('password.expiring.subtitle', 'login');
         }
+
+        var policy = this.options.appState.get('policy');
+        if (!policy || !policy.complexity) {
+          return;
+        }
+
+        return FactorUtil.getPasswordComplexityDescription(policy.complexity);
       },
       formChildren: function () {
         return [
