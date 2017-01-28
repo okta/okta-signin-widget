@@ -31,7 +31,7 @@ module.exports = function (outputFilename) {
         'vendor/lib/q': 'q',
         'vendor/plugins/jquery.placeholder': 'jquery-placeholder',
         'handlebars': 'handlebars/dist/handlebars',
-        'qtip': 'qtip2',
+        'qtip': '@okta/qtip2',
 
         // Duo has an npm module, but the latest version does not expose the
         // v2 version. Continue to use the vendor file that is checked into
