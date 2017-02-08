@@ -91,18 +91,22 @@ function ($, _, Backbone, Q, Duo) {
       }
 
       var deferred = $.Deferred();
-      if (xhr.status > 0 && xhr.status < 300) {
-        // $.ajax send (data, textStatus, jqXHR) on success
+
+      (function (textOnly) {
         setTimeout(function () {
-          deferred.resolve(xhr.response, null, xhr);
+          if (xhr.status > 0 && xhr.status < 300) {
+            // $.ajax send (data, textStatus, jqXHR) on success
+            deferred.resolve(xhr.response, null, xhr);
+          } else {
+            // $.ajax send (jqXHR, textStatus, errorThrown) on failure
+            if (!textOnly) {
+              xhr.responseJSON = xhr.response;
+            }
+            deferred.reject(xhr, null, xhr.response);
+          }
         }, xhr.delay || 0);
-      } else {
-        // $.ajax send (jqXHR, textStatus, errorThrown) on failure
-        if (!textOnly) {
-          xhr.responseJSON = xhr.response;
-        }
-        deferred.reject(xhr, null, xhr.response);
-      }
+      })(textOnly);
+
       textOnly = false;
       return deferred;
     });

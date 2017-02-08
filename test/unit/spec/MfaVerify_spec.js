@@ -742,14 +742,18 @@ function (Okta,
             var button = test.form.submitButton();
             var buttonClass = button.attr('class');
             expect(buttonClass).toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(true);
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             var button = test.form.submitButton();
             var buttonClass = button.attr('class');
+            expect($.ajax.calls.count()).toBe(1);
             expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
           });
         });
+
         itp('shows an error if error response from authClient', function () {
           return setupGoogleTOTP()
           .then(function (test) {

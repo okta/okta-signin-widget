@@ -92,7 +92,7 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
 
     toggleButtonState: function (state) {
       var button = this.$el.find('.button');
-      button.toggleClass('link-button-disabled', state);
+      button.toggleClass('link-button-disabled', state).prop('disabled', state);
     },
 
 
