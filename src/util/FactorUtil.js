@@ -182,8 +182,11 @@ define(['okta'], function (Okta) {
     };
 
     var requirements = _.map(policyComplexity, function (complexityValue, complexityType) {
-      var params = fields[complexityType];
+      if(!complexityValue){
+        return;
+      }
 
+      var params = fields[complexityType];
       return params.args ?
         Okta.loc(params.i18n, 'login', [complexityValue]) : Okta.loc(params.i18n, 'login');
     });
@@ -191,7 +194,7 @@ define(['okta'], function (Okta) {
     if (requirements.length) {
       requirements = _.reduce(requirements, function (result, requirement) {
         return result ?
-          (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) :
+          (requirement ? (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) : result) :
           requirement;
       });
 
