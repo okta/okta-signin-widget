@@ -10,6 +10,7 @@ define([
   'helpers/dom/AuthContainer',
   'helpers/dom/PrimaryAuthForm',
   'helpers/dom/Beacon',
+  'models/PrimaryAuth',
   'LoginRouter',
   'util/BrowserFeatures',
   'util/Errors',
@@ -28,8 +29,8 @@ define([
   'helpers/xhr/ERROR_throttle',
   'sandbox'
 ],
-function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm,
-          Beacon, Router, BrowserFeatures, Errors, DeviceFingerprint, SharedUtil, Expect, resSecurityImage,
+function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth,
+          Router, BrowserFeatures, Errors, DeviceFingerprint, SharedUtil, Expect, resSecurityImage,
           resSecurityImageFail, resSuccess, resUnauthenticated, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, $sandbox) {
 
@@ -177,6 +178,19 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
   var setupWithTransformUsernameOnUnlock = _.partial(setup, {transformUsername: transformUsernameOnUnlock});
 
   Expect.describe('PrimaryAuth', function () {
+
+    Expect.describe('PrimaryAuthModel', function () {
+
+      it('returns username validation error when username is blank', function () {
+        var model = new PrimaryAuth({username: '', password: 'pass'});
+        expect(model.validate().username).toEqual('Please enter a username');
+      });
+
+      it('returns password validation error when password is blank', function () {
+        var model = new PrimaryAuth({username: 'user', password: ''});
+        expect(model.validate().password).toEqual('Please enter a password');
+      });
+    });
 
     Expect.describe('settings', function () {
       itp('uses default title', function () {
