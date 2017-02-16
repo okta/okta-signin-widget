@@ -402,6 +402,18 @@ function (Okta,
           });
         });
       });
+      Expect.describe('Sign out link', function () {
+        itp('is visible', function () {
+          return setupWithFirstFactor({factorType: 'question'}).then(function () {
+            Expect.isVisible($sandbox.find('[data-se=signout-link]'));
+          });
+        });
+        itp('is not present if features.hideSignOutLinkInMFA is true', function () {
+          return setupSecurityQuestion({'features.hideSignOutLinkInMFA': true}).then(function () {
+            expect($sandbox.find('[data-se=signout-link]').length).toBe(0);
+          });
+        });
+      });
       Expect.describe('Remember device', function () {
         itp('is rendered', function () {
           return setup(resAllFactors).then(function (test) {

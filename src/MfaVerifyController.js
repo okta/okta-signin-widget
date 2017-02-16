@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint maxcomplexity:12, maxparams:11 */
+/*jshint maxcomplexity:13, maxparams:11 */
 define([
   'okta',
   'shared/views/forms/inputs/CheckBox',
@@ -107,7 +107,9 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
         });
       }
 
-      this.add(new FooterSignout(this.toJSON()));
+      if (!this.settings.get('features.hideSignOutLinkInMFA')) {
+        this.add(new FooterSignout(this.toJSON()));
+      }
     },
 
     trapAuthResponse: function () {
