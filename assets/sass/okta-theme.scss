@@ -460,6 +460,10 @@
   .button {
   /* -- Buttons' Colors -- */
     @include light-button-template($button-bg-color);
+
+    &:focus {
+      border-color: $input-border-color-focus;
+    }
   }
 
   .button-dark {
