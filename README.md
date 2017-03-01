@@ -1,10 +1,13 @@
+<!-- START GITHUB ONLY -->
 [![Build Status](https://travis-ci.org/okta/okta-signin-widget.svg?branch=master)](https://travis-ci.org/okta/okta-signin-widget)
+<!-- END GITHUB ONLY -->
 
 Okta Sign-In Widget
 ===================
 
 The Okta Sign-In Widget is a Javascript widget that provides a fully featured and customizable login experience which can be used to authenticate users on any website.
 
+<!-- START GITHUB ONLY -->
 For a high level overview of the widget's features and authentication flows, check out [our developer docs](http://developer.okta.com/code/javascript/okta_sign-in_widget.html).
 
 Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if they wish to contribute.
@@ -44,6 +47,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [Building the widget](#building-the-widget)
   * [The .widgetrc config file](#the-widgetrc-config-file)
   * [Build and test commands](#build-and-test-commands)
+<!-- END GITHUB ONLY -->
 
 # Install
 
@@ -583,43 +587,43 @@ var signIn = new OktaSignIn(config);
 
 - **language:** Set the language of the widget. If no language is specified, the widget will choose a language based on the user's browser preferences if it is supported, or defaults to `en`.
 
-    ```javascript
-    // You can simply pass the languageCode as a string:
-    language: 'ja'
+  ```javascript
+  // You can simply pass the languageCode as a string:
+  language: 'ja'
 
-    // Or, if you need to determine it dynamically, you can pass a
-    // callback function:
-    language: function (supportedLanguages, userLanguages) {
-      // supportedLanguages is an array of languageCodes, i.e.:
-      // ['cs', 'da', ...]
-      //
-      // userLanguages is an array of languageCodes that come from the user's
-      // browser preferences
-      return supportedLanguages[0];
-    }
-    ```
+  // Or, if you need to determine it dynamically, you can pass a
+  // callback function:
+  language: function (supportedLanguages, userLanguages) {
+    // supportedLanguages is an array of languageCodes, i.e.:
+    // ['cs', 'da', ...]
+    //
+    // userLanguages is an array of languageCodes that come from the user's
+    // browser preferences
+    return supportedLanguages[0];
+  }
+  ```
 
-    Supported languages:
-      - `cs` - Czech
-      - `da` - Danish
-      - `de` - German
-      - `en` - English
-      - `es` - Spanish
-      - `fi` - Finnish
-      - `fr` - French
-      - `hu` - Hungarian
-      - `it` - Italian
-      - `ja` - Japanese
-      - `ko` - Korean
-      - `nl-NL` - Dutch
-      - `pt-BR` - Portuguese (Brazil)
-      - `ro` - Romanian
-      - `ru` - Russian
-      - `sv` - Swedish
-      - `th` - Thai
-      - `uk` - Ukrainian
-      - `zh-CN` - Chinese (PRC)
-      - `zh-TW` - Chinese (Taiwan)
+  Supported languages:
+  - `cs` - Czech
+  - `da` - Danish
+  - `de` - German
+  - `en` - English
+  - `es` - Spanish
+  - `fi` - Finnish
+  - `fr` - French
+  - `hu` - Hungarian
+  - `it` - Italian
+  - `ja` - Japanese
+  - `ko` - Korean
+  - `nl-NL` - Dutch
+  - `pt-BR` - Portuguese (Brazil)
+  - `ro` - Romanian
+  - `ru` - Russian
+  - `sv` - Swedish
+  - `th` - Thai
+  - `uk` - Ukrainian
+  - `zh-CN` - Chinese (PRC)
+  - `zh-TW` - Chinese (Taiwan)
 
 
 - **i18n:** Override the text in the widget. The full list of properties can be found in the [login.properties](node_modules/@okta/i18n/dist/properties/login.properties) and [country.properties](node_modules/@okta/i18n/dist/properties/country.properties) files.
