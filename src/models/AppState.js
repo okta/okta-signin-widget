@@ -242,6 +242,33 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return res._embedded.policy.expiration.passwordExpireDays;
         }
       },
+      'isPwdManagedByOkta': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._links || !res._links.next || !res._links.next.title) {
+            return true;
+          }
+          return false;
+        }
+      },
+      'passwordExpiredWebsiteName': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._links || !res._links.next || !res._links.next.title) {
+            return null;
+          }
+          return res._links.next.title;
+        }
+      },
+      'passwordExpiredLinkUrl': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._links || !res._links.next || !res._links.next.title || !res._links.next.href) {
+            return null;
+          }
+          return res._links.next.href;
+        }
+      },
       'recoveryType': {
         deps: ['lastAuthResponse'],
         fn: function (res) {

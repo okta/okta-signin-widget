@@ -239,6 +239,7 @@ define([
     ManualSetupTotp: 'enroll-manual-totp',
     MfaVerify: 'mfa-verify',
     PasswordExpired: 'password-expired',
+    CustomPasswordExpired: 'custom-password-expired',
     PasswordReset: 'password-reset',
     PrimaryAuth: 'primary-auth',
     PwdResetEmailSent: 'password-reset-email-sent',
