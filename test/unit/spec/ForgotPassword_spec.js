@@ -250,6 +250,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         })
         .then(function (test) {
           expect(test.form.titleText()).toBe('Email sent!');
+          expect(test.form.accessibilityText()).toBe('Email sent!');
           expect(test.form.getEmailSentConfirmationText().indexOf('baz@bar') >= 0).toBe(true);
           expect(test.form.backToLoginButton().length).toBe(1);
           test.form.goBackToLogin();

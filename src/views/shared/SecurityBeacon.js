@@ -39,7 +39,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
     if (isSecurityImage) {
       // TODO: Newer versions of qtip will remove aria-describedby on their own when destroy() is called.
       el.removeAttr('aria-describedby');
-      el.find('.auth-beacon-description').text(imgDescription);
+      el.find('.accessibility-text').text(imgDescription);
       el.css('background-image', 'url(' + _.escape(imgSrc) + ')');
       return;
     }
@@ -125,7 +125,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       </div>\
     </div>\
     <div aria-live="polite" role="image" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon">\
-      <span class="auth-beacon-description"></span>\
+      <span class="accessibility-text"></span>\
       <div class="okta-sign-in-beacon-border auth-beacon-border js-auth-beacon-border">\
       </div>\
     </div>\
