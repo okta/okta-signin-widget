@@ -612,9 +612,11 @@ var signIn = new OktaSignIn(config);
   - `fi` - Finnish
   - `fr` - French
   - `hu` - Hungarian
+  - `id` - Indonesian
   - `it` - Italian
   - `ja` - Japanese
   - `ko` - Korean
+  - `ms` - Malaysian
   - `nl-NL` - Dutch
   - `pt-BR` - Portuguese (Brazil)
   - `ro` - Romanian
@@ -898,6 +900,8 @@ features: {
 - **features.selfServiceUnlock** - Display the "Unlock Account" link to allow users to unlock their accounts. Defaults to `false`.
 
 - **features.multiOptionalFactorEnroll** - Allow users to enroll in multiple optional factors before finishing the authentication flow. Default behavior is to force enrollment of all required factors and skip optional factors. Defaults to `false`.
+
+- **features.hideSignOutLinkInMFA** - Hides the sign out link for MFA challenge. Defaults to `false`.
 
 # Events
 
