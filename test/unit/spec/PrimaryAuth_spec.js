@@ -934,6 +934,27 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo<i>xss< from this browser×');
         });
       });
+      itp('removes anti-phishing message if help link is clicked', function () {
+        return setup({
+          baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
+          features: { securityImage: true, selfServiceUnlock: true }
+        })
+        .then(function (test) {
+          test.setNextResponse(resSecurityImageFail);
+          test.form.setUsername('testuser');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          // Tooltip exists
+          expect(test.form.securityImageTooltipDestroyed()).toBe(false);
+          spyOn(test.router, 'navigate');
+          test.form.helpFooter().click();
+          test.form.unlockLink().click();
+          expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
+          // Undefined, since the qtip-api for this element is now gone
+          expect(test.form.securityImageTooltipDestroyed()).toBe(undefined);
+        });
+      });
       itp('updates security beacon immediately if rememberMe is available', function () {
         Util.mockCookie('ln', 'testuser');
         var options = {

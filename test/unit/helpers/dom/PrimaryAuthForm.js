@@ -66,6 +66,11 @@ define(['jquery', 'underscore', './Form'], function ($, _, Form) {
       return this.tooltipText(SECURITY_BEACON);
     },
 
+    securityImageTooltipDestroyed: function () {
+      var api = this.tooltipApi(SECURITY_BEACON);
+      return api ? api.destroyed : undefined;
+    },
+
     securityBeacon: function () {
       return this.el(SECURITY_BEACON);
     },
