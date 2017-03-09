@@ -1,4 +1,5 @@
-/*jshint maxparams:20 */
+/*jshint maxparams:25,maxstatements: 30*/
+/*global JSON */
 define([
   'vendor/lib/q',
   'underscore',
@@ -12,31 +13,43 @@ define([
   'LoginRouter',
   'sandbox',
   'helpers/xhr/PASSWORD_RESET',
-  'helpers/xhr/PASSWORD_RESET_withMinComplexity',
-  'helpers/xhr/PASSWORD_RESET_withMaxComplexity',
+  'helpers/xhr/PASSWORD_RESET_withComplexity',
   'helpers/xhr/PASSWORD_RESET_error',
   'helpers/xhr/200',
   'helpers/xhr/SUCCESS'
 ],
 function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect, Router,
-          $sandbox, resPasswordReset, resPasswordResetWithMinComplexity, resPasswordResetWithMaxComplexity,
-          resError, res200, resSuccess) {
+          $sandbox, resPasswordReset, resPasswordResetWithComplexity, resError, res200, resSuccess) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
   var processCredsSpy = jasmine.createSpy();
 
+  function deepClone(res) {
+    return JSON.parse(JSON.stringify(res));
+  }
+
   function setup(settings) {
     var passwordResetResponse = resPasswordReset;
-    if(settings) {
-      switch (settings.policyComplexity) {
-      case 'min':
-        passwordResetResponse = resPasswordResetWithMinComplexity;
-        break;
+    var policyComplexityDefaults = {
+      minLength: 8,
+      minLowerCase: 1,
+      minUpperCase: 1,
+      minNumber: 1,
+      minSymbol: 1,
+      excludeUsername: true
+    };
 
-      case 'max':
-        passwordResetResponse = resPasswordResetWithMaxComplexity;
-        break;
+    if (settings && settings.policyComplexity) {
+      passwordResetResponse = deepClone(resPasswordResetWithComplexity);
+      var responsePolicy = passwordResetResponse.response._embedded.policy;
+
+      var key = settings.policyComplexity;
+      if (key === 'all') {
+        responsePolicy.complexity = policyComplexityDefaults;
+      }
+      else {
+        responsePolicy.complexity[key] = policyComplexityDefaults[key];
       }
       delete settings.policyComplexity;
     }
@@ -100,14 +113,43 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       });
     });
 
-    itp('has a valid subtitle if MIN password complexity defined', function () {
-      return setup({policyComplexity: 'min'}).then(function (test) {
+    itp('has a valid subtitle if only password complexity "minLength" defined', function () {
+      return setup({policyComplexity: 'minLength'}).then(function (test) {
         expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters.');
       });
     });
 
-    itp('has a valid subtitle if MAX password complexity defined', function () {
-      return setup({policyComplexity: 'max'}).then(function (test) {
+    itp('has a valid subtitle if only password complexity "minLowerCase" defined', function () {
+      return setup({policyComplexity: 'minLowerCase'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Your password must have a lowercase letter.');
+      });
+    });
+
+    itp('has a valid subtitle if only password complexity "minUpperCase" defined', function () {
+      return setup({policyComplexity: 'minUpperCase'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Your password must have an uppercase letter.');
+      });
+    });
+
+    itp('has a valid subtitle if only password complexity "minNumber" defined', function () {
+      return setup({policyComplexity: 'minNumber'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Your password must have a number.');
+      });
+    });
+
+    itp('has a valid subtitle if only password complexity "minSymbol" defined', function () {
+      return setup({policyComplexity: 'minSymbol'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Your password must have a symbol.');
+      });
+    });
+    itp('has a valid subtitle if only password complexity "excludeUsername" defined', function () {
+      return setup({policyComplexity: 'excludeUsername'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Your password must have no parts of your username.');
+      });
+    });
+
+    itp('has a valid subtitle if password complexity is defined with all options', function () {
+      return setup({policyComplexity: 'all'}).then(function (test) {
         expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters, a lowercase letter,' +
           ' an uppercase letter, a number, a symbol, no parts of your username.');
       });

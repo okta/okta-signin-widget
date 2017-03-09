@@ -8,12 +8,12 @@ define({
     "_embedded": {
       "policy": {
         "complexity": {
-          "minLength": 8,
-          "minLowerCase": 1,
-          "minUpperCase": 1,
-          "minNumber": 1,
-          "minSymbol": 1,
-          "excludeUsername": true
+          "excludeUsername": false,
+          "minLength": 0,
+          "minLowerCase": 0,
+          "minNumber": 0,
+          "minSymbol": 0,
+          "minUpperCase": 0
         }
       },
       "user": {

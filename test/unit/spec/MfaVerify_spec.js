@@ -2325,6 +2325,23 @@ function (Okta,
           });
         });
       });
+      itp('Verify DUO after switching from SMS MFA_CHALLENGE', function () {
+        return setupSMS().then(function (test) {
+          test.setNextResponse(resChallengeSms);
+          test.form.smsSendCode().click();
+          return tick(test);
+        })
+        .then(function (test) {
+          spyOn(Duo, 'init');
+          test.setNextResponse([resAllFactors, resChallengeDuo]);
+          test.beacon.dropDownButton().click();
+          test.beacon.getOptionsLinks().eq(4).click();
+          return Expect.waitForVerifyDuo(test);
+        })
+        .then(function () {
+          expect(Duo.init).toHaveBeenCalled();
+        });
+      });
     });
 
   });
