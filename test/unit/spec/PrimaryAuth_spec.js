@@ -35,6 +35,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
   var itp = Expect.itp;
   var tick = Expect.tick;
   var processCredsSpy = jasmine.createSpy();
+  var processCredsAsyncSpy = jasmine.createSpy();
 
   var BEACON_LOADING_CLS = 'beacon-loading';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
@@ -502,6 +503,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
+          return tick(test);
+        }).then(function(test) {
           expect(test.router.settings.transformUsername.calls.count()).toBe(1);
           expect(test.router.settings.transformUsername.calls.argsFor(0)).toEqual(['testuser', 'PRIMARY_AUTH']);
         });
@@ -796,6 +799,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.form.submit();
+            return tick(test);
+          }).then(function(test) {
             expect(test.beacon.isLoadingBeacon()).toBe(true);
           });
         });
@@ -806,7 +811,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.form.submit();
-            expect(test.beacon.isLoadingBeacon()).toBe(true);
             return tick(test);
           })
           .then(function (test) {
@@ -821,7 +825,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.form.submit();
-            expect(test.beacon.isLoadingBeacon()).toBe(true);
             return tick(test);
           })
           .then(function (test) {
@@ -836,7 +839,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.form.submit();
-            expect(test.beacon.isLoadingBeacon()).toBe(true);
             return tick(test);
           })
           .then(function (test) {
@@ -1108,10 +1110,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           test.form.setPassword('pass');
           test.setNextResponse(resUnauthorized);
           test.form.submit();
-          var button = test.form.submitButton();
-          var buttonClass = button.attr('class');
-          expect(buttonClass).toContain('link-button-disabled');
-          expect(test.form.isDisabled()).toBe(true);
           return tick(test);
         })
         .then(function (test) {
@@ -1128,6 +1126,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function(test) {
           expect(test.form.isDisabled()).toBe(true);
           return tick();
         })
@@ -1154,6 +1155,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
+          return tick();
+        }).then(function() {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'testuser',
@@ -1162,16 +1165,61 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect($.ajax.calls.count()).toBe(1);
         });
       });
+      itp('calls async processCreds function before saving a model', function () {
+        return setup({
+          'processCreds': function(creds, callback) {
+            processCredsAsyncSpy(creds, callback);
+            callback();
+          }
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          processCredsAsyncSpy.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick();
+        }).then(function() {
+          expect(processCredsAsyncSpy.calls.count()).toBe(1);
+          expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+            username: 'testuser',
+            password: 'pass'
+          }, jasmine.any(Function));
+          expect($.ajax.calls.count()).toBe(1);
+        });
+      });
+      itp('calls async processCreds function and can prevent saving a model', function () {
+        return setup({
+          'processCreds': function(creds, callback) {
+            processCredsAsyncSpy(creds, callback);
+          }
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          processCredsAsyncSpy.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick();
+        }).then(function() {
+          expect(processCredsAsyncSpy.calls.count()).toBe(1);
+          expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+            username: 'testuser',
+            password: 'pass'
+          }, jasmine.any(Function));
+          expect($.ajax.calls.count()).toBe(0);
+        });
+      });
       itp('calls authClient with multiOptionalFactorEnroll=true if feature is true', function () {
         return setup({'features.multiOptionalFactorEnroll': true}).then(function (test) {
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
-          expect(test.form.isDisabled()).toBe(true);
-          return tick();
+          return tick(test);
         })
-        .then(function () {
+        .then(function (test) {
+          expect(test.form.isDisabled()).toBe(true);
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn',
@@ -1575,6 +1623,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         return setupSocial()
         .then(function (test) {
           test.form.facebookButton().click();
+          return tick(test);
+        }).then(function(test) {
           expect(window.addEventListener).toHaveBeenCalled();
           var args = window.addEventListener.calls.argsFor(0);
           var type = args[0];

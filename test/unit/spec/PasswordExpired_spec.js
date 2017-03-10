@@ -24,8 +24,12 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
   var itp = Expect.itp;
   var tick = Expect.tick;
   var processCredsSpy = jasmine.createSpy('processCredsSpy');
+  var processCredsAsyncSpy = jasmine.createSpy('processCredsAsyncSpy');
 
-  function setup(res) {
+  function setup(settings, res) {
+    var customProcessCredsSpy = settings ?
+      settings.processCreds || processCredsSpy :
+      processCredsSpy;
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -35,7 +39,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
       features: { securityImage: true },
       authClient: authClient,
       globalSuccessFn: function () {},
-      processCreds: processCredsSpy
+      processCreds: customProcessCredsSpy
     });
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
@@ -53,7 +57,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
 
   function setupWarn(numDays) {
     resPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
-    return setup(resPassWarn);
+    return setup(undefined, resPassWarn);
   }
 
   function submitNewPass(test, oldPass, newPass, confirmPass) {
@@ -124,7 +128,48 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
             username: 'inca@clouditude.net',
             password: 'newpwd'
           });
+          return tick();
+        }).then(function() {
           expect($.ajax.calls.count()).toBe(1);
+        });
+      });
+      itp('calls async processCreds function before saving a model', function () {
+        return setup({
+          'processCreds': function(creds, callback) {
+            processCredsAsyncSpy(creds, callback);
+            callback();
+          }
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          processCredsAsyncSpy.calls.reset();
+          test.setNextResponse(resSuccess);
+          submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
+          expect(processCredsAsyncSpy.calls.count()).toBe(1);
+          expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+            username: 'inca@clouditude.net',
+            password: 'newpwd'
+          }, jasmine.any(Function));
+          return tick();
+        }).then(function() {
+          expect($.ajax.calls.count()).toBe(1);
+        });
+      });
+      itp('calls async processCreds function and can prevent saving a model', function () {
+        return setup({
+          'processCreds': function(creds, callback) {
+            processCredsAsyncSpy(creds, callback);
+          }
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          processCredsAsyncSpy.calls.reset();
+          test.setNextResponse(resSuccess);
+          submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
+          expect(processCredsAsyncSpy.calls.count()).toBe(1);
+          expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+            username: 'inca@clouditude.net',
+            password: 'newpwd'
+          }, jasmine.any(Function));
+          expect($.ajax.calls.count()).toBe(0);
         });
       });
       itp('saves the new password successfully', function () {
@@ -132,6 +177,8 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           submitNewPass(test, 'oldpassyo', 'boopity', 'boopity');
+          return tick();
+        }).then(function() {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/credentials/change_password',

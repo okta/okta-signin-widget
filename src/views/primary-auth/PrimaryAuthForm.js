@@ -13,8 +13,9 @@
 define([
   'okta',
   'views/shared/TextBox',
-  'util/DeviceFingerprint'
-], function (Okta, TextBox, DeviceFingerprint) {
+  'util/DeviceFingerprint',
+  'q'
+], function (Okta, TextBox, DeviceFingerprint, Q) {
 
   var _ = Okta._;
 
@@ -37,28 +38,37 @@ define([
 
     initialize: function () {
       this.listenTo(this, 'save', function () {
-        var processCreds = this.settings.get('processCreds');
-        if (_.isFunction(processCreds)) {
-          processCreds({
-            username: this.model.get('username'),
-            password: this.model.get('password')
-          });
-        }
-        if (this.settings.get('features.deviceFingerprinting')) {
-          var self = this;
-          DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
+        var self = this;
+        Q.Promise(function(resolve) {
+          var processCreds = self.settings.get('processCreds');
+          if (!_.isFunction(processCreds)) {
+            resolve();
+          } else {
+            var creds = {
+              username: self.model.get('username'),
+              password: self.model.get('password')
+            };
+            if (processCreds.length === 2) {
+              processCreds(creds, resolve);
+            } else {
+              processCreds(creds);
+              resolve();
+            }
+          }
+        })
+        .then(function() {
+          if (!self.settings.get('features.deviceFingerprinting')) {
+            return;
+          }
+          return DeviceFingerprint.generateDeviceFingerprint(self.settings.get('baseUrl'), self.$el)
           .then(function (fingerprint) {
             self.model.set('deviceFingerprint', fingerprint);
           })
           .fail(function () {
             // Keep going even if device fingerprint fails
-          })
-          .fin(function () {
-            self.model.save();
           });
-        } else {
-          this.model.save();
-        }
+        })
+        .then(_.bind(this.model.save, this.model));
       });
       this.listenTo(this.state, 'change:enabled', function (model, enable) {
         if (enable) {
