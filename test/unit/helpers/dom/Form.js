@@ -78,10 +78,8 @@ define(['jquery', 'underscore', './Dom'], function ($, _, Dom) {
       return this.inputWrap(field).closest('[data-se="o-form-fieldset"]').find('label').trimmedText();
     },
 
-    tooltipText: function (field) {
-      var api,
-          element,
-          tooltipText,
+    tooltipApi: function (field) {
+      var element,
           formInput = this.inputWrap(field);
 
       if (formInput.length) {
@@ -90,7 +88,14 @@ define(['jquery', 'underscore', './Dom'], function ($, _, Dom) {
         element = this.el(field);
       }
 
-      api = $(element).qtip('api');
+      return $(element).qtip('api');
+    },
+
+    tooltipText: function (field) {
+      var api,
+          tooltipText;
+
+      api = this.tooltipApi(field);
       tooltipText = api ? api.show().tooltip.text() : undefined;
 
       // Remove the tooltip from the DOM to

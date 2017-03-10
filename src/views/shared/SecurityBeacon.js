@@ -132,8 +132,11 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       this.listenTo(options.appState, 'change:securityImage', this.update);
       this.listenTo(options.appState, 'loading', function (isLoading) {
         this.$el.toggleClass('beacon-loading', isLoading);
+        this.removeAntiPhishingMessage();
       });
       this.options.appState.set('beaconType', 'security');
+
+      this.listenTo(options.appState, 'navigate', this.removeAntiPhishingMessage);
     },
 
     postRender: function () {
@@ -142,6 +145,11 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
 
     equals: function (Beacon) {
       return Beacon && this instanceof Beacon;
+    },
+
+    removeAntiPhishingMessage: function () {
+      var image = this.$el.find('.auth-beacon-security');
+      image.qtip('destroy');
     }
 
   });
