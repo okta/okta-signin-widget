@@ -946,13 +946,13 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         })
         .then(function (test) {
           // Tooltip exists
-          expect(test.form.securityImageTooltipDestroyed()).toBe(false);
+          expect(test.form.isSecurityImageTooltipDestroyed()).toBe(false);
           spyOn(test.router, 'navigate');
           test.form.helpFooter().click();
           test.form.unlockLink().click();
           expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
-          // Undefined, since the qtip-api for this element is now gone
-          expect(test.form.securityImageTooltipDestroyed()).toBe(undefined);
+          // Verify tooltip is gone
+          expect(test.form.isSecurityImageTooltipDestroyed()).toBe(true);
         });
       });
       itp('updates security beacon immediately if rememberMe is available', function () {
