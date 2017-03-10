@@ -24,6 +24,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
   var itp = Expect.itp;
   var tick = Expect.tick;
   var processCredsSpy = jasmine.createSpy();
+  var processCredsAsyncSpy = jasmine.createSpy();
 
   function deepClone(res) {
     return JSON.parse(JSON.stringify(res));
@@ -178,6 +179,47 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           password: 'newpwd'
         });
         expect($.ajax.calls.count()).toBe(1);
+      });
+    });
+    itp('calls async processCreds function before saving a model', function () {
+      return setup({
+        'processCreds': function(creds, callback) {
+          processCredsAsyncSpy(creds, callback);
+          callback();
+        }
+      }).then(function (test) {
+        $.ajax.calls.reset();
+        processCredsAsyncSpy.calls.reset();
+        test.setNextResponse(resSuccess);
+        test.form.setNewPassword('newpwd');
+        test.form.setConfirmPassword('newpwd');
+        test.form.submit();
+        expect(processCredsAsyncSpy.calls.count()).toBe(1);
+        expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+          username: 'administrator1@clouditude.net',
+          password: 'newpwd'
+        }, jasmine.any(Function));
+        expect($.ajax.calls.count()).toBe(1);
+      });
+    });
+    itp('calls async processCreds function and can prevent saving a model', function () {
+      return setup({
+        'processCreds': function(creds, callback) {
+          processCredsAsyncSpy(creds, callback);
+        }
+      }).then(function (test) {
+        $.ajax.calls.reset();
+        processCredsAsyncSpy.calls.reset();
+        test.setNextResponse(resSuccess);
+        test.form.setNewPassword('newpwd');
+        test.form.setConfirmPassword('newpwd');
+        test.form.submit();
+        expect(processCredsAsyncSpy.calls.count()).toBe(1);
+        expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+          username: 'administrator1@clouditude.net',
+          password: 'newpwd'
+        }, jasmine.any(Function));
+        expect($.ajax.calls.count()).toBe(0);
       });
     });
     itp('makes the right auth request when form is submitted', function () {

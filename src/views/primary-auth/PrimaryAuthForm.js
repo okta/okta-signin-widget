@@ -37,27 +37,37 @@ define([
 
     initialize: function () {
       this.listenTo(this, 'save', function () {
+        var self = this;
+        var saveActions = function() {
+          if (self.settings.get('features.deviceFingerprinting')) {
+            DeviceFingerprint.generateDeviceFingerprint(self.settings.get('baseUrl'), self.$el)
+              .then(function (fingerprint) {
+                self.model.set('deviceFingerprint', fingerprint);
+              })
+              .fail(function () {
+                // Keep going even if device fingerprint fails
+              })
+              .fin(function () {
+                self.model.save();
+              });
+          } else {
+            self.model.save();
+          }
+        };
         var processCreds = this.settings.get('processCreds');
-        if (_.isFunction(processCreds)) {
-          processCreds({
+        if (!_.isFunction(processCreds)) {
+          saveActions();
+        } else {
+          var creds = {
             username: this.model.get('username'),
             password: this.model.get('password')
-          });
-        }
-        if (this.settings.get('features.deviceFingerprinting')) {
-          var self = this;
-          DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
-          .then(function (fingerprint) {
-            self.model.set('deviceFingerprint', fingerprint);
-          })
-          .fail(function () {
-            // Keep going even if device fingerprint fails
-          })
-          .fin(function () {
-            self.model.save();
-          });
-        } else {
-          this.model.save();
+          };
+          if (processCreds.length === 2) {
+            processCreds(creds, saveActions);
+          } else {
+            processCreds(creds);
+            saveActions();
+          }
         }
       });
       this.listenTo(this.state, 'change:enabled', function (model, enable) {
