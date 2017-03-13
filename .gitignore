@@ -5,6 +5,7 @@ node_modules/*
 node_modules/@okta/*
 !node_modules/@okta/i18n
 !node_modules/@okta/courage
+!node_modules/@okta/jquery.simplemodal
 npm-debug.log
 test/unit/SpecRunner.html
 target
