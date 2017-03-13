@@ -11,6 +11,8 @@ build2
 .widgetrc
 .vscode
 .DS_Store
+*.iml
+.idea
 
 # @okta/i18n module specific ignores
 **/node_modules/@okta/i18n/**/*.*
