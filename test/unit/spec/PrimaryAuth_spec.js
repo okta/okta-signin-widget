@@ -35,6 +35,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
   var itp = Expect.itp;
   var tick = Expect.tick;
   var processCredsSpy = jasmine.createSpy();
+  var processCredsAsyncSpy = jasmine.createSpy();
 
   var BEACON_LOADING_CLS = 'beacon-loading';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
@@ -1160,6 +1161,47 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             password: 'pass'
           });
           expect($.ajax.calls.count()).toBe(1);
+        });
+      });
+      itp('calls async processCreds function before saving a model', function () {
+        return setup({
+          'processCreds': function(creds, callback) {
+            processCredsAsyncSpy(creds, callback);
+            callback();
+          }
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          processCredsAsyncSpy.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          expect(processCredsAsyncSpy.calls.count()).toBe(1);
+          expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+            username: 'testuser',
+            password: 'pass'
+          }, jasmine.any(Function));
+          expect($.ajax.calls.count()).toBe(1);
+        });
+      });
+      itp('calls async processCreds function and can prevent saving a model', function () {
+        return setup({
+          'processCreds': function(creds, callback) {
+            processCredsAsyncSpy(creds, callback);
+          }
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          processCredsAsyncSpy.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          expect(processCredsAsyncSpy.calls.count()).toBe(1);
+          expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+            username: 'testuser',
+            password: 'pass'
+          }, jasmine.any(Function));
+          expect($.ajax.calls.count()).toBe(0);
         });
       });
       itp('calls authClient with multiOptionalFactorEnroll=true if feature is true', function () {

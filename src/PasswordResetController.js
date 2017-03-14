@@ -84,13 +84,20 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
     initialize: function () {
       this.listenTo(this.form, 'save', function () {
         var processCreds = this.settings.get('processCreds');
-        if (_.isFunction(processCreds)) {
-          processCreds({
+        if (!_.isFunction(processCreds)) {
+          this.model.save();
+        } else {
+          var creds = {
             username: this.options.appState.get('userEmail'),
             password: this.model.get('newPassword')
-          });
+          };
+          if (processCreds.length === 2) {
+            processCreds(creds, _.bind(this.model.save, this.model));
+          } else {
+            processCreds(creds);
+            this.model.save();
+          }
         }
-        this.model.save();
       });
     }
 
