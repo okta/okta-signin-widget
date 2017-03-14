@@ -14,6 +14,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
 
 # Table of Contents
 
+
 * [Install](#install)
   * [Using the Okta CDN](#using-the-okta-cdn)
   * [Using the npm module](#using-the-npm-module)
