@@ -32,6 +32,9 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
   var USER_NOT_SEEN_ON_DEVICE = '/img/security/unknown.png';
   var UNDEFINED_USER = '/img/security/default.png';
   var NEW_USER = '/img/security/unknown-device.png';
+  var NEW_USER_IMAGE_DESCRIPTION = '';
+  var UNDEFINED_USER_IMAGE_DESCRIPTION = '';
+  var UNKNOWN_IMAGE_DESCRIPTION = '';
 
   var securityImageUrlTpl = compile('{{baseUrl}}/login/getimage?username={{username}}');
 
@@ -40,7 +43,10 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
 
     // When the username is empty, we want to show the default image.
     if (_.isEmpty(username) || _.isUndefined(username)) {
-      return Q(UNDEFINED_USER);
+      return Q({
+        'securityImage': UNDEFINED_USER,
+        'securityImageDescription': UNDEFINED_USER_IMAGE_DESCRIPTION
+      });
     }
 
     return Q($.get(url)).then(function (res) {
@@ -49,9 +55,16 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         // we want to show the unknown-device security image.
         // We are mapping the server's img url to a new one because
         // we still need to support the original login page.
-        return NEW_USER;
+        return {
+          'securityImage': NEW_USER,
+          'securityImageDescription': NEW_USER_IMAGE_DESCRIPTION
+        };
       }
-      return res.pwdImg;
+      return {
+        'securityImage': res.pwdImg,
+        'securityImageDescription':
+            res.imageDescription || UNKNOWN_IMAGE_DESCRIPTION
+      };
     });
   }
 
@@ -80,7 +93,9 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         this.listenTo(this, 'change:username', function (model, username) {
           getSecurityImage(this.get('baseUrl'), username)
           .then(function (image) {
-            model.set('securityImage', image);
+            model.set('securityImage', image.securityImage);
+            model.set(
+              'securityImageDescription', image.securityImageDescription);
           })
           .fail(function (jqXhr) {
             // Only notify the consumer on a CORS error
@@ -107,6 +122,8 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       factors: 'object',
       policy: 'object',
       securityImage: ['string', true, UNDEFINED_USER],
+      securityImageDescription:
+          ['string', true, UNDEFINED_USER_IMAGE_DESCRIPTION],
       userCountryCode: 'string',
       userPhoneNumber: 'string',
       factorActivationType: 'string',

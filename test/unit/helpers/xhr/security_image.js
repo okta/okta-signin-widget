@@ -3,6 +3,7 @@ define({
   "responseType": "json",
   "response": {
     result: 'success',
-    pwdImg: '../../../test/unit/assets/1x1.gif'
+    pwdImg: '../../../test/unit/assets/1x1.gif',
+    imageDescription: 'a single pixel'
   }
 });
