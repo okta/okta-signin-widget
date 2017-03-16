@@ -7,9 +7,14 @@
 module.exports = function (grunt) {
   /* jshint maxstatements: false */
 
+  require('load-grunt-tasks')(grunt);
+  require('time-grunt')(grunt);
+  
   var open        = require('open'),
       Handlebars  = require('handlebars'),
       _           = require('underscore'),
+      postcssAutoprefixer = require('autoprefixer')({remove: false}),
+      cssnano     = require('cssnano')({safe: true}),
       path        = require('path');
 
   var JS                    = 'target/js',
@@ -328,41 +333,53 @@ module.exports = function (grunt) {
       }
     },
 
-    compass: {
+    sass: {
       options: {
-        cssDir: 'target/css',
-        sassDir: SASS,
-        httpImagesPath: '/',
-        httpGeneratedImagesPath: '/',
-        bundleExec: true,
-        boring: true,
-        noLineComments: true
+        sourceMap: true,
+        outputStyle: 'expanded',
+        includePaths: [SASS]
       },
       build: {
-        options: {
-          specify: SASS + '/okta-sign-in.scss',
-          sourcemap: true,
-          force: grunt.option('force') || false
+        files: {
+          'target/css/okta-sign-in.css': SASS + '/okta-sign-in.scss'
         }
       },
       buildtheme: {
-        options: {
-          specify: SASS + '/okta-theme.scss',
-          sourcemap: true,
-          force: true
+        files: {
+          'target/css/okta-theme.css': SASS + '/okta-theme.scss'
         }
+      }
+    },
+    postcss: {
+      options: {
+        diff: false,
+        failOnError: true,
+        map: true,
+        processors: [
+          postcssAutoprefixer
+        ]
+      },
+      build: {
+        src: 'target/css/okta-sign-in.css'
+      },
+      buildtheme: {
+        src: 'target/css/okta-theme.css'
       },
       minify: {
         options: {
-          specify: SASS + '/okta-sign-in.scss',
-          force: true,
-          environment: 'production'
-        }
-      },
-      watch: {
-        options: {
-          watch: true
-        }
+          processors: [
+            postcssAutoprefixer,
+            cssnano
+          ]
+        },
+        src: 'target/css/okta-sign-in.css'
+      }
+    },
+
+    watch: {
+      sass: {
+        files: 'assets/sass/**/*.scss',
+        tasks: ['copy:app-to-target', 'sass', 'postcss:build', 'postcss:buildtheme']
       }
     },
 
@@ -438,16 +455,6 @@ module.exports = function (grunt) {
   grunt.loadTasks('buildtools/generate-config');
   grunt.loadTasks('buildtools/generate-jsonp');
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-jasmine');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-exec');
-  grunt.loadNpmTasks('grunt-json-generator');
-  grunt.loadNpmTasks('grunt-retire');
-
   grunt.task.registerTask(
     'test-e2e',
     'Runs end to end webdriver tests. Pass in `--browserName {{browser}}` to ' +
@@ -503,11 +510,11 @@ module.exports = function (grunt) {
     switch (target) {
     case 'release':
       preBuildTasks.push('retire');
-      buildTasks.push('compass:minify', 'exec:build-release');
+      buildTasks.push('sass:build', 'postcss:minify', 'exec:build-release');
       postBuildTasks.push('copy:target-to-dist');
       break;
     case 'dev':
-      buildTasks.push('compass:build', 'exec:build-dev');
+      buildTasks.push('sass:build', 'postcss:build', 'exec:build-dev');
       break;
     default:
       grunt.fail.fatal('Unknown target: ' + target);
@@ -520,7 +527,8 @@ module.exports = function (grunt) {
         'copy:app-to-target',
         'generate-config',
         'generate-jsonp:target',
-        'compass:buildtheme'
+        'sass:buildtheme',
+        'postcss:buildtheme'
       ],
       buildTasks,
       postBuildTasks

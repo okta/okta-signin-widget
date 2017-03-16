@@ -7,9 +7,9 @@
   line-height: $button-line-height;
   padding: $button-padding;
   border: 1px solid;
-  @include border-radius;
+  border-radius: $border-radius-default;
   font-size: $font-size;
-  @include box-sizing(border-box);
+  box-sizing: border-box;
   -webkit-appearance: none;
 }
 
@@ -27,7 +27,7 @@
   height: 22px;
   text-align: center;
   border: 1px solid;
-  @include border-radius;
+  border-radius: $border-radius-default;
 
   .icon {
     display: inline-block;
@@ -54,8 +54,8 @@
 
 .social-auth-button.link-button {
   @extend .button-wide;
-  @include border-radius;
-  @include box-sizing(border-box);
+  border-radius: $border-radius-default;
+  box-sizing: border-box;
 
   color: #fff;
   display: block;
@@ -78,10 +78,9 @@
 }
 
 @mixin social-auth-button-template($bg-image, $icon-bg-color, $label-bg-color, $border-color) {
+  background-color: $label-bg-color;
   background: $bg-image no-repeat 10px,
     linear-gradient(90deg, $icon-bg-color 50px, $label-bg-color 50px);
-  @include background-with-css2-fallback($bg-image no-repeat 10px,
-    linear-gradient(90deg, $icon-bg-color 50px, $label-bg-color 50px), $label-bg-color);
   border: 1px solid $border-color;
 
   &:active,

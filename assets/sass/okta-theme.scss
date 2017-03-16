@@ -1,4 +1,3 @@
-@import 'compass/css3';
 @import 'variables';
 @import 'helpers';
 
@@ -27,15 +26,15 @@
 }
 
 @mixin button-shadow($drop-shadow-opacity) {
-  @include box-shadow(rgba(#000, $drop-shadow-opacity) 0 1px 0, rgba(255, 255, 255, 0.1) 0 1px 0 0 inset);
+  box-shadow: rgba(#000, $drop-shadow-opacity) 0 1px 0, rgba(255, 255, 255, 0.1) 0 1px 0 0 inset;
 }
 
 @mixin button-template($bg-color, $gradient-factor, $text-color, $border-factor, $border-bottom-factor) {
   color: $text-color;
-  @include filter-gradient($bg-color, darken($bg-color, $gradient-factor), vertical);
+  background-color: $bg-color;
   background: -o-linear-gradient(top, $bg-color 0%, darken($bg-color, $gradient-factor) 100%); /* Opera 11.10+ */
   background: -ms-linear-gradient(top, $bg-color 0%, darken($bg-color, $gradient-factor) 100%); /* IE10+ */
-  @include background-with-css2-fallback(linear-gradient($bg-color, darken($bg-color, $gradient-factor)), $bg-color);
+  background: linear-gradient($bg-color, darken($bg-color, $gradient-factor));
   border-color: darken($bg-color, $border-factor);
   border-bottom-color: darken($bg-color, $border-bottom-factor);
 
@@ -45,10 +44,10 @@
   &:focus {
   /* -- Buttons' Colors -- */
     $hover-bg-color: lighten($bg-color, 3%);
-    @include filter-gradient($hover-bg-color, darken($hover-bg-color, $gradient-factor), vertical);
+    background-color: $hover-bg-color;
     background: -o-linear-gradient(top, $hover-bg-color 0%, darken($hover-bg-color, $gradient-factor) 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, $hover-bg-color 0%, darken($hover-bg-color, $gradient-factor) 100%); /* IE10+ */
-    @include background-image(linear-gradient($hover-bg-color, darken($hover-bg-color, $gradient-factor)));
+    background-image: linear-gradient($hover-bg-color, darken($hover-bg-color, $gradient-factor));
     border-color: darken($bg-color, $border-factor * 1.3);
     border-bottom-color: darken($bg-color, $border-bottom-factor * 1.2);
     text-decoration: none;
@@ -122,10 +121,11 @@
   /* -- Main Background and Border Colors -- */
     background-color: $primary-bg-color;
     border-color: #ddd #ddd #d8d8d8;
-    @include box-shadow(0 2px 0 rgba(175, 175, 175, 0.12));
+    box-shadow: 0 2px 0 rgba(175, 175, 175, 0.12);
+
     @include mobile {
       border-width: 0;
-      @include box-shadow(none);
+      box-shadow: none;
     }
 
     .bg-helper {

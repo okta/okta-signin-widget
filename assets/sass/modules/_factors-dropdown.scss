@@ -10,7 +10,7 @@
       // a box shadow color will be the same as 'color' prop value
       // if no color value passed to 'box-shadow' prop
       color: $primary-bg-color;
-      @include box-shadow(10px 0 0 0);
+      box-shadow: 10px 0 0 0;
     }
 
     .link-button {

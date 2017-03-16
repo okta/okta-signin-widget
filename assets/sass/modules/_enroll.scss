@@ -1,5 +1,3 @@
-@import 'compass/css3/filter';
-@import 'compass/css3/opacity';
 
 .enroll-factor-list {
   margin-bottom: 30px;
@@ -19,8 +17,8 @@
     margin-bottom: 30px;
 
     .enroll-factor-icon {
-      @include filter(grayscale(100%));
-      @include opacity(0.5);
+      filter: grayscale(100%);
+      opacity: 0.5;
     }
   }
 }
