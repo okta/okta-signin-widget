@@ -570,7 +570,7 @@ var signIn = new OktaSignIn(config);
 
 - **processCreds:** Hook to handle the credentials before they are sent to Okta in the Primary Auth, Password Expiration, and Password Reset flows.
 
-    If processCreds takes a single argument it will be executed as a synchonous hook:
+    If processCreds takes a single argument it will be executed as a synchronous hook:
 
     ```javascript
     // Passed a creds object {username, password}
@@ -585,20 +585,20 @@ var signIn = new OktaSignIn(config);
     }
     ```
 
-    If processCreds takes two arguments it will be executed as an asynchonous hook:
+    If processCreds takes two arguments it will be executed as an asynchronous hook:
 
     ```javascript
     // Passed a creds object {username, password} and a callback for further processing
     processCreds: function (creds, callback) {
-      // This example demonstrates optional legacy form-based logon
+      // This example demonstrates optional legacy form-based login
       $.ajax({
         method: "POST",
-        url: "/logontype",
+        url: "/logintype",
         data: {
           username : creds.username
         },
-        success: function (logontype) {
-          if (logontype == "LEGACY") {
+        success: function (logintype) {
+          if (logintype == "LEGACY") {
             $('#legacyUser').val(creds.username);
             $('#legacyPassword').val(creds.password);
             $('#legacyLogonForm').submit();

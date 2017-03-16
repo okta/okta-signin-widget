@@ -12,7 +12,6 @@
 
 define([
   'okta',
-  'q',
   'util/FormController',
   'util/Enums',
   'util/FormType',
@@ -20,7 +19,7 @@ define([
   'util/FactorUtil',
   'views/shared/TextBox'
 ],
-function (Okta, Q, FormController, Enums, FormType, ValidationUtil, FactorUtil, TextBox) {
+function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, TextBox) {
 
   var _ = Okta._;
 
@@ -151,24 +150,11 @@ function (Okta, Q, FormController, Enums, FormType, ValidationUtil, FactorUtil, 
 
     initialize: function () {
       this.listenTo(this.form, 'save', function () {
-        var self = this;
-        Q.Promise(function(resolve) {
-          var processCreds = self.settings.get('processCreds');
-          if (!_.isFunction(processCreds)) {
-            resolve();
-          } else {
-            var creds = {
-              username: self.options.appState.get('userEmail'),
-              password: self.model.get('newPassword')
-            };
-            if (processCreds.length === 2) {
-              processCreds(creds, resolve);
-            } else {
-              processCreds(creds);
-              resolve();
-            }
-          }
-        })
+        var creds = {
+          username: this.options.appState.get('userEmail'),
+          password: this.model.get('newPassword')
+        };
+        this.settings.processCreds(creds)
         .then(_.bind(this.model.save, this.model));
       });
     }

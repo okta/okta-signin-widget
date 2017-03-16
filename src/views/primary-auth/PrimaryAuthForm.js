@@ -13,9 +13,8 @@
 define([
   'okta',
   'views/shared/TextBox',
-  'util/DeviceFingerprint',
-  'q'
-], function (Okta, TextBox, DeviceFingerprint, Q) {
+  'util/DeviceFingerprint'
+], function (Okta, TextBox, DeviceFingerprint) {
 
   var _ = Okta._;
 
@@ -39,23 +38,11 @@ define([
     initialize: function () {
       this.listenTo(this, 'save', function () {
         var self = this;
-        Q.Promise(function(resolve) {
-          var processCreds = self.settings.get('processCreds');
-          if (!_.isFunction(processCreds)) {
-            resolve();
-          } else {
-            var creds = {
-              username: self.model.get('username'),
-              password: self.model.get('password')
-            };
-            if (processCreds.length === 2) {
-              processCreds(creds, resolve);
-            } else {
-              processCreds(creds);
-              resolve();
-            }
-          }
-        })
+        var creds = {
+          username: this.model.get('username'),
+          password: this.model.get('password')
+        };
+        this.settings.processCreds(creds)
         .then(function() {
           if (!self.settings.get('features.deviceFingerprinting')) {
             return;

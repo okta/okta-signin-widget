@@ -34,8 +34,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
 
   var itp = Expect.itp;
   var tick = Expect.tick;
-  var processCredsSpy = jasmine.createSpy();
-  var processCredsAsyncSpy = jasmine.createSpy();
 
   var BEACON_LOADING_CLS = 'beacon-loading';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
@@ -61,6 +59,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
   var VALID_ACCESS_TOKEN = 'anythingbecauseitsopaque';
 
   function setup(settings, requests) {
+    settings || (settings = {});
+
     // To speed up the test suite, calls to debounce are
     // modified to wait 0 ms.
     var debounce = _.debounce;
@@ -77,8 +77,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
-      globalSuccessFn: successSpy,
-      processCreds: processCredsSpy
+      globalSuccessFn: successSpy
     }, settings));
     Util.registerRouter(router);
     var authContainer = new AuthContainer($sandbox);
@@ -1148,65 +1147,72 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('calls processCreds function before saving a model', function () {
-        return setup().then(function (test) {
+        var processCredsSpy = jasmine.createSpy('processCreds');
+        return setup({
+          processCreds: processCredsSpy
+        })
+        .then(function (test) {
           $.ajax.calls.reset();
           processCredsSpy.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
-          return tick();
-        }).then(function() {
+          return tick(test);
+        }).then(function(test) {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'testuser',
             password: 'pass'
           });
+          return Expect.waitForSpyCall(test.successSpy);
+        }).then(function() {
           expect($.ajax.calls.count()).toBe(1);
         });
       });
       itp('calls async processCreds function before saving a model', function () {
+        var processCredsSpy = jasmine.createSpy('processCreds');
         return setup({
           'processCreds': function(creds, callback) {
-            processCredsAsyncSpy(creds, callback);
+            processCredsSpy(creds, callback);
             callback();
           }
-        }).then(function (test) {
+        })
+        .then(function (test) {
           $.ajax.calls.reset();
-          processCredsAsyncSpy.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
-          return tick();
-        }).then(function() {
-          expect(processCredsAsyncSpy.calls.count()).toBe(1);
-          expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+          expect(processCredsSpy.calls.count()).toBe(1);
+          expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'testuser',
             password: 'pass'
           }, jasmine.any(Function));
+          return Expect.waitForSpyCall(test.successSpy);
+        }).then(function() {
           expect($.ajax.calls.count()).toBe(1);
         });
       });
       itp('calls async processCreds function and can prevent saving a model', function () {
+        var processCredsSpy = jasmine.createSpy('processCreds');
         return setup({
           'processCreds': function(creds, callback) {
-            processCredsAsyncSpy(creds, callback);
+            processCredsSpy(creds, callback);
           }
         }).then(function (test) {
           $.ajax.calls.reset();
-          processCredsAsyncSpy.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
-          return tick();
-        }).then(function() {
-          expect(processCredsAsyncSpy.calls.count()).toBe(1);
-          expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+          expect(processCredsSpy.calls.count()).toBe(1);
+          expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'testuser',
             password: 'pass'
           }, jasmine.any(Function));
+          return tick();
+        }).then(function() {
           expect($.ajax.calls.count()).toBe(0);
         });
       });

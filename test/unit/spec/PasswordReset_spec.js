@@ -23,14 +23,14 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
 
   var itp = Expect.itp;
   var tick = Expect.tick;
-  var processCredsSpy = jasmine.createSpy();
-  var processCredsAsyncSpy = jasmine.createSpy();
 
   function deepClone(res) {
     return JSON.parse(JSON.stringify(res));
   }
 
   function setup(settings) {
+    settings || (settings = {});
+    var successSpy = jasmine.createSpy('successSpy');
     var passwordResetResponse = resPasswordReset;
     var policyComplexityDefaults = {
       minLength: 8,
@@ -62,8 +62,8 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
-      globalSuccessFn: function () {},
-      processCreds: processCredsSpy
+      globalSuccessFn: successSpy,
+      processCreds: settings.processCreds
     }, settings));
     var form = new PasswordResetForm($sandbox);
     var beacon = new Beacon($sandbox);
@@ -74,6 +74,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     router.refreshAuthState('dummy-token');
     return Expect.waitForPasswordReset({
       router: router,
+      successSpy: successSpy,
       form: form,
       beacon: beacon,
       ac: authClient,
@@ -166,9 +167,10 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       });
     });
     itp('calls processCreds function before saving a model', function () {
-      return setup().then(function (test) {
+      var processCredsSpy = jasmine.createSpy('processCredsSpy');
+      return setup({ processCreds: processCredsSpy })
+      .then(function (test) {
         $.ajax.calls.reset();
-        processCredsSpy.calls.reset();
         test.setNextResponse(resSuccess);
         test.form.setNewPassword('newpwd');
         test.form.setConfirmPassword('newpwd');
@@ -178,48 +180,50 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           username: 'administrator1@clouditude.net',
           password: 'newpwd'
         });
-        return tick();
+        return Expect.waitForSpyCall(test.successSpy);
       }).then(function() {
         expect($.ajax.calls.count()).toBe(1);
       });
     });
     itp('calls async processCreds function before saving a model', function () {
+      var processCredsSpy = jasmine.createSpy('processCredsSpy');
       return setup({
         'processCreds': function(creds, callback) {
-          processCredsAsyncSpy(creds, callback);
+          processCredsSpy(creds, callback);
           callback();
         }
-      }).then(function (test) {
+      })
+      .then(function (test) {
         $.ajax.calls.reset();
-        processCredsAsyncSpy.calls.reset();
         test.setNextResponse(resSuccess);
         test.form.setNewPassword('newpwd');
         test.form.setConfirmPassword('newpwd');
         test.form.submit();
-        expect(processCredsAsyncSpy.calls.count()).toBe(1);
-        expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+        expect(processCredsSpy.calls.count()).toBe(1);
+        expect(processCredsSpy).toHaveBeenCalledWith({
           username: 'administrator1@clouditude.net',
           password: 'newpwd'
         }, jasmine.any(Function));
-        return tick();
+        return Expect.waitForSpyCall(test.successSpy);
       }).then(function() {
         expect($.ajax.calls.count()).toBe(1);
       });
     });
     itp('calls async processCreds function and can prevent saving a model', function () {
+      var processCredsSpy = jasmine.createSpy('processCredsSpy');
       return setup({
         'processCreds': function(creds, callback) {
-          processCredsAsyncSpy(creds, callback);
+          processCredsSpy(creds, callback);
         }
-      }).then(function (test) {
+      })
+      .then(function (test) {
         $.ajax.calls.reset();
-        processCredsAsyncSpy.calls.reset();
         test.setNextResponse(resSuccess);
         test.form.setNewPassword('newpwd');
         test.form.setConfirmPassword('newpwd');
         test.form.submit();
-        expect(processCredsAsyncSpy.calls.count()).toBe(1);
-        expect(processCredsAsyncSpy).toHaveBeenCalledWith({
+        expect(processCredsSpy.calls.count()).toBe(1);
+        expect(processCredsSpy).toHaveBeenCalledWith({
           username: 'administrator1@clouditude.net',
           password: 'newpwd'
         }, jasmine.any(Function));
