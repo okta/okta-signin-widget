@@ -5,6 +5,7 @@ define([
   'jquery',
   '@okta/okta-auth-js/jquery',
   'util/Util',
+  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/PasswordExpiredForm',
   'helpers/dom/Beacon',
@@ -15,24 +16,26 @@ define([
   'helpers/xhr/PASSWORD_EXPIRED',
   'helpers/xhr/PASSWORD_EXPIRED_error_complexity',
   'helpers/xhr/PASSWORD_EXPIRED_error_oldpass',
+  'helpers/xhr/CUSTOM_PASSWORD_WARN',
+  'helpers/xhr/CUSTOM_PASSWORD_EXPIRED',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
+function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
           $sandbox, resPassWarn, resPassExpired, resErrorComplexity,
-          resErrorOldPass, resSuccess) {
+          resErrorOldPass, resCustomPassWarn, resCustomPassExpired, resSuccess) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
   var processCredsSpy = jasmine.createSpy('processCredsSpy');
 
-  function setup(res) {
+  function setup(res, custom) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
     var router = new Router({
       el: $sandbox,
       baseUrl: baseUrl,
-      features: { securityImage: true },
+      features: { securityImage: true, customExpiredPassword: custom },
       authClient: authClient,
       globalSuccessFn: function () {},
       processCreds: processCredsSpy
@@ -42,18 +45,31 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
     Util.mockJqueryCss();
     setNextResponse(res || resPassExpired);
     router.refreshAuthState('dummy-token');
-    return Expect.waitForPasswordExpired({
+    var settings = {
       router: router,
       beacon: new Beacon($sandbox),
       form: new PasswordExpiredForm($sandbox),
       ac: authClient,
       setNextResponse: setNextResponse
-    });
+    };
+    if(custom) {
+      return Expect.waitForCustomPasswordExpired(settings);
+    }
+    return Expect.waitForPasswordExpired(settings);
   }
 
   function setupWarn(numDays) {
     resPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
     return setup(resPassWarn);
+  }
+
+  function setupCustomExpiredPassword(res) {
+    return setup(res || resCustomPassExpired, true);
+  }
+
+  function setupCustomExpiredPasswordWarn(numDays) {
+    resCustomPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
+    return setupCustomExpiredPassword(resCustomPassWarn);
   }
 
   function submitNewPass(test, oldPass, newPass, confirmPass) {
@@ -197,6 +213,54 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
 
     });
 
+    Expect.describe('CustomPasswordExpired', function () {
+
+      itp('shows security beacon', function () {
+        return setup().then(function (test) {
+          expect(test.beacon.isSecurityBeacon()).toBe(true);
+        });
+      });
+      itp('has the correct title', function () {
+        return setupCustomExpiredPassword().then(function (test) {
+          expect(test.form.titleText()).toBe('Your Okta password has expired');
+        });
+      });
+      itp('has a valid subtitle', function () {
+        return setupCustomExpiredPassword().then(function (test) {
+          expect(test.form.subtitleText()).toEqual('This password is set on another website. ' +
+              'Click the button below to go there and set a new password.');
+        });
+      });
+      itp('has a custom change password button', function () {
+        return setupCustomExpiredPassword().then(function (test) {
+          expect(test.form.customButton().length).toBe(1);
+        });
+      });
+      itp('has a valid custom button text', function () {
+        return setupCustomExpiredPassword().then(function (test) {
+          expect(test.form.customButtonText()).toEqual('Go to Twitter');
+        });
+      });
+      itp('has a sign out link', function () {
+        return setupCustomExpiredPassword().then(function (test) {
+          Expect.isVisible(test.form.signoutLink());
+        });
+      });
+      itp('does not have a skip link', function () {
+        return setupCustomExpiredPassword().then(function (test) {
+          expect(test.form.skipLink().length).toBe(0);
+        });
+      });
+      itp('redirect is called with the correct arg on custom button click', function () {
+        spyOn(SharedUtil, 'redirect');
+        return setupCustomExpiredPassword().then(function (test) {
+          test.form.clickCustomButton();
+          expect(SharedUtil.redirect).toHaveBeenCalledWith('https://www.twitter.com');
+        });
+      });
+
+    });
+
     Expect.describe('PasswordAboutToExpire', function () {
 
       itp('has the correct title if expiring in > 0 days', function () {
@@ -251,6 +315,61 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
               stateToken: 'testStateToken'
             }
           });
+        });
+      });
+
+    });
+
+    Expect.describe('CustomPasswordAboutToExpire', function () {
+
+      itp('shows security beacon', function () {
+        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+          expect(test.beacon.isSecurityBeacon()).toBe(true);
+        });
+      });
+      itp('has the correct title if expiring in > 0 days', function () {
+        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+          expect(test.form.titleText()).toBe('Your password will expire in 4 days');
+        });
+      });
+      itp('has the correct title if expiring in 0 days', function () {
+        return setupCustomExpiredPasswordWarn(0).then(function (test) {
+          expect(test.form.titleText()).toBe('Your password will expire later today');
+        });
+      });
+      itp('has a valid subtitle', function () {
+        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('When password expires you may be locked out of ' +
+              'Okta Mobile, mobile email, and other services. ' +
+              'This password is set on another website. ' +
+              'Click the button below to go there and set a new password.');
+        });
+      });
+      itp('has a custom change password button', function () {
+        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+          expect(test.form.customButton().length).toBe(1);
+        });
+      });
+      itp('has a valid custom button text', function () {
+        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+          expect(test.form.customButtonText()).toEqual('Go to Google');
+        });
+      });
+      itp('has a sign out link', function () {
+        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+          Expect.isVisible(test.form.signoutLink());
+        });
+      });
+      itp('has a skip link', function () {
+        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+          Expect.isVisible(test.form.skipLink());
+        });
+      });
+      itp('redirect is called with the correct arg on custom button click', function () {
+        spyOn(SharedUtil, 'redirect');
+        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+          test.form.clickCustomButton();
+          expect(SharedUtil.redirect).toHaveBeenCalledWith('https://www.google.com');
         });
       });
 
