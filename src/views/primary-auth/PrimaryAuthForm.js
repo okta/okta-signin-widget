@@ -37,28 +37,25 @@ define([
 
     initialize: function () {
       this.listenTo(this, 'save', function () {
-        var processCreds = this.settings.get('processCreds');
-        if (_.isFunction(processCreds)) {
-          processCreds({
-            username: this.model.get('username'),
-            password: this.model.get('password')
-          });
-        }
-        if (this.settings.get('features.deviceFingerprinting')) {
-          var self = this;
-          DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
+        var self = this;
+        var creds = {
+          username: this.model.get('username'),
+          password: this.model.get('password')
+        };
+        this.settings.processCreds(creds)
+        .then(function() {
+          if (!self.settings.get('features.deviceFingerprinting')) {
+            return;
+          }
+          return DeviceFingerprint.generateDeviceFingerprint(self.settings.get('baseUrl'), self.$el)
           .then(function (fingerprint) {
             self.model.set('deviceFingerprint', fingerprint);
           })
           .fail(function () {
             // Keep going even if device fingerprint fails
-          })
-          .fin(function () {
-            self.model.save();
           });
-        } else {
-          this.model.save();
-        }
+        })
+        .then(_.bind(this.model.save, this.model));
       });
       this.listenTo(this.state, 'change:enabled', function (model, enable) {
         if (enable) {
