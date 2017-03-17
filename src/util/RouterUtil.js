@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint maxcomplexity:23,maxstatements:23 */
+/*jshint maxcomplexity:24,maxstatements:25 */
 define([
   'okta',
   'shared/util/Util',
@@ -150,7 +150,11 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       return;
     case 'PASSWORD_WARN':
     case 'PASSWORD_EXPIRED':
-      router.navigate('signin/password-expired', { trigger: true });
+      if (router.settings.get('features.customExpiredPassword') && !router.appState.get('isPwdManagedByOkta')) {
+        router.navigate('signin/custom-password-expired', { trigger: true });
+      } else {
+        router.navigate('signin/password-expired', { trigger: true });
+      }
       return;
     case 'RECOVERY_CHALLENGE':
       // Will use this workaround (lowercasing response) until OKTA-69083 is resolved

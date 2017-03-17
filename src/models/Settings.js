@@ -75,6 +75,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
       'features.deviceFingerprinting': ['boolean', false, false],
       'features.hideSignOutLinkInMFA' : ['boolean', false, false],
+      'features.customExpiredPassword': ['boolean', true, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function

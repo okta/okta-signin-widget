@@ -76,6 +76,12 @@
   @include box-shadow(0 0 0 15px);
 }
 
+.auth-beacon-description {
+  display: block;
+  height: 0;
+  overflow: hidden;
+}
+
 .undefined-user {
   background-image: url('../img/security/default.png');
 

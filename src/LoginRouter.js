@@ -36,6 +36,7 @@ define([
   'EnrollmentLinkSentController',
   'EnterPasscodePushFlowController',
   'PasswordExpiredController',
+  'CustomPasswordExpiredController',
   'ForgotPasswordController',
   'RecoveryChallengeController',
   'PwdResetEmailSentController',
@@ -73,6 +74,7 @@ function (BaseLoginRouter,
           EnrollmentLinkSentController,
           EnterPasscodePushFlowController,
           PasswordExpiredController,
+          CustomPasswordExpiredController,
           ForgotPasswordController,
           RecoveryChallengeController,
           PwdResetEmailSentController,
@@ -115,6 +117,7 @@ function (BaseLoginRouter,
       'signin/enroll-activate/:provider/:factorType/activate': 'activateTotpFactor',
       'signin/enroll-activate/:provider/:factorType/manual': 'manualSetupTotpFactor',
       'signin/password-expired': 'passwordExpired',
+      'signin/custom-password-expired': 'customPasswordExpired',
       'signin/forgot-password': 'forgotPassword',
       'signin/recovery-challenge': 'recoveryChallenge',
       'signin/recovery-emailed': 'recoveryEmailSent',
@@ -322,6 +325,10 @@ function (BaseLoginRouter,
 
     passwordExpired: function () {
       this.render(PasswordExpiredController, { Beacon: SecurityBeacon });
+    },
+
+    customPasswordExpired: function () {
+      this.render(CustomPasswordExpiredController, { Beacon: SecurityBeacon });
     },
 
     forgotPassword: function () {

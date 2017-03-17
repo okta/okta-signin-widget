@@ -884,6 +884,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             success: undefined
           });
           expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
+          expect($('.auth-beacon-description').text()).toBe('a single pixel');
         });
       });
       itp('waits for username field to lose focus before fetching the security image', function () {
@@ -970,6 +971,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         .then(waitForBeaconChange)
         .then(function () {
           expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
+          expect($('.auth-beacon-description').text()).toBe('a single pixel');
         });
       });
       itp('calls globalErrorFn if cors is not enabled and security image request is made', function () {
