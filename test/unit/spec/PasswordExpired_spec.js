@@ -135,10 +135,12 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
       });
       itp('calls async processCreds function before saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCredsSpy');
-        return setup({ processCreds: function (creds, callback) {
-          processCredsSpy(creds, callback);
-          callback();
-        }})
+        return setup({
+          processCreds: function (creds, callback) {
+            processCredsSpy(creds, callback);
+            callback();
+          }
+        })
         .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
@@ -156,9 +158,11 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
       });
       itp('calls async processCreds function and can prevent saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCredsSpy');
-        return setup({ processCreds: function (creds, callback) {
-          processCredsSpy(creds, callback);
-        }})
+        return setup({
+          processCreds: function (creds, callback) {
+            processCredsSpy(creds, callback);
+          }
+        })
         .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
@@ -179,8 +183,9 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expec
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           submitNewPass(test, 'oldpassyo', 'boopity', 'boopity');
-          return tick();
-        }).then(function() {
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+        .then(function() {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/credentials/change_password',

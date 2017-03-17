@@ -181,7 +181,8 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           password: 'newpwd'
         });
         return Expect.waitForSpyCall(test.successSpy);
-      }).then(function() {
+      })
+      .then(function() {
         expect($.ajax.calls.count()).toBe(1);
       });
     });
@@ -205,7 +206,8 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           password: 'newpwd'
         }, jasmine.any(Function));
         return Expect.waitForSpyCall(test.successSpy);
-      }).then(function() {
+      })
+      .then(function() {
         expect($.ajax.calls.count()).toBe(1);
       });
     });
@@ -228,7 +230,8 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           password: 'newpwd'
         }, jasmine.any(Function));
         return tick();
-      }).then(function() {
+      })
+      .then(function() {
         expect($.ajax.calls.count()).toBe(0);
       });
     });
@@ -240,7 +243,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         test.form.setConfirmPassword('imsorrymsjackson');
         test.setNextResponse(resSuccess);
         test.form.submit();
-        return tick();
+        return Expect.waitForSpyCall(test.successSpy);
       })
       .then(function () {
         expect($.ajax.calls.count()).toBe(1);
