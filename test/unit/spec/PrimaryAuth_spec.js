@@ -1174,7 +1174,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         })
         .then(function (test) {
           $.ajax.calls.reset();
-          processCredsSpy.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
@@ -1204,14 +1203,14 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+        .then(function() {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'testuser',
             password: 'pass'
           }, jasmine.any(Function));
-          return Expect.waitForSpyCall(test.successSpy);
-        })
-        .then(function() {
           expect($.ajax.calls.count()).toBe(1);
         });
       });
@@ -1228,14 +1227,14 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
+          return tick();
+        })
+        .then(function() {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'testuser',
             password: 'pass'
           }, jasmine.any(Function));
-          return tick();
-        })
-        .then(function() {
           expect($.ajax.calls.count()).toBe(0);
         });
       });

@@ -46,7 +46,7 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
     Util.mockJqueryCss();
     setNextResponse(res || resPassExpired);
     router.refreshAuthState('dummy-token');
-    var settings = {
+    settings = {
       router: router,
       successSpy: successSpy,
       beacon: new Beacon($sandbox),
@@ -138,14 +138,14 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+        .then(function() {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'inca@clouditude.net',
             password: 'newpwd'
           });
-          return Expect.waitForSpyCall(test.successSpy);
-        })
-        .then(function() {
           expect($.ajax.calls.count()).toBe(1);
         });
       });
@@ -161,14 +161,14 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+        .then(function() {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'inca@clouditude.net',
             password: 'newpwd'
           }, jasmine.any(Function));
-          return Expect.waitForSpyCall(test.successSpy);
-        })
-        .then(function() {
           expect($.ajax.calls.count()).toBe(1);
         });
       });
@@ -183,14 +183,14 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
+          return tick();
+        })
+        .then(function() {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'inca@clouditude.net',
             password: 'newpwd'
           }, jasmine.any(Function));
-          return tick();
-        })
-        .then(function() {
           expect($.ajax.calls.count()).toBe(0);
         });
       });

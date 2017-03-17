@@ -175,14 +175,14 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         test.form.setNewPassword('newpwd');
         test.form.setConfirmPassword('newpwd');
         test.form.submit();
+        return Expect.waitForSpyCall(test.successSpy);
+      })
+      .then(function() {
         expect(processCredsSpy.calls.count()).toBe(1);
         expect(processCredsSpy).toHaveBeenCalledWith({
           username: 'administrator1@clouditude.net',
           password: 'newpwd'
         });
-        return Expect.waitForSpyCall(test.successSpy);
-      })
-      .then(function() {
         expect($.ajax.calls.count()).toBe(1);
       });
     });
@@ -200,14 +200,14 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         test.form.setNewPassword('newpwd');
         test.form.setConfirmPassword('newpwd');
         test.form.submit();
+        return Expect.waitForSpyCall(test.successSpy);
+      })
+      .then(function() {
         expect(processCredsSpy.calls.count()).toBe(1);
         expect(processCredsSpy).toHaveBeenCalledWith({
           username: 'administrator1@clouditude.net',
           password: 'newpwd'
         }, jasmine.any(Function));
-        return Expect.waitForSpyCall(test.successSpy);
-      })
-      .then(function() {
         expect($.ajax.calls.count()).toBe(1);
       });
     });
@@ -224,14 +224,14 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         test.form.setNewPassword('newpwd');
         test.form.setConfirmPassword('newpwd');
         test.form.submit();
+        return tick();
+      })
+      .then(function() {
         expect(processCredsSpy.calls.count()).toBe(1);
         expect(processCredsSpy).toHaveBeenCalledWith({
           username: 'administrator1@clouditude.net',
           password: 'newpwd'
         }, jasmine.any(Function));
-        return tick();
-      })
-      .then(function() {
         expect($.ajax.calls.count()).toBe(0);
       });
     });
