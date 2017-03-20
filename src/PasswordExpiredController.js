@@ -17,45 +17,12 @@ define([
   'util/FormType',
   'util/ValidationUtil',
   'util/FactorUtil',
+  'views/expired-password/Footer',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, TextBox) {
+function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Footer, TextBox) {
 
   var _ = Okta._;
-
-  var Footer = Okta.View.extend({
-    template: '\
-      {{#if passwordWarn}}\
-        <a href="#" class="link help js-skip" data-se="skip-link">\
-          {{i18n code="password.expiring.later" bundle="login"}}\
-        </a>\
-      {{/if}}\
-      <a href="#" class="link help goto js-signout" data-se="signout-link">{{i18n code="signout" bundle="login"}}</a>\
-    ',
-    className: 'auth-footer clearfix',
-    events: {
-      'click .js-signout' : function (e) {
-        e.preventDefault();
-        var self = this;
-        this.model.doTransaction(function (transaction) {
-          return transaction.cancel();
-        })
-        .then(function () {
-          self.state.set('navigateDir', Enums.DIRECTION_BACK);
-          self.options.appState.trigger('navigate', '');
-        });
-      },
-      'click .js-skip' : function (e) {
-        e.preventDefault();
-        this.model.doTransaction(function (transaction) {
-          return transaction.skip();
-        });
-      }
-    },
-    getTemplateData: function () {
-      return {passwordWarn: this.options.appState.get('isPwdExpiringSoon')};
-    }
-  });
 
   return FormController.extend({
     className: 'password-expired',
@@ -150,14 +117,12 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Tex
 
     initialize: function () {
       this.listenTo(this.form, 'save', function () {
-        var processCreds = this.settings.get('processCreds');
-        if (_.isFunction(processCreds)) {
-          processCreds({
-            username: this.options.appState.get('userEmail'),
-            password: this.model.get('newPassword')
-          });
-        }
-        this.model.save();
+        var creds = {
+          username: this.options.appState.get('userEmail'),
+          password: this.model.get('newPassword')
+        };
+        this.settings.processCreds(creds)
+        .then(_.bind(this.model.save, this.model));
       });
     }
 

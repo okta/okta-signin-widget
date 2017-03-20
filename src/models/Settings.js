@@ -14,13 +14,14 @@
 
 define([
   'okta',
+  'q',
   'util/Errors',
   'util/BrowserFeatures',
   'util/Util',
   'util/Logger',
   'json!config/config'
 ],
-function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
+function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
 
   var DEFAULT_LANGUAGE = 'en';
 
@@ -74,6 +75,7 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
       'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
       'features.deviceFingerprinting': ['boolean', false, false],
       'features.hideSignOutLinkInMFA' : ['boolean', false, false],
+      'features.customExpiredPassword': ['boolean', true, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function
@@ -302,6 +304,22 @@ function (Okta, Errors, BrowserFeatures, Util, Logger, config) {
         return transformFn(username, operation);
       }
       return username;
+    },
+
+    processCreds: function (creds) {
+      var processCreds = this.get('processCreds');
+      return Q.Promise(function (resolve) {
+        if (!_.isFunction(processCreds)) {
+          resolve();
+        }
+        else if (processCreds.length === 2) {
+          processCreds(creds, resolve);
+        }
+        else {
+          processCreds(creds);
+          resolve();
+        }
+      });
     },
 
     // Use the parse function to transform config options to the standard

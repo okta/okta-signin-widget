@@ -1,0 +1,60 @@
+<project name="SimpleModal" default="all" basedir=".">
+
+	<loadfile property="version" srcfile="version.txt" />
+	<property name="PREFIX" value="." />
+	<property description="Folder for SimpleModal and min target" name="dist" value="${PREFIX}/dist" />
+	<property description="Source Folder" name="src" value="${PREFIX}/src" />
+
+	<property name="SM" value="${dist}/jquery.simplemodal-${version}.js" />
+	<property name="SM_MIN" value="${dist}/jquery.simplemodal.${version}.min.js" />
+
+	<target name="all" depends="clean,full,min" />
+	<tstamp><format property="build.time" pattern="EEE, MMM d yyyy HH:mm:ss Z" /></tstamp>
+
+	<target name="full" description="Main build, replaces @VERSION">
+		<echo message="Building ${SM}" />
+		<mkdir dir="${dist}" />
+		<concat destfile="${SM}">
+			<fileset dir="${src}" includes="jquery.simplemodal.js" />
+		</concat>
+		<replaceregexp match="@VERSION" replace="${version}" flags="g" file="${SM}" />
+		<replaceregexp match="Date:" replace="Date: ${build.time}" file="${SM}" />
+		<echo message="${SM} built." />
+	</target>
+
+	<target name="min" depends="full" description="Remove all comments and whitespace, no compression, great in combination with GZip">
+		<echo message="Building ${SM_MIN}" />
+		<apply executable="java" parallel="false" verbose="true" dest="${dist}">
+			<fileset dir="${dist}">
+				<include name="jquery.simplemodal-${version}.js" />
+			</fileset>
+			<arg line="-jar" />
+			<arg path="build/compiler.jar" />
+			<arg value="--warning_level" />
+			<arg value="QUIET" />
+			<arg value="--js_output_file" />
+			<targetfile />
+			<arg value="--js" />
+			<mapper type="glob" from="jquery.simplemodal-${version}.js" to="tmpmin" />
+		</apply>
+		<concat destfile="${SM_MIN}">
+			<filelist files="${SM}, ${dist}/tmpmin" />
+			<filterchain>
+				<headfilter lines="7" />
+			</filterchain>
+		</concat>
+		<concat destfile="${SM_MIN}" append="yes">
+			<filelist files="${dist}/tmpmin" />
+		</concat>
+		<concat destfile="${dist}/jquery.simplemodal.js" append="yes">
+			<filelist files="${SM_MIN}" />
+		</concat>
+		<delete file="${dist}/tmpmin" />
+		<echo message="${SM_MIN} built." />
+	</target>
+
+	<target name="clean">
+		<delete dir="${dist}" />
+	</target>
+
+</project>

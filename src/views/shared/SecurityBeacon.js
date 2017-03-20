@@ -21,6 +21,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
     // are hard coded into the css and the value returned by the server
     // is ignored.
     var imgSrc = appState.get('securityImage'),
+        imgDescription = appState.get('securityImageDescription'),
         isUndefinedUser = appState.get('isUndefinedUser'),
         isNewUser = appState.get('isNewUser'),
         isSecurityImage = !isUndefinedUser && !isNewUser;
@@ -36,6 +37,9 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       return;
     }
     if (isSecurityImage) {
+      // TODO: Newer versions of qtip will remove aria-describedby on their own when destroy() is called.
+      el.removeAttr('aria-describedby');
+      el.find('.auth-beacon-description').text(imgDescription);
       el.css('background-image', 'url(' + _.escape(imgSrc) + ')');
       return;
     }
@@ -120,7 +124,8 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
         <div class="circle right"></div>\
       </div>\
     </div>\
-    <div class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon">\
+    <div aria-live="polite" role="image" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon">\
+      <span class="auth-beacon-description"></span>\
       <div class="okta-sign-in-beacon-border auth-beacon-border js-auth-beacon-border">\
       </div>\
     </div>\
@@ -132,8 +137,11 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       this.listenTo(options.appState, 'change:securityImage', this.update);
       this.listenTo(options.appState, 'loading', function (isLoading) {
         this.$el.toggleClass('beacon-loading', isLoading);
+        this.removeAntiPhishingMessage();
       });
       this.options.appState.set('beaconType', 'security');
+
+      this.listenTo(options.appState, 'navigate', this.removeAntiPhishingMessage);
     },
 
     postRender: function () {
@@ -142,6 +150,11 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
 
     equals: function (Beacon) {
       return Beacon && this instanceof Beacon;
+    },
+
+    removeAntiPhishingMessage: function () {
+      var image = this.$el.find('.auth-beacon-security');
+      image.qtip('destroy');
     }
 
   });
