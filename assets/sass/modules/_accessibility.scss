@@ -1,0 +1,10 @@
+// This hides the content of the div, but it's still
+// technically rendered and "visible" in the DOM.
+// Sometimes aria tags haven't worked out nicely for us
+// (for instance, for images that are loaded via
+// background-image CSS instead of <img> tags).
+.accessibility-text {
+  display: block;
+  height: 0;
+  overflow: hidden;
+}

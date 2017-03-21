@@ -40,6 +40,17 @@ function (Okta, Enums, FormController, FormType) {
       attributes: { 'data-se': 'pwd-reset-email-sent' },
       formChildren: function () {
         return [
+          FormType.View({
+            View: Okta.View.extend({
+              template: '\
+              <span class="accessibility-text" role="status">{{alert}}</span>\
+              ',
+              getTemplateData: function () {
+                return { 'alert': Okta.loc('password.forgot.emailSent.title', 'login') };
+              }
+            })
+          }),
+
           FormType.Button({
             title: Okta.loc('goback', 'login'),
             className: 'button button-primary button-wide',

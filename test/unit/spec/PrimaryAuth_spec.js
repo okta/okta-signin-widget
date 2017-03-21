@@ -874,7 +874,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           test.form.setUsername('testuser');
           return waitForBeaconChange(test);
         })
-        .then(function () {
+        .then(function (test) {
           expect($.ajax.calls.count()).toBe(1);
           expect($.ajax.calls.argsFor(0)[0]).toEqual({
             url: 'https://foo.com/login/getimage?username=testuser',
@@ -884,7 +884,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             success: undefined
           });
           expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
-          expect($('.auth-beacon-description').text()).toBe('a single pixel');
+          expect(test.form.accessibilityText()).toBe('a single pixel');
         });
       });
       itp('waits for username field to lose focus before fetching the security image', function () {
@@ -969,9 +969,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         };
         return setup(options, [resSecurityImage])
         .then(waitForBeaconChange)
-        .then(function () {
+        .then(function (test) {
           expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
-          expect($('.auth-beacon-description').text()).toBe('a single pixel');
+          expect(test.form.accessibilityText()).toBe('a single pixel');
         });
       });
       itp('calls globalErrorFn if cors is not enabled and security image request is made', function () {

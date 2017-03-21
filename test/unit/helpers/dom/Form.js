@@ -131,6 +131,10 @@ define(['jquery', 'underscore', './Dom'], function ($, _, Dom) {
 
     errorMessage: function () {
       return this.$('.okta-form-infobox-error p').text().trim();
+    },
+
+    accessibilityText: function() {
+      return this.$('.accessibility-text').text().trim();
     }
 
   });
