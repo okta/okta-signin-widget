@@ -91,6 +91,26 @@ function (Okta,
 
   var itp = Expect.itp;
   var tick = Expect.tick;
+  var factors = {
+    'OKTA_VERIFY': 0,
+    'OKTA_VERIFY_PUSH': 0,
+    'SMS': 1,
+    'CALL': 2,
+    'WINDOWS_HELLO': 3,
+    'U2F': 4,
+    'YUBIKEY': 5,
+    'DUO': 6,
+    'GOOGLE_AUTH': 7,
+    'SYMANTEC_VIP' :8,
+    'RSA_SECURID': 9,
+    'ON_PREM': 9,
+    'QUESTION': 10
+  };
+
+  function clickFactorInDropdown(test, factorName) {
+    //assumes dropdown has all factors
+    test.beacon.getOptionsLinks().eq(factors[factorName]).click();
+  }
 
   Expect.describe('MFA Verify', function () {
 
@@ -2104,10 +2124,10 @@ function (Okta,
         return setup(resAllFactors).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify', 'Google Authenticator', 'Symantec VIP',
-            'RSA SecurID', 'Duo Security', 'Yubikey', 'SMS Authentication',
-            'Voice Call Authentication', 'Security Question', 'Windows Hello',
-            'Security Key (U2F)'
+            'Okta Verify', 'SMS Authentication','Voice Call Authentication',
+            'Windows Hello','Security Key (U2F)', 'Yubikey', 'Duo Security',
+            'Google Authenticator', 'Symantec VIP','RSA SecurID',
+            'Security Question'
           ]);
         });
       });
@@ -2116,9 +2136,8 @@ function (Okta,
         return setup(resAllFactorsOnPrem).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify', 'Google Authenticator', 'Symantec VIP',
-            'On-Prem MFA', 'Duo Security', 'Yubikey', 'SMS Authentication',
-            'Security Question'
+            'Okta Verify', 'SMS Authentication', 'Yubikey', 'Duo Security',
+            'Google Authenticator', 'Symantec VIP', 'On-Prem MFA', 'Security Question'
           ]);
         });
       });
@@ -2134,7 +2153,7 @@ function (Okta,
         .then(function (test) {
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
           test.beacon.dropDownButton().click();
-          test.beacon.getOptionsLinks().eq(1).click();
+          clickFactorInDropdown(test, 'GOOGLE_AUTH');
           return tick(test);
         })
         .then(function (test) {
@@ -2144,7 +2163,7 @@ function (Okta,
       itp('changes selectedFactor if option is chosen', function () {
         return setup(resAllFactors).then(function (test) {
           test.beacon.dropDownButton().click();
-          test.beacon.getOptionsLinks().eq(1).click();
+          clickFactorInDropdown(test, 'GOOGLE_AUTH');
           expect(test.router.navigate)
             .toHaveBeenCalledWith('signin/verify/google/token%3Asoftware%3Atotp', { trigger: true });
         });
@@ -2155,13 +2174,13 @@ function (Okta,
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeDuo);
           test.beacon.dropDownButton().click();
-          test.beacon.getOptionsLinks().eq(4).click();
+          clickFactorInDropdown(test, 'DUO');
           return tick(test);
         })
         .then(function (test) {
           test.setNextResponse(resAllFactors);
           test.beacon.dropDownButton().click();
-          test.beacon.getOptionsLinks().eq(1).click();
+          clickFactorInDropdown(test, 'GOOGLE_AUTH');
           return tick(test);
         })
         .then(function (test) {
@@ -2181,7 +2200,7 @@ function (Okta,
         .then(function (test) {
           test.setNextResponse(resAllFactors);
           test.beacon.dropDownButton().click();
-          test.beacon.getOptionsLinks().eq(8).click();
+          clickFactorInDropdown(test, 'QUESTION');
           return Expect.waitForVerifyQuestion(test);
         })
         .then(function (test) {
@@ -2211,7 +2230,7 @@ function (Okta,
           test.setNextResponse(resChallengePush);
           spyOn(CookieUtil, 'isAutoPushEnabled').and.returnValue(true);
           test.beacon.dropDownButton().click();
-          test.beacon.getOptionsLinks().eq(0).click();
+          clickFactorInDropdown(test, 'OKTA_VERIFY_PUSH');
           return Expect.waitForVerifyPush(test);
         })
         .then(function (test) {
@@ -2225,7 +2244,7 @@ function (Okta,
           return setupPolling(test, resAllFactors)
           .then(function (test) {
             test.beacon.dropDownButton().click();
-            test.beacon.getOptionsLinks().eq(1).click();
+            clickFactorInDropdown(test, 'GOOGLE_AUTH');
             return tick(test);
           })
           .then(function (test) {
@@ -2335,7 +2354,7 @@ function (Okta,
           spyOn(Duo, 'init');
           test.setNextResponse([resAllFactors, resChallengeDuo]);
           test.beacon.dropDownButton().click();
-          test.beacon.getOptionsLinks().eq(4).click();
+          clickFactorInDropdown(test, 'DUO');
           return Expect.waitForVerifyDuo(test);
         })
         .then(function () {

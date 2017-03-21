@@ -19,6 +19,36 @@ define({
       "factors": [{
         "enrollment": "OPTIONAL",
         "status": "NOT_SETUP",
+        "factorType": "token:software:totp",
+        "provider": "OKTA",
+        "_links": {
+          "enroll": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      }, {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
+        "factorType": "push",
+        "provider": "OKTA",
+        "_links": {
+          "enroll": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      },{
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
         "factorType": "question",
         "provider": "OKTA",
         "vendorName": "OKTA",
@@ -46,22 +76,6 @@ define({
         "factorType": "token:software:totp",
         "provider": "GOOGLE",
         "vendorName": "GOOGLE",
-        "_links": {
-          "enroll": {
-            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
-            "hints": {
-              "allow": [
-                "POST"
-              ]
-            }
-          }
-        }
-      }, {
-        "enrollment": "OPTIONAL",
-        "status": "NOT_SETUP",
-        "factorType": "token:software:totp",
-        "provider": "OKTA",
-        "vendorName": "OKTA",
         "_links": {
           "enroll": {
             "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
@@ -134,12 +148,60 @@ define({
             }
           }
         }
+      },  {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
+        "factorType": "call",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "_links": {
+          "enroll": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
       }, {
         "enrollment": "OPTIONAL",
         "status": "NOT_SETUP",
         "factorType": "web",
         "provider": "DUO",
         "vendorName": "DUO",
+        "_links": {
+          "enroll": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      }, {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
+        "factorType": "webauthn",
+        "provider": "FIDO",
+        "vendorName": "FIDO",
+        "_links": {
+          "enroll": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      }, {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
+        "factorType": "u2f",
+        "provider": "FIDO",
+        "vendorName": "FIDO",
         "_links": {
           "enroll": {
             "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",

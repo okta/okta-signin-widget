@@ -1,4 +1,4 @@
-define(['jquery', './Form'], function ($, Form) {
+define(['jquery', 'underscore', './Form'], function ($, _, Form) {
 
   return Form.extend({
 
@@ -68,6 +68,13 @@ define(['jquery', './Form'], function ($, Form) {
 
     optionalFactorListTitle: function () {
       return this.optionalFactorList().find('.list-title').trimmedText();
+    },
+
+    getFactorList: function() {
+      var factorRows = this.$('.enroll-factor-list .enroll-factor-row');
+      return _.map(factorRows, function (row) {
+        return $(row).attr('data-se');
+      });
     }
 
   });
