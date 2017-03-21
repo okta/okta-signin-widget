@@ -29,34 +29,28 @@ define(['okta'], function (Okta) {
       iconClassName: 'mfa-okta-verify',
       sortOrder: 1
     },
-    'GOOGLE_AUTH': {
-      label: 'factor.totpSoft.googleAuthenticator',
-      description: 'factor.totpSoft.description',
-      iconClassName: 'mfa-google-auth',
+    'SMS': {
+      label: 'factor.sms',
+      description: 'factor.sms.description',
+      iconClassName: 'mfa-okta-sms',
       sortOrder: 2
     },
-    'SYMANTEC_VIP': {
-      label: 'factor.totpHard.symantecVip',
-      description: 'factor.totpHard.description',
-      iconClassName: 'mfa-symantec',
+    'CALL': {
+      label: 'factor.call',
+      description: 'factor.call.description',
+      iconClassName: 'mfa-okta-call',
       sortOrder: 3
     },
-    'RSA_SECURID': {
-      label: 'factor.totpHard.rsaSecurId',
-      description: 'factor.totpHard.description',
-      iconClassName: 'mfa-rsa',
+    'WINDOWS_HELLO': {
+      label: 'factor.windowsHello',
+      description: 'factor.windowsHello.signin.description',
+      iconClassName: 'mfa-windows-hello',
       sortOrder: 4
     },
-    'ON_PREM': {
-      label: '',
-      description: 'factor.totpHard.description',
-      iconClassName: 'mfa-onprem',
-      sortOrder: 4
-    },
-    'DUO': {
-      label: 'factor.duo',
-      description: 'factor.duo.description',
-      iconClassName: 'mfa-duo',
+    'U2F': {
+      label: 'factor.u2f',
+      description: 'factor.u2f.description',
+      iconClassName: 'mfa-u2f',
       sortOrder: 5
     },
     'YUBIKEY': {
@@ -65,34 +59,40 @@ define(['okta'], function (Okta) {
       iconClassName: 'mfa-yubikey',
       sortOrder: 6
     },
-    'SMS': {
-      label: 'factor.sms',
-      description: 'factor.sms.description',
-      iconClassName: 'mfa-okta-sms',
+    'DUO': {
+      label: 'factor.duo',
+      description: 'factor.duo.description',
+      iconClassName: 'mfa-duo',
       sortOrder: 7
     },
-    'CALL': {
-      label: 'factor.call',
-      description: 'factor.call.description',
-      iconClassName: 'mfa-okta-call',
+    'GOOGLE_AUTH': {
+      label: 'factor.totpSoft.googleAuthenticator',
+      description: 'factor.totpSoft.description',
+      iconClassName: 'mfa-google-auth',
       sortOrder: 8
+    },
+    'SYMANTEC_VIP': {
+      label: 'factor.totpHard.symantecVip',
+      description: 'factor.totpHard.description',
+      iconClassName: 'mfa-symantec',
+      sortOrder: 9
+    },
+    'RSA_SECURID': {
+      label: 'factor.totpHard.rsaSecurId',
+      description: 'factor.totpHard.description',
+      iconClassName: 'mfa-rsa',
+      sortOrder: 10
+    },
+    'ON_PREM': {
+      label: '',
+      description: 'factor.totpHard.description',
+      iconClassName: 'mfa-onprem',
+      sortOrder: 10
     },
     'QUESTION': {
       label: 'factor.securityQuestion',
       description: 'factor.securityQuestion.description',
       iconClassName: 'mfa-okta-security-question',
-      sortOrder: 9
-    },
-    'WINDOWS_HELLO': {
-      label: 'factor.windowsHello',
-      description: 'factor.windowsHello.signin.description',
-      iconClassName: 'mfa-windows-hello',
-      sortOrder: 10
-    },
-    'U2F': {
-      label: 'factor.u2f',
-      description: 'factor.u2f.description',
-      iconClassName: 'mfa-u2f',
       sortOrder: 11
     }
   };
