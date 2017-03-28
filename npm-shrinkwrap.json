@@ -3,10 +3,10 @@
   "version": "1.10.0",
   "dependencies": {
     "@okta/courage": {
-      "version": "1.17.0"
+      "version": "2.1.0"
     },
     "@okta/jquery.simplemodal": {
-      "version": "1.4.8"
+      "version": "1.4.9"
     },
     "@okta/okta-auth-js": {
       "version": "1.8.0"
