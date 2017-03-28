@@ -1,6 +1,7 @@
 var path      = require('path');
 var EMPTY     = 'widget/empty';
 var TARGET_JS = path.resolve(__dirname, 'target/js/');
+var SHARED_JS = TARGET_JS + '/shared';
 
 // Return a function so that all consumers get a new copy of the config
 module.exports = function (outputFilename) {
@@ -17,6 +18,11 @@ module.exports = function (outputFilename) {
       alias: {
         // General remapping
         'nls': '@okta/i18n/dist/json',
+        'okta/jquery': SHARED_JS + '/util/jquery-wrapper',
+        'okta/underscore': SHARED_JS + '/util/underscore-wrapper',
+        'okta/handlebars': 'handlebars/dist/handlebars',
+        'okta/moment': EMPTY,
+        'okta/jqueryui': EMPTY,
         'okta': 'shared/util/Okta',
         'shared/util/Bundles': 'util/Bundles',
 

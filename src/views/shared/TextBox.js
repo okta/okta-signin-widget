@@ -15,8 +15,8 @@
 //and want to avoid the cirucular dependency that occurs if we
 //include Okta
 define([
-  'jquery',
-  'vendor/lib/handlebars-wrapper',
+  'okta/jquery',
+  'shared/util/handlebars-wrapper',
   'util/BrowserFeatures',
   'shared/views/forms/inputs/TextBox',
   'qtip'

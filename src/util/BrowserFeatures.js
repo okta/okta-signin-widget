@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['underscore'], function (_) {
+define(['okta/underscore'], function (_) {
 
   var fn = {},
       hasFullCorsSupport = 'withCredentials' in new window.XMLHttpRequest(),

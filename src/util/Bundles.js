@@ -14,9 +14,9 @@
 /*global JSON */
 
 define([
-  'underscore',
+  'okta/underscore',
   'vendor/lib/q',
-  'jquery',
+  'okta/jquery',
   'json!nls/login',
   'json!nls/country',
   'util/Logger',

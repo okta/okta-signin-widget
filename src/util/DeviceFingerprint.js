@@ -13,7 +13,7 @@
 /*jshint latedef:false */
 /*global JSON */
 
-define(['vendor/lib/q', 'jquery'], function (Q, $) {
+define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
 
   return {
     generateDeviceFingerprint: function (oktaDomainUrl, element) {

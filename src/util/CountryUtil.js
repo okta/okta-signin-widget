@@ -11,7 +11,7 @@
  */
 
 define([
-  'underscore',
+  'okta/underscore',
   'shared/util/Bundles',
   './countryCallingCodes'
 ],
