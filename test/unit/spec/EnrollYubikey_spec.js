@@ -1,6 +1,6 @@
 /*jshint maxparams:15 */
 define([
-  'jquery',
+  'okta/jquery',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTokenFactorForm',

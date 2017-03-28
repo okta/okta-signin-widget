@@ -1,7 +1,7 @@
 /*jshint maxparams:20 */
 define([
   'okta',
-  'jquery',
+  'okta/jquery',
   'q',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',

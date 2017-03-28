@@ -1,7 +1,7 @@
 /*jshint maxparams:13, camelcase:false */
 define([
-  'underscore',
-  'jquery',
+  'okta/underscore',
+  'okta/jquery',
   'duo',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',

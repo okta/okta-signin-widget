@@ -1,3 +1,3 @@
-define(['jquery'], function ($) {
+define(['okta/jquery'], function ($) {
   return $('#sandbox');
 });

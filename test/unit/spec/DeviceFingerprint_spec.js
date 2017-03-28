@@ -1,6 +1,6 @@
 /*global JSON */
 define([
-  'jquery',
+  'okta/jquery',
   'vendor/lib/q',
   'helpers/util/Expect',
   'sandbox',

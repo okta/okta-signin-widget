@@ -1,6 +1,6 @@
 define([
   'helpers/util/Expect',
-  'jquery',
+  'okta/jquery',
   'util/CryptoUtil'
 ],
 function (Expect, $, CryptoUtil) {

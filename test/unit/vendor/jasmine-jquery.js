@@ -29,10 +29,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 (function (root, factory) {
     if (typeof module !== 'undefined' && module.exports) {
-      factory(root, root.jasmine, require('jquery'));
+      factory(root, root.jasmine, require('okta/jquery'));
     } else if (typeof define === 'function') {
       define(function (require) {
-        factory(root, root.jasmine, require('jquery'));
+        factory(root, root.jasmine, require('okta/jquery'));
       });
     } else {
        factory(root, root.jasmine, root.jQuery);
