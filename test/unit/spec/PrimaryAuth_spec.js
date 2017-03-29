@@ -127,6 +127,22 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     });
   }
 
+  function setupAdditionalAuthButton() {
+    var settings = {
+      customButtons: [
+        {
+          title: 'test text',
+          className: 'test-class',
+          click: function (e) {
+            $(e.target).addClass('new-class');
+          },
+          dataAttr: 'test-data'
+        }
+      ]
+    };
+    return setup(settings);
+  }
+
   function waitForBeaconChange(test) {
     return tick() //wait to read value of user input
     .then(tick)   //wait to receive ajax response
@@ -1532,7 +1548,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         };
         return setup(settings).then(function (test) {
           expect(test.form.primaryAuthForm().index()).toBe(0);
-          expect(test.form.socialAuthContainer().index()).toBe(1);
+          expect(test.form.primaryAuthContainer().index()).toBe(1);
           expect(test.form.socialAuthButtons().length).toBe(4);
           expect(test.form.facebookButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
@@ -1555,7 +1571,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           ]
         };
         return setup(settings).then(function (test) {
-          expect(test.form.socialAuthContainer().index()).toBe(0);
+          expect(test.form.primaryAuthContainer().index()).toBe(0);
           expect(test.form.primaryAuthForm().index()).toBe(1);
           expect(test.form.socialAuthButtons().length).toBe(2);
           expect(test.form.linkedInButton().length).toBe(1);
@@ -1578,7 +1594,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         };
         return setup(settings).then(function (test) {
           expect(test.form.primaryAuthForm().index()).toBe(0);
-          expect(test.form.socialAuthContainer().index()).toBe(1);
+          expect(test.form.primaryAuthContainer().index()).toBe(1);
           expect(test.form.socialAuthButtons().length).toBe(2);
           expect(test.form.facebookButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
@@ -1808,4 +1824,105 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
 
   });
 
+  Expect.describe('Additional Auth Button', function () {
+    itp('does not show the divider and buttons if settings.customButtons is not set', function () {
+      return setup().then(function (test) {
+        expect(test.form.authDivider().length).toBe(0);
+        expect(test.form.additionalAuthButton().length).toBe(0);
+      });
+    });
+    itp('show the divider and buttons if settings.customButtons is not empty', function () {
+      return setupAdditionalAuthButton().then(function (test) {
+        expect(test.form.authDivider().length).toBe(1);
+        expect(test.form.additionalAuthButton().length).toBe(1);
+      });
+    });
+    itp('sets text with property passed', function () {
+      return setupAdditionalAuthButton().then(function(test){
+        expect(test.form.additionalAuthButton().text()).toEqual('test text');
+      });
+    });
+    itp('sets class with property passed', function () {
+      return setupAdditionalAuthButton().then(function(test){
+        expect(test.form.additionalAuthButton().hasClass('test-class')).toBe(true);
+      });
+    });
+    itp('clickHandler is called when button is clicked', function () {
+      return setupAdditionalAuthButton().then(function(test){
+        expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(false);
+        test.form.additionalAuthButton().click();
+        expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(true);
+      });
+    });
+    itp('displays social auth and custom buttons', function () {
+      var settings = {
+        customButtons: [
+          {
+            title: 'test text',
+            className: 'test-class',
+            click: function (e) {
+              $(e.target).addClass('new-class');
+            }
+          }
+        ],
+        idps: [
+          {
+            type: 'FACEBOOK',
+            id: '0oaidiw9udOSceD1234'
+          }
+        ]
+      };
+      return setup(settings).then(function(test){
+        expect(test.form.authDivider().length).toBe(1);
+        expect(test.form.additionalAuthButton().length).toBe(1);
+        expect(test.form.facebookButton().length).toBe(1);
+      });
+    });
+    itp('does not display custom auth when it is undefined', function () {
+      var settings = {
+        customButtons: undefined,
+        idps: [
+          {
+            type: 'FACEBOOK',
+            id: '0oaidiw9udOSceD1234'
+          }
+        ]
+      };
+      return setup(settings).then(function(test){
+        expect(test.form.authDivider().length).toBe(1);
+        expect(test.form.additionalAuthButton().length).toBe(0);
+        expect(test.form.facebookButton().length).toBe(1);
+      });
+    });
+    itp('does not display social auth when it is undefined', function () {
+      var settings = {
+        customButtons: [
+          {
+            title: 'test text',
+            className: 'test-class',
+            click: function (e) {
+              $(e.target).addClass('new-class');
+            }
+          }
+        ],
+        idps: undefined
+      };
+      return setup(settings).then(function(test){
+        expect(test.form.authDivider().length).toBe(1);
+        expect(test.form.additionalAuthButton().length).toBe(1);
+        expect(test.form.facebookButton().length).toBe(0);
+      });
+    });
+    itp('does not display any additional buttons when social auth and customButtons are undefined', function () {
+      var settings = {
+        customButtons: undefined,
+        idps: undefined
+      };
+      return setup(settings).then(function(test){
+        expect(test.form.authDivider().length).toBe(0);
+        expect(test.form.additionalAuthButton().length).toBe(0);
+        expect(test.form.facebookButton().length).toBe(0);
+      });
+    });
+  });
 });

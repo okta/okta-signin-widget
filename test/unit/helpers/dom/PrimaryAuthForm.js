@@ -152,8 +152,8 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
       });
     },
 
-    socialAuthContainer: function () {
-      return this.$('.social-auth');
+    primaryAuthContainer: function () {
+      return this.$('.primary-auth-container');
     },
 
     hasSocialAuthDivider: function () {
@@ -196,6 +196,14 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
 
     isDisabled: function() {
       return this.inputsDisabled() && this.linksAppearDisabled();
+    },
+
+    additionalAuthButton: function() {
+      return this.$('.default-custom-button');
+    },
+    
+    authDivider: function() {
+      return this.$('.auth-divider');
     }
   });
 

@@ -19,9 +19,10 @@ define([
   'util/BrowserFeatures',
   'util/Util',
   'util/Logger',
+  'util/OAuth2Util',
   'json!config/config'
 ],
-function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
+function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
 
   var DEFAULT_LANGUAGE = 'en';
 
@@ -128,7 +129,10 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'helpLinks.help': 'string',
       'helpLinks.forgotPassword': 'string',
       'helpLinks.unlock': 'string',
-      'helpLinks.custom': 'array'
+      'helpLinks.custom': 'array',
+
+      //Custom Buttons
+      'customButtons': ['array', false, []]
     },
 
     derived: {
@@ -223,19 +227,55 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
         },
         cache: true
       },
-      // checks if there are any valid configured idps.
-      socialAuthConfigured: {
-        deps: ['configuredSocialIdps'],
-        fn: function (idps) {
-          return !_.isEmpty(idps);
+      // social auth buttons order - 'above'/'below' the primary auth form (boolean)
+      socialAuthPositionTop: {
+        deps: ['configuredSocialIdps', 'idpDisplay'],
+        fn: function (configuredSocialIdps, idpDisplay) {
+          return !_.isEmpty(configuredSocialIdps) && idpDisplay.toUpperCase() === 'PRIMARY';
         },
         cache: true
       },
-      // social auth buttons order - 'above'/'below' the primary auth form (boolean)
-      socialAuthPositionTop: {
-        deps: ['socialAuthConfigured', 'idpDisplay'],
-        fn: function (socialAuthConfigured, idpDisplay) {
-          return !!(socialAuthConfigured && idpDisplay.toUpperCase() === 'PRIMARY');
+      // merges social auth and custom buttons into one array
+      configuredButtons: {
+        deps: ['configuredSocialIdps', 'customButtons'],
+        fn: function (configuredSocialIdps, customButtons) {
+          var self = this;
+          var buttonArray = [];
+          _.each(configuredSocialIdps, function (idp) {
+            var type = idp.type.toLowerCase();
+            var dataAttr = 'social-auth-' + type + '-button';
+            var socialAuthButton = {
+              id: idp.id,
+              type: idp.type,
+              dataAttr: dataAttr,
+              className: 'social-auth-button ' + dataAttr,
+              title: idp.title = Okta.loc('socialauth.' + type + '.label'),
+              click: function (e) {
+                e.preventDefault();
+                OAuth2Util.getTokens(self, {idp: idp.id});
+              }
+            };
+            buttonArray.push(socialAuthButton);
+          });
+          if(_.isArray(customButtons)) {
+            _.each(customButtons, function(button) {
+              var customConfiguredButton = {
+                title: button.title,
+                className: button.className + ' default-custom-button',
+                click: button.click
+              };
+              buttonArray.push(customConfiguredButton);
+            });
+          }
+          return buttonArray;
+        },
+        cache: true
+      },
+      //checks if there are any configured buttons
+      hasConfiguredButtons: {
+        deps: ['configuredButtons'],
+        fn: function (configuredButtons) {
+          return !_.isEmpty(configuredButtons);
         },
         cache: true
       }
