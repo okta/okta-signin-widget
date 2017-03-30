@@ -20,6 +20,9 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
 * [API](#api)
   * [OktaSignIn](#new-oktasigninconfig)
   * [renderEl](#rendereloptions-success-error)
+  * [hide](#hide)
+  * [show](#show)
+  * [remove](#remove)
   * [on](#onevent-callback-context)
   * [off](#offevent-callback)
   * [session.get](#sessiongetcallback)
@@ -228,6 +231,30 @@ signIn.renderEl(
     // 2. Uncaught exceptions
   }
 );
+```
+
+## hide
+
+Hide the widget, but keep the widget in the DOM.
+
+```javascript
+signIn.hide();
+```
+
+## show
+
+Show the widget if hidden.
+
+```javascript
+signIn.show();
+```
+
+## remove
+
+Remove the widget from the DOM entirely.
+
+```javascript
+signIn.remove();
 ```
 
 ## on(event, callback[, context])
