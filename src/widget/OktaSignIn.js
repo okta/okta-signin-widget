@@ -83,7 +83,7 @@ var OktaSignIn = (function () {
     var router;
     function render(options, success, error) {
       if (router) {
-        throw 'Cannot run two instances of the widget simultaneously. Call remove() first.';
+        throw 'An instance of the widget has already been rendered. Call remove() first.';
       }
       router = new LoginRouter(_.extend({}, config, options, {
         authClient: authClient,

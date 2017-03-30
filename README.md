@@ -235,7 +235,7 @@ signIn.renderEl(
 
 ## hide
 
-Hide the widget, but keep the widget on the DOM.
+Hide the widget, but keep the widget in the DOM.
 
 ```javascript
 signIn.hide();
