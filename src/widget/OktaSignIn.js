@@ -82,6 +82,9 @@ var OktaSignIn = (function () {
      */
     var router;
     function render(options, success, error) {
+      if (router) {
+        throw 'Cannot run two instances of the widget simultaneously. Call remove() first.';
+      }
       router = new LoginRouter(_.extend({}, config, options, {
         authClient: authClient,
         globalSuccessFn: success,
@@ -105,6 +108,7 @@ var OktaSignIn = (function () {
     function remove() {
       if (router) {
         router.remove();
+        router = undefined;
       }
     }
 
