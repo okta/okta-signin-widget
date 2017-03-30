@@ -1,6 +1,6 @@
 define([
-  'jquery',
-  'underscore',
+  'okta/jquery',
+  'okta/underscore',
   'shared/util/Class',
   'helpers/util/jquery.okta'
 ],

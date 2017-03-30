@@ -1,8 +1,7 @@
-require('vendor/lib/underscore-wrapper');
-require('vendor/lib/handlebars-wrapper');
-require('vendor/lib/jquery-wrapper');
+require('okta/underscore');
+require('okta/handlebars');
 require('./vendor/jasmine-jquery');
-var $ = require('jquery');
+var $ = require('okta/jquery');
 
 // Create a hidden sandbox
 $('<div>').attr('id', 'sandbox').css({height: 1, overflow: 'hidden'}).appendTo('body');

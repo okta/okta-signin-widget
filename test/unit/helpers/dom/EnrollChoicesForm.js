@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', './Form'], function ($, _, Form) {
+define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
 
   return Form.extend({
 

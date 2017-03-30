@@ -13,7 +13,7 @@
 // Note: The reason to create a separate logger (instead of placing these
 // functions in util/Util) is because this is used in places like Bundles that
 // need to be loaded before Okta is defined.
-define(['underscore', 'shared/util/Logger'], function (_, Logger) {
+define(['okta/underscore', 'shared/util/Logger'], function (_, Logger) {
 
   return _.extend(Logger, {
 

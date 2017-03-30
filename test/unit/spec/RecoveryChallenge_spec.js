@@ -1,8 +1,8 @@
 /*jshint maxparams:15 */
 define([
   'vendor/lib/q',
-  'underscore',
-  'jquery',
+  'okta/underscore',
+  'okta/jquery',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/RecoveryChallengeForm',

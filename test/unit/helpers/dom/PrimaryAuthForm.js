@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', './Form'], function ($, _, Form) {
+define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
 
   var USERNAME_FIELD = 'username';
   var PASSWORD_FIELD = 'password';

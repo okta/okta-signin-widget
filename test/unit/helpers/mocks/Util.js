@@ -2,8 +2,8 @@
 /*jshint -W020 */
 /* globals JSON */
 define([
-  'jquery',
-  'underscore',
+  'okta/jquery',
+  'okta/underscore',
   'backbone',
   'vendor/lib/q',
   'duo'

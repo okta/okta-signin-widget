@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', './Dom'], function ($, _, Dom) {
+define(['okta/jquery', 'okta/underscore', './Dom'], function ($, _, Dom) {
 
   return Dom.extend({
 
