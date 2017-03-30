@@ -276,6 +276,20 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
         pushState = BrowserFeatures.supportsPushState();
       }
       Okta.Router.prototype.start.call(this, { pushState: pushState });
+    },
+
+    hide: function () {
+      this.header.$el.hide();
+    },
+
+    show: function () {
+      this.header.$el.show();
+    },
+
+    remove: function () {
+      this.controller.remove();
+      this.header.$el.remove();
+      Backbone.history.stop();
     }
 
   });

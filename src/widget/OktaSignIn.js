@@ -80,13 +80,32 @@ var OktaSignIn = (function () {
      * @param success - success callback function
      * @param error - error callback function
      */
+    var router;
     function render(options, success, error) {
-      var router = new LoginRouter(_.extend({}, config, options, {
+      router = new LoginRouter(_.extend({}, config, options, {
         authClient: authClient,
         globalSuccessFn: success,
         globalErrorFn: error
       }));
       router.start();
+    }
+
+    function hide() {
+      if (router) {
+        router.hide();
+      }
+    }
+
+    function show() {
+      if (router) {
+        router.show();
+      }
+    }
+
+    function remove() {
+      if (router) {
+        router.remove();
+      }
     }
 
     /**
@@ -125,7 +144,10 @@ var OktaSignIn = (function () {
         hasTokensInUrl: hasTokensInUrl,
         parseTokensFromUrl: parseTokensFromUrl
       },
-      tokenManager: authClient.tokenManager
+      tokenManager: authClient.tokenManager,
+      hide: hide,
+      show: show,
+      remove: remove
     };
   }
 
