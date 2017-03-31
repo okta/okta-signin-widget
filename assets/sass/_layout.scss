@@ -14,30 +14,6 @@
   z-index: -5;
 }
 
-.auth-container {
-  border-radius: 3px;
-  border-style: solid;
-  border-width: 1px;
-  height: auto;
-  margin: 100px auto 8px;
-  width: $container-width;
-  min-width: $container-min-width;
-  @include box-sizing(border-box);
-
-  @include device-mq(x-small) {
-    margin-top: 0;
-    width: 100%;
-  }
-
-  @include max-width-mq($container-width) {
-    width: 100%;
-  }
-
-  @include max-height-mq(750px) {
-    margin-top: 0;
-  }
-}
-
 .auth-account {
   line-height: 18px;
   padding: 6px 0;
@@ -88,10 +64,6 @@
       padding-top: 15px;
     }
   }
-}
-
-.no-beacon .auth-content {
-  padding-top: 20px;
 }
 
 .auth-idp {
