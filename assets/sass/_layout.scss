@@ -22,7 +22,7 @@
   margin: 100px auto 8px;
   width: $container-width;
   min-width: $container-min-width;
-  @include box-sizing(border-box);
+  box-sizing: border-box;
 
   @include device-mq(x-small) {
     margin-top: 0;

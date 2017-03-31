@@ -5,8 +5,8 @@
 
 @mixin dropdown-env($bg-color: $white) {
   @include border-rgba($black, 0.2);
-  @include box-shadow(rgba($black, 0.2) 0 1px 3px);
-  @include border-radius;
+  box-shadow: rgba($black, 0.2) 0 1px 3px;
+  border-radius: $border-radius-default;
   background-color: $bg-color;
   background-clip: padding-box;
 }
@@ -14,8 +14,8 @@
 @mixin disabled-readonly-text-input {
   background: darken($modal-bg-color, 2%);
   color: $medium-text-color;
-  @include border-radius;
-  @include box-shadow(rgba($black, 0.1) 0 1px 1px 0 inset);
+  border-radius: $border-radius-default;
+  box-shadow: rgba($black, 0.1) 0 1px 1px 0 inset;
 }
 
 @mixin hide-overflow-text {
@@ -28,7 +28,7 @@
 @mixin env-styles {
   // scss-lint:disable ImportantRule
   @include border-rgba($black, 0.19);
-  @include box-shadow(rgba($black, 0.1) 0 0 1px);
+  box-shadow: rgba($black, 0.1) 0 0 1px;
   background-clip: padding-box !important;
 }
 

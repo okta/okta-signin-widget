@@ -26,7 +26,7 @@
     .footer-container {
       padding: 9px 80px;
       margin: 0 auto;
-      @include box-sizing(border-box);
+      box-sizing: border-box;
 
       @include max-width-mq(560px) {
         width: $container-width;

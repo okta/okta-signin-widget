@@ -7,8 +7,6 @@
 // Base classes: layout and content
 // scss-lint:disable ImportantRule
 
-@import 'compass/css3/hyphenation';
-
 .infobox {
   @include word-break(break-word);
   @include hyphens(auto);
