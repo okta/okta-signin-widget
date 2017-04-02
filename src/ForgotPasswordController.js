@@ -91,7 +91,8 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
             type: 'text',
             params: {
               innerTooltip: Okta.loc('password.forgot.email.or.username.tooltip', 'login'),
-              icon: 'person-16-gray'
+              icon: 'person-16-gray',
+              required: true
             }
           })
         ];

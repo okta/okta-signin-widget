@@ -80,7 +80,8 @@ define([
               title: Okta.loc('primaryauth.username.placeholder', 'login'),
               text: Okta.loc('primaryauth.username.tooltip', 'login')
             },
-            icon: 'person-16-gray'
+            icon: 'person-16-gray',
+            required: true
           }
         },
         {
@@ -95,7 +96,8 @@ define([
               title: Okta.loc('primaryauth.password.placeholder', 'login'),
               text: Okta.loc('primaryauth.password.tooltip', 'login')
             },
-            icon: 'remote-lock-16'
+            icon: 'remote-lock-16',
+            required: true
           }
         }
       ];
