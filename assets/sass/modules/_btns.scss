@@ -77,6 +77,30 @@
   }
 }
 
+.default-custom-button.link-button {
+  @extend .button-wide;
+  border-radius: $border-radius-default;
+  box-sizing: border-box;
+
+  color: #fff;
+  display: block;
+  font-size: $font-size;
+  line-height: 50px;
+  margin-top: 15px;
+  text-align: center;
+
+  &:last-of-type {
+    margin-bottom: 25px;
+  }
+
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited {
+    text-decoration: none;
+  }
+}
+
 @mixin social-auth-button-template($bg-image, $icon-bg-color, $label-bg-color, $border-color) {
   background-color: $label-bg-color;
   background: $bg-image no-repeat 10px,
@@ -88,6 +112,17 @@
   &:hover {
     background: $bg-image no-repeat 10px,
     linear-gradient(90deg, lighten($icon-bg-color, 3%) 50px, lighten($label-bg-color, 3%) 50px);
+  }
+}
+
+@mixin default-custom-button-template($background-color, $border-color) {
+  background-color: $background-color;
+  border: 1px solid $border-color;
+
+  &:active,
+  &:focus,
+  &:hover {
+    background-color: lighten($background-color, 3%);
   }
 }
 
@@ -109,4 +144,8 @@
 .social-auth-microsoft-button {
   @include social-auth-button-template(url('../img/icons/login/microsoft_logo.png'),
           $microsoft-icon-bg-color, $microsoft-label-bg-color, $microsoft-border-color);
+}
+
+.default-custom-button {
+  @include default-custom-button-template($default-custom-button-background-color, $default-custom-button-border-color);
 }

@@ -28,8 +28,7 @@ define([
     // the top of the container (and is rendered in socialAuth).
     title: function () {
       var formTitle = Okta.loc('primaryauth.title', 'login');
-      if (this.settings.get('socialAuthConfigured') &&
-          this.settings.get('socialAuthPositionTop')) {
+      if (this.settings.get('socialAuthPositionTop')) {
         formTitle = '';
       }
       return formTitle;

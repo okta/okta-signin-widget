@@ -11,9 +11,8 @@
  */
 
 define([
-  'okta',
-  'util/OAuth2Util'
-], function (Okta, OAuth2Util) {
+  'okta'
+], function (Okta) {
 
   var _ = Okta._;
 
@@ -27,16 +26,15 @@ define([
 
   return Okta.View.extend({
 
-    className: 'social-auth',
+    className: 'primary-auth-container',
 
     children: function () {
       var children = [],
-          idProviders = this.settings.get('configuredSocialIdps'),
-          divider = dividerTpl({text: Okta.loc('socialauth.divider.text', 'login')});
+        buttons = this.settings.get('configuredButtons'),
+        divider = dividerTpl({text: Okta.loc('socialauth.divider.text', 'login')});
 
-      // Social Auth IDPs.
-      _.each(idProviders, function (provider) {
-        children.push(this._createButton(provider));
+      _.each(buttons, function (button) {
+        children.push(this._createButton(button));
       }, this);
 
       // If the social auth buttons have to be above the Okta form, the title moves from
@@ -56,21 +54,13 @@ define([
     },
 
     _createButton: function (options) {
-      var type = options.type.toLowerCase(),
-          attr = 'social-auth-' + type + '-button';
-
       return Okta.createButton({
         attributes: {
-          'data-se': attr
+          'data-se': options.dataAttr
         },
-        className: 'social-auth-button ' + attr,
-        title: Okta.loc('socialauth.' + type + '.label'),
-        events: {
-          'click': function (e) {
-            e.preventDefault();
-            OAuth2Util.getTokens(this.settings, {idp: options.id});
-          }
-        }
+        className: options.className,
+        title: options.title,
+        click: options.click
       });
     }
 

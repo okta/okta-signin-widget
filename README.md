@@ -42,6 +42,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [Username and password](#username-and-password)
   * [Customizing language and text](#customizing-language-and-text)
   * [Changing help links](#changing-help-links)
+  * [Adding Custom Buttons](#adding-custom-buttons)
   * [OpenId Connect](#openid-connect)
   * [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   * [Feature flags](#feature-flags)
@@ -775,6 +776,28 @@ helpLinks: {
 - **helpLinks.unlock** - Custom link href for the "Unlock Account" link. For this link to display, `features.selfServiceUnlock` must be set to `true`, and the self service unlock feature must be enabled in your admin settings.
 
 - **helpLinks.custom** - Array of custom link objects `{text, href}` that will be added to the *"Need help signing in?"* section.
+
+## Adding Custom Buttons
+
+You can add custom buttons underneath the login form on the primary auth page by setting the following config options. If you'd like to change the divider text, use the `i18n` config option.
+
+```javascript
+// An example that adds a custom button underneath the login form on the primary auth page
+customButtons: [{
+  title: 'Click Me',
+  className: 'btn-customAuth',
+  click: function() {
+    // clicking on the button navigates to another page
+    window.location.href = 'http://www.example.com';
+  }
+}]
+```
+
+- **customButtons.title** - String that is set as the button text
+
+- **customButtons.className** - Optional class that can be added to the button
+
+- **customButtons.click** - Function that is called when the button is clicked
 
 ## OpenId Connect
 

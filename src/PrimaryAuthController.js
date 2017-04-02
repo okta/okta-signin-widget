@@ -13,12 +13,12 @@
 define([
   'okta',
   'views/primary-auth/PrimaryAuthForm',
-  'views/primary-auth/SocialAuth',
+  'views/primary-auth/CustomButtons',
   'models/PrimaryAuth',
   'shared/util/Util',
   'util/BaseLoginController'
 ],
-function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginController) {
+function (Okta, PrimaryAuthForm, CustomButtons, PrimaryAuthModel, Util, BaseLoginController) {
 
   var compile = Okta.Handlebars.compile;
   var _ = Okta._;
@@ -139,10 +139,10 @@ function (Okta, PrimaryAuthForm, SocialAuth, PrimaryAuthModel, Util, BaseLoginCo
 
       this.addListeners();
 
-      // Add SocialAuth view only when the idps are configured. If configured, 'socialAuthPositionTop'
-      // will determine the order in which the social auth and primary auth are shown on the screen.
-      if (options.settings.get('socialAuthConfigured')) {
-        this.add(SocialAuth, {prepend: options.settings.get('socialAuthPositionTop')});
+      // If social auth is configured, 'socialAuthPositionTop' will determine
+      // the order in which the social auth and primary auth are shown on the screen.
+      if (options.settings.get('hasConfiguredButtons')) {
+        this.add(CustomButtons, {prepend: options.settings.get('socialAuthPositionTop')});
       }
       this.add(new Footer(this.toJSON({appState: options.appState})));
 
