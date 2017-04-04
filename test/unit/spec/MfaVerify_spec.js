@@ -2019,7 +2019,7 @@ function (Okta,
           });
         });
 
-        itp('shows the right beacon for Security Key (U2F)', function () {
+        itp('test beacon again', function () {
           return setupU2F({u2f: true}).then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-u2f');
             return Expect.waitForSpyCall(window.u2f.sign);
