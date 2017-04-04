@@ -2019,12 +2019,6 @@ function (Okta,
           });
         });
 
-        itp('dummy test', function () {
-          return setupU2F({u2f: true}).then(function (test) {
-            return tick(test);
-          });
-        });
-
         itp('shows the right title', function () {
           return setupU2F({u2f: true}).then(function (test) {
             expectTitleToBe(test, 'Security Key (U2F)');
