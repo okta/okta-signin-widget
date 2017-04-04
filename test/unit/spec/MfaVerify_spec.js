@@ -2019,10 +2019,9 @@ function (Okta,
           });
         });
 
-        itp('test beacon again', function () {
+        itp('dummy test', function () {
           return setupU2F({u2f: true}).then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-u2f');
-            return Expect.waitForSpyCall(window.u2f.sign);
+            return tick(test);
           });
         });
 
