@@ -2014,7 +2014,8 @@ function (Okta,
       Expect.describe('Security Key (U2F)', function () {
         itp('shows the right beacon for Security Key (U2F)', function () {
           return setupU2F({u2f: true}).then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-u2f');
+            expect(test.beacon.isFactorBeacon()).toBe(true);
+            expect(test.beacon.hasClass('mfa-u2f')).toBe(true);
             return Expect.waitForSpyCall(window.u2f.sign);
           });
         });
