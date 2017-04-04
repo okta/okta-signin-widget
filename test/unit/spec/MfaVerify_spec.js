@@ -2016,7 +2016,7 @@ function (Okta,
           return setupU2F({u2f: true}).then(function (test) {
             expect(test.beacon.isFactorBeacon()).toBe(true);
             expect(test.beacon.hasClass('mfa-u2f')).toBe(true);
-            return Expect.waitForSpyCall(window.u2f.sign);
+            return tick(test);
           });
         });
 
