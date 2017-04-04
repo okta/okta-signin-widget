@@ -5,14 +5,14 @@
     "@okta/courage": {
       "version": "2.1.0"
     },
-    "@okta/i18n": {
-      "version": "26.21.0"
-    },
     "@okta/jquery.simplemodal": {
       "version": "1.4.9"
     },
     "@okta/okta-auth-js": {
       "version": "1.8.0"
+    },
+    "@okta/i18n": {
+      "version": "26.21.0"
     },
     "abbrev": {
       "version": "1.1.0"
