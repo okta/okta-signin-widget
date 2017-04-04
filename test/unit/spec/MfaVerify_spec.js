@@ -2015,7 +2015,6 @@ function (Okta,
         itp('shows the right beacon for Security Key (U2F)', function () {
           return setupU2F({u2f: true}).then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-u2f');
-            //expect sign to be called
             return Expect.waitForSpyCall(window.u2f.sign);
           });
         });
