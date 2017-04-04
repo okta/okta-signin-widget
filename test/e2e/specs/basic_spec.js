@@ -9,6 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+/* global browser, element, by, oktaSignIn */
 var util = require('../util/util');
 
 describe('Basic flows', function() {
@@ -38,7 +39,7 @@ describe('Basic flows', function() {
 
     // Ensure a new widget can be created
     function createWidget() {
-       oktaSignIn.renderEl({ // jshint ignore:line
+      oktaSignIn.renderEl({
         el: '#okta-login-container'
       }, function() {});
     }

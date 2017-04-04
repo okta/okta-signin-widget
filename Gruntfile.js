@@ -3,9 +3,9 @@
 // npm install (to install all dependencies, including grunt)
 // grunt test (to run test task)
 
-/*global module, process, JSON */
+/* global module, process */
+/* eslint max-statements: 0 */
 module.exports = function (grunt) {
-  /* jshint maxstatements: false */
 
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
@@ -20,12 +20,24 @@ module.exports = function (grunt) {
   var JS                    = 'target/js',
       JASMINE_TEST_FOLDER   = 'build2/reports/jasmine',
       JASMINE_TEST_FILE     = JASMINE_TEST_FOLDER + '/login.html',
-      JSHINT_OUT_FILE       = 'build2/loginjs-checkstyle-result.xml',
+      ESLINT_OUT_FILE       = 'build2/loginjs-eslint-checkstyle.xml',
       DIST                  = 'dist',
       SASS                  = 'target/sass',
       SCSSLINT_OUT_FILE     = 'build2/loginscss-checkstyle-result.xml',
       WIDGET_RC             = '.widgetrc',
-
+      JS_LINT_FILES         = [
+        'Gruntfile.js',
+        'src/*.js',
+        'src/**/*.js',
+        '!src/vendor/*.js',
+        '!src/util/countryCallingCodes.js',
+        'buildtools/**/*.js',
+        '!buildtools/r.js',
+        'test/unit/helpers/**/*.js',
+        'test/**/**/*.js',
+        '!test/unit/helpers/xhr/*.js',
+        '!test/unit/vendor/*.js'
+      ],
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
 
@@ -41,29 +53,16 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    jshint: {
+    eslint: {
       options: (function () {
-        var conf = {
-          jshintrc: './.jshintrc'
-        };
-        if (hasCheckStyle) {
-          conf.reporter = 'checkstyle';
-          conf.reporterOutput = JSHINT_OUT_FILE;
-          conf.force = true;
+        var conf = {};
+        if (process.argv.indexOf('--checkstyle') > -1) {
+          conf.format = 'checkstyle';
+          conf.outputFile = ESLINT_OUT_FILE;
         }
         return conf;
       }()),
-      all: [
-        'Gruntfile.js',
-        'src/**/*.js',
-        'buildtools/**/*.js',
-        '!buildtools/r.js',
-        'test/**/*.js',
-        '!test/unit/helpers/xhr/*.js',
-        '!test/unit/vendor/**/*.js',
-        '!src/vendor/*.js',
-        '!src/util/countryCallingCodes.js'
-      ]
+      all: JS_LINT_FILES
     },
 
     copy: {
@@ -537,6 +536,6 @@ module.exports = function (grunt) {
 
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
-  grunt.task.registerTask('lint', ['jshint', 'scss-lint']);
+  grunt.task.registerTask('lint', ['scss-lint', 'eslint']);
   grunt.task.registerTask('default', ['lint', 'test']);
 };

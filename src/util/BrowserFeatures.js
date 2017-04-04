@@ -32,11 +32,11 @@ define(['okta/underscore'], function (_) {
   fn.localStorageIsNotSupported = function () {
     var test = 'test';
     try {
-        localStorage.setItem(test, test);
-        localStorage.removeItem(test);
-        return false;
+      localStorage.setItem(test, test);
+      localStorage.removeItem(test);
+      return false;
     } catch(e) {
-        return true;
+      return true;
     }
   };
 

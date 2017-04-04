@@ -1,5 +1,4 @@
 /*globals module */
-/*jshint unused:false, camelcase: false */
 
 var OktaSignIn = (function () {
 

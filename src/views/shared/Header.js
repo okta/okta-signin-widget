@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint maxcomplexity:9*/
 define([
   'okta',
   'util/Animations',
@@ -99,7 +98,7 @@ function (Okta, Animations, LoadingBeacon) {
       }
     },
 
-    /* jshint maxcomplexity:false */
+    /* eslint complexity: 0 */
     setBeacon: function (NextBeacon, options) {
       var selector = '[data-type="beacon-container"]',
           container = this.$(selector),
@@ -107,67 +106,67 @@ function (Okta, Animations, LoadingBeacon) {
           self = this;
 
       switch (transition) {
-        case 'none':
-          this.$el.addClass(NO_BEACON_CLS);
-          return;
-        case 'same':
-          return;
-        case 'add':
-          this.$el.removeClass(NO_BEACON_CLS);
-          addBeacon(this, NextBeacon, selector, options);
-          return Animations.explode(container);
-        case 'remove':
-          this.$el.addClass(NO_BEACON_CLS);
-          return Animations.implode(container)
-          .then(function () {
-            removeBeacon(self);
-          })
-          .done();
-        case 'fade':
-          // Other transitions are performed on the beacon container,
-          // but this transition is on the content inside the beacon.
-          // For a SecurityBeacon the username change will update the
-          // AppState and trigger an transition to a new Becon
-          // Since there is no url change this method is not called.
-          // For a FactorBeacon a page refresh has occurred
-          // so we execute the beacon's own transition method.
-          if (!this.currentBeacon.fadeOut) {
-            throw new Error('The current beacon is missing the "fadeOut" method');
-          }
-          options.animate = true;
-          return this.currentBeacon.fadeOut()
-          .then(function () {
-            removeBeacon(self);
-            addBeacon(self, NextBeacon, selector, options);
-          })
-          .done();
-        case 'swap':
-          return Animations.swapBeacons({
-            $el: container,
-            swap: function () {
-              var isLoading = isLoadingBeacon(self.currentBeacon);
-              // Order of these calls is important for -
-              // loader --> security/factor beacon swap.
-              removeBeacon(self);
-              if (isLoading) {
-                container.removeClass(LOADING_BEACON_CLS);
-                self.$el.removeClass(NO_BEACON_CLS);
-              }
-              addBeacon(self, NextBeacon, selector, options);
-            }
-          })
-          .done();
-        case 'load':
-          // Show the loading beacon. Add a couple of classes
-          // before triggering the add beacon code.
-          container.addClass(LOADING_BEACON_CLS);
+      case 'none':
+        this.$el.addClass(NO_BEACON_CLS);
+        return;
+      case 'same':
+        return;
+      case 'add':
+        this.$el.removeClass(NO_BEACON_CLS);
+        addBeacon(this, NextBeacon, selector, options);
+        return Animations.explode(container);
+      case 'remove':
+        this.$el.addClass(NO_BEACON_CLS);
+        return Animations.implode(container)
+        .then(function () {
+          removeBeacon(self);
+        })
+        .done();
+      case 'fade':
+        // Other transitions are performed on the beacon container,
+        // but this transition is on the content inside the beacon.
+        // For a SecurityBeacon the username change will update the
+        // AppState and trigger an transition to a new Becon
+        // Since there is no url change this method is not called.
+        // For a FactorBeacon a page refresh has occurred
+        // so we execute the beacon's own transition method.
+        if (!this.currentBeacon.fadeOut) {
+          throw new Error('The current beacon is missing the "fadeOut" method');
+        }
+        options.animate = true;
+        return this.currentBeacon.fadeOut()
+        .then(function () {
+          removeBeacon(self);
           addBeacon(self, NextBeacon, selector, options);
-          return Animations.explode(container);
-        case 'unload':
-          // Hide the loading beacon.
-          return this.removeLoadingBeacon();
-        default:
-          throw new Error('the "' + transition + '" is not recognized');
+        })
+        .done();
+      case 'swap':
+        return Animations.swapBeacons({
+          $el: container,
+          swap: function () {
+            var isLoading = isLoadingBeacon(self.currentBeacon);
+            // Order of these calls is important for -
+            // loader --> security/factor beacon swap.
+            removeBeacon(self);
+            if (isLoading) {
+              container.removeClass(LOADING_BEACON_CLS);
+              self.$el.removeClass(NO_BEACON_CLS);
+            }
+            addBeacon(self, NextBeacon, selector, options);
+          }
+        })
+        .done();
+      case 'load':
+        // Show the loading beacon. Add a couple of classes
+        // before triggering the add beacon code.
+        container.addClass(LOADING_BEACON_CLS);
+        addBeacon(self, NextBeacon, selector, options);
+        return Animations.explode(container);
+      case 'unload':
+        // Hide the loading beacon.
+        return this.removeLoadingBeacon();
+      default:
+        throw new Error('the "' + transition + '" is not recognized');
       }
     },
 

@@ -1,4 +1,3 @@
-/*jshint maxparams:15 */
 define([
   'okta/jquery',
   '@okta/okta-auth-js/jquery',

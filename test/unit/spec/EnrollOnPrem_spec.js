@@ -1,4 +1,4 @@
-/*jshint maxparams:15 */
+/* eslint max-params: [2, 14] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -78,8 +78,8 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         });
         itp('does not allow autocomplete', function () {
           return setup().then(function (test) {
-              expect(test.form.getCodeFieldAutocomplete()).toBe('off');
-            });
+            expect(test.form.getCodeFieldAutocomplete()).toBe('off');
+          });
         });
         itp('returns to factor list when browser\'s back button is clicked', function () {
           return setup(false, true).then(function (test) {

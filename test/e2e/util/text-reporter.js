@@ -1,3 +1,4 @@
+/* global module */
 var grunt = require('grunt');
 
 module.exports = function(result, threshold, writer) {
@@ -25,7 +26,6 @@ module.exports = function(result, threshold, writer) {
       log(ruleResult.help, 'subhead');
 
       ruleResult.nodes.forEach(function(violation, index) {
-        /*global JSON*/
         log('   ' + (index + 1) + '. ' + JSON.stringify(violation.target), 'writeln');
 
         if (violation.any.length) {

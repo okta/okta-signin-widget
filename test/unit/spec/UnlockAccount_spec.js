@@ -1,4 +1,4 @@
-/* jshint maxparams:25,maxstatements:21 */
+/* eslint max-params: [2, 16], max-statements: [2, 21] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -379,42 +379,42 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
       });
       itp('shows email sent confirmation screen when user clicks the "Unlock via email" link, after sending sms',
         function () {
-        return setupWithSms().then(function (test) {
-          test.setNextResponse(resChallengeSms);
-          test.form.setUsername('foo@bar');
-          test.form.sendSms();
-          return Expect.waitForRecoveryChallenge(test);
-        })
-        .then(function (test) {
-          test.setNextResponse(resChallengeEmail);
-          test.form.clickSendEmailLink();
-          return Expect.waitForUnlockEmailSent(test);
-        })
-        .then(function (test) {
-          expect(test.form.titleText()).toBe('Email sent!');
-          expect(test.form.getEmailSentConfirmationText().indexOf('foo@bar') >= 0).toBe(true);
-          expect(test.form.backToLoginButton().length).toBe(1);
+          return setupWithSms().then(function (test) {
+            test.setNextResponse(resChallengeSms);
+            test.form.setUsername('foo@bar');
+            test.form.sendSms();
+            return Expect.waitForRecoveryChallenge(test);
+          })
+          .then(function (test) {
+            test.setNextResponse(resChallengeEmail);
+            test.form.clickSendEmailLink();
+            return Expect.waitForUnlockEmailSent(test);
+          })
+          .then(function (test) {
+            expect(test.form.titleText()).toBe('Email sent!');
+            expect(test.form.getEmailSentConfirmationText().indexOf('foo@bar') >= 0).toBe(true);
+            expect(test.form.backToLoginButton().length).toBe(1);
+          });
         });
-      });
       itp('shows an error if sending email via "Unlock via email" link results in an error, after sending sms',
         function () {
-        return setupWithSms().then(function (test) {
-          Q.stopUnhandledRejectionTracking();
-          test.setNextResponse(resChallengeSms);
-          test.form.setUsername('foo');
-          test.form.sendSms();
-          return Expect.waitForRecoveryChallenge(test);
-        })
-        .then(function (test) {
-          test.setNextResponse(resError);
-          test.form.clickSendEmailLink();
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+          return setupWithSms().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse(resChallengeSms);
+            test.form.setUsername('foo');
+            test.form.sendSms();
+            return Expect.waitForRecoveryChallenge(test);
+          })
+          .then(function (test) {
+            test.setNextResponse(resError);
+            test.form.clickSendEmailLink();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+          });
         });
-      });
     });
 
   });

@@ -10,9 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint newcap:false */
-/*global JSON */
-
 define([
   'okta/underscore',
   'vendor/lib/q',

@@ -1,4 +1,4 @@
-/*jshint maxparams:13, camelcase:false */
+/* eslint max-params: [2, 13], camelcase: 0 */
 define([
   'okta/underscore',
   'okta/jquery',

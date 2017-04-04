@@ -1,5 +1,4 @@
-/*jshint maxstatements:28 */
-/*global JSON */
+/* eslint max-statements:[2, 28] */
 define([
   'okta',
   'vendor/lib/q',

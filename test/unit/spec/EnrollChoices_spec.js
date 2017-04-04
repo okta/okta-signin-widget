@@ -1,4 +1,4 @@
-/*jshint maxparams:15 */
+/* eslint max-params: [2, 15] */
 /*global JSON */
 define([
   'okta/underscore',
@@ -330,28 +330,27 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             test.form.factorButton('SMS').click();
             expect(test.router.navigate)
               .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
-
           });
         });
         itp('has a setup button for each unenrolled optional factor which navigates to the correct page (On-Prem)',
           function () {
-          return setupWithAllOptionalSomeEnrolled(true).then(function (test) {
-            expect(test.form.factorButton('OKTA_VERIFY_PUSH').length).toBe(0);
-            expect(test.form.factorButton('QUESTION').length).toBe(1);
-            expect(test.form.factorButton('GOOGLE_AUTH').length).toBe(1);
-            expect(test.form.factorButton('SYMANTEC_VIP').length).toBe(1);
-            expect(test.form.factorButton('YUBIKEY').length).toBe(1);
-            expect(test.form.factorButton('ON_PREM').length).toBe(1);
-            expect(test.form.factorButton('DUO').length).toBe(1);
-            expect(test.form.factorButton('WINDOWS_HELLO').length).toBe(1);
-            expect(test.form.factorButton('U2F').length).toBe(1);
-            expect(test.form.factorButton('CALL').length).toBe(1);
-            expect(test.form.factorButton('SMS').length).toBe(1);
-            test.form.factorButton('SMS').click();
-            expect(test.router.navigate)
+            return setupWithAllOptionalSomeEnrolled(true).then(function (test) {
+              expect(test.form.factorButton('OKTA_VERIFY_PUSH').length).toBe(0);
+              expect(test.form.factorButton('QUESTION').length).toBe(1);
+              expect(test.form.factorButton('GOOGLE_AUTH').length).toBe(1);
+              expect(test.form.factorButton('SYMANTEC_VIP').length).toBe(1);
+              expect(test.form.factorButton('YUBIKEY').length).toBe(1);
+              expect(test.form.factorButton('ON_PREM').length).toBe(1);
+              expect(test.form.factorButton('DUO').length).toBe(1);
+              expect(test.form.factorButton('WINDOWS_HELLO').length).toBe(1);
+              expect(test.form.factorButton('U2F').length).toBe(1);
+              expect(test.form.factorButton('CALL').length).toBe(1);
+              expect(test.form.factorButton('SMS').length).toBe(1);
+              test.form.factorButton('SMS').click();
+              expect(test.router.navigate)
               .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
+            });
           });
-        });
         itp('has the button "Finish" if all required factors have been enrolled', function () {
           return setupWithRequiredAllRequiredEnrolled().then(function (test) {
             expect(test.form.submitButtonText()).toBe('Finish');
@@ -385,8 +384,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             return setupWithAllOptionalNoneEnrolled().then(function (test) {
               expect(test.form.submitButton().length).toBe(0);
             });
-          }
-        );
+          });
       });
 
     });
@@ -541,15 +539,15 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       itp('is in correct order', function () {
         return setup(resAllFactors).then(function (test) {
           var factorList = test.form.getFactorList();
-          expect(factorList).toEqual(['OKTA_VERIFY','SMS','CALL','WINDOWS_HELLO','U2F',
-            'YUBIKEY','DUO','GOOGLE_AUTH','SYMANTEC_VIP','RSA_SECURID','QUESTION']);
+          expect(factorList).toEqual(['OKTA_VERIFY', 'SMS', 'CALL', 'WINDOWS_HELLO', 'U2F',
+            'YUBIKEY', 'DUO', 'GOOGLE_AUTH', 'SYMANTEC_VIP', 'RSA_SECURID', 'QUESTION']);
         });
       });
       itp('with push and onPrem is in correct order', function () {
         return setup(resAllFactorsOnPrem).then(function (test) {
           var options = test.form.getFactorList();
-          expect(options).toEqual(['OKTA_VERIFY_PUSH','SMS','CALL','WINDOWS_HELLO','U2F',
-          'YUBIKEY','DUO','GOOGLE_AUTH','SYMANTEC_VIP','ON_PREM','QUESTION']);
+          expect(options).toEqual(['OKTA_VERIFY_PUSH', 'SMS', 'CALL', 'WINDOWS_HELLO', 'U2F',
+            'YUBIKEY', 'DUO', 'GOOGLE_AUTH', 'SYMANTEC_VIP', 'ON_PREM', 'QUESTION']);
         });
       });
     });

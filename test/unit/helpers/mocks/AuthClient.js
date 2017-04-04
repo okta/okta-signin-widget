@@ -1,4 +1,3 @@
-/*jshint maxstatements:21 */
 define(['vendor/lib/q'], function (Q) {
 
   function addMethodSpy(mock, methodName) {

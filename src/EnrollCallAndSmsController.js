@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
+/* eslint complexity: [2, 8] */
 define([
   'okta',
   'util/FormController',
@@ -134,7 +134,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
               });
               return factor.enroll({
                 profile: profileData
-             });
+              });
             })
             .then(function (trans) {
               self.set('trapEnrollment', false);
@@ -170,7 +170,6 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
     },
 
     Form: function () {
-      /*jshint maxcomplexity:8*/
       var factorType = this.options.factorType;
       var isCall = isCallFactor(factorType);
 

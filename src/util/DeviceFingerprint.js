@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint latedef:false */
-/*global JSON */
+/* eslint complexity: [2, 7] */
 
 define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
 
@@ -37,7 +36,6 @@ define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
       }
 
       function onMessageReceivedFromOkta(event) {
-        /*jshint maxcomplexity:7*/
         if (!event || !event.data || event.origin != oktaDomainUrl) {
           handleError('no data');
           return;
