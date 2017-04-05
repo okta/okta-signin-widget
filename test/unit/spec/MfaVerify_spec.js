@@ -2014,6 +2014,14 @@ function (Okta,
       });
 
       Expect.describe('Security Key (U2F)', function () {
+
+        itp('shows the right title', function () {
+          return setupU2F({u2f: true}).then(function (test) {
+            expectTitleToBe(test, 'Security Key (U2F)');
+            return Expect.waitForSpyCall(window.u2f.sign);
+          });
+        });
+
         itp('shows the right beacon for Security Key (U2F)', function () {
           return setupU2F({u2f: true}).then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-u2f');
@@ -2021,16 +2029,9 @@ function (Okta,
           });
         });
 
-        itp('additional test', function () {
+        itp('additional tests', function () {
           return setupU2F({u2f: true}).then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-u2f');
-            return Expect.waitForSpyCall(window.u2f.sign);
-          });
-        });
-
-        itp('shows the right title', function () {
-          return setupU2F({u2f: true}).then(function (test) {
-            expectTitleToBe(test, 'Security Key (U2F)');
             return Expect.waitForSpyCall(window.u2f.sign);
           });
         });
