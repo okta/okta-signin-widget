@@ -204,7 +204,9 @@ function (Okta,
     function setupU2F(options) {
       options || (options = {});
 
-      mockFirefox(options.firefox);
+      if(options.firefox) {
+        mockFirefox(options.firefox);
+      }
 
       if (options.u2f) {
         window.u2f = {
