@@ -2015,6 +2015,25 @@ function (Okta,
 
       Expect.describe('Security Key (U2F)', function () {
 
+        itp('shows error if wrong browser', function () {
+          return setupU2F({u2f: false, firefox: false}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').find('strong').html())
+              .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
+                'Select another factor or contact your admin for assistance.');
+          });
+        });
+
+        itp('shows error if Firefox without extension', function () {
+          return setupU2F({u2f: false, firefox: true}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').find('strong').html())
+              .toEqual('<a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/u2f-support-add-on/">' +
+                'Download</a> and install the Firefox U2F browser extension before proceeding. You may be required to ' +
+                'restart your browser after installation.');
+          });
+        });
+
         itp('shows the right title', function () {
           return setupU2F({u2f: true}).then(function (test) {
             expectTitleToBe(test, 'Security Key (U2F)');
@@ -2033,25 +2052,6 @@ function (Okta,
           return setupU2F({u2f: true}).then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-u2f');
             return Expect.waitForSpyCall(window.u2f.sign);
-          });
-        });
-
-        itp('shows error if wrong browser', function () {
-          return setupU2F({u2f: false, firefox: false}).then(function (test) {
-            expect(test.form.el('o-form-error-html')).toHaveLength(1);
-            expect(test.form.el('o-form-error-html').find('strong').html())
-            .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
-              'Select another factor or contact your admin for assistance.');
-          });
-        });
-
-        itp('shows error if Firefox without extension', function () {
-          return setupU2F({u2f: false, firefox: true}).then(function (test) {
-            expect(test.form.el('o-form-error-html')).toHaveLength(1);
-            expect(test.form.el('o-form-error-html').find('strong').html())
-            .toEqual('<a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/u2f-support-add-on/">' +
-              'Download</a> and install the Firefox U2F browser extension before proceeding. You may be required to ' +
-              'restart your browser after installation.');
           });
         });
 
