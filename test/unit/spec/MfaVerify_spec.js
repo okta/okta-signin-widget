@@ -2021,6 +2021,13 @@ function (Okta,
           });
         });
 
+        itp('shows the right title', function () {
+          return setupU2F({u2f: true}).then(function (test) {
+            expectTitleToBe(test, 'Security Key (U2F)');
+            return Expect.waitForSpyCall(window.u2f.sign);
+          });
+        });
+
         itp('shows error if wrong browser', function () {
           return setupU2F({u2f: false, firefox: false}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
