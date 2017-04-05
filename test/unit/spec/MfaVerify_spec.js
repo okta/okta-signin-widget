@@ -2029,13 +2029,6 @@ function (Okta,
           });
         });
 
-        itp('additional tests', function () {
-          return setupU2F({u2f: true}).then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-u2f');
-            return Expect.waitForSpyCall(window.u2f.sign);
-          });
-        });
-
         itp('shows error if wrong browser', function () {
           return setupU2F({u2f: false, firefox: false}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
