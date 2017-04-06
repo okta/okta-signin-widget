@@ -114,7 +114,7 @@ function (Okta,
 
   Expect.describe('MFA Verify', function () {
 
-    function setup(res, selectedFactorProps, settings, languagesResponse) {
+    function setup(res, selectedFactorProps, settings, languagesResponse, additionalRes) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -148,6 +148,15 @@ function (Okta,
             setNextResponse(resChallengeWebauthn);
             router.verifyWindowsHello();
             return Expect.waitForVerifyWindowsHello();
+          }
+          else if (provider === 'FIDO' && factorType === 'u2f') {
+            var responses = [resChallengeU2F];
+            if (additionalRes) {
+              responses.push(additionalRes);
+            }
+            setNextResponse(responses);
+            router.verifyU2F();
+            return Expect.waitForVerifyU2F();
           }
           else {
             router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
@@ -222,21 +231,7 @@ function (Okta,
         delete window.u2f;
       }
 
-      return setup(resAllFactors)
-      .then(function (test) {
-        var responses = [resChallengeU2F];
-        if (options && options.res) {
-          responses.push(options.res);
-        }
-        test.setNextResponse(responses);
-        test.router.verifyU2F();
-        return Expect.waitForVerifyU2F(test);
-      })
-      .then(function (test) {
-        return _.extend(test, {
-          form: new MfaVerifyForm($sandbox.find('.o-form'))
-        });
-      });
+      return setup(resAllFactors, {factorType: 'u2f', provider: 'FIDO' }, null, null, options.res);
     }
 
     function emulateNotWindows() {
@@ -2014,6 +2009,19 @@ function (Okta,
       });
 
       Expect.describe('Security Key (U2F)', function () {
+        itp('shows the right beacon for Security Key (U2F)', function () {
+          return setupU2F({u2f: true}).then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-u2f');
+            return Expect.waitForSpyCall(window.u2f.sign);
+          });
+        });
+
+        itp('shows the right title', function () {
+          return setupU2F({u2f: true}).then(function (test) {
+            expectTitleToBe(test, 'Security Key (U2F)');
+            return Expect.waitForSpyCall(window.u2f.sign);
+          });
+        });
 
         itp('shows error if wrong browser', function () {
           return setupU2F({u2f: false, firefox: false}).then(function (test) {
@@ -2031,20 +2039,6 @@ function (Okta,
               .toEqual('<a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/u2f-support-add-on/">' +
                 'Download</a> and install the Firefox U2F browser extension before proceeding. You may be required to ' +
                 'restart your browser after installation.');
-          });
-        });
-
-        itp('shows the right title', function () {
-          return setupU2F({u2f: true}).then(function (test) {
-            expectTitleToBe(test, 'Security Key (U2F)');
-            return Expect.waitForSpyCall(window.u2f.sign);
-          });
-        });
-
-        itp('shows the right beacon for Security Key (U2F)', function () {
-          return setupU2F({u2f: true}).then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-u2f');
-            return Expect.waitForSpyCall(window.u2f.sign);
           });
         });
 
