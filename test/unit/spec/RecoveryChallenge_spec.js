@@ -1,4 +1,4 @@
-/*jshint maxparams:15 */
+/* eslint max-params: [2, 15] */
 define([
   'vendor/lib/q',
   'okta/underscore',

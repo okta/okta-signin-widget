@@ -1,4 +1,4 @@
-/*jshint maxparams:26 */
+/* eslint max-params: [2, 26] */
 define([
   'okta/underscore',
   'okta/jquery',

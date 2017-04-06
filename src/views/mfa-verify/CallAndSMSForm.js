@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
+/* eslint complexity: [2, 7] */
 define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
 
   var subtitleTpl = Okta.Handlebars.compile('({{phoneNumber}})');
@@ -33,7 +33,6 @@ define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, Text
     },
 
     initialize: function () {
-      /*jshint maxcomplexity:7*/
       var self = this;
       this.title = this.model.get('factorLabel');
 

@@ -9,6 +9,8 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+
+/* global module, process */
 var config = {
   framework: 'jasmine2',
   specs: ['specs/*.js'],

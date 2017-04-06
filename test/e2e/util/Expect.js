@@ -1,3 +1,5 @@
+/* global module, process, browser */
+/* eslint no-constant-condition: 0 */
 var Expect = module.exports = {};
 
 var _ = require('lodash'),

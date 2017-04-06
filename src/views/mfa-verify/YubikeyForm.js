@@ -36,7 +36,7 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
         name: 'answer',
         input: TextBox,
         type: 'password',
-        placeholder: Okta.loc('factor.totpHard.yubikey.placeholder','login')
+        placeholder: Okta.loc('factor.totpHard.yubikey.placeholder', 'login')
       });
 
       if (this.options.appState.get('allowRememberDevice')) {

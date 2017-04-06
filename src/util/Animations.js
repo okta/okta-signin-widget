@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+ /* eslint max-statements: [2, 15] */
+
 define(['vendor/lib/q', './Enums'], function (Q, Enums) {
 
   var SWAP_PAGE_TIME = 200;

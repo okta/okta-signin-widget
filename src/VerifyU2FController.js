@@ -11,7 +11,7 @@
  */
 
 /* global u2f */
-/* jshint maxcomplexity:9 */
+/* eslint complexity:[2, 9] */
 
 define([
   'okta',

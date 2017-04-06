@@ -9,14 +9,11 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-/*jshint esversion:6, es3:false */
-/*global $, protractor */
 'use strict';
 
 var EC = protractor.ExpectedConditions;
 
 class FacebookPage {
-
   login(username, password) {
     $('#email').sendKeys(username);
     $('#pass').sendKeys(password);

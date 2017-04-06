@@ -1,4 +1,4 @@
-/*jshint maxparams:17, newcap:false */
+/* eslint max-params:[2, 16] */
 define([
   'okta',
   'vendor/lib/q',

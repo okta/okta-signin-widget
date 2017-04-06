@@ -1,5 +1,4 @@
-/*global JSON */
-/*jshint maxparams:50, maxstatements:50, maxlen:180, camelcase:false */
+/* eslint max-params: [2, 28], max-statements: [2, 34], max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -558,7 +557,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
           expect(spy.calls.count()).toBe(1);
           expect(spy.calls.argsFor(0)[0].scopes).toEqual(['openid', 'testscope']);
           Expect.deprecated('Use "scopes" instead of "scope"');
-       });
+        });
       });
       itp('redirects instead of using an iframe if the responseType is "code"', function () {
         return setupOAuth2({'authParams.responseType': 'code'})
@@ -779,7 +778,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
       });
     });
 
-   Expect.describe('Config: "i18n"', function () {
+    Expect.describe('Config: "i18n"', function () {
       itp('supports deprecated "labels" and "country" options no locatl storage', function () {
         return setupLanguage({
           settings: {
@@ -986,7 +985,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         return test;
       }
 
-      var expectEn = _.partial(expectLanguage,'Follow phone call instructions to authenticate', 'Japan');
+      var expectEn = _.partial(expectLanguage, 'Follow phone call instructions to authenticate', 'Japan');
       var expectJa = _.partial(expectLanguage, 'JA: enroll.call.setup', 'JA: country.JP');
       var expectZz = _.partial(expectLanguage, 'ZZ: enroll.call.setup', 'ZZ: country.JP');
 

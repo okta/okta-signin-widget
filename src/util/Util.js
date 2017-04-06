@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*global JSON */
-/*jshint maxcomplexity:8 */
+/* eslint complexity: [2, 8] */
 define(['okta'], function (Okta) {
 
   var Util = {};

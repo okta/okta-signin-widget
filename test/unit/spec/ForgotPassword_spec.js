@@ -1,4 +1,4 @@
-/* jshint maxparams:50,maxstatements:33 */
+/* eslint max-params: [2, 17], max-statements:[2, 33] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -682,42 +682,42 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       });
       itp('shows email sent confirmation screen when user clicks the "Reset via email" link, after making a Voice Call',
         function () {
-        return setupWithCall().then(function (test) {
-          test.setNextResponse(resChallengeCall);
-          test.form.setUsername('foo@bar');
-          test.form.makeCall();
-          return Expect.waitForRecoveryChallenge(test);
-        })
-        .then(function (test) {
-          test.setNextResponse(resChallengeEmail);
-          test.form.clickSendEmailLink();
-          return Expect.waitForPwdResetEmailSent(test);
-        })
-        .then(function (test) {
-          expect(test.form.titleText()).toBe('Email sent!');
-          expect(test.form.getEmailSentConfirmationText().indexOf('foo@bar') >= 0).toBe(true);
-          expect(test.form.backToLoginButton().length).toBe(1);
+          return setupWithCall().then(function (test) {
+            test.setNextResponse(resChallengeCall);
+            test.form.setUsername('foo@bar');
+            test.form.makeCall();
+            return Expect.waitForRecoveryChallenge(test);
+          })
+          .then(function (test) {
+            test.setNextResponse(resChallengeEmail);
+            test.form.clickSendEmailLink();
+            return Expect.waitForPwdResetEmailSent(test);
+          })
+          .then(function (test) {
+            expect(test.form.titleText()).toBe('Email sent!');
+            expect(test.form.getEmailSentConfirmationText().indexOf('foo@bar') >= 0).toBe(true);
+            expect(test.form.backToLoginButton().length).toBe(1);
+          });
         });
-      });
       itp('shows an error if sending email via "Reset via email" link results in an error, after making a Voice Call',
         function () {
-        return setupWithCall().then(function (test) {
-          Q.stopUnhandledRejectionTracking();
-          test.setNextResponse(resChallengeCall);
-          test.form.setUsername('foo');
-          test.form.makeCall();
-          return Expect.waitForRecoveryChallenge(test);
-        })
-        .then(function (test) {
-          test.setNextResponse(resError);
-          test.form.clickSendEmailLink();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+          return setupWithCall().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse(resChallengeCall);
+            test.form.setUsername('foo');
+            test.form.makeCall();
+            return Expect.waitForRecoveryChallenge(test);
+          })
+          .then(function (test) {
+            test.setNextResponse(resError);
+            test.form.clickSendEmailLink();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+          });
         });
-      });
     });
 
   });

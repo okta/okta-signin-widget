@@ -11,40 +11,40 @@
  */
 
 define([
-    'okta',
-    'views/shared/TextBox'
-  ],
-  function (Okta, TextBox) {
+  'okta',
+  'views/shared/TextBox'
+],
+function (Okta, TextBox) {
 
-    return TextBox.extend({
-      template: Okta.tpl('\
-        <input type="password" placeholder="{{placeholder}}" name="{{name}}" id="{{inputId}}" value="{{value}}"/>\
-        <span class="password-toggle">\
-          <span class="button button-dark button-show">\
-            {{i18n code="mfa.challenge.answer.showAnswer" bundle="login"}}</span>\
-          <span class="button button-hide">{{i18n code="mfa.challenge.answer.hideAnswer" bundle="login"}}</span>\
-        </span>'),
+  return TextBox.extend({
+    template: Okta.tpl('\
+      <input type="password" placeholder="{{placeholder}}" name="{{name}}" id="{{inputId}}" value="{{value}}"/>\
+      <span class="password-toggle">\
+        <span class="button button-dark button-show">\
+          {{i18n code="mfa.challenge.answer.showAnswer" bundle="login"}}</span>\
+        <span class="button button-hide">{{i18n code="mfa.challenge.answer.hideAnswer" bundle="login"}}</span>\
+      </span>'),
 
-      initialize: function () {
-        this.events['click .password-toggle .button-show'] = '_showPassword';
-        this.events['click .password-toggle .button-hide'] = '_hidePassword';
+    initialize: function () {
+      this.events['click .password-toggle .button-show'] = '_showPassword';
+      this.events['click .password-toggle .button-hide'] = '_hidePassword';
 
-        this.delegateEvents();
-      },
+      this.delegateEvents();
+    },
 
-      changeType: function (type) {
-        TextBox.prototype.changeType.apply(this, arguments);
-        this.$('.password-toggle').toggleClass('password-toggle-on', type !== 'password');
-      },
+    changeType: function (type) {
+      TextBox.prototype.changeType.apply(this, arguments);
+      this.$('.password-toggle').toggleClass('password-toggle-on', type !== 'password');
+    },
 
-      _showPassword: function () {
-        this.changeType('text');
-      },
+    _showPassword: function () {
+      this.changeType('text');
+    },
 
-      _hidePassword: function () {
-        this.changeType('password');
-      }
-
-    });
+    _hidePassword: function () {
+      this.changeType('password');
+    }
 
   });
+
+});

@@ -1,5 +1,4 @@
-/*jshint maxparams:25,maxstatements: 30*/
-/*global JSON */
+/* eslint max-params: [2, 25], max-statements: [2, 30] */
 define([
   'vendor/lib/q',
   'okta/underscore',

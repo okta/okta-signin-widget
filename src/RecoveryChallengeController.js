@@ -112,18 +112,18 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
         this.model.startTransaction(function (authClient) {
           // The user could have landed here via the Forgot Password/Unlock Account flow
           switch (recoveryType) {
-            case Enums.RECOVERY_TYPE_PASSWORD:
-              return authClient.forgotPassword({
-                username: settings.transformUsername(username, Enums.FORGOT_PASSWORD),
-                factorType: Enums.RECOVERY_FACTOR_TYPE_EMAIL
-              });
-            case Enums.RECOVERY_TYPE_UNLOCK:
-              return authClient.unlockAccount({
-                username: settings.transformUsername(username, Enums.UNLOCK_ACCOUNT),
-                factorType: Enums.RECOVERY_FACTOR_TYPE_EMAIL
-              });
-            default:
-              return;
+          case Enums.RECOVERY_TYPE_PASSWORD:
+            return authClient.forgotPassword({
+              username: settings.transformUsername(username, Enums.FORGOT_PASSWORD),
+              factorType: Enums.RECOVERY_FACTOR_TYPE_EMAIL
+            });
+          case Enums.RECOVERY_TYPE_UNLOCK:
+            return authClient.unlockAccount({
+              username: settings.transformUsername(username, Enums.UNLOCK_ACCOUNT),
+              factorType: Enums.RECOVERY_FACTOR_TYPE_EMAIL
+            });
+          default:
+            return;
           }
         });
       }
@@ -134,20 +134,20 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
           sendEmailLink;
 
       switch (recoveryType) {
-        case Enums.RECOVERY_TYPE_PASSWORD:
-          sendEmailLink = '\
-            <a href="#" class="link send-email-link" data-se="send-email-link">\
-              {{i18n code="password.forgot.code.notReceived" bundle="login"}}\
-            </a>';
-          break;
-        case Enums.RECOVERY_TYPE_UNLOCK:
-          sendEmailLink = '\
-            <a href="#" class="link send-email-link" data-se="send-email-link">\
-              {{i18n code="account.unlock.sms.notReceived" bundle="login"}}\
-            </a>';
-          break;
-        default:
-          break;
+      case Enums.RECOVERY_TYPE_PASSWORD:
+        sendEmailLink = '\
+          <a href="#" class="link send-email-link" data-se="send-email-link">\
+            {{i18n code="password.forgot.code.notReceived" bundle="login"}}\
+          </a>';
+        break;
+      case Enums.RECOVERY_TYPE_UNLOCK:
+        sendEmailLink = '\
+          <a href="#" class="link send-email-link" data-se="send-email-link">\
+            {{i18n code="account.unlock.sms.notReceived" bundle="login"}}\
+          </a>';
+        break;
+      default:
+        break;
       }
 
       if (sendEmailLink) {

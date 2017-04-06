@@ -1,4 +1,4 @@
-/*jshint maxparams:20 */
+/* eslint max-params: [2, 14] */
 define([
   'okta',
   'okta/jquery',

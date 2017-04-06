@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*jshint maxcomplexity:24,maxstatements:25 */
+/* eslint complexity: [2, 24],max-statements: [2, 25] */
 define([
   'okta',
   'shared/util/Util',

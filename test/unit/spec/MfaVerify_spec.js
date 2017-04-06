@@ -1,5 +1,4 @@
-/*jshint maxparams:50, maxstatements:40, camelcase:false, newcap:false */
-/*global JSON */
+/* eslint max-params: [2, 50], max-statements: [2, 34], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -337,7 +336,7 @@ function (Okta,
       var res = JSON.parse(JSON.stringify(resAllFactors));
       var factors = res.response._embedded.factors;
       var index = _.findIndex(factors, factorIdentifier);
-      var factor = factors.splice(index,1);
+      var factor = factors.splice(index, 1);
       factors.unshift(factor[0]);
       return setup(res);
     }
@@ -387,7 +386,7 @@ function (Okta,
       expect(answer.attr('type')).toEqual(fieldType);
     }
 
-    function expectHasRightPlaceholderText(test,placeholderText){
+    function expectHasRightPlaceholderText(test, placeholderText){
       var answer = test.form.answerField();
       expect(answer.attr('placeholder')).toEqual(placeholderText);
     }
@@ -2124,9 +2123,9 @@ function (Okta,
         return setup(resAllFactors).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify', 'SMS Authentication','Voice Call Authentication',
-            'Windows Hello','Security Key (U2F)', 'Yubikey', 'Duo Security',
-            'Google Authenticator', 'Symantec VIP','RSA SecurID',
+            'Okta Verify', 'SMS Authentication', 'Voice Call Authentication',
+            'Windows Hello', 'Security Key (U2F)', 'Yubikey', 'Duo Security',
+            'Google Authenticator', 'Symantec VIP', 'RSA SecurID',
             'Security Question'
           ]);
         });

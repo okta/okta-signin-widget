@@ -30,8 +30,8 @@ define([
 
     children: function () {
       var children = [],
-        buttons = this.settings.get('configuredButtons'),
-        divider = dividerTpl({text: Okta.loc('socialauth.divider.text', 'login')});
+          buttons = this.settings.get('configuredButtons'),
+          divider = dividerTpl({text: Okta.loc('socialauth.divider.text', 'login')});
 
       _.each(buttons, function (button) {
         children.push(this._createButton(button));

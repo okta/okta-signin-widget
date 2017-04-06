@@ -12,9 +12,9 @@
 
 /* globals JSON */
 define([
-    'okta',
-    'vendor/lib/q'
-  ],
+  'okta',
+  'vendor/lib/q'
+],
 function (Okta, Q) {
 
   function adaptToOkta(promise) {

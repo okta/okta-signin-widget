@@ -67,38 +67,35 @@ define([
     },
 
     inputs: function () {
-      var inputs = [
-        {
-          label: false,
-          'label-top': true,
-          placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
-          name: 'username',
-          input: TextBox,
-          type: 'text',
-          params: {
-            innerTooltip: {
-              title: Okta.loc('primaryauth.username.placeholder', 'login'),
-              text: Okta.loc('primaryauth.username.tooltip', 'login')
-            },
-            icon: 'person-16-gray'
-          }
-        },
-        {
-          label: false,
-          'label-top': true,
-          placeholder: Okta.loc('primaryauth.password.placeholder', 'login'),
-          name: 'password',
-          input: TextBox,
-          type: 'password',
-          params: {
-            innerTooltip: {
-              title: Okta.loc('primaryauth.password.placeholder', 'login'),
-              text: Okta.loc('primaryauth.password.tooltip', 'login')
-            },
-            icon: 'remote-lock-16'
-          }
+      var inputs = [{
+        label: false,
+        'label-top': true,
+        placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
+        name: 'username',
+        input: TextBox,
+        type: 'text',
+        params: {
+          innerTooltip: {
+            title: Okta.loc('primaryauth.username.placeholder', 'login'),
+            text: Okta.loc('primaryauth.username.tooltip', 'login')
+          },
+          icon: 'person-16-gray'
         }
-      ];
+      }, {
+        label: false,
+        'label-top': true,
+        placeholder: Okta.loc('primaryauth.password.placeholder', 'login'),
+        name: 'password',
+        input: TextBox,
+        type: 'password',
+        params: {
+          innerTooltip: {
+            title: Okta.loc('primaryauth.password.placeholder', 'login'),
+            text: Okta.loc('primaryauth.password.tooltip', 'login')
+          },
+          icon: 'remote-lock-16'
+        }
+      }];
       if (this.settings.get('features.rememberMe')) {
         inputs.push({
           label: false,

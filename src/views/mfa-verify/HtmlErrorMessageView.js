@@ -11,36 +11,36 @@
  */
 
 define([
-    'okta',
-    'shared/views/BaseView'
-  ],
-  function (Okta, BaseView) {
+  'okta',
+  'shared/views/BaseView'
+],
+function (Okta, BaseView) {
 
-    // Have to be unescaped for the html in enroll.windowsHello.error.notConfiguredHtml
-    var template = '\
-      <span class="icon error-24"></span>\
-      <h4><strong>{{{message}}}</strong></h4>\
-    ';
+  // Have to be unescaped for the html in enroll.windowsHello.error.notConfiguredHtml
+  var template = '\
+    <span class="icon error-24"></span>\
+    <h4><strong>{{{message}}}</strong></h4>\
+  ';
 
-    return BaseView.extend({
-      template: template,
-      className: 'okta-infobox-error infobox infobox-error infobox-md margin-btm-25',
-      attributes: {
-        'data-se': 'o-form-error-html'
-      },
+  return BaseView.extend({
+    template: template,
+    className: 'okta-infobox-error infobox infobox-error infobox-md margin-btm-25',
+    attributes: {
+      'data-se': 'o-form-error-html'
+    },
 
-      message: '',
+    message: '',
 
-      initialize: function (options) {
-        if (options && options.message) {
-          this.message = options.message;
-        }
-      },
-
-      getTemplateData: function () {
-        return {
-          message: this.message
-        };
+    initialize: function (options) {
+      if (options && options.message) {
+        this.message = options.message;
       }
-    });
+    },
+
+    getTemplateData: function () {
+      return {
+        message: this.message
+      };
+    }
   });
+});

@@ -1,3 +1,4 @@
+/* global module */
 var junitReportBuilder = require('junit-report-builder');
 
 function checkMessages(checks) {

@@ -1,4 +1,3 @@
-/*global JSON */
 define([
   'okta/jquery',
   'vendor/lib/q',

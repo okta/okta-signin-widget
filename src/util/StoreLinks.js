@@ -11,20 +11,20 @@
  */
 
 define({
-	OKTA: {
-		APPLE: 'https://itunes.apple.com/us/app/okta-verify/id490179405',
-		ANDROID: 'https://play.google.com/store/apps/details?id=com.okta.android.auth',
-		WINDOWS: 'http://www.windowsphone.com/en-us/store/app/okta-verify/9df0e2c4-7301-411f-80e5-62fcf6679666'
-	},
-	GOOGLE: {
-		APPLE: 'https://itunes.apple.com/us/app/google-authenticator/id388497605',
-		ANDROID: 'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2',
-		BLACKBERRY: 'https://support.google.com/accounts/answer/1066447'
-	},
-	STORE: {
-		APPLE: 'App Store',
-		ANDROID: 'Google Play Store',
-		WINDOWS: 'Windows Store',
-		BLACKBERRY: 'Blackberry World Store'
-	}
+  OKTA: {
+    APPLE: 'https://itunes.apple.com/us/app/okta-verify/id490179405',
+    ANDROID: 'https://play.google.com/store/apps/details?id=com.okta.android.auth',
+    WINDOWS: 'http://www.windowsphone.com/en-us/store/app/okta-verify/9df0e2c4-7301-411f-80e5-62fcf6679666'
+  },
+  GOOGLE: {
+    APPLE: 'https://itunes.apple.com/us/app/google-authenticator/id388497605',
+    ANDROID: 'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2',
+    BLACKBERRY: 'https://support.google.com/accounts/answer/1066447'
+  },
+  STORE: {
+    APPLE: 'App Store',
+    ANDROID: 'Google Play Store',
+    WINDOWS: 'Windows Store',
+    BLACKBERRY: 'Blackberry World Store'
+  }
 });

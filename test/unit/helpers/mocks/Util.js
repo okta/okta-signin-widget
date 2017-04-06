@@ -1,6 +1,4 @@
-/*jshint maxcomplexity:20, maxstatements:30 */
-/*jshint -W020 */
-/* globals JSON */
+/* eslint no-global-assign: 0, max-statements: [2, 30] */
 define([
   'okta/jquery',
   'okta/underscore',
@@ -131,9 +129,9 @@ function ($, _, Backbone, Q, Duo) {
       var data = arguments[0];
 
       switch (data['background-image']) {
-        case 'url(/img/security/unknown-device.png)':
-        case 'url(/img/security/default.png)':
-          return;
+      case 'url(/img/security/unknown-device.png)':
+      case 'url(/img/security/default.png)':
+        return;
       }
 
       return original.apply(this, arguments);
