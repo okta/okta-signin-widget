@@ -150,11 +150,7 @@ function (Okta,
             return Expect.waitForVerifyWindowsHello();
           }
           else if (provider === 'FIDO' && factorType === 'u2f') {
-            var responses = [resChallengeU2F];
-            if (additionalRes) {
-              responses.push(additionalRes);
-            }
-            setNextResponse(responses);
+            setNextResponse(additionalRes);
             router.verifyU2F();
             return Expect.waitForVerifyU2F();
           }
@@ -230,8 +226,11 @@ function (Okta,
       else {
         delete window.u2f;
       }
-
-      return setup(resAllFactors, {factorType: 'u2f', provider: 'FIDO' }, null, null, options.res);
+      var responses = [resChallengeU2F];
+      if (options.res) {
+        responses.push(options.res);
+      }
+      return setup(resAllFactors, {factorType: 'u2f', provider: 'FIDO' }, null, null, responses);
     }
 
     function emulateNotWindows() {
@@ -2037,8 +2036,8 @@ function (Okta,
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
               .toEqual('<a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/u2f-support-add-on/">' +
-                'Download</a> and install the Firefox U2F browser extension before proceeding. You may be required to ' +
-                'restart your browser after installation.');
+                'Download</a> and install the Firefox U2F browser extension before proceeding. ' +
+                'You may be required to restart your browser after installation.');
           });
         });
 
