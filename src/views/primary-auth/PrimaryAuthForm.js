@@ -12,13 +12,14 @@
 
 define([
   'okta',
+  'views/shared/Form',
   'views/shared/TextBox',
   'util/DeviceFingerprint'
-], function (Okta, TextBox, DeviceFingerprint) {
+], function (Okta, Form, TextBox, DeviceFingerprint) {
 
   var _ = Okta._;
 
-  return Okta.Form.extend({
+  return Form.extend({
     className: 'primary-auth-form',
     noCancelButton: true,
     save: _.partial(Okta.loc, 'primaryauth.submit', 'login'),
