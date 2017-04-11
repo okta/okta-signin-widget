@@ -189,22 +189,15 @@ function (Okta,
       Util.mockRouterNavigate(router);
       setNextResponse([resRequiredWebauthn, resChallengeWebauthn, resSuccess]);
       router.refreshAuthState('dummy-token');
-      var $forms = $sandbox.find('.o-form');
-      var forms = _.map($forms, function (form) {
-        return new MfaVerifyForm($(form));
-      });
-      if (forms.length === 1) {
-        forms = forms[0];
-      }
-      var beacon = new Beacon($sandbox);
-      return {
-        router: router,
-        form: forms,
-        beacon: beacon,
-        ac: authClient,
-        setNextResponse: setNextResponse,
-        successSpy: successSpy
-      };
+      return Expect.waitForVerifyWindowsHello()
+      .then(function() {
+        return Expect.waitForSpyCall(successSpy);
+      })
+      .then(function () {
+        return {
+          router: router
+        }
+      })
     }
 
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
@@ -2032,12 +2025,6 @@ function (Okta,
         itp('automatically triggers Windows Hello only once', function () {
           return emulateWindows()
           .then(setupWebauthnOnly)
-          .then(function (test) {
-            return Expect.waitForVerifyWindowsHello(test);
-          })
-          .then(function (test) {
-            return Expect.waitForSpyCall(test.successSpy, test);
-          })
           .then(function (test) {
             expect(test.router.controller.model.get('__autoTriggered__')).toBe(true);
             spyOn(test.router.controller.model, 'save');
