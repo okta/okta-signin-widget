@@ -174,6 +174,39 @@ function (Okta,
       });
     }
 
+    function setupForWebauthnOnly(res) {
+      var setNextResponse = Util.mockAjax();
+      var baseUrl = 'https://foo.com';
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var successSpy = jasmine.createSpy('success');
+      var router = new Router(_.extend({
+        el: $sandbox,
+        baseUrl: baseUrl,
+        authClient: authClient,
+        globalSuccessFn: successSpy
+      }));
+      Util.registerRouter(router);
+      Util.mockRouterNavigate(router);
+      setNextResponse(res);
+      router.refreshAuthState('dummy-token');
+      var $forms = $sandbox.find('.o-form');
+      var forms = _.map($forms, function (form) {
+        return new MfaVerifyForm($(form));
+      });
+      if (forms.length === 1) {
+        forms = forms[0];
+      }
+      var beacon = new Beacon($sandbox);
+      return {
+        router: router,
+        form: forms,
+        beacon: beacon,
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        successSpy: successSpy
+      };
+    }
+
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupRsaTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'RSA' });
@@ -185,8 +218,7 @@ function (Okta,
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
-    var setupWebauthnOnly = _.partial(setup, [resRequiredWebauthn, resChallengeWebauthn, resSuccess],
-      {  factorType: 'webauthn', provider: 'FIDO' });
+    var setupWebauthnOnly = _.partial(setupForWebauthnOnly, [resRequiredWebauthn, resChallengeWebauthn, resSuccess]);
     function setupSecurityQuestionLocalized(options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
@@ -1938,7 +1970,7 @@ function (Okta,
           return emulateWindows('AbortError')
           .then(setupWebauthn)
           .then(function (test) {
-            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.setNextResponse(resChallengeWebauthn);
             test.form.submit();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
@@ -1952,7 +1984,7 @@ function (Okta,
           return emulateWindows('NotSupportedError')
           .then(setupWebauthn)
           .then(function (test) {
-            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.setNextResponse(resChallengeWebauthn);
             test.form.submit();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
@@ -1966,7 +1998,7 @@ function (Okta,
           return emulateWindows('NotFoundError')
           .then(setupWebauthn)
           .then(function (test) {
-            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.setNextResponse(resChallengeWebauthn);
             test.form.submit();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
@@ -2002,9 +2034,15 @@ function (Okta,
           return emulateWindows()
           .then(setupWebauthnOnly)
           .then(function (test) {
+            return Expect.waitForVerifyWindowsHello(test);
+          })
+          .then(function (test) {
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
             expect(test.router.controller.model.get('__autoTriggered__')).toBe(true);
             spyOn(test.router.controller.model, 'save');
-            test.router.controller.render();
+            test.router.controller.postRender();
             expect(test.router.controller.model.save).not.toHaveBeenCalled();
           });
         });
