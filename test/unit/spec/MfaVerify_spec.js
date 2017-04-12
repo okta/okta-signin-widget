@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 34], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 35], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -113,11 +113,7 @@ function (Okta,
 
   Expect.describe('MFA Verify', function () {
 
-    function setup(res, selectedFactorProps, settings, languagesResponse) {
-      var setNextResponse = Util.mockAjax();
-      var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
-      var successSpy = jasmine.createSpy('success');
+    function createRouter(baseUrl, authClient, successSpy, settings) {
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -126,6 +122,15 @@ function (Okta,
       }, settings));
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
+      return router;
+    }
+
+    function setup(res, selectedFactorProps, settings, languagesResponse) {
+      var setNextResponse = Util.mockAjax();
+      var baseUrl = 'https://foo.com';
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var successSpy = jasmine.createSpy('success');
+      var router = createRouter(baseUrl, authClient, successSpy, settings);
       setNextResponse(res);
       if (languagesResponse) {
         setNextResponse(languagesResponse);
@@ -174,6 +179,25 @@ function (Okta,
       });
     }
 
+    function setupWebauthnOnly() {
+      var setNextResponse = Util.mockAjax();
+      var baseUrl = 'https://foo.com';
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var successSpy = jasmine.createSpy('success');
+      var router = createRouter(baseUrl, authClient, successSpy);
+      setNextResponse([resRequiredWebauthn, resChallengeWebauthn, resSuccess]);
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForVerifyWindowsHello()
+      .then(function() {
+        return Expect.waitForSpyCall(successSpy);
+      })
+      .then(function () {
+        return {
+          router: router
+        };
+      });
+    }
+
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupRsaTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'RSA' });
@@ -185,8 +209,6 @@ function (Okta,
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
-    var setupWebauthnOnly = _.partial(setup, [resRequiredWebauthn, resChallengeWebauthn, resSuccess],
-      {  factorType: 'webauthn', provider: 'FIDO' });
     function setupSecurityQuestionLocalized(options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
@@ -1938,7 +1960,7 @@ function (Okta,
           return emulateWindows('AbortError')
           .then(setupWebauthn)
           .then(function (test) {
-            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.setNextResponse(resChallengeWebauthn);
             test.form.submit();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
@@ -1952,7 +1974,7 @@ function (Okta,
           return emulateWindows('NotSupportedError')
           .then(setupWebauthn)
           .then(function (test) {
-            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.setNextResponse(resChallengeWebauthn);
             test.form.submit();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
@@ -1966,7 +1988,7 @@ function (Okta,
           return emulateWindows('NotFoundError')
           .then(setupWebauthn)
           .then(function (test) {
-            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.setNextResponse(resChallengeWebauthn);
             test.form.submit();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
@@ -2004,7 +2026,7 @@ function (Okta,
           .then(function (test) {
             expect(test.router.controller.model.get('__autoTriggered__')).toBe(true);
             spyOn(test.router.controller.model, 'save');
-            test.router.controller.render();
+            test.router.controller.postRender();
             expect(test.router.controller.model.save).not.toHaveBeenCalled();
           });
         });
