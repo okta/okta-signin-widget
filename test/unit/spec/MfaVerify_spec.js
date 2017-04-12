@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 34], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 35], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -113,11 +113,7 @@ function (Okta,
 
   Expect.describe('MFA Verify', function () {
 
-    function setup(res, selectedFactorProps, settings, languagesResponse) {
-      var setNextResponse = Util.mockAjax();
-      var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
-      var successSpy = jasmine.createSpy('success');
+    function createRouter(baseUrl, authClient, successSpy, settings) {
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -126,6 +122,15 @@ function (Okta,
       }, settings));
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
+      return router;
+    }
+
+    function setup(res, selectedFactorProps, settings, languagesResponse) {
+      var setNextResponse = Util.mockAjax();
+      var baseUrl = 'https://foo.com';
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var successSpy = jasmine.createSpy('success');
+      var router = createRouter(baseUrl, authClient, successSpy, settings);
       setNextResponse(res);
       if (languagesResponse) {
         setNextResponse(languagesResponse);
@@ -179,14 +184,7 @@ function (Okta,
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var successSpy = jasmine.createSpy('success');
-      var router = new Router(_.extend({
-        el: $sandbox,
-        baseUrl: baseUrl,
-        authClient: authClient,
-        globalSuccessFn: successSpy
-      }));
-      Util.registerRouter(router);
-      Util.mockRouterNavigate(router);
+      var router = createRouter(baseUrl, authClient, successSpy);
       setNextResponse([resRequiredWebauthn, resChallengeWebauthn, resSuccess]);
       router.refreshAuthState('dummy-token');
       return Expect.waitForVerifyWindowsHello()
@@ -196,8 +194,8 @@ function (Okta,
       .then(function () {
         return {
           router: router
-        }
-      })
+        };
+      });
     }
 
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
