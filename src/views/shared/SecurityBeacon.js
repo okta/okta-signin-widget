@@ -41,11 +41,14 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       el.removeAttr('aria-describedby');
       el.find('.accessibility-text').text(imgDescription);
       el.css('background-image', 'url(' + _.escape(imgSrc) + ')');
-      return;
     }
   }
 
   function antiPhishingMessage (image, host, shown) {
+    if(!image.is(':visible')){
+      return;
+    }
+
     // Show the message that the user has not logged in from this device before.
     image.qtip({
       prerender: true,
@@ -64,7 +67,14 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
         viewport: $('body')
       },
       hide: {event: false, fixed: true},
-      show: {event: false, delay: 200}
+      show: {event: false, delay: 200},
+      events: {
+        move: function(event, api) {
+          if (!api.elements.target.is(':visible')) {
+            api.destroy(true);
+          }
+        }
+      }
     });
     image.qtip('toggle', shown);
   }

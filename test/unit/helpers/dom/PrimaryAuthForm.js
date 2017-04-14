@@ -71,6 +71,10 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
       return api ? api.destroyed : true;
     },
 
+    securityBeaconContainer: function () {
+      return this.$('.js-security-beacon');
+    },
+
     securityBeacon: function () {
       return this.el(SECURITY_BEACON);
     },

@@ -951,6 +951,18 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo.com from this browser×');
         });
       });
+      itp('does not show anti-phishing message if security image is hidden', function () {
+        return setup({ features: { securityImage: true }})
+        .then(function (test) {
+          test.setNextResponse(resSecurityImageFail);
+          test.form.securityBeaconContainer().hide();
+          test.form.setUsername('testuser');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          expect(test.form.isSecurityImageTooltipDestroyed()).toBe(true);
+        });
+      });
       itp('guards against XSS when showing the anti-phishing message', function () {
         return setup({
           baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
