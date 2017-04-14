@@ -91,14 +91,18 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         if (deviceFingerprintEnabled) {
           authClient.options.headers['X-Device-Fingerprint'] = this.get('deviceFingerprint');
         }
-        return authClient.signIn({
+        var signInArgs = {
           username: username,
           password: password,
           options: {
             warnBeforePasswordExpired: true,
             multiOptionalFactorEnroll: multiOptionalFactorEnroll
           }
-        })
+        };
+        if (this.appState.get('unauthenticatedToken')) {
+          signInArgs.stateToken = this.appState.get('unauthenticatedToken');
+        }
+        return authClient.signIn(signInArgs)
         .fin(function () {
           if (deviceFingerprintEnabled) {
             delete authClient.options.headers['X-Device-Fingerprint'];
