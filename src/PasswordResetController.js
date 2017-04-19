@@ -48,11 +48,11 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
       title: _.partial(Okta.loc, 'password.reset.title', 'login'),
       subtitle: function () {
         var policy = this.options.appState.get('policy');
-        if (!policy || !policy.complexity) {
+        if (!policy) {
           return;
         }
 
-        return FactorUtil.getPasswordComplexityDescription(policy.complexity);
+        return FactorUtil.getPasswordComplexityDescription(policy);
       },
       formChildren: function () {
         return [

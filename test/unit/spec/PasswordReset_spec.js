@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 25], max-statements: [2, 30] */
+/* eslint max-params: [2, 25], max-statements: [2, 35] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -39,10 +39,11 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       minSymbol: 1,
       excludeUsername: true
     };
+    var responsePolicy;
 
     if (settings && settings.policyComplexity) {
       passwordResetResponse = deepClone(resPasswordResetWithComplexity);
-      var responsePolicy = passwordResetResponse.response._embedded.policy;
+      responsePolicy = passwordResetResponse.response._embedded.policy;
 
       var key = settings.policyComplexity;
       if (key === 'all') {
@@ -52,6 +53,17 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         responsePolicy.complexity[key] = policyComplexityDefaults[key];
       }
       delete settings.policyComplexity;
+    }
+
+    if (settings && settings.policyAge) {
+      passwordResetResponse = deepClone(resPasswordResetWithComplexity);
+      responsePolicy = passwordResetResponse.response._embedded.policy;
+
+      if (settings.policyAge === 'history') {
+        responsePolicy.age.history = 7;
+      }
+
+      delete settings.policyAge;
     }
 
     var setNextResponse = Util.mockAjax();
@@ -148,11 +160,16 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         expect(test.form.subtitleText()).toEqual('Your password must have no parts of your username.');
       });
     });
-
+    itp('has a valid subtitle if only password age "history" defined', function () {
+      return setup({policyAge: 'history'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Your password cannot be any of your last 7 passwords.');
+      });
+    });
     itp('has a valid subtitle if password complexity is defined with all options', function () {
-      return setup({policyComplexity: 'all'}).then(function (test) {
+      return setup({policyComplexity: 'all', policyAge: 'history'}).then(function (test) {
         expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters, a lowercase letter,' +
-          ' an uppercase letter, a number, a symbol, no parts of your username.');
+          ' an uppercase letter, a number, a symbol, no parts of your username.' +
+          ' Your password cannot be any of your last 7 passwords.');
       });
     });
     itp('has a password field to enter the new password', function () {

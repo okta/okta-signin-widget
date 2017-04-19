@@ -171,35 +171,49 @@ define(['okta'], function (Okta) {
     return localizedQuestion.indexOf('L10N_ERROR') < 0 ? localizedQuestion : questionObj.questionText;
   };
 
-  fn.getPasswordComplexityDescription = function (policyComplexity) {
-    var fields = {
-      minLength: {i18n: 'password.complexity.length', args: true},
-      minLowerCase: {i18n: 'password.complexity.lowercase'},
-      minUpperCase: {i18n: 'password.complexity.uppercase'},
-      minNumber: {i18n: 'password.complexity.number'},
-      minSymbol: {i18n: 'password.complexity.symbol'},
-      excludeUsername: {i18n: 'password.complexity.no_username'}
-    };
+  fn.getPasswordComplexityDescription = function (policy) {
+    var result = [];
 
-    var requirements = _.map(policyComplexity, function (complexityValue, complexityType) {
-      if(!complexityValue){
-        return;
-      }
+    if (policy.complexity) {
+      var complexityFields = {
+        minLength: {i18n: 'password.complexity.length', args: true},
+        minLowerCase: {i18n: 'password.complexity.lowercase'},
+        minUpperCase: {i18n: 'password.complexity.uppercase'},
+        minNumber: {i18n: 'password.complexity.number'},
+        minSymbol: {i18n: 'password.complexity.symbol'},
+        excludeUsername: {i18n: 'password.complexity.no_username'}
+      };
 
-      var params = fields[complexityType];
-      return params.args ?
-        Okta.loc(params.i18n, 'login', [complexityValue]) : Okta.loc(params.i18n, 'login');
-    });
+      var policyComplexity = policy.complexity;
+      var requirements = _.map(policyComplexity, function (complexityValue, complexityType) {
+        if (!complexityValue) {
+          return;
+        }
 
-    if (requirements.length) {
-      requirements = _.reduce(requirements, function (result, requirement) {
-        return result ?
-          (requirement ? (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) : result) :
-          requirement;
+        var params = complexityFields[complexityType];
+        return params.args ?
+          Okta.loc(params.i18n, 'login', [complexityValue]) : Okta.loc(params.i18n, 'login');
       });
 
-      return Okta.loc('password.complexity.description', 'login', [requirements]);
+      if (requirements.length) {
+        requirements = _.reduce(requirements, function (result, requirement) {
+          return result ?
+            (requirement ? (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) : result) :
+            requirement;
+        });
+
+        // "password.complexity.history": "Your password cannot be any of your last {0} passwords.",
+        result.push(Okta.loc('password.complexity.description', 'login', [requirements]));
+      }
     }
+
+    if(policy.age){
+      if(policy.age.historyCount){
+        result.push(Okta.loc('password.complexity.history', 'login', [policy.age.historyCount]));
+      }
+    }
+
+    return result.join(' ');
   };
 
 
