@@ -482,16 +482,10 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return policy && policy.rememberDeviceByDefault;
         }
       },
-      'isUnauthenticatedState' :{
+      'unauthenticatedToken': {
         deps: ['transaction'],
         fn: function (transaction) {
-          return transaction && transaction.status === 'UNAUTHENTICATED';
-        }
-      },
-      'unauthenticatedToken' :{
-        deps: ['isUnauthenticatedState', 'transaction'],
-        fn: function (isUnauthenticatedState, transaction) {
-          if (isUnauthenticatedState && transaction.data) {
+          if (transaction && transaction.status === 'UNAUTHENTICATED' && transaction.data) {
             return transaction.data.stateToken;
           }
           return null;

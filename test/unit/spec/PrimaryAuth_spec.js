@@ -1,4 +1,4 @@
-/* eslint max-params:[2, 28], max-statements:[2, 37], camelcase:0, max-len:[2, 180] */
+/* eslint max-params:[2, 28], max-statements:[2, 38], camelcase:0, max-len:[2, 180] */
 define([
   'okta/underscore',
   'okta/jquery',
@@ -1206,6 +1206,36 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
               username: 'testuser',
               password: 'pass',
               stateToken: 'aStateToken',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+      itp('calls authClient primaryAuth wihthout stateToken if unauthenticatedToken is null', function () {
+        return setup().then(function (test) {
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.router.appState.set('transaction', {
+            status: 'UNAUTHENTICATED',
+            data: {
+              stateToken: null
+            }
+          });
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function (test) {
+          expect(test.form.isDisabled()).toBe(true);
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser',
+              password: 'pass',
               options: {
                 warnBeforePasswordExpired: true,
                 multiOptionalFactorEnroll: false

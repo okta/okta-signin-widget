@@ -403,7 +403,6 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
             stateToken: 'aStateToken'
           }
         });
-        expect(test.router.appState.get('isUnauthenticatedState')).toBe(true);
         expect(test.router.appState.get('unauthenticatedToken')).toBe('aStateToken');
         var form = new PrimaryAuthForm($sandbox);
         expect(form.isPrimaryAuth()).toBe(true);
