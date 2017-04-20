@@ -195,20 +195,19 @@ define(['okta'], function (Okta) {
           Okta.loc(params.i18n, 'login', [complexityValue]) : Okta.loc(params.i18n, 'login');
       });
 
+      requirements = _.compact(requirements);
+
       if (requirements.length) {
         requirements = _.reduce(requirements, function (result, requirement) {
-          return result ?
-            (requirement ? (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) : result) :
-            requirement;
+          return result ? (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) : requirement;
         });
 
-        // "password.complexity.history": "Your password cannot be any of your last {0} passwords.",
         result.push(Okta.loc('password.complexity.description', 'login', [requirements]));
       }
     }
 
-    if(policy.age){
-      if(policy.age.historyCount){
+    if (policy.age) {
+      if (policy.age.historyCount) {
         result.push(Okta.loc('password.complexity.history', 'login', [policy.age.historyCount]));
       }
     }

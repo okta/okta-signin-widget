@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 25], max-statements: [2, 35] */
+/* eslint max-params: [2, 25], max-statements: [2, 35], complexity:[2, 9] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -39,30 +39,23 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       minSymbol: 1,
       excludeUsername: true
     };
-    var responsePolicy;
 
-    if (settings && settings.policyComplexity) {
+    if (settings && (settings.policyComplexity || settings.policyAge)) {
       passwordResetResponse = deepClone(resPasswordResetWithComplexity);
-      responsePolicy = passwordResetResponse.response._embedded.policy;
+      var responsePolicy = passwordResetResponse.response._embedded.policy;
 
-      var key = settings.policyComplexity;
-      if (key === 'all') {
+      if (settings.policyComplexity === 'all') {
         responsePolicy.complexity = policyComplexityDefaults;
       }
-      else {
+      else if (settings.policyComplexity) {
+        var key = settings.policyComplexity;
         responsePolicy.complexity[key] = policyComplexityDefaults[key];
       }
       delete settings.policyComplexity;
-    }
-
-    if (settings && settings.policyAge) {
-      passwordResetResponse = deepClone(resPasswordResetWithComplexity);
-      responsePolicy = passwordResetResponse.response._embedded.policy;
 
       if (settings.policyAge === 'history') {
-        responsePolicy.age.history = 7;
+        responsePolicy.age.historyCount = 7;
       }
-
       delete settings.policyAge;
     }
 
@@ -165,6 +158,14 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         expect(test.form.subtitleText()).toEqual('Your password cannot be any of your last 7 passwords.');
       });
     });
+    itp('has a valid subtitle if password complexity "excludeUsername" and password age "history" defined',
+      function () {
+        return setup({policyComplexity: 'excludeUsername', policyAge: 'history'}).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('Your password must have no parts of your username.' +
+            ' Your password cannot be any of your last 7 passwords.');
+        });
+      }
+    );
     itp('has a valid subtitle if password complexity is defined with all options', function () {
       return setup({policyComplexity: 'all', policyAge: 'history'}).then(function (test) {
         expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters, a lowercase letter,' +
