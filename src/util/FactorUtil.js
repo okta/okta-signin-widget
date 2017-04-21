@@ -206,10 +206,8 @@ define(['okta'], function (Okta) {
       }
     }
 
-    if (policy.age) {
-      if (policy.age.historyCount) {
-        result.push(Okta.loc('password.complexity.history', 'login', [policy.age.historyCount]));
-      }
+    if (policy.age && policy.age.historyCount) {
+      result.push(Okta.loc('password.complexity.history', 'login', [policy.age.historyCount]));
     }
 
     return result.join(' ');
