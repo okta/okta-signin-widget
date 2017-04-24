@@ -8,7 +8,7 @@ define({
     "_links": {
       "next": {
         "name": "authentication",
-        "href": "http://rain.okta1.com:1802/api/v1/authn",
+        "href": "https://foo.okta.com/api/v1/authn",
         "hints": {
           "allow": [
             "POST"

@@ -19,6 +19,7 @@ define([
   'helpers/xhr/security_image',
   'helpers/xhr/security_image_fail',
   'helpers/xhr/SUCCESS',
+  'helpers/xhr/UNAUTHENTICATED',
   'helpers/xhr/ACCOUNT_LOCKED_OUT',
   'helpers/xhr/PASSWORD_EXPIRED',
   'helpers/xhr/UNAUTHORIZED_ERROR',
@@ -29,7 +30,7 @@ define([
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm,
           Beacon, Router, BrowserFeatures, Errors, DeviceFingerprint, SharedUtil, Expect, resSecurityImage,
-          resSecurityImageFail, resSuccess, resLockedOut, resPwdExpired, resUnauthorized,
+          resSecurityImageFail, resSuccess, resUnauthenticated, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, $sandbox) {
 
   var itp = Expect.itp;
@@ -58,7 +59,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
                        '6gAQPJowg832umoCss-gEvimU';
   var VALID_ACCESS_TOKEN = 'anythingbecauseitsopaque';
 
-  function setup(settings, requests) {
+  function setup(settings, requests, refreshState) {
     settings || (settings = {});
 
     // To speed up the test suite, calls to debounce are
@@ -83,7 +84,13 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     var authContainer = new AuthContainer($sandbox);
     var form = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
-    router.primaryAuth();
+    if (refreshState) {
+      Util.mockRouterNavigate(router);
+      setNextResponse(resUnauthenticated);
+      router.refreshAuthState('aStateToken');
+    } else {
+      router.primaryAuth();
+    }
     Util.mockJqueryCss();
     return Expect.waitForPrimaryAuth({
       router: router,
@@ -94,6 +101,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
       setNextResponse: setNextResponse,
       successSpy: successSpy
     });
+  }
+
+  function setupUnauthenticated(settings, requests) {
+    return setup(settings, requests, true);
   }
 
   function setupSocial(settings) {
@@ -1183,16 +1194,11 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           });
         });
       });
-      itp('calls authClient primaryAuth with stateToken if status is UNAUTHENTICATED', function () {
-        return setup().then(function (test) {
+      itp('calls authentication with stateToken if status is UNAUTHENTICATED', function () {
+        return setupUnauthenticated().then(function (test) {
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
-          test.router.appState.set('transaction', {
-            status: 'UNAUTHENTICATED',
-            data: {
-              stateToken: 'aStateToken'
-            }
-          });
+          $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
@@ -1201,41 +1207,11 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(test.form.isDisabled()).toBe(true);
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
+            url: 'https://foo.okta.com/api/v1/authn',
             data: {
               username: 'testuser',
               password: 'pass',
               stateToken: 'aStateToken',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: false
-              }
-            }
-          });
-        });
-      });
-      itp('calls authClient primaryAuth wihthout stateToken if unauthenticatedToken is null', function () {
-        return setup().then(function (test) {
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.router.appState.set('transaction', {
-            status: 'UNAUTHENTICATED',
-            data: {
-              stateToken: null
-            }
-          });
-          test.setNextResponse(resSuccess);
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function (test) {
-          expect(test.form.isDisabled()).toBe(true);
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
-            data: {
-              username: 'testuser',
-              password: 'pass',
               options: {
                 warnBeforePasswordExpired: true,
                 multiOptionalFactorEnroll: false

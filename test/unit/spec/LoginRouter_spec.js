@@ -387,7 +387,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         expect(form.hasErrors()).toBe(false);
       });
     });
-    itp('navigates to PrimaryAuth if passed a stateToken and status is UNAUTHENTICATED', function () {
+    itp('navigates to PrimaryAuth if status is UNAUTHENTICATED', function () {
       return setup({ stateToken: 'aStateToken' })
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
@@ -403,7 +403,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
             stateToken: 'aStateToken'
           }
         });
-        expect(test.router.appState.get('unauthenticatedToken')).toBe('aStateToken');
+        expect(test.router.appState.get('isUnauthenticatedStatus')).toBe(true);
         var form = new PrimaryAuthForm($sandbox);
         expect(form.isPrimaryAuth()).toBe(true);
       });

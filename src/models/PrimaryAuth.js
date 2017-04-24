@@ -84,31 +84,31 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       this.trigger('save');
 
       this.appState.trigger('loading', true);
-      return this.startTransaction(function (authClient) {
 
-        // Add the custom header for fingerprint if needed, and then remove it afterwards
-        // Since we only need to send it for primary auth
-        if (deviceFingerprintEnabled) {
-          authClient.options.headers['X-Device-Fingerprint'] = this.get('deviceFingerprint');
+      var signInArgs = {
+        username: username,
+        password: password,
+        options: {
+          warnBeforePasswordExpired: true,
+          multiOptionalFactorEnroll: multiOptionalFactorEnroll
         }
-        var signInArgs = {
-          username: username,
-          password: password,
-          options: {
-            warnBeforePasswordExpired: true,
-            multiOptionalFactorEnroll: multiOptionalFactorEnroll
-          }
-        };
-        if (this.appState.get('unauthenticatedToken')) {
-          signInArgs.stateToken = this.appState.get('unauthenticatedToken');
-        }
-        return authClient.signIn(signInArgs)
-        .fin(function () {
-          if (deviceFingerprintEnabled) {
-            delete authClient.options.headers['X-Device-Fingerprint'];
-          }
+      };
+
+      var primaryAuthPromise;
+      if (this.appState.get('isUnauthenticatedStatus')) {
+        primaryAuthPromise = this.doTransaction(function (transaction) {
+          var authClient = this.appState.settings.authClient;
+          return this.doPrimaryAuth(authClient, deviceFingerprintEnabled, signInArgs,
+                                    transaction.authentication);
         });
-      })
+      } else {
+        primaryAuthPromise = this.startTransaction(function (authClient) {
+          return this.doPrimaryAuth(authClient, deviceFingerprintEnabled, signInArgs,
+                                    _.bind(authClient.signIn, authClient));
+        });
+      }
+
+      return primaryAuthPromise
       .fail(_.bind(function () {
         this.trigger('error');
         // Specific event handled by the Header for the case where the security image is not
@@ -119,6 +119,20 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       .fin(_.bind(function () {
         this.appState.trigger('loading', false);
       }, this));
+    },
+
+    doPrimaryAuth: function (authClient, deviceFingerprintEnabled, signInArgs, func) {
+      // Add the custom header for fingerprint if needed, and then remove it afterwards
+      // Since we only need to send it for primary auth
+      if (deviceFingerprintEnabled) {
+        authClient.options.headers['X-Device-Fingerprint'] = this.get('deviceFingerprint');
+      }
+      return func(signInArgs)
+      .fin(function () {
+        if (deviceFingerprintEnabled) {
+          delete authClient.options.headers['X-Device-Fingerprint'];
+        }
+      });
     }
   });
 
