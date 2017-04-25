@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 28], max-statements: [2, 34], max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 29], max-statements: [2, 35], max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -24,6 +24,7 @@ define([
   'helpers/xhr/MFA_CHALLENGE_push',
   'helpers/xhr/MFA_ENROLL_allFactors',
   'helpers/xhr/ERROR_invalid_token',
+  'helpers/xhr/UNAUTHENTICATED',
   'util/Errors',
   'util/BrowserFeatures',
   'helpers/xhr/labels_login_ja',
@@ -32,7 +33,8 @@ define([
 function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
           $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
           resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
-          resMfaEnroll, errorInvalidToken, Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
+          resMfaEnroll, errorInvalidToken, resUnauthenticated, Errors, BrowserFeatures,
+          labelsLoginJa, labelsCountryJa) {
 
   var itp = Expect.itp,
       tick = Expect.tick,
@@ -383,6 +385,27 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         var form = new MfaVerifyForm($sandbox);
         expect(form.isSecurityQuestion()).toBe(true);
         expect(form.hasErrors()).toBe(false);
+      });
+    });
+    itp('navigates to PrimaryAuth if status is UNAUTHENTICATED', function () {
+      return setup({ stateToken: 'aStateToken' })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.setNextResponse(resUnauthenticated);
+        test.router.navigate('/app/sso');
+        return Expect.waitForPrimaryAuth(test);
+      })
+      .then(function (test) {
+        expect($.ajax.calls.count()).toBe(1);
+        Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          url: 'https://foo.com/api/v1/authn',
+          data: {
+            stateToken: 'aStateToken'
+          }
+        });
+        expect(test.router.appState.get('isUnauthenticated')).toBe(true);
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
       });
     });
     itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {
