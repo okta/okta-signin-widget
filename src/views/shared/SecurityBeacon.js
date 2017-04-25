@@ -41,6 +41,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       el.removeAttr('aria-describedby');
       el.find('.accessibility-text').text(imgDescription);
       el.css('background-image', 'url(' + _.escape(imgSrc) + ')');
+      return;
     }
   }
 
