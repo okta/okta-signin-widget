@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 24],max-statements: [2, 25] */
+/* eslint complexity: [2, 25],max-statements: [2, 25] */
 define([
   'okta',
   'shared/util/Util',
@@ -188,6 +188,9 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
           }
         });
       }
+      return;
+    case 'UNAUTHENTICATED':
+      router.navigate('signin', { trigger: true });
       return;
     default:
       throw new Error('Unknown status: ' + res.status);
