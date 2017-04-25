@@ -392,7 +392,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resUnauthenticated);
-        test.router.navigate('');
+        test.router.navigate('/app/sso');
         return Expect.waitForPrimaryAuth(test);
       })
       .then(function (test) {
@@ -403,7 +403,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
             stateToken: 'aStateToken'
           }
         });
-        expect(test.router.appState.get('isUnauthenticatedStatus')).toBe(true);
+        expect(test.router.appState.get('isUnauthenticated')).toBe(true);
         var form = new PrimaryAuthForm($sandbox);
         expect(form.isPrimaryAuth()).toBe(true);
       });

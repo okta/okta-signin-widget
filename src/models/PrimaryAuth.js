@@ -95,7 +95,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       };
 
       var primaryAuthPromise;
-      if (this.appState.get('isUnauthenticatedStatus')) {
+      if (this.appState.get('isUnauthenticated')) {
         primaryAuthPromise = this.doTransaction(function (transaction) {
           var authClient = this.appState.settings.authClient;
           return this.doPrimaryAuth(authClient, deviceFingerprintEnabled, signInArgs,

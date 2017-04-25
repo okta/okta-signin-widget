@@ -181,6 +181,12 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return res.status === 'MFA_CHALLENGE';
         }
       },
+      'isUnauthenticated': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          return res.status === 'UNAUTHENTICATED';
+        }
+      },
       'isMfaRejectedByUser': {
         // MFA failures are usually error responses
         // except in the case of Okta Push, when a
@@ -480,12 +486,6 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         deps: ['policy'],
         fn: function (policy) {
           return policy && policy.rememberDeviceByDefault;
-        }
-      },
-      'isUnauthenticatedStatus': {
-        deps: ['transaction'],
-        fn: function (transaction) {
-          return transaction && transaction.status === 'UNAUTHENTICATED';
         }
       }
     },
