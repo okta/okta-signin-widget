@@ -158,7 +158,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           // However, we currently have a problem with SMS
           // (no way to know whether we want resend or verifyFactor),
           // so we're turning it off for now.
-          return (provider === 'OKTA' && factorType === 'push');
+          return (provider === 'OKTA' && _.contains(['push', 'call'], factorType));
         }
       },
       isSMSorCall: {
@@ -207,7 +207,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         }
 
         // MFA_CHALLENGE
-        else if (this.get('canUseResend') && transaction.resend) {
+        else if (this.get('canUseResend') && !this.get('answer') && transaction.resend) {
           var firstLink = transaction.data._links.resend[0];
           promise = transaction.resend(firstLink.name);
         } else {
