@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 25],max-statements: [2, 25] */
+/* eslint complexity: [2, 26],max-statements: [2, 27] */
 define([
   'okta',
   'shared/util/Util',
@@ -112,7 +112,7 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
         return;
       }
 
-      router.settings.callGlobalSuccess(Enums.SUCCESS, {
+      var successData = {
         user: res._embedded.user,
         session: {
           token: res.sessionToken,
@@ -124,7 +124,24 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
             }));
           }
         }
-      });
+      };
+
+      if (res.type === Enums.SESSION_STEP_UP && res._embedded.target &&
+          res._embedded.target.type === Enums.TARGET_APP) {
+        var targetUrl = res._links && res._links.next && res._links.next.href;
+        successData = {
+          user: res._embedded.user,
+          type: res.type,
+          target: {
+            url: targetUrl,
+            redirect: function () {
+              Util.redirect(targetUrl);
+            }
+          }
+        };
+      }
+
+      router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
       return;
     case 'MFA_REQUIRED':
       var factor = router.appState.get('factors').getDefaultFactor();

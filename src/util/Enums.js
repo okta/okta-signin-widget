@@ -40,6 +40,12 @@ define({
   // Operations
   PRIMARY_AUTH: 'PRIMARY_AUTH',
   FORGOT_PASSWORD: 'FORGOT_PASSWORD',
-  UNLOCK_ACCOUNT: 'UNLOCK_ACCOUNT'
+  UNLOCK_ACCOUNT: 'UNLOCK_ACCOUNT',
+
+  // Auth Types
+  SESSION_STEP_UP: 'SESSION_STEP_UP',
+
+  // Session Step target types
+  TARGET_APP: 'APP'
 
 });

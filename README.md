@@ -206,6 +206,13 @@ signIn.renderEl(
       console.log(res.user);
       res.session.setCookieAndRedirect('https://acme.com/app');
 
+      // If the widget is not configured for OIDC and the authentication type is SESSION_STEP_UP,
+      // the response will contain user metadata and target object with the url for the target resource
+      // and a redirect function to navigate to that url
+      console.log(res.user);
+      console.log('Target url: ' + res.target.url);
+      res.target.redirect();
+
       // If the widget is configured for OIDC with a single responseType, the
       // response will be the token.
       // i.e. authParams.responseType = 'id_token':
