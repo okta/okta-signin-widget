@@ -7,6 +7,9 @@ define({
     "status": "PASSWORD_RESET",
     "_embedded": {
       "policy": {
+        "age": {
+          "historyCount": 0
+        },
         "complexity": {
           "excludeUsername": false,
           "minLength": 0,
