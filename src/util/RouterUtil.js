@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 26],max-statements: [2, 27] */
+/* eslint complexity: [2, 26],max-statements: [2, 29] */
 define([
   'okta',
   'shared/util/Util',
