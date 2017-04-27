@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 29], max-statements: [2, 35], max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 30], max-statements: [2, 36], max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -25,6 +25,7 @@ define([
   'helpers/xhr/MFA_ENROLL_allFactors',
   'helpers/xhr/ERROR_invalid_token',
   'helpers/xhr/UNAUTHENTICATED',
+  'helpers/xhr/SUCCESS_session_step_up',
   'util/Errors',
   'util/BrowserFeatures',
   'helpers/xhr/labels_login_ja',
@@ -33,7 +34,7 @@ define([
 function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
           $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
           resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
-          resMfaEnroll, errorInvalidToken, resUnauthenticated, Errors, BrowserFeatures,
+          resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp, Errors, BrowserFeatures,
           labelsLoginJa, labelsCountryJa) {
 
   var itp = Expect.itp,
@@ -252,6 +253,26 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         expect(SharedUtil.redirect).toHaveBeenCalledWith(
           'https://foo.com/login/sessionCookieRedirect?checkAccountSetupComplete=true' +
           '&token=THE_SESSION_TOKEN&redirectUrl=http%3A%2F%2Fbaz.com%2Ffoo'
+        );
+      });
+    });
+    itp('for SESSION_STEP_UP type, success callback data contains the target resource url and a finish function', function () {
+      spyOn(SharedUtil, 'redirect');
+      var successSpy = jasmine.createSpy('successSpy');
+      return setup({ stateToken: 'aStateToken', globalSuccessFn: successSpy })
+      .then(function (test) {
+        test.setNextResponse(resSuccessStepUp);
+        test.router.refreshAuthState('dummy-token');
+        return Expect.waitForSpyCall(successSpy);
+      })
+      .then(function () {
+        var targetUrl = successSpy.calls.mostRecent().args[0].stepUp.url;
+        expect(targetUrl).toBe('http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken');
+        var finish = successSpy.calls.mostRecent().args[0].stepUp.finish;
+        expect(finish).toEqual(jasmine.any(Function));
+        finish();
+        expect(SharedUtil.redirect).toHaveBeenCalledWith(
+          'http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken'
         );
       });
     });

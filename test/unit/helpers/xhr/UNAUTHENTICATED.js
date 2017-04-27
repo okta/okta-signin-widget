@@ -7,7 +7,7 @@ define({
     "_embedded": {},
     "_links": {
       "next": {
-        "name": "authentication",
+        "name": "authenticate",
         "href": "https://foo.okta.com/api/v1/authn",
         "hints": {
           "allow": [

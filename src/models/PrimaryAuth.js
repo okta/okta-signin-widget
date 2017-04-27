@@ -99,7 +99,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         primaryAuthPromise = this.doTransaction(function (transaction) {
           var authClient = this.appState.settings.authClient;
           return this.doPrimaryAuth(authClient, deviceFingerprintEnabled, signInArgs,
-                                    transaction.authentication);
+                                    transaction.authenticate);
         });
       } else {
         primaryAuthPromise = this.startTransaction(function (authClient) {
