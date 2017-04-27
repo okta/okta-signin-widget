@@ -612,12 +612,14 @@ function (Okta,
             var button = test.form.submitButton();
             var buttonClass = button.attr('class');
             expect(buttonClass).toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(true);
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             var button = test.form.submitButton();
             var buttonClass = button.attr('class');
             expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
           });
         });
         itp('shows an error if error response from authClient', function () {
@@ -874,12 +876,14 @@ function (Okta,
             var button = test.form.submitButton();
             var buttonClass = button.attr('class');
             expect(buttonClass).toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(true);
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             var button = test.form.submitButton();
             var buttonClass = button.attr('class');
             expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
           });
         });
         itp('calls authClient verifyFactor with correct args when submitted', function () {
@@ -1007,6 +1011,7 @@ function (Okta,
               var button = test.form.submitButton();
               var buttonClass = button.attr('class');
               expect(buttonClass).not.toContain('link-button-disabled');
+              expect(button.prop('disabled')).toBe(false);
               return test;
             });
           });
@@ -1249,6 +1254,7 @@ function (Okta,
               var button = test.form.submitButton();
               var buttonClass = button.attr('class');
               expect(buttonClass).not.toContain('link-button-disabled');
+              expect(button.prop('disabled')).toBe(false);
               return test;
             });
           });
@@ -1560,6 +1566,7 @@ function (Okta,
                 return setupPolling(test, resSuccess)
                 .then(function () {
                   expect(test.form.submitButton().attr('class')).toMatch('link-button-disabled');
+                  expect(test.form.submitButton().prop('disabled')).toBe(true);
                   $.ajax.calls.reset();
                   test.form.submit();
                   return tick(test); // Final tick - SUCCESS
@@ -2258,6 +2265,7 @@ function (Okta,
           var button = test.form.submitButton();
           var buttonClass = button.attr('class');
           expect(buttonClass).toContain('link-button-disabled');
+          expect(button.prop('disabled')).toBe(true);
         });
       });
       itp('Verify Google TOTP after switching from Push MFA_CHALLENGE', function () {
