@@ -114,7 +114,21 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
 
       var successData = {
         user: res._embedded.user,
-        session: {
+        type: res.type
+      };
+
+      if (res.type === Enums.SESSION_STEP_UP) {
+        var targetUrl = res._links && res._links.next && res._links.next.href;
+        successData.stepUp = {
+          url: targetUrl,
+          finish: function () {
+            Util.redirect(targetUrl);
+          }
+        };
+      } else {
+        // Add the type for now until the API returns it.
+        successData.type = Enums.SESSION_SSO;
+        successData.session = {
           token: res.sessionToken,
           setCookieAndRedirect: function (redirectUrl) {
             Util.redirect(sessionCookieRedirectTpl({
@@ -122,21 +136,6 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
               token: encodeURIComponent(res.sessionToken),
               redirectUrl: encodeURIComponent(redirectUrl)
             }));
-          }
-        }
-      };
-
-      if (res.type === Enums.SESSION_STEP_UP && res._embedded.target &&
-          res._embedded.target.type === Enums.TARGET_APP) {
-        var targetUrl = res._links && res._links.next && res._links.next.href;
-        successData = {
-          user: res._embedded.user,
-          type: res.type,
-          target: {
-            url: targetUrl,
-            redirect: function () {
-              Util.redirect(targetUrl);
-            }
           }
         };
       }

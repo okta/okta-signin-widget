@@ -200,18 +200,28 @@ signIn.renderEl(
     // The user has successfully completed the authentication flow
     if (res.status === 'SUCCESS') {
 
-      // If the widget is not configured for OIDC, the response will contain
-      // user metadata and a sessionToken that can be converted to an Okta
-      // session cookie:
-      console.log(res.user);
-      res.session.setCookieAndRedirect('https://acme.com/app');
+      // Typical authentication response
+      if (res.type === 'SESSION_SSO') {
+        // If the widget is not configured for OIDC, the response will contain
+        // user metadata and a sessionToken that can be converted to an Okta
+        // session cookie:
+        console.log(res.user);
+        res.session.setCookieAndRedirect('https://acme.com/app');
+        return;
+      }
 
-      // If the widget is not configured for OIDC and the authentication type is SESSION_STEP_UP,
-      // the response will contain user metadata and target object with the url for the target resource
-      // and a redirect function to navigate to that url
-      console.log(res.user);
-      console.log('Target url: ' + res.target.url);
-      res.target.redirect();
+      // Session step up response
+      if (res.type === 'SESSION_STEP_UP') {
+        // If the widget is not configured for OIDC and the authentication type is SESSION_STEP_UP,
+        // the response will contain user metadata and a stepUp object with the url of the resource
+        // and a 'finish' function to navigate to that url
+        console.log(res.user);
+        console.log('Target resource url: ' + res.stepUp.url);
+        res.stepUp.finish();
+        return;
+      }
+
+      // OIDC reponse
 
       // If the widget is configured for OIDC with a single responseType, the
       // response will be the token.

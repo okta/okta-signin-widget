@@ -256,7 +256,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         );
       });
     });
-    itp('for SESSION_STEP_UP type, success callback data contains the target url and a redirect function', function () {
+    itp('for SESSION_STEP_UP type, success callback data contains the target resource url and a finish function', function () {
       spyOn(SharedUtil, 'redirect');
       var successSpy = jasmine.createSpy('successSpy');
       return setup({ stateToken: 'aStateToken', globalSuccessFn: successSpy })
@@ -266,11 +266,11 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         return Expect.waitForSpyCall(successSpy);
       })
       .then(function () {
-        var targetUrl = successSpy.calls.mostRecent().args[0].target.url;
+        var targetUrl = successSpy.calls.mostRecent().args[0].stepUp.url;
         expect(targetUrl).toBe('http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken');
-        var redirect = successSpy.calls.mostRecent().args[0].target.redirect;
-        expect(redirect).toEqual(jasmine.any(Function));
-        redirect();
+        var finish = successSpy.calls.mostRecent().args[0].stepUp.finish;
+        expect(finish).toEqual(jasmine.any(Function));
+        finish();
         expect(SharedUtil.redirect).toHaveBeenCalledWith(
           'http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken'
         );
