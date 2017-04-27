@@ -45,10 +45,13 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
     }
   }
 
-  function antiPhishingMessage (image, host, shown) {
-    if(!image.is(':visible')){
-      return;
+  function antiPhishingMessage (image, host) {
+    function showQtip() {
+      if(image.is(':visible')){
+        image.qtip('show');
+      }
     }
+    $(window).on('resize.securityBeaconQtip', _.debounce(showQtip, 300));
 
     // Show the message that the user has not logged in from this device before.
     image.qtip({
@@ -72,12 +75,21 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       events: {
         move: function(event, api) {
           if (!api.elements.target.is(':visible')) {
-            api.destroy(true);
+            // Have to hide it immediately, with no effect
+            api.set('hide.effect', false);
+            api.hide();
+            api.set('hide.effect', true);
           }
         }
       }
     });
-    image.qtip('toggle', shown);
+
+    showQtip();
+  }
+
+  function destroyAntiPhishingMessage(image) {
+    image.qtip('destroy');
+    $(window).off('resize.securityBeaconQtip');
   }
 
   function updateSecurityImage($el, appState, animate) {
@@ -95,11 +107,13 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       border.toggleClass('auth-beacon-border', hasBorder);
       return;
     }
+
+    destroyAntiPhishingMessage(image);
+
     // Animate loading the security beacon
     if (!hasBorder) {
       // This occurrs when appState username is blank
       // we do not yet know if the user is recognized
-      image.qtip('destroy');
       image.fadeOut(duration, function () {
         setBackgroundImage(image, appState);
         border.removeClass('auth-beacon-border');
@@ -108,7 +122,6 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
     } else {
       // Animate loading the security beacon with a loading bar for the border
       // This occurrs when the username has been checked against Okta.
-      image.qtip('destroy');
       border.removeClass('auth-beacon-border');
       Animations.radialProgressBar({
         $el: radialProgressBar,
@@ -121,7 +134,9 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       }).then(function () {
         border.addClass('auth-beacon-border');
       }).then(function () {
-        antiPhishingMessage(image, host, hasAntiPhishing);
+        if (hasAntiPhishing) {
+          antiPhishingMessage(image, host);
+        }
       });
     }
   }
