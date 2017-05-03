@@ -46,12 +46,11 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
   }
 
   function antiPhishingMessage (image, host) {
-    function showQtip() {
+    $(window).on('resize.securityBeaconQtip', _.debounce(function () {
       if(image.is(':visible')){
         image.qtip('show');
       }
-    }
-    $(window).on('resize.securityBeaconQtip', _.debounce(showQtip, 300));
+    }, 300));
 
     // Show the message that the user has not logged in from this device before.
     image.qtip({
@@ -84,7 +83,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       }
     });
 
-    showQtip();
+    image.qtip('toggle', image.is(':visible'));
   }
 
   function destroyAntiPhishingMessage(image) {
