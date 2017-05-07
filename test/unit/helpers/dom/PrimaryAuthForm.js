@@ -71,15 +71,6 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
       return api ? api.destroyed : true;
     },
 
-    isSecurityImageTooltipVisible: function () {
-      var api = this.tooltipApi(SECURITY_BEACON);
-      return api ? api.tooltip.is(':visible') : true;
-    },
-
-    applyQtipCssRule: function () {
-      this.$root.append($('<style>.okta-security-image-tooltip { display:none }</style>'));
-    },
-
     securityBeacon: function () {
       return this.el(SECURITY_BEACON);
     },
