@@ -187,7 +187,17 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       action: function () {
         action.call(this, this.model);
       }
-    }
+    },
+    
+    'EMAIL': {
+      icon: 'factor-icon mfa-email-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    },
   };
 
   return {

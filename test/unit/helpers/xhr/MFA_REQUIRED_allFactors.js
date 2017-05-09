@@ -113,6 +113,24 @@ define({
           }
         }
       }, {
+        "id": "emailhp9NXcoXu8z2wN0g3",
+        "factorType": "email",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "profile": {
+          "email": "a...1@clouditude.net"
+        },
+        "_links": {
+          "verify": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/emailhp9NXcoXu8z2wN0g3\/verify",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      },{
         "id": "opfhw7v2OnxKpftO40g3",
         "factorType": "push",
         "provider": "OKTA",
