@@ -1,4 +1,4 @@
-/* eslint max-params:[2, 28], max-statements:[2, 38], camelcase:0, max-len:[2, 180] */
+/* eslint max-params:[2, 28], max-statements:[2, 40], camelcase:0, max-len:[2, 180] */
 define([
   'okta/underscore',
   'okta/jquery',
@@ -949,6 +949,50 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         })
         .then(function (test) {
           expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo.com from this browser×');
+        });
+      });
+      itp('does not show anti-phishing message if security image is hidden', function () {
+        return setup({ features: { securityImage: true }})
+        .then(function (test) {
+          test.setNextResponse(resSecurityImageFail);
+          test.form.securityBeaconContainer().hide();
+          spyOn($.qtip.prototype, 'toggle').and.callThrough();
+          test.form.setUsername('testuser');
+          $(window).trigger('resize');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: false}));
+          test.form.securityBeaconContainer().show();
+          $(window).trigger('resize');
+          return tick(test);
+        })
+        .then(function () {
+          expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: true}));
+        });
+      });
+      itp('show anti-phishing message if security image become visible', function () {
+        return setup({ features: { securityImage: true }})
+        .then(function (test) {
+          spyOn($.qtip.prototype, 'toggle').and.callThrough();
+          test.setNextResponse(resSecurityImageFail);
+          test.form.setUsername('testuser');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: true}));
+          test.form.securityBeaconContainer().hide();
+          $(window).trigger('resize');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: false}));
+          test.form.securityBeaconContainer().show();
+          $(window).trigger('resize');
+          return waitForBeaconChange(test);
+        })
+        .then(function () {
+          expect($.qtip.prototype.toggle.calls.argsFor(2)).toEqual(jasmine.objectContaining({0: true}));
         });
       });
       itp('guards against XSS when showing the anti-phishing message', function () {

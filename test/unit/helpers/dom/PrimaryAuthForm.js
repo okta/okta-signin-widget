@@ -75,6 +75,10 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
       return this.el(SECURITY_BEACON);
     },
 
+    securityBeaconContainer: function () {
+      return this.$('.beacon-container');
+    },
+
     editingUsername: function (val) {
       var field = this.usernameField();
       field.val(val);
