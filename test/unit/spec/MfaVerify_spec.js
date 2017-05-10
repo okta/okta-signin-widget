@@ -1034,6 +1034,30 @@ function (Okta,
             });
           });
         });
+        itp('posts resend if send code button is clicked second time', function () {
+          Util.speedUpPolling();
+
+          return setupSMS().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeSms);
+            test.form.smsSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            test.setNextResponse(resChallengeSms);
+            test.form.smsSendCode().click();
+            return tick(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify/resend',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
         itp('calls verifyFactor with rememberDevice URL param', function () {
           return setupSMS().then(function (test) {
             $.ajax.calls.reset();
