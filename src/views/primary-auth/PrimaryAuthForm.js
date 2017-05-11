@@ -22,7 +22,7 @@ define([
     className: 'primary-auth-form',
     noCancelButton: true,
     save: _.partial(Okta.loc, 'primaryauth.submit', 'login'),
-    saveId: 'signin-button',
+    saveId: 'okta-signin-submit',
     layout: 'o-form-theme',
 
     // If socialAuth is configured, the title moves from the form to
@@ -74,7 +74,7 @@ define([
         placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
         name: 'username',
         input: TextBox,
-        inputId: 'user-signin',
+        inputId: 'okta-signin-username',
         type: 'text',
         params: {
           innerTooltip: {
@@ -89,7 +89,7 @@ define([
         placeholder: Okta.loc('primaryauth.password.placeholder', 'login'),
         name: 'password',
         input: TextBox,
-        inputId: 'pass-signin',
+        inputId: 'okta-signin-password',
         type: 'password',
         params: {
           innerTooltip: {
