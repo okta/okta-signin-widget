@@ -1044,6 +1044,10 @@ function (Okta,
             return tick(test);
           })
           .then(function (test) {
+            // One more tick to give it time for become enable
+            return tick(test);
+          })
+          .then(function (test) {
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
             return tick(test);
