@@ -1,0 +1,42 @@
+%selectize-colors {
+  $background-color: #e5f6ff;
+  $border-color: #6dbfe8;
+  $text-color: #000;
+
+  background: $background-color;
+  background-color: $background-color;
+  background-image: linear-gradient(to bottom, $background-color, darken($background-color, 3%));
+  border-color: $border-color;
+  color: $text-color;
+}
+
+.selectize-control {
+  &.multi .selectize-input {
+    [data-value] {
+      @extend %selectize-colors;
+      box-shadow: unset;
+      text-shadow: unset;
+
+      &.active {
+        @extend %selectize-colors;
+      }
+    }
+
+    > div {
+      @extend %selectize-colors;
+
+      cursor: pointer;
+      margin: 0 3px 3px 0;
+      padding: 2px 6px;
+
+      &.active {
+        @extend %selectize-colors;
+      }
+    }
+  }
+
+  &.plugin-remove_button [data-value] .remove {
+    border-left: 0;
+  }
+
+}
