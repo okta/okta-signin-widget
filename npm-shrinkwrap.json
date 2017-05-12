@@ -3,7 +3,7 @@
   "version": "1.10.0",
   "dependencies": {
     "@okta/courage": {
-      "version": "2.5.0"
+      "version": "2.6.0"
     },
     "@okta/i18n": {
       "version": "26.61.0"

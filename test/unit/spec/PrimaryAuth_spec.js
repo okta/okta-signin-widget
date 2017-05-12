@@ -315,6 +315,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           var username = test.form.usernameField();
           expect(username.length).toBe(1);
           expect(username.attr('type')).toEqual('text');
+          expect(username.attr('id')).toEqual('okta-signin-username');
         });
       });
       itp('has a password field', function () {
@@ -322,8 +323,18 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           var password = test.form.passwordField();
           expect(password.length).toBe(1);
           expect(password.attr('type')).toEqual('password');
+          expect(password.attr('id')).toEqual('okta-signin-password');
         });
       });
+      itp('has a sign in button', function () {
+        return setup().then(function (test) {
+          var signInButton = test.form.signInButton();
+          expect(signInButton.length).toBe(1);
+          expect(signInButton.attr('type')).toEqual('submit');
+          expect(signInButton.attr('id')).toEqual('okta-signin-submit');
+        });
+      });
+
       itp('has a rememberMe checkbox if features.rememberMe is true', function () {
         return setup().then(function (test) {
           var cb = test.form.rememberMeCheckbox();
