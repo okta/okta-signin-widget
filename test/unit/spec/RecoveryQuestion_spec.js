@@ -52,6 +52,8 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     });
   }
 
+  var setupOIDC = _.partial(setup, { clientId: 'someClientId' });
+
   Expect.describe('RecoveryQuestion', function () {
     itp('displays the security beacon', function () {
       return setup().then(function (test) {
@@ -150,6 +152,29 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     });
     itp('shows unlock page when response is success with unlock recoveryType', function () {
       return setup().then(function (test) {
+        $.ajax.calls.reset();
+        test.form.setAnswer('4444');
+        test.setNextResponse(resSuccessUnlock);
+        test.form.submit();
+        return Expect.waitForAccountUnlocked(test);
+      })
+      .then(function (test) {
+        expect($.ajax.calls.count()).toBe(1);
+        Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          url: 'https://foo.com/api/v1/authn/recovery/answer',
+          data: {
+            answer: '4444',
+            stateToken: 'testStateToken'
+          }
+        });
+        expect(test.form.titleText()).toBe('Account successfully unlocked!');
+        expect(test.form.backToLoginButton().length).toBe(1);
+        test.form.goBackToLogin();
+        expect(test.router.navigate).toHaveBeenCalledWith('', {trigger: true});
+      });
+    });
+    itp('with OIDC configured, it shows unlock page when response is success with unlock recoveryType', function () {
+      return setupOIDC().then(function (test) {
         $.ajax.calls.reset();
         test.form.setAnswer('4444');
         test.setNextResponse(resSuccessUnlock);
