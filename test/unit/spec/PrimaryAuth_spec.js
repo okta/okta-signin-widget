@@ -85,6 +85,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     var authContainer = new AuthContainer($sandbox);
     var form = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
+
     if (refreshState) {
       Util.mockRouterNavigate(router);
       setNextResponse(resUnauthenticated);
@@ -151,6 +152,13 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           dataAttr: 'test-data'
         }
       ]
+    };
+    return setup(settings);
+  }
+
+  function setupRegistrationButton(registrationObj) {
+    var settings = {
+      registration: registrationObj
     };
     return setup(settings);
   }
@@ -2028,6 +2036,44 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         expect(test.form.authDivider().length).toBe(0);
         expect(test.form.additionalAuthButton().length).toBe(0);
         expect(test.form.facebookButton().length).toBe(0);
+      });
+    });
+  });
+  
+  Expect.describe('Registration Flow', function () {
+    itp('does not show the registration button if settings.registration is not set', function () {
+      return setup().then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(0);
+      });
+    });
+    itp('does not show the registration button if settings.registration is empty object', function () {
+      var registration =  {};
+      return setupRegistrationButton(registration).then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(0);
+      });
+    });
+    itp('shows the registration button if settings.registration properties are configured', function () {
+      var registration =  {
+        click: function () {
+          window.location.href = 'http://www.test.com';
+        }
+      };
+      return setupRegistrationButton(registration).then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(1);
+        expect(test.form.registrationLabel().length).toBe(1);
+        expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
+        expect(test.form.registrationLink().length).toBe(1);
+        expect(test.form.registrationLink().text()).toBe('Sign up');
+        expect(typeof(registration.click)).toEqual('function');
+      });
+    });
+    itp('calls settings.registration.click if its a function and when the link is clicked', function () {
+      var registration =  {
+        click: jasmine.createSpy('registrationSpy')
+      };
+      return setupRegistrationButton(registration).then(function (test) {
+        test.form.registrationLink().click();
+        expect(registration.click).toHaveBeenCalled();
       });
     });
   });
