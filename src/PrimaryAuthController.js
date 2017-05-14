@@ -150,6 +150,7 @@ function (Okta, PrimaryAuthForm, CustomButtons, PrimaryAuthModel, Util, BaseLogi
       if (username) {
         this.options.appState.set('username', username);
       }
+      
     },
 
     events: {

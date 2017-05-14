@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 13], max-statements: [2, 18] */
+/* eslint max-params: [2, 14], max-statements: [2, 18] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
@@ -23,6 +23,7 @@ define([
   'views/shared/Header',
   'views/shared/SecurityBeacon',
   'views/shared/AuthContainer',
+  'views/shared/FooterRegistration',
   'models/AppState',
   './RouterUtil',
   './Animations',
@@ -30,7 +31,7 @@ define([
   'util/Bundles'
 ],
 function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings, Header,
-          SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations, Errors, Bundles) {
+          SecurityBeacon, AuthContainer, RegistrationSection, AppState, RouterUtil, Animations, Errors, Bundles) {
 
   var _ = Okta._,
       $ = Okta.$;
@@ -105,6 +106,19 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
         appState: this.appState,
         settings: this.settings
       });
+
+      if (this.settings.get('registration.click')) {
+        var registrationContainer = new RegistrationSection({
+          settings: this.settings,
+          click: this.settings.get('registration.click'),
+          label: this.settings.get('registration.label'),
+          text: this.settings.get('registration.text')
+        });
+        var wrapperId = this.el;
+        setTimeout(function () {
+          Okta.$(wrapperId).append(registrationContainer.render().$el);  
+        });
+      }
 
       this.listenTo(this.appState, 'change:transactionError', function (appState, err) {
         RouterUtil.routeAfterAuthStatusChange(this, err);

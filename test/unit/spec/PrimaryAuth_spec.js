@@ -154,6 +154,17 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     return setup(settings);
   }
 
+  function setupRegistrationButton(callback, label, text) {
+    var settings = {
+      registration: {
+        click: callback,
+        label: label,
+        text: text
+      }
+    };
+    return setup(settings);
+  }
+
   function waitForBeaconChange(test) {
     return tick() //wait to read value of user input
     .then(tick)   //wait to receive ajax response
@@ -2014,6 +2025,41 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         expect(test.form.authDivider().length).toBe(0);
         expect(test.form.additionalAuthButton().length).toBe(0);
         expect(test.form.facebookButton().length).toBe(0);
+      });
+    });
+  });
+  
+  Expect.describe('Registration Flow', function () {
+    itp('does not show the registration button if settings.registration.click is not set', function () {
+      return setup().then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(0);
+      });
+    });
+    itp('does not show the registration button if settings.registration is empty object', function () {
+      var registration =  {};
+      return setupRegistrationButton(registration.click, registration.label, registration.text).then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(0);
+      });
+    });
+    itp('does not show the registration button if settings.registration properties are undefined', function () {
+      return setupRegistrationButton(undefined, undefined, undefined).then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(0);
+      });
+    });
+    itp('shows the registration button if settings.registration properties are configured', function () {
+      var registration =  {
+        click: function () {
+          window.location.href = 'http://www.test.com';
+        },
+        label: 'Dont have an account ?',
+        text: 'Register'
+      };
+      return setupRegistrationButton(registration.click, registration.label, registration.text).then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(1);
+        expect(test.form.registrationLabel().length).toBe(1);
+        expect(test.form.registrationLabel().text()).toBe('Dont have an account ?');
+        expect(test.form.registrationLink().length).toBe(1);
+        expect(test.form.registrationLink().text()).toBe('Register');
       });
     });
   });
