@@ -1443,6 +1443,29 @@ function (Okta,
             expect(test.form.errorBox().length).toBe(0);
           });
         });
+        itp('posts to resend link if call button is clicked for the second time', function () {
+          Util.speedUpPolling();
+
+          return setupCall().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeCall);
+            test.form.makeCall().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeCall);
+            test.form.makeCall().click();
+            return tick(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              data: {stateToken: 'testStateToken'},
+              url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify/resend'
+            });
+          });
+        });
       });
 
       Expect.describe('Okta Push', function () {
