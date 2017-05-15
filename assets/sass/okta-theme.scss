@@ -628,6 +628,7 @@
       &[disabled] {
       /* -- Input Fields: disabled input field -- */
         color: $medium-text-color;
+        -webkit-text-fill-color: $medium-text-color;
         /* background: #f4f4f4; */
       }
 
