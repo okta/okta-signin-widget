@@ -100,15 +100,15 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
 
     switch (res.status) {
     case 'SUCCESS':
+      if(res.recoveryType === Enums.RECOVERY_TYPE_UNLOCK) {
+        router.navigate('signin/account-unlocked', {trigger: true});
+        return;
+      }
+
       // If the desired end result object needs to have idToken (and not sessionToken),
       // get the id token from session token before calling the global success function.
       if (router.settings.get('oauth2Enabled')) {
         OAuth2Util.getTokens(router.settings, {sessionToken: res.sessionToken}, router.controller);
-        return;
-      }
-
-      if(res.recoveryType === Enums.RECOVERY_TYPE_UNLOCK) {
-        router.navigate('signin/account-unlocked', {trigger: true});
         return;
       }
 
