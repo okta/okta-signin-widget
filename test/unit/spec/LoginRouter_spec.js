@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 28], max-statements: [2, 34], max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 30], max-statements: [2, 36], max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -24,6 +24,8 @@ define([
   'helpers/xhr/MFA_CHALLENGE_push',
   'helpers/xhr/MFA_ENROLL_allFactors',
   'helpers/xhr/ERROR_invalid_token',
+  'helpers/xhr/UNAUTHENTICATED',
+  'helpers/xhr/SUCCESS_session_step_up',
   'util/Errors',
   'util/BrowserFeatures',
   'helpers/xhr/labels_login_ja',
@@ -32,7 +34,8 @@ define([
 function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
           $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
           resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
-          resMfaEnroll, errorInvalidToken, Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
+          resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp, Errors, BrowserFeatures,
+          labelsLoginJa, labelsCountryJa) {
 
   var itp = Expect.itp,
       tick = Expect.tick,
@@ -253,6 +256,26 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         );
       });
     });
+    itp('for SESSION_STEP_UP type, success callback data contains the target resource url and a finish function', function () {
+      spyOn(SharedUtil, 'redirect');
+      var successSpy = jasmine.createSpy('successSpy');
+      return setup({ stateToken: 'aStateToken', globalSuccessFn: successSpy })
+      .then(function (test) {
+        test.setNextResponse(resSuccessStepUp);
+        test.router.refreshAuthState('dummy-token');
+        return Expect.waitForSpyCall(successSpy);
+      })
+      .then(function () {
+        var targetUrl = successSpy.calls.mostRecent().args[0].stepUp.url;
+        expect(targetUrl).toBe('http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken');
+        var finish = successSpy.calls.mostRecent().args[0].stepUp.finish;
+        expect(finish).toEqual(jasmine.any(Function));
+        finish();
+        expect(SharedUtil.redirect).toHaveBeenCalledWith(
+          'http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken'
+        );
+      });
+    });
     it('throws an error on unrecoverable errors if no globalErrorFn is defined', function () {
       var fn = function () {
         setup({ foo: 'bar' });
@@ -383,6 +406,27 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         var form = new MfaVerifyForm($sandbox);
         expect(form.isSecurityQuestion()).toBe(true);
         expect(form.hasErrors()).toBe(false);
+      });
+    });
+    itp('navigates to PrimaryAuth if status is UNAUTHENTICATED', function () {
+      return setup({ stateToken: 'aStateToken' })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.setNextResponse(resUnauthenticated);
+        test.router.navigate('/app/sso');
+        return Expect.waitForPrimaryAuth(test);
+      })
+      .then(function (test) {
+        expect($.ajax.calls.count()).toBe(1);
+        Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          url: 'https://foo.com/api/v1/authn',
+          data: {
+            stateToken: 'aStateToken'
+          }
+        });
+        expect(test.router.appState.get('isUnauthenticated')).toBe(true);
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
       });
     });
     itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {

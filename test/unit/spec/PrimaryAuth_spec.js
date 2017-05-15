@@ -1,4 +1,4 @@
-/* eslint max-params:[2, 28], max-statements:[2, 36], camelcase:0, max-len:[2, 180] */
+/* eslint max-params:[2, 28], max-statements:[2, 40], camelcase:0, max-len:[2, 180] */
 define([
   'okta/underscore',
   'okta/jquery',
@@ -19,6 +19,7 @@ define([
   'helpers/xhr/security_image',
   'helpers/xhr/security_image_fail',
   'helpers/xhr/SUCCESS',
+  'helpers/xhr/UNAUTHENTICATED',
   'helpers/xhr/ACCOUNT_LOCKED_OUT',
   'helpers/xhr/PASSWORD_EXPIRED',
   'helpers/xhr/UNAUTHORIZED_ERROR',
@@ -29,7 +30,7 @@ define([
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm,
           Beacon, Router, BrowserFeatures, Errors, DeviceFingerprint, SharedUtil, Expect, resSecurityImage,
-          resSecurityImageFail, resSuccess, resLockedOut, resPwdExpired, resUnauthorized,
+          resSecurityImageFail, resSuccess, resUnauthenticated, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, $sandbox) {
 
   var itp = Expect.itp;
@@ -58,7 +59,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
                        '6gAQPJowg832umoCss-gEvimU';
   var VALID_ACCESS_TOKEN = 'anythingbecauseitsopaque';
 
-  function setup(settings, requests) {
+  function setup(settings, requests, refreshState) {
     settings || (settings = {});
 
     // To speed up the test suite, calls to debounce are
@@ -83,7 +84,13 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     var authContainer = new AuthContainer($sandbox);
     var form = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
-    router.primaryAuth();
+    if (refreshState) {
+      Util.mockRouterNavigate(router);
+      setNextResponse(resUnauthenticated);
+      router.refreshAuthState('aStateToken');
+    } else {
+      router.primaryAuth();
+    }
     Util.mockJqueryCss();
     return Expect.waitForPrimaryAuth({
       router: router,
@@ -94,6 +101,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
       setNextResponse: setNextResponse,
       successSpy: successSpy
     });
+  }
+
+  function setupUnauthenticated(settings, requests) {
+    return setup(settings, requests, true);
   }
 
   function setupSocial(settings) {
@@ -304,6 +315,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           var username = test.form.usernameField();
           expect(username.length).toBe(1);
           expect(username.attr('type')).toEqual('text');
+          expect(username.attr('id')).toEqual('okta-signin-username');
         });
       });
       itp('has a password field', function () {
@@ -311,8 +323,18 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           var password = test.form.passwordField();
           expect(password.length).toBe(1);
           expect(password.attr('type')).toEqual('password');
+          expect(password.attr('id')).toEqual('okta-signin-password');
         });
       });
+      itp('has a sign in button', function () {
+        return setup().then(function (test) {
+          var signInButton = test.form.signInButton();
+          expect(signInButton.length).toBe(1);
+          expect(signInButton.attr('type')).toEqual('submit');
+          expect(signInButton.attr('id')).toEqual('okta-signin-submit');
+        });
+      });
+
       itp('has a rememberMe checkbox if features.rememberMe is true', function () {
         return setup().then(function (test) {
           var cb = test.form.rememberMeCheckbox();
@@ -940,6 +962,50 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo.com from this browser×');
         });
       });
+      itp('does not show anti-phishing message if security image is hidden', function () {
+        return setup({ features: { securityImage: true }})
+        .then(function (test) {
+          test.setNextResponse(resSecurityImageFail);
+          test.form.securityBeaconContainer().hide();
+          spyOn($.qtip.prototype, 'toggle').and.callThrough();
+          test.form.setUsername('testuser');
+          $(window).trigger('resize');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: false}));
+          test.form.securityBeaconContainer().show();
+          $(window).trigger('resize');
+          return tick(test);
+        })
+        .then(function () {
+          expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: true}));
+        });
+      });
+      itp('show anti-phishing message if security image become visible', function () {
+        return setup({ features: { securityImage: true }})
+        .then(function (test) {
+          spyOn($.qtip.prototype, 'toggle').and.callThrough();
+          test.setNextResponse(resSecurityImageFail);
+          test.form.setUsername('testuser');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: true}));
+          test.form.securityBeaconContainer().hide();
+          $(window).trigger('resize');
+          return waitForBeaconChange(test);
+        })
+        .then(function (test) {
+          expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: false}));
+          test.form.securityBeaconContainer().show();
+          $(window).trigger('resize');
+          return waitForBeaconChange(test);
+        })
+        .then(function () {
+          expect($.qtip.prototype.toggle.calls.argsFor(2)).toEqual(jasmine.objectContaining({0: true}));
+        });
+      });
       itp('guards against XSS when showing the anti-phishing message', function () {
         return setup({
           baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
@@ -1175,6 +1241,32 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             data: {
               username: 'testuser',
               password: 'pass',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+      itp('calls authentication with stateToken if status is UNAUTHENTICATED', function () {
+        return setupUnauthenticated().then(function (test) {
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          $.ajax.calls.reset();
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function (test) {
+          expect(test.form.isDisabled()).toBe(true);
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.okta.com/api/v1/authn',
+            data: {
+              username: 'testuser',
+              password: 'pass',
+              stateToken: 'aStateToken',
               options: {
                 warnBeforePasswordExpired: true,
                 multiOptionalFactorEnroll: false

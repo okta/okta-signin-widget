@@ -64,9 +64,11 @@ define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
       if (ableToSubmit) {
         button.removeClass('link-button-disabled');
         button.prop('value', Okta.loc('oktaverify.send', 'login'));
+        button.prop('disabled', false);
       } else {
         button.addClass('link-button-disabled');
         button.prop('value', Okta.loc('oktaverify.sent', 'login'));
+        button.prop('disabled', true);
       }
     },
     submit: function (e) {

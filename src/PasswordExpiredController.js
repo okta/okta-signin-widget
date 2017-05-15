@@ -65,11 +65,11 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
         }
 
         var policy = this.options.appState.get('policy');
-        if (!policy || !policy.complexity) {
+        if (!policy) {
           return;
         }
 
-        return FactorUtil.getPasswordComplexityDescription(policy.complexity);
+        return FactorUtil.getPasswordComplexityDescription(policy);
       },
       formChildren: function () {
         return [

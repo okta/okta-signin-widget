@@ -6,6 +6,7 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
   var REMEMBER_ME_LABEL = 'label[data-se-for-name="remember"]';
   var SECURITY_BEACON = 'security-beacon';
   var CLASS_SELECTOR = '.primary-auth';
+  var SIGN_IN_BUTTON = '.button.button-primary';
 
   return Form.extend({
 
@@ -41,6 +42,10 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
       return this.autocomplete(PASSWORD_FIELD);
     },
 
+    signInButton: function () {
+      return this.$(SIGN_IN_BUTTON);
+    },
+
     rememberMeCheckbox: function () {
       return this.checkbox(REMEMBER_ME_FIELD);
     },
@@ -73,6 +78,10 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
 
     securityBeacon: function () {
       return this.el(SECURITY_BEACON);
+    },
+
+    securityBeaconContainer: function () {
+      return this.$('.beacon-container');
     },
 
     editingUsername: function (val) {
