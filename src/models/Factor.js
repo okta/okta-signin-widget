@@ -154,7 +154,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
       canUseResend: {
         deps: ['provider', 'factorType'],
         fn: function (provider, factorType) {
-          // Only push and sms have resend links.
+          // Only push, sms and call have resend links.
           return (provider === 'OKTA' && _.contains(['push', 'sms', 'call'], factorType));
         }
       },

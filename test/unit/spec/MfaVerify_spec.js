@@ -1041,20 +1041,23 @@ function (Okta,
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
-            return tick(test);
+            return Expect.waitForCss('.sms-request-button.disabled', test);
           })
           .then(function (test) {
-            // One more tick to give it time for become enable
-            return tick(test);
+            return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
           })
           .then(function (test) {
+            $.ajax.calls.reset();
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
-            return tick(test);
+            return Expect.waitForCss('.sms-request-button.disabled', test);
+          })
+          .then(function (test) {
+            return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(2);
-            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify/resend',
               data: {
                 stateToken: 'testStateToken'
