@@ -285,6 +285,38 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         });
       });
     });
+    itp('makes submit button disable when form is submitted', function () {
+      return setup()
+      .then(function (test) {
+        $.ajax.calls.reset();
+        test.form.setNewPassword('pwd');
+        test.form.setConfirmPassword('pwd');
+        test.setNextResponse(resSuccess);
+        test.form.submit();
+        return tick(test);
+      })
+      .then(function (test) {
+        var button = test.form.submitButton();
+        var buttonClass = button.attr('class');
+        expect(buttonClass).toContain('link-button-disabled');
+      });
+    });
+    itp('makes submit button enabled after error response', function () {
+      return setup()
+      .then(function (test) {
+        $.ajax.calls.reset();
+        test.form.setNewPassword('pwd');
+        test.form.setConfirmPassword('pwd');
+        test.setNextResponse(resError);
+        test.form.submit();
+        return Expect.waitForFormError(test.form, test);
+      })
+      .then(function (test) {
+        var button = test.form.submitButton();
+        var buttonClass = button.attr('class');
+        expect(buttonClass).not.toContain('link-button-disabled');
+      });
+    });
     itp('validates that the fields are not empty before submitting', function () {
       return setup().then(function (test) {
         $.ajax.calls.reset();
