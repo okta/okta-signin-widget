@@ -998,22 +998,25 @@ function (Okta,
           });
         });
         itp('clears the passcode text field on clicking the "Send code" button', function () {
-          return setupSMS().then(function (test) {
-            test.button = test.form.smsSendCode();
-            test.form.setAnswer('123456');
+          return setupSMS()
+          .then(function (test) {
             test.setNextResponse(resChallengeSms);
-            expect(test.button.trimmedText()).toEqual('Send code');
+
+            expect(test.form.smsSendCode().trimmedText()).toEqual('Send code');
+            test.form.setAnswer('123456');
             expect(test.form.answerField().val()).toEqual('123456');
             test.form.smsSendCode().click();
-            return tick().then(function () {
-              expect(test.button.trimmedText()).toEqual('Sent');
-              expect(test.form.answerField().val()).toEqual('');
-              var button = test.form.submitButton();
-              var buttonClass = button.attr('class');
-              expect(buttonClass).not.toContain('link-button-disabled');
-              expect(button.prop('disabled')).toBe(false);
-              return test;
-            });
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.smsSendCode().trimmedText()).toEqual('Sent');
+            expect(test.form.answerField().val()).toEqual('');
+
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
+            return test;
           });
         });
         itp('calls verifyFactor with empty code if send code button is clicked', function () {

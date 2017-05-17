@@ -59,17 +59,17 @@ define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, Text
         click: function () {
           form.clearErrors();
           this.disable();
+          this.options.title = formSubmitted;
           this.render();
           // To send an OTP to the device, make the same request but use
           // an empty passCode
           this.model.set('answer', '');
           this.model.save()
-          .then(_.bind(function () {
-            this.options.title = formSubmitted;
+          .then(function () {
             // render and focus on the passcode input field.
             form.getInputs().first().render().focus();
             return Q.delay(API_RATE_LIMIT);
-          }, this))
+          })
           .then(_.bind(function () {
             this.options.title = formRetry;
             this.enable();
