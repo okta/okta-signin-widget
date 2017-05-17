@@ -84,6 +84,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     var authContainer = new AuthContainer($sandbox);
     var form = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
+
     if (refreshState) {
       Util.mockRouterNavigate(router);
       setNextResponse(resUnauthenticated);
@@ -154,13 +155,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     return setup(settings);
   }
 
-  function setupRegistrationButton(callback, label, text) {
+  function setupRegistrationButton(registrationObj) {
     var settings = {
-      registration: {
-        click: callback,
-        label: label,
-        text: text
-      }
+      registration: registrationObj
     };
     return setup(settings);
   }
@@ -2030,19 +2027,20 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
   });
   
   Expect.describe('Registration Flow', function () {
-    itp('does not show the registration button if settings.registration.click is not set', function () {
+    itp('does not show the registration button if settings.registration is not set', function () {
       return setup().then(function (test) {
         expect(test.form.registrationContainer().length).toBe(0);
       });
     });
     itp('does not show the registration button if settings.registration is empty object', function () {
       var registration =  {};
-      return setupRegistrationButton(registration.click, registration.label, registration.text).then(function (test) {
+      return setupRegistrationButton(registration).then(function (test) {
         expect(test.form.registrationContainer().length).toBe(0);
       });
     });
     itp('does not show the registration button if settings.registration properties are undefined', function () {
-      return setupRegistrationButton(undefined, undefined, undefined).then(function (test) {
+      var registration =  undefined;
+      return setupRegistrationButton(registration).then(function (test) {
         expect(test.form.registrationContainer().length).toBe(0);
       });
     });
@@ -2054,12 +2052,47 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         label: 'Dont have an account ?',
         text: 'Register'
       };
-      return setupRegistrationButton(registration.click, registration.label, registration.text).then(function (test) {
+      
+      spyOn(Okta, 'loc').and.callFake(function (key) {
+        if (key === 'registration.signup.label') {
+          return 'Dont have an account ?';
+        } else if (key === 'registration.signup.text') {
+          return 'Register';
+        }
+      });
+      return setupRegistrationButton(registration).then(function (test) {
         expect(test.form.registrationContainer().length).toBe(1);
         expect(test.form.registrationLabel().length).toBe(1);
         expect(test.form.registrationLabel().text()).toBe('Dont have an account ?');
         expect(test.form.registrationLink().length).toBe(1);
         expect(test.form.registrationLink().text()).toBe('Register');
+        expect(typeof(registration.click)).toEqual('function');
+      });
+    });
+    itp('calls settings.registration.click if its a function and when the link is clicked', function () {
+      var registration =  {
+        click: function () {
+          window.location.href = 'http://www.test.com';
+        },
+        label: 'Dont have an account ?',
+        text: 'Register'
+      };
+      spyOn(registration, 'click');
+      return setupRegistrationButton(registration).then(function (test) {
+        expect(typeof(registration.click)).toEqual('function');
+        test.form.registrationLink().click();
+        expect(registration.click).toHaveBeenCalled();
+      });
+    });
+    itp('does nothing when settings.registration.click is not a function and when the link is clicked', function () {
+      var registration =  {
+        click: 'test',
+        label: 'Dont have an account ?',
+        text: 'Register'
+      };
+      spyOn(registration, 'click');
+      return setupRegistrationButton(registration).then(function () {
+        expect(registration.click).not.toHaveBeenCalled();
       });
     });
   });

@@ -817,27 +817,20 @@ customButtons: [{
 
 - **customButtons.click** - Function that is called when the button is clicked
 
-## Adding Registration Link
+## Adding Registration Button
 
-You can add registration link underneath the login form on the primary auth page by setting the following config options. If you'd like to change the label text and link text use the `i18n` config option.
+You can add a registration button to the primary auth page by setting the following config options. If you'd like to change the text, use the i18n config option
 
 ```javascript
-// An example that adds a custom button underneath the login form on the primary auth page
+// An example that adds a registration button underneath the login form on the primary auth page
 registration: {
-  click: function( ){
-    window.location.href = 'http://www.google.com'
-  },
-  text: 'Register',
-  label: 'Dont have an account ?'
+  click: function(){
+    window.location.href = 'https://my-domain.com/sign-up'
+  }
 }
 ```
-- **registration.showLink** - Boolean that toggles show/hide of the registration section
+- **registration.click** - Function that is called when the registration button is clicked
 
-- **registration.linkUrl** - Link url
-
-- **registration.linkText** - link text
-
-- **registration.linkLabel** - Text for label shown next to the link
 
 ## OpenId Connect
 

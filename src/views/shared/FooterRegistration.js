@@ -18,7 +18,7 @@ define([
     template: '\
         <div class="content">\
           <span class="registration-label">{{label}}</span>\
-            <a class="registration-link" href="#">{{text}}</a>\
+          <a title="{{text}}" aria-label="{{text}}" class="registration-link" href="#">{{text}}</a>\
         </div>\
         ',
     className: 'registration-container',
@@ -28,7 +28,7 @@ define([
     },
 
     handleClickEvent: function () {
-      var clickHandler = this.options.click;
+      var clickHandler = this.settings.get('registration').click;
       if (clickHandler && Okta._.isFunction(clickHandler)) {
         clickHandler();
       }
@@ -38,9 +38,8 @@ define([
     getTemplateData: function () {
 
       var templateData = {  
-        label: this.options.label || Okta.loc('registration.link.label', 'login'),
-        text: this.options.text || Okta.loc('registration.link.text', 'login'),
-        click: this.options.click
+        label: Okta.loc('registration.signup.label', 'login'),
+        text: Okta.loc('registration.signup.text', 'login')
       };
       return templateData; 
     }
