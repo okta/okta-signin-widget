@@ -8,14 +8,14 @@ define({
     "_embedded": {
       "policy": {
         "age": {
-          "historyCount": 0
+          "historyCount": -1
         },
         "complexity": {
           "excludeUsername": false,
           "minLength": 0,
-          "minLowerCase": 0,
+          "minLowerCase": -1,
           "minNumber": 0,
-          "minSymbol": 0,
+          "minSymbol": -1,
           "minUpperCase": 0
         }
       },
