@@ -1614,7 +1614,7 @@ function (Okta,
             });
           });
         });
-        itp('calls verifyFactor with empty code if verify button is clicked', function () {
+        itp('shows errors if verify button is clicked and answer is empty', function () {
           return setupEmail().then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeEmail);
@@ -1696,6 +1696,7 @@ function (Okta,
             test.form.emailSendCode().click();
             return tick().then(function () {
               expect(test.button.trimmedText()).toEqual('Sent');
+              expect(test.button.attr('class')).toContain('link-button-disabled');
               deferred.resolve();
               return test;
             });

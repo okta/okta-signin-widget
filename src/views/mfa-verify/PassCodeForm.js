@@ -57,7 +57,7 @@ define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, Text
   }
 
   return Okta.Form.extend({
-    className: 'mfa-verify-pass-code',
+    className: 'mfa-verify-passcode',
     autoSave: true,
     noCancelButton: true,
     save: _.partial(Okta.loc, 'mfa.challenge.verify', 'login'),

@@ -267,7 +267,7 @@ define([
 
   var verifyClasses = {
     VerifyQuestion: 'mfa-verify-question',
-    VerifyPassCode: 'mfa-verify-pass-code',
+    VerifyPassCode: 'mfa-verify-passcode',
     VerifyTotp: 'mfa-verify-totp',
     VerifyYubikey: 'mfa-verify-yubikey',
     VerifyPush: 'mfa-verify-push'

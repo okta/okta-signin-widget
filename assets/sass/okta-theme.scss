@@ -384,25 +384,25 @@
   
   .mfa-email-30,
   .enroll-factor-row .mfa-okta-email {
-    /* -- Factor Icons (small): CALL -- */
+    /* -- Factor Icons (small): EMAIL -- */
     background-image: url('../img/icons/mfa/email_38x38.png');
 
     @media
     (-webkit-min-device-pixel-ratio: 2),
     (min-resolution: 192dpi) {
-      /* -- Factor Icons (high DPI): CALL -- */
+      /* -- Factor Icons (high DPI): EMAIL -- */
       background-image: url('../img/icons/mfa/email_ico@2x.png');
     }
   }
 
   .mfa-okta-email {
-    /* -- Factor Icons (large): CALL -- */
+    /* -- Factor Icons (large): EMAIL -- */
     background-image: url('../img/icons/mfa/email_70x70.png');
 
     @media
     (-webkit-min-device-pixel-ratio: 2),
     (min-resolution: 192dpi) {
-      /* -- Factor Icons (high DPI): CALL -- */
+      /* -- Factor Icons (high DPI): EMAIL -- */
       background-image: url('../img/icons/mfa/email@2x.png');
     }
   }
@@ -774,7 +774,7 @@
   .mfa-verify-push { /* -- Page specific top level selectors -- */ }
   .mfa-verify-totp-inline { /* -- Page specific top level selectors -- */ }
   .mfa-verify-question { /* -- Page specific top level selectors -- */ }
-  .mfa-verify-pass-code { /* -- Page specific top level selectors -- */ }
+  .mfa-verify-passcode { /* -- Page specific top level selectors -- */ }
 
 }
 

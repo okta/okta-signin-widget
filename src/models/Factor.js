@@ -134,7 +134,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
       email: {
         deps: ['profile', 'factorType'],
         fn: function (profile, factorType) {
-          if (_.contains(['email'], factorType)) {
+          if (factorType === 'email') {
             return profile && profile.email;
           }
           return null;
@@ -165,7 +165,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         deps: ['provider', 'factorType'],
         fn: function (provider, factorType) {
           // Only push, sms and call have resend links.
-          return (provider === 'OKTA' && _.contains(['push', 'sms', 'call'], factorType));
+          return (provider === 'OKTA' && _.contains(['push', 'sms', 'call', 'email'], factorType));
         }
       },
       isSMSCallorEmail: {
