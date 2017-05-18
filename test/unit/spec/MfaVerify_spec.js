@@ -1178,11 +1178,11 @@ function (Okta,
             expect(test.button.trimmedText()).toEqual('Send code');
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
-            return tick().then(function () {
-              expect(test.button.trimmedText()).toEqual('Sent');
-              deferred.resolve();
-              return test;
-            });
+            return tick(test);
+          }).then(function (test) {
+            expect(test.button.trimmedText()).toEqual('Sent');
+            deferred.resolve();
+            return test;
           }).then(function (test) {
             return tick().then(function () {
               expect(test.button.length).toBe(1);
@@ -1756,6 +1756,28 @@ function (Okta,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(false);
             expect(test.form.errorBox().length).toBe(0);
+          });
+        });
+        itp('posts to resend link if send email button is clicked for the second time', function () {
+          Util.speedUpPolling();
+          return setupEmail().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              data: {stateToken: 'testStateToken'},
+              url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify/resend'
+            });
           });
         });
       });

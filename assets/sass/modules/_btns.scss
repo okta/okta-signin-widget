@@ -42,7 +42,8 @@
 }
 
 .sms-request-button,
-.call-request-button {
+.call-request-button,
+.email-request-button {
   text-align: center;
   @include max-width-text(120px);
 
