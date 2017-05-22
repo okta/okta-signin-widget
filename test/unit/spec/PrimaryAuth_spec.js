@@ -85,7 +85,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     var authContainer = new AuthContainer($sandbox);
     var form = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
-
     if (refreshState) {
       Util.mockRouterNavigate(router);
       setNextResponse(resUnauthenticated);
