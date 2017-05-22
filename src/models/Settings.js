@@ -137,7 +137,6 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       //Registration
       'registration': 'object',
       'registration.click': 'function'
-
     },
 
     derived: {

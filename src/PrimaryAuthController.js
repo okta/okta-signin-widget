@@ -154,7 +154,6 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       if (username) {
         this.options.appState.set('username', username);
       }
-      
     },
 
     events: {
