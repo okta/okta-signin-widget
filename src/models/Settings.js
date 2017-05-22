@@ -132,7 +132,14 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'helpLinks.custom': 'array',
 
       //Custom Buttons
-      'customButtons': ['array', false, []]
+      'customButtons': ['array', false, []],
+
+      //Registration
+      'registration': 'object',
+      'registration.click': 'function',
+      'registration.label': 'string',
+      'registration.text': 'string'
+
     },
 
     derived: {
