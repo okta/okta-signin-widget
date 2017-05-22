@@ -819,13 +819,13 @@ customButtons: [{
 
 ## Adding Registration Button
 
-You can add a registration button to the primary auth page by setting the following config options. If you'd like to change the text, use the i18n config option
+You can add a registration button to the primary auth page by setting the following config options. If you'd like to change the text, use the `i18n` config option.
 
 ```javascript
 // An example that adds a registration button underneath the login form on the primary auth page
 registration: {
   click: function(){
-    window.location.href = 'https://my-domain.com/sign-up'
+    window.location.href = 'https://acme.com/sign-up';
   }
 }
 ```

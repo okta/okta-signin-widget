@@ -29,21 +29,19 @@ define([
 
     handleClickEvent: function () {
       var clickHandler = this.settings.get('registration').click;
-      if (clickHandler && Okta._.isFunction(clickHandler)) {
+      if (Okta._.isFunction(clickHandler)) {
         clickHandler();
       }
       return false;
     },
 
     getTemplateData: function () {
-
       var templateData = {  
         label: Okta.loc('registration.signup.label', 'login'),
         text: Okta.loc('registration.signup.text', 'login')
       };
       return templateData; 
     }
-    
   });
 
 });

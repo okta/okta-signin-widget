@@ -2038,61 +2038,28 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         expect(test.form.registrationContainer().length).toBe(0);
       });
     });
-    itp('does not show the registration button if settings.registration properties are undefined', function () {
-      var registration =  undefined;
-      return setupRegistrationButton(registration).then(function (test) {
-        expect(test.form.registrationContainer().length).toBe(0);
-      });
-    });
     itp('shows the registration button if settings.registration properties are configured', function () {
       var registration =  {
         click: function () {
           window.location.href = 'http://www.test.com';
-        },
-        label: 'Dont have an account ?',
-        text: 'Register'
-      };
-      
-      spyOn(Okta, 'loc').and.callFake(function (key) {
-        if (key === 'registration.signup.label') {
-          return 'Dont have an account ?';
-        } else if (key === 'registration.signup.text') {
-          return 'Register';
         }
-      });
+      };
       return setupRegistrationButton(registration).then(function (test) {
         expect(test.form.registrationContainer().length).toBe(1);
         expect(test.form.registrationLabel().length).toBe(1);
-        expect(test.form.registrationLabel().text()).toBe('Dont have an account ?');
+        expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
         expect(test.form.registrationLink().length).toBe(1);
-        expect(test.form.registrationLink().text()).toBe('Register');
+        expect(test.form.registrationLink().text()).toBe('Sign up');
         expect(typeof(registration.click)).toEqual('function');
       });
     });
     itp('calls settings.registration.click if its a function and when the link is clicked', function () {
       var registration =  {
-        click: function () {
-          window.location.href = 'http://www.test.com';
-        },
-        label: 'Dont have an account ?',
-        text: 'Register'
+        click: jasmine.createSpy('registrationSpy')
       };
-      spyOn(registration, 'click');
       return setupRegistrationButton(registration).then(function (test) {
-        expect(typeof(registration.click)).toEqual('function');
         test.form.registrationLink().click();
         expect(registration.click).toHaveBeenCalled();
-      });
-    });
-    itp('does nothing when settings.registration.click is not a function and when the link is clicked', function () {
-      var registration =  {
-        click: 'test',
-        label: 'Dont have an account ?',
-        text: 'Register'
-      };
-      spyOn(registration, 'click');
-      return setupRegistrationButton(registration).then(function () {
-        expect(registration.click).not.toHaveBeenCalled();
       });
     });
   });
