@@ -186,7 +186,7 @@ define(['okta'], function (Okta) {
 
       var policyComplexity = policy.complexity;
       var requirements = _.map(policyComplexity, function (complexityValue, complexityType) {
-        if (!complexityValue) {
+        if (complexityValue <= 0) { // to skip 0 and -1
           return;
         }
 
@@ -206,7 +206,7 @@ define(['okta'], function (Okta) {
       }
     }
 
-    if (policy.age && policy.age.historyCount) {
+    if (policy.age && policy.age.historyCount > 0) {
       result.push(Okta.loc('password.complexity.history', 'login', [policy.age.historyCount]));
     }
 
