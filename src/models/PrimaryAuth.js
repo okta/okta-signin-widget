@@ -37,9 +37,24 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       }
 
       return {
-        username: ['string', true, username],
+        username: {
+          type: 'string',
+          validate: function (value) {
+            if(_.isEmpty(value)) {
+              return Okta.loc('error.username.required', 'login');
+            }
+          },
+          value: username
+        },
         lastUsername: ['string', false, cookieUsername],
-        password: ['string', true],
+        password: {
+          type: 'string',
+          validate: function (value) {
+            if(_.isEmpty(value)) {
+              return Okta.loc('error.password.required', 'login');
+            }
+          }
+        },
         context: ['object', false],
         remember: ['boolean', true, remember],
         multiOptionalFactorEnroll: ['boolean', true]
