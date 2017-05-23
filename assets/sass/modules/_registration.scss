@@ -1,0 +1,17 @@
+.registration-container {
+  margin-top: 30px;
+  
+  .content {
+    padding: 30px 42px;
+    -moz-transition: padding-top 0.4s;
+    -webkit-transition: padding-top 0.4s;
+    transition: padding-top 0.4s;
+    border-top: 1px solid #ddd;
+    margin-top: 5px;
+  }
+
+  .registration-link {
+    margin-left: 10px;
+    color: $primary-button-bg-color;
+  }
+}
