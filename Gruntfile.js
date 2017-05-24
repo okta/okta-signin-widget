@@ -97,7 +97,7 @@ module.exports = function (grunt) {
           // jquery.qtip.css -> _jquery.qtip.scss
           {
             expand: true,
-            cwd: 'node_modules/qtip2/dist/',
+            cwd: 'node_modules/@okta/qtip2/dist/',
             src: 'jquery.qtip.css',
             dest: 'target/sass/widgets',
             rename: function () {

@@ -89,7 +89,6 @@
     "jquery-placeholder": "2.0.7",
     "jquery.cookie": "1.4.1",
     "q": "1.4.1",
-    "qtip2": "3.0.3",
     "u2f-api-polyfill": "0.4.1",
     "underscore": "1.8.3"
   },
@@ -98,6 +97,7 @@
     "@okta/ci-update-package": "1.4.0",
     "@okta/courage": "2.6.0",
     "@okta/i18n": "27.13.0",
-    "@okta/install-with-shrinkwrap": "1.7.0"
+    "@okta/install-with-shrinkwrap": "1.7.0",
+    "@okta/qtip2": "3.0.6"
   }
 }
