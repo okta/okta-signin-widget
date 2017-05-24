@@ -14,13 +14,14 @@ define([
   'okta'
 ], function (Okta) {
 
+  var _ = Okta._;
+
   return Okta.Form.extend({
     constructor: function (options) {
+      var target = this.attributes.target = _.uniqueId('iframe');
+
       Okta.Form.call(this, options);
-      this.events['click *[type=submit]'] = this.events.submit;
-      this.events.submit = function (e) {
-        e.preventDefault();
-      };
+      this.add('<iframe name="' + target + '" style="display:none"></iframe>');
     }
   });
 
