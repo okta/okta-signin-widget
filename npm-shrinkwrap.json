@@ -2,11 +2,36 @@
   "name": "@okta/okta-signin-widget",
   "version": "1.11.0",
   "dependencies": {
+    "@okta/ci-pkginfo": {
+      "version": "1.2.0"
+    },
+    "@okta/ci-update-package": {
+      "version": "1.4.0",
+      "dependencies": {
+        "git-rev-sync": {
+          "version": "1.5.0"
+        }
+      }
+    },
     "@okta/courage": {
-      "version": "2.6.0"
+      "version": "2.11.0"
     },
     "@okta/i18n": {
-      "version": "27.13.0"
+      "version": "27.26.0"
+    },
+    "@okta/install-with-shrinkwrap": {
+      "version": "1.7.0",
+      "dependencies": {
+        "graceful-fs": {
+          "version": "4.1.11"
+        },
+        "jsonfile": {
+          "version": "2.4.0"
+        },
+        "lodash": {
+          "version": "4.17.4"
+        }
+      }
     },
     "@okta/jquery.simplemodal": {
       "version": "1.4.9"
@@ -283,6 +308,9 @@
     "cli-width": {
       "version": "2.1.0"
     },
+    "clipboard": {
+      "version": "1.6.1"
+    },
     "cliui": {
       "version": "3.2.0"
     },
@@ -432,6 +460,9 @@
     },
     "delayed-stream": {
       "version": "1.0.0"
+    },
+    "delegate": {
+      "version": "3.1.2"
     },
     "delegates": {
       "version": "1.0.0"
@@ -1165,6 +1196,9 @@
           "version": "4.16.6"
         }
       }
+    },
+    "good-listener": {
+      "version": "1.2.2"
     },
     "graceful-fs": {
       "version": "4.1.3"
@@ -2319,6 +2353,9 @@
     },
     "sax": {
       "version": "1.2.2"
+    },
+    "select": {
+      "version": "1.1.2"
     },
     "selenium-webdriver": {
       "version": "2.53.3",

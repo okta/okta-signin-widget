@@ -147,8 +147,11 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       }
       this.add(new Footer(this.toJSON({appState: options.appState})));
 
-      if (!_.isEmpty(options.settings.get('registration'))) {
-        this.add(new FooterRegistration({settings: this.settings}));
+      if (options.settings.get('registration.enable')) {
+        this.add(new FooterRegistration({
+          settings: this.settings,
+          appState: options.appState
+        }));
       }
       username = this.model.get('username');
       if (username) {
