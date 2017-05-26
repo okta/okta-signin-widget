@@ -25,8 +25,8 @@ function (Okta, BaseLoginController, FormType, Enums, BaseSchema, SchemaFormFact
   var Footer = Okta.View.extend({
     template: '\
       <a href="#" class="link help" data-se="back-link">\
-      {{i18n code="goback" bundle="login"}}\
-    </a>\
+        {{i18n code="goback" bundle="login"}}\
+      </a>\
     ',
     className: 'auth-footer',
     events: {
@@ -50,7 +50,7 @@ function (Okta, BaseLoginController, FormType, Enums, BaseSchema, SchemaFormFact
   });
 
   return BaseLoginController.extend({
-    className: 'register',
+    className: 'registration',
     initialize: function() {
       var Schema = BaseSchema.Model.extend({
         url: 'api/v1/schema',
@@ -82,6 +82,8 @@ function (Okta, BaseLoginController, FormType, Enums, BaseSchema, SchemaFormFact
       }, {parse:true});
 
       var properties = schema.properties;
+      // SchemaProperties.createModelProperties doesn't set the required attribute now
+      // Hardcoded the `required` to `true` temporary.
       var modelProperties = properties.createModelProperties();
       _.map(modelProperties, function(modelProperty) {
         modelProperty.required = true;
