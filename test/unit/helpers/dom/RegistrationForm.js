@@ -15,6 +15,12 @@ define(['./Form'], function (Form) {
       return this.error(FIRSTNAME_FIELD);
     },
 
+    setFirstname: function (val) {
+      var field = this.firstnameField();
+      field.val(val);
+      field.trigger('change');
+    },
+
     lastnameField: function () {
       return this.input(LASTNAME_FIELD);
     },
