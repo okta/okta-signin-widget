@@ -2,36 +2,11 @@
   "name": "@okta/okta-signin-widget",
   "version": "1.11.0",
   "dependencies": {
-    "@okta/ci-pkginfo": {
-      "version": "1.2.0"
-    },
-    "@okta/ci-update-package": {
-      "version": "1.4.0",
-      "dependencies": {
-        "git-rev-sync": {
-          "version": "1.5.0"
-        }
-      }
-    },
     "@okta/courage": {
       "version": "2.11.0"
     },
     "@okta/i18n": {
       "version": "27.26.0"
-    },
-    "@okta/install-with-shrinkwrap": {
-      "version": "1.7.0",
-      "dependencies": {
-        "graceful-fs": {
-          "version": "4.1.11"
-        },
-        "jsonfile": {
-          "version": "2.4.0"
-        },
-        "lodash": {
-          "version": "4.17.4"
-        }
-      }
     },
     "@okta/jquery.simplemodal": {
       "version": "1.4.9"
