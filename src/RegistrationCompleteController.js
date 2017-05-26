@@ -21,12 +21,12 @@ function (Okta, Enums, FormController, FormType) {
   var _ = Okta._;
 
   return FormController.extend({
-    className: 'registration-email-sent',
+    className: 'registration-complete',
     Model: function () {
     },
 
     Form: {
-      title: _.partial(Okta.loc, 'registration.emailSent.title', 'login'),
+      title: _.partial(Okta.loc, 'registration.complete.title', 'login'),
       noButtonBar: true,
       formChildren: function () {
         return [
@@ -37,7 +37,7 @@ function (Okta, Enums, FormController, FormType) {
               ',
               getTemplateData: function () {
                 var email = this.options.appState.get('username');
-                return { 'desc': Okta.loc('registration.emailSent.desc', 'login', [email]) };
+                return { 'desc': Okta.loc('registration.complete.desc', 'login', [email]) };
               }
             })
           })

@@ -95,13 +95,13 @@ function (Okta, BaseLoginController, FormType, Enums, BaseSchema, SchemaFormFact
         props: modelProperties,
         save: function () {
           this.appState.set('username', this.get('email'));
-          this.appState.trigger('navigate', 'signin/register-emailed');
+          this.appState.trigger('navigate', 'signin/register-complete');
         }
       });
       this.model = new Model();
       
       var form = new Form(this.toJSON());
-      properties.map(function(schemaProperty){
+      properties.each(function(schemaProperty) {
         form.addInput(_.extend(SchemaFormFactory.createInputOptions(schemaProperty), {
           label: false,
           'label-top': true,

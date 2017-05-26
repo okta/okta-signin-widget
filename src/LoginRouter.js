@@ -48,7 +48,7 @@ define([
   'UnlockEmailSentController',
   'RefreshAuthStateController',
   'RegistrationController',
-  'RegistrationEmailSentController',
+  'RegistrationCompleteController',
   'views/shared/SecurityBeacon',
   'views/shared/FactorBeacon'
 ],
@@ -88,7 +88,7 @@ function (BaseLoginRouter,
           UnlockEmailSentController,
           RefreshAuthStateController,
           RegistrationController,
-          RegistrationEmailSentController,
+          RegistrationCompleteController,
           SecurityBeacon,
           FactorBeacon) {
   return BaseLoginRouter.extend({
@@ -135,7 +135,7 @@ function (BaseLoginRouter,
       'signin/account-unlocked': 'accountUnlocked',
       'signin/refresh-auth-state(/:token)': 'refreshAuthState',
       'signin/register': 'register',
-      'signin/register-emailed': 'registerEmailSent',
+      'signin/register-complete': 'registerComplete',
       '*wildcard': 'primaryAuth'
     },
 
@@ -143,7 +143,7 @@ function (BaseLoginRouter,
     // these functions will not require a status call to refresh the stateToken.
     stateLessRouteHandlers: [
       'primaryAuth', 'forgotPassword', 'recoveryLoading', 'unlockAccount', 'refreshAuthState', 'register', 
-      'registerEmailSent'
+      'registerComplete'
     ],
 
     primaryAuth: function () {
@@ -388,8 +388,8 @@ function (BaseLoginRouter,
       this.render(RegistrationController);
     },
 
-    registerEmailSent: function() {
-      this.render(RegistrationEmailSentController);
+    registerComplete: function() {
+      this.render(RegistrationCompleteController);
     }
 
   });
