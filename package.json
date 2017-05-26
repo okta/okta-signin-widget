@@ -42,6 +42,21 @@
     "ci-pkginfo:dataload": "ci-pkginfo -t dataload",
     "installsw": "install-with-shrinkwrap"
   },
+  "okta": {
+    "doc": [
+      {
+        "source": "README.md",
+        "target": "_source/_code/javascript/okta_sign-in_widget.md",
+        "frontmatter": {
+          "layout": "docs_page",
+          "title": "Okta Sign-In Widget",
+          "excerpt": "A drop-in widget with custom UI capabilities to power sign-in with Okta. An <a href='/code/javascript/okta_sign-in_widget_ref.html'>in-depth reference</a> is also available.",
+          "weight": "1",
+          "redirect_from": ["/docs/guides/okta_sign-in_widget.html"]
+        }
+      }
+    ]
+  },
   "devDependencies": {
     "app-root-path": "1.0.0",
     "autoprefixer": "6.7.7",
