@@ -147,7 +147,7 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       }
       this.add(new Footer(this.toJSON({appState: options.appState})));
 
-      if (options.settings.get('registration.enable')) {
+      if (options.settings.get('features.registration')) {
         this.add(new FooterRegistration({
           settings: this.settings,
           appState: options.appState

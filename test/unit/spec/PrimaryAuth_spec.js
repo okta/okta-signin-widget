@@ -155,10 +155,13 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     return setup(settings);
   }
 
-  function setupRegistrationButton(registrationObj) {
+  function setupRegistrationButton(featuresRegistration, registrationObj) {
     var settings = {
       registration: registrationObj
     };
+    if (_.isBoolean(featuresRegistration)) {
+      settings['features.registration'] = featuresRegistration;
+    }
     return setup(settings);
   }
 
@@ -2040,30 +2043,22 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
   });
   
   Expect.describe('Registration Flow', function () {
-    itp('does not show the registration button if settings.registration is not set', function () {
+    itp('does not show the registration button if features.registration is not set', function () {
       return setup().then(function (test) {
         expect(test.form.registrationContainer().length).toBe(0);
       });
     });
-    itp('does not show the registration button if settings.registration is empty object', function () {
-      var registration =  {};
-      return setupRegistrationButton(registration).then(function (test) {
-        expect(test.form.registrationContainer().length).toBe(0);
-      });
-    });
-    itp('does not show the registration button if settings.registration.enable is false', function () {
+    itp('does not show the registration button if features.registration is false', function () {
       var registration =  {
-        enable: false
       };
-      return setupRegistrationButton(registration).then(function (test) {
+      return setupRegistrationButton(null, registration).then(function (test) {
         expect(test.form.registrationContainer().length).toBe(0);
       });
     });
     itp('show the registration button if settings.registration.enable is true', function () {
       var registration =  {
-        enable: true
       };
-      return setupRegistrationButton(registration).then(function (test) {
+      return setupRegistrationButton(true, registration).then(function (test) {
         expect(test.form.registrationContainer().length).toBe(1);
         expect(test.form.registrationLabel().length).toBe(1);
         expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
@@ -2074,12 +2069,11 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     });
     itp(' the registration button is a custom function', function () {
       var registration =  {
-        enable: true,
         click: function () {
           window.location.href = 'http://www.test.com';
         }
       };
-      return setupRegistrationButton(registration).then(function (test) {
+      return setupRegistrationButton(true, registration).then(function (test) {
         expect(test.form.registrationContainer().length).toBe(1);
         expect(test.form.registrationLabel().length).toBe(1);
         expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
@@ -2090,10 +2084,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     });
     itp('calls settings.registration.click if its a function and when the link is clicked', function () {
       var registration =  {
-        enable: true,
         click: jasmine.createSpy('registrationSpy')
       };
-      return setupRegistrationButton(registration).then(function (test) {
+      return setupRegistrationButton(true, registration).then(function (test) {
         test.form.registrationLink().click();
         expect(registration.click).toHaveBeenCalled();
       });
