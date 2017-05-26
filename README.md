@@ -826,14 +826,10 @@ You can add a registration button to the primary auth page by setting the follow
 registration: {
   click: function() {
     window.location.href = 'https://acme.com/sign-up';
-  },
-  submit: function(registrationData) {
-    // submit the registration data
   }
 }
 ```
 - **registration.click** - Function that is called when the registration button is clicked
-- **registration.submit** - Function that is called when the registration form is submitted. The `registrationData` is a JSON object base on the schema.
 
 ## OpenId Connect
 

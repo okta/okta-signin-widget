@@ -94,10 +94,6 @@ function (Okta, BaseLoginController, FormType, Enums, BaseSchema, SchemaFormFact
         appState: this.options.appState,
         props: modelProperties,
         save: function () {
-          var formSubmitCallback = this.settings.get('registration.submit');
-          if (formSubmitCallback) {
-            formSubmitCallback(this.toJSON());
-          }
           this.appState.set('username', this.get('email'));
           this.appState.trigger('navigate', 'signin/register-emailed');
         }
