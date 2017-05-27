@@ -28,9 +28,12 @@ define([
     },
 
     handleClickEvent: function () {
-      var clickHandler = this.settings.get('registration').click;
-      if (Okta._.isFunction(clickHandler)) {
+      var clickHandler = this.settings.get('registration.click');
+      if (clickHandler) {
         clickHandler();
+      }
+      else {
+        this.options.appState.trigger('navigate', 'signin/register');
       }
       return false;
     },

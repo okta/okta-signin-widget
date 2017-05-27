@@ -819,18 +819,17 @@ customButtons: [{
 
 ## Adding Registration Button
 
-You can add a registration button to the primary auth page by setting the following config options. If you'd like to change the text, use the `i18n` config option.
+You can add a registration button to the primary auth page by setting the following config options.  `features.registration` must be set to `true`. If you'd like to change the text, use the `i18n` config option.
 
 ```javascript
 // An example that adds a registration button underneath the login form on the primary auth page
 registration: {
-  click: function(){
+  click: function() {
     window.location.href = 'https://acme.com/sign-up';
   }
 }
 ```
 - **registration.click** - Function that is called when the registration button is clicked
-
 
 ## OpenId Connect
 
@@ -1012,6 +1011,8 @@ features: {
 - **features.multiOptionalFactorEnroll** - Allow users to enroll in multiple optional factors before finishing the authentication flow. Default behavior is to force enrollment of all required factors and skip optional factors. Defaults to `false`.
 
 - **features.hideSignOutLinkInMFA** - Hides the sign out link for MFA challenge. Defaults to `false`.
+
+- **features.registration** - Display the registration section in the primary auth page. Defaults to `false`.
 
 # Events
 

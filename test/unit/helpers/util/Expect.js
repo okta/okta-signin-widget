@@ -246,6 +246,8 @@ define([
     RecoveryLoading: 'recovery-loading',
     RecoveryQuestion: 'recovery-question',
     RefreshAuthState: 'refresh-auth-state',
+    Registration: 'registration',
+    RegistrationComplete: 'registration-complete',
     UnlockAccount: 'account-unlock',
     UnlockEmailSent: 'account-unlock-email-sent',
     VerifyDuo: 'mfa-verify-duo',
