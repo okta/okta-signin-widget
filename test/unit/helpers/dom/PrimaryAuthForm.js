@@ -213,6 +213,18 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
     
     authDivider: function() {
       return this.$('.auth-divider');
+    },
+
+    registrationContainer: function() {
+      return this.$('.registration-container');
+    },
+
+    registrationLabel: function() {
+      return this.$('.registration-container .content .registration-label');
+    },
+
+    registrationLink: function() {
+      return this.$('.registration-container .content .registration-link');
     }
   });
 

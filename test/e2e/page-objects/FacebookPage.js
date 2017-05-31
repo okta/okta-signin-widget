@@ -15,6 +15,7 @@ var EC = protractor.ExpectedConditions;
 
 class FacebookPage {
   login(username, password) {
+    $('#email').clear();
     $('#email').sendKeys(username);
     $('#pass').sendKeys(password);
     $('[name=login]').click();

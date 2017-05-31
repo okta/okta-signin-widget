@@ -65,9 +65,10 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       },
       position: {
         my: 'top center',
-        at: 'bottom center',
-        adjust: {method: 'flip', y: -22},
-        viewport: $('body')
+        at: 'center',
+        target: $('.auth-beacon-security'),
+        adjust: {method: 'flip', scroll: false, resize: true},
+        effect: false
       },
       hide: {event: false, fixed: true},
       show: {event: false, delay: 200},

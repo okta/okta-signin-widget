@@ -34,6 +34,7 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
         return ValidationUtil.validatePasswordMatch(this);
       },
       save: function () {
+        this.trigger('save');
         var self = this;
         return this.doTransaction(function(transaction) {
           return transaction

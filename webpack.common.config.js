@@ -31,7 +31,7 @@ module.exports = function (outputFilename) {
         'vendor/lib/q': 'q',
         'vendor/plugins/jquery.placeholder': 'jquery-placeholder',
         'handlebars': 'handlebars/dist/handlebars',
-        'qtip': 'qtip2',
+        'qtip': '@okta/qtip2',
 
         // Duo has an npm module, but the latest version does not expose the
         // v2 version. Continue to use the vendor file that is checked into
@@ -45,6 +45,8 @@ module.exports = function (outputFilename) {
         'moment': EMPTY,
         'jqueryui': EMPTY,
         'mixpanel': EMPTY,
+        'selectize': EMPTY,
+        'shared/util/Bundle.js': EMPTY,
         'shared/views/datalist/DeadSimpleDataList': EMPTY,
         'shared/views/Backbone.TableView': EMPTY,
         'shared/util/TabbedRouter': EMPTY,
@@ -73,9 +75,15 @@ module.exports = function (outputFilename) {
         {
           loader: 'null-loader',
           include: [
+            'util/TimezoneUtil',
+            'views/Backbone.TableVie',
+            'views/datalist/SimpleDataList',
+            'views/datalist/Table',
             'views/forms/inputs/GroupPicker',
             'views/forms/inputs/AppPicker',
             'views/forms/inputs/AppInstancePicker',
+            'views/forms/inputs/IdpPicker',
+            'views/forms/inputs/ScopesPicker',
             'views/forms/inputs/SUOrgsPicker',
             'views/forms/inputs/UserPicker',
             'views/forms/inputs/BasePicker',
