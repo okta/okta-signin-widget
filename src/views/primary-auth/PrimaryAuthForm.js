@@ -12,19 +12,25 @@
 
 define([
   'okta',
-  'views/shared/Form',
   'views/shared/TextBox',
   'util/DeviceFingerprint'
-], function (Okta, Form, TextBox, DeviceFingerprint) {
+], function (Okta, TextBox, DeviceFingerprint) {
 
   var _ = Okta._;
 
-  return Form.extend({
+  return Okta.Form.extend({
     className: 'primary-auth-form',
     noCancelButton: true,
     save: _.partial(Okta.loc, 'primaryauth.submit', 'login'),
     saveId: 'okta-signin-submit',
     layout: 'o-form-theme',
+
+    constructor: function (options) {
+      var target = this.attributes.target = _.uniqueId('iframe');
+
+      Okta.Form.call(this, options);
+      this.add('<iframe name="' + target + '" style="display:none"></iframe>');
+    },
 
     // If socialAuth is configured, the title moves from the form to
     // the top of the container (and is rendered in socialAuth).
