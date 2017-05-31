@@ -998,22 +998,25 @@ function (Okta,
           });
         });
         itp('clears the passcode text field on clicking the "Send code" button', function () {
-          return setupSMS().then(function (test) {
-            test.button = test.form.smsSendCode();
-            test.form.setAnswer('123456');
+          return setupSMS()
+          .then(function (test) {
             test.setNextResponse(resChallengeSms);
-            expect(test.button.trimmedText()).toEqual('Send code');
+
+            expect(test.form.smsSendCode().trimmedText()).toEqual('Send code');
+            test.form.setAnswer('123456');
             expect(test.form.answerField().val()).toEqual('123456');
             test.form.smsSendCode().click();
-            return tick().then(function () {
-              expect(test.button.trimmedText()).toEqual('Sent');
-              expect(test.form.answerField().val()).toEqual('');
-              var button = test.form.submitButton();
-              var buttonClass = button.attr('class');
-              expect(buttonClass).not.toContain('link-button-disabled');
-              expect(button.prop('disabled')).toBe(false);
-              return test;
-            });
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.smsSendCode().trimmedText()).toEqual('Sent');
+            expect(test.form.answerField().val()).toEqual('');
+
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
+            return test;
           });
         });
         itp('calls verifyFactor with empty code if send code button is clicked', function () {
@@ -1029,6 +1032,38 @@ function (Okta,
               url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify',
               data: {
                 passCode: '',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+        itp('posts resend if send code button is clicked second time', function () {
+          Util.speedUpPolling();
+
+          return setupSMS().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeSms);
+            test.form.smsSendCode().click();
+            return Expect.waitForCss('.sms-request-button.disabled', test);
+          })
+          .then(function (test) {
+            return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
+          })
+          .then(function (test) {
+            expect(test.form.smsSendCode().trimmedText()).toEqual('Re-send code');
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeSms);
+            test.form.smsSendCode().click();
+            return Expect.waitForCss('.sms-request-button.disabled', test);
+          })
+          .then(function (test) {
+            return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify/resend',
+              data: {
                 stateToken: 'testStateToken'
               }
             });
