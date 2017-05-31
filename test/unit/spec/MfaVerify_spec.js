@@ -1050,6 +1050,7 @@ function (Okta,
             return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
           })
           .then(function (test) {
+            expect(test.form.smsSendCode().trimmedText()).toEqual('Re-send code');
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
