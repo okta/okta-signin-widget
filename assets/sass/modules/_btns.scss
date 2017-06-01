@@ -45,7 +45,7 @@
 .call-request-button,
 .email-request-button {
   text-align: center;
-  @include max-width-text(120px);
+  @include max-width-text(130px);
 
   @include max-width-mq($container-width) {
     width: 100%;
