@@ -1060,6 +1060,7 @@ function (Okta,
           })
           .then(function (test) {
             expect(test.form.smsSendCode().trimmedText()).toEqual('Re-send code');
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
@@ -1068,8 +1069,9 @@ function (Okta,
           .then(function (test) {
             return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
           })
-          .then(function () {
+          .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify/resend',
               data: {
@@ -1497,12 +1499,14 @@ function (Okta,
             return tick(test);
           })
           .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeCall);
             test.form.makeCall().click();
             return tick(test);
           })
-          .then(function () {
+          .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               data: {stateToken: 'testStateToken'},
@@ -1767,12 +1771,14 @@ function (Okta,
             return tick(test);
           })
           .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeEmail);
             test.form.emailSendCode().click();
             return tick(test);
           })
-          .then(function () {
+          .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               data: {stateToken: 'testStateToken'},

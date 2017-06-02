@@ -65,7 +65,7 @@ define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, Text
     layout: 'o-form-theme',
 
     disableSubmitButton: function () {
-      return this.model.appState.get('isMfaChallenge');
+      return this.model.appState.get('isMfaChallenge') && this.model.get('answer');
     },
 
     initialize: function () {
