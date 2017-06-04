@@ -1904,18 +1904,24 @@ function (Okta,
                 });
               });
             });
-            itp('will disable form submit', function () {
+            itp('will re-enable submit after api limit reached', function () {
+              var deferred = Util.mockRateLimiting();
               return setupOktaPush().then(function (test) {
-                return setupPolling(test, resSuccess)
+                $.ajax.calls.reset();
+                test.setNextResponse([resChallengePush, resChallengePush, resSuccess]);
+                test.form = test.form[0];
+                test.form.submit();
+                return tick(test)
                 .then(function () {
                   expect(test.form.submitButton().attr('class')).toMatch('link-button-disabled');
                   expect(test.form.submitButton().prop('disabled')).toBe(true);
-                  $.ajax.calls.reset();
-                  test.form.submit();
-                  return tick(test); // Final tick - SUCCESS
+                  expect(test.form.submitButtonText()).toBe('Push sent!');
+                  deferred.resolve();
+                  return test;
                 })
-                .then(function () {
-                  expect($.ajax.calls.count()).toBe(0);
+                .then(function (test) {
+                  expect(test.form.submitButton().prop('disabled')).toBe(false);
+                  expect(test.form.submitButtonText()).toBe('Re-send Push');
                 });
               });
             });
