@@ -84,6 +84,12 @@ define(['okta'], function (Okta) {
       .uniq()
       .value();
   };
+  
+  //helper to call setTimeout
+  Util.callAfterTimeout = function (callback, time) {
+    var timeout = setTimeout(callback, time);
+    return timeout;
+  };
 
   return Util;
 

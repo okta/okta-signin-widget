@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'vendor/lib/q', 'util/CookieUtil'], function (Okta, Q, CookieUtil) {
+define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Util) {
 
   var _ = Okta._;
   // deviceName is escaped on BaseForm (see BaseForm's template)
@@ -90,14 +90,17 @@ define(['okta', 'vendor/lib/q', 'util/CookieUtil'], function (Okta, Q, CookieUti
       }
     },
     doSave: function () {
+      var resendTimeout;
       this.clearErrors();
       if (this.model.isValid()) {
-        this.listenToOnce(this.model, 'error', this.setSubmitState, true);
+        this.listenToOnce(this.model, 'error', function() {
+          this.setSubmitState(true);
+          clearTimeout(resendTimeout);
+        });
         this.trigger('save', this.model);
-        return Q.delay(API_RATE_LIMIT)
-        .then(_.bind(function () {
+        resendTimeout = Util.callAfterTimeout(_.bind(function() {
           this.setSubmitState(true, 'oktaverify.resend');
-        }, this));
+        }, this), API_RATE_LIMIT);
       }
     },
     showError: function (msg) {
