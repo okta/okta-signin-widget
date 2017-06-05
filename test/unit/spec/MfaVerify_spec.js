@@ -1904,10 +1904,9 @@ function (Okta,
                 });
               });
             });
-            itp('will re-enable submit when api limit reached', function () {              
+            itp('will re-enable submit when retry timeout reached', function () {
               spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
-                var timeout = setTimeout(arguments[0], 0);
-                return timeout;
+                return setTimeout(arguments[0], 0);
               });
               return setupOktaPush().then(function (test) {
                 $.ajax.calls.reset();
@@ -1927,10 +1926,9 @@ function (Okta,
             itp('will not set button text to Re-send Push if error occurs before timeout', function () {              
               spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
                 var callback = arguments[0];
-                var timeout = setTimeout(function () {
+                return setTimeout(function () {
                   callback();
                 }, 10);
-                return timeout;
               });
               return setupOktaPush().then(function (test) {
                 return setupPolling(test, resRejectedPush)
@@ -1942,6 +1940,7 @@ function (Okta,
                   return tick(test);
                 })
                 .then(function (test) {
+                  //does not call setSubmitState from Timeout function
                   expect(test.form.submitButton().prop('disabled')).toBe(false);
                   expect(test.form.submitButtonText()).toBe('Send Push');
                 });

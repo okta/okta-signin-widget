@@ -87,8 +87,7 @@ define(['okta'], function (Okta) {
   
   //helper to call setTimeout
   Util.callAfterTimeout = function (callback, time) {
-    var timeout = setTimeout(callback, time);
-    return timeout;
+    return setTimeout(callback, time);
   };
 
   return Util;
