@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 35], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 36], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -25,6 +25,7 @@ define([
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
+  'helpers/xhr/MFA_CHALLENGE_email',
   'helpers/xhr/MFA_CHALLENGE_Webauthn',
   'helpers/xhr/MFA_CHALLENGE_u2f',
   'helpers/xhr/MFA_CHALLENGE_push',
@@ -69,6 +70,7 @@ function (Okta,
           resChallengeDuo,
           resChallengeSms,
           resChallengeCall,
+          resChallengeEmail,
           resChallengeWebauthn,
           resChallengeU2F,
           resChallengePush,
@@ -103,7 +105,8 @@ function (Okta,
     'SYMANTEC_VIP' :8,
     'RSA_SECURID': 9,
     'ON_PREM': 9,
-    'QUESTION': 10
+    'EMAIL': 10,
+    'QUESTION': 11,
   };
 
   function clickFactorInDropdown(test, factorName) {
@@ -206,6 +209,7 @@ function (Okta,
     var setupYubikey = _.partial(setup, resAllFactors, { factorType: 'token:hardware', provider: 'YUBICO' });
     var setupSMS = _.partial(setup, resAllFactors, { factorType: 'sms' });
     var setupCall = _.partial(setup, resAllFactors, { factorType: 'call' });
+    var setupEmail = _.partial(setup, resAllFactors, { factorType: 'email' });
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
@@ -440,6 +444,11 @@ function (Okta,
         itp('Okta SMS', function () {
           return setupWithFirstFactor({factorType: 'sms'}).then(function (test) {
             expect(test.form.isSMS()).toBe(true);
+          });
+        });
+        itp('Okta Email', function () {
+          return setupWithFirstFactor({factorType: 'email'}).then(function (test) {
+            expect(test.form.isEmail()).toBe(true);
           });
         });
       });
@@ -1051,6 +1060,7 @@ function (Okta,
           })
           .then(function (test) {
             expect(test.form.smsSendCode().trimmedText()).toEqual('Re-send code');
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
@@ -1059,8 +1069,9 @@ function (Okta,
           .then(function (test) {
             return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
           })
-          .then(function () {
+          .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify/resend',
               data: {
@@ -1169,11 +1180,11 @@ function (Okta,
             expect(test.button.trimmedText()).toEqual('Send code');
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
-            return tick().then(function () {
-              expect(test.button.trimmedText()).toEqual('Sent');
-              deferred.resolve();
-              return test;
-            });
+            return tick(test);
+          }).then(function (test) {
+            expect(test.button.trimmedText()).toEqual('Sent');
+            deferred.resolve();
+            return test;
           }).then(function (test) {
             return tick().then(function () {
               expect(test.button.length).toBe(1);
@@ -1488,16 +1499,290 @@ function (Okta,
             return tick(test);
           })
           .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeCall);
             test.form.makeCall().click();
             return tick(test);
           })
-          .then(function () {
+          .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               data: {stateToken: 'testStateToken'},
               url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify/resend'
+            });
+          });
+        });
+      });
+      
+      Expect.describe('Email', function () {
+        beforeEach(function () {
+          var  throttle = _.throttle;
+          spyOn(_, 'throttle').and.callFake(function (fn) {
+            return throttle(fn, 0);
+          });
+        });
+
+        itp('is email', function () {
+          return setupEmail().then(function (test) {
+            expect(test.form.isEmail()).toBe(true);
+          });
+        });
+        itp('shows the right beacon', function () {
+          return setupEmail().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-okta-email');
+          });
+        });
+        itp('does not autocomplete', function () {
+          return setupEmail().then(function (test) {
+            expect(test.form.getAutocomplete()).toBe('off');
+          });
+        });
+        itp('shows the email in the title', function () {
+          return setupEmail().then(function (test) {
+            expectTitleToBe(test, 'Email Authentication');
+            expectSubtitleToBe(test, '(a...1@clouditude.net)');
+          });
+        });
+        itp('has a button to send the code', function () {
+          return setupEmail().then(function (test) {
+            var button = test.form.emailSendCode();
+            expect(button.length).toBe(1);
+            expect(button.is('a')).toBe(true);
+          });
+        });
+        itp('has a passCode field', function () {
+          return setupEmail().then(function (test) {
+            expectHasAnswerField(test);
+          });
+        });
+        itp('has remember device checkbox', function () {
+          return setupEmail().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
+        itp('clears the passcode text field on clicking the "Send email" button', function () {
+          return setupEmail().then(function (test) {
+            test.button = test.form.emailSendCode();
+            test.form.setAnswer('123456');
+            test.setNextResponse(resChallengeEmail);
+            expect(test.button.trimmedText()).toEqual('Send email');
+            expect(test.form.answerField().val()).toEqual('123456');
+            test.form.emailSendCode().click();
+            return tick().then(function () {
+              expect(test.button.trimmedText()).toEqual('Sent');
+              expect(test.form.answerField().val()).toEqual('');
+              var button = test.form.submitButton();
+              var buttonClass = button.attr('class');
+              expect(buttonClass).not.toContain('link-button-disabled');
+              expect(button.prop('disabled')).toBe(false);
+              return test;
+            });
+          });
+        });
+        itp('calls verifyFactor with empty code if send code button is clicked', function () {
+          return setupEmail().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify',
+              data: {
+                passCode: '',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+        itp('calls verifyFactor with rememberDevice URL param', function () {
+          return setupEmail().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setRememberDevice(true);
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
+              data: {
+                passCode: '',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+        itp('shows errors if verify button is clicked and answer is empty', function () {
+          return setupEmail().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.setAnswer('');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+        });
+        itp('calls verifyFactor with given code if verify button is clicked', function () {
+          return setupEmail().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.setAnswer('123456');
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify',
+              data: {
+                passCode: '123456',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+          return setupEmail().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setRememberDevice(true);
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.setAnswer('123456');
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
+              data: {
+                passCode: '123456',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+        itp('temporarily disables the send code button before displaying re-send \
+             to avoid exceeding the rate limit', function () {
+          var deferred = Util.mockRateLimiting();
+          return setupEmail().then(function (test) {
+            test.button = test.form.emailSendCode();
+            expect(test.button.trimmedText()).toEqual('Send email');
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick().then(function () {
+              expect(test.button.trimmedText()).toEqual('Sent');
+              expect(test.button.attr('class')).toContain('link-button-disabled');
+              deferred.resolve();
+              return test;
+            });
+          }).then(function (test) {
+            return tick().then(function () {
+              expect(test.button.length).toBe(1);
+              expect(test.button.trimmedText()).toEqual('Re-send email');
+            });
+          });
+        });
+        itp('displays only one error block if got an error resp on "Send email"', function () {
+          var deferred = Util.mockRateLimiting();
+          return setupEmail().then(function (test) {
+            test.setNextResponse(resResendError);
+            test.form.emailSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+            deferred.resolve();
+            test.setNextResponse(resResendError);
+            test.form.emailSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+          });
+        });
+        itp('shows proper account locked error after too many failed MFA attempts.', function () {
+          return setupEmail().then(function (test) {
+            test.setNextResponse(resMfaLocked);
+            test.form.setAnswer('12345');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+            expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+          });
+        });
+        itp('hides error messages after clicking on send email', function () {
+          return setupEmail().then(function (test) {
+            test.form.setAnswer('');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(false);
+            expect(test.form.errorBox().length).toBe(0);
+          });
+        });
+        itp('posts to resend link if send email button is clicked for the second time', function () {
+          Util.speedUpPolling();
+          return setupEmail().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              data: {stateToken: 'testStateToken'},
+              url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify/resend'
             });
           });
         });
@@ -2202,7 +2487,7 @@ function (Okta,
       itp('has a dropdown if there is more than one factor', function () {
         return setup(resAllFactors).then(function (test) {
           var options = test.beacon.getOptionsLinks();
-          expect(options.length).toBe(11);
+          expect(options.length).toBe(12);
         });
       });
       itp('shows the right options in the dropdown, removes okta totp if ' +
@@ -2213,7 +2498,7 @@ function (Okta,
             'Okta Verify', 'SMS Authentication', 'Voice Call Authentication',
             'Windows Hello', 'Security Key (U2F)', 'Yubikey', 'Duo Security',
             'Google Authenticator', 'Symantec VIP', 'RSA SecurID',
-            'Security Question'
+            'Email Authentication', 'Security Question'
           ]);
         });
       });
