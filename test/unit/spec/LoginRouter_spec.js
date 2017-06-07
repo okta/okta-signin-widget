@@ -1142,12 +1142,12 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
           });
         });
         itp('allows the developer to pass in a new language and will add that to the list of supported languages', function () {
-          var spy = jasmine.createSpy('language').and.returnValue('zz-ZZ');
+          var spy = jasmine.createSpy('language').and.returnValue('zz-zz');
           return setupLanguage({
             settings: {
               language: spy,
               i18n: {
-                'zz-ZZ': {
+                'zz-zz': {
                   'enroll.call.setup': 'ZZ: enroll.call.setup',
                   'country.JP': 'ZZ: country.JP'
                 }
@@ -1156,7 +1156,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
           })
           .then(function (test) {
             var supported = spy.calls.argsFor(0)[0];
-            expect(supported).toContain('zz-ZZ');
+            expect(supported).toContain('zz-zz');
             expectZz(test);
           });
         });
@@ -1192,7 +1192,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
           return setupLanguage({
             settings: {
               i18n: {
-                'zz-ZZ': {
+                'zz-zz': {
                   'enroll.call.setup': 'ZZ: enroll.call.setup',
                   'country.JP': 'ZZ: country.JP'
                 }
@@ -1207,7 +1207,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
             return Expect.waitForForgotPassword(test);
           })
           .then(function (test) {
-            test.router.appState.set('languageCode', 'zz-ZZ');
+            test.router.appState.set('languageCode', 'zz-zz');
             test.router.enrollCall();
             return Expect.waitForEnrollCall(test);
           })
