@@ -155,10 +155,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         deps: ['provider', 'factorType'],
         fn: function (provider, factorType) {
           // Only push, sms and call have resend links.
-          // However, we currently have a problem with SMS
-          // (no way to know whether we want resend or verifyFactor),
-          // so we're turning it off for now.
-          return (provider === 'OKTA' && _.contains(['push', 'call'], factorType));
+          return (provider === 'OKTA' && _.contains(['push', 'sms', 'call'], factorType));
         }
       },
       isSMSorCall: {

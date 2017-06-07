@@ -33,7 +33,7 @@ define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, Text
     },
 
     initialize: function () {
-      var self = this;
+      var form = this;
       this.title = this.model.get('factorLabel');
 
       var factorType = this.model.get('factorType');
@@ -57,19 +57,19 @@ define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, Text
         className: 'button ' + buttonClassName,
         title: formSubmit,
         click: function () {
-          self.clearErrors();
+          form.clearErrors();
+          this.disable();
+          this.options.title = formSubmitted;
+          this.render();
           // To send an OTP to the device, make the same request but use
           // an empty passCode
           this.model.set('answer', '');
           this.model.save()
-          .then(_.bind(function () {
-            this.options.title = formSubmitted;
-            this.disable();
-            this.render();
+          .then(function () {
             // render and focus on the passcode input field.
-            self.getInputs().first().render().focus();
+            form.getInputs().first().render().focus();
             return Q.delay(API_RATE_LIMIT);
-          }, this))
+          })
           .then(_.bind(function () {
             this.options.title = formRetry;
             this.enable();
