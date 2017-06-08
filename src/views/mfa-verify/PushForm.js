@@ -12,6 +12,12 @@
 
 define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
 
+  var SUBMIT_STATE = {
+    DISABLED: 0, // false
+    ENABLED: 1, // true
+    ENABLED_RETRY: 2 // true
+  };
+
   var _ = Okta._;
   // deviceName is escaped on BaseForm (see BaseForm's template)
   var titleTpl = Okta.Handlebars.compile('{{factorName}} ({{{deviceName}}})');
@@ -40,8 +46,14 @@ define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
       );
       this.listenTo(this.options.appState, 'change:isMfaTimeout',
         function (state, isMfaTimeout) {
-          this.setSubmitState(isMfaTimeout);
           if (isMfaTimeout) {
+            this.setSubmitState(state.isMfaChallenge ? SUBMIT_STATE.ENABLED : SUBMIT_STATE.ENABLED_RETRY);
+          }
+          else {
+            this.setSubmitState(SUBMIT_STATE.DISABLED);
+          }
+
+          if (state.isMfaChallenge && isMfaTimeout) {
             this.showError(Okta.loc('oktaverify.timeout', 'login'));
           }
         }
@@ -58,17 +70,25 @@ define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
         deviceName: this.model.get('deviceName')
       });
     },
-    setSubmitState: function (ableToSubmit) {
+    setSubmitState: function (submitState) {
       var button = this.$el.find('.button');
-      this.enabled = ableToSubmit;
-      if (ableToSubmit) {
-        button.removeClass('link-button-disabled');
-        button.prop('value', Okta.loc('oktaverify.send', 'login'));
-        button.prop('disabled', false);
-      } else {
+      this.enabled = !!submitState;
+
+      switch (submitState) {
+      case SUBMIT_STATE.DISABLED:
         button.addClass('link-button-disabled');
         button.prop('value', Okta.loc('oktaverify.sent', 'login'));
         button.prop('disabled', true);
+        break;
+      case SUBMIT_STATE.ENABLED:
+        button.removeClass('link-button-disabled');
+        button.prop('value', Okta.loc('oktaverify.send', 'login'));
+        button.prop('disabled', false);
+        break;
+      case SUBMIT_STATE.ENABLED_RETRY:
+        button.removeClass('link-button-disabled');
+        button.prop('value', Okta.loc('oktaverify.resend', 'login'));
+        button.prop('disabled', false);
       }
     },
     submit: function (e) {
@@ -76,7 +96,7 @@ define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
         e.preventDefault();
       }
       if (this.enabled) {
-        this.setSubmitState(false);
+        this.setSubmitState(SUBMIT_STATE.DISABLED);
         this.doSave();
       }
     },
@@ -90,7 +110,7 @@ define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
     doSave: function () {
       this.clearErrors();
       if (this.model.isValid()) {
-        this.listenToOnce(this.model, 'error', this.setSubmitState, true);
+        this.listenToOnce(this.model, 'error', this.setSubmitState, SUBMIT_STATE.ENABLED);
         this.trigger('save', this.model);
       }
     },

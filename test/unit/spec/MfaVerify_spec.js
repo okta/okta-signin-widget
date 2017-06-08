@@ -1981,8 +1981,8 @@ function (Okta,
                 return setupPolling(test, resTimeoutPush)
                 .then(function () { return tick(test); }) // Final response - TIMEOUT
                 .then(function (test) {
-                  expect(test.form.errorMessage()).toBe('Your push notification has expired.');
                   expect(test.form.submitButton().prop('disabled')).toBe(false);
+                  expect(test.form.submitButton().val()).toEqual('Re-send Push');
                 });
               });
             });
