@@ -358,6 +358,13 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(signInButton.attr('id')).toEqual('okta-signin-submit');
         });
       });
+      itp('has an iframe for Oracle Tap Android app (OKTA-118336)', function () {
+        return setup().then(function (test) {
+          var iframe = test.form.$('iframe');
+          expect(iframe.length).toBe(1);
+          expect(iframe.attr('name')).toEqual(test.form.primaryAuthForm().attr('target'));
+        });
+      });
 
       itp('has a rememberMe checkbox if features.rememberMe is true', function () {
         return setup().then(function (test) {
