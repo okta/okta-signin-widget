@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 13], max-params: [2, 11] */
+/* eslint complexity: [2, 14], max-params: [2, 11] */
 define([
   'okta',
   'shared/views/forms/inputs/CheckBox',
@@ -19,12 +19,12 @@ define([
   'views/mfa-verify/TOTPForm',
   'views/mfa-verify/YubikeyForm',
   'views/mfa-verify/SecurityQuestionForm',
-  'views/mfa-verify/CallAndSMSForm',
+  'views/mfa-verify/PassCodeForm',
   'views/mfa-verify/PushForm',
   'views/mfa-verify/InlineTOTPForm',
   'views/shared/FooterSignout'
 ],
-function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm, SecurityQuestionForm, CallAndSMSForm,
+function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
           PushForm, InlineTOTPForm, FooterSignout) {
 
   return BaseLoginController.extend({
@@ -42,7 +42,8 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
         break;
       case 'sms':
       case 'call':
-        View = CallAndSMSForm;
+      case 'email':
+        View = PassCodeForm;
         break;
       case 'token':
       case 'token:software:totp':

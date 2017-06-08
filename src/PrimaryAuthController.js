@@ -14,11 +14,12 @@ define([
   'okta',
   'views/primary-auth/PrimaryAuthForm',
   'views/primary-auth/CustomButtons',
+  'views/shared/FooterRegistration',
   'models/PrimaryAuth',
   'shared/util/Util',
   'util/BaseLoginController'
 ],
-function (Okta, PrimaryAuthForm, CustomButtons, PrimaryAuthModel, Util, BaseLoginController) {
+function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthModel, Util, BaseLoginController) {
 
   var compile = Okta.Handlebars.compile;
   var _ = Okta._;
@@ -146,6 +147,12 @@ function (Okta, PrimaryAuthForm, CustomButtons, PrimaryAuthModel, Util, BaseLogi
       }
       this.add(new Footer(this.toJSON({appState: options.appState})));
 
+      if (options.settings.get('features.registration')) {
+        this.add(new FooterRegistration({
+          settings: this.settings,
+          appState: options.appState
+        }));
+      }
       username = this.model.get('username');
       if (username) {
         this.options.appState.set('username', username);

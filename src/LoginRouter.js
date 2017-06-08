@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 37] */
+/* eslint max-params: [2, 39] */
 define([
   'util/BaseLoginRouter',
   'PrimaryAuthController',
@@ -47,6 +47,8 @@ define([
   'AccountUnlockedController',
   'UnlockEmailSentController',
   'RefreshAuthStateController',
+  'RegistrationController',
+  'RegistrationCompleteController',
   'views/shared/SecurityBeacon',
   'views/shared/FactorBeacon'
 ],
@@ -85,6 +87,8 @@ function (BaseLoginRouter,
           AccountUnlockedController,
           UnlockEmailSentController,
           RefreshAuthStateController,
+          RegistrationController,
+          RegistrationCompleteController,
           SecurityBeacon,
           FactorBeacon) {
   return BaseLoginRouter.extend({
@@ -130,13 +134,16 @@ function (BaseLoginRouter,
       'signin/unlock': 'unlockAccount',
       'signin/account-unlocked': 'accountUnlocked',
       'signin/refresh-auth-state(/:token)': 'refreshAuthState',
+      'signin/register': 'register',
+      'signin/register-complete': 'registerComplete',
       '*wildcard': 'primaryAuth'
     },
 
     // Route handlers that do not require a stateToken. If the page is refreshed,
     // these functions will not require a status call to refresh the stateToken.
     stateLessRouteHandlers: [
-      'primaryAuth', 'forgotPassword', 'recoveryLoading', 'unlockAccount', 'refreshAuthState'
+      'primaryAuth', 'forgotPassword', 'recoveryLoading', 'unlockAccount', 'refreshAuthState', 'register', 
+      'registerComplete'
     ],
 
     primaryAuth: function () {
@@ -375,6 +382,14 @@ function (BaseLoginRouter,
         token: token,
         Beacon: SecurityBeacon
       });
+    },
+
+    register: function() {
+      this.render(RegistrationController);
+    },
+
+    registerComplete: function() {
+      this.render(RegistrationCompleteController);
     }
 
   });

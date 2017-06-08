@@ -10,6 +10,7 @@ define([
   'helpers/dom/AuthContainer',
   'helpers/dom/PrimaryAuthForm',
   'helpers/dom/Beacon',
+  'models/PrimaryAuth',
   'LoginRouter',
   'util/BrowserFeatures',
   'util/Errors',
@@ -28,8 +29,8 @@ define([
   'helpers/xhr/ERROR_throttle',
   'sandbox'
 ],
-function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm,
-          Beacon, Router, BrowserFeatures, Errors, DeviceFingerprint, SharedUtil, Expect, resSecurityImage,
+function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth,
+          Router, BrowserFeatures, Errors, DeviceFingerprint, SharedUtil, Expect, resSecurityImage,
           resSecurityImageFail, resSuccess, resUnauthenticated, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, $sandbox) {
 
@@ -154,6 +155,16 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     return setup(settings);
   }
 
+  function setupRegistrationButton(featuresRegistration, registrationObj) {
+    var settings = {
+      registration: registrationObj
+    };
+    if (_.isBoolean(featuresRegistration)) {
+      settings['features.registration'] = featuresRegistration;
+    }
+    return setup(settings);
+  }
+
   function waitForBeaconChange(test) {
     return tick() //wait to read value of user input
     .then(tick)   //wait to receive ajax response
@@ -177,6 +188,19 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
   var setupWithTransformUsernameOnUnlock = _.partial(setup, {transformUsername: transformUsernameOnUnlock});
 
   Expect.describe('PrimaryAuth', function () {
+
+    Expect.describe('PrimaryAuthModel', function () {
+
+      it('returns username validation error when username is blank', function () {
+        var model = new PrimaryAuth({username: '', password: 'pass'});
+        expect(model.validate().username).toEqual('Please enter a username');
+      });
+
+      it('returns password validation error when password is blank', function () {
+        var model = new PrimaryAuth({username: 'user', password: ''});
+        expect(model.validate().password).toEqual('Please enter a password');
+      });
+    });
 
     Expect.describe('settings', function () {
       itp('uses default title', function () {
@@ -2021,6 +2045,57 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         expect(test.form.authDivider().length).toBe(0);
         expect(test.form.additionalAuthButton().length).toBe(0);
         expect(test.form.facebookButton().length).toBe(0);
+      });
+    });
+  });
+  
+  Expect.describe('Registration Flow', function () {
+    itp('does not show the registration button if features.registration is not set', function () {
+      return setup().then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(0);
+      });
+    });
+    itp('does not show the registration button if features.registration is false', function () {
+      var registration =  {
+      };
+      return setupRegistrationButton(null, registration).then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(0);
+      });
+    });
+    itp('show the registration button if settings.registration.enable is true', function () {
+      var registration =  {
+      };
+      return setupRegistrationButton(true, registration).then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(1);
+        expect(test.form.registrationLabel().length).toBe(1);
+        expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
+        expect(test.form.registrationLink().length).toBe(1);
+        expect(test.form.registrationLink().text()).toBe('Sign up');
+        expect(typeof(registration.click)).toEqual('undefined');
+      });
+    });
+    itp(' the registration button is a custom function', function () {
+      var registration =  {
+        click: function () {
+          window.location.href = 'http://www.test.com';
+        }
+      };
+      return setupRegistrationButton(true, registration).then(function (test) {
+        expect(test.form.registrationContainer().length).toBe(1);
+        expect(test.form.registrationLabel().length).toBe(1);
+        expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
+        expect(test.form.registrationLink().length).toBe(1);
+        expect(test.form.registrationLink().text()).toBe('Sign up');
+        expect(typeof(registration.click)).toEqual('function');
+      });
+    });
+    itp('calls settings.registration.click if its a function and when the link is clicked', function () {
+      var registration =  {
+        click: jasmine.createSpy('registrationSpy')
+      };
+      return setupRegistrationButton(true, registration).then(function (test) {
+        test.form.registrationLink().click();
+        expect(registration.click).toHaveBeenCalled();
       });
     });
   });

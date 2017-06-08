@@ -246,6 +246,8 @@ define([
     RecoveryLoading: 'recovery-loading',
     RecoveryQuestion: 'recovery-question',
     RefreshAuthState: 'refresh-auth-state',
+    Registration: 'registration',
+    RegistrationComplete: 'registration-complete',
     UnlockAccount: 'account-unlock',
     UnlockEmailSent: 'account-unlock-email-sent',
     VerifyDuo: 'mfa-verify-duo',
@@ -265,7 +267,7 @@ define([
 
   var verifyClasses = {
     VerifyQuestion: 'mfa-verify-question',
-    VerifySmsCall: 'mfa-verify-sms-call',
+    VerifyPassCode: 'mfa-verify-passcode',
     VerifyTotp: 'mfa-verify-totp',
     VerifyYubikey: 'mfa-verify-yubikey',
     VerifyPush: 'mfa-verify-push'

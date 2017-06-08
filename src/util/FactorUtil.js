@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 14], max-statements: [2, 26] */
+/* eslint complexity: [2, 15], max-statements: [2, 28] */
 define(['okta'], function (Okta) {
 
   var _ = Okta._;
@@ -90,12 +90,18 @@ define(['okta'], function (Okta) {
       iconClassName: 'mfa-onprem',
       sortOrder: 10
     },
+    'EMAIL': {
+      label: 'factor.email',
+      description: '',
+      iconClassName: 'mfa-okta-email',
+      sortOrder: 11,
+    },
     'QUESTION': {
       label: 'factor.securityQuestion',
       description: 'factor.securityQuestion.description',
       iconClassName: 'mfa-okta-security-question',
-      sortOrder: 11
-    }
+      sortOrder: 12
+    },
   };
 
   fn.getFactorName = function (provider, factorType) {
@@ -137,6 +143,9 @@ define(['okta'], function (Okta) {
     }
     if (provider === 'FIDO' && factorType === 'u2f') {
       return 'U2F';
+    }
+    if (provider === 'OKTA' && factorType === 'email') {
+      return 'EMAIL';
     }
   };
 
@@ -186,7 +195,7 @@ define(['okta'], function (Okta) {
 
       var policyComplexity = policy.complexity;
       var requirements = _.map(policyComplexity, function (complexityValue, complexityType) {
-        if (!complexityValue) {
+        if (complexityValue <= 0) { // to skip 0 and -1
           return;
         }
 
@@ -206,7 +215,7 @@ define(['okta'], function (Okta) {
       }
     }
 
-    if (policy.age && policy.age.historyCount) {
+    if (policy.age && policy.age.historyCount > 0) {
       result.push(Okta.loc('password.complexity.history', 'login', [policy.age.historyCount]));
     }
 

@@ -43,6 +43,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [Customizing language and text](#customizing-language-and-text)
   * [Changing help links](#changing-help-links)
   * [Adding Custom Buttons](#adding-custom-buttons)
+  * [Adding Registration Button](#adding-registration-button)
   * [OpenId Connect](#openid-connect)
   * [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   * [Feature flags](#feature-flags)
@@ -200,8 +201,18 @@ signIn.renderEl(
     // The user has successfully completed the authentication flow
     if (res.status === 'SUCCESS') {
 
-      // Typical authentication response
-      if (res.type === 'SESSION_SSO') {
+      // Handle success when the widget is not configured for OIDC
+
+      if (res.type === 'SESSION_STEP_UP') {
+        // Session step up response
+        // If the widget is not configured for OIDC and the authentication type is SESSION_STEP_UP,
+        // the response will contain user metadata and a stepUp object with the url of the resource
+        // and a 'finish' function to navigate to that url
+        console.log(res.user);
+        console.log('Target resource url: ' + res.stepUp.url);
+        res.stepUp.finish();
+        return;
+      } else {
         // If the widget is not configured for OIDC, the response will contain
         // user metadata and a sessionToken that can be converted to an Okta
         // session cookie:
@@ -210,18 +221,8 @@ signIn.renderEl(
         return;
       }
 
-      // Session step up response
-      if (res.type === 'SESSION_STEP_UP') {
-        // If the widget is not configured for OIDC and the authentication type is SESSION_STEP_UP,
-        // the response will contain user metadata and a stepUp object with the url of the resource
-        // and a 'finish' function to navigate to that url
-        console.log(res.user);
-        console.log('Target resource url: ' + res.stepUp.url);
-        res.stepUp.finish();
-        return;
-      }
 
-      // OIDC reponse
+      // OIDC response
 
       // If the widget is configured for OIDC with a single responseType, the
       // response will be the token.
@@ -816,6 +817,20 @@ customButtons: [{
 
 - **customButtons.click** - Function that is called when the button is clicked
 
+## Adding Registration Button
+
+You can add a registration link to the primary auth page by setting `features.registration` to `true` and by adding the following config options. If you'd like to change the text, use the `i18n` config option.
+
+```javascript
+// An example that adds a registration button underneath the login form on the primary auth page
+registration: {
+  click: function() {
+    window.location.href = 'https://acme.com/sign-up';
+  }
+}
+```
+- **registration.click** - Function that is called when the registration button is clicked
+
 ## OpenId Connect
 
 Options for the [OpenId Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
@@ -996,6 +1011,8 @@ features: {
 - **features.multiOptionalFactorEnroll** - Allow users to enroll in multiple optional factors before finishing the authentication flow. Default behavior is to force enrollment of all required factors and skip optional factors. Defaults to `false`.
 
 - **features.hideSignOutLinkInMFA** - Hides the sign out link for MFA challenge. Defaults to `false`.
+
+- **features.registration** - Display the registration section in the primary auth page. Defaults to `false`.
 
 # Events
 
