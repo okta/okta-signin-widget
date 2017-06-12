@@ -59,11 +59,11 @@ define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Uti
         deviceName: this.model.get('deviceName')
       });
     },
-    setSubmitState: function (ableToSubmit, buttonLabelCode) {
+    setSubmitState: function (ableToSubmit, useRetryLabel) {
       var button = this.$el.find('.button');
       this.enabled = ableToSubmit;
       if (ableToSubmit) {
-        var buttonString = buttonLabelCode ? buttonLabelCode : 'oktaverify.send';
+        var buttonString = useRetryLabel ? 'oktaverify.resend' : 'oktaverify.send';
         button.removeClass('link-button-disabled');
         button.prop('value', Okta.loc(buttonString, 'login'));
         button.prop('disabled', false);
@@ -99,7 +99,7 @@ define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Uti
         });
         this.trigger('save', this.model);
         resendTimeout = Util.callAfterTimeout(_.bind(function() {
-          this.setSubmitState(true, 'oktaverify.resend');
+          this.setSubmitState(true, true);
         }, this), RETRY_TIMEOUT);
       }
     },
