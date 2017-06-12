@@ -1904,18 +1904,48 @@ function (Okta,
                 });
               });
             });
-            itp('will disable form submit', function () {
+            itp('will re-enable submit when retry timeout reached', function () {
+              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                return setTimeout(arguments[0], 0);
+              });
               return setupOktaPush().then(function (test) {
-                return setupPolling(test, resSuccess)
-                .then(function () {
-                  expect(test.form.submitButton().attr('class')).toMatch('link-button-disabled');
-                  expect(test.form.submitButton().prop('disabled')).toBe(true);
-                  $.ajax.calls.reset();
-                  test.form.submit();
-                  return tick(test); // Final tick - SUCCESS
+                $.ajax.calls.reset();
+                test.setNextResponse([resChallengePush, resChallengePush, resSuccess]);
+                test.form = test.form[0];
+                test.form.submit();
+                expect(test.form.submitButton().attr('class')).toMatch('link-button-disabled');
+                expect(test.form.submitButton().prop('disabled')).toBe(true);
+                expect(test.form.submitButtonText()).toBe('Push sent!');
+                return tick(test);
+              })
+              .then(function (test) {
+                expect(test.form.submitButton().attr('class')).not.toMatch('link-button-disabled');
+                expect(test.form.submitButton().prop('disabled')).toBe(false);
+                expect(test.form.submitButtonText()).toBe('Re-send Push');
+              });
+            });
+            itp('will not set button text to Re-send Push if error occurs before timeout', function () {              
+              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                var callback = arguments[0];
+                return setTimeout(function () {
+                  callback();
+                }, 10);
+              });
+              return setupOktaPush().then(function (test) {
+                return setupPolling(test, resRejectedPush)
+                .then(tick)
+                .then(function (test) {
+                  expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
+                  expect(test.form.submitButton().attr('class')).not.toMatch('link-button-disabled');
+                  expect(test.form.submitButton().prop('disabled')).toBe(false);
+                  expect(test.form.submitButtonText()).toBe('Send Push');
+                  return test;
                 })
-                .then(function () {
-                  expect($.ajax.calls.count()).toBe(0);
+                .then(function (test) {
+                  //does not call setSubmitState from Timeout function
+                  expect(test.form.submitButton().attr('class')).not.toMatch('link-button-disabled');
+                  expect(test.form.submitButton().prop('disabled')).toBe(false);
+                  expect(test.form.submitButtonText()).toBe('Send Push');
                 });
               });
             });

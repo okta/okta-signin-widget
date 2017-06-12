@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
+define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Util) {
 
   var _ = Okta._;
   // deviceName is escaped on BaseForm (see BaseForm's template)
   var titleTpl = Okta.Handlebars.compile('{{factorName}} ({{{deviceName}}})');
+  var RETRY_TIMEOUT = 30000; //milliseconds
 
   return Okta.Form.extend({
     className: 'mfa-verify-push',
@@ -58,12 +59,13 @@ define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
         deviceName: this.model.get('deviceName')
       });
     },
-    setSubmitState: function (ableToSubmit) {
+    setSubmitState: function (ableToSubmit, useRetryLabel) {
       var button = this.$el.find('.button');
       this.enabled = ableToSubmit;
       if (ableToSubmit) {
+        var buttonStringCode = useRetryLabel ? 'oktaverify.resend' : 'oktaverify.send';
         button.removeClass('link-button-disabled');
-        button.prop('value', Okta.loc('oktaverify.send', 'login'));
+        button.prop('value', Okta.loc(buttonStringCode, 'login'));
         button.prop('disabled', false);
       } else {
         button.addClass('link-button-disabled');
@@ -88,10 +90,17 @@ define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
       }
     },
     doSave: function () {
+      var resendTimeout;
       this.clearErrors();
       if (this.model.isValid()) {
-        this.listenToOnce(this.model, 'error', this.setSubmitState, true);
+        this.listenToOnce(this.model, 'error', function() {
+          this.setSubmitState(true);
+          clearTimeout(resendTimeout);
+        });
         this.trigger('save', this.model);
+        resendTimeout = Util.callAfterTimeout(_.bind(function() {
+          this.setSubmitState(true, true);
+        }, this), RETRY_TIMEOUT);
       }
     },
     showError: function (msg) {
