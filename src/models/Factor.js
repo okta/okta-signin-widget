@@ -192,6 +192,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
 
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
+      var self = this;
       // Set/Remove the remember device cookie based on the remember device input.
 
       return this.doTransaction(function (transaction) {
@@ -227,6 +228,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         return promise
         .then(function (trans) {
           if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
+            self.setTransaction(trans);
             return Q.delay(PUSH_INTERVAL).then(function() {
               return trans.poll(PUSH_INTERVAL);
             });
