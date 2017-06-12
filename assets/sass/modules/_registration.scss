@@ -15,3 +15,11 @@
     color: $primary-button-bg-color;
   }
 }
+
+.registration .password-complexity {
+  color: #d3d3d3;
+
+  .password-complexity-meet {
+    color: #008000;
+  }
+}
