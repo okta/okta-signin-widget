@@ -1919,6 +1919,7 @@ function (Okta,
                 return tick(test);
               })
               .then(function (test) {
+                expect(test.form.submitButton().attr('class')).not.toMatch('link-button-disabled');
                 expect(test.form.submitButton().prop('disabled')).toBe(false);
                 expect(test.form.submitButtonText()).toBe('Re-send Push');
               });
@@ -1935,12 +1936,14 @@ function (Okta,
                 .then(tick)
                 .then(function (test) {
                   expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
+                  expect(test.form.submitButton().attr('class')).not.toMatch('link-button-disabled');
                   expect(test.form.submitButton().prop('disabled')).toBe(false);
                   expect(test.form.submitButtonText()).toBe('Send Push');
-                  return tick(test);
+                  return test;
                 })
                 .then(function (test) {
                   //does not call setSubmitState from Timeout function
+                  expect(test.form.submitButton().attr('class')).not.toMatch('link-button-disabled');
                   expect(test.form.submitButton().prop('disabled')).toBe(false);
                   expect(test.form.submitButtonText()).toBe('Send Push');
                 });

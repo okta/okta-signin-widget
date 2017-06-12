@@ -63,9 +63,9 @@ define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Uti
       var button = this.$el.find('.button');
       this.enabled = ableToSubmit;
       if (ableToSubmit) {
-        var buttonString = useRetryLabel ? 'oktaverify.resend' : 'oktaverify.send';
+        var buttonStringCode = useRetryLabel ? 'oktaverify.resend' : 'oktaverify.send';
         button.removeClass('link-button-disabled');
-        button.prop('value', Okta.loc(buttonString, 'login'));
+        button.prop('value', Okta.loc(buttonStringCode, 'login'));
         button.prop('disabled', false);
       } else {
         button.addClass('link-button-disabled');
