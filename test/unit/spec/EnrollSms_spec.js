@@ -1,4 +1,4 @@
-/* eslint max-params:[2, 18] */
+/* eslint max-params:[2, 20] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -16,12 +16,13 @@ define([
   'helpers/xhr/MFA_ENROLL_ACTIVATE_success',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_error',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_errorActivate',
+  'helpers/xhr/MFA_ENROLL_ACTIVATE_invalid_phone',
   'helpers/xhr/SUCCESS',
   'LoginRouter'
 ],
 function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, $sandbox,
           resAllFactors, resExistingPhone, resEnrollSuccess, resEnrollError, resActivateError,
-          resSuccess, Router) {
+          resEnrollInvalidPhoneError, resSuccess, Router) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -304,6 +305,49 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
               provider: 'OKTA',
               profile: {
                 phoneNumber: '+14151234567'
+              },
+              stateToken: 'testStateToken'
+            }
+          });
+        });
+      });
+      itp('uses send code button with validatePhone:false if user has retried with invalid phone number', function () {
+        return setup()
+        .then(function (test) {
+          $.ajax.calls.reset();
+          return sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'sms',
+              provider: 'OKTA',
+              profile: {
+                phoneNumber: '+68912345678'
+              },
+              stateToken: 'testStateToken'
+            }
+          });
+
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage())
+          .toEqual('The number you entered seems invalid. If the number is correct, please try again.');
+
+          $.ajax.calls.reset();
+          return sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'sms',
+              provider: 'OKTA',
+              profile: {
+                phoneNumber: '+68912345678',
+                validatePhone: false
               },
               stateToken: 'testStateToken'
             }
