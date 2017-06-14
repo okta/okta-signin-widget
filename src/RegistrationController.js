@@ -128,7 +128,7 @@ function (
       });
       this.model = new Model();
 
-      var checkPasswordMeetComplexities = function(model) {
+      var checkPasswordMeetComplexities = function(model, alert) {
         var password = model.get('password') || '';
         _.each(schema.passwordComplexity.enabledComplexities, function(complexityName) {
           var ele = Okta.$('.password-complexity-' + complexityName);
@@ -137,6 +137,9 @@ function (
             ele.addClass('password-complexity-meet');
           } else {
             ele.removeClass('password-complexity-meet');
+            if(alert) {
+              ele.addClass('password-complexity-alert');
+            }
           }
         }, schema.passwordComplexity);
       };
@@ -147,10 +150,15 @@ function (
         var name = schemaProperty.get('name');
         if (name === 'password' || name === 'login') {
           inputOptions.events = {
-            'input': function() {
+            'input': function () {
               checkPasswordMeetComplexities(this.model);
             }
           };
+        }
+        if (name === 'password') {
+          inputOptions.events.focusout = function () {
+            checkPasswordMeetComplexities(this.model, true);
+          }
         }
         form.addInput(inputOptions);
       });

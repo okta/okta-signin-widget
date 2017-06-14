@@ -20,7 +20,13 @@ define(['okta', 'util/PasswordComplexityUtil'], function (Okta, PasswordComplexi
     className: function() {
       return 'password-complexity-' + this.name;
     },
-    template: '<div>{{message}}</div>',
+    template: '\
+      <p>\
+        <span class="icon icon-16 confirm-16"/>\
+        <span class="icon icon-16 error-16-small"/>\
+        {{message}}\
+      </p>\
+    ',
     getTemplateData: function () {
       return {
         message: this.message
