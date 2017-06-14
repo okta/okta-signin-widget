@@ -58,6 +58,20 @@ function (SchemaProperty, RegistrationFormFactory) {
 
     });
 
+    describe('field name is login', function () {
+      beforeEach(function () {
+        var schemaProperty = new SchemaProperty.Model({
+          'name': 'login',
+          'type': 'string',
+        }, {parse: true});
+        this.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+      });
+
+      it('icon is person-16-gray', function () {
+        expect(this.inputOptions['params'].icon).toEqual('person-16-gray');
+      });
+    });
+
     describe('field name is password', function () {
       beforeEach(function () {
         var schemaProperty = new SchemaProperty.Model({
@@ -71,6 +85,9 @@ function (SchemaProperty, RegistrationFormFactory) {
         expect(this.inputOptions['type']).toEqual('password');
       });
 
+      it('icon is remote-lock-16', function () {
+        expect(this.inputOptions['params'].icon).toEqual('remote-lock-16');
+      });
     });
   });
 });
