@@ -46,7 +46,7 @@ function (Okta, PasswordComplexityUtil, BaseSchema, SchemaProperty) {
     }
   });
 
-  var Schema = BaseSchema.Model.extend({
+  return BaseSchema.Model.extend({
     expand: ['schema'],
 
     constructor: function () {
@@ -88,7 +88,4 @@ function (Okta, PasswordComplexityUtil, BaseSchema, SchemaProperty) {
       return parsed;
     }
   });
-
-  return Schema;
-
 });

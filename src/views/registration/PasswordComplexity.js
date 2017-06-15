@@ -28,7 +28,7 @@ define(['okta', 'util/PasswordComplexityUtil'], function (Okta, PasswordComplexi
     }
   });
 
-  var View =  Okta.View.extend({
+  return Okta.View.extend({
     className: 'password-complexity',
 
     children: function() {
@@ -42,6 +42,4 @@ define(['okta', 'util/PasswordComplexityUtil'], function (Okta, PasswordComplexi
       }, this.passwordComplexity);
     }
   });
-
-  return View;
 });
