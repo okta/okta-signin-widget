@@ -131,8 +131,8 @@ function (_, RegistrationSchema, Expect) {
         });
 
         it('field2 is not required', function () {
-          expect(this.schema.properties.get('field2').get('required')).toBe(false)();
-          expect(this.schema.properties.createModelProperties()['field2'].required).toBe(false)();
+          expect(this.schema.properties.get('field2').get('required')).toBe(false);
+          expect(this.schema.properties.createModelProperties()['field2'].required).toBe(false);
         });
 
         it('field3 is required', function () {
@@ -257,7 +257,7 @@ function (_, RegistrationSchema, Expect) {
         });
 
         it('excludeUsername has a correct value', function () {
-          expect(this.schema.passwordComplexity.get('excludeUsername')).toBe(false)();
+          expect(this.schema.passwordComplexity.get('excludeUsername')).toBe(false);
         });
       });
 

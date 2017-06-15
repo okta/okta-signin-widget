@@ -169,7 +169,7 @@ function (Okta, _, PasswordComplexityUtil) {
           });
 
           it('a password with 3 numbers does not meet the complexity', function () {
-            expect(this.doesComplexityMeet('12abCD 4')).toBe(false);
+            expect(this.doesComplexityMeet('12abCD4')).toBe(false);
           });
 
           it('empty password does not meet the complexity', function () {
