@@ -272,7 +272,7 @@ function (Okta, _, PasswordComplexityUtil) {
                   this.complexities['excludeUsername'].doesComplexityMeet, true, _, myModel);
             });
 
-            it('any passowrd does not the complexity', function () {
+            it('any password does not the complexity', function () {
               expect(this.doesComplexityMeet).toBeDefined();
               expect(this.doesComplexityMeet('34EFgh$%')).toBe(false);
             });
