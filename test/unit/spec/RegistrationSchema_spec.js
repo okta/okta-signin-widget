@@ -101,7 +101,7 @@ function (_, RegistrationSchema, Expect) {
         });
       });
 
-      Expect.describe('require fields', function () {
+      Expect.describe('required fields', function () {
         beforeEach(function () {
           this.schema = new RegistrationSchema({
             schema: {
