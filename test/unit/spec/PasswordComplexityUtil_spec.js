@@ -16,27 +16,27 @@ function (Okta, _, PasswordComplexityUtil) {
         expect(_.size(this.defaultProps)).toEqual(6);
       });
 
-      it('minLength is 8', function () {
+      it('minLength is a number, not required and with the default value 8', function () {
         expect(this.defaultProps['minLength']).toEqual(['number', false, 8]);
       });
 
-      it('minLowerCase is 1', function () {
+      it('minLowerCase is a number, not required and with the default value 1', function () {
         expect(this.defaultProps['minLowerCase']).toEqual(['number', false, 1]);
       });
 
-      it('minUpperCase is 8', function () {
+      it('minUpperCase is a number, not required and with the default value 1', function () {
         expect(this.defaultProps['minUpperCase']).toEqual(['number', false, 1]);
       });
 
-      it('minNumber is 8', function () {
+      it('minNumber is a number, not required and with the default value 1', function () {
         expect(this.defaultProps['minNumber']).toEqual(['number', false, 1]);
       });
 
-      it('minSymbol is 8', function () {
+      it('minSymbol is a number, not required and with the default value 8', function () {
         expect(this.defaultProps['minSymbol']).toEqual(['number', false, 1]);
       });
 
-      it('excludeUsername is true', function () {
+      it('excludeUsername is a boolean, not required and with the default value true', function () {
         expect(this.defaultProps['excludeUsername']).toEqual(['boolean', false, true]);
       });
     });
