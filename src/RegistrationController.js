@@ -61,7 +61,7 @@ function (
   return BaseLoginController.extend({
     className: 'registration',
     initialize: function() {
-      var Schema = RegistrationSchema.Schema.extend({
+      var Schema = RegistrationSchema.extend({
         url: 'api/v1/schema'
       });
       var schema = new Schema({

@@ -89,8 +89,6 @@ function (Okta, PasswordComplexityUtil, BaseSchema, SchemaProperty) {
     }
   });
 
-  return {
-    Schema: Schema
-  };
+  return Schema;
 
 });

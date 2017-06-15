@@ -12,7 +12,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('string field', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema.Schema({
+          this.schema = new RegistrationSchema({
             schema: {
               'properties': {
                 'stringfield': {
@@ -57,7 +57,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('email field', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema.Schema({
+          this.schema = new RegistrationSchema({
             schema: {
               'properties': {
                 'emailfield': {
@@ -80,7 +80,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('enum field', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema.Schema({
+          this.schema = new RegistrationSchema({
             schema: {
               'properties': {
                 'fruit': {
@@ -103,7 +103,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('require fields', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema.Schema({
+          this.schema = new RegistrationSchema({
             schema: {
               'properties': {
                 'field1': {
@@ -142,7 +142,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('sorting order', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema.Schema({
+          this.schema = new RegistrationSchema({
             schema: {
               'properties': {
                 'field3': {
@@ -190,7 +190,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('no password complexity', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema.Schema({
+          this.schema = new RegistrationSchema({
             schema: {}
           }, {parse:true});
         });
@@ -206,7 +206,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('empty password complexity', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema.Schema({
+          this.schema = new RegistrationSchema({
             schema: {},
             'passwordComplexity': {}
           }, {parse:true});
@@ -223,7 +223,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('custom password complexity', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema.Schema({
+          this.schema = new RegistrationSchema({
             schema: {},
             'passwordComplexity': {
               'minLength': 1,
@@ -263,7 +263,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('disable all complexities', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema.Schema({
+          this.schema = new RegistrationSchema({
             schema: {},
             'passwordComplexity': {
               'minLength': 0,
@@ -283,7 +283,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('enable all complexities', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema.Schema({
+          this.schema = new RegistrationSchema({
             schema: {},
             'passwordComplexity': {
               'minLength': 10,
