@@ -41,7 +41,7 @@ function (Okta, _, PasswordComplexityUtil) {
       });
     });
 
-    describe('isEnabled', function () {
+    describe('complexities', function () {
       beforeEach(function () {
         this.complexities = PasswordComplexityUtil.complexities;
       });
@@ -52,242 +52,237 @@ function (Okta, _, PasswordComplexityUtil) {
 
       describe('minLength', function () {
         beforeEach(function () {
-          this.isEnabled = this.complexities['minLength'].isEnabled;
+          this.complexity = this.complexities['minLength'];
         });
 
         it('1 is enabled', function () {
-          expect(this.isEnabled(1)).toBe(true);
+          expect(this.complexity.isEnabled(1)).toBe(true);
         });
 
         it('0 is disabled', function () {
-          expect(this.isEnabled(0)).toBe(false);
+          expect(this.complexity.isEnabled(0)).toBe(false);
+        });
+
+        describe('validation if set to 10 characters', function () {
+          beforeEach(function () {
+            this.doesComplexityMeet = _.partial(this.complexity.doesComplexityMeet, 10);
+          });
+
+          it('a password with 10 characters meets the complexity', function () {
+            expect(this.doesComplexityMeet('1234567890')).toBe(true);
+          });
+
+          it('a password with 9 characters does not meet the complexity', function () {
+            expect(this.doesComplexityMeet('123456789')).toBe(false);
+          });
+
+          it('empty password does not meet the complexity', function () {
+            expect(this.doesComplexityMeet('')).toBe(false);
+          });
         });
       });
 
       describe('minLowerCase', function () {
         beforeEach(function () {
-          this.isEnabled = this.complexities['minLowerCase'].isEnabled;
+          this.complexity = this.complexities['minLowerCase'];
         });
 
         it('1 is enabled', function () {
-          expect(this.isEnabled(1)).toBe(true);
+          expect(this.complexity.isEnabled(1)).toBe(true);
         });
 
         it('0 is disabled', function () {
-          expect(this.isEnabled(0)).toBe(false);
+          expect(this.complexity.isEnabled(0)).toBe(false);
+        });
+
+        describe('validation if set to 2 letters', function () {
+          beforeEach(function () {
+            this.doesComplexityMeet = _.partial(this.complexity.doesComplexityMeet, 2);
+          });
+
+          it('a password with 2 lowercase letters meets the complexity', function () {
+            expect(this.doesComplexityMeet('12abCD')).toBe(true);
+          });
+
+          it('a password with 1 lowercase letters does not meet the complexity', function () {
+            expect(this.doesComplexityMeet('12AaBCD')).toBe(false);
+          });
+
+          it('empty password does not meet the complexity', function () {
+            expect(this.doesComplexityMeet('')).toBe(false);
+          });
         });
       });
 
       describe('minUpperCase', function () {
         beforeEach(function () {
-          this.isEnabled = this.complexities['minUpperCase'].isEnabled;
+          this.complexity = this.complexities['minUpperCase'];
         });
 
         it('1 is enabled', function () {
-          expect(this.isEnabled(1)).toBe(true);
+          expect(this.complexity.isEnabled(1)).toBe(true);
         });
 
         it('0 is disabled', function () {
-          expect(this.isEnabled(0)).toBe(false);
+          expect(this.complexity.isEnabled(0)).toBe(false);
+        });
+
+        describe('validation if set to 3 letters', function () {
+          beforeEach(function () {
+            this.doesComplexityMeet = _.partial(this.complexity.doesComplexityMeet, 3);
+          });
+
+          it('a password with 3 uppercase characters meets the complexity', function () {
+            expect(this.doesComplexityMeet('34eFGH')).toBe(true);
+          });
+
+          it('a password with 2 uppercase character does not meet the complexity', function () {
+            expect(this.doesComplexityMeet('34efGH')).toBe(false);
+          });
+
+          it('empty password does not meet the complexity', function () {
+            expect(this.doesComplexityMeet('')).toBe(false);
+          });
         });
       });
 
       describe('minNumber', function () {
         beforeEach(function () {
-          this.isEnabled = this.complexities['minNumber'].isEnabled;
+          this.complexity = this.complexities['minNumber'];
         });
 
         it('1 is enabled', function () {
-          expect(this.isEnabled(1)).toBe(true);
+          expect(this.complexity.isEnabled(1)).toBe(true);
         });
 
         it('0 is disabled', function () {
-          expect(this.isEnabled(0)).toBe(false);
+          expect(this.complexity.isEnabled(0)).toBe(false);
+        });
+
+        describe('validation if set to 4 numbers', function () {
+          beforeEach(function () {
+            this.doesComplexityMeet = _.partial(this.complexity.doesComplexityMeet, 4);
+          });
+
+          it('a password with 4 numbers meets the complexity', function () {
+            expect(this.doesComplexityMeet('12abCD34')).toBe(true);
+          });
+
+          it('a password with 3 numbers does not meet the complexity', function () {
+            expect(this.doesComplexityMeet('12abCD 4')).toBe(false);
+          });
+
+          it('empty password does not meet the complexity', function () {
+            expect(this.doesComplexityMeet('')).toBe(false);
+          });
         });
       });
 
       describe('minSymbol', function () {
         beforeEach(function () {
-          this.isEnabled = this.complexities['minSymbol'].isEnabled;
+          this.complexity = this.complexities['minSymbol'];
         });
 
         it('1 is enabled', function () {
-          expect(this.isEnabled(1)).toBe(true);
+          expect(this.complexity.isEnabled(1)).toBe(true);
         });
 
         it('0 is disabled', function () {
-          expect(this.isEnabled(0)).toBe(false);
+          expect(this.complexity.isEnabled(0)).toBe(false);
+        });
+
+        describe('validation if set to 1 symbol', function () {
+          beforeEach(function () {
+            this.doesComplexityMeet = _.partial(this.complexity.doesComplexityMeet, 1);
+          });
+
+          it('a password with 1 symbol meets the complexity', function () {
+            expect(this.doesComplexityMeet('a1B@')).toBe(true);
+          });
+
+          it('a password with no symbol does not meet the complexity', function () {
+            expect(this.doesComplexityMeet('a1B')).toBe(false);
+          });
+
+          it('empty password does not meet the complexity', function () {
+            expect(this.doesComplexityMeet('')).toBe(false);
+          });
         });
       });
 
       describe('excludeUsername', function () {
         beforeEach(function () {
-          this.isEnabled = this.complexities['excludeUsername'].isEnabled;
+          this.complexity = this.complexities['excludeUsername'];
         });
 
         it('true is enabled', function () {
-          expect(this.isEnabled(true)).toBe(true);
+          expect(this.complexity.isEnabled(true)).toBe(true);
         });
 
         it('false is disabled', function () {
-          expect(this.isEnabled(false)).toBe(false);
+          expect(this.complexity.isEnabled(false)).toBe(false);
+        });
+
+        describe('validation', function () {
+          beforeEach(function () {
+            this.doesComplexityMeet = _.partial(this.complexity.doesComplexityMeet, 3);
+          });
+
+          describe('username is set', function () {
+            beforeEach(function () {
+              var myModel = new (Okta.Model.extend({
+                props: {'login': ['string', false, 'user@okta.com']}
+              }))();
+              this.doesComplexityMeet = _.partial(
+                  this.complexities['excludeUsername'].doesComplexityMeet, true, _, myModel);
+            });
+
+            it('a password does not contain the username meets the complexity', function () {
+              expect(this.doesComplexityMeet).toBeDefined();
+              expect(this.doesComplexityMeet('12ABcd@#')).toBe(true);
+            });
+
+            it('a password prepend the username does not meet the complexity', function () {
+              expect(this.doesComplexityMeet).toBeDefined();
+              expect(this.doesComplexityMeet('user@okta.coma12ABcd')).toBe(false);
+            });
+
+            it('a password append the username does not meet the complexity', function () {
+              expect(this.doesComplexityMeet).toBeDefined();
+              expect(this.doesComplexityMeet('a12ABcduser@okta.com')).toBe(false);
+            });
+
+            it('a password contains the username does not meet the complexity', function () {
+              expect(this.doesComplexityMeet).toBeDefined();
+              expect(this.doesComplexityMeet('a12user@okta.comABcd')).toBe(false);
+            });
+
+            it('empty password does not meet the complexity', function () {
+              expect(this.doesComplexityMeet('')).toBe(false);
+            });
+
+          });
+
+          describe('username is empty', function () {
+            beforeEach(function () {
+              var myModel = new (Okta.Model.extend({
+                props: {'login': ['string', false, '']}
+              }))();
+              this.doesComplexityMeet = _.partial(
+                  this.complexities['excludeUsername'].doesComplexityMeet, true, _, myModel);
+            });
+
+            it('any passowrd does not the complexity', function () {
+              expect(this.doesComplexityMeet).toBeDefined();
+              expect(this.doesComplexityMeet('34EFgh$%')).toBe(false);
+            });
+
+            it('empty password does not meet the complexity', function () {
+              expect(this.doesComplexityMeet('')).toBe(false);
+            });
+          });
         });
       });
     });
-
-    describe('doesComplexityMeet', function () {
-      beforeEach(function () {
-        this.complexities = PasswordComplexityUtil.complexities;
-      });
-
-      describe('minLength is 10 characters', function () {
-        beforeEach(function () {
-          this.doesComplexityMeet = _.partial(this.complexities['minLength'].doesComplexityMeet, 10);
-        });
-
-        it('10 characters password meets the complexity', function () {
-          expect(this.doesComplexityMeet('1234567890')).toBe(true);
-        });
-
-        it('9 characters password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('123456789')).toBe(false);
-        });
-
-        it('empty password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('')).toBe(false);
-        });
-      });
-
-      describe('minLowerCase is 2 characters', function () {
-        beforeEach(function () {
-          this.doesComplexityMeet = _.partial(this.complexities['minLowerCase'].doesComplexityMeet, 2);
-        });
-
-        it('a password with 2 lowercase characters meets the complexity', function () {
-          expect(this.doesComplexityMeet('12abCD')).toBe(true);
-        });
-
-        it('a password with 1 lowercase character does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('12AaBCD')).toBe(false);
-        });
-
-        it('empty password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('')).toBe(false);
-        });
-      });
-
-      describe('minUpperCase is 3 characters', function () {
-        beforeEach(function () {
-          this.doesComplexityMeet = _.partial(this.complexities['minUpperCase'].doesComplexityMeet, 3);
-        });
-
-        it('a password with 3 uppercase characters meets the complexity', function () {
-          expect(this.doesComplexityMeet('34eFGH')).toBe(true);
-        });
-
-        it('a password with 2 uppercase character does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('34efGH')).toBe(false);
-        });
-
-        it('empty password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('')).toBe(false);
-        });
-      });
-
-      describe('minNumber is 4 characters', function () {
-        beforeEach(function () {
-          this.doesComplexityMeet = _.partial(this.complexities['minNumber'].doesComplexityMeet, 4);
-        });
-
-        it('a password with 4 numbers meets the complexity', function () {
-          expect(this.doesComplexityMeet('12abCD34')).toBe(true);
-        });
-
-        it('a password with 3 numberes does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('12abCD 4')).toBe(false);
-        });
-
-        it('empty password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('')).toBe(false);
-        });
-      });
-
-      describe('minSymbol is 1 character', function () {
-        beforeEach(function () {
-          this.doesComplexityMeet = _.partial(this.complexities['minSymbol'].doesComplexityMeet, 1);
-        });
-
-        it('a password with 1 symbol meets the complexity', function () {
-          expect(this.doesComplexityMeet('a1B@')).toBe(true);
-        });
-
-        it('a password with no symbol does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('a1B')).toBe(false);
-        });
-
-        it('empty password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('')).toBe(false);
-        });
-      });
-
-      describe('excludeUsername is true', function () {
-
-        describe('username is set', function () {
-          beforeEach(function () {
-            var myModel = new (Okta.Model.extend({
-              props: {'login': ['string', false, 'user@okta.com']}
-            }))();
-            this.doesComplexityMeet = _.partial(
-                this.complexities['excludeUsername'].doesComplexityMeet, true, _, myModel);
-          });
-
-          it('a password does not contain the username meets the complexity', function () {
-            expect(this.doesComplexityMeet).toBeDefined();
-            expect(this.doesComplexityMeet('12ABcd@#')).toBe(true);
-          });
-
-          it('a password prepend the username does not meet the complexity', function () {
-            expect(this.doesComplexityMeet).toBeDefined();
-            expect(this.doesComplexityMeet('user@okta.coma12ABcd')).toBe(false);
-          });
-
-          it('a password append the username does not meet the complexity', function () {
-            expect(this.doesComplexityMeet).toBeDefined();
-            expect(this.doesComplexityMeet('a12ABcduser@okta.com')).toBe(false);
-          });
-
-          it('a password contains the username does not meet the complexity', function () {
-            expect(this.doesComplexityMeet).toBeDefined();
-            expect(this.doesComplexityMeet('a12user@okta.comABcd')).toBe(false);
-          });
-
-          it('empty password does not meet the complexity', function () {
-            expect(this.doesComplexityMeet('')).toBe(false);
-          });
-
-        });
-
-        describe('username is empty', function () {
-          beforeEach(function () {
-            var myModel = new (Okta.Model.extend({
-              props: {'login': ['string', false, '']}
-            }))();
-            this.doesComplexityMeet = _.partial(
-                this.complexities['excludeUsername'].doesComplexityMeet, true, _, myModel);
-          });
-
-          it('any passowrd does not the complexity', function () {
-            expect(this.doesComplexityMeet).toBeDefined();
-            expect(this.doesComplexityMeet('34EFgh$%')).toBe(false);
-          });
-
-          it('empty password does not meet the complexity', function () {
-            expect(this.doesComplexityMeet('')).toBe(false);
-          });
-        });
-
-      });
-    });
-
   });
 });
