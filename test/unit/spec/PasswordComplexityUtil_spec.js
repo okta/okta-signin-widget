@@ -37,7 +37,7 @@ function (Okta, _, PasswordComplexityUtil) {
       });
 
       it('excludeUsername is true', function () {
-        expect(this.defaultProps['excludeUsername']).toBeTruthy();
+        expect(this.defaultProps['excludeUsername']).toEqual(['boolean', false, true]);
       });
     });
 
@@ -56,11 +56,11 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('1 is enabled', function () {
-          expect(this.isEnabled(1)).toBeTruthy();
+          expect(this.isEnabled(1)).toBe(true);
         });
 
         it('0 is disabled', function () {
-          expect(this.isEnabled(0)).toBeFalsy();
+          expect(this.isEnabled(0)).toBe(false);
         });
       });
 
@@ -70,11 +70,11 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('1 is enabled', function () {
-          expect(this.isEnabled(1)).toBeTruthy();
+          expect(this.isEnabled(1)).toBe(true);
         });
 
         it('0 is disabled', function () {
-          expect(this.isEnabled(0)).toBeFalsy();
+          expect(this.isEnabled(0)).toBe(false);
         });
       });
 
@@ -84,11 +84,11 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('1 is enabled', function () {
-          expect(this.isEnabled(1)).toBeTruthy();
+          expect(this.isEnabled(1)).toBe(true);
         });
 
         it('0 is disabled', function () {
-          expect(this.isEnabled(0)).toBeFalsy();
+          expect(this.isEnabled(0)).toBe(false);
         });
       });
 
@@ -98,11 +98,11 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('1 is enabled', function () {
-          expect(this.isEnabled(1)).toBeTruthy();
+          expect(this.isEnabled(1)).toBe(true);
         });
 
         it('0 is disabled', function () {
-          expect(this.isEnabled(0)).toBeFalsy();
+          expect(this.isEnabled(0)).toBe(false);
         });
       });
 
@@ -112,11 +112,11 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('1 is enabled', function () {
-          expect(this.isEnabled(1)).toBeTruthy();
+          expect(this.isEnabled(1)).toBe(true);
         });
 
         it('0 is disabled', function () {
-          expect(this.isEnabled(0)).toBeFalsy();
+          expect(this.isEnabled(0)).toBe(false);
         });
       });
 
@@ -126,11 +126,11 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('true is enabled', function () {
-          expect(this.isEnabled(true)).toBeTruthy();
+          expect(this.isEnabled(true)).toBe(true);
         });
 
         it('false is disabled', function () {
-          expect(this.isEnabled(false)).toBeFalsy();
+          expect(this.isEnabled(false)).toBe(false);
         });
       });
     });
@@ -146,15 +146,15 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('10 characters password meets the complexity', function () {
-          expect(this.doesComplexityMeet('1234567890')).toBeTruthy();
+          expect(this.doesComplexityMeet('1234567890')).toBe(true);
         });
 
         it('9 characters password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('123456789')).toBeFalsy();
+          expect(this.doesComplexityMeet('123456789')).toBe(false);
         });
 
         it('empty password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('')).toBeFalsy();
+          expect(this.doesComplexityMeet('')).toBe(false);
         });
       });
 
@@ -164,15 +164,15 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('a password with 2 lowercase characters meets the complexity', function () {
-          expect(this.doesComplexityMeet('12abCD')).toBeTruthy();
+          expect(this.doesComplexityMeet('12abCD')).toBe(true);
         });
 
         it('a password with 1 lowercase character does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('12AaBCD')).toBeFalsy();
+          expect(this.doesComplexityMeet('12AaBCD')).toBe(false);
         });
 
         it('empty password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('')).toBeFalsy();
+          expect(this.doesComplexityMeet('')).toBe(false);
         });
       });
 
@@ -182,15 +182,15 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('a password with 3 uppercase characters meets the complexity', function () {
-          expect(this.doesComplexityMeet('34eFGH')).toBeTruthy();
+          expect(this.doesComplexityMeet('34eFGH')).toBe(true);
         });
 
         it('a password with 2 uppercase character does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('34efGH')).toBeFalsy();
+          expect(this.doesComplexityMeet('34efGH')).toBe(false);
         });
 
         it('empty password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('')).toBeFalsy();
+          expect(this.doesComplexityMeet('')).toBe(false);
         });
       });
 
@@ -200,15 +200,15 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('a password with 4 numbers meets the complexity', function () {
-          expect(this.doesComplexityMeet('12abCD34')).toBeTruthy();
+          expect(this.doesComplexityMeet('12abCD34')).toBe(true);
         });
 
         it('a password with 3 numberes does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('12abCD 4')).toBeFalsy();
+          expect(this.doesComplexityMeet('12abCD 4')).toBe(false);
         });
 
         it('empty password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('')).toBeFalsy();
+          expect(this.doesComplexityMeet('')).toBe(false);
         });
       });
 
@@ -218,15 +218,15 @@ function (Okta, _, PasswordComplexityUtil) {
         });
 
         it('a password with 1 symbol meets the complexity', function () {
-          expect(this.doesComplexityMeet('a1B@')).toBeTruthy();
+          expect(this.doesComplexityMeet('a1B@')).toBe(true);
         });
 
         it('a password with no symbol does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('a1B')).toBeFalsy();
+          expect(this.doesComplexityMeet('a1B')).toBe(false);
         });
 
         it('empty password does not meet the complexity', function () {
-          expect(this.doesComplexityMeet('')).toBeFalsy();
+          expect(this.doesComplexityMeet('')).toBe(false);
         });
       });
 
@@ -243,26 +243,26 @@ function (Okta, _, PasswordComplexityUtil) {
 
           it('a password does not contain the username meets the complexity', function () {
             expect(this.doesComplexityMeet).toBeDefined();
-            expect(this.doesComplexityMeet('12ABcd@#')).toBeTruthy();
+            expect(this.doesComplexityMeet('12ABcd@#')).toBe(true);
           });
 
           it('a password prepend the username does not meet the complexity', function () {
             expect(this.doesComplexityMeet).toBeDefined();
-            expect(this.doesComplexityMeet('user@okta.coma12ABcd')).toBeFalsy();
+            expect(this.doesComplexityMeet('user@okta.coma12ABcd')).toBe(false);
           });
 
           it('a password append the username does not meet the complexity', function () {
             expect(this.doesComplexityMeet).toBeDefined();
-            expect(this.doesComplexityMeet('a12ABcduser@okta.com')).toBeFalsy();
+            expect(this.doesComplexityMeet('a12ABcduser@okta.com')).toBe(false);
           });
 
           it('a password contains the username does not meet the complexity', function () {
             expect(this.doesComplexityMeet).toBeDefined();
-            expect(this.doesComplexityMeet('a12user@okta.comABcd')).toBeFalsy();
+            expect(this.doesComplexityMeet('a12user@okta.comABcd')).toBe(false);
           });
 
           it('empty password does not meet the complexity', function () {
-            expect(this.doesComplexityMeet('')).toBeFalsy();
+            expect(this.doesComplexityMeet('')).toBe(false);
           });
 
         });
@@ -278,11 +278,11 @@ function (Okta, _, PasswordComplexityUtil) {
 
           it('any passowrd does not the complexity', function () {
             expect(this.doesComplexityMeet).toBeDefined();
-            expect(this.doesComplexityMeet('34EFgh$%')).toBeFalsy();
+            expect(this.doesComplexityMeet('34EFgh$%')).toBe(false);
           });
 
           it('empty password does not meet the complexity', function () {
-            expect(this.doesComplexityMeet('')).toBeFalsy();
+            expect(this.doesComplexityMeet('')).toBe(false);
           });
         });
 

@@ -20,11 +20,11 @@ function (SchemaProperty, RegistrationFormFactory) {
       });
 
       it('no label', function () {
-        expect(this.inputOptions['label']).toBeFalsy();
+        expect(this.inputOptions['label']).toBe(false);
       });
 
       it('label-top is true', function () {
-        expect(this.inputOptions['label-top']).toBeTruthy();
+        expect(this.inputOptions['label-top']).toBe(true);
       });
 
       it('placeholder is the description', function () {

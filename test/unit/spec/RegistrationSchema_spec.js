@@ -126,8 +126,8 @@ function (_, RegistrationSchema, Expect) {
         });
 
         it('field1 is required', function () {
-          expect(this.schema.properties.get('field1').get('required')).toBeTruthy();
-          expect(this.schema.properties.createModelProperties()['field1'].required).toBeTruthy();
+          expect(this.schema.properties.get('field1').get('required')).toBe(true);
+          expect(this.schema.properties.createModelProperties()['field1'].required).toBe(true);
         });
 
         it('field2 is not required', function () {
@@ -136,7 +136,7 @@ function (_, RegistrationSchema, Expect) {
         });
 
         it('field3 is required', function () {
-          expect(this.schema.properties.get('field3').get('required')).toBeTruthy();
+          expect(this.schema.properties.get('field3').get('required')).toBe(true);
         });
       });
 
@@ -185,7 +185,7 @@ function (_, RegistrationSchema, Expect) {
         expect(passwordComplexity.get('minUpperCase')).toEqual(1);
         expect(passwordComplexity.get('minNumber')).toEqual(1);
         expect(passwordComplexity.get('minSymbol')).toEqual(1);
-        expect(passwordComplexity.get('excludeUsername')).toBeTruthy();
+        expect(passwordComplexity.get('excludeUsername')).toBe(true);
       };
 
       Expect.describe('no password complexity', function () {
