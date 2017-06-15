@@ -154,7 +154,7 @@ function (
         }
         form.addInput(inputOptions);
       });
-      form.add(PasswordComplexity.View.extend({passwordComplexity: schema.passwordComplexity}));
+      form.add(PasswordComplexity.extend({passwordComplexity: schema.passwordComplexity}));
       this.add(form);
       this.footer = new this.Footer(this.toJSON());
       this.add(this.footer);
