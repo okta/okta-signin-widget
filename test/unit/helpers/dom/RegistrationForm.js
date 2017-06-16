@@ -1,8 +1,8 @@
 define(['./Form'], function (Form) {
 
-  var FIRSTNAME_FIELD = 'firstname';
-  var LASTNAME_FIELD = 'lastname';
-  var EMAIL_FIELD = 'email';
+  var FIRSTNAME_FIELD = 'firstName';
+  var LASTNAME_FIELD = 'lastName';
+  var EMAIL_FIELD = 'login';
   var PASSWORD_FIELD = 'password';
 
   return Form.extend({

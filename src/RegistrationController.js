@@ -12,13 +12,22 @@
 
 define([
   'okta',
+  'models/RegistrationSchema',
   'util/BaseLoginController',
-  'util/FormType',
   'util/Enums',
-  'shared/models/BaseSchema',
-  'shared/views/forms/helpers/SchemaFormFactory'
+  'util/PasswordComplexityUtil',
+  'util/RegistrationFormFactory',
+  'views/registration/PasswordComplexity'
 ],
-function (Okta, BaseLoginController, FormType, Enums, BaseSchema, SchemaFormFactory) {
+function (
+  Okta,
+  RegistrationSchema,
+  BaseLoginController,
+  Enums,
+  PasswordComplexityUtil,
+  RegistrationFormFactory,
+  PasswordComplexity
+) {
 
   var _ = Okta._;
 
@@ -52,42 +61,61 @@ function (Okta, BaseLoginController, FormType, Enums, BaseSchema, SchemaFormFact
   return BaseLoginController.extend({
     className: 'registration',
     initialize: function() {
-      var Schema = BaseSchema.Model.extend({
-        url: 'api/v1/schema',
-        expand: ['schema']
+      var Schema = RegistrationSchema.extend({
+        url: 'api/v1/schema'
       });
       var schema = new Schema({
         schema: {
-          'properties':{
-            'firstname': {
+          'properties': {
+            'firstName': {
               'type': 'string',
-              'description': 'First name',
+              'description': 'First Name',
+              'default': 'Enter your first name',
               'maxLength': 255
             },
-            'lastname': {
+            'lastName': {
               'type': 'string',
-              'description': 'Last name',
+              'description': 'Last Name',
+              'default': 'Enter your last name',
               'maxLength': 255
             },
-            'email': {
-              'type': 'email',
-              'description': 'Email'
+            'login': {
+              'type': 'string',
+              'description': 'Email Address',
+              'format' : 'email',
+              'default': 'Enter your email',
+              'maxLength': 255
             },
-            'password': {
-              'type': 'password',
-              'description': 'Password'
+            'accountLevel': {
+              'type': 'string',
+              'description': 'Account Level',
+              'enum': [ 'Free', 'Premium', 'Platinum' ]
+            },
+            'referrer': {
+              'type': 'string',
+              'description': 'How did you hear about us?',
+              'maxLength': 1024
+            },
+            'password' : {
+              'type' : 'string',
+              'description' : 'Password'
             }
-          }
+          },
+          'required': ['firstName', 'lastName', 'login', 'password', 'accountLevel'],
+          'fieldOrder': ['login', 'password', 'firstName', 'lastName', 'accountLevel', 'referrer']
+        },
+        'passwordComplexity': {
+          'minLength': 8,
+          'minLowerCase': 1,
+          'minUpperCase': 1,
+          'minNumber': 1,
+          'minSymbol': 0,
+          'excludeUsername': true
         }
       }, {parse:true});
 
       var properties = schema.properties;
-      // SchemaProperties.createModelProperties doesn't set the required attribute now
-      // Hardcoded the `required` to `true` temporary.
       var modelProperties = properties.createModelProperties();
-      _.map(modelProperties, function(modelProperty) {
-        modelProperty.required = true;
-      });
 
       var Model = Okta.Model.extend({
         settings: this.settings,
@@ -99,20 +127,38 @@ function (Okta, BaseLoginController, FormType, Enums, BaseSchema, SchemaFormFact
         }
       });
       this.model = new Model();
-      
+
+      var checkPasswordMeetComplexities = function(model) {
+        var password = model.get('password') || '';
+        _.each(schema.passwordComplexity.enabledComplexities, function(complexityName) {
+          var ele = Okta.$('.password-complexity-' + complexityName);
+          var complexityValue = this.get(complexityName);
+          if (PasswordComplexityUtil.complexities[complexityName].doesComplexityMeet(complexityValue, password, model)){
+            ele.addClass('password-complexity-meet');
+          } else {
+            ele.removeClass('password-complexity-meet');
+          }
+        }, schema.passwordComplexity);
+      };
+
       var form = new Form(this.toJSON());
       properties.each(function(schemaProperty) {
-        form.addInput(_.extend(SchemaFormFactory.createInputOptions(schemaProperty), {
-          label: false,
-          'label-top': true,
-          placeholder: schemaProperty.get('description')
-        }));
+        var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+        var name = schemaProperty.get('name');
+        if (name === 'password' || name === 'login') {
+          inputOptions.events = {
+            'input': function() {
+              checkPasswordMeetComplexities(this.model);
+            }
+          };
+        }
+        form.addInput(inputOptions);
       });
+      form.add(PasswordComplexity.extend({passwordComplexity: schema.passwordComplexity}));
       this.add(form);
-      
       this.footer = new this.Footer(this.toJSON());
       this.add(this.footer);
-      
+
       this.addListeners();
     },
     Footer: Footer
