@@ -198,15 +198,16 @@ define([
 
     loadLanguage: function (language, overrides, assets) {
       var parsedOverrides = parseOverrides(overrides);
+      var lowerCaseLanguage = language.toLowerCase();
       return getBundles(language, assets)
       .then(_.bind(function (bundles) {
         // Always extend from the built in defaults in the event that some
         // properties are not translated
         this.login = _.extend({}, login, bundles.login);
         this.country = _.extend({}, country, bundles.country);
-        if (parsedOverrides[language]) {
-          _.extend(this.login, parsedOverrides[language]['login']);
-          _.extend(this.country, parsedOverrides[language]['country']);
+        if (parsedOverrides[lowerCaseLanguage]) {
+          _.extend(this.login, parsedOverrides[lowerCaseLanguage]['login']);
+          _.extend(this.country, parsedOverrides[lowerCaseLanguage]['country']);
         }
         this.currentLanguage = language;
       }, this));

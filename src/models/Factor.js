@@ -34,6 +34,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         values: [
           'sms',
           'call',
+          'email',
           'token',
           'token:software:totp',
           'token:hardware',
@@ -130,6 +131,15 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           return null;
         }
       },
+      email: {
+        deps: ['profile', 'factorType'],
+        fn: function (profile, factorType) {
+          if (factorType === 'email') {
+            return profile && profile.email;
+          }
+          return null;
+        }
+      },
       deviceName: {
         deps: ['profile', 'factorType'],
         fn: function (profile, factorType) {
@@ -155,13 +165,13 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         deps: ['provider', 'factorType'],
         fn: function (provider, factorType) {
           // Only push, sms and call have resend links.
-          return (provider === 'OKTA' && _.contains(['push', 'sms', 'call'], factorType));
+          return (provider === 'OKTA' && _.contains(['push', 'sms', 'call', 'email'], factorType));
         }
       },
-      isSMSorCall: {
+      isSMSCallorEmail: {
         deps: ['factorType'],
         fn: function (factorType) {
-          return _.contains(['sms', 'call'], factorType);
+          return _.contains(['sms', 'call', 'email'], factorType);
         }
       }
     },
@@ -175,7 +185,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
     },
 
     validate: function () {
-      if (this.get('isSMSorCall') && !this.get('answer')) {
+      if (this.get('isSMSCallorEmail') && !this.get('answer')) {
         return {'answer': Okta.loc('model.validation.field.blank')};
       }
     },
