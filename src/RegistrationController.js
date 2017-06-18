@@ -128,17 +128,18 @@ function (
       });
       this.model = new Model();
 
-      var checkPasswordMeetComplexities = function(model, alert) {
+      var checkPasswordMeetComplexities = function(model, showError) {
         var password = model.get('password') || '';
         _.each(schema.passwordComplexity.enabledComplexities, function(complexityName) {
-          var ele = Okta.$('.password-complexity-' + complexityName);
+          var ele = Okta.$('#password-complexity-' + complexityName);
           var complexityValue = this.get(complexityName);
+          ele.removeClass();
           if (PasswordComplexityUtil.complexities[complexityName].doesComplexityMeet(complexityValue, password, model)){
-            ele.addClass('password-complexity-meet');
+            ele.addClass('password-complexity-satisfied');
           } else {
-            ele.removeClass('password-complexity-meet');
-            if(alert) {
-              ele.addClass('password-complexity-alert');
+            ele.addClass('password-complexity-unsatisfied');
+            if(showError) {
+              ele.addClass('password-complexity-error');
             }
           }
         }, schema.passwordComplexity);

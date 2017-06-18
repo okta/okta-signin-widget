@@ -17,8 +17,6 @@
 }
 
 .registration .password-complexity {
-  color: #d3d3d3;
-
   p {
     padding-left: 18px;
     position: relative;
@@ -31,23 +29,23 @@
     }
   }
 
-  .password-complexity-alert {
-    color: #e34843;
-
-    span.error-16-small {
-      display: block;
-    }
+  .password-complexity-unsatisfied {
+    color: #777;
   }
 
-  .password-complexity-meet {
+  .password-complexity-satisfied {
     color: #008000;
 
     span.confirm-16 {
       display: block;
     }
+  }
+
+  .password-complexity-error {
+    color: #e34843;
 
     span.error-16-small {
-      display: none;
+      display: block;
     }
   }
 }
