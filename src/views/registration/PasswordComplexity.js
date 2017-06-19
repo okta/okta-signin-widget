@@ -17,10 +17,17 @@ define(['okta', 'util/PasswordComplexityUtil'], function (Okta, PasswordComplexi
   var PasswordComplexity =  Okta.View.extend({
     name: '',
     message: '',
-    className: function() {
+    id: function() {
       return 'password-complexity-' + this.name;
     },
-    template: '<div>{{message}}</div>',
+    className: 'password-complexity-unsatisfied',
+    template: '\
+      <p>\
+        <span class="icon icon-16 confirm-16"/>\
+        <span class="icon icon-16 error-16-small"/>\
+        {{message}}\
+      </p>\
+    ',
     getTemplateData: function () {
       return {
         message: this.message
