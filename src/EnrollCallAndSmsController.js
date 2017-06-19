@@ -66,7 +66,8 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         hasExistingPhones: 'boolean',
         trapEnrollment: 'boolean',
         ableToResend: 'boolean',
-        factorType: 'string'
+        factorType: 'string',
+        skipPhoneValidation: 'boolean'
       },
       derived: {
         countryCallingCode: {
@@ -114,28 +115,34 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
             profileData['phoneExtension'] = phoneExtension;
           }
 
-          if (isMfaEnroll) {
-            var factor = _.findWhere(transaction.factors, {
+          if (self.get('skipPhoneValidation')) {
+            profileData['validatePhone'] = false;
+          }
+
+          var doEnroll = function (trans) {
+            var factor = _.findWhere(trans.factors, {
               factorType: self.get('factorType'),
               provider: 'OKTA'
             });
             return factor.enroll({
               profile: profileData
+            })
+            .fail(function (error) {
+              if(error.errorCode === 'E0000098') { // E0000098: "This phone number is invalid."
+                error.xhr.responseJSON.errorSummary = Okta.loc('enroll.sms.try_again', 'login');
+              }
+              throw error;
             });
+          };
 
-          } else {
+          if (isMfaEnroll) {
+            return doEnroll(transaction);
+          }
+          else {
             // We must transition to MfaEnroll before updating the phone number
             self.set('trapEnrollment', true);
             return transaction.prev()
-            .then(function (trans) {
-              var factor = _.findWhere(trans.factors, {
-                factorType: self.get('factorType'),
-                provider: 'OKTA'
-              });
-              return factor.enroll({
-                profile: profileData
-              });
-            })
+            .then(doEnroll)
             .then(function (trans) {
               self.set('trapEnrollment', false);
               return trans;
@@ -151,6 +158,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         .fail(function () {
           self.set('ableToResend', true);
           self.set('trapEnrollment', false);
+          self.set('skipPhoneValidation', true);
         });
       },
       resendCode: function () {
