@@ -12,8 +12,9 @@
 
 define([
   'okta',
-  'shared/views/forms/helpers/SchemaFormFactory'
-], function (Okta, SchemaFormFactory) {
+  'shared/views/forms/helpers/SchemaFormFactory',
+  'views/shared/TextBox'
+], function (Okta, SchemaFormFactory, TextBox) {
 
   var _ = Okta._;
 
@@ -31,8 +32,19 @@ define([
       });
     }
 
-    if (schemaProperty.get('name') === 'password') {
+    switch (schemaProperty.get('name')) {
+    case 'login':
+      inputOptions.input = TextBox;
+      inputOptions.params = {
+        'icon': 'person-16-gray'
+      };
+      break;
+    case 'password':
       inputOptions.type = 'password';
+      inputOptions.input = TextBox;
+      inputOptions.params = {
+        'icon': 'remote-lock-16'
+      };
     }
     return inputOptions;
   };

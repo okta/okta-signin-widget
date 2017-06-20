@@ -37,12 +37,48 @@ define(['./Form'], function (Form) {
       return this.error(EMAIL_FIELD);
     },
 
+    setEmail: function (val) {
+      var field = this.emailField();
+      field.val(val);
+      field.trigger('change');
+    },
+
     passwordField: function () {
       return this.input(PASSWORD_FIELD);
     },
 
     passwordErrorField: function () {
       return this.error(PASSWORD_FIELD);
+    },
+
+    setPassword: function (val) {
+      var field = this.passwordField();
+      field.val(val);
+      field.trigger('change');
+      field.trigger('input');
+    },
+
+    focusOutPassword: function () {
+      var field = this.passwordField();
+      field.trigger('focusout');
+    },
+
+    hasPasswordComplexityUnsatisfied: function (type) {
+      return this.$('#password-complexity-' + type).hasClass('password-complexity-unsatisfied') &&
+             !this.$('#password-complexity-' + type).hasClass('password-complexity-satisfied') &&
+             !this.$('#password-complexity-' + type).hasClass('password-complexity-error');
+    },
+
+    hasPasswordComplexitySatisfied: function (type) {
+      return this.$('#password-complexity-' + type).hasClass('password-complexity-satisfied') &&
+             !this.$('#password-complexity-' + type).hasClass('password-complexity-unsatisfied') &&
+             !this.$('#password-complexity-' + type).hasClass('password-complexity-error');
+    },
+
+    hasPasswordComplexityError: function (type) {
+      return this.$('#password-complexity-' + type).hasClass('password-complexity-error') &&
+             !this.$('#password-complexity-' + type).hasClass('password-complexity-unsatisfied') &&
+             !this.$('#password-complexity-' + type).hasClass('password-complexity-satisfied');
     }
   });
 

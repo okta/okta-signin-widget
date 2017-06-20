@@ -103,6 +103,40 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Router, $sa
       });
     });
 
+    Expect.describe('password complexity', function () {
+      itp('shows password complexities unsatisfied', function () {
+        return setup().then(function (test) {
+          expect(test.form.hasPasswordComplexityUnsatisfied('minLength')).toBe(true);
+          expect(test.form.hasPasswordComplexityUnsatisfied('minLowerCase')).toBe(true);
+          expect(test.form.hasPasswordComplexityUnsatisfied('minUpperCase')).toBe(true);
+          expect(test.form.hasPasswordComplexityUnsatisfied('minNumber')).toBe(true);
+          expect(test.form.hasPasswordComplexityUnsatisfied('excludeUsername')).toBe(true);
+        });
+      });
+      itp('shows password complexity satisfied if it is satisfied', function () {
+        return setup().then(function (test) {
+          test.form.setPassword('Abcd');
+          expect(test.form.hasPasswordComplexityUnsatisfied('minLength')).toBe(true);
+          expect(test.form.hasPasswordComplexitySatisfied('minLowerCase')).toBe(true);
+          expect(test.form.hasPasswordComplexitySatisfied('minUpperCase')).toBe(true);
+          expect(test.form.hasPasswordComplexityUnsatisfied('minNumber')).toBe(true);
+          expect(test.form.hasPasswordComplexityUnsatisfied('excludeUsername')).toBe(true);
+        });
+      });
+      itp('shows password complexity error if focus out and not satisfied', function () {
+        return setup().then(function (test) {
+          test.form.setEmail('User');
+          test.form.setPassword('12345678');
+          test.form.focusOutPassword();
+          expect(test.form.hasPasswordComplexitySatisfied('minLength')).toBe(true);
+          expect(test.form.hasPasswordComplexityError('minLowerCase')).toBe(true);
+          expect(test.form.hasPasswordComplexityError('minUpperCase')).toBe(true);
+          expect(test.form.hasPasswordComplexitySatisfied('minNumber')).toBe(true);
+          expect(test.form.hasPasswordComplexitySatisfied('excludeUsername')).toBe(true);
+        });
+      });
+    });
+
   });
 
 });
