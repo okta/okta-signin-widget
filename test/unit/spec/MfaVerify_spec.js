@@ -2043,14 +2043,17 @@ function (Okta,
                 Q.stopUnhandledRejectionTracking();
                 return setupFailurePolling(test)
                 .then(function () {
+                  //Expect.waitForFormError will not work here because the
+                  //warning div is also within o-form-error-container
+                  var waitForOktaError = function() {
+                    return test.form.$('.okta-form-infobox-error').length > 0;
+                  };
                   expect(test.form.submitButton().prop('disabled')).toBe(true);
                   expect(test.form.submitButtonText()).toBe('Push sent!');
                   expect(test.form.warningMessage()).toBe(
                     'Haven\'t received a push notification yet? Try opening the Okta Verify App on your phone.');
-                  return tick(test);
+                  return Expect.wait(waitForOktaError, test);
                 })
-                .then(function () { return tick(test); })
-                .then(function () { return tick(test); })
                 .then(function (test) {
                   expect(test.form.errorMessage()).toBe(
                     'Unable to connect to the server. Please check your network connection.');
