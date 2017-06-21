@@ -122,7 +122,7 @@ define(['okta/jquery', 'okta/underscore', './Dom'], function ($, _, Dom) {
     },
 
     hasErrors: function () {
-      return this.el('o-form-error-container').children().length > 0;
+      return this.$('.okta-form-infobox-error').length > 0;
     },
 
     errorBox: function () {
@@ -135,6 +135,14 @@ define(['okta/jquery', 'okta/underscore', './Dom'], function ($, _, Dom) {
 
     accessibilityText: function() {
       return this.$('.accessibility-text').text().trim();
+    },
+
+    warningMessage: function () {
+      return this.$('.okta-form-infobox-warning p').text().trim();
+    },
+
+    hasWarningMessage: function () {
+      return this.$('.okta-form-infobox-warning').length > 0;
     }
 
   });

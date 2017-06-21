@@ -2011,6 +2011,52 @@ function (Okta,
                 });
               });
             });
+            itp('on WARNING_TIMEOUT, shows warning message', function () {
+              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                return setTimeout(arguments[0], 0);
+              });
+              return setupOktaPush().then(function (test) {
+                return setupPolling(test, resSuccess)
+                .then(function (test) {
+                  expect(test.form.warningMessage()).toBe(
+                    'Haven\'t received a push notification yet? Try opening the Okta Verify App on your phone.');
+                  expect(test.form.submitButton().prop('disabled')).toBe(true);
+                });
+              });
+            });
+            itp('removes warnings and displays error when an error occurs', function () {
+              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                return setTimeout(arguments[0], 0);
+              });
+              function setupFailurePolling(test) {
+                var failureResponse = {status: 0, response: {}};
+                $.ajax.calls.reset();
+                Util.speedUpPolling(test.ac);
+                test.setNextResponse([resChallengePush, resChallengePush, failureResponse, failureResponse,
+                  failureResponse, failureResponse, failureResponse, failureResponse]);
+                test.form = test.form[0];
+                test.form.submit();
+                return tick(test);
+              }
+              return setupOktaPush().then(function (test) {
+                spyOn(test.router.settings, 'callGlobalError');
+                Q.stopUnhandledRejectionTracking();
+                return setupFailurePolling(test)
+                .then(function () {
+                  expect(test.form.submitButton().prop('disabled')).toBe(true);
+                  expect(test.form.submitButtonText()).toBe('Push sent!');
+                  expect(test.form.warningMessage()).toBe(
+                    'Haven\'t received a push notification yet? Try opening the Okta Verify App on your phone.');
+                  return Expect.waitForFormError(test.form, test);
+                })
+                .then(function (test) {
+                  expect(test.form.errorMessage()).toBe(
+                    'Unable to connect to the server. Please check your network connection.');
+                  expect(test.form.submitButton().prop('disabled')).toBe(false);
+                  expect(test.form.hasWarningMessage()).toBe(false);
+                });
+              });
+            });
           });
 
           // Do this when we have implemented push errors in OktaAuth and have an example
