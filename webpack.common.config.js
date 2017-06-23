@@ -21,7 +21,7 @@ module.exports = function (outputFilename) {
         'okta/jquery': SHARED_JS + '/util/jquery-wrapper',
         'okta/underscore': SHARED_JS + '/util/underscore-wrapper',
         'okta/handlebars': 'handlebars/dist/handlebars',
-        'okta/moment': EMPTY,
+        'okta/moment': 'moment/moment',
         'okta/jqueryui': EMPTY,
         'okta': 'shared/util/Okta',
         'shared/util/Bundles': 'util/Bundles',
@@ -42,7 +42,6 @@ module.exports = function (outputFilename) {
         // checking these - new modules need to be blacklisted here.
         // Note: If the module is included relatively in the source file,
         // override it in the null-loader configs below.
-        'moment': EMPTY,
         'jqueryui': EMPTY,
         'mixpanel': EMPTY,
         'selectize': EMPTY,
