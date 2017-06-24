@@ -35,7 +35,6 @@ entryConfig.externals = {
     'root': 'handlebars'
   },
   'q': true,
-  'qtip': '@okta/qtip2',
   'u2f-api-polyfill': true,
   'underscore': true,
   'vendor/lib/q': 'q'
