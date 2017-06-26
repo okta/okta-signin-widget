@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 25], max-statements: [2, 35], complexity:[2, 10] */
+/* eslint max-params: [2, 25], max-statements: [2, 35], complexity:[2, 10], max-len: [2, 125] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -40,11 +40,15 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       excludeUsername: true
     };
 
+    var policyAgeMinAge = {
+      inMinutes: 30,
+      inHours: 120,
+      inDays: 2880
+    };
+
     var policyAgeDefaults = {
       historyCount: 7,
-      minAgeInMinutes: 30,
-      minAgeInHours: 120,
-      minAgeInDays: 2880
+      minAgeMinutes: policyAgeMinAge.inMinutes
     };
 
     if (settings && (settings.policyComplexity || settings.policyAge)) {
@@ -53,29 +57,27 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
 
       if (settings.policyComplexity === 'all') {
         responsePolicy.complexity = policyComplexityDefaults;
-      }
-      else if (settings.policyComplexity) {
-        var key = settings.policyComplexity;
-        responsePolicy.complexity[key] = policyComplexityDefaults[key];
+      } else if (settings.policyComplexity) {
+        var policyKey = settings.policyComplexity;
+        responsePolicy.complexity[policyKey] = policyComplexityDefaults[policyKey];
       }
       delete settings.policyComplexity;
 
-      if (settings.policyAge === 'history') {
-        responsePolicy.age.historyCount = policyAgeDefaults.historyCount;
+      if (settings.policyAge === 'all') {
+        responsePolicy.age = policyAgeDefaults;
+      } else if (settings.policyAge) {
+        var ageKey = settings.policyAge;
+        responsePolicy.age[ageKey] = policyAgeDefaults[ageKey];
       }
 
-      if (settings.policyAge === 'minAgeInMinutes') {
-        responsePolicy.age.minAgeMinutes = policyAgeDefaults.minAgeInMinutes;
+      // test when enough minutes for hours
+      if (settings.policyAge === 'minAgeMinutesinHours') {
+        responsePolicy.age.minAgeMinutes = policyAgeMinAge.inHours;
       }
-
-      if (settings.policyAge === 'minAgeInHours') {
-        responsePolicy.age.minAgeMinutes = policyAgeDefaults.minAgeInHours;
+      // test when enough minutes for days
+      if (settings.policyAge === 'minAgeMinutesinDays') {
+        responsePolicy.age.minAgeMinutes = policyAgeMinAge.inDays;
       }
-
-      if (settings.policyAge === 'minAgeInDays') {
-        responsePolicy.age.minAgeMinutes = policyAgeDefaults.minAgeInDays;
-      }
-
       delete settings.policyAge;
     }
 
@@ -177,36 +179,36 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       });
     });
 
-    itp('has a valid subtitle if only password age "history" defined', function () {
-      return setup({policyAge: 'history'}).then(function (test) {
+    itp('has a valid subtitle if only password age "historyCount" defined', function () {
+      return setup({policyAge: 'historyCount'}).then(function (test) {
         expect(test.form.subtitleText()).toEqual('Your password cannot be any of your last 7 passwords.');
       });
     });
 
-    itp('has a valid subtitle in days if only password age "minAgeInDays" defined', function () {
-      return setup({policyAge: 'minAgeInDays'}).then(function (test) {
-        expect(test.form.subtitleText()).toEqual(
-          'At least 2 day(s) must have elapsed since you last changed your password.');
-      });
-    });
-
-    itp('has a valid subtitle in hours if only password age "minAgeInHours" defined', function () {
-      return setup({policyAge: 'minAgeInHours'}).then(function (test) {
-        expect(test.form.subtitleText()).toEqual(
-          'At least 2 hour(s) must have elapsed since you last changed your password.');
-      });
-    });
-
-    itp('has a valid subtitle in minutes if only password age "minAgeInMinutes" defined', function () {
-      return setup({policyAge: 'minAgeInMinutes'}).then(function (test) {
+    itp('has a valid subtitle in minutes if only password age "minAgeMinutes" defined', function () {
+      return setup({policyAge: 'minAgeMinutes'}).then(function (test) {
         expect(test.form.subtitleText()).toEqual(
           'At least 30 minute(s) must have elapsed since you last changed your password.');
       });
     });
 
-    itp('has a valid subtitle if password complexity "excludeUsername" and password age "history" defined',
+    itp('has a valid subtitle in hours if only password age "minAgeMinutesinHours" defined', function () {
+      return setup({policyAge: 'minAgeMinutesinHours'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual(
+          'At least 2 hour(s) must have elapsed since you last changed your password.');
+      });
+    });
+
+    itp('has a valid subtitle in days if only password age "minAgeMinutesinDays" defined', function () {
+      return setup({policyAge: 'minAgeMinutesinDays'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual(
+          'At least 2 day(s) must have elapsed since you last changed your password.');
+      });
+    });
+
+    itp('has a valid subtitle if password complexity "excludeUsername" and password age "historyCount" defined',
       function () {
-        return setup({policyComplexity: 'excludeUsername', policyAge: 'history'}).then(function (test) {
+        return setup({policyComplexity: 'excludeUsername', policyAge: 'historyCount'}).then(function (test) {
           expect(test.form.subtitleText()).toEqual('Your password must have no parts of your username.' +
             ' Your password cannot be any of your last 7 passwords.');
         });
@@ -220,15 +222,33 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       });
     });
 
-    itp('has a valid subtitle if password complexity is defined with all options and password age "history" defined',
+    itp('has a valid subtitle in minutes if password age is defined with all options', function () {
+      return setup({policyAge: 'all'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual(
+          'Your password cannot be any of your last 7 passwords.' +
+            ' At least 30 minute(s) must have elapsed since you last changed your password.');
+      });
+    });
+
+    itp('has a valid subtitle if password complexity is defined with all options and password age "historyCount" defined',
       function () {
-        return setup({policyComplexity: 'all', policyAge: 'history'}).then(function (test) {
+        return setup({policyComplexity: 'all', policyAge: 'historyCount'}).then(function (test) {
           expect(test.form.subtitleText())
           .toEqual('Your password must have at least 8 characters, a lowercase letter,' +
             ' an uppercase letter, a number, a symbol, no parts of your username.' +
             ' Your password cannot be any of your last 7 passwords.');
         });
       });
+
+    itp('has a valid subtitle if password age and complexity are defined with all options', function () {
+      return setup({policyComplexity: 'all', policyAge: 'all'}).then(function (test) {
+        expect(test.form.subtitleText())
+        .toEqual('Your password must have at least 8 characters, a lowercase letter,' +
+          ' an uppercase letter, a number, a symbol, no parts of your username.' +
+          ' Your password cannot be any of your last 7 passwords.' +
+          ' At least 30 minute(s) must have elapsed since you last changed your password.');
+      });
+    });
 
     itp('has a password field to enter the new password', function () {
       return setup().then(function (test) {
