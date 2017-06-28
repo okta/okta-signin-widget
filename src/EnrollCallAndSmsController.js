@@ -129,6 +129,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
             })
             .fail(function (error) {
               if(error.errorCode === 'E0000098') { // E0000098: "This phone number is invalid."
+                self.set('skipPhoneValidation', true);
                 error.xhr.responseJSON.errorSummary = Okta.loc('enroll.sms.try_again', 'login');
               }
               throw error;
@@ -158,7 +159,6 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         .fail(function () {
           self.set('ableToResend', true);
           self.set('trapEnrollment', false);
-          self.set('skipPhoneValidation', true);
         });
       },
       resendCode: function () {
