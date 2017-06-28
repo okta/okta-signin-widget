@@ -11,7 +11,11 @@
  */
 
 /* eslint complexity: [2, 15], max-statements: [2, 28] */
-define(['okta'], function (Okta) {
+define([
+  'okta',
+  'shared/util/TimeUtil'
+],
+function (Okta, TimeUtil) {
 
   var _ = Okta._;
 
@@ -183,6 +187,21 @@ define(['okta'], function (Okta) {
   fn.getPasswordComplexityDescription = function (policy) {
     var result = [];
 
+    var getPasswordAgeRequirement = function(displayableTime) {
+      var propertiesString;
+      switch (displayableTime.unit) {
+      case 'DAY':
+        propertiesString = 'password.complexity.minAgeDays';
+        break;
+      case 'HOUR':
+        propertiesString = 'password.complexity.minAgeHours';
+        break;
+      case 'MINUTE':
+        propertiesString = 'password.complexity.minAgeMinutes';
+      }
+      return Okta.loc(propertiesString, 'login', [displayableTime.time]);
+    };
+
     if (policy.complexity) {
       var complexityFields = {
         minLength: {i18n: 'password.complexity.length', args: true},
@@ -217,6 +236,12 @@ define(['okta'], function (Okta) {
 
     if (policy.age && policy.age.historyCount > 0) {
       result.push(Okta.loc('password.complexity.history', 'login', [policy.age.historyCount]));
+    }
+
+    if (policy.age && policy.age.minAgeMinutes > 0) {
+      var displayableTime = TimeUtil.getTimeInHighestRelevantUnit(policy.age.minAgeMinutes, 'MINUTE');
+      var minAgeDescription = getPasswordAgeRequirement(displayableTime);
+      result.push(minAgeDescription);
     }
 
     return result.join(' ');
