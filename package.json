@@ -91,13 +91,5 @@
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.1",
     "underscore": "1.8.3"
-  },
-  "optionalDependencies": {
-    "@okta/ci-pkginfo": "1.2.0",
-    "@okta/ci-update-package": "1.4.0",
-    "@okta/courage": "2.11.0",
-    "@okta/i18n": "28.15.0",
-    "@okta/install-with-shrinkwrap": "1.7.0",
-    "@okta/qtip2": "3.0.6"
   }
 }
