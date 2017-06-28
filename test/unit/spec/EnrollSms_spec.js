@@ -354,6 +354,48 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
           });
         });
       });
+      itp('does not set validatePhone:false if the error is not a validation error (E0000098).', function () {
+        return setup()
+        .then(function (test) {
+          $.ajax.calls.reset();
+          return sendCode(test, resEnrollError, 'PF', '12345678');
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'sms',
+              provider: 'OKTA',
+              profile: {
+                phoneNumber: '+68912345678'
+              },
+              stateToken: 'testStateToken'
+            }
+          });
+
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage())
+          .toEqual('Invalid Phone Number.');
+
+          $.ajax.calls.reset();
+          return sendCode(test, resEnrollError, 'PF', '12345678');
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'sms',
+              provider: 'OKTA',
+              profile: {
+                phoneNumber: '+68912345678'
+              },
+              stateToken: 'testStateToken'
+            }
+          });
+        });
+      });
       itp('uses resend and not enrollFactor when re-send is clicked', function () {
         Util.speedUpDelay();
         return setupAndSendValidCode()
