@@ -39,8 +39,7 @@
     "start": "grunt start-server-open",
     "prepublish": "npm run build:release",
     "ci-update-package": "ci-update-package",
-    "ci-pkginfo:dataload": "ci-pkginfo -t dataload",
-    "installsw": "install-with-shrinkwrap"
+    "ci-pkginfo:dataload": "ci-pkginfo -t dataload"
   },
   "devDependencies": {
     "app-root-path": "1.0.0",
