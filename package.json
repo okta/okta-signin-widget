@@ -39,8 +39,7 @@
     "start": "grunt start-server-open",
     "prepublish": "npm run build:release",
     "ci-update-package": "ci-update-package",
-    "ci-pkginfo:dataload": "ci-pkginfo -t dataload",
-    "installsw": "install-with-shrinkwrap"
+    "ci-pkginfo:dataload": "ci-pkginfo -t dataload"
   },
   "devDependencies": {
     "app-root-path": "1.0.0",
@@ -91,13 +90,5 @@
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.1",
     "underscore": "1.8.3"
-  },
-  "optionalDependencies": {
-    "@okta/ci-pkginfo": "1.2.0",
-    "@okta/ci-update-package": "1.4.0",
-    "@okta/courage": "2.11.0",
-    "@okta/i18n": "28.25.0",
-    "@okta/install-with-shrinkwrap": "1.7.0",
-    "@okta/qtip2": "3.0.6"
   }
 }

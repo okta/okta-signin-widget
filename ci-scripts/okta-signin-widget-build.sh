@@ -17,6 +17,10 @@ PUBLISH_TEST_SUITE_ID=D2E90D99-59B8-42FB-9B45-E0E10C1369E1
 
 REGISTRY="https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta"
 
+# Install required dependencies
+npm install -g @okta/ci-update-package
+npm install -g @okta/ci-pkginfo
+
 function usage() {
   OUTPUTCODE=$1
   echo """
