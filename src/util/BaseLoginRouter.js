@@ -117,6 +117,11 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
       this.listenTo(this.appState, 'navigate', function (url) {
         this.navigate(url, { trigger: true });
       });
+
+      var self = this;
+      $(window).on('popstate', function() {
+        self.appState.backButtonClicked = true;
+      });
     },
 
     execute: function (cb, args) {
@@ -168,6 +173,20 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
     },
 
     render: function (Controller, options) {
+      if(this.appState.backButtonClicked) {
+        RouterUtil.verifyRouteChange.call(this)
+        .then(_.bind(function() {
+          this.appState.backButtonClicked = false;
+          this.renderController(Controller, options);
+        }, this))
+        .done();
+      }
+      else {
+        this.renderController(Controller, options);
+      }
+    },
+
+    renderController: function(Controller, options) {
       options || (options = {});
 
       var Beacon = options.Beacon;
