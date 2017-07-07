@@ -99,6 +99,11 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             Expect.isTextField(test.form.credentialIdField());
           });
         });
+        itp('autopopulates credentialId text field', function () {
+          return setup().then(function (test) {
+            expect(test.form.getCredentialId()).toEqual('test123');
+          });
+        });
         itp('has passCode text field', function () {
           return setup().then(function (test) {
             Expect.isPasswordField(test.form.codeField());
@@ -194,6 +199,11 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         itp('has a credentialId text field', function () {
           return setupOnPrem().then(function (test) {
             Expect.isTextField(test.form.credentialIdField());
+          });
+        });
+        itp('autopopulates credentialId text field', function () {
+          return setupOnPrem().then(function (test) {
+            expect(test.form.getCredentialId()).toEqual('test123');
           });
         });
         itp('has passCode text field', function () {

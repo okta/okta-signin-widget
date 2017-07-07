@@ -95,7 +95,16 @@ function (Okta, FormType, FormController, Footer, TextBox) {
       };
     },
 
-    Footer: Footer
+    Footer: Footer,
+
+    initialize: function () {
+      var factors = this.options.appState.get('factors');
+      var factor = factors.findWhere(_.pick(this.options, 'provider', 'factorType'));
+      var profile = factor.get('profile');
+      if(profile && profile['credentialId']) {
+        this.model.set('credentialId', profile['credentialId']);
+      }
+    }
 
   });
 
