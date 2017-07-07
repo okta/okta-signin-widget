@@ -2,20 +2,8 @@
   "name": "@okta/okta-signin-widget",
   "version": "1.11.0",
   "dependencies": {
-    "@okta/courage": {
-      "version": "2.11.0"
-    },
-    "@okta/i18n": {
-      "version": "31.1.0"
-    },
-    "@okta/jquery.simplemodal": {
-      "version": "1.4.9"
-    },
     "@okta/okta-auth-js": {
       "version": "1.8.0"
-    },
-    "@okta/qtip2": {
-      "version": "3.0.6"
     },
     "abbrev": {
       "version": "1.1.0"
