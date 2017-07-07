@@ -83,7 +83,9 @@
   "dependencies": {
     "@okta/okta-auth-js": "1.8.0",
     "backbone": "1.2.1",
+    "clipboard": "1.6.1",
     "handlebars": "4.0.5",
+    "imagesloaded": "4.1.1",
     "jquery": "1.12.1",
     "jquery-placeholder": "2.0.7",
     "jquery.cookie": "1.4.1",

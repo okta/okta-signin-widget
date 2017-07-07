@@ -72,13 +72,13 @@ module.exports = function (grunt) {
           {expand: true, cwd: 'src/', src: ['**'], dest: JS + '/'},
 
           // Courage files
-          {expand: true, cwd: 'node_modules/@okta/courage/src/', src: ['**'], dest: JS + '/shared/'},
-          {expand: true, cwd: 'node_modules/@okta/courage/src/vendor', src: ['**'], dest: JS + '/vendor/'},
+          {expand: true, cwd: 'packages/@okta/courage/src/', src: ['**'], dest: JS + '/shared/'},
+          {expand: true, cwd: 'packages/@okta/courage/src/vendor', src: ['**'], dest: JS + '/vendor/'},
 
           // i18n files
           {
             expand: true,
-            cwd: 'node_modules/@okta/i18n/dist/',
+            cwd: 'packages/@okta/i18n/dist/',
             src: [
               'json/{login,country}*.json',
               'properties/{login,country}*.properties'
@@ -97,7 +97,7 @@ module.exports = function (grunt) {
           // jquery.qtip.css -> _jquery.qtip.scss
           {
             expand: true,
-            cwd: 'node_modules/@okta/qtip2/dist/',
+            cwd: 'packages/@okta/qtip2/dist/',
             src: 'jquery.qtip.css',
             dest: 'target/sass/widgets',
             rename: function () {
