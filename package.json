@@ -37,9 +37,7 @@
     "build:webpack-e2e-app": "webpack target/e2e/app/app-using-osw-entry.js target/js/app-bundle.js",
     "prestart": "npm run build:dev",
     "start": "grunt start-server-open",
-    "prepublish": "npm run build:release",
-    "ci-update-package": "ci-update-package",
-    "ci-pkginfo:dataload": "ci-pkginfo -t dataload"
+    "prepublish": "npm run build:release"
   },
   "devDependencies": {
     "app-root-path": "1.0.0",
@@ -90,5 +88,8 @@
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.1",
     "underscore": "1.8.3"
+  },
+  "optionalDependencies": {
+    "fsevents": "*"
   }
 }
