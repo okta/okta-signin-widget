@@ -38,7 +38,7 @@ function (Okta, FormType, FormController, Footer, TextBox) {
       var factors = this.options.appState.get('factors');
       var factor = factors.findWhere(_.pick(this.options, 'provider', 'factorType'));
       var profile = factor.get('profile');
-      var credentialId = profile.credentialId || '';
+      var credentialId = (profile && profile.credentialId) ?  profile.credentialId : '';
       return {
         props: {
           credentialId: ['string', true, credentialId],

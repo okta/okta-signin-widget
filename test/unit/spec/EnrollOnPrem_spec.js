@@ -104,6 +104,17 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             expect(test.form.getCredentialId()).toEqual('test123');
           });
         });
+        itp('does not autopopulate credentialId when profile does not exist', function () {
+          delete resAllFactors['response']['_embedded']['factors'][3]['profile'];
+          return setup().then(function (test) {
+            expect(test.form.getCredentialId()).toEqual('');
+          })
+          .then(function () {
+            resAllFactors['response']['_embedded']['factors'][3]['profile'] = {
+              'credentialId': 'test123'
+            };
+          });
+        });
         itp('has passCode text field', function () {
           return setup().then(function (test) {
             Expect.isPasswordField(test.form.codeField());
@@ -204,6 +215,17 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         itp('autopopulates credentialId text field', function () {
           return setupOnPrem().then(function (test) {
             expect(test.form.getCredentialId()).toEqual('test123');
+          });
+        });
+        itp('does not autopopulate credentialId when profile does not exist', function () {
+          delete resAllFactorsOnPrem['response']['_embedded']['factors'][4]['profile'];
+          return setupOnPrem().then(function (test) {
+            expect(test.form.getCredentialId()).toEqual('');
+          })
+          .then(function () {
+            resAllFactorsOnPrem['response']['_embedded']['factors'][4]['profile'] = {
+              'credentialId': 'test123'
+            };
           });
         });
         itp('has passCode text field', function () {
