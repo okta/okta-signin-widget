@@ -441,7 +441,7 @@ module.exports = function (grunt) {
 
     retire: {
       js: ['src/**/*.js', 'test/**/*.js'],
-      node: ['node_modules'],
+      node: ['node_modules', 'packages'],
       options: {
         packageOnly: false
       }
