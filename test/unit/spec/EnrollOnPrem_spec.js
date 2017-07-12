@@ -63,21 +63,21 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
     var setupOnPrem = _.partial(setup, resAllFactorsOnPrem, true);
 
     var getResponseNoProfile = function (response, factorType, provider) {
-      var copy = $.extend(true, {}, response);
-      var factors = copy['response']['_embedded']['factors'];
+      var responseCopy = Util.deepCopy(response);
+      var factors = responseCopy['response']['_embedded']['factors'];
       var factor = _.findWhere(factors, {factorType: factorType, provider: provider});
       delete factor['profile'];
-      return copy;
+      return responseCopy;
     };
 
     var setupRsaNoProfile = function () {
-      var copy = getResponseNoProfile(resAllFactors, 'token', 'RSA');
-      return setup(copy, false);
+      var res = getResponseNoProfile(resAllFactors, 'token', 'RSA');
+      return setup(res, false);
     };
 
     var setupOnPremNoProfile = function() {
-      var copy = getResponseNoProfile(resAllFactorsOnPrem, 'token', 'DEL_OATH');
-      return setup(copy, true);
+      var res = getResponseNoProfile(resAllFactorsOnPrem, 'token', 'DEL_OATH');
+      return setup(res, true);
     };
 
     Expect.describe('RSA', function () {
