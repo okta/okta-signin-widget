@@ -23,7 +23,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
 
   Expect.describe('EnrollOnPrem', function () {
 
-    function setup(includeOnPrem, startRouter) {
+    function setup(response, includeOnPrem, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
@@ -37,7 +37,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       Util.mockRouterNavigate(router, startRouter);
       return tick()
       .then(function () {
-        var res = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
+        var res = response ? response : resAllFactors;
         setNextResponse(res);
         router.refreshAuthState('dummy-token');
         return Expect.waitForEnrollChoices();
@@ -60,7 +60,25 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       });
     }
 
-    var setupOnPrem = _.partial(setup, true);
+    var setupOnPrem = _.partial(setup, resAllFactorsOnPrem, true);
+
+    var getResponseNoProfile = function (response, factorType, provider) {
+      var copy = $.extend(true, {}, response);
+      var factors = copy['response']['_embedded']['factors'];
+      var factor = _.findWhere(factors, {factorType: factorType, provider: provider});
+      delete factor['profile'];
+      return copy;
+    };
+
+    var setupRsaNoProfile = function () {
+      var copy = getResponseNoProfile(resAllFactors, 'token', 'RSA');
+      return setup(copy, false);
+    };
+
+    var setupOnPremNoProfile = function() {
+      var copy = getResponseNoProfile(resAllFactorsOnPrem, 'token', 'DEL_OATH');
+      return setup(copy, true);
+    };
 
     Expect.describe('RSA', function () {
 
@@ -82,7 +100,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           });
         });
         itp('returns to factor list when browser\'s back button is clicked', function () {
-          return setup(false, true).then(function (test) {
+          return setup(false, false, true).then(function (test) {
             Util.triggerBrowserBackButton();
             return Expect.waitForEnrollChoices(test);
           })
@@ -105,14 +123,8 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           });
         });
         itp('does not autopopulate credentialId when profile does not exist', function () {
-          delete resAllFactors['response']['_embedded']['factors'][3]['profile'];
-          return setup().then(function (test) {
+          return setupRsaNoProfile().then(function (test) {
             expect(test.form.getCredentialId()).toEqual('');
-          })
-          .then(function () {
-            resAllFactors['response']['_embedded']['factors'][3]['profile'] = {
-              'credentialId': 'test123'
-            };
           });
         });
         itp('has passCode text field', function () {
@@ -218,14 +230,8 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           });
         });
         itp('does not autopopulate credentialId when profile does not exist', function () {
-          delete resAllFactorsOnPrem['response']['_embedded']['factors'][4]['profile'];
-          return setupOnPrem().then(function (test) {
+          return setupOnPremNoProfile().then(function (test) {
             expect(test.form.getCredentialId()).toEqual('');
-          })
-          .then(function () {
-            resAllFactorsOnPrem['response']['_embedded']['factors'][4]['profile'] = {
-              'credentialId': 'test123'
-            };
           });
         });
         itp('has passCode text field', function () {
