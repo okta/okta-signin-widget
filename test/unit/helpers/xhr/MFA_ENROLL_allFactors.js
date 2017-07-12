@@ -87,6 +87,9 @@ define({
               ]
             }
           }
+        },
+        "profile": {
+          "credentialId": "test123"
         }
       }, {
         "enrollment": "OPTIONAL",

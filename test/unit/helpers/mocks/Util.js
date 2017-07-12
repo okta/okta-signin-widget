@@ -1,4 +1,4 @@
-/* eslint no-global-assign: 0, max-statements: [2, 30] */
+/* eslint no-global-assign: 0, max-statements: [2, 31] */
 define([
   'okta/jquery',
   'okta/underscore',
@@ -291,6 +291,10 @@ function ($, _, Backbone, Q, Duo) {
         current.controller.remove();
       }
     }
+  };
+
+  fn.deepCopy = function (res) {
+    return JSON.parse(JSON.stringify(res));
   };
 
   return fn;

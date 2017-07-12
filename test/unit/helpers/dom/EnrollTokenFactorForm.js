@@ -28,6 +28,11 @@ define(['./Form'], function (Form) {
       field.trigger('change');
     },
 
+    getCredentialId: function() {
+      var field = this.credentialIdField();
+      return field.val();
+    },
+
     setCode: function (val) {
       var field = this.codeField();
       field.val(val);
