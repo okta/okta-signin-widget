@@ -15,6 +15,7 @@ module.exports = function (outputFilename) {
     },
     resolve: {
       root: [TARGET_JS],
+      modulesDirectories: ['node_modules', 'packages'],
       alias: {
         // General remapping
         'nls': '@okta/i18n/dist/json',
