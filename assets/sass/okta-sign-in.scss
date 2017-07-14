@@ -50,9 +50,9 @@
   font: inherit;
   vertical-align: baseline;
   background: transparent;
-  font-size: 13px;
-  font-family: "montserrat", Arial, Helvetica, sans-serif;
-  color: #777;
+  font-size: $font-size;
+  font-family: $fonts;
+  color: $medium-text-color;
 
   div, 
   span, 
