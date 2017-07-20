@@ -151,6 +151,15 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
       if (this.options.appState.get('isMfaChallenge')) {
         return true;
       }
+    },
+
+    back: function() {
+      // Empty function on verify controllers to prevent users
+      // from navigating back during 'verify' using the browser's
+      // back button. The URL will still change, but the view will not
+      // We will need to think of a better solution for this, possibly
+      // keeping track of the history of URL's and rendering views
+      // accordingly.
     }
 
   });
