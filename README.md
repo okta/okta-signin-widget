@@ -588,6 +588,12 @@ var signIn = new OktaSignIn(config);
     helpSupportNumber: '(123) 456-7890'
     ```
 
+- **signOutUrl:** url to redirect when a user clicks the sign out link. If not provided, the widget will navigate to primary auth.
+
+    ```javascript
+    signOutUrl: 'https://www.signmeout.com'
+    ```
+
 ## Username and password
 
 - **username:** Prefills the username input with the provided username

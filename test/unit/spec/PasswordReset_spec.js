@@ -5,6 +5,7 @@ define([
   'okta/jquery',
   '@okta/okta-auth-js/jquery',
   'util/Util',
+  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/PasswordResetForm',
   'helpers/dom/Beacon',
@@ -17,7 +18,7 @@ define([
   'helpers/xhr/200',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect, Router,
+function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordResetForm, Beacon, Expect, Router,
           $sandbox, resPasswordReset, resPasswordResetWithComplexity, resError, res200, resSuccess) {
 
   var itp = Expect.itp;
@@ -134,6 +135,30 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           }
         });
         Expect.isPrimaryAuth(test.router.controller);
+      });
+    });
+
+    itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
+    function () {
+      return setup({ signOutUrl: 'http://www.goodbye.com' })
+      .then(function (test) {
+        spyOn(SharedUtil, 'redirect');
+        $.ajax.calls.reset();
+        test.setNextResponse(res200);
+        var $link = test.form.signoutLink();
+        expect($link.length).toBe(1);
+        $link.click();
+        return tick();
+      })
+      .then(function () {
+        expect($.ajax.calls.count()).toBe(1);
+        Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          url: 'https://foo.com/api/v1/authn/cancel',
+          data: {
+            stateToken: 'testStateToken'
+          }
+        });
+        expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
       });
     });
 

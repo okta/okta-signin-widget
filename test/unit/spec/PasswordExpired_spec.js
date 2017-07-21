@@ -33,14 +33,14 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
-    var router = new Router({
+    var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
       features: { securityImage: true, customExpiredPassword: custom },
       authClient: authClient,
       globalSuccessFn: successSpy,
       processCreds: settings.processCreds
-    });
+    }, settings));
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
@@ -129,6 +129,45 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
       itp('does not have a skip link', function () {
         return setup().then(function (test) {
           expect(test.form.skipLink().length).toBe(0);
+        });
+      });
+      itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
+        return setup().then(function (test) {
+          spyOn(SharedUtil, 'redirect');
+          $.ajax.calls.reset();
+          test.setNextResponse(resSuccess);
+          test.form.signout();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/cancel',
+            data: {
+              stateToken: 'testStateToken'
+            }
+          });
+          Expect.isPrimaryAuth(test.router.controller);
+        });
+      });
+      itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
+      function () {
+        return setup({ signOutUrl: 'http://www.goodbye.com' }).then(function (test) {
+          spyOn(SharedUtil, 'redirect');
+          $.ajax.calls.reset();
+          test.setNextResponse(resSuccess);
+          test.form.signout();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/cancel',
+            data: {
+              stateToken: 'testStateToken'
+            }
+          });
+          expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
         });
       });
       itp('calls processCreds function before saving a model', function () {
