@@ -2794,7 +2794,7 @@ function (Okta,
         .then(function (test) {
           expectHasRightBeaconImage(test, 'mfa-okta-sms');
           Util.triggerBrowserBackButton();
-          return test;
+          return tick(test);
         })
         .then(function (test) {
           //view is still the same
@@ -2816,7 +2816,7 @@ function (Okta,
         .then(function (test) {
           expectHasRightBeaconImage(test, 'mfa-duo');
           Util.triggerBrowserBackButton();
-          return test;
+          return tick(test);
         })
         .then(function (test) {
           //view is still the same
@@ -2839,7 +2839,7 @@ function (Okta,
         .then(function (test) {
           expectHasRightBeaconImage(test, 'mfa-windows-hello');
           Util.triggerBrowserBackButton();
-          return test;
+          return tick(test);
         })
         .then(function (test) {
           //view is still the same
@@ -2869,7 +2869,7 @@ function (Okta,
         .then(function (test) {
           expectHasRightBeaconImage(test, 'mfa-u2f');
           Util.triggerBrowserBackButton();
-          return test;
+          return tick(test);
         })
         .then(function (test) {
           //view is still the same
