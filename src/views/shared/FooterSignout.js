@@ -29,8 +29,8 @@ define(['okta', 'util/Enums', 'shared/util/Util'], function (Okta, Enums, Util) 
           return transaction.cancel();
         })
         .then(function() {
-          if (self.settings.get('signOutUrl')) {
-            Util.redirect(self.settings.get('signOutUrl'));
+          if (self.settings.get('signOutLink')) {
+            Util.redirect(self.settings.get('signOutLink'));
           } else {
             self.state.set('navigateDir', Enums.DIRECTION_BACK);
             self.options.appState.trigger('navigate', '');

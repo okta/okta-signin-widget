@@ -152,7 +152,7 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
       });
       itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
       function () {
-        return setup({ signOutUrl: 'http://www.goodbye.com' }).then(function (test) {
+        return setup({ signOutLink: 'http://www.goodbye.com' }).then(function (test) {
           spyOn(SharedUtil, 'redirect');
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);

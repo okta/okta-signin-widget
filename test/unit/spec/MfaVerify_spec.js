@@ -488,7 +488,7 @@ function (Okta,
 
         itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
         function () {
-          return setupSecurityQuestion({ signOutUrl: 'http://www.goodbye.com' })
+          return setupSecurityQuestion({ signOutLink: 'http://www.goodbye.com' })
           .then(function (test) {
             spyOn(SharedUtil, 'redirect');
             $.ajax.calls.reset();
