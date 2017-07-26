@@ -9,6 +9,7 @@ define([
   'util/Util',
   'util/CryptoUtil',
   'util/CookieUtil',
+  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/MfaVerifyForm',
   'helpers/dom/Beacon',
@@ -54,6 +55,7 @@ function (Okta,
           LoginUtil,
           CryptoUtil,
           CookieUtil,
+          SharedUtil,
           Util,
           MfaVerifyForm,
           Beacon,
@@ -455,15 +457,58 @@ function (Okta,
       });
       Expect.describe('Sign out link', function () {
         itp('is visible', function () {
-          return setupWithFirstFactor({factorType: 'question'}).then(function () {
-            Expect.isVisible($sandbox.find('[data-se=signout-link]'));
+          return setupWithFirstFactor({factorType: 'question'}).then(function (test) {
+            Expect.isVisible(test.form.signoutLink($sandbox));
           });
         });
         itp('is not present if features.hideSignOutLinkInMFA is true', function () {
-          return setupSecurityQuestion({'features.hideSignOutLinkInMFA': true}).then(function () {
-            expect($sandbox.find('[data-se=signout-link]').length).toBe(0);
+          return setupSecurityQuestion({'features.hideSignOutLinkInMFA': true}).then(function (test) {
+            expect(test.form.signoutLink($sandbox).length).toBe(0);
           });
         });
+
+        itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
+          return setupSecurityQuestion()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.signoutLink($sandbox).click();
+            return Expect.waitForPrimaryAuth(test);
+          })
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/cancel',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            Expect.isPrimaryAuth(test.router.controller);
+          });
+        });
+
+        itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
+        function () {
+          return setupSecurityQuestion({ signOutLink: 'http://www.goodbye.com' })
+          .then(function (test) {
+            spyOn(SharedUtil, 'redirect');
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.signoutLink($sandbox).click();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/cancel',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+          });
+        });
+
       });
       Expect.describe('Remember device', function () {
         itp('is rendered', function () {

@@ -143,6 +143,10 @@ define(['./Form'], function (Form) {
 
     getAutocomplete: function () {
       return this.autocomplete(ANSWER_FIELD);
+    },
+
+    signoutLink: function ($sandbox) {
+      return $sandbox.find('[data-se=signout-link]');
     }
 
   });

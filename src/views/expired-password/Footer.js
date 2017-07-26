@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/Enums'], function (Okta, Enums) {
+define(['okta', 'util/Enums', 'shared/util/Util'], function (Okta, Enums, Util) {
 
   return Okta.View.extend({
     template: '\
@@ -30,8 +30,12 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
           return transaction.cancel();
         })
         .then(function () {
-          self.state.set('navigateDir', Enums.DIRECTION_BACK);
-          self.options.appState.trigger('navigate', '');
+          if (self.settings.get('signOutLink')) {
+            Util.redirect(self.settings.get('signOutLink'));
+          } else {
+            self.state.set('navigateDir', Enums.DIRECTION_BACK);
+            self.options.appState.trigger('navigate', '');
+          }
         });
       },
       'click .js-skip' : function (e) {
