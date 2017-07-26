@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 36], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 38], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -213,6 +213,7 @@ function (Okta,
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
+    var setupAllFactors = _.partial(setup, resAllFactors);
     function setupSecurityQuestionLocalized(options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
@@ -2777,6 +2778,103 @@ function (Okta,
         })
         .then(function () {
           expect(Duo.init).toHaveBeenCalled();
+        });
+      });
+    });
+    Expect.describe('Browser back button does not change view', function () {
+      itp('from mfa verify controller', function () {
+        return setupAllFactors().then(function (test) {
+          spyOn(window, 'addEventListener');
+          test.router.start();
+          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'SMS');
+          return tick(test);
+        })
+        .then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-okta-sms');
+          Util.triggerBrowserBackButton();
+          return tick(test);
+        })
+        .then(function (test) {
+          //view is still the same
+          expectHasRightBeaconImage(test, 'mfa-okta-sms');
+          Util.stopRouter();
+        });
+      });
+      itp('from duo controller', function () {
+        return setupAllFactors().then(function (test) {
+          spyOn(window, 'addEventListener');
+          test.router.start();
+          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+          spyOn(Duo, 'init');
+          test.setNextResponse(resChallengeDuo);
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'DUO');
+          return tick(test);
+        })
+        .then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-duo');
+          Util.triggerBrowserBackButton();
+          return tick(test);
+        })
+        .then(function (test) {
+          //view is still the same
+          expectHasRightBeaconImage(test, 'mfa-duo');
+          Util.stopRouter();
+        });
+      });
+      itp('from windows hello controller', function () {
+        return emulateWindows()
+        .then(setupAllFactors)
+        .then(function (test) {
+          spyOn(window, 'addEventListener');
+          test.router.start();
+          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+          test.setNextResponse(resChallengeWebauthn);
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'WINDOWS_HELLO');
+          return tick(test);
+        })
+        .then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-windows-hello');
+          Util.triggerBrowserBackButton();
+          return tick(test);
+        })
+        .then(function (test) {
+          //view is still the same
+          expectHasRightBeaconImage(test, 'mfa-windows-hello');
+          Util.stopRouter();
+        });
+      });
+      itp('from u2f controller', function () {
+        return setupAllFactors().then(function (test) {
+          spyOn(window, 'addEventListener');
+          test.router.start();
+          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+          return test;
+        })
+        .then(function (test) {
+          mockFirefox(true);
+          window.u2f = {
+            sign: function () {
+            }
+          };
+          spyOn(window.u2f, 'sign');
+          test.setNextResponse(resChallengeU2F);
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'U2F');
+          return tick(test);
+        })
+        .then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-u2f');
+          Util.triggerBrowserBackButton();
+          return tick(test);
+        })
+        .then(function (test) {
+          //view is still the same
+          expectHasRightBeaconImage(test, 'mfa-u2f');
+          Util.stopRouter();
         });
       });
     });
