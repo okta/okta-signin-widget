@@ -40,10 +40,9 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
 * [Configuration](#configuration)
   * [Basic config options](#basic-config-options)
   * [Username and password](#username-and-password)
-  * [Customizing language and text](#customizing-language-and-text)
-  * [Changing help links](#changing-help-links)
-  * [Adding Custom Buttons](#adding-custom-buttons)
-  * [Adding Registration Button](#adding-registration-button)
+  * [Language and text](#language-and-text)
+  * [Links](#links)
+  * [Buttons](#buttons)
   * [OpenId Connect](#openid-connect)
   * [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   * [Feature flags](#feature-flags)
@@ -656,7 +655,7 @@ var signIn = new OktaSignIn(config);
     }
     ```
 
-## Customizing language and text
+## Language and text
 
 - **language:** Set the language of the widget. If no language is specified, the widget will choose a language based on the user's browser preferences if it is supported, or defaults to `en`.
 
@@ -764,9 +763,13 @@ var signIn = new OktaSignIn(config);
     }
     ```
 
-## Changing help links
+## Links
 
-You can override the help link urls on the Primary Auth page by setting the following config options. If you'd like to change the help link text, use the `i18n` config option.
+You can override a link URL by setting the following config options. If you'd like to change the link text, use the `i18n` config option.
+
+#### Help Links
+
+Set the following config options to override the help link URLs on the Primary Auth page.
 
 ```javascript
 // An example that overrides all help links, and sets two custom links
@@ -795,7 +798,19 @@ helpLinks: {
 
 - **helpLinks.custom** - Array of custom link objects `{text, href}` that will be added to the *"Need help signing in?"* section.
 
-## Adding Custom Buttons
+#### Sign Out Link
+
+Set the following config option to override the sign out link URL. If not provided, the widget will navigate to Primary Auth.
+
+```javascript
+signOutLink: 'https://www.signmeout.com'
+```
+
+## Buttons
+
+You can add buttons to the Primary Auth page by setting the following config options.
+
+#### Custom Buttons
 
 You can add custom buttons underneath the login form on the primary auth page by setting the following config options. If you'd like to change the divider text, use the `i18n` config option.
 
@@ -817,10 +832,9 @@ customButtons: [{
 
 - **customButtons.click** - Function that is called when the button is clicked
 
-## Adding Registration Button
+#### Registration Button
 
-You can add a registration link to the primary auth page by setting `features.registration` to `true` and by adding the following config options. If you'd like to change the text, use the `i18n` config option.
-
+You can add a registration link to the primary auth page by setting `features.registration` to `true` and by adding the following config options.
 ```javascript
 // An example that adds a registration button underneath the login form on the primary auth page
 registration: {

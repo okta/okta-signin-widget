@@ -150,6 +150,13 @@ function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView
       }
     },
 
+    back: function() {
+      // Empty function on verify controllers to prevent users
+      // from navigating back during 'verify' using the browser's
+      // back button. The URL will still change, but the view will not
+      // More details in OKTA-135060.
+    },
+
     Footer: FooterSignout
   });
 

@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 36], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 38], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -9,6 +9,7 @@ define([
   'util/Util',
   'util/CryptoUtil',
   'util/CookieUtil',
+  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/MfaVerifyForm',
   'helpers/dom/Beacon',
@@ -54,6 +55,7 @@ function (Okta,
           LoginUtil,
           CryptoUtil,
           CookieUtil,
+          SharedUtil,
           Util,
           MfaVerifyForm,
           Beacon,
@@ -213,6 +215,7 @@ function (Okta,
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
+    var setupAllFactors = _.partial(setup, resAllFactors);
     function setupSecurityQuestionLocalized(options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
@@ -454,15 +457,58 @@ function (Okta,
       });
       Expect.describe('Sign out link', function () {
         itp('is visible', function () {
-          return setupWithFirstFactor({factorType: 'question'}).then(function () {
-            Expect.isVisible($sandbox.find('[data-se=signout-link]'));
+          return setupWithFirstFactor({factorType: 'question'}).then(function (test) {
+            Expect.isVisible(test.form.signoutLink($sandbox));
           });
         });
         itp('is not present if features.hideSignOutLinkInMFA is true', function () {
-          return setupSecurityQuestion({'features.hideSignOutLinkInMFA': true}).then(function () {
-            expect($sandbox.find('[data-se=signout-link]').length).toBe(0);
+          return setupSecurityQuestion({'features.hideSignOutLinkInMFA': true}).then(function (test) {
+            expect(test.form.signoutLink($sandbox).length).toBe(0);
           });
         });
+
+        itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
+          return setupSecurityQuestion()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.signoutLink($sandbox).click();
+            return Expect.waitForPrimaryAuth(test);
+          })
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/cancel',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            Expect.isPrimaryAuth(test.router.controller);
+          });
+        });
+
+        itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
+        function () {
+          return setupSecurityQuestion({ signOutLink: 'http://www.goodbye.com' })
+          .then(function (test) {
+            spyOn(SharedUtil, 'redirect');
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.signoutLink($sandbox).click();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/cancel',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+          });
+        });
+
       });
       Expect.describe('Remember device', function () {
         itp('is rendered', function () {
@@ -2777,6 +2823,103 @@ function (Okta,
         })
         .then(function () {
           expect(Duo.init).toHaveBeenCalled();
+        });
+      });
+    });
+    Expect.describe('Browser back button does not change view', function () {
+      itp('from mfa verify controller', function () {
+        return setupAllFactors().then(function (test) {
+          spyOn(window, 'addEventListener');
+          test.router.start();
+          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'SMS');
+          return tick(test);
+        })
+        .then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-okta-sms');
+          Util.triggerBrowserBackButton();
+          return tick(test);
+        })
+        .then(function (test) {
+          //view is still the same
+          expectHasRightBeaconImage(test, 'mfa-okta-sms');
+          Util.stopRouter();
+        });
+      });
+      itp('from duo controller', function () {
+        return setupAllFactors().then(function (test) {
+          spyOn(window, 'addEventListener');
+          test.router.start();
+          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+          spyOn(Duo, 'init');
+          test.setNextResponse(resChallengeDuo);
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'DUO');
+          return tick(test);
+        })
+        .then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-duo');
+          Util.triggerBrowserBackButton();
+          return tick(test);
+        })
+        .then(function (test) {
+          //view is still the same
+          expectHasRightBeaconImage(test, 'mfa-duo');
+          Util.stopRouter();
+        });
+      });
+      itp('from windows hello controller', function () {
+        return emulateWindows()
+        .then(setupAllFactors)
+        .then(function (test) {
+          spyOn(window, 'addEventListener');
+          test.router.start();
+          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+          test.setNextResponse(resChallengeWebauthn);
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'WINDOWS_HELLO');
+          return tick(test);
+        })
+        .then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-windows-hello');
+          Util.triggerBrowserBackButton();
+          return tick(test);
+        })
+        .then(function (test) {
+          //view is still the same
+          expectHasRightBeaconImage(test, 'mfa-windows-hello');
+          Util.stopRouter();
+        });
+      });
+      itp('from u2f controller', function () {
+        return setupAllFactors().then(function (test) {
+          spyOn(window, 'addEventListener');
+          test.router.start();
+          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+          return test;
+        })
+        .then(function (test) {
+          mockFirefox(true);
+          window.u2f = {
+            sign: function () {
+            }
+          };
+          spyOn(window.u2f, 'sign');
+          test.setNextResponse(resChallengeU2F);
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'U2F');
+          return tick(test);
+        })
+        .then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-u2f');
+          Util.triggerBrowserBackButton();
+          return tick(test);
+        })
+        .then(function (test) {
+          //view is still the same
+          expectHasRightBeaconImage(test, 'mfa-u2f');
+          Util.stopRouter();
         });
       });
     });
