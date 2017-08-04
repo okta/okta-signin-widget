@@ -25,17 +25,6 @@ define([
     saveId: 'okta-signin-submit',
     layout: 'o-form-theme',
 
-    constructor: function (options) {
-      // OKTA-118336
-      // Need to add iframe to deal with the Oracle Tap Android app,
-      // which ignores e.preventDefault() and reloads the page.
-
-      var target = this.attributes.target = _.uniqueId('iframe');
-
-      Okta.Form.call(this, options);
-      this.add('<iframe name="' + target + '" style="display:none"></iframe>');
-    },
-
     // If socialAuth is configured, the title moves from the form to
     // the top of the container (and is rendered in socialAuth).
     title: function () {
