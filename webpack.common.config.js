@@ -37,7 +37,7 @@ module.exports = function (outputFilename) {
         // Duo has an npm module, but the latest version does not expose the
         // v2 version. Continue to use the vendor file that is checked into
         // source.
-        'duo': 'vendor/Duo-Web-v2',
+        'duo': 'vendor/Duo-Web-v2.6',
 
         // Modules from courage that we are not using. Be proactive about
         // checking these - new modules need to be blacklisted here.
