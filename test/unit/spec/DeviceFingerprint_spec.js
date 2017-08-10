@@ -1,3 +1,4 @@
+/* eslint-disable no-global-assign */
 define([
   'okta/jquery',
   'vendor/lib/q',
@@ -15,6 +16,13 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
         fingerprint: 'thisIsTheFingerprint'
       } : errorMessage;
       window.postMessage(JSON.stringify(message), '*');
+    }
+
+    function mockUserAgent(userAgent) {
+      var _navigator = navigator;
+      navigator = new Object();
+      navigator.__proto__ = _navigator;
+      navigator.__defineGetter__('userAgent', function () { return userAgent; });
     }
 
     it('iframe is created with the right src and it is hidden', function () {
@@ -59,6 +67,19 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
       })
       .fail(function (reason) {
         expect(reason).not.toBeUndefined();
+        done();
+      });
+    });
+
+    it('fails if it is called from a Windows phone', function (done) {
+      mockUserAgent('Windows Phone');
+      mockIFrameMessages(true);
+      DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
+      .then(function () {
+        done.fail('Fingerprint promise incorrectly resolved successful');
+      })
+      .fail(function (reason) {
+        expect(reason).toBe('device is a windows phone');
         done();
       });
     });
