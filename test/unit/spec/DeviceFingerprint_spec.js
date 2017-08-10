@@ -71,6 +71,19 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
       });
     });
 
+    it('fails if user agent is not defined', function (done) {
+      mockUserAgent(undefined);
+      mockIFrameMessages(true);
+      DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
+        .then(function () {
+          done.fail('Fingerprint promise incorrectly resolved successful');
+        })
+        .fail(function (reason) {
+          expect(reason).toBe('user agent is not defined');
+          done();
+        });
+    });
+
     it('fails if it is called from a Windows phone', function (done) {
       mockUserAgent('Windows Phone');
       mockIFrameMessages(true);
@@ -79,7 +92,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
         done.fail('Fingerprint promise incorrectly resolved successful');
       })
       .fail(function (reason) {
-        expect(reason).toBe('device is a windows phone');
+        expect(reason).toBe('device fingerprint is not supported in Windows phones');
         done();
       });
     });

@@ -16,8 +16,10 @@ define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
 
   return {
     generateDeviceFingerprint: function (oktaDomainUrl, element) {
-      if (isWindowsPhone()) {
-        return Q.reject('device is a windows phone');
+      if (!navigator.userAgent) {
+        return Q.reject('user agent is not defined');
+      } else if (isWindowsPhone()) {
+        return Q.reject('device fingerprint is not supported in Windows phones');
       }
 
       var deferred = Q.defer();
@@ -29,9 +31,7 @@ define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
       $iframe.appendTo(element);
 
       function isWindowsPhone() {
-        return navigator.userAgent.match(/Windows Phone/i) ||
-               navigator.userAgent.match(/iemobile/i) ||
-               navigator.userAgent.match(/WPDesktop/i);
+        return navigator.userAgent.match(/windows phone|iemobile|wpdesktop/i);
       }
 
       function removeIframe() {
