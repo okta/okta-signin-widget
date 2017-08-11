@@ -19,7 +19,7 @@ define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
       if (!navigator.userAgent) {
         return Q.reject('user agent is not defined');
       } else if (isWindowsPhone()) {
-        return Q.reject('device fingerprint is not supported in Windows phones');
+        return Q.reject('device fingerprint is not supported on Windows phones');
       }
 
       var deferred = Q.defer();

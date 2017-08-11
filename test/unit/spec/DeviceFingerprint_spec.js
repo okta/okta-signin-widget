@@ -1,4 +1,3 @@
-/* eslint-disable no-global-assign */
 define([
   'okta/jquery',
   'vendor/lib/q',
@@ -7,6 +6,8 @@ define([
   'util/DeviceFingerprint'
 ],
 function ($, Q, Expect, $sandbox, DeviceFingerprint) {
+
+  var _navigator = navigator;
 
   Expect.describe('DeviceFingerprint', function () {
 
@@ -19,11 +20,15 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
     }
 
     function mockUserAgent(userAgent) {
-      var _navigator = navigator;
-      navigator = new Object();
+      navigator = new Object(); // eslint-disable-line no-global-assign
       navigator.__proto__ = _navigator;
       navigator.__defineGetter__('userAgent', function () { return userAgent; });
     }
+
+    afterEach(function () {
+      // Reset navigator object to default value
+      navigator = _navigator; // eslint-disable-line no-global-assign
+    });
 
     it('iframe is created with the right src and it is hidden', function () {
       spyOn(window, 'addEventListener');
@@ -51,7 +56,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
       mockIFrameMessages(false, null);
       DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
       .then(function () {
-        done.fail('Fingerprint promise incorrectly resolved successful');
+        done.fail('Fingerprint promise should have been rejected');
       })
       .fail(function (reason) {
         expect(reason).not.toBeUndefined();
@@ -63,7 +68,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
       mockIFrameMessages(false, { type: 'InvalidMessageType' });
       DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
       .then(function () {
-        done.fail('Fingerprint promise incorrectly resolved successful');
+        done.fail('Fingerprint promise should have been rejected');
       })
       .fail(function (reason) {
         expect(reason).not.toBeUndefined();
@@ -76,7 +81,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
       mockIFrameMessages(true);
       DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
         .then(function () {
-          done.fail('Fingerprint promise incorrectly resolved successful');
+          done.fail('Fingerprint promise should have been rejected');
         })
         .fail(function (reason) {
           expect(reason).toBe('user agent is not defined');
@@ -89,10 +94,10 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
       mockIFrameMessages(true);
       DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
       .then(function () {
-        done.fail('Fingerprint promise incorrectly resolved successful');
+        done.fail('Fingerprint promise should have been rejected');
       })
       .fail(function (reason) {
-        expect(reason).toBe('device fingerprint is not supported in Windows phones');
+        expect(reason).toBe('device fingerprint is not supported on Windows phones');
         done();
       });
     });
