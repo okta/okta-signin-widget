@@ -151,16 +151,12 @@ After running `npm install`:
     // Use OktaSignIn
     var signIn = new OktaSignIn(/* configOptions */);
     ```
-3. [Browserify](http://browserify.org/) only: When you want to bundle your application with Browserify, you need to tell it that it doesn't have to parse the okta-signin-widget module. To do this, you need to add this flag when you run the `browserify` command:
-
+    **Note:** If you use [Browserify](http://browserify.org/) to bundle your app, you'll need to use the `--noparse` option:
     ```
-    // Don't parse @okta/okta-signin-widget
-    --noparse=$PWD/node_modules/@okta/okta-signin-widget/dist/js/okta-sign-in.entry.js
-
-    // Example
-    browserify --noparse=$PWD/node_modules/@okta/okta-signin-widget/dist/js/okta-sign-in.entry.js main.js -o bundle.js
+    browserify main.js \
+    --noparse=$PWD/node_modules/@okta/okta-signin-widget/dist/js-okta-sign-in.entry.js \
+    --outfile=bundle.js
     ```
-    The reason is that if you run the command without this flag, Browserify will attempt to resolve paths in `require()` calls in the already bundled okta-signin-widget, while it should ignore them since the `okta-sign-in.entry.js` is a standalone file and doesn't need the external modules, they are already bundled in the same file.
 
 # API
 
