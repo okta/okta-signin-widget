@@ -6,7 +6,7 @@ var SHARED_JS = TARGET_JS + '/shared';
 // Return a function so that all consumers get a new copy of the config
 module.exports = function (outputFilename) {
   return {
-    entry: './target/js/widget/OktaSignIn.js',
+    entry: ['babel-polyfill', './target/js/widget/OktaSignIn.js'],
     output: {
       path: TARGET_JS,
       filename: outputFilename,
@@ -58,7 +58,8 @@ module.exports = function (outputFilename) {
         'shared/views/components/DropDown': EMPTY,
         'shared/util/markdownToHtml': EMPTY,
         'shared/util/Metrics': EMPTY,
-        'shared/views/wizard/BaseWizard': EMPTY
+        'shared/views/wizard/BaseWizard': EMPTY,
+        'vendor/plugins/vkbeautify.0.99.00.beta': EMPTY
       }
     },
 
@@ -99,7 +100,16 @@ module.exports = function (outputFilename) {
           ].map(function (file) {
             return path.resolve(TARGET_JS, 'shared', file);
           })
-        }
+        },
+        // Babel
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: 'babel-loader',
+          query: {
+            presets: ['env']
+          }
+        },
       ]
     },
 
