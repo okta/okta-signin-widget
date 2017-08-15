@@ -151,6 +151,12 @@ After running `npm install`:
     // Use OktaSignIn
     var signIn = new OktaSignIn(/* configOptions */);
     ```
+    **Note:** If you use [Browserify](http://browserify.org/) to bundle your app, you'll need to use the `--noparse` option:
+    ```
+    browserify main.js \
+    --noparse=$PWD/node_modules/@okta/okta-signin-widget/dist/js-okta-sign-in.entry.js \
+    --outfile=bundle.js
+    ```
 
 # API
 
