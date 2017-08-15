@@ -125,8 +125,8 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       border.removeClass('auth-beacon-border');
       await Animations.radialProgressBar({
         $el: radialProgressBar,
-        swap: function () {
-          image.fadeOut(duration, function () {
+        swap() {
+          image.fadeOut(duration, () => {
             setBackgroundImage(image, appState);
             image.fadeIn(duration);
           });
