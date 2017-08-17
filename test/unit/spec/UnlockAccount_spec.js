@@ -24,7 +24,6 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
-
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -51,6 +50,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
 
   var setupWithSms = _.partial(setup, { 'features.smsRecovery': true });
   var setupWithTransformUsername = _.partial(setup, { transformUsername: transformUsername });
+  var setupWithoutEmail = _.partial(setup, { 'features.emailRecovery': false });
 
   Expect.describe('UnlockAccount', function () {
     
@@ -116,13 +116,29 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           expect(test.form.hasCantAccessEmailLink()).toBe(false);
         });
       });
+      itp('does not show email recovery button if emailRecovery is false', function () {
+        return setupWithoutEmail().then(function (test) {
+          expect(test.form.hasEmailButton()).toBe(false);
+        });
+      });
+      itp('shows email recovery button if emailRecovery is true', function () {
+        return setup().then(function (test) {
+          expect(test.form.hasEmailButton()).toBe(true);
+        });
+      });
+      itp('shows error if no recovery factors are enabled', function() {
+        return setupWithoutEmail().then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('No unlock options available. Please contact your administrator.');
+        });
+      });
     });
 
     Expect.describe('events', function () {
       itp('shows an error if username is empty and request email', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
-          test.form.submit();
+          test.form.sendEmail();
           expect($.ajax).not.toHaveBeenCalled();
           expect(test.form.usernameErrorField().length).toBe(1);
         });
@@ -130,7 +146,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
       itp('shows an error if username is too long', function () {
         return setup().then(function (test) {
           test.form.setUsername(Util.LoremIpsum);
-          test.form.submit();
+          test.form.sendEmail();
           expect(test.form.usernameErrorField().length).toBe(1);
         });
       });
@@ -139,7 +155,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           return tick();
         })
         .then(function () {
@@ -158,7 +174,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           spyOn(test.router.settings, 'transformUsername');
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           expect(test.router.settings.transformUsername.calls.count()).toBe(1);
           expect(test.router.settings.transformUsername.calls.argsFor(0)).toEqual(['foo', 'UNLOCK_ACCOUNT']);
         });
@@ -168,7 +184,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           return tick();
         })
         .then(function () {
@@ -187,7 +203,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
         .then(function (test) {
           test.form.setUsername('foo');
           test.setNextResponse(resChallengeEmail);
-          test.form.submit();
+          test.form.sendEmail();
           return tick(test);
         })
         .then(function (test) {
@@ -199,7 +215,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
         .then(function (test) {
           test.form.setUsername('foo@bar');
           test.setNextResponse(resChallengeEmail);
-          test.form.submit();
+          test.form.sendEmail();
           return Expect.waitForUnlockEmailSent(test);
         })
         .then(function (test) {
@@ -216,7 +232,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
         .then(function (test) {
           test.form.setUsername('foo@bar');
           test.setNextResponse(resChallengeEmail);
-          test.form.submit();
+          test.form.sendEmail();
           return Expect.waitForUnlockEmailSent(test);
         })
         .then(function () {
@@ -231,7 +247,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
         .then(function (test) {
           test.setNextResponse(resError);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           return tick(test);
         })
         .then(function (test) {
@@ -302,7 +318,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
         .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
-          test.form.submit();
+          test.form.sendEmail();
           return Expect.waitForUnlockEmailSent(test);
         })
         .then(function () {
