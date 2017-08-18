@@ -305,6 +305,27 @@ module.exports = function (grunt) {
         }())
       }
     },
+  
+    search: {
+      noAbsoluteUrlsInCss: {
+        files: {
+          src: ['assets/sass/**/*.scss']
+        },
+        options: {
+          searchString: /url\([\'\"]\//g,
+          failOnMatch: true,
+          logFile: SCSSLINT_OUT_FILE,
+          logFormat: 'xml',
+          onMatch: function(match) {
+            grunt.log.errorlns('URLs starting with \'/\' are not allowed in SCSS files. ' +
+              'Fix this by replacing with a relative link.');
+            grunt.log.errorlns('Found in file: ' + match.file + '. Line: ' + match.line);
+            grunt.log.errorlns('Error log also written to: ' + SCSSLINT_OUT_FILE);
+            grunt.log.errorlns('');
+          }
+        }
+      }
+    },
 
     exec: {
       'clean': 'npm run clean',
@@ -536,6 +557,6 @@ module.exports = function (grunt) {
 
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
-  grunt.task.registerTask('lint', ['scss-lint', 'eslint']);
+  grunt.task.registerTask('lint', ['scss-lint', 'search:noAbsoluteUrlsInCss', 'eslint']);
   grunt.task.registerTask('default', ['lint', 'test']);
 };
