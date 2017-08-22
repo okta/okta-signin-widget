@@ -690,6 +690,21 @@ function (Okta,
             expect(test.form.errorMessage()).toBe('Your answer doesn\'t match our records. Please try again.');
           });
         });
+        itp('shows errors if verify button is clicked and answer is empty', function () {
+          return setupSecurityQuestion()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+        });
         itp('sets the transaction on the appState on success response', function () {
           return setupSecurityQuestion()
           .then(function (test) {
@@ -851,7 +866,6 @@ function (Okta,
             expect(button.prop('disabled')).toBe(false);
           });
         });
-
         itp('shows an error if error response from authClient', function () {
           return setupGoogleTOTP()
           .then(function (test) {
@@ -863,6 +877,21 @@ function (Okta,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Invalid Passcode/Answer');
+          });
+        });
+        itp('shows errors if verify button is clicked and answer is empty', function () {
+          return setupGoogleTOTP()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
           });
         });
         itp('sets the transaction on the appState on success response', function () {
@@ -1191,6 +1220,21 @@ function (Okta,
             });
           });
         });
+        itp('shows errors if verify button is clicked and answer is empty', function () {
+          return setupSMS()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+        });
         itp('calls authClient verifyFactor with rememberDevice URL param', function () {
           return setupSMS().then(function (test) {
             $.ajax.calls.reset();
@@ -1460,6 +1504,21 @@ function (Okta,
             });
           });
         });
+        itp('shows errors if verify button is clicked and answer is empty', function () {
+          return setupCall()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+        });
         itp('temporarily disables the call button before displaying redial \
               to avoid exceeding the rate limit', function () {
           var deferred = Util.mockRateLimiting();
@@ -1673,10 +1732,9 @@ function (Okta,
           })
           .then(function (test) {
             $.ajax.calls.reset();
-            test.setNextResponse(resSuccess);
             test.form.setAnswer('');
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect($.ajax).not.toHaveBeenCalled();
@@ -2826,6 +2884,7 @@ function (Okta,
         });
       });
     });
+
     Expect.describe('Browser back button does not change view', function () {
       itp('from mfa verify controller', function () {
         return setupAllFactors().then(function (test) {

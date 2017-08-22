@@ -168,10 +168,10 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           return (provider === 'OKTA' && _.contains(['push', 'sms', 'call', 'email'], factorType));
         }
       },
-      isSMSCallorEmail: {
+      isAnswerRequired: {
         deps: ['factorType'],
         fn: function (factorType) {
-          return _.contains(['sms', 'call', 'email'], factorType);
+          return _.contains(['sms', 'call', 'email', 'token', 'token:software:totp', 'question'], factorType);
         }
       }
     },
@@ -185,7 +185,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
     },
 
     validate: function () {
-      if (this.get('isSMSCallorEmail') && !this.get('answer')) {
+      if (this.get('isAnswerRequired') && !this.get('answer')) {
         return {'answer': Okta.loc('model.validation.field.blank')};
       }
     },
