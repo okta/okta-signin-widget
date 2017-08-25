@@ -93,7 +93,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
         var formChildren = [];
 
         if(noFactorsEnabled) {
-          this.trigger('noFactorsEnabled');
+          this.add(noFactorsError, '.o-form-error-container');
         }
         else {
           formChildren.push(FormType.Input({
@@ -157,10 +157,6 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
         this.listenTo(this, 'save', function () {
           this.options.appState.set('username', this.model.get('username'));
           this.model.save();
-        });
-
-        this.listenTo(this, 'noFactorsEnabled', function() {
-          this.add(noFactorsError, '.o-form-error-container');
         });
       },
       addRecoveryFactorButton: function (className, labelCode, factorType, form) {

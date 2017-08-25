@@ -92,7 +92,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
         var form = this;
 
         if(noFactorsEnabled) {
-          this.trigger('noFactorsEnabled');
+          this.add(noFactorsError, '.o-form-error-container');
         }
         else {
           formChildren.push(FormType.Input({
@@ -129,10 +129,6 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
         this.listenTo(this, 'save', function () {
           this.options.appState.set('username', this.model.get('username'));
           this.model.save();
-        });
-
-        this.listenTo(this, 'noFactorsEnabled', function() {
-          this.add(noFactorsError, '.o-form-error-container');
         });
 
         this.listenTo(this.state, 'contactSupport', function () {
