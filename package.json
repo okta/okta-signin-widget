@@ -44,6 +44,9 @@
     "autoprefixer": "6.7.7",
     "axe-core": "2.0.7",
     "axe-webdriverjs": "0.4.0",
+    "babel-core": "6",
+    "babel-loader": "6",
+    "babel-preset-env": "^1.6.0",
     "cssnano": "3.10.0",
     "fs-extra": "1.0.0",
     "git-rev-sync": "1.4.0",
@@ -81,6 +84,7 @@
   },
   "dependencies": {
     "@okta/okta-auth-js": "1.8.0",
+    "babel-polyfill": "^6.23.0",
     "backbone": "1.2.1",
     "clipboard": "1.6.1",
     "handlebars": "4.0.5",

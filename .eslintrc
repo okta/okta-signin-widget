@@ -6,7 +6,7 @@
     "amd": true
   },
   "parserOptions": {
-    "ecmaVersion": 3
+    "ecmaVersion": 2017
   },
   "globals": {
     "spyOnEvent": false,

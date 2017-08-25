@@ -92,7 +92,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
     $(window).off('resize.securityBeaconQtip');
   }
 
-  function updateSecurityImage($el, appState, animate) {
+  async function updateSecurityImage($el, appState, animate) {
     var image = $el.find('.auth-beacon-security'),
         border = $el.find('.js-auth-beacon-border'),
         hasBorder = !appState.get('isUndefinedUser'),
@@ -123,21 +123,19 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       // Animate loading the security beacon with a loading bar for the border
       // This occurrs when the username has been checked against Okta.
       border.removeClass('auth-beacon-border');
-      Animations.radialProgressBar({
+      await Animations.radialProgressBar({
         $el: radialProgressBar,
-        swap: function () {
-          image.fadeOut(duration, function () {
+        swap() {
+          image.fadeOut(duration, () => {
             setBackgroundImage(image, appState);
             image.fadeIn(duration);
           });
         }
-      }).then(function () {
-        border.addClass('auth-beacon-border');
-      }).then(function () {
-        if (hasAntiPhishing) {
-          antiPhishingMessage(image, host);
-        }
       });
+      border.addClass('auth-beacon-border');
+      if (hasAntiPhishing) {
+        antiPhishingMessage(image, host);
+      }
     }
   }
 
