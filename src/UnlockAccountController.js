@@ -78,6 +78,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
           });
         })
         .fail(function () {
+          //need empty fail handler on model to display errors on form
         });
       }
     },
@@ -91,7 +92,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
         var formChildren = [];
         var form = this;
 
-        if(noFactorsEnabled) {
+        if (noFactorsEnabled) {
           this.add(noFactorsError, '.o-form-error-container');
         }
         else {
@@ -112,12 +113,12 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
               </p>\
             '}));
             this.$el.addClass('forgot-password-sms-enabled');
-            formChildren.push(this.addRecoveryFactorButton('sms-button', 'account.unlock.sendText',
+            formChildren.push(this.createRecoveryFactorButton('sms-button', 'account.unlock.sendText',
               Enums.RECOVERY_FACTOR_TYPE_SMS, form));
           }
-          if(emailEnabled) {
+          if (emailEnabled) {
             this.$el.addClass('forgot-password-email-enabled');
-            formChildren.push(this.addRecoveryFactorButton('email-button', 'account.unlock.sendEmail',
+            formChildren.push(this.createRecoveryFactorButton('email-button', 'account.unlock.sendEmail',
               Enums.RECOVERY_FACTOR_TYPE_EMAIL, form));
           }
         }
@@ -135,7 +136,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
           this.add(ContactSupport, '.o-form-error-container');
         });
       },
-      addRecoveryFactorButton: function (className, labelCode, factorType, form) {
+      createRecoveryFactorButton: function (className, labelCode, factorType, form) {
         return FormType.Button({
           attributes: { 'data-se': className},
           className: 'button button-primary button-wide ' + className,

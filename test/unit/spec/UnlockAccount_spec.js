@@ -51,6 +51,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
   var setupWithSms = _.partial(setup, { 'features.smsRecovery': true });
   var setupWithTransformUsername = _.partial(setup, { transformUsername: transformUsername });
   var setupWithoutEmail = _.partial(setup, { 'features.emailRecovery': false });
+  var setupWithSmsWithoutEmail = _.partial(setup, { 'features.smsRecovery': true, 'features.emailRecovery': false });
 
   Expect.describe('UnlockAccount', function () {
     
@@ -130,6 +131,12 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
         return setupWithoutEmail().then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('No unlock options available. Please contact your administrator.');
+        });
+      });
+      itp('supports SMS without email', function () {
+        return setupWithSmsWithoutEmail().then(function (test) {
+          expect(test.form.hasSmsButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(false);
         });
       });
     });
@@ -265,6 +272,27 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
       });
       itp('sends sms', function () {
         return setupWithSms().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.sendSms();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/unlock',
+            data: {
+              'username': 'foo',
+              'factorType': 'SMS'
+            }
+          });
+        });
+      });
+      itp('sends sms without email enabled', function () {
+        return setupWithSmsWithoutEmail().then(function (test) {
+          expect(test.form.hasSmsButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(false);
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo');

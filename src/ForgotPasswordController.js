@@ -78,6 +78,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
           });
         })
         .fail(function () {
+          //need empty fail handler on model to display errors on form
         });
       }
     },
@@ -92,7 +93,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
         var noFactorsEnabled = !(smsEnabled || callEnabled || emailEnabled);
         var formChildren = [];
 
-        if(noFactorsEnabled) {
+        if (noFactorsEnabled) {
           this.add(noFactorsError, '.o-form-error-container');
         }
         else {
@@ -129,19 +130,19 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
               })
             }));
           }
-          if(smsEnabled) {
+          if (smsEnabled) {
             this.$el.addClass('forgot-password-sms-enabled');
-            formChildren.push(this.addRecoveryFactorButton('sms-button', 'password.forgot.sendText',
+            formChildren.push(this.createRecoveryFactorButton('sms-button', 'password.forgot.sendText',
               Enums.RECOVERY_FACTOR_TYPE_SMS, this));
           }
-          if(callEnabled) {
+          if (callEnabled) {
             this.$el.addClass('forgot-password-call-enabled');
-            formChildren.push(this.addRecoveryFactorButton('call-button', 'password.forgot.call',
+            formChildren.push(this.createRecoveryFactorButton('call-button', 'password.forgot.call',
               Enums.RECOVERY_FACTOR_TYPE_CALL, this));
           }
-          if(emailEnabled) {
+          if (emailEnabled) {
             this.$el.addClass('forgot-password-email-enabled');
-            formChildren.push(this.addRecoveryFactorButton('email-button', 'password.forgot.sendEmail',
+            formChildren.push(this.createRecoveryFactorButton('email-button', 'password.forgot.sendEmail',
               Enums.RECOVERY_FACTOR_TYPE_EMAIL, this));
           }
         }
@@ -159,7 +160,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
           this.model.save();
         });
       },
-      addRecoveryFactorButton: function (className, labelCode, factorType, form) {
+      createRecoveryFactorButton: function (className, labelCode, factorType, form) {
         return FormType.Button({
           attributes: { 'data-se': className},
           className: 'button button-primary button-wide ' + className,
