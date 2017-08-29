@@ -555,6 +555,13 @@ module.exports = function (grunt) {
     ));
   });
 
+  grunt.task.registerTask('generate-readme', 'Generate Readme.md file using package.json', function () {
+    var readmeTpl = grunt.file.read('./README_TPL.md');
+    var version = grunt.file.readJSON('package.json').version;
+    var readme = readmeTpl.replace(/{{version}}/g, version);
+    grunt.file.write('./README.md', readme);
+  });
+
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
   grunt.task.registerTask('lint', ['scss-lint', 'search:noAbsoluteUrlsInCss', 'eslint']);

@@ -37,7 +37,8 @@
     "build:webpack-e2e-app": "webpack target/e2e/app/app-using-osw-entry.js target/js/app-bundle.js",
     "prestart": "npm run build:dev",
     "start": "grunt start-server-open",
-    "prepublish": "npm run build:release"
+    "prepublish": "npm run build:release",
+    "generate-readme": "grunt generate-readme"
   },
   "devDependencies": {
     "app-root-path": "1.0.0",

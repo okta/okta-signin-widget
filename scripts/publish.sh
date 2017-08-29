@@ -15,7 +15,10 @@ else
   TARGET_BRANCH=$BRANCH
 fi
 
-if ! ci-update-package --branch ${TARGET_BRANCH}; then
+if ci-update-package --branch ${TARGET_BRANCH};
+then
+  npm run generate-readme;
+else
   echo "ci-update-package failed! Exiting..."
   exit $FAILED_SETUP
 fi
