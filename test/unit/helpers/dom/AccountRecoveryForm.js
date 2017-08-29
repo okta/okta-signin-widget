@@ -8,6 +8,7 @@ define(['./Form'], function (Form) {
   var CANT_ACCESS_EMAIL_SELECTOR = '.js-contact-support';
   var EMAIL_SENT_BACK_BTN = 'back-button';
   var SEND_EMAIL_LINK_SELECTOR = '.send-email-link';
+  var EMAIL_BUTTON_SELECTOR = '.email-button';
 
   return Form.extend({
 
@@ -63,6 +64,14 @@ define(['./Form'], function (Form) {
 
     makeCall: function () {
       this.button(CALL_BUTTON_SELECTOR).click();
+    },
+
+    hasEmailButton: function () {
+      return this.button(EMAIL_BUTTON_SELECTOR).length > 0;
+    },
+
+    sendEmail: function () {
+      return this.button(EMAIL_BUTTON_SELECTOR).click();
     },
 
     goBack: function () {

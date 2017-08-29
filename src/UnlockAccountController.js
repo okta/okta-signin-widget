@@ -22,6 +22,10 @@ define([
 function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport, TextBox) {
 
   var _ = Okta._;
+  var noFactorsError = '<div class="okta-form-infobox-error infobox infobox-error" role="alert">\
+    <span class="icon error-16"></span>\
+    <p>{{i18n code="account.unlock.noFactorsEnabled" bundle="login"}}</p>\
+  </div>';
 
   var Footer = Okta.View.extend({
     template: '\
@@ -74,17 +78,25 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
           });
         })
         .fail(function () {
-          self.set('factorType', Enums.RECOVERY_FACTOR_TYPE_EMAIL);
+          //need empty fail handler on model to display errors on form
         });
       }
     },
     Form: {
-      autoSave: true,
-      save: _.partial(Okta.loc, 'account.unlock.sendEmail', 'login'),
+      noButtonBar: true,
       title: _.partial(Okta.loc, 'account.unlock.title', 'login'),
       formChildren: function () {
-        var formChildren = [
-          FormType.Input({
+        var smsEnabled = this.settings.get('features.smsRecovery');
+        var emailEnabled = this.settings.get('features.emailRecovery');
+        var noFactorsEnabled = !(smsEnabled || emailEnabled);
+        var formChildren = [];
+        var form = this;
+
+        if (noFactorsEnabled) {
+          this.add(noFactorsError, '.o-form-error-container');
+        }
+        else {
+          formChildren.push(FormType.Input({
             placeholder: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
             name: 'username',
             input: TextBox,
@@ -93,44 +105,49 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
               innerTooltip: Okta.loc('account.unlock.email.or.username.tooltip', 'login'),
               icon: 'person-16-gray'
             }
-          })
-        ];
-        if (this.settings.get('features.smsRecovery')) {
-          formChildren.push(FormType.View({View: '\
-            <p class="sms-hint">\
-              {{i18n code="recovery.sms.hint" bundle="login"}}\
-            </p>\
-          '}));
+          }));
+          if (smsEnabled) {
+            formChildren.push(FormType.View({View: '\
+              <p class="sms-hint">\
+                {{i18n code="recovery.sms.hint" bundle="login"}}\
+              </p>\
+            '}));
+            this.$el.addClass('forgot-password-sms-enabled');
+            formChildren.push(this.createRecoveryFactorButton('sms-button', 'account.unlock.sendText',
+              Enums.RECOVERY_FACTOR_TYPE_SMS, form));
+          }
+          if (emailEnabled) {
+            this.$el.addClass('forgot-password-email-enabled');
+            formChildren.push(this.createRecoveryFactorButton('email-button', 'account.unlock.sendEmail',
+              Enums.RECOVERY_FACTOR_TYPE_EMAIL, form));
+          }
         }
 
         return formChildren;
       },
       initialize: function () {
-        var form = this;
 
         this.listenTo(this, 'save', function () {
           this.options.appState.set('username', this.model.get('username'));
+          this.model.save();
         });
-
-        if (this.settings.get('features.smsRecovery')) {
-          this.$el.addClass('forgot-password-sms-enabled');
-          this.addButton({
-            attributes: { 'data-se': 'sms-button'},
-            type: 'button',
-            className: 'button-primary sms-button',
-            text: Okta.loc('account.unlock.sendText', 'login'),
-            action: function () {
-              form.clearErrors();
-              if (this.model.isValid()) {
-                this.model.set('factorType', Enums.RECOVERY_FACTOR_TYPE_SMS);
-                form.trigger('save', this.model);
-              }
-            }
-          }, { prepend: true });
-        }
 
         this.listenTo(this.state, 'contactSupport', function () {
           this.add(ContactSupport, '.o-form-error-container');
+        });
+      },
+      createRecoveryFactorButton: function (className, labelCode, factorType, form) {
+        return FormType.Button({
+          attributes: { 'data-se': className},
+          className: 'button button-primary button-wide ' + className,
+          title: Okta.loc(labelCode, 'login'),
+          click: function () {
+            form.clearErrors();
+            if (this.model.isValid()) {
+              this.model.set('factorType', factorType);
+              form.trigger('save', this.model);
+            }
+          }
         });
       }
     },

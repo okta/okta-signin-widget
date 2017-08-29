@@ -71,6 +71,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'features.autoPush': ['boolean', true, false],
       'features.smsRecovery': ['boolean', true, false],
       'features.callRecovery': ['boolean', true, false],
+      'features.emailRecovery': ['boolean', false, true],
       'features.windowsVerify': ['boolean', true, false],
       'features.selfServiceUnlock': ['boolean', true, false],
       'features.multiOptionalFactorEnroll': ['boolean', true, false],
