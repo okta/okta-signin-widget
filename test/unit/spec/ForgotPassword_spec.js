@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 17], max-statements:[2, 33] */
+/* eslint max-params: [2, 17], max-statements:[2, 35] */
 define([
   'vendor/lib/q',
   'okta/underscore',
