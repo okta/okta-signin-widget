@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 16], max-statements: [2, 22] */
+/* eslint max-params: [2, 16], max-statements: [2, 23] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -395,6 +395,18 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
         .then(function (test) {
           expect(test.form.hasSendEmailLink()).toBe(true);
           expect(test.form.sendEmailLink().trimmedText()).toEqual('Didn\'t receive an SMS? Unlock via email');
+        });
+      });
+      itp('does not show the "Unlock via email" link after sending sms if emailRecovery is false', function () {
+        return setupWithSmsWithoutEmail()
+        .then(function (test) {
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.sendSms();
+          return Expect.waitForRecoveryChallenge(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasSendEmailLink()).toBe(false);
         });
       });
       itp('sends an email when user clicks the "Unlock via email" link, after sending sms', function () {
