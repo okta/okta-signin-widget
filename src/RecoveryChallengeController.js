@@ -150,7 +150,7 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
         break;
       }
 
-      if (sendEmailLink) {
+      if (sendEmailLink && this.settings.get('features.emailRecovery')) {
         this.add(sendEmailLink);
       }
 

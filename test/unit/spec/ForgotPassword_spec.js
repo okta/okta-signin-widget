@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 17], max-statements:[2, 35] */
+/* eslint max-params: [2, 17], max-statements:[2, 37] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -656,6 +656,18 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.sendEmailLink().trimmedText()).toEqual('Didn\'t receive a code? Reset via email');
         });
       });
+      itp('does not show the "Reset via email" link after sending sms if emailRecovery is false', function () {
+        return setupWithSmsWithoutEmail()
+        .then(function (test) {
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.sendSms();
+          return Expect.waitForRecoveryChallenge(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasSendEmailLink()).toBe(false);
+        });
+      });
       itp('sends an email when user clicks the "Reset via email" link, after sending sms', function () {
         return setupWithSms().then(function (test) {
           test.setNextResponse(resChallengeSms);
@@ -728,6 +740,18 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         .then(function (test) {
           expect(test.form.hasSendEmailLink()).toBe(true);
           expect(test.form.sendEmailLink().trimmedText()).toEqual('Didn\'t receive a code? Reset via email');
+        });
+      });
+      itp('does not show the "Reset via email" link after making a Voice Call if emailRecovery is false', function () {
+        return setupWithCallWithoutEmail()
+        .then(function (test) {
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.makeCall();
+          return Expect.waitForRecoveryChallenge(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasSendEmailLink()).toBe(false);
         });
       });
       itp('sends an email when user clicks the "Reset via email" link, after making a Voice Call', function () {
