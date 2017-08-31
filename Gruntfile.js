@@ -1,8 +1,3 @@
-// Install grunt: http://gruntjs.com/getting-started
-// npm install -g grunt-cli (to install grunt cli tool)
-// npm install (to install all dependencies, including grunt)
-// grunt test (to run test task)
-
 /* global module, process */
 /* eslint max-statements: 0 */
 module.exports = function (grunt) {
@@ -329,12 +324,12 @@ module.exports = function (grunt) {
     },
 
     exec: {
-      'clean': 'npm run clean',
-      'build-dev': 'npm run build:webpack-dev',
-      'build-release': 'npm run build:webpack-release',
-      'build-test': 'npm run build:webpack-test',
-      'build-e2e-app': 'npm run build:webpack-e2e-app',
-      'run-protractor': 'npm run protractor'
+      'clean': 'yarn clean',
+      'build-dev': 'yarn build:webpack-dev',
+      'build-release': 'yarn build:webpack-release',
+      'build-test': 'yarn build:webpack-test',
+      'build-e2e-app': 'yarn build:webpack-e2e-app',
+      'run-protractor': 'yarn protractor'
     },
 
     jasmine: {
