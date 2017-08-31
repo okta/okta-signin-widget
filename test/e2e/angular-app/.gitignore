@@ -2,6 +2,7 @@
 src/environments
 etc
 /package-lock.json
+/yarn.lock
 
 # compiled output
 /dist
