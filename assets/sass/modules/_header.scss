@@ -7,8 +7,9 @@
   -moz-transition: padding-bottom 0.4s;
   -webkit-transition: padding-bottom 0.4s;
   transition: padding-bottom 0.4s;
-
-  .can-remove-beacon & {
+  // scss-lint:disable IdSelector
+  #okta-sign-in.can-remove-beacon & {
+  // scss-lint:disable IdSelector
     @include max-height-mq(550px) {
       padding: 30px 90px 25px;
     }

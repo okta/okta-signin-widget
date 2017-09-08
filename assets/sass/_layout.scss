@@ -60,7 +60,9 @@
     padding-right: 20px;
   }
 
-  .can-remove-beacon & {
+  // scss-lint:disable IdSelector
+  #okta-sign-in.can-remove-beacon & {
+  // scss-lint:disable IdSelector
     padding-top: 40px;
 
     @include max-height-mq(550px) {
@@ -82,8 +84,9 @@
 
 .enroll-choices {
   padding-top: 20px;
-
-  .can-remove-beacon & {
+  // scss-lint:disable IdSelector
+  #okta-sign-in.can-remove-beacon & {
+  // scss-lint:disable IdSelector
     @include max-height-mq(550px) {
       padding-top: 15px;
     }
