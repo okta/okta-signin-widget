@@ -404,6 +404,18 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return user.profile;
         }
       },
+      'userConsentName': {
+        deps: ['userProfile', 'username'],
+        fn: function (userProfile, username) {
+          if (!userProfile || _.isEmpty(userProfile.firstName)) {
+            return username;
+          }
+          if (_.isEmpty(userProfile.lastName)) {
+            return userProfile.firstName;
+          }
+          return userProfile.firstName + ' ' + userProfile.lastName.charAt(0) + '.';
+        }
+      },
       'userEmail': {
         deps: ['userProfile'],
         fn: function (userProfile) {
@@ -420,6 +432,66 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
             return '';
           }
           return userProfile.firstName + ' ' + userProfile.lastName;
+        }
+      },
+      'expiresAt': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          return res.expiresAt;
+        }
+      },
+      'target': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._embedded) {
+            return null;
+          }
+          return res._embedded.target;
+        }
+      },
+      'targetLabel': {
+        deps: ['target'],
+        fn: function (target) {
+          if (!target) {
+            return null;
+          }
+          return target.label;
+        }
+      },
+      'targetLogo': {
+        deps: ['target'],
+        fn: function (target) {
+          if (!target || !target._links) {
+            return null;
+          }
+          return target._links.logo;
+        }
+      },
+      'targetTermsOfService': {
+        deps: ['target'],
+        fn: function (target) {
+          if (!target || !target._links) {
+            return null;
+          }
+          return target._links['terms-of-service'];
+        }
+      },
+      'targetPrivacyPolicy': {
+        deps: ['target'],
+        fn: function (target) {
+          if (!target || !target._links) {
+            return null;
+          }
+          return target._links['privacy-policy'];
+        }
+      },
+      'scopes': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._embedded) {
+            return null;
+          }
+          return res._embedded.scopes;
         }
       },
       'hasExistingPhones': {

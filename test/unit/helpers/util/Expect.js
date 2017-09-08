@@ -219,6 +219,7 @@ define([
     ActivateTotp: 'activate-totp',
     BarcodePush: 'barcode-push',
     BarcodeTotp: 'barcode-totp',
+    ConsentRequired: 'consent-required',
     EnrollCall: 'enroll-call',
     EnrollChoices: 'enroll-choices',
     EnrollDuo: 'enroll-duo',
