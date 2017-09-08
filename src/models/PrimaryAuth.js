@@ -24,14 +24,17 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
     props: function () {
       var settingsUsername = this.settings && this.settings.get('username'),
+          rememberMeEnabled = this.settings && this.settings.get('features.rememberMe'),
           cookieUsername = CookieUtil.getCookieUsername(),
           remember = false,
           username;
       if (settingsUsername) {
         username = settingsUsername;
-        remember = username === cookieUsername;
+        remember = rememberMeEnabled && username === cookieUsername;
       }
-      else if (cookieUsername) {
+      else if (rememberMeEnabled && cookieUsername) {
+        // Only respect the cookie if the feature is enabled.
+        // Allows us to force prompting when necessary, e.g. SAML ForceAuthn
         username = cookieUsername;
         remember = true;
       }
@@ -83,15 +86,19 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
           remember = this.get('remember'),
           lastUsername = this.get('lastUsername'),
           multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll'),
-          deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting');
+          deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting'),
+          rememberMeEnabled = this.settings.get('features.rememberMe');
 
-      // Only delete the cookie if its owner says so. This allows other
-      // users to log in on a one-off basis.
-      if (!remember && lastUsername === username) {
-        CookieUtil.removeUsernameCookie();
-      }
-      else if (remember) {
-        CookieUtil.setUsernameCookie(username);
+      // Do not modify the cookie when feature is disabled, relevant for SAML ForceAuthn prompts
+      if (rememberMeEnabled) {
+        // Only delete the cookie if its owner says so. This allows other
+        // users to log in on a one-off basis.
+        if (!remember && lastUsername === username) {
+          CookieUtil.removeUsernameCookie();
+        }
+        else if (remember) {
+          CookieUtil.setUsernameCookie(username);
+        }
       }
 
       //the 'save' event here is triggered and used in the BaseLoginController
