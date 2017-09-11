@@ -60,16 +60,6 @@
     padding-right: 20px;
   }
 
-  // scss-lint:disable IdSelector
-  #okta-sign-in.can-remove-beacon & {
-  // scss-lint:disable IdSelector
-    padding-top: 40px;
-
-    @include max-height-mq(550px) {
-      padding-top: 0;
-    }
-  }
-
   .auth-content-inner {
     position: relative;
   }
@@ -84,13 +74,6 @@
 
 .enroll-choices {
   padding-top: 20px;
-  // scss-lint:disable IdSelector
-  #okta-sign-in.can-remove-beacon & {
-  // scss-lint:disable IdSelector
-    @include max-height-mq(550px) {
-      padding-top: 15px;
-    }
-  }
 }
 
 .no-beacon .auth-content {

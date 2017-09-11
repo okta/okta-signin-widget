@@ -18,14 +18,6 @@
       left: -20px;
     }
   }
-
-  // scss-lint:disable IdSelector
-  #okta-sign-in.can-remove-beacon & {
-  // scss-lint:disable IdSelector
-    @include max-height-mq(550px) {
-      display: none;
-    }
-  }
 }
 
 .beacon-blank {
@@ -151,4 +143,28 @@
 .auth-beacon-factor {
   background-size: 100% auto;
   cursor: pointer;
+}
+
+&.can-remove-beacon {
+  .auth-content {
+    padding-top: 40px;
+  }
+
+  @include max-height-mq(550px) {
+    .beacon-container {
+      display: none;
+    }
+
+    .auth-content {
+      padding-top: 0;
+    }
+
+    .enroll-choices {
+      padding-top: 15px;
+    }
+
+    .auth-header {
+      padding: 30px 90px 25px;
+    }
+  }
 }
