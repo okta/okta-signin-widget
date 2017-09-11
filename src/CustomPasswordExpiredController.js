@@ -35,7 +35,7 @@ function (Okta, FormController, FormType, Footer, Util) {
         else if (expiringSoon && numDays === 0) {
           return Okta.loc('password.expiring.today', 'login');
         }
-        else if (expiringSoon && (numDays === null || numDays === undefined)) {
+        else if (expiringSoon) {
           return Okta.loc('password.expiring.soon', 'login');
         }
         else {
