@@ -19,7 +19,9 @@
     }
   }
 
-  .can-remove-beacon & {
+  // scss-lint:disable IdSelector
+  #okta-sign-in.can-remove-beacon & {
+  // scss-lint:disable IdSelector
     @include max-height-mq(550px) {
       display: none;
     }

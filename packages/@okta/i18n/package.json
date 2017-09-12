@@ -1,31 +1,31 @@
 {
   "_args": [
     [
-      "@okta/i18n@34.1.0",
-      "/Users/mauricio.castillosilva/okta/okta-signin-widget"
+      "@okta/i18n@34.5.0",
+      "/home/vagrant/okta/okta-signin-widget"
     ]
   ],
-  "_from": "@okta/i18n@34.1.0",
-  "_id": "@okta/i18n@34.1.0",
+  "_from": "@okta/i18n@34.5.0",
+  "_id": "@okta/i18n@34.5.0",
   "_inCache": true,
   "_location": "/@okta/i18n",
   "_phantomChildren": {},
   "_requested": {
     "name": "@okta/i18n",
-    "raw": "@okta/i18n@34.1.0",
-    "rawSpec": "34.1.0",
+    "raw": "@okta/i18n@34.5.0",
+    "rawSpec": "34.5.0",
     "scope": "@okta",
-    "spec": "34.1.0",
+    "spec": "34.5.0",
     "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-34.1.0.tgz",
-  "_shasum": "4ba903469867f0b96f2149097563411b5052615f",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-34.5.0.tgz",
+  "_shasum": "dc603fd50b3cc649d6f3fefb51ebc305ae688109",
   "_shrinkwrap": null,
-  "_spec": "@okta/i18n@34.1.0",
-  "_where": "/Users/mauricio.castillosilva/okta/okta-signin-widget",
+  "_spec": "@okta/i18n@34.5.0",
+  "_where": "/home/vagrant/okta/okta-signin-widget",
   "dependencies": {},
   "description": "Okta Localization",
   "devDependencies": {
@@ -52,8 +52,8 @@
     "semver": "5.1.0"
   },
   "dist": {
-    "shasum": "4ba903469867f0b96f2149097563411b5052615f",
-    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-34.1.0.tgz"
+    "shasum": "dc603fd50b3cc649d6f3fefb51ebc305ae688109",
+    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-34.5.0.tgz"
   },
   "files": [
     "dist"
@@ -62,9 +62,9 @@
   "license": "Apache-2.0",
   "name": "@okta/i18n",
   "okta": {
-    "commitSha": "7592d48ccd8a625c544f1b067b9c78862ad7d25f",
-    "fullVersion": "34.1.0-20170818201355-7592d48",
-    "testedSha": "92525648d0a97b81f9fa968223b54b53600c1f6e"
+    "commitSha": "20d05b68a2c9b0075e97737721e5d73d7f8533e2",
+    "fullVersion": "34.5.0-20170907234037-20d05b6",
+    "testedSha": "02bca70287afaadca90b1925d19dce440c2c8d9b"
   },
   "optionalDependencies": {},
   "publishConfig": {
@@ -91,5 +91,5 @@
     "test:unit": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R spec tasks/i18ndiff/test",
     "test:unit-report": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R mocha-junit-reporter -O mochaFile=./build2/reports/unit/mocha-junit-result.xml tasks/i18ndiff/test"
   },
-  "version": "34.1.0"
+  "version": "34.5.0"
 }

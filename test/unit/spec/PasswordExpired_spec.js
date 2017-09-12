@@ -366,6 +366,16 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
           expect(test.form.titleText()).toBe('Your password will expire later today');
         });
       });
+      itp('has the correct title if numDays is null', function () {
+        return setupWarn(null).then(function (test) {
+          expect(test.form.titleText()).toBe('Your password is expiring soon');
+        });
+      });
+      itp('has the correct title if numDays is undefined', function () {
+        return setupWarn(undefined).then(function (test) {
+          expect(test.form.titleText()).toBe('Your password is expiring soon');
+        });
+      });
       itp('has the correct subtitle', function () {
         return setupWarn(4).then(function (test) {
           expect(test.form.subtitleText()).toBe('When password expires you may be ' +
@@ -428,6 +438,16 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
       itp('has the correct title if expiring in 0 days', function () {
         return setupCustomExpiredPasswordWarn(0).then(function (test) {
           expect(test.form.titleText()).toBe('Your password will expire later today');
+        });
+      });
+      itp('has the correct title if numDays is null', function () {
+        return setupCustomExpiredPasswordWarn(null).then(function (test) {
+          expect(test.form.titleText()).toBe('Your password is expiring soon');
+        });
+      });
+      itp('has the correct title if numDays is undefined', function () {
+        return setupCustomExpiredPasswordWarn(undefined).then(function (test) {
+          expect(test.form.titleText()).toBe('Your password is expiring soon');
         });
       });
       itp('has a valid subtitle', function () {
