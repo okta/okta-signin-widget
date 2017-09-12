@@ -4,19 +4,22 @@ define([
   'okta/underscore',
   'okta/handlebars',
   'okta/moment',
+  'okta/moment-tz',
   'shared/models/Model',
   'shared/models/BaseModel',
   'shared/models/BaseCollection',
   'shared/views/wizard/BaseWizard',
   'shared/framework/frameworkBundle',
+  'shared/models/modelsBundle',
   'shared/util/utilBundle',
   'shared/views/viewsBundle',
   'okta/jqueryui'
 ],
-function ($, _, Handlebars, moment, Model, BaseModel, BaseCollection,
-          BaseWizard, frameworkBundle, utilBundle, viewsBundle) {
+function ($, _, Handlebars, moment, momentTz, Model, BaseModel, BaseCollection, BaseWizard,
+  frameworkBundle, modelsBundle, utilBundle, viewsBundle) {
 
   var framwork = frameworkBundle,
+      models = modelsBundle,
       util = utilBundle,
       views = viewsBundle;
 
@@ -76,6 +79,12 @@ function ($, _, Handlebars, moment, Model, BaseModel, BaseCollection,
      * @type {moment}
      */
     moment: moment,
+
+    /**
+     * A reference to moment-tz
+     * @type {moment-tz}
+     */
+    momentTz: momentTz,
 
     /**
      * A reference to Handlebars
@@ -152,7 +161,9 @@ function ($, _, Handlebars, moment, Model, BaseModel, BaseCollection,
 
       util: util,
 
-      views: views
+      views: views,
+
+      models: models
 
     }
 

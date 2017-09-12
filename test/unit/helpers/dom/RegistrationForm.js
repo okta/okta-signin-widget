@@ -2,7 +2,7 @@ define(['./Form'], function (Form) {
 
   var FIRSTNAME_FIELD = 'firstName';
   var LASTNAME_FIELD = 'lastName';
-  var EMAIL_FIELD = 'login';
+  var EMAIL_FIELD = 'userName';
   var PASSWORD_FIELD = 'password';
 
   return Form.extend({
@@ -64,21 +64,15 @@ define(['./Form'], function (Form) {
     },
 
     hasPasswordComplexityUnsatisfied: function (type) {
-      return this.$('#password-complexity-' + type).hasClass('password-complexity-unsatisfied') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-satisfied') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-error');
+      return this.$('.subschema-' + type).hasClass('subschema-unsatisfied') &&
+             !this.$('.subschema-' + type).hasClass('subschema-satisfied') &&
+             this.$('.subschema-' + type).hasClass('subschema-error');
     },
 
     hasPasswordComplexitySatisfied: function (type) {
-      return this.$('#password-complexity-' + type).hasClass('password-complexity-satisfied') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-unsatisfied') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-error');
-    },
-
-    hasPasswordComplexityError: function (type) {
-      return this.$('#password-complexity-' + type).hasClass('password-complexity-error') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-unsatisfied') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-satisfied');
+      return this.$('.subschema-' + type).hasClass('subschema-satisfied') &&
+             !this.$('.subschema-' + type).hasClass('subschema-unsatisfied') &&
+             !this.$('.subschema-' + type).hasClass('subschema-error');
     }
   });
 

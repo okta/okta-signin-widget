@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 26] */
+/* eslint max-params: [2, 27] */
 define([
   './BaseController',
   './BaseRouter',
@@ -25,11 +25,12 @@ define([
   './Time',
   './TimeUtil',
   './TimezoneUtil',
-  './Util'
+  './Util',
+  './ViewUtil'
 ],
 function (BaseController, BaseRouter, BatchAjaxUtil, ButtonFactory, Class, Clipboard, Cookie, 
   DataListController, ErrorParser, Events, formatXml, Fx, Keys, Logger, Metrics, NumberUtil, SchemaUtil, SettingsModel,
-  StateMachine, StringUtil, TabbedRouter, TemplateUtil, Time, TimeUtil, TimezoneUtil, Util) {
+  StateMachine, StringUtil, TabbedRouter, TemplateUtil, Time, TimeUtil, TimezoneUtil, Util, ViewUtil) {
 
   return {
 
@@ -83,7 +84,9 @@ function (BaseController, BaseRouter, BatchAjaxUtil, ButtonFactory, Class, Clipb
 
     TimezoneUtil: TimezoneUtil,
 
-    Util: Util
+    Util: Util,
+
+    ViewUtil: ViewUtil
 
   };
 

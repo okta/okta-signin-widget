@@ -1,4 +1,4 @@
-define(['okta/jquery', 'mixpanel'], function ($, mixpanel) {
+define(['okta/jquery', 'mixpanel-browser'], function ($, mixpanel) {
   return {
     create: function (key) {
       mixpanel.init(key, {}, key);

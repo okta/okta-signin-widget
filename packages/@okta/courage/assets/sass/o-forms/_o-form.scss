@@ -947,12 +947,14 @@
     }
 
     .list-input-cell {
-      padding: 3px;
+      padding: 3px 3px 3px 0;
       vertical-align: middle;
     }
 
     .list-input-button {
       width: 20px;
+      padding: 3px 0 3px 3px;
+      vertical-align: middle;
     }
   }
 }
@@ -1298,6 +1300,7 @@
 
 /* searchable select specific */
 
+.selectize-dropdown.multi .dropdown-footer,
 .selectize-dropdown.single .dropdown-footer {
   padding: 10px;
   background-color: $component-bg-color;
@@ -1309,4 +1312,3 @@
 .o-form-content > .o-form-explain {
   margin-bottom: 20px;
 }
-

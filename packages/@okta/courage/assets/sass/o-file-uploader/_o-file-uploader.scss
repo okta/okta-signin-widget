@@ -94,8 +94,27 @@ form:not(.o-form-read-mode) .file-upload-wrap:not(.hide) + .file-upload-preview-
   background-color: $white;
 }
 
+%file-download-style {
+  .file-download {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    .download-icon {
+      padding: 0 5px;
+
+      &::before {
+        color: $text-color-light;
+      }
+    }
+  }
+}
+
 .image-file-upload {
   .image-file-info {
+    @extend %file-download-style;
     padding: 0 $padding-to-border;
 
     li {
@@ -105,12 +124,13 @@ form:not(.o-form-read-mode) .file-upload-wrap:not(.hide) + .file-upload-preview-
 
   .image-file-thumbnail {
     padding: 0 $padding-to-border;
-    width: 28%;
-    max-height: 100px;
     overflow: hidden;
 
     img {
-      width: 100%;
+      max-width: 150px;
+      max-height: 60px;
+      width: auto;
+      height: auto;
       margin: 10px 5px 10px 0;
     }
   }
@@ -135,11 +155,17 @@ form:not(.o-form-read-mode) .file-upload-wrap:not(.hide) + .file-upload-preview-
   }
 
   .cert-details-header {
-    @extend %cert-details-block;
+    @extend %cert-details-block, %file-download-style;
 
     .cert-names {
       font-weight: 600;
       margin: 0 0 10px;
+    }
+
+    .file-download {
+      .download-icon {
+        vertical-align: bottom;
+      }
     }
   }
 

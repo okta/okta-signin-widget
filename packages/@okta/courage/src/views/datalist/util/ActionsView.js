@@ -12,7 +12,7 @@ function (_, ButtonFactory, BaseView, DropDown, StringUtil) {
 
     actionOptions: [],
 
-    title: StringUtil.localize('datalist.column.actions.default.title'),
+    title: StringUtil.localize('datalist.column.actions.default.title', 'courage'),
 
     threshold: 2,
 
