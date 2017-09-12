@@ -1,30 +1,30 @@
 {
   "_args": [
     [
-      "@okta/i18n@34.3.0",
+      "@okta/i18n@34.5.0",
       "/home/vagrant/okta/okta-signin-widget"
     ]
   ],
-  "_from": "@okta/i18n@34.3.0",
-  "_id": "@okta/i18n@34.3.0",
+  "_from": "@okta/i18n@34.5.0",
+  "_id": "@okta/i18n@34.5.0",
   "_inCache": true,
   "_location": "/@okta/i18n",
   "_phantomChildren": {},
   "_requested": {
     "name": "@okta/i18n",
-    "raw": "@okta/i18n@34.3.0",
-    "rawSpec": "34.3.0",
+    "raw": "@okta/i18n@34.5.0",
+    "rawSpec": "34.5.0",
     "scope": "@okta",
-    "spec": "34.3.0",
+    "spec": "34.5.0",
     "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-34.3.0.tgz",
-  "_shasum": "a622fef5e99fe4ad275ef5eb09a566ff96b5ee77",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-34.5.0.tgz",
+  "_shasum": "dc603fd50b3cc649d6f3fefb51ebc305ae688109",
   "_shrinkwrap": null,
-  "_spec": "@okta/i18n@34.3.0",
+  "_spec": "@okta/i18n@34.5.0",
   "_where": "/home/vagrant/okta/okta-signin-widget",
   "dependencies": {},
   "description": "Okta Localization",
@@ -52,8 +52,8 @@
     "semver": "5.1.0"
   },
   "dist": {
-    "shasum": "a622fef5e99fe4ad275ef5eb09a566ff96b5ee77",
-    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-34.3.0.tgz"
+    "shasum": "dc603fd50b3cc649d6f3fefb51ebc305ae688109",
+    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-34.5.0.tgz"
   },
   "files": [
     "dist"
@@ -62,9 +62,9 @@
   "license": "Apache-2.0",
   "name": "@okta/i18n",
   "okta": {
-    "commitSha": "b1c54b540bad79d45aaec1d687528b35692a0bc3",
-    "fullVersion": "34.3.0-20170823220209-b1c54b5",
-    "testedSha": "d0553d5a37dd8a021e4612648cde9df65437801e"
+    "commitSha": "20d05b68a2c9b0075e97737721e5d73d7f8533e2",
+    "fullVersion": "34.5.0-20170907234037-20d05b6",
+    "testedSha": "02bca70287afaadca90b1925d19dce440c2c8d9b"
   },
   "optionalDependencies": {},
   "publishConfig": {
@@ -91,5 +91,5 @@
     "test:unit": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R spec tasks/i18ndiff/test",
     "test:unit-report": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R mocha-junit-reporter -O mochaFile=./build2/reports/unit/mocha-junit-result.xml tasks/i18ndiff/test"
   },
-  "version": "34.3.0"
+  "version": "34.5.0"
 }
