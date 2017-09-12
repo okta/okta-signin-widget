@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 25], max-statements: [2, 35], complexity:[2, 10], max-len: [2, 125] */
+/* eslint max-params: [2, 25], max-statements: [2, 36], complexity:[2, 10], max-len: [2, 125] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -38,7 +38,8 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordResetForm, Bea
       minUpperCase: 1,
       minNumber: 1,
       minSymbol: 1,
-      excludeUsername: true
+      excludeUsername: true,
+      excludeAttributes: getExcludeAttributes(settings.excludeAttributes)
     };
 
     var policyAgeMinAge = {
@@ -109,6 +110,10 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordResetForm, Bea
     });
   }
 
+  function getExcludeAttributes (excludeAttributes) {
+    return excludeAttributes || ['firstName', 'lastName'];
+  }
+
   Expect.describe('PasswordReset', function () {
     itp('displays the security beacon if enabled', function () {
       return setup({ 'features.securityImage': true }).then(function (test) {
@@ -170,37 +175,63 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordResetForm, Bea
 
     itp('has a valid subtitle if only password complexity "minLength" defined', function () {
       return setup({policyComplexity: 'minLength'}).then(function (test) {
-        expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters.');
+        expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters.');
       });
     });
 
     itp('has a valid subtitle if only password complexity "minLowerCase" defined', function () {
       return setup({policyComplexity: 'minLowerCase'}).then(function (test) {
-        expect(test.form.subtitleText()).toEqual('Your password must have a lowercase letter.');
+        expect(test.form.subtitleText()).toEqual('Password requirements: a lowercase letter.');
       });
     });
 
     itp('has a valid subtitle if only password complexity "minUpperCase" defined', function () {
       return setup({policyComplexity: 'minUpperCase'}).then(function (test) {
-        expect(test.form.subtitleText()).toEqual('Your password must have an uppercase letter.');
+        expect(test.form.subtitleText()).toEqual('Password requirements: an uppercase letter.');
       });
     });
 
     itp('has a valid subtitle if only password complexity "minNumber" defined', function () {
       return setup({policyComplexity: 'minNumber'}).then(function (test) {
-        expect(test.form.subtitleText()).toEqual('Your password must have a number.');
+        expect(test.form.subtitleText()).toEqual('Password requirements: a number.');
       });
     });
 
     itp('has a valid subtitle if only password complexity "minSymbol" defined', function () {
       return setup({policyComplexity: 'minSymbol'}).then(function (test) {
-        expect(test.form.subtitleText()).toEqual('Your password must have a symbol.');
+        expect(test.form.subtitleText()).toEqual('Password requirements: a symbol.');
       });
     });
 
     itp('has a valid subtitle if only password complexity "excludeUsername" defined', function () {
       return setup({policyComplexity: 'excludeUsername'}).then(function (test) {
-        expect(test.form.subtitleText()).toEqual('Your password must have no parts of your username.');
+        expect(test.form.subtitleText()).toEqual('Password requirements: no parts of your username.');
+      });
+    });
+
+    itp('has a valid subtitle if only excludeAttributes["firstName","lastName"] is defined', function () {
+      return setup({policyComplexity: 'excludeAttributes'}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Password requirements: does not include your first name,' +
+        ' does not include your last name.');
+      });
+    });
+
+    itp('has a valid subtitle if only excludeAttributes["firstName"] is defined', function () {
+      return setup({policyComplexity: 'excludeAttributes', excludeAttributes: ['firstName']}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Password requirements: does not include your first name.');
+      });
+    });
+
+    itp('has a valid subtitle if only excludeAttributes["lastName"] is defined', function () {
+      return setup({policyComplexity: 'excludeAttributes', excludeAttributes: ['lastName']}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Password requirements: does not include your last name.');
+      });
+    });
+
+    itp('has a valid subtitle if only excludeAttributes[] is defined', function () {
+      return setup({policyComplexity: 'all', excludeAttributes: []}).then(function (test) {
+        expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters, a lowercase letter,' +
+          ' an uppercase letter, a number, a symbol, no parts of your username.');
       });
     });
 
@@ -234,7 +265,7 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordResetForm, Bea
     itp('has a valid subtitle if password complexity "excludeUsername" and password age "historyCount" defined',
       function () {
         return setup({policyComplexity: 'excludeUsername', policyAge: 'historyCount'}).then(function (test) {
-          expect(test.form.subtitleText()).toEqual('Your password must have no parts of your username.' +
+          expect(test.form.subtitleText()).toEqual('Password requirements: no parts of your username.' +
             ' Your password cannot be any of your last 7 passwords.');
         });
       }
@@ -242,8 +273,9 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordResetForm, Bea
 
     itp('has a valid subtitle if password complexity is defined with all options', function () {
       return setup({policyComplexity: 'all'}).then(function (test) {
-        expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters, a lowercase letter,' +
-          ' an uppercase letter, a number, a symbol, no parts of your username.');
+        expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters, a lowercase letter,' +
+          ' an uppercase letter, a number, a symbol, no parts of your username,' +
+          ' does not include your first name, does not include your last name.');
       });
     });
 
@@ -259,8 +291,9 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordResetForm, Bea
       function () {
         return setup({policyComplexity: 'all', policyAge: 'historyCount'}).then(function (test) {
           expect(test.form.subtitleText())
-          .toEqual('Your password must have at least 8 characters, a lowercase letter,' +
-            ' an uppercase letter, a number, a symbol, no parts of your username.' +
+          .toEqual('Password requirements: at least 8 characters, a lowercase letter,' +
+            ' an uppercase letter, a number, a symbol, no parts of your username,' +
+            ' does not include your first name, does not include your last name.' +
             ' Your password cannot be any of your last 7 passwords.');
         });
       });
@@ -268,8 +301,9 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordResetForm, Bea
     itp('has a valid subtitle if password age and complexity are defined with all options', function () {
       return setup({policyComplexity: 'all', policyAge: 'all'}).then(function (test) {
         expect(test.form.subtitleText())
-        .toEqual('Your password must have at least 8 characters, a lowercase letter,' +
-          ' an uppercase letter, a number, a symbol, no parts of your username.' +
+        .toEqual('Password requirements: at least 8 characters, a lowercase letter,' +
+          ' an uppercase letter, a number, a symbol, no parts of your username,' +
+          ' does not include your first name, does not include your last name.' +
           ' Your password cannot be any of your last 7 passwords.' +
           ' At least 30 minute(s) must have elapsed since you last changed your password.');
       });
@@ -450,8 +484,9 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordResetForm, Bea
       .then(function (test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorMessage()).toBe(
-          'Passwords must have at least 8 characters, a lowercase letter, ' +
-          'an uppercase letter, a number, no parts of your username'
+          'Password requirements were not met. Password requirements: at least 8 characters,' +
+          ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
+          ' does not include your first name, does not include your last name.'
         );
       });
     });
