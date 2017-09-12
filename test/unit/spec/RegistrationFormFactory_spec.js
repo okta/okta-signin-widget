@@ -58,10 +58,10 @@ function (SchemaProperty, RegistrationFormFactory) {
 
     });
 
-    describe('field name is login', function () {
+    describe('field name is userName', function () {
       beforeEach(function () {
         var schemaProperty = new SchemaProperty.Model({
-          'name': 'login',
+          'name': 'userName',
           'type': 'string',
         }, {parse: true});
         this.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
