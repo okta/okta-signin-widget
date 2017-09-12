@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 9] */
+/* eslint max-params: [2, 10] */
 define([
   './BaseButtonLink',
   './BaseDropDown',
@@ -8,10 +8,11 @@ define([
   './Callout',
   './ConfirmationDialog',
   './DropDown',
-  './MultiViewModalDialog'
+  './MultiViewModalDialog',
+  './Notification'
 ],
 function (BaseButtonLink, BaseDropDown, BaseFormDialog, BaseModalDialog, BaseSpinner,
-  Callout, ConfirmationDialog, DropDown, MultiViewModalDialog) {
+  Callout, ConfirmationDialog, DropDown, MultiViewModalDialog, Notification) {
 
   return {
 
@@ -31,7 +32,9 @@ function (BaseButtonLink, BaseDropDown, BaseFormDialog, BaseModalDialog, BaseSpi
 
     DropDown: DropDown,
 
-    MultiViewModalDialog: MultiViewModalDialog
+    MultiViewModalDialog: MultiViewModalDialog, 
+
+    Notification: Notification
 
   };
 

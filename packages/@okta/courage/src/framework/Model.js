@@ -1,16 +1,16 @@
 (function (root, factory) {
   if (typeof define == 'function' && define.amd) {
-    define(['okta/underscore', 'backbone'], factory);
+    define(['okta/underscore', 'backbone', 'shared/util/Logger'], factory);
   }
   /* global module, exports */
   else if (typeof require === 'function' && typeof exports === 'object') {
-    module.exports = factory(require('okta/underscore'), require('backbone'));
+    module.exports = factory(require('okta/underscore'), require('backbone'), require('shared/util/Logger'));
   }
   else {
     root.Archer || (root.Archer = {});
-    root.Archer.Model = factory(root._, root.Backbone);
+    root.Archer.Model = factory(root._, root.Backbone, root.Logger);
   }
-}(this, function (_, Backbone) {
+}(this, function (_, Backbone, Logger) {
   var Model;
 
   /**
@@ -122,19 +122,6 @@
     return string.toLowerCase().replace(/\b[a-z]/g, function (letter) {
       return letter.toUpperCase();
     });
-  }
-
-  function allowExtraProperties(rule, key) {
-    if (_.isBoolean(rule)) {
-      return rule;
-    }
-    else if (_.isRegExp(rule)) {
-      return rule.test(key);
-    }
-    else if (_.isFunction(rule)) {
-      return rule.call(this, key);
-    }
-    return false;
   }
 
   function _validateRegex(value, pattern, error) {
@@ -364,25 +351,6 @@
     local: {},
 
     /**
-     * A boolean, a regexp or a predicate function to sanitize arbitrary extra model properties.
-     *
-     * Useful for embedded values such as [HAL](http://stateless.co/hal_specification.html) `_links` and `_embedded`.
-     *
-     * ```javascript
-     * var Person = Model.extend({
-     *   flat: true, //defaults to true, emphasizing for this example
-     *   extraProperties: /^_(links|embedded)\./
-     * );
-     * model.set('_links', '/orders'); // => throws an error
-     * model.set('links.self.href', '/orders'); // => throws an error
-     * model.set('_links.self.href', '/orders'); //=> no error
-     * ```
-     * @type {Boolean|RegExp|Function}
-     */
-    extraProperties: false,
-
-
-    /**
     * Flatten the payload into dot notation string keys:
     *
     * ```javascript
@@ -429,7 +397,6 @@
 
       schema.computedProperties = {};
 
-      schema.extraProperties = this.extraProperties;
       schema.props = _.clone(_.result(this, 'props') || {});
       schema.derived = _.clone(_.result(this, 'derived') || {});
       schema.local = _.clone(_.result(this, 'local') || {});
@@ -498,15 +465,10 @@
     allows: function (key) {
       var schema = this['__schema__'],
           all = _.extend({}, schema.props, schema.local);
-      if (_.has(all, key)) {
-        return true;
+      if (!_.has(all, key)) {
+        Logger.warn('Field not defined in schema', key);
       }
-      else if (allowExtraProperties.call(this, schema.extraProperties, key)) {
-        return true;
-      }
-      else {
-        return false;
-      }
+      return true;
     },
 
     /**

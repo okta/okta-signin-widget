@@ -1,5 +1,5 @@
 /* global okta */
-/* eslint okta/enforce-requirejs-names: 0, okta/no-specific-modules: 0 */
+/* eslint okta/no-specific-modules: 0 */
 define(['moment'], function (moment) {
   if (typeof okta != 'undefined' && (okta.locale || 'en')) {
     moment.locale(okta.locale || 'en');

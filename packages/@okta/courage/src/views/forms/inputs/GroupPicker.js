@@ -15,7 +15,7 @@ function (_, TemplateUtil, BasePicker) {
         {{#if description}}\
           {{description}}\
         {{else}}\
-          {{i18n code="oform.groupselect.no_description" bundle="messages"}}\
+          {{i18n code="oform.groupselect.no_description" bundle="courage"}}\
         {{/if}}</span>\
         <ul class="group-desc-stats">\
           <li class="icon-16"><span class="icon person-16-gray"></span>{{usersCount}}</li>\

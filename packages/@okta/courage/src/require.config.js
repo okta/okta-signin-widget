@@ -9,9 +9,9 @@ var require = {
     jquery: 'vendor/lib/jquery-1.11.3',
     jqueryui: 'vendor/lib/jquery-ui-1.10.4.custom',
     jquerytree: 'vendor/plugins/jquery.fancytree',
-    underscore: 'vendor/lib/underscore-1.8.3',
-    backbone: 'vendor/lib/backbone-1.2.1',
-    handlebars: 'vendor/lib/handlebars-v2.0.0',
+    underscore: 'vendor/lib/underscore',
+    backbone: 'vendor/lib/backbone',
+    handlebars: 'vendor/lib/handlebars',
     i18n: 'vendor/plugins/i18n',
     imagesloaded: 'vendor/plugins/imagesloaded',
     moment: 'vendor/lib/moment-with-locales',
@@ -21,11 +21,12 @@ var require = {
     'eventie/eventie': 'vendor/plugins/eventie',
     'eventEmitter/EventEmitter': 'vendor/plugins/EventEmitter',
     mixpanel: 'vendor/lib/mixpanel-2.8.0.min',
-    clipboard: 'vendor/lib/clipboard-1.5.16.min',
+    clipboard: 'vendor/lib/clipboard',
     selectize: 'vendor/lib/selectize'
   },
   map: {
     '*': {
+      'mixpanel-browser': 'mixpanel', // use the mixpanel shim
       'okta/jquery': 'shared/util/jquery-wrapper',
       'okta/underscore': 'shared/util/underscore-wrapper',
       'okta/jqueryui': 'shared/util/jqueryui-wrapper',

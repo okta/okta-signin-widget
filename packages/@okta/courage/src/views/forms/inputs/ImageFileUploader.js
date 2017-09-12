@@ -18,7 +18,10 @@ define(['okta/underscore', './BaseFileUploader'], function (_, BaseFileUploader)
       </div>\
       <div class="image-file-info float-l">\
         <ul>\
-          {{#if name}}<li>{{name}}</li>{{/if}}\
+          {{#if nameOrDownload}}<li class="{{downloadClass}}">\
+            {{#if name}}{{name}}{{/if}}\
+            {{#if downloadClass}}<span class="download-icon icon icon-16 icon-only download-16"></span>{{/if}}\
+          </li>{{/if}}\
           {{#if fileSizeKB}}<li>{{fileSizeKB}}(KB)</li>{{/if}}\
         </ul>\
       </div>',

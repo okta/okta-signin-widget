@@ -5,8 +5,7 @@ define([
   '../BaseInput',
   'shared/util/BatchAjaxUtil',
   'vendor/plugins/jquery.autosuggest-1.4.min'
-],
-function (_, $, TemplateUtil, BaseInput, BatchAjaxUtil) {
+], function (_, $, TemplateUtil, BaseInput, BatchAjaxUtil) {
 
   var events = {
     'keyup': function (e) {
@@ -41,11 +40,11 @@ function (_, $, TemplateUtil, BaseInput, BatchAjaxUtil) {
   }
 
   /**
-  * @class BasePicker
-  * @extends BaseInput
-  * @private
-  * An abstract input for API based autosuggest widgets
-  */
+   * @class BasePicker
+   * @extends BaseInput
+   * @private
+   * An abstract input for API based autosuggest widgets
+   */
 
   return BaseInput.extend({
 
@@ -83,6 +82,12 @@ function (_, $, TemplateUtil, BaseInput, BatchAjaxUtil) {
      * @property {Number} selectionLimit limits the number of selections that are allowed
      */
     selectionLimit: false,
+
+    /**
+     * @property {String} limitText Message that is displayed when hitting selection limit.
+     * Default is "No more selections allowed" from autosuggest widget.
+     */
+    limitText: null,
 
     /**
      * @property {String} [queryParam=q] the name of the "search" query parameter
@@ -243,6 +248,10 @@ function (_, $, TemplateUtil, BaseInput, BatchAjaxUtil) {
         resultsComplete: this.resultsComplete
       };
 
+      if (this.getParamOrAttribute('limitText')) {
+        options.limitText = this.getParamOrAttribute('limitText');
+      }
+
       if (this.extraParams && !_.isEmpty(this.extraParams)) {
         options.extraParams = '&' + $.param(this.extraParams);
       }
@@ -262,7 +271,7 @@ function (_, $, TemplateUtil, BaseInput, BatchAjaxUtil) {
      */
     formatList: undefined,
 
-     /**
+    /**
      * @method resultsComplete A custom function that is run when the suggestion results dropdown list is made visible.
      */
     resultsComplete: function () {},
