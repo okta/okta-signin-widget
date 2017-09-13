@@ -255,7 +255,9 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
               type: idp.type,
               dataAttr: dataAttr,
               className: 'social-auth-button ' + dataAttr,
-              title: idp.title = Okta.loc('socialauth.' + type + '.label'),
+              title: function () {
+                return Okta.loc('socialauth.' + type + '.label');
+              },
               click: function (e) {
                 e.preventDefault();
                 OAuth2Util.getTokens(self, {idp: idp.id});
