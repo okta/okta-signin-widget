@@ -7,6 +7,21 @@
 @import 'common/enduser/responsive-variables';
 @import 'common/enduser/helpers';
 @import 'container';
+@import 'modules/okta-footer';
+@import 'ie';
+
+/* Layout */
+.login-bg-image {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -5;
+}
 
 // scss-lint:disable IdSelector
 #okta-sign-in {
@@ -32,10 +47,33 @@
   @import 'modules/footer';
   @import 'modules/enroll';
   @import 'modules/app-login-banner';
-  @import 'modules/okta-footer';
   @import 'modules/accessibility';
   @import 'modules/registration';
-  @import 'ie';
+
+  &.can-remove-beacon {
+    .auth-content {
+      padding-top: 40px;
+    }
+
+    @include max-height-mq(550px) {
+      .beacon-container {
+        display: none;
+      }
+
+      .auth-content {
+        padding-top: 0;
+      }
+
+      .enroll-choices {
+        padding-top: 15px;
+      }
+
+      .auth-header {
+        padding: 30px 90px 25px;
+      }
+    }
+  }
+
 }
 
 @import 'modules/qtip';
