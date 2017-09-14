@@ -696,11 +696,13 @@ var signIn = new OktaSignIn(config);
   - `ko` - Korean
   - `ms` - Malaysian
   - `nl-NL` - Dutch
+  - `pl` - Polish
   - `pt-BR` - Portuguese (Brazil)
   - `ro` - Romanian
   - `ru` - Russian
   - `sv` - Swedish
   - `th` - Thai
+  - `tr` - Turkish
   - `uk` - Ukrainian
   - `zh-CN` - Chinese (PRC)
   - `zh-TW` - Chinese (Taiwan)

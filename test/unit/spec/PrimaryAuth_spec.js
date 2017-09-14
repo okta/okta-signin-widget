@@ -1,4 +1,4 @@
-/* eslint max-params:[2, 28], max-statements:[2, 40], camelcase:0, max-len:[2, 180] */
+/* eslint max-params:[2, 28], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
 define([
   'okta/underscore',
   'okta/jquery',
@@ -1142,12 +1142,34 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(test.form.rememberMeCheckbox().get(0)).toBe(orig);
         });
       });
-      itp('populate username if username is available', function () {
+      itp('populates username if username is available', function () {
         var options = {
           'username': 'testuser@ABC.com'
         };
         return setup(options).then(function (test) {
           expect(test.form.usernameField().val()).toBe('testuser@ABC.com');
+        });
+      });
+      itp('populates username if username is available and when features.rememberMe is false', function () {
+        var options = {
+          'username': 'testuser@ABC.com',
+          'features.rememberMe': false
+        };
+        return setup(options).then(function (test) {
+          var cb = test.form.rememberMeCheckbox();
+          expect(cb.length).toBe(0);
+          expect(test.form.usernameField().val()).toBe('testuser@ABC.com');
+        });
+      });
+      itp('ignores lastUsername and hides rememberMe if features.rememberMe is false and cookie is set', function () {
+        Util.mockCookie('ln', 'testuser@ABC.com');
+        var options = {
+          'features.rememberMe': false
+        };
+        return setup(options).then(function (test) {
+          var cb = test.form.rememberMeCheckbox();
+          expect(cb.length).toBe(0);
+          expect(test.form.usernameField().val().length).toBe(0);
         });
       });
       itp('unchecks rememberMe if username is populated and lastUsername is different from username', function () {
