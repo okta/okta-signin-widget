@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 17], max-statements:[2, 37] */
+/* eslint max-params: [2, 17], max-statements:[2, 42] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -231,6 +231,25 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           });
         });
       });
+      itp('sends email when pressing enter if Email is the only factor', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeEmail);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForPwdResetEmailSent();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'EMAIL'
+            }
+          });
+        });
+      });
       itp('calls the transformUsername function with the right parameters', function () {
         return setupWithTransformUsername().then(function (test) {
           spyOn(test.router.settings, 'transformUsername');
@@ -392,6 +411,47 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           });
         });
       });
+      itp('sends sms when pressing enter if SMS is the only factor', function () {
+        return setupWithSmsWithoutEmail().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'SMS'
+            }
+          });
+        });
+      });
+      itp('sends sms when pressing enter if SMS is the first factor of the list', function () {
+        return setupWithSmsAndCall().then(function (test) {
+          expect(test.form.hasSmsButton()).toBe(true);
+          expect(test.form.hasCallButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(true);
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'SMS'
+            }
+          });
+        });
+      });
       itp('updates appState username after sending sms', function () {
         return setupWithSms()
         .then(function (test) {
@@ -477,6 +537,46 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeCall);
           test.form.setUsername('foo');
           test.form.makeCall();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'CALL'
+            }
+          });
+        });
+      });
+      itp('makes a Voice Call when pressing enter if Voice Call is the only factor', function () {
+        return setupWithCallWithoutEmail().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'CALL'
+            }
+          });
+        });
+      });
+      itp('makes a Voice Call when pressing enter if Voice Call is the first factor of the list', function () {
+        return setupWithCall().then(function (test) {
+          expect(test.form.hasCallButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(true);
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
           return Expect.waitForRecoveryChallenge();
         })
         .then(function () {

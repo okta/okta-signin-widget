@@ -64,7 +64,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
     Model: {
       props: {
         username: ['string', true],
-        factorType: ['string', true, Enums.RECOVERY_FACTOR_TYPE_EMAIL]
+        factorType: ['string', true]
       },
       validate: function () {
         return ValidationUtil.validateUsername(this);
@@ -115,11 +115,13 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
             this.$el.addClass('forgot-password-sms-enabled');
             formChildren.push(this.createRecoveryFactorButton('sms-button', 'account.unlock.sendText',
               Enums.RECOVERY_FACTOR_TYPE_SMS, form));
+            this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_SMS);
           }
           if (emailEnabled) {
             this.$el.addClass('forgot-password-email-enabled');
             formChildren.push(this.createRecoveryFactorButton('email-button', 'account.unlock.sendEmail',
               Enums.RECOVERY_FACTOR_TYPE_EMAIL, form));
+            this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_EMAIL);
           }
         }
 
@@ -135,6 +137,11 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
         this.listenTo(this.state, 'contactSupport', function () {
           this.add(ContactSupport, '.o-form-error-container');
         });
+      },
+      setDefaultFactorType: function (factorType) {
+        if (_.isEmpty(this.model.get('factorType'))) {
+          this.model.set('factorType', factorType);
+        }
       },
       createRecoveryFactorButton: function (className, labelCode, factorType, form) {
         return FormType.Button({
