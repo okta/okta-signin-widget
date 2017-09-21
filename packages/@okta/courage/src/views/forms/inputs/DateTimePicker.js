@@ -3,15 +3,13 @@ define([
   'shared/views/forms/BaseInput',
   'shared/util/Keys',
   'okta/moment',
-  'okta/underscore',
   'okta/jqueryui',
   'vendor/plugins/jquery.placeholder'
-], function (TemplateUtil, BaseInput, Keys, moment, _) {
+], function (TemplateUtil, BaseInput, Keys, moment) {
 
   var className = 'input-fix o-form-control date-time';
   // Allows only if input is in the following format hh:mm:ss and valid.
   var timeRegEx = new RegExp('(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]');
-  var DEBOUNCE_TIME = 500;
   var TIME_INPUT_LENGTH = 8;
 
 
@@ -49,7 +47,7 @@ define([
      * If time input is invalid replace it with default value.
      * Debounce on events to avoid multiple updates.
      */
-    waitAndUpdate: _.debounce(function (e) {
+    waitAndUpdate: function (e) {
       if (e.currentTarget.className === 'time-input') {
         // Validate only and set model value only when time has 8 characters.
         // Gives user time to input before model is updated.
@@ -61,7 +59,7 @@ define([
         }
       }
       this.update();
-    }, DEBOUNCE_TIME),
+    },
 
     /**
     * @Override

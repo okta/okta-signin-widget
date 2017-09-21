@@ -28,7 +28,7 @@ function (_, $, BaseInput, TemplateUtil, StringUtil) {
     template: TemplateUtil.tpl('<input name="{{name}}" id="{{inputId}}" type="hidden"></input>'),
 
     selectEmptyOptionTemplate: TemplateUtil.tpl('\
-      <div class="empty-option""><p>{{i18n code="oform.baseselect.reset" bundle="messages"}}</p></div>\
+      <div class="empty-option""><p>{{i18n code="oform.baseselect.reset" bundle="courage"}}</p></div>\
     '),
 
     searchInfoMsgTemplate: TemplateUtil.tpl('<p>{{name}}</p>'),
@@ -70,21 +70,21 @@ function (_, $, BaseInput, TemplateUtil, StringUtil) {
      * a function that returns this msg/html.
      * @return {String} Message html or null/undefined to disable the message
      */
-    formatNoMatches: StringUtil.localize('oform.baseselect.noresults', 'messages'),
+    formatNoMatches: StringUtil.localize('oform.baseselect.noresults', 'courage'),
 
     /**
      * @property {String/Function} formatSearching A string containing "Searching..." message,
      * or a function that returns the msg/html that is displayed while search is in progress
      * @return {String} Message html
      */
-    formatSearching: StringUtil.localize('oform.baseselect.searching', 'messages'),
+    formatSearching: StringUtil.localize('oform.baseselect.searching', 'courage'),
 
     /**
      * @property {String/Function} formatAjaxError A string containing "Loading Failed" message,
      * or a function used to render the message
      * @return {String} Message html
      */
-    formatAjaxError: StringUtil.localize('oform.baseselect.ajax_error', 'messages'),
+    formatAjaxError: StringUtil.localize('oform.baseselect.ajax_error', 'courage'),
 
     /**
      * @property {String/Function} formatInputTooShort A string containing message
@@ -92,7 +92,7 @@ function (_, $, BaseInput, TemplateUtil, StringUtil) {
      * or a function used to render the message
      * @return {String} Message html
      */
-    formatInputTooShort: StringUtil.localize('oform.baseselect.short_input', 'messages'),
+    formatInputTooShort: StringUtil.localize('oform.baseselect.short_input', 'courage'),
 
 
     constructor: function (options) {

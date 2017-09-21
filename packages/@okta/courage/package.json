@@ -1,31 +1,34 @@
 {
   "_args": [
     [
-      "@okta/courage@2.11.0",
-      "/home/vagrant/okta/okta-signin-widget"
+      "@okta/courage@3.2.0-beta.6",
+      "/home/vagrant/okta/my-signin-widget/okta-signin-widget"
     ]
   ],
-  "_from": "@okta/courage@2.11.0",
-  "_id": "@okta/courage@2.11.0",
+  "_from": "@okta/courage@3.2.0-beta.6",
+  "_id": "@okta/courage@3.2.0-beta.6",
   "_inCache": true,
   "_location": "/@okta/courage",
-  "_phantomChildren": {},
+  "_phantomChildren": {
+    "amdefine": "1.0.1",
+    "wordwrap": "0.0.3"
+  },
   "_requested": {
     "name": "@okta/courage",
-    "raw": "@okta/courage@2.11.0",
-    "rawSpec": "2.11.0",
+    "raw": "@okta/courage@3.2.0-beta.6",
+    "rawSpec": "3.2.0-beta.6",
     "scope": "@okta",
-    "spec": "2.11.0",
+    "spec": "3.2.0-beta.6",
     "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-2.11.0.tgz",
-  "_shasum": "6d9293b65a8df979ade59cf6bdfa2a7d9c1631a6",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-3.2.0-beta.6.tgz",
+  "_shasum": "543bfcfd7ae92bee2a06a5933dda0fcc81e6a4cf",
   "_shrinkwrap": null,
-  "_spec": "@okta/courage@2.11.0",
-  "_where": "/home/vagrant/okta/okta-signin-widget",
+  "_spec": "@okta/courage@3.2.0-beta.6",
+  "_where": "/home/vagrant/okta/my-signin-widget/okta-signin-widget",
   "browserslist": [
     "> 0.1%",
     "not ie <= 9"
@@ -35,20 +38,33 @@
   },
   "dependencies": {
     "@okta/jquery.simplemodal": "1.4.9",
-    "clipboard": "^1.5.16"
+    "backbone": "1.2.1",
+    "clipboard": "^1.5.16",
+    "handlebars": "2.0.0",
+    "mixpanel-browser": "^2.11.0",
+    "underscore": "1.8.3"
   },
   "description": "Shared Okta UI components",
   "devDependencies": {
     "@okta/ci-pkginfo": "1.1.0",
     "@okta/ci-update-package": "1.1.0",
     "@okta/eslint-plugin-okta": "0.3.3",
-    "@okta/i18n": "27.11.0",
-    "ace-builds": "1.2.2",
+    "@okta/i18n": "33.1.0",
+    "ace-builds": "^1.2.6",
     "app-root-path": "1.0.0",
     "autoprefixer": "^6.7.5",
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.1",
+    "babel-loader": "6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "brace": "^0.10.0",
     "commander": "2.9.0",
+    "compression": "^1.6.2",
     "connect": "3.4.0",
     "cssnano": "^3.10.0",
+    "empty-module": "^0.0.2",
     "express": "4.13.4",
     "express-handlebars": "3.0.0",
     "git-rev-sync": "1.4.0",
@@ -56,8 +72,7 @@
     "grunt-cli": "0.1.13",
     "grunt-contrib-connect": "0.11.2",
     "grunt-contrib-copy": "1.0.0",
-    "grunt-contrib-jasmine": "1.0.3",
-    "grunt-contrib-requirejs": "0.4.4",
+    "grunt-contrib-jasmine": "^1.1.0",
     "grunt-contrib-watch": "1.0.0",
     "grunt-eslint": "19.0.0",
     "grunt-jsduck": "1.0.1",
@@ -67,6 +82,8 @@
     "grunt-shell": "1.1.1",
     "grunt-stylelint": "^0.7.0",
     "grunt-template-jasmine-requirejs": "0.2.3",
+    "grunt-webpack": "1",
+    "jasmine-jquery": "^2.1.1",
     "jasmine-reporters": "2.2.0",
     "load-grunt-tasks": "^3.5.2",
     "lodash": "4.6.1",
@@ -80,29 +97,34 @@
     "semver": "5.1.0",
     "sequelize": "3.27.0",
     "shortid": "2.2.6",
-    "sinon": "1.17.4",
+    "sinon": "^2.3.2",
+    "source-map-support": "^0.4.15",
     "speakingurl": "10.0.0",
     "stylelint-checkstyle-formatter": "^0.1.0",
     "stylelint-scss": "^1.4.3",
     "time-grunt": "^1.4.0",
+    "webpack": "1",
+    "webpack-dev-server": "1",
+    "webpack-node-externals": "^1.6.0",
     "winston": "2.2.0"
   },
   "dist": {
-    "shasum": "6d9293b65a8df979ade59cf6bdfa2a7d9c1631a6",
-    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-2.11.0.tgz"
+    "shasum": "543bfcfd7ae92bee2a06a5933dda0fcc81e6a4cf",
+    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-3.2.0-beta.6.tgz"
   },
   "files": [
     "src",
-    "assets"
+    "assets",
+    "dist"
   ],
   "homepage": "https://github.com/okta/courage",
   "license": "Apache-2.0",
   "main": "src/util/Okta.js",
   "name": "@okta/courage",
   "okta": {
-    "commitSha": "ebba3294af6219dc3f0ea625d0fe71ac246e7376",
-    "fullVersion": "2.11.0-20170524110829-ebba329",
-    "testedSha": "fe73bb11031750add288818719066b1e23201064"
+    "commitSha": "7964996f32f4681910698d9a8d022707f061efd8",
+    "fullVersion": "3.2.0-beta.6-20170829183035-7964996",
+    "testedSha": "fbd17eaf41da91b5e9c2b85346e3241944534334"
   },
   "optionalDependencies": {},
   "publishConfig": {
@@ -118,11 +140,11 @@
     "ci-update-package": "ci-update-package",
     "lint": "grunt lint",
     "lint:report": "grunt lint --checkstyle",
-    "prepublish": "grunt copy:vendor",
+    "prepublish": "grunt prepublish",
     "start": "grunt play",
     "test": "grunt test",
     "test:e2e": "webdriver-manager update && protractor test/selenium/conf.js",
     "test:report": "(grunt test --display full) || true"
   },
-  "version": "2.11.0"
+  "version": "3.2.0-beta.6"
 }

@@ -25,6 +25,7 @@ function (_, StringUtil, BaseView, Keys, Logger, ViewUtil) {
         'autoRender', // model attributes change event to trigger rerendering of the input
         'inlineValidation', // control inline validating against the model on focus lost
         'validateOnlyIfDirty', // check if field has been interacted with and then validate
+        'ariaLabel', // 508 compliance for inputs that do not have label associated with them
         'params'], // widgets params - for input specific widgets
 
       OTHER_OPTIONS = ['errorField'];
@@ -242,13 +243,13 @@ function (_, StringUtil, BaseView, Keys, Logger, ViewUtil) {
 
       var action, text, ariaLabel;
       if (options.type == 'cancel') {
-        text = ariaLabel = StringUtil.localize('oform.cancel');
+        text = ariaLabel = StringUtil.localize('oform.cancel', 'courage');
         action = function () {
           this.model.trigger('form:cancel');
         };
       }
       else {
-        text = StringUtil.localize('oform.edit');
+        text = StringUtil.localize('oform.edit', 'courage');
         ariaLabel = text + ' ' + options.formTitle;
         action = function () {
           this.model.set('__edit__', true);
@@ -282,7 +283,7 @@ function (_, StringUtil, BaseView, Keys, Logger, ViewUtil) {
         break;
       case 'cancel':
         _.defaults(options, {
-          text: StringUtil.localize('oform.cancel'),
+          text: StringUtil.localize('oform.cancel', 'courage'),
           action: function () {
             this.model.trigger('form:cancel');
           }
@@ -290,7 +291,7 @@ function (_, StringUtil, BaseView, Keys, Logger, ViewUtil) {
         break;
       case 'previous':
         _.defaults(options, {
-          text: StringUtil.localize('oform.previous'),
+          text: StringUtil.localize('oform.previous', 'courage'),
           action: function () {
             this.model.trigger('form:previous');
           }

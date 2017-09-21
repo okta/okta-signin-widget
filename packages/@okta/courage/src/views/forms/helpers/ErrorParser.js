@@ -1,4 +1,6 @@
-define(['okta/underscore'], function (_) {
+define(['okta/underscore', 'shared/util/StringUtil'], function (_, StringUtil) {
+
+  var FIELD_REGEX = /^([^\:]+)\: (.+)$/;
 
   return {
 
@@ -23,10 +25,34 @@ define(['okta/underscore'], function (_) {
      */
     parseErrorSummary: function (errorSummary) {
       // error format is: `fieldName: The field cannot be left blank`
-      var matches = errorSummary.match(/^([^\:]+)\: (.+)$/);
+      var matches = errorSummary.match(FIELD_REGEX);
       if (matches) {
         return [matches[1], matches[2]];
       }
+    },
+
+    /**
+     * Parses an error cause object to extract a field name from property attribute
+     * and an error message form errorSummary attribute. It looks to see if there is
+     * a custom override/translation for the erorrCause.reason before using the errorSummary
+     * @param  {Object} errorCause object
+     * @return {String[]} An array with two members: [field name, error message]
+     */
+    parseErrorCauseObject: function (errorCause) {
+      if (errorCause.property && errorCause.errorSummary) {
+        var localizedMsg = StringUtil.localize(errorCause.reason),
+            apiMsg = errorCause.errorSummary,
+            field = errorCause.property,
+            errorMessage = localizedMsg.indexOf('L10N_ERROR[') === -1 ? localizedMsg : apiMsg;
+        return [field, errorMessage];
+      }
+    },
+
+    parseErrors: function (resp) {
+      var responseJSON = this.getResponseJSON(resp);
+      return _.map(responseJSON && responseJSON.errorCauses || [], function (errorCause) {
+        return ('' + errorCause.errorSummary).replace(FIELD_REGEX, '$2');
+      });
     },
 
     /**
@@ -49,7 +75,12 @@ define(['okta/underscore'], function (_) {
       // xhr error object
       if (responseJSON) {
         _.each(responseJSON.errorCauses || [], function (cause) {
-          var res = this.parseErrorSummary(cause && cause.errorSummary || '');
+          var res = [];
+          if (cause.property && cause.errorSummary) {
+            res = this.parseErrorCauseObject(cause);
+          } else {
+            res = this.parseErrorSummary(cause && cause.errorSummary || '');
+          }
           if (res) {
             var fieldName = res[0], message = res[1];
             errors[fieldName] || (errors[fieldName] = []);

@@ -1,59 +1,15 @@
 define([
-  'okta/underscore',
-  'shared/util/TemplateUtil',
-  '../BaseInput',
-  'selectize'
-],
-function (_, TemplateUtil, BaseInput) {
+  './BaseSearchableSelect'
+], function (BaseSearchableSelect) {
 
-  var footerTpl = TemplateUtil.tpl('\
-    <p class="dropdown-footer">{{i18n code="oform.select.dropdown.footer" arguments="num"}}</p>\
-  ');
+  return BaseSearchableSelect.extend({
 
-  var emptyFooterTpl = TemplateUtil.tpl('\
-    <p class="dropdown-footer">{{i18n code="oform.baseselect.noresults"}}</p>\
-  ')();
-
-  return BaseInput.extend({
-
-    template: TemplateUtil.tpl('<select id="{{inputId}}" name="{{name}}"></select>'),
-    className: 'o-form-searchable-select',
-    maxOptions: 50,
-
-    events: {
-      'change select': 'update'
-    },
-
-    constructor: function () {
-      BaseInput.apply(this, arguments);
-      this.selectOptions = this.__getOptions(this.options.options);
-    },
-
-    editMode: function () {
-      BaseInput.prototype.editMode.apply(this, arguments);
-
+    getSelectizeOption: function () {
       var value = this.getModelValue(),
           maxOptions = this.getParamOrAttribute('maxOptions'),
-          selectOptions = this.selectOptions,
-          self = this;
+          selectOptions = this.selectOptions;
 
-      function handleFooter() {
-        self.$('.dropdown-footer').remove();
-        _.defer(function () {
-          var length = self.$('.selectize-dropdown-content > .option').length;
-          if (length === maxOptions) {
-            self.$('.selectize-dropdown-content').append(footerTpl({num: maxOptions}));
-          }
-          else if (length === 0) {
-            self.$('.selectize-dropdown-content').append(emptyFooterTpl);
-            self.$('.selectize-dropdown.single').show();
-          }
-        });
-      }
-
-      this.$select = this.$('select');
-
-      this.$select.selectize({
+      return {
         options: selectOptions,
         items: value ? [value] : [],
         placeholder: this.options.placeholder,
@@ -64,28 +20,9 @@ function (_, TemplateUtil, BaseInput) {
         labelField: 'value',
         valueField: 'key',
         searchField: ['value'],
-        onType: handleFooter,
-        onDropdownOpen: handleFooter
-      });
-
-      return this;
-    },
-
-    val: function () {
-      return this.$select && this.$select.val();
-    },
-
-    focus: function () {
-      return this.$select && this.$select.focus();
-    },
-
-    __getOptions: function (options) {
-      if (_.isFunction(options)) {
-        options = options.call(this);
-      }
-      return _.map(_.isObject(options) ? options : {}, function (value, key) {
-        return {key: key, value: value};
-      });
+        onType: this.handleFooter.bind(this),
+        onDropdownOpen: this.handleFooter.bind(this)
+      };
     }
 
   });

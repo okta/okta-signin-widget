@@ -1,13 +1,13 @@
 /* eslint max-params: [2, 6] */
 define([
   'okta/underscore',
-  'shared/framework/View',
+  'shared/views/BaseView',
   'shared/util/SchemaUtil',
   'shared/util/StringUtil',
   'shared/util/TemplateUtil',
   'shared/util/Time'
 ],
-function (_, View, SchemaUtil, StringUtil, TemplateUtil, Time) {
+function (_, BaseView, SchemaUtil, StringUtil, TemplateUtil, Time) {
 
   var isVowel = function (string) {
     return (/^[aeiou]/).test(string);
@@ -34,7 +34,7 @@ function (_, View, SchemaUtil, StringUtil, TemplateUtil, Time) {
       errorClass = 'o-form-has-errors',
       updateArrayEvent = 'updateArray';
 
-  return View.extend({
+  return BaseView.extend({
 
     tagName: 'div',
 
@@ -78,7 +78,7 @@ function (_, View, SchemaUtil, StringUtil, TemplateUtil, Time) {
     remove: function () {
       this.trigger(updateArrayEvent, null);
       this.$el.slideUp(_.bind(function () {
-        View.prototype.remove.call(this, arguments);
+        BaseView.prototype.remove.call(this, arguments);
       }, this));
     },
 

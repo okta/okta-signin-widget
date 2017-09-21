@@ -261,10 +261,10 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
           saveBtnClassName = danger === true ? 'button-error' : 'button-primary';
 
       var toolbar = new Toolbar(_.extend({
-        save: this.save || StringUtil.localize('oform.save'),
+        save: this.save || StringUtil.localize('oform.save', 'login'),
         saveId: this.saveId,
         saveClassName: saveBtnClassName,
-        cancel: this.cancel || StringUtil.localize('oform.cancel'),
+        cancel: this.cancel || StringUtil.localize('oform.cancel', 'login'),
         noCancelButton: this.noCancelButton || false,
         hasPrevStep: this.step && this.step > 1
       }, options || this.options));
@@ -622,18 +622,22 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
       if (this.getAttribute('showErrors')) {
 
         var errorSummary;
+        var responseJSON = ErrorParser.getResponseJSON(resp);
 
         // trigger events for field validation errors
         var validationErrors = ErrorParser.parseFieldErrors(resp);
         if (_.size(validationErrors)) {
           _.each(validationErrors, function (errors, field) {
             this.model.trigger('form:field-error', this.__errorFields[field] || field, _.map(errors, function (error) {
-              return (/^model\.validation/).test(error) ? StringUtil.localize(error) : error;
+              return (/^model\.validation/).test(error) ? StringUtil.localize(error, 'login') : error;
             }));
           }, this);
         }
-        else {
-          var responseJSON = ErrorParser.getResponseJSON(resp);
+        else if (responseJSON && Array.isArray(responseJSON.errorCauses) && responseJSON.errorCauses.length > 0){
+          //set errorSummary from first errorCause which is not field specific error
+          errorSummary = responseJSON.errorCauses[0].errorSummary;
+        } else {
+          //set errorSummary from top level errorSummary
           responseJSON = this.parseErrorMessage(responseJSON);
           errorSummary = responseJSON && responseJSON.errorSummary;
         }
@@ -749,6 +753,7 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
      * @param {Number} [options.multi] have multiple in-line inputs. useful when `input` is passed as an array of inputs
      * @param {String} [options.errorField] The API error field here that maps to this input
      * @param {Boolean} [options.inlineValidation=true] Validate input on focusout
+     * @param {String} [options.ariaLabel] Used to add aria-label attribute to the input when label is not present.
 
      * @param {Object} [options.options]
      * In the context of `radio` and `select`, a key/value set of options

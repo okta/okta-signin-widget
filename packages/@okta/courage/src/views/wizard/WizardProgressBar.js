@@ -15,7 +15,12 @@ function (_, BaseView) {
       this.__substepClass = null;
     },
 
-    template: '<span class="icon icon-16 icon-only"></span>',
+    template: '\
+      <span class="icon icon-16 icon-only"></span>\
+      {{#if step.label }}\
+        <h4 class="o-wizard-step-label">{{step.label}}</h4>\
+      {{/if}}\
+    ',
 
     isCurrent: function () {
       var subSteps = this.getSubSteps(),
@@ -79,7 +84,8 @@ function (_, BaseView) {
       if (!step.substep) {
         this.add(ProgressBarStep, {
           options: {
-            counter: this.__counter
+            counter: this.__counter,
+            step: step
           }
         });
       }

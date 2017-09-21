@@ -155,8 +155,15 @@ define([
         errorSummary = resp;
       }
       else {
-        var data = ErrorParser.getResponseJSON(resp);
-        errorSummary = data && data.errorSummary || StringUtil.localize('oform.file.upload.error');
+        var fieldErrors = ErrorParser.parseErrors(resp);
+        if (fieldErrors.length) {
+          errorSummary = fieldErrors.join('. ');
+        }
+        else {
+          var data = ErrorParser.getResponseJSON(resp);
+          errorSummary = data && data.errorSummary || StringUtil.localize('oform.file.upload.error', 'courage');
+        }
+
       }
 
       var validationError = {};
