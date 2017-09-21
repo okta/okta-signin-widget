@@ -1,3 +1,5 @@
+@import '../helpers/variables';
+
 %selectize-colors {
   $background-color: #e5f6ff;
   $border-color: #6dbfe8;
@@ -39,4 +41,34 @@
     border-left: 0;
   }
 
+  .selectize-dropdown-content .option {
+
+    &.active {
+      background-color: $component-bg-color;
+    }
+
+    .highlight {
+      background-color: transparent;
+      color: $text-color-dark;
+      font-weight: 700;
+    }
+  }
+  
+  .selectize-dropdown .optgroup {
+    border-top: 0;
+  }
+
+  .selectize-dropdown .optgroup-header {
+    font-size: inherit;
+    font-weight: inherit;
+    color: $text-color-light;
+  }
+
+  .selectize-dropdown .optgroup-header::before {
+    content: '\2014 \00a0'
+  }
+  
+  .selectize-dropdown .optgroup-header::after {
+    content: '\00a0 \2014'
+  }
 }

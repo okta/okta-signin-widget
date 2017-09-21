@@ -1,4 +1,4 @@
-/* eslint max-params: 0 */
+/* eslint max-params: 0, complexity: 0, max-statements: 0 */
 define([
   'okta/underscore',
   '../BaseInput',
@@ -22,11 +22,15 @@ define([
   '../inputs/SimpleCheckBoxSet',
   '../inputs/ImageFileUploader',
   '../inputs/CertificationFileUploader',
+  '../inputs/MultiSearchableSelect',
   '../inputs/SearchableSelect'
 ],
 function (_, BaseInput, TextBox, TextArea, Select, Radio, CheckBox, TextSelect, TextPlusSelect, DateBox, NumberBox,
           GroupPicker, UserPicker, AppPicker, AppInstancePicker, SUOrgsPicker, ZonePicker, ListInput, InputGroup,
-          SimpleCheckBoxSet, ImageFileUploader, CertificationFileUploader, SearchableSelect) {
+          SimpleCheckBoxSet, ImageFileUploader, CertificationFileUploader, MultiSearchableSelect, SearchableSelect) {
+
+  var MAX_SELECT_OPTIONS_COUNT = 1000;
+  var MAX_CHECKBOX_OPTIONS_COUNT = 150;
 
   var inputTypesMap = {
     'file/image': ImageFileUploader,
@@ -50,6 +54,7 @@ function (_, BaseInput, TextBox, TextArea, Select, Radio, CheckBox, TextSelect, 
     'zonepicker': ZonePicker,
     'list': ListInput,
     'group': InputGroup,
+    'multiselect': MultiSearchableSelect,
     'checkboxset': SimpleCheckBoxSet
   };
 
@@ -63,7 +68,6 @@ function (_, BaseInput, TextBox, TextArea, Select, Radio, CheckBox, TextSelect, 
   }
 
   function create(options) {
-    /* eslint complexity: 0 */
     options = _.clone(options);
 
     if (options.input) {
@@ -73,8 +77,15 @@ function (_, BaseInput, TextBox, TextArea, Select, Radio, CheckBox, TextSelect, 
     var Input;
     if (inputTypesMap[options.type]) {
       // Chosen doesn't perform well with large option sets, so always use SearchableSelect in this case
-      if (options.type == 'select' && _.size(options.options) > 1000) {
+      // If the options contains groups then use SearchableSelect
+      if (options.type === 'select' &&
+         (hasGroups(options.options) ||
+          _.size(options.options) > MAX_SELECT_OPTIONS_COUNT)) {
         Input = SearchableSelect;
+      }
+      // checkbox doesn't perform well with larget option sets, always use multiselect instead.
+      else if (options.type === 'checkboxset' && _.size(options.options) > MAX_CHECKBOX_OPTIONS_COUNT) {
+        Input = MultiSearchableSelect;
       }
       else {
         Input = inputTypesMap[options.type];
@@ -88,6 +99,10 @@ function (_, BaseInput, TextBox, TextArea, Select, Radio, CheckBox, TextSelect, 
 
   function supports(input) {
     return !!input.input || input.type in inputTypesMap;
+  }
+
+  function hasGroups(options) {
+    return _.size(options) > 0 && _.isObject(_.values(options)[0]);
   }
 
   return {

@@ -1,10 +1,11 @@
+/* eslint max-statements: 0 */
 define([
   'okta/underscore',
   'okta/jquery',
-  'shared/util/SchemaUtil',
-  '../inputs/SimpleCheckBoxSet'
-], function (_, $, SchemaUtil, SimpleCheckBoxSet) {
-  var NAME = 'name';
+  'shared/util/SchemaUtil'
+], function (_, $, SchemaUtil) {
+  var NAME = 'name',
+      ENUM_KEY_PREFIX = '_enum_';
 
   /**
    * Generate Input Options in order to create an input in an Form for Enum type attribute.
@@ -20,76 +21,133 @@ define([
    *
    */
   function getEnumInputOptions(config) {
-    var inputOptions = {
-      name: config.name,
-      label: config.title,
-      readOnly: config.readOnly,
-      customExplain: config.explain,
-      options: getDropdownOptions(config.enumValues),
-      params: {enumValues: config.enumValues}
-    };
-
-    // set input value convertor when enum is complex object type.
-    if (config.displayType === SchemaUtil.DATATYPE.object) {
-      inputOptions.to = valueToEnumObject;
-      inputOptions.from = enumObjectToValue;
-    } else if (config.displayType === SchemaUtil.ARRAYDISPLAYTYPE.arrayofobject) {
-      inputOptions.to = function (xs) { return _.map(xs, valueToEnumObject, this); };
-      inputOptions.from = function (ys) { return _.map(ys, enumObjectToValue, this); };
-    }
+    var enumOneOf = convertToOneOf(config.enumValues),
+        inputOptions = {
+          name: config.name,
+          label: config.title,
+          readOnly: config.readOnly,
+          customExplain: config.explain,
+          params: {enumOneOf: enumOneOf},
+          options: getDropdownOptionsFromOneOf(enumOneOf)
+        };
 
     // input type
     if (SchemaUtil.isArrayDataType(config.displayType)) {
-      inputOptions.input = SimpleCheckBoxSet;
+      inputOptions.type = 'checkboxset';
+      inputOptions.to = valuesToEnumObjects;
+      inputOptions.from = enumObjectsToValues;
     } else {
       inputOptions.type = 'select';
+      inputOptions.to = valueToEnumObject;
+      inputOptions.from = enumObjectToValue;
     }
 
+    inputOptions.input = null;
     return inputOptions;
-
   }
 
   function getDropdownOptions(values) {
+    return _.isArray(values) ? getDropdownOptionsFromOneOf(convertToOneOf(values)) : {};
+  }
 
-    if (!_.isArray(values)) {
+  function getDropdownOptionsFromOneOf(values) {
+    if (!isOneOfEnumObject(values)) {
       return {};
     }
 
-    if (_.all(values, $.isPlainObject)) {
-      return _.reduce(values, convertEnumObjectForOptions, {});
-    } else {
-      return _.object(values, values);
-    }
+    return _.reduce(values, function (options, value, index) {
+      options[convertIndexToEnumIndex(index)] = value.title;
+      return options;
+    }, {});
   }
 
-  function convertEnumObjectForOptions(memo, enumObj) {
+  function convertToOneOf(values) {
+    // assume this is a legacy enum array and convert to oneOf object
+    if (!_.all(values, $.isPlainObject)) {
+      return convertEnumToOneOf(values);
 
-    // Assume enum object always has "name" field (and uniq value) for displaying.
-    // @see https://oktawiki.atlassian.net/wiki/display/eng/Schema+Property
-    if ($.isPlainObject(enumObj) && enumObj.hasOwnProperty(NAME)) {
-      var key = enumObjectToValue(enumObj),
-          displayName = enumObj.name;
-      memo[key] = displayName;
+      // we assume object without const and title is an enum object which need special conversion
+    } else if (!isOneOfEnumObject(values)) {
+      return convertEnumObjectToOneOf(values);
     }
 
-    return memo;
+    return values;
+  }
+
+  function isOneOfEnumObject(values) {
+    return _.isArray(values) && _.all(values, function (value) {
+      return _.has(value, 'const') && _.has(value, 'title');
+    });
+  }
+
+  function convertEnumToOneOf(values) {
+    return _.map(values, function (value) {
+      return {
+        const: value,
+        title: valueToTitle(value)
+      };
+    });
+  }
+
+  function valueToTitle(value) {
+    if (_.isObject(value)) {
+      return JSON.stringify(value);
+    }
+
+    if (_.isNumber(value)) {
+      return value + '';
+    }
+
+    return value;
+  }
+
+  function convertEnumObjectToOneOf(values) {
+    // If all object found the key NAME, use the NAME's value as display name
+    var findKey = _.partial(_.has, _, NAME);
+    if (_.all(values, findKey)) {
+      return _.chain(values)
+        .filter(function (value) { return $.isPlainObject(value) && _.has(value, NAME); })
+        .map(function (value) { return {const: value, title: value[NAME]}; })
+        .value();
+    }
+
+    // Assume a legacy object array does not need special handling and just convert to const/title enum
+    return convertEnumToOneOf(values);
+  }
+
+  function convertIndexToEnumIndex(index) {
+    return `${ENUM_KEY_PREFIX}${index}`;
   }
 
   function enumObjectToValue(obj) {
-    return obj && obj[NAME];
+    // Cannot rely on comparator in findIndex when compare objects so need special handling
+    var index = _.findIndex(this.options.params.enumOneOf, function (oneOfObj) {
+      return _.isObject(obj) ? _.isEqual(oneOfObj.const, obj) : oneOfObj.const === obj;
+    });
+
+    return index > -1 ? convertIndexToEnumIndex(index) : obj;
   }
 
   function valueToEnumObject(val) {
-    // @see `getEnumInputOptions` how enumValues has been set.
-    if (this.options.params && _.isArray(this.options.params.enumValues)) {
-      return _.find(this.options.params.enumValues, function (obj) {
-        return obj[NAME] === val;
-      });
-    } else {
-      // How could an enum type without enum values have been defined?
-      // assume it's data problem and code mistake that override `options.params.enumValues`
-      throw new Error('Can not find enum object from Enum Values list for key: ' + val);
+    if (!_.isString(val) || val.indexOf(ENUM_KEY_PREFIX) !== 0) {
+      return val;
     }
+
+    var index = val.replace(ENUM_KEY_PREFIX, '');
+
+    // @see `getEnumInputOptions` how enumValues has been set.
+    var enumValue = this.options.params && _.isArray(this.options.params.enumOneOf) ?
+      this.options.params.enumOneOf[index] : null;
+
+    return _.has(enumValue, 'const') ? enumValue.const : enumValue;
+  }
+
+  function valuesToEnumObjects(values) {
+    return _.map(values, valueToEnumObject.bind(this));
+  }
+
+  function enumObjectsToValues(values) {
+    return _.map(values, enumObjectToValue.bind(this));
   }
 
   return {getEnumInputOptions: getEnumInputOptions,

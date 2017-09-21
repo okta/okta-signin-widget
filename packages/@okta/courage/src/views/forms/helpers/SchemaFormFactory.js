@@ -1,12 +1,11 @@
-/* eslint max-statements: [2, 13], max-params: [2, 6] */
+/* eslint max-statements: 0, max-params: 0 */
 define([
   'okta/underscore',
   'shared/util/StringUtil',
   '../inputs/BooleanSelect',
   '../inputs/TextBoxSet',
-  '../inputs/SimpleCheckBoxSet',
-  './EnumTypeHelper'
-], function (_, StringUtil, BooleanSelect, TextBoxSet, SimpleCheckBoxSet, EnumTypeHelper) {
+  './EnumTypeHelper',
+], function (_, StringUtil, BooleanSelect, TextBoxSet, EnumTypeHelper) {
   // Maps each __displayType__ to a basic set of inputOptions.
   function defaultOptions(property) {
     /* eslint complexity: [2, 21] */
@@ -55,7 +54,7 @@ define([
     case 'image':
       inputOptions.readOnly = true;
       inputOptions.from = function (value) {
-        return _.isEmpty(value) ? '' : StringUtil.localize('user.profile.image.image_set'); //TODO
+        return _.isEmpty(value) ? '' : StringUtil.localize('user.profile.image.image_set', 'courage'); //TODO
       };
       break;
     case 'password':
@@ -101,7 +100,8 @@ define([
       };
       inputOptions = _.extend({}, EnumTypeHelper.getEnumInputOptions(configs), inputOptions);
     } else if (isArray(type) && values) {
-      inputOptions.input = SimpleCheckBoxSet;
+      inputOptions.type = 'checkboxset';
+      inputOptions.input = null;
       inputOptions.options = getChoices(values);
     }
 

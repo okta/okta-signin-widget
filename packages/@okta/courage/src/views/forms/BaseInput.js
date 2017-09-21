@@ -66,7 +66,14 @@ define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
       this.addModelListeners();
       this.$el.addClass('o-form-input-name-' + this.getNameString());
     },
-    
+
+    addAriaLabel: function () {
+      var ariaLabel = this.options.ariaLabel;
+      if (ariaLabel) {
+        this.$(':input').attr('aria-label', ariaLabel);
+      }
+    },
+
     addInlineValidation: function () {
       if (_.result(this.options, 'inlineValidation')) {
         this.$el.on('focusout', ':input', _.bind(this.validate, this));
@@ -128,6 +135,7 @@ define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
       }
 
       this.options.params = params;
+      this.addAriaLabel();
       this.postRender();
 
       return this;

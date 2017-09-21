@@ -15,7 +15,7 @@ function (_, TemplateUtil, BasePicker) {
         {{#if description}}\
           {{description}}\
         {{else}}\
-          {{i18n code="oform.groupselect.no_description" bundle="messages"}}\
+          {{i18n code="oform.groupselect.no_description" bundle="courage"}}\
         {{/if}}</span>\
         <ul class="group-desc-stats">\
           <li class="icon-16"><span class="icon person-16-gray"></span>{{usersCount}}</li>\
@@ -74,7 +74,11 @@ function (_, TemplateUtil, BasePicker) {
 
     constructor: function () {
       BasePicker.apply(this, arguments);
-      this.extraParams.filter = this.getParam('filter');
+      if (this.getParam('filter')) {
+        this.extraParams = _.extend({}, this.extraParams, {
+          filter: this.getParam('filter')
+        });
+      }
       this.keepEmpty = this.getParam('keepEmpty');
     },
 

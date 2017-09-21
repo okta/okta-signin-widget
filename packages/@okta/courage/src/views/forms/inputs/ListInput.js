@@ -52,10 +52,10 @@ define([
 
   var AddNewItemButton = ButtonFactory.create({
     title: function () {
-      return this.options.params.addLabel || StringUtil.localize('oform.add.another');
+      return this.options.params.addLabel || StringUtil.localize('oform.add.another', 'courage');
     },
 
-    icon: 'add-16',
+    icon: 'add-16-thin',
     readMode: hideOnReadMode,
 
     click: function () {
@@ -78,7 +78,7 @@ define([
 
       if (_.isNumber(maxItems)) {
         var tooltipText = this.options.params.maxItemsTooltip ||
-                          StringUtil.localize('oform.listInput.maxItems', 'messages', [maxItems]);
+                          StringUtil.localize('oform.listInput.maxItems', 'courage', [maxItems]);
 
         this.$el.qtip({
           style: {
@@ -101,7 +101,7 @@ define([
 
   var RemoveItemButton = BaseView.extend({
     tagName: 'td',
-    className: 'list-input-cell list-input-button',
+    className: 'list-input-button',
     children: [
       ButtonFactory.create({
         icon: 'cancel-16',
@@ -256,7 +256,7 @@ define([
       this._updateRowsCanBeRemoved();
 
       this.model.trigger('form:resize');
-      this.focus();
+      _.defer(this.focus.bind(this));
     },
 
     focus: function () {

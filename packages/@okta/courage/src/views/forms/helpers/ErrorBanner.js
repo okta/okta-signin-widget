@@ -6,7 +6,7 @@ define(['shared/views/BaseView'], function (BaseView) {
       {{#if errorSummary}}\
         <p>{{errorSummary}}</p>\
       {{else}}\
-        <p>{{i18n code="oform.errorbanner.title"}}</p>\
+        <p>{{i18n code="oform.errorbanner.title" bundle="courage"}}</p>\
       {{/if}}\
     </div>\
   ';

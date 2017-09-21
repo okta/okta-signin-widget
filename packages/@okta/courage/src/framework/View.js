@@ -336,7 +336,15 @@
             constructor: function () {
               try {
                 var $el = Backbone.$(template);
+
                 if ($el.length != 1) { throw 'invalid Element'; }
+
+                var unescapingRexExp = /&(\w+|#x\d+);/g;
+                var elementUnescapedOuterHTMLLength = $el.prop('outerHTML').replace(unescapingRexExp, ' ').length;
+                var templateUnescapedLength = template.replace(unescapingRexExp, ' ').length;
+
+                if (elementUnescapedOuterHTMLLength !== templateUnescapedLength) { throw 'invalid Element'; }
+
                 this.template = $el.html();
                 this.el = $el.empty()[0];
               }

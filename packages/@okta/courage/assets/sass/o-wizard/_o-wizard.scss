@@ -53,11 +53,23 @@ $o-wizard-step-title: #5d5d5d;
   .o-wizard-step-title h2 {
     color: $o-wizard-step-title;
     font-size: 20px;
+    margin-left: 5px;
   }
 
   .o-wizard-step-content {
     min-height: 150px;
     margin: 0 20px;
+  }
+
+  &.o-wizard-progressbar-has-labels {
+    .o-wizard-progressbar-wrap {
+      padding-bottom: 75px;
+    }
+  }
+
+  .o-wizard-step-label {
+    margin: 0;
+    padding: 0;
   }
 
   .o-wizard-progressbar-wrap {
@@ -228,9 +240,21 @@ $o-wizard-step-title: #5d5d5d;
     }
   }
 
+  .o-wizard-content-wrap {
+    margin: 5px;
+  }
+
   .o-wizard-button-bar {
     padding-top: 20px;
     margin-top: 20px;
     border-top: 1px solid $o-wizard-dark-grey;
+
+    .link-button {
+      min-width: 100px;
+
+      &.next {
+        float: right;
+      }
+    }
   }
 }

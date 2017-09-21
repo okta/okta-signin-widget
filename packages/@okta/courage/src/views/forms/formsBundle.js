@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 34] */
+/* eslint max-params: [2, 35] */
 define([
   './BaseForm',
   './BaseInput',
@@ -33,13 +33,14 @@ define([
   './inputs/TextArea',
   './inputs/TextBox',
   './inputs/TextBoxSet',
-  './inputs/TextSelect'
+  './inputs/TextSelect',
+  './inputs/BaseSelectize'
 ],
 function (BaseForm, BaseInput, TextCounterExplain, WizardTitle, EnumTypeHelper, ErrorBanner, ErrorParser, FormUtil, 
   InputContainer, InputFactory, InputLabel, InputWrapper, SchemaFormFactory, BaseFileUploader, BasePicker, 
   BooleanSelect, CertificationFileUploader, CheckBox, CheckBoxSet, DateBox, DateTimePicker, DeletableBox, GroupPicker, 
   GroupSelect, IdpPicker, NumberBox, Radio, ScopesPicker, Select, SimpleCheckBoxSet, TextArea, TextBox, TextBoxSet, 
-  TextSelect) {
+  TextSelect, BaseSelectize) {
 
   return {
 
@@ -118,7 +119,9 @@ function (BaseForm, BaseInput, TextCounterExplain, WizardTitle, EnumTypeHelper, 
 
       TextBoxSet: TextBoxSet,
 
-      TextSelect: TextSelect
+      TextSelect: TextSelect,
+
+      BaseSelectize: BaseSelectize
 
     }
 

@@ -10,7 +10,7 @@ function (_, TemplateUtil, BaseSelect, StringUtil, select2) {
   var selectOptionTemplate = TemplateUtil.tpl('\
     <div class="clearfix">\
       <span class="link-button link-button-small">\
-        {{i18n code="oform.groupselect.add" bundle="messages"}}\
+        {{i18n code="oform.groupselect.add" bundle="courage"}}\
       </span>\
       <div class="group-medium-app-logo-wrapper"><img class="app-logo" src="{{mediumIconUrl}}"/></div>\
       <div class="group-desc">\
@@ -19,7 +19,7 @@ function (_, TemplateUtil, BaseSelect, StringUtil, select2) {
         {{#if description}}\
           {{description}}\
         {{else}}\
-          {{i18n code="oform.groupselect.no_description" bundle="messages"}}\
+          {{i18n code="oform.groupselect.no_description" bundle="courage"}}\
         {{/if}}</span>\
         <ul class="group-desc-stats">\
           <li class="icon-16"><span class="icon person-16-gray"></span>{{usersCount}}</li>\
@@ -59,8 +59,8 @@ function (_, TemplateUtil, BaseSelect, StringUtil, select2) {
       expand: 'stats,app',
       limit: 10
     },
-    placeholder: StringUtil.localize('oform.groupselect.placeholder', 'messages'),
-    formatInputTooShort: StringUtil.localize('oform.groupselect.short_input', 'messages'),
+    placeholder: StringUtil.localize('oform.groupselect.placeholder', 'courage'),
+    formatInputTooShort: StringUtil.localize('oform.groupselect.short_input', 'courage'),
 
     /**
     * @Override

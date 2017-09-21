@@ -9,7 +9,7 @@
 input.button-deny,
 .button-error,
 input.button-error {
-  @include dark-btn-theme($btn-bg-color-danger, true);
+  @include dark-btn-theme($btn-bg-color-danger, true, '!important');
 }
 
 .button-secondary,

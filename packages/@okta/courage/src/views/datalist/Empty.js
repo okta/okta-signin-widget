@@ -81,8 +81,8 @@ function (_, TemplateUtil, BaseView, StringUtil) {
           catch (e) {}
         }
         this.__doRender(
-          StringUtil.localize('datalist.error_title'),
-          _.isString(message) ? message : StringUtil.localize('datalist.error_subtitle')
+          StringUtil.localize('datalist.error_title', 'courage'),
+          _.isString(message) ? message : StringUtil.localize('datalist.error_subtitle', 'courage')
         );
       }
     },
@@ -103,7 +103,7 @@ function (_, TemplateUtil, BaseView, StringUtil) {
       if (res === false) {
         return '';
       }
-      return this.state.get('empty.' + str) || res || StringUtil.localize('datalist.empty_' + str);
+      return this.state.get('empty.' + str) || res || StringUtil.localize('datalist.empty_' + str, 'courage');
     },
 
     /**
