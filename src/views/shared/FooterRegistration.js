@@ -33,9 +33,9 @@ define([
         clickHandler();
       }
       // If no click handler, then do nothing for now. Once API is ready we can proceed to another view
-      // else {
-      //   this.options.appState.trigger('navigate', 'signin/register');
-      // }
+      else {
+        this.options.appState.trigger('navigate', 'signin/register');
+      }
       return false;
     },
 

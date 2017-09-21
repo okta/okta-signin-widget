@@ -1,11 +1,11 @@
 /* eslint max-statements: [2, 15], complexity: [2, 8] */
 define([
   'okta/underscore',
-  'shared/framework/Collection',
+  'shared/models/BaseCollection',
   'shared/models/BaseModel',
   'shared/util/Logger',
   'shared/util/SchemaUtil'
-], function (_, Collection, BaseModel, Logger, SchemaUtil) {
+], function (_, BaseCollection, BaseModel, Logger, SchemaUtil) {
 
   var STRING = SchemaUtil.STRING,
       NUMBER = SchemaUtil.NUMBER,
@@ -14,6 +14,40 @@ define([
   var getArrayTypeName = function (type, elementType) {
     return type + 'of' + elementType;
   };
+
+  var SubSchema = BaseModel.extend({
+    defaults: {
+      description: undefined,
+      minLength: undefined,
+      maxLength: undefined,
+      format: undefined
+    },
+    parse: function (resp) {
+      if (_.isString(resp.format)) {
+        var matcher = /^\/(.+)\/$/.exec(resp.format);
+        if (matcher) {
+          resp.format = matcher[1];
+        }
+      }
+      return resp;
+    }
+  });
+
+  var SubSchemaCollection = BaseCollection.extend({
+    model: SubSchema
+  });
+
+  var SubSchemaAllOfCollection = SubSchemaCollection.extend({
+    _type: 'allOf'
+  });
+
+  var SubSchemaOneOfCollection = SubSchemaCollection.extend({
+    _type: 'oneOf'
+  });
+
+  var SubSchemaNoneOfCollection = SubSchemaCollection.extend({
+    _type: 'noneOf'
+  });
 
   var SchemaProperty = BaseModel.extend({
 
@@ -37,6 +71,7 @@ define([
       format: undefined,
       // choose disable option be default.
       union: undefined,
+      subSchemas: undefined,
       settings: {permissions: {SELF: SchemaUtil.PERMISSION.READ_ONLY}},
       '__isSensitive__': BaseModel.ComputedProperty(['settings'], function (settings) {
         return !!(settings && settings.sensitive);
@@ -99,6 +134,7 @@ define([
         resp['__userPermission__'] = resp.settings.permissions.SELF;
       }
       this._setMasterOverride(resp);
+      this._setSubSchemas(resp);
       return resp;
     },
 
@@ -227,6 +263,16 @@ define([
       }
     },
 
+    _setSubSchemas: function (resp) {
+      if (resp.allOf) {
+        resp['subSchemas'] = new SubSchemaAllOfCollection(resp.allOf, { parse: true});
+      } else if (resp.oneOf) {
+        resp['subSchemas'] = new SubSchemaOneOfCollection(resp.oneOf, { parse: true});
+      } else if (resp.noneOf) {
+        resp['subSchemas'] = new SubSchemaNoneOfCollection(resp.noneOf, { parse: true});
+      }
+    },
+
     _updateDisplayType: function () {
       var type = this.get('type');
       if (type === STRING && this.get('format')) {
@@ -267,7 +313,7 @@ define([
         json.settings.masterOverride = {type: 'OKTA_MASTERED'};
       } else if (masterOverrideType === 'OVERRIDE') {
         json.settings.masterOverride = {type: 'ORDERED_LIST', value: []};
-        if (masterOverrideValue instanceof Collection) {
+        if (masterOverrideValue instanceof BaseCollection) {
           _.each(masterOverrideValue.toJSON(), function (overrideProfile) {
             json.settings.masterOverride.value.push(overrideProfile.id);
           });
@@ -408,12 +454,15 @@ define([
     },
 
     getEnumValues: function () {
-      return this.get('enum') || (this.get('items') && this.get('items')['enum']);
+      return this.get('oneOf') ||
+             this.get('enum') ||
+             (this.get('items') && this.get('items')['oneOf']) ||
+             (this.get('items') && this.get('items')['enum']);
     }
 
   });
 
-  var SchemaProperties = Collection.extend({
+  var SchemaProperties = BaseCollection.extend({
     model: SchemaProperty,
     clone: function () {
       return new this.constructor(this.toJSON({verbose: true}), {parse: true});

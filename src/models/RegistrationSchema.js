@@ -12,29 +12,12 @@
 
 define([
   'okta',
-  'util/PasswordComplexityUtil',
   'shared/models/BaseSchema',
   'shared/models/SchemaProperty'
 ],
-function (Okta, PasswordComplexityUtil, BaseSchema, SchemaProperty) {
+function (Okta, BaseSchema, SchemaProperty) {
 
   var _ = Okta._;
-
-  var PasswordComplexityModel = Okta.Model.extend({
-    props: PasswordComplexityUtil.modelProps,
-
-    parse: function (resp) {
-      var parsed = Okta.Model.prototype.parse.apply(this, [resp]);
-      this.enabledComplexities = [];
-      _.map(parsed, function(value, key) {
-        if (PasswordComplexityUtil.complexities[key].isEnabled(value)){
-          this.enabledComplexities.push(key);
-        }
-      }, this);
-
-      return parsed;
-    }
-  });
 
   var RegistrationSchemaPropertyCollection = SchemaProperty.Collection.extend({
     createModelProperties: function () {
@@ -49,42 +32,50 @@ function (Okta, PasswordComplexityUtil, BaseSchema, SchemaProperty) {
   return BaseSchema.Model.extend({
     expand: ['schema'],
 
+    _preRender: _.identity,
+
     constructor: function () {
       this.properties = new RegistrationSchemaPropertyCollection();
       Okta.BaseModel.apply(this, arguments);
     },
 
     parse: function (resp) {
-      var parsed = BaseSchema.Model.prototype.parse.apply(this, [resp]);
 
-      var requireFields = resp.schema.required;
-      if (_.isArray(requireFields)) {
-        _.each(requireFields, function(requireField) {
-          var field = this.properties.get(requireField);
-          if (field) {
-            field.set('required', true);
-          }
-        }, this);
-      }
+      var parseResponseData = _.bind(function (resp) {
+        var requireFields = resp.schema.required;
+        if (_.isArray(requireFields)) {
+          _.each(requireFields, function(requireField) {
+            var field = this.properties.get(requireField);
+            if (field) {
+              field.set('required', true);
+            }
+          }, this);
+        }
 
-      var fieldOrderIds = resp.schema.fieldOrder;
-      if (_.isArray(fieldOrderIds)) {
-        _.each(fieldOrderIds, function(fieldOrderId, sortOrder) {
-          var field = this.properties.get(fieldOrderId);
-          if (field) {
-            field.set('sortOrder', sortOrder);
-          }
-        }, this);
-        this.properties.comparator = 'sortOrder';
-        this.properties.sort();
-      }
-
-      if (_.isObject(resp.passwordComplexity)) {
-        this.passwordComplexity = new PasswordComplexityModel(resp.passwordComplexity, {parse:true});
-        parsed =  _.omit(parsed, 'passwordComplexity');
+        var fieldOrderIds = resp.schema.fieldOrder;
+        if (_.isArray(fieldOrderIds)) {
+          _.each(fieldOrderIds, function(fieldOrderId, sortOrder) {
+            var field = this.properties.get(fieldOrderId);
+            if (field) {
+              field.set('sortOrder', sortOrder);
+            }
+          }, this);
+          this.properties.comparator = 'sortOrder';
+          this.properties.sort();
+        }
+        return resp;
+      }, this);
+      
+      if (_.isFunction(this.preRender)) {
+        this.preRender(resp, _.bind(function(updatedResponse) {
+          resp.schema = updatedResponse.profileSchema;
+        }, this));
       } else {
-        this.passwordComplexity = new PasswordComplexityModel({}, {parse:true});
+        resp.schema = resp.profileSchema;
       }
+      var parsed = BaseSchema.Model.prototype.parse.apply(this, [resp]);
+      resp = parseResponseData(resp);
+      
       return parsed;
     }
   });

@@ -7,11 +7,11 @@ define([
 
     template: '\
     {{#if hasRemaining}}\
-      {{i18n code="characters.remaining" bundle="messages" arguments="count"}}\
+      {{i18n code="characters.remaining" bundle="courage" arguments="count"}}\
     {{/if}}\
     {{#unless hasRemaining}}\
       <div class="o-form-text-counter-over">\
-        {{i18n code="characters.over" bundle="messages" arguments="count"}}\
+        {{i18n code="characters.over" bundle="courage" arguments="count"}}\
       </div>\
     {{/unless}}',
 

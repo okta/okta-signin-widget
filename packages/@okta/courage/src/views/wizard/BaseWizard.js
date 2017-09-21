@@ -75,6 +75,7 @@ function ($, _, BaseView, BaseForm, WizardProgressBar, WizardStateMachine, Wizar
      *   steps: [
      *     {
      *       title: 'Step 1',
+     *       label: 'Label underneath step number',
      *       view: Okta.View.extend({
      *         // Define a next function to tell the wizard what to do before proceeding to the next step.
      *         // if no next method is defined, the wizard will just move to the next step.
@@ -176,9 +177,9 @@ function ($, _, BaseView, BaseForm, WizardProgressBar, WizardStateMachine, Wizar
       <div class="o-wizard-progressbar-wrap">\
         <div class="o-wizard-progressbar-line"></div>\
       </div>\
-      <div class="o-wizard-step-title"></div>\
-      <div class="o-wizard-step-content"></div>\
-      <div class="o-wizard-button-bar"></div>\
+      <div class="o-wizard-step-content">\
+        <div class="o-wizard-step-title"></div>\
+      </div>\
     ',
 
     getCurrentView: function () {
@@ -190,8 +191,7 @@ function ($, _, BaseView, BaseForm, WizardProgressBar, WizardStateMachine, Wizar
     __goToNextStep: function () {
       var state = this.wizardState;
       return $.when(getNext(this.getCurrentView()))
-        .then(_.bind(state.nextStep, state))
-        .fail(function () {
+        .then(_.bind(state.nextStep, state), function () {
           state.trigger('wizard:error');
           state.set('error', true);
         });
@@ -205,19 +205,24 @@ function ($, _, BaseView, BaseForm, WizardProgressBar, WizardStateMachine, Wizar
 
     __init: function () {
       /* eslint max-statements: 0 */
+      var steps = _.result(this, 'steps');
       this.wizardState = this.options.wizardState = new WizardStateMachine(null, {
-        steps: _.result(this, 'steps')
+        steps: steps
       });
 
       this.$el.addClass('o-wizard o-wizard-progressbar-steps-' + this.wizardState.getMajorSteps().length);
 
       this.options.save = _.result(this, 'save');
 
+      this.$el.toggleClass('o-wizard-progressbar-has-labels', _.any(this.steps, function (step) {
+        return step.label;
+      }));
+
       WizardHelper.addIf(this, 'title', '.o-wizard-title');
       this.add(WizardProgressBar, '.o-wizard-progressbar-wrap');
       this.add(WizardStepTitle, '.o-wizard-step-title');
       this.add(WizardContent, '.o-wizard-step-content');
-      this.add(WizardButtonBar, '.o-wizard-button-bar');
+      this.add(WizardButtonBar, '.o-wizard-step-content');
 
       this.listenTo(this.wizardState, 'wizard:prev', function () {
         this.__goToPrevStep(this.wizardState);
@@ -238,6 +243,10 @@ function ($, _, BaseView, BaseForm, WizardProgressBar, WizardStateMachine, Wizar
         this.trigger('cancel');
       });
 
+      this.listenTo(this.wizardState, 'change:step', function () {
+        this.$el.attr('data-step', this.wizardState.get('step'));
+      });
+      this.$el.attr('data-step', this.wizardState.get('step'));
     },
 
     constructor: function () {

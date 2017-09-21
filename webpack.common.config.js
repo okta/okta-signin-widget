@@ -2,6 +2,7 @@ var path      = require('path');
 var EMPTY     = 'widget/empty';
 var TARGET_JS = path.resolve(__dirname, 'target/js/');
 var SHARED_JS = TARGET_JS + '/shared';
+var VENDOR = path.resolve(__dirname, 'packages/@okta/courage/src/vendor');
 
 // Return a function so that all consumers get a new copy of the config
 module.exports = function (outputFilename) {
@@ -22,7 +23,10 @@ module.exports = function (outputFilename) {
         'okta/jquery': SHARED_JS + '/util/jquery-wrapper',
         'okta/underscore': SHARED_JS + '/util/underscore-wrapper',
         'okta/handlebars': 'handlebars/dist/handlebars',
+        'okta/moment-tz': VENDOR + '/lib/moment-timezone-with-data-2010-2020',
         'okta/moment': 'moment/moment',
+        'mixpanel-browser': SHARED_JS + '/util/mixpanel-factory',
+        'selectize': VENDOR + '/lib/selectize',
         'okta/jqueryui': EMPTY,
         'okta': 'shared/util/Okta',
         'shared/util/Bundles': 'util/Bundles',
@@ -31,6 +35,7 @@ module.exports = function (outputFilename) {
         // module in our package.json dependencies
         'vendor/lib/q': 'q',
         'vendor/plugins/jquery.placeholder': 'jquery-placeholder',
+        'vendor/plugins/jquery.autosuggest-1.4.min': VENDOR + '/plugins/jquery.autosuggest-1.4.min',
         'handlebars': 'handlebars/dist/handlebars',
         'qtip': '@okta/qtip2',
 
@@ -44,8 +49,8 @@ module.exports = function (outputFilename) {
         // Note: If the module is included relatively in the source file,
         // override it in the null-loader configs below.
         'jqueryui': EMPTY,
-        'mixpanel': EMPTY,
-        'selectize': EMPTY,
+        //'mixpanel': EMPTY,
+        //'selectize': EMPTY,
         'shared/util/Bundle.js': EMPTY,
         'shared/views/datalist/DeadSimpleDataList': EMPTY,
         'shared/views/Backbone.TableView': EMPTY,
@@ -87,7 +92,7 @@ module.exports = function (outputFilename) {
             'views/forms/inputs/ScopesPicker',
             'views/forms/inputs/SUOrgsPicker',
             'views/forms/inputs/UserPicker',
-            'views/forms/inputs/BasePicker',
+            //'views/forms/inputs/BasePicker',
             'views/forms/inputs/ZonePicker',
             'views/forms/inputs/TextArea',
             'views/forms/inputs/TextPlusSelect',

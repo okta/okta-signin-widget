@@ -2,7 +2,7 @@
 define([
   'okta/jquery',
   'okta/underscore',
-  'mixpanel',
+  'mixpanel-browser',
   './Class',
   './Logger',
   './TemplateUtil'

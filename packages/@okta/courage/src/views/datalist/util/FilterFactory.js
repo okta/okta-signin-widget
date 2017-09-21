@@ -83,7 +83,7 @@ function (_, Backbone, Logger, StringUtil, BaseForm, Sidebar, SidebarFilterSet, 
 
         autoBind: true,
 
-        save: StringUtil.localize('datalist.apply_filter'),
+        save: StringUtil.localize('datalist.apply_filter', 'courage'),
 
         noButtonBar: true,
 
@@ -130,15 +130,24 @@ function (_, Backbone, Logger, StringUtil, BaseForm, Sidebar, SidebarFilterSet, 
      * @private
      * @static
      * @param  {Object} options options hash
+     * @param  {String} filters.className The class for the filter set
      * @param  {String} filters.label The label for the filter set
      * @param  {String} filters.field The state field this filter-set operates on
      * @param  {String} [filters.autoBind] should the filter-set "disable" and reset when the "search" field is changed
+     * @param  {Object} filters.attributes The attributes for the filter set
      * @param  {Object} filters.options a value -> label set of filters
      * @return {SidebarFilterSet} The SidebarFilterSet
      */
     __createFilterSet: function (options) {
+      var className = SidebarFilterSet.prototype.className;
+      if (!_.isEmpty(options.className)) {
+        className = className + ' ' + options.className;
+      }
+      var attributes = _.extend({}, SidebarFilterSet.prototype.attributes, options.attributes);
       return SidebarFilterSet.extend({
+        className: className,
         title: options.label,
+        attributes: attributes,
         autoBind: !_.isUndefined(options.autoBind) ? options.autoBind : SidebarFilterSet.prototype.autoBind,
         initialize: function () {
           _.each(_.result(options, 'options'), function (value, key) {
