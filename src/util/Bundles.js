@@ -189,6 +189,10 @@ define([
   return {
     login: login,
     country: country,
+    // Courage components within the sign in widget point to courage bundle to look
+    // up i18nkeys. Since we dont have courage.properties inside the sign in widget
+    // we are pointing courage bundle to login.
+    courage: login,
 
     currentLanguage: null,
 

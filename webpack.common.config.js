@@ -2,6 +2,7 @@ var path      = require('path');
 var EMPTY     = 'widget/empty';
 var TARGET_JS = path.resolve(__dirname, 'target/js/');
 var SHARED_JS = TARGET_JS + '/shared';
+var VENDOR = path.resolve(__dirname, 'packages/@okta/courage/src/vendor');
 
 // Return a function so that all consumers get a new copy of the config
 module.exports = function (outputFilename) {
@@ -23,6 +24,7 @@ module.exports = function (outputFilename) {
         'okta/underscore': SHARED_JS + '/util/underscore-wrapper',
         'okta/handlebars': 'handlebars/dist/handlebars',
         'okta/moment': 'moment/moment',
+        'okta/moment-tz': VENDOR + '/lib/moment-timezone-with-data-2010-2020',
         'okta/jqueryui': EMPTY,
         'okta': 'shared/util/Okta',
         'shared/util/Bundles': 'util/Bundles',
@@ -44,7 +46,6 @@ module.exports = function (outputFilename) {
         // Note: If the module is included relatively in the source file,
         // override it in the null-loader configs below.
         'jqueryui': EMPTY,
-        'mixpanel': EMPTY,
         'selectize': EMPTY,
         'shared/util/Bundle.js': EMPTY,
         'shared/views/datalist/DeadSimpleDataList': EMPTY,
@@ -57,8 +58,9 @@ module.exports = function (outputFilename) {
         'shared/views/components/MultiViewModalDialog': EMPTY,
         'shared/views/components/DropDown': EMPTY,
         'shared/util/markdownToHtml': EMPTY,
-        'shared/util/Metrics': EMPTY,
         'shared/views/wizard/BaseWizard': EMPTY,
+        'shared/framework/frameworkBundle': EMPTY,
+        'shared/models/modelsBundle': EMPTY,
         'vendor/plugins/vkbeautify.0.99.00.beta': EMPTY
       }
     },
@@ -77,6 +79,7 @@ module.exports = function (outputFilename) {
           loader: 'null-loader',
           include: [
             'util/TimezoneUtil',
+            'util/Metrics',
             'views/Backbone.TableVie',
             'views/datalist/SimpleDataList',
             'views/datalist/Table',
@@ -88,6 +91,7 @@ module.exports = function (outputFilename) {
             'views/forms/inputs/SUOrgsPicker',
             'views/forms/inputs/UserPicker',
             'views/forms/inputs/BasePicker',
+            'views/forms/inputs/BaseSelectize',
             'views/forms/inputs/ZonePicker',
             'views/forms/inputs/TextArea',
             'views/forms/inputs/TextPlusSelect',

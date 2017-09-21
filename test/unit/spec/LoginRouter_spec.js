@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 30], max-statements: [2, 36], max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 31], max-statements: [2, 37], max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -6,6 +6,7 @@ define([
   'shared/util/Util',
   'util/CryptoUtil',
   'util/CookieUtil',
+  'util/Logger',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/util/Expect',
@@ -31,7 +32,7 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
+function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAuth, Util, Expect, Router,
           $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
           resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
           resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp, Errors, BrowserFeatures,
@@ -164,13 +165,21 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
       });
     }
 
+    function expectUnexpectedFieldLog(arg1) {
+      expect(Logger.warn).toHaveBeenCalledWith('Field not defined in schema', arg1);
+    }
+
     it('throws a ConfigError if unknown option is passed as a widget param', function () {
+      spyOn(Logger, 'warn');
       var fn = function () { setup({ foo: 'bla' }); };
-      expect(fn).toThrowError(Errors.ConfigError);
+      expect(fn).not.toThrow(Errors.ConfigError);
+      expectUnexpectedFieldLog('foo');
     });
     it('has the correct error message if unknown option is passed as a widget param', function () {
+      spyOn(Logger, 'warn');
       var fn = function () { setup({ foo: 'bla' }); };
-      expect(fn).toThrowError('field not allowed: foo');
+      expect(fn).not.toThrow();
+      expectUnexpectedFieldLog('foo');
     });
     it('throws a ConfigError if el is not passed as a widget param', function () {
       var fn = function () { setup({ el: undefined }); };
@@ -280,18 +289,18 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
       var fn = function () {
         setup({ foo: 'bar' });
       };
-      expect(fn).toThrowError('field not allowed: foo');
+      spyOn(Logger, 'warn');
+      expect(fn).not.toThrow('field not allowed: foo');
+      expectUnexpectedFieldLog('foo');
     });
     it('calls globalErrorFn on unrecoverable errors if it is defined', function () {
       var errorSpy = jasmine.createSpy('errorSpy');
+      spyOn(Logger, 'warn');
       var fn = function () {
         setup({ globalErrorFn: errorSpy, foo: 'bar' });
       };
       expect(fn).not.toThrow();
-      var err = errorSpy.calls.mostRecent().args[0];
-      expect(err instanceof Errors.ConfigError).toBe(true);
-      expect(err.name).toBe('CONFIG_ERROR');
-      expect(err.message).toEqual('field not allowed: foo');
+      expectUnexpectedFieldLog('foo');
     });
     it('calls globalErrorFn if cors is not supported by the browser', function () {
       var errorSpy = jasmine.createSpy('errorSpy');
