@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 16], max-statements: [2, 23] */
+/* eslint max-params: [2, 16], max-statements: [2, 26] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -176,6 +176,25 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           });
         });
       });
+      itp('sends email when pressing enter if Email is the only factor', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeEmail);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForUnlockEmailSent();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/unlock',
+            data: {
+              'username': 'foo',
+              'factorType': 'EMAIL'
+            }
+          });
+        });
+      });
       itp('calls the transformUsername function with the right parameters', function () {
         return setupWithTransformUsername().then(function (test) {
           spyOn(test.router.settings, 'transformUsername');
@@ -298,6 +317,46 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           test.form.setUsername('foo');
           test.form.sendSms();
           return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/unlock',
+            data: {
+              'username': 'foo',
+              'factorType': 'SMS'
+            }
+          });
+        });
+      });
+      itp('sends sms when pressing enter if SMS is the only factor', function () {
+        return setupWithSmsWithoutEmail().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/unlock',
+            data: {
+              'username': 'foo',
+              'factorType': 'SMS'
+            }
+          });
+        });
+      });
+      itp('sends sms when pressing enter if SMS is the first factor of the list', function () {
+        return setupWithSms().then(function (test) {
+          expect(test.form.hasSmsButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(true);
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForRecoveryChallenge();
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);

@@ -118,6 +118,10 @@ define(['./Form'], function (Form) {
 
     clickSendEmailLink: function () {
       this.sendEmailLink().click();
+    },
+
+    pressEnter: function () {
+      this.$('form.o-form').submit();
     }
 
   });
