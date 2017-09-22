@@ -58,7 +58,7 @@ define([
 
     getTemplateData: function () {
       return {
-        browseFilesTitle: StringUtil.localize('oform.browse.files'),
+        browseFilesTitle: StringUtil.localize('oform.browse.files', 'courage'),
         accept: createAcceptFileTypes(this.options.fileTypes),
         multiple: this.options.multi,
         placeholder: this.options.placeholder
@@ -114,7 +114,7 @@ define([
       if (files.length + this.collection.length > maxItems) {
         this.trigger(
           'error',
-          StringUtil.localize('oform.file.upload.too.many.files', 'messages', [maxItems])
+          StringUtil.localize('oform.file.upload.too.many.files', 'courage', [maxItems])
         );
         return;
       }

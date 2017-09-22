@@ -92,8 +92,8 @@ function (_, StringUtil) {
       ENABLE: 'ENABLE'
     },
     UNION_OPTIONS: {
-      'DISABLE': loc('universal-directory.profiles.attribute.form.union.enable.display'),
-      'ENABLE': loc('universal-directory.profiles.attribute.form.union.disable.display')
+      'DISABLE': loc('universal-directory.profiles.attribute.form.union.enable.display', 'courage'),
+      'ENABLE': loc('universal-directory.profiles.attribute.form.union.disable.display', 'courage')
     },
     PERMISSION: {
       HIDE: 'HIDE',
@@ -102,14 +102,14 @@ function (_, StringUtil) {
       READ_WRITE: 'READ_WRITE'
     },
     ENDUSER_ATTRIBUTE_PERMISSION_OPTIONS: {
-      HIDE: loc('universal-directory.profiles.attribute.enduser.permission.hide'),
-      READ_ONLY: loc('universal-directory.profiles.attribute.enduser.permission.readonly'),
-      READ_WRITE: loc('universal-directory.profiles.attribute.enduser.permission.readwrite')
+      HIDE: loc('universal-directory.profiles.attribute.enduser.permission.hide', 'courage'),
+      READ_ONLY: loc('universal-directory.profiles.attribute.enduser.permission.readonly', 'courage'),
+      READ_WRITE: loc('universal-directory.profiles.attribute.enduser.permission.readwrite', 'courage')
     },
     ATTRIBUTE_LEVEL_MASTERING_OPTIONS: {
-      INHERIT: loc('universal-directory.profiles.attribute.master.inherit'),
-      OKTA_MASTERED: loc('universal-directory.profiles.attribute.master.oktamastered'),
-      OVERRIDE: loc('universal-directory.profiles.attribute.master.override')
+      INHERIT: loc('universal-directory.profiles.attribute.master.inherit', 'courage'),
+      OKTA_MASTERED: loc('universal-directory.profiles.attribute.master.oktamastered', 'courage'),
+      OVERRIDE: loc('universal-directory.profiles.attribute.master.override', 'courage')
     },
     USERNAMETYPE: {
       NONE: 'non-username',

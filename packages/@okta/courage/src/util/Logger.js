@@ -1,7 +1,7 @@
 define(function () {
 
   function log(level, args) {
-    if (window.console) {
+    if (window.console && window.okta && window.okta.debug) {
       window.console[level].apply(window.console, args);
     }
   }

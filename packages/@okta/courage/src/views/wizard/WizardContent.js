@@ -6,6 +6,8 @@ define([
 function (_, BaseView, BaseForm) {
 
   return BaseView.extend({
+    className: 'o-wizard-content-wrap',
+
     wizardStateEvents: {
       'change:step': 'render'
     },
@@ -33,14 +35,32 @@ function (_, BaseView, BaseForm) {
       else {
         View = currentStep.view;
       }
-      this.add(View);
+
+      function toggleButton(action) {
+        return function (button) {
+          _.defer(function () {
+            state.trigger([button, action].join(':'));
+          });
+        };
+      }
+
+      _.extend(View.prototype, {
+        enableButton: toggleButton('enable'),
+        disableButton: toggleButton('disable')
+      });
+
+      this.add(View, {
+        options: {
+          model: currentStep.model && this.options[currentStep.model] || this.model,
+          collection: currentStep.collection && this.options[currentStep.collection] || this.collection
+        }
+      });
 
       this.postRender = postRender;
       this.postRender();
 
       return this;
-    },
-    className: 'margin-5'
+    }
   });
 
 });
