@@ -18,8 +18,6 @@ define([
 ],
 function (Okta, Enums, FormController, FormType) {
 
-  var _ = Okta._;
-
   return FormController.extend({
     events: {
       'click .back-btn' : function (e) {
@@ -51,10 +49,9 @@ function (Okta, Enums, FormController, FormType) {
               ',
               getTemplateData: function () {
                 var email = this.options.appState.get('username');
-                var title = _.partial(Okta.loc, 'registration.complete.title', 'login');
                 return { 
                   'desc': Okta.loc('registration.complete.desc', 'login', [email]),
-                  'title': title
+                  'title': Okta.loc('registration.complete.title', 'login')
                 };
               }
             })

@@ -87,6 +87,9 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
 
   function setup(settings) {
     settings || (settings = {});
+    settings.registration = {
+      'clientId': '1234'
+    };
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});

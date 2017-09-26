@@ -62,6 +62,9 @@ function (
     className: 'registration',
     initialize: function() {
       var clientId = this.options.settings.get('registration.clientId');
+      if (!clientId) {
+        return false;
+      }
       var Schema = RegistrationSchema.extend({
         url: this.options.settings.get('baseUrl')+'/api/v1/registration/'+clientId+'/form'
       });
@@ -125,10 +128,9 @@ function (
         this.addListeners();
       }, this);
 
-      schema.fetch().then(
-        _.bind(function() {
-          postSchemaFetch();
-        }, this));
+      schema.fetch().then(function(){
+        postSchemaFetch();
+      });
     },
     Footer: Footer
   });
