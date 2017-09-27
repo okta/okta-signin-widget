@@ -62,21 +62,20 @@ function (
     className: 'registration',
     initialize: function() {
       var clientId = this.options.settings.get('registration.clientId');
+      var registrationApi = this.options.settings.get('baseUrl')+'/api/v1/registration/'+clientId;
+
       if (!clientId) {
         return false;
       }
       var Schema = RegistrationSchema.extend({
-        url: this.options.settings.get('baseUrl')+'/api/v1/registration/'+clientId+'/form'
+        url: registrationApi+'/form'
       });
       
       var schema = new Schema();
 
-      var postSchemaFetch = _.bind(function(){
-        var properties = schema.properties;
-        var modelProperties = properties.createModelProperties();
-        var clientId = this.options.settings.get('registration.clientId');
+      var createRegistrationModel = _.bind(function(modelProperties){
         var Model = Okta.Model.extend({
-          url: this.options.settings.get('baseUrl')+'/api/v1/registration/'+clientId+'/register',
+          url: registrationApi+'/register',
           settings: this.settings,
           appState: this.options.appState,
           props: modelProperties,
@@ -93,7 +92,14 @@ function (
             return resp;
           }
         });
-        this.model = new Model();
+        return new Model();
+      }, this);
+
+      var postSchemaFetch = _.bind(function(){
+        var properties = schema.properties;
+        var modelProperties = properties.createModelProperties();
+
+        this.model = createRegistrationModel(modelProperties);
 
         var form = new Form(this.toJSON());
 

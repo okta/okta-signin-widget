@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 17], max-statements:[2, 33] */
+/* eslint max-params: [2, 17], max-statements:[2, 70] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -250,7 +250,7 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
           expect(test.form.isPasswordComplexitySectionHidden('4')).toBe(false);
         });
       });
-      itp('shows password complexity error if password contains part of the username', function () {
+      itp('shows error if password contains part of the username:testing', function () {
         return setup().then(function (test) {
           test.form.setEmail('testing');
           test.form.setPassword('Testing1234');
@@ -269,6 +269,78 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
           test.form.focusOutPassword();
           expect(test.form.passwordContainsUsernameError()).toBe(true);
           test.form.setPassword('12testingaBtesting');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('est1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+          test.form.setPassword('tetete1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+        });
+      });
+      itp('shows error if password contains part of username:testing1234@okta.com', function () {
+        return setup().then(function (test) {
+          test.form.setEmail('testing1234@okta.com');
+          test.form.setPassword('Testing1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('testing1234@okta.com');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('abcdTesting1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('aatesting34');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+          test.form.setPassword('12aatesting');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+          test.form.setPassword('12testingaBtesting');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+          test.form.setPassword('Okta1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+        });
+      });
+      itp('shows error if password contains part of the username:testing_123', function () {
+        return setup().then(function (test) {
+          test.form.setEmail('testing_123');
+          test.form.setPassword('testing');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('testing123');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('123Est123');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('test_123');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('te_12');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+          test.form.setPassword('_abc_123');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+        });
+      });
+      itp('shows error if password contains part of username:first-last.name@okta.com', function () {
+        return setup().then(function (test) {
+          test.form.setEmail('first-last.name@okta.com');
+          test.form.setPassword('Abcd1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+          test.form.setPassword('Testingfirst');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('last_1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('testName1234');
           test.form.focusOutPassword();
           expect(test.form.passwordContainsUsernameError()).toBe(true);
         });

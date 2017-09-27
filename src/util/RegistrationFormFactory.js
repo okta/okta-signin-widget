@@ -1,4 +1,4 @@
-/* eslint max-statements: [2, 18],  max-depth: [2, 3], complexity: [2, 9] */
+/* eslint max-statements: [2, 20],  max-depth: [2, 3], complexity: [2, 9] */
 /*!
  * Copyright (c) 2017, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -35,13 +35,44 @@ define([
         return false;
       }
     }
+
+    var getParts = function(username) {
+      var usernameArr = username.split('');
+      var minPartsLength = 3;
+      var userNameParts = [];
+      var delimiters = [',', '.', '-', '_', '#', '@'];
+      var userNamePart = '';
+
+      _.each(usernameArr, function(part){
+        if(delimiters.indexOf(part) == -1) {
+          userNamePart += part;
+        } else{
+          userNameParts.push(_.clone(userNamePart));
+          userNamePart = '';
+        }
+      });
+      if (userNamePart.length >= minPartsLength) {
+        userNameParts.push(_.clone(userNamePart));
+      }
+      return userNameParts;
+    };
+    var passwordContainsUserName = function(username, password){
+      var usernameArr = getParts(username);
+      //check if each username part contains password
+      for (var i=0; i < usernameArr.length; i++){
+        var usernamePart = usernameArr[i];
+        if (password.indexOf(usernamePart) !== -1){
+          return true;
+        }
+      }
+    };
     
     if (_.isString(regex)) {
-
       if (regex === '^[#/userName]') {
         var username = model.get('userName').toLowerCase();
-        var fieldVal = value.toLowerCase();
-        if (username && fieldVal.indexOf(username) !== -1) {
+
+        var password = value.toLowerCase();
+        if(username.length && password.length && passwordContainsUserName(username, password)) {
           return false;
         }
       } else {
@@ -78,8 +109,7 @@ define([
         if (showError) {
           ele.find('p span').removeClass('confirm-16');
           ele.find('p span').addClass('error error-16-small');
-          ele.addClass('subschema-error');
-          ele.addClass('subschema-unsatisfied');
+          ele.addClass('subschema-error subschema-unsatisfied');
         }
       }
     });
