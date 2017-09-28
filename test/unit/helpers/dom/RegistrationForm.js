@@ -2,7 +2,7 @@ define(['./Form'], function (Form) {
 
   var FIRSTNAME_FIELD = 'firstName';
   var LASTNAME_FIELD = 'lastName';
-  var EMAIL_FIELD = 'login';
+  var EMAIL_FIELD = 'userName';
   var PASSWORD_FIELD = 'password';
 
   return Form.extend({
@@ -63,23 +63,26 @@ define(['./Form'], function (Form) {
       field.trigger('focusout');
     },
 
-    hasPasswordComplexityUnsatisfied: function (type) {
-      return this.$('#password-complexity-' + type).hasClass('password-complexity-unsatisfied') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-satisfied') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-error');
+    hasPasswordComplexityUnsatisfied: function (index) {
+      return this.$('.subschema-' + index).hasClass('subschema-unsatisfied') &&
+             !this.$('.subschema-' + index).hasClass('subschema-satisfied') &&
+             this.$('.subschema-' + index).hasClass('subschema-error');
     },
 
-    hasPasswordComplexitySatisfied: function (type) {
-      return this.$('#password-complexity-' + type).hasClass('password-complexity-satisfied') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-unsatisfied') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-error');
+    hasPasswordComplexitySatisfied: function (index) {
+      return this.$('.subschema-' + index).hasClass('subschema-satisfied') &&
+             !this.$('.subschema-' + index).hasClass('subschema-unsatisfied') &&
+             !this.$('.subschema-' + index).hasClass('subschema-error');
     },
 
-    hasPasswordComplexityError: function (type) {
-      return this.$('#password-complexity-' + type).hasClass('password-complexity-error') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-unsatisfied') &&
-             !this.$('#password-complexity-' + type).hasClass('password-complexity-satisfied');
+    isPasswordComplexitySectionHidden: function (index) {
+      return this.$('.subschema-'+index+'>p').hasClass('default-schema');
+    },
+
+    passwordContainsUsernameError: function () {
+      return this.$('.subschema-4').hasClass('subschema-error');
     }
+
   });
 
 });

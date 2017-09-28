@@ -15,18 +15,18 @@ define([
   'models/RegistrationSchema',
   'util/BaseLoginController',
   'util/Enums',
-  'util/PasswordComplexityUtil',
   'util/RegistrationFormFactory',
-  'views/registration/PasswordComplexity'
+  'util/RouterUtil',
+  'views/registration/SubSchema'
 ],
 function (
   Okta,
   RegistrationSchema,
   BaseLoginController,
   Enums,
-  PasswordComplexityUtil,
   RegistrationFormFactory,
-  PasswordComplexity
+  RouterUtil,
+  SubSchema
 ) {
 
   var _ = Okta._;
@@ -61,115 +61,83 @@ function (
   return BaseLoginController.extend({
     className: 'registration',
     initialize: function() {
+      var clientId = this.options.settings.get('registration.clientId');
+      var registrationApi = this.options.settings.get('baseUrl')+'/api/v1/registration/'+clientId;
+
+      if (!clientId) {
+        return false;
+      }
       var Schema = RegistrationSchema.extend({
-        url: 'api/v1/schema'
+        url: registrationApi+'/form'
       });
-      var schema = new Schema({
-        schema: {
-          'properties': {
-            'firstName': {
-              'type': 'string',
-              'description': 'First Name',
-              'default': 'Enter your first name',
-              'maxLength': 255
-            },
-            'lastName': {
-              'type': 'string',
-              'description': 'Last Name',
-              'default': 'Enter your last name',
-              'maxLength': 255
-            },
-            'login': {
-              'type': 'string',
-              'description': 'Email Address',
-              'format' : 'email',
-              'default': 'Enter your email',
-              'maxLength': 255
-            },
-            'accountLevel': {
-              'type': 'string',
-              'description': 'Account Level',
-              'enum': [ 'Free', 'Premium', 'Platinum' ]
-            },
-            'referrer': {
-              'type': 'string',
-              'description': 'How did you hear about us?',
-              'maxLength': 1024
-            },
-            'password' : {
-              'type' : 'string',
-              'description' : 'Password'
-            }
+      
+      var schema = new Schema();
+
+      var createRegistrationModel = _.bind(function(modelProperties){
+        var Model = Okta.Model.extend({
+          url: registrationApi+'/register',
+          settings: this.settings,
+          appState: this.options.appState,
+          props: modelProperties,
+          local: {
+            activationToken: 'string'
           },
-          'required': ['firstName', 'lastName', 'login', 'password', 'accountLevel'],
-          'fieldOrder': ['login', 'password', 'firstName', 'lastName', 'accountLevel', 'referrer']
-        },
-        'passwordComplexity': {
-          'minLength': 8,
-          'minLowerCase': 1,
-          'minUpperCase': 1,
-          'minNumber': 1,
-          'minSymbol': 0,
-          'excludeUsername': true
-        }
-      }, {parse:true});
-
-      var properties = schema.properties;
-      var modelProperties = properties.createModelProperties();
-
-      var Model = Okta.Model.extend({
-        settings: this.settings,
-        appState: this.options.appState,
-        props: modelProperties,
-        save: function () {
-          this.appState.set('username', this.get('email'));
-          this.appState.trigger('navigate', 'signin/register-complete');
-        }
-      });
-      this.model = new Model();
-
-      var checkPasswordMeetComplexities = function (model, showError) {
-        var password = model.get('password') || '';
-        _.each(schema.passwordComplexity.enabledComplexities, function (complexityName) {
-          var ele = Okta.$('#password-complexity-' + complexityName);
-          var complexityValue = this.get(complexityName);
-          ele.removeClass('password-complexity-satisfied password-complexity-unsatisfied password-complexity-error');
-          if (PasswordComplexityUtil.complexities[complexityName].doesComplexityMeet(complexityValue, password, model)){
-            ele.addClass('password-complexity-satisfied');
-          } else if (showError) {
-            ele.addClass('password-complexity-error');
-          } else {
-            ele.addClass('password-complexity-unsatisfied');
+          toJSON: function() {
+            var data = Okta.Model.prototype.toJSON.apply(this, arguments);
+            return {userProfile: data};
+          },
+          parse: function(resp) {
+            this.set('activationToken', resp.activationToken);
+            delete resp.activationToken;
+            return resp;
           }
-        }, schema.passwordComplexity);
-      };
+        });
+        return new Model();
+      }, this);
 
-      var form = new Form(this.toJSON());
-      properties.each(function(schemaProperty) {
-        var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
-        var name = schemaProperty.get('name');
-        if (name === 'password' || name === 'login') {
-          inputOptions.events = {
-            'input': function () {
-              checkPasswordMeetComplexities(this.model);
-            }
-          };
-        }
-        if (name === 'password') {
-          inputOptions.events.focusout = function () {
-            checkPasswordMeetComplexities(this.model, true);
-          };
-        }
-        form.addInput(inputOptions);
+      var postSchemaFetch = _.bind(function(){
+        var properties = schema.properties;
+        var modelProperties = properties.createModelProperties();
+
+        this.model = createRegistrationModel(modelProperties);
+
+        var form = new Form(this.toJSON());
+
+        this.listenTo(form, 'saved', _.bind(function() {
+          var activationToken = this.get('activationToken');
+          if (activationToken) {
+            var authClient = this.appState.settings.authClient;
+            authClient.signIn({
+              token: activationToken
+            })
+            .then(_.bind(function(transaction) {
+              RouterUtil.routeAfterAuthStatusChange(this, null, transaction.data);
+            }, this));
+          } else {
+            this.appState.set('username', this.get('userName'));
+            this.appState.trigger('navigate', 'signin/register-complete');
+          }
+        }, this.model));
+
+        properties.each(function(schemaProperty) {
+          var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+          var subSchemas = schemaProperty.get('subSchemas');
+          var name = schemaProperty.get('name');
+          form.addInput(inputOptions);
+          if (name === 'password' && subSchemas) {
+            form.add(SubSchema.extend({id: 'subschemas-' + name, subSchemas: subSchemas}));
+          }
+        });
+        this.add(form);
+        this.footer = new this.Footer(this.toJSON());
+        this.add(this.footer);
+        this.addListeners();
+      }, this);
+
+      schema.fetch().then(function(){
+        postSchemaFetch();
       });
-      form.add(PasswordComplexity.extend({passwordComplexity: schema.passwordComplexity}));
-      this.add(form);
-      this.footer = new this.Footer(this.toJSON());
-      this.add(this.footer);
-
-      this.addListeners();
     },
     Footer: Footer
   });
-
 });

@@ -16,33 +16,68 @@
   }
 }
 
-.registration .password-complexity {
+.registration .subschema {
+
+  margin-bottom: 15px;
+
   p {
-    padding-left: 18px;
+    padding: 5px 20px;
     position: relative;
+
+    &.default-schema {
+      display: none;
+    }
 
     span {
       position: absolute;
       left: -2px;
-      top: -2px;
-      display: none;
     }
   }
 
-  .password-complexity-unsatisfied {
+  .subschema-unsatisfied {
     color: $medium-text-color;
   }
 
-  .password-complexity-satisfied {
+  .subschema-satisfied {
     color: $light-text-color;
-    text-decoration: line-through;
   }
 
-  .password-complexity-error {
+  .subschema-error {
     color: $error-text-color;
 
     span.error-16-small {
       display: block;
+    }
+  }
+}
+
+.registration-complete {
+  margin-top: 20px;
+
+  h2 {
+    color: #46b090;
+    text-align: center;
+    margin: 15px 0;
+    font-size: 15px;
+  }
+
+  .back-btn {
+    margin-top: 15px;
+  }
+
+  .title-icon {
+    position: absolute;
+    display: block;
+    top: -10px;
+    left: 45%;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #46b090;
+
+    &:before {
+      color: #fff;
+      left: 4px;
     }
   }
 }

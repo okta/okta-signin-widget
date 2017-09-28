@@ -13,7 +13,7 @@ function (_, RegistrationSchema, Expect) {
       Expect.describe('string field', function () {
         beforeEach(function () {
           this.schema = new RegistrationSchema({
-            schema: {
+            profileSchema: {
               'properties': {
                 'stringfield': {
                   'type': 'string',
@@ -58,7 +58,7 @@ function (_, RegistrationSchema, Expect) {
       Expect.describe('email field', function () {
         beforeEach(function () {
           this.schema = new RegistrationSchema({
-            schema: {
+            profileSchema: {
               'properties': {
                 'emailfield': {
                   'type': 'string',
@@ -81,7 +81,7 @@ function (_, RegistrationSchema, Expect) {
       Expect.describe('enum field', function () {
         beforeEach(function () {
           this.schema = new RegistrationSchema({
-            schema: {
+            profileSchema: {
               'properties': {
                 'fruit': {
                   'type': 'string',
@@ -104,7 +104,7 @@ function (_, RegistrationSchema, Expect) {
       Expect.describe('required fields', function () {
         beforeEach(function () {
           this.schema = new RegistrationSchema({
-            schema: {
+            profileSchema: {
               'properties': {
                 'field1': {
                   'type': 'string'
@@ -143,7 +143,7 @@ function (_, RegistrationSchema, Expect) {
       Expect.describe('sorting order', function () {
         beforeEach(function () {
           this.schema = new RegistrationSchema({
-            schema: {
+            profileSchema: {
               'properties': {
                 'field3': {
                   'type': 'string'
@@ -177,136 +177,5 @@ function (_, RegistrationSchema, Expect) {
       });
     });
 
-    Expect.describe('passwordComplexity', function () {
-
-      var expectedDefaultPasswordComplexity = function(passwordComplexity) {
-        expect(passwordComplexity.get('minLength')).toEqual(8);
-        expect(passwordComplexity.get('minLowerCase')).toEqual(1);
-        expect(passwordComplexity.get('minUpperCase')).toEqual(1);
-        expect(passwordComplexity.get('minNumber')).toEqual(1);
-        expect(passwordComplexity.get('minSymbol')).toEqual(1);
-        expect(passwordComplexity.get('excludeUsername')).toBe(true);
-      };
-
-      Expect.describe('no password complexity', function () {
-        beforeEach(function () {
-          this.schema = new RegistrationSchema({
-            schema: {}
-          }, {parse:true});
-        });
-
-        it('to be defined', function () {
-          expect(this.schema.passwordComplexity).toBeDefined();
-        });
-
-        it('has default values', function () {
-          expectedDefaultPasswordComplexity(this.schema.passwordComplexity);
-        });
-      });
-
-      Expect.describe('empty password complexity', function () {
-        beforeEach(function () {
-          this.schema = new RegistrationSchema({
-            schema: {},
-            'passwordComplexity': {}
-          }, {parse:true});
-        });
-
-        it('to be defined', function () {
-          expect(this.schema.passwordComplexity).toBeDefined();
-        });
-
-        it('has default values', function () {
-          expectedDefaultPasswordComplexity(this.schema.passwordComplexity);
-        });
-      });
-
-      Expect.describe('custom password complexity', function () {
-        beforeEach(function () {
-          this.schema = new RegistrationSchema({
-            schema: {},
-            'passwordComplexity': {
-              'minLength': 1,
-              'minLowerCase': 2,
-              'minUpperCase': 3,
-              'minNumber': 4,
-              'minSymbol': 0,
-              'excludeUsername': false
-            }
-          }, {parse:true});
-        });
-
-        it('minLength has a correct value', function () {
-          expect(this.schema.passwordComplexity.get('minLength')).toEqual(1);
-        });
-
-        it('minLowerCase has a correct value', function () {
-          expect(this.schema.passwordComplexity.get('minLowerCase')).toEqual(2);
-        });
-
-        it('minUpperCase has a correct value', function () {
-          expect(this.schema.passwordComplexity.get('minUpperCase')).toEqual(3);
-        });
-
-        it('minNumber has a correct value', function () {
-          expect(this.schema.passwordComplexity.get('minNumber')).toEqual(4);
-        });
-
-        it('minSymbol has a correct value', function () {
-          expect(this.schema.passwordComplexity.get('minSymbol')).toEqual(0);
-        });
-
-        it('excludeUsername has a correct value', function () {
-          expect(this.schema.passwordComplexity.get('excludeUsername')).toBe(false);
-        });
-      });
-
-      Expect.describe('disable all complexities', function () {
-        beforeEach(function () {
-          this.schema = new RegistrationSchema({
-            schema: {},
-            'passwordComplexity': {
-              'minLength': 0,
-              'minLowerCase': 0,
-              'minUpperCase': 0,
-              'minNumber': 0,
-              'minSymbol': 0,
-              'excludeUsername': false
-            }
-          }, {parse:true});
-        });
-
-        it('enabledComplexities is empty', function () {
-          expect(this.schema.passwordComplexity.enabledComplexities).toEqual([]);
-        });
-      });
-
-      Expect.describe('enable all complexities', function () {
-        beforeEach(function () {
-          this.schema = new RegistrationSchema({
-            schema: {},
-            'passwordComplexity': {
-              'minLength': 10,
-              'minLowerCase': 2,
-              'minUpperCase': 3,
-              'minNumber': 4,
-              'minSymbol': 5,
-              'excludeUsername': true
-            }
-          }, {parse:true});
-        });
-
-        it('enabledComplexities has all complexities', function () {
-          expect(this.schema.passwordComplexity.enabledComplexities).toContain('minLength');
-          expect(this.schema.passwordComplexity.enabledComplexities).toContain('minLowerCase');
-          expect(this.schema.passwordComplexity.enabledComplexities).toContain('minUpperCase');
-          expect(this.schema.passwordComplexity.enabledComplexities).toContain('minNumber');
-          expect(this.schema.passwordComplexity.enabledComplexities).toContain('minSymbol');
-          expect(this.schema.passwordComplexity.enabledComplexities).toContain('excludeUsername');
-          expect(this.schema.passwordComplexity.enabledComplexities.length).toEqual(6);
-        });
-      });
-
-    });
   });
 });
