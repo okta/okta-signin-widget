@@ -18,6 +18,29 @@ define([
 ], function (Okta, SchemaFormFactory, TextBox) {
 
   var _ = Okta._;
+
+  var getParts = function(username) {
+    var usernameArr = username.split('');
+    var minPartsLength = 3;
+    var userNameParts = [];
+    var delimiters = [',', '.', '-', '_', '#', '@'];
+    var userNamePart = '';
+
+    _.each(usernameArr, function(part){
+      if(delimiters.indexOf(part) == -1) {
+        userNamePart += part;
+      } else{
+        if (userNamePart.length >= minPartsLength) {
+          userNameParts.push(_.clone(userNamePart));
+        }
+        userNamePart = '';
+      }
+    });
+    if (userNamePart.length >= minPartsLength) {
+      userNameParts.push(_.clone(userNamePart));
+    }
+    return userNameParts.filter(Boolean);
+  };
   
   var checkSubSchema = function(subSchema, value, model) {
     var minLength = subSchema.get('minLength');
@@ -36,26 +59,6 @@ define([
       }
     }
 
-    var getParts = function(username) {
-      var usernameArr = username.split('');
-      var minPartsLength = 3;
-      var userNameParts = [];
-      var delimiters = [',', '.', '-', '_', '#', '@'];
-      var userNamePart = '';
-
-      _.each(usernameArr, function(part){
-        if(delimiters.indexOf(part) == -1) {
-          userNamePart += part;
-        } else{
-          userNameParts.push(_.clone(userNamePart));
-          userNamePart = '';
-        }
-      });
-      if (userNamePart.length >= minPartsLength) {
-        userNameParts.push(_.clone(userNamePart));
-      }
-      return userNameParts;
-    };
     var passwordContainsUserName = function(username, password){
       var usernameArr = getParts(username);
       //check if each username part contains password
@@ -161,6 +164,7 @@ define([
   };
 
   return {
-    createInputOptions : fnCreateInputOptions
+    createInputOptions : fnCreateInputOptions,
+    getUsernameParts: getParts
   };
 });
