@@ -13,9 +13,10 @@
 define([
   'okta',
   'shared/models/BaseSchema',
-  'shared/models/SchemaProperty'
+  'shared/models/SchemaProperty',
+  'util/Errors'
 ],
-function (Okta, BaseSchema, SchemaProperty) {
+function (Okta, BaseSchema, SchemaProperty, Errors) {
 
   var _ = Okta._;
 
@@ -64,11 +65,41 @@ function (Okta, BaseSchema, SchemaProperty) {
         return resp;
       }, this);
       
-      resp.schema = resp.profileSchema;
-      var parsed = BaseSchema.Model.prototype.parse.apply(this, [resp]);
-      resp = parseResponseData(resp);
-      
-      return parsed;
+      var preRender = this.preRender;
+      var postSchemaFetch = this.postSchemaFetch;
+      var properties = this.properties;
+      var self = this;
+
+      var processCallback = _.bind(function(resp, callback, args){
+        resp.schema = resp.profileSchema;
+        BaseSchema.Model.prototype.parse.apply(this, [resp]);
+        resp = parseResponseData(resp);
+        if (callback) {
+          callback(args);
+        }
+      }, this);
+
+      //check for preRender
+      if (_.isFunction(preRender)) {
+        if (preRender.length == 1) {
+          //async callback
+          preRender(resp).then(function(resp) {
+            processCallback(resp, postSchemaFetch, properties);
+          }).catch(function() {
+            self.settings.callGlobalError(new Errors.ConfigError('preRender callback failed'));
+          });
+        } else {
+          //sync callback
+          preRender(resp, function(resp) {
+            processCallback(resp, postSchemaFetch, properties);
+          }, function () {
+            self.settings.callGlobalError(new Errors.ConfigError('preRender callback failed'));
+          });
+        }
+      } else {
+        //no callback
+        processCallback(resp, postSchemaFetch, properties);
+      }
     }
   });
 });
