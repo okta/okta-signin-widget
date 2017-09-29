@@ -942,8 +942,8 @@
     th {
       text-align: left;
       font-weight: bold;
-      padding-bottom: 3px;
-      padding-left: 5px;
+      padding: 7px 0 3px;
+      line-height: 16px;
     }
 
     .list-input-cell {
@@ -955,6 +955,43 @@
       width: 20px;
       padding: 3px 0 3px 3px;
       vertical-align: middle;
+    }
+
+    .list-input-gripper-cell,
+    .list-input-gripper-header {
+      width: 1px;
+      position: relative;
+    }
+
+    .list-input-gripper-header {
+      padding: 0;
+    }
+
+    .list-input-gripper {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 30px;
+      line-height: 26px;
+      cursor: grab;
+      color: $list-input-gripper-color;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    &.list-input-sortable-placeholder {
+      height: 36px;
+
+      > td:first-child {
+        width: 1px;
+        float: left;
+      }
+    }
+
+    .list-input-sortable-background {
+      background-color: $component-bg-color;
     }
   }
 }

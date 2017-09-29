@@ -17,6 +17,8 @@ function (_, TemplateUtil, BaseView, LoadMore) {
 
     className: 'data-list-pager-footer',
 
+    LoadMoreView: undefined,
+
     constructor: function () {
       BaseView.apply(this, arguments);
       this.listenTo(this.collection, 'request', this.empty);
@@ -28,7 +30,9 @@ function (_, TemplateUtil, BaseView, LoadMore) {
         // Set a large colspan so we can use this for all tables
         var colspan = this.options.colspan || this.colspan || 100;
         this.$el.html(template({colspan: colspan}));
-        this.$('td').html(new LoadMore(this.options).render().el);
+
+        var MyLoadMoreView = this.LoadMoreView ? this.LoadMoreView : LoadMore;
+        this.$('td').html(new MyLoadMoreView(this.options).render().el);
       }
       else {
         this.empty();

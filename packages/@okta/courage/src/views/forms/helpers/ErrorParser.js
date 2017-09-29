@@ -1,6 +1,6 @@
 define(['okta/underscore', 'shared/util/StringUtil'], function (_, StringUtil) {
 
-  var FIELD_REGEX = /^([^\:]+)\: (.+)$/;
+  var FIELD_REGEX = /^([\S]+)\: (.+)$/;
 
   return {
 

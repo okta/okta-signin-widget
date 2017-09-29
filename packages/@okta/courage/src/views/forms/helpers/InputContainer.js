@@ -2,14 +2,10 @@ define([
   'okta/underscore',
   'shared/util/TemplateUtil',
   'shared/util/Logger',
-  'shared/views/BaseView'
+  'shared/views/BaseView',
+  'shared/util/Util'
 ],
-function (_, TemplateUtil, Logger, BaseView) {
-
-  function extendsBaseView(obj) {
-    return obj instanceof BaseView || obj.prototype instanceof BaseView;
-  }
-
+function (_, TemplateUtil, Logger, BaseView, Util) {
   /**
    * @class InputContainer
    * @private
@@ -17,6 +13,9 @@ function (_, TemplateUtil, Logger, BaseView) {
    * TODO: OKTA-80796
    * Attention: Please change with caution since this is used in other places
    */
+
+  var isABaseView = Util.isABaseView;
+
   return BaseView.extend({
 
     attributes: function () {
@@ -127,14 +126,14 @@ function (_, TemplateUtil, Logger, BaseView) {
       }
 
       explain = options.explain;
-      if (_.isFunction(explain) && !extendsBaseView(explain)) {
+      if (_.isFunction(explain) && !isABaseView(explain)) {
         explain = _.resultCtx(this.options, 'explain', this);
       }
       if (!explain) {
         return;
       }
 
-      if (extendsBaseView(explain)) {
+      if (isABaseView(explain)) {
         this.template = '<p class="o-form-explain"></p>';
         this.add(explain, '.o-form-explain');
       }
