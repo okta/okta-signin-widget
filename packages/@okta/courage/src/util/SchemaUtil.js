@@ -54,6 +54,14 @@ function (_, StringUtil) {
       'integer',
       'password'
     ],
+    SUPPORTENUM: [
+      'string',
+      'number',
+      'integer',
+      'arrayofstring',
+      'arrayofnumber',
+      'arrayofinteger'
+    ],
     DATATYPE: {
       'string': 'string',
       'number': 'number',
