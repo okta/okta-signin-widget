@@ -202,6 +202,13 @@ function (Okta, TimeUtil) {
       return Okta.loc(propertiesString, 'login', [displayableTime.time]);
     };
 
+    var setExcludeAttributes = function (policyComplexity) {
+      var excludeAttributes = policyComplexity.excludeAttributes;
+      policyComplexity.excludeFirstName = _.contains(excludeAttributes, 'firstName');
+      policyComplexity.excludeLastName = _.contains(excludeAttributes, 'lastName');
+      return _.omit(policyComplexity, 'excludeAttributes');
+    };
+
     if (policy.complexity) {
       var complexityFields = {
         minLength: {i18n: 'password.complexity.length', args: true},
@@ -209,10 +216,13 @@ function (Okta, TimeUtil) {
         minUpperCase: {i18n: 'password.complexity.uppercase'},
         minNumber: {i18n: 'password.complexity.number'},
         minSymbol: {i18n: 'password.complexity.symbol'},
-        excludeUsername: {i18n: 'password.complexity.no_username'}
+        excludeUsername: {i18n: 'password.complexity.no_username'},
+        excludeFirstName: {i18n: 'password.complexity.no_first_name'},
+        excludeLastName: {i18n: 'password.complexity.no_last_name'}
       };
 
-      var policyComplexity = policy.complexity;
+      var policyComplexity = setExcludeAttributes(policy.complexity);
+
       var requirements = _.map(policyComplexity, function (complexityValue, complexityType) {
         if (complexityValue <= 0) { // to skip 0 and -1
           return;
@@ -230,7 +240,7 @@ function (Okta, TimeUtil) {
           return result ? (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) : requirement;
         });
 
-        result.push(Okta.loc('password.complexity.description', 'login', [requirements]));
+        result.push(Okta.loc('password.complexity.requirements', 'login', [requirements]));
       }
     }
 

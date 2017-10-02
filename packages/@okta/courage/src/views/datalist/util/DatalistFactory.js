@@ -3,9 +3,10 @@ define([
   'okta/underscore',
   'shared/framework/TableFactory',
   'shared/views/datalist/Empty',
+  'shared/views/datalist/Footer',
   './ActionsView'
 ],
-function (_, TableFactory, Empty, ActionsView) {
+function (_, TableFactory, Empty, Footer, ActionsView) {
 
   /**
    * @class DatalistFactory
@@ -62,8 +63,16 @@ function (_, TableFactory, Empty, ActionsView) {
      */
     createEmptyView: function (emptyState) {
       return Empty.extend(_.clone(emptyState) || {});
-    }
+    },
 
+    /**
+     * Creates localized DataList `Footer` view with custom template
+     * @param  {Object} LoadMoreView
+     * @return {Footer} The footer view
+     */
+    createFooterView: function (LoadMoreView) {
+      return Footer.extend({LoadMoreView: LoadMoreView});
+    }
   };
 
 });

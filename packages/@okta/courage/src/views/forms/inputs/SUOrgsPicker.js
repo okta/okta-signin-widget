@@ -1,6 +1,6 @@
-define(['./BasePicker'], function (BasePicker) {
+define(['./BaseSelectize'], function (BaseSelectize) {
 
-  return BasePicker.extend({
+  return BaseSelectize.extend({
 
     apiURL: '/api/internal/su/orgs',
     extraParams: {
@@ -9,7 +9,7 @@ define(['./BasePicker'], function (BasePicker) {
     queryParam: 'search',
 
     constructor: function () {
-      BasePicker.apply(this, arguments);
+      BaseSelectize.apply(this, arguments);
       var samecell = this.getParam('samecell');
       if (samecell) {
         this.extraParams.samecell = samecell;

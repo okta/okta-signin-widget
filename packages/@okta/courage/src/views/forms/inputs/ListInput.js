@@ -1,5 +1,6 @@
-/* eslint max-params: [2, 8] */
+/* eslint max-params: [2, 9], max-statements: 0 */
 define([
+  'okta/jquery',
   'okta/underscore',
   'shared/util/StringUtil',
   '../BaseInput',
@@ -8,8 +9,7 @@ define([
   'shared/models/Model',
   'shared/util/ButtonFactory',
   'shared/views/Backbone.ListView'
-], function (_, StringUtil, BaseInput, BaseView, BaseCollection, Model, ButtonFactory, ListView) {
-
+], function ($, _, StringUtil, BaseInput, BaseView, BaseCollection, Model, ButtonFactory, ListView) {
 
   function getCollection(options, data) {
 
@@ -49,6 +49,21 @@ define([
     _.extend(defaultValues, _.object(names, _.map(names, _.constant(''))));
     return defaultValues;
   }
+
+  function isDragSortingEnabled(options) {
+    return options.params && options.params.dragSorting ? options.params.dragSorting : false;
+  }
+
+  var sortHelper = function (e, ui) {
+    var $originals = ui.find('td'),
+        $helper = _.clone(ui);
+
+    _.each($helper.find('td'), function (elm, index) {
+      $(elm).width($originals.eq(index).width()).addClass('list-input-sortable-background');
+    });
+
+    return $helper;
+  };
 
   var AddNewItemButton = ButtonFactory.create({
     title: function () {
@@ -126,6 +141,42 @@ define([
     ]
   });
 
+  var DragDropGripper = BaseView.extend({
+    tagName: 'td',
+
+    className: 'list-input-gripper-cell',
+
+    template: '<div class="list-input-gripper">&#8285;</div>',
+
+    collectionEvents: {
+      'update': '_updateVisibility'
+    },
+
+    readMode: function () {
+      this._hideButton();
+    },
+
+    editMode: function () {
+      this._updateVisibility();
+    },
+
+    _updateVisibility: function () {
+      if (this.collection.length > 1) {
+        this._showButton();
+      } else {
+        this._hideButton();
+      }
+    },
+
+    _showButton: function () {
+      this.$el.find('.list-input-gripper').show();
+    },
+
+    _hideButton: function () {
+      this.$el.find('.list-input-gripper').hide();
+    }
+  });
+
   var ItemView = BaseView.extend({
     tagName: 'tr',
 
@@ -133,8 +184,14 @@ define([
       return 'list-input-row list-input-items-' + _.size(this.options.params.inputs);
     },
 
+    attributes: function () {
+      if (isDragSortingEnabled(this.options)) {
+        return {'list-input-row-id': _.uniqueId()};
+      }
+    },
+
     children: function () {
-      return _.map(this.options.params.inputs, function (input) {
+      var inputs = _.map(this.options.params.inputs, function (input) {
         var params = this.options.params;
         return BaseView.extend({
           tagName: 'td',
@@ -148,10 +205,12 @@ define([
           }
         });
       }, this).concat([RemoveItemButton]);
+
+      return isDragSortingEnabled(this.options) ? [DragDropGripper].concat(inputs) : inputs;
     },
 
     focus: function () {
-      this.first().focus();
+      isDragSortingEnabled(this.options) ? this.at(1).focus() : this.first().focus();
     }
   });
 
@@ -161,11 +220,14 @@ define([
 
     template: '\
       <tfoot>\
-        <tr><td class="list-input-cell"></td></tr>\
+        <tr><td class="list-input-cell" colspan="99"></td></tr>\
       </tfoot>\
       <tbody>\
       {{#if labels}}\
         <tr>\
+          {{#if dragSorting}}\
+            <th class="list-input-gripper-header"></th>\
+          {{/if}}\
           {{#each labels}}\
             <th>{{this}}</th>\
           {{/each}}\
@@ -181,6 +243,8 @@ define([
 
     _modelDefaults: {},
 
+    _dragSorting: false,
+
     initialize: function () {
       this.add(AddNewItemButton, 'tfoot td');
       this.addNewItemButton = this.last();
@@ -188,6 +252,7 @@ define([
       var schema = this.model.getPropertySchema(this.options.name) || {};
       this._schema = _.defaults(schema, {minItems: 0, maxItems: Infinity});
       this._modelDefaults = getEmptyValue(this.options);
+      this._dragSorting = isDragSortingEnabled(this.options);
 
       this._prefillCollection();
     },
@@ -196,7 +261,8 @@ define([
       var labels = _.values(_.pluck(this.options.params.inputs, 'label'));
       return {
         labels: _.some(labels) && labels,
-        numLabels: labels.length
+        numLabels: labels.length,
+        dragSorting: this._dragSorting
       };
     },
 
@@ -251,9 +317,53 @@ define([
       });
     },
 
+    _getSortableDom: function () {
+      return this.$el.find('tbody');
+    },
+
+    _getSelectedRowPosition: function (ui) {
+      var rowId = ui.item.attr('list-input-row-id');
+      return this._getSortableDom().sortable('toArray', {attribute: 'list-input-row-id'}).indexOf(rowId);
+    },
+
+    _sortStart: function (event, ui) {
+      var order = this._getSelectedRowPosition(ui);
+      this._sortingItemBeginIndex = order;
+    },
+
+    _sortStop: function (even, ui) {
+      var sortingItemEndIndex = this._getSelectedRowPosition(ui);
+
+      if (sortingItemEndIndex !== this._sortingItemBeginIndex) {
+        var moveModel = this.collection.at(this._sortingItemBeginIndex);
+        this.collection.remove(moveModel, {silent: true});
+        this.collection.add(moveModel, {at: sortingItemEndIndex, silent: true});
+
+        // Silent 'add' and 'remove' so it does not render the view again,
+        // instead trigger the update event in order to update model value.
+        this.collection.trigger('change');
+      }
+    },
+
+    _updateDragSorting: function () {
+      if (this._dragSorting && this.collection.length > 1) {
+        this._getSortableDom().sortable({
+          items: '> .list-input-row',
+          axis: 'y',
+          handle: '.list-input-gripper',
+          placeholder: 'list-input-sortable-placeholder',
+          forcePlaceholderSize: true,
+          helper: sortHelper,
+          start: this._sortStart.bind(this),
+          stop: this._sortStop.bind(this)
+        });
+      }
+    },
+
     _updateElements: function () {
       this.addNewItemButton.toggleEnabled(this._canAddNewItem());
       this._updateRowsCanBeRemoved();
+      this._updateDragSorting();
 
       this.model.trigger('form:resize');
       _.defer(this.focus.bind(this));
@@ -308,6 +418,7 @@ define([
     ItemView: ItemView,
     InputListView: InputListView,
     AddNewItemButton: AddNewItemButton,
-    RemoveItemButton: RemoveItemButton
+    RemoveItemButton: RemoveItemButton,
+    DragDropGripper: DragDropGripper
   });
 });

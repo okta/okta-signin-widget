@@ -80,6 +80,16 @@ define([
     });
   }
 
+  function isOneOfEnumHaveContent(values) {
+    if (!isOneOfEnumObject(values)) {
+      return false;
+    }
+
+    return _.all(values, function (value) {
+      return $.trim(value.const) !== '' && $.trim(value.title) !== '';
+    });
+  }
+
   function convertEnumToOneOf(values) {
     return _.map(values, function (value) {
       return {
@@ -151,6 +161,8 @@ define([
   }
 
   return {getEnumInputOptions: getEnumInputOptions,
-    getDropdownOptions: getDropdownOptions
+    getDropdownOptions: getDropdownOptions,
+    isOneOfEnumHaveContent: isOneOfEnumHaveContent,
+    convertToOneOf: convertToOneOf
   };
 });

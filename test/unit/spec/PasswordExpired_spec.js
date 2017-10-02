@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 19] */
+/* eslint max-params: [2, 19], max-statements: [2, 22] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -26,6 +26,10 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
 
   var itp = Expect.itp;
   var tick = Expect.tick;
+
+  function deepClone(res) {
+    return JSON.parse(JSON.stringify(res));
+  }
 
   function setup(settings, res, custom) {
     settings || (settings = {});
@@ -81,6 +85,13 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
     test.form.submit();
   }
 
+  function setupExcludeAttributes(excludeAttributesArray) {
+    var passwordExpiredResponse = deepClone(resPassExpired);
+    var policyComplexity = passwordExpiredResponse.response._embedded.policy.complexity;
+    policyComplexity.excludeAttributes = excludeAttributesArray;
+    return setup(undefined, passwordExpiredResponse);
+  }
+
   Expect.describe('PasswordExpiration', function () {
 
     Expect.describe('PasswordExpired', function () {
@@ -97,7 +108,28 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
       });
       itp('has a valid subtitle', function () {
         return setup().then(function (test) {
-          expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters,' +
+          expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters,' +
+            ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
+            ' does not include your first name, does not include your last name.');
+        });
+      });
+      itp('has a valid subtitle if only excludeAttributes["firstName"] is defined', function () {
+        return setupExcludeAttributes(['firstName']).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters,' +
+            ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
+            ' does not include your first name.');
+        });
+      });
+      itp('has a valid subtitle if only excludeAttributes["lastName"] is defined', function () {
+        return setupExcludeAttributes(['lastName']).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters,' +
+            ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
+            ' does not include your last name.');
+        });
+      });
+      itp('has a valid subtitle if only excludeAttributes[] is defined', function () {
+        return setupExcludeAttributes([]).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters,' +
             ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username.');
         });
       });
@@ -276,8 +308,9 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe(
-            'Passwords must have at least 8 characters, a lowercase letter, ' +
-            'an uppercase letter, a number, no parts of your username'
+            'Password requirements were not met. Password requirements: at least 8 characters,' +
+            ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
+            ' does not include your first name, does not include your last name.'
           );
         });
       });

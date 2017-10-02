@@ -20,7 +20,7 @@ define([
 
     template: TemplateUtil.tpl('<select id="{{inputId}}" name="{{name}}"></select>'),
     className: 'o-form-searchable-select',
-    maxOptions: 50,
+    maxOptions: 150,
 
     events: {
       'change select': 'update'
@@ -34,23 +34,28 @@ define([
       var opts = this.__getOptions(this.options.options);
       this.selectOptions = opts.options;
       this.optGroups = opts.groups;
+
+      // avoid footer to be added multiple times
+      // e.g. `handleFooter` is invoked at both onDropdownOpen and onType
+      // which will possiblely cause footer to be added twice.
+      this._addFooterNote = _.debounce(this._addFooterNote.bind(this), 100);
     },
 
     handleFooter: function () {
-      var self = this,
-          maxOptions = this.getParamOrAttribute('maxOptions');
+      this.$('.dropdown-footer').remove();
+      this._addFooterNote();
+    },
 
-      self.$('.dropdown-footer').remove();
-      _.defer(function () {
-        var length = self.$('.selectize-dropdown-content .option').length;
-        if (length === maxOptions) {
-          self.$('.selectize-dropdown-content').append(footerTpl({num: maxOptions}));
-        }
-        else if (length === 0) {
-          self.$('.selectize-dropdown-content').append(emptyFooterTpl);
-          self.$('.selectize-dropdown').show();
-        }
-      });
+    _addFooterNote: function () {
+      var maxOptions = this.getParamOrAttribute('maxOptions');
+      var length = this.$('.selectize-dropdown-content .option').length;
+      if (length === maxOptions) {
+        this.$('.selectize-dropdown-content').append(footerTpl({num: maxOptions}));
+      }
+      else if (length === 0) {
+        this.$('.selectize-dropdown-content').append(emptyFooterTpl);
+        this.$('.selectize-dropdown').show();
+      }
     },
 
     getExtraOptions: function () {
@@ -97,12 +102,12 @@ define([
       if (!_.size(this.optGroups) && this.options.options) {
         return this.options.options[val];
       }
-      
-      //If options have group then we need to loop through the 
+
+      //If options have group then we need to loop through the
       //selectOptions array to find out the value.
       var option = _.find(this.selectOptions, function (obj) {
         return obj.key === val;
-      }); 
+      });
 
       if (option) {
         return option.value;
@@ -113,7 +118,7 @@ define([
       if (_.isFunction(options)) {
         options = options.call(this);
       }
-      
+
       //Seperate out options and groups
       return _.reduce(_.isObject(options) ? options : {}, function (output, value, key) {
         if (_.isObject(value)) {
@@ -124,7 +129,7 @@ define([
             opt.push({key: key, value: value, group: group});
             return opt;
           }, output.options);
-          
+
         } else {
           output.options.push({key: key, value: value});
         }

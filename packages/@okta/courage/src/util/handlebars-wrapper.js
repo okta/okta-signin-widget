@@ -52,8 +52,8 @@ define([
   });
 
   Handlebars.registerHelper('xsrfTokenInput', function () {
-    return '<input type="hidden" class="hide" name="_xsrfToken" ' +
-           'value="' + $('#_xsrfToken').text() + '">';
+    return new Handlebars.SafeString('<input type="hidden" class="hide" name="_xsrfToken" ' +
+           'value="' + $('#_xsrfToken').text() + '">');
   });
 
   Handlebars.registerHelper('img', function (options) {
@@ -62,9 +62,9 @@ define([
     var hash = _.pick(options.hash, ['src', 'alt', 'width', 'height', 'class', 'title']);
     hash.src = '' + cdn + prependCachebustPrefix(hash.src);
     var attrs = _.map(hash, function (value, attr) {
-      return attr + '="' + _.escape(value) + '"';
+      return attr + '="' + Handlebars.Utils.escapeExpression(value) + '"';
     });
-    return '<img ' + attrs.join(' ') + '/>';
+    return new Handlebars.SafeString('<img ' + attrs.join(' ') + '/>');
   });
 
   Handlebars.registerHelper('shortDate', _.partial(formatDate, 'MMM DD'));
