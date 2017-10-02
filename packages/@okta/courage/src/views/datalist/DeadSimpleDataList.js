@@ -311,6 +311,11 @@ function (_, DatalistFactory, ToolbarFactory, FilterFactory, DataList, Content, 
     },
 
     /**
+     * @property {Object} [LoadMoreView] Load More view
+     */
+    LoadMoreView: undefined,
+
+    /**
      * @property {Object[]} [columns] An array of column configurations to render in the data list
      * @type {Array}
      */
@@ -397,6 +402,10 @@ function (_, DatalistFactory, ToolbarFactory, FilterFactory, DataList, Content, 
       this.Sidebar && this.add(this.Sidebar);
 
       var localColumns = _.map(this.__columns, this.__processActions);
+
+      if (!this.footer && this.LoadMoreView) {
+        this.footer = DatalistFactory.createFooterView(this.LoadMoreView);
+      }
 
       this.add(Content.extend({
         Toolbar: this.innerToolbar && this.Toolbar,

@@ -2,12 +2,12 @@ define({
   "status": 403,
   "responseType": "json",
   "response": {
-    "errorCode": "E0000080",
-    "errorSummary": "The password does meet the complexity requirements of the current password policy.",
-    "errorLink": "E0000080",
+    "errorCode": "E0000014",
+    "errorSummary": "Update of credentials failed",
+    "errorLink": "E0000014",
     "errorId": "oaeRXeoXe24RWqjj0R-pL03ZA",
     "errorCauses": [{
-      "errorSummary": "Passwords must have at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username"
+      "errorSummary": "Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name."
     }]
   }
 });

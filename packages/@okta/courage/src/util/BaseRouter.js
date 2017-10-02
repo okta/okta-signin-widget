@@ -1,15 +1,31 @@
-/* eslint max-len: [2, 150], max-params: [2, 6] */
+/* eslint max-len: [2, 150], max-params: [2, 7] */
 define([
   'okta/jquery',
   'okta/underscore',
   'backbone',
   'shared/util/SettingsModel',
+  'shared/util/Logger',
   'shared/views/components/Notification',
   'shared/views/components/ConfirmationDialog'
 ],
-function ($, _, Backbone, SettingsModel, Notification, ConfirmationDialog) {
+function ($, _, Backbone, SettingsModel, Logger, Notification, ConfirmationDialog) {
+
+  function getRoute(router, route) {
+    var root = _.result(router, 'root') || '';
+    if (root && _.isString(route)) {
+      return [root, route].join('/').replace(/\/{2,}/g, '/');
+    }
+    return route;
+  }
 
   return Backbone.Router.extend({
+
+    /**
+     * The root URL for the router.
+     * When setting {@link Backbone.Router#routes routes}, it will be prepended to each route
+     * @type {String|Function}
+     */
+    root: '',
 
     listen: Notification.prototype.listen,
 
@@ -41,6 +57,9 @@ function ($, _, Backbone, SettingsModel, Notification, ConfirmationDialog) {
       options || (options = {});
       this.el = options.el;
       this.settings = new SettingsModel(_.omit(options, 'el'));
+      if (options.root) {
+        this.root = options.root;
+      }
 
       Backbone.Router.apply(this, arguments);
 
@@ -96,11 +115,7 @@ function ($, _, Backbone, SettingsModel, Notification, ConfirmationDialog) {
      * @param  {Object} [options] Extra options to the controller constructor
      */
     render: function (Controller, options) {
-      if (this.controller) {
-        this.stopListening(this.controller);
-        this.stopListening(this.controller.state);
-        this.controller.remove();
-      }
+      this.unload();
       options = _.extend(_.pick(this, 'settings', 'el'), options || {});
       this.controller = new Controller(options);
       this.controller.render();
@@ -116,9 +131,33 @@ function ($, _, Backbone, SettingsModel, Notification, ConfirmationDialog) {
     start: function () {
       var args = arguments;
       $(function () {
+        if (Backbone.History.started) {
+          Logger.error('History has already been started');
+          return;
+        }
         Backbone.history.start.apply(Backbone.history, args);
       });
+    },
+
+    /**
+     * Removes active controller and frees up event listeners
+     */
+    unload: function () {
+      if (this.controller) {
+        this.stopListening(this.controller);
+        this.stopListening(this.controller.state);
+        this.controller.remove();
+      }
+    },
+
+    route: function (route, name, callback) {
+      return Backbone.Router.prototype.route.call(this, getRoute(this, route), name, callback);
+    },
+
+    navigate: function (fragment, options) {
+      return Backbone.Router.prototype.navigate.call(this, getRoute(this, fragment), options);
     }
+
   });
 
 });

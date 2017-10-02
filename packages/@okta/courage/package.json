@@ -1,13 +1,14 @@
 {
   "_args": [
     [
-      "@okta/courage@3.2.0",
-      "/home/vagrant/okta/my-signin-widget/okta-signin-widget"
+      "@okta/courage@3.3.0-beta.12",
+      "/home/vagrant/okta/okta-signin-widget"
     ]
   ],
-  "_from": "@okta/courage@3.2.0",
-  "_id": "@okta/courage@3.2.0",
+  "_from": "@okta/courage@3.3.0-beta.12",
+  "_id": "@okta/courage@3.3.0-beta.12",
   "_inCache": true,
+  "_installable": true,
   "_location": "/@okta/courage",
   "_phantomChildren": {
     "amdefine": "1.0.1",
@@ -15,20 +16,20 @@
   },
   "_requested": {
     "name": "@okta/courage",
-    "raw": "@okta/courage@3.2.0",
-    "rawSpec": "3.2.0",
+    "raw": "@okta/courage@3.3.0-beta.12",
+    "rawSpec": "3.3.0-beta.12",
     "scope": "@okta",
-    "spec": "3.2.0",
+    "spec": "3.3.0-beta.12",
     "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-3.2.0.tgz",
-  "_shasum": "f840996fc3d282cfc7d19f885f0e8ef711eb620d",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-3.3.0-beta.12.tgz",
+  "_shasum": "25c3f75263d65dbbdbd03188c07d08beab6a0183",
   "_shrinkwrap": null,
-  "_spec": "@okta/courage@3.2.0",
-  "_where": "/home/vagrant/okta/my-signin-widget/okta-signin-widget",
+  "_spec": "@okta/courage@3.3.0-beta.12",
+  "_where": "/home/vagrant/okta/okta-signin-widget",
   "browserslist": [
     "> 0.1%",
     "not ie <= 9"
@@ -109,8 +110,8 @@
     "winston": "2.2.0"
   },
   "dist": {
-    "shasum": "f840996fc3d282cfc7d19f885f0e8ef711eb620d",
-    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-3.2.0.tgz"
+    "shasum": "25c3f75263d65dbbdbd03188c07d08beab6a0183",
+    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-3.3.0-beta.12.tgz"
   },
   "files": [
     "src",
@@ -122,9 +123,9 @@
   "main": "src/util/Okta.js",
   "name": "@okta/courage",
   "okta": {
-    "commitSha": "d6135dc2cfbeaa32a40316921ac429cb08a90b5a",
-    "fullVersion": "3.2.0-20170912223451-d6135dc",
-    "testedSha": "01cdeece0e10e9071f82e8c12113ce06d3f0ec7f"
+    "commitSha": "78676afa039e2a67bf17cd8633f70679ec503e54",
+    "fullVersion": "3.3.0-beta.12-20170929215326-78676af",
+    "testedSha": "87f338fbc973d387c50f48692ca8a04cfc9f3b81"
   },
   "optionalDependencies": {},
   "publishConfig": {
@@ -146,5 +147,5 @@
     "test:e2e": "webdriver-manager update && protractor test/selenium/conf.js",
     "test:report": "(grunt test --display full) || true"
   },
-  "version": "3.2.0"
+  "version": "3.3.0-beta.12"
 }

@@ -11,16 +11,16 @@ define([
 
       var items = _.isArray(value) ? value : [];
       var canCreate = this.canCreateValue();
-      
+
       // Selectize expects options corresponding to all the selected items
-      // to be present. For the items created on fly, then might not be 
+      // to be present. For the items created on fly, then might not be
       // options corresponding to it so appending created options to the base
       // option.
       if (canCreate) {
         var userOptions = this.__getOptionsForCreatedItems(items);
         Array.prototype.push.apply(selectOptions, userOptions);
-      }    
-      
+      }
+
       return {
         options: selectOptions,
         create: canCreate,
@@ -30,11 +30,13 @@ define([
         onItemRemove: function () {
           _.defer(this.close.bind(this));
         },
-        // show suggestion only when user types.
-        // will follow up with UX to see what could be better.
         closeAfterSelect: false,
         openOnFocus: true,
-        onDropdownOpen: null,
+        onDropdownOpen: this.handleFooter.bind(this),
+        // given `closeAfterSelect` is false, the dropdown keeps opening after item is selceted
+        // hence just re-render the dropdown view but wont trigger `onDropdownOpen` event
+        // hence need to re-generate footer.
+        onItemAdd: this.handleFooter.bind(this),
         createFilter: function (input) {
           if (!input) {
             return false;
@@ -51,7 +53,7 @@ define([
 
     canCreateValue: function () {
       var create = this.getParam('create');
-      
+
       if (_.isFunction(create)) {
         create = create.call(this);
       }
@@ -77,10 +79,10 @@ define([
 
       return _.reduce(items, function (output, value) {
         var selectedOption = options[value];
-        
+
         if (!selectedOption && hasGroups) {
           selectedOption = _.find(selectOptions, function (option) {
-            return option['key'] === value; 
+            return option['key'] === value;
           });
         }
 

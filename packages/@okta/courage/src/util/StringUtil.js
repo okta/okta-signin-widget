@@ -138,6 +138,17 @@ function (_, $, Bundles) {
     },
 
     /**
+     * Convert a string to an integer if valid, otherwise return the string
+     * @static
+     * @param {String} string The string to convert to an integer
+     * @return {String|integer} Returns an integer if the string can be casted, otherwise, returns the original string
+     */
+    parseInt: function (string) {
+      var int = +string;
+      return _.isString(string) && int === parseInt(string, 10) ? int : string;
+    },
+
+    /**
      * Returns a random string from [a-z][A-Z][0-9] of a given length
      * @static
      * @param {Number} length The length of the random string.
