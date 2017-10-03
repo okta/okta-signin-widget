@@ -975,6 +975,44 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
           expect(test.form.selectedCountry()).toBe('Nihon');
         });
       });
+
+      itp('overrides text in the courage bundle for non English language', function () {
+        return setupLanguage({
+          settings: {
+            language: 'NL',
+            i18n: {
+              'nl': {
+                'oform.errorbanner.title': 'Dutch error banner title'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          test.form.submit();
+          expect(test.form.errorMessage()).toBe('Dutch error banner title');
+        });
+      });
+
+      itp('Strings in courage bundle are in jp as set in settings.language', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja'
+          }
+        })
+        .then(function(test){
+          test.form.submit();
+          expect(test.form.errorMessage()).toBe('JA: Japanese error banner title');
+        });
+      });
+
+      itp('Strings in courage bundle are in en by default', function () {
+        return setupLanguage({})
+        .then(function(test){
+          test.form.submit();
+          expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+        });
+      });
     });
 
     Expect.describe('Config: "assets"', function () {
@@ -1296,7 +1334,8 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
               ja: {
                 login: {
                   'enroll.call.setup': 'JA: enroll.call.setup',
-                  'security.disliked_food': 'JA: What is the food you least liked as a child?'
+                  'security.disliked_food': 'JA: What is the food you least liked as a child?',
+                  'oform.errorbanner.title': 'JA: Japanese error banner title'
                 },
                 country: {
                   'JP': 'JA: country.JP'

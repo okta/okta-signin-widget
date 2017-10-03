@@ -216,9 +216,11 @@ define([
         // properties are not translated
         this.login = _.extend({}, login, bundles.login);
         this.country = _.extend({}, country, bundles.country);
+        this.courage = _.extend({}, login, bundles.login);
         if (parsedOverrides[lowerCaseLanguage]) {
           _.extend(this.login, parsedOverrides[lowerCaseLanguage]['login']);
           _.extend(this.country, parsedOverrides[lowerCaseLanguage]['country']);
+          _.extend(this.courage, parsedOverrides[lowerCaseLanguage]['login']);
         }
         this.currentLanguage = language;
       }, this));
