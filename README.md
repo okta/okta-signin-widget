@@ -708,7 +708,7 @@ var signIn = new OktaSignIn(config);
   - `zh-TW` - Chinese (Taiwan)
 
 
-- **i18n:** Override the text in the widget. The full list of properties can be found in the [login.properties](node_modules/@okta/i18n/dist/properties/login.properties) and [country.properties](node_modules/@okta/i18n/dist/properties/country.properties) files.
+- **i18n:** Override the text in the widget. The full list of properties can be found in the [login.properties](packages/@okta/i18n/dist/properties/login.properties) and [country.properties](packages/@okta/i18n/dist/properties/country.properties) files.
 
     ```javascript
     // The i18n object maps language codes to a hash of property keys ->
