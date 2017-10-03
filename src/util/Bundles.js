@@ -55,7 +55,14 @@ define([
     if (!i18n) {
       return {};
     }
-    return _.mapObject(i18n, function (props) {
+
+    var i18nWithLowerCaseKeys = {};
+
+    _.each(_.keys(i18n), function (key) {
+      i18nWithLowerCaseKeys[key.toLowerCase()] = i18n[key];
+    });
+
+    return _.mapObject(i18nWithLowerCaseKeys, function (props) {
       var mapped = { login: {}, country: {} };
       if (!_.isObject(props)) {
         throw new Error('Invalid format for "i18n"');

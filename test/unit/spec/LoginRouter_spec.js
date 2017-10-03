@@ -884,6 +884,66 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
           expect(test.form.titleText()).toBe('test override title');
         });
       });
+      itp('overrides text in the login bundle if language field and key in i18n object is in different cases', function () {
+        return setupLanguage({
+          settings: {
+            language: 'zz-zz',
+            i18n: {
+              'zz-ZZ': {
+                'enroll.call.setup': 'custom label'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          expect(test.form.titleText()).toBe('custom label');
+        });
+      });
+      itp('overrides text in the login bundle if language field and key in i18n object is in different cases', function () {
+        return setupLanguage({
+          settings: {
+            language: 'zz-ZZ',
+            i18n: {
+              'zz-zz': {
+                'enroll.call.setup': 'custom label'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          expect(test.form.titleText()).toBe('custom label');
+        });
+      });
+      itp('overrides text in the login bundle if language field and key in i18n object is in different cases', function () {
+        return setupLanguage({
+          settings: {
+            language: 'nl',
+            i18n: {
+              'NL': {
+                'enroll.call.setup': 'custom label'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          expect(test.form.titleText()).toBe('custom label');
+        });
+      });
+      itp('overrides text in the login bundle if language field and key in i18n object is in different cases', function () {
+        return setupLanguage({
+          settings: {
+            language: 'NL',
+            i18n: {
+              'nl': {
+                'enroll.call.setup': 'custom label'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          expect(test.form.titleText()).toBe('custom label');
+        });
+      });
       itp('uses "country.COUNTRY" to override text in the country bundle', function () {
         return setupLanguage({
           settings: {
