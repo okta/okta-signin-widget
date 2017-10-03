@@ -6,6 +6,10 @@ define(['okta/jquery', 'okta/underscore', './Dom'], function ($, _, Dom) {
       return this.el('o-form-head').trimmedText();
     },
 
+    errorBannerText: function () {
+      return this.el('o-form-error-container').trimmedText();
+    },
+
     subtitleText: function () {
       return this.el('o-form-explain').trimmedText();
     },
