@@ -989,7 +989,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
         })
         .then(function (test) {
           test.form.submit();
-          expect(test.form.errorBannerText()).toBe('Dutch error banner title');
+          expect(test.form.errorMessage()).toBe('Dutch error banner title');
         });
       });
 
@@ -1002,7 +1002,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
         })
         .then(function(test){
           test.form.submit();
-          expect(test.form.errorBannerText()).toBe('Japanese error banner title');
+          expect(test.form.errorMessage()).toBe('Japanese error banner title');
         });
       });
 
@@ -1014,7 +1014,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
         })
         .then(function(test){
           test.form.submit();
-          expect(test.form.errorBannerText()).toBe('We found some errors. Please review the form and make corrections.');
+          expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
         });
       });
     });
