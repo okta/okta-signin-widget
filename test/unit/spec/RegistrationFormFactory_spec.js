@@ -1,3 +1,4 @@
+/* eslint max-statements: [2, 22]*/
 define([
   'shared/models/SchemaProperty',
   'util/RegistrationFormFactory'
@@ -58,10 +59,10 @@ function (SchemaProperty, RegistrationFormFactory) {
 
     });
 
-    describe('field name is login', function () {
+    describe('field name is userName', function () {
       beforeEach(function () {
         var schemaProperty = new SchemaProperty.Model({
-          'name': 'login',
+          'name': 'userName',
           'type': 'string',
         }, {parse: true});
         this.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
@@ -89,5 +90,45 @@ function (SchemaProperty, RegistrationFormFactory) {
         expect(this.inputOptions['params'].icon).toEqual('remote-lock-16');
       });
     });
+
+    describe('Get username parts', function () {
+      it('gives the right username parts', function () {
+        var result = RegistrationFormFactory.getUsernameParts('first-last.name@okta.com');
+        expect(result).toEqual(['first', 'last', 'name', 'okta', 'com']);
+
+        result = RegistrationFormFactory.getUsernameParts('first-name@okta.com');
+        expect(result).toEqual(['first', 'name', 'okta', 'com']);
+
+        result = RegistrationFormFactory.getUsernameParts('firstname@okta.com');
+        expect(result).toEqual(['firstname', 'okta', 'com']);
+
+        result = RegistrationFormFactory.getUsernameParts('first_name@okta.com');
+        expect(result).toEqual(['first', 'name', 'okta', 'com']);
+
+        result = RegistrationFormFactory.getUsernameParts('username');
+        expect(result).toEqual(['username']);
+
+        result = RegistrationFormFactory.getUsernameParts('user#name@okta.com');
+        expect(result).toEqual(['user', 'name', 'okta',  'com']);
+
+        result = RegistrationFormFactory.getUsernameParts('user#name@okta#%com');
+        expect(result).toEqual(['user', 'name', 'okta',  '%com']);
+
+        result = RegistrationFormFactory.getUsernameParts('#-name@okta.com');
+        expect(result).toEqual(['name', 'okta', 'com']);
+
+        result = RegistrationFormFactory.getUsernameParts('first_name-@okta#');
+        expect(result).toEqual(['first', 'name', 'okta']);
+
+        result = RegistrationFormFactory.getUsernameParts('a-');
+        expect(result.length).toEqual(0);
+
+        result = RegistrationFormFactory.getUsernameParts('#a_');
+        expect(result.length).toEqual(0);
+
+      });
+
+    });
+
   });
 });

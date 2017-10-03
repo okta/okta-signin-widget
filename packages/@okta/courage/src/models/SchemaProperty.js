@@ -1,11 +1,15 @@
-/* eslint max-statements: [2, 15], complexity: [2, 8] */
+/* eslint max-statements: [2, 15], complexity: [2, 8], max-params: [2, 7] */
 define([
   'okta/underscore',
   'shared/models/BaseCollection',
   'shared/models/BaseModel',
   'shared/util/Logger',
-  'shared/util/SchemaUtil'
-], function (_, BaseCollection, BaseModel, Logger, SchemaUtil) {
+  'shared/util/SchemaUtil',
+  'shared/util/StringUtil',
+  'shared/views/forms/helpers/EnumTypeHelper'
+], function (_, BaseCollection, BaseModel, Logger, SchemaUtil, StringUtil, EnumTypeHelper) {
+
+  var loc = StringUtil.localize;
 
   var STRING = SchemaUtil.STRING,
       NUMBER = SchemaUtil.NUMBER,
@@ -60,6 +64,13 @@ define([
 
     idAttribute: 'name',
 
+    local: {
+      '__oneOf__': {
+        type: 'array',
+        minItems: 1
+      }
+    },
+
     defaults: {
       // OKTA-28445, set empty string by default as the key for each property when sycn with server
       // so that server can respond with error when a name is not provided
@@ -105,7 +116,24 @@ define([
       }),
       '__isFromBaseSchema__': BaseModel.ComputedProperty(['__schemaMeta__'], function (schemaMeta) {
         return schemaMeta && schemaMeta.name === 'base';
-      })
+      }),
+      // Only UI can turn on __enumDefined__ and reprocess the enum/oneOf value; otherwise,
+      // it should leave existing value untouch
+      '__enumDefined__': false,
+      '__supportEnum__': BaseModel.ComputedProperty(['__displayType__'], function (displayType) {
+        return _.contains(SchemaUtil.SUPPORTENUM, displayType);
+      }),
+      '__isNumberTypeEnum__': BaseModel.ComputedProperty(['__displayType__'], function (displayType) {
+        return _.contains([SchemaUtil.NUMBER, SchemaUtil.ARRAYDISPLAYTYPE.arrayofnumber], displayType);
+      }),
+      '__isIntegerTypeEnum__': BaseModel.ComputedProperty(['__displayType__'], function (displayType) {
+        return _.contains([SchemaUtil.INTEGER, SchemaUtil.ARRAYDISPLAYTYPE.arrayofinteger], displayType);
+      }),
+      '__isEnumDefinedAndSupported__': BaseModel.ComputedProperty(
+        ['__enumDefined__', '__supportEnum__'],
+        function (enumDefined, supportEnum) {
+          return enumDefined && supportEnum;
+        })
     },
 
     initialize: function () {
@@ -139,6 +167,12 @@ define([
     },
 
     validate: function () {
+      var enumValidationError = this._validateEnumOneOf();
+
+      if (enumValidationError) {
+        return enumValidationError;
+      }
+
       if (!this.get('__supportsMinMax__') || !this.get('__constraint__')) {
         return undefined;
       }
@@ -287,6 +321,19 @@ define([
       }
     },
 
+    _validateEnumOneOf: function () {
+      if (!this.get('__isEnumDefinedAndSupported__')) {
+        return;
+      }
+
+      var enumOneOf = this.get('__oneOf__') || [],
+          allEnumOneOfHaveContent = EnumTypeHelper.isOneOfEnumHaveContent(enumOneOf);
+
+      if (!allEnumOneOfHaveContent) {
+        return { '__oneOf__': loc('model.validation.field.blank', 'courage') };
+      }
+    },
+
     toJSON: function () {
       var json = BaseModel.prototype.toJSON.apply(this, arguments);
 
@@ -301,6 +348,8 @@ define([
         json.type = 'object';
         json.extendedType = 'image';
       }
+
+      json = this._enumAssignment(json);
       json = this._attributeOverrideToJson(json);
       json = this._normalizeUnionValue(json);
       return json;
@@ -341,6 +390,22 @@ define([
 
       if (!this.get('__isNoneScopeArrayType__')) {
         json['union'] = undefined;
+      }
+
+      return json;
+    },
+
+    _enumAssignment: function (json) {
+      if (!this.get('__isEnumDefinedAndSupported__')) {
+        return json;
+      }
+
+      if (this.get('type') === 'array') {
+        delete json.items.enum;
+        json.items.oneOf = this.get('__oneOf__');
+      } else {
+        delete json.enum;
+        json.oneOf = this.get('__oneOf__');
       }
 
       return json;
@@ -458,6 +523,17 @@ define([
              this.get('enum') ||
              (this.get('items') && this.get('items')['oneOf']) ||
              (this.get('items') && this.get('items')['enum']);
+    },
+
+    detectHasEnumDefined: function () {
+      var enumValues = this.getEnumValues();
+
+      if (!enumValues) {
+        return;
+      }
+
+      this.set('__oneOf__', EnumTypeHelper.convertToOneOf(enumValues));
+      this.set('__enumDefined__', true);
     }
 
   });

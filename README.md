@@ -708,7 +708,7 @@ var signIn = new OktaSignIn(config);
   - `zh-TW` - Chinese (Taiwan)
 
 
-- **i18n:** Override the text in the widget. The full list of properties can be found in the [login.properties](node_modules/@okta/i18n/dist/properties/login.properties) and [country.properties](node_modules/@okta/i18n/dist/properties/country.properties) files.
+- **i18n:** Override the text in the widget. The full list of properties can be found in the [login.properties](packages/@okta/i18n/dist/properties/login.properties) and [country.properties](packages/@okta/i18n/dist/properties/country.properties) files.
 
     ```javascript
     // The i18n object maps language codes to a hash of property keys ->
@@ -975,7 +975,7 @@ Options for the [OpenId Connect](http://developer.okta.com/docs/api/resources/oi
 
     ```javascript
     authParams: {
-      issuer: 'https://your-org.okta.com/oauth2/aus8aus76q8iphupD0h7'
+      issuer: 'https://your-org.okta.com/oauth2/default'
     }
     ```
 
@@ -983,8 +983,8 @@ Options for the [OpenId Connect](http://developer.okta.com/docs/api/resources/oi
 
     ```javascript
     authParams: {
-      issuer: 'https://your-org.okta.com/oauth2/aus8aus76q8iphupD0h7',
-      authorizeUrl: 'https://your-org.okta.com/oauth2/aus8aus76q8iphupD0h7/v1/authorize'
+      issuer: 'https://your-org.okta.com/oauth2/default',
+      authorizeUrl: 'https://your-org.okta.com/oauth2/default/v1/authorize'
     }
     ```
 

@@ -23,7 +23,8 @@ define({
           "minUpperCase": 1,
           "minNumber": 1,
           "minSymbol": 1,
-          "excludeUsername": true
+          "excludeUsername": true,
+          "excludeAttributes": ['firstName', 'lastName']
         }
       }
     },

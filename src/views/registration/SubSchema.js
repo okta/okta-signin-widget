@@ -10,20 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/PasswordComplexityUtil'], function (Okta, PasswordComplexityUtil) {
-
-  var _ = Okta._;
-
-  var PasswordComplexity =  Okta.View.extend({
-    name: '',
+define(['okta'], function (Okta) {
+  var SubSchema =  Okta.View.extend({
+    index: '',
     message: '',
-    id: function () {
-      return 'password-complexity-' + this.name;
+    class: function () {
+      return ;
     },
-    className: 'password-complexity-unsatisfied',
+    className: function() {
+      return 'subschema-unsatisfied subschema-' + this.index;
+    },
     template: '\
-      <p>\
-        <span class="icon icon-16 error-16-small"/>\
+      <p class="default-schema">\
+        <span class="icon icon-16"/>\
         {{message}}\
       </p>\
     ',
@@ -35,17 +34,19 @@ define(['okta', 'util/PasswordComplexityUtil'], function (Okta, PasswordComplexi
   });
 
   return Okta.View.extend({
-    className: 'password-complexity',
+    className: 'subschema',
 
     children: function () {
-      return _.map(this.passwordComplexity.enabledComplexities, function(complexityName) {
-        var complexityValue = this.get(complexityName);
-        var message = PasswordComplexityUtil.complexities[complexityName].getI18nMessage(complexityValue);
-        return PasswordComplexity.extend({
-          name: complexityName, 
+      return this.subSchemas.map(function(subSchema, index) {
+        var description = subSchema.get('description');
+        // TODO API should send translated strings instead of i18n code inside description
+        // or send param with i18n code
+        var message = description;
+        return SubSchema.extend({
+          index: index, 
           message: message
         });
-      }, this.passwordComplexity);
+      });
     }
   });
 });

@@ -20,15 +20,18 @@ function (_) {
   return function mdToHtml(Handlebars, markdownText) {
     /* eslint  okta/no-specific-methods: 0*/
     var linkTemplate = Handlebars.compile('<a href="{{href}}">{{text}}</a>');
+    var res;
     if (!_.isString(markdownText)) {
-      return '';
-    }
-    return _.escape(markdownText).replace(RE_LINK_JS, '').replace(RE_LINK, function (mdLink) {
-      return linkTemplate({
-        href: mdLink.match(RE_LINK_HREF)[1],
-        text: mdLink.match(RE_LINK_TEXT)[1]
+      res = '';
+    } else {
+      res = Handlebars.Utils.escapeExpression(markdownText).replace(RE_LINK_JS, '').replace(RE_LINK, function (mdLink) {
+        return linkTemplate({
+          href: mdLink.match(RE_LINK_HREF)[1],
+          text: mdLink.match(RE_LINK_TEXT)[1]
+        });
       });
-    });
+    }
+    return new Handlebars.SafeString(res);
   };
 
 });

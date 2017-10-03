@@ -1,6 +1,7 @@
 define([
-  'okta/underscore'
-], function (_) {
+  'okta/underscore',
+  'shared/views/BaseView'
+], function (_, BaseView) {
 
   return {
     redirect: function (url) {
@@ -32,6 +33,10 @@ define([
         }
       }), undefined).join('&');
       return _.isEmpty(queriesString) ? '' : '?' + queriesString;
+    },
+
+    isABaseView(obj) {
+      return obj instanceof BaseView || obj.prototype instanceof BaseView || obj === BaseView;
     }
   };
 });
