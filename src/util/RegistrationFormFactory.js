@@ -41,6 +41,23 @@ define([
     }
     return userNameParts.filter(Boolean);
   };
+
+  var passwordContainsUserName = function(username, password) {
+    if(!username) {
+      return false;
+    }
+    username = username.toLowerCase();
+    password = password.toLowerCase();
+    var usernameArr = getParts(username);
+    //check if each username part contains password
+    for (var i=0; i < usernameArr.length; i++){
+      var usernamePart = usernameArr[i];
+      if (password.indexOf(usernamePart) !== -1) {
+        return true;
+      }
+    }
+    return false;
+  };
   
   var checkSubSchema = function(subSchema, value, model) {
     var minLength = subSchema.get('minLength');
@@ -58,26 +75,12 @@ define([
         return false;
       }
     }
-
-    var passwordContainsUserName = function(username, password){
-      var usernameArr = getParts(username);
-      //check if each username part contains password
-      for (var i=0; i < usernameArr.length; i++){
-        var usernamePart = usernameArr[i];
-        if (password.indexOf(usernamePart) !== -1){
-          return true;
-        }
-      }
-    };
     
     if (_.isString(regex)) {
       if (regex === '^[#/userName]') {
-        var username = model.get('userName').toLowerCase();
-
-        var password = value.toLowerCase();
-        if(username.length && password.length && passwordContainsUserName(username, password)) {
-          return false;
-        }
+        var username = model.get('userName');
+        var password = value;
+        return !passwordContainsUserName(username, password);
       } else {
         if (!new RegExp(regex).test(value)) {
           return false;
@@ -165,6 +168,7 @@ define([
 
   return {
     createInputOptions : fnCreateInputOptions,
-    getUsernameParts: getParts
+    getUsernameParts: getParts,
+    passwordContainsUserName: passwordContainsUserName
   };
 });
