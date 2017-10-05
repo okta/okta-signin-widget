@@ -90,13 +90,25 @@ define([
     
     return true;
   };
-  
+
+  var toggleRegisterButton = function(isPasswordInvalid) {
+    var registerButton  = Okta.$('.registration .button-primary');
+    registerButton.removeAttr('disabled');
+    registerButton.removeClass('link-button-disabled');
+
+    if(isPasswordInvalid) {
+      registerButton.attr('disabled', 'disabled');
+      registerButton.addClass('link-button-disabled');
+    }
+  };
   
   var checkSubSchemas = function (fieldName, model, subSchemas, showError) {
     var value = model.get(fieldName);
     if (!_.isString(value)) {
       return;
     }
+
+    var isPasswordInvalid = false;
 
     subSchemas.each(function(subSchema, index) {
       var ele = Okta.$('#subschemas-' + fieldName + ' .subschema-' + index);
@@ -116,9 +128,11 @@ define([
           ele.find('p span').removeClass('confirm-16');
           ele.find('p span').addClass('error error-16-small');
           ele.addClass('subschema-error subschema-unsatisfied');
+          isPasswordInvalid = true;
         }
       }
     });
+    toggleRegisterButton(isPasswordInvalid);
   };
 
   var fnCreateInputOptions = function(schemaProperty) {

@@ -81,6 +81,10 @@ define(['./Form'], function (Form) {
 
     passwordContainsUsernameError: function () {
       return this.$('.subschema-4').hasClass('subschema-error');
+    },
+
+    isRegisterButtonDisabled: function () {
+      return this.$('.button-primary').prop('disabled');
     }
 
   });
