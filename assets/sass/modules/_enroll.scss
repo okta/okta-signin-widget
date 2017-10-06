@@ -213,10 +213,10 @@
   .o-form-input > span {
     display: table;
     width: 100%;
-  }
 
-  .custom-radio {
-    display: table-cell;
+    > div {
+      display: table-cell;
+    }
   }
 
   label,
