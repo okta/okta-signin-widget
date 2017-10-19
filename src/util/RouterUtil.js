@@ -218,6 +218,17 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
     }
   };
 
+  fn.verifyRouteChange = function () {
+    return this.controller.model.manageTransaction(function (transaction, setTransaction) {
+      if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
+        return transaction.prev()
+        .then(function (trans) {
+          setTransaction(trans);
+        });
+      }
+    });
+  };
+
   return fn;
 
 });
