@@ -20,6 +20,10 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, ConsentRequiredForm, E
   var itp = Expect.itp;
   var tick = Expect.tick;
 
+  function deepClone(res) {
+    return JSON.parse(JSON.stringify(res));
+  }
+
   function setup(settings, res) {
     settings || (settings = {});
     var successSpy = jasmine.createSpy('successSpy');
@@ -50,6 +54,16 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, ConsentRequiredForm, E
     return Expect.waitForConsentRequired(settings);
   }
 
+  function setupClientLogo() {
+    var resConsentRequiredClientLogo = deepClone(resConsentRequired);
+    var customLogo = {
+      href: 'https://example.com/custom-logo.png',
+      type: 'image/png'
+    };
+    resConsentRequiredClientLogo.response._embedded.target._links.logo = customLogo;
+    return setup(undefined, resConsentRequiredClientLogo);
+  }
+
   Expect.describe('ConsentRequired', function () {
 
     Expect.describe('ConsentBeacon', function () {
@@ -58,9 +72,14 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, ConsentRequiredForm, E
           expect(test.form.userLogo()).toHaveClass('person-16-gray');
         });
       });
-      itp('has the correct client logo', function () {
+      itp('has the default logo if client logo is not provided', function () {
         return setup().then(function (test) {
-          expect(test.form.clientLogo()).toHaveAttr('src', 'https://example.com/logo.png');
+          expect(test.form.clientLogo()).toHaveAttr('src', 'https://example.okta.com/img/logos/default.png');
+        });
+      });
+      itp('has the correct client logo', function () {
+        return setupClientLogo().then(function (test) {
+          expect(test.form.clientLogo()).toHaveAttr('src', 'https://example.com/custom-logo.png');
         });
       });
     });

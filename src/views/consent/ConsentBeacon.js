@@ -31,15 +31,20 @@ define(['okta'], function (Okta) {
       </div>\
       <div class="logo-wrapper consent-beacon-client">\
         <div class="consent-beacon-border"/>\
-          {{#if clientLogo}}\
-            <img class="client-logo" src="{{clientLogo}}" />\
+          {{#if customLogo}}\
+            <img class="client-logo custom-logo" src="{{customLogo}}" />\
+          {{else}}\
+            <img class="client-logo default-logo" src="{{defaultLogo}}" />\
           {{/if}}\
         </div>\
       </div>\
     ',
 
     getTemplateData: function () {
-      return { clientLogo: this.options.appState.get('targetLogo') && this.options.appState.get('targetLogo').href };
+      return {
+        customLogo: this.options.appState.get('targetLogo') && this.options.appState.get('targetLogo').href,
+        defaultLogo: this.options.appState.get('defaultAppLogo')
+      };
     },
 
     equals: function (Beacon) {
