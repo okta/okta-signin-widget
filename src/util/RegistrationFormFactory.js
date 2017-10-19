@@ -142,6 +142,16 @@ define([
       inputOptions.params = {
         'icon': 'person-16-gray'
       };
+      inputOptions.events = {
+        'input': function () {
+          var passwordField = Okta.$('.registration .okta-form-input-field input[type="password"]');
+          passwordField.trigger('blur');
+        },
+        'focusout': function () {
+          var passwordField = Okta.$('.registration .okta-form-input-field input[type="password"]');
+          passwordField.trigger('blur');
+        }
+      };
       break;
     case 'password':
       inputOptions.type = 'password';
