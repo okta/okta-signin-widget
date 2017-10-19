@@ -128,6 +128,13 @@ function (
             form.add(SubSchema.extend({id: 'subschemas-' + name, subSchemas: subSchemas}));
           }
         });
+        // fire password validation when username changes
+        this.listenTo(this.model, 'change:userName', function() {
+          if (this.model.get('userName') && this.model.get('password')) {
+            var passwordField = Okta.$('.registration .okta-form-input-field input[type="password"]');
+            passwordField.trigger('blur');
+          }
+        });
         this.add(form);
         this.footer = new this.Footer(this.toJSON());
         this.add(this.footer);
