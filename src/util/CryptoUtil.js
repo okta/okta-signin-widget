@@ -13,9 +13,8 @@
 define(function () {
   var fn = {};
   
-   // Light weight hashing algorithm that hashes string into an integer between 0 and 4294967295
-   // Not recommended for data set of size greater than 10000
-   // https://www.npmjs.com/package/string-hash
+  // string-hash algorithm that hashes string into an integer between 0 and 4294967295
+  // Not recommended for data set of size greater than 10000
   fn.getStringHash = function (str) {
     var hash = 5381,
         i = str.length;
