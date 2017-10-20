@@ -32,5 +32,20 @@ function (Expect, Okta, TextBox, $sandbox) {
       expect(input.attr('pattern')).toEqual('[0-9]*');
       expect(input.attr('inputmode')).toEqual('numeric');
     });
+
+    it('invalid value for type="number"', function () {
+      spyOn(Okta, 'loc');
+
+      var textbox = new TextBox({
+        model: new Okta.BaseModel(),
+        id: Okta._.uniqueId('textbox'),
+        type: 'number'
+      });
+
+      $sandbox.html(textbox.render().el);
+      var input = textbox.$('#' + textbox.options.inputId);
+      input.trigger('invalid');
+      expect(Okta.loc).toHaveBeenCalledWith('error.number.required', 'login');
+    });
   });
 });

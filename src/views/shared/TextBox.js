@@ -16,12 +16,13 @@
 //include Okta
 define([
   'okta/jquery',
+  'okta',
   'shared/util/handlebars-wrapper',
   'util/BrowserFeatures',
   'shared/views/forms/inputs/TextBox',
   'qtip'
 ],
-function ($, Handlebars, BrowserFeatures, TextBox) {
+function ($, Okta, Handlebars, BrowserFeatures, TextBox) {
 
   function hasTitleAndText(options) {
     var title = options.title,
@@ -65,6 +66,10 @@ function ($, Handlebars, BrowserFeatures, TextBox) {
         input.attr({
           pattern: '[0-9]*',
           inputmode: 'numeric'
+        })
+        .on('invalid', function () {
+          var msg = Okta.loc('error.number.required', 'login');
+          $(this).get(0).setCustomValidity(msg);
         });
       }
 
