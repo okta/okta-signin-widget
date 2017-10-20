@@ -159,6 +159,9 @@ define([
         },
         'focusout': function () {
           checkSubSchemas(fieldName, this.model, subSchemas, true);
+        },
+        'change:userName': function () {
+          checkSubSchemas(fieldName, this.model, subSchemas, true);
         }
       };
     }

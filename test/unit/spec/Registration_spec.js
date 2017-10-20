@@ -354,6 +354,15 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
         });
       });
 
+      itp('shows password complexity error if username is entered after password', function () {
+        return setup().then(function (test) {
+          test.form.setPassword('Abcd1234');
+          test.form.focusOutPassword();
+          test.form.setEmail('abcd@example.com');
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+        });
+      });
+
     });
   });
 });
