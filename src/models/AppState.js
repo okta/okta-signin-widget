@@ -28,6 +28,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
   var $ = Okta.$;
   var compile = Okta.Handlebars.compile;
 
+  var DEFAULT_APP_LOGO = '/img/logos/default.png';
   var USER_NOT_SEEN_ON_DEVICE = '/img/security/unknown.png';
   var UNDEFINED_USER = '/img/security/default.png';
   var NEW_USER = '/img/security/unknown-device.png';
@@ -432,6 +433,12 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
             return '';
           }
           return userProfile.firstName + ' ' + userProfile.lastName;
+        }
+      },
+      'defaultAppLogo' : {
+        deps: ['baseUrl'],
+        fn: function (baseUrl) {
+          return baseUrl + DEFAULT_APP_LOGO;
         }
       },
       'expiresAt': {

@@ -12,10 +12,6 @@ define({
         "label": "Janky App",
         "clientId": "8WUqrTzUG9RyJt2C6Gmm",
         "_links": {
-          "logo": {
-            "href": "https://example.com/logo.png",
-            "type": "image/png"
-          },
           "about": {
             "href": "https://example.com/about.html",
             "type": "text/html"

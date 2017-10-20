@@ -33,9 +33,18 @@
     left: 59px;
 
     .client-logo {
+      border-radius: $border-radius-default;
+    }
+
+    .custom-logo {
       width: 70px;
       height: 70px;
-      border-radius: $border-radius-default;
+    }
+
+    .default-logo {
+      width: 50px;
+      height: 50px;
+      padding: 10px;
     }
   }
 
@@ -71,6 +80,7 @@
     padding-top: 20px;
     padding-bottom: 25px;
     text-align: center;
+    word-wrap: break-word;
 
     p {
       font-size: 16px;
