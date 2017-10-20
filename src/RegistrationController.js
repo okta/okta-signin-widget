@@ -115,11 +115,16 @@ function (
         };
 
         // event listeners to toggle registerButton
-        form.listenTo(this.model, 'disableRegister', function(){
+        form.listenTo(this.model, 'disableRegister invalid', function(){
           toggleRegisterButton(true);
         });
-        form.listenTo(this.model, 'enableRegister', function(){
+        form.listenTo(this.model, 'enableRegister valid', function(){
           toggleRegisterButton(false);
+        });
+        form.listenTo(this.model, 'change', function(){
+          if (!this.model.validate()) {
+            this.model.trigger('enableRegister');
+          }
         });
 
         this.listenTo(form, 'saved', _.bind(function() {

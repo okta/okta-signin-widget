@@ -375,6 +375,14 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
           expect(test.form.isRegisterButtonDisabled()).toBe(true);
         });
       });
+
+      itp('Register button is disabled if required fields are empty', function () {
+        return setup().then(function (test) {
+          test.form.submit();
+          expect(test.form.isRegisterButtonDisabled()).toBe(true);
+        });
+      });
+
     });
 
 
