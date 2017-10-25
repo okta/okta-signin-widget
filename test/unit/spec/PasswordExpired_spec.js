@@ -294,7 +294,7 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe(
-            'We found some errors. Please review the form and make corrections.'
+            'Old password is not correct'
           );
         });
       });
