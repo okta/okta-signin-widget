@@ -14,9 +14,8 @@ define([
   'okta',
   'shared/models/BaseSchema',
   'shared/models/SchemaProperty',
-  'util/Errors'
 ],
-function (Okta, BaseSchema, SchemaProperty, Errors) {
+function (Okta, BaseSchema, SchemaProperty) {
 
   var _ = Okta._;
 
@@ -68,34 +67,27 @@ function (Okta, BaseSchema, SchemaProperty, Errors) {
       var preRender = this.preRender;
       var postSchemaFetch = this.postSchemaFetch;
       var properties = this.properties;
-      var self = this;
+      var DEFAULT_CALLBACK_ERROR = 'We could not process your registration at this time. Please try again later';
 
-      var processCallback = _.bind(function(resp, callback, args){
+      var processCallback = _.bind(function(resp, callback, args, error){
         resp.schema = resp.profileSchema;
         BaseSchema.Model.prototype.parse.apply(this, [resp]);
         resp = parseResponseData(resp);
         if (callback) {
-          callback(args);
+          callback(args, error);
         }
       }, this);
 
       //check for preRender
       if (_.isFunction(preRender)) {
-        if (preRender.length == 1) {
-          //async callback
-          preRender(resp).then(function(resp) {
-            processCallback(resp, postSchemaFetch, properties);
-          }).catch(function() {
-            self.settings.callGlobalError(new Errors.ConfigError('preRender callback failed'));
-          });
-        } else {
-          //sync callback
-          preRender(resp, function(resp) {
-            processCallback(resp, postSchemaFetch, properties);
-          }, function () {
-            self.settings.callGlobalError(new Errors.ConfigError('preRender callback failed'));
-          });
-        }
+        //async callback
+        preRender(resp, function(resp) {
+          processCallback(resp, postSchemaFetch, properties);
+        }, _.bind(function (error) {
+          error = error || {'errorSummary': DEFAULT_CALLBACK_ERROR};
+          error['callback'] = 'preRender';
+          processCallback(resp, postSchemaFetch, properties, error);
+        }, this));
       } else {
         //no callback
         processCallback(resp, postSchemaFetch, properties);

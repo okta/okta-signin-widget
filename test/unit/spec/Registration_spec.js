@@ -4,15 +4,17 @@ define([
   'okta/underscore',
   'okta/jquery',
   '@okta/okta-auth-js/jquery',
+  'backbone',
   'helpers/mocks/Util',
   'helpers/util/Expect',
   'helpers/dom/Beacon',
   'helpers/dom/RegistrationForm',
   'models/RegistrationSchema',
   'LoginRouter',
-  'sandbox'
+  'sandbox',
+  'util/Errors',
 ],
-function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, RegistrationSchema, Router, $sandbox) {
+function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema, Router, $sandbox, Errors) {
 
   var itp = Expect.itp;
   
@@ -103,10 +105,11 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
       authClient: authClient,
       globalSuccessFn: successSpy
     }, settings));
-    var form = new RegistrationForm($sandbox);
+    spyOn(router.settings, 'callGlobalError');
+    var form = new RegForm($sandbox);
     var beacon = new Beacon($sandbox);
     Util.registerRouter(router);
-    spyOn(RegistrationSchema.prototype, 'fetch').and.callFake(function () {
+    spyOn(RegSchema.prototype, 'fetch').and.callFake(function () {
       this.set(this.parse(testData));
       return $.Deferred().resolve();
     });
@@ -389,5 +392,206 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
       });
 
     });
+
+    var expectRegCallbackError = function(test, callback, message) {
+      var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
+      expect(err instanceof Errors.RegistrationError).toBe(true);
+      expect(err.name).toBe('REGISTRATION_FAILED');
+      var errMsg = callback+':'+ message;
+      expect(err.message).toEqual(errMsg);
+    };
+
+    var expectRegApiError = function(test, message) {
+      var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
+      expect(err instanceof Errors.RegistrationError).toBe(true);
+      expect(err.name).toBe('REGISTRATION_FAILED');
+      expect(err.message).toEqual(message);
+    };
+    Expect.describe('Registration callback hooks', function () {
+      var DEFAULT_CALLBACK_ERROR = 'We could not process your registration at this time. Please try again later';
+      itp('calls preRender if registration.preRender defined in config', function () {
+        var setting = {
+          'registration': {
+            'preRender': jasmine.createSpy('preRenderSpy')
+          }
+        };
+        return setup(setting).then(function () {
+          expect(setting.registration.preRender).toHaveBeenCalled();
+        });
+      });
+      itp('calls preSubmit if registration.preSubmit is defined and preRender calls onSuccess', function () {
+        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+        var setting = {
+          'registration': {
+            'preRender': function(resp, onSuccess, onFailure){
+              preRenderSpy(resp, onSuccess, onFailure);
+              onSuccess(resp);
+            },
+            'preSubmit': jasmine.createSpy('preSubmitSpy')
+          }
+        };
+        return setup(setting)
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setEmail('test@example.com');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.submit();
+          var model = test.router.controller.model;
+          model.save();
+          expect(setting.registration.preSubmit).toHaveBeenCalled();
+        });
+      });
+      itp(' does not call preSubmit if preRender calls onFailure with default error', function () {
+        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+        var setting = {
+          'registration': {
+            'preRender': function(resp, onSuccess, onFailure){
+              preRenderSpy(resp, onSuccess, onFailure);
+              onFailure();
+            },
+            'preSubmit': jasmine.createSpy('preSubmitSpy')
+          }
+        };
+        return setup(setting)
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setEmail('test@example.com');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.submit();
+          var model = test.router.controller.model;
+          model.save();
+          expectRegCallbackError(test, 'preRender', DEFAULT_CALLBACK_ERROR);
+        });
+      });
+      itp(' does not call preSubmit if preRender calls onFailure with custom form level error', function () {
+        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+        var setting = {
+          'registration': {
+            'preRender': function(resp, onSuccess, onFailure){
+              preRenderSpy(resp, onSuccess, onFailure);
+              var errorObject = {
+                'errorSummary': 'Custom form level preRender error message'
+              };
+              onFailure(errorObject);
+            },
+            'preSubmit': jasmine.createSpy('preSubmitSpy')
+          }
+        };
+        return setup(setting)
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setEmail('test@example.com');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.submit();
+          var model = test.router.controller.model;
+          model.save();
+          expectRegCallbackError(test, 'preRender', 'Custom form level preRender error message');
+        });
+      });
+      itp('calls postSubmit if registration.postSubmit is defined and preSubmit calls onSuccess', function () {
+        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+        var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
+        var setting = {
+          'registration': {
+            'preRender': function (resp, onSuccess, onFailure) {
+              preRenderSpy(resp, onSuccess, onFailure);
+              onSuccess(resp);
+            },
+            'preSubmit': function (postData, onSuccess, onFailure) {
+              preSubmitSpy(postData, onSuccess, onFailure);
+              onSuccess(postData);
+            },
+            'postSubmit': jasmine.createSpy('postSubmitSpy')
+          }
+        };
+        return setup(setting)
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setEmail('test@example.com');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.submit();
+          var model = test.router.controller.model;
+          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+          model.save();
+          expect(setting.registration.postSubmit).toHaveBeenCalled();
+        });
+      });
+      itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function () {
+        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+        var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
+        var setting = {
+          'registration': {
+            'preRender': function (resp, onSuccess, onFailure) {
+              preRenderSpy(resp, onSuccess, onFailure);
+              onSuccess(resp);
+            },
+            'preSubmit': function (postData, onSuccess, onFailure) {
+              preSubmitSpy(postData, onSuccess, onFailure);
+              onFailure();
+            },
+            'postSubmit': jasmine.createSpy('postSubmitSpy')
+          }
+        };
+        return setup(setting)
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setEmail('test@example.com');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.submit();
+          var model = test.router.controller.model;
+          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+          model.save();
+          expectRegCallbackError(test, 'preSubmit', DEFAULT_CALLBACK_ERROR);
+        });
+      });
+      itp('calls globalError when registration API throws an error ', function () {
+        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+        var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
+        var postSubmitSpy = jasmine.createSpy('postSubmitSpy');
+        var setting = {
+          'registration': {
+            'preRender': function (resp, onSuccess, onFailure) {
+              preRenderSpy(resp, onSuccess, onFailure);
+              onSuccess(resp);
+            },
+            'preSubmit': function (postData, onSuccess, onFailure) {
+              preSubmitSpy(postData, onSuccess, onFailure);
+              onSuccess();
+            },
+            'postSubmit': function (response, onSuccess, onFailure) {
+              postSubmitSpy(response, onSuccess, onFailure);
+              onSuccess(response);
+            }
+          }
+        };
+        return setup(setting)
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setEmail('test');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.submit();
+          var model = test.router.controller.model;
+          var apiResponse = {
+            'responseJSON' : {
+              'errorCauses': [
+                {
+                  'errorSummary': '\'Email address \' must be in the form of an email address'
+                }
+              ]
+            }
+          };
+          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().reject(apiResponse));
+          model.save();
+          expectRegApiError(test, '\'Email address \' must be in the form of an email address');
+        });
+      });
+    });
+
   });
 });
