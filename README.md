@@ -685,6 +685,7 @@ var signIn = new OktaSignIn(config);
   - `cs` - Czech
   - `da` - Danish
   - `de` - German
+  - `el` - Greek
   - `en` - English
   - `es` - Spanish
   - `fi` - Finnish
