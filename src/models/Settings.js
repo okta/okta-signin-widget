@@ -81,6 +81,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'features.customExpiredPassword': ['boolean', true, false],
       'features.registration': ['boolean', false, false],
       'features.consent': ['boolean', false, false],
+      'features.idpDiscovery': ['boolean', false, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function
@@ -145,7 +146,10 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'registration.postSubmit': 'function',
 
       //Consent
-      'consent.cancel': 'function'
+      'consent.cancel': 'function',
+
+      //IDP Discovery
+      'idpDiscovery.requestContext': 'string'
     },
 
     derived: {
