@@ -61,12 +61,9 @@ function (
   return BaseLoginController.extend({
     className: 'registration',
     initialize: function() {
-      var clientId = this.options.settings.get('registration.clientId');
+      var clientId = this.options.settings.get('clientId');
       var registrationApi = this.options.settings.get('baseUrl')+'/api/v1/registration/'+clientId;
 
-      if (!clientId) {
-        return false;
-      }
       var Schema = RegistrationSchema.extend({
         url: registrationApi+'/form'
       });
