@@ -91,12 +91,13 @@ define([
     return true;
   };
   
-  
   var checkSubSchemas = function (fieldName, model, subSchemas, showError) {
     var value = model.get(fieldName);
     if (!_.isString(value)) {
       return;
     }
+    // enable register button
+    model.trigger('enableRegister');
 
     subSchemas.each(function(subSchema, index) {
       var ele = Okta.$('#subschemas-' + fieldName + ' .subschema-' + index);
@@ -116,6 +117,8 @@ define([
           ele.find('p span').removeClass('confirm-16');
           ele.find('p span').addClass('error error-16-small');
           ele.addClass('subschema-error subschema-unsatisfied');
+          // disable register button
+          model.trigger('disableRegister');
         }
       }
     });

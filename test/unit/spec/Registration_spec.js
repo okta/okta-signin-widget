@@ -361,5 +361,36 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
       });
 
     });
+
+    Expect.describe('Register button', function () {
+      itp('Register button is enabled if no password complexity errors', function () {
+        return setup().then(function (test) {
+          test.form.setFirstname(Util.LoremIpsum);
+          test.form.setEmail('abcd@example.com');
+          test.form.setPassword('Test1234%');
+          test.form.focusOutPassword();
+          expect(test.form.isRegisterButtonDisabled()).toBe(false);
+        });
+      });
+      itp('Register button is disabled if password complexity errors are present', function () {
+        return setup().then(function (test) {
+          test.form.setFirstname(Util.LoremIpsum);
+          test.form.setEmail('abcd@example.com');
+          test.form.setPassword('Abcd1234%');
+          test.form.focusOutPassword();
+          expect(test.form.isRegisterButtonDisabled()).toBe(true);
+        });
+      });
+
+      itp('Register button is disabled if required fields are empty', function () {
+        return setup().then(function (test) {
+          test.form.submit();
+          expect(test.form.isRegisterButtonDisabled()).toBe(true);
+        });
+      });
+
+    });
+
+
   });
 });

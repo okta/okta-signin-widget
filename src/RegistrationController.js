@@ -100,6 +100,30 @@ function (
 
         var form = new Form(this.toJSON());
 
+        var toggleRegisterButton = function(isPasswordInvalid) {
+          var registerButton  = Okta.$('.registration .button-primary');
+          registerButton.removeAttr('disabled');
+          registerButton.removeClass('link-button-disabled');
+
+          if(isPasswordInvalid) {
+            registerButton.attr('disabled', 'disabled');
+            registerButton.addClass('link-button-disabled');
+          }
+        };
+
+        // event listeners to toggle registerButton
+        form.listenTo(this.model, 'disableRegister invalid', function(){
+          toggleRegisterButton(true);
+        });
+        form.listenTo(this.model, 'enableRegister valid', function(){
+          toggleRegisterButton(false);
+        });
+        form.listenTo(this.model, 'change', function(){
+          if (!this.model.validate()) {
+            this.model.trigger('enableRegister');
+          }
+        });
+
         this.listenTo(form, 'saved', _.bind(function() {
           var activationToken = this.get('activationToken');
           if (activationToken) {
