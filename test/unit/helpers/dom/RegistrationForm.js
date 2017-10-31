@@ -51,6 +51,14 @@ define(['./Form'], function (Form) {
       return this.error(PASSWORD_FIELD);
     },
 
+    requiredFieldLabel: function () {
+      return this.$('.required-fields-label').text();
+    },
+
+    fieldPlaceholder: function(field) {
+      return this.$('.okta-form-input-field input[name="'+field+'"]').attr('placeholder');
+    },
+
     setPassword: function (val) {
       var field = this.passwordField();
       field.val(val);
