@@ -2265,6 +2265,21 @@ function (Okta,
               expect(form.errorMessage()).toBe('Invalid Passcode/Answer');
             });
           });
+          itp('shows errors if verify button is clicked and answer is empty', function () {
+            return setupOktaPush()
+            .then(function (test) {
+              var form = test.form[1];
+              $.ajax.calls.reset();
+              form.inlineTOTPAdd().click();
+              form.inlineTOTPVerify().click();
+              return Expect.waitForFormError(form, form);
+            })
+            .then(function (form) {
+              expect($.ajax).not.toHaveBeenCalled();
+              expect(form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+              expect(form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+            });
+          });
           itp('sets the transaction on the appState on success response', function () {
             return setupOktaPush().then(function (test) {
               mockTransactions(test.router.controller, true);
