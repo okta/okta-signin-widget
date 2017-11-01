@@ -28,6 +28,9 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
       className: 'button inline-totp-verify',
       title: Okta.loc('mfa.challenge.verify', 'login'),
       click: function () {
+        if (!form.isValid()) {
+          return;
+        }
         form.model.manageTransaction(function (transaction, setTransaction) {
           // This is the case where we enter the TOTP code and verify while there is an
           // active Push request (or polling) running. We need to invoke previous() on authClient
