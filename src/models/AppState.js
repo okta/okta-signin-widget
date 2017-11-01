@@ -492,6 +492,15 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return target._links['privacy-policy'];
         }
       },
+      'targetClientURI': {
+        deps: ['target'],
+        fn: function (target) {
+          if (!target || !target._links) {
+            return null;
+          }
+          return target._links['client-uri'];
+        }
+      },
       'scopes': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
