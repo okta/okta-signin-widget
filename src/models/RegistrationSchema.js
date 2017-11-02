@@ -13,7 +13,7 @@
 define([
   'okta',
   'shared/models/BaseSchema',
-  'shared/models/SchemaProperty',
+  'shared/models/SchemaProperty'
 ],
 function (Okta, BaseSchema, SchemaProperty) {
 
@@ -63,35 +63,18 @@ function (Okta, BaseSchema, SchemaProperty) {
         }
         return resp;
       }, this);
-      
-      var preRender = this.preRender;
-      var postSchemaFetch = this.postSchemaFetch;
-      var properties = this.properties;
-      var DEFAULT_CALLBACK_ERROR = 'We could not process your registration at this time. Please try again later';
 
-      var processCallback = _.bind(function(resp, callback, args, error){
-        resp.schema = resp.profileSchema;
-        BaseSchema.Model.prototype.parse.apply(this, [resp]);
-        resp = parseResponseData(resp);
-        if (callback) {
-          callback(args, error);
+      var self = this;
+      this.settings.parseSchema(resp, function(resp) {
+        if (resp.profileSchema) {
+          resp.schema = resp.profileSchema;
+          BaseSchema.Model.prototype.parse.apply(self, [resp]);
+          resp = parseResponseData(resp);
         }
-      }, this);
-
-      //check for preRender
-      if (_.isFunction(preRender)) {
-        //async callback
-        preRender(resp, function(resp) {
-          processCallback(resp, postSchemaFetch, properties);
-        }, _.bind(function (error) {
-          error = error || {'errorSummary': DEFAULT_CALLBACK_ERROR};
-          error['callback'] = 'preRender';
-          processCallback(resp, postSchemaFetch, properties, error);
-        }, this));
-      } else {
-        //no callback
-        processCallback(resp, postSchemaFetch, properties);
-      }
+        self.trigger('parseComplete', {properties: self.properties});
+      }, function(error) {
+        self.trigger('parseComplete', {properties: self.properties, error: error});
+      });
     }
   });
 });

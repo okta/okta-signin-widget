@@ -408,23 +408,23 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       expect(err.message).toEqual(message);
     };
     Expect.describe('Registration callback hooks', function () {
-      var DEFAULT_CALLBACK_ERROR = 'We could not process your registration at this time. Please try again later';
-      itp('calls preRender if registration.preRender defined in config', function () {
+      var DEFAULT_CALLBACK_ERROR = 'We could not process your registration at this time. Please try again later.';
+      itp('calls parseSchema if registration.parseSchema defined in config', function () {
         var setting = {
           'registration': {
-            'preRender': jasmine.createSpy('preRenderSpy')
+            'parseSchema': jasmine.createSpy('parseSchemaSpy')
           }
         };
         return setup(setting).then(function () {
-          expect(setting.registration.preRender).toHaveBeenCalled();
+          expect(setting.registration.parseSchema).toHaveBeenCalled();
         });
       });
-      itp('calls preSubmit if registration.preSubmit is defined and preRender calls onSuccess', function () {
-        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+      itp('calls parseSchema if registration.parseSchema is defined and parseSchema calls onSuccess', function () {
+        var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'preRender': function(resp, onSuccess, onFailure){
-              preRenderSpy(resp, onSuccess, onFailure);
+            'parseSchema': function(resp, onSuccess, onFailure){
+              parseSchemaSpy(resp, onSuccess, onFailure);
               onSuccess(resp);
             },
             'preSubmit': jasmine.createSpy('preSubmitSpy')
@@ -442,12 +442,12 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           expect(setting.registration.preSubmit).toHaveBeenCalled();
         });
       });
-      itp(' does not call preSubmit if preRender calls onFailure with default error', function () {
-        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+      itp(' does not call preSubmit if parseSchema calls onFailure with default error', function () {
+        var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'preRender': function(resp, onSuccess, onFailure){
-              preRenderSpy(resp, onSuccess, onFailure);
+            'parseSchema': function(resp, onSuccess, onFailure){
+              parseSchemaSpy(resp, onSuccess, onFailure);
               onFailure();
             },
             'preSubmit': jasmine.createSpy('preSubmitSpy')
@@ -462,17 +462,17 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           test.form.submit();
           var model = test.router.controller.model;
           model.save();
-          expectRegCallbackError(test, 'preRender', DEFAULT_CALLBACK_ERROR);
+          expectRegCallbackError(test, 'parseSchema', DEFAULT_CALLBACK_ERROR);
         });
       });
-      itp(' does not call preSubmit if preRender calls onFailure with custom form level error', function () {
-        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+      itp(' does not call preSubmit if parseSchema calls onFailure with custom form level error', function () {
+        var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'preRender': function(resp, onSuccess, onFailure){
-              preRenderSpy(resp, onSuccess, onFailure);
+            'parseSchema': function(resp, onSuccess, onFailure){
+              parseSchemaSpy(resp, onSuccess, onFailure);
               var errorObject = {
-                'errorSummary': 'Custom form level preRender error message'
+                'errorSummary': 'Custom form level parseSchema error message'
               };
               onFailure(errorObject);
             },
@@ -488,16 +488,16 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           test.form.submit();
           var model = test.router.controller.model;
           model.save();
-          expectRegCallbackError(test, 'preRender', 'Custom form level preRender error message');
+          expectRegCallbackError(test, 'parseSchema', 'Custom form level parseSchema error message');
         });
       });
-      itp('calls postSubmit if registration.postSubmit is defined and preSubmit calls onSuccess', function () {
-        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+      itp('calls postSubmit if registration.postSubmit is defined and parseSchema calls onSuccess', function () {
+        var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
         var setting = {
           'registration': {
-            'preRender': function (resp, onSuccess, onFailure) {
-              preRenderSpy(resp, onSuccess, onFailure);
+            'parseSchema': function (resp, onSuccess, onFailure) {
+              parseSchemaSpy(resp, onSuccess, onFailure);
               onSuccess(resp);
             },
             'preSubmit': function (postData, onSuccess, onFailure) {
@@ -521,12 +521,12 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         });
       });
       itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function () {
-        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+        var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
         var setting = {
           'registration': {
-            'preRender': function (resp, onSuccess, onFailure) {
-              preRenderSpy(resp, onSuccess, onFailure);
+            'parseSchema': function (resp, onSuccess, onFailure) {
+              parseSchemaSpy(resp, onSuccess, onFailure);
               onSuccess(resp);
             },
             'preSubmit': function (postData, onSuccess, onFailure) {
@@ -550,13 +550,13 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         });
       });
       itp('calls globalError when registration API throws an error ', function () {
-        var preRenderSpy = jasmine.createSpy('preRenderSpy');
+        var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
         var postSubmitSpy = jasmine.createSpy('postSubmitSpy');
         var setting = {
           'registration': {
-            'preRender': function (resp, onSuccess, onFailure) {
-              preRenderSpy(resp, onSuccess, onFailure);
+            'parseSchema': function (resp, onSuccess, onFailure) {
+              parseSchemaSpy(resp, onSuccess, onFailure);
               onSuccess(resp);
             },
             'preSubmit': function (postData, onSuccess, onFailure) {
