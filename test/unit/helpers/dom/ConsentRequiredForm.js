@@ -34,5 +34,4 @@ define(['./Form'], function (Form) {
       return this.$('.consent-required input[data-type="cancel"]');
     }
   });
-
 });
