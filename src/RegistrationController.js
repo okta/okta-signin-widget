@@ -125,6 +125,12 @@ function (
             form.add(SubSchema.extend({id: 'subschemas-' + name, subSchemas: subSchemas}));
           }
         });
+        var requiredFieldsLabel = Okta.View.extend({
+          template: '\
+          <span class="required-fields-label">{{i18n code="registration.required.fields.label" bundle="login"}}</span>\
+          '
+        });
+        form.add(requiredFieldsLabel);
         this.add(form);
         this.footer = new this.Footer(this.toJSON());
         this.add(this.footer);

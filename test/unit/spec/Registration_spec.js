@@ -48,6 +48,12 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
             {'const': 'pl', 'title': 'Platinum'}
           ]
         },
+        'address': {
+          'type': 'string',
+          'description': 'Street Address',
+          'default': 'Enter your street address',
+          'maxLength': 255
+        },
         'referrer': {
           'type': 'string',
           'description': 'How did you hear about us?',
@@ -80,7 +86,7 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
           ]
         }
       },
-      'required': ['firstName', 'lastName', 'userName', 'password', 'accountLevel'],
+      'required': ['firstName', 'lastName', 'userName', 'password', 'referrer'],
       'fieldOrder': ['userName', 'password', 'firstName', 'lastName', 'accountLevel', 'referrer']
     }
   };
@@ -157,6 +163,28 @@ function (Q, _, $, OktaAuth, Util, Expect, Beacon, RegistrationForm, Registratio
           var password = test.form.passwordField();
           expect(password.length).toBe(1);
           expect(password.attr('type')).toEqual('password');
+        });
+      });
+      itp('shows label for required field', function () {
+        return setup().then(function (test) {
+          var requiredLabel = test.form.requiredFieldLabel();
+          expect(requiredLabel).toBe('* indicates required field');
+        });
+      });
+      itp('shows * next to placeholder for required field', function () {
+        return setup().then(function (test) {
+          var firstNamePlaceholder = test.form.fieldPlaceholder('firstName');
+          expect(firstNamePlaceholder).toContain('*');
+          var lastNamePlaceholder = test.form.fieldPlaceholder('lastName');
+          expect(lastNamePlaceholder).toContain('*');
+          var usernamePlaceholder = test.form.fieldPlaceholder('userName');
+          expect(usernamePlaceholder).toContain('*');
+          var passwordPlaceholder = test.form.fieldPlaceholder('password');
+          expect(passwordPlaceholder).toContain('*');
+          var referrerPlaceholder = test.form.fieldPlaceholder('referrer');
+          expect(referrerPlaceholder).toContain('*');
+          var addressPlaceholder = test.form.fieldPlaceholder('address');
+          expect(addressPlaceholder).not.toContain('*');
         });
       });
     });

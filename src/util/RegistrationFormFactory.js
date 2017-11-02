@@ -128,10 +128,14 @@ define([
         label: schemaProperty.get('description')
       });
     } else {
+      var placeholder = schemaProperty.get('description');
+      if (schemaProperty.get('required')) {
+        placeholder += ' *';
+      }
       inputOptions = _.extend(inputOptions, {
         label: false,
         'label-top': true,
-        placeholder: schemaProperty.get('description')
+        placeholder: placeholder
       });
     }
 
