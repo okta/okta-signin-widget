@@ -38,6 +38,8 @@ define(['okta'], function (Okta) {
     // Assuming there is only one field error in a response
     if (xhr.responseJSON && xhr.responseJSON.errorCauses && xhr.responseJSON.errorCauses.length) {
       xhr.responseJSON.errorSummary = xhr.responseJSON.errorCauses[0].errorSummary;
+      // BaseForm will consume errorCauses before errorSummary if it is an array, so, we have to make sure to remove it
+      delete xhr.responseJSON.errorCauses;
     }
     // Replace error messages
     if (!_.isEmpty(xhr.responseJSON)) {
