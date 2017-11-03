@@ -65,45 +65,12 @@ function (
   return BaseLoginController.extend({
     className: 'registration',
     initialize: function() {
-      var self = this;
       // setup schema
       var Schema = RegistrationSchema.extend({
         settings: this.options.settings,
         url: this.getRegistrationApiUrl()+'/form'
       });
       var schema = new Schema();
-      // register parse complete event listener
-      schema.on('parseComplete', function(updatedSchema) {
-        var modelProperties = updatedSchema.properties.createModelProperties();
-        // create model
-        self.model = self.createRegistrationModel(modelProperties);
-        // create form
-        var form = new Form(self.toJSON());
-        // add form
-        self.add(form);
-        // add footer
-        self.footer = new self.Footer(self.toJSON());
-        self.add(self.footer);
-        self.addListeners();
-        if (updatedSchema.error) {
-          self.showErrors(updatedSchema.error, true);
-        } else {
-          // add fields
-          updatedSchema.properties.each(function(schemaProperty) {
-            var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
-            var subSchemas = schemaProperty.get('subSchemas');
-            var name = schemaProperty.get('name');
-            form.addInput(inputOptions);
-            if (name === 'password' && subSchemas) {
-              form.add(SubSchema.extend({id: 'subschemas-' + name, subSchemas: subSchemas}));
-            }
-          });
-          var requiredFieldsLabel =  Okta.tpl('<span class="required-fields-label">{{label}}</span>')({
-            label: Okta.loc('registration.required.fields.label', 'login')
-          });
-          form.add(requiredFieldsLabel);
-        }
-      });
       this.state.set('schema', schema);
     },
     getRegistrationApiUrl: function() {
@@ -197,6 +164,39 @@ function (
       }
     },
     fetchInitialData: function () {
+      var self = this;
+      // register parse complete event listener
+      self.state.get('schema').on('parseComplete', function(updatedSchema) {
+        var modelProperties = updatedSchema.properties.createModelProperties();
+        // create model
+        self.model = self.createRegistrationModel(modelProperties);
+        // create form
+        var form = new Form(self.toJSON());
+        // add form
+        self.add(form);
+        // add footer
+        self.footer = new self.Footer(self.toJSON());
+        self.add(self.footer);
+        self.addListeners();
+        if (updatedSchema.error) {
+          self.showErrors(updatedSchema.error, true);
+        } else {
+          // add fields
+          updatedSchema.properties.each(function(schemaProperty) {
+            var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+            var subSchemas = schemaProperty.get('subSchemas');
+            var name = schemaProperty.get('name');
+            form.addInput(inputOptions);
+            if (name === 'password' && subSchemas) {
+              form.add(SubSchema.extend({id: 'subschemas-' + name, subSchemas: subSchemas}));
+            }
+          });
+          var requiredFieldsLabel =  Okta.tpl('<span class="required-fields-label">{{label}}</span>')({
+            label: Okta.loc('registration.required.fields.label', 'login')
+          });
+          form.add(requiredFieldsLabel);
+        }
+      });
       // fetch schema from API
       return this.state.get('schema').fetch();
     },
