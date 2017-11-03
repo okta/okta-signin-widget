@@ -442,6 +442,30 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           expect(setting.registration.preSubmit).toHaveBeenCalled();
         });
       });
+      itp('parseSchema updates the schema correctly and calls onSuccess', function () {
+        var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
+        var setting = {
+          'registration': {
+            'parseSchema': function(schema, onSuccess, onFailure){
+              parseSchemaSpy(schema, onSuccess, onFailure);
+              schema.profileSchema.properties.zip = {
+                'type': 'string',
+                'description': 'Zip code',
+                'default': 'Enter your zip code',
+                'maxLength': 255
+              };
+              onSuccess(schema);
+            },
+            'preSubmit': jasmine.createSpy('preSubmitSpy')
+          }
+        };
+        return setup(setting)
+        .then(function (test) {
+          $.ajax.calls.reset();
+          expect(test.form.getFieldByName('zip').length).toBe(1);
+          expect(test.form.fieldPlaceholder('zip')).toBe('Zip code');
+        });
+      });
       itp(' does not call preSubmit if parseSchema calls onFailure with default error', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
@@ -491,7 +515,47 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           expectRegCallbackError(test, 'parseSchema', 'Custom form level parseSchema error message');
         });
       });
-      itp('calls postSubmit if registration.postSubmit is defined and parseSchema calls onSuccess', function () {
+      itp('preSubmit modifies postData correctly before submit', function () {
+        var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
+        var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
+        var setting = {
+          'registration': {
+            'parseSchema': function(schema, onSuccess, onFailure){
+              parseSchemaSpy(schema, onSuccess, onFailure);
+              schema.profileSchema.properties.zip = {
+                'type': 'string',
+                'description': 'Zip code',
+                'default': 'Enter your zip code',
+                'maxLength': 255
+              };
+              onSuccess(schema);
+            },
+            'preSubmit': function (postData, onSuccess, onFailure) {
+              preSubmitSpy(postData, onSuccess, onFailure);
+              postData.userName += '@example.com';
+              onSuccess(postData);
+            },
+            'postSubmit': jasmine.createSpy('postSubmitSpy')
+          }
+        };
+        return setup(setting)
+        .then(function (test) {
+          $.ajax.calls.reset();
+          expect(test.form.getFieldByName('zip').length).toBe(1);
+          expect(test.form.fieldPlaceholder('zip')).toBe('Zip code');
+          test.form.setEmail('test');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.submit();
+          expect(test.router.controller.model.get('userName')).toBe('test');
+          var model = test.router.controller.model;
+          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+          model.save();
+          expect(test.router.controller.model.get('userName')).toBe('test@example.com');
+          expect(setting.registration.postSubmit).toHaveBeenCalled();
+        });
+      });
+      itp('calls postSubmit when parseSchema and preSubmit call onSuccess', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
         var setting = {
