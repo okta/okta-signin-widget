@@ -79,12 +79,6 @@ function (
         self.model = self.createRegistrationModel(modelProperties);
         // create form
         var form = new Form(self.toJSON());
-        var requiredFieldsLabel = Okta.View.extend({
-          template: '\
-          <span class="required-fields-label">{{i18n code="registration.required.fields.label" bundle="login"}}</span>\
-          '
-        });
-        form.add(requiredFieldsLabel);
         // add form
         self.add(form);
         // add footer
@@ -104,6 +98,10 @@ function (
               form.add(SubSchema.extend({id: 'subschemas-' + name, subSchemas: subSchemas}));
             }
           });
+          var requiredFieldsLabel =  Okta.tpl('<span class="required-fields-label">{{label}}</span>')({
+            label: Okta.loc('registration.required.fields.label', 'login')
+          });
+          form.add(requiredFieldsLabel);
         }
       });
       this.state.set('schema', schema);
