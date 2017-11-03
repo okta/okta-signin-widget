@@ -7,7 +7,7 @@ define({
     "errorLink": "E0000014",
     "errorId": "oaecIzifuYzTV-5h3Ea46oxiw",
     "errorCauses": [{
-      "errorSummary": "oldPassword: The credentials provided were incorrect."
+      "errorSummary": "Old password is not correct"
     }]
   }
 });
