@@ -30,20 +30,26 @@ define(['okta'], function (Okta) {
         </div>\
       </div>\
       <div class="logo-wrapper consent-beacon-client">\
+        {{#if clientURI}}\
+          <a href="{{clientURI}}" class="client-logo-link" target="_blank">\
+        {{/if}}\
         <div class="consent-beacon-border"/>\
-          {{#if customLogo}}\
-            <img class="client-logo custom-logo" src="{{customLogo}}" />\
-          {{else}}\
-            <img class="client-logo default-logo" src="{{defaultLogo}}" />\
-          {{/if}}\
-        </div>\
+        {{#if clientURI}}\
+          </a>\
+        {{/if}}\
+        {{#if customLogo}}\
+          <img class="client-logo custom-logo" src="{{customLogo}}" />\
+        {{else}}\
+          <img class="client-logo default-logo" src="{{defaultLogo}}" />\
+        {{/if}}\
       </div>\
     ',
 
     getTemplateData: function () {
       return {
         customLogo: this.options.appState.get('targetLogo') && this.options.appState.get('targetLogo').href,
-        defaultLogo: this.options.appState.get('defaultAppLogo')
+        defaultLogo: this.options.appState.get('defaultAppLogo'),
+        clientURI: this.options.appState.get('targetClientURI') && this.options.appState.get('targetClientURI').href
       };
     },
 
