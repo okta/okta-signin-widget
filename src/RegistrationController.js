@@ -12,21 +12,27 @@
 
 define([
   'okta',
+  'backbone',
   'models/RegistrationSchema',
+  'models/LoginModel',
   'util/BaseLoginController',
   'util/Enums',
   'util/RegistrationFormFactory',
   'util/RouterUtil',
-  'views/registration/SubSchema'
+  'views/registration/SubSchema',
+  'util/Errors'
 ],
 function (
   Okta,
+  Backbone,
   RegistrationSchema,
+  LoginModel,
   BaseLoginController,
   Enums,
   RegistrationFormFactory,
   RouterUtil,
-  SubSchema
+  SubSchema,
+  Errors
 ) {
 
   var _ = Okta._;
@@ -61,86 +67,143 @@ function (
   return BaseLoginController.extend({
     className: 'registration',
     initialize: function() {
-      var clientId = this.options.settings.get('clientId');
-      var registrationApi = this.options.settings.get('baseUrl')+'/api/v1/registration/'+clientId;
-
+      // setup schema
       var Schema = RegistrationSchema.extend({
-        url: registrationApi+'/form'
+        settings: this.options.settings,
+        url: this.getRegistrationApiUrl()+'/form'
       });
-      
       var schema = new Schema();
-
-      var createRegistrationModel = _.bind(function(modelProperties){
-        var Model = Okta.Model.extend({
-          url: registrationApi+'/register',
-          settings: this.settings,
-          appState: this.options.appState,
-          props: modelProperties,
-          local: {
-            activationToken: 'string'
-          },
-          toJSON: function() {
-            var data = Okta.Model.prototype.toJSON.apply(this, arguments);
-            return {userProfile: data};
-          },
-          parse: function(resp) {
-            this.set('activationToken', resp.activationToken);
-            delete resp.activationToken;
-            return resp;
-          }
+      this.state.set('schema', schema);
+    },
+    getRegistrationApiUrl: function() {
+      var clientId = this.options.settings.get('clientId');
+      return this.options.settings.get('baseUrl')+'/api/v1/registration/'+clientId;
+    },
+    doPostSubmit: function () {
+      if (this.model.get('activationToken')) {
+        // register via activation token
+        var self = this;
+        self.settings.callGlobalSuccess(Enums.REGISTRATION_COMPLETE, {
+          activationToken: this.model.get('activationToken')
         });
-        return new Model();
-      }, this);
 
-      var postSchemaFetch = _.bind(function(){
-        var properties = schema.properties;
-        var modelProperties = properties.createModelProperties();
-
-        this.model = createRegistrationModel(modelProperties);
-
-        var form = new Form(this.toJSON());
-
-        this.listenTo(form, 'saved', _.bind(function() {
-          var activationToken = this.get('activationToken');
-          if (activationToken) {
-            var authClient = this.appState.settings.authClient;
-            authClient.signIn({
-              token: activationToken
-            })
-            .then(_.bind(function(transaction) {
-              RouterUtil.routeAfterAuthStatusChange(this, null, transaction.data);
-            }, this));
-          } else {
-            this.appState.set('username', this.get('userName'));
-            this.appState.trigger('navigate', 'signin/register-complete');
-          }
-        }, this.model));
-
-        properties.each(function(schemaProperty) {
-          var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
-          var subSchemas = schemaProperty.get('subSchemas');
-          var name = schemaProperty.get('name');
-          form.addInput(inputOptions);
-          if (name === 'password' && subSchemas) {
-            form.add(SubSchema.extend({id: 'subschemas-' + name, subSchemas: subSchemas}));
-          }
+        var loginModel = new LoginModel({
+          settings: self.model.appState.settings
         });
-        var requiredFieldsLabel = Okta.View.extend({
-          template: '\
-          <span class="required-fields-label">{{i18n code="registration.required.fields.label" bundle="login"}}</span>\
-          '
+        loginModel.loginWithActivationToken(this.model.get('activationToken'))
+        .then(function (transaction) {
+          self.model.trigger('setTransaction', transaction);
         });
-        form.add(requiredFieldsLabel);
-        this.add(form);
-        this.footer = new this.Footer(this.toJSON());
-        this.add(this.footer);
-        this.addListeners();
-      }, this);
-
-      schema.fetch().then(function(){
-        postSchemaFetch();
+      } else {
+        // register via activation email
+        this.model.appState.set('username', this.model.get('userName'));
+        this.model.appState.trigger('navigate', 'signin/register-complete');
+      }
+    },
+    registerUser: function (postData) {
+      var self = this;
+      this.model.attributes = postData;
+      Backbone.Model.prototype.save.call(this.model).then(function() {
+        var activationToken = self.model.get('activationToken');
+        var postSubmitData = activationToken ? activationToken : self.model.get('userName');
+        self.settings.postSubmit(postSubmitData, function() {
+          self.doPostSubmit();
+        }, function(errors) {
+          self.showErrors(errors);
+        });
+      }).fail(function(err) {
+        var responseJSON = err.responseJSON;
+        if (responseJSON && responseJSON.errorCauses.length) {
+          var errMsg = responseJSON.errorCauses[0].errorSummary;
+          self.settings.callGlobalError(new Errors.RegistrationError(errMsg));
+        }
       });
     },
-    Footer: Footer
+    createRegistrationModel: function (modelProperties) {
+      var self = this;
+      var Model = Okta.Model.extend({
+        url: self.getRegistrationApiUrl()+'/register',
+        settings: this.settings,
+        appState: this.options.appState,
+        props: modelProperties,
+        local: {
+          activationToken: 'string'
+        },
+        toJSON: function() {
+          var data = Okta.Model.prototype.toJSON.apply(this, arguments);
+          return {userProfile: data};
+        },
+        parse: function(resp) {
+          this.set('activationToken', resp.activationToken);
+          delete resp.activationToken;
+          return resp;
+        },
+        save: function() {
+          this.settings.preSubmit(this.attributes, function(postData){
+            self.registerUser(postData);
+          }, function(errors) {
+            self.showErrors(errors);
+          });
+        }
+      });
+      return new Model();
+    },
+    showErrors: function (error, hideRegisterButton) {
+      //for parseSchema error hide form and show error at form level
+      if(error.callback == 'parseSchema' && error.errorCauses) {
+        error.errorSummary = _.clone(error.errorCauses[0].errorSummary);
+        delete error.errorCauses;
+      }
+      //show error on form
+      this.model.trigger('error', this.model, {
+        responseJSON: error
+      });
+
+      //throw global error
+      var errMsg = error.callback? error.callback+':'+ error.errorSummary: error.errorSummary;
+      this.settings.callGlobalError(new Errors.RegistrationError(errMsg));
+
+      if (hideRegisterButton) {
+        this.$el.find('.button-primary').hide();
+      }
+    },
+    fetchInitialData: function () {
+      var self = this;
+      // register parse complete event listener
+      self.state.get('schema').on('parseComplete', function(updatedSchema) {
+        var modelProperties = updatedSchema.properties.createModelProperties();
+        // create model
+        self.model = self.createRegistrationModel(modelProperties);
+        // create form
+        var form = new Form(self.toJSON());
+        // add form
+        self.add(form);
+        // add footer
+        self.footer = new self.Footer(self.toJSON());
+        self.add(self.footer);
+        self.addListeners();
+        if (updatedSchema.error) {
+          self.showErrors(updatedSchema.error, true);
+        } else {
+          // add fields
+          updatedSchema.properties.each(function(schemaProperty) {
+            var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+            var subSchemas = schemaProperty.get('subSchemas');
+            var name = schemaProperty.get('name');
+            form.addInput(inputOptions);
+            if (name === 'password' && subSchemas) {
+              form.add(SubSchema.extend({id: 'subschemas-' + name, subSchemas: subSchemas}));
+            }
+          });
+          var requiredFieldsLabel =  Okta.tpl('<span class="required-fields-label">{{label}}</span>')({
+            label: Okta.loc('registration.required.fields.label', 'login')
+          });
+          form.add(requiredFieldsLabel);
+        }
+      });
+      // fetch schema from API
+      return this.state.get('schema').fetch();
+    },
+    Footer: Footer,
   });
 });

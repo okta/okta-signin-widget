@@ -140,6 +140,9 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
 
       //Registration
       'registration.click': 'function',
+      'registration.parseSchema': 'function',
+      'registration.preSubmit': 'function',
+      'registration.postSubmit': 'function',
 
       //Consent
       'consent.cancel': 'function'
@@ -372,6 +375,57 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
           resolve();
         }
       });
+    },
+
+    parseSchema: function (schema, onSuccess, onFailure) {
+      var parseSchema = this.get('registration.parseSchema');
+      //check for parseSchema callback
+      if (_.isFunction(parseSchema)) {
+        parseSchema(schema, function(schema) {
+          onSuccess(schema);
+        }, function (error) {
+          error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
+          error['callback'] = 'parseSchema';
+          onFailure(error);
+        });
+      } else {
+        //no callback
+        onSuccess(schema);
+      }
+    },
+
+    preSubmit: function(postData, onSuccess, onFailure) {
+      var preSubmit = this.get('registration.preSubmit');
+      //check for preSubmit callback
+      if (_.isFunction(preSubmit)) {
+        preSubmit(postData, function(postData) {
+          onSuccess(postData);
+        }, function (error) {
+          error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
+          error['callback'] = 'preSubmit';
+          onFailure(error);
+        });
+      } else {
+        //no callback
+        onSuccess(postData);
+      }
+    },
+
+    postSubmit: function(response, onSuccess, onFailure) {
+      var postSubmit = this.get('registration.postSubmit');
+      //check for postSubmit callback
+      if (_.isFunction(postSubmit)) {
+        postSubmit(response, function(response) {
+          onSuccess(response);
+        }, function (error) {
+          error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
+          error['callback'] = 'postSubmit';
+          onFailure(error);
+        });
+      } else {
+        //no callback
+        onSuccess(response);
+      }
     },
 
     // Use the parse function to transform config options to the standard

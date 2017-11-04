@@ -12,8 +12,8 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('string field', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema({
-            profileSchema: {
+          var jsonResponse = {
+            'profileSchema': {
               'properties': {
                 'stringfield': {
                   'type': 'string',
@@ -23,7 +23,12 @@ function (_, RegistrationSchema, Expect) {
                 }
               }
             }
-          }, {parse:true});
+          };
+          this.schema = new RegistrationSchema();
+          this.schema.settings = {
+            'parseSchema': function (response, onSuccess) { return onSuccess(response); }
+          };
+          this.schema.parse(jsonResponse);
         });
 
         it('only has one property', function () {
@@ -57,7 +62,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('email field', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema({
+          var jsonResponse = {
             profileSchema: {
               'properties': {
                 'emailfield': {
@@ -66,7 +71,13 @@ function (_, RegistrationSchema, Expect) {
                 }
               }
             }
-          }, {parse:true});
+          };
+          this.schema = new RegistrationSchema();
+          this.schema.settings = {
+            'parseSchema': function (response, onSuccess) { return onSuccess(response); }
+          };
+          this.schema.parse(jsonResponse);
+
         });
 
         it('is a string type', function () {
@@ -80,7 +91,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('enum field', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema({
+          var jsonResponse = {
             profileSchema: {
               'properties': {
                 'fruit': {
@@ -89,7 +100,12 @@ function (_, RegistrationSchema, Expect) {
                 }
               }
             }
-          }, {parse:true});
+          };
+          this.schema = new RegistrationSchema();
+          this.schema.settings = {
+            'parseSchema': function (response, onSuccess) { return onSuccess(response); }
+          };
+          this.schema.parse(jsonResponse);
         });
 
         it('is a string type', function () {
@@ -103,7 +119,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('required fields', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema({
+          var jsonResponse = {
             profileSchema: {
               'properties': {
                 'field1': {
@@ -118,7 +134,12 @@ function (_, RegistrationSchema, Expect) {
               },
               'required': ['field3', 'field1'],
             }
-          }, {parse:true});
+          };
+          this.schema = new RegistrationSchema();
+          this.schema.settings = {
+            'parseSchema': function (response, onSuccess) { return onSuccess(response); }
+          };
+          this.schema.parse(jsonResponse);
         });
 
         it('has 3 properties', function () {
@@ -142,7 +163,7 @@ function (_, RegistrationSchema, Expect) {
 
       Expect.describe('sorting order', function () {
         beforeEach(function () {
-          this.schema = new RegistrationSchema({
+          var jsonResponse = {
             profileSchema: {
               'properties': {
                 'field3': {
@@ -163,7 +184,12 @@ function (_, RegistrationSchema, Expect) {
               },
               'fieldOrder': ['field5', 'field2', 'field6', 'field3', 'field1'],
             }
-          }, {parse:true});
+          };
+          this.schema = new RegistrationSchema();
+          this.schema.settings = {
+            'parseSchema': function (response, onSuccess) { return onSuccess(response); }
+          };
+          this.schema.parse(jsonResponse);
         });
 
         it('has 5 properties', function () {
