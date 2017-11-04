@@ -63,12 +63,18 @@ function (Okta, BaseSchema, SchemaProperty) {
         }
         return resp;
       }, this);
-      
-      resp.schema = resp.profileSchema;
-      var parsed = BaseSchema.Model.prototype.parse.apply(this, [resp]);
-      resp = parseResponseData(resp);
-      
-      return parsed;
+
+      var self = this;
+      this.settings.parseSchema(resp, function(resp) {
+        if (resp.profileSchema) {
+          resp.schema = resp.profileSchema;
+          BaseSchema.Model.prototype.parse.apply(self, [resp]);
+          resp = parseResponseData(resp);
+        }
+        self.trigger('parseComplete', {properties: self.properties});
+      }, function(error) {
+        self.trigger('parseComplete', {properties: self.properties, error: error});
+      });
     }
   });
 });
