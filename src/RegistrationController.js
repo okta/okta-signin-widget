@@ -14,6 +14,7 @@ define([
   'okta',
   'backbone',
   'models/RegistrationSchema',
+  'models/LoginModel',
   'util/BaseLoginController',
   'util/Enums',
   'util/RegistrationFormFactory',
@@ -25,6 +26,7 @@ function (
   Okta,
   Backbone,
   RegistrationSchema,
+  LoginModel,
   BaseLoginController,
   Enums,
   RegistrationFormFactory,
@@ -80,16 +82,18 @@ function (
     doPostSubmit: function () {
       if (this.model.get('activationToken')) {
         // register via activation token
-        this.settings.callGlobalSuccess(Enums.REGISTRATION_COMPLETE, {
+        var self = this;
+        self.settings.callGlobalSuccess(Enums.REGISTRATION_COMPLETE, {
           activationToken: this.model.get('activationToken')
         });
-        var authClient = this.model.appState.settings.authClient;
-        authClient.signIn({
-          token: this.model.get('activationToken')
-        })
-        .then(_.bind(function(transaction) {
-          RouterUtil.routeAfterAuthStatusChange(this.model, null, transaction.data);
-        }, this));
+
+        var loginModel = new LoginModel({
+          settings: self.model.appState.settings
+        });
+        loginModel.loginWithActivationToken(this.model.get('activationToken'))
+        .then(function (transaction) {
+          self.model.trigger('setTransaction', transaction);
+        });
       } else {
         // register via activation email
         this.model.appState.set('username', this.model.get('userName'));
