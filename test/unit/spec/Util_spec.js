@@ -39,6 +39,7 @@ define(['util/Util'], function (Util) {
         };
         Util.transformErrorXHR(xhr);
         expect(xhr.responseJSON.errorSummary).toEqual('errorSummary from errorCauses');
+        expect(xhr.responseJSON.errorCauses).toBeDefined();
       });
       it('If there is a valid error code, get errorSummary from that and delete errorCauses array', function () {
         var errorCauses = [{
