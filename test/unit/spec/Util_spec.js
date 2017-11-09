@@ -27,18 +27,34 @@ define(['util/Util'], function (Util) {
         Util.transformErrorXHR(xhr);
         expect(xhr.responseJSON.errorSummary).toEqual('errorSummary from responseText');
       });
-      it('If there is an errorCauses array and there is no valid error code, get errorSummary from errorCauses array', function () {
+      it('If there is an errorCauses array and there is no error code, get errorSummary from errorCauses array', function () {
         var errorCauses = [{
           'errorSummary': 'errorSummary from errorCauses'
         }];
         var xhr = {
-          status: 400,
-          responseJSON: {
-            errorCauses: errorCauses
+          'status': 400,
+          'responseJSON': {
+            'errorCauses': errorCauses
           }
         };
         Util.transformErrorXHR(xhr);
         expect(xhr.responseJSON.errorSummary).toEqual('errorSummary from errorCauses');
+        expect(xhr.responseJSON.errorCauses).toBe(errorCauses);
+      });
+      it('If there is an errorCauses array and there is an invalid error code, get errorSummary from errorCauses array', function () {
+        var errorCauses = [{
+          'errorSummary': 'errorSummary from errorCauses'
+        }];
+        var xhr = {
+          'status': 400,
+          'responseJSON': {
+            'errorCauses': errorCauses,
+            'errorCode': 'E01212AB'
+          }
+        };
+        Util.transformErrorXHR(xhr);
+        expect(xhr.responseJSON.errorSummary).toEqual('errorSummary from errorCauses');
+        expect(xhr.responseJSON.errorCauses).toBe(errorCauses);
       });
       it('If there is a valid error code, get errorSummary from that and delete errorCauses array', function () {
         var errorCauses = [{

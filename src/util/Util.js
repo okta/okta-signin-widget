@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 8] */
+/* eslint complexity: [2, 8], max-depth: [2, 3] */
 define(['okta'], function (Okta) {
 
   var Util = {};
@@ -38,14 +38,17 @@ define(['okta'], function (Okta) {
     // Assuming there is only one field error in a response
     if (xhr.responseJSON && xhr.responseJSON.errorCauses && xhr.responseJSON.errorCauses.length) {
       xhr.responseJSON.errorSummary = xhr.responseJSON.errorCauses[0].errorSummary;
-      // BaseForm will consume errorCauses before errorSummary if it is an array, so, we have to make sure to remove it
-      delete xhr.responseJSON.errorCauses;
     }
     // Replace error messages
     if (!_.isEmpty(xhr.responseJSON)) {
       var errorMsg = Okta.loc('errors.' + xhr.responseJSON.errorCode, 'login');
       if (errorMsg.indexOf('L10N_ERROR[') === -1) {
         xhr.responseJSON.errorSummary = errorMsg;
+        if (xhr.responseJSON && xhr.responseJSON.errorCauses && xhr.responseJSON.errorCauses.length) {
+          // BaseForm will consume errorCauses before errorSummary if it is an array,
+          // so, we have to make sure to remove it when we have a valid error code
+          delete xhr.responseJSON.errorCauses;
+        }
       }
     }
     return xhr;
