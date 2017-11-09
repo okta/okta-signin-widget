@@ -874,7 +874,8 @@ registration: {
         }
       },
       features: {
-        // Used to enable registration feature on the widget. https://github.com/okta/okta-signin-widget#feature-flags
+        // Used to enable registration feature on the widget.
+        // https://github.com/okta/okta-signin-widget#feature-flags
          registration: true // REQUIRED
       }
     });
@@ -882,7 +883,7 @@ registration: {
 
 Optional configuration:
 
-- **parseSchema:** Callback used to mold the JSON schema that comes back from Okta API.
+- **parseSchema:** Callback used to mold the JSON schema that comes back from the Okta API.
 
     ```javascript
     // The callback function is passed 3 arguments: schema, onSuccess, onFailure
@@ -902,7 +903,7 @@ Optional configuration:
         onSuccess(schema);
     }
     ```
- - **preSubmit:** Callback used primarily to modify the request parameters sent to Okta API.
+ - **preSubmit:** Callback used primarily to modify the request parameters sent to the Okta API.
 
     ```javascript
      // The callback function is passed 3 arguments: postData, onSuccess, onFailure
@@ -926,8 +927,9 @@ Optional configuration:
      // 2) onSuccess: success callback.
      // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level or field level errors.
     postSubmit: function (response, onSuccess, onFailure) {
-      // This example will log the server response to the browser console
+      // In this example postSubmit callback is used to log the server response to the browser console before completing registration flow
       console.log(response);
+      // call onSuccess to finish registration flow
       onSuccess(response);
     }
     ```
