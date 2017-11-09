@@ -160,7 +160,7 @@ var OktaSignIn = (function () {
     // Modify the underscore, handlebars, and jquery modules
     // Remove once these are explicitly required in Courage
     require('okta/underscore');
-    require('handlebars');
+    require('okta/handlebars');
     require('okta/jquery');
 
     OktaAuth = require('@okta/okta-auth-js/jquery');

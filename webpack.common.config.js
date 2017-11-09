@@ -22,7 +22,7 @@ module.exports = function (outputFilename) {
         'nls': '@okta/i18n/dist/json',
         'okta/jquery': SHARED_JS + '/util/jquery-wrapper',
         'okta/underscore': SHARED_JS + '/util/underscore-wrapper',
-        'okta/handlebars': 'handlebars/dist/handlebars',
+        'okta/handlebars': SHARED_JS + '/util/handlebars-wrapper',
         'okta/moment': 'moment/moment',
         'okta/moment-tz': EMPTY,
 
