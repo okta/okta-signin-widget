@@ -68,7 +68,7 @@ function (Okta, Util, FormController, FormType, ScopeList) {
             View: Okta.View.extend({
               className: 'consent-title',
               template: '\
-                <p>{{{i18n code="consent.required.label" bundle="login" arguments="appName;userConsentName"}}}</p>\
+                <p>{{{i18n code="consent.required.text" bundle="login" arguments="appName;userConsentName"}}}</p>\
               ',
               getTemplateData: function () {
                 return {
