@@ -889,7 +889,7 @@ Optional configuration:
     // 1) schema: json schema returned from the API.
     // 2) onSuccess: success callback.
     // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level or field level errors.
-    **/
+
     parseSchema: function (schema, onSuccess, onFailure) {
       // This example will add an additional field to the registration form
         schema.profileSchema.properties.address = {
@@ -911,7 +911,11 @@ Optional configuration:
      // 3) onFailure: failure callback. Note: accepts a errorObject that can be used to show form level or field level errors.
     preSubmit: function (postData, onSuccess, onFailure) {
       // This example will add @companyname.com to the email if user fails to add it during registration
-      return postData.username.indexOf('@acme.com') > -1 ? username : username + '@acme.com';
+      if (postData.username.indexOf('@acme.com') > 1) {
+        return postData.username;
+      } else {
+        return postData.username + '@acme.com';
+      }
     }
     ```
  - **postSubmit:** Callback used to primarily get control and to modify the behavior post submission to registration API .
@@ -929,43 +933,42 @@ Optional configuration:
     ```
 - **onFailure and ErrorObject:** The onFailure callback accepts an error object that can be used to show a form level vs field level error on the registration form.
 
-  ```javascript
-  // Example Form level error object
-    error = {
-      "errorSummary": "Custom form level error"
-    };
-  // Example field level error object:
-    error = {
-        "errorSummary": "API Error",
-        "errorCauses": [
-            {
-                "errorSummary": "Custom field level error",
-                "reason": "registration.error.address",
-                "resource": "User",
-                "property": "address",
-                "arguments": []
-            }
-        ]
-    };
+    ####  Use the default error
+    ```javascript
+    preSubmit: function (postData, onSuccess, onFailure) {
+      // A Default form level error is shown if no error object is provided
+      onFailure();
+    }
+    ```
 
-   // Example usage
-   preSubmit: function (postData, onSuccess, onFailure) {
-        error = {
-            "errorSummary": "Custom form level error"
+    #### Use form level error
+     ```javascript
+    preSubmit: function (postData, onSuccess, onFailure) {
+      var error = {
+        "errorSummary": "Custom form level error"
+      };
+      onFailure(error);
+    }
+    ```
+
+    #### Use field level error
+    ```javascript
+      preSubmit: function (postData, onSuccess, onFailure) {
+        var error = {
+            "errorSummary": "API Error",
+            "errorCauses": [
+                {
+                    "errorSummary": "Custom field level error",
+                    "reason": "registration.error.address",
+                    "resource": "User",
+                    "property": "address", //should match field name
+                    "arguments": []
+                }
+            ]
         };
         onFailure(error);
-   }
-
-  // Default Form level error if no error object provided:
-      error = {
-          'errorSummary': 'We could not process your registration at this time. Please try again later'
-      }
-
-   // Example usage
-   preSubmit: function (postData, onSuccess, onFailure) {
-     onFailure();
-   }
-  ```
+     }
+    ```
 ## OpenId Connect
 
 Options for the [OpenId Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
