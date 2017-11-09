@@ -27,7 +27,7 @@ define(['util/Util'], function (Util) {
         Util.transformErrorXHR(xhr);
         expect(xhr.responseJSON.errorSummary).toEqual('errorSummary from responseText');
       });
-      it('If there is an errorCauses array and there is no valid error code, get errorSummary from errorCauses array', function () {
+      it('If there is an errorCauses array and there is no error code, get errorSummary from errorCauses array', function () {
         var errorCauses = [{
           'errorSummary': 'errorSummary from errorCauses'
         }];
