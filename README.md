@@ -858,7 +858,7 @@ registration: {
 
 ## Registration
 
-Use Okta Sign-In Widget with registration feature and additional configuration in your Okta admin settings to allow users to self service register into your app.
+To add registration into your application, configure your Okta admin settings to allow users to self register into your app. Then, set `features.registration` in the widget. You can add additional configs under the registration key on the [`OktaSignIn`](#new-oktasigninconfig) object.
 
 ```javascript
     var signIn = new OktaSignIn({
