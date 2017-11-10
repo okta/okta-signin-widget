@@ -11,9 +11,6 @@
   "bugs": {
     "url": "https://github.com/okta/okta-signin-widget/issues"
   },
-  "publishConfig": {
-    "registry": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta"
-  },
   "files": [
     "dist"
   ],
