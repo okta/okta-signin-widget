@@ -29,6 +29,7 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
       })
       .fail(function () {
         self.options.appState.trigger('loading', false);
+        self.appState.trigger('removeLoading');
       });
     },
 
