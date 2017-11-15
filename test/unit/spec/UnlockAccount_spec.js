@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 16], max-statements: [2, 26] */
+/* eslint max-params: [2, 16], max-statements: [2, 39] */
 define([
   'vendor/lib/q',
   'okta/underscore',
@@ -12,10 +12,11 @@ define([
   'sandbox',
   'helpers/xhr/RECOVERY_error',
   'helpers/xhr/RECOVERY_CHALLENGE_EMAIL_UNLOCK',
-  'helpers/xhr/RECOVERY_CHALLENGE_SMS_UNLOCK'
+  'helpers/xhr/RECOVERY_CHALLENGE_SMS_UNLOCK',
+  'helpers/xhr/RECOVERY_CHALLENGE_CALL_UNLOCK'
 ],
-function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
-          Router, $sandbox, resError, resChallengeEmail, resChallengeSms) {
+function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
+          $sandbox, resError, resChallengeEmail, resChallengeSms, resChallengeCall) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -24,6 +25,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
+    var successSpy = jasmine.createSpy('success');
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -40,7 +42,8 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
       router: router,
       form: form,
       beacon: beacon,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
+      successSpy: successSpy
     });
   }
 
@@ -50,12 +53,15 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
   }
 
   var setupWithSms = _.partial(setup, { 'features.smsRecovery': true });
+  var setupWithCall = _.partial(setup, { 'features.callRecovery': true });
+  var setupWithSmsAndCall = _.partial(setup, { 'features.smsRecovery': true, 'features.callRecovery': true });
   var setupWithTransformUsername = _.partial(setup, { transformUsername: transformUsername });
   var setupWithoutEmail = _.partial(setup, { 'features.emailRecovery': false });
   var setupWithSmsWithoutEmail = _.partial(setup, { 'features.smsRecovery': true, 'features.emailRecovery': false });
+  var setupWithCallWithoutEmail = _.partial(setup, { 'features.callRecovery': true, 'features.emailRecovery': false });
 
   Expect.describe('UnlockAccount', function () {
-    
+
     Expect.describe('settings', function () {
       itp('has correct title', function () {
         return setup().then(function (test) {
@@ -87,25 +93,57 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           Expect.isTextField(test.form.usernameField());
         });
       });
-      itp('doesn\'t have an sms reset by default', function () {
+      itp('doesn\'t have an sms option by default', function () {
         return setup().then(function (test) {
           expect(test.form.hasSmsButton()).toBe(false);
         });
       });
-      itp('supports sms reset', function () {
+      itp('doesn\'t have Voice Call option by default', function () {
+        return setup().then(function (test) {
+          expect(test.form.hasCallButton()).toBe(false);
+        });
+      });
+      itp('supports sms', function () {
         return setupWithSms().then(function (test) {
           expect(test.form.hasSmsButton()).toBe(true);
         });
       });
       itp('has sms hint', function () {
         return setupWithSms().then(function (test) {
-          expect(test.form.hasSmsHint()).toBe(true);
-          expect(test.form.smsHintText()).toEqual('SMS can only be used if a mobile phone number has been configured.');
+          expect(test.form.hasMobileRecoveryHint()).toBe(true);
+          expect(test.form.mobileRecoveryHintText())
+            .toEqual('SMS can only be used if a mobile phone number has been configured.');
         });
       });
       itp('does not have sms hint if sms is not enabled', function () {
         return setup().then(function (test) {
           expect(test.form.hasSmsHint()).toBe(false);
+        });
+      });
+      itp('supports Voice Call', function () {
+        return setupWithCall().then(function (test) {
+          expect(test.form.hasCallButton()).toBe(true);
+          expect(test.form.hasSmsButton()).toBe(false);
+        });
+      });
+      itp('has Voice Call hint', function () {
+        return setupWithCall().then(function (test) {
+          expect(test.form.hasMobileRecoveryHint()).toBe(true);
+          expect(test.form.mobileRecoveryHintText())
+            .toEqual('Voice Call can only be used if a mobile phone number has been configured.');
+        });
+      });
+      itp('supports SMS and Voice Call unlock factors together', function () {
+        return setupWithSmsAndCall().then(function (test) {
+          expect(test.form.hasSmsButton()).toBe(true);
+          expect(test.form.hasCallButton()).toBe(true);
+        });
+      });
+      itp('has SMS and Voice Call hint if both features are enabled', function () {
+        return setupWithSmsAndCall().then(function (test) {
+          expect(test.form.hasMobileRecoveryHint()).toBe(true);
+          expect(test.form.mobileRecoveryHintText())
+            .toEqual('SMS or Voice Call can only be used if a mobile phone number has been configured.');
         });
       });
       itp('shows a link to contact support when a help number is given', function () {
@@ -137,6 +175,12 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
       itp('supports SMS without email', function () {
         return setupWithSmsWithoutEmail().then(function (test) {
           expect(test.form.hasSmsButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(false);
+        });
+      });
+      itp('supports Voice Call without email', function () {
+        return setupWithCallWithoutEmail().then(function (test) {
+          expect(test.form.hasCallButton()).toBe(true);
           expect(test.form.hasEmailButton()).toBe(false);
         });
       });
@@ -420,6 +464,119 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
           });
         });
       });
+      itp('shows an error if username is empty and request Voice Call', function () {
+        return setupWithCall().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.makeCall();
+          expect($.ajax).not.toHaveBeenCalled();
+          expect(test.form.usernameErrorField().length).toBe(1);
+        });
+      });
+      itp('makes a Voice Call', function () {
+        return setupWithCall().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.makeCall();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/unlock',
+            data: {
+              'username': 'foo',
+              'factorType': 'CALL'
+            }
+          });
+        });
+      });
+      itp('makes a Voice Call without email enabled', function () {
+        return setupWithCallWithoutEmail().then(function (test) {
+          expect(test.form.hasCallButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(false);
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.makeCall();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/unlock',
+            data: {
+              'username': 'foo',
+              'factorType': 'CALL'
+            }
+          });
+        });
+      });
+      itp('makes a Voice Call when pressing enter if Voice Call is the only factor', function () {
+        return setupWithCallWithoutEmail().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/unlock',
+            data: {
+              'username': 'foo',
+              'factorType': 'CALL'
+            }
+          });
+        });
+      });
+      itp('makes a Voice Call when pressing enter if Voice Call is the first factor of the list', function () {
+        return setupWithCall().then(function (test) {
+          expect(test.form.hasCallButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(true);
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/unlock',
+            data: {
+              'username': 'foo',
+              'factorType': 'CALL'
+            }
+          });
+        });
+      });
+      itp('updates appState username after making a Voice Call', function () {
+        return setupWithCall()
+        .then(function (test) {
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.makeCall();
+          return Expect.waitForRecoveryChallenge(test);
+        })
+        .then(function (test) {
+          expect(test.router.appState.get('username')).toBe('foo');
+        });
+      });
+      itp('shows an error if making a Voice Call results in an error', function () {
+        return setupWithCall()
+        .then(function (test) {
+          test.setNextResponse(resError);
+          test.form.setUsername('foo');
+          test.form.makeCall();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+        });
+      });
       itp('goes back', function () {
         return setup().then(function (test) {
           test.form.goBack();
@@ -454,7 +611,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
         })
         .then(function (test) {
           expect(test.form.hasSendEmailLink()).toBe(true);
-          expect(test.form.sendEmailLink().trimmedText()).toEqual('Didn\'t receive an SMS? Unlock via email');
+          expect(test.form.sendEmailLink().trimmedText()).toEqual('Didn\'t receive a code? Unlock via email');
         });
       });
       itp('does not show the "Unlock via email" link after sending sms if emailRecovery is false', function () {
@@ -531,6 +688,93 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
             expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
           });
         });
+      itp('shows the "Unlock via email" link after making a Voice Call', function () {
+        return setupWithCall().then(function (test) {
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.makeCall();
+          return Expect.waitForRecoveryChallenge(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasSendEmailLink()).toBe(true);
+          expect(test.form.sendEmailLink().trimmedText()).toEqual('Didn\'t receive a code? Unlock via email');
+        });
+      });
+      itp('does not show the "Unlock via email" link after making a Voice Call if emailRecovery is false', function () {
+        return setupWithCallWithoutEmail()
+        .then(function (test) {
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.makeCall();
+          return Expect.waitForRecoveryChallenge(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasSendEmailLink()).toBe(false);
+        });
+      });
+      itp('sends an email when user clicks the "Unlock via email" link, after making a Voice Call', function () {
+        return setupWithCall().then(function (test) {
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo@bar');
+          test.form.makeCall();
+          return Expect.waitForRecoveryChallenge(test);
+        })
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeEmail);
+          test.form.clickSendEmailLink();
+          return Expect.waitForUnlockEmailSent(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/unlock',
+            data: {
+              username: 'foo@bar',
+              factorType: 'EMAIL'
+            }
+          });
+        });
+      });
+      itp('shows email sent confirmation when user clicks "Unlock via email" link, after making a Voice Call',
+        function () {
+          return setupWithCall().then(function (test) {
+            test.setNextResponse(resChallengeCall);
+            test.form.setUsername('foo@bar');
+            test.form.makeCall();
+            return Expect.waitForRecoveryChallenge(test);
+          })
+          .then(function (test) {
+            test.setNextResponse(resChallengeEmail);
+            test.form.clickSendEmailLink();
+            return Expect.waitForUnlockEmailSent(test);
+          })
+          .then(function (test) {
+            expect(test.form.titleText()).toBe('Email sent!');
+            expect(test.form.getEmailSentConfirmationText().indexOf('foo@bar') >= 0).toBe(true);
+            expect(test.form.backToLoginButton().length).toBe(1);
+          });
+        });
+      itp('shows an error if sending email via "Unlock via email" link results in an error, after making a Voice Call',
+        function () {
+          return setupWithCall().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse(resChallengeCall);
+            test.form.setUsername('foo');
+            test.form.makeCall();
+            return Expect.waitForRecoveryChallenge(test);
+          })
+          .then(function (test) {
+            test.setNextResponse(resError);
+            test.form.clickSendEmailLink();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+          });
+        });
+
     });
 
   });

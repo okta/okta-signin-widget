@@ -86,9 +86,11 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
       noButtonBar: true,
       title: _.partial(Okta.loc, 'account.unlock.title', 'login'),
       formChildren: function () {
+        /*eslint complexity: [2, 9] max-statements: [2, 24] */
         var smsEnabled = this.settings.get('features.smsRecovery');
+        var callEnabled = this.settings.get('features.callRecovery');
         var emailEnabled = this.settings.get('features.emailRecovery');
-        var noFactorsEnabled = !(smsEnabled || emailEnabled);
+        var noFactorsEnabled = !(smsEnabled || callEnabled || emailEnabled);
         var formChildren = [];
         var form = this;
 
@@ -106,16 +108,42 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
               icon: 'person-16-gray'
             }
           }));
+
+          if (smsEnabled || callEnabled) {
+            formChildren.push(FormType.View({
+              View: Okta.View.extend({
+                template: '\
+                  <p class="mobile-recovery-hint">\
+                    {{i18n code="recovery.mobile.hint" bundle="login" arguments="mobileFactors"}}\
+                  </p>',
+                getTemplateData: function () {
+                  var mobileFactors;
+                  if (smsEnabled && callEnabled) {
+                    mobileFactors = Okta.loc('recovery.smsOrCall');
+                  }
+                  else if (callEnabled) {
+                    mobileFactors = Okta.loc('recovery.call');
+                  }
+                  else {
+                    mobileFactors = Okta.loc('recovery.sms');
+                  }
+                  return { mobileFactors : mobileFactors };
+                }
+              })
+            }));
+          }
+
           if (smsEnabled) {
-            formChildren.push(FormType.View({View: '\
-              <p class="sms-hint">\
-                {{i18n code="recovery.sms.hint" bundle="login"}}\
-              </p>\
-            '}));
             this.$el.addClass('forgot-password-sms-enabled');
             formChildren.push(this.createRecoveryFactorButton('sms-button', 'account.unlock.sendText',
               Enums.RECOVERY_FACTOR_TYPE_SMS, form));
             this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_SMS);
+          }
+          if (callEnabled) {
+            this.$el.addClass('forgot-password-call-enabled');
+            formChildren.push(this.createRecoveryFactorButton('call-button', 'account.unlock.voiceCall',
+              Enums.RECOVERY_FACTOR_TYPE_CALL, form));
+            this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_CALL);
           }
           if (emailEnabled) {
             this.$el.addClass('forgot-password-email-enabled');
