@@ -33,7 +33,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
           format: 'email',
           validate: function (value) {
             if(_.isEmpty(value)) {
-              return Okta.loc('error.username.required', 'login');
+              return Okta.loc('model.validation.field.blank', 'login');
             }
           },
           value: properties.username

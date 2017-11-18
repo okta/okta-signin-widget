@@ -115,9 +115,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
   Expect.describe('IDPDiscovery', function () {
 
     Expect.describe('IDPDiscoveryModel', function () {
-      it('returns username validation error when username is blank', function () {
+      it('returns validation error when email is blank', function () {
         var model = new IDPDiscovery({username: ''});
-        expect(model.validate().username).toEqual('Please enter a username');
+        expect(model.validate().username).toEqual('The field cannot be left blank');
       });
       it('returns username validation error when username is not an email', function () {
         var model = new IDPDiscovery({username: 'testuser'});
