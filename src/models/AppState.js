@@ -134,7 +134,8 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       // and AppState. Settings is the *configured* language, and is static.
       // AppState is the dynamic language state - it can be changed via a
       // language picker, etc.
-      languageCode: ['string', true]
+      languageCode: ['string', true],
+      disableUsername: ['boolean', false, false]
     },
 
     setAuthResponse: function (res) {

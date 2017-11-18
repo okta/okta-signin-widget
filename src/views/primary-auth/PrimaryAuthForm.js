@@ -57,6 +57,11 @@ define([
         })
         .then(_.bind(this.model.save, this.model));
       });
+
+      this.stateEnableChange();
+    },
+
+    stateEnableChange: function() {
       this.listenTo(this.state, 'change:enabled', function (model, enable) {
         if (enable) {
           this.enable();
@@ -68,7 +73,17 @@ define([
     },
 
     inputs: function () {
-      var inputs = [{
+      var inputs = [];
+      inputs.push(this.getUsernameField());
+      inputs.push(this.getPasswordField());
+      if (this.settings.get('features.rememberMe')) {
+        inputs.push(this.getRemeberMeCheckbox());
+      }
+      return inputs;
+    },
+
+    getUsernameField: function() {
+      return {
         label: false,
         'label-top': true,
         placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
@@ -76,6 +91,7 @@ define([
         input: TextBox,
         inputId: 'okta-signin-username',
         type: 'text',
+        disabled: this.options.appState.get('disableUsername'),
         params: {
           innerTooltip: {
             title: Okta.loc('primaryauth.username.placeholder', 'login'),
@@ -83,7 +99,11 @@ define([
           },
           icon: 'person-16-gray'
         }
-      }, {
+      };
+    },
+
+    getPasswordField: function() {
+      return {
         label: false,
         'label-top': true,
         placeholder: Okta.loc('primaryauth.password.placeholder', 'login'),
@@ -98,29 +118,28 @@ define([
           },
           icon: 'remote-lock-16'
         }
-      }];
-      if (this.settings.get('features.rememberMe')) {
-        inputs.push({
-          label: false,
-          placeholder: Okta.loc('remember', 'login'),
-          name: 'remember',
-          type: 'checkbox',
-          'label-top': true,
-          className: 'margin-btm-0',
-          initialize: function () {
-            this.listenTo(this.model, 'change:remember', function (model, val) {
-              // OKTA-98946: We normally re-render on changes to model values,
-              // but in this case we will manually update the checkbox due to
-              // iOS Safari and how it handles autofill - it will autofill the
-              // form anytime the dom elements are re-rendered, which prevents
-              // the user from editing their username.
-              this.$(':checkbox').prop('checked', val).trigger('updateState');
-            });
-          }
-        });
-      }
+      };
+    },
 
-      return inputs;
+    getRemeberMeCheckbox: function() {
+      return {
+        label: false,
+        placeholder: Okta.loc('remember', 'login'),
+        name: 'remember',
+        type: 'checkbox',
+        'label-top': true,
+        className: 'margin-btm-0',
+        initialize: function () {
+          this.listenTo(this.model, 'change:remember', function (model, val) {
+            // OKTA-98946: We normally re-render on changes to model values,
+            // but in this case we will manually update the checkbox due to
+            // iOS Safari and how it handles autofill - it will autofill the
+            // form anytime the dom elements are re-rendered, which prevents
+            // the user from editing their username.
+            this.$(':checkbox').prop('checked', val).trigger('updateState');
+          });
+        }
+      };
     },
 
     focus: function () {

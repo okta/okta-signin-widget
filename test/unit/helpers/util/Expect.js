@@ -235,6 +235,7 @@ define([
     EnrollYubikey: 'enroll-yubikey',
     EnterPasscodePushFlow: 'activate-push',
     ForgotPassword: 'forgot-password',
+    IDPDiscovery: 'idp-discovery',
     ManualSetupPush: 'enroll-manual-push',
     ManualSetupTotp: 'enroll-manual-totp',
     MfaVerify: 'mfa-verify',

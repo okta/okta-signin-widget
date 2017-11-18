@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 31], max-statements: [2, 37], max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 32], max-statements: [2, 41], max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -13,6 +13,7 @@ define([
   'LoginRouter',
   'sandbox',
   'helpers/dom/PrimaryAuthForm',
+  'helpers/dom/IDPDiscoveryForm',
   'helpers/dom/RecoveryQuestionForm',
   'helpers/dom/MfaVerifyForm',
   'helpers/dom/EnrollCallForm',
@@ -33,7 +34,7 @@ define([
   'helpers/xhr/labels_country_ja'
 ],
 function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAuth, Util, Expect, Router,
-          $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
+          $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
           resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
           resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp, Errors, BrowserFeatures,
           labelsLoginJa, labelsCountryJa) {
@@ -335,6 +336,54 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('signin/recovery-question');
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
+    });
+    itp('navigates to IDPDiscovery if features.idpDiscovery is set to true', function () {
+      return setup({'features.idpDiscovery': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('');
+        return Expect.waitForIDPDiscovery();
+      })
+      .then(function () {
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to IDPDiscovery for /login/login.htm when features.idpDiscovery is true', function () {
+      return setup({'features.idpDiscovery': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('login/login.htm');
+        return Expect.waitForIDPDiscovery();
+      })
+      .then(function () {
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to PrimaryAuth for /login/login.htm when features.idpDiscovery is false', function () {
+      return setup()
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('login/login.htm');
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
+    });
+    itp('navigates to PrimaryAuth for all other wildcard routes', function () {
+      return setup({'features.idpDiscovery': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('login/default');
         return Expect.waitForPrimaryAuth();
       })
       .then(function () {

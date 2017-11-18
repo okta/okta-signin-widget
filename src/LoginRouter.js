@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 41] */
+/* eslint max-params: [2, 42] */
 define([
   'util/BaseLoginRouter',
+  'IDPDiscoveryController',
   'PrimaryAuthController',
   'VerifyDuoController',
   'MfaVerifyController',
@@ -55,6 +56,7 @@ define([
   'views/consent/ConsentBeacon'
 ],
 function (BaseLoginRouter,
+          IDPDiscoveryController,
           PrimaryAuthController,
           VerifyDuoController,
           MfaVerifyController,
@@ -98,7 +100,7 @@ function (BaseLoginRouter,
   return BaseLoginRouter.extend({
 
     routes: {
-      '': 'primaryAuth',
+      '': 'defaultAuth',
       'signin': 'primaryAuth',
       'signin/verify/duo/web': 'verifyDuo',
       'signin/verify/fido/webauthn': 'verifyWindowsHello',
@@ -141,18 +143,40 @@ function (BaseLoginRouter,
       'signin/register': 'register',
       'signin/register-complete': 'registerComplete',
       'signin/consent': 'consentRequired',
-      '*wildcard': 'primaryAuth'
+      '*wildcard': 'wildcard'
     },
 
     // Route handlers that do not require a stateToken. If the page is refreshed,
     // these functions will not require a status call to refresh the stateToken.
     stateLessRouteHandlers: [
-      'primaryAuth', 'forgotPassword', 'recoveryLoading', 'unlockAccount', 'refreshAuthState', 'register', 
-      'registerComplete'
+      'defaultAuth', 'idpDiscovery', 'primaryAuth', 'forgotPassword', 'recoveryLoading',
+      'unlockAccount', 'refreshAuthState', 'register', 'registerComplete', 'wildcard'
     ],
+
+    defaultAuth: function() {
+      if(this.settings.get('features.idpDiscovery')) {
+        this.idpDiscovery();
+      }
+      else {
+        this.primaryAuth();
+      }
+    },
+
+    idpDiscovery: function () {
+      this.render(IDPDiscoveryController, {Beacon: SecurityBeacon});
+    },
 
     primaryAuth: function () {
       this.render(PrimaryAuthController, { Beacon: SecurityBeacon });
+    },
+
+    wildcard: function (route) {
+      if (route === 'login/login.htm') {
+        this.defaultAuth();
+      }
+      else {
+        this.primaryAuth();
+      }
     },
 
     verifyDuo: function () {
