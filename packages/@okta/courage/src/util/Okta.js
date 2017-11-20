@@ -119,6 +119,12 @@ function (Backbone, $, _, Handlebars, moment, momentTz, Model, BaseModel, BaseCo
 
     /**
      * @method
+     * @inheritdoc InputRegistry#static-method-register
+     */
+    registerInput: views.forms.helpers.InputRegistry.register,
+
+    /**
+     * @method
      * @inheritdoc TemplateUtil#tpl
      */
     tpl: util.TemplateUtil.tpl,

@@ -43,9 +43,9 @@ function (_, BaseController) {
     fetch: function (options) {
       if (this.collection) {
         this.trigger('fetch', this.state);
-        this.collection.fetch(_.extend(_.pick(options || {}, ['reset', 'remove', 'success', 'error', 'data']), {
-          data: this.getFetchData()
-        }));
+        var opt = _.pick(options || {}, ['reset', 'remove', 'success', 'error', 'data']);
+        opt.data = _.extend({}, opt.data, this.getFetchData());
+        this.collection.fetch(opt);
       }
     },
 

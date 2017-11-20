@@ -24,9 +24,12 @@ module.exports = function (outputFilename) {
         'okta/underscore': SHARED_JS + '/util/underscore-wrapper',
         'okta/handlebars': SHARED_JS + '/util/handlebars-wrapper',
         'okta/moment': 'moment/moment',
+        'moment-tz': EMPTY,
         'okta/moment-tz': EMPTY,
-
+        'mixpanel-browser': EMPTY,
+        'jqueryui': EMPTY,
         'okta/jqueryui': EMPTY,
+        // 'okta': '@okta/courage/dist/okta',
         'okta': 'shared/util/Okta',
         'shared/util/Bundles': 'util/Bundles',
 

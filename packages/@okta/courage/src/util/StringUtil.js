@@ -149,6 +149,25 @@ function (_, $, Bundles) {
     },
 
     /**
+     * Convert a string to an object if valid, otherwise return the string
+     * @static
+     * @param {String} string The string to convert to an object
+     * @return {String|object} Returns an object if the string can be casted, otherwise, returns the original string
+     */
+    parseObject: function (string) {
+      if (!_.isString(string)) {
+        return string;
+      }
+
+      try {
+        var object = JSON.parse(string);
+        return $.isPlainObject(object) ? object : string;
+      } catch (e) {
+        return string;
+      }
+    },
+
+    /**
      * Returns a random string from [a-z][A-Z][0-9] of a given length
      * @static
      * @param {Number} length The length of the random string.

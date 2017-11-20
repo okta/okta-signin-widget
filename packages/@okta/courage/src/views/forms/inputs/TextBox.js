@@ -1,8 +1,7 @@
 define([
   'shared/util/TemplateUtil',
   '../BaseInput',
-  'shared/util/Keys',
-  'vendor/plugins/jquery.placeholder'
+  'shared/util/Keys'
 ],
 function (TemplateUtil, BaseInput, Keys) {
 
@@ -41,7 +40,6 @@ function (TemplateUtil, BaseInput, Keys) {
     editMode: function () {
       this.$el.addClass(className);
       BaseInput.prototype.editMode.apply(this, arguments);
-      this.$('input').placeholder();
     },
 
     /**
