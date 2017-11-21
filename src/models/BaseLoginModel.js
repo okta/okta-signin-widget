@@ -50,7 +50,7 @@ function (Okta, Q) {
           res = fn.call(this, this.appState.get('transaction'), _.bind(this.setTransaction, this));
       
       // If it's a promise, listen for failures
-      if (Q.isPromise(res)) {
+      if (Q.isPromiseAlike(res)) {
         res.fail(function(err) {
           if (err.name === 'AuthPollStopError') {
             return;
@@ -68,7 +68,7 @@ function (Okta, Q) {
           res = fn.call(this, this.settings.getAuthClient());
 
       // If it's a promise, then chain to it
-      if (Q.isPromise(res)) {
+      if (Q.isPromiseAlike(res)) {
         return res.then(function(trans) {
           self.trigger('setTransaction', trans);
           return trans;
