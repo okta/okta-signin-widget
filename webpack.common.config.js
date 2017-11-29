@@ -121,8 +121,7 @@ module.exports = function (outputFilename) {
           exclude: /node_modules/,
           loader: 'babel-loader',
           query: {
-            presets: ['env'],
-            plugins: ['transform-runtime']
+            presets: ['env']
           }
         },
       ]
