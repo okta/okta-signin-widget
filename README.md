@@ -159,6 +159,8 @@ After running `npm install`:
     --outfile=bundle.js
     ```
 
+3. Make sure you include ES6 polyfills with your bundler if you need the broadest browser support. We recommend babel-polyfill.
+
 # API
 
 ## new OktaSignIn(config)

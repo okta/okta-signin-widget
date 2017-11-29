@@ -46,10 +46,19 @@ entryConfig.externals = {
   // Chosen is also another special case - because we're currently modifying
   // some of the chosen code, we cannot include it as an npm dependency.
 };
+// Add transform-runtime
+entryConfig.module.loaders = entryConfig.module.loaders || [];
+const loader = entryConfig.module.loaders.find(item =>
+  item.loader === 'babel-loader');
+if (loader) {
+  loader.query.plugins = loader.query.plugins || [];
+  loader.query.plugins.push('transform-runtime');
+}
 
 // 2. cdnConfig
 var license = fs.readFileSync('src/widget/copyright.txt', 'utf8');
 var cdnConfig = config('okta-sign-in.min.js');
+cdnConfig.entry.unshift('babel-polyfill');
 cdnConfig.plugins = [
   new webpack.optimize.UglifyJsPlugin({
     compress: {
@@ -88,6 +97,7 @@ cdnConfig.plugins = [
 
 // 3. noJqueryConfig
 var noJqueryConfig = config('okta-sign-in-no-jquery.js');
+noJqueryConfig.entry = cdnConfig.entry;
 noJqueryConfig.plugins = cdnConfig.plugins;
 noJqueryConfig.externals = {
   'jquery': {
