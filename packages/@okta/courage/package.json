@@ -1,35 +1,36 @@
 {
-  "_args": [
-    [
-      "@okta/courage@3.3.0-beta.12",
-      "/home/vagrant/okta/okta-signin-widget"
-    ]
-  ],
-  "_from": "@okta/courage@3.3.0-beta.12",
-  "_id": "@okta/courage@3.3.0-beta.12",
-  "_inCache": true,
-  "_installable": true,
+  "_from": "@okta/courage@4.1.0-beta.1",
+  "_id": "@okta/courage@4.1.0-beta.1",
+  "_inBundle": false,
+  "_integrity": "sha1-DZJWjN88Klai6jAghhPcperTHRs=",
   "_location": "/@okta/courage",
   "_phantomChildren": {
     "amdefine": "1.0.1",
+    "read-installed": "4.0.3",
+    "request": "2.67.0",
+    "underscore": "1.8.3",
+    "walkdir": "0.0.7",
     "wordwrap": "0.0.3"
   },
   "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@okta/courage@4.1.0-beta.1",
     "name": "@okta/courage",
-    "raw": "@okta/courage@3.3.0-beta.12",
-    "rawSpec": "3.3.0-beta.12",
+    "escapedName": "@okta%2fcourage",
     "scope": "@okta",
-    "spec": "3.3.0-beta.12",
-    "type": "version"
+    "rawSpec": "4.1.0-beta.1",
+    "saveSpec": null,
+    "fetchSpec": "4.1.0-beta.1"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-3.3.0-beta.12.tgz",
-  "_shasum": "25c3f75263d65dbbdbd03188c07d08beab6a0183",
-  "_shrinkwrap": null,
-  "_spec": "@okta/courage@3.3.0-beta.12",
-  "_where": "/home/vagrant/okta/okta-signin-widget",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.1.0-beta.1.tgz",
+  "_shasum": "0d92568cdf3c2a56a2ea30208613dca5ead31d1b",
+  "_spec": "@okta/courage@4.1.0-beta.1",
+  "_where": "/Users/ukilon/okta/okta-signin-widget",
   "browserslist": [
     "> 0.1%",
     "not ie <= 9"
@@ -37,20 +38,24 @@
   "bugs": {
     "url": "https://github.com/okta/courage/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {
     "@okta/jquery.simplemodal": "1.4.9",
-    "backbone": "1.2.1",
+    "@okta/moment": "^1.0.3",
+    "backbone": "^1.3.3",
     "clipboard": "^1.5.16",
     "handlebars": "2.0.0",
     "mixpanel-browser": "^2.11.0",
+    "retire": "^1.4.0",
     "underscore": "1.8.3"
   },
+  "deprecated": false,
   "description": "Shared Okta UI components",
   "devDependencies": {
     "@okta/ci-pkginfo": "1.1.0",
     "@okta/ci-update-package": "1.1.0",
     "@okta/eslint-plugin-okta": "0.3.3",
-    "@okta/i18n": "33.1.0",
+    "@okta/i18n": "36.9.0-beta.2",
     "ace-builds": "^1.2.6",
     "app-root-path": "1.0.0",
     "autoprefixer": "^6.7.5",
@@ -109,10 +114,6 @@
     "webpack-node-externals": "^1.6.0",
     "winston": "2.2.0"
   },
-  "dist": {
-    "shasum": "25c3f75263d65dbbdbd03188c07d08beab6a0183",
-    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-3.3.0-beta.12.tgz"
-  },
   "files": [
     "src",
     "assets",
@@ -120,18 +121,16 @@
   ],
   "homepage": "https://github.com/okta/courage",
   "license": "Apache-2.0",
-  "main": "src/util/Okta.js",
+  "main": "dist/okta.js",
   "name": "@okta/courage",
   "okta": {
-    "commitSha": "78676afa039e2a67bf17cd8633f70679ec503e54",
-    "fullVersion": "3.3.0-beta.12-20170929215326-78676af",
-    "testedSha": "87f338fbc973d387c50f48692ca8a04cfc9f3b81"
+    "commitSha": "92fd4b3988835021ce3adbf38ed0ecd4924d5216",
+    "fullVersion": "4.1.0-beta.1-20171127190547-92fd4b3",
+    "testedSha": "377b83bddb7910c3ac0f1729305d8047fd0d9565"
   },
-  "optionalDependencies": {},
   "publishConfig": {
     "registry": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta"
   },
-  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/okta/courage.git"
@@ -147,5 +146,5 @@
     "test:e2e": "webdriver-manager update && protractor test/selenium/conf.js",
     "test:report": "(grunt test --display full) || true"
   },
-  "version": "3.3.0-beta.12"
+  "version": "4.1.0-beta.1"
 }

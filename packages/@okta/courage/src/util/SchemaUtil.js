@@ -58,9 +58,11 @@ function (_, StringUtil) {
       'string',
       'number',
       'integer',
+      'object',
       'arrayofstring',
       'arrayofnumber',
-      'arrayofinteger'
+      'arrayofinteger',
+      'arrayofobject'
     ],
     DATATYPE: {
       'string': 'string',

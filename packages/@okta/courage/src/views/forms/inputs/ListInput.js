@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 9], max-statements: 0 */
+/* eslint max-params: [2, 10], max-statements: 0 */
 define([
   'okta/jquery',
   'okta/underscore',
@@ -8,8 +8,9 @@ define([
   'shared/models/BaseCollection',
   'shared/models/Model',
   'shared/util/ButtonFactory',
-  'shared/views/Backbone.ListView'
-], function ($, _, StringUtil, BaseInput, BaseView, BaseCollection, Model, ButtonFactory, ListView) {
+  'shared/views/Backbone.ListView',
+  'shared/util/StateMachine'
+], function ($, _, StringUtil, BaseInput, BaseView, BaseCollection, Model, ButtonFactory, ListView, StateMachine) {
 
   function getCollection(options, data) {
 
@@ -191,6 +192,7 @@ define([
     },
 
     children: function () {
+      var removeItemButtonView = this.options.params.removeItemButtonView || RemoveItemButton;
       var inputs = _.map(this.options.params.inputs, function (input) {
         var params = this.options.params;
         return BaseView.extend({
@@ -198,13 +200,13 @@ define([
           className: 'list-input-cell o-form-wide',
           children: [params.create(_.defaults({
             model: this.model,
-            params: _.defaults({wide: true}, params)
+            params: _.defaults({wide: true}, params, input.params, {state: this.state})
           }, input))],
           focus: function () {
             this.size() && this.first().focus();
           }
         });
-      }, this).concat([RemoveItemButton]);
+      }, this).concat([removeItemButtonView]);
 
       return isDragSortingEnabled(this.options) ? [DragDropGripper].concat(inputs) : inputs;
     },
@@ -378,6 +380,11 @@ define([
 
     tagName: 'div',
     className: 'o-form-list-input',
+
+    constructor: function () {
+      BaseInput.apply(this, arguments);
+      this.options.state = new StateMachine();
+    },
 
     render: function () {
       var collection = this.collection = this.options.collection = getCollection(this.options, this.getModelValue());
