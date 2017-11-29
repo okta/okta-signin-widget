@@ -50,6 +50,7 @@ entryConfig.externals = {
 // 2. cdnConfig
 var license = fs.readFileSync('src/widget/copyright.txt', 'utf8');
 var cdnConfig = config('okta-sign-in.min.js');
+cdnConfig.entry.unshift('babel-polyfill');
 cdnConfig.plugins = [
   new webpack.optimize.UglifyJsPlugin({
     compress: {
@@ -88,6 +89,7 @@ cdnConfig.plugins = [
 
 // 3. noJqueryConfig
 var noJqueryConfig = config('okta-sign-in-no-jquery.js');
+noJqueryConfig.entry = cdnConfig.entry;
 noJqueryConfig.plugins = cdnConfig.plugins;
 noJqueryConfig.externals = {
   'jquery': {
