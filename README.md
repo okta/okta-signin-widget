@@ -869,12 +869,15 @@ To add registration into your application, configure your Okta admin settings to
       registration: {
         parseSchema: function(schema, onSuccess, onFailure) {
            // handle parseSchema callback
+           onSuccess(schema);
         },
         preSubmit: function (postData, onSuccess, onFailure) {
            // handle preSubmit callback
+           onSuccess(postData);
         },
         postSubmit: function (response, onSuccess, onFailure) {
             // handle postsubmit callback
+           onSuccess(response);
         }
       },
       features: {
