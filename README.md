@@ -873,11 +873,11 @@ To add registration into your application, configure your Okta admin settings to
         },
         preSubmit: function (postData, onSuccess, onFailure) {
            // handle preSubmit callback
-           onSuccess(schema);
+           onSuccess(postData);
         },
         postSubmit: function (response, onSuccess, onFailure) {
             // handle postsubmit callback
-           onSuccess(schema);
+           onSuccess(response);
         }
       },
       features: {
