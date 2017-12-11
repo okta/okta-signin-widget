@@ -40,7 +40,8 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           'token:hardware',
           'question',
           'push',
-          'u2f'
+          'u2f',
+          'password'
         ]
       },
       provider: {
@@ -75,6 +76,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
 
     local: {
       'answer': 'string',
+      'password': 'string',
       'backupFactor': 'object',
       'showAnswer': 'boolean',
       'rememberDevice': 'boolean',
@@ -188,6 +190,9 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
       if (this.get('isAnswerRequired') && !this.get('answer')) {
         return {'answer': Okta.loc('model.validation.field.blank')};
       }
+      else if(this.get('factorType') === 'password' && !this.get('password')) {
+        return {'password': Okta.loc('error.password.required')};
+      }
     },
 
     save: function () {
@@ -200,7 +205,11 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         };
         if (this.get('factorType') === 'question') {
           data.answer = this.get('answer');
-        } else {
+        }
+        else if (this.get('factorType') === 'password') {
+          data.password = this.get('password');
+        }
+        else {
           data.passCode = this.get('answer');
         }
 

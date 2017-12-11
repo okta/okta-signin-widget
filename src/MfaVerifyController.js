@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 14], max-params: [2, 11] */
+/* eslint complexity: [2, 15], max-params: [2, 12] */
 define([
   'okta',
   'shared/views/forms/inputs/CheckBox',
@@ -21,11 +21,12 @@ define([
   'views/mfa-verify/SecurityQuestionForm',
   'views/mfa-verify/PassCodeForm',
   'views/mfa-verify/PushForm',
+  'views/mfa-verify/PasswordForm',
   'views/mfa-verify/InlineTOTPForm',
   'views/shared/FooterSignout'
 ],
 function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
-          PushForm, InlineTOTPForm, FooterSignout) {
+          PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
 
   return BaseLoginController.extend({
     className: 'mfa-verify',
@@ -54,6 +55,9 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
         break;
       case 'push':
         View = PushForm;
+        break;
+      case 'password':
+        View = PasswordForm;
         break;
       default:
         throw new Error('Unrecognized factor type');
@@ -114,6 +118,9 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
     },
 
     trapAuthResponse: function () {
+      if(this.options.factorType === 'password') {
+        return false;
+      }
       if (this.options.appState.get('isMfaChallenge') ||
           this.options.appState.get('isMfaRequired')) {
         return true;
