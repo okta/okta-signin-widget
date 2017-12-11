@@ -8,6 +8,7 @@ var VENDOR = path.resolve(__dirname, 'packages/@okta/courage/src/vendor');
 module.exports = function (outputFilename) {
   return {
     entry: ['./target/js/widget/OktaSignIn.js'],
+    devtool: 'source-map',
     output: {
       path: TARGET_JS,
       filename: outputFilename,
