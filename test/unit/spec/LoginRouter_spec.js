@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 32], max-statements: [2, 41], max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 32], max-statements: [2, 43], max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -466,7 +466,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
         expect(form.hasErrors()).toBe(false);
       });
     });
-    itp('navigates to PrimaryAuth if status is UNAUTHENTICATED', function () {
+    itp('navigates to PrimaryAuth if status is UNAUTHENTICATED, and IDP_DISCOVERY is disabled', function () {
       return setup({ stateToken: 'aStateToken' })
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
@@ -485,6 +485,39 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
         expect(test.router.appState.get('isUnauthenticated')).toBe(true);
         var form = new PrimaryAuthForm($sandbox);
         expect(form.isPrimaryAuth()).toBe(true);
+      });
+    });
+    itp('navigates to IDPDiscovery if status is UNAUTHENTICATED, and IDP_DISCOVERY is enabled', function () {
+      return setup({ stateToken: 'aStateToken', 'features.idpDiscovery': true })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.setNextResponse(resUnauthenticated);
+        test.router.navigate('/app/sso');
+        return Expect.waitForIDPDiscovery(test);
+      })
+      .then(function (test) {
+        expect($.ajax.calls.count()).toBe(1);
+        Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          url: 'https://foo.com/api/v1/authn',
+          data: {
+            stateToken: 'aStateToken'
+          }
+        });
+        expect(test.router.appState.get('isUnauthenticated')).toBe(true);
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to default route when status is UNAUTHENTICATED', function () {
+      return setup({ stateToken: 'aStateToken' })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.setNextResponse(resUnauthenticated);
+        test.router.navigate('/app/sso');
+        return Expect.waitForPrimaryAuth(test);
+      })
+      .then(function (test) {
+        expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
       });
     });
     itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {

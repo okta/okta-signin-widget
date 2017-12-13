@@ -211,7 +211,7 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       }
       return;
     case 'UNAUTHENTICATED':
-      router.navigate('signin', { trigger: true });
+      router.navigate('', { trigger: true });
       return;
     default:
       throw new Error('Unknown status: ' + res.status);
