@@ -64,7 +64,7 @@ cdnConfig.plugins = [
     compress: {
       warnings: false
     },
-    sourceMap: false,
+    sourceMap: true,
     comments: function(node, comment) {
       // Remove other Okta copyrights
       var isLicense = /^!/.test(comment.value) ||
