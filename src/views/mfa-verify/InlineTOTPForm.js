@@ -21,7 +21,7 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
       className: 'o-form-fieldset o-form-label-top inline-input auth-passcode',
       name: 'answer',
       input: TextBox,
-      type: 'text'
+      type: 'tel'
     });
     form.add(Okta.createButton({
       attributes: { 'data-se': 'inline-totp-verify' },
