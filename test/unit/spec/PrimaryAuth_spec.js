@@ -584,10 +584,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect($.ajax.calls.count()).toBe(1);
           expect($.ajax.calls.argsFor(0)[0]).toEqual({
             url: 'https://foo.com/login/getimage?username=testuser',
-            type: 'get',
-            dataType: undefined,
-            data: undefined,
-            success: undefined
+            dataType: 'json'
           });
         });
       });
@@ -689,7 +686,41 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     });
 
     Expect.describe('Device Fingerprint', function () {
-      itp('does not contain device fingerprint header in primaryAuth if feature is enabled', function () {
+      itp('contains fingerprint header in get security image request if feature is enabled', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
+          var deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        return setup({ features: { securityImage: true, deviceFingerprinting: true }})
+        .then(function (test) {
+          test.setNextResponse(resSecurityImage);
+          test.form.setUsername('testuser');
+          return waitForBeaconChange(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+        });
+      });
+      itp('does not contain fingerprint header in get security image request if feature is disabled', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
+        return setup({ features: { securityImage: true }})
+        .then(function (test) {
+          test.setNextResponse(resSecurityImage);
+          test.form.setUsername('testuser');
+          return waitForBeaconChange(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers).toBeUndefined();
+        });
+      });
+      itp('does not contain device fingerprint header in primaryAuth if feature is disabled', function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
         return setup().then(function (test) {
           $.ajax.calls.reset();
@@ -725,7 +756,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect($.ajax.calls.count()).toBe(1);
           expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
           var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).not.toBeUndefined();
+          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
         });
       });
       itp('continues with primary auth if there is an error getting fingerprint when feature is enabled', function () {
@@ -940,10 +971,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect($.ajax.calls.count()).toBe(1);
           expect($.ajax.calls.argsFor(0)[0]).toEqual({
             url: 'https://foo.com/login/getimage?username=testuser',
-            type: 'get',
-            dataType: undefined,
-            data: undefined,
-            success: undefined
+            dataType: 'json'
           });
           expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
           expect(test.form.accessibilityText()).toBe('a single pixel');
@@ -2063,7 +2091,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
       });
     });
   });
-  
+
   Expect.describe('Registration Flow', function () {
     itp('does not show the registration button if features.registration is not set', function () {
       return setup().then(function (test) {

@@ -51,10 +51,6 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       };
     },
 
-    local: {
-      deviceFingerprint: ['string', false]
-    },
-
     getUsernameAndRemember: function(cookieUsername) {
       var settingsUsername = this.settings && this.settings.get('username'),
           rememberMeEnabled = this.settings && this.settings.get('features.rememberMe'),
@@ -160,12 +156,14 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       // Add the custom header for fingerprint if needed, and then remove it afterwards
       // Since we only need to send it for primary auth
       if (deviceFingerprintEnabled) {
-        authClient.options.headers['X-Device-Fingerprint'] = this.get('deviceFingerprint');
+        authClient.options.headers['X-Device-Fingerprint'] = this.appState.get('deviceFingerprint');
       }
+      var self = this;
       return func(signInArgs)
       .fin(function () {
         if (deviceFingerprintEnabled) {
           delete authClient.options.headers['X-Device-Fingerprint'];
+          self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once
         }
       });
     }

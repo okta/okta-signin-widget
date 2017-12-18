@@ -17,9 +17,11 @@ define([
   'views/shared/FooterRegistration',
   'models/PrimaryAuth',
   'views/shared/Footer',
-  'util/BaseLoginController'
+  'util/BaseLoginController',
+  'util/DeviceFingerprint'
 ],
-function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthModel, Footer, BaseLoginController) {
+function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthModel,
+          Footer, BaseLoginController, DeviceFingerprint) {
 
   var $ = Okta.$;
 
@@ -68,7 +70,21 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
 
     events: {
       'focusout input[name=username]': function () {
-        this.options.appState.set('username', this.model.get('username'));
+        // Get DeviceFingerprint so we can use it for security image and for primary auth
+        if (this.settings.get('features.deviceFingerprinting')) {
+          var self = this;
+          DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
+          .then(function (fingerprint) {
+            self.options.appState.set('deviceFingerprint', fingerprint);
+            self.options.appState.set('username', self.model.get('username'));
+          })
+          .fail(function () {
+            // Keep going even if device fingerprint fails
+            self.options.appState.set('username', self.model.get('username'));
+          });
+        } else {
+          this.options.appState.set('username', this.model.get('username'));
+        }
       },
       'focusin input': function (e) {
         $(e.target.parentElement).addClass('focused-input');
@@ -82,6 +98,7 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
     // The controller updates the AppState's username when the user is
     // done editing (on blur) or deletes the username (see below).
     initialize: function () {
+      this.options.appState.unset('deviceFingerprint');
       this.listenTo(this.model, 'change:username', function (model, value) {
         if (!value) {
           // reset AppState to an undefined user.
@@ -95,7 +112,6 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
         this.state.set('enabled', true);
       });
     }
-
   });
 
 });

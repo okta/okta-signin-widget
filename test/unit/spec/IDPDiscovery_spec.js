@@ -422,10 +422,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect($.ajax.calls.count()).toBe(1);
           expect($.ajax.calls.argsFor(0)[0]).toEqual({
             url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
-            type: 'get',
-            dataType: undefined,
-            data: undefined,
-            success: undefined
+            dataType: 'json'
           });
         });
       });
@@ -558,10 +555,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect($.ajax.calls.count()).toBe(1);
           expect($.ajax.calls.argsFor(0)[0]).toEqual({
             url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
-            type: 'get',
-            dataType: undefined,
-            data: undefined,
-            success: undefined
+            dataType: 'json'
           });
           expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
           expect(test.form.accessibilityText()).toBe('a single pixel');

@@ -38,7 +38,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
 
   var securityImageUrlTpl = compile('{{baseUrl}}/login/getimage?username={{username}}');
 
-  function getSecurityImage(baseUrl, username) {
+  function getSecurityImage(baseUrl, username, deviceFingerprint) {
     var url = securityImageUrlTpl({ baseUrl: baseUrl, username: username });
 
     // When the username is empty, we want to show the default image.
@@ -49,7 +49,15 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       });
     }
 
-    return Q($.get(url)).then(function (res) {
+    var data = {
+      url: url,
+      dataType: 'json'
+    };
+    if (deviceFingerprint) {
+      data['headers']= { 'X-Device-Fingerprint': deviceFingerprint };
+    }
+    return Q($.ajax(data))
+    .then(function (res) {
       if (res.pwdImg === USER_NOT_SEEN_ON_DEVICE) {
         // When we get an unknown.png security image from OKTA,
         // we want to show the unknown-device security image.
@@ -91,11 +99,11 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       if (this.settings.get('features.securityImage')) {
         var self = this;
         this.listenTo(this, 'change:username', function (model, username) {
-          getSecurityImage(this.get('baseUrl'), username)
+          getSecurityImage(this.get('baseUrl'), username, model.get('deviceFingerprint'))
           .then(function (image) {
             model.set('securityImage', image.securityImage);
-            model.set(
-              'securityImageDescription', image.securityImageDescription);
+            model.set('securityImageDescription', image.securityImageDescription);
+            model.unset('deviceFingerprint'); //Fingerprint can only be used once
           })
           .fail(function (jqXhr) {
             // Only notify the consumer on a CORS error
@@ -129,6 +137,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       factorActivationType: 'string',
       flashError: 'object',
       beaconType: 'string',
+      deviceFingerprint: 'string', // valid only once
 
       // Note: languageCode is special in that it is shared between Settings
       // and AppState. Settings is the *configured* language, and is static.
