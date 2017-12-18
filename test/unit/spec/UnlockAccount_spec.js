@@ -28,7 +28,8 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect,
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
-      globalSuccessFn: function () {}
+      globalSuccessFn: function () {},
+      'features.router': startRouter
     }, settings));
     var form = new AccountRecoveryForm($sandbox);
     var beacon = new Beacon($sandbox);

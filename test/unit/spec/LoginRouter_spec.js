@@ -209,7 +209,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
     itp('set pushState true if pushState is supported', function () {
       spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(true);
       spyOn(Okta.Router.prototype, 'start');
-      return setup().then(function (test) {
+      return setup({ 'features.router': true }).then(function (test) {
         test.router.start();
         expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: true });
       });
@@ -217,7 +217,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
     itp('set pushState false if pushState is not supported', function () {
       spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(false);
       spyOn(Okta.Router.prototype, 'start');
-      return setup().then(function (test) {
+      return setup({ 'features.router': true }).then(function (test) {
         test.router.start();
         expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: false });
       });

@@ -215,7 +215,7 @@ function (Okta,
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
-    var setupAllFactors = _.partial(setup, resAllFactors);
+    var setupAllFactorsWithRouter = _.partial(setup, resAllFactors, null, { 'features.router': true });
     function setupSecurityQuestionLocalized(options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
@@ -2902,7 +2902,7 @@ function (Okta,
 
     Expect.describe('Browser back button does not change view', function () {
       itp('from mfa verify controller', function () {
-        return setupAllFactors().then(function (test) {
+        return setupAllFactorsWithRouter().then(function (test) {
           spyOn(window, 'addEventListener');
           test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
@@ -2922,7 +2922,7 @@ function (Okta,
         });
       });
       itp('from duo controller', function () {
-        return setupAllFactors().then(function (test) {
+        return setupAllFactorsWithRouter().then(function (test) {
           spyOn(window, 'addEventListener');
           test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
@@ -2945,7 +2945,7 @@ function (Okta,
       });
       itp('from windows hello controller', function () {
         return emulateWindows()
-        .then(setupAllFactors)
+        .then(setupAllFactorsWithRouter)
         .then(function (test) {
           spyOn(window, 'addEventListener');
           test.router.start();
@@ -2967,7 +2967,7 @@ function (Okta,
         });
       });
       itp('from u2f controller', function () {
-        return setupAllFactors().then(function (test) {
+        return setupAllFactorsWithRouter().then(function (test) {
           spyOn(window, 'addEventListener');
           test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');

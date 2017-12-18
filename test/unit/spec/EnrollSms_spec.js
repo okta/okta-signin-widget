@@ -37,7 +37,8 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {}
+        globalSuccessFn: function () {},
+        'features.router': startRouter
       });
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);

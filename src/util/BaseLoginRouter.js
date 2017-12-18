@@ -265,7 +265,7 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
     start: function () {
       var pushState = false;
       // Support for browser's back button.
-      if (window.addEventListener) {
+      if (window.addEventListener && this.settings.get('features.router')) {
         window.addEventListener('popstate', _.bind(function(e) {
           if (this.controller.back) {
             e.preventDefault();

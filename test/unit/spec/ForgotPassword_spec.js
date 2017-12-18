@@ -34,7 +34,8 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
-      globalSuccessFn: successSpy
+      globalSuccessFn: successSpy,
+      'features.router': startRouter
     }, settings));
     var form = new AccountRecoveryForm($sandbox);
     var loginForm = new PrimaryAuthForm($sandbox);
@@ -647,7 +648,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         });
       });
       itp('returns to primary auth when browser\'s back button is clicked', function () {
-        return setup({}, {}, true).then(function (test) {
+        return setup({}, true).then(function (test) {
           Util.triggerBrowserBackButton();
           return Expect.waitForPrimaryAuth(test);
         })
