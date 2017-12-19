@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 38], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 40], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -23,6 +23,7 @@ define([
   'helpers/xhr/MFA_REQUIRED_allFactors_OnPrem',
   'helpers/xhr/MFA_REQUIRED_oktaVerifyTotpOnly',
   'helpers/xhr/MFA_REQUIRED_webauthn',
+  'helpers/xhr/MFA_REQUIRED_oktaPassword',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
@@ -34,6 +35,7 @@ define([
   'helpers/xhr/MFA_CHALLENGE_push_timeout',
   'helpers/xhr/SUCCESS',
   'helpers/xhr/MFA_VERIFY_invalid_answer',
+  'helpers/xhr/MFA_VERIFY_invalid_password',
   'helpers/xhr/MFA_VERIFY_totp_invalid_answer',
   'helpers/xhr/SMS_RESEND_error',
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS',
@@ -69,6 +71,7 @@ function (Okta,
           resAllFactorsOnPrem,
           resVerifyTOTPOnly,
           resRequiredWebauthn,
+          resPassword,
           resChallengeDuo,
           resChallengeSms,
           resChallengeCall,
@@ -80,6 +83,7 @@ function (Okta,
           resTimeoutPush,
           resSuccess,
           resInvalid,
+          resInvalidPassword,
           resInvalidTotp,
           resResendError,
           resMfaLocked,
@@ -215,6 +219,7 @@ function (Okta,
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
+    var setupPassword = _.partial(setup, resPassword, { factorType: 'password' });
     var setupAllFactorsWithRouter = _.partial(setup, resAllFactors, null, { 'features.router': true });
     function setupSecurityQuestionLocalized(options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
@@ -413,6 +418,13 @@ function (Okta,
       var answer = test.form.answerField();
       expect(answer.length).toBe(1);
       expect(answer.attr('type')).toEqual(fieldType);
+    }
+
+    function expectHasPasswordField(test, fieldType) {
+      fieldType || (fieldType = 'text');
+      var password = test.form.passwordField();
+      expect(password.length).toBe(1);
+      expect(password.attr('type')).toEqual(fieldType);
     }
 
     function expectHasRightPlaceholderText(test, placeholderText){
@@ -2637,6 +2649,160 @@ function (Okta,
           .then(function (test) {
             expect(window.u2f.sign).toHaveBeenCalled();
             expect(test.form.hasErrors()).toBe(true);
+          });
+        });
+      });
+      Expect.describe('Password', function () {
+        itp('is password', function () {
+          return setupPassword().then(function (test) {
+            expect(test.form.isPassword()).toBe(true);
+          });
+        });
+        itp('shows the right beacon', function () {
+          return setupPassword().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-okta-password');
+          });
+        });
+        itp('shows the right title', function () {
+          return setupPassword().then(function (test) {
+            expectTitleToBe(test, 'Password');
+          });
+        });
+        itp('has a password field', function () {
+          return setupPassword().then(function (test) {
+            expectHasPasswordField(test, 'password');
+          });
+        });
+        itp('has remember device checkbox', function () {
+          return setupPassword().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
+        itp('no auto push checkbox', function () {
+          return setupPassword({'features.autoPush': true}).then(function (test) {
+            expect(test.form.autoPushCheckbox().length).toBe(0);
+          });
+        });
+        itp('when the "show" button is clicked, the buttons container has class "password-toggle-on",\
+          and doesn\'t have it after clicking the "hide" button', function () {
+          return setupPassword().then(function (test) {
+            var buttonsContainer = test.form.passwordButtonsContainer();
+
+            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
+
+            test.form.showPasswordButton().click();
+            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(true);
+
+            test.form.hidePasswordButton().click();
+            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
+          });
+        });
+        itp('a password field type is "password" initially and can be switched between "text" and "password" \
+          by clicking on "show"/"hide" buttons', function () {
+          return setupPassword().then(function (test) {
+            var answer = test.form.passwordField();
+            expect(answer.attr('type')).toEqual('password');
+
+            test.form.showPasswordButton().click();
+            expect(test.form.passwordField().attr('type')).toEqual('text');
+
+            test.form.hidePasswordButton().click();
+            expect(test.form.passwordField().attr('type')).toEqual('password');
+          });
+        });
+        itp('calls authClient verifyFactor with correct args when submitted', function () {
+          return setupPassword().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setPassword('Abcd1234');
+            test.form.setRememberDevice(true);
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'http://rain.okta1.com:1802/api/v1/authn/factors/password/verify?rememberDevice=true',
+              data: {
+                password: 'Abcd1234',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+        itp('disables the "verify button" when clicked', function () {
+          return setupPassword().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setPassword('Abcd');
+            test.setNextResponse(resInvalidPassword);
+            test.form.submit();
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(true);
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
+          });
+        });
+        itp('shows an error if error response from authClient', function () {
+          return setupPassword()
+          .then(function (test) {
+            test.setNextResponse(resInvalidPassword);
+            test.form.setPassword('wrong');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Password is incorrect');
+          });
+        });
+        itp('shows errors if verify button is clicked and password is empty', function () {
+          return setupPassword()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setPassword('');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passwordErrorField().length).toBe(1);
+            expect(test.form.passwordErrorField().text()).toBe('Please enter a password');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+        });
+        itp('sets the transaction on the appState on success response', function () {
+          return setupPassword()
+          .then(function (test) {
+            mockTransactions(test.router.controller);
+            $.ajax.calls.reset();
+            test.form.setPassword('Abcd1234');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
+            expectSetTransaction(test.router, resSuccess);
+          });
+        });
+        itp('sets the transaction error on the appState on error response', function () {
+          return setupPassword()
+          .then(function (test) {
+            mockTransactions(test.router.controller);
+            $.ajax.calls.reset();
+            test.form.setPassword('Abcd1234');
+            test.setNextResponse(resInvalidPassword);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expectSetTransactionError(test.router, resInvalidPassword);
           });
         });
       });
