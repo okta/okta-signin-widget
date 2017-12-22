@@ -99,7 +99,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       if (this.settings.get('features.securityImage')) {
         var self = this;
         this.listenTo(this, 'change:username', function (model, username) {
-          getSecurityImage(this.get('baseUrl'), username, model.get('deviceFingerprint'))
+          getSecurityImage(this.get('baseUrl'), username, this.get('deviceFingerprint'))
           .then(function (image) {
             model.set('securityImage', image.securityImage);
             model.set('securityImageDescription', image.securityImageDescription);
