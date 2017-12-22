@@ -13,6 +13,7 @@ define([
   'models/IDPDiscovery',
   'LoginRouter',
   'util/BrowserFeatures',
+  'util/DeviceFingerprint',
   'util/Errors',
   'shared/util/Util',
   'helpers/util/Expect',
@@ -24,8 +25,8 @@ define([
   'sandbox'
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
-          Router, BrowserFeatures, Errors, SharedUtil, Expect, resSecurityImage, resSecurityImageFail,
-          resSuccess, resSuccessOktaIDP, resError, $sandbox) {
+          Router, BrowserFeatures, DeviceFingerprint, Errors, SharedUtil, Expect,
+          resSecurityImage, resSecurityImageFail, resSuccess, resSuccessOktaIDP, resError, $sandbox) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -422,10 +423,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect($.ajax.calls.count()).toBe(1);
           expect($.ajax.calls.argsFor(0)[0]).toEqual({
             url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
-            type: 'get',
-            dataType: undefined,
-            data: undefined,
-            success: undefined
+            dataType: 'json'
           });
         });
       });
@@ -454,6 +452,43 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
             resource: 'acct:testuser@clouditude.net',
             requestContext: undefined
           });
+        });
+      });
+    });
+
+    Expect.describe('Device Fingerprint', function () {
+      itp('contains fingerprint header in get security image request if feature is enabled', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
+          var deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        return setup({ features: { securityImage: true, deviceFingerprinting: true }})
+        .then(function (test) {
+          test.setNextResponse(resSecurityImage);
+          test.form.setUsername('testuser@clouditude.net');
+          return waitForBeaconChange(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+        });
+      });
+      itp('does not contain fingerprint header in get security image request if feature is disabled', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
+        return setup({ features: { securityImage: true }})
+        .then(function (test) {
+          test.setNextResponse(resSecurityImage);
+          test.form.setUsername('testuser@clouditude.net');
+          return waitForBeaconChange(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers).toBeUndefined();
         });
       });
     });
@@ -558,10 +593,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect($.ajax.calls.count()).toBe(1);
           expect($.ajax.calls.argsFor(0)[0]).toEqual({
             url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
-            type: 'get',
-            dataType: undefined,
-            data: undefined,
-            success: undefined
+            dataType: 'json'
           });
           expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
           expect(test.form.accessibilityText()).toBe('a single pixel');
