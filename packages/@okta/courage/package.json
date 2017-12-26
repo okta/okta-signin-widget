@@ -41,7 +41,6 @@
     "@okta/jquery.simplemodal": "1.4.9",
     "backbone": "1.2.1",
     "clipboard": "^1.5.16",
-    "handlebars": "2.0.0",
     "mixpanel-browser": "^2.11.0",
     "underscore": "1.8.3"
   },
