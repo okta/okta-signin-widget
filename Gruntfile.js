@@ -35,6 +35,7 @@ module.exports = function (grunt) {
         '!buildtools/r.js',
         'test/unit/helpers/**/*.js',
         'test/**/**/*.js',
+        '!test/e2e/react-app/**/*.js',
         '!test/unit/helpers/xhr/*.js',
         '!test/unit/vendor/*.js'
       ],
@@ -461,7 +462,7 @@ module.exports = function (grunt) {
     },
 
     retire: {
-      js: ['src/**/*.js', 'test/**/*.js'],
+      js: ['src/**/*.js'],
       node: ['node_modules', 'packages'],
       options: {
         packageOnly: false
