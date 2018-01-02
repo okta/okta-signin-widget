@@ -17,6 +17,9 @@ const fullpath = path.join(__dirname, filename);
 console.log(`Installing ${fullpath} to React App`);
 execSync(`npm install --prefix test/e2e/react-app ${fullpath} --no-save`);
 
+console.log(`Installing ${fullpath} to Angular App`);
+execSync(`npm install --prefix test/e2e/angular-app ${fullpath} --no-save`);
+
 console.log(`Deleting ${fullpath}`);
 if (__dirname === fullpath) {
   throw new Error('Deletion would remove entire directory');
