@@ -1,0 +1,17 @@
+<!-- src/app/app.component.html -->
+
+<link
+href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.5.0/css/okta-sign-in.min.css"
+type="text/css"
+rel="stylesheet"/>
+<link
+href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.5.0/css/okta-theme.css"
+type="text/css"
+rel="stylesheet"/>
+
+<button routerLink="/"> Home </button>
+<button *ngIf="!signIn.isAuthenticated()" routerLink="/login"> Login </button>
+<button *ngIf="signIn.isAuthenticated()" (click)="logout()"> Logout </button>
+<button routerLink="/protected"> Protected </button>
+
+<router-outlet></router-outlet>
