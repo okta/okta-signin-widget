@@ -1,4 +1,4 @@
-/* eslint no-console 0 */
+/* eslint no-console: 0 */
 /* globals __dirname */
 const execSync = require('child_process').execSync;
 const fs = require('fs-extra');
