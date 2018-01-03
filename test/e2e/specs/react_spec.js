@@ -32,7 +32,7 @@ describe('React flows', function() {
     var protectedText = element(by.xpath('//h3[text()="Protected"]'));
     browser.wait(until.presenceOf(protectedText), 3000, 'Not able to detect protected route');
 
-    // Logout of Okta session
+    // log out of Okta session
     browser.get('{{{WIDGET_TEST_SERVER}}}/login/signout');
   });
 });

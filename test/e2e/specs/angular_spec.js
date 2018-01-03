@@ -32,7 +32,7 @@ describe('Angular flows', function() {
     var protectedText = element(by.xpath('//app-secure[text()="Protected endpoint!"]'));
     browser.wait(until.presenceOf(protectedText), 3000, 'Not able to detect protected route');
 
-    // Logout of Okta session
+    // log out of Okta session
     browser.get('{{{WIDGET_TEST_SERVER}}}/login/signout');
   });
 });
