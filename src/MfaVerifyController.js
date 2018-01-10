@@ -118,11 +118,10 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
     },
 
     trapAuthResponse: function () {
-      if(this.options.factorType === 'password') {
-        return false;
-      }
-      if (this.options.appState.get('isMfaChallenge') ||
-          this.options.appState.get('isMfaRequired')) {
+      if((this.options.appState.get('isMfaRequired') &&
+          this.options.appState.get('trapMfaRequiredResponse')) ||
+          this.options.appState.get('isMfaChallenge')) {
+        this.options.appState.set('trapMfaRequiredResponse', false);
         return true;
       }
       // update auto push cookie after user accepts Okta Verify MFA

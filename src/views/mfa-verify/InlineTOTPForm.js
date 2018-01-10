@@ -37,6 +37,7 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
           // and then call model.save(). If not, we would still be in MFA_CHALLENGE state and
           // verify would result in a wrong request (push verify instead of a TOTP verify).
           if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
+            form.options.appState.set('trapMfaRequiredResponse', true);
             return transaction.prev().then(function (trans) {
               setTransaction(trans);
               form.model.save();

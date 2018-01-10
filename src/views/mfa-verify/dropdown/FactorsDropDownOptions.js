@@ -21,6 +21,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     this.model.manageTransaction(function (transaction, setTransaction) {
       if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
+        this.options.appState.set('trapMfaRequiredResponse', true);
         return transaction.prev()
         .then(function (trans) {
           self.trigger('options:toggle');

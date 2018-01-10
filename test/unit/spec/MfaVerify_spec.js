@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 41], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 42], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -2227,6 +2227,7 @@ function (Okta,
               var pushForm = test.form[0],
                   inlineForm = test.form[1];
               return setupPolling(test, resRejectedPush)
+              .then(function () { return tick(test); }) // Final response - REJECTED
               .then(function () {
                 return Expect.waitForFormError(pushForm, {
                   test: test,
@@ -2980,10 +2981,14 @@ function (Okta,
       });
       itp('Verify Okta TOTP on active Push MFA_CHALLENGE', function () {
         return setupOktaPush().then(function (test) {
-          return setupPolling(test, resAllFactors)
+          // using resTimeoutPush here for the test. This needs to be resTimeoutPush
+          // or resRejectedPush, to set the transaction to MFA_CHALLENGE state and
+          // mimic an active poll (Note: The transaction state is not set to MFA_CHALLENGE
+          // during polling).
+          return setupPolling(test, resTimeoutPush)
           .then(function (test) {
             $.ajax.calls.reset();
-            test.setNextResponse(resSuccess);
+            test.setNextResponse([resAllFactors, resSuccess]);
             test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
             // click or enter code in the the Totp form
             test.totpForm.inlineTOTPAdd().click();
@@ -2992,8 +2997,8 @@ function (Okta,
             return tick(test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify',
               data: {
                 passCode: '654321',
@@ -3006,6 +3011,7 @@ function (Okta,
       itp('Verify Okta TOTP success on Push MFA_REJECTED', function () {
         return setupOktaPush().then(function (test) {
           return setupPolling(test, resRejectedPush)
+          .then(function () { return tick(test); }) // Final response - REJECTED
           .then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse([resAllFactors, resSuccess]);
@@ -3038,6 +3044,7 @@ function (Okta,
       itp('Verify Okta TOTP success (after Push MFA_REJECTED) sets the transaction on the appState', function () {
         return setupOktaPush().then(function (test) {
           return setupPolling(test, resRejectedPush)
+          .then(function () { return tick(test); }) // Final response - REJECTED
           .then(function (test) {
             mockTransactions(test.router.controller, true);
             test.setNextResponse([resAllFactors, resSuccess]);
@@ -3166,6 +3173,64 @@ function (Okta,
           //view is still the same
           expectHasRightBeaconImage(test, 'mfa-u2f');
           Util.stopRouter();
+        });
+      });
+    });
+
+    Expect.describe('The auth response', function () {
+      itp('is NOT TRAPPED when Mfa verify follows password re-auth', function () {
+        return setupPassword().then(function (test) {
+          spyOn(RouterUtil, 'handleResponseStatus').and.callThrough();
+          $.ajax.calls.reset();
+          test.form.setPassword('Abcd1234');
+          test.form.setRememberDevice(true);
+          test.setNextResponse(resAllFactors);
+          test.form.submit();
+          return Expect.waitForVerifyQuestion(test);
+        })
+        .then(function (test) {
+          test.questionForm = new MfaVerifyForm($sandbox.find('.o-form'));
+          expect(test.questionForm.isSecurityQuestion()).toBe(true);
+          // trapAuthResponse does not prevent handleResponseStatus from being called
+          expect(RouterUtil.handleResponseStatus.calls.count()).toBe(1);
+        });
+      });
+      itp('is TRAPPED on any factor change through the dropdown', function () {
+        return setupSMS().then(function (test) {
+          spyOn(RouterUtil, 'handleResponseStatus').and.callThrough();
+          test.setNextResponse(resChallengeSms);
+          test.form.smsSendCode().click();
+          return tick(test);
+        })
+        .then(function (test) {
+          test.setNextResponse(resAllFactors);
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'QUESTION');
+          return Expect.waitForVerifyQuestion(test);
+        })
+        .then(function () {
+          // trapAuthResponse prevents handleResponseStatus from being called
+          expect(RouterUtil.handleResponseStatus.calls.count()).toBe(0);
+        });
+      });
+      itp('is TRAPPED during verify of inline totp with Okta Verify Push', function () {
+        return setupOktaPush().then(function (test) {
+          return setupPolling(test, resRejectedPush)
+          .then(function () { return tick(test); }) // Final response - REJECTED
+          .then(function (test) {
+            spyOn(RouterUtil, 'handleResponseStatus').and.callThrough();
+            test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
+            test.totpForm.inlineTOTPAdd().click();
+            test.totpForm.setAnswer('654321');
+            test.setNextResponse([resAllFactors, resSuccess]);
+            test.totpForm.inlineTOTPVerify().click();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            // clicking on inline totp should trap auth response, SUCCESS response will
+            // call handleResponseStatus.
+            expect(RouterUtil.handleResponseStatus.calls.count()).toBe(1);
+          });
         });
       });
     });
