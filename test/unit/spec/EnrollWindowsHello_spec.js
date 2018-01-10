@@ -228,6 +228,7 @@ function (Okta,
           test.form.submit();
           return Expect.waitForSpyCall(webauthn.makeCredential, test);
         })
+        .then(tick)
         .then(function (test) {
           expect($.ajax.calls.count()).toBe(2);
           expect(test.form.hasErrorHtml()).toBe(true);

@@ -21,7 +21,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
     function mockUserAgent(userAgent) {
       navigator = new Object(); // eslint-disable-line no-global-assign
-      navigator.__proto__ = _navigator;
+      navigator.__proto__ || (navigator.__proto__ = _navigator);
       navigator.__defineGetter__('userAgent', function () { return userAgent; });
     }
 
@@ -42,7 +42,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
     it('returns a fingerprint if the communication with the iframe is successfull', function (done) {
       mockIFrameMessages(true);
-      DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
+      DeviceFingerprint.generateDeviceFingerprint(window.origin, $sandbox)
       .then(function (fingerprint) {
         expect(fingerprint).toBe('thisIsTheFingerprint');
         done();
@@ -54,7 +54,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
     it('fails if there is a problem with communicating with the iframe', function (done) {
       mockIFrameMessages(false, null);
-      DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
+      DeviceFingerprint.generateDeviceFingerprint(window.origin, $sandbox)
       .then(function () {
         done.fail('Fingerprint promise should have been rejected');
       })
@@ -66,7 +66,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
     it('fails if there iframe sends and invalid message content', function (done) {
       mockIFrameMessages(false, { type: 'InvalidMessageType' });
-      DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
+      DeviceFingerprint.generateDeviceFingerprint(window.origin, $sandbox)
       .then(function () {
         done.fail('Fingerprint promise should have been rejected');
       })
@@ -79,7 +79,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
     it('fails if user agent is not defined', function (done) {
       mockUserAgent(undefined);
       mockIFrameMessages(true);
-      DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
+      DeviceFingerprint.generateDeviceFingerprint(window.origin, $sandbox)
         .then(function () {
           done.fail('Fingerprint promise should have been rejected');
         })
@@ -92,7 +92,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
     it('fails if it is called from a Windows phone', function (done) {
       mockUserAgent('Windows Phone');
       mockIFrameMessages(true);
-      DeviceFingerprint.generateDeviceFingerprint('file://', $sandbox)
+      DeviceFingerprint.generateDeviceFingerprint(window.origin, $sandbox)
       .then(function () {
         done.fail('Fingerprint promise should have been rejected');
       })

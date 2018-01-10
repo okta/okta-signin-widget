@@ -591,6 +591,9 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           return setupFailurePolling(test);
         })
         .then(function (test) {
+          return test.scanCodeForm.waitForRefreshQrcodeLink(test);
+        })
+        .then(function (test) {
           expect($.ajax.calls.count()).toBe(9);
           expect(test.scanCodeForm.hasManualSetupLink()).toBe(false);
           expect(test.scanCodeForm.hasRefreshQrcodeLink()).toBe(true);
@@ -697,6 +700,12 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         });
         itp('has correct fields displayed when different dropdown options selected', function () {
           return enrollOktaPushGoCannotScan()
+          .then(function (test) {
+            return test.manualSetupForm.waitForDropdownElement(test);
+          })
+          .then(function (test) {
+            return test.manualSetupForm.waitForCountryCodeSelect(test);
+          })
           .then(function (test) {
             Expect.isVisible(test.manualSetupForm.dropdownElement());
             // sms (default)
@@ -927,6 +936,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             test.passCodeForm.backLink().click();
             return Expect.waitForManualSetupPush(test);
           })
+          .then(tick)
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(0);
             Expect.isVisible(test.manualSetupForm.form());

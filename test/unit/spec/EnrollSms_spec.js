@@ -185,7 +185,13 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
         });
       });
       itp('defaults to United States for the country', function () {
-        return setup().then(function (test) {
+        return setup()
+        .then(function (test) {
+          return Expect.wait(function () {
+            return test.form.hasCountriesList();
+          }, test);
+        })
+        .then(function (test) {
           expect(test.form.selectedCountry()).toBe('United States');
         });
       });

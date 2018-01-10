@@ -163,6 +163,11 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
           form: new EnrollCallForm($sandbox),
           loadingSpy: loadingSpy
         }));
+      })
+      .then(function (test) {
+        return Expect.wait(function () {
+          return test.form.hasCountriesList();
+        }, test);
       });
     }
 
@@ -1400,6 +1405,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
             test.router.enrollCall();
             return Expect.waitForEnrollCall(test);
           })
+          .then(tick)
           .then(expectZz);
         });
         itp('caches the language after the initial fetch', function () {
