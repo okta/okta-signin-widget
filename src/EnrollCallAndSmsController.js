@@ -256,7 +256,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
           placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
           name: 'passCode',
           input: TextBox,
-          type: 'text',
+          type: 'tel',
           params: {
             innerTooltip: Okta.loc('mfa.challenge.enterCode.tooltip', 'login')
           },
