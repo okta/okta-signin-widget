@@ -37,7 +37,7 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
         className: 'o-form-fieldset o-form-label-top auth-passcode',
         name: 'answer',
         input: TextBox,
-        type: maskPasswordField ? 'password' : 'text'
+        type: maskPasswordField ? 'password' : 'tel'
       });
 
       if (this.options.appState.get('allowRememberDevice')) {

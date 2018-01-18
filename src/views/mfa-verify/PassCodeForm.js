@@ -112,7 +112,7 @@ define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, Text
         className: 'o-form-fieldset o-form-label-top auth-passcode',
         name: 'answer',
         input: TextBox,
-        type: 'text'
+        type: 'tel'
       });
       if (this.options.appState.get('allowRememberDevice')) {
         this.addInput({

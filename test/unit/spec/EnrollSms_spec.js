@@ -521,7 +521,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expec
         return setupAndSendValidCode()
         .then(function (test) {
           $.ajax.calls.reset();
-          expect(test.form.codeField().attr('type')).toBe('text');
+          expect(test.form.codeField().attr('type')).toBe('tel');
           test.form.setCode(123456);
           test.setNextResponse(resEnrollSuccess);
           test.form.submit();

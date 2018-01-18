@@ -801,7 +801,7 @@ function (Okta,
         });
         itp('has a passCode field', function () {
           return setupGoogleTOTP().then(function (test) {
-            expectHasAnswerField(test);
+            expectHasAnswerField(test, 'tel');
           });
         });
         itp('has a masked passCode field for RSA', function () {
@@ -1085,7 +1085,7 @@ function (Okta,
         });
         itp('has a passCode field', function () {
           return setupSMS().then(function (test) {
-            expectHasAnswerField(test);
+            expectHasAnswerField(test, 'tel');
           });
         });
         itp('has remember device checkbox', function () {
@@ -1385,7 +1385,7 @@ function (Okta,
         });
         itp('has a passCode field', function () {
           return setupCall().then(function (test) {
-            expectHasAnswerField(test);
+            expectHasAnswerField(test, 'tel');
           });
         });
         itp('clears the passcode text field on clicking the "Call" button', function () {
@@ -1671,7 +1671,7 @@ function (Okta,
         });
         itp('has a passCode field', function () {
           return setupEmail().then(function (test) {
-            expectHasAnswerField(test);
+            expectHasAnswerField(test, 'tel');
           });
         });
         itp('has remember device checkbox', function () {
@@ -2190,7 +2190,7 @@ function (Okta,
               var form = test.form[1];
               form.inlineTOTPAdd().click();
               expect(form.inlineTOTPAdd().length).toBe(0);
-              Expect.isTextField(form.answerField());
+              expectHasAnswerField({ form: form }, 'tel');
               Expect.isLink(form.inlineTOTPVerify());
               expect(test.form[1].inlineTOTPVerifyText()).toEqual('Verify');
             });
