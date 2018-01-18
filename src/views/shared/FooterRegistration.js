@@ -27,7 +27,8 @@ define([
       'click a.registration-link': 'handleClickEvent'
     },
 
-    handleClickEvent: function () {
+    handleClickEvent: function (e) {
+      e.preventDefault();
       var clickHandler = this.settings.get('registration.click');
       if (clickHandler) {
         clickHandler();
