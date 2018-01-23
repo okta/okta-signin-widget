@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/CryptoUtil', 'js-cookie'], function (Okta, CryptoUtil) {
+define(['okta', 'util/CryptoUtil', 'js-cookie'], function (Okta, CryptoUtil, Cookies) {
 
-  var $ = Okta.$;
   var LAST_USERNAME_COOKIE_NAME = 'ln';
   var AUTO_PUSH_COOKIE_PREFIX  = 'auto_push_';
   var DAYS_SAVE_REMEMBER = 365;
