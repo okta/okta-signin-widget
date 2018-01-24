@@ -4,9 +4,10 @@ define([
   'okta/underscore',
   'backbone',
   'vendor/lib/q',
-  'duo'
+  'duo',
+  'js-cookie'
 ],
-function ($, _, Backbone, Q, Duo) {
+function ($, _, Backbone, Q, Duo, Cookies) {
 
   var fn = {};
 
@@ -17,10 +18,10 @@ function ($, _, Backbone, Q, Duo) {
 
   // Can mock both set and get
   fn.mockCookie = function (name, value) {
-    spyOn($, 'cookie').and.callFake(function (nameGiven) {
+    spyOn(Cookies, 'get').and.callFake(function (nameGiven) {
       return name === nameGiven ? value : undefined;
     });
-    return $.cookie;
+    return Cookies.get;
   };
 
   fn.mockSDKCookie = function (authClient, key, value) {
@@ -30,8 +31,8 @@ function ($, _, Backbone, Q, Duo) {
   };
 
   fn.mockRemoveCookie = function () {
-    spyOn($, 'removeCookie');
-    return $.removeCookie;
+    spyOn(Cookies, 'remove');
+    return Cookies.remove;
   };
 
   fn.mockRouterNavigate = function (router, start) {
