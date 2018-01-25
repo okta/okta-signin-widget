@@ -936,7 +936,9 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             test.passCodeForm.backLink().click();
             return Expect.waitForManualSetupPush(test);
           })
-          .then(tick)
+          .then(function (test) {
+            return test.manualSetupForm.waitForCountryCodeSelect(test);
+          })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(0);
             Expect.isVisible(test.manualSetupForm.form());

@@ -70,10 +70,6 @@ define(['./Form', 'helpers/util/Expect'], function (Form, Expect) {
       return this.refreshLink().click();
     },
 
-    waitForManualSetupLink: function (resolveValue) {
-      return Expect.wait(this.hasManualSetupLink.bind(this), resolveValue);
-    },
-
     waitForRefreshQrcodeLink: function (resolveValue) {
       return Expect.wait(this.hasRefreshQrcodeLink.bind(this), resolveValue);
     }
