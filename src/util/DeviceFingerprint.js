@@ -47,7 +47,7 @@ define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
 
       function onMessageReceivedFromOkta(event) {
         if (!event || !event.data || event.origin != oktaDomainUrl) {
-          handleError(event.origin + ' !== ' + oktaDomainUrl);
+          handleError('no data');
           return;
         }
         try {
