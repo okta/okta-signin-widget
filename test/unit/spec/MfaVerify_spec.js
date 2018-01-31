@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 40], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 41], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -39,12 +39,7 @@ define([
   'helpers/xhr/MFA_VERIFY_totp_invalid_answer',
   'helpers/xhr/SMS_RESEND_error',
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS',
-  'helpers/xhr/MFA_REQUIRED_policy_device_based',
-  'helpers/xhr/MFA_REQUIRED_policy_time_based',
   'helpers/xhr/MFA_REQUIRED_policy_always',
-  'helpers/xhr/MFA_REQUIRED_policy_time_based_min',
-  'helpers/xhr/MFA_REQUIRED_policy_time_based_hours',
-  'helpers/xhr/MFA_REQUIRED_policy_time_based_days',
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
@@ -87,12 +82,7 @@ function (Okta,
           resInvalidTotp,
           resResendError,
           resMfaLocked,
-          resMfaDevicePolicy,
-          resMfaTimePolicy,
           resMfaAlwaysPolicy,
-          resMfaTimePolicy_1Min,
-          resMfaTimePolicy_2Hrs,
-          resMfaTimePolicy_2Days,
           labelsLoginJa,
           labelsCountryJa) {
 
@@ -205,6 +195,23 @@ function (Okta,
           router: router
         };
       });
+    }
+
+    function setupWithMfaPolicy(options) {
+      var res = JSON.parse(JSON.stringify(resMfaAlwaysPolicy));
+
+      if (options) {
+        if (options.hasOwnProperty('minutes')) {
+          res.response._embedded.policy.allowRememberDevice = true;
+          res.response._embedded.policy.rememberDeviceLifetimeInMinutes = options.minutes;
+        }
+
+        if (options.hasOwnProperty('byDefault')) {
+          res.response._embedded.policy.rememberDeviceByDefault = options.byDefault;
+        }
+      }
+
+      return setup(res);
     }
 
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
@@ -431,6 +438,7 @@ function (Okta,
       var answer = test.form.answerField();
       expect(answer.attr('placeholder')).toEqual(placeholderText);
     }
+
     Expect.describe('General', function () {
       Expect.describe('Defaults to the last used factor', function () {
         itp('Security Question', function () {
@@ -529,30 +537,30 @@ function (Okta,
           });
         });
         itp('has the right text for device based policy', function () {
-          return setup(resMfaDevicePolicy).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 0 }).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual('Do not challenge me on this device again');
           });
         });
         itp('has the right text for time based policy (1 minute)', function () {
-          return setup(resMfaTimePolicy_1Min).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 1 }).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next minute');
           });
         });
         itp('has the right text for time based policy (minutes)', function () {
-          return setup(resMfaTimePolicy).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 15 }).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next 15 minutes');
           });
         });
         itp('has the right text for time based policy (hours)', function () {
-          return setup(resMfaTimePolicy_2Hrs).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 120 }).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next 2 hours');
           });
         });
         itp('has the right text for time based policy (days)', function () {
-          return setup(resMfaTimePolicy_2Days).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 2880 }).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next 2 days');
           });
@@ -563,12 +571,12 @@ function (Okta,
           });
         });
         itp('is checked by default if policy rememberDeviceByDefault is true', function () {
-          return setup(resMfaTimePolicy).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 15, byDefault: true }).then(function (test) {
             expect(test.form.isRememberDeviceChecked()).toBe(true);
           });
         });
         itp('is not checked by default if policy rememberDeviceByDefault is false', function () {
-          return setup(resMfaDevicePolicy).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 0 }).then(function (test) {
             expect(test.form.isRememberDeviceChecked()).toBe(false);
           });
         });
