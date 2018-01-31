@@ -586,6 +586,12 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         fn: function (policy) {
           return policy && policy.rememberDeviceByDefault;
         }
+      },
+      'factorsPolicyInfo' : {
+        deps: ['policy'],
+        fn: function (policy) {
+          return (policy && policy.factorsPolicyInfo) ? policy.factorsPolicyInfo: null;
+        }
       }
     },
 

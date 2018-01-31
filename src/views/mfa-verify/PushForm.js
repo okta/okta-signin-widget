@@ -87,7 +87,12 @@ define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Uti
       }
     },
     postRender: function() {
-      if (this.settings.get('features.autoPush') && CookieUtil.isAutoPushEnabled(this.options.appState.get('userId'))) {
+      var factorsPolicyInfo = this.options.appState.get('factorsPolicyInfo');
+      var id = this.model.get('id');
+      var isAutoPushEnabled = (this.settings.get('features.autoPush') && factorsPolicyInfo &&
+                              factorsPolicyInfo[id]) ? factorsPolicyInfo[id]['autoPushEnabled'] : false;
+
+      if (isAutoPushEnabled) {
         this.model.set('autoPush', true);
         // bind after $el has been rendered, and trigger push once DOM is fully loaded
         _.defer(_.bind(this.submit, this));
