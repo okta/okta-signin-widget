@@ -547,10 +547,17 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('toggles "focused-input" css class on focus in and focus out', function () {
-        return setup().then(function (test) {
+        return setup()
+        .then(function (test) {
           test.form.usernameField().focus();
+          return tick(test);
+        })
+        .then(function (test) {
           expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
           test.form.passwordField().focus();
+          return tick(test);
+        })
+        .then(function (test) {
           expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
         });
       });
