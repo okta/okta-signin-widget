@@ -1405,7 +1405,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
             test.router.enrollCall();
             return Expect.waitForEnrollCall(test);
           })
-          .then(tick)
+          .then(tick) // Wait for Chosen items to update
           .then(expectZz);
         });
         itp('caches the language after the initial fetch', function () {
