@@ -3,17 +3,17 @@
     [
       {
         "name": "@okta/i18n",
-        "raw": "@okta/i18n@41.1.0",
-        "rawSpec": "41.1.0",
+        "raw": "@okta/i18n@41.3.0",
+        "rawSpec": "41.3.0",
         "scope": "@okta",
-        "spec": "41.1.0",
+        "spec": "41.3.0",
         "type": "version"
       },
       "/home/vagrant/okta-signin-widget"
     ]
   ],
-  "_from": "@okta/i18n@41.1.0",
-  "_id": "@okta/i18n@41.1.0",
+  "_from": "@okta/i18n@41.3.0",
+  "_id": "@okta/i18n@41.3.0",
   "_inCache": true,
   "_installable": true,
   "_location": "/@okta/i18n",
@@ -28,8 +28,8 @@
     "debug": "2.6.9",
     "decamelize": "1.2.0",
     "domelementtype": "1.3.0",
-    "domhandler": "2.3.0",
-    "domutils": "1.5.1",
+    "domhandler": "2.4.1",
+    "domutils": "1.6.2",
     "es6-map": "0.1.5",
     "escope": "3.6.0",
     "espree": "3.5.2",
@@ -56,7 +56,7 @@
     "inquirer": "0.12.0",
     "is-fullwidth-code-point": "1.0.0",
     "is-my-json-valid": "2.17.1",
-    "is-resolvable": "1.0.1",
+    "is-resolvable": "1.1.0",
     "isarray": "1.0.0",
     "isexe": "2.0.0",
     "json-stable-stringify": "1.0.1",
@@ -94,19 +94,19 @@
   },
   "_requested": {
     "name": "@okta/i18n",
-    "raw": "@okta/i18n@41.1.0",
-    "rawSpec": "41.1.0",
+    "raw": "@okta/i18n@41.3.0",
+    "rawSpec": "41.3.0",
     "scope": "@okta",
-    "spec": "41.1.0",
+    "spec": "41.3.0",
     "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-41.1.0.tgz",
-  "_shasum": "9eccfb33b0ca0f6f15d69547d8b1c4543b20125d",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-41.3.0.tgz",
+  "_shasum": "4f39c7eb128460709ecd1757d92666fc145cd7b0",
   "_shrinkwrap": null,
-  "_spec": "@okta/i18n@41.1.0",
+  "_spec": "@okta/i18n@41.3.0",
   "_where": "/home/vagrant/okta-signin-widget",
   "bin": {
     "i18n": "dist/bin/i18n.js"
@@ -140,8 +140,8 @@
     "mocha-junit-reporter": "1.11.1"
   },
   "dist": {
-    "shasum": "9eccfb33b0ca0f6f15d69547d8b1c4543b20125d",
-    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-41.1.0.tgz"
+    "shasum": "4f39c7eb128460709ecd1757d92666fc145cd7b0",
+    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-41.3.0.tgz"
   },
   "files": [
     "dist"
@@ -150,9 +150,9 @@
   "license": "Apache-2.0",
   "name": "@okta/i18n",
   "okta": {
-    "commitSha": "3eb4df8d2bcc7e0ae47aab4d90a710c7c70302a7",
-    "fullVersion": "41.1.0-20180126052301-3eb4df8",
-    "testedSha": "a390e720c3c382d9dda9b04b6bf0c600658fd8cc"
+    "commitSha": "20cb7cdce4c0ad88cda02700e06a25603cf12284",
+    "fullVersion": "41.3.0-20180131223839-20cb7cd",
+    "testedSha": "3463296426ba6696c7ce196034bb01568c4ff96b"
   },
   "optionalDependencies": {},
   "readme": "ERROR: No README data found!",
@@ -176,5 +176,5 @@
     "test:unit": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R spec tasks/i18ndiff/test",
     "test:unit-report": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R mocha-junit-reporter -O mochaFile=./build2/reports/unit/mocha-junit-result.xml tasks/i18ndiff/test"
   },
-  "version": "41.1.0"
+  "version": "41.3.0"
 }
