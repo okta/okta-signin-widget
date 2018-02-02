@@ -2119,9 +2119,7 @@ function (Okta,
                   failureResponse, failureResponse, failureResponse, failureResponse]);
                 test.form = test.form[0];
                 test.form.submit();
-                return tick(test)    // 1: submit verifyFactor
-                    .then(function () { return tick(test); }) // 2: submit verifyFactor poll
-                    .then(function () { return tick(test); }); // 3: Failure requests
+                return Expect.waitForFormError(test.form, test);
               }
               return setupOktaPush().then(function (test) {
                 spyOn(test.router.settings, 'callGlobalError');
