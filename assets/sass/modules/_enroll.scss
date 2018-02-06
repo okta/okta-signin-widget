@@ -210,12 +210,16 @@
 /* TOTP Factor Enrollment */
 .device-type-input {
 
-  .o-form-input > span {
+  .o-form-input {
     display: table;
     width: 100%;
 
-    > div {
-      display: table-cell;
+    > span {
+      display: table-row;
+
+      > div {
+        display: table-cell;
+      }
     }
   }
 
