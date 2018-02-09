@@ -144,7 +144,8 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       // AppState is the dynamic language state - it can be changed via a
       // language picker, etc.
       languageCode: ['string', true],
-      disableUsername: ['boolean', false, false]
+      disableUsername: ['boolean', false, false],
+      trapMfaRequiredResponse: ['boolean', false, false]
     },
 
     setAuthResponse: function (res) {

@@ -98,6 +98,10 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       return;
     }
 
+    fn.handleResponseStatus(router, err, res);
+  };
+
+  fn.handleResponseStatus = function (router, err, res) {
     switch (res.status) {
     case 'SUCCESS':
       if(res.recoveryType === Enums.RECOVERY_TYPE_UNLOCK) {
