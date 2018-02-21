@@ -34,84 +34,84 @@ function (Okta, TimeUtil) {
       iconClassName: 'mfa-okta-verify',
       sortOrder: 1
     },
-    'SMS': {
-      label: 'factor.sms',
-      description: 'factor.sms.description',
-      iconClassName: 'mfa-okta-sms',
+    'U2F': {
+      label: 'factor.u2f',
+      description: 'factor.u2f.description',
+      iconClassName: 'mfa-u2f',
       sortOrder: 2
-    },
-    'CALL': {
-      label: 'factor.call',
-      description: 'factor.call.description',
-      iconClassName: 'mfa-okta-call',
-      sortOrder: 3
     },
     'WINDOWS_HELLO': {
       label: 'factor.windowsHello',
       description: 'factor.windowsHello.signin.description',
       iconClassName: 'mfa-windows-hello',
-      sortOrder: 4
-    },
-    'U2F': {
-      label: 'factor.u2f',
-      description: 'factor.u2f.description',
-      iconClassName: 'mfa-u2f',
-      sortOrder: 5
+      sortOrder: 3
     },
     'YUBIKEY': {
       label: 'factor.totpHard.yubikey',
       description: 'factor.totpHard.yubikey.description',
       iconClassName: 'mfa-yubikey',
-      sortOrder: 6
-    },
-    'DUO': {
-      label: 'factor.duo',
-      description: 'factor.duo.description',
-      iconClassName: 'mfa-duo',
-      sortOrder: 7
+      sortOrder: 4
     },
     'GOOGLE_AUTH': {
       label: 'factor.totpSoft.googleAuthenticator',
       description: 'factor.totpSoft.description',
       iconClassName: 'mfa-google-auth',
-      sortOrder: 8
+      sortOrder: 5
     },
-    'SYMANTEC_VIP': {
-      label: 'factor.totpHard.symantecVip',
-      description: 'factor.totpHard.description',
-      iconClassName: 'mfa-symantec',
-      sortOrder: 9
+    'SMS': {
+      label: 'factor.sms',
+      description: 'factor.sms.description',
+      iconClassName: 'mfa-okta-sms',
+      sortOrder: 6
     },
-    'RSA_SECURID': {
-      label: 'factor.totpHard.rsaSecurId',
-      description: 'factor.totpHard.description',
-      iconClassName: 'mfa-rsa',
-      sortOrder: 10
-    },
-    'ON_PREM': {
-      label: '',
-      description: 'factor.totpHard.description',
-      iconClassName: 'mfa-onprem',
-      sortOrder: 10
+    'CALL': {
+      label: 'factor.call',
+      description: 'factor.call.description',
+      iconClassName: 'mfa-okta-call',
+      sortOrder: 7
     },
     'EMAIL': {
       label: 'factor.email',
       description: '',
       iconClassName: 'mfa-okta-email',
-      sortOrder: 11,
+      sortOrder: 8
     },
     'QUESTION': {
       label: 'factor.securityQuestion',
       description: 'factor.securityQuestion.description',
       iconClassName: 'mfa-okta-security-question',
+      sortOrder: 9
+    },
+    'DUO': {
+      label: 'factor.duo',
+      description: 'factor.duo.description',
+      iconClassName: 'mfa-duo',
+      sortOrder: 10
+    },
+    'SYMANTEC_VIP': {
+      label: 'factor.totpHard.symantecVip',
+      description: 'factor.totpHard.description',
+      iconClassName: 'mfa-symantec',
+      sortOrder: 11
+    },
+    'RSA_SECURID': {
+      label: 'factor.totpHard.rsaSecurId',
+      description: 'factor.totpHard.description',
+      iconClassName: 'mfa-rsa',
       sortOrder: 12
+    },
+    'ON_PREM': {
+      label: '',
+      description: 'factor.totpHard.description',
+      iconClassName: 'mfa-onprem',
+      sortOrder: 13
     },
     'PASSWORD': {
       label: 'factor.password',
       description: '',
       iconClassName: 'mfa-okta-password',
-      sortOrder: 13
-    },
+      sortOrder: 14
+    }
   };
 
   fn.getFactorName = function (provider, factorType) {
