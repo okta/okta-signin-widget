@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 42], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 45], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -8,7 +8,6 @@ define([
   '@okta/okta-auth-js/jquery',
   'util/Util',
   'util/CryptoUtil',
-  'util/CookieUtil',
   'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/MfaVerifyForm',
@@ -51,7 +50,6 @@ function (Okta,
           OktaAuth,
           LoginUtil,
           CryptoUtil,
-          CookieUtil,
           SharedUtil,
           Util,
           MfaVerifyForm,
@@ -216,6 +214,8 @@ function (Okta,
 
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
+    var setupGoogleTOTPAutoPushTrue = _.partial(setup, Util.getAutoPushResponse(resAllFactors, true),
+                                        { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupRsaTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'RSA' });
     var setupOnPremTOTP = _.partial(setup, resAllFactorsOnPrem, { factorType: 'token', provider: 'DEL_OATH' });
     var setupSymantecTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'SYMANTEC' });
@@ -1929,6 +1929,11 @@ function (Okta,
           var checkbox = autoPush.find(':checkbox');
           return checkbox;
         }
+        function setAutoPushCheckbox(test, val) {
+          var checkbox = getAutoPushCheckbox(test);
+          checkbox.prop('checked', val);
+          checkbox.trigger('change');
+        }
         function getAutoPushLabel(test) {
           var autoPush = test.router.controller.$('[data-se="o-form-input-autoPush"]');
           var autoPushLabel = autoPush.find('Label').text();
@@ -1994,6 +1999,42 @@ function (Okta,
               });
             });
           });
+          itp('calls authClient verifyFactor with correct args when autoPush is checked', function () {
+            return setupOktaPush({'features.autoPush': true}).then(function (test) {
+              $.ajax.calls.reset();
+              setAutoPushCheckbox(test, true);
+              test.setNextResponse(resSuccess);
+              test.form[0].submit();
+              return tick();
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+          });
+          itp('calls authClient verifyFactor with correct args when autoPush is not checked', function () {
+            return setupOktaPush({'features.autoPush': true}).then(function (test) {
+              $.ajax.calls.reset();
+              setAutoPushCheckbox(test, false);
+              test.setNextResponse(resSuccess);
+              test.form[0].submit();
+              return tick();
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+          });
           Expect.describe('polling', function () {
             itp('will pass rememberMe on the first request', function () {
               return setupOktaPush().then(function (test) {
@@ -2021,6 +2062,72 @@ function (Okta,
                   // last startVerifyFactorPoll call
                   Expect.isJsonPost($.ajax.calls.argsFor(2), {
                     url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+                });
+              });
+            });
+            itp('will pass autoPush as true if checkbox checked during polling', function () {
+              return setupOktaPush({'features.autoPush': true}).then(function (test) {
+                setAutoPushCheckbox(test, true);
+                return setupPolling(test, resSuccess)
+                .then(tick) // Final tick - SUCCESS
+                .then(function () {
+                  expect($.ajax.calls.count()).toBe(3);
+                  // initial verifyFactor call
+                  Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+
+                  // first startVerifyFactorPoll call
+                  Expect.isJsonPost($.ajax.calls.argsFor(1), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+
+                  // last startVerifyFactorPoll call
+                  Expect.isJsonPost($.ajax.calls.argsFor(2), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+                });
+              });
+            });
+            itp('will pass autoPush as false if checkbox unchecked during polling', function () {
+              return setupOktaPush({'features.autoPush': true}).then(function (test) {
+                setAutoPushCheckbox(test, false);
+                return setupPolling(test, resSuccess)
+                .then(tick) // Final tick - SUCCESS
+                .then(function () {
+                  expect($.ajax.calls.count()).toBe(3);
+                  // initial verifyFactor call
+                  Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+
+                  // first startVerifyFactorPoll call
+                  Expect.isJsonPost($.ajax.calls.argsFor(1), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+
+                  // last startVerifyFactorPoll call
+                  Expect.isJsonPost($.ajax.calls.argsFor(2), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2934,10 +3041,9 @@ function (Okta,
         });
       });
       itp('Verify Push after switching from Google TOTP', function () {
-        return setupGoogleTOTP({'features.autoPush': true})
+        return setupGoogleTOTPAutoPushTrue({'features.autoPush': true})
         .then(function (test) {
           test.setNextResponse(resChallengePush);
-          spyOn(CookieUtil, 'isAutoPushEnabled').and.returnValue(true);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'OKTA_VERIFY_PUSH');
           return Expect.waitForVerifyPush(test);

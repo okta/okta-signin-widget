@@ -198,6 +198,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
       // Set/Remove the remember device cookie based on the remember device input.
+      var self = this;
 
       return this.doTransaction(function (transaction) {
         var data = {
@@ -211,6 +212,10 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         }
         else {
           data.passCode = this.get('answer');
+        }
+
+        if (this.pushFactorHasAutoPush()) {
+          data.autoPush = this.get('autoPush');
         }
 
         var promise;
@@ -235,9 +240,17 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
 
         return promise
         .then(function (trans) {
+          var options = {
+            'delay': PUSH_INTERVAL
+          };
           if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
             return Q.delay(PUSH_INTERVAL).then(function() {
-              return trans.poll(PUSH_INTERVAL);
+              if (self.pushFactorHasAutoPush()) {
+                options.autoPush = function() {
+                  return self.get('autoPush');
+                };
+              }
+              return trans.poll(options);
             });
           }
           return trans;
@@ -247,6 +260,10 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           throw err;
         });
       });
+    },
+
+    pushFactorHasAutoPush: function() {
+      return this.settings.get('features.autoPush') && this.get('factorType') === 'push';
     }
   });
 

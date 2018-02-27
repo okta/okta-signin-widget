@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/CryptoUtil', 'jquery.cookie'], function (Okta, CryptoUtil) {
+define(['okta', 'jquery.cookie'], function (Okta) {
 
   var $ = Okta.$;
   var LAST_USERNAME_COOKIE_NAME = 'ln';
-  var AUTO_PUSH_COOKIE_PREFIX  = 'auto_push_';
   var DAYS_SAVE_REMEMBER = 365;
 
   function removeCookie (name) {
@@ -26,10 +25,6 @@ define(['okta', 'util/CryptoUtil', 'jquery.cookie'], function (Okta, CryptoUtil)
       expires: DAYS_SAVE_REMEMBER,
       path: '/'
     });
-  }
-
-  function getAutoPushKey(userId) {
-    return AUTO_PUSH_COOKIE_PREFIX + CryptoUtil.getStringHash(userId);
   }
 
   var fn = {};
@@ -44,27 +39,6 @@ define(['okta', 'util/CryptoUtil', 'jquery.cookie'], function (Okta, CryptoUtil)
 
   fn.removeUsernameCookie = function () {
     removeCookie(LAST_USERNAME_COOKIE_NAME);
-  };
-
-  fn.isAutoPushEnabled = function (userId) {
-    if (userId === undefined) {
-      return false;
-    }
-    return $.cookie(getAutoPushKey(userId)) === 'true';
-  };
-
-  fn.setAutoPushCookie = function (userId) {
-    if (userId === undefined) {
-      return;
-    }
-    setCookie(getAutoPushKey(userId), true);
-  };
-
-  fn.removeAutoPushCookie = function (userId) {
-    if (userId === undefined) {
-      return;
-    }
-    removeCookie(getAutoPushKey(userId));
   };
 
   return fn;
