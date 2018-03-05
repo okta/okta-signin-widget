@@ -200,7 +200,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
       // Set/Remove the remember device cookie based on the remember device input.
       var self = this;
 
-      return this.doTransaction(function (transaction) {
+      return this.manageTransaction(function (transaction, setTransaction) {
         var data = {
           rememberDevice: rememberDevice
         };
@@ -243,6 +243,8 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           var options = {
             'delay': PUSH_INTERVAL
           };
+          setTransaction(trans);
+          // In Okta verify case we initiate poll.
           if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
             return Q.delay(PUSH_INTERVAL).then(function() {
               if (self.pushFactorHasAutoPush()) {
@@ -250,14 +252,11 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
                   return self.get('autoPush');
                 };
               }
-              return trans.poll(options);
+              return trans.poll(options).then(function(trans) {
+                setTransaction(trans);
+              });
             });
           }
-          return trans;
-        })
-        .fail(function (err) {
-          // Clean up the cookie on failure.
-          throw err;
         });
       });
     },
