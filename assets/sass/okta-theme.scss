@@ -381,7 +381,7 @@
       background-image: url('../img/icons/mfa/voicecall@2x.png');
     }
   }
-  
+
   .mfa-email-30,
   .enroll-factor-row .mfa-okta-email {
     /* -- Factor Icons (small): EMAIL -- */
@@ -818,5 +818,35 @@
   .qtip-content {
     /* -- Tooltips -- */
     /* color: #f3f3f3; */
+  }
+}
+
+/*  Remove the background image and borders on a smaller window size */
+@include max-width-mq(600px) {
+  // scss-lint:disable ImportantRule
+  .login-bg-image {
+    background-image: none !important;
+    background-color: #fff !important;
+    filter: unset !important;
+  }
+
+  /* Using the same selector as line 59 to override styles at small screen sizes. */
+  // scss-lint:disable IdSelector
+  #okta-sign-in.auth-container {
+
+    width: auto;
+    margin-right: 0;
+    margin-left: 0;
+
+    &.main-container {
+      border: 0;
+      box-shadow: none;
+    }
+
+    .auth-content {
+      max-width: $container-width - 84px;
+      margin: 0 auto;
+    }
+
   }
 }
