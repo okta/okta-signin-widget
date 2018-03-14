@@ -328,12 +328,13 @@ function (Okta,
       // Spy on backup factor model for TOTP, since TOTP is special
       var model = isTotp ? controller.model.get('backupFactor') : controller.model;
       spyOn(model, 'trigger').and.callThrough();
+      spyOn(model, 'setTransaction').and.callThrough();
       spyOn(controller.options.appState, 'set').and.callThrough();
       spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
     }
 
     // Expect -
-    // 1. model triggers the setTransaction event
+    // 1. setTransaction on model is called with transaction
     // 2. controller sets the transaction property on the appState
     // 3. routerAfterAuthStatusChange is called with the right parameters (success response)
     function expectSetTransaction(router, res, isTotp) {
@@ -344,7 +345,7 @@ function (Okta,
         model = model.get('backupFactor');
       }
       // Make sure that the transaction event is called on the model
-      expect(model.trigger).toHaveBeenCalledWith('setTransaction', mockTransaction);
+      expect(model.setTransaction).toHaveBeenCalledWith(mockTransaction);
       // Make sure that the controller catches the model's event and sets the transaction property on appState
       expect(router.controller.options.appState.set).toHaveBeenCalledWith('transaction', mockTransaction);
       expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, null, res.response);
@@ -1640,7 +1641,7 @@ function (Okta,
           });
         });
       });
-      
+
       Expect.describe('Email', function () {
         beforeEach(function () {
           var  throttle = _.throttle;
@@ -2150,13 +2151,32 @@ function (Okta,
                 });
               });
             });
-            itp('on SUCCESS, polling stops and form is submitted', function () {
+            itp('on SUCCESS, sets transaction, polling stops and form is submitted', function () {
               return setupOktaPush().then(function (test) {
+                spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
                 spyOn(test.router.settings, 'callGlobalSuccess');
                 return setupPolling(test, resSuccess)
-                .then(function () { return tick(test); }) // Final tick - SUCCESS
+                .then(function () {
+                  // Final tick - SUCCESS
+                  return tick(test);
+                })
                 .then(function () {
                   expect(test.router.settings.callGlobalSuccess).toHaveBeenCalled();
+                  // One after first poll returns and one after polling finished.
+                  var calls = test.router.controller.model.setTransaction.calls;
+                  expect(calls.count()).toBe(2);
+                  expect(calls.first().args[0].status).toBe('MFA_CHALLENGE');
+                  expect(calls.mostRecent().args[0].status).toBe('SUCCESS');
+                });
+              });
+            });
+            itp('sets transaction state to MFA_CHALLENGE before poll', function () {
+              return setupOktaPush().then(function (test) {
+                $.ajax.calls.reset();
+                test.setNextResponse(resChallengePush);
+                test.form[0].submit();
+                return tick(test).then(function() {
+                  expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                 });
               });
             });
