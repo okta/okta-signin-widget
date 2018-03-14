@@ -198,8 +198,9 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
       // Set/Remove the remember device cookie based on the remember device input.
+      var self = this;
 
-      return this.doTransaction(function (transaction) {
+      return this.manageTransaction(function (transaction, setTransaction) {
         var data = {
           rememberDevice: rememberDevice
         };
@@ -211,6 +212,10 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         }
         else {
           data.passCode = this.get('answer');
+        }
+
+        if (this.pushFactorHasAutoPush()) {
+          data.autoPush = this.get('autoPush');
         }
 
         var promise;
@@ -235,18 +240,29 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
 
         return promise
         .then(function (trans) {
+          var options = {
+            'delay': PUSH_INTERVAL
+          };
+          setTransaction(trans);
+          // In Okta verify case we initiate poll.
           if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
             return Q.delay(PUSH_INTERVAL).then(function() {
-              return trans.poll(PUSH_INTERVAL);
+              if (self.pushFactorHasAutoPush()) {
+                options.autoPush = function() {
+                  return self.get('autoPush');
+                };
+              }
+              return trans.poll(options).then(function(trans) {
+                setTransaction(trans);
+              });
             });
           }
-          return trans;
-        })
-        .fail(function (err) {
-          // Clean up the cookie on failure.
-          throw err;
         });
       });
+    },
+
+    pushFactorHasAutoPush: function() {
+      return this.settings.get('features.autoPush') && this.get('factorType') === 'push';
     }
   });
 

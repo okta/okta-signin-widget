@@ -1,11 +1,10 @@
-/* eslint max-params: [2, 32], max-statements: [2, 43], max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 32], max-statements: [2, 44], max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'vendor/lib/q',
   'backbone',
   'shared/util/Util',
   'util/CryptoUtil',
-  'util/CookieUtil',
   'util/Logger',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
@@ -33,7 +32,7 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAuth, Util, Expect, Router,
+function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Expect, Router,
           $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
           resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
           resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp, Errors, BrowserFeatures,
@@ -163,6 +162,11 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
           form: new EnrollCallForm($sandbox),
           loadingSpy: loadingSpy
         }));
+      })
+      .then(function (test) {
+        return Expect.wait(function () {
+          return test.form.hasCountriesList();
+        }, test);
       });
     }
 
@@ -563,8 +567,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
         expect(form.isSecurityQuestion()).toBe(true);
       });
     });
-    itp('checks auto push by default for a returning user', function () {
-      Util.mockCookie('auto_push_' + CryptoUtil.getStringHash('00uhn6dAGR4nUB4iY0g3'), 'true');
+    itp('checks auto push by default for a returning user with autoPush true', function () {
       return setup({'features.autoPush': true})
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
@@ -576,7 +579,8 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
         expect(form.isPrimaryAuth()).toBe(true);
         // Respond with MFA_REQUIRED
         // Verify is immediately called, so respond with MFA_CHALLENGE
-        test.setNextResponse([resMfaRequiredOktaVerify, resMfaChallengePush]);
+        var resAutoPushTrue = Util.getAutoPushResponse(resMfaRequiredOktaVerify, true);
+        test.setNextResponse([resAutoPushTrue, resMfaChallengePush]);
         form.setUsername('testuser');
         form.setPassword('pass');
         form.submit();
@@ -589,7 +593,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
         expect(form.isPushSent()).toBe(true);
         expect($.ajax.calls.count()).toBe(2);
         Expect.isJsonPost($.ajax.calls.argsFor(1), {
-          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify',
+          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
           data: {
             stateToken: 'testStateToken'
           }
@@ -619,8 +623,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
         expect(form.isPushSent()).toBe(false);
       });
     });
-    itp('auto push updates cookie on MFA success', function () {
-      spyOn(CookieUtil, 'removeAutoPushCookie');
+    itp('sends autoPush=false as url param when auto push checkbox is unchecked', function () {
       return setup({'features.autoPush': true})
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
@@ -637,13 +640,19 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
         return Expect.waitForMfaVerify(test);
       })
       .then(function (test) {
-        test.setNextResponse(resSuccess);
+        test.setNextResponse(resMfaChallengePush);
         var form = new MfaVerifyForm($sandbox);
         form.submit();
-        return tick(test);
+        return tick();
       })
       .then(function () {
-        expect(CookieUtil.removeAutoPushCookie).toHaveBeenCalledWith('00ui0jgywTAHxYGMM0g3');
+        expect($.ajax.calls.count()).toBe(2);
+        Expect.isJsonPost($.ajax.calls.argsFor(1), {
+          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+          data: {
+            stateToken: 'testStateToken'
+          }
+        });
       });
     });
 
@@ -1400,6 +1409,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, Logger, OktaAut
             test.router.enrollCall();
             return Expect.waitForEnrollCall(test);
           })
+          .then(tick) // Wait for Chosen items to update
           .then(expectZz);
         });
         itp('caches the language after the initial fetch', function () {

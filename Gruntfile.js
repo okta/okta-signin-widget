@@ -490,7 +490,6 @@ module.exports = function (grunt) {
         return;
       }
       grunt.task.run([
-        'build:release',
         'copy:e2e',
         'copy:e2e-pages',
         'exec:build-e2e-app',

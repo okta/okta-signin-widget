@@ -18,6 +18,10 @@ define(['./Form'], function (Form) {
       return this.selectOption(COUNTRIES_FIELD, countryCode);
     },
 
+    hasCountriesList: function () {
+      return this.inputWrap(COUNTRIES_FIELD).find('.chzn-container').length > 0;
+    },
+
     phoneNumberField: function () {
       return this.input(PHONE_FIELD);
     },

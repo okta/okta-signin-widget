@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 40], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 45], camelcase: 0 */
 define([
   'okta',
   'vendor/lib/q',
@@ -8,7 +8,6 @@ define([
   '@okta/okta-auth-js/jquery',
   'util/Util',
   'util/CryptoUtil',
-  'util/CookieUtil',
   'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/MfaVerifyForm',
@@ -39,12 +38,7 @@ define([
   'helpers/xhr/MFA_VERIFY_totp_invalid_answer',
   'helpers/xhr/SMS_RESEND_error',
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS',
-  'helpers/xhr/MFA_REQUIRED_policy_device_based',
-  'helpers/xhr/MFA_REQUIRED_policy_time_based',
   'helpers/xhr/MFA_REQUIRED_policy_always',
-  'helpers/xhr/MFA_REQUIRED_policy_time_based_min',
-  'helpers/xhr/MFA_REQUIRED_policy_time_based_hours',
-  'helpers/xhr/MFA_REQUIRED_policy_time_based_days',
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
@@ -56,7 +50,6 @@ function (Okta,
           OktaAuth,
           LoginUtil,
           CryptoUtil,
-          CookieUtil,
           SharedUtil,
           Util,
           MfaVerifyForm,
@@ -87,12 +80,7 @@ function (Okta,
           resInvalidTotp,
           resResendError,
           resMfaLocked,
-          resMfaDevicePolicy,
-          resMfaTimePolicy,
           resMfaAlwaysPolicy,
-          resMfaTimePolicy_1Min,
-          resMfaTimePolicy_2Hrs,
-          resMfaTimePolicy_2Days,
           labelsLoginJa,
           labelsCountryJa) {
 
@@ -207,8 +195,27 @@ function (Okta,
       });
     }
 
+    function setupWithMfaPolicy(options) {
+      var res = JSON.parse(JSON.stringify(resMfaAlwaysPolicy));
+
+      if (options) {
+        if (options.hasOwnProperty('minutes')) {
+          res.response._embedded.policy.allowRememberDevice = true;
+          res.response._embedded.policy.rememberDeviceLifetimeInMinutes = options.minutes;
+        }
+
+        if (options.hasOwnProperty('byDefault')) {
+          res.response._embedded.policy.rememberDeviceByDefault = options.byDefault;
+        }
+      }
+
+      return setup(res);
+    }
+
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
+    var setupGoogleTOTPAutoPushTrue = _.partial(setup, Util.getAutoPushResponse(resAllFactors, true),
+                                        { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupRsaTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'RSA' });
     var setupOnPremTOTP = _.partial(setup, resAllFactorsOnPrem, { factorType: 'token', provider: 'DEL_OATH' });
     var setupSymantecTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'SYMANTEC' });
@@ -321,12 +328,13 @@ function (Okta,
       // Spy on backup factor model for TOTP, since TOTP is special
       var model = isTotp ? controller.model.get('backupFactor') : controller.model;
       spyOn(model, 'trigger').and.callThrough();
+      spyOn(model, 'setTransaction').and.callThrough();
       spyOn(controller.options.appState, 'set').and.callThrough();
       spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
     }
 
     // Expect -
-    // 1. model triggers the setTransaction event
+    // 1. setTransaction on model is called with transaction
     // 2. controller sets the transaction property on the appState
     // 3. routerAfterAuthStatusChange is called with the right parameters (success response)
     function expectSetTransaction(router, res, isTotp) {
@@ -337,7 +345,7 @@ function (Okta,
         model = model.get('backupFactor');
       }
       // Make sure that the transaction event is called on the model
-      expect(model.trigger).toHaveBeenCalledWith('setTransaction', mockTransaction);
+      expect(model.setTransaction).toHaveBeenCalledWith(mockTransaction);
       // Make sure that the controller catches the model's event and sets the transaction property on appState
       expect(router.controller.options.appState.set).toHaveBeenCalledWith('transaction', mockTransaction);
       expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, null, res.response);
@@ -431,6 +439,7 @@ function (Okta,
       var answer = test.form.answerField();
       expect(answer.attr('placeholder')).toEqual(placeholderText);
     }
+
     Expect.describe('General', function () {
       Expect.describe('Defaults to the last used factor', function () {
         itp('Security Question', function () {
@@ -529,30 +538,30 @@ function (Okta,
           });
         });
         itp('has the right text for device based policy', function () {
-          return setup(resMfaDevicePolicy).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 0 }).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual('Do not challenge me on this device again');
           });
         });
         itp('has the right text for time based policy (1 minute)', function () {
-          return setup(resMfaTimePolicy_1Min).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 1 }).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next minute');
           });
         });
         itp('has the right text for time based policy (minutes)', function () {
-          return setup(resMfaTimePolicy).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 15 }).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next 15 minutes');
           });
         });
         itp('has the right text for time based policy (hours)', function () {
-          return setup(resMfaTimePolicy_2Hrs).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 120 }).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next 2 hours');
           });
         });
         itp('has the right text for time based policy (days)', function () {
-          return setup(resMfaTimePolicy_2Days).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 2880 }).then(function (test) {
             expect(test.form.rememberDeviceLabelText()).toEqual(
               'Do not challenge me on this device for the next 2 days');
           });
@@ -563,12 +572,12 @@ function (Okta,
           });
         });
         itp('is checked by default if policy rememberDeviceByDefault is true', function () {
-          return setup(resMfaTimePolicy).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 15, byDefault: true }).then(function (test) {
             expect(test.form.isRememberDeviceChecked()).toBe(true);
           });
         });
         itp('is not checked by default if policy rememberDeviceByDefault is false', function () {
-          return setup(resMfaDevicePolicy).then(function (test) {
+          return setupWithMfaPolicy({ minutes: 0 }).then(function (test) {
             expect(test.form.isRememberDeviceChecked()).toBe(false);
           });
         });
@@ -1632,7 +1641,7 @@ function (Okta,
           });
         });
       });
-      
+
       Expect.describe('Email', function () {
         beforeEach(function () {
           var  throttle = _.throttle;
@@ -1921,6 +1930,11 @@ function (Okta,
           var checkbox = autoPush.find(':checkbox');
           return checkbox;
         }
+        function setAutoPushCheckbox(test, val) {
+          var checkbox = getAutoPushCheckbox(test);
+          checkbox.prop('checked', val);
+          checkbox.trigger('change');
+        }
         function getAutoPushLabel(test) {
           var autoPush = test.router.controller.$('[data-se="o-form-input-autoPush"]');
           var autoPushLabel = autoPush.find('Label').text();
@@ -1986,6 +2000,42 @@ function (Okta,
               });
             });
           });
+          itp('calls authClient verifyFactor with correct args when autoPush is checked', function () {
+            return setupOktaPush({'features.autoPush': true}).then(function (test) {
+              $.ajax.calls.reset();
+              setAutoPushCheckbox(test, true);
+              test.setNextResponse(resSuccess);
+              test.form[0].submit();
+              return tick();
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+          });
+          itp('calls authClient verifyFactor with correct args when autoPush is not checked', function () {
+            return setupOktaPush({'features.autoPush': true}).then(function (test) {
+              $.ajax.calls.reset();
+              setAutoPushCheckbox(test, false);
+              test.setNextResponse(resSuccess);
+              test.form[0].submit();
+              return tick();
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+          });
           Expect.describe('polling', function () {
             itp('will pass rememberMe on the first request', function () {
               return setupOktaPush().then(function (test) {
@@ -2020,6 +2070,72 @@ function (Okta,
                 });
               });
             });
+            itp('will pass autoPush as true if checkbox checked during polling', function () {
+              return setupOktaPush({'features.autoPush': true}).then(function (test) {
+                setAutoPushCheckbox(test, true);
+                return setupPolling(test, resSuccess)
+                .then(tick) // Final tick - SUCCESS
+                .then(function () {
+                  expect($.ajax.calls.count()).toBe(3);
+                  // initial verifyFactor call
+                  Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+
+                  // first startVerifyFactorPoll call
+                  Expect.isJsonPost($.ajax.calls.argsFor(1), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+
+                  // last startVerifyFactorPoll call
+                  Expect.isJsonPost($.ajax.calls.argsFor(2), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+                });
+              });
+            });
+            itp('will pass autoPush as false if checkbox unchecked during polling', function () {
+              return setupOktaPush({'features.autoPush': true}).then(function (test) {
+                setAutoPushCheckbox(test, false);
+                return setupPolling(test, resSuccess)
+                .then(tick) // Final tick - SUCCESS
+                .then(function () {
+                  expect($.ajax.calls.count()).toBe(3);
+                  // initial verifyFactor call
+                  Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+
+                  // first startVerifyFactorPoll call
+                  Expect.isJsonPost($.ajax.calls.argsFor(1), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+
+                  // last startVerifyFactorPoll call
+                  Expect.isJsonPost($.ajax.calls.argsFor(2), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+                });
+              });
+            });
             itp('will disable form submit', function () {
               return setupOktaPush().then(function (test) {
                 return setupPolling(test, resSuccess)
@@ -2035,13 +2151,32 @@ function (Okta,
                 });
               });
             });
-            itp('on SUCCESS, polling stops and form is submitted', function () {
+            itp('on SUCCESS, sets transaction, polling stops and form is submitted', function () {
               return setupOktaPush().then(function (test) {
+                spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
                 spyOn(test.router.settings, 'callGlobalSuccess');
                 return setupPolling(test, resSuccess)
-                .then(function () { return tick(test); }) // Final tick - SUCCESS
+                .then(function () {
+                  // Final tick - SUCCESS
+                  return tick(test);
+                })
                 .then(function () {
                   expect(test.router.settings.callGlobalSuccess).toHaveBeenCalled();
+                  // One after first poll returns and one after polling finished.
+                  var calls = test.router.controller.model.setTransaction.calls;
+                  expect(calls.count()).toBe(2);
+                  expect(calls.first().args[0].status).toBe('MFA_CHALLENGE');
+                  expect(calls.mostRecent().args[0].status).toBe('SUCCESS');
+                });
+              });
+            });
+            itp('sets transaction state to MFA_CHALLENGE before poll', function () {
+              return setupOktaPush().then(function (test) {
+                $.ajax.calls.reset();
+                test.setNextResponse(resChallengePush);
+                test.form[0].submit();
+                return tick(test).then(function() {
+                  expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                 });
               });
             });
@@ -2111,9 +2246,7 @@ function (Okta,
                   failureResponse, failureResponse, failureResponse, failureResponse]);
                 test.form = test.form[0];
                 test.form.submit();
-                return tick(test)    // 1: submit verifyFactor
-                    .then(function () { return tick(test); }) // 2: submit verifyFactor poll
-                    .then(function () { return tick(test); }); // 3: Failure requests
+                return Expect.waitForFormError(test.form, test);
               }
               return setupOktaPush().then(function (test) {
                 spyOn(test.router.settings, 'callGlobalError');
@@ -2221,6 +2354,7 @@ function (Okta,
               var pushForm = test.form[0],
                   inlineForm = test.form[1];
               return setupPolling(test, resRejectedPush)
+              .then(function () { return tick(test); }) // Final response - REJECTED
               .then(function () {
                 return Expect.waitForFormError(pushForm, {
                   test: test,
@@ -2927,10 +3061,9 @@ function (Okta,
         });
       });
       itp('Verify Push after switching from Google TOTP', function () {
-        return setupGoogleTOTP({'features.autoPush': true})
+        return setupGoogleTOTPAutoPushTrue({'features.autoPush': true})
         .then(function (test) {
           test.setNextResponse(resChallengePush);
-          spyOn(CookieUtil, 'isAutoPushEnabled').and.returnValue(true);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'OKTA_VERIFY_PUSH');
           return Expect.waitForVerifyPush(test);
@@ -2974,10 +3107,14 @@ function (Okta,
       });
       itp('Verify Okta TOTP on active Push MFA_CHALLENGE', function () {
         return setupOktaPush().then(function (test) {
-          return setupPolling(test, resAllFactors)
+          // using resTimeoutPush here for the test. This needs to be resTimeoutPush
+          // or resRejectedPush, to set the transaction to MFA_CHALLENGE state and
+          // mimic an active poll (Note: The transaction state is not set to MFA_CHALLENGE
+          // during polling).
+          return setupPolling(test, resTimeoutPush)
           .then(function (test) {
             $.ajax.calls.reset();
-            test.setNextResponse(resSuccess);
+            test.setNextResponse([resAllFactors, resSuccess]);
             test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
             // click or enter code in the the Totp form
             test.totpForm.inlineTOTPAdd().click();
@@ -2986,8 +3123,8 @@ function (Okta,
             return tick(test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify',
               data: {
                 passCode: '654321',
@@ -3000,6 +3137,7 @@ function (Okta,
       itp('Verify Okta TOTP success on Push MFA_REJECTED', function () {
         return setupOktaPush().then(function (test) {
           return setupPolling(test, resRejectedPush)
+          .then(function () { return tick(test); }) // Final response - REJECTED
           .then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse([resAllFactors, resSuccess]);
@@ -3032,6 +3170,7 @@ function (Okta,
       itp('Verify Okta TOTP success (after Push MFA_REJECTED) sets the transaction on the appState', function () {
         return setupOktaPush().then(function (test) {
           return setupPolling(test, resRejectedPush)
+          .then(function () { return tick(test); }) // Final response - REJECTED
           .then(function (test) {
             mockTransactions(test.router.controller, true);
             test.setNextResponse([resAllFactors, resSuccess]);
@@ -3160,6 +3299,64 @@ function (Okta,
           //view is still the same
           expectHasRightBeaconImage(test, 'mfa-u2f');
           Util.stopRouter();
+        });
+      });
+    });
+
+    Expect.describe('The auth response', function () {
+      itp('is NOT TRAPPED when Mfa verify follows password re-auth', function () {
+        return setupPassword().then(function (test) {
+          spyOn(RouterUtil, 'handleResponseStatus').and.callThrough();
+          $.ajax.calls.reset();
+          test.form.setPassword('Abcd1234');
+          test.form.setRememberDevice(true);
+          test.setNextResponse(resAllFactors);
+          test.form.submit();
+          return Expect.waitForVerifyQuestion(test);
+        })
+        .then(function (test) {
+          test.questionForm = new MfaVerifyForm($sandbox.find('.o-form'));
+          expect(test.questionForm.isSecurityQuestion()).toBe(true);
+          // trapAuthResponse does not prevent handleResponseStatus from being called
+          expect(RouterUtil.handleResponseStatus.calls.count()).toBe(1);
+        });
+      });
+      itp('is TRAPPED on any factor change through the dropdown', function () {
+        return setupSMS().then(function (test) {
+          spyOn(RouterUtil, 'handleResponseStatus').and.callThrough();
+          test.setNextResponse(resChallengeSms);
+          test.form.smsSendCode().click();
+          return tick(test);
+        })
+        .then(function (test) {
+          test.setNextResponse(resAllFactors);
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'QUESTION');
+          return Expect.waitForVerifyQuestion(test);
+        })
+        .then(function () {
+          // trapAuthResponse prevents handleResponseStatus from being called
+          expect(RouterUtil.handleResponseStatus.calls.count()).toBe(0);
+        });
+      });
+      itp('is TRAPPED during verify of inline totp with Okta Verify Push', function () {
+        return setupOktaPush().then(function (test) {
+          return setupPolling(test, resRejectedPush)
+          .then(function () { return tick(test); }) // Final response - REJECTED
+          .then(function (test) {
+            spyOn(RouterUtil, 'handleResponseStatus').and.callThrough();
+            test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
+            test.totpForm.inlineTOTPAdd().click();
+            test.totpForm.setAnswer('654321');
+            test.setNextResponse([resAllFactors, resSuccess]);
+            test.totpForm.inlineTOTPVerify().click();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            // clicking on inline totp should trap auth response, SUCCESS response will
+            // call handleResponseStatus.
+            expect(RouterUtil.handleResponseStatus.calls.count()).toBe(1);
+          });
         });
       });
     });

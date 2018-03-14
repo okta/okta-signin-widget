@@ -118,20 +118,11 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
     },
 
     trapAuthResponse: function () {
-      if(this.options.factorType === 'password') {
-        return false;
-      }
-      if (this.options.appState.get('isMfaChallenge') ||
-          this.options.appState.get('isMfaRequired')) {
+      if((this.options.appState.get('isMfaRequired') &&
+          this.options.appState.get('trapMfaRequiredResponse')) ||
+          this.options.appState.get('isMfaChallenge')) {
+        this.options.appState.set('trapMfaRequiredResponse', false);
         return true;
-      }
-      // update auto push cookie after user accepts Okta Verify MFA
-      if (this.options.factorType == 'push') {
-        if (this.settings.get('features.autoPush') && this.model.get('autoPush')) {
-          CookieUtil.setAutoPushCookie(this.options.appState.get('userId'));
-        } else {
-          CookieUtil.removeAutoPushCookie(this.options.appState.get('userId'));
-        }
       }
       return false;
     },

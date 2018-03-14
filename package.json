@@ -1,7 +1,7 @@
 {
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
@@ -31,7 +31,7 @@
     "prestart:angular": "kill -9 $(lsof -t -i:4200 -sTCP:LISTEN) || true",
     "start:angular": "npm start --prefix test/e2e/angular-app & wait-on http-get://localhost:4200",
     "pretest:e2e": "npm run install:react && npm run install:angular && node pretest.js",
-    "test:e2e": "npm run start:react && npm run start:angular && grunt test-e2e",
+    "test:e2e": "npm run build:release && npm run start:react && npm run start:angular && grunt test-e2e",
     "protractor": "webdriver-manager update && protractor target/e2e/conf.js",
     "build:dev": "grunt build:dev",
     "build:release": "grunt build:release",
@@ -89,7 +89,7 @@
     "webpack": "1.13.1"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "1.11.0",
+    "@okta/okta-auth-js": "1.13.0",
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.26.0",
     "backbone": "1.2.1",

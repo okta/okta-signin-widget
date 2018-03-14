@@ -13,7 +13,6 @@
 define(['okta', 'util/CryptoUtil', 'js-cookie'], function (Okta, CryptoUtil, Cookies) {
 
   var LAST_USERNAME_COOKIE_NAME = 'ln';
-  var AUTO_PUSH_COOKIE_PREFIX  = 'auto_push_';
   var DAYS_SAVE_REMEMBER = 365;
 
   function removeCookie (name) {
@@ -25,10 +24,6 @@ define(['okta', 'util/CryptoUtil', 'js-cookie'], function (Okta, CryptoUtil, Coo
       expires: DAYS_SAVE_REMEMBER,
       path: '/'
     });
-  }
-
-  function getAutoPushKey(userId) {
-    return AUTO_PUSH_COOKIE_PREFIX + CryptoUtil.getStringHash(userId);
   }
 
   var fn = {};

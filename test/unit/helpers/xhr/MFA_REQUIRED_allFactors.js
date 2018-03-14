@@ -19,7 +19,12 @@ define({
       "policy": {
         "allowRememberDevice": true,
         "rememberDeviceLifetimeInMinutes": 0,
-        "rememberDeviceByDefault": false
+        "rememberDeviceByDefault": false,
+        "factorsPolicyInfo":{
+            "opfhw7v2OnxKpftO40g3":{
+               "autoPushEnabled": false
+            }
+         }
       },
       "factors": [{
         "id": "ufshpdkgNun3xNE3W0g3",

@@ -1,4 +1,4 @@
-define(['./Form'], function (Form) {
+define(['./Form', 'helpers/util/Expect'], function (Form, Expect) {
 
   var CLASS_SELECTOR = '.barcode-push';
   var QRCODE = 'qrcode';
@@ -68,6 +68,10 @@ define(['./Form'], function (Form) {
 
     clickRefreshLink: function () {
       return this.refreshLink().click();
+    },
+
+    waitForRefreshQrcodeLink: function (resolveValue) {
+      return Expect.wait(this.hasRefreshQrcodeLink.bind(this), resolveValue);
     }
 
   });

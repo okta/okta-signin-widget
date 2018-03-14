@@ -18,9 +18,9 @@ function (Okta, Q) {
 
   var _ = Okta._;
   var KNOWN_ERRORS = [
-    'OAuthError', 
-    'AuthSdkError', 
-    'AuthPollStopError', 
+    'OAuthError',
+    'AuthSdkError',
+    'AuthPollStopError',
     'AuthApiError'
   ];
 
@@ -48,10 +48,10 @@ function (Okta, Q) {
     manageTransaction: function (fn) {
       var self = this,
           res = fn.call(this, this.appState.get('transaction'), _.bind(this.setTransaction, this));
-      
+
       // If it's a promise, listen for failures
       if (Q.isPromiseAlike(res)) {
-        res.fail(function(err) {
+        return res.fail(function(err) {
           if (err.name === 'AuthPollStopError') {
             return;
           }

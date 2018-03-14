@@ -1,4 +1,4 @@
-/* eslint no-global-assign: 0, max-statements: [2, 31] */
+/* eslint no-global-assign: 0, max-statements: [2, 32] */
 define([
   'okta/jquery',
   'okta/underscore',
@@ -296,6 +296,17 @@ function ($, _, Backbone, Q, Duo, Cookies) {
 
   fn.deepCopy = function (res) {
     return JSON.parse(JSON.stringify(res));
+  };
+
+  fn.getAutoPushResponse = function (response, autoPushVal) {
+    var responseCopy = fn.deepCopy(response);
+    var embeddedResponse = responseCopy['response']['_embedded'];
+    var factors = embeddedResponse['factors'];
+    var factorId = _.findWhere(factors, {factorType: 'push', provider: 'OKTA'}).id;
+    var policy = embeddedResponse['policy'];
+
+    policy['factorsPolicyInfo'][factorId]['autoPushEnabled'] = autoPushVal;
+    return responseCopy;
   };
 
   return fn;
