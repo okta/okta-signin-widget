@@ -89,18 +89,18 @@ function (Okta,
   var factors = {
     'OKTA_VERIFY': 0,
     'OKTA_VERIFY_PUSH': 0,
-    'SMS': 1,
-    'CALL': 2,
-    'WINDOWS_HELLO': 3,
-    'U2F': 4,
-    'YUBIKEY': 5,
-    'DUO': 6,
-    'GOOGLE_AUTH': 7,
-    'SYMANTEC_VIP' :8,
-    'RSA_SECURID': 9,
-    'ON_PREM': 9,
-    'EMAIL': 10,
-    'QUESTION': 11,
+    'U2F': 1,
+    'WINDOWS_HELLO': 2,
+    'YUBIKEY': 3,
+    'GOOGLE_AUTH': 4,
+    'SMS': 5,
+    'CALL': 6,
+    'EMAIL': 7,
+    'QUESTION': 8,
+    'DUO': 9,
+    'SYMANTEC_VIP': 10,
+    'RSA_SECURID': 11,
+    'ON_PREM': 12,
   };
 
   function clickFactorInDropdown(test, factorName) {
@@ -2960,10 +2960,9 @@ function (Okta,
         return setup(resAllFactors).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify', 'SMS Authentication', 'Voice Call Authentication',
-            'Windows Hello', 'Security Key (U2F)', 'Yubikey', 'Duo Security',
-            'Google Authenticator', 'Symantec VIP', 'RSA SecurID',
-            'Email Authentication', 'Security Question'
+            'Okta Verify', 'Security Key (U2F)', 'Windows Hello', 'Yubikey', 'Google Authenticator',
+            'SMS Authentication', 'Voice Call Authentication', 'Email Authentication', 'Security Question',
+            'Duo Security', 'Symantec VIP', 'RSA SecurID'
           ]);
         });
       });
@@ -2972,8 +2971,8 @@ function (Okta,
         return setup(resAllFactorsOnPrem).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify', 'SMS Authentication', 'Yubikey', 'Duo Security',
-            'Google Authenticator', 'Symantec VIP', 'On-Prem MFA', 'Security Question'
+            'Okta Verify', 'Yubikey', 'Google Authenticator', 'SMS Authentication', 'Security Question',
+            'Duo Security', 'Symantec VIP', 'On-Prem MFA'
           ]);
         });
       });
