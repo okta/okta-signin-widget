@@ -13,12 +13,14 @@ define([
   'LoginRouter',
   'sandbox',
   'util/Errors',
+  'helpers/xhr/SUCCESS',
 ],
-function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema, Router, $sandbox, Errors) {
+function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema, Router, $sandbox, Errors, resSuccess) {
 
   var itp = Expect.itp;
   
   var testData = {
+    policyId: '1234',
     profileSchema: {
       'properties': {
         'firstName': {
@@ -120,7 +122,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       form: form,
       beacon: beacon,
       ac: authClient,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
     });
   }
 
@@ -135,6 +137,37 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       itp('uses default for submit', function () {
         return setup().then(function (test) {
           expect(test.form.submitButtonText()).toEqual('Register');
+        });
+      });
+      itp('policyid is retrieved from default org policy', function () {
+        return setup().then(function (test) {
+          test.form.setEmail('test@example.com');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.setLastname('LastName');
+          test.form.setReferrer('referrer');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          var model = test.router.controller.model;
+          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+          model.save();
+          expect(test.router.controller.model.settings.get('policyId')).toContain('1234');
+        });
+      });
+      itp('policyid from form settings is used instead of default org policy', function () {
+        return setup().then(function (test) {
+          test.form.setEmail('test@example.com');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.setLastname('LastName');
+          test.form.setReferrer('referrer');
+          test.router.controller.options.settings.set('policyId', '5678');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          var model = test.router.controller.model;
+          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+          model.save();
+          expect(test.router.controller.model.settings.get('policyId')).toContain('5678');
         });
       });
     });
@@ -390,7 +423,6 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           expect(test.form.passwordContainsUsernameError()).toBe(true);
         });
       });
-
     });
 
     var expectRegCallbackError = function(test, callback, message) {
@@ -509,6 +541,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           test.form.setEmail('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
+          test.form.setReferrer('referrer');
           test.form.submit();
           var model = test.router.controller.model;
           model.save();

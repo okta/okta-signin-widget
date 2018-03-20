@@ -70,14 +70,26 @@ function (
       // setup schema
       var Schema = RegistrationSchema.extend({
         settings: this.options.settings,
-        url: this.getRegistrationApiUrl()+'/form'
+        url: this.getRegistrationApiBase()+'/form'
       });
       var schema = new Schema();
       this.state.set('schema', schema);
     },
     getRegistrationApiUrl: function() {
-      var clientId = this.options.settings.get('clientId');
-      return this.options.settings.get('baseUrl')+'/api/v1/registration/'+clientId;
+      if (this.options.settings.get('policyId')) {
+        return this.options.settings.get('baseUrl') + '/api/v1/registration/' + this.options.settings.get('policyId');
+      } else if (this.settings.get('policyId')) {
+        return this.options.settings.get('baseUrl') + '/api/v1/registration/' + this.settings.get('policyId');
+      } else {
+        return this.options.settings.get('baseUrl');
+      }
+    },
+    getRegistrationApiBase: function() {
+      if (this.options.settings.get('policyId')) {
+        return this.options.settings.get('baseUrl') + '/api/v1/registration/' + this.options.settings.get('policyId');
+      } else {
+        return this.options.settings.get('baseUrl') + '/api/v1/registration';
+      }
     },
     doPostSubmit: function () {
       if (this.model.get('activationToken')) {
@@ -172,6 +184,9 @@ function (
       // register parse complete event listener
       self.state.get('schema').on('parseComplete', function(updatedSchema) {
         var modelProperties = updatedSchema.properties.createModelProperties();
+        if (!updatedSchema.error) {
+          self.settings.set('policyId', updatedSchema.properties.policyId);
+        }
         // create model
         self.model = self.createRegistrationModel(modelProperties);
         // create form

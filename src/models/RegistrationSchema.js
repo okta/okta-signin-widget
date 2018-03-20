@@ -71,6 +71,7 @@ function (Okta, BaseSchema, SchemaProperty) {
           BaseSchema.Model.prototype.parse.apply(self, [resp]);
           resp = parseResponseData(resp);
         }
+        self.properties.policyId = resp.policyId;
         self.trigger('parseComplete', {properties: self.properties});
       }, function(error) {
         self.trigger('parseComplete', {properties: self.properties, error: error});
