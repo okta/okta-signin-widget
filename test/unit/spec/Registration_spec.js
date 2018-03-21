@@ -482,6 +482,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
               parseSchemaSpy(schema, onSuccess, onFailure);
               schema.profileSchema.properties.zip = {
                 'type': 'string',
+                'title': 'Zip',
                 'description': 'Zip code',
                 'default': 'Enter your zip code',
                 'maxLength': 255
@@ -495,7 +496,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         .then(function (test) {
           $.ajax.calls.reset();
           expect(test.form.getFieldByName('zip').length).toBe(1);
-          expect(test.form.fieldPlaceholder('zip')).toBe('Zip code');
+          expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
         });
       });
       itp(' does not call preSubmit if parseSchema calls onFailure with default error', function () {
@@ -557,6 +558,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
               parseSchemaSpy(schema, onSuccess, onFailure);
               schema.profileSchema.properties.zip = {
                 'type': 'string',
+                'title': 'Zip',
                 'description': 'Zip code',
                 'default': 'Enter your zip code',
                 'maxLength': 255
@@ -575,7 +577,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         .then(function (test) {
           $.ajax.calls.reset();
           expect(test.form.getFieldByName('zip').length).toBe(1);
-          expect(test.form.fieldPlaceholder('zip')).toBe('Zip code');
+          expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
           test.form.setEmail('test');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
