@@ -127,6 +127,8 @@ function (
         }
       });
     },
+    // @param url (Eg: ?fromURI=%2Fapp%2FUserHome&query=blah)
+    // returns {fromURI:'%2Fapp%2FUserHome', query: blah}
     getJsonFromUrl: function(url) {
       var query = url.substr(1);
       var result = {};
