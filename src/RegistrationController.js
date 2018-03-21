@@ -70,7 +70,7 @@ function (
       // setup schema
       var Schema = RegistrationSchema.extend({
         settings: this.options.settings,
-        url: this.getRegistrationApiBase()+'/form'
+        url: this.getRegistrationSchemaApi()+'/form'
       });
       var schema = new Schema();
       this.state.set('schema', schema);
@@ -84,7 +84,7 @@ function (
         return this.options.settings.get('baseUrl');
       }
     },
-    getRegistrationApiBase: function() {
+    getRegistrationSchemaApi: function() {
       if (this.options.settings.get('policyId')) {
         return this.options.settings.get('baseUrl') + '/api/v1/registration/' + this.options.settings.get('policyId');
       } else {

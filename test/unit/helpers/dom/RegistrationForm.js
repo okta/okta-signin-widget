@@ -4,7 +4,7 @@ define(['./Form'], function (Form) {
   var LASTNAME_FIELD = 'lastName';
   var EMAIL_FIELD = 'userName';
   var PASSWORD_FIELD = 'password';
-  var REFRRER_FIELD = 'referrer';
+  var REFERRER_FIELD = 'referrer';
 
   return Form.extend({
 
@@ -37,11 +37,11 @@ define(['./Form'], function (Form) {
     },
 
     referrerField: function () {
-      return this.input(REFRRER_FIELD);
+      return this.input(REFERRER_FIELD);
     },
 
     referrerErrorField: function () {
-      return this.error(REFRRER_FIELD);
+      return this.error(REFERRER_FIELD);
     },
 
     setReferrer: function (val) {

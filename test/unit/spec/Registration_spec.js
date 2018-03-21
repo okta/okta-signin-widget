@@ -122,7 +122,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       form: form,
       beacon: beacon,
       ac: authClient,
-      setNextResponse: setNextResponse,
+      setNextResponse: setNextResponse
     });
   }
 
