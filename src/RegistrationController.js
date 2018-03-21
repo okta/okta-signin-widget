@@ -80,7 +80,8 @@ function (
       var defaultPolicyId = this.settings.get('defaultPolicyId');
       // org policyId
       var orgPolicyId = this.options.settings.get('policyId');
-      var apiUrl = defaultPolicyId ? this.getRegistrationPolicyApi(defaultPolicyId) : this.getRegistrationPolicyApi(orgPolicyId);
+      var apiUrl = defaultPolicyId ? this.getRegistrationPolicyApi(defaultPolicyId) :
+        this.getRegistrationPolicyApi(orgPolicyId);
       return apiUrl;
     },
     getRegistrationPolicyApi: function(policyId) {
