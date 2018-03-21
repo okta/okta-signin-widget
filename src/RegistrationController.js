@@ -70,7 +70,7 @@ function (
       // setup schema
       var Schema = RegistrationSchema.extend({
         settings: this.options.settings,
-        url: this.getRegistrationPolicyApi()+'/form'
+        url: this.options.settings.get('baseUrl') + '/api/v1/registration/form'
       });
       var schema = new Schema();
       this.state.set('schema', schema);
@@ -85,11 +85,7 @@ function (
       return apiUrl;
     },
     getRegistrationPolicyApi: function(policyId) {
-      if (policyId) {
-        return this.options.settings.get('baseUrl') + '/api/v1/registration/' + policyId;
-      } else {
-        return this.options.settings.get('baseUrl') + '/api/v1/registration';
-      }
+      return this.options.settings.get('baseUrl') + '/api/v1/registration/' + policyId;
     },
     doPostSubmit: function () {
       if (this.model.get('activationToken')) {
@@ -185,7 +181,7 @@ function (
       self.state.get('schema').on('parseComplete', function(updatedSchema) {
         var modelProperties = updatedSchema.properties.createModelProperties();
         if (!updatedSchema.error) {
-          self.settings.set('defaultPolicyId', updatedSchema.properties.policyId);
+          self.settings.set('defaultPolicyId', updatedSchema.properties.defaultPolicyId);
         }
         // create model
         self.model = self.createRegistrationModel(modelProperties);

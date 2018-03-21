@@ -162,7 +162,7 @@ function (_, RegistrationSchema, Expect) {
         });
 
         it('policyId is set', function () {
-          expect(this.schema.properties.policyId).toBe('1234');
+          expect(this.schema.properties.defaultPolicyId).toBe('1234');
         });
       });
 
