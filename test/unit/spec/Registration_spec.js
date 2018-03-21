@@ -151,7 +151,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           var model = test.router.controller.model;
           spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
           model.save();
-          expect(test.router.controller.model.settings.get('policyId')).toContain('1234');
+          expect(test.router.controller.model.settings.get('defaultPolicyId')).toContain('1234');
         });
       });
       itp('policyid from form settings is used instead of default org policy', function () {

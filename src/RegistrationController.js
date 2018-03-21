@@ -70,23 +70,22 @@ function (
       // setup schema
       var Schema = RegistrationSchema.extend({
         settings: this.options.settings,
-        url: this.getRegistrationSchemaApi()+'/form'
+        url: this.getRegistrationPolicyApi()+'/form'
       });
       var schema = new Schema();
       this.state.set('schema', schema);
     },
     getRegistrationApiUrl: function() {
-      if (this.options.settings.get('policyId')) {
-        return this.options.settings.get('baseUrl') + '/api/v1/registration/' + this.options.settings.get('policyId');
-      } else if (this.settings.get('policyId')) {
-        return this.options.settings.get('baseUrl') + '/api/v1/registration/' + this.settings.get('policyId');
-      } else {
-        return this.options.settings.get('baseUrl');
-      }
+      // default policyId
+      var defaultPolicyId = this.settings.get('defaultPolicyId');
+      // org policyId
+      var orgPolicyId = this.options.settings.get('policyId');
+      var apiUrl = defaultPolicyId ? this.getRegistrationPolicyApi(defaultPolicyId) : this.getRegistrationPolicyApi(orgPolicyId);
+      return apiUrl;
     },
-    getRegistrationSchemaApi: function() {
-      if (this.options.settings.get('policyId')) {
-        return this.options.settings.get('baseUrl') + '/api/v1/registration/' + this.options.settings.get('policyId');
+    getRegistrationPolicyApi: function(policyId) {
+      if (policyId) {
+        return this.options.settings.get('baseUrl') + '/api/v1/registration/' + policyId;
       } else {
         return this.options.settings.get('baseUrl') + '/api/v1/registration';
       }
@@ -185,7 +184,7 @@ function (
       self.state.get('schema').on('parseComplete', function(updatedSchema) {
         var modelProperties = updatedSchema.properties.createModelProperties();
         if (!updatedSchema.error) {
-          self.settings.set('policyId', updatedSchema.properties.policyId);
+          self.settings.set('defaultPolicyId', updatedSchema.properties.policyId);
         }
         // create model
         self.model = self.createRegistrationModel(modelProperties);
