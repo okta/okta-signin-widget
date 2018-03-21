@@ -180,9 +180,8 @@ function (
       // register parse complete event listener
       self.state.get('schema').on('parseComplete', function(updatedSchema) {
         var modelProperties = updatedSchema.properties.createModelProperties();
-        if (!updatedSchema.error) {
-          self.settings.set('defaultPolicyId', updatedSchema.properties.defaultPolicyId);
-        }
+        self.settings.set('defaultPolicyId', updatedSchema.properties.defaultPolicyId);
+        
         // create model
         self.model = self.createRegistrationModel(modelProperties);
         // create form
