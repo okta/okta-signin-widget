@@ -61,6 +61,7 @@ function (Okta, BaseSchema, SchemaProperty) {
           this.properties.comparator = 'sortOrder';
           this.properties.sort();
         }
+        this.properties.defaultPolicyId = resp.policyId;
         return resp;
       }, this);
 

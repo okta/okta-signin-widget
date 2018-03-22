@@ -120,6 +120,7 @@ function (_, RegistrationSchema, Expect) {
       Expect.describe('required fields', function () {
         beforeEach(function () {
           var jsonResponse = {
+            policyId: '1234',
             profileSchema: {
               'properties': {
                 'field1': {
@@ -158,6 +159,10 @@ function (_, RegistrationSchema, Expect) {
 
         it('field3 is required', function () {
           expect(this.schema.properties.get('field3').get('required')).toBe(true);
+        });
+
+        it('policyId is set', function () {
+          expect(this.schema.properties.defaultPolicyId).toBe('1234');
         });
       });
 

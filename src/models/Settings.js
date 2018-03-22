@@ -120,6 +120,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'authParams.state': ['string', false],
       'authParams.nonce': ['string', false],
 
+      'policyId': 'string',
       'clientId': 'string',
       'redirectUri': 'string',
       'idps': ['array', false, []],
