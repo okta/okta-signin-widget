@@ -127,6 +127,21 @@ function (
         }
       });
     },
+    // @param url (Eg: ?fromURI=%2Fapp%2FUserHome&query=blah)
+    // returns {fromURI:'%2Fapp%2FUserHome', query: blah}
+    getJsonFromUrl: function(url) {
+      var query = url.substr(1);
+      var result = {};
+      query.split('&').forEach(function(part) {
+        var item = part.split('=');
+        result[item[0]] = item[1];
+      });
+      return result;
+    },
+    getRelayStateData: function () {
+      var urlParams = this.getJsonFromUrl(window.location.search);
+      return urlParams.fromURI || '';
+    },
     createRegistrationModel: function (modelProperties) {
       var self = this;
       var Model = Okta.Model.extend({
@@ -139,7 +154,10 @@ function (
         },
         toJSON: function() {
           var data = Okta.Model.prototype.toJSON.apply(this, arguments);
-          return {userProfile: data};
+          return {
+            userProfile: data,
+            relayState: self.getRelayStateData()
+          };
         },
         parse: function(resp) {
           this.set('activationToken', resp.activationToken);

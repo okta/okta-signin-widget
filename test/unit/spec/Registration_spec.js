@@ -170,6 +170,58 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           expect(test.router.controller.model.settings.get('policyId')).toContain('5678');
         });
       });
+      itp('sends relay state with registration post if set', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setEmail('test@example.com');
+          test.form.setPassword('Abcd1234');
+          spyOn(test.router.controller, 'getJsonFromUrl').and.callFake(function () {
+            return {
+              'fromURI': '%2Fapp%2FUserHome',
+              'query': 'blah'
+            };
+          });
+          var model = test.router.controller.model;
+          var postData = model.toJSON();
+          expect(postData.relayState).toBe('%2Fapp%2FUserHome');
+        });
+      });
+      itp('sends relay state as empty string with registration post if not set', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setEmail('test@example.com');
+          test.form.setPassword('Abcd1234');
+          spyOn(test.router.controller, 'getJsonFromUrl').and.callFake(function () {
+            return {
+              'query': 'blah'
+            };
+          });
+          var model = test.router.controller.model;
+          var postData = model.toJSON();
+          expect(postData.relayState).toBe('');
+        });
+      });
+    });
+
+    Expect.describe('getJsonFromUrl', function () {
+      itp('extracts fromURI from url correctly if fromURI in the start', function () {
+        return setup().then(function (test) {
+          var result = test.router.controller.getJsonFromUrl('?fromURI=%2Fapp%2FUserHome&query=blah');
+          expect(result.fromURI).toBe('%2Fapp%2FUserHome');
+        });
+      });
+      itp('extracts fromURI from url correctly if fromURI in the end', function () {
+        return setup().then(function (test) {
+          var result = test.router.controller.getJsonFromUrl('?query=blah&fromURI=%2Fapp%2FUserHome');
+          expect(result.fromURI).toBe('%2Fapp%2FUserHome');
+        });
+      });
+      itp('fromURI is undefined if not present', function () {
+        return setup().then(function (test) {
+          var result = test.router.controller.getJsonFromUrl('?query=blah');
+          expect(result.fromURI).toBe(undefined);
+        });
+      });
     });
 
     Expect.describe('elements', function () {
