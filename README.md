@@ -1191,20 +1191,21 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
 1. Clone this repo and navigate to the new `okta-signin-widget` folder.
 
     ```bash
-    $ git clone git@github.com:okta/okta-signin-widget.git && cd okta-signin-widget
+    git clone git@github.com:okta/okta-signin-widget.git
+    cd okta-signin-widget
     ```
 
 2. [Install Bundler](http://bundler.io/) if you don't already have it, and then install our Ruby dependencies.
 
     ```bash
-    [okta-signin-widget]$ gem install bundler
-    [okta-signin-widget]$ bundle install
+    gem install bundler
+    bundle install
     ```
 
 3. Install our Node dependencies.
 
     ```bash
-    [okta-signin-widget]$ npm install
+    npm install
     ```
 
 4. Create a `.widgetrc` file in the `okta-signin-widget` directory with an entry for `baseUrl`.
@@ -1220,7 +1221,7 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
 5. Build the widget, start a local connect server that hosts it, and launch a browser window with the widget running.
 
     ```bash
-    [okta-signin-widget]$ npm start
+    npm start
     ```
 
 6. Finally, enable CORS support for our new server by [following these instructions](http://developer.okta.com/docs/guides/okta_sign-in_widget.html#configuring-cors-support-on-your-okta-organization). You can now authenticate to Okta using your very own, customizable widget!
