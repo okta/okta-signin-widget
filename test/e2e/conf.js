@@ -46,14 +46,43 @@ if (process.env.TRAVIS) {
   }
 }
 
-// Local tests, required:
-// WIDGET_TEST_SERVER
-// WIDGET_BASIC_USER
-// WIDGET_BASIC_PASSWORD
+// Local tests require the following environement variables
+// Provided are some examples that will need to be customized for your own use
+/*
+  SELENIUM_ADDRESS: 'http://selenium-hub:4444/wd/hub'
+  BROWSER_NAME: "chrome"
+  E2E_HOST: "localhost"
+  ANGULAR_HOST: "localhost"
+  REACT_HOST: "localhost"
+  E2E_PORT: "3000"
+  ANGULAR_PORT: "4200"
+  REACT_PORT: "3001"
+  AUTH_SERVER_PATH: 'oauth2/default/'
+  CLIENT_ID: 'myclientid'
+  WIDGET_TEST_SERVER: "https://myokta.okta.com"
+  WIDGET_BASIC_USER: "Saml.Jackson@gmail.com"
+  WIDGET_BASIC_PASSWORD: "Password0"
+  WIDGET_BASIC_USER_1: "bsummers@gmail.com"
+  WIDGET_BASIC_PASSWORD_1: "Password1"
+  WIDGET_BASIC_USER_2: "Alexander.Hamilton@gmail.com"
+  WIDGET_BASIC_PASSWORD_2: "Password1"
+  WIDGET_BASIC_USER_3: "bsummesr@gmail.com"
+  WIDGET_BASIC_PASSWORD_3: "Password1"
+  WIDGET_BASIC_USER_4: "bsummers@gmail.com"
+  WIDGET_BASIC_PASSWORD_4: "Password1"
+  WIDGET_BASIC_USER_5: "vmars@hurst.edu"
+  WIDGET_BASIC_PASSWORD_5: "Password1"
+*/
 else {
-  config.seleniumServerJar = '../../node_modules/webdriver-manager/selenium/selenium-server-standalone-3.8.1.jar';
+  if (process.env.SELENIUM_ADDRESS !== '') {
+    config.seleniumAddress = process.env.SELENIUM_ADDRESS;
+  }
+  else {
+    config.seleniumServerJar = '../../node_modules/webdriver-manager/selenium/selenium-server-standalone-3.8.1.jar';
+  }
+  config.seleniumAddress = 'http://selenium-hub:4444/wd/hub';
   config.capabilities = {
-    'browserName': '{{browserName}}',
+    'browserName':  process.env.BROWSER_NAME,
     'phantomjs.binary.path': require('phantomjs').path,
     'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
   };

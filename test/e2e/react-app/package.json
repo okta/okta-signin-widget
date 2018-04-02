@@ -4,14 +4,14 @@
   "private": true,
   "dependencies": {
     "@okta/okta-react": "0.0.10",
-    "cross-env": "^5.1.3",
+    "cross-env": "^5.1.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17"
   },
   "scripts": {
-    "start": "cross-env PORT=3001 BROWSER=none REACT_APP_WIDGET_TEST_SERVER=$WIDGET_TEST_SERVER react-scripts start",
+    "start": "cross-env PORT=$REACT_PORT BROWSER=none REACT_APP_WIDGET_TEST_SERVER=$WIDGET_TEST_SERVER REACT_APP_AUTH_SERVER_PATH=$AUTH_SERVER_PATH REACT_APP_CLIENT_ID=$CLIENT_ID react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

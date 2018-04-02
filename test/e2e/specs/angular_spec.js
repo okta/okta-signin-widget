@@ -18,7 +18,7 @@ describe('Angular flows', function() {
   it('should allow logging in with the widget', function() {
     // open browser to a protected route
     browser.ignoreSynchronization = true;
-    browser.driver.get('http://localhost:4200/protected');
+    browser.driver.get('http://{{{ANGULAR_HOST}}}:{{{ANGULAR_PORT}}}/protected');
 
     // expect to see widget
     var widget = element(by.css('#okta-sign-in'));

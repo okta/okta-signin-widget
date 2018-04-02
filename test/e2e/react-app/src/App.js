@@ -15,8 +15,8 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Security issuer={process.env.REACT_APP_WIDGET_TEST_SERVER + '/oauth2/default'}
-                  client_id='rW47c465c1wc3MKzHznu'
+        <Security issuer={process.env.REACT_APP_WIDGET_TEST_SERVER + process.env.REACT_APP_AUTH_SERVER_PATH}
+                  client_id={process.env.REACT_APP_CLIENT_ID}
                   redirect_uri={window.location.origin + '/implicit/callback'}
                   onAuthRequired={onAuthRequired} >
           <Route path='/' exact={true} component={Home} />

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "node prestart.js && ng serve",
+    "start": "node prestart.js && ng serve --host $ANGULAR_HOST",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",

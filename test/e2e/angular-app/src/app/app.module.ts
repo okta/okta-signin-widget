@@ -16,9 +16,9 @@ import { ProtectedComponent } from './protected.component';
 import { LoginComponent } from './login.component';
 
 const config = {
-  issuer: `${environment.WIDGET_TEST_SERVER}/oauth2/default`,
-  redirectUri: 'http://localhost:4200/implicit/callback',
-  clientId: 'rW47c465c1wc3MKzHznu'
+  issuer: `${environment.WIDGET_TEST_SERVER}${environment.AUTH_SERVER_PATH}`,
+  redirectUri: `http://${environment.ANGULAR_HOST}:${environment.ANGULAR_PORT}/implicit/callback`,
+  clientId: `${environment.CLIENT_ID}`
 }
 
 export function onAuthRequired({ oktaAuth, router }) {
