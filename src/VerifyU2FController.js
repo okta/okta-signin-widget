@@ -99,14 +99,21 @@ function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView
       formChildren: function () {
         var result = [];
 
-        if (!window.hasOwnProperty('u2f')) {
+        var isMobileDevice = BrowserFeatures.isMobileDevice();
+        if (isMobileDevice || !window.hasOwnProperty('u2f')) {
           var errorMessageKey = 'u2f.error.notSupportedBrowser';
+          var isOneFactor = this.options.appState.get('factors').length === 1;
 
-          if (BrowserFeatures.isFirefox()) {
-            errorMessageKey = 'u2f.error.noFirefoxExtension';
+          if (isMobileDevice) {
+            errorMessageKey = isOneFactor ? 'u2f.error.mobileDevice.oneFactor' : 'u2f.error.mobileDevice';
           }
-          else if (this.options.appState.get('factors').length === 1) {
-            errorMessageKey = 'u2f.error.notSupportedBrowser.oneFactor';
+          else {
+            if (BrowserFeatures.isFirefox()) {
+              errorMessageKey = 'u2f.error.noFirefoxExtension';
+            }
+            else if (isOneFactor) {
+              errorMessageKey = 'u2f.error.notSupportedBrowser.oneFactor';
+            }
           }
 
           result.push(FormType.View(

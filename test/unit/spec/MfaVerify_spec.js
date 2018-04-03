@@ -241,10 +241,15 @@ function (Okta,
       spyOn(BrowserFeatures, 'isFirefox').and.returnValue(isAvailable);
     }
 
+    function mockMobileDevice(isAvailable){
+      spyOn(BrowserFeatures, 'isMobileDevice').and.returnValue(isAvailable);
+    }
+
     function setupU2F(options) {
       options || (options = {});
 
       mockFirefox(options.firefox);
+      mockMobileDevice(options.mobile);
 
       if (options.u2f) {
         window.u2f = {
@@ -2714,6 +2719,14 @@ function (Okta,
             expect(test.form.el('o-form-error-html').find('strong').html())
             .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
               'Select another factor or contact your admin for assistance.');
+          });
+        });
+
+        itp('shows error if mobile device', function () {
+          return setupU2F({u2f: false, mobile: true}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').find('strong').html())
+            .toEqual('Security Key (U2F) is not supported on mobile devices.');
           });
         });
 
