@@ -81,6 +81,7 @@ function (Okta,
 
     function mocku2fSuccessRegistration() {
       mockU2f();
+      mockMobileDevice(false);
       spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
         callback({
           registrationData: 'someRegistrationData',
@@ -94,6 +95,7 @@ function (Okta,
     function setupU2fFails(errorCode) {
       Q.stopUnhandledRejectionTracking();
       mockU2f();
+      mockMobileDevice(false);
       spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
         callback({ errorCode: errorCode });
       });
@@ -130,6 +132,7 @@ function (Okta,
       itp('shows error if wrong browser', function () {
         delete window.u2f;
         mockFirefox(false);
+        mockMobileDevice(false);
 
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
@@ -144,13 +147,15 @@ function (Okta,
 
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
-          expect(test.form.errorHtml().html()).toEqual('Security Key (U2F) is not supported on mobile devices.');
+          expect(test.form.errorHtml().html()).toEqual('Security Key (U2F) is not supported on mobile devices. ' +
+            'Select another 2FA method to sign in.');
         });
       });
 
       itp('shows error if Firefox without extension', function () {
         delete window.u2f;
         mockFirefox(true);
+        mockMobileDevice(false);
 
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
@@ -163,6 +168,7 @@ function (Okta,
 
       itp('does not show error if Chrome', function () {
         mockU2f();
+        mockMobileDevice(false);
 
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(0);
@@ -172,6 +178,7 @@ function (Okta,
       itp('does not show error if Firefox with extension', function () {
         mockU2f();
         mockFirefox(true);
+        mockMobileDevice(false);
 
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(0);
@@ -180,6 +187,7 @@ function (Okta,
 
       itp('shows instructions and a register button', function () {
         mockU2f();
+        mockMobileDevice(false);
 
         return setup().then(function (test) {
           Expect.isVisible(test.form.enrollInstructions());

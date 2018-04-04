@@ -23,6 +23,7 @@ define([
   'helpers/xhr/MFA_REQUIRED_oktaVerifyTotpOnly',
   'helpers/xhr/MFA_REQUIRED_webauthn',
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
+  'helpers/xhr/MFA_REQUIRED_u2f',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
@@ -65,6 +66,7 @@ function (Okta,
           resVerifyTOTPOnly,
           resRequiredWebauthn,
           resPassword,
+          resU2f,
           resChallengeDuo,
           resChallengeSms,
           resChallengeCall,
@@ -265,7 +267,7 @@ function (Okta,
         delete window.u2f;
       }
 
-      return setup(resAllFactors)
+      return setup(options.oneFactor ? resU2f : resAllFactors)
       .then(function (test) {
         var responses = [resChallengeU2F];
         if (options && options.res) {
@@ -2714,7 +2716,7 @@ function (Okta,
         });
 
         itp('shows error if wrong browser', function () {
-          return setupU2F({u2f: false, firefox: false}).then(function (test) {
+          return setupU2F({u2f: false, mobile: false, firefox: false}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
             .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
@@ -2722,8 +2724,25 @@ function (Okta,
           });
         });
 
+        itp('shows error if wrong browser and only one factor', function () {
+          return setupU2F({u2f: false, mobile: false, firefox: false, oneFactor: !true}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').find('strong').html())
+            .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
+              'Contact your admin for assistance.');
+          });
+        });
+
         itp('shows error if mobile device', function () {
           return setupU2F({u2f: false, mobile: true}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').find('strong').html())
+            .toEqual('Security Key (U2F) is not supported on mobile devices. Select another 2FA method to sign in.');
+          });
+        });
+
+        itp('shows error if mobile device and only one factor', function () {
+          return setupU2F({u2f: false, mobile: true, oneFactor: !true}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
             .toEqual('Security Key (U2F) is not supported on mobile devices.');

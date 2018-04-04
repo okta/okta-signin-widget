@@ -42,7 +42,7 @@ function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView
   }
 
   return FormController.extend({
-    className: 'verify-u2f',
+    className: 'mfa-verify verify-u2f',
     Model: {
       save: function () {
         this.trigger('request');
@@ -105,15 +105,13 @@ function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView
           var isOneFactor = this.options.appState.get('factors').length === 1;
 
           if (isMobileDevice) {
-            errorMessageKey = isOneFactor ? 'u2f.error.mobileDevice.oneFactor' : 'u2f.error.mobileDevice';
+            errorMessageKey = isOneFactor ? 'u2f.error.notSupportedMobileDevice.oneFactor' : 'u2f.error.notSupportedMobileDevice';
           }
-          else {
-            if (BrowserFeatures.isFirefox()) {
-              errorMessageKey = 'u2f.error.noFirefoxExtension';
-            }
-            else if (isOneFactor) {
-              errorMessageKey = 'u2f.error.notSupportedBrowser.oneFactor';
-            }
+          else if (BrowserFeatures.isFirefox()) {
+            errorMessageKey = 'u2f.error.noFirefoxExtension';
+          }
+          else if (isOneFactor) {
+            errorMessageKey = 'u2f.error.notSupportedBrowser.oneFactor';
           }
 
           result.push(FormType.View(
