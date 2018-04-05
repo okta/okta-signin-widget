@@ -867,7 +867,7 @@ To add registration into your application, configure your Okta admin settings to
 ```javascript
     var signIn = new OktaSignIn({
       baseUrl: 'https://acme.okta.com',
-      // If you are using version 2.8 and higher of the widget, clientId is not required while configuring registration. Instead the widget relies on policy setup with Self Service Registration. For help with setting up Self Service Registration contact support@okta.com. Registration should continue to work with a clientId set and version 2.7 or lower of the widget.
+      // If you are using version 2.8 or higher of the widget, clientId is not required while configuring registration. Instead the widget relies on policy setup with Self Service Registration. For help with setting up Self Service Registration contact support@okta.com. Registration should continue to work with a clientId set and version 2.7 or lower of the widget.
       clientId: '{{myClientId}}', // REQUIRED (with version 2.7.0 or lower)
       registration: {
         parseSchema: function(schema, onSuccess, onFailure) {
