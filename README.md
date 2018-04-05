@@ -65,18 +65,18 @@ Loading our assets directly from the CDN is a good choice if you want an easy wa
 To use the CDN, include links to the JS and CSS files in your HTML:
 
 ```html
-<!-- Latest CDN production Javascript and CSS: 2.6.0 -->
+<!-- Latest CDN production Javascript and CSS: 2.7.0 -->
 <script
-  src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.6.0/js/okta-sign-in.min.js"
+  src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.7.0/js/okta-sign-in.min.js"
   type="text/javascript"></script>
 <link
-  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.6.0/css/okta-sign-in.min.css"
+  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.7.0/css/okta-sign-in.min.css"
   type="text/css"
   rel="stylesheet"/>
 
 <!-- Theme file: Customize or replace this file if you want to override our default styles -->
 <link
-  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.6.0/css/okta-theme.css"
+  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.7.0/css/okta-theme.css"
   type="text/css"
   rel="stylesheet"/>
 ```
@@ -867,7 +867,8 @@ To add registration into your application, configure your Okta admin settings to
 ```javascript
     var signIn = new OktaSignIn({
       baseUrl: 'https://acme.okta.com',
-      clientId: '{{myClientId}}', // REQUIRED
+      // If you are using version 2.8 or higher of the widget, clientId is not required while configuring registration. Instead the widget relies on policy setup with Self Service Registration. For help with setting up Self Service Registration contact support@okta.com. Registration should continue to work with a clientId set and version 2.7 or lower of the widget.
+      clientId: '{{myClientId}}', // REQUIRED (with version 2.7.0 or lower)
       registration: {
         parseSchema: function(schema, onSuccess, onFailure) {
            // handle parseSchema callback
