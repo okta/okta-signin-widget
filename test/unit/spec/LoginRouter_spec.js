@@ -383,8 +383,44 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
         expect(form.isPrimaryAuth()).toBe(true);
       });
     });
-    itp('navigates to PrimaryAuth for all other wildcard routes', function () {
+    itp('navigates to IDPDiscovery for /app/salesforce/{id}/sso/saml when features.idpDiscovery is true', function () {
       return setup({'features.idpDiscovery': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('/app/salesforce/abc123sef/sso/saml');
+        return Expect.waitForIDPDiscovery();
+      })
+      .then(function () {
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to IDPDiscovery for /app/salesforce/{id}/sso/saml when features.idpDiscovery is false', function () {
+      return setup({'features.idpDiscovery': false})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('/app/salesforce/abc123sef/sso/saml');
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
+    });
+    itp('navigates to IDPDiscovery for all other wildcard routes when features.idpDiscovery is true', function () {
+      return setup({'features.idpDiscovery': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('login/default');
+        return Expect.waitForIDPDiscovery();
+      })
+      .then(function () {
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to PrimaryAuth for all other wildcard routes when features.idpDiscovery is false', function () {
+      return setup({'features.idpDiscovery': false})
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('login/default');
