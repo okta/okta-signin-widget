@@ -143,14 +143,14 @@ function (BaseLoginRouter,
       'signin/register': 'register',
       'signin/register-complete': 'registerComplete',
       'signin/consent': 'consentRequired',
-      '*wildcard': 'defaultAuth'
+      '*wildcard': 'wildcard'
     },
 
     // Route handlers that do not require a stateToken. If the page is refreshed,
     // these functions will not require a status call to refresh the stateToken.
     stateLessRouteHandlers: [
       'defaultAuth', 'idpDiscovery', 'primaryAuth', 'forgotPassword', 'recoveryLoading',
-      'unlockAccount', 'refreshAuthState', 'register', 'registerComplete'
+      'unlockAccount', 'refreshAuthState', 'register', 'registerComplete', 'wildcard'
     ],
 
     defaultAuth: function() {
@@ -159,6 +159,14 @@ function (BaseLoginRouter,
       }
       else {
         this.primaryAuth();
+      }
+    },
+    wildcard: function (route) {
+      // whilelist URL that always goes to primary auth
+      if (route === 'login/default') {
+        this.primaryAuth();
+      } else {
+        this.defaultAuth();
       }
     },
 

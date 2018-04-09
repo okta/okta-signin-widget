@@ -407,11 +407,35 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
         expect(form.isPrimaryAuth()).toBe(true);
       });
     });
-    itp('navigates to IDPDiscovery for all other wildcard routes when features.idpDiscovery is true', function () {
+    itp('navigates to PrimaryAuth for /login/default when features.idpDiscovery is true', function () {
       return setup({'features.idpDiscovery': true})
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('login/default');
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
+    });
+    itp('navigates to PrimaryAuth for /login/default when features.idpDiscovery is false', function () {
+      return setup({'features.idpDiscovery': false})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('login/default');
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
+    });
+    itp('navigates to IDPDiscovery for /any/others when features.idpDiscovery is true', function () {
+      return setup({'features.idpDiscovery': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('/any/others');
         return Expect.waitForIDPDiscovery();
       })
       .then(function () {
@@ -419,11 +443,11 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
         expect(form.isIDPDiscovery()).toBe(true);
       });
     });
-    itp('navigates to PrimaryAuth for all other wildcard routes when features.idpDiscovery is false', function () {
+    itp('navigates to IDPDiscovery for /any/others when features.idpDiscovery is false', function () {
       return setup({'features.idpDiscovery': false})
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
-        test.router.navigate('login/default');
+        test.router.navigate('/any/others');
         return Expect.waitForPrimaryAuth();
       })
       .then(function () {
