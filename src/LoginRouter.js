@@ -161,6 +161,14 @@ function (BaseLoginRouter,
         this.primaryAuth();
       }
     },
+    wildcard: function (route) {
+      // whilelist URL that always goes to primary auth
+      if (route === 'login/default') {
+        this.primaryAuth();
+      } else {
+        this.defaultAuth();
+      }
+    },
 
     idpDiscovery: function () {
       this.render(IDPDiscoveryController, {Beacon: SecurityBeacon});
@@ -168,15 +176,6 @@ function (BaseLoginRouter,
 
     primaryAuth: function () {
       this.render(PrimaryAuthController, { Beacon: SecurityBeacon });
-    },
-
-    wildcard: function (route) {
-      if (route === 'login/login.htm') {
-        this.defaultAuth();
-      }
-      else {
-        this.primaryAuth();
-      }
     },
 
     verifyDuo: function () {
