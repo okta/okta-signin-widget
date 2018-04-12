@@ -243,15 +243,10 @@ function (Okta,
       spyOn(BrowserFeatures, 'isFirefox').and.returnValue(isAvailable);
     }
 
-    function mockMobileDevice(isAvailable){
-      spyOn(BrowserFeatures, 'isMobileDevice').and.returnValue(isAvailable);
-    }
-
     function setupU2F(options) {
       options || (options = {});
 
       mockFirefox(options.firefox);
-      mockMobileDevice(options.mobile);
 
       if (options.u2f) {
         window.u2f = {
@@ -2716,7 +2711,7 @@ function (Okta,
         });
 
         itp('shows error if wrong browser', function () {
-          return setupU2F({u2f: false, mobile: false, firefox: false}).then(function (test) {
+          return setupU2F({u2f: false, firefox: false}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
             .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
@@ -2725,27 +2720,11 @@ function (Okta,
         });
 
         itp('shows error if wrong browser and only one factor', function () {
-          return setupU2F({u2f: false, mobile: false, firefox: false, oneFactor: !true}).then(function (test) {
+          return setupU2F({u2f: false, firefox: false, oneFactor: true}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
             .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
               'Contact your admin for assistance.');
-          });
-        });
-
-        itp('shows error if mobile device', function () {
-          return setupU2F({u2f: false, mobile: true}).then(function (test) {
-            expect(test.form.el('o-form-error-html')).toHaveLength(1);
-            expect(test.form.el('o-form-error-html').find('strong').html())
-            .toEqual('Security Key (U2F) is not supported on mobile devices. Select another 2FA method to sign in.');
-          });
-        });
-
-        itp('shows error if mobile device and only one factor', function () {
-          return setupU2F({u2f: false, mobile: true, oneFactor: !true}).then(function (test) {
-            expect(test.form.el('o-form-error-html')).toHaveLength(1);
-            expect(test.form.el('o-form-error-html').find('strong').html())
-            .toEqual('Security Key (U2F) is not supported on mobile devices.');
           });
         });
 

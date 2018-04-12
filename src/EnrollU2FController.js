@@ -114,14 +114,10 @@ function (Okta, FormType, FormController, Footer, Q, HtmlErrorMessageView, Brows
       formChildren: function () {
         var result = [];
 
-        var isMobileDevice = BrowserFeatures.isMobileDevice();
-        if (isMobileDevice || !window.hasOwnProperty('u2f')) {
+        if (!window.hasOwnProperty('u2f')) {
           var errorMessageKey = 'u2f.error.notSupportedBrowser';
 
-          if (isMobileDevice) {
-            errorMessageKey = 'u2f.error.notSupportedMobileDevice';
-          }
-          else if (BrowserFeatures.isFirefox()) {
+          if (BrowserFeatures.isFirefox()) {
             errorMessageKey = 'u2f.error.noFirefoxExtension';
           }
 
