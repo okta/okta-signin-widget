@@ -1144,6 +1144,8 @@ features: {
 }
 ```
 
+- **features.baseURI** - Used with the router feature, declare the base URI of your app if you want the widget routing to be appended to your base URI.  For example, if you are hosting the widget under an application at `http://example.com/myapp`, setting the base URI to `/myapp` will allow the widget to build URLs such as `http://example.com/myapp/signin/forgot-password`.
+
 - **features.router** - Set to `true` if you want the widget to update the navigation bar when it transitions between pages. This is useful if you want the user to maintain their current state when refreshing the page, but requires that your server can handle the widget url paths. Defaults to `false`.
 
 - **features.rememberMe** - Display a checkbox to enable "Remember me" functionality at login. Defaults to `true`.

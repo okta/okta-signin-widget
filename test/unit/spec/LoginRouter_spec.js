@@ -215,7 +215,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
       spyOn(Okta.Router.prototype, 'start');
       return setup({ 'features.router': true }).then(function (test) {
         test.router.start();
-        expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: true });
+        expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: true, root: '' });
       });
     });
     itp('set pushState false if pushState is not supported', function () {
@@ -223,7 +223,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
       spyOn(Okta.Router.prototype, 'start');
       return setup({ 'features.router': true }).then(function (test) {
         test.router.start();
-        expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: false });
+        expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: false, root: '' });
       });
     });
 
