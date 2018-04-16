@@ -16,7 +16,8 @@ define([
   'util/Util',
   'helpers/xhr/SUCCESS',
 ],
-function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema, Router, $sandbox, Errors, srcUtil, resSuccess) {
+function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema, 
+  Router, $sandbox, Errors, srcUtil, resSuccess) {
 
   var itp = Expect.itp;
   
