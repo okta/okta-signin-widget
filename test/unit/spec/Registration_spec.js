@@ -13,9 +13,10 @@ define([
   'LoginRouter',
   'sandbox',
   'util/Errors',
+  'util/Util',
   'helpers/xhr/SUCCESS',
 ],
-function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema, Router, $sandbox, Errors, resSuccess) {
+function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema, Router, $sandbox, Errors, srcUtil, resSuccess) {
 
   var itp = Expect.itp;
   
@@ -175,7 +176,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           $.ajax.calls.reset();
           test.form.setEmail('test@example.com');
           test.form.setPassword('Abcd1234');
-          spyOn(test.router.controller, 'getJsonFromUrl').and.callFake(function () {
+          spyOn(srcUtil, 'getJsonFromUrl').and.callFake(function () {
             return {
               'fromURI': '%2Fapp%2FUserHome',
               'query': 'blah'
@@ -191,7 +192,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           $.ajax.calls.reset();
           test.form.setEmail('test@example.com');
           test.form.setPassword('Abcd1234');
-          spyOn(test.router.controller, 'getJsonFromUrl').and.callFake(function () {
+          spyOn(srcUtil, 'getJsonFromUrl').and.callFake(function () {
             return {
               'query': 'blah'
             };
@@ -199,27 +200,6 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           var model = test.router.controller.model;
           var postData = model.toJSON();
           expect(postData.relayState).toBe('');
-        });
-      });
-    });
-
-    Expect.describe('getJsonFromUrl', function () {
-      itp('extracts fromURI from url correctly if fromURI in the start', function () {
-        return setup().then(function (test) {
-          var result = test.router.controller.getJsonFromUrl('?fromURI=%2Fapp%2FUserHome&query=blah');
-          expect(result.fromURI).toBe('%2Fapp%2FUserHome');
-        });
-      });
-      itp('extracts fromURI from url correctly if fromURI in the end', function () {
-        return setup().then(function (test) {
-          var result = test.router.controller.getJsonFromUrl('?query=blah&fromURI=%2Fapp%2FUserHome');
-          expect(result.fromURI).toBe('%2Fapp%2FUserHome');
-        });
-      });
-      itp('fromURI is undefined if not present', function () {
-        return setup().then(function (test) {
-          var result = test.router.controller.getJsonFromUrl('?query=blah');
-          expect(result.fromURI).toBe(undefined);
         });
       });
     });

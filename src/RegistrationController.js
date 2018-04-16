@@ -19,6 +19,7 @@ define([
   'util/Enums',
   'util/RegistrationFormFactory',
   'util/RouterUtil',
+  'util/Util',
   'views/registration/SubSchema',
   'util/Errors'
 ],
@@ -31,6 +32,7 @@ function (
   Enums,
   RegistrationFormFactory,
   RouterUtil,
+  Util,
   SubSchema,
   Errors
 ) {
@@ -127,19 +129,8 @@ function (
         }
       });
     },
-    // @param url (Eg: ?fromURI=%2Fapp%2FUserHome&query=blah)
-    // returns {fromURI:'%2Fapp%2FUserHome', query: blah}
-    getJsonFromUrl: function(url) {
-      var query = url.substr(1);
-      var result = {};
-      query.split('&').forEach(function(part) {
-        var item = part.split('=');
-        result[item[0]] = item[1];
-      });
-      return result;
-    },
     getRelayStateData: function () {
-      var urlParams = this.getJsonFromUrl(window.location.search);
+      var urlParams = Util.getJsonFromUrl(window.location.search);
       return urlParams.fromURI || '';
     },
     createRegistrationModel: function (modelProperties) {
