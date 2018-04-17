@@ -1053,16 +1053,20 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect(test.form.registrationContainer().length).toBe(0);
         });
       });
-      itp('does not show the registration button if features.registration is false', function () {
-        var registration =  {
-        };
-        return setupRegistrationButton(null, registration).then(function (test) {
+      itp('does not show the registration button if features.registration is not set', function () {
+        var registration = {};
+        return setupRegistrationButton(undefined, registration).then(function (test) {
           expect(test.form.registrationContainer().length).toBe(0);
         });
       });
-      itp('show the registration button if settings.registration.enable is true', function () {
-        var registration =  {
-        };
+      itp('does not show the registration button if features.registration is false', function () {
+        var registration = {};
+        return setupRegistrationButton(false, registration).then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(0);
+        });
+      });
+      itp('show the registration button if registration.enable is true', function () {
+        var registration = {};
         return setupRegistrationButton(true, registration).then(function (test) {
           expect(test.form.registrationContainer().length).toBe(1);
           expect(test.form.registrationLabel().length).toBe(1);
