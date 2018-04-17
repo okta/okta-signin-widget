@@ -2678,7 +2678,7 @@ function (Okta,
             return tick(test);
           })
           .then(function (test) {
-            expect(test.form.subtitleText()).toBe('Signing into Okta...');
+            expect(test.form.subtitleText()).toBe('Signing in to Okta...');
             expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
           });
         });
@@ -2714,7 +2714,7 @@ function (Okta,
           return setupU2F({u2f: false, firefox: false}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
-            .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
+            .toEqual('This factor is not supported on this browser. ' +
               'Select another factor or contact your admin for assistance.');
           });
         });
@@ -2723,8 +2723,7 @@ function (Okta,
           return setupU2F({u2f: false, firefox: false, oneFactor: true}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
-            .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
-              'Contact your admin for assistance.');
+            .toEqual('This factor is not supported on this browser. Contact your admin for assistance.');
           });
         });
 

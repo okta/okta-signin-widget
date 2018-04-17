@@ -115,7 +115,7 @@ function (Okta, FormType, FormController, Footer, Q, HtmlErrorMessageView, Brows
         var result = [];
 
         if (!window.hasOwnProperty('u2f')) {
-          var errorMessageKey = 'u2f.error.notSupportedBrowser';
+          var errorMessageKey = 'u2f.error.factorNotSupported';
 
           if (BrowserFeatures.isFirefox()) {
             errorMessageKey = 'u2f.error.noFirefoxExtension';

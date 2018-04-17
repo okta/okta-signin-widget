@@ -129,8 +129,8 @@ function (Okta,
 
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
-          expect(test.form.errorHtml().html()).toEqual('The Security Key is only supported for Chrome or ' +
-            'Firefox browsers. Select another factor or contact your admin for assistance.');
+          expect(test.form.errorHtml().html()).toEqual('This factor is not supported on this browser.' +
+            ' Select another factor or contact your admin for assistance.');
         });
       });
 

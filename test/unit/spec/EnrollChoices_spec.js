@@ -166,7 +166,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           return setupWithRequiredNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
-              'additional layer of security when signing into your Okta account'
+              'additional layer of security when signing in to your Okta account'
             );
           });
         });
@@ -252,7 +252,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           return setupWithAllOptionalNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
-              'additional layer of security when signing into your Okta account'
+              'additional layer of security when signing in to your Okta account'
             );
           });
         });
