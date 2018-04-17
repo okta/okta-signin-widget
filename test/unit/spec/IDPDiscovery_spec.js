@@ -1053,7 +1053,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect(test.form.registrationContainer().length).toBe(0);
         });
       });
-      itp('does not show the registration button if features.registration is not set', function () {
+      itp('does not show the registration button if features.registration is undefined', function () {
         var registration = {};
         return setupRegistrationButton(undefined, registration).then(function (test) {
           expect(test.form.registrationContainer().length).toBe(0);
