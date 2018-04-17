@@ -44,7 +44,8 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [Links](#links)
   * [Buttons](#buttons)
   * [Registration](#registration)
-  * [OpenId Connect](#openid-connect)
+  * [IdP Discovery](#idp-discovery)
+  * [OpenID Connect](#openid-connect)
   * [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   * [Feature flags](#feature-flags)
 * [Events](#events)
@@ -981,9 +982,46 @@ Optional configuration:
         onFailure(error);
      }
     ```
-## OpenId Connect
 
-Options for the [OpenId Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
+## IdP Discovery
+**EA feature:** The Idp Discovery feature is currently a [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
+
+To enable IdP Discovery into your application, configure your Okta admin settings to create discovery policies. Then, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
+
+```javascript
+var signIn = new OktaSignIn({
+  baseUrl: 'https://your-org.okta.com',
+  ... ...
+  idpDiscovery: {
+    requestContext: '/a/app/request/context',
+  },
+  features: {
+    idpDiscovery: true
+  }
+});
+signIn.renderEl(
+  {...},
+  function (res) {
+    if (res.status === 'IDP_DISCOVERY') {
+      res.idpDiscovery.redirectToIdp('/relative/path/after/login');
+      return;
+    }
+  }
+);
+```
+
+### Additional configuration
+
+- **idpDiscovery.requestContext**: a [Webfinger](https://tools.ietf.org/html/rfc7033) context of that which the user is trying to access, such as the path of an app
+
+### Additions in the callback
+
+- `response.status` is `IDP_DISCOVERY`
+- `res.idpDiscovery.redirectToIdp` is a function that could be used for redirect to relative path of the IdP against which authentication has been succeded.
+
+## OpenID Connect
+
+Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
 
 - **clientId:** Client Id pre-registered with Okta for the OIDC authentication flow
 
@@ -1163,6 +1201,8 @@ features: {
 - **features.hideSignOutLinkInMFA** - Hides the sign out link for MFA challenge. Defaults to `false`.
 
 - **features.registration** - Display the registration section in the primary auth page. Defaults to `false`.
+
+- **features.idpDiscovery** - Display identifier page for IdP Discovery instead of primary auth page. Defaults to `false`.
 
 # Events
 
