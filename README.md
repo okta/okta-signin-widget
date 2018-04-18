@@ -1164,6 +1164,8 @@ features: {
 
 - **features.registration** - Display the registration section in the primary auth page. Defaults to `false`.
 
+- **features.identifierFirst** - Shows primary auth page with username field only. Defaults to `false`.
+
 # Events
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).

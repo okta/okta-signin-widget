@@ -26,7 +26,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       var cookieUsername = CookieUtil.getCookieUsername(),
           properties = this.getUsernameAndRemember(cookieUsername);
 
-      return {
+      var props = {
         username: {
           type: 'string',
           validate: function (value) {
@@ -37,18 +37,23 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
           value: properties.username
         },
         lastUsername: ['string', false, cookieUsername],
-        password: {
+        context: ['object', false],
+        remember: ['boolean', true, properties.remember],
+        multiOptionalFactorEnroll: ['boolean', true]
+      };
+      if (this.settings && this.settings.get('features.identifierFirst')) {
+        props.username.format = 'email';
+      } else {
+        props.password = {
           type: 'string',
           validate: function (value) {
             if(_.isEmpty(value)) {
               return Okta.loc('error.password.required', 'login');
             }
           }
-        },
-        context: ['object', false],
-        remember: ['boolean', true, properties.remember],
-        multiOptionalFactorEnroll: ['boolean', true]
-      };
+        };
+      }
+      return props;
     },
 
     getUsernameAndRemember: function(cookieUsername) {
@@ -88,10 +93,8 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
     save: function () {
       var username = this.settings.transformUsername(this.get('username'), Enums.PRIMARY_AUTH),
-          password = this.get('password'),
           remember = this.get('remember'),
           lastUsername = this.get('lastUsername'),
-          multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll'),
           deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting');
 
       this.setUsernameCookie(username, remember, lastUsername);
@@ -102,17 +105,10 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
       this.appState.trigger('loading', true);
 
-      var signInArgs = {
-        username: username,
-        password: password,
-        options: {
-          warnBeforePasswordExpired: true,
-          multiOptionalFactorEnroll: multiOptionalFactorEnroll
-        }
-      };
+      var signInArgs = this.getSignInArgs(username);
 
       var primaryAuthPromise;
-      if (this.appState.get('isUnauthenticated')) {
+      if (this.appState.get('isUnauthenticated') && !this.settings.get('features.identifierFirst')) {
         primaryAuthPromise = this.doTransaction(function (transaction) {
           var authClient = this.appState.settings.authClient;
           return this.doPrimaryAuth(authClient, deviceFingerprintEnabled, signInArgs,
@@ -136,6 +132,21 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       .fin(_.bind(function () {
         this.appState.trigger('loading', false);
       }, this));
+    },
+
+    getSignInArgs: function (username) {
+      var multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
+      var signInArgs = {
+        username: username,
+        options: {
+          warnBeforePasswordExpired: true,
+          multiOptionalFactorEnroll: multiOptionalFactorEnroll
+        }
+      };
+      if (!this.settings.get('features.identifierFirst')) {
+        signInArgs.password = this.get('password');
+      }
+      return signInArgs;
     },
 
     setUsernameCookie: function (username, remember, lastUsername) {
