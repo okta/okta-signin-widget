@@ -23,6 +23,7 @@ define([
   'helpers/xhr/MFA_REQUIRED_oktaVerifyTotpOnly',
   'helpers/xhr/MFA_REQUIRED_webauthn',
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
+  'helpers/xhr/MFA_REQUIRED_u2f',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
@@ -65,6 +66,7 @@ function (Okta,
           resVerifyTOTPOnly,
           resRequiredWebauthn,
           resPassword,
+          resU2f,
           resChallengeDuo,
           resChallengeSms,
           resChallengeCall,
@@ -260,7 +262,7 @@ function (Okta,
         delete window.u2f;
       }
 
-      return setup(resAllFactors)
+      return setup(options.oneFactor ? resU2f : resAllFactors)
       .then(function (test) {
         var responses = [resChallengeU2F];
         if (options && options.res) {
@@ -2676,7 +2678,7 @@ function (Okta,
             return tick(test);
           })
           .then(function (test) {
-            expect(test.form.subtitleText()).toBe('Signing into Okta...');
+            expect(test.form.subtitleText()).toBe('Signing in to Okta...');
             expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
           });
         });
@@ -2712,8 +2714,16 @@ function (Okta,
           return setupU2F({u2f: false, firefox: false}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
-            .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
+            .toEqual('This factor is not supported on this browser. ' +
               'Select another factor or contact your admin for assistance.');
+          });
+        });
+
+        itp('shows error if wrong browser and only one factor', function () {
+          return setupU2F({u2f: false, firefox: false, oneFactor: true}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').find('strong').html())
+            .toEqual('This factor is not supported on this browser. Contact your admin for assistance.');
           });
         });
 
