@@ -38,7 +38,7 @@ function (Okta, PrimaryAuthController, IDPDiscoveryForm, IDPDiscoveryModel, Foot
 
       this.addListeners();
 
-      this.add(new Footer(this.toJSON({appState: options.appState})));
+      this.addFooter(options);
 
       this.setUsername();
     },

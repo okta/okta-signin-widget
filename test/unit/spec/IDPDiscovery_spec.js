@@ -86,6 +86,16 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
     });
   }
 
+  function setupRegistrationButton(featuresRegistration, registrationObj) {
+    var settings = {
+      registration: registrationObj
+    };
+    if (_.isBoolean(featuresRegistration)) {
+      settings['features.registration'] = featuresRegistration;
+    }
+    return setup(settings);
+  }
+
   function waitForBeaconChange(test) {
     return tick() //wait to read value of user input
     .then(tick)   //wait to receive ajax response
@@ -1036,5 +1046,51 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
     });
+
+    Expect.describe('Registration Flow', function () {
+      itp('does not show the registration button if features.registration is not set', function () {
+        return setup().then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(0);
+        });
+      });
+      itp('does not show the registration button if features.registration is undefined', function () {
+        var registration = {};
+        return setupRegistrationButton(undefined, registration).then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(0);
+        });
+      });
+      itp('does not show the registration button if features.registration is false', function () {
+        var registration = {};
+        return setupRegistrationButton(false, registration).then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(0);
+        });
+      });
+      itp('show the registration button if registration.enable is true', function () {
+        var registration = {};
+        return setupRegistrationButton(true, registration).then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(1);
+          expect(test.form.registrationLabel().length).toBe(1);
+          expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
+          expect(test.form.registrationLink().length).toBe(1);
+          expect(test.form.registrationLink().text()).toBe('Sign up');
+          expect(typeof(registration.click)).toEqual('undefined');
+        });
+      });
+      itp('calls settings.registration.click if its a function and when the link is clicked', function () {
+        var registration =  {
+          click: jasmine.createSpy('registrationSpy')
+        };
+        return setupRegistrationButton(true, registration).then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(1);
+          expect(test.form.registrationLabel().length).toBe(1);
+          expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
+          expect(test.form.registrationLink().length).toBe(1);
+          expect(test.form.registrationLink().text()).toBe('Sign up');
+          test.form.registrationLink().click();
+          expect(registration.click).toHaveBeenCalled();
+        });
+      });
+    });
+
   });
 });

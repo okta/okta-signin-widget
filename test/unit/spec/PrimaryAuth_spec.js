@@ -2124,7 +2124,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         expect(typeof(registration.click)).toEqual('undefined');
       });
     });
-    itp(' the registration button is a custom function', function () {
+    itp('the registration button is a custom function', function () {
       var registration =  {
         click: function () {
           window.location.href = 'http://www.test.com';
