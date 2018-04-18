@@ -103,7 +103,6 @@
   "bin": {
     "i18n": "dist/bin/i18n.js"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "csv-stringify": "1.0.2",
     "deep-diff": "0.3.3",
@@ -124,7 +123,6 @@
     "semver": "5.1.0",
     "yargs": "^8.0.2"
   },
-  "deprecated": false,
   "description": "Okta Localization",
   "devDependencies": {
     "@okta/ci-pkginfo": "1.1.0",
