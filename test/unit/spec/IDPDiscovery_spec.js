@@ -387,6 +387,17 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect(links).toEqual(customLinks);
         });
       });
+      itp('shows custom links with target attribute', function () {
+        var customLinks = [
+          { text: 'github', href: 'https://github.com', target: '_blank' },
+          { text: 'google', href: 'https://google.com' },
+          { text: 'okta', href: 'https://okta.com', target: '_custom' }
+        ];
+        return setup({ 'helpLinks.custom': customLinks }).then(function (test) {
+          var links = test.form.customLinks();
+          expect(links).toEqual(customLinks);
+        });
+      });
       itp('toggles "focused-input" css class on focus in and focus out', function () {
         return setup()
         .then(function (test) {
