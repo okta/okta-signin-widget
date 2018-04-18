@@ -39,7 +39,8 @@ function (Okta, Util) {
         {{/if}}\
         {{#each helpLinks.custom}}\
           <li>\
-          <a href="{{href}}" class="link js-custom">{{text}}</a></li>\
+          <a href="{{href}}" class="link js-custom" {{#if target}}target="{{target}}"{{/if}}>{{text}}</a>\
+          </li>\
         {{/each}}\
         <li>\
         <a href="{{helpLinkUrl}}" data-se="help-link" class="link js-help-link" target="_blank">\

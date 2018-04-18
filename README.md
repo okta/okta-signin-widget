@@ -814,7 +814,8 @@ helpLinks: {
     },
     {
       text: 'Acme Portal',
-      href: 'https://acme.com'
+      href: 'https://acme.com',
+      target: '_blank'
     }
   ]
 }
@@ -826,7 +827,7 @@ helpLinks: {
 
 - **helpLinks.unlock** - Custom link href for the "Unlock Account" link. For this link to display, `features.selfServiceUnlock` must be set to `true`, and the self service unlock feature must be enabled in your admin settings.
 
-- **helpLinks.custom** - Array of custom link objects `{text, href}` that will be added to the *"Need help signing in?"* section.
+- **helpLinks.custom** - Array of custom link objects `{text, href, target}` that will be added to the *"Need help signing in?"* section. The `target` of the link is optional.
 
 #### Sign Out Link
 
