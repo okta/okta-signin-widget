@@ -106,7 +106,7 @@ function (
         });
       } else {
         // register via activation email
-        this.model.appState.set('username', this.model.get('userName'));
+        this.model.appState.set('username', this.model.get('email'));
         this.model.appState.trigger('navigate', 'signin/register-complete');
       }
     },
@@ -115,7 +115,7 @@ function (
       this.model.attributes = postData;
       Backbone.Model.prototype.save.call(this.model).then(function() {
         var activationToken = self.model.get('activationToken');
-        var postSubmitData = activationToken ? activationToken : self.model.get('userName');
+        var postSubmitData = activationToken ? activationToken : self.model.get('email');
         self.settings.postSubmit(postSubmitData, function() {
           self.doPostSubmit();
         }, function(errors) {
