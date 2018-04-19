@@ -92,7 +92,7 @@ var signIn = new OktaSignIn({/* configOptions */});
 
 Using our npm module is a good choice if:
 - You have a build system in place where you manage dependencies with npm
-- You do not want to load scripts directly from third party sites
+- You do not want to load scripts directly from 3rd party sites
 
 To install [@okta/okta-signin-widget](https://www.npmjs.com/package/@okta/okta-signin-widget):
 
@@ -120,12 +120,12 @@ node_modules/@okta/okta-signin-widget/dist/
 
   js/
     # CDN JS file that exports the OktaSignIn object in UMD format. This is
-    # packaged with everything needed to run the widget, including third party
+    # packaged with everything needed to run the widget, including 3rd party
     # vendor files.
     okta-sign-in.min.js
 
     # Main entry file that is used in the npm require(@okta/okta-signin-widget)
-    # flow. This does not package third party dependencies - these are pulled
+    # flow. This does not package 3rd party dependencies - these are pulled
     # down through `npm install` (which allows you to use your own version of
     # jquery, etc).
     okta-sign-in.entry.js
@@ -986,7 +986,10 @@ Optional configuration:
 ## IdP Discovery
 **:information_source: EA feature:** The Idp Discovery feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
 
-To enable IdP Discovery into your application, enable Feature Flag `IDP_DISCOVERY` for your Org and configure your Okta admin settings to create discovery policies. Then, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
+Identity Provider (IdP) Discovery enables you to route users to different 3rd Party IdPs that are connected to your Okta Org. Users can federate back into the primary org after authenticating at the IdP.
+
+To use IdP Discovery in your application, first ensure that the `IDP_DISCOVERY` feature flag is enabled for your Org and configure an identity provider routing policy in the Okta admin panel.
+Then, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
 
 ```javascript
 var signIn = new OktaSignIn({
@@ -1010,11 +1013,16 @@ signIn.renderEl(
 );
 ```
 
-The IdP Discovery authentication flow will be
+The IdP Discovery authentication flow in widget will be
 
-1. Display an identifier page to enter Okta userName to discovery IdP for authentication
-2. If IdP is Okta, will transit to Primary Auth
-3. Otherwise is third-party IdP, will invoke the [success callback](#rendereloptions-success-error) with `response.status` as `IDP_DISCOVERY`.
+1. If configured a routing policy that has a username/domain condition, the widget will enter identifier first flow
+2. Otherwise, widget will enter primary authentication flow.
+
+For the identifier first flow,
+
+1. Widget will display an identifier page to enter Okta userName to discovery IdP for authentication
+2. If the IdP is your Okta org, the widget will transition to the primary authentication flow.
+3. If the IdP is a 3rd party IdP or a different Okta org, the widget will invoke the [success callback](#rendereloptions-success-error) with `response.status` as `IDP_DISCOVERY`.
 
 ### Additional configuration
 
@@ -1022,12 +1030,12 @@ The IdP Discovery authentication flow will be
 
 ### Additions in the success callback
 
-- `response.status` is `IDP_DISCOVERY` when the authentication needs to be done agaist third-party IdP.
-- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the third-party IdP. It **has to** be same as **idpDiscovery.requestContext**.
+- `response.status` is `IDP_DISCOVERY` when the authentication needs to be done agaist 3rd party IdP.
+- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the 3rd party IdP. It **has to** be same as **idpDiscovery.requestContext**.
 
 ## OpenID Connect
 
-Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth2 client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
+Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth 2.0 client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
 
 - **clientId:** Client Id pre-registered with Okta for the OIDC authentication flow
 
