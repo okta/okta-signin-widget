@@ -652,6 +652,36 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           expect(setting.registration.postSubmit).toHaveBeenCalled();
         });
       });
+      itp('calls postSubmit call onSuccess assert username is same as email', function () {
+        var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
+        var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
+        var setting = {
+          'registration': {
+            'parseSchema': function (resp, onSuccess, onFailure) {
+              parseSchemaSpy(resp, onSuccess, onFailure);
+              onSuccess(resp);
+            },
+            'preSubmit': function (postData, onSuccess, onFailure) {
+              preSubmitSpy(postData, onSuccess, onFailure);
+              onSuccess(postData);
+            },
+            'postSubmit': jasmine.createSpy('postSubmitSpy')
+          }
+        };
+        return setup(setting)
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setEmail('test@example.com');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.submit();
+          var model = test.router.controller.model;
+          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+          model.save();
+          expect(setting.registration.postSubmit).toHaveBeenCalled();
+          expect(model.get('userName')).toBe('test@example.com');          
+        });
+      });
       itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
