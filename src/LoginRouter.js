@@ -143,14 +143,14 @@ function (BaseLoginRouter,
       'signin/register': 'register',
       'signin/register-complete': 'registerComplete',
       'signin/consent': 'consentRequired',
-      '*wildcard': 'wildcard'
+      '*wildcard': 'defaultAuth'
     },
 
     // Route handlers that do not require a stateToken. If the page is refreshed,
     // these functions will not require a status call to refresh the stateToken.
     stateLessRouteHandlers: [
       'defaultAuth', 'idpDiscovery', 'primaryAuth', 'forgotPassword', 'recoveryLoading',
-      'unlockAccount', 'refreshAuthState', 'register', 'registerComplete', 'wildcard'
+      'unlockAccount', 'refreshAuthState', 'register', 'registerComplete'
     ],
 
     defaultAuth: function() {
@@ -168,15 +168,6 @@ function (BaseLoginRouter,
 
     primaryAuth: function () {
       this.render(PrimaryAuthController, { Beacon: SecurityBeacon });
-    },
-
-    wildcard: function (route) {
-      if (route === 'login/login.htm') {
-        this.defaultAuth();
-      }
-      else {
-        this.primaryAuth();
-      }
     },
 
     verifyDuo: function () {
