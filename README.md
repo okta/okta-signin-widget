@@ -984,9 +984,9 @@ Optional configuration:
     ```
 
 ## IdP Discovery
-**EA feature:** The Idp Discovery feature is currently a [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
+**:information_source: EA feature:** The Idp Discovery feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
 
-To enable IdP Discovery into your application, configure your Okta admin settings to create discovery policies. Then, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
+To enable IdP Discovery into your application, enable Feature Flag `IDP_DISCOVERY` for your Org and configure your Okta admin settings to create discovery policies. Then, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
 
 ```javascript
 var signIn = new OktaSignIn({
@@ -1003,25 +1003,31 @@ signIn.renderEl(
   {...},
   function (res) {
     if (res.status === 'IDP_DISCOVERY') {
-      res.idpDiscovery.redirectToIdp('/relative/path/after/login');
+      res.idpDiscovery.redirectToIdp('/a/app/request/context');
       return;
     }
   }
 );
 ```
 
+The IdP Discovery authentication flow will be
+
+1. Display an identifier page to enter Okta userName to discovery IdP for authentication
+2. If IdP is Okta, will transit to Primary Auth
+3. Otherwise is third-party IdP, will invoke the [success callback](#rendereloptions-success-error) with `response.status` as `IDP_DISCOVERY`.
+
 ### Additional configuration
 
-- **idpDiscovery.requestContext**: a [Webfinger](https://tools.ietf.org/html/rfc7033) context of that which the user is trying to access, such as the path of an app
+- **idpDiscovery.requestContext**: a context of that which the user is trying to access, such as the path of an app
 
-### Additions in the callback
+### Additions in the success callback
 
-- `response.status` is `IDP_DISCOVERY`
-- `res.idpDiscovery.redirectToIdp` is a function that could be used for redirect to relative path of the IdP against which authentication has been succeded.
+- `response.status` is `IDP_DISCOVERY` when the authentication needs to be done agaist third-party IdP.
+- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the third-party IdP. It **has to** be same as **idpDiscovery.requestContext**.
 
 ## OpenID Connect
 
-Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
+Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth2 client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
 
 - **clientId:** Client Id pre-registered with Okta for the OIDC authentication flow
 
@@ -1202,7 +1208,7 @@ features: {
 
 - **features.registration** - Display the registration section in the primary auth page. Defaults to `false`.
 
-- **features.idpDiscovery** - Display identifier page for IdP Discovery instead of primary auth page. Defaults to `false`.
+- **features.idpDiscovery** - Enable [IdP Discovery](#idp-discovery). Defaults to `false`.
 
 # Events
 
