@@ -678,8 +678,10 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           var model = test.router.controller.model;
           spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
           model.save();
+          test.router.navigate('signin/register-complete', {trigger: true});
           expect(setting.registration.postSubmit).toHaveBeenCalled();
-          expect(model.get('userName')).toBe('test@example.com');          
+          expect(model.get('userName')).toBe('test@example.com');
+          expect(test.router.navigate).toHaveBeenCalledWith('signin/register-complete', {trigger: true});          
         });
       });
       itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function () {
