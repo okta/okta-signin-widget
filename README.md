@@ -984,12 +984,12 @@ Optional configuration:
     ```
 
 ## IdP Discovery
-**:information_source: EA feature:** The Idp Discovery feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
+**:information_source: EA feature:** The Identity Provider (IdP) Discovery feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
 
-Identity Provider (IdP) Discovery enables you to route users to different 3rd Party IdPs that are connected to your Okta Org. Users can federate back into the primary org after authenticating at the IdP.
+IdP Discovery enables you to route users to different 3rd Party IdPs that are connected to your Okta Org. Users can federate back into the primary org after authenticating at the IdP.
 
 To use IdP Discovery in your application, first ensure that the `IDP_DISCOVERY` feature flag is enabled for your Org and configure an identity provider routing policy in the Okta admin panel.
-Then, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
+Then, in the widget configuration, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
 
 ```javascript
 var signIn = new OktaSignIn({
@@ -1015,12 +1015,12 @@ signIn.renderEl(
 
 The IdP Discovery authentication flow in widget will be
 
-1. If configured a routing policy that has a username/domain condition, the widget will enter identifier first flow
-2. Otherwise, widget will enter primary authentication flow.
+1. If a routing policy with a username/domain condition is configured, the widget will enter identifier first flow
+2. Otherwise, the widget will enter primary authentication flow.
 
 For the identifier first flow,
 
-1. Widget will display an identifier page to enter Okta userName to discovery IdP for authentication
+1. The widget will display an identifier first page for the user to enter an Okta userName to determine the IdP to be used for authentication.
 2. If the IdP is your Okta org, the widget will transition to the primary authentication flow.
 3. If the IdP is a 3rd party IdP or a different Okta org, the widget will invoke the [success callback](#rendereloptions-success-error) with `response.status` as `IDP_DISCOVERY`.
 
