@@ -1166,7 +1166,7 @@ features: {
 
 - **features.idpDiscovery** - Display login page with username only, and request Okta the IdP to use. Defaults to `false`.
 
-- **features.identifierFirst** - Support passwordless authentication policies. If this flag is `true` then idpDiscovery features will be enabled as well. Defaults to `false`.
+- **features.identifierFirst** - Support passwordless authentication policies. Can only be `true` if **features.idpDiscovery** is also `true`. Defaults to `false`.
 
 # Events
 

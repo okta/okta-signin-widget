@@ -210,6 +210,14 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
       var fn = function () { setup({ globalSuccessFn: undefined }); };
       expect(fn).toThrowError('A success handler is required');
     });
+    it('throws a ConfigError if features.identifierFirst is true and features.idpDiscovery is false', function () {
+      var fn = function () { setup({ features: {identifierFirst: true, idpDiscovery: false }}); };
+      expect(fn).toThrowError(Errors.ConfigError);
+    });
+    it('has the correct error message if features.identifierFirst is true and features.idpDiscovery is false', function () {
+      var fn = function () { setup({ features: {identifierFirst: true, idpDiscovery: false }}); };
+      expect(fn).toThrowError('"identifierFirst" can only be enabled if "idpDiscovery" is enabled as well');
+    });
     itp('set pushState true if pushState is supported', function () {
       spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(true);
       spyOn(Okta.Router.prototype, 'start');
