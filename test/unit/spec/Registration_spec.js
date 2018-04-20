@@ -20,7 +20,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
   Router, $sandbox, Errors, srcUtil, resSuccess) {
 
   var itp = Expect.itp;
-  
+  var tick = Expect.tick;
   var testData = {
     policyId: '1234',
     profileSchema: {
@@ -681,7 +681,10 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           test.router.navigate('signin/register-complete', {trigger: true});
           expect(setting.registration.postSubmit).toHaveBeenCalled();
           expect(model.get('userName')).toBe('test@example.com');
-          expect(test.router.navigate).toHaveBeenCalledWith('signin/register-complete', {trigger: true});          
+          expect(test.router.navigate).toHaveBeenCalledWith('signin/register-complete', {trigger: true});
+          return tick().then(function () {
+            expect( $('div.registration-complete').text().includes('Verification email sent')).toBe(true);
+          });          
         });
       });
       itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function () {
