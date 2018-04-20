@@ -154,7 +154,7 @@ function (BaseLoginRouter,
     ],
 
     defaultAuth: function() {
-      if(this.settings.get('features.idpDiscovery') || this.settings.get('features.identifierFirst')) {
+      if(this.settings.get('features.idpDiscovery')) {
         this.idpDiscovery();
       }
       else {

@@ -1164,10 +1164,6 @@ features: {
 
 - **features.registration** - Display the registration section in the primary auth page. Defaults to `false`.
 
-- **features.idpDiscovery** - Display login page with username only, and request Okta the IdP to use. Defaults to `false`.
-
-- **features.identifierFirst** - Support passwordless authentication policies. Can only be `true` if **features.idpDiscovery** is also `true`. Defaults to `false`.
-
 # Events
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
