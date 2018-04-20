@@ -2676,7 +2676,7 @@ function (Okta,
             return tick(test);
           })
           .then(function (test) {
-            expect(test.form.subtitleText()).toBe('Signing into Okta...');
+            expect(test.form.subtitleText()).toBe('Signing in to Okta...');
             expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
           });
         });
