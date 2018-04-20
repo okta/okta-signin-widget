@@ -1031,7 +1031,7 @@ For the identifier first flow,
 ### Additions in the success callback
 
 - `response.status` is `IDP_DISCOVERY` when the authentication needs to be done agaist 3rd party IdP.
-- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the 3rd party IdP. It **has to** be same as **idpDiscovery.requestContext**.
+- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the 3rd party IdP. This function takes one parameter which is the **idpDiscovery.requestContext**.
 
 ## OpenID Connect
 
