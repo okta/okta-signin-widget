@@ -38,7 +38,10 @@ define([
     initialize: function () {
       this.listenTo(this, 'save', function () {
         var self = this;
-        var creds = this.getCreds();
+        var creds = {
+          username: this.model.get('username'),
+          password: this.model.get('password')
+        };
         this.settings.processCreds(creds)
         .then(function() {
           if (!self.settings.get('features.deviceFingerprinting')) {
@@ -58,16 +61,6 @@ define([
       this.stateEnableChange();
     },
 
-    getCreds: function() {
-      var creds = {
-        username: this.model.get('username')
-      };
-      if (!this.settings.get('features.identifierFirst')) {
-        creds.password = this.model.get('password');
-      }
-      return creds;
-    },
-
     stateEnableChange: function() {
       this.listenTo(this.state, 'change:enabled', function (model, enable) {
         if (enable) {
@@ -82,9 +75,7 @@ define([
     inputs: function () {
       var inputs = [];
       inputs.push(this.getUsernameField());
-      if (!this.settings.get('features.identifierFirst')) {
-        inputs.push(this.getPasswordField());
-      }
+      inputs.push(this.getPasswordField());
       if (this.settings.get('features.rememberMe')) {
         inputs.push(this.getRemeberMeCheckbox());
       }
@@ -154,7 +145,7 @@ define([
     focus: function () {
       if (!this.model.get('username')) {
         this.getInputs().first().focus();
-      } else if (!this.settings.get('features.identifierFirst')) {
+      } else {
         this.getInputs().toArray()[1].focus();
       }
     }
