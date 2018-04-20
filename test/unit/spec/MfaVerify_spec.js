@@ -2676,7 +2676,7 @@ function (Okta,
             return tick(test);
           })
           .then(function (test) {
-            expect(test.form.subtitleText()).toBe('Signing into Okta...');
+            expect(test.form.subtitleText()).toBe('Signing in to Okta...');
             expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
           });
         });
@@ -2952,7 +2952,7 @@ function (Okta,
       itp('has a dropdown if there is more than one factor', function () {
         return setup(resAllFactors).then(function (test) {
           var options = test.beacon.getOptionsLinks();
-          expect(options.length).toBe(12);
+          expect(options.length).toBe(13);
         });
       });
       itp('shows the right options in the dropdown, removes okta totp if ' +
@@ -2962,12 +2962,12 @@ function (Okta,
           expect(options).toEqual([
             'Okta Verify', 'Security Key (U2F)', 'Windows Hello', 'Yubikey', 'Google Authenticator',
             'SMS Authentication', 'Voice Call Authentication', 'Email Authentication', 'Security Question',
-            'Duo Security', 'Symantec VIP', 'RSA SecurID'
+            'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password'
           ]);
         });
       });
       itp('shows the right options in the dropdown, removes okta totp if ' +
-          'okta push exists, and orders factors by security (On-Prem)', function () {
+          'okta push exists, and orders factors by security (On-Prem, no Password)', function () {
         return setup(resAllFactorsOnPrem).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([

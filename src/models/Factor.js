@@ -195,6 +195,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
       }
     },
 
+    /* eslint complexity: [2, 7] */
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
       // Set/Remove the remember device cookie based on the remember device input.
@@ -219,8 +220,8 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         }
 
         var promise;
-        // MFA_REQUIRED
-        if (transaction.status === 'MFA_REQUIRED') {
+        // MFA_REQUIRED or UNAUTHENTICATED with factors (identifierFirst)
+        if (transaction.status === 'MFA_REQUIRED' || this.appState.get('promptForFactorInUnauthenticated')) {
           var factor = _.findWhere(transaction.factors, {
             id: this.get('id')
           });
