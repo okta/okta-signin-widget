@@ -41,7 +41,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         remember: ['boolean', true, properties.remember],
         multiOptionalFactorEnroll: ['boolean', true]
       };
-      if (this.settings && this.settings.get('features.identifierFirst')) {
+      if (this.settings && this.settings.get('features.passwordlessAuth')) {
         props.username.format = 'email';
       } else {
         props.password = {
@@ -108,7 +108,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       var signInArgs = this.getSignInArgs(username);
 
       var primaryAuthPromise;
-      if (this.appState.get('isUnauthenticated') && !this.settings.get('features.identifierFirst')) {
+      if (this.appState.get('isUnauthenticated') && !this.settings.get('features.passwordlessAuth')) {
         primaryAuthPromise = this.doTransaction(function (transaction) {
           var authClient = this.appState.settings.authClient;
           return this.doPrimaryAuth(authClient, deviceFingerprintEnabled, signInArgs,
@@ -143,7 +143,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
           multiOptionalFactorEnroll: multiOptionalFactorEnroll
         }
       };
-      if (!this.settings.get('features.identifierFirst')) {
+      if (!this.settings.get('features.passwordlessAuth')) {
         signInArgs.password = this.get('password');
       }
       return signInArgs;
