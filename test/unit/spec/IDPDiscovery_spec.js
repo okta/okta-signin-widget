@@ -22,11 +22,12 @@ define([
   'helpers/xhr/IDPDiscoverySuccess',
   'helpers/xhr/IDPDiscoverySuccess_OktaIDP',
   'helpers/xhr/ERROR_webfinger',
+  'helpers/xhr/IDENTIFIER_FIRST_UNAUTHENTICATED',
   'sandbox'
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
           Router, BrowserFeatures, DeviceFingerprint, Errors, SharedUtil, Expect,
-          resSecurityImage, resSecurityImageFail, resSuccess, resSuccessOktaIDP, resError, $sandbox) {
+          resSecurityImage, resSecurityImageFail, resSuccess, resSuccessOktaIDP, resError, resIdentifierFirst, $sandbox) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -83,6 +84,16 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
       setNextResponse: setNextResponse,
       setNextWebfingerResponse: setNextWebfingerResponse,
       successSpy: successSpy
+    });
+  }
+
+  function setupIdentifierFirst(requests) {
+    return setup({ 'features.identifierFirst': true }, requests)
+    .then(function(test){
+      Util.mockRouterNavigate(test.router);
+      test.setNextWebfingerResponse(resSuccessOktaIDP);
+      test.setNextResponse(resIdentifierFirst);
+      return tick(test);
     });
   }
 
@@ -1043,6 +1054,40 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
             'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com'
           );
+        });
+      });
+    });
+
+    Expect.describe('Identifier First', function() {
+      itp('calls authClient.signIn when idp is Okta', function () {
+        return setupIdentifierFirst().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser@test.com');
+          test.form.submit();
+          return Expect.waitForMfaVerify(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser@test.com',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+      itp('shows MfaVerify view after authClient.signIn returns with UNAUTHENTICATED', function () {
+        return setupIdentifierFirst().then(function (test) {
+          test.form.setUsername('testuser@test.com');
+          test.form.submit();
+          return Expect.waitForMfaVerify(test);
+        })
+        .then(function (test) {
+          expect(test.form.el('factor-question').length).toEqual(1);
         });
       });
     });

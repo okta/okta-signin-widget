@@ -215,6 +215,14 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       }
       return;
     case 'UNAUTHENTICATED':
+      // Either we have factors and we are in identifierFirst mode
+      if (router.appState.get('promptForFactorInUnauthenticated')) {
+        var defaultFactor = router.appState.get('factors').getDefaultFactor();
+        var factorURL = fn.createVerifyUrl(defaultFactor.get('provider'), defaultFactor.get('factorType'));
+        router.navigate(factorURL, { trigger: true });
+        return;
+      }
+      // Or we don't have anything and we need to show the login page
       router.navigate('', { trigger: true });
       return;
     default:

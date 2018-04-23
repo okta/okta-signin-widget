@@ -82,6 +82,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'features.registration': ['boolean', false, false],
       'features.consent': ['boolean', false, false],
       'features.idpDiscovery': ['boolean', false, false],
+      'features.identifierFirst': ['boolean', false, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function
@@ -310,6 +311,11 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       }
       else if (BrowserFeatures.corsIsNotSupported()) {
         this.callGlobalError(new UnsupportedBrowserError(Okta.loc('error.unsupported.cors')));
+      }
+      else if (options.features) {
+        if (options.features.identifierFirst && !options.features.idpDiscovery) {
+          this.callGlobalError(new ConfigError(Okta.loc('error.invalid.identifierFirst')));
+        }
       }
     },
 
