@@ -22,12 +22,12 @@ define([
   'helpers/xhr/IDPDiscoverySuccess',
   'helpers/xhr/IDPDiscoverySuccess_OktaIDP',
   'helpers/xhr/ERROR_webfinger',
-  'helpers/xhr/IDENTIFIER_FIRST_UNAUTHENTICATED',
+  'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED',
   'sandbox'
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
-          Router, BrowserFeatures, DeviceFingerprint, Errors, SharedUtil, Expect,
-          resSecurityImage, resSecurityImageFail, resSuccess, resSuccessOktaIDP, resError, resIdentifierFirst, $sandbox) {
+          Router, BrowserFeatures, DeviceFingerprint, Errors, SharedUtil, Expect, resSecurityImage,
+          resSecurityImageFail, resSuccess, resSuccessOktaIDP, resError, resPasswordlessUnauthenticated, $sandbox) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -87,12 +87,12 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
     });
   }
 
-  function setupIdentifierFirst(requests) {
-    return setup({ 'features.identifierFirst': true }, requests)
+  function setupPasswordlessAuth(requests) {
+    return setup({ 'features.passwordlessAuth': true }, requests)
     .then(function(test){
       Util.mockRouterNavigate(test.router);
       test.setNextWebfingerResponse(resSuccessOktaIDP);
-      test.setNextResponse(resIdentifierFirst);
+      test.setNextResponse(resPasswordlessUnauthenticated);
       return tick(test);
     });
   }
@@ -1058,9 +1058,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
       });
     });
 
-    Expect.describe('Identifier First', function() {
-      itp('calls authClient.signIn when idp is Okta', function () {
-        return setupIdentifierFirst().then(function (test) {
+    Expect.describe('Passwordless Auth', function() {
+      itp('automatically calls authClient.signIn when idp is Okta', function () {
+        return setupPasswordlessAuth().then(function (test) {
           $.ajax.calls.reset();
           test.form.setUsername('testuser@test.com');
           test.form.submit();
@@ -1081,7 +1081,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('shows MfaVerify view after authClient.signIn returns with UNAUTHENTICATED', function () {
-        return setupIdentifierFirst().then(function (test) {
+        return setupPasswordlessAuth().then(function (test) {
           test.form.setUsername('testuser@test.com');
           test.form.submit();
           return Expect.waitForMfaVerify(test);

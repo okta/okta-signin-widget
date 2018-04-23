@@ -220,7 +220,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         }
 
         var promise;
-        // MFA_REQUIRED or UNAUTHENTICATED with factors (identifierFirst)
+        // MFA_REQUIRED or UNAUTHENTICATED with factors (passwordlessAuth)
         if (transaction.status === 'MFA_REQUIRED' || this.appState.get('promptForFactorInUnauthenticated')) {
           var factor = _.findWhere(transaction.factors, {
             id: this.get('id')
