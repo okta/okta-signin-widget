@@ -215,7 +215,7 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       }
       return;
     case 'UNAUTHENTICATED':
-      // Either we have factors and we are in identifierFirst mode
+      // Either we have factors and we are in passwordlessAuth mode
       if (router.appState.get('promptForFactorInUnauthenticated')) {
         var defaultFactor = router.appState.get('factors').getDefaultFactor();
         var factorURL = fn.createVerifyUrl(defaultFactor.get('provider'), defaultFactor.get('factorType'));
