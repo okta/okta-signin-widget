@@ -50,7 +50,7 @@ function (Okta, PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDi
 
       this.listenTo(this.model, 'goToPrimaryAuth', function () {
         this.settings.set('username', this.model.get('username'));
-        if (this.settings.get('features.identifierFirst')) {
+        if (this.settings.get('features.passwordlessAuth')) {
           var primaryAuthModel = new PrimaryAuthModel({
             username: this.model.get('username'),
             multiOptionalFactorEnroll: this.options.settings.get('features.multiOptionalFactorEnroll'),

@@ -21,7 +21,12 @@ define([
   return Okta.Form.extend({
     className: 'primary-auth-form',
     noCancelButton: true,
-    save: _.partial(Okta.loc, 'primaryauth.submit', 'login'),
+    save: function () {
+      if (this.settings.get('features.passwordlessAuth')) {
+        return Okta.loc('oform.next', 'login') ;
+      }
+      return Okta.loc('primaryauth.submit', 'login');
+    },
     saveId: 'okta-signin-submit',
     layout: 'o-form-theme',
 
@@ -39,9 +44,11 @@ define([
       this.listenTo(this, 'save', function () {
         var self = this;
         var creds = {
-          username: this.model.get('username'),
-          password: this.model.get('password')
+          username: this.model.get('username')
         };
+        if (!this.settings.get('features.passwordlessAuth')) {
+          creds.password = this.model.get('password');
+        }
         this.settings.processCreds(creds)
         .then(function() {
           if (!self.settings.get('features.deviceFingerprinting')) {
@@ -75,7 +82,9 @@ define([
     inputs: function () {
       var inputs = [];
       inputs.push(this.getUsernameField());
-      inputs.push(this.getPasswordField());
+      if (!this.settings.get('features.passwordlessAuth')) {
+        inputs.push(this.getPasswordField());
+      }
       if (this.settings.get('features.rememberMe')) {
         inputs.push(this.getRemeberMeCheckbox());
       }
@@ -145,7 +154,7 @@ define([
     focus: function () {
       if (!this.model.get('username')) {
         this.getInputs().first().focus();
-      } else {
+      } else if (!this.settings.get('features.passwordlessAuth')) {
         this.getInputs().toArray()[1].focus();
       }
     }
