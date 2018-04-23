@@ -16,10 +16,11 @@ define([
   'util/Enums',
   'util/FormType',
   'util/ValidationUtil',
+  'util/Util',
   'views/shared/ContactSupport',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport, TextBox) {
+function (Okta, FormController, Enums, FormType, ValidationUtil, Util, ContactSupport, TextBox) {
 
   var _ = Okta._;
   var noFactorsError = '<div class="okta-form-infobox-error infobox infobox-error" role="alert">\
@@ -71,10 +72,13 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
       },
       save: function () {
         var self = this;
+        var urlParams = Util.getJsonFromUrl(window.location.search);
+        var relayState = urlParams.fromURI || '';
         this.startTransaction(function(authClient) {
           return authClient.forgotPassword({
             username: self.settings.transformUsername(self.get('username'), Enums.FORGOT_PASSWORD),
-            factorType: self.get('factorType')
+            factorType: self.get('factorType'),
+            relayState: relayState
           });
         })
         .fail(function () {

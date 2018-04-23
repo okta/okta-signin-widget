@@ -432,6 +432,18 @@
     }
   }
 
+  .mfa-password-30 {
+    /* -- Factor Icons (small): Password -- */
+    background-image: url('../img/icons/mfa/password_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Password -- */
+      background-image: url('../img/icons/mfa/password_ico@2x.png');
+    }
+  }
+
   .mfa-windows-hello-30,
   .enroll-factor-row .mfa-windows-hello {
     /* -- Factor Icons (small): Windows Hello -- */
