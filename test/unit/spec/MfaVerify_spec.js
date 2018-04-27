@@ -839,7 +839,7 @@ function (Okta,
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify',
+              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=false',
               data: {
                 passCode: '123456',
                 stateToken: 'testStateToken'
@@ -1002,7 +1002,7 @@ function (Okta,
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/ykf2l0aUIe5VBplDj0g4/verify',
+              url: 'https://foo.com/api/v1/authn/factors/ykf2l0aUIe5VBplDj0g4/verify?rememberDevice=false',
               data: {
                 passCode: '123456',
                 stateToken: 'testStateToken'
@@ -1134,7 +1134,7 @@ function (Okta,
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify',
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
               data: {
                 passCode: '',
                 stateToken: 'testStateToken'
@@ -1233,7 +1233,7 @@ function (Okta,
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify',
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
               data: {
                 passCode: '123456',
                 stateToken: 'testStateToken'
@@ -1426,7 +1426,7 @@ function (Okta,
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify',
+              url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=false',
               data: {
                 passCode: '',
                 stateToken: 'testStateToken'
@@ -1491,7 +1491,7 @@ function (Okta,
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify',
+              url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=false',
               data: {
                 passCode: '123456',
                 stateToken: 'testStateToken'
@@ -1717,7 +1717,7 @@ function (Okta,
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify',
+              url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
               data: {
                 passCode: '',
                 stateToken: 'testStateToken'
@@ -1781,7 +1781,7 @@ function (Okta,
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify',
+              url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
               data: {
                 passCode: '123456',
                 stateToken: 'testStateToken'
@@ -2011,7 +2011,7 @@ function (Okta,
             .then(function () {
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
                 data: {
                   stateToken: 'testStateToken'
                 }
@@ -2029,7 +2029,7 @@ function (Okta,
             .then(function () {
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
                 data: {
                   stateToken: 'testStateToken'
                 }
@@ -2079,7 +2079,7 @@ function (Okta,
                   expect($.ajax.calls.count()).toBe(3);
                   // initial verifyFactor call
                   Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2087,7 +2087,7 @@ function (Okta,
 
                   // first startVerifyFactorPoll call
                   Expect.isJsonPost($.ajax.calls.argsFor(1), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2095,7 +2095,7 @@ function (Okta,
 
                   // last startVerifyFactorPoll call
                   Expect.isJsonPost($.ajax.calls.argsFor(2), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2112,7 +2112,7 @@ function (Okta,
                   expect($.ajax.calls.count()).toBe(3);
                   // initial verifyFactor call
                   Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2120,7 +2120,7 @@ function (Okta,
 
                   // first startVerifyFactorPoll call
                   Expect.isJsonPost($.ajax.calls.argsFor(1), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2128,7 +2128,7 @@ function (Okta,
 
                   // last startVerifyFactorPoll call
                   Expect.isJsonPost($.ajax.calls.argsFor(2), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2340,7 +2340,7 @@ function (Okta,
             .then(function () {
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify',
+                url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify?rememberDevice=false',
                 data: {
                   passCode: '654321',
                   stateToken: 'testStateToken'
@@ -2487,7 +2487,7 @@ function (Okta,
           return setupDuo().then(function () {
             expect($.ajax.calls.count()).toBe(2);
             Expect.isJsonPost($.ajax.calls.argsFor(1), {
-              url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/verify',
+              url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/verify?rememberDevice=false',
               data: {
                 stateToken: 'testStateToken'
               }
@@ -3051,7 +3051,7 @@ function (Okta,
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify',
+            url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=false',
             data: {
               answer: 'food',
               stateToken: 'testStateToken'
@@ -3095,7 +3095,7 @@ function (Okta,
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify',
+              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=false',
               data: {
                 passCode: '123456',
                 stateToken: 'testStateToken'
@@ -3124,7 +3124,7 @@ function (Okta,
           .then(function () {
             expect($.ajax.calls.count()).toBe(2);
             Expect.isJsonPost($.ajax.calls.argsFor(1), {
-              url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify',
+              url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify?rememberDevice=false',
               data: {
                 passCode: '654321',
                 stateToken: 'testStateToken'
@@ -3157,7 +3157,7 @@ function (Okta,
               }
             });
             Expect.isJsonPost($.ajax.calls.argsFor(1), {
-              url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify',
+              url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify?rememberDevice=false',
               data: {
                 passCode: '654321',
                 stateToken: 'testStateToken'

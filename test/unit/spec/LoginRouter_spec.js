@@ -633,7 +633,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
         expect(form.isPushSent()).toBe(true);
         expect($.ajax.calls.count()).toBe(2);
         Expect.isJsonPost($.ajax.calls.argsFor(1), {
-          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
           data: {
             stateToken: 'testStateToken'
           }
@@ -688,7 +688,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
       .then(function () {
         expect($.ajax.calls.count()).toBe(2);
         Expect.isJsonPost($.ajax.calls.argsFor(1), {
-          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
           data: {
             stateToken: 'testStateToken'
           }
