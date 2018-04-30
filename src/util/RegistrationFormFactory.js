@@ -79,6 +79,9 @@ define([
     if (_.isString(regex)) {
       if (regex === '^[#/userName]') {
         var username = model.get('userName');
+        if (username == undefined) {
+          username = model.get('email');
+        }
         var password = value;
         return !passwordContainsUserName(username, password);
       } else {

@@ -44,6 +44,13 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           'default': 'Enter your email',
           'maxLength': 255
         },
+        'email': {
+          'type': 'string',
+          'description': 'Email Address',
+          'format' : 'email',
+          'default': 'Enter your email',
+          'maxLength': 255
+        },
         'accountLevel': {
           'type': 'string',
           'description': 'Account Level',
@@ -143,7 +150,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('policyid is retrieved from default org policy', function () {
         return setup().then(function (test) {
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
           test.form.setLastname('LastName');
@@ -158,7 +165,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('policyid from form settings is used instead of default org policy', function () {
         return setup().then(function (test) {
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
           test.form.setLastname('LastName');
@@ -175,7 +182,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       itp('sends relay state with registration post if set', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           spyOn(srcUtil, 'getJsonFromUrl').and.callFake(function () {
             return {
@@ -191,7 +198,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       itp('sends relay state as empty string with registration post if not set', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           spyOn(srcUtil, 'getJsonFromUrl').and.callFake(function () {
             return {
@@ -220,11 +227,11 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           expect(lastname.attr('type')).toEqual('text');
         });
       });
-      itp('has a email field', function () {
+      itp('has a username field', function () {
         return setup().then(function (test) {
-          var email = test.form.emailField();
-          expect(email.length).toBe(1);
-          expect(email.attr('type')).toEqual('text');
+          var userName = test.form.userNameField();
+          expect(userName.length).toBe(1);
+          expect(userName.attr('type')).toEqual('text');
         });
       });
       itp('has a password field', function () {
@@ -262,7 +269,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       itp('shows an error if email is empty and register', function () {
         return setup().then(function (test) {
           test.form.submit();
-          expect(test.form.emailErrorField().length).toBe(1);
+          expect(test.form.userNameErrorField().length).toBe(1);
         });
       });
       itp('shows an error if firstname is too long', function () {
@@ -286,7 +293,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('shows password complexity satisfied if it is satisfied', function () {
         return setup().then(function (test) {
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd');
           test.form.focusOutPassword();
           expect(test.form.hasPasswordComplexityUnsatisfied('0')).toBe(true);
@@ -298,7 +305,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('shows password complexity error if focus out and not satisfied', function () {
         return setup().then(function (test) {
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('12345678');
           test.form.focusOutPassword();
           expect(test.form.hasPasswordComplexitySatisfied('0')).toBe(true);
@@ -310,7 +317,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('shows no password complexity error if focus out and satisfied all conditions', function () {
         return setup().then(function (test) {
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.focusOutPassword();
           expect(test.form.hasPasswordComplexitySatisfied('0')).toBe(true);
@@ -322,7 +329,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('shows no password complexity section if no password entered', function () {
         return setup().then(function (test) {
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('');
           test.form.focusOutPassword();
           expect(test.form.isPasswordComplexitySectionHidden('0')).toBe(true);
@@ -334,7 +341,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('shows password complexity section if password entered', function () {
         return setup().then(function (test) {
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.focusOutPassword();
           expect(test.form.isPasswordComplexitySectionHidden('0')).toBe(false);
@@ -346,7 +353,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('shows error if password contains part of the username:testing', function () {
         return setup().then(function (test) {
-          test.form.setEmail('testing');
+          test.form.setUserName('testing');
           test.form.setPassword('Testing1234');
           test.form.focusOutPassword();
           expect(test.form.passwordContainsUsernameError()).toBe(true);
@@ -375,7 +382,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('shows error if password contains part of username:testing1234@okta.com', function () {
         return setup().then(function (test) {
-          test.form.setEmail('testing1234@okta.com');
+          test.form.setUserName('testing1234@okta.com');
           test.form.setPassword('Testing1234');
           test.form.focusOutPassword();
           expect(test.form.passwordContainsUsernameError()).toBe(true);
@@ -401,7 +408,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('shows error if password contains part of the username:testing_123', function () {
         return setup().then(function (test) {
-          test.form.setEmail('testing_123');
+          test.form.setUserName('testing_123');
           test.form.setPassword('testing');
           test.form.focusOutPassword();
           expect(test.form.passwordContainsUsernameError()).toBe(true);
@@ -424,6 +431,49 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('shows error if password contains part of username:first-last.name@okta.com', function () {
         return setup().then(function (test) {
+          test.form.setUserName('first-last.name@okta.com');
+          test.form.setPassword('Abcd1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+          test.form.setPassword('Testingfirst');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('last_1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('testName1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+        });
+      });
+      itp('shows error if password contains part of email:testing1234@okta.com', function () {
+        return setup().then(function (test) {
+          test.form.setEmail('testing1234@okta.com');
+          test.form.setPassword('Testing1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('testing1234@okta.com');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('abcdTesting1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+          test.form.setPassword('aatesting34');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+          test.form.setPassword('12aatesting');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+          test.form.setPassword('12testingaBtesting');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(false);
+          test.form.setPassword('Okta1234');
+          test.form.focusOutPassword();
+          expect(test.form.passwordContainsUsernameError()).toBe(true);
+        });
+      });
+      itp('shows error if password contains part of email:first-last.name@okta.com', function () {
+        return setup().then(function (test) {
           test.form.setEmail('first-last.name@okta.com');
           test.form.setPassword('Abcd1234');
           test.form.focusOutPassword();
@@ -441,7 +491,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('hides password complexity error if password does not contain part of the username', function () {
         return setup().then(function (test) {
-          test.form.setEmail('user@example.com');
+          test.form.setUserName('user@example.com');
           test.form.setPassword('Abcd1234');
           test.form.focusOutPassword();
           expect(test.form.passwordContainsUsernameError()).toBe(false);
@@ -452,7 +502,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         return setup().then(function (test) {
           test.form.setPassword('Abcd1234');
           test.form.focusOutPassword();
-          test.form.setEmail('abcd@example.com');
+          test.form.setUserName('abcd@example.com');
           expect(test.form.passwordContainsUsernameError()).toBe(true);
         });
       });
@@ -498,7 +548,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         return setup(setting)
         .then(function (test) {
           $.ajax.calls.reset();
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
           test.form.submit();
@@ -546,7 +596,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         return setup(setting)
         .then(function (test) {
           $.ajax.calls.reset();
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
           test.form.submit();
@@ -572,7 +622,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         return setup(setting)
         .then(function (test) {
           $.ajax.calls.reset();
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
           test.form.setReferrer('referrer');
@@ -611,7 +661,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           $.ajax.calls.reset();
           expect(test.form.getFieldByName('zip').length).toBe(1);
           expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
-          test.form.setEmail('test');
+          test.form.setUserName('test');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
           test.form.submit();
@@ -642,7 +692,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         return setup(setting)
         .then(function (test) {
           $.ajax.calls.reset();
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
           test.form.submit();
@@ -671,7 +721,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         return setup(setting)
         .then(function (test) {
           $.ajax.calls.reset();
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
           test.form.submit();
@@ -706,7 +756,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         return setup(setting)
         .then(function (test) {
           $.ajax.calls.reset();
-          test.form.setEmail('test@example.com');
+          test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
           test.form.submit();
@@ -739,7 +789,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         return setup(setting)
         .then(function (test) {
           $.ajax.calls.reset();
-          test.form.setEmail('test');
+          test.form.setUserName('test');
           test.form.setPassword('Abcd1234');
           test.form.setFirstname('firstName');
           test.form.submit();
