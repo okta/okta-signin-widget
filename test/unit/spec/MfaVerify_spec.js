@@ -2011,7 +2011,8 @@ function (Okta,
             .then(function () {
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
+                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                '?autoPush=true&rememberDevice=false',
                 data: {
                   stateToken: 'testStateToken'
                 }
@@ -2029,7 +2030,8 @@ function (Okta,
             .then(function () {
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
+                url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                '?autoPush=false&rememberDevice=false',
                 data: {
                   stateToken: 'testStateToken'
                 }
@@ -2079,7 +2081,8 @@ function (Okta,
                   expect($.ajax.calls.count()).toBe(3);
                   // initial verifyFactor call
                   Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                    '?autoPush=true&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2087,7 +2090,8 @@ function (Okta,
 
                   // first startVerifyFactorPoll call
                   Expect.isJsonPost($.ajax.calls.argsFor(1), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                    '?autoPush=true&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2095,7 +2099,8 @@ function (Okta,
 
                   // last startVerifyFactorPoll call
                   Expect.isJsonPost($.ajax.calls.argsFor(2), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                    '?autoPush=true&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2112,7 +2117,8 @@ function (Okta,
                   expect($.ajax.calls.count()).toBe(3);
                   // initial verifyFactor call
                   Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                    '?autoPush=false&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2120,7 +2126,8 @@ function (Okta,
 
                   // first startVerifyFactorPoll call
                   Expect.isJsonPost($.ajax.calls.argsFor(1), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                    '?autoPush=false&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2128,7 +2135,8 @@ function (Okta,
 
                   // last startVerifyFactorPoll call
                   Expect.isJsonPost($.ajax.calls.argsFor(2), {
-                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                    '?autoPush=false&rememberDevice=false',
                     data: {
                       stateToken: 'testStateToken'
                     }
@@ -2136,6 +2144,81 @@ function (Okta,
                 });
               });
             });
+            itp('will pass rememberDevice as true if checkbox checked during polling', function () {
+              return setupOktaPush({'features.autoPush': true}).then(function (test) {
+                setAutoPushCheckbox(test, true);
+                setRememberDeviceForPushForm(test, true);
+                return setupPolling(test, resSuccess)
+                .then(tick) // Final tick - SUCCESS
+                .then(function () {
+                  expect($.ajax.calls.count()).toBe(3);
+                  // initial verifyFactor call
+                  Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                    '?autoPush=true&rememberDevice=true',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+
+                  // first startVerifyFactorPoll call
+                  Expect.isJsonPost($.ajax.calls.argsFor(1), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                    '?autoPush=true&rememberDevice=true',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+
+                  // last startVerifyFactorPoll call
+                  Expect.isJsonPost($.ajax.calls.argsFor(2), {
+                    url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                    '?autoPush=true&rememberDevice=true',
+                    data: {
+                      stateToken: 'testStateToken'
+                    }
+                  });
+                });
+              });
+            });
+            itp('will pass rememberDevice as true if checkbox checked during polling and autoPush is false',
+              function () {
+                return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+                  setAutoPushCheckbox(test, false);
+                  setRememberDeviceForPushForm(test, true);
+                  return setupPolling(test, resSuccess)
+                  .then(tick) // Final tick - SUCCESS
+                  .then(function () {
+                    expect($.ajax.calls.count()).toBe(3);
+                    // initial verifyFactor call
+                    Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                      url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                      '?autoPush=false&rememberDevice=true',
+                      data: {
+                        stateToken: 'testStateToken'
+                      }
+                    });
+
+                    // first startVerifyFactorPoll call
+                    Expect.isJsonPost($.ajax.calls.argsFor(1), {
+                      url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                      '?autoPush=false&rememberDevice=true',
+                      data: {
+                        stateToken: 'testStateToken'
+                      }
+                    });
+
+                    // last startVerifyFactorPoll call
+                    Expect.isJsonPost($.ajax.calls.argsFor(2), {
+                      url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
+                      '?autoPush=false&rememberDevice=true',
+                      data: {
+                        stateToken: 'testStateToken'
+                      }
+                    });
+                  });
+                });
+              });
             itp('will disable form submit', function () {
               return setupOktaPush().then(function (test) {
                 return setupPolling(test, resSuccess)
