@@ -16,11 +16,11 @@ define([
   'util/Util',
   'helpers/xhr/SUCCESS',
 ],
-function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema, 
+function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
   Router, $sandbox, Errors, srcUtil, resSuccess) {
 
   var itp = Expect.itp;
-  
+
   var testData = {
     policyId: '1234',
     profileSchema: {
@@ -173,16 +173,12 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         });
       });
       itp('sends relay state with registration post if set', function () {
-        return setup().then(function (test) {
+        return setup({
+          relayState: '%2Fapp%2FUserHome'
+        }).then(function (test) {
           $.ajax.calls.reset();
           test.form.setEmail('test@example.com');
           test.form.setPassword('Abcd1234');
-          spyOn(srcUtil, 'getJsonFromUrl').and.callFake(function () {
-            return {
-              'fromURI': '%2Fapp%2FUserHome',
-              'query': 'blah'
-            };
-          });
           var model = test.router.controller.model;
           var postData = model.toJSON();
           expect(postData.relayState).toBe('%2Fapp%2FUserHome');
@@ -200,7 +196,7 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           });
           var model = test.router.controller.model;
           var postData = model.toJSON();
-          expect(postData.relayState).toBe('');
+          expect(postData.relayState).toBeUndefined();
         });
       });
     });

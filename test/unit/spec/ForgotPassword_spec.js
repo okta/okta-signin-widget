@@ -61,7 +61,10 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
   }
 
   var setupWithSms = _.partial(setup, { 'features.smsRecovery': true });
-  var setupWithRedirect = _.partial(setup, { suppliedRedirectUri: 'https://example.com' });
+  var setupWithRedirect = _.partial(setup, {
+    suppliedRedirectUri: 'https://example.com',
+    relayState: '%2Fapp%2FUserHome'
+  });
   var setupWithCall = _.partial(setup, { 'features.callRecovery': true });
   var setupWithSmsAndCall = _.partial(setup, { 'features.smsRecovery': true, 'features.callRecovery': true });
   var setupWithTransformUsername = _.partial(setup, { transformUsername: transformUsername });
@@ -229,8 +232,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'EMAIL',
-              'relayState': ''
+              'factorType': 'EMAIL'
             }
           });
         });
@@ -238,12 +240,6 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       itp('sends email with relayState', function () {
         return setupWithRedirect().then(function (test) {
           $.ajax.calls.reset();
-          spyOn(srcUtil, 'getJsonFromUrl').and.callFake(function () {
-            return {
-              'fromURI': '%2Fapp%2FUserHome',
-              'query': 'blah'
-            };
-          });
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
           test.form.sendEmail();
@@ -275,8 +271,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'EMAIL',
-              'relayState': ''
+              'factorType': 'EMAIL'
             }
           });
         });
@@ -305,8 +300,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo@example.com',
-              'factorType': 'EMAIL',
-              'relayState': ''
+              'factorType': 'EMAIL'
             }
           });
         });
@@ -417,8 +411,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'SMS',
-              'relayState': ''
+              'factorType': 'SMS'
             }
           });
         });
@@ -439,8 +432,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'SMS',
-              'relayState': ''
+              'factorType': 'SMS'
             }
           });
         });
@@ -459,8 +451,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'SMS',
-              'relayState': ''
+              'factorType': 'SMS'
             }
           });
         });
@@ -482,8 +473,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'SMS',
-              'relayState': ''
+              'factorType': 'SMS'
             }
           });
         });
@@ -533,8 +523,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'EMAIL',
-              'relayState': ''
+              'factorType': 'EMAIL'
             }
           });
         });
@@ -561,8 +550,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'CALL',
-              'relayState': ''
+              'factorType': 'CALL'
             }
           });
         });
@@ -583,8 +571,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'CALL',
-              'relayState': ''
+              'factorType': 'CALL'
             }
           });
         });
@@ -603,8 +590,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'CALL',
-              'relayState': ''
+              'factorType': 'CALL'
             }
           });
         });
@@ -625,8 +611,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'CALL',
-              'relayState': ''
+              'factorType': 'CALL'
             }
           });
         });
@@ -676,8 +661,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'EMAIL',
-              'relayState': ''
+              'factorType': 'EMAIL'
             }
           });
         });
@@ -740,8 +724,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'EMAIL',
-              'relayState': ''
+              'factorType': 'EMAIL'
             }
           });
           return test;
@@ -772,8 +755,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'EMAIL',
-              'relayState': ''
+              'factorType': 'EMAIL'
             }
           });
         });

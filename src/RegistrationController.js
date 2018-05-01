@@ -129,10 +129,6 @@ function (
         }
       });
     },
-    getRelayStateData: function () {
-      var urlParams = Util.getJsonFromUrl(window.location.search);
-      return urlParams.fromURI || '';
-    },
     createRegistrationModel: function (modelProperties) {
       var self = this;
       var Model = Okta.Model.extend({
@@ -147,7 +143,7 @@ function (
           var data = Okta.Model.prototype.toJSON.apply(this, arguments);
           return {
             userProfile: data,
-            relayState: self.getRelayStateData()
+            relayState: this.settings.get('relayState')
           };
         },
         parse: function(resp) {
@@ -190,7 +186,7 @@ function (
       self.state.get('schema').on('parseComplete', function(updatedSchema) {
         var modelProperties = updatedSchema.properties.createModelProperties();
         self.settings.set('defaultPolicyId', updatedSchema.properties.defaultPolicyId);
-        
+
         // create model
         self.model = self.createRegistrationModel(modelProperties);
         // create form
