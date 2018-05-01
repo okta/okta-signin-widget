@@ -730,7 +730,6 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           model.save();
           test.router.navigate('signin/register-complete', {trigger: true});
           expect(setting.registration.postSubmit).toHaveBeenCalled();
-          expect(model.get('userName')).toBe('test@example.com');
           expect(test.router.navigate).toHaveBeenCalledWith('signin/register-complete', {trigger: true});
           return tick().then(function () {
             expect( $('div.registration-complete').text().includes('Verification email sent')).toBe(true);
