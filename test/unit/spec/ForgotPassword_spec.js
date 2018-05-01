@@ -94,6 +94,14 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(tip).toEqual('Email or Username');
         });
       });
+      itp('has the relayState if set', function () {
+        return setup({
+          relayState: 'http://example.com/callback&okta_key=okta-key-123'
+        }).then(function (test) {
+          expect(test.router.controller.model.settings.get('relayState'))
+            .toBe('http://example.com/callback&okta_key=okta-key-123');
+        });
+      });
     });
 
     Expect.describe('elements', function () {
