@@ -130,10 +130,18 @@ var OktaSignIn = (function () {
       .fail(error);
     }
 
+    /**
+     * Returns the Okta Auth JS auth client.
+     */
+    function getAuthClient() {
+      return authClient;
+    }
+
     // Properties exposed on OktaSignIn object.
     return {
       renderEl: render,
       signOut: closeSession,
+      authClient: getAuthClient(),
       idToken: {
         refresh: refreshIdToken
       },
