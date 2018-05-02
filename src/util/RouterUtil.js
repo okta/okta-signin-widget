@@ -118,7 +118,8 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
 
       var successData = {
         user: res._embedded.user,
-        type: res.type
+        type: res.type,
+        relayState: res.relayState
       };
 
       if (res.type === Enums.SESSION_STEP_UP) {

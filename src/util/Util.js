@@ -95,18 +95,6 @@ define(['okta'], function (Okta) {
     return setTimeout(callback, time);
   };
 
-  // @param url (Eg: ?fromURI=%2Fapp%2FUserHome&query=blah)
-  // returns {fromURI:'%2Fapp%2FUserHome', query: blah}
-  Util.getJsonFromUrl = function(url) {
-    var query = url.substr(1);
-    var result = {};
-    query.split('&').forEach(function(part) {
-      var item = part.split('=');
-      result[item[0]] = item[1];
-    });
-    return result;
-  };
-  
   return Util;
 
 });
