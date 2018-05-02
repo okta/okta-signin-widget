@@ -1,4 +1,4 @@
-/* eslint max-params:[2, 28], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
+/* eslint max-params:[2, 29], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
 define([
   'okta/underscore',
   'okta/jquery',
@@ -27,12 +27,13 @@ define([
   'helpers/xhr/ERROR_NON_JSON_RESPONSE',
   'helpers/xhr/ERROR_INVALID_TEXT_RESPONSE',
   'helpers/xhr/ERROR_throttle',
+  'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED',
   'sandbox'
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth,
           Router, BrowserFeatures, Errors, DeviceFingerprint, SharedUtil, Expect, resSecurityImage,
           resSecurityImageFail, resSuccess, resUnauthenticated, resLockedOut, resPwdExpired, resUnauthorized,
-          resNonJson, resInvalidText, resThrottle, $sandbox) {
+          resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -106,6 +107,15 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
 
   function setupUnauthenticated(settings, requests) {
     return setup(settings, requests, true);
+  }
+
+  function setupPasswordlessAuth(requests) {
+    return setup({ 'features.passwordlessAuth': true }, requests)
+    .then(function(test){
+      Util.mockRouterNavigate(test.router);
+      test.setNextResponse(resPasswordlessUnauthenticated);
+      return tick(test);
+    });
   }
 
   function setupSocial(settings) {
@@ -1608,6 +1618,57 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
       });
     });
 
+    Expect.describe('Passwordless Auth', function() {
+      itp('does not have a password field', function () {
+        return setupPasswordlessAuth().then(function (test) {
+          var password = test.form.passwordField();
+          expect(password.length).toBe(0);
+        });
+      });
+      itp('shows an error if username field is not a valid email', function () {
+        return setupPasswordlessAuth().then(function (test) {
+          test.form.setUsername('testuser');
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.usernameErrorField().length).toBe(1);
+        });
+      });
+      itp('calls authClient.signIn with username only', function () {
+        return setupPasswordlessAuth().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser@test.com');
+          test.form.submit();
+          return Expect.waitForMfaVerify(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser@test.com',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+      itp('shows MfaVerify view after authClient.signIn returns with UNAUTHENTICATED', function () {
+        return setupPasswordlessAuth().then(function (test) {
+          test.form.setUsername('testuser@test.com');
+          test.form.submit();
+          return Expect.waitForMfaVerify(test);
+        })
+        .then(function (test) {
+          expect(test.form.el('factor-question').length).toEqual(1);
+        });
+      });
+    });
+
     Expect.describe('Social Auth', function () {
       itp('does not show the divider or buttons if no idps are passed in', function () {
         return setup().then(function (test) {
@@ -2124,7 +2185,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         expect(typeof(registration.click)).toEqual('undefined');
       });
     });
-    itp(' the registration button is a custom function', function () {
+    itp('the registration button is a custom function', function () {
       var registration =  {
         click: function () {
           window.location.href = 'http://www.test.com';

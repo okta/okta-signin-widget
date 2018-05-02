@@ -135,6 +135,21 @@ define({
             }
           }
         }
+      }, {
+        "id": "passwordhp9NXcoX",
+        "factorType": "password",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "_links": {
+          "verify": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/passwordhp9NXcoX\/verify",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
       },{
         "id": "opfhw7v2OnxKpftO40g3",
         "factorType": "push",
@@ -275,5 +290,3 @@ define({
     }
   }
 });
-
-

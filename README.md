@@ -1,5 +1,6 @@
 <!-- START GITHUB ONLY -->
 [![Build Status](https://travis-ci.org/okta/okta-signin-widget.svg?branch=master)](https://travis-ci.org/okta/okta-signin-widget)
+[![npm version](https://img.shields.io/npm/v/@okta/okta-signin-widget.svg?style=flat-square)](https://www.npmjs.com/package/@okta/okta-signin-widget)
 <!-- END GITHUB ONLY -->
 
 Okta Sign-In Widget

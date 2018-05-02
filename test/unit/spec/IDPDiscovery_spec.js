@@ -22,11 +22,12 @@ define([
   'helpers/xhr/IDPDiscoverySuccess',
   'helpers/xhr/IDPDiscoverySuccess_OktaIDP',
   'helpers/xhr/ERROR_webfinger',
+  'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED',
   'sandbox'
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
-          Router, BrowserFeatures, DeviceFingerprint, Errors, SharedUtil, Expect,
-          resSecurityImage, resSecurityImageFail, resSuccess, resSuccessOktaIDP, resError, $sandbox) {
+          Router, BrowserFeatures, DeviceFingerprint, Errors, SharedUtil, Expect, resSecurityImage,
+          resSecurityImageFail, resSuccess, resSuccessOktaIDP, resError, resPasswordlessUnauthenticated, $sandbox) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -84,6 +85,26 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
       setNextWebfingerResponse: setNextWebfingerResponse,
       successSpy: successSpy
     });
+  }
+
+  function setupPasswordlessAuth(requests) {
+    return setup({ 'features.passwordlessAuth': true }, requests)
+    .then(function(test){
+      Util.mockRouterNavigate(test.router);
+      test.setNextWebfingerResponse(resSuccessOktaIDP);
+      test.setNextResponse(resPasswordlessUnauthenticated);
+      return tick(test);
+    });
+  }
+
+  function setupRegistrationButton(featuresRegistration, registrationObj) {
+    var settings = {
+      registration: registrationObj
+    };
+    if (_.isBoolean(featuresRegistration)) {
+      settings['features.registration'] = featuresRegistration;
+    }
+    return setup(settings);
   }
 
   function waitForBeaconChange(test) {
@@ -1036,5 +1057,85 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
     });
+
+    Expect.describe('Passwordless Auth', function() {
+      itp('automatically calls authClient.signIn when idp is Okta', function () {
+        return setupPasswordlessAuth().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser@test.com');
+          test.form.submit();
+          return Expect.waitForMfaVerify(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser@test.com',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+      itp('shows MfaVerify view after authClient.signIn returns with UNAUTHENTICATED', function () {
+        return setupPasswordlessAuth().then(function (test) {
+          test.form.setUsername('testuser@test.com');
+          test.form.submit();
+          return Expect.waitForMfaVerify(test);
+        })
+        .then(function (test) {
+          expect(test.form.el('factor-question').length).toEqual(1);
+        });
+      });
+    });
+
+    Expect.describe('Registration Flow', function () {
+      itp('does not show the registration button if features.registration is not set', function () {
+        return setup().then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(0);
+        });
+      });
+      itp('does not show the registration button if features.registration is undefined', function () {
+        var registration = {};
+        return setupRegistrationButton(undefined, registration).then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(0);
+        });
+      });
+      itp('does not show the registration button if features.registration is false', function () {
+        var registration = {};
+        return setupRegistrationButton(false, registration).then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(0);
+        });
+      });
+      itp('show the registration button if registration.enable is true', function () {
+        var registration = {};
+        return setupRegistrationButton(true, registration).then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(1);
+          expect(test.form.registrationLabel().length).toBe(1);
+          expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
+          expect(test.form.registrationLink().length).toBe(1);
+          expect(test.form.registrationLink().text()).toBe('Sign up');
+          expect(typeof(registration.click)).toEqual('undefined');
+        });
+      });
+      itp('calls settings.registration.click if its a function and when the link is clicked', function () {
+        var registration =  {
+          click: jasmine.createSpy('registrationSpy')
+        };
+        return setupRegistrationButton(true, registration).then(function (test) {
+          expect(test.form.registrationContainer().length).toBe(1);
+          expect(test.form.registrationLabel().length).toBe(1);
+          expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
+          expect(test.form.registrationLink().length).toBe(1);
+          expect(test.form.registrationLink().text()).toBe('Sign up');
+          test.form.registrationLink().click();
+          expect(registration.click).toHaveBeenCalled();
+        });
+      });
+    });
+
   });
 });
