@@ -118,9 +118,12 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
 
       var successData = {
         user: res._embedded.user,
-        type: res.type,
-        relayState: res.relayState
+        type: res.type
       };
+
+      if (res.relayState) {
+        successData.relayState = res.relayState;
+      }
 
       if (res.type === Enums.SESSION_STEP_UP) {
         var targetUrl = res._links && res._links.next && res._links.next.href;
