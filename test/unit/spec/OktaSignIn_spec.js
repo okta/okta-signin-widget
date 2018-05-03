@@ -16,9 +16,9 @@ function (Widget, Expect) {
         expect(signIn.renderEl).toBeDefined();
       });
       it('has a signOut method', function () {
-        expect(signIn.renderEl).toBeDefined();
+        expect(signIn.signOut).toBeDefined();
       });
-      it('has an authClient method', function () {
+      it('has an authClient object', function () {
         expect(signIn.authClient).toBeDefined();
         expect(signIn.authClient.options.url).toEqual(url);
       });
