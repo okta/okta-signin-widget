@@ -72,8 +72,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, Util, ContactSu
       },
       save: function () {
         var self = this;
-        var urlParams = Util.getJsonFromUrl(window.location.search);
-        var relayState = urlParams.fromURI || '';
+        var relayState = this.settings.get('relayState');
         this.startTransaction(function(authClient) {
           return authClient.forgotPassword({
             username: self.settings.transformUsername(self.get('username'), Enums.FORGOT_PASSWORD),

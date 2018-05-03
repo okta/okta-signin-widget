@@ -119,21 +119,6 @@ define(['util/Util'], function (Util) {
       });
     });
 
-    describe('getJsonFromUrl', function () {
-      it('extracts fromURI from url correctly if fromURI in the start', function () {
-        var result = Util.getJsonFromUrl('?fromURI=%2Fapp%2FUserHome&query=blah');
-        expect(result.fromURI).toBe('%2Fapp%2FUserHome');
-      });
-      it('extracts fromURI from url correctly if fromURI in the end', function () {
-        var result = Util.getJsonFromUrl('?query=blah&fromURI=%2Fapp%2FUserHome');
-        expect(result.fromURI).toBe('%2Fapp%2FUserHome');
-      });
-      it('fromURI is undefined if not present', function () {
-        var result = Util.getJsonFromUrl('?query=blah');
-        expect(result.fromURI).toBe(undefined);
-      });
-    });
-
   });
 
 });

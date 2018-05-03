@@ -180,34 +180,25 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
         });
       });
       itp('sends relay state with registration post if set', function () {
-        return setup().then(function (test) {
+        return setup({
+          relayState: '%2Fapp%2FUserHome'
+        }).then(function (test) {
           $.ajax.calls.reset();
           test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
-          spyOn(srcUtil, 'getJsonFromUrl').and.callFake(function () {
-            return {
-              'fromURI': '%2Fapp%2FUserHome',
-              'query': 'blah'
-            };
-          });
           var model = test.router.controller.model;
           var postData = model.toJSON();
           expect(postData.relayState).toBe('%2Fapp%2FUserHome');
         });
       });
-      itp('sends relay state as empty string with registration post if not set', function () {
+      itp('sends relay state as undefined string with registration post if not set', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
           test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
-          spyOn(srcUtil, 'getJsonFromUrl').and.callFake(function () {
-            return {
-              'query': 'blah'
-            };
-          });
           var model = test.router.controller.model;
           var postData = model.toJSON();
-          expect(postData.relayState).toBe('');
+          expect(postData.relayState).toBeUndefined();
         });
       });
     });
