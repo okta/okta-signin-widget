@@ -290,6 +290,7 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
       this.controller.remove();
       this.header.$el.remove();
       Backbone.history.stop();
+      Bundles.remove();
     }
 
   });

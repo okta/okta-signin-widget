@@ -203,6 +203,10 @@ define([
 
     currentLanguage: null,
 
+    remove: function () {
+      this.currentLanguage = null;
+    },
+
     isLoaded: function (language) {
       return this.currentLanguage === language;
     },
@@ -229,3 +233,5 @@ define([
   };
 
 });
+
+
