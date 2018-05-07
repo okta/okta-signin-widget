@@ -156,7 +156,7 @@ var OktaSignIn = (function () {
   }
 
   function OktaSignIn(options) {
-    var OktaAuth, Util, authClient, LoginRouter;
+    var OktaAuth, Util, authClient, LoginRouter, Logger;
 
     // Modify the underscore, handlebars, and jquery modules
     // Remove once these are explicitly required in Courage
@@ -167,6 +167,14 @@ var OktaSignIn = (function () {
     OktaAuth = require('@okta/okta-auth-js/jquery');
     Util = require('util/Util');
     LoginRouter = require('LoginRouter');
+    Logger = require('util/Logger');
+
+    Logger.warn(
+      `
+        The Okta Sign-In Widget is running in development mode.
+        When you are ready to publish your app, embed the minified version to turn on production mode.
+        See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
+      `);
 
     authClient = new OktaAuth({
       url: options.baseUrl,

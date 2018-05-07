@@ -1,13 +1,31 @@
 /* eslint max-params:[0, 2], max-len:[2, 180] */
 define([
   'widget/OktaSignIn',
-  'helpers/util/Expect'
+  'helpers/util/Expect',
+  'util/Logger'
 ],
-function (Widget, Expect) {
-
+function (Widget, Expect, Logger) {
+  var signIn;
   var url = 'https://foo.com';
-  var signIn = new Widget({
-    baseUrl: url
+
+  beforeEach(function(){
+    spyOn(Logger, 'warn');
+    signIn = new Widget({
+      baseUrl: url
+    });
+  });
+
+  Expect.describe('Debug Mode', function () {
+    it('logs a warning message on page load', function () {
+      var debugMessage =
+      `
+        The Okta Sign-In Widget is running in development mode.
+        When you are ready to publish your app, embed the minified version to turn on production mode.
+        See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
+      `;
+
+      expect(Logger.warn).toHaveBeenCalledWith(debugMessage);
+    });
   });
 
   Expect.describe('OktaSignIn initialization', function () {

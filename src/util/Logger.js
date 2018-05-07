@@ -13,7 +13,8 @@
 define(function () {
 
   function log(level, args) {
-    if (window.console) {
+    // Only log statements if outside of production mode
+    if (process.env.NODE_ENV !== 'production' && window.console) {
       window.console[level].apply(window.console, args);
     }
   }

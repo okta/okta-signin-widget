@@ -3,6 +3,7 @@
   "env": {
     "browser": true,
     "jasmine": true,
+    "node": true,
     "amd": true
   },
   "parserOptions": {
