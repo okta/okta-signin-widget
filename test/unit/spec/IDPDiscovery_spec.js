@@ -1024,7 +1024,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
     });
 
     Expect.describe('IDP Discovery', function () {
-      it('renders primary auth when idp is okta', function () {
+      itp('renders primary auth when idp is okta', function () {
         return setup()
         .then(function (test) {
           Util.mockRouterNavigate(test.router);
@@ -1038,7 +1038,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect(test.router.navigate).toHaveBeenCalledWith('signin', {trigger: true});
         });
       });
-      it('redirects to idp for idps other than okta', function () {
+      itp('redirects to idp for idps other than okta', function () {
         spyOn(SharedUtil, 'redirect');
         return setup()
         .then(function (test) {
