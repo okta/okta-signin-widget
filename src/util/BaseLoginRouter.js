@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 13], max-statements: [2, 18] */
+/* eslint max-params: [2, 14], max-statements: [2, 18] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
@@ -27,10 +27,12 @@ define([
   './RouterUtil',
   './Animations',
   './Errors',
-  'util/Bundles'
+  'util/Bundles',
+  'util/Logger'
 ],
-function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings, Header,
-          SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations, Errors, Bundles) {
+function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
+          Header, SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations,
+          Errors, Bundles, Logger) {
 
   var _ = Okta._,
       $ = Okta.$;
@@ -74,6 +76,16 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
     Events:  Backbone.Events,
 
     initialize: function (options) {
+      // Create a default success and/or error handler if
+      // one is not provided.
+      if (!options.globalSuccessFn) {
+        options.globalSuccessFn = function () {};
+      }
+      if (!options.globalErrorFn) {
+        options.globalErrorFn = function(err) {
+          Logger.warn(err);
+        };
+      }
       this.settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });
       this.settings.setAuthClient(options.authClient);
 

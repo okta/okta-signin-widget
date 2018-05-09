@@ -5,6 +5,7 @@ var OktaSignIn = (function () {
   var config  = require('json!config/config'),
       _ = require('okta/underscore');
 
+
   function getProperties(authClient, LoginRouter, Util, config) {
 
     /**

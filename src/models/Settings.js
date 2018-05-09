@@ -308,9 +308,6 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       if (!options.baseUrl) {
         this.callGlobalError(new ConfigError(Okta.loc('error.required.baseUrl')));
       }
-      else if (!options.globalSuccessFn) {
-        this.callGlobalError(new ConfigError(Okta.loc('error.required.success')));
-      }
       else if (BrowserFeatures.corsIsNotSupported()) {
         this.callGlobalError(new UnsupportedBrowserError(Okta.loc('error.unsupported.cors')));
       }

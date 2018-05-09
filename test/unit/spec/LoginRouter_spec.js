@@ -6,6 +6,7 @@ define([
   'shared/util/Util',
   'util/CryptoUtil',
   'shared/util/Logger',
+  'util/Logger',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/util/Expect',
@@ -32,11 +33,11 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Expect, Router,
-          $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
-          resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
-          resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp, Errors, BrowserFeatures,
-          labelsLoginJa, labelsCountryJa) {
+function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, DevLogger, OktaAuth, Util, Expect, Router,
+          $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm,
+          resSuccess, resRecovery, resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
+          resMfaChallengePush, resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp,
+          Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
 
   var itp = Expect.itp,
       tick = Expect.tick,
@@ -75,8 +76,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
-        authClient: authClient,
-        globalSuccessFn: function () {}
+        authClient: authClient
       }, settings));
       Util.registerRouter(router);
       router.on('pageRendered', eventSpy);
@@ -180,7 +180,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
     it('logs a ConfigError error if unknown option is passed as a widget param', function () {
       spyOn(Logger, 'warn');
       var fn = function () { setup({ foo: 'bla' }); };
-      expect(fn).not.toThrow(Errors.ConfigError);
+      expect(fn).not.toThrowError(Errors.ConfigError);
       expectUnexpectedFieldLog('foo');
     });
     it('has the correct error message if unknown option is passed as a widget param', function () {
@@ -189,29 +189,77 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
       expect(fn).not.toThrow();
       expectUnexpectedFieldLog('foo');
     });
-    it('throws a ConfigError if el is not passed as a widget param', function () {
+    it('logs a ConfigError error if el is not passed as a widget param', function () {
       var fn = function () { setup({ el: undefined }); };
-      expect(fn).toThrowError(Errors.ConfigError);
+      expect(fn).not.toThrow();
+      expect(DevLogger.warn).toHaveBeenCalled();
     });
     it('has the correct error message if el is not passed as a widget param', function () {
       var fn = function () { setup({ el: undefined }); };
-      expect(fn).toThrowError('"el" is a required widget parameter');
+      expect(fn).not.toThrow();
+      var err = DevLogger.warn.calls.mostRecent().args[0];
+      expect(err.name).toBe('CONFIG_ERROR');
+      expect(err.message).toEqual('"el" is a required widget parameter');
     });
-    it('throws a ConfigError if baseUrl is not passed as a widget param', function () {
+    it('logs a ConfigError if baseUrl is not passed as a widget param', function () {
       var fn = function () { setup({ baseUrl: undefined }); };
-      expect(fn).toThrowError(Errors.ConfigError);
+      expect(fn).not.toThrowError(Errors.ConfigError);
+      expect(DevLogger.warn).toHaveBeenCalled();
     });
     it('has the correct error message if baseUrl is not passed as a widget param', function () {
       var fn = function () { setup({ baseUrl: undefined }); };
-      expect(fn).toThrowError('"baseUrl" is a required widget parameter');
+      expect(fn).not.toThrow();
+      var err = DevLogger.warn.calls.mostRecent().args[0];
+      expect(err.name).toBe('CONFIG_ERROR');
+      expect(err.message).toEqual('"baseUrl" is a required widget parameter');
     });
-    it('throws a ConfigError if globalSuccessFn is not passed as a widget param', function () {
-      var fn = function () { setup({ globalSuccessFn: undefined }); };
-      expect(fn).toThrowError(Errors.ConfigError);
+    itp('uses a default globalSuccessFn if an undefined globalSuccessFn is passed as a widget param', function () {
+      return setup({ globalSuccessFn: undefined })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('signin/recovery-question');
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
     });
-    it('has the correct error message if globalSuccessFn is not passed as a widget param', function () {
-      var fn = function () { setup({ globalSuccessFn: undefined }); };
-      expect(fn).toThrowError('A success handler is required');
+    itp('uses a default globalSuccessFn if a null globalSuccessFn is passed as a widget param', function () {
+      return setup({ globalSuccessFn: null })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('signin/recovery-question');
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
+    });
+    itp('uses a default globalErrorFn if an undefined globalErrorFn is passed as widget param', function () {
+      return setup({ globalErrorFn: undefined })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('signin/recovery-question');
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
+    });
+    itp('uses a default globalErrorFn if a null globalErrorFn is passed as a widget param', function () {
+      return setup({ globalErrorFn: null })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('signin/recovery-question');
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
     });
     itp('set pushState true if pushState is supported', function () {
       spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(true);

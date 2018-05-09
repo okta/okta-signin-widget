@@ -3,8 +3,9 @@
 var path          = require('path');
 var _             = require('underscore');
 var commonConfig  = require('./webpack.common.config');
-var testConfig    = commonConfig('main-tests.js');
 var plugins       = require('./buildtools/webpack/plugins');
+var testConfig    = commonConfig('main-tests.js');
+
 
 testConfig.entry = ['babel-polyfill', './src/util/RegisterInputs.js', './target/js/test/unit/main.js'];
 testConfig.output.path = path.resolve(__dirname, 'target/test/unit');
