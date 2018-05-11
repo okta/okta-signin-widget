@@ -5,7 +5,7 @@ define([
   'backbone',
   'shared/util/Util',
   'util/CryptoUtil',
-  'util/Logger',
+  'shared/util/Logger',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/util/Expect',
@@ -171,10 +171,13 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
     }
 
     function expectUnexpectedFieldLog(arg1) {
+      // These console warnings are called from Courage's Logger class, not
+      // the Widget's. We need to assert that the following is called in specific
+      // environments (window.okta && window.okta.debug are defined).
       expect(Logger.warn).toHaveBeenCalledWith('Field not defined in schema', arg1);
     }
 
-    it('throws a ConfigError if unknown option is passed as a widget param', function () {
+    it('logs a ConfigError error if unknown option is passed as a widget param', function () {
       spyOn(Logger, 'warn');
       var fn = function () { setup({ foo: 'bla' }); };
       expect(fn).not.toThrow(Errors.ConfigError);
@@ -290,7 +293,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
         );
       });
     });
-    it('throws an error on unrecoverable errors if no globalErrorFn is defined', function () {
+    it('logs an error on unrecoverable errors if no globalErrorFn is defined', function () {
       var fn = function () {
         setup({ foo: 'bar' });
       };
@@ -300,12 +303,13 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
     });
     it('calls globalErrorFn on unrecoverable errors if it is defined', function () {
       var errorSpy = jasmine.createSpy('errorSpy');
-      spyOn(Logger, 'warn');
       var fn = function () {
-        setup({ globalErrorFn: errorSpy, foo: 'bar' });
+        setup({ globalErrorFn: errorSpy, baseUrl: undefined });
       };
       expect(fn).not.toThrow();
-      expectUnexpectedFieldLog('foo');
+      var err = errorSpy.calls.mostRecent().args[0];
+      expect(err.name).toBe('CONFIG_ERROR');
+      expect(err.message).toEqual('"baseUrl" is a required widget parameter');
     });
     it('calls globalErrorFn if cors is not supported by the browser', function () {
       var errorSpy = jasmine.createSpy('errorSpy');
