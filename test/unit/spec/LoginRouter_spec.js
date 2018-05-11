@@ -171,6 +171,9 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
     }
 
     function expectUnexpectedFieldLog(arg1) {
+      // These console warnings are called from Courage's Logger class, not
+      // the Widget's. We need to assert that the following is called in specific
+      // environments (window.okta && window.okta.debug are defined).
       expect(Logger.warn).toHaveBeenCalledWith('Field not defined in schema', arg1);
     }
 
