@@ -249,8 +249,11 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
             return Q.delay(PUSH_INTERVAL).then(function() {
               if (self.pushFactorHasAutoPush()) {
-                options.autoPush = function() {
+                options.autoPush = function () {
                   return self.get('autoPush');
+                };
+                options.rememberDevice = function () {
+                  return self.get('rememberDevice');
                 };
               }
               return trans.poll(options).then(function(trans) {
