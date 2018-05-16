@@ -632,20 +632,6 @@ function (Okta,
             expect(test.form.autoPushCheckbox().length).toBe(0);
           });
         });
-        itp('when click the "show" button, the buttons container has class "password-toggle-on",\
-          and don\'t have it after clicking the "hide" button', function () {
-          return setupSecurityQuestion().then(function (test) {
-            var buttonsContainer = test.form.answerButtonsContainer();
-
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
-
-            test.form.showAnswerButton().click();
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(true);
-
-            test.form.hideAnswerButton().click();
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
-          });
-        });
         itp('an answer field type is "password" initially and can be switched between "text" and "password" \
           by clicking on "show"/"hide" buttons', function () {
           return setupSecurityQuestion().then(function (test) {
@@ -2898,20 +2884,6 @@ function (Okta,
         itp('no auto push checkbox', function () {
           return setupPassword({'features.autoPush': true}).then(function (test) {
             expect(test.form.autoPushCheckbox().length).toBe(0);
-          });
-        });
-        itp('when the "show" button is clicked, the buttons container has class "password-toggle-on",\
-          and doesn\'t have it after clicking the "hide" button', function () {
-          return setupPassword().then(function (test) {
-            var buttonsContainer = test.form.passwordButtonsContainer();
-
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
-
-            test.form.showPasswordButton().click();
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(true);
-
-            test.form.hidePasswordButton().click();
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
           });
         });
         itp('a password field type is "password" initially and can be switched between "text" and "password" \
