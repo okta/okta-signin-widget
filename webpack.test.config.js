@@ -1,3 +1,5 @@
+/* global module, __dirname */
+
 var path          = require('path');
 var _             = require('underscore');
 var commonConfig  = require('./webpack.common.config');

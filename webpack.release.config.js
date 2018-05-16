@@ -13,6 +13,7 @@
 //    the widget that contains helpful warning messages and includes everything
 //    necessary to run (including all vendor libraries).
 
+/* global module */
 var config  = require('./webpack.common.config');
 var plugins = require('./buildtools/webpack/plugins');
 

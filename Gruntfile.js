@@ -37,7 +37,8 @@ module.exports = function (grunt) {
         'test/**/**/*.js',
         '!test/e2e/react-app/**/*.js',
         '!test/unit/helpers/xhr/*.js',
-        '!test/unit/vendor/*.js'
+        '!test/unit/vendor/*.js',
+        'webpack.*.js'
       ],
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
