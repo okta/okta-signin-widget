@@ -13,9 +13,8 @@
 //    the widget that contains helpful warning messages and includes everything
 //    necessary to run (including all vendor libraries).
 
-var fs      = require('fs');
 var config  = require('./webpack.common.config');
-var plugins = require('./webpack.plugins.config');
+var plugins = require('./buildtools/webpack/plugins');
 
 // 1. entryConfig
 var entryConfig = config('okta-sign-in.entry.js');
@@ -58,13 +57,11 @@ if (loader) {
 }
 
 // 2. cdnConfig
-var license = fs.readFileSync('src/widget/copyright.txt', 'utf8');
 var cdnConfig = config('okta-sign-in.min.js');
 cdnConfig.entry.unshift('babel-polyfill');
-cdnConfig.plugins = [
-  plugins.uglify(),
-  plugins.banner(license)
-].concat(cdnConfig.plugins);
+cdnConfig.plugins = plugins({
+  uglify: true
+});
 
 // 3. noJqueryConfig
 var noJqueryConfig = config('okta-sign-in-no-jquery.js');
@@ -82,9 +79,8 @@ noJqueryConfig.externals = {
 // 4. devConfig
 var devConfig = config('okta-sign-in.js');
 devConfig.entry.unshift('babel-polyfill');
-devConfig.plugins = [
-  plugins.banner(license),
-  plugins.envPlugin('development')
-];
+devConfig.plugins = plugins({
+  debug: true
+});
 
 module.exports = [entryConfig, cdnConfig, noJqueryConfig, devConfig];

@@ -3,7 +3,6 @@
   "env": {
     "browser": true,
     "jasmine": true,
-    "node": true,
     "amd": true
   },
   "parserOptions": {
@@ -11,7 +10,8 @@
   },
   "globals": {
     "spyOnEvent": false,
-    "JSON": true
+    "JSON": true,
+    "DEBUG": true
   },
   "rules": {
     "camelcase": 2,
