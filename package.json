@@ -39,6 +39,7 @@
     "build:webpack-release": "webpack --config webpack.release.config.js",
     "build:webpack-test": "webpack --config webpack.test.config.js",
     "build:webpack-e2e-app": "webpack target/e2e/app/app-using-osw-entry.js target/js/app-bundle.js",
+    "build:webpack-e2e-dev-app": "webpack target/e2e/app/app-using-osw-dev.js target/js/app-bundle.js",
     "prestart": "npm run build:dev",
     "start": "grunt start-server-open",
     "prepublish": "npm run build:release"

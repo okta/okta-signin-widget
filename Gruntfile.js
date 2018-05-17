@@ -334,6 +334,7 @@ module.exports = function (grunt) {
       'build-release': 'npm run build:webpack-release',
       'build-test': 'npm run build:webpack-test',
       'build-e2e-app': 'npm run build:webpack-e2e-app',
+      'build-e2e-dev-app': 'npm run build:webpack-e2e-dev-app',
       'run-protractor': 'npm run protractor'
     },
 
@@ -493,6 +494,7 @@ module.exports = function (grunt) {
         'copy:e2e',
         'copy:e2e-pages',
         'exec:build-e2e-app',
+        'exec:build-e2e-dev-app',
         'connect:e2e',
         'exec:run-protractor'
       ]);
