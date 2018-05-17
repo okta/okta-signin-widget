@@ -16,8 +16,14 @@ var devMode = function(mode = true) {
 var uglify = function() {
   return new webpack.optimize.UglifyJsPlugin({
     compress: {
+      warnings: false,
+      // Drop all console.* and Logger statements
       drop_console: true,
-      warnings: false
+      drop_debugger: true,
+      pure_funcs: [
+        'Logger.warn',
+        'Logger.deprecate'
+      ],
     },
     sourceMap: true,
     comments: function(node, comment) {
