@@ -325,12 +325,12 @@ Returns the underlying `@okta/okta-auth-js` object used by the widget. See [Auth
 
 ```javascript
 // Check for an existing authClient transaction
-signIn.authClient.tx.exists();
+var = signIn.authClient.tx.exists();
 if (exists) {
   console.log('A session exists!');
 } else {
   console.log('A session does not exist.');
-};
+}
 ```
 
 ## session.get(callback)
