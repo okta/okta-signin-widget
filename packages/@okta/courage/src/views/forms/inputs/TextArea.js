@@ -1,7 +1,6 @@
 define([
   'shared/util/TemplateUtil',
-  '../BaseInput',
-  'vendor/plugins/jquery.placeholder'
+  '../BaseInput'
 ],
 function (TemplateUtil, BaseInput) {
 
@@ -30,7 +29,6 @@ function (TemplateUtil, BaseInput) {
       this.$el.addClass(EDIT_MODE_CLASSES);
       this.$el.removeClass(READ_MODE_CLASSES);
       BaseInput.prototype.editMode.apply(this, arguments);
-      this.$('textarea').placeholder();
       return this;
     },
 

@@ -2,8 +2,7 @@
 define(['okta/underscore',
   'shared/util/Time',
   'shared/util/Keys',
-  'shared/views/BaseView',
-  'vendor/plugins/jquery.placeholder'
+  'shared/views/BaseView'
 ], function (_, Time, Keys, BaseView) {
 
   var View = BaseView.extend({

@@ -70,41 +70,42 @@
     });
   }
 
-  var View = Backbone.View.extend({
+  /**
+   * A View operates on a string template, an token based template, or a model based template, with a few added hooks.
+   * It provides a collection of child views, when a child view could be a View or another View.
+   * Conceptually, if we were in a file system, the View is a folder, when the concrete child views are files,
+   * and the child Views are sub folders.
+   *
+   * *Technically, when using a View as a container, it could have its own concrete logic,
+   * but conceptually we like to keep it separated so a view is either a concrete view or a collection of child views.*
+   *
+   * In addition to the standard backbone options, we added `settings` and `state` as first class options.
+   * it will automatically assign `options` to `this.options` as an instance member.
+   *
+   * See [Backbone.View](http://backbonejs.org/#View).
+   *
+   * @class src/framework/View
+   * @extends external:Backbone.View
+   * @param {Object} [options] options hash
+   * @example
+   * var DocumentView = Archer.View.extend({
+   *   template: [
+   *     '<header></header>',
+   *     '<article></article>',
+   *     '<footer></footer>'
+   *   ].join(''),
+   *   children: [[HeaderView, 'header'], [ContentView, 'article'], [FooterView, 'footer']]
+   * });
+   */
+  var View = Backbone.View.extend(/** @lends src/framework/View.prototype */ {
 
     /**
-    * @class Archer.View
-    * @extend Backbone.View
-    *
-    * A View operates on a string template, an token based template, or a model based template, with a few added hooks.
-    * It provides a collection of child views, when a child view could be a View or another View.
-    * Conceptually, if we were in a file system, the View is a folder, when the concrete child views are files,
-    * and the child Views are sub folders.
-    *
-    * *Technically, when using a View as a container, it could have its own concrete logic,
-    * but conceptually we like to keep it separated so a view is either a concrete view or a collection of child views.*
-    *
-    * ```javascript
-    * var DocumentView = Archer.View.extend({
-    *   template: [
-    *     '<header></header>',
-    *     '<article></article>',
-    *     '<footer></footer>'
-    *   ].join(''),
-    *   children: [[HeaderView, 'header'], [ContentView, 'article'], [FooterView, 'footer']]
-    * });
-    * ```
-    * @constructor
-    *
-    * In addition to the standard backbone options, we added `settings` and `state` as first class options.
-    * it will automatically assign `options` to `this.options` as an instance member.
-    * @param {Object} [options] options hash
-    */
-
-    /**
-     * @property {Object|Function} [entityEvents] an object listing events and callback bind to this.{entity}
-     *
-     * ```javascript
+     * An object listing events and callback bind to this.{entity}
+     * @name *Events
+     * @memberof src/framework/View
+     * @type {(Object|Function)}
+     * @instance
+     * @example
      * var FooView = View.extend({
      *   modelEvents: {
      *     'change:name': 'render'
@@ -142,8 +143,8 @@
      *     return events;
      *   }
      * });
-     * ```
      */
+
     constructor: function (options) {
       /* eslint max-statements: [2, 17] */
       this.options = options || {};
@@ -181,13 +182,13 @@
     },
 
     /**
-    * Unregister view from container
-    * Note: this will not remove the view from the dom
-    * and will not call the `remove` method on the view
-    *
-    * @param {Archer.View} view the view to unregister
-    * @private
-    */
+     * Unregister view from container
+     * Note: this will not remove the view from the dom
+     * and will not call the `remove` method on the view
+     *
+     * @param {src/framework/View} view the view to unregister
+     * @private
+     */
     unregister: function (view) {
 
       this.stopListening(view);
@@ -205,6 +206,7 @@
      * Should we auto render the view upon model change. Boolean or array of field names to listen to.
      * @type {Boolean|Array}
      * @deprecated Instead, please use modelEvents
+     * @example
      * modelEvents: {
      *   change:name: 'render'
      * }
@@ -212,27 +214,23 @@
     autoRender: false,
 
     /**
-    * @type {(String|Function)}
-    * @alias Backbone.View#template
-    *
-    * When the template is an underscore template, the render method will pass the options has to the template
-    * And the associated model, if exists, when it will prefer the model over the options in case of a conflict.
-    * {@link #render View.render}
-    *
-    * Example:
-    *
-    * ```javascript
-    * var View = View.extend({
-    *   template: '<p class="name">{{name}}</p>'
-    * };
-    * ```
-    */
+     *
+     * When the template is an underscore template, the render method will pass the options has to the template
+     * And the associated model, if exists, when it will prefer the model over the options in case of a conflict.
+     * {@link #render View.render}
+     * @type {(String|Function)}
+     * @example
+     * var View = View.extend({
+     *   template: '<p class="name">{{name}}</p>'
+     * };
+     */
     template: null,
 
     /**
-     * A list of child view definitions to be passed to {@link #add this.add()}
-     *
-     * ```javascript
+     * A list of child view definitions to be passed to {@link #add this.add()}.
+     * Note: these definitions will be added **before** the {@link #constructor initiliaze} method invokes.
+     * @type {(Array|Function)}
+     * @example
      * var Container = View.extend({
      *    template: '<p class="content"></p>',
      *    children: [
@@ -250,66 +248,59 @@
      *      ]
      *    }
      *  })
-     * ```
-     * Note: these definitions will be added **before** the {@link #constructor initiliaze} method invokes.
-     * @type {Array|Function}
      */
     children: [],
 
     /**
-    * Add a child view to the container.
-    * If the container is already rendered, will also render the view  and append it to the DOM.
-    * Otherwise will render and append once the container is rendered.
-    *
-    * Examples:
-    *
-    * ```javascript
-    * var Container = View.extend({
-    *
-    *   template: [
-    *     '<h1></h1>',
-    *     '<section></section>',
-    *   ].join(''),
-    *
-    *   initalize: function () {
-    *
-    *     this.add(TitleView, 'h1'); // will be added to <h1>
-    *
-    *     this.add(ContentView1, 'section'); // will be added to <section>
-    *
-    *     this.add(ContentView2, 'section', {prepend: true}); // will be add into <section> **before** ContentView1
-    *
-    *     this.add(OtherView, {
-    *       options: {
-    *         model: new Model()
-    *       }
-    *     }); // will be added **after** the <section> element
-    *
-    *     this.add('<p class="name">some html</p>'); //=> "<p class="name">some html</p>"
-    *     this.add('<p class="name">{{name}}</p>'); //=> "<p class="name">John Doe</p>"
-    *     this.add('{{name}}') //=> "<div>John Doe</div>"
-    *     this.add('<span>{{name}}</span> w00t') //=> "<div><span>John Doe</span> w00t</div>"
-    *   }
-    *
-    * });
-    *
-    * var container - new View({name: 'John Doe'});
-    *
-    * ```
-    * *We believe that for the sake of encapsulation, a view should control its own chilren, so we treat this method as
-    * protected and even though technically you can call `view.add` externally we strongly discourage it.*
-    *
-    * @param {(Archer.View|String)} view A class (or an instance which is discouraged) of a View - or an HTML
-    * string/template
-    * @param {String} [selector] selector in the view's template on which the view will be added to
-    * @param {Object} [options]
-    * @param {Boolean} [options.bubble=false] Bubble (proxy) events from this view up the chain
-    * @param {Boolean} [options.prepend=false] Prepend the view instend of appending
-    * @param {String} [options.selector] Selector in the view's template on which the view will be added to
-    * @param {Object} [options.options] Extra options to pass to the child constructor
-    * @protected
-    * @returns {Archer.View} - The instance of itself for the sake of chaining
-    */
+     * Add a child view to the container.
+     * If the container is already rendered, will also render the view  and append it to the DOM.
+     * Otherwise will render and append once the container is rendered.
+     *
+     * *We believe that for the sake of encapsulation, a view should control its own chilren, so we treat this method as
+     * protected and even though technically you can call `view.add` externally we strongly discourage it.*
+     *
+     * @param {(src/framework/View|String)} view A class (or an instance which is discouraged) of a View - or an HTML
+     * string/template
+     * @param {String} [selector] selector in the view's template on which the view will be added to
+     * @param {Object} [options]
+     * @param {Boolean} [options.bubble=false] Bubble (proxy) events from this view up the chain
+     * @param {Boolean} [options.prepend=false] Prepend the view instend of appending
+     * @param {String} [options.selector] Selector in the view's template on which the view will be added to
+     * @param {Object} [options.options] Extra options to pass to the child constructor
+     * @protected
+     * @returns {src/framework/View} - The instance of itself for the sake of chaining
+     * @example
+     * var Container = View.extend({
+     *
+     *   template: [
+     *     '<h1></h1>',
+     *     '<section></section>',
+     *   ].join(''),
+     *
+     *   initalize: function () {
+     *
+     *     this.add(TitleView, 'h1'); // will be added to <h1>
+     *
+     *     this.add(ContentView1, 'section'); // will be added to <section>
+     *
+     *     this.add(ContentView2, 'section', {prepend: true}); // will be add into <section> **before** ContentView1
+     *
+     *     this.add(OtherView, {
+     *       options: {
+     *         model: new Model()
+     *       }
+     *     }); // will be added **after** the <section> element
+     *
+     *     this.add('<p class="name">some html</p>'); //=> "<p class="name">some html</p>"
+     *     this.add('<p class="name">{{name}}</p>'); //=> "<p class="name">John Doe</p>"
+     *     this.add('{{name}}') //=> "<div>John Doe</div>"
+     *     this.add('<span>{{name}}</span> w00t') //=> "<div><span>John Doe</span> w00t</div>"
+     *   }
+     *
+     * });
+     *
+     * var container - new View({name: 'John Doe'});
+     */
     add: function (view, selector, bubble, prepend, extraOptions) {
       /* eslint max-statements: [2, 28], complexity: [2, 8] */
 
@@ -411,8 +402,8 @@
     },
 
     /**
-    * Remove all children from container
-    */
+     * Remove all children from container
+     */
     removeChildren: function () {
       this.each(function (view) {
         view.remove();
@@ -421,9 +412,9 @@
     },
 
     /**
-    *  Removes a view from the DOM, and calls stopListening to remove any bound events that the view has listenTo'd.
-    *  Also removes all childern of the view if any, and removes itself from its parent view(s)
-    */
+     *  Removes a view from the DOM, and calls stopListening to remove any bound events that the view has listenTo'd.
+     *  Also removes all childern of the view if any, and removes itself from its parent view(s)
+     */
     remove: function () {
       this.removeChildren();
       if (this[PARENT]) {
@@ -473,9 +464,9 @@
     },
 
     /**
-    * Renders the template to `$el` and append all children in order
-    * {@link #template View.template}
-    */
+     * Renders the template to `$el` and append all children in order
+     * {@link #template View.template}
+     */
     render: function () {
       this.preRender();
       doRender(this);
@@ -503,35 +494,32 @@
     },
 
     /**
-     * get all direct child views.
-     *
-     * ```javascript
+     * Get all direct child views.
+     * @returns {src/framework/View[]}
+     * @example
      * var container = View.extend({
      *   children: [View1, View2]
      * }).render();
      * container.getChildren() //=> [view1, view2];
-     * ```
-     *
-     * @return {Archer.View[]}
      */
     getChildren: function () {
       return this.toArray();
     },
 
     /**
-    * Get a child by index
-    * @param {number} index
-    * @returns {Archer.View} The child view
-    */
+     * Get a child by index
+     * @param {number} index
+     * @returns {src/framework/View} The child view
+     */
     at: function (index) {
       return this.getChildren()[index];
     },
 
     /**
-    * Invokes a method on all children down the tree
-    *
-    * @param {String} method The method to invoke
-    */
+     * Invokes a method on all children down the tree
+     *
+     * @param {String} method The method to invoke
+     */
     invoke: function (methodName) {
       var args = _.toArray(arguments);
       this.each(function (child) {
@@ -562,136 +550,207 @@
     };
   }, this);
 
-  return View;
-
-
   /**
-   * @method each
-   * @param {Function} iterator
-   * @param {Object} [context]
    * See [_.each](http://underscorejs.org/#each)
-   */
-  /**
-   * @method map
+   * @name each
+   * @memberof src/framework/View
+   * @method
+   * @instance
    * @param {Function} iterator
    * @param {Object} [context]
+   */
+  /**
    * See [_.map](http://underscorejs.org/#map)
+   * @name map
+   * @memberof src/framework/View
+   * @method
+   * @instance
+   * @param {Function} iterator
+   * @param {Object} [context]
    */
   /**
-   * @method reduce
-   * @param {Function} iterator
-   * @param {Mixed} memo
-   * @param {Object} [context]
    * See [_.reduce](http://underscorejs.org/#reduce)
-   */
-  /**
-   * @method reduceRight
+   * @name reduce
+   * @memberof src/framework/View
+   * @method
+   * @instance
    * @param {Function} iterator
    * @param {Mixed} memo
    * @param {Object} [context]
+   */
+
+  /**
    * See [_.reduceRight](http://underscorejs.org/#reduceRight)
+   * @name reduceRight
+   * @memberof src/framework/View
+   * @method
+   * @instance
+   * @param {Function} iterator
+   * @param {Mixed} memo
+   * @param {Object} [context]
    */
   /**
-   * @method find
-   * @param {Function} predicate
-   * @param {Object} [context]
    * See [_.find](http://underscorejs.org/#find)
-   */
-  /**
-   * @method filter
+   * @name find
+   * @memberof src/framework/View
+   * @method
+   * @instance
    * @param {Function} predicate
    * @param {Object} [context]
+   */
+  /**
    * See [_.filter](http://underscorejs.org/#filter)
-   */
-  /**
-   * @method reject
+   * @name filter
+   * @memberof src/framework/View
+   * @method
+   * @instance
    * @param {Function} predicate
    * @param {Object} [context]
+   */
+  /**
    * See [_.reject](http://underscorejs.org/#reject)
+   * @name reject
+   * @memberof src/framework/View
+   * @method
+   * @instance
+   * @param {Function} predicate
+   * @param {Object} [context]
    */
   /**
-   * @method every
-   * @param {Function} [predicate]
-   * @param {Object} [context]
    * See [_.every](http://underscorejs.org/#every)
-   */
-  /**
-   * @method some
+   * @name every
+   * @memberof src/framework/View
+   * @method
+   * @instance
    * @param {Function} [predicate]
    * @param {Object} [context]
+   */
+  /**
    * See [_.some](http://underscorejs.org/#some)
+   * @name some
+   * @memberof src/framework/View
+   * @method
+   * @instance
+   * @param {Function} [predicate]
+   * @param {Object} [context]
    */
   /**
-   * @method contains
-   * @param {Mixed} value
    * See [_.contains](http://underscorejs.org/#contains)
+   * @name contains
+   * @memberof src/framework/View
+   * @method
+   * @instance
+   * @param {Mixed} value
    */
   /**
-   * @method toArray
    * See [_.toArray](http://underscorejs.org/#toArray)
+   * @name toArray
+   * @memberof src/framework/View
+   * @method
+   * @instance
    */
   /**
-   * @method size
    * See [_.size](http://underscorejs.org/#size)
+   * @name size
+   * @memberof src/framework/View
+   * @method
+   * @instance
    */
   /**
-   * @method first
-   * @param {Number} [n]
    * See [_.first](http://underscorejs.org/#first)
+   * @name first
+   * @memberof src/framework/View
+   * @method
+   * @instance
+   * @param {Number} [n]
    */
   /**
-   * @method initial
-   * @param {Number} [n]
    * See [_.initial](http://underscorejs.org/#initial)
-   */
-  /**
-   * @method last
+   * @name initial
+   * @memberof src/framework/View
+   * @method
+   * @instance
    * @param {Number} [n]
+   */
+  /**
    * See [_.last](http://underscorejs.org/#last)
+   * @name last
+   * @memberof src/framework/View
+   * @method
+   * @instance
+   * @param {Number} [n]
    */
   /**
-   * @method rest
-   * @param {Number} [index]
    * See [_.rest](http://underscorejs.org/#rest)
+   * @name rest
+   * @memberof src/framework/View
+   * @method
+   * @instance
+   * @param {Number} [index]
    */
   /**
-   * @method without
    * See [_.without](http://underscorejs.org/#without)
+   * @name without
+   * @memberof src/framework/View
+   * @method
+   * @instance
    */
   /**
-   * @method indexOf
+   * See [_.indexOf](http://underscorejs.org/#indexOf)
+   * @name indexOf
+   * @memberof src/framework/View
+   * @method
+   * @instance
    * @param {Mixed} value
    * @param {Boolean} [isSorted]
-   * See [_.indexOf](http://underscorejs.org/#indexOf)
    */
   /**
-   * @method shuffle
    * See [_.shuffle](http://underscorejs.org/#shuffle)
+   * @name shuffle
+   * @memberof src/framework/View
+   * @method
+   * @instance
    */
   /**
-   * @method lastIndexOf
+   * See [_.shuffle](http://underscorejs.org/#lastIndexOf)
+   * @name lastIndexOf
+   * @memberof src/framework/View
+   * @method
+   * @instance
    * @param {Mixed} value
    * @param {Number} [fromIndex]
-   * See [_.shuffle](http://underscorejs.org/#lastIndexOf)
    */
   /**
-   * @method isEmpty
    * See [_.isEmpty](http://underscorejs.org/#isEmpty)
+   * @name isEmpty
+   * @memberof src/framework/View
+   * @method
+   * @instance
    */
   /**
-   * @method chain
    * See [_.chain](http://underscorejs.org/#chain)
+   * @name chain
+   * @memberof src/framework/View
+   * @method
+   * @instance
    */
   /**
-   * @method where
-   * @param {Object} properties
    * See [_.where](http://underscorejs.org/#where)
+   * @name where
+   * @memberof src/framework/View
+   * @method
+   * @instance
+   * @param {Object} properties
    */
   /**
-   * @method findWhere
-   * @param {Object} properties
    * See [_.findWhere](http://underscorejs.org/#findWhere)
+   * @name findWhere
+   * @memberof src/framework/View
+   * @method
+   * @instance
+   * @param {Object} properties
    */
 
+  return View;
 
 }));

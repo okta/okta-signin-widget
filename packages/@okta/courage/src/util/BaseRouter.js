@@ -18,41 +18,31 @@ function ($, _, Backbone, SettingsModel, Logger, Notification, ConfirmationDialo
     return route;
   }
 
-  return Backbone.Router.extend({
+  /**
+   * BaseRouter is a standard [Backbone.Router](http://backbonejs.org/#Router)
+   * with a few additions:
+   * - Explicit mapping between routes and controllers
+   * - Support for rendering notification and confirmation dialogs
+   *
+   * Checkout the [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World)
+   * for a step-by-step guide to using this.
+   *
+   * @class module:Okta.Router
+   * @extends external:Backbone.Router
+   * @param {Object} options options hash
+   * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
+   */
+  return Backbone.Router.extend(/** @lends module:Okta.Router.prototype */ {
 
     /**
-     * The root URL for the router.
-     * When setting {@link Backbone.Router#routes routes}, it will be prepended to each route
+     * The root URL for the router. When setting {@link http://backbonejs.org/#Router-routes|routes},
+     * it will be prepended to each route.
      * @type {String|Function}
      */
     root: '',
 
     listen: Notification.prototype.listen,
 
-    /**
-    * @class Okta.Router
-    * A simple state machine that maps a route to a controller
-    *
-    *  Typically it will:
-    *
-    * - define which routes/modules the application has
-    * - Map a route to a controller
-    *
-    * See:
-    * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
-    * [Jasmine Spec](https://github.com/okta/okta-core/blob/master/WebContent/js/test/unit/spec/shared/util/BaseRouter_spec.js),
-    * [Backbone.Router](http://backbonejs.org/#Router)
-    *
-    * @constructor
-    *
-    * Creates the application settings object
-    *
-    * @param {Object} options options hash
-    * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
-    *
-    * @extends {Backbone.Router}
-    *
-    */
     constructor: function (options) {
       options || (options = {});
       this.el = options.el;
@@ -124,9 +114,9 @@ function ($, _, Backbone, SettingsModel, Logger, Notification, ConfirmationDialo
     /**
     * Starts the backbone history object
     *
-    * Waits for the dom to be ready before calling `Backbone.history.start()` (IE issue)
+    * Waits for the dom to be ready before calling `Backbone.history.start()` (IE issue).
     *
-    * See: [Backbone History](http://backbonejs.org/#History)
+    * See [Backbone History](http://backbonejs.org/#History) for more information.
     */
     start: function () {
       var args = arguments;

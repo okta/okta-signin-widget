@@ -97,25 +97,31 @@ function (_, $, BaseModalDialog, Fx, DialogLoading) {
     autoPosition: true
   };
 
-  return BaseModalDialog.extend({
+  /**
+   * A modal view that transitions other views into itself.
+   * @class module:Okta.MultiViewModalDialog
+   * @extends module:Okta.ModalDialog
+   * @param {Object} options Options Hash
+   */
+  return BaseModalDialog.extend(/** @lends module:Okta.MultiViewModalDialog.prototype */ {
+
     /**
-     * @property {Number} [height] The height in pixels for the modal. If none specified
-     * the height will be set to equal the view's height.
+     * The height in pixels for the modal. If none specified, the height will be
+     * set to equal the view's height.
+     * @name height
+     * @memberof module:Okta.MultiViewModalDialog
+     * @type {Number}
+     * @instance
      */
 
     /**
-     * @property {Boolean} [resizeOnSwitch] Config to specify if the modal dialog has to be resized
-     * when switching to a new view.
+     * Config to specify if the modal dialog has to be resized when switching
+     * to a new view.
+     * @type {Boolean}
+     * @default false
      */
     resizeOnSwitch: false,
 
-    /**
-     * @class Okta.MultiViewModalDialog
-     * A modal view that transitions other views into itself.
-     *
-     * @param {Object} options Options Hash
-     *
-     */
     constructor: function (options) {
       _.defaults(this.params, SIMPLE_MODAL_PARAMS);
 

@@ -26,7 +26,7 @@ define(['okta/moment'], function (moment) {
       // 'Apr 17, 2014 8:37:50 AM' or 'Never'
       formatter || (formatter = 'MMM DD, YYYY h:mm:ss A');
       defaultText || (defaultText = '');
-      return milliseconds ? moment(milliseconds).utc().zone('-07:00').format(formatter) : defaultText;
+      return milliseconds ? moment(milliseconds).utc().utcOffset('-07:00').format(formatter) : defaultText;
     },
 
     /**

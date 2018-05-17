@@ -26,7 +26,8 @@ function (_, StringUtil) {
       'arrayofobject': 'arrayofobject',
       'arrayofstring': 'arrayofstring',
       'arrayofnumber': 'arrayofnumber',
-      'arrayofinteger': 'arrayofinteger'
+      'arrayofinteger': 'arrayofinteger',
+      'arrayofref-id': 'arrayofref-id'
     },
     DISPLAYTYPES: {
       'date': {'type': 'string', 'format': 'date-time'},
@@ -45,6 +46,7 @@ function (_, StringUtil) {
       'arrayofstring': {'type': 'array', 'items': {'type': 'string'}},
       'arrayofnumber': {'type': 'array', 'items': {'type': 'number'}},
       'arrayofinteger': {'type': 'array', 'items': {'type': 'integer'}},
+      'arrayofref-id': {'type': 'array', 'items': {'type': 'string', 'format': 'ref-id'}},
       'image': {'type': 'image'},
       'password': {'type': 'string'}
     },
@@ -58,9 +60,11 @@ function (_, StringUtil) {
       'string',
       'number',
       'integer',
+      'object',
       'arrayofstring',
       'arrayofnumber',
-      'arrayofinteger'
+      'arrayofinteger',
+      'arrayofobject'
     ],
     DATATYPE: {
       'string': 'string',
@@ -73,6 +77,7 @@ function (_, StringUtil) {
       'arrayofstring': 'string array',
       'arrayofnumber': 'number array',
       'arrayofinteger': 'integer array',
+      'arrayofref-id': 'reference array',
       'country-code': 'country code',
       'language-code': 'language code',
       'reference': 'reference',

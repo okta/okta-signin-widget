@@ -1,35 +1,39 @@
 {
   "_args": [
     [
-      "@okta/courage@3.3.0-beta.12",
-      "/home/vagrant/okta/okta-signin-widget"
+      "@okta/courage@4.2.0",
+      "/home/vagrant/okta/my-signin-widget/okta-signin-widget"
     ]
   ],
-  "_from": "@okta/courage@3.3.0-beta.12",
-  "_id": "@okta/courage@3.3.0-beta.12",
+  "_from": "@okta/courage@4.2.0",
+  "_id": "@okta/courage@4.2.0",
   "_inCache": true,
   "_installable": true,
   "_location": "/@okta/courage",
   "_phantomChildren": {
     "amdefine": "1.0.1",
+    "read-installed": "4.0.3",
+    "request": "2.85.0",
+    "underscore": "1.8.3",
+    "walkdir": "0.0.7",
     "wordwrap": "0.0.3"
   },
   "_requested": {
     "name": "@okta/courage",
-    "raw": "@okta/courage@3.3.0-beta.12",
-    "rawSpec": "3.3.0-beta.12",
+    "raw": "@okta/courage@4.2.0",
+    "rawSpec": "4.2.0",
     "scope": "@okta",
-    "spec": "3.3.0-beta.12",
+    "spec": "4.2.0",
     "type": "version"
   },
   "_requiredBy": [
-    "/"
+    "#USER"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-3.3.0-beta.12.tgz",
-  "_shasum": "25c3f75263d65dbbdbd03188c07d08beab6a0183",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.2.0.tgz",
+  "_shasum": "f64b5e778b861cf15daff045caa349f418b65e86",
   "_shrinkwrap": null,
-  "_spec": "@okta/courage@3.3.0-beta.12",
-  "_where": "/home/vagrant/okta/okta-signin-widget",
+  "_spec": "@okta/courage@4.2.0",
+  "_where": "/home/vagrant/okta/my-signin-widget/okta-signin-widget",
   "browserslist": [
     "> 0.1%",
     "not ie <= 9"
@@ -39,17 +43,18 @@
   },
   "dependencies": {
     "@okta/jquery.simplemodal": "1.4.9",
-    "backbone": "1.2.1",
+    "@okta/moment": "^1.0.3",
+    "backbone": "^1.3.3",
     "clipboard": "^1.5.16",
-    "mixpanel-browser": "^2.11.0",
+    "handlebars": "2.0.0",
+    "mixpanel-browser": "^2.18.0",
+    "retire": "^1.4.0",
     "underscore": "1.8.3"
   },
   "description": "Shared Okta UI components",
   "devDependencies": {
-    "@okta/ci-pkginfo": "1.1.0",
-    "@okta/ci-update-package": "1.1.0",
     "@okta/eslint-plugin-okta": "0.3.3",
-    "@okta/i18n": "33.1.0",
+    "@okta/i18n": "44.7.0-beta.4",
     "ace-builds": "^1.2.6",
     "app-root-path": "1.0.0",
     "autoprefixer": "^6.7.5",
@@ -75,7 +80,6 @@
     "grunt-contrib-jasmine": "^1.1.0",
     "grunt-contrib-watch": "1.0.0",
     "grunt-eslint": "19.0.0",
-    "grunt-jsduck": "1.0.1",
     "grunt-open": "0.2.3",
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^2.0.0",
@@ -83,8 +87,10 @@
     "grunt-stylelint": "^0.7.0",
     "grunt-template-jasmine-requirejs": "0.2.3",
     "grunt-webpack": "1",
+    "ink-docstrap": "^1.3.2",
     "jasmine-jquery": "^2.1.1",
     "jasmine-reporters": "2.2.0",
+    "jsdoc": "^3.5.5",
     "load-grunt-tasks": "^3.5.2",
     "lodash": "4.6.1",
     "moment": "2.12.0",
@@ -98,6 +104,7 @@
     "sequelize": "3.27.0",
     "shortid": "2.2.6",
     "sinon": "^2.3.2",
+    "source-map-loader": "^0.2.1",
     "source-map-support": "^0.4.15",
     "speakingurl": "10.0.0",
     "stylelint-checkstyle-formatter": "^0.1.0",
@@ -109,8 +116,8 @@
     "winston": "2.2.0"
   },
   "dist": {
-    "shasum": "25c3f75263d65dbbdbd03188c07d08beab6a0183",
-    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-3.3.0-beta.12.tgz"
+    "shasum": "f64b5e778b861cf15daff045caa349f418b65e86",
+    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.2.0.tgz"
   },
   "files": [
     "src",
@@ -119,12 +126,12 @@
   ],
   "homepage": "https://github.com/okta/courage",
   "license": "Apache-2.0",
-  "main": "src/util/Okta.js",
+  "main": "dist/okta.js",
   "name": "@okta/courage",
   "okta": {
-    "commitSha": "78676afa039e2a67bf17cd8633f70679ec503e54",
-    "fullVersion": "3.3.0-beta.12-20170929215326-78676af",
-    "testedSha": "87f338fbc973d387c50f48692ca8a04cfc9f3b81"
+    "commitSha": "1cff2197f67a6769b22582dbbd859df7c0b497ad",
+    "fullVersion": "4.2.0-20180517183353-1cff219",
+    "testedSha": "18430d68135a1fb720a2a981407d217fa5b153be"
   },
   "optionalDependencies": {},
   "publishConfig": {
@@ -138,6 +145,7 @@
   "scripts": {
     "ci-pkginfo:dataload": "ci-pkginfo -t dataload",
     "ci-update-package": "ci-update-package",
+    "generate-docs": "jsdoc --configure docs/jsdoc.conf.js --verbose",
     "lint": "grunt lint",
     "lint:report": "grunt lint --checkstyle",
     "prepublish": "grunt prepublish",
@@ -146,5 +154,5 @@
     "test:e2e": "webdriver-manager update && protractor test/selenium/conf.js",
     "test:report": "(grunt test --display full) || true"
   },
-  "version": "3.3.0-beta.12"
+  "version": "4.2.0"
 }

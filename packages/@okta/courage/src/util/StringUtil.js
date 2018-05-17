@@ -6,13 +6,6 @@ define([
 ],
 function (_, $, Bundles) {
 
-  /**
-   * @class StringUtil
-   * @private
-   *
-   * Handy utility functions to handle strings.
-   */
-
   var entityMap = {
     '&amp;': '&',
     '&lt;': '<',
@@ -26,7 +19,14 @@ function (_, $, Bundles) {
   /* eslint max-len: 0*/
   var emailValidator = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(?!-)((\[?[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\]?)|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  var StringUtil = {
+  /**
+   * Handy utility functions to handle strings.
+   *
+   * @class module:Okta.internal.util.StringUtil
+   * @hideconstructor
+   */
+  var StringUtil = /** @lends module:Okta.internal.util.StringUtil */ {
+    /** @static */
     sprintf: function () {
       /* eslint max-statements: [2, 11] */
 
@@ -56,16 +56,11 @@ function (_, $, Bundles) {
 
     /**
      * Converts a URI encoded query string into a hash map
-     *
-     * ### Example:
-     *
-     *  ```javascript
-     *  StringUtil.parseQuery('foo=bar&baz=qux') // {foo: 'bar', baz: 'qux'}
-     *
-     * ```
-     * @static
      * @param  {String} query The query string
      * @return {Object} The map
+     * @static
+     * @example
+     * StringUtil.parseQuery('foo=bar&baz=qux') // {foo: 'bar', baz: 'qux'}
      */
     parseQuery: function (query) {
       var params = {};
@@ -78,10 +73,12 @@ function (_, $, Bundles) {
       return params;
     },
 
+    /** @static */
     encodeJSObject: function (jsObj) {
       return encodeURIComponent(JSON.stringify(jsObj));
     },
 
+    /** @static */
     decodeJSObject: function (jsObj) {
       try {
         return JSON.parse(decodeURIComponent(jsObj));
@@ -90,6 +87,7 @@ function (_, $, Bundles) {
       }
     },
 
+    /** @static */
     unescapeHtml: function (string) {
       return String(string).replace(/&[\w\#\d]{2,};/g, function (s) {
         return entityMap[s] || s;
@@ -149,6 +147,25 @@ function (_, $, Bundles) {
     },
 
     /**
+     * Convert a string to an object if valid, otherwise return the string
+     * @static
+     * @param {String} string The string to convert to an object
+     * @return {String|object} Returns an object if the string can be casted, otherwise, returns the original string
+     */
+    parseObject: function (string) {
+      if (!_.isString(string)) {
+        return string;
+      }
+
+      try {
+        var object = JSON.parse(string);
+        return $.isPlainObject(object) ? object : string;
+      } catch (e) {
+        return string;
+      }
+    },
+
+    /**
      * Returns a random string from [a-z][A-Z][0-9] of a given length
      * @static
      * @param {Number} length The length of the random string.
@@ -184,6 +201,7 @@ function (_, $, Bundles) {
       return str.length >= ends.length && str.substring(str.length - ends.length) === ends;
     },
 
+    /** @static */
     isEmail: function (str) {
       var target = $.trim(str);
       return !_.isEmpty(target) && emailValidator.test(target);

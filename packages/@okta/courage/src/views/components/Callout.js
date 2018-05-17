@@ -14,12 +14,16 @@ define([
     case 'standard':
       klass += '';
       break;
+    case 'slim':
+      klass += ' infobox-slim';
+      break;
     case 'compact':
       klass += ' infobox-compact';
       break;
     case 'large':
       klass += ' infobox-md';
       break;
+
     }
     if (getOption(callout, 'dismissible')) {
       klass += ' infobox-dismiss';
@@ -51,11 +55,11 @@ define([
   ';
 
   /**
-   * @class Callout
-   * @private
+   * @class src/views/components/Callout
+   * @extends module:Okta.View
    */
 
-  var Callout = BaseView.extend({
+  var Callout = BaseView.extend(/** @lends src/views/components/Callout.prototype */ {
 
     /**
      * Custom HTML or view to inject to the callout
@@ -116,11 +120,22 @@ define([
 
     getTemplateData: function () {
       var icon = getOption(this, 'type');
-      if (icon == 'tip') { // css is inconsistent
+      const size = getOption(this, 'size');
+      if (icon === 'tip') { // css is inconsistent
         icon = 'light-bulb';
       }
+      switch (size) {
+      case 'slim':
+        icon = '';
+        break;
+      case 'large':
+        icon = [icon, '-', '24'].join('');
+        break;
+      default:
+        icon = [icon, '-', '16'].join('');
+      }
       return {
-        icon: icon + '-' + (getOption(this, 'size') == 'large' ? '24' : '16'),
+        icon,
         title: getOption(this, 'title'),
         subtitle: getOption(this, 'subtitle'),
         bullets: getOption(this, 'bullets'),
@@ -129,11 +144,15 @@ define([
     }
   });
 
-  return {
+  /**
+   * @class module:Okta.internal.views.components.Callout
+   */
+  return /** @lends module:Okta.internal.views.components.Callout */ {
     /**
+     * Creates a {@link src/views/components/Callout|Callout}.
      * @static
      * @param {Object} options
-     * @param {String|Function} [options.size] Size of icon. options are standard, large, compact
+     * @param {String|Function} [options.size] Size of icon. options are standard, large, compact, slim
      * @param {String|Okta.View} [options.content] Custom HTML or view to inject to the callout
      * @param {String|Function} [options.title] Callout title
      * @param {String|Function} [options.subtitle] Callout subtitle
@@ -141,7 +160,7 @@ define([
      * @param {Boolean|Function} [options.dismissible] Can the callout be dismissed
      * @param {String|Function} [options.type] Callout type. Valid values are: info, success, warning, error, tip
      *
-     * @return {Callout}
+     * @return {src/views/components/Callout}
      */
     create: function (options) {
       return new Callout(options);
