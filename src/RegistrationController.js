@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
+/* eslint max-params: [2, 11]*/
 define([
   'okta',
   'backbone',
@@ -19,6 +19,7 @@ define([
   'util/Enums',
   'util/RegistrationFormFactory',
   'util/RouterUtil',
+  'util/Util',
   'views/registration/SubSchema',
   'util/Errors'
 ],
@@ -31,6 +32,7 @@ function (
   Enums,
   RegistrationFormFactory,
   RouterUtil,
+  Util,
   SubSchema,
   Errors
 ) {
@@ -104,7 +106,7 @@ function (
         });
       } else {
         // register via activation email
-        this.model.appState.set('username', this.model.get('userName'));
+        this.model.appState.set('username', this.model.get('email'));
         this.model.appState.trigger('navigate', 'signin/register-complete');
       }
     },
@@ -113,7 +115,7 @@ function (
       this.model.attributes = postData;
       Backbone.Model.prototype.save.call(this.model).then(function() {
         var activationToken = self.model.get('activationToken');
-        var postSubmitData = activationToken ? activationToken : self.model.get('userName');
+        var postSubmitData = activationToken ? activationToken : self.model.get('email');
         self.settings.postSubmit(postSubmitData, function() {
           self.doPostSubmit();
         }, function(errors) {
@@ -126,21 +128,6 @@ function (
           self.settings.callGlobalError(new Errors.RegistrationError(errMsg));
         }
       });
-    },
-    // @param url (Eg: ?fromURI=%2Fapp%2FUserHome&query=blah)
-    // returns {fromURI:'%2Fapp%2FUserHome', query: blah}
-    getJsonFromUrl: function(url) {
-      var query = url.substr(1);
-      var result = {};
-      query.split('&').forEach(function(part) {
-        var item = part.split('=');
-        result[item[0]] = item[1];
-      });
-      return result;
-    },
-    getRelayStateData: function () {
-      var urlParams = this.getJsonFromUrl(window.location.search);
-      return urlParams.fromURI || '';
     },
     createRegistrationModel: function (modelProperties) {
       var self = this;
@@ -156,7 +143,7 @@ function (
           var data = Okta.Model.prototype.toJSON.apply(this, arguments);
           return {
             userProfile: data,
-            relayState: self.getRelayStateData()
+            relayState: this.settings.get('relayState')
           };
         },
         parse: function(resp) {

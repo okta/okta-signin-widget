@@ -195,6 +195,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
       }
     },
 
+    /* eslint complexity: [2, 7] */
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
       // Set/Remove the remember device cookie based on the remember device input.
@@ -219,8 +220,8 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         }
 
         var promise;
-        // MFA_REQUIRED
-        if (transaction.status === 'MFA_REQUIRED') {
+        // MFA_REQUIRED or UNAUTHENTICATED with factors (passwordlessAuth)
+        if (transaction.status === 'MFA_REQUIRED' || this.appState.get('promptForFactorInUnauthenticated')) {
           var factor = _.findWhere(transaction.factors, {
             id: this.get('id')
           });
@@ -248,8 +249,11 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
             return Q.delay(PUSH_INTERVAL).then(function() {
               if (self.pushFactorHasAutoPush()) {
-                options.autoPush = function() {
+                options.autoPush = function () {
                   return self.get('autoPush');
+                };
+                options.rememberDevice = function () {
+                  return self.get('rememberDevice');
                 };
               }
               return trans.poll(options).then(function(trans) {

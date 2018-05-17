@@ -13,16 +13,18 @@
 define([
   'okta',
   'PrimaryAuthController',
+  'models/PrimaryAuth',
   'views/idp-discovery/IDPDiscoveryForm',
   'models/IDPDiscovery',
   'views/shared/Footer',
   'util/BaseLoginController'
 ],
-function (Okta, PrimaryAuthController, IDPDiscoveryForm, IDPDiscoveryModel, Footer, BaseLoginController) {
+function (Okta, PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDiscoveryModel,
+          Footer, BaseLoginController) {
 
   return PrimaryAuthController.extend({
     className: 'idp-discovery',
-    
+
     View: IDPDiscoveryForm,
 
     constructor: function (options) {
@@ -38,7 +40,7 @@ function (Okta, PrimaryAuthController, IDPDiscoveryForm, IDPDiscoveryModel, Foot
 
       this.addListeners();
 
-      this.add(new Footer(this.toJSON({appState: options.appState})));
+      this.addFooter(options);
 
       this.setUsername();
     },
@@ -48,8 +50,21 @@ function (Okta, PrimaryAuthController, IDPDiscoveryForm, IDPDiscoveryModel, Foot
 
       this.listenTo(this.model, 'goToPrimaryAuth', function () {
         this.settings.set('username', this.model.get('username'));
-        this.options.appState.set('disableUsername', true);
-        this.options.appState.trigger('navigate', 'signin');
+        if (this.settings.get('features.passwordlessAuth')) {
+          var primaryAuthModel = new PrimaryAuthModel({
+            username: this.model.get('username'),
+            multiOptionalFactorEnroll: this.options.settings.get('features.multiOptionalFactorEnroll'),
+            settings: this.options.settings,
+            appState: this.options.appState
+          }, { parse: true });
+          // Events to set the transaction attributes on the app state.
+          this.addModelListeners(primaryAuthModel);
+          // Make the primary auth request
+          primaryAuthModel.save();
+        } else {
+          this.options.appState.set('disableUsername', true);
+          this.options.appState.trigger('navigate', 'signin');
+        }
       });
     }
 

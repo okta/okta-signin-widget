@@ -49,6 +49,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'stateToken': ['string', false, undefined],
       'username' : ['string', false],
       'signOutLink': ['string', false],
+      'relayState': ['string', false],
 
       // Function to transform the username before passing it to the API
       // for Primary Auth, Forgot Password and Unlock Account.
@@ -82,6 +83,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'features.registration': ['boolean', false, false],
       'features.consent': ['boolean', false, false],
       'features.idpDiscovery': ['boolean', false, false],
+      'features.passwordlessAuth': ['boolean', false, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function

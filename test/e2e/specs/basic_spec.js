@@ -47,4 +47,24 @@ describe('Basic flows', function() {
     expect(el.isDisplayed()).toBe(true);
   });
 
+  it('can call authClient methods', function() {
+    // Ensure the widget exists
+    var el = element(by.css('#okta-sign-in'));
+    expect(el.isDisplayed()).toBe(true);
+
+    function getToken() {
+      return oktaSignIn.authClient.tokenManager.get('idToken');
+    }
+
+    // Set a fake token into localStorage
+    var token = JSON.stringify({
+      idToken: { foo: 'bar' }
+    });
+    browser.executeScript(`window.localStorage.setItem('okta-token-storage', '${token}');`);
+
+    // Retrieve the token
+    browser.executeScript(getToken).then(function(storedToken) {
+      expect(storedToken).toEqual({foo: 'bar'});
+    });
+  });
 });
