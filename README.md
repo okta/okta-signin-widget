@@ -26,6 +26,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [remove](#remove)
   * [on](#onevent-callback-context)
   * [off](#offevent-callback)
+  * [authClient](#authclient)
   * [session.get](#sessiongetcallback)
   * [session.refresh](#sessionrefreshcallback)
   * [session.close](#sessionclosecallback)
@@ -45,10 +46,12 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [Links](#links)
   * [Buttons](#buttons)
   * [Registration](#registration)
-  * [OpenId Connect](#openid-connect)
+  * [IdP Discovery](#idp-discovery)
+  * [OpenID Connect](#openid-connect)
   * [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   * [Feature flags](#feature-flags)
 * [Events](#events)
+* [Browser Support](#browser-support)
 * [Developing the Sign-In Widget](#developing-the-sign-in-widget)
   * [Building the widget](#building-the-widget)
   * [The .widgetrc config file](#the-widgetrc-config-file)
@@ -92,7 +95,7 @@ var signIn = new OktaSignIn({/* configOptions */});
 
 Using our npm module is a good choice if:
 - You have a build system in place where you manage dependencies with npm
-- You do not want to load scripts directly from third party sites
+- You do not want to load scripts directly from 3rd party sites
 
 To install [@okta/okta-signin-widget](https://www.npmjs.com/package/@okta/okta-signin-widget):
 
@@ -120,12 +123,12 @@ node_modules/@okta/okta-signin-widget/dist/
 
   js/
     # CDN JS file that exports the OktaSignIn object in UMD format. This is
-    # packaged with everything needed to run the widget, including third party
+    # packaged with everything needed to run the widget, including 3rd party
     # vendor files.
     okta-sign-in.min.js
 
     # Main entry file that is used in the npm require(@okta/okta-signin-widget)
-    # flow. This does not package third party dependencies - these are pulled
+    # flow. This does not package 3rd party dependencies - these are pulled
     # down through `npm install` (which allows you to use your own version of
     # jquery, etc).
     okta-sign-in.entry.js
@@ -315,6 +318,20 @@ signIn.off('pageRendered');
 
 // Unsubscribe the onPageRendered listener from the 'pageRendered' event
 signIn.off('pageRendered', onPageRendered);
+```
+
+## authClient
+
+Returns the underlying `@okta/okta-auth-js` object used by the widget. See [AuthJS](https://github.com/okta/okta-auth-js#api) for a list of available methods.
+
+```javascript
+// Check for an existing authClient transaction
+signIn.authClient.tx.exists();
+if (exists) {
+  console.log('A session exists!');
+} else {
+  console.log('A session does not exist.');
+};
 ```
 
 ## session.get(callback)
@@ -986,9 +1003,60 @@ Optional configuration:
         onFailure(error);
      }
     ```
-## OpenId Connect
 
-Options for the [OpenId Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
+## IdP Discovery
+**:information_source: EA feature:** The Identity Provider (IdP) Discovery feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
+
+IdP Discovery enables you to route users to different 3rd Party IdPs that are connected to your Okta Org. Users can federate back into the primary org after authenticating at the IdP.
+
+To use IdP Discovery in your application, first ensure that the `IDP_DISCOVERY` feature flag is enabled for your Org and configure an identity provider routing policy in the Okta admin panel.
+Then, in the widget configuration, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
+
+```javascript
+var signIn = new OktaSignIn({
+  baseUrl: 'https://your-org.okta.com',
+  ... ...
+  idpDiscovery: {
+    requestContext: '/a/app/request/context',
+  },
+  features: {
+    idpDiscovery: true
+  }
+});
+signIn.renderEl(
+  {...},
+  function (res) {
+    if (res.status === 'IDP_DISCOVERY') {
+      res.idpDiscovery.redirectToIdp('/a/app/request/context');
+      return;
+    }
+  }
+);
+```
+
+The IdP Discovery authentication flow in widget will be
+
+1. If a routing policy with a username/domain condition is configured, the widget will enter identifier first flow
+2. Otherwise, the widget will enter primary authentication flow.
+
+For the identifier first flow,
+
+1. The widget will display an identifier first page for the user to enter an Okta userName to determine the IdP to be used for authentication.
+2. If the IdP is your Okta org, the widget will transition to the primary authentication flow.
+3. If the IdP is a 3rd party IdP or a different Okta org, the widget will invoke the [success callback](#rendereloptions-success-error) with `response.status` as `IDP_DISCOVERY`.
+
+### Additional configuration
+
+- **idpDiscovery.requestContext**: a context of that which the user is trying to access, such as the path of an app
+
+### Additions in the success callback
+
+- `response.status` is `IDP_DISCOVERY` when the authentication needs to be done agaist 3rd party IdP.
+- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the 3rd party IdP. This function takes one parameter which is the **idpDiscovery.requestContext**.
+
+## OpenID Connect
+
+Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth 2.0 client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
 
 - **clientId:** Client Id pre-registered with Okta for the OIDC authentication flow
 
@@ -1169,6 +1237,8 @@ features: {
 
 - **features.registration** - Display the registration section in the primary auth page. Defaults to `false`.
 
+- **features.idpDiscovery** - Enable [IdP Discovery](#idp-discovery). Defaults to `false`.
+
 # Events
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
@@ -1189,6 +1259,10 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
       });
     });
     ```
+
+# Browser Support
+
+Need to know if the Sign-In Widget supports your browser requirements?  Please see [Platforms, Browser, and OS Support](https://help.okta.com/en/prod/Content/Topics/Miscellaneous/Platforms_Browser_OS_Support.htm).
 
 # Developing the Sign-In Widget
 
