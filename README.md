@@ -51,6 +51,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   * [Feature flags](#feature-flags)
 * [Events](#events)
+* [Browser Support](#browser-support)
 * [Developing the Sign-In Widget](#developing-the-sign-in-widget)
   * [Building the widget](#building-the-widget)
   * [The .widgetrc config file](#the-widgetrc-config-file)
@@ -1254,6 +1255,10 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
       });
     });
     ```
+
+# Browser Support
+
+Need to know if the Sign-In Widget supports your browser requirements?  Please see [Platforms, Browser, and OS Support](https://help.okta.com/en/prod/Content/Topics/Miscellaneous/Platforms_Browser_OS_Support.htm).
 
 # Developing the Sign-In Widget
 
