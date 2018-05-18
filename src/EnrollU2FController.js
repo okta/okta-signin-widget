@@ -19,10 +19,9 @@ define([
   'views/enroll-factors/Footer',
   'vendor/lib/q',
   'views/mfa-verify/HtmlErrorMessageView',
-  'util/BrowserFeatures',
   'u2f-api-polyfill'
 ],
-function (Okta, FormType, FormController, Footer, Q, HtmlErrorMessageView, BrowserFeatures) {
+function (Okta, FormType, FormController, Footer, Q, HtmlErrorMessageView) {
 
   var _ = Okta._;
 
@@ -115,12 +114,10 @@ function (Okta, FormType, FormController, Footer, Q, HtmlErrorMessageView, Brows
         var result = [];
 
         if (!window.hasOwnProperty('u2f')) {
-          var errorMessageKey = 'u2f.error.notSupportedBrowser';
-
-          if (BrowserFeatures.isFirefox()) {
-            errorMessageKey = 'u2f.error.noFirefoxExtension';
+          var errorMessageKey = 'u2f.error.factorNotSupported';
+          if (this.options.appState.get('factors').length === 1) {
+            errorMessageKey = 'u2f.error.factorNotSupported.oneFactor';
           }
-
           result.push(FormType.View(
             {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
             {selector: '.o-form-error-container'}
@@ -130,7 +127,6 @@ function (Okta, FormType, FormController, Footer, Q, HtmlErrorMessageView, Brows
           //There is html in enroll.u2f.general2 in our properties file, reason why is unescaped
           result.push(FormType.View({
             View: '<div class="u2f-instructions"><ol>\
-          <li>{{i18n code="enroll.u2f.general1" bundle="login"}}</li>\
           <li>{{{i18n code="enroll.u2f.general2" bundle="login"}}}</li>\
           <li>{{i18n code="enroll.u2f.general3" bundle="login"}}</li>\
           </ol></div>'
