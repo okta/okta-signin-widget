@@ -640,9 +640,13 @@ function (Okta,
 
             test.form.showAnswerButton().click();
             expect(test.form.answerField().attr('type')).toEqual('text');
+            expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+            expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
 
             test.form.hideAnswerButton().click();
             expect(test.form.answerField().attr('type')).toEqual('password');
+            expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
+            expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
           });
         });
         itp('calls authClient verifyFactor with correct args when submitted', function () {

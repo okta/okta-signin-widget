@@ -143,13 +143,14 @@
     }
     // add divider to username/password on login when password toggle on
     .o-form .o-form-input .o-form-control {
-        .input-icon-divider {
-          border-right: 1px solid $input-border-color;
-          height: 38px;
-          position: absolute;
-          right: 34px;
-          top: 0;
+      .input-icon-divider {
+        border-right: 1px solid $input-border-color;
+        height: 38px;
+        position: absolute;
+        right: 34px;
+        top: 0;
       }
+
       &.focused-input {
         .input-icon-divider {
           border-right: 1px solid $input-border-color-focus;
