@@ -27,7 +27,7 @@
     "type": "version"
   },
   "_requiredBy": [
-    "#USER"
+    "/"
   ],
   "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.2.0.tgz",
   "_shasum": "f64b5e778b861cf15daff045caa349f418b65e86",
