@@ -266,9 +266,11 @@ module.exports = function (grunt) {
         options: {
           process: function (content) {
             var cdnLayout = grunt.file.read('./test/e2e/layouts/cdn.tpl', {encoding: 'utf8'}),
+                devLayout = grunt.file.read('./test/e2e/layouts/cdn-dev.tpl', {encoding: 'utf8'}),
                 npmLayout = grunt.file.read('./test/e2e/layouts/npm.tpl', {encoding: 'utf8'}),
                 testTpl = Handlebars.compile(content);
             Handlebars.registerPartial('cdnLayout', cdnLayout);
+            Handlebars.registerPartial('devLayout', devLayout);
             Handlebars.registerPartial('npmLayout', npmLayout);
             return testTpl({
               WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER
@@ -335,7 +337,6 @@ module.exports = function (grunt) {
       'build-release': 'npm run build:webpack-release',
       'build-test': 'npm run build:webpack-test',
       'build-e2e-app': 'npm run build:webpack-e2e-app',
-      'build-e2e-dev-app': 'npm run build:webpack-e2e-dev-app',
       'run-protractor': 'npm run protractor'
     },
 
@@ -495,7 +496,6 @@ module.exports = function (grunt) {
         'copy:e2e',
         'copy:e2e-pages',
         'exec:build-e2e-app',
-        'exec:build-e2e-dev-app',
         'connect:e2e',
         'exec:run-protractor'
       ]);

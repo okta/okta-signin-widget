@@ -1,20 +1,21 @@
-/* global module module */
+/* global module module, __dirname */
 /*eslint camelcase: ["error", {properties: "never"}]*/
 
-var fs      = require('fs');
-var webpack = require('webpack');
-var _       = require('underscore');
+const { readFileSync } = require('fs');
+const { join } = require('path');
+const { DefinePlugin, BannerPlugin, optimize } = require('webpack');
+const { some } = require('underscore');
 
-var license = fs.readFileSync('src/widget/copyright.txt', 'utf8');
+const UglifyJsPlugin = optimize.UglifyJsPlugin;
 
-var devMode = function(mode = true) {
-  return new webpack.DefinePlugin({
-    DEBUG: mode
+function devMode() {
+  return new DefinePlugin({
+    DEBUG: true
   });
-};
+}
 
-var uglify = function() {
-  return new webpack.optimize.UglifyJsPlugin({
+function uglify() {
+  return new UglifyJsPlugin({
     compress: {
       warnings: false,
       // Drop all console.* and Logger statements
@@ -26,16 +27,16 @@ var uglify = function() {
       ],
     },
     sourceMap: true,
-    comments: function(node, comment) {
+    comments: (node, comment) => {
       // Remove other Okta copyrights
-      var isLicense = /^!/.test(comment.value) ||
+      const isLicense = /^!/.test(comment.value) ||
                       /.*(([Ll]icense)|([Cc]opyright)|(\([Cc]\))).*/.test(comment.value);
-      var isOkta = /.*Okta.*/.test(comment.value);
+      const isOkta = /.*Okta.*/.test(comment.value);
 
       // Some licenses are in inline comments, rather than standard block comments.
       // UglifyJS2 treats consecutive inline comments as separate comments, so we
       // need exceptions to include all relevant licenses.
-      var exceptions = [
+      const exceptions = [
         'Chosen, a Select Box Enhancer',
         'by Patrick Filler for Harvest',
         'Version 0.11.1',
@@ -44,37 +45,28 @@ var uglify = function() {
         'Underscore.js 1.8.3'
       ];
 
-      var isException = _.some(exceptions, function(exception) {
+      const isException = some(exceptions, (exception) => {
         return comment.value.indexOf(exception) !== -1;
       });
 
       return (isLicense || isException) && !isOkta;
     }
   });
-};
-
-var banner = function(license) {
-  // Add a single Okta license after removing others
-  return new webpack.BannerPlugin(license);
-};
-
-function plugin(options = {}) {
-  var plugins = [];
-  if (options.uglify) {
-    plugins = [
-      uglify(),
-      // Automatically add license header to uglified file
-      banner(license)
-    ];
-  }
-  if (options.debug) {
-    // Use DEBUG/development environment w/ console warnings
-    plugins.push(devMode());
-  } else {
-    // Use default for production mode
-    plugins.push(devMode(false));
-  }
-  return plugins;
 }
 
-module.exports = plugin;
+function banner() {
+  // Add a single Okta license after removing others
+  const license = readFileSync(join(__dirname, '../../src/widget/copyright.txt'), 'utf8');
+  return new BannerPlugin(license);
+}
+
+function plugins(options = {}) {
+  if (options.isProduction) {
+    // Uglify and add license header 
+    return [ uglify(), banner() ];
+  }
+  // Use DEBUG/development environment w/ console warnings
+  return [ devMode() ];
+}
+
+module.exports = plugins;

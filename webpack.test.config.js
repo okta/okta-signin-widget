@@ -9,7 +9,7 @@ var plugins       = require('./buildtools/webpack/plugins');
 testConfig.entry = ['babel-polyfill', './target/js/test/unit/main.js'];
 testConfig.output.path = path.resolve(__dirname, 'target/test/unit');
 testConfig.devtool = '#inline-source-map';
-testConfig.plugins = plugins({ debug: true });
+testConfig.plugins = plugins({ isProduction: false });
 
 _.extend(testConfig.resolve.alias, {
   'sandbox': 'test/unit/helpers/sandbox',

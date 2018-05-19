@@ -60,9 +60,7 @@ if (loader) {
 // 2. cdnConfig
 var cdnConfig = config('okta-sign-in.min.js');
 cdnConfig.entry.unshift('babel-polyfill');
-cdnConfig.plugins = plugins({
-  uglify: true
-});
+cdnConfig.plugins = plugins({ isProduction: true });
 
 // 3. noJqueryConfig
 var noJqueryConfig = config('okta-sign-in-no-jquery.js');
@@ -80,8 +78,6 @@ noJqueryConfig.externals = {
 // 4. devConfig
 var devConfig = config('okta-sign-in.js');
 devConfig.entry.unshift('babel-polyfill');
-devConfig.plugins = plugins({
-  debug: true
-});
+devConfig.plugins = plugins({ isProduction: false });
 
 module.exports = [entryConfig, cdnConfig, noJqueryConfig, devConfig];

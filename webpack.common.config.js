@@ -4,7 +4,6 @@ var path      = require('path');
 var EMPTY     = 'widget/empty';
 var TARGET_JS = path.resolve(__dirname, 'target/js/');
 var SHARED_JS = TARGET_JS + '/shared';
-var plugins   = require('./buildtools/webpack/plugins');
 
 // Return a function so that all consumers get a new copy of the config
 module.exports = function (outputFilename) {
@@ -137,11 +136,6 @@ module.exports = function (outputFilename) {
     node: {
       process: false,
       setImmediate: false
-    },
-
-    // Use the default plugins:
-    //   - Production mode (no console warnings)
-    //   - Not minified or uglified
-    plugins: plugins()
+    }
   };
 };

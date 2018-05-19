@@ -5,6 +5,6 @@ var devConfig = common('okta-sign-in.js');
 var plugins   = require('./buildtools/webpack/plugins');
 
 devConfig.devtool = '#inline-source-map';
-devConfig.plugins = plugins({ debug: true });
+devConfig.plugins = plugins({ isProduction: false });
 
 module.exports = devConfig;
