@@ -22,7 +22,17 @@ function uglify() {
       drop_console: true,
       drop_debugger: true,
       pure_funcs: [
+        'Logger.trace',
+        'Logger.dir',
+        'Logger.time',
+        'Logger.timeEnd',
+        'Logger.group',
+        'Logger.groupEnd',
+        'Logger.assert',
+        'Logger.log',
+        'Logger.info',
         'Logger.warn',
+        'Logger.error',
         'Logger.deprecate'
       ],
     },
