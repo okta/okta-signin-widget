@@ -1271,7 +1271,8 @@ Need to know if the Sign-In Widget supports your browser requirements?  Please s
 1. Clone this repo and navigate to the new `okta-signin-widget` folder.
 
     ```bash
-    $ git clone git@github.com:okta/okta-signin-widget.git && cd okta-signin-widget
+    $ git clone https://github.com/okta/okta-signin-widget.git
+    $ cd okta-signin-widget
     ```
 
 2. [Install Bundler](http://bundler.io/) if you don't already have it, and then install our Ruby dependencies.
