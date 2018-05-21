@@ -25,8 +25,9 @@ Setting up courage is easy:
     ```bash
     [okta]$ git clone git@github.com:okta/courage.git
     ```
+3. Make sure you are on the right node version - node 8.1.1.
 
-3. Run a [yarn install](https://yarnpkg.com/en/docs/cli/install)
+4. Run a [yarn install](https://yarnpkg.com/en/docs/cli/install)
     ```bash
     [okta/courage]$ yarn install
     ```
@@ -130,12 +131,17 @@ You're done developing the courage component of your feature - now what? There a
 
 2. Install the package with your new version number
 
-  - If you're updating *okta-core*, update *clients/enduser* and *clients/admin* using yarn:
+  Note: Examples below use version number is _1.1.0-beta.20_, replace that number with your new version
+
+  - If you're updating *okta-core*, run the following command:
 
       ```bash
-      # If your version number is 1.1.0-beta.20:
-      [okta-core/clients/enduser]$ yarn upgrade @okta/courage@1.1.0-beta.20
-      [okta-core/clients/admin]$ yarn upgrade @okta/courage@1.1.0-beta.20
+      [okta-core/]$ ant yarn.upgrade.courage -Dver=1.1.0-beta.20
+      ```
+
+  - If you're updating a repo that uses yarn:
+      ```bash
+      [your-module]$ yarn upgrade @okta/courage@1.1.0-beta.20
       ```
 
   - If you're updating another repo that does not use yarn, use `npm install`:

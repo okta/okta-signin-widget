@@ -141,6 +141,8 @@ function ($, _, Keys, TemplateUtil, BaseInput) {
     },
 
     constructor: function () {
+      this.template = template;
+      this.option = option;
       BaseInput.apply(this, arguments);
       this.params = this.options.params || {};
     },
@@ -178,7 +180,7 @@ function ($, _, Keys, TemplateUtil, BaseInput) {
       return this;
     },
 
-    __applyChosen: function () {
+    __applyChosen: function (update) {
       var width = this.options.wide ? '100%' : this.params.width || '62%';
       if (this.params.autoWidth) {
         width = findSelectWidth(this);
@@ -186,7 +188,7 @@ function ($, _, Keys, TemplateUtil, BaseInput) {
 
       defer.call(this, function () {
         var searchThreshold = this.getParam('searchThreshold', 10);
-        if (!_.result(this.options, 'autoRender')) {
+        if (!_.result(this.options, 'autoRender') && update !== false) {
           this.update();
         }
         this.$select.chosen({
@@ -203,7 +205,6 @@ function ($, _, Keys, TemplateUtil, BaseInput) {
         this.model.trigger('form:resize');
       });
     },
-
 
     /**
     * @Override

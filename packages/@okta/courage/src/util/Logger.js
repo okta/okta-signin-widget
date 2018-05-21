@@ -7,83 +7,84 @@ define(function () {
   }
 
   /**
-   * @class Okta.Logger
-   * See [window.console](https://developer.mozilla.org/en-US/docs/Web/API/Console)
+   * Utility library of logging functions.
+   * @class module:Okta.Logger
    */
-  return {
+  return /** @lends module:Okta.Logger */ {
+
     /**
+     * See [console.trace](https://developer.mozilla.org/en-US/docs/Web/API/Console.trace)
      * @static
-     * See: [console.trace](https://developer.mozilla.org/en-US/docs/Web/API/Console.trace)
      */
     trace: function () {
       return log('trace', arguments);
     },
     /**
+     * See [console.dir](https://developer.mozilla.org/en-US/docs/Web/API/Console.dir)
      * @static
-     * See: [console.dir](https://developer.mozilla.org/en-US/docs/Web/API/Console.dir)
      */
     dir: function () {
       return log('dir', arguments);
     },
     /**
+     * See [console.time](https://developer.mozilla.org/en-US/docs/Web/API/Console.time)
      * @static
-     * See: [console.time](https://developer.mozilla.org/en-US/docs/Web/API/Console.time)
      */
     time: function () {
       return log('time', arguments);
     },
     /**
+     * See [console.timeEnd](https://developer.mozilla.org/en-US/docs/Web/API/Console.timeEnd)
      * @static
-     * See: [console.timeEnd](https://developer.mozilla.org/en-US/docs/Web/API/Console.timeEnd)
      */
     timeEnd: function () {
       return log('timeEnd', arguments);
     },
     /**
+     * See [console.group](https://developer.mozilla.org/en-US/docs/Web/API/Console.group)
      * @static
-     * See: [console.group](https://developer.mozilla.org/en-US/docs/Web/API/Console.group)
      */
     group: function () {
       return log('group', arguments);
     },
     /**
+     * See [console.groupEnd](https://developer.mozilla.org/en-US/docs/Web/API/Console.groupEnd)
      * @static
-     * See: [console.groupEnd](https://developer.mozilla.org/en-US/docs/Web/API/Console.groupEnd)
      */
     groupEnd: function () {
       return log('groupEnd', arguments);
     },
     /**
+     * See [console.assert](https://developer.mozilla.org/en-US/docs/Web/API/Console.assert)
      * @static
-     * See: [console.assert](https://developer.mozilla.org/en-US/docs/Web/API/Console.assert)
      */
     assert: function () {
       return log('assert', arguments);
     },
     /**
+     * See [console.log](https://developer.mozilla.org/en-US/docs/Web/API/Console.log)
      * @static
-     * See: [console.log](https://developer.mozilla.org/en-US/docs/Web/API/Console.log)
      */
     log: function () {
       return log('log', arguments);
     },
     /**
+     * See [console.info](https://developer.mozilla.org/en-US/docs/Web/API/Console.info)
      * @static
-     * See: [console.info](https://developer.mozilla.org/en-US/docs/Web/API/Console.info)
      */
     info: function () {
       return log('info', arguments);
     },
     /**
+     * See [console.warn](https://developer.mozilla.org/en-US/docs/Web/API/Console.warn)
      * @static
-     * See: [console.warn](https://developer.mozilla.org/en-US/docs/Web/API/Console.warn)
      */
     warn: function () {
       return log('warn', arguments);
     },
     /**
+     * See [console.error](https://developer.mozilla.org/en-US/docs/Web/API/Console.error)
      * @static
-     * See: [console.error](https://developer.mozilla.org/en-US/docs/Web/API/Console.error)
      */
     error: function () {
       return log('error', arguments);

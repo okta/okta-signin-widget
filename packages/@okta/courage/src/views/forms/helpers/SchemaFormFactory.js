@@ -8,7 +8,7 @@ define([
 ], function (_, StringUtil, BooleanSelect, TextBoxSet, EnumTypeHelper) {
   // Maps each __displayType__ to a basic set of inputOptions.
   function defaultOptions(property) {
-    /* eslint complexity: [2, 21] */
+    /* eslint complexity: [2, 22] */
     var type = property.get('__displayType__'),
         values = property.get('__possibleValues__'),
         name = property.get('name'),
@@ -39,6 +39,10 @@ define([
     case 'arrayofobject':
       inputOptions.input = TextBoxSet;
       inputOptions.params = {itemType: property.get('items').type};
+      break;
+    case 'arrayofref-id':
+      inputOptions.input = TextBoxSet;
+      inputOptions.params = {itemType: property.get('items').format};
       break;
     case 'boolean':
       inputOptions.input = BooleanSelect;

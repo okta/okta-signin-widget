@@ -68,6 +68,13 @@ define([
     extraParams: {},
 
     /**
+     * Whether or not to append extra params in prefetch query.
+     * Default is true
+     * @type {Boolean|Function}
+     */
+    appendExtraParamsInPrefetch: true,
+
+    /**
      * @property {String} apiURL the URL to the API endpoint
      */
     apiURL: null,
@@ -369,7 +376,8 @@ define([
     },
 
     buildPrefetchQuery: function (ids) {
-      return _.extend({}, this.extraParams, {
+      var appendExtraParams = _.result(this, 'appendExtraParamsInPrefetch');
+      return _.extend({}, (appendExtraParams ? this.extraParams : {}), {
         filter: this.idAttribute + ' eq "' + ids.join('" or ' + this.idAttribute + ' eq "') + '"'
       });
     },

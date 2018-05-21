@@ -60,9 +60,14 @@
         initialize: function () {
           _.each(normalizeField(fields), function (field) {
             this.add(View.extend({
-              el: '<th role="columnheader"></th>',
+              tagName: 'th',
               children: field.headerView && [field.headerView],
-              template: field.headerView ? null : field.label || '&nbsp;'
+              template: field.headerView ? null : field.label || '&nbsp;',
+              attributes: function () {
+                return _.extend({
+                  role: 'columnheader'
+                }, field.headAttributes || {});
+              }
             }), 'tr');
           }, this);
         }
@@ -93,14 +98,20 @@
      * @return {Archer.View} The cell view
      */
     createCell: function createCell(field) {
-      var proto = _.extend(
-        _.pick(field, 'className', 'attributes', 'initialize'),
-        { tagName: 'td',
-          events: cleanEvents(field.events),
-          children: field.view && [field.view],
-          template: field.view ? null : field.template || '{{' + field.name + '}}'
+      var proto = _.extend(_.pick(field, 'className', 'attributes', 'initialize'), { 
+        tagName: 'td',
+        events: cleanEvents(field.events),
+        children: field.view && [field.view],
+        template: field.view ? null : field.template || '{{' + field.name + '}}',
+        postRender() {
+          const maxWidth = _.result(field, 'maxWidth');
+          const $el = this.$('div').length ? this.$('div') : this.$el;
+          if (_.isNumber(maxWidth)) {
+            $el.css('max-width', maxWidth + 'px');
+            $el.addClass('column-no-wrap');
+          }
         }
-      );
+      });
       return View.extend(proto);
     },
 

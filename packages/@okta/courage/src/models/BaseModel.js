@@ -4,11 +4,10 @@ define([
 ], function (_, Model) {
 
   /**
-   * @class Okta.BaseModel
-   * @extends {Okta.Model}
-   * @deprecated Use `{@link Okta.Model}` instead
-   *
-   * ```javascript
+   * @class module:Okta.BaseModel
+   * @extends module:Okta.Model
+   * @deprecated Use {@link module:Okta.Model|Okta.Model} instead
+   * @example
    * var Model = BaseModel.extend({
    *   defaults: {
    *     name: BaseModel.ComputedProperty(['fname', 'lname'], function (fname, lname) {
@@ -23,7 +22,6 @@ define([
    * model.set('__private__', 'private property');
    * model.get('__private__'); //=> "private property"
    * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
-   * ```
    */
 
   var hasProps = function (model) {
@@ -31,9 +29,8 @@ define([
     return _.size(model.props) + _.size(local) > 0;
   };
 
-  var BaseModel = Model.extend({
+  var BaseModel = Model.extend(/** @lends module:Okta.BaseModel.prototype */ {
     /**
-     * @inheritdoc Okta.Model#flat
      * @type {Boolean}
      */
     flat: false,
@@ -177,7 +174,7 @@ define([
     isSynced: function () {
       return _.isEqual(this._getSynced(), this.toJSON());
     }
-  }, {
+  }, /** @lends module:Okta.BaseModel.prototype */ {
     /**
      * @static
      *

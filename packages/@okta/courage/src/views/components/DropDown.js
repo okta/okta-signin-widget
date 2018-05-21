@@ -94,15 +94,14 @@ define([
     'seleniumId'];
 
   /**
-   * @class Okta.DropDown
-   * @extends Okta.View
-   *
    * A dropdown component to support dropdown navigation elements, activate/deactivate actions, etc.
    *
-   * Should not be confused with a select dropdown - this conponent is not desiend to selet an options from
+   * Should not be confused with a select dropdown - this component is not destined to select an option from
    * a set of options, but to navigate or to take action.
    *
-   * ```javascript
+   * @class module:Okta.DropDown
+   * @extends module:Okta.View
+   * @example
    * Okta.DropDown.extend({
    *   title: 'Change color',
    *   itemWidth: 280,
@@ -137,13 +136,12 @@ define([
    *     },
    *   ]
    * });
-   * ```
    */
-  return BaseView.extend({
+  return BaseView.extend(/** @lends module:Okta.DropDown.prototype */ {
 
     /**
-     * List of dropdown itmes for this dropdown
-     * Uses {@link Okta.DropDown#addItem} internally
+     * List of dropdown items for this dropdown
+     * Uses {@link module:Okta.DropDown#addItem|addItem} internally
      * @type {Array|Function}
      */
     items: [],
@@ -175,6 +173,7 @@ define([
     /**
      * Should this dropdown be disabled by default
      * @type {Boolean|Function}
+     * @default false
      */
     disabled: false,
 
@@ -253,8 +252,17 @@ define([
 
     /**
      * Add a dropdown option
-     *
-     * ```javascript
+     * @param {Object} options Options to describe the dropdown option
+     * @param {String|Function} options.icon The icon class
+     * @param {String|Function} options.title The title text display on the first line of the option
+     * @param {String|Function} options.subtitle The subtitle text display on the second line of the option
+     * @param {Function} options.click The event handler when the option is enabled and clicked on
+     * @param {Boolean|Function} options.enabled=true make this item enabled
+     * @param {Object|Function} options.enableWhen The setting to determine when the option is enabled.
+     * @param {Boolean|Function} options.visible=true make this item visible
+     * @param {Object|Function} options.showWhen The setting to determine when the option is available (visible).
+     * @param {String|Function} options.seleniumId a data-se identifier to add to the `<a>` tag of the item
+     * @example
      * this.addItem({
      *   title: 'Change to green',
      *   subtitle: function () {
@@ -277,18 +285,6 @@ define([
      *     hasPermission: true
      *   }
      * });
-     * ```
-     * @param {Object} options Options to describe the dropdown option
-     * @param {String|Function} options.icon The icon class
-     * @param {String|Function} options.title The title text display on the first line of the option
-     * @param {String|Function} options.subtitle The subtitle text display on the second line of the option
-     * @param {Function} options.click The event handler when the option is enabled and clicked on
-     * @param {Boolean|Function} options.enabled=true make this item enabled
-     * @param {Object|Function} options.enableWhen The setting to determine when the option is enabled.
-     * @param {Boolean|Function} options.visible=true make this item visible
-     * @param {Object|Function} options.showWhen The setting to determine when the option is available (visible).
-     * @param {String|Function} options.seleniumId a data-se identifier to add to the `<a>` tag of the item
-     *
      */
     addItem: function (options) {
       options = _.pick(options || {}, ITEM_OPTS);

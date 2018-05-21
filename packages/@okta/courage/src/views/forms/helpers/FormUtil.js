@@ -21,6 +21,7 @@ function (_, StringUtil, BaseView, Keys, Logger, ViewUtil) {
         'placeholder', 'label', // labels
         'readOnly', 'read', 'disabled', 'readModeString', // modes
         'options', // select/radio
+        'deps', // used to specify inputs that have dependencies and show a callout to user on select
         'from', 'to', // model transformers,
         'autoRender', // model attributes change event to trigger rerendering of the input
         'inlineValidation', // control inline validating against the model on focus lost

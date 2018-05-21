@@ -11,7 +11,7 @@ function (_, BaseView) {
       role: 'tab'
     },
 
-    template: '<a class="ui-tabs-anchor" role="presentation" href="{{route}}">{{label}}</a>',
+    template: '<a class="ui-tabs-anchor" role="presentation" href="{{route}}" data-se="{{label}}">{{label}}</a>',
 
     events: {
       'click a': function (e) {

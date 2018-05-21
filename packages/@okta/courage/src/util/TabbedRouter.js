@@ -7,12 +7,11 @@ define([
 function ($, _, Tabs, BaseRouter) {
 
   /**
-   * @class Okta.TabbedRouter
    * A router that generates a tabbed view where each tab maps to a route.
-   * @extends Okta.Router
+   * @class module:Okta.TabbedRouter
+   * @extends module:Okta.Router
    */
-
-  return BaseRouter.extend({
+  return BaseRouter.extend(/** @lends module:Okta.TabbedRouter.prototype */ {
 
     constructor: function (options) {
 
@@ -57,7 +56,8 @@ function ($, _, Tabs, BaseRouter) {
      * @param {Array} options.routes The routes this tab handles
      * @param {String} options.method The method to invoke when the tab is selected
      * @param {String} options.label The label to display on the tab
-     * @private {Array} subtabs list of subtabs on the tab
+     * @param {Array} options.subtabs list of subtabs on the tab
+     * @private
      */
     __addTab: function (options) {
       if (!this.__hasDefaultRoute) {
@@ -79,6 +79,7 @@ function ($, _, Tabs, BaseRouter) {
     /**
      * Internal method for adding subtabs for each tab
      * @param {Object} options hash with routes and subtabs attributes
+     * @private
      */
     __addSubTabs: function (options) {
       _.each(options.subtabs, function (subtab) {

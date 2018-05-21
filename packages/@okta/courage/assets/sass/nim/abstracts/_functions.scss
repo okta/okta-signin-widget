@@ -1,0 +1,31 @@
+// Rem-based modular scale for type
+// Not ready for general use.
+
+@function ms($step) {
+  $value: 1rem;
+
+  @if $step > 0 {
+    @for $i from 1 through $step {
+      $value: ($value * $scale-ratio);
+    }
+  }
+
+  @if $step < 0 {
+    @for $i from $step through -1 {
+      $value: ($value / $scale-ratio);
+    }
+  }
+
+  @return $value;
+}
+
+/**
+ * Retrieves map keys from nested maps.
+ */
+
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+  @return $map;
+}
