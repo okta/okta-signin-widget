@@ -571,23 +571,23 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
         });
       });
-      itp('Does not show the password toggle button if features.showPasswordToggle is not set', function () {
-        return setup({ 'features.showPasswordToggle': false }).then(function (test) {
-          test.form.setPassword('Abcd1234');
+      itp('Does not show the password toggle button if features.showPasswordToggleOnSignInPage is not set', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': false }).then(function (test) {
+          test.form.setPassword('testpass');
           test.form.setUsername('testuser');
           expect(test.form.passwordToggleContainer().length).toBe(0);
         });
       });
-      itp('Show the password toggle button if features.showPasswordToggle is set', function () {
-        return setup({ 'features.showPasswordToggle': true }).then(function (test) {
-          test.form.setPassword('Abcd1234');
+      itp('Show the password toggle button if features.showPasswordToggleOnSignInPage is set', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          test.form.setPassword('testpass');
           test.form.setUsername('testuser');
           expect(test.form.passwordToggleContainer().length).toBe(1);
         });
       });
-      itp('Toggles icon when the password toggle button with features.showPasswordToggle is clicked', function () {
-        return setup({ 'features.showPasswordToggle': true }).then(function (test) {
-          test.form.setPassword('Abcd1234');
+      itp('Toggles icon when the password toggle button with features.showPasswordToggleOnSignInPage is clicked', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          test.form.setPassword('testpass');
           test.form.setUsername('testuser');
           expect(test.form.passwordToggleContainer().length).toBe(1);
           expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
@@ -602,12 +602,12 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('Toggles password field from text to password after 30 seconds', function () {
-        return setup({ 'features.showPasswordToggle': true }).then(function (test) {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
           jasmine.clock().uninstall();
           var originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
           jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
           jasmine.clock().install();
-          test.form.setPassword('Abcd1234');
+          test.form.setPassword('testpass');
           test.form.setUsername('testuser');
           expect(test.form.passwordToggleContainer().length).toBe(1);
           expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');

@@ -110,7 +110,7 @@ define([
         }
       };
 
-      if (this.settings.get('features.showPasswordToggle')) {
+      if (this.settings.get('features.showPasswordToggleOnSignInPage')) {
         userNameFieldObject.params.iconDivider = true;
       }
       return userNameFieldObject;
@@ -133,7 +133,7 @@ define([
           icon: 'remote-lock-16'
         }
       };
-      if (this.settings.get('features.showPasswordToggle')) {
+      if (this.settings.get('features.showPasswordToggleOnSignInPage')) {
         passwordFieldObject.params.iconDivider = true;
         passwordFieldObject.params.showPasswordToggle = true;
       }
