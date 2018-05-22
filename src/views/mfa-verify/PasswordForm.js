@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', './inputs/ShowPasswordBox'], function (Okta, PasswordBox) {
+define(['okta'], function (Okta) {
 
   var _ = Okta._;
 
@@ -33,7 +33,9 @@ define(['okta', './inputs/ShowPasswordBox'], function (Okta, PasswordBox) {
         className: 'auth-passcode',
         name: 'password',
         type: 'password',
-        input: PasswordBox
+        params: {
+          showPasswordToggle: true
+        }
       });
 
       if (this.options.appState.get('allowRememberDevice')) {

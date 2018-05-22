@@ -571,6 +571,64 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
         });
       });
+      itp('Does not show the password toggle button if features.showPasswordToggleOnSignInPage is not set', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': false }).then(function (test) {
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(0);
+        });
+      });
+      itp('Show the password toggle button if features.showPasswordToggleOnSignInPage is set', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(1);
+        });
+      });
+      itp('Toggles icon when the password toggle button with features.showPasswordToggleOnSignInPage is clicked', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(1);
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
+          test.form.passwordToggleShowContainer().click();
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+          test.form.passwordToggleHideContainer().click();
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
+        });
+      });
+      itp('Toggles password field from text to password after 30 seconds', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          jasmine.clock().uninstall();
+          var originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+          jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
+          jasmine.clock().install();
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(1);
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
+          test.form.passwordToggleShowContainer().click();
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+          // t25
+          jasmine.clock().tick(25 * 1000);
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+          // t35
+          jasmine.clock().tick(35 * 1000);
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
+          jasmine.clock().uninstall();
+          jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+        });
+      });
     });
 
     Expect.describe('transform username', function () {
