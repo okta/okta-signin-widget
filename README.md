@@ -185,6 +185,8 @@ var signIn = new OktaSignIn(
 );
 ```
 
+> **Note**: `https://{yourOktaDomain}` can be any Okta organization. See [Basic config options](#basic-config-options) for more information.
+
 ## renderEl(options, success, error)
 
 Renders the widget to the DOM, and passes control back to your app through the success and error callback functions when the user has entered a success or error state.
@@ -356,8 +358,9 @@ signIn.session.get(function (res) {
   }
   // No session, or error retrieving the session. Render the Sign-In Widget.
   else if (res.status === 'INACTIVE') {
-    signIn.renderEl(
-      {el: '#osw-container'},
+    signIn.renderEl({
+        el: '#osw-container'
+      },
       function success(res) {
         // showApp() if res.status === 'SUCCESS'
       },
@@ -470,8 +473,9 @@ After receiving an `access_token` or `id_token`, add it to the `tokenManager` to
 
 ```javascript
 // Example showing a success callback when authParams.responseType = 'id_token'
-signIn.renderEl(
-  {el: '#osw-container'},
+signIn.renderEl({
+    el: '#osw-container'
+  },
   function (res) {
     if (res.status !== 'SUCCESS') {
       return;
