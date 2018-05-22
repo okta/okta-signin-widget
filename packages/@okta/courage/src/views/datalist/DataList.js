@@ -1,14 +1,11 @@
 define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
 
-  return BaseView.extend({
-
   /**
-   * @class DataList
-   * @private
-   * @extends Okta.View
-   *
    * A low level DataList container
+   * @class src/views/datalist/DataList
+   * @extends module:Okta.View
    */
+  return BaseView.extend(/** @lends src/views/datalist/DataList.prototype */ {
 
     /**
      * Delay time for resizing
@@ -36,8 +33,7 @@ define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
 
     /**
      * Is the content area is not shorter than the sidebar?
-     *
-     * TODO: this should have a better CSS implementation and should not be required in here
+     * @todo this should have a better CSS implementation and should not be required in here
      * @return {Boolean}
      */
     balanced: function () {
@@ -51,10 +47,9 @@ define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
     },
 
     /**
-     * @method
      * Balance the datalist and make the height of the content area and the sidebar identical
-     *
-     * TODO: this should have a better CSS implementation and should not be required in here
+     * @todo this should have a better CSS implementation and should not be required in here
+     * @method
      */
     balance: _.debounce(function () {
       this.balanced() || this.content.height(this.sidebar.height() + 30);

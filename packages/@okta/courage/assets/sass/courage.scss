@@ -1,2 +1,24 @@
-@import 'base';
-@import 'modules';
+// Import styles from Nim
+@import 'nim/nim';
+
+@import 'fonts/all';
+@import 'helpers/all';
+@import 'icons/all';
+@import 'typography/all';
+@import 'from-saasure';
+
+// ------ Components ------
+@import 'o-forms/all';
+@import 'data-lists/all';
+@import 'instruction-list/all';
+@import 'dropdown/all';
+@import 'o-wizard/all';
+@import 'o-file-uploader/all';
+@import 'vendor/selectize';
+@import 'vendor/selectize_overrides';
+@import 'sidebar/all';
+@import 'button/all';
+@import 'infobox/all';
+@import 'tabs/all';
+@import 'modal/all';
+// ------ Components ------

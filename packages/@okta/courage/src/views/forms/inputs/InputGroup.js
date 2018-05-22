@@ -37,7 +37,7 @@ define([
     return ButtonFactory.create(_.defaults({
       getReadModeString: _.constant(' '),
       focus: _.noop
-    }, _.pick(options, 'click', 'title', 'href')));
+    }, _.pick(options, 'click', 'title', 'href', 'icon')));
   }
 
   var InputGroupView = BaseView.extend({

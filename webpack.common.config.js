@@ -8,7 +8,7 @@ var SHARED_JS = TARGET_JS + '/shared';
 // Return a function so that all consumers get a new copy of the config
 module.exports = function (outputFilename) {
   return {
-    entry: ['./target/js/widget/OktaSignIn.js'],
+    entry: ['./src/util/RegisterInputs.js', './target/js/widget/OktaSignIn.js'],
     devtool: 'source-map',
     output: {
       path: TARGET_JS,
@@ -70,29 +70,7 @@ module.exports = function (outputFilename) {
             'views/Backbone.TableVie',
             'views/datalist/SimpleDataList',
             'views/datalist/Table',
-            'views/forms/inputs/GroupPicker',
-            'views/forms/inputs/AppPicker',
-            'views/forms/inputs/AppInstancePicker',
-            'views/forms/inputs/IdpPicker',
-            'views/forms/inputs/ScopesPicker',
-            'views/forms/inputs/SUOrgsPicker',
-            'views/forms/inputs/UserPicker',
-            'views/forms/inputs/BasePicker',
-            'views/forms/inputs/BaseSelect',
-            'views/forms/inputs/BaseSelectize',
-            'views/forms/inputs/ZonePicker',
-            'views/forms/inputs/TextArea',
-            'views/forms/inputs/TextPlusSelect',
-            'views/forms/inputs/DateBox',
-            'views/forms/inputs/NumberBox',
-            'views/forms/inputs/TextSelect',
             'views/forms/components/ReadModeBar',
-            'views/forms/inputs/ListInput',
-            'views/forms/inputs/SimpleCheckBoxSet',
-            'views/forms/inputs/GroupSelect',
-            'views/forms/inputs/BaseSearchableSelect',
-            'views/forms/inputs/MultiSearchableSelect',
-            'views/forms/inputs/SearchableSelect',
             'views/Backbone.TableView',
             'views/datalist/datalistBundle',
             'views/tabs/tabsBundle',
@@ -112,9 +90,7 @@ module.exports = function (outputFilename) {
             /vendor\/plugins\/jquery.simplemodal/,
             /vendor\/plugins\/spin/,
             'jqueryui',
-            'selectize',
             'vendor/lib/json2',
-            'vendor/plugins/select2',
           ])
         },
         // Babel

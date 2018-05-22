@@ -558,7 +558,11 @@
 }
 .visibility-16:before {
   content: $visibility;
-  color: $icon-color-dark;
+  color: $icon-color-light;
+}
+.visibility-off-16::before {
+  content: $visibility-off;
+  color: $icon-color-light;
 }
 .person-16-gray:before {
   content: $user;

@@ -39,6 +39,7 @@ function (_, Backbone, ButtonFactory, ToolBar, SearchBox, LettersNav) {
      * @param  {Object} options options hash
      * @param  {String} options.type component type. supported values are [button, search, letters]
      * @param  {String} [options.field] field the components operates on. applies to [search, letters]
+     * @param  {String} [options.placeholder] placeholder text for the search box
      * @param  {Number} [options.minChars] minChars for the search component
      * @param  {String} [options.align] align of the search component
      * @param  {String} [options.title] title of a button component
@@ -57,7 +58,7 @@ function (_, Backbone, ButtonFactory, ToolBar, SearchBox, LettersNav) {
       case 'search':
         return SearchBox.extend({
           initialize: function () {
-            _.extend(this.options, _.pick(options, 'field', 'minChars'), {'float': options.align});
+            _.extend(this.options, _.pick(options, 'field', 'minChars', 'placeholder'), {'float': options.align});
           }
         });
       case 'letters':

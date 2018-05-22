@@ -1,5 +1,6 @@
-$error-input-border-color: #d93934;
+@import '../nim/abstracts/colors';
+$error-input-border-color: $cinnabar-3;
 $multi-2-width: 49%;
 $multi-3-width: 32%;
 $list-input-item-width: 92%;
-$list-input-gripper-color: #c4c4c4;
+$list-input-gripper-color: $silver-2;
