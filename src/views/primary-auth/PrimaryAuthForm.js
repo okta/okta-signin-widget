@@ -122,7 +122,6 @@ define([
         'label-top': true,
         placeholder: Okta.loc('primaryauth.password.placeholder', 'login'),
         name: 'password',
-        input: TextBox,
         inputId: 'okta-signin-password',
         type: 'password',
         params: {
