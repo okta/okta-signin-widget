@@ -1320,6 +1320,6 @@ The `.widgetrc` file is a configuration file that saves your local widget settin
 | --- | --- |
 | `npm start` | Build the widget, start the server, and open a browser window with the widget loaded |
 | `npm run build:dev` | Build an unminified version of the widget |
-| `npm run build:release` | Build a minified, uglified version of the widget |
+| `npm run build:release` | Build a minified, uglified version of the widget (`okta-sign-in.min.js`) and a non-minified **development** version of the widget (`okta-sigin-in.js`).|
 | `npm test` | Run unit tests |
 | `npm run lint` | Run jshint and scss linting tests |

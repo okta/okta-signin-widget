@@ -1,8 +1,9 @@
+/* global module __dirname */
+
 var path      = require('path');
 var EMPTY     = 'widget/empty';
 var TARGET_JS = path.resolve(__dirname, 'target/js/');
 var SHARED_JS = TARGET_JS + '/shared';
-var VENDOR = path.resolve(__dirname, 'packages/@okta/courage/src/vendor');
 
 // Return a function so that all consumers get a new copy of the config
 module.exports = function (outputFilename) {

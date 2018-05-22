@@ -13,7 +13,8 @@
 define(function () {
 
   function log(level, args) {
-    if (window.console) {
+    // Only log statements in development mode
+    if (DEBUG) {
       window.console[level].apply(window.console, args);
     }
   }
