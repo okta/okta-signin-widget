@@ -7,8 +7,6 @@ define([
 ],
 function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
-  var _navigator = navigator;
-
   Expect.describe('DeviceFingerprint', function () {
 
     function mockIFrameMessages(success, errorMessage) {
@@ -20,17 +18,20 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
     }
 
     function mockUserAgent(userAgent) {
-      navigator = new Object(); // eslint-disable-line no-global-assign
-      navigator.__proto__ || (navigator.__proto__ = _navigator);
-      navigator.__defineGetter__('userAgent', function () { return userAgent; });
+      spyOn(DeviceFingerprint, 'getUserAgent').and.callFake(function() {
+        return userAgent;
+      });
+    }
+
+    function bypassMessageSourceCheck() {
+      // since we mock the Iframe messages the check to see if the message
+      // sent from right iframe would fail.
+      spyOn(DeviceFingerprint, 'isMessageFromCorrectSource').and.callFake(function() {
+        return true;
+      });
     }
 
     var baseUrl = window.origin || 'file://';
-
-    afterEach(function () {
-      // Reset navigator object to default value
-      navigator = _navigator; // eslint-disable-line no-global-assign
-    });
 
     it('iframe is created with the right src and it is hidden', function () {
       spyOn(window, 'addEventListener');
@@ -44,6 +45,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
     it('returns a fingerprint if the communication with the iframe is successfull', function (done) {
       mockIFrameMessages(true);
+      bypassMessageSourceCheck();
       DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
       .then(function (fingerprint) {
         expect(fingerprint).toBe('thisIsTheFingerprint');
@@ -56,6 +58,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
     it('fails if there is a problem with communicating with the iframe', function (done) {
       mockIFrameMessages(false, null);
+      bypassMessageSourceCheck();
       DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
       .then(function () {
         done.fail('Fingerprint promise should have been rejected');
@@ -68,6 +71,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
     it('fails if there iframe sends and invalid message content', function (done) {
       mockIFrameMessages(false, { type: 'InvalidMessageType' });
+      bypassMessageSourceCheck();
       DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
       .then(function () {
         done.fail('Fingerprint promise should have been rejected');
@@ -100,6 +104,23 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint) {
       })
       .fail(function (reason) {
         expect(reason).toBe('device fingerprint is not supported on Windows phones');
+        done();
+      });
+    });
+
+    it('ignores if message is not from right iframe', function(done) {
+      mockIFrameMessages(true);
+      DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
+        .then(function () {
+          done.fail('Fingerprint promise should not have been resolved');
+        })
+        .fail(function (reason) {
+          done.fail('Fingerprint promise should not have been rejected. ' +  reason);
+        });
+      Expect.tick().then(function() {
+        // give it time to check if promise resolves or rejects.
+        var $iFrame = $sandbox.find('iframe');
+        expect($iFrame).toExist();
         done();
       });
     });
