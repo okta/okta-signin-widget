@@ -15,13 +15,17 @@
 define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
 
   return {
+    __getUserAgent: function() {
+      return navigator.userAgent;
+    },
     _isMessageFromCorrectSource: function($iframe, event) {
       return event.source === $iframe[0].contentWindow;
     },
     generateDeviceFingerprint: function (oktaDomainUrl, element) {
-      if (!navigator.userAgent) {
+      var userAgent = this.__getUserAgent();
+      if (!userAgent) {
         return Q.reject('user agent is not defined');
-      } else if (isWindowsPhone()) {
+      } else if (isWindowsPhone(userAgent)) {
         return Q.reject('device fingerprint is not supported on Windows phones');
       }
 
@@ -34,8 +38,8 @@ define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
       });
       $iframe.appendTo(element);
 
-      function isWindowsPhone() {
-        return navigator.userAgent.match(/windows phone|iemobile|wpdesktop/i);
+      function isWindowsPhone(userAgent) {
+        return userAgent.match(/windows phone|iemobile|wpdesktop/i);
       }
 
       function removeIframe() {
