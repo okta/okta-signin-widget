@@ -1645,19 +1645,27 @@ function (Okta,
         });
         itp('posts to resend link if call button is clicked for the second time', function () {
           Util.speedUpPolling();
-
           return setupCall().then(function (test) {
-            $.ajax.calls.reset();
             test.setNextResponse(resChallengeCall);
+            expect(test.form.makeCall().text()).toBe('Call');
             test.form.makeCall().click();
-            return tick(test);
+            return Expect.wait(function () {
+              return test.form.makeCall().text() === 'Redial';
+            }, test);
           })
           .then(function (test) {
             expect(test.form.submitButton().prop('disabled')).toBe(false);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeCall);
             test.form.makeCall().click();
-            return tick(test);
+            return Expect.wait(function () {
+              return test.form.makeCall().text() === 'Calling';
+            }, test);
+          })
+          .then(function (test) {
+            return Expect.wait(function () {
+              return test.form.makeCall().text() === 'Redial';
+            }, test);
           })
           .then(function (test) {
             expect(test.form.submitButton().prop('disabled')).toBe(false);
