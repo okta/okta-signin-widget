@@ -15,14 +15,14 @@
 define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
 
   return {
-    __getUserAgent: function() {
+    getUserAgent: function() {
       return navigator.userAgent;
     },
-    _isMessageFromCorrectSource: function($iframe, event) {
+    isMessageFromCorrectSource: function($iframe, event) {
       return event.source === $iframe[0].contentWindow;
     },
     generateDeviceFingerprint: function (oktaDomainUrl, element) {
-      var userAgent = this.__getUserAgent();
+      var userAgent = this.getUserAgent();
       if (!userAgent) {
         return Q.reject('user agent is not defined');
       } else if (isWindowsPhone(userAgent)) {
@@ -54,7 +54,7 @@ define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
       }
 
       function onMessageReceivedFromOkta(event) {
-        if (!self._isMessageFromCorrectSource($iframe, event)) {
+        if (!self.isMessageFromCorrectSource($iframe, event)) {
           return;
         }
         if (!event || !event.data || event.origin != oktaDomainUrl) {

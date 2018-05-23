@@ -3,10 +3,9 @@ define([
   'vendor/lib/q',
   'helpers/util/Expect',
   'sandbox',
-  'util/DeviceFingerprint',
-  'helpers/mocks/Util'
+  'util/DeviceFingerprint'
 ],
-function ($, Q, Expect, $sandbox, DeviceFingerprint, Util) {
+function ($, Q, Expect, $sandbox, DeviceFingerprint) {
 
   Expect.describe('DeviceFingerprint', function () {
 
@@ -18,8 +17,8 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint, Util) {
       window.postMessage(JSON.stringify(message), '*');
     }
 
-    function mockUserAgentCheck(userAgent) {
-      spyOn(DeviceFingerprint, '__getUserAgent').and.callFake(function() {
+    function mockUserAgent(userAgent) {
+      spyOn(DeviceFingerprint, 'getUserAgent').and.callFake(function() {
         return userAgent;
       });
     }
@@ -27,7 +26,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint, Util) {
     function bypassMessageSourceCheck() {
       // since we mock the Iframe messages the check to see if the message
       // sent from right iframe would fail.
-      spyOn(DeviceFingerprint, '_isMessageFromCorrectSource').and.callFake(function() {
+      spyOn(DeviceFingerprint, 'isMessageFromCorrectSource').and.callFake(function() {
         return true;
       });
     }
@@ -84,7 +83,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint, Util) {
     });
 
     it('fails if user agent is not defined', function (done) {
-      mockUserAgentCheck(undefined);
+      mockUserAgent(undefined);
       mockIFrameMessages(true);
       DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
         .then(function () {
@@ -97,7 +96,7 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint, Util) {
     });
 
     it('fails if it is called from a Windows phone', function (done) {
-      mockUserAgentCheck('Windows Phone');
+      mockUserAgent('Windows Phone');
       mockIFrameMessages(true);
       DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
       .then(function () {
@@ -118,13 +117,12 @@ function ($, Q, Expect, $sandbox, DeviceFingerprint, Util) {
         .fail(function (reason) {
           done.fail('Fingerprint promise should not have been rejected. ' +  reason);
         });
-      Util.mockSetTimeout();
-      setTimeout(function() {
+      Expect.tick().then(function() {
         // give it time to check if promise resolves or rejects.
         var $iFrame = $sandbox.find('iframe');
         expect($iFrame).toExist();
         done();
-      }, 1000);
+      });
     });
 
   });
