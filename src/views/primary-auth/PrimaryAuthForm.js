@@ -123,6 +123,7 @@ define([
         placeholder: Okta.loc('primaryauth.password.placeholder', 'login'),
         name: 'password',
         inputId: 'okta-signin-password',
+        validateOnlyIfDirty: true,
         type: 'password',
         params: {
           innerTooltip: {

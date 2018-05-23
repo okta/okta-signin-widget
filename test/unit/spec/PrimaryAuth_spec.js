@@ -629,6 +629,82 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
         });
       });
+      itp('show username validation error when username field is dirty', function () {
+        return setup()
+        .then(function (test) {
+          test.form.usernameField().focus();
+          return tick(test);
+        }).then(function(test) {
+          test.form.setUsername('testuser');
+          return tick(test);
+        }).then(function (test) {
+          var msg = test.router.controller.model.validateField('username');
+          expect(msg).toEqual(undefined);
+          test.form.usernameField().focus();
+          return tick(test);
+        }).then(function(test) {
+          test.form.setUsername('');
+          return tick(test);
+        }).then(function(test) {
+          var msg = test.router.controller.model.validateField('username').username;
+          expect(msg).toEqual('Please enter a username');
+        });
+      });
+      itp('does not show username validation error when username field is not dirty', function () {
+        return setup()
+        .then(function (test) {
+          test.form.usernameField().focus();
+          expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+          return tick(test);
+        })
+        .then(function (test) {
+          test.form.passwordField().focus();
+          expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+          return tick(test);
+        })
+        .then(function (test) {
+          spyOn(test.router.controller.model, 'validate');
+          expect(test.router.controller.model.validate).not.toHaveBeenCalled();
+        });
+      });
+      itp('show password validation error when password field is dirty', function () {
+        return setup()
+        .then(function (test) {
+          test.form.passwordField().focus();
+          return tick(test);
+        }).then(function(test) {
+          test.form.setPassword('Abcd1234');
+          return tick(test);
+        }).then(function (test) {
+          var msg = test.router.controller.model.validateField('password');
+          expect(msg).toEqual(undefined);
+          test.form.passwordField().focus();
+          return tick(test);
+        }).then(function(test) {
+          test.form.setPassword('');
+          return tick(test);
+        }).then(function(test) {
+          var msg = test.router.controller.model.validateField('password').password;
+          expect(msg).toEqual('Please enter a password');
+        });
+      });
+      itp('does not show password validation error when password field is not dirty', function () {
+        return setup()
+        .then(function (test) {
+          test.form.passwordField().focus();
+          expect(test.form.passwordField()[0].parentElement).toHaveClass('focused-input');
+          return tick(test);
+        })
+        .then(function (test) {
+          test.form.usernameField().focus();
+          expect(test.form.passwordField()[0].parentElement).not.toHaveClass('focused-input');
+          return tick(test);
+        })
+        .then(function (test) {
+          spyOn(test.router.controller.model, 'validate');
+          expect(test.router.controller.model.validate).not.toHaveBeenCalled();
+        });
+      });
     });
 
     Expect.describe('transform username', function () {
