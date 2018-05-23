@@ -10,11 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 7] */
+/* eslint complexity: [2, 8] */
 
 define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
 
   return {
+    _isMessageFromCorrectSource: function($iframe, event) {
+      return event.source === $iframe[0].contentWindow;
+    },
     generateDeviceFingerprint: function (oktaDomainUrl, element) {
       if (!navigator.userAgent) {
         return Q.reject('user agent is not defined');
@@ -23,6 +26,7 @@ define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
       }
 
       var deferred = Q.defer();
+      var self = this;
 
       // Create iframe
       var $iframe = $('<iframe>', {
@@ -46,6 +50,9 @@ define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
       }
 
       function onMessageReceivedFromOkta(event) {
+        if (!self._isMessageFromCorrectSource($iframe, event)) {
+          return;
+        }
         if (!event || !event.data || event.origin != oktaDomainUrl) {
           handleError('no data');
           return;
