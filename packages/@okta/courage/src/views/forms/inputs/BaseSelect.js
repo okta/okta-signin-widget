@@ -225,7 +225,7 @@ function (_, $, BaseInput, TemplateUtil, StringUtil) {
       // element and this._emptyOption when the search term is empty ""
       // The ajax request still happens though
       var results = [];
-      if (query.term === '') {
+      if (query.term === '' && !this.getParam('allowEmptySearch')) {
         results = [this._startTypingMsg, this._emptyOption];
       } else {
         results = this.parseAll(data);

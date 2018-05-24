@@ -11,68 +11,82 @@ define([
     }
   };
 
-  return BaseView.extend({
+  /**
+   * A configurable button.
+   * @class module:Okta.internal.views.components.BaseButtonLink
+   * @extends module:Okta.View
+   * @example
+   * var View = BaseButtonLink.extend({
+   *   title: 'Click Me',
+   *   icon: 'help-text'
+   * })
+   */
+  return BaseView.extend(/** @lends module:Okta.internal.views.components.BaseButtonLink.prototype */ {
 
     /**
-     * @class BaseButtonLink
-     * @extends Okta.View
-     * @private
-     * A configurable button.
-     *
-     * ```javascript
-     * var View = BaseButtonLink.extend({
-     *   title: 'Click Me',
-     *   icon: 'help-text'
-     * })
-     * ```
+     * The main text for the button
+     * @name title
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {(String|Function)}
+     * @instance
      */
 
     /**
-     * @property {String | Function} [title] The main text for the button
+     * The link for the button
+     * @name href
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {(String|Function)}
+     * @instance
      */
 
     /**
-     * @property {String | Function} [href] The link for the button
-     */
-
-    /**
-     * @property {String | Function } [icon]
      * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
+     * @name icon
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {(String|Function)}
+     * @instance
      */
 
     /**
-     * @property {Object} [events] a [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
+     * A [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
+     * @name events
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {Object}
+     * @instance
      */
-
-    /*
-     * @property {Boolean | Function} [visible] visible=true make this button visible, default to true.
-     */
-
-    /*
-     * @property {Boolean | Function} [enabled] enabled=true make this button enabled, default to true.
-     */
-
-    /*
-     * @property {Object | Function} [enableWhen] The setting to determine when the button is enabled,
-         default to {} and enabled takes a higher priority.
-     */
-
-    /*
-     * @property {Object | Function} [showWhen] The setting to determine when the button is visible,
-         default to {} and visible takes a higher priority.
-     */
-
 
     tagName: 'a',
 
     template: '{{#if icon}}<span class="icon {{icon}}"></span>{{/if}}{{#if title}}{{title}}{{/if}}',
 
+    /**
+     * Make this button visible, default to true.
+     * @type {(Boolean|Function)}
+     * @default true
+     */
     visible: true,
 
+    /**
+     * Make this button enabled, default to true.
+     * @type {(Boolean|Function)}
+     * @default true
+     */
     enabled: true,
 
+    /**
+     * The setting to determine when the button is enabled, default to {} and
+     * enabled takes a higher priority.
+     * @type {(Object|Function)}
+     * @default {}
+     */
     enableWhen: {},
 
+    /**
+     * The setting to determine when the button is visible, default to {} and
+     * visible takes a higher priority.
+     * @type {(Object|Function)}
+     * @default {}
+     */
     showWhen: {},
 
     constructor: function (options) {

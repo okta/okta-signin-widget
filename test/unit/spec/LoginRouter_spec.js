@@ -1,11 +1,11 @@
-/* eslint max-params: [2, 32], max-statements: [2, 44], max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 32], max-statements: 0, max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'vendor/lib/q',
   'backbone',
   'shared/util/Util',
   'util/CryptoUtil',
-  'util/Logger',
+  'shared/util/Logger',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/util/Expect',
@@ -171,10 +171,13 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
     }
 
     function expectUnexpectedFieldLog(arg1) {
+      // These console warnings are called from Courage's Logger class, not
+      // the Widget's. We need to assert that the following is called in specific
+      // environments (window.okta && window.okta.debug are defined).
       expect(Logger.warn).toHaveBeenCalledWith('Field not defined in schema', arg1);
     }
 
-    it('throws a ConfigError if unknown option is passed as a widget param', function () {
+    it('logs a ConfigError error if unknown option is passed as a widget param', function () {
       spyOn(Logger, 'warn');
       var fn = function () { setup({ foo: 'bla' }); };
       expect(fn).not.toThrow(Errors.ConfigError);
@@ -290,7 +293,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
         );
       });
     });
-    it('throws an error on unrecoverable errors if no globalErrorFn is defined', function () {
+    it('logs an error on unrecoverable errors if no globalErrorFn is defined', function () {
       var fn = function () {
         setup({ foo: 'bar' });
       };
@@ -300,12 +303,13 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
     });
     it('calls globalErrorFn on unrecoverable errors if it is defined', function () {
       var errorSpy = jasmine.createSpy('errorSpy');
-      spyOn(Logger, 'warn');
       var fn = function () {
-        setup({ globalErrorFn: errorSpy, foo: 'bar' });
+        setup({ globalErrorFn: errorSpy, baseUrl: undefined });
       };
       expect(fn).not.toThrow();
-      expectUnexpectedFieldLog('foo');
+      var err = errorSpy.calls.mostRecent().args[0];
+      expect(err.name).toBe('CONFIG_ERROR');
+      expect(err.message).toEqual('"baseUrl" is a required widget parameter');
     });
     it('calls globalErrorFn if cors is not supported by the browser', function () {
       var errorSpy = jasmine.createSpy('errorSpy');
@@ -383,11 +387,47 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
         expect(form.isPrimaryAuth()).toBe(true);
       });
     });
-    itp('navigates to PrimaryAuth for all other wildcard routes', function () {
+    itp('navigates to IDPDiscovery for /app/salesforce/{id}/sso/saml when features.idpDiscovery is true', function () {
       return setup({'features.idpDiscovery': true})
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
-        test.router.navigate('login/default');
+        test.router.navigate('/app/salesforce/abc123sef/sso/saml');
+        return Expect.waitForIDPDiscovery();
+      })
+      .then(function () {
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to PrimaryAuth for /app/salesforce/{id}/sso/saml when features.idpDiscovery is false', function () {
+      return setup({'features.idpDiscovery': false})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('/app/salesforce/abc123sef/sso/saml');
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
+    });
+    itp('navigates to IDPDiscovery for /any/other when features.idpDiscovery is true', function () {
+      return setup({'features.idpDiscovery': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('any/other');
+        return Expect.waitForIDPDiscovery();
+      })
+      .then(function () {
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to PrimaryAuth for /any/other when features.idpDiscovery is false', function () {
+      return setup({'features.idpDiscovery': false})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('any/other');
         return Expect.waitForPrimaryAuth();
       })
       .then(function () {
@@ -593,7 +633,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
         expect(form.isPushSent()).toBe(true);
         expect($.ajax.calls.count()).toBe(2);
         Expect.isJsonPost($.ajax.calls.argsFor(1), {
-          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true',
+          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
           data: {
             stateToken: 'testStateToken'
           }
@@ -648,7 +688,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, Logger, OktaAuth, Util, Exp
       .then(function () {
         expect($.ajax.calls.count()).toBe(2);
         Expect.isJsonPost($.ajax.calls.argsFor(1), {
-          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false',
+          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
           data: {
             stateToken: 'testStateToken'
           }

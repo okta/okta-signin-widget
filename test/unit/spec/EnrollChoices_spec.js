@@ -48,7 +48,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         setNextResponse: setNextResponse,
         router: router,
         beacon: new Beacon($sandbox),
-        form: new EnrollChoicesForm($sandbox) 
+        form: new EnrollChoicesForm($sandbox)
       });
     }
 
@@ -166,7 +166,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           return setupWithRequiredNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
-              'additional layer of security when signing into your Okta account'
+              'additional layer of security when signing in to your Okta account'
             );
           });
         });
@@ -252,7 +252,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           return setupWithAllOptionalNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
-              'additional layer of security when signing into your Okta account'
+              'additional layer of security when signing in to your Okta account'
             );
           });
         });
@@ -539,15 +539,15 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       itp('is in correct order', function () {
         return setup(resAllFactors).then(function (test) {
           var factorList = test.form.getFactorList();
-          expect(factorList).toEqual(['OKTA_VERIFY', 'SMS', 'CALL', 'WINDOWS_HELLO', 'U2F',
-            'YUBIKEY', 'DUO', 'GOOGLE_AUTH', 'SYMANTEC_VIP', 'RSA_SECURID', 'QUESTION']);
+          expect(factorList).toEqual(['OKTA_VERIFY', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH',
+            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'RSA_SECURID']);
         });
       });
       itp('with push and onPrem is in correct order', function () {
         return setup(resAllFactorsOnPrem).then(function (test) {
-          var options = test.form.getFactorList();
-          expect(options).toEqual(['OKTA_VERIFY_PUSH', 'SMS', 'CALL', 'WINDOWS_HELLO', 'U2F',
-            'YUBIKEY', 'DUO', 'GOOGLE_AUTH', 'SYMANTEC_VIP', 'ON_PREM', 'QUESTION']);
+          var factorList = test.form.getFactorList();
+          expect(factorList).toEqual(['OKTA_VERIFY_PUSH', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH',
+            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'ON_PREM']);
         });
       });
     });

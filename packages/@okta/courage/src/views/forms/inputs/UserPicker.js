@@ -14,9 +14,11 @@ function (_, BasePicker) {
     onlyActiveUser: false,
 
     parse: function (entity) {
-      var profile = _.pick(entity.profile, 'firstName', 'lastName', 'email');
+      var profile = _.pick(entity.profile, 'firstName', 'lastName', 'login', 'email');
+      var displayName = ((profile.firstName ? profile.firstName : '') + ' ' +
+        (profile.lastName ? profile.lastName : '')).trim();
       return _.extend(_.pick(entity, 'id'), profile, {
-        name: profile.firstName + ' ' + profile.lastName + ' (' + profile.email + ')'
+        name: (displayName ? displayName : profile.login) + ' (' + profile.email + ')'
       });
     },
 

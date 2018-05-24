@@ -11,7 +11,7 @@ define([
   var CACHE_BUST_URL_PREFIX = '/assets';
 
   function formatDate(format, dateInISOString) {
-    return moment.utc(dateInISOString).zone('-07:00').format(format);
+    return moment.utc(dateInISOString).utcOffset('-07:00').format(format);
   }
 
   function trim(str) {
@@ -67,7 +67,7 @@ define([
     return new Handlebars.SafeString('<img ' + attrs.join(' ') + '/>');
   });
 
-  Handlebars.registerHelper('shortDate', _.partial(formatDate, 'MMM DD'));
+  Handlebars.registerHelper('shortDate', _.partial(formatDate, 'MMM Do'));
   Handlebars.registerHelper('mediumDate', _.partial(formatDate, 'MMMM DD, YYYY'));
   Handlebars.registerHelper('longDate', _.partial(formatDate, 'MMMM DD, YYYY, h:mma'));
   Handlebars.registerHelper('formatDate', formatDate);

@@ -78,7 +78,9 @@ define([
     
     if (_.isString(regex)) {
       if (regex === '^[#/userName]') {
-        var username = model.get('userName');
+        // with email as login enabled, we only have email populated
+        // Therefore we fallback and run validation with email attribute.
+        var username = model.has('userName') ? model.get('userName'): model.get('email');
         var password = value;
         return !passwordContainsUserName(username, password);
       } else {
@@ -125,10 +127,10 @@ define([
     var inputOptions = SchemaFormFactory.createInputOptions(schemaProperty);
     if (inputOptions.type === 'select') {
       inputOptions = _.extend(inputOptions, {
-        label: schemaProperty.get('description')
+        label: schemaProperty.get('title')
       });
     } else {
-      var placeholder = schemaProperty.get('description');
+      var placeholder = schemaProperty.get('title');
       if (schemaProperty.get('required')) {
         placeholder += ' *';
       }

@@ -28,8 +28,8 @@ function (SchemaProperty, RegistrationFormFactory) {
         expect(this.inputOptions['label-top']).toBe(true);
       });
 
-      it('placeholder is the description', function () {
-        expect(this.inputOptions['placeholder']).toEqual('this is description');
+      it('placeholder is the title', function () {
+        expect(this.inputOptions['placeholder']).toEqual('Test Property');
       });
 
     });
@@ -39,14 +39,15 @@ function (SchemaProperty, RegistrationFormFactory) {
         var schemaProperty = new SchemaProperty.Model({
           'name': 'enumfield',
           'type': 'string',
+          'title': 'Flavor Fruit',
           'description': 'flavor fruit',
           'enum': ['Apple', 'Banana', 'Cherry']
         }, {parse: true});
         this.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
       });
 
-      it('label is the description', function () {
-        expect(this.inputOptions['label']).toEqual('flavor fruit');
+      it('label is the title', function () {
+        expect(this.inputOptions['label']).toEqual('Flavor Fruit');
       });
 
       it('label-top is not set', function () {

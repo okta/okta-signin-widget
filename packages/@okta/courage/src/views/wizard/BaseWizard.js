@@ -60,70 +60,65 @@ function ($, _, BaseView, BaseForm, WizardProgressBar, WizardStateMachine, Wizar
     }
   }
 
-  return BaseView.extend({
+  /**
+   * A wizard component
+   * @class module:Okta.Wizard
+   * @extends module:Okta.View
+   * @example
+   * var Wizard = Okta.Wizard.extend({
+   *   title: 'My Wizard',
+   *   steps: [
+   *     {
+   *       title: 'Step 1',
+   *       label: 'Label underneath step number',
+   *       view: Okta.View.extend({
+   *         // Define a next function to tell the wizard what to do before
+   *         // proceeding to the next step. If no next method is defined, the
+   *         // wizard will just move to the next step.
+   *         next: function () {
+   *           return model.save(); // returns a promise
+   *         }
+   *       });
+   *     },
+   *     {
+   *       substep: true,
+   *       title: 'Step 1.1 (substep)',
+   *       view: Okta.View.extend()
+   *     },
+   *     {
+   *       title: 'Step 2',
+   *       // Shorthand for forms - if autosave is true, the wizard will
+   *       // automatically proceed to the next step on successful form save.
+   *       form: {
+   *         autoSave: true,
+   *         inputs: [
+   *            {
+   *              type: 'text',
+   *              name: 'some-input',
+   *              label: 'Form Input'
+   *            }
+   *         ]
+   *       }
+   *     }
+   *   ]
+   * });
+   */
+  return BaseView.extend(/** @lends module:Okta.Wizard.prototype */ {
 
     /**
-     * @class Okta.Wizard
-     * @extends {Okta.View}
-     *
-     * A wizard component
-     *
-     *
-     * ```javascript
-     * var Wizard = Okta.Wizard.extend({
-     *   title: 'My Wizard',
-     *   steps: [
-     *     {
-     *       title: 'Step 1',
-     *       label: 'Label underneath step number',
-     *       view: Okta.View.extend({
-     *         // Define a next function to tell the wizard what to do before proceeding to the next step.
-     *         // if no next method is defined, the wizard will just move to the next step.
-     *         next: function () {
-     *           return model.save(); // returns a promise
-     *         }
-     *       });
-     *     },
-     *     {
-     *       substep: true,
-     *       title: 'Step 1.1 (substep)',
-     *       view: Okta.View.extend()
-     *     },
-     *     {
-     *       title: 'Step 2',
-     *       // Shorthand for forms - if autosave is true,
-     *       // the wizard will automatically proceed to the next step on successful form save.
-     *       form: {
-     *         autoSave: true,
-     *         inputs: [
-     *            {
-     *              type: 'text',
-     *              name: 'some-input',
-     *              label: 'Form Input'
-     *            }
-     *         ]
-     *       }
-     *     }
-     *   ]
-     * });
-     * ```
-     */
-
-     /**
-     * @event done
      * Fires when the last step "next" routine is complete
+     * @event module:Okta.Wizard#done
      */
 
-     /**
-     * @event cancel
-     * Fires when the wizard is canceld
+    /**
+     * Fires when the wizard is cancelled
+     * @event module:Okta.Wizard#cancel
      */
-     /**
 
     /**
      * Steps of the wizard
-     *
-     * ```javascript
+     * @type {Array|Function}
+     * @example
      * var Wizard = Okta.Wizard.extend({
      *   steps: [
      *     {
@@ -154,15 +149,12 @@ function ($, _, BaseView, BaseForm, WizardProgressBar, WizardStateMachine, Wizar
      *     }
      *   ]
      * });
-     * ```
-     *
-     *  @type {Array|Function}
      */
     steps: [],
 
     /**
      * Title of the wizard. could be a string, a view or HTML
-     * @type {String|Okta.View}
+     * @type {String|module:Okta.View}
      */
     title: null,
 

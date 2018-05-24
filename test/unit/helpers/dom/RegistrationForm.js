@@ -2,8 +2,10 @@ define(['./Form'], function (Form) {
 
   var FIRSTNAME_FIELD = 'firstName';
   var LASTNAME_FIELD = 'lastName';
-  var EMAIL_FIELD = 'userName';
+  var USERNAME_FIELD = 'userName';
+  var EMAIL_FIELD = 'email';
   var PASSWORD_FIELD = 'password';
+  var REFERRER_FIELD = 'referrer';
 
   return Form.extend({
 
@@ -29,12 +31,46 @@ define(['./Form'], function (Form) {
       return this.error(LASTNAME_FIELD);
     },
 
+    setLastname: function (val) {
+      var field = this.lastnameField();
+      field.val(val);
+      field.trigger('change');
+    },
+
+    referrerField: function () {
+      return this.input(REFERRER_FIELD);
+    },
+
+    referrerErrorField: function () {
+      return this.error(REFERRER_FIELD);
+    },
+
+    setReferrer: function (val) {
+      var field = this.referrerField();
+      field.val(val);
+      field.trigger('change');
+    },
+
+    userNameField: function () {
+      return this.input(USERNAME_FIELD);
+    },
+
+    userNameErrorField: function () {
+      return this.error(USERNAME_FIELD);
+    },
+
     emailField: function () {
       return this.input(EMAIL_FIELD);
     },
 
     emailErrorField: function () {
       return this.error(EMAIL_FIELD);
+    },
+
+    setUserName: function (val) {
+      var field = this.userNameField();
+      field.val(val);
+      field.trigger('change');
     },
 
     setEmail: function (val) {

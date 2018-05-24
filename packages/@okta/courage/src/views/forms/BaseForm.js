@@ -90,63 +90,67 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
   };
 
   /**
-  * @class Okta.Form
-  *
-  * A Form utility framework
-  *
-  * Okta.Form is a form that operates on one flat model
-  * It expose one main factory method, {@link #addInput}, which add inputs to the form,
-  * and each inputs operates on one field in the model, identified by the `name` field.
-  *
-  * See:
-  * [Basic O-Form Tutorial](https://github.com/okta/courage/wiki/Basic-O-Form)
-  *
-  * @extends Okta.View
-  */
-
-  /**
-  * @event save
-  * Fired when the "Save" button is clicked
-  * @param {Okta.BaseModel} model Model used in the form
-  */
-  /**
-  * @event saved
-  * Fired after the model is successfully saved - applies when {@link Okta.Form#autoSave} is set to true
-  * @param {Okta.BaseModel} model Model used in the form
-  */
-  /**
-  * @event error
-  * Fired when the model fires an invalid event or an error event;
-  * @param {Okta.BaseModel} model Model used in the form
-  */
-  /**
-  * @event resize
-  * Fired when the form layout is likely to be resized
-  * @param {Okta.BaseModel} model Model used in the form
-  */
-  /**
-  * @event cancel
-  * Fired when the "Cancel" button is clicked
-  */
-  /**
-   * @property {String|Array|Function} [validate]
-   * Specifies how to validate form:
-   * - In case "local" string provided as a value of the property,
-   * the form will validate only fields added as inputs to the form;
-   * - In case array is provided, the validation will be performed only for fields specified in array;
-   * - In case function is provided, provided function will be used as a validation function,
-   * it must return an error object with the format {fieldName: 'error text'} with as many fields as you need.
+   * A Form utility framework
+   *
+   * Okta.Form is a form that operates on one flat model
+   * It exposes one main factory method, {@link module:Okta.Form#addInput|addInput}, which add inputs to the form,
+   * and each input operates on one field in the model, identified by the `name` field.
+   *
+   * See:
+   * [Basic O-Form Tutorial](https://github.com/okta/courage/wiki/Basic-O-Form)
+   *
+   * @class module:Okta.Form
+   * @extends module:Okta.View
+   * @param {Object} options options hash (See {@link module:Okta.View|View})
+   * @param {Object} options.model the model this form operates on
+   * @param {Boolean} [options.label-top=false] position label on top of inputs
+   * @param {Boolean} [options.wide=false] Use a wide input layout for all input
    */
 
-  return BaseView.extend({
+  /**
+   * Fired when the "Save" button is clicked
+   * @event module:Okta.Form#save
+   * @param {module:Okta.Model} model Model used in the form
+   */
+
+  /**
+   * Fired after the model is successfully saved - applies when {@link module:Okta.Form#autoSave|autoSave}
+   * is set to true
+   * @event module:Okta.Form#saved
+   * @param {module:Okta.Model} model Model used in the form
+   */
+
+  /**
+   * Fired when the model fires an invalid event or an error event;
+   * @event module:Okta.Form#error
+   * @param {module:Okta.Model} model Model used in the form
+   */
+
+  /**
+   * Fired when the form layout is likely to be resized
+   * @event module:Okta.Form#resize
+   * @param {module:Okta.Model} model Model used in the form
+   */
+
+  /**
+   * Fired when the "Cancel" button is clicked
+   * @event module:Okta.Form#cancel
+   */
+
+  return BaseView.extend(/** @lends module:Okta.Form.prototype */ {
 
     /**
-    * @constructor
-    * @param {Object} options options hash (See {@link Okta.View})
-    * @param {Object} options.model the model this form operates on
-    * @param {Boolean} [options.label-top=false] position label on top of inputs
-    * @param {Boolean} [options.wide=false] Use a wide input layout for all input
-    */
+     * Specifies how to validate form:
+     * - In case "local" string provided as a value of the property,
+     * the form will validate only fields added as inputs to the form;
+     * - In case array is provided, the validation will be performed only for fields specified in array;
+     * - In case function is provided, provided function will be used as a validation function,
+     * it must return an error object with the format {fieldName: 'error text'} with as many fields as you need.
+     * @name validate
+     * @memberof module:Okta.Form
+     * @type {String|Array|Function}
+     * @instance
+     */
 
     constructor: function (options) {
       /* eslint max-statements: 0, complexity: 0 */
@@ -283,106 +287,134 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
     events: {},
 
     /**
-    * @property {Array} [inputs] An array of input configurations to render in the form
-    */
+     * An array of input configurations to render in the form
+     * @type {Array}
+     */
     inputs: [],
 
-    /**
-     * @private
-     */
     template: null,
 
     /**
-     * @property {Boolean|Function} [read=false] does the form support read/edit toggle.
+     * Does the form support read/edit toggle.
+     * @type {Boolean|Function}
+     * @default false
      */
     read: false,
 
     /**
-     * @property {Boolean|Function} [readOnly=false] Is the form in readOnly mode.
+     * Is the form in readOnly mode.
+     * @type {Boolean|Function}
+     * @default false
      */
     readOnly: false,
 
     /**
-     * @property {Boolean|Function} [noButtonBar=false] Should we not render the button bar
+     * Should we not render the button bar
+     * @type {Boolean|Function}
+     * @default false
      */
     noButtonBar: false,
 
     /**
-     * @property {Boolean|Function} [noCancelButton=false] Should we not render a cancel button
+     * Should we not render a cancel button
+     * @type {Boolean|Function}
+     * @default false
      */
     noCancelButton: false,
 
     /**
-     * @property {String} [save="Save"] The text on the save button
+     * The text on the save button
+     * @type {String}
+     * @default "Save"
      */
     save: null,
 
     /**
-     * @property {String} [cancel="Cancel"] The text on the cancel button
+     * The text on the cancel button
+     * @type {String}
+     * @default "Cancel"
      */
     cancel: null,
 
     /**
-     * @property {Boolean|Function} [danger=false] To use button-error to stylish the submit button
-     * instead of button-primary.
+     * To use button-error to style the submit button instead of button-primary.
+     * @type {Boolean|Function}
+     * @default false
      */
     danger: false,
 
     /**
-     * @property {String|Function} [layout=""] A layout CSS class to add to the form
+     * A layout CSS class to add to the form
+     * @type {String|Function}
+     * @default ""
      */
     layout: '',
 
     /**
-     * @property {Number} [step] The step this form is in the context of a wizard
+     * The step this form is in the context of a wizard
+     * @type {Number}
      */
     step: undefined,
 
     /**
-     * @property {Number} [totalSteps] The total numbers of steps the wizard this form is a part of has
+     * The total numbers of steps the wizard this form is a part of has
+     * @type {Number}
      */
     totalSteps: undefined,
 
     /**
-     * @property {String|Function} [title] The form's title
+     * The form's title
+     * @type {String|Function}
      */
     title: null,
 
     /**
-     * @property {String|Function} [subtitle] The form's subtitle
+     * The form's subtitle
+     * @type {String|Function}
      */
     subtitle: null,
 
     /**
-     * @property {Boolean} [autoSave=false]
-     * auto-save the model when hitting save.
-     * Trigger a `saved` event when done
+     * Auto-save the model when hitting save. Triggers a `saved` event when done
+     * @type {Boolean}
+     * @default false
      */
     autoSave: false,
 
     /**
-     * @property {Boolean|Function} [scrollOnError=true] Scroll to the top of the form on error
+     * Scroll to the top of the form on error
+     * @type {Boolean|Function}
+     * @default true
      */
     scrollOnError: true,
 
     /**
-     * @property {Boolean|Function} [showErrors=true] Show the error banner upon error
+     * Show the error banner upon error
+     * @type {Boolean|Function}
+     * @default true
      */
     showErrors: true,
 
     /**
-     * @property {String} [resizeSelector='.o-form-content'] The form's scrollable area
+     * The form's scrollable area
+     * @type {String}
+     * @default ".o-form-content"
      */
     resizeSelector: '.o-form-content',
 
     /**
-     * @property {Boolean} [hasSavingState=false] Sets whether or not the form shows the saving state when
+     * Sets whether or not the form shows the saving state when
      * the model is saved.  Has no effect on setSavingState and clearSavingState as those are manual calls
      * to trigger/clear the saving state.
+     * @name hasSavingState
+     * @memberof module:Okta.Form
+     * @type {Boolean}
+     * @default false
+     * @instance
      */
 
     /**
-     * Get an attribute value from options or instance
+     * Get an attribute value from options or instance.
      * Prefer options value over instance value
      * @param  {String} name Name of the attribute
      * @param  {Object} defaultValue the default value to return if the attribute is not found
@@ -397,7 +429,7 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
     },
 
     /**
-     * Does this form has a "read" mode
+     * Does this form have a "read" mode
      * @return {Boolean}
      */
     hasReadMode: function () {
@@ -511,11 +543,10 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
     },
 
     /**
-     * Runs {@link #validate} to check the model state
-     * triggers an "invalid" event on the model if validation fails
+     * Runs {@link module:Okta.Form#validate|validate} to check the model state.
+     * Triggers an "invalid" event on the model if validation fails
      * @returns {Boolean}
      */
-
     isValid: function () {
       var res,
           self = this;
@@ -606,6 +637,8 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
     /**
      * Function can be overridden to alter error summary
      * @param {Object} responseJSON
+     * @method
+     * @default _.identity
      */
     parseErrorMessage: _.identity,
 
@@ -704,7 +737,7 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
     /**
      * Adds a view to the buttons tool bar
      * @param {Object} params parameterized button options
-     * @param {Object} options options to send to {@link Okta.View#add}
+     * @param {Object} options options to send to {@link module:Okta.View#add|View.add}
      */
     addButton: function (params, options) {
       this.__toolbar && this.__toolbar.addButton(params, options);
@@ -717,6 +750,7 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
     addDivider: function (options) {
       this.add('<div class="okta-form-divider form-divider"></div>');
       FormUtil.applyShowWhen(this.last(), options && options.showWhen);
+      FormUtil.applyToggleWhen(this.last(), options && options.toggleWhen);
       return this;
     },
 
@@ -727,6 +761,7 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
     addSectionTitle: function (title, options) {
       this.add(TemplateUtil.tpl('<h2 class="o-form-head">{{title}}</h2>')({title: title}));
       FormUtil.applyShowWhen(this.last(), options && options.showWhen);
+      FormUtil.applyToggleWhen(this.last(), options && options.toggleWhen);
       return this;
     },
 
@@ -767,26 +802,34 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
      * - An array of input definition object literals (such as this one)
      *
      * @param {Object} [options.showWhen]
-     * Setting to define when to show (or hide) the input
-     * In the following example the field will be visible when `advanced` is set to `true`
-     * and `mode` is set to `"ON"`:
-     *
-     * ```javascript
-     * showWhen: {
-     *   'advanced': true,
-     *   'mode': function (value) {
-     *     return value == 'ON' // this is identical to this.model.get('mode') == 'ON'
-     *   }
-     * }
-     * ```
-     * The input is visible by default
+     * Setting to define when to show (or hide) the input. The input is visible by default.
      *
      * @param {Object} [options.bindings]
      * Bind a certain model attribute to a callback function, so the function is being called on render,
      * and any time this model field changes.
      * This is similar to `showWhen` but is not limited to toggling.
      *
-     * ```javascript
+     * @param {Function} [options.render]
+     * A post-render hook that will run upon render on InputWrapper
+     *
+     * @param {String|Function} className   A className to apply on the {@link InputWrapper}
+     *
+     * @param {Function} [options.initialize]
+     * An `initialize` function to run when initializing the {@link InputWrapper}
+     * Useful for state mutation on start time, and complex state logic
+     *
+     * @example
+     * // showhen: the field will be visible when `advanced` is set to `true`
+     * // and `mode` is set to `"ON"`.
+     * showWhen: {
+     *   'advanced': true,
+     *   'mode': function (value) {
+     *     return value == 'ON'; // this is identical to this.model.get('mode') == 'ON'
+     *   }
+     * }
+     *
+     * @example
+     * // bindings
      * bindings: {
      *   'status mode': function (status, mode) {
      *      var labelView = this.getLabel();
@@ -799,16 +842,6 @@ function (_, $, TemplateUtil, StringUtil, BaseView,
      *      labelView.render();
      *   }
      * }
-     * ```
-     *
-     * @param {Function} [options.render]
-     * A post-render hook that will run upon render on InputWrapper
-     *
-     * @param {String|Function} className   A className to apply on the {@link InputWrapper}
-     *
-     * @param {Function} [options.initialize]
-     * An `initialize` function to run when initializing the {@link InputWrapper}
-     * Useful for state mutation on start time, and complex state logic
      */
     addInput: function (_options) {
 

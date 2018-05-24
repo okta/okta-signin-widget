@@ -20,10 +20,9 @@ define([
   'views/shared/FooterSignout',
   'vendor/lib/q',
   'views/mfa-verify/HtmlErrorMessageView',
-  'util/BrowserFeatures',
   'u2f-api-polyfill'
 ],
-function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView, BrowserFeatures) {
+function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView) {
 
   var _ = Okta._;
 
@@ -42,7 +41,7 @@ function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView
   }
 
   return FormController.extend({
-    className: 'verify-u2f',
+    className: 'mfa-verify verify-u2f',
     Model: {
       save: function () {
         this.trigger('request');
@@ -100,15 +99,10 @@ function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView
         var result = [];
 
         if (!window.hasOwnProperty('u2f')) {
-          var errorMessageKey = 'u2f.error.notSupportedBrowser';
-
-          if (BrowserFeatures.isFirefox()) {
-            errorMessageKey = 'u2f.error.noFirefoxExtension';
+          var errorMessageKey = 'u2f.error.factorNotSupported';
+          if (this.options.appState.get('factors').length === 1) {
+            errorMessageKey = 'u2f.error.factorNotSupported.oneFactor';
           }
-          else if (this.options.appState.get('factors').length === 1) {
-            errorMessageKey = 'u2f.error.notSupportedBrowser.oneFactor';
-          }
-
           result.push(FormType.View(
             {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
             {selector: '.o-form-error-container'}

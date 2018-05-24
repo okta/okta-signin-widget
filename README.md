@@ -1,5 +1,6 @@
 <!-- START GITHUB ONLY -->
 [![Build Status](https://travis-ci.org/okta/okta-signin-widget.svg?branch=master)](https://travis-ci.org/okta/okta-signin-widget)
+[![npm version](https://img.shields.io/npm/v/@okta/okta-signin-widget.svg?style=flat-square)](https://www.npmjs.com/package/@okta/okta-signin-widget)
 <!-- END GITHUB ONLY -->
 
 Okta Sign-In Widget
@@ -25,6 +26,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [remove](#remove)
   * [on](#onevent-callback-context)
   * [off](#offevent-callback)
+  * [authClient](#authclient)
   * [session.get](#sessiongetcallback)
   * [session.refresh](#sessionrefreshcallback)
   * [session.close](#sessionclosecallback)
@@ -44,10 +46,12 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [Links](#links)
   * [Buttons](#buttons)
   * [Registration](#registration)
-  * [OpenId Connect](#openid-connect)
+  * [IdP Discovery](#idp-discovery)
+  * [OpenID Connect](#openid-connect)
   * [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   * [Feature flags](#feature-flags)
 * [Events](#events)
+* [Browser Support](#browser-support)
 * [Developing the Sign-In Widget](#developing-the-sign-in-widget)
   * [Building the widget](#building-the-widget)
   * [The .widgetrc config file](#the-widgetrc-config-file)
@@ -65,18 +69,18 @@ Loading our assets directly from the CDN is a good choice if you want an easy wa
 To use the CDN, include links to the JS and CSS files in your HTML:
 
 ```html
-<!-- Latest CDN production Javascript and CSS: 2.6.0 -->
+<!-- Latest CDN production Javascript and CSS: 2.9.0 -->
 <script
-  src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.6.0/js/okta-sign-in.min.js"
+  src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.9.0/js/okta-sign-in.min.js"
   type="text/javascript"></script>
 <link
-  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.6.0/css/okta-sign-in.min.css"
+  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.9.0/css/okta-sign-in.min.css"
   type="text/css"
   rel="stylesheet"/>
 
 <!-- Theme file: Customize or replace this file if you want to override our default styles -->
 <link
-  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.6.0/css/okta-theme.css"
+  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.9.0/css/okta-theme.css"
   type="text/css"
   rel="stylesheet"/>
 ```
@@ -91,13 +95,13 @@ var signIn = new OktaSignIn({/* configOptions */});
 
 Using our npm module is a good choice if:
 - You have a build system in place where you manage dependencies with npm
-- You do not want to load scripts directly from third party sites
+- You do not want to load scripts directly from 3rd party sites
 
 To install [@okta/okta-signin-widget](https://www.npmjs.com/package/@okta/okta-signin-widget):
 
 ```bash
 # Run this command in your project root folder.
-[project-root-folder]$ npm install @okta/okta-signin-widget --save
+npm install @okta/okta-signin-widget --save
 ```
 
 The widget source files and assets will be installed to `node_modules/@okta/okta-signin-widget/dist`, and will have this directory structure:
@@ -119,15 +123,19 @@ node_modules/@okta/okta-signin-widget/dist/
 
   js/
     # CDN JS file that exports the OktaSignIn object in UMD format. This is
-    # packaged with everything needed to run the widget, including third party
+    # packaged with everything needed to run the widget, including 3rd party
     # vendor files.
     okta-sign-in.min.js
 
     # Main entry file that is used in the npm require(@okta/okta-signin-widget)
-    # flow. This does not package third party dependencies - these are pulled
+    # flow. This does not package 3rd party dependencies - these are pulled
     # down through `npm install` (which allows you to use your own version of
     # jquery, etc).
     okta-sign-in.entry.js
+
+    # Development version of okta-sign-in.min.js. Equipped with helpful
+    # console warning messages for common configuration errors.
+    okta-sign-in.js
 
   # Localized strings that are used to display all text and labels in the
   # widget. Three output formats are included - json, jsonp, and properties
@@ -170,8 +178,14 @@ Creates a new instance of the Sign-In Widget with the provided options. The widg
 - `config` - Options that are used to configure the widget
 
 ```javascript
-var signIn = new OktaSignIn({baseUrl: 'https://acme.okta.com'});
+var signIn = new OktaSignIn(
+  {
+    baseUrl: 'https://{yourOktaDomain}'
+  }
+);
 ```
+
+> **Note**: `https://{yourOktaDomain}` can be any Okta organization. See [Basic config options](#basic-config-options) for more information.
 
 ## renderEl(options, success, error)
 
@@ -316,6 +330,20 @@ signIn.off('pageRendered');
 signIn.off('pageRendered', onPageRendered);
 ```
 
+## authClient
+
+Returns the underlying `@okta/okta-auth-js` object used by the widget. See [AuthJS](https://github.com/okta/okta-auth-js#api) for a list of available methods.
+
+```javascript
+// Check for an existing authClient transaction
+var exists = signIn.authClient.tx.exists();
+if (exists) {
+  console.log('A session exists!');
+} else {
+  console.log('A session does not exist.');
+};
+```
+
 ## session.get(callback)
 
 Gets the active session, or returns `{status:inactive}` on error or no active session.
@@ -330,8 +358,9 @@ signIn.session.get(function (res) {
   }
   // No session, or error retrieving the session. Render the Sign-In Widget.
   else if (res.status === 'INACTIVE') {
-    signIn.renderEl(
-      {el: '#osw-container'},
+    signIn.renderEl({
+        el: '#osw-container'
+      },
       function success(res) {
         // showApp() if res.status === 'SUCCESS'
       },
@@ -399,7 +428,7 @@ Parses the access or ID Tokens from the url after a successful authentication re
 
 ```javascript
 var signIn = new OktaSignIn({
-  baseUrl: 'https://acme.okta.com',
+  baseUrl: 'https://{yourOktaDomain}',
   clientId: '{{myClientId}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
   authParams: {
@@ -444,16 +473,19 @@ After receiving an `access_token` or `id_token`, add it to the `tokenManager` to
 
 ```javascript
 // Example showing a success callback when authParams.responseType = 'id_token'
-signIn.renderEl({el: '#osw-container'}, function (res) {
-  if (res.status !== 'SUCCESS') {
-    return;
+signIn.renderEl({
+    el: '#osw-container'
+  },
+  function (res) {
+    if (res.status !== 'SUCCESS') {
+      return;
+    }
+
+    // When specifying authParams.responseType as 'id_token' or 'token', the
+    // response is the token itself
+    signIn.tokenManager.add('my_id_token', res);
   }
-
-  // When specifying authParams.responseType as 'id_token' or 'token', the
-  // response is the token itself
-  signIn.tokenManager.add('my_id_token', res);
-});
-
+);
 ```
 
 ## `OIDC` tokenManager.get(key)
@@ -550,7 +582,7 @@ The only required configuration option is `baseUrl`. All others are optional.
 ```javascript
 // Basic example
 var config = {
-  baseUrl: 'https://acme.okta.com',
+  baseUrl: 'https://{yourOktaDomain}',
   logo: '/path/to/logo.png',
   helpSupportNumber: '(123) 456-7890',
   language: 'en',
@@ -847,6 +879,7 @@ customButtons: [{
 #### Registration Button
 
 You can add a registration link to the primary auth page by setting `features.registration` to `true` and by adding the following config options.
+
 ```javascript
 // An example that adds a registration button underneath the login form on the primary auth page
 registration: {
@@ -855,8 +888,8 @@ registration: {
   }
 }
 ```
-- **registration.click** - Function that is called when the registration button is clicked
 
+- **registration.click** - Function that is called when the registration button is clicked
 
 ## Registration
 
@@ -866,8 +899,12 @@ To add registration into your application, configure your Okta admin settings to
 
 ```javascript
     var signIn = new OktaSignIn({
-      baseUrl: 'https://acme.okta.com',
-      clientId: '{{myClientId}}', // REQUIRED
+      baseUrl: 'https://{yourOktaDomain}',
+      // If you are using version 2.8 or higher of the widget, clientId is not required while configuring
+      // registration. Instead the widget relies on policy setup with Self Service Registration. For help
+      // with setting up Self Service Registration contact support@okta.com. Registration should continue
+      // to work with a clientId set and version 2.7 or lower of the widget.
+      clientId: '{{myClientId}}', // REQUIRED (with version 2.7.0 or lower)
       registration: {
         parseSchema: function(schema, onSuccess, onFailure) {
            // handle parseSchema callback
@@ -934,7 +971,8 @@ Optional configuration:
      // The callback function is passed 3 arguments: response, onSuccess, onFailure
      // 1) response: response returned from the API post registration.
      // 2) onSuccess: success callback.
-     // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level or field level errors.
+     // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level 
+     //    or field level errors.
     postSubmit: function (response, onSuccess, onFailure) {
       // In this example postSubmit callback is used to log the server response to the browser console before completing registration flow
       console.log(response);
@@ -980,9 +1018,60 @@ Optional configuration:
         onFailure(error);
      }
     ```
-## OpenId Connect
 
-Options for the [OpenId Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
+## IdP Discovery
+**:information_source: EA feature:** The Identity Provider (IdP) Discovery feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
+
+IdP Discovery enables you to route users to different 3rd Party IdPs that are connected to your Okta Org. Users can federate back into the primary org after authenticating at the IdP.
+
+To use IdP Discovery in your application, first ensure that the `IDP_DISCOVERY` feature flag is enabled for your Org and configure an identity provider routing policy in the Okta admin panel.
+Then, in the widget configuration, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
+
+```javascript
+var signIn = new OktaSignIn({
+  baseUrl: 'https://{yourOktaDomain}',
+  ... ...
+  idpDiscovery: {
+    requestContext: '/a/app/request/context',
+  },
+  features: {
+    idpDiscovery: true
+  }
+});
+signIn.renderEl(
+  {...},
+  function (res) {
+    if (res.status === 'IDP_DISCOVERY') {
+      res.idpDiscovery.redirectToIdp('/a/app/request/context');
+      return;
+    }
+  }
+);
+```
+
+The IdP Discovery authentication flow in widget will be
+
+1. If a routing policy with a username/domain condition is configured, the widget will enter identifier first flow
+2. Otherwise, the widget will enter primary authentication flow.
+
+For the identifier first flow,
+
+1. The widget will display an identifier first page for the user to enter an Okta userName to determine the IdP to be used for authentication.
+2. If the IdP is your Okta org, the widget will transition to the primary authentication flow.
+3. If the IdP is a 3rd party IdP or a different Okta org, the widget will invoke the [success callback](#rendereloptions-success-error) with `response.status` as `IDP_DISCOVERY`.
+
+### Additional configuration
+
+- **idpDiscovery.requestContext**: a context of that which the user is trying to access, such as the path of an app
+
+### Additions in the success callback
+
+- `response.status` is `IDP_DISCOVERY` when the authentication needs to be done agaist 3rd party IdP.
+- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the 3rd party IdP. This function takes one parameter which is the **idpDiscovery.requestContext**.
+
+## OpenID Connect
+
+Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth 2.0 client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
 
 - **clientId:** Client Id pre-registered with Okta for the OIDC authentication flow
 
@@ -1102,7 +1191,7 @@ Options for the [OpenId Connect](http://developer.okta.com/docs/api/resources/oi
 
     ```javascript
     authParams: {
-      issuer: 'https://your-org.okta.com/oauth2/default'
+      issuer: 'https://{yourOktaDomain}/oauth2/default'
     }
     ```
 
@@ -1110,8 +1199,8 @@ Options for the [OpenId Connect](http://developer.okta.com/docs/api/resources/oi
 
     ```javascript
     authParams: {
-      issuer: 'https://your-org.okta.com/oauth2/default',
-      authorizeUrl: 'https://your-org.okta.com/oauth2/default/v1/authorize'
+      issuer: 'https://{yourOktaDomain}/oauth2/default',
+      authorizeUrl: 'https://{yourOktaDomain}/oauth2/default/v1/authorize'
     }
     ```
 
@@ -1163,6 +1252,8 @@ features: {
 
 - **features.registration** - Display the registration section in the primary auth page. Defaults to `false`.
 
+- **features.idpDiscovery** - Enable [IdP Discovery](#idp-discovery). Defaults to `false`.
+
 # Events
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
@@ -1184,6 +1275,10 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
     });
     ```
 
+# Browser Support
+
+Need to know if the Sign-In Widget supports your browser requirements?  Please see [Platforms, Browser, and OS Support](https://help.okta.com/en/prod/Content/Topics/Miscellaneous/Platforms_Browser_OS_Support.htm).
+
 # Developing the Sign-In Widget
 
 ## Building the widget
@@ -1191,20 +1286,21 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
 1. Clone this repo and navigate to the new `okta-signin-widget` folder.
 
     ```bash
-    $ git clone git@github.com:okta/okta-signin-widget.git && cd okta-signin-widget
+    git clone git@github.com:okta/okta-signin-widget.git
+    cd okta-signin-widget
     ```
 
 2. [Install Bundler](http://bundler.io/) if you don't already have it, and then install our Ruby dependencies.
 
     ```bash
-    [okta-signin-widget]$ gem install bundler
-    [okta-signin-widget]$ bundle install
+    gem install bundler
+    bundle install
     ```
 
 3. Install our Node dependencies.
 
     ```bash
-    [okta-signin-widget]$ npm install
+    npm install
     ```
 
 4. Create a `.widgetrc` file in the `okta-signin-widget` directory with an entry for `baseUrl`.
@@ -1212,7 +1308,7 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
     ```javascript
     {
       "widgetOptions": {
-        "baseUrl": "https://your-org.okta.com"
+        "baseUrl": "https://{yourOktaDomain}"
       }
     }
     ```
@@ -1220,7 +1316,7 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
 5. Build the widget, start a local connect server that hosts it, and launch a browser window with the widget running.
 
     ```bash
-    [okta-signin-widget]$ npm start
+    npm start
     ```
 
 6. Finally, enable CORS support for our new server by [following these instructions](http://developer.okta.com/docs/guides/okta_sign-in_widget.html#configuring-cors-support-on-your-okta-organization). You can now authenticate to Okta using your very own, customizable widget!
@@ -1240,6 +1336,6 @@ The `.widgetrc` file is a configuration file that saves your local widget settin
 | --- | --- |
 | `npm start` | Build the widget, start the server, and open a browser window with the widget loaded |
 | `npm run build:dev` | Build an unminified version of the widget |
-| `npm run build:release` | Build a minified, uglified version of the widget |
+| `npm run build:release` | Build a minified, uglified version of the widget (`okta-sign-in.min.js`) and a non-minified **development** version of the widget (`okta-sign-in.js`).|
 | `npm test` | Run unit tests |
 | `npm run lint` | Run jshint and scss linting tests |

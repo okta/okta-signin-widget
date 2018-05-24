@@ -1,0 +1,774 @@
+// TODO: Fix lint
+@import './variables';
+
+/* Layout */
+.data-list {
+  background: $component-bg-color-dark;
+  border-width: 1px;
+  border-style: solid;
+  border-color: $border-color-default $border-color-default $border-bottom-color-default;
+  border-radius: $border-radius-default;
+  box-shadow: $box-shadow-default;
+}
+
+.data-list-sidebar-wrap {
+  width: 20%;
+  float: left;
+  padding-bottom: 30px;
+}
+
+.data-list-sidebar-left .data-list-content-wrap {
+  width: 80%;
+  float: left;
+}
+
+.data-list-3-4 {
+  .data-list-sidebar-wrap {
+    width: 25%;
+  }
+
+  .data-list-content-wrap {
+    width: 75%;
+  }
+}
+
+/* Typography */
+
+.data-list-head {
+  color: $component-heading-color;
+  font-size: 18px;
+  font-weight: 200;
+  padding: 0;
+  margin: 0;
+  line-height: 21px;
+}
+
+/*
+ * Module
+ */
+
+/* Toolbar */
+
+.data-list-toolbar {
+  padding: 10px;
+  border-bottom: 1px solid $border-bottom-color-default;
+
+  .header {
+    line-height: 30px;
+    font-size: 17px;
+    font-weight: normal;
+    color: $dim-gray-2;
+  }
+}
+
+.data-list-toolbar.outside {
+  padding: 0 0 10px;
+  border: none;
+  margin-bottom: 8px;
+}
+
+.data-list-sidebar + .data-list-sidebar {
+  border-radius: 0 !important;
+  border-top: 1px solid $border-color-default;
+  margin-top: 30px;
+  padding-top: 15px;
+}
+
+.data-list-sidebar-left .data-list-sidebar {
+  border-top-left-radius: $border-radius-default;
+  border-bottom-left-radius: $border-radius-default;
+}
+
+.data-list-sidebar-right .data-list-sidebar {
+  border-top-right-radius: $border-radius-default;
+  border-bottom-right-radius: $border-radius-default;
+}
+
+.data-list-content {
+  min-height: 400px;
+  background: $white;
+  position: relative;
+  border-radius: $border-radius-default;
+}
+
+.data-list-sidebar-left {
+  .data-list-content {
+    border-left: 1px solid $data-list-content-border-color;
+    border-radius: 0 0 $border-radius-default 0;
+  }
+
+  .data-list-content-wrap .data-list-toolbar {
+    background: $component-bg-color-dark;
+    border-top-right-radius: $border-radius-default;
+    border-left: 1px solid $data-list-content-border-color;
+  }
+}
+
+.data-list-sidebar-right {
+  .data-list-content {
+    border-right: 1px solid $data-list-content-border-color;
+    border-bottom-left-radius: $border-radius-default;
+    border-top-left-radius: $border-radius-default;
+  }
+}
+
+.data-list-no-sidebar .data-list-content {
+  width: 100%;
+  float: none;
+}
+
+.data-list-sidebar-heading,
+.data-list-sidebar-wrap .o-form-head {
+  color: $text-color-dark;
+  font-size: $body-font-size;
+  font-weight: 200;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 15px 10px;
+  line-height: 15px;
+  border-bottom: 1px solid $component-bg-color-dark;
+}
+
+/* Sidebar Elements */
+
+.data-list-nav {
+  padding: 0;
+  margin: 0;
+}
+
+.data-list-nav-link {
+  position: relative;
+  display: block;
+  padding: 7px 10px;
+  font-size: $body-font-size;
+  border-bottom: 1px solid $component-bg-color-dark;
+  line-height: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.data-list-filter-count {
+  display: block;
+  position: absolute;
+  top: 7px;
+  right: 10px;
+  color: $nobel;
+}
+
+.data-list-nav-link-active .data-list-filter-count {
+  color: $white;
+}
+
+/* Table styles */
+
+.data-list-table {
+  width: 100%;
+  border-collapse: separate;
+  border-radius: $border-radius-default;
+}
+
+.data-list-sidebar-left .data-list-table {
+  border-radius: 0 0 $border-radius-default 0;
+}
+
+.data-list-sidebar-right .data-list-table {
+  border-radius: 0 0 0 $border-radius-default;
+}
+
+.data-list-table th,
+.data-list-table td {
+  padding: 8px 10px;
+  font-size: $body-font-size;
+  font-weight: normal;
+  text-align: left;
+  line-height: 14px;
+  vertical-align: top;
+}
+
+.word-break {
+  word-break: break-all;
+}
+
+.data-list-table {
+  th {
+    background: $white-smoke-3;
+    border-bottom: 1px solid $border-bottom-color-default;
+    border-right: 1px solid $border-color-default;
+  }
+
+  th:first-child {
+    border-top-left-radius: $border-radius-default;
+  }
+
+  th:last-child {
+    border-top-right-radius: $border-radius-default;
+  }
+
+  td {
+    border-bottom: 1px solid $border-color-light;
+    border-right: 1px solid transparent;
+  }
+}
+
+.data-list-sidebar-left .data-list-table th:first-child {
+  border-top-left-radius: 0;
+}
+
+.data-list-sidebar-left .data-list-table th:last-child {
+  border-top-right-radius: 0;
+}
+
+#app .data-list-table td.error {  /* hack: needed to override infobox-error bg color change */
+  color: $text-color-dark !important;
+}
+
+.data-list-table th:last-child,
+.data-list-table td:last-child {
+  border-right: none;
+}
+
+.data-list-table tfoot td {
+  border-bottom: none;
+}
+
+.data-list-row-expander td {
+  background: $component-bg-color;
+}
+
+.data-list-table tbody:last-child .data-list-row-expander td {
+  border-top: 1px solid $white-smoke-4;
+}
+
+/*
+ * Context Bar
+ */
+
+.data-list-context-bar-table td {
+  padding: 0;
+}
+
+.data-list-context-bar {
+  background: $component-bg-color;
+  line-height: 16px;
+  padding: 22px 0;
+  text-align: center;
+  position: relative;
+
+  h3 {
+    font-weight: bold;
+    color: $text-color-dark;
+    font-size: $body-font-size;
+    line-height: 20px;
+    padding: 5px 0;
+    margin-bottom: 0;
+  }
+
+  .infobox.icon-16 {
+    padding-top: 0;
+    padding-bottom: 0;
+    background: $white;
+
+    .icon {
+      left: 10px;
+    }
+  }
+}
+
+/* Result set pager */
+
+.data-list-pager-footer {
+  td {
+    padding: 0;
+    text-align: center;
+  }
+
+  a {
+    font-size: $body-font-size;
+    display: block;
+    text-align: center;
+    line-height: 38px;
+    border: 1px solid $data-list-pager-border-color;
+    border-radius: 3px;
+    margin: 20px;
+    background-color: $component-bg-color-light;
+  }
+}
+
+.data-list-sidebar-left .data-list-pager-footer a {
+  border-bottom-right-radius: $border-radius-default;
+}
+
+/*
+ * Alpha Pager
+ */
+
+.data-list-pager-alpha {
+  margin: $border-radius-default 0 0;
+}
+
+.data-list-pager-alpha li {
+  float: left;
+}
+
+.data-list-pager-nav-link {
+  padding: 5px;
+  margin: 0;
+  border-radius: 2px;
+  border: none;
+  line-height: 1em;
+}
+
+/*
+ * States
+ */
+
+/* Empty content */
+
+.data-list-empty-msg {
+  margin: 0 auto;
+  padding: 90px 0;
+}
+
+.data-list-empty-msg.data-list-content {
+  border-radius: 0 4px 4px 0;
+}
+
+.data-list-loading .data-list-empty-msg {
+  visibility: hidden;
+}
+
+.data-list-empty-img {
+  position: absolute;
+  top: 2.2em;
+  left: 50%;
+  margin-left: -24px;
+  background-image: url('/img/ui/backgrounds/data-list-empty.png');
+  height: 48px;
+  width: 48px;
+}
+
+.data-list-empty-binary {
+  color: $gainsboro;
+  font-family: 'Courier New', serif;
+  font-size: 18px;
+  line-height: 1;
+  width: 5em;
+  word-wrap: break-word;
+  margin: 0 auto;
+  position: relative;
+}
+
+.data-list-empty-head {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.data-list-empty-subhead {
+  color: $dark-gray;
+  font-size: 15px;
+  font-weight: 200;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 6px;
+  width: 60%;
+}
+
+.data-list-empty-msg .page-toolbar {
+  margin-top: 30px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.data-list-empty-msg .page-toolbar a {
+  display: inline-block;
+  float: none;
+  margin: 0 auto;
+}
+
+.data-list-empty-msg-compact {
+  padding: 30px 0;
+}
+
+.data-list-empty-msg-compact h4.data-list-empty-head {
+  margin-top: 0;
+}
+
+/* Loading msg */
+
+.data-list-load-wrap,
+.data-list-load-mask {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  min-height: 385px;
+}
+
+.data-list-load-mask {
+  background: $white;
+  opacity: 0.9;
+}
+
+.data-list-sidebar-left .data-list-load-mask {
+  border-bottom-right-radius: $border-radius-default;
+}
+
+/* Text used to provide more detailed feedback when spinner is displayed. */
+.data-list-load-wrap .data-list-head {
+  position: absolute;
+  top: 228px;
+  width: 100%;
+  text-align: center;
+  z-index: 3;
+  display: none; /* Hiding for now */
+}
+
+.data-list-spinner {
+  left: 50% !important;
+  margin-left: -5px !important; /* Overrides inline style */
+  top: 180px !important;
+}
+
+/* Retry spinner */
+
+.data-list-retry-spinner {
+  position: absolute;
+  z-index: 10000;
+  background: $white;
+  border: 1px solid $very-light-gray;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: $border-radius-default;
+  box-shadow: 0 2px 3px rgba(160, 160, 160, 0.4);
+  height: 92px;
+  width: 180px;
+  padding: 20px 40px;
+  left: 50% !important;
+  margin-left: -131px;
+  text-align: center;
+}
+
+.data-list-retry-spinner .spinner {
+  height: 46px;
+  width: 46px;
+  margin: 10px auto 0;
+}
+
+.data-list-retry-spinner .spinner > .spinner {
+  left: 0 !important;
+}
+
+/* Nav links */
+
+.data-list-nav-link:hover {
+  background: $gainsboro-3;
+  border-color: $gainsboro-3;
+  text-decoration: none;
+}
+
+.data-list-nav-link-active,
+.data-list-nav-link-active:hover {
+  color: $white !important;
+  background: $primary-color;
+}
+
+/* Tables */
+
+.data-list-table tr:hover td {
+  background: $white-smoke;
+  border-bottom-color: $white-smoke-5;
+}
+
+.data-list-table td {
+  &.column-no-wrap,
+  div.column-no-wrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &:hover {
+      white-space: normal;
+    }
+  }
+}
+
+
+/* Commenting out until we can solve the last row border issue -- for now we put space and this isn't needed
+.data-list-table tbody:last-child tr:hover td:last-child,
+.data-list-table tfoot:last-child tr:hover td:last-child{
+    border-bottom-right-radius: 4px;
+}
+*/
+
+.data-list-pager-footer tr:hover td {
+  background: transparent;
+}
+
+.data-list-pager-footer a:hover {
+  text-decoration: none;
+  background: $white-smoke;
+  border: 1px solid $light-gray;
+  color: $dim-gray-2;
+}
+
+.data-list-no-pager .data-list-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-list-no-pager .data-list-table tr:last-child td:first-child {
+  border-bottom-left-radius: $border-radius-default;
+}
+
+.data-list-no-pager .data-list-table tr:last-child td:last-child {
+  border-bottom-right-radius: $border-radius-default;
+}
+
+.data-list-context-bar-error,
+.data-list-context-bar-error td,
+.data-list-context-bar-error:hover td,
+.data-list-context-bar-error tr:hover td {
+  background-color: $snow !important;
+}
+
+.data-list-context-bar-error td {
+  border-bottom-color: $we-peep !important;
+}
+
+.data-list-context-bar-error a {
+  color: $persian-red;
+}
+
+.data-list-context-bar-highlight,
+.data-list-context-bar-highlight td,
+.data-list-context-bar-highlight:hover td,
+.data-list-context-bar-highlight tr:hover td {
+  background-color: $floral-white !important;
+}
+
+.data-list-context-bar-highlight td {
+  border-bottom-color: $travertine !important;
+}
+
+.data-list-table th.check-all,
+.data-list-table td.checkbox {
+  width: 16px;
+  vertical-align: middle;
+}
+
+.data-list-table th.check-all input[type='checkbox'],
+.data-list-table td.checkbox input[type='checkbox'] {
+  margin: 0 1px;
+}
+
+.data-list-table td.checkbox {
+  background-color: $white-smoke-2;
+  border-right: 1px solid $white-smoke-5;
+}
+
+
+/* Expandable row details */
+
+.data-list-row-expander-wrap {
+  position: relative;
+}
+
+.data-list-row-details {
+  margin: 0;
+}
+
+.data-list-row-details dt,
+.data-list-row-details dd {
+  line-height: 16px;
+  margin: 0 0 10px;
+  float: left;
+}
+
+.data-list-row-details dt {
+  font-weight: bold;
+  width: 18%; /* override based on max label length for specific UI */
+  clear: left;
+}
+
+.data-list-row-details dd {
+  color: $gray;
+}
+
+.data-list-row-arrow-up {
+  display: block;
+  height: 9px;
+  width: 17px;
+  position: absolute;
+  top: -15px;  /* override based on parent's padding */
+  right: 10px; /* override based on parent's padding and desired location */
+  z-index: 2;
+  background: url('/img/ui/indicators/data-list-row-arrow-up.png') no-repeat 0 0 transparent;
+}
+
+/* Stand-alone table */
+
+.data-list-table-only .data-list-table {
+  box-shadow: 0 1px 1px rgba(175, 175, 175, 0.16);
+  border-collapse: separate;
+  table-layout: fixed;
+}
+
+.data-list-table-only th,
+.data-list-table-only td {
+  color: $gray;
+  text-align: center;
+}
+
+.data-list-table-only .data-list-table th,
+.data-list-table-only .data-list-table td {
+  border-right: none;
+  padding: 10px;
+}
+
+.data-list-table-only thead tr:first-child th:first-child {
+  border-top-left-radius: $border-radius-default;
+}
+
+.data-list-table-only thead tr:first-child th:last-child {
+  border-top-right-radius: $border-radius-default;
+}
+
+.data-list-table-only tbody:last-child th {
+  border-bottom-left-radius: $border-radius-default;
+}
+
+.data-list-table-only tbody:last-child td:last-child {
+  border-bottom-right-radius: $border-radius-default;
+}
+
+.data-list-table-only td:last-child {
+  border-right: 1px solid $border-color-default;
+}
+
+.data-list-table-only tbody:last-child td,
+.data-list-table-only tbody:last-child th {
+  border-bottom: 1px solid $border-color-default;
+}
+
+.data-list-primary-header th {
+  background: $primary-accent-color;
+  border-color: $primary-accent-border-color;
+  border-width: 1px 0;
+  border-style: solid;
+  color: $white;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+}
+
+.data-list-primary-header th:first-child {
+  border-left: 1px solid $prussian-blue;
+}
+
+.data-list-primary-header th:last-child {
+  border-right: 1px solid $prussian-blue;
+}
+
+.data-list-secondary-header .data-list-vertical-header {
+  color: $night-rider;
+  font-weight: bold;
+  border-left: 1px solid $border-color-default !important;
+  position: relative;
+}
+
+.data-list-table-only {
+  .data-list-secondary-header th:first-child,
+  .data-list-numbers th:first-child {
+    border-radius: 0;
+  }
+
+  tbody:last-child .data-list-numbers th:first-child {
+    border-bottom-left-radius: $border-radius-default;
+  }
+
+  .data-list-secondary-header .data-list-called-out-header {
+    color: $night-rider;
+    font-weight: bold;
+    border: 1px solid $link-water;
+    border-top-width: 0;
+    position: relative;
+    background: $lavender;
+  }
+
+  .data-list-secondary-header th:last-child {
+    border-radius: 0;
+  }
+
+  .data-list-secondary-header .data-list-called-out-header + th {
+    border-left: 1px solid transparent;
+  }
+
+  .data-list-secondary-header th {
+    border-left: 1px solid $border-color-default;
+  }
+
+  .data-list-numbers {
+    th {
+      color: $night-rider;
+      font-weight: bold;
+      background: $white-3;
+      border-bottom: 1px solid $white-smoke-7;
+      border-left: 1px solid $border-color-default;
+      position: relative;
+    }
+
+    th + td {
+      border-left: 1px solid $white-smoke-7;
+    }
+  }
+}
+
+.data-list-numbers .data-list-called-out-number {
+  color: $night-rider;
+  font-weight: bold;
+  background: $alice-blue;
+  border-bottom: 1px solid $solitude;
+}
+
+/* Data list form that displays in content */
+
+.data-list-inline-form {
+  padding: 30px 30px 20px;
+  border-left: 1px solid $data-list-content-border-color;
+  background: $component-bg-color-light;
+}
+
+.data-list-sidebar-left .data-list-inline-form-wrap .data-list-toolbar {
+  border-left: none;
+  border-radius: 0;
+  padding: 0 30px 30px;
+  background: $white;
+}
+
+.data-list-inline-form + .data-list-toolbar {
+  border-top: 1px solid $border-color-default;
+}
+
+.data-list-nav-link-arrow {
+  display: none;
+  height: 19px;
+  width: 10px;
+  position: absolute;
+  top: 6px;
+  right: -2px;
+  z-index: 2;
+  background: url('/img/ui/indicators/data-list-nav-link-arrow-01.png') no-repeat 0 0 transparent;
+}
+
+.data-list-inline-form-active .data-list-nav-link-active .data-list-nav-link-arrow {
+  display: block;
+}
+
+/* Datalist in a modal */
+
+.simplemodal-wrap {
+  .data-list {
+    border: none;
+    border-radius: 0;
+  }
+}

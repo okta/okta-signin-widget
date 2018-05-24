@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
+/* eslint max-params: [2, 11]*/
 define([
   'okta',
   'backbone',
@@ -19,6 +19,7 @@ define([
   'util/Enums',
   'util/RegistrationFormFactory',
   'util/RouterUtil',
+  'util/Util',
   'views/registration/SubSchema',
   'util/Errors'
 ],
@@ -31,6 +32,7 @@ function (
   Enums,
   RegistrationFormFactory,
   RouterUtil,
+  Util,
   SubSchema,
   Errors
 ) {
@@ -70,14 +72,22 @@ function (
       // setup schema
       var Schema = RegistrationSchema.extend({
         settings: this.options.settings,
-        url: this.getRegistrationApiUrl()+'/form'
+        url: this.options.settings.get('baseUrl') + '/api/v1/registration/form'
       });
       var schema = new Schema();
       this.state.set('schema', schema);
     },
     getRegistrationApiUrl: function() {
-      var clientId = this.options.settings.get('clientId');
-      return this.options.settings.get('baseUrl')+'/api/v1/registration/'+clientId;
+      // default policyId
+      var defaultPolicyId = this.settings.get('defaultPolicyId');
+      // org policyId
+      var orgPolicyId = this.options.settings.get('policyId');
+      var apiUrl = defaultPolicyId ? this.getRegistrationPolicyApi(defaultPolicyId) :
+        this.getRegistrationPolicyApi(orgPolicyId);
+      return apiUrl;
+    },
+    getRegistrationPolicyApi: function(policyId) {
+      return this.options.settings.get('baseUrl') + '/api/v1/registration/' + policyId;
     },
     doPostSubmit: function () {
       if (this.model.get('activationToken')) {
@@ -96,7 +106,7 @@ function (
         });
       } else {
         // register via activation email
-        this.model.appState.set('username', this.model.get('userName'));
+        this.model.appState.set('username', this.model.get('email'));
         this.model.appState.trigger('navigate', 'signin/register-complete');
       }
     },
@@ -105,7 +115,7 @@ function (
       this.model.attributes = postData;
       Backbone.Model.prototype.save.call(this.model).then(function() {
         var activationToken = self.model.get('activationToken');
-        var postSubmitData = activationToken ? activationToken : self.model.get('userName');
+        var postSubmitData = activationToken ? activationToken : self.model.get('email');
         self.settings.postSubmit(postSubmitData, function() {
           self.doPostSubmit();
         }, function(errors) {
@@ -131,7 +141,10 @@ function (
         },
         toJSON: function() {
           var data = Okta.Model.prototype.toJSON.apply(this, arguments);
-          return {userProfile: data};
+          return {
+            userProfile: data,
+            relayState: this.settings.get('relayState')
+          };
         },
         parse: function(resp) {
           this.set('activationToken', resp.activationToken);
@@ -172,6 +185,8 @@ function (
       // register parse complete event listener
       self.state.get('schema').on('parseComplete', function(updatedSchema) {
         var modelProperties = updatedSchema.properties.createModelProperties();
+        self.settings.set('defaultPolicyId', updatedSchema.properties.defaultPolicyId);
+        
         // create model
         self.model = self.createRegistrationModel(modelProperties);
         // create form

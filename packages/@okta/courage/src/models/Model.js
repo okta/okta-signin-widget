@@ -3,13 +3,13 @@ define([
   'shared/framework/Model'
 ],
 function (_, Model) {
-
   /**
-  * @class Okta.Model
-  * @extends Archer.Model
-  * @inheritDoc Archer.Model
-  */
-  return Model.extend({
+   * Wrapper around the more generic {@link src/framework/Model} that
+   * contains Okta-specific logic.
+   * @class module:Okta.Model
+   * @extends src/framework/Model
+   */
+  return Model.extend(/** @lends module:Okta.Model.prototype */ {
 
     /**
      * Is the end point using the legacy "secureJSON" format
