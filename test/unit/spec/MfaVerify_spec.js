@@ -1172,26 +1172,27 @@ function (Okta,
         });
         itp('posts resend if send code button is clicked second time', function () {
           Util.speedUpPolling();
-
           return setupSMS().then(function (test) {
-            $.ajax.calls.reset();
             test.setNextResponse(resChallengeSms);
+            expect(test.form.smsSendCode().text()).toBe('Send code');
             test.form.smsSendCode().click();
-            return Expect.waitForCss('.sms-request-button.disabled', test);
+            return Expect.wait(function () {
+              return test.form.smsSendCode().text() === 'Re-send code';
+            }, test);
           })
           .then(function (test) {
-            return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
-          })
-          .then(function (test) {
-            expect(test.form.smsSendCode().trimmedText()).toEqual('Re-send code');
             expect(test.form.submitButton().prop('disabled')).toBe(false);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
-            return Expect.waitForCss('.sms-request-button.disabled', test);
+            return Expect.wait(function () {
+              return test.form.smsSendCode().text() === 'Sent';
+            }, test);
           })
           .then(function (test) {
-            return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
+            return Expect.wait(function () {
+              return test.form.smsSendCode().text() === 'Re-send code';
+            }, test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
