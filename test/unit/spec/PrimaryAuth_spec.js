@@ -1596,7 +1596,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('sets rememberMe cookie if rememberMe is enabled and checked on submit', function () {
-        var cookieSpy = Util.mockCookie();
+        var cookieSpy = Util.mockSetCookie();
         return setup({ 'features.rememberMe': true })
         .then(function (test) {
           test.form.setUsername('testuser');

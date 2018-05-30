@@ -29,7 +29,6 @@ entryConfig.externals = {
     'amd': 'jquery',
     'root': 'jQuery'
   },
-  'jquery.cookie': true,
   'handlebars': {
     'commonjs': 'handlebars/dist/handlebars',
     'commonjs2': 'handlebars/dist/handlebars',
