@@ -83,7 +83,7 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
       }
       if (!options.globalErrorFn) {
         options.globalErrorFn = function(err) {
-          Logger.warn(err);
+          Logger.error(err);
         };
       }
       this.settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });

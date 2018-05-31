@@ -207,38 +207,24 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CourageLogger, Logger, Okta
     it('logs a ConfigError error if el is not passed as a widget param', function () {
       var fn = function () { setup({ el: undefined }); };
       expect(fn).not.toThrow();
-      expect(Logger.warn).toHaveBeenCalled();
+      expect(Logger.error).toHaveBeenCalled();
     });
     it('has the correct error message if el is not passed as a widget param', function () {
       var fn = function () { setup({ el: undefined }); };
       expect(fn).not.toThrow();
-      var err = Logger.warn.calls.mostRecent().args[0];
+      var err = Logger.error.calls.mostRecent().args[0];
       expect(err.name).toBe('CONFIG_ERROR');
       expect(err.message).toEqual('"el" is a required widget parameter');
     });
-    it('logs a ConfigError if baseUrl is not passed as a widget param', function () {
-      var fn = function () { setup({ baseUrl: undefined }); };
-      expect(fn).not.toThrowError(Errors.ConfigError);
-      expect(Logger.warn).toHaveBeenCalled();
+    it('throws a ConfigError if baseUrl is not passed as a widget param', function () {
+      var fn = function () { setup({ authClient: new OktaAuth({baseUrl: undefined }) }); };
+      expect(fn).toThrowError('No url passed to constructor. Required usage: new OktaAuth({url: "https://sample.okta.com"})');
     });
-    it('has the correct error message if baseUrl is not passed as a widget param', function () {
-      var fn = function () { setup({ baseUrl: undefined }); };
-      expect(fn).not.toThrow();
-      var err = Logger.warn.calls.mostRecent().args[0];
-      expect(err.name).toBe('CONFIG_ERROR');
-      expect(err.message).toEqual('"baseUrl" is a required widget parameter');
+    itp('renders the primary autenthentication form when no globalSuccessFn and globalErrorFn are passed as widget params', function () {
+      return expectPrimaryAuthRender({ globalSuccessFn: undefined, globalErrorFn: undefined });
     });
-    itp('uses a default globalSuccessFn if an undefined globalSuccessFn is passed as a widget param', function () {
-      return expectPrimaryAuthRender({ globalSuccessFn: undefined });
-    });
-    itp('uses a default globalSuccessFn if a null globalSuccessFn is passed as a widget param', function () {
-      return expectPrimaryAuthRender({ globalSuccessFn: null });
-    });
-    itp('uses a default globalErrorFn if an undefined globalErrorFn is passed as widget param', function () {
-      return expectPrimaryAuthRender({ globalErrorFn: undefined });
-    });
-    itp('uses a default globalErrorFn if a null globalErrorFn is passed as a widget param', function () {
-      return expectPrimaryAuthRender({ globalErrorFn: null });
+    itp('renders the primary autenthentication form when a null globalSuccessFn and globalErrorFn are passed as widget params', function () {
+      return expectPrimaryAuthRender({ globalSuccessFn: null, globalErrorFn: null });
     });
     itp('set pushState true if pushState is supported', function () {
       spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(true);

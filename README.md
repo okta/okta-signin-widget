@@ -193,8 +193,8 @@ Renders the widget to the DOM, and passes control back to your app through succe
 
 - `options`
   - `el` - CSS selector which identifies the container element that the widget attaches to.
-- `success` *(optional)* - Function that is called when the user has completed an authentication flow. If omitted, an empty function is used.
-- `error` *(optional)* - Function that is called when the widget has been initialized with invalid config options, or has entered a state it cannot recover from. If omitted, a default function is used to output warnings to the console when running in **development** mode.
+- `success` *(optional)* - Function that is called when the user has completed an authentication flow. If an [OpenID Connect redirect flow](#openid-connect) is used, this function can be omitted.
+- `error` *(optional)* - Function that is called when the widget has been initialized with invalid config options, or has entered a state it cannot recover from. If omitted, a default function is used to output errors to the console.
 
 ```javascript
 signIn.renderEl(

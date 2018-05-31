@@ -5,11 +5,11 @@ define([
   'util/Logger'
 ],
 function (Widget, Expect, Logger) {
-  var signIn, devLogger;
+  var signIn;
   var url = 'https://foo.com';
 
   beforeEach(function () {
-    devLogger = spyOn(Logger, 'warn');
+    spyOn(Logger, 'warn');
     signIn = new Widget({
       baseUrl: url
     });
@@ -24,7 +24,7 @@ function (Widget, Expect, Logger) {
         See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
       `;
 
-      expect(devLogger).toHaveBeenCalledWith(debugMessage);
+      expect(Logger.warn).toHaveBeenCalledWith(debugMessage);
     });
   });
 
