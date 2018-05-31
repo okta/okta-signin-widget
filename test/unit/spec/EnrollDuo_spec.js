@@ -30,7 +30,6 @@ function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {},
         'features.router': startRouter
       });
       Util.registerRouter(router);

@@ -8,7 +8,7 @@ function (Widget, Expect, Logger) {
   var signIn;
   var url = 'https://foo.com';
 
-  beforeEach(function(){
+  beforeEach(function () {
     spyOn(Logger, 'warn');
     signIn = new Widget({
       baseUrl: url

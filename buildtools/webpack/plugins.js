@@ -32,7 +32,6 @@ function uglify() {
         'Logger.log',
         'Logger.info',
         'Logger.warn',
-        'Logger.error',
         'Logger.deprecate'
       ],
     },

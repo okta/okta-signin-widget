@@ -189,12 +189,12 @@ var signIn = new OktaSignIn(
 
 ## renderEl(options, success, error)
 
-Renders the widget to the DOM, and passes control back to your app through the success and error callback functions when the user has entered a success or error state.
+Renders the widget to the DOM, and passes control back to your app through success and error callback functions when the user has entered a success or error state.
 
 - `options`
   - `el` - CSS selector which identifies the container element that the widget attaches to.
-- `success` - Function that is called when the user has completed an authentication flow.
-- `error` - Function that is called when the widget has been initialized with invalid config options, or has entered a state it cannot recover from.
+- `success` *(optional)* - Function that is called when the user has completed an authentication flow. If an [OpenID Connect redirect flow](#openid-connect) is used, this function can be omitted.
+- `error` *(optional)* - Function that is called when the widget has been initialized with invalid config options, or has entered a state it cannot recover from. If omitted, a default function is used to output errors to the console.
 
 ```javascript
 signIn.renderEl(
