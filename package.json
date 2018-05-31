@@ -97,7 +97,6 @@
     "handlebars": "4.0.5",
     "jquery": "1.12.1",
     "jquery-placeholder": "2.0.7",
-    "jquery.cookie": "1.4.1",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.1",
     "underscore": "1.8.3"

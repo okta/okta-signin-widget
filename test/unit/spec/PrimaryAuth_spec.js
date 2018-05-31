@@ -1245,7 +1245,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('updates security beacon immediately if rememberMe is available', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           features: {
             rememberMe: true,
@@ -1282,7 +1282,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('has username in field if rememberMe is available', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           'features.rememberMe': true
         };
@@ -1291,7 +1291,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('has rememberMe checked if rememberMe is available', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           'features.rememberMe': true
         };
@@ -1300,7 +1300,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('unchecks rememberMe if username is changed', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           'features.rememberMe': true
         };
@@ -1311,7 +1311,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('does not re-render rememberMe checkbox on changes', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           'features.rememberMe': true
         };
@@ -1341,7 +1341,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('ignores lastUsername and hides rememberMe if features.rememberMe is false and cookie is set', function () {
-        Util.mockCookie('ln', 'testuser@ABC.com');
+        Util.mockGetCookie('ln', 'testuser@ABC.com');
         var options = {
           'features.rememberMe': false
         };
@@ -1352,7 +1352,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('unchecks rememberMe if username is populated and lastUsername is different from username', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           'features.rememberMe': true,
           'username': 'testuser@ABC.com'
@@ -1363,7 +1363,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('checks rememberMe if username is populated and lastUsername is same as username', function () {
-        Util.mockCookie('ln', 'testuser@ABC.com');
+        Util.mockGetCookie('ln', 'testuser@ABC.com');
         var options = {
           'features.rememberMe': true,
           'username': 'testuser@ABC.com'
@@ -1596,7 +1596,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('sets rememberMe cookie if rememberMe is enabled and checked on submit', function () {
-        var cookieSpy = Util.mockCookie();
+        var cookieSpy = Util.mockSetCookie();
         return setup({ 'features.rememberMe': true })
         .then(function (test) {
           test.form.setUsername('testuser');
@@ -1614,7 +1614,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('removes rememberMe cookie if called with existing username and unchecked', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var removeCookieSpy = Util.mockRemoveCookie();
         return setup({ 'features.rememberMe': true }).then(function (test) {
           test.form.setUsername('testuser');
