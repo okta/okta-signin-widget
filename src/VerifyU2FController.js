@@ -19,10 +19,11 @@ define([
   'util/FormType',
   'views/shared/FooterSignout',
   'vendor/lib/q',
+  'util/FactorUtil',
   'views/mfa-verify/HtmlErrorMessageView',
   'u2f-api-polyfill'
 ],
-function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView) {
+function (Okta, FormController, FormType, FooterSignout, Q, FactorUtil, HtmlErrorMessageView) {
 
   var _ = Okta._;
 
@@ -43,6 +44,17 @@ function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView
   return FormController.extend({
     className: 'mfa-verify verify-u2f',
     Model: {
+      props: {
+        rememberDevice: 'boolean'
+      },
+
+      initialize: function () {
+        var rememberDevice = FactorUtil.getRememberDeviceValue(this.appState);
+        // set the initial value for remember device (Cannot do this while defining the
+        // local property because this.settings would not be initialized there yet).
+        this.set('rememberDevice', rememberDevice);
+      },
+
       save: function () {
         this.trigger('request');
 
@@ -67,9 +79,11 @@ function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView
                 deferred.reject({xhr: {responseJSON:
                   {errorSummary: Okta.loc(getErrorMessageKeyByCode(data.errorCode, isOneFactor), 'login')}}});
               } else {
+                var rememberDevice = !!self.get('rememberDevice');
                 return factor.verify({
                   clientData: data.clientData,
-                  signatureData: data.signatureData
+                  signatureData: data.signatureData,
+                  rememberDevice: rememberDevice
                 })
                 .then(deferred.resolve);
               }
@@ -116,6 +130,17 @@ function (Okta, FormController, FormType, FooterSignout, Q, HtmlErrorMessageView
               <p>{{i18n code="verify.u2f.instructionsBluetooth" bundle="login"}}</p>\
               <div data-se="u2f-waiting" class="okta-waiting-spinner"></div>\
             </div>'
+          }));
+        }
+
+        if (this.options.appState.get('allowRememberDevice')) {
+          result.push(FormType.Input({
+            label: false,
+            'label-top': true,
+            placeholder: this.options.appState.get('rememberDeviceLabel'),
+            className: 'margin-btm-0',
+            name: 'rememberDevice',
+            type: 'checkbox'
           }));
         }
 
