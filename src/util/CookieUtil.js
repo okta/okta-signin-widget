@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['shared/util/Cookie'], function (Cookie) {
-
+define(['okta'], function (Okta) {
+  var Cookie = Okta.internal.util.Cookie;
   var LAST_USERNAME_COOKIE_NAME = 'ln';
   var DAYS_SAVE_REMEMBER = 365;
 
