@@ -744,7 +744,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('updates security beacon immediately if rememberMe is available', function () {
-        Util.mockCookie('ln', 'testuser@clouditude.net');
+        Util.mockGetCookie('ln', 'testuser@clouditude.net');
         var options = {
           features: {
             rememberMe: true,
@@ -781,7 +781,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('has username in field if rememberMe is available', function () {
-        Util.mockCookie('ln', 'testuser@clouditude.net');
+        Util.mockGetCookie('ln', 'testuser@clouditude.net');
         var options = {
           'features.rememberMe': true
         };
@@ -790,7 +790,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('has rememberMe checked if rememberMe is available', function () {
-        Util.mockCookie('ln', 'testuser@clouditude.net');
+        Util.mockGetCookie('ln', 'testuser@clouditude.net');
         var options = {
           'features.rememberMe': true
         };
@@ -799,7 +799,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('unchecks rememberMe if username is changed', function () {
-        Util.mockCookie('ln', 'testuser@clouditude.net');
+        Util.mockGetCookie('ln', 'testuser@clouditude.net');
         var options = {
           'features.rememberMe': true
         };
@@ -810,7 +810,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('does not re-render rememberMe checkbox on changes', function () {
-        Util.mockCookie('ln', 'testuser@clouditude.net');
+        Util.mockGetCookie('ln', 'testuser@clouditude.net');
         var options = {
           'features.rememberMe': true
         };
@@ -840,7 +840,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('ignores lastUsername and hides rememberMe if features.rememberMe is false and cookie is set', function () {
-        Util.mockCookie('ln', 'testuser@ABC.com');
+        Util.mockGetCookie('ln', 'testuser@ABC.com');
         var options = {
           'features.rememberMe': false
         };
@@ -851,7 +851,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('unchecks rememberMe if username is populated and lastUsername is different from username', function () {
-        Util.mockCookie('ln', 'testuser@clouditude.net');
+        Util.mockGetCookie('ln', 'testuser@clouditude.net');
         var options = {
           'features.rememberMe': true,
           'username': 'testuser@ABC.com'
@@ -862,7 +862,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('checks rememberMe if username is populated and lastUsername is same as username', function () {
-        Util.mockCookie('ln', 'testuser@ABC.com');
+        Util.mockGetCookie('ln', 'testuser@ABC.com');
         var options = {
           'features.rememberMe': true,
           'username': 'testuser@ABC.com'
@@ -980,7 +980,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('removes rememberMe cookie if called with existing username and unchecked', function () {
-        Util.mockCookie('ln', 'testuser@clouditude.net');
+        Util.mockGetCookie('ln', 'testuser@clouditude.net');
         var removeCookieSpy = Util.mockRemoveCookie();
         return setup({ 'features.rememberMe': true }).then(function (test) {
           test.form.setUsername('testuser@clouditude.net');

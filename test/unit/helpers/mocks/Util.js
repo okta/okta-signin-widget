@@ -16,7 +16,7 @@ function ($, _, Backbone, Q, Duo, Cookie) {
       'ut tempor eros gravida egestas. Curabitur tempus dignissim justo et pellentesque. ' +
       'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.';
 
-  fn.mockCookie = function (name, value) {
+  fn.mockGetCookie = function (name, value) {
     spyOn(Cookie, 'getCookie').and.callFake(function (nameGiven) {
       return name === nameGiven ? value : undefined;
     });
