@@ -17,12 +17,10 @@ function (Widget, Expect, Logger) {
 
   Expect.describe('Debug Mode', function () {
     it('logs a warning message on page load', function () {
-      var debugMessage =
-      `
-        The Okta Sign-In Widget is running in development mode.
-        When you are ready to publish your app, embed the minified version to turn on production mode.
-        See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
-      `;
+      var debugMessage = '\n' +
+        'The Okta Sign-In Widget is running in development mode.\n' +
+        'When you are ready to publish your app, embed the minified version to turn on production mode.\n' +
+        'See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn\n';
 
       expect(Logger.warn).toHaveBeenCalledWith(debugMessage);
     });
