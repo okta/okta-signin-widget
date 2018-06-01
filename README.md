@@ -26,7 +26,6 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [remove](#remove)
   * [on](#onevent-callback-context)
   * [off](#offevent-callback)
-  * [authClient](#authclient)
   * [session.get](#sessiongetcallback)
   * [session.refresh](#sessionrefreshcallback)
   * [session.close](#sessionclosecallback)
@@ -328,20 +327,6 @@ signIn.off('pageRendered');
 
 // Unsubscribe the onPageRendered listener from the 'pageRendered' event
 signIn.off('pageRendered', onPageRendered);
-```
-
-## authClient
-
-Returns the underlying `@okta/okta-auth-js` object used by the widget. See [AuthJS](https://github.com/okta/okta-auth-js#api) for a list of available methods.
-
-```javascript
-// Check for an existing authClient transaction
-var exists = signIn.authClient.tx.exists();
-if (exists) {
-  console.log('A session exists!');
-} else {
-  console.log('A session does not exist.');
-};
 ```
 
 ## session.get(callback)
