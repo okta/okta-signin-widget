@@ -36,10 +36,6 @@ function (Widget, Expect, Logger) {
       it('has a signOut method', function () {
         expect(signIn.signOut).toBeDefined();
       });
-      it('has an authClient object', function () {
-        expect(signIn.authClient).toBeDefined();
-        expect(signIn.authClient.options.url).toEqual(url);
-      });
       it('has a tokenManager method', function () {
         expect(signIn.tokenManager).toBeDefined();
       });
