@@ -133,11 +133,16 @@
     /* set the helper's color value to the same color as the main-container's background */
       color: $primary-bg-color;
     }
-    // adjust password toggle on login page to accomodate for tooltip
-    .o-form-input-name-password {
+
+    .primary-auth {
+      // adjust password toggle on login page to accomodate for Tooltips
+      .password-with-toggle {
+        padding-right: 65px;
+      }
+
       .password-toggle {
         .eyeicon {
-          right: 45px;
+          right: 38px;
         }
       }
     }
@@ -733,6 +738,10 @@
       &[type="password"] {
       /* -- Input Fields: password input field -- */
         font-family: Verdana, sans-serif;
+
+        &:placeholder-shown {
+          font-family: $fonts;
+        }
       }
 
     }
