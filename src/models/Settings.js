@@ -314,6 +314,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
     },
 
     setAuthClient: function (authClient) {
+      authClient.options.headers['Accept-Language'] = this.get('languageCode');
       this.authClient = authClient;
     },
 
