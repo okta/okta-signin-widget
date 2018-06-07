@@ -71,7 +71,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CourageLogger, Logger, Okta
     function setup(settings) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({url: baseUrl});
+      var authClient = new OktaAuth({url: baseUrl, headers: {}});
       var eventSpy = jasmine.createSpy('eventSpy');
       var router = new Router(_.extend({
         el: $sandbox,
@@ -1119,6 +1119,45 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CourageLogger, Logger, Okta
         .then(function(test){
           test.form.submit();
           expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+        });
+      });
+
+      itp('Sends the default accept lang header en with API calls if widget is not configured with a language', function () {
+        return setupLanguage({})
+        .then(function (test) {
+          test.setNextResponse(resSuccess);
+          test.router.navigate('');
+          return Expect.waitForPrimaryAuth();
+        })
+        .then(function () {
+          var form = new PrimaryAuthForm($sandbox);
+          expect(form.isPrimaryAuth()).toBe(true);
+          form.setUsername('testuser');
+          form.setPassword('testpassword');
+          form.submit();
+          expect($.ajax.calls.mostRecent().args[0].headers['Accept-Language']).toBe('en');
+        });
+      });
+
+      itp('Sends the right accept lang header with API calls if widget is configured with a language', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja'
+          }
+        })
+        .then(function (test) {
+          test.setNextResponse(resSuccess);
+          test.router.navigate('');
+          return Expect.waitForPrimaryAuth();
+        })
+        .then(function () {
+          var form = new PrimaryAuthForm($sandbox);
+          expect(form.isPrimaryAuth()).toBe(true);
+          form.setUsername('testuser');
+          form.setPassword('testpassword');
+          form.submit();
+          expect($.ajax.calls.mostRecent().args[0].headers['Accept-Language']).toBe('ja');
         });
       });
     });
