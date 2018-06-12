@@ -1772,17 +1772,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(password.length).toBe(0);
         });
       });
-      itp('shows an error if username field is not a valid email', function () {
-        return setupPasswordlessAuth().then(function (test) {
-          test.form.setUsername('testuser');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.usernameErrorField().length).toBe(1);
-        });
-      });
       itp('calls authClient.signIn with username only', function () {
         return setupPasswordlessAuth().then(function (test) {
           $.ajax.calls.reset();
