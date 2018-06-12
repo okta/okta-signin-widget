@@ -149,6 +149,19 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     });
   }
 
+  function setupSocialNoneOIDCMode(settings) {
+    Util.mockOIDCStateGenerator();
+    return setup(_.extend({
+      redirectUri: 'https://0.0.0.0:9999',
+      idps: [
+        {
+          type: 'FACEBOOK',
+          id: '0oaidiw9udOSceD1234'
+        }
+      ]
+    }, settings));
+  }
+
   function setupAdditionalAuthButton() {
     var settings = {
       customButtons: [
@@ -1974,6 +1987,21 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             'scope=openid%20email%20profile',
             'External Identity Provider User Authentication',
             'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
+          );
+        });
+      });
+      itp('navigate to "/sso/idp/:id" at none OIDC mode when an idp button is clicked', function () {
+        spyOn(SharedUtil, 'redirect');
+        const opt = {
+          relayState: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U',
+        };
+
+        return setupSocialNoneOIDCMode(opt).then(function (test) {
+          test.form.facebookButton().click();
+          expect(SharedUtil.redirect.calls.count()).toBe(1);
+          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            'https://foo.com/sso/idps/0oaidiw9udOSceD1234?' + 
+            $.param({fromURI: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U'})
           );
         });
       });

@@ -20,9 +20,10 @@ define([
   'util/Util',
   'util/Logger',
   'util/OAuth2Util',
+  'shared/util/Util',
   'json!config/config'
 ],
-function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
+function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, SharedUtil, config) {
 
   var DEFAULT_LANGUAGE = 'en';
 
@@ -31,6 +32,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       oauthRedirectTpl = Okta.tpl('{{origin}}');
 
   var _ = Okta._,
+      $ = Okta.$,
       ConfigError = Errors.ConfigError,
       UnsupportedBrowserError = Errors.UnsupportedBrowserError;
 
@@ -275,7 +277,16 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
               },
               click: function (e) {
                 e.preventDefault();
-                OAuth2Util.getTokens(self, {idp: idp.id});
+                if (self.get('oauth2Enabled')) {
+                  OAuth2Util.getTokens(self, {idp: idp.id});
+                } else {
+                  const baseUrl = self.get('baseUrl');
+                  const params = $.param({
+                    fromURI: self.get('relayState'),
+                  });
+                  const targetUri = `${baseUrl}/sso/idps/${idp.id}?${params}`;
+                  SharedUtil.redirect(targetUri);
+                }
               }
             };
             buttonArray.push(socialAuthButton);
