@@ -324,7 +324,14 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, SharedUtil
       }
     },
 
+    setAcceptLanguageHeader: function (authClient) {
+      if (authClient && authClient.options && authClient.options.headers) {
+        authClient.options.headers['Accept-Language'] = this.get('languageCode');
+      }
+    },
+
     setAuthClient: function (authClient) {
+      this.setAcceptLanguageHeader(authClient);
       this.authClient = authClient;
     },
 
