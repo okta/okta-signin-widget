@@ -47,4 +47,26 @@ describe('Dev Mode flows', function() {
     expect(el.isDisplayed()).toBe(true);
   });
 
+  it('log a console message when tokens are not parsed from the URL after the Widget is rendered', function() {
+    // Ensure the widget exists
+    var el = element(by.css('#okta-sign-in'));
+    expect(el.isDisplayed()).toBe(true);
+
+    // Reload the page with a token in the URL
+    browser.executeScript('window.location = window.location + "#id_token=abc"');
+    browser.refresh(true);
+
+    browser.manage().logs().get('browser')
+    .then(function(logs) {
+      var log = logs.find(function(entry) {
+        var message = 'Looks like there are still tokens in the URL!';
+        return entry.message.includes(message) === true;
+      });
+      expect(log).toBeDefined();
+    })
+    .catch(function(err) {
+      expect(err).toBeUndefined();
+    });
+  });
+
 });
