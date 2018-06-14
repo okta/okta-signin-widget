@@ -602,6 +602,24 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         fn: function (policy) {
           return (policy && policy.factorsPolicyInfo) ? policy.factorsPolicyInfo: null;
         }
+      },
+      'verifyCustomFactorRedirectUrl': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._links || !res._links.next || res._links.next.name !== 'redirect' || !res._links.next.href) {
+            return null;
+          }
+          return res._links.next.href;
+        }
+      },
+      'enrollCustomFactorRedirectUrl': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._links || !res._links.next || res._links.next.name !== 'activate' || !res._links.next.href) {
+            return null;
+          }
+          return res._links.next.href;
+        }
       }
     },
 

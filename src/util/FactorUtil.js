@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 16], max-statements: [2, 30] */
+/* eslint complexity: [2, 17], max-statements: [2, 32] */
 define([
   'okta',
   'shared/util/TimeUtil'
@@ -111,6 +111,12 @@ function (Okta, TimeUtil) {
       description: '',
       iconClassName: 'mfa-okta-password',
       sortOrder: 14
+    },
+    'GENERIC_SAML': {
+      label: '',
+      description: 'factor.customFactor.description',
+      iconClassName: 'mfa-custom-factor',
+      sortOrder: 15
     }
   };
 
@@ -159,6 +165,9 @@ function (Okta, TimeUtil) {
     }
     if (provider === 'OKTA' && factorType === 'password') {
       return 'PASSWORD';
+    }
+    if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
+      return 'GENERIC_SAML';
     }
   };
 

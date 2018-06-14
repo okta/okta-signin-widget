@@ -41,7 +41,8 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           'question',
           'push',
           'u2f',
-          'password'
+          'password',
+          'assertion:saml2'
         ]
       },
       provider: {
@@ -53,7 +54,8 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           'SYMANTEC',
           'GOOGLE',
           'YUBICO',
-          'FIDO'
+          'FIDO',
+          'GENERIC_SAML'
         ]
       },
       enrollment: {
@@ -97,7 +99,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
       factorLabel: {
         deps: ['provider', 'factorType', 'vendorName'],
         fn: function (provider, factorType, vendorName) {
-          if (provider === 'DEL_OATH') {
+          if (provider === 'DEL_OATH' || provider === 'GENERIC_SAML') {
             return vendorName;
           }
           return factorUtil.getFactorLabel(provider, factorType);

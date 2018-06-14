@@ -530,6 +530,31 @@
     }
   }
 
+  .mfa-custom-factor-30,
+  .enroll-factor-row .mfa-custom-factor {
+    /* -- Factor Icons (small): Custom Factor -- */
+    background-image: url('../img/icons/mfa/customFactor_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Custom Factor -- */
+      background-image: url('../img/icons/mfa/customFactor_ico@2x.png');
+    }
+  }
+
+  .mfa-custom-factor {
+    /* -- Factor Icons (large): Custom Factor -- */
+    background-image: url('../img/icons/mfa/customFactor_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Custom Factor -- */
+      background-image: url('../img/icons/mfa/customFactor@2x.png');
+    }
+  }
+
   .button {
   /* -- Buttons' Colors -- */
     @include light-button-template($button-bg-color);

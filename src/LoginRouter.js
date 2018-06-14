@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 42] */
+/* eslint max-params: [2, 44] */
 define([
   'util/BaseLoginRouter',
   'IDPDiscoveryController',
@@ -19,6 +19,7 @@ define([
   'MfaVerifyController',
   'VerifyWindowsHelloController',
   'VerifyU2FController',
+  'VerifyCustomFactorController',
   'EnrollChoicesController',
   'EnrollDuoController',
   'EnrollQuestionController',
@@ -29,6 +30,7 @@ define([
   'EnrollYubikeyController',
   'EnrollTotpController',
   'EnrollU2FController',
+  'EnrollCustomFactorController',
   'BarcodeTotpController',
   'BarcodePushController',
   'ActivateTotpController',
@@ -62,6 +64,7 @@ function (BaseLoginRouter,
           MfaVerifyController,
           VerifyWindowsHelloController,
           VerifyU2FController,
+          VerifyCustomFactorController,
           EnrollChoicesController,
           EnrollDuoController,
           EnrollQuestionController,
@@ -72,6 +75,7 @@ function (BaseLoginRouter,
           EnrollYubikeyController,
           EnrollTotpController,
           EnrollU2FController,
+          EnrollCustomFactorController,
           BarcodeTotpController,
           BarcodePushController,
           ActivateTotpController,
@@ -105,6 +109,7 @@ function (BaseLoginRouter,
       'signin/verify/duo/web': 'verifyDuo',
       'signin/verify/fido/webauthn': 'verifyWindowsHello',
       'signin/verify/fido/u2f': 'verifyU2F',
+      'signin/verify/generic_saml/assertion:saml2': 'verifyCustomFactor',
       'signin/verify/:provider/:factorType': 'verify',
       'signin/enroll': 'enrollChoices',
       'signin/enroll/duo/web': 'enrollDuo',
@@ -118,6 +123,7 @@ function (BaseLoginRouter,
       'signin/enroll/yubico/token:hardware': 'enrollYubikey',
       'signin/enroll/fido/webauthn': 'enrollWindowsHello',
       'signin/enroll/fido/u2f': 'enrollU2F',
+      'signin/enroll/generic_saml/assertion:saml2': 'enrollCustomFactor',
       'signin/enroll/:provider/:factorType': 'enrollTotpFactor',
       'signin/enroll-activate/okta/push': 'scanBarcodePushFactor',
       'signin/enroll-activate/okta/push/manual': 'manualSetupPushFactor',
@@ -194,6 +200,14 @@ function (BaseLoginRouter,
       });
     },
 
+    verifyCustomFactor: function () {
+      this.render(VerifyCustomFactorController, {
+        provider: 'GENERIC_SAML',
+        factorType: 'assertion:saml2',
+        Beacon: FactorBeacon
+      });
+    },
+
     verify: function (provider, factorType) {
       this.render(MfaVerifyController, {
         provider: provider.toUpperCase(),
@@ -266,6 +280,14 @@ function (BaseLoginRouter,
       this.render(EnrollYubikeyController, {
         provider: 'YUBICO',
         factorType: 'token:hardware',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollCustomFactor: function () {
+      this.render(EnrollCustomFactorController, {
+        provider: 'GENERIC_SAML',
+        factorType: 'assertion:saml2',
         Beacon: FactorBeacon
       });
     },
