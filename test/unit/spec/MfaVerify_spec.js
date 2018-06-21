@@ -37,6 +37,7 @@ define([
   'helpers/xhr/MFA_VERIFY_invalid_answer',
   'helpers/xhr/MFA_VERIFY_invalid_password',
   'helpers/xhr/MFA_VERIFY_totp_invalid_answer',
+  'helpers/xhr/RSA_ERROR_change_pin',
   'helpers/xhr/SMS_RESEND_error',
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS',
   'helpers/xhr/MFA_REQUIRED_policy_always',
@@ -80,6 +81,7 @@ function (Okta,
           resInvalid,
           resInvalidPassword,
           resInvalidTotp,
+          resRSAChangePin,
           resResendError,
           resMfaLocked,
           resMfaAlwaysPolicy,
@@ -923,6 +925,34 @@ function (Okta,
           })
           .then(function (test) {
             expectSetTransactionError(test.router, resInvalidTotp);
+          });
+        });
+        itp('clears input field value if error is for PIN change (RSA)', function () {
+          return setupRsaTOTP()
+          .then(function (test) {
+            test.setNextResponse(resRSAChangePin);
+            test.form.setAnswer('correct');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+            expect(test.form.answerField().val()).toEqual('');
+          });
+        });
+        itp('clears input field value if error is for PIN change (On-Prem)', function () {
+          return setupOnPremTOTP()
+          .then(function (test) {
+            test.setNextResponse(resRSAChangePin);
+            test.form.setAnswer('correct');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+            expect(test.form.answerField().val()).toEqual('');
           });
         });
       });
