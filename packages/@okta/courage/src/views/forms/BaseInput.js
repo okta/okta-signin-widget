@@ -1,5 +1,12 @@
-/* eslint max-statements: [2, 13] */
-define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
+/* eslint-env es6 */
+/* eslint max-statements: [2, 17], max-len: [2, 160], max-params: [2, 6] */
+define([
+  'okta/underscore',
+  'okta/jquery',
+  'shared/views/BaseView',
+  'shared/views/components/Callout',
+  'shared/util/ButtonFactory',
+  'shared/util/StringUtil'], function (_, $, BaseView, Callout, ButtonFactory, StringUtil) {
 
   /**
    * @class BaseInput
@@ -91,6 +98,110 @@ define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
       return value;
     },
 
+    __getDependencyCalloutBtn: function (btnConfig) {
+      var self = this;
+      var btnOptions = _.clone(btnConfig);
+      // add onfocus listener to re-evaluate depedency when callout button is clicked
+      var originalClick = btnOptions.click || function () {};
+      btnOptions.click = function () {
+        $(window).one('focus.dependency', function () {
+          self.__showInputDependencies();
+        });
+        originalClick.call(self);
+      };
+      var CalloutBtn = BaseView.extend({
+        children: [
+          ButtonFactory.create(btnOptions)
+        ]
+      });
+      return new CalloutBtn();
+    },
+
+    getCalloutParent: function () {
+      return this.$('input[value="' + this.getModelValue() + '"]').parent();
+    },
+
+    __getCalloutMsgContainer: function (calloutMsg) {
+      return BaseView.extend({
+        template: '\
+        <span class="o-form-explain">\
+           {{msg}}\
+        </span>\
+        ',
+        getTemplateData: function () {
+          return {
+            msg: calloutMsg
+          };
+        }
+      });
+    },
+
+    showCallout: function (calloutConfig, dependencyResolved) {
+      var callout = _.clone(calloutConfig);
+      callout.className = 'dependency-callout';
+      if (callout.btn) {
+        callout.content = this.__getDependencyCalloutBtn(callout.btn);
+        delete callout.btn;
+      }
+      var dependencyCallout = Callout.create(callout);
+      if (!dependencyResolved) {
+        dependencyCallout.add(this.__getCalloutMsgContainer(StringUtil.localize('dependency.callout.msg', 'courage')));
+      }
+      var calloutParent = this.getCalloutParent();
+      calloutParent.append(dependencyCallout.render().el);
+      if (callout.type == 'success') {
+        _.delay(function () {
+          // fade out success callout
+          dependencyCallout.$el.fadeOut(800);
+        }, 1000);
+      }
+    },
+
+    removeCallout: function () {
+      this.$el.find('.dependency-callout').remove();
+    },
+
+    __evaluateCalloutObject: function (dependencyResolved, calloutTitle) {
+      var defaultCallout;
+      if (dependencyResolved) {
+        defaultCallout = {
+          title: StringUtil.localize('dependency.action.completed', 'courage'),
+          size: 'large',
+          type: 'success'
+        };
+      } else {
+        defaultCallout = {
+          title: StringUtil.localize('dependency.action.required', 'courage', [calloutTitle]),
+          size: 'large',
+          type: 'warning'
+        };
+      }
+      return defaultCallout;
+    },
+
+    __handleDependency: function (result, callout) {
+      var self = this;
+      var calloutConfig = _.isFunction(callout) ? callout(result) : _.extend({}, callout, self.__evaluateCalloutObject(result.resolved, callout.title));
+      // remove existing callouts if any
+      self.removeCallout();
+      self.showCallout(calloutConfig, result.resolved);
+    },
+
+    __showInputDependencies: function () {
+      var self = this;
+      var fieldDependency = self.options.deps[self.getModelValue()];
+      if (fieldDependency && _.isFunction(fieldDependency.func)) {
+        fieldDependency.func().done(function (data) {
+          self.__handleDependency({resolved: true, data: data}, fieldDependency.callout);
+        })
+        .fail(function (data) {
+          self.__handleDependency({resolved: false, data: data}, fieldDependency.callout);
+        });
+      } else {
+        self.removeCallout();
+      }
+    },
+
     _isEdited: false,
     /**
      * updates the model with the input's value
@@ -101,6 +212,10 @@ define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
         this.addInlineValidation();
       }
       this.model.set(this.options.name, this.toModelValue());
+      if (this.options.deps) {
+        // check for dependencies
+        this.__showInputDependencies();
+      }
     },
 
     /**

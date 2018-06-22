@@ -27,7 +27,6 @@ function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
-      globalSuccessFn: function () {},
       features: {
         securityImage: true
       }

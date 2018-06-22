@@ -23,6 +23,7 @@ define([
   'helpers/xhr/MFA_REQUIRED_oktaVerifyTotpOnly',
   'helpers/xhr/MFA_REQUIRED_webauthn',
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
+  'helpers/xhr/MFA_REQUIRED_U2F',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
@@ -36,6 +37,7 @@ define([
   'helpers/xhr/MFA_VERIFY_invalid_answer',
   'helpers/xhr/MFA_VERIFY_invalid_password',
   'helpers/xhr/MFA_VERIFY_totp_invalid_answer',
+  'helpers/xhr/RSA_ERROR_change_pin',
   'helpers/xhr/SMS_RESEND_error',
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS',
   'helpers/xhr/MFA_REQUIRED_policy_always',
@@ -65,6 +67,7 @@ function (Okta,
           resVerifyTOTPOnly,
           resRequiredWebauthn,
           resPassword,
+          resU2F,
           resChallengeDuo,
           resChallengeSms,
           resChallengeCall,
@@ -78,6 +81,7 @@ function (Okta,
           resInvalid,
           resInvalidPassword,
           resInvalidTotp,
+          resRSAChangePin,
           resResendError,
           resMfaLocked,
           resMfaAlwaysPolicy,
@@ -237,14 +241,8 @@ function (Okta,
       ]);
     }
 
-    function mockFirefox(isAvailable){
-      spyOn(BrowserFeatures, 'isFirefox').and.returnValue(isAvailable);
-    }
-
     function setupU2F(options) {
       options || (options = {});
-
-      mockFirefox(options.firefox);
 
       if (options.u2f) {
         window.u2f = {
@@ -260,7 +258,7 @@ function (Okta,
         delete window.u2f;
       }
 
-      return setup(resAllFactors)
+      return setup(options.oneFactor ? resU2F : resAllFactors)
       .then(function (test) {
         var responses = [resChallengeU2F];
         if (options && options.res) {
@@ -632,20 +630,6 @@ function (Okta,
             expect(test.form.autoPushCheckbox().length).toBe(0);
           });
         });
-        itp('when click the "show" button, the buttons container has class "password-toggle-on",\
-          and don\'t have it after clicking the "hide" button', function () {
-          return setupSecurityQuestion().then(function (test) {
-            var buttonsContainer = test.form.answerButtonsContainer();
-
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
-
-            test.form.showAnswerButton().click();
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(true);
-
-            test.form.hideAnswerButton().click();
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
-          });
-        });
         itp('an answer field type is "password" initially and can be switched between "text" and "password" \
           by clicking on "show"/"hide" buttons', function () {
           return setupSecurityQuestion().then(function (test) {
@@ -654,9 +638,13 @@ function (Okta,
 
             test.form.showAnswerButton().click();
             expect(test.form.answerField().attr('type')).toEqual('text');
+            expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+            expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
 
             test.form.hideAnswerButton().click();
             expect(test.form.answerField().attr('type')).toEqual('password');
+            expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
+            expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
           });
         });
         itp('calls authClient verifyFactor with correct args when submitted', function () {
@@ -937,6 +925,34 @@ function (Okta,
           })
           .then(function (test) {
             expectSetTransactionError(test.router, resInvalidTotp);
+          });
+        });
+        itp('clears input field value if error is for PIN change (RSA)', function () {
+          return setupRsaTOTP()
+          .then(function (test) {
+            test.setNextResponse(resRSAChangePin);
+            test.form.setAnswer('correct');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+            expect(test.form.answerField().val()).toEqual('');
+          });
+        });
+        itp('clears input field value if error is for PIN change (On-Prem)', function () {
+          return setupOnPremTOTP()
+          .then(function (test) {
+            test.setNextResponse(resRSAChangePin);
+            test.form.setAnswer('correct');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+            expect(test.form.answerField().val()).toEqual('');
           });
         });
       });
@@ -2791,26 +2807,24 @@ function (Okta,
           });
         });
 
-        itp('shows error if wrong browser', function () {
-          return setupU2F({u2f: false, firefox: false}).then(function (test) {
+        itp('shows error if browser does not support u2f', function () {
+          return setupU2F({u2f: false}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
-            .toEqual('The Security Key is only supported for Chrome or Firefox browsers. ' +
+            .toEqual('Security Key (U2F) is not supported on this browser. ' +
               'Select another factor or contact your admin for assistance.');
           });
         });
 
-        itp('shows error if Firefox without extension', function () {
-          return setupU2F({u2f: false, firefox: true}).then(function (test) {
+        itp('shows error if browser does not support u2f and only one factor', function () {
+          return setupU2F({u2f: false, oneFactor: true}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
-            .toEqual('<a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/u2f-support-add-on/">' +
-              'Download</a> and install the Firefox U2F browser extension before proceeding. You may be required to ' +
-              'restart your browser after installation.');
+            .toEqual('Security Key (U2F) is not supported on this browser. Contact your admin for assistance.');
           });
         });
 
-        itp('does not show error if correct browser', function () {
+        itp('does not show error if browser supports u2f', function () {
           return setupU2F({u2f: true}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(0);
           });
@@ -2820,6 +2834,12 @@ function (Okta,
           return setupU2F({u2f: true}).then(function (test) {
             expect(test.form.el('u2f-waiting').length).toBe(1);
             return Expect.waitForSpyCall(window.u2f.sign);
+          });
+        });
+
+        itp('has remember device checkbox', function () {
+          return setupU2F({u2f: true}).then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
 
@@ -2844,7 +2864,39 @@ function (Okta,
             );
             expect($.ajax.calls.count()).toBe(3);
             Expect.isJsonPost($.ajax.calls.argsFor(2), {
-              url: 'https://foo.com/api/v1/authn/factors/u2fFactorId/verify',
+              url: 'https://foo.com/api/v1/authn/factors/u2fFactorId/verify?rememberDevice=false',
+              data: {
+                clientData: 'someClientData',
+                signatureData: 'someSignature',
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+
+        itp('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
+          var signStub = function (appId, nonce, registeredKeys, callback) {
+            callback({
+              keyHandle: 'someKeyHandle',
+              clientData: 'someClientData',
+              signatureData: 'someSignature'
+            });
+          };
+          return setupU2F({u2f: true, signStub: signStub, res: resSuccess})
+          .then(function (test) {
+            test.form.setRememberDevice(true);
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            expect(window.u2f.sign).toHaveBeenCalledWith(
+              'https://test.okta.com',
+              'NONCE',
+              [ { version: 'U2F_V2', keyHandle: 'someCredentialId' } ],
+              jasmine.any(Function)
+            );
+            expect($.ajax.calls.count()).toBe(3);
+            Expect.isJsonPost($.ajax.calls.argsFor(2), {
+              url: 'https://foo.com/api/v1/authn/factors/u2fFactorId/verify?rememberDevice=true',
               data: {
                 clientData: 'someClientData',
                 signatureData: 'someSignature',
@@ -2898,20 +2950,6 @@ function (Okta,
         itp('no auto push checkbox', function () {
           return setupPassword({'features.autoPush': true}).then(function (test) {
             expect(test.form.autoPushCheckbox().length).toBe(0);
-          });
-        });
-        itp('when the "show" button is clicked, the buttons container has class "password-toggle-on",\
-          and doesn\'t have it after clicking the "hide" button', function () {
-          return setupPassword().then(function (test) {
-            var buttonsContainer = test.form.passwordButtonsContainer();
-
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
-
-            test.form.showPasswordButton().click();
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(true);
-
-            test.form.hidePasswordButton().click();
-            expect(buttonsContainer.hasClass('password-toggle-on')).toBe(false);
           });
         });
         itp('a password field type is "password" initially and can be switched between "text" and "password" \
@@ -3361,7 +3399,6 @@ function (Okta,
           return test;
         })
         .then(function (test) {
-          mockFirefox(true);
           window.u2f = {
             sign: function () {
             }

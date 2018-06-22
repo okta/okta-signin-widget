@@ -1,10 +1,11 @@
 define(['okta/underscore', 'shared/framework/Collection'], function (_, Collection) {
   /**
-  * @class Okta.Collection
-  * @extend Archer.Collection
-  * @inheritDoc Archer.Collection
-  */
-  return Collection.extend({
+   * Wrapper around the more generic {@link src/framework/Collection} that
+   * contains Okta-specific logic.
+   * @class module:Okta.Collection
+   * @extends src/framework/Collection
+   */
+  return Collection.extend(/** @lends module:Okta.Collection.prototype */ {
 
     /**
      * Is the end point using the legacy "secureJSON" format

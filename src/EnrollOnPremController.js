@@ -72,6 +72,16 @@ function (Okta, FormType, FormController, Footer, TextBox) {
         noButtonBar: true,
         autoSave: true,
         className: getClassName(provider),
+        initialize: function() {
+          this.listenTo(this.model, 'error', _.bind(function (source, error) {
+            if (error && error.status === 409) {
+              // 409 means we are in change pin, so we should clear out answer input
+              this.$('.o-form-input-name-passCode input').val('');
+              this.$('.o-form-input-name-passCode input').trigger('change');
+              this.$('.o-form-input-name-passCode input').focus();
+            }
+          }, this));
+        },
         formChildren: [
           FormType.Input({
             name: 'credentialId',

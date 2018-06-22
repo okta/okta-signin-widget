@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity: [2, 8], max-depth: [2, 3] */
-define(['okta'], function (Okta) {
+define(['okta', 'util/Logger'], function (Okta, Logger) {
 
   var Util = {};
   var _ = Okta._;
@@ -93,6 +93,12 @@ define(['okta'], function (Okta) {
   //helper to call setTimeout
   Util.callAfterTimeout = function (callback, time) {
     return setTimeout(callback, time);
+  };
+
+  // Helper function to provide consistent formatting of template literals
+  // that are logged when in development mode.
+  Util.debugMessage = function (message) {
+    Logger.warn(`\n${message.replace(/^(\s)+/gm, '')}`);
   };
 
   return Util;

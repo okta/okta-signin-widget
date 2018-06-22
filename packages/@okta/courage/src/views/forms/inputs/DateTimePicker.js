@@ -3,8 +3,7 @@ define([
   'shared/views/forms/BaseInput',
   'shared/util/Keys',
   'okta/moment',
-  'okta/jqueryui',
-  'vendor/plugins/jquery.placeholder'
+  'okta/jqueryui'
 ], function (TemplateUtil, BaseInput, Keys, moment) {
 
   var className = 'input-fix o-form-control date-time';
@@ -72,7 +71,6 @@ define([
       this.options.timeValue = time.format('HH:mm:ss');
 
       BaseInput.prototype.editMode.apply(this, arguments);
-      this.$('.date-input').placeholder();
       this.$('.date-input').datepicker(this.options.params);
     },
 

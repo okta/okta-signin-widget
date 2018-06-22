@@ -47,7 +47,6 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {},
         'features.router': startRouter
       }, settings));
       Util.registerRouter(router);

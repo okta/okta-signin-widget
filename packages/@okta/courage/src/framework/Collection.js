@@ -103,37 +103,35 @@
   //
 
   /**
-  * @class Archer.Collection
-  * @extend Backbone.Collection
-  *
-  * Archer.Collection is a standard [Backbone.Collection](http://backbonejs.org/#Collection) with pre-set `data`
-  * parameters and built in pagination - works with [http link headers](https://tools.ietf.org/html/rfc5988)
-  * out of the box:
-  *
-  * ```javascript
-  * var Users = Archer.Collection.extend({
-  *   url: '/api/v1/users'
-  *   params: {expand: true}
-  * });
-  * var users = new Users(null, {params: {type: 'new'}}),
-  *     $button = this.$('a.fetch-more');
-  *
-  * $button.click(function () {
-  *   users.fetchMore();
-  * });
-  *
-  * this.listenTo(users, 'sync', function () {
-  *   $button.toggle(users.hasMore());
-  * });
-  *
-  * collection.fetch(); //=> '/api/v1/users?expand=true&type=new'
-  *
-  * ```
-  */
-  return Backbone.Collection.extend({
+   *
+   * Archer.Collection is a standard [Backbone.Collection](http://backbonejs.org/#Collection) with pre-set `data`
+   * parameters and built in pagination - works with [http link headers](https://tools.ietf.org/html/rfc5988)
+   * out of the box:
+   *
+   * @class src/framework/Collection
+   * @extends external:Backbone.Collection
+   * @example
+   * var Users = Archer.Collection.extend({
+   *   url: '/api/v1/users'
+   *   params: {expand: true}
+   * });
+   * var users = new Users(null, {params: {type: 'new'}}),
+   *     $button = this.$('a.fetch-more');
+   *
+   * $button.click(function () {
+   *   users.fetchMore();
+   * });
+   *
+   * this.listenTo(users, 'sync', function () {
+   *   $button.toggle(users.hasMore());
+   * });
+   *
+   * collection.fetch(); //=> '/api/v1/users?expand=true&type=new'
+   */
+  return Backbone.Collection.extend(/** @lends src/framework/Collection.prototype */ {
 
     /**
-     * Default fetch parametrers
+     * Default fetch parameters
      * @type {Object}
      */
     params: {},
@@ -144,6 +142,9 @@
       Backbone.Collection.apply(this, arguments);
     },
 
+    /**
+     * See [Backbone Collection.sync](http://backbonejs.org/#Collection-sync).
+     */
     sync: function (method, collection, options) {
       var self = this,
           success = options.success;
@@ -156,6 +157,9 @@
       return Backbone.Collection.prototype.sync.call(this, method, collection, options);
     },
 
+    /**
+     * See [Backbone Collection.fetch](http://backbonejs.org/#Collection-fetch).
+     */
     fetch: function (options) {
       options || (options = {});
       var state = this[STATE],
@@ -175,8 +179,10 @@
 
     /**
      * Set pagination data to get to the next page
-     *
-     * ```javascript
+     * @param {Mixed} params
+     * @param {Object} [options]
+     * @param {Boolean} [options.fromFetch] should we include data from the previous fetch call in this object
+     * @example
      * collection.setPagination({q: 'foo', page: '2'}); //=> {q: 'foo', page: '2'}
      *
      * collection.setPagination('/path/to/resource?q=baz&page=4'); //=> {q: 'baz', page: '4'}
@@ -192,13 +198,7 @@
      * collection.setPagination(false); //=> {}
      * collection.setPagination(''); //=> {}
      * collection.setPagination(0); //=> {}
-     * ```
-     *
-     * @param {Mixed} params
-     * @param {Object} [options]
-     * @param {Boolean} [options.fromFetch] should we include data from the previous fetch call in this object
      * @protected
-     *
      */
     setPagination: function (params, options) {
       if (_.isString(params) && params) {
@@ -251,6 +251,9 @@
       return this.fetch({data: this.getPaginationData(), add: true, remove: false, update: true});
     },
 
+    /**
+     * See [Backbone Collection.reset](http://backbonejs.org/#Collection-reset).
+     */
     reset: function (models, options) {
       options || (options = {});
       // only reset the pagination when reset is being called explicitly.
@@ -277,6 +280,9 @@
       });
     },
 
+    /**
+     * See [Backbone Collection.create](http://backbonejs.org/#Collection-create).
+     */
     create: function (model, options) {
       options || (options = {});
       if (!_.result(model, 'urlRoot')) {

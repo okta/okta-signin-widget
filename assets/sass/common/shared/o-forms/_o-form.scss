@@ -99,6 +99,21 @@
       box-sizing: border-box;
     }
 
+    .password-toggle {
+      .eyeicon {
+        right: 10px;
+        position: absolute;
+        top: 45%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        opacity: 0.5;
+      }
+      .button-hide {
+        display: none;
+      }
+    }
+
     input[type="number"] {
       border: none;
     }

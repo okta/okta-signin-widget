@@ -19,37 +19,32 @@ function ($, _, BaseView, StateMachine, SettingsModel, BaseRouter) {
     return res;
   }
 
-  return BaseView.extend({
+  /**
+   * A Controller is our application control flow component.
+   *
+   * Typically it will:
+   * - Initialize the models, controller and main views
+   * - Listen to events
+   * - Create, read, update and delete models
+   * - Create modal dialogs, confirmation dialogs and alert dialogs
+   * - Control the application flow
+   *
+   * The constructor is responsible for:
+   * - Create the application state object
+   * - Assign or creates the application settings object
+   * - Create an instance of the main view with the relevant parameters
+   *
+   * See:
+   * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
+   * [Jasmine Spec](https://github.com/okta/okta-core/blob/master/WebContent/js/test/unit/spec/shared/util/BaseController_spec.js)
+   *
+   * @class module:Okta.Controller
+   * @param {Object} options Options Hash
+   * @param {SettingsModel} [options.settings] Application Settings Model
+   * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
+   */
+  return BaseView.extend(/** @lends module:Okta.Controller.prototype */{
 
-    /**
-    * @class Okta.Controller
-    * A Controller is our application control flow component.
-    *
-    *  Typically it will:
-    *
-    * - Initialize the models, controller and main views
-    * - Listen to events
-    * - Create, read, update and delete models
-    * - Create modal dialogs, confirmation dialogs and alert dialogs
-    * - Control the application flow
-    *
-    * See:
-    * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
-    * [Jasmine Spec](https://github.com/okta/okta-core/blob/master/WebContent/js/test/unit/spec/shared/util/BaseController_spec.js)
-    *
-    * @constructor
-    *
-    * The constructor is responsible for:
-    *
-    * - Create the application state object
-    * - Assign or creates the application settings object
-    * - Create an instance of the main view with the relevant parameters
-    *
-    * @param {Object} options Options Hash
-    * @param {SettingsModel} [options.settings] Application Settings Model
-    * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
-    *
-    */
     constructor: function (options) {
       /* eslint max-statements: [2, 13], complexity: [2, 7]*/
       options || (options = {});
@@ -84,20 +79,22 @@ function ($, _, BaseView, StateMachine, SettingsModel, BaseRouter) {
     },
 
     /**
-     * @property {Object} [state={}]
      * The default values of our application state
+     * @type {Object}
+     * @default {}
      */
     state: {},
 
 
     /**
-     * @property {Okta.View} [View=null]
      * The main view this controller operate on
+     * @type {module:Okta.View}
+     * @default null
      */
     View: null,
 
     /**
-     * Renders the {@link Okta.Controller#View main view} after the DOM is ready
+     * Renders the {@link module:Okta.Controller#View|main view} after the DOM is ready
      * in case the controller is the root component of the page (e.g there's no router)
      */
     render: function () {

@@ -3,9 +3,10 @@ define([
   'shared/framework/TableView'
 ], function (BaseView, TableView) {
    /**
-   * @class Okta.TableView
-   * @extends Archer.TableView
-   * @inheritdoc Archer.TableView
-   */
+    * See {@link src/framework/TableView} for more detail and examples from the base class.
+    * @class module:Okta.TableView
+    * @extends src/framework/TableView
+    * @mixes module:Okta.View
+    */
   return BaseView.decorate(TableView);
 });

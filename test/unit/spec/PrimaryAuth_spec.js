@@ -149,6 +149,19 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
     });
   }
 
+  function setupSocialNoneOIDCMode(settings) {
+    Util.mockOIDCStateGenerator();
+    return setup(_.extend({
+      redirectUri: 'https://0.0.0.0:9999',
+      idps: [
+        {
+          type: 'FACEBOOK',
+          id: '0oaidiw9udOSceD1234'
+        }
+      ]
+    }, settings));
+  }
+
   function setupAdditionalAuthButton() {
     var settings = {
       customButtons: [
@@ -569,6 +582,140 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         })
         .then(function (test) {
           expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+        });
+      });
+      itp('Does not show the password toggle button if features.showPasswordToggleOnSignInPage is not set', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': false }).then(function (test) {
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(0);
+        });
+      });
+      itp('Show the password toggle button if features.showPasswordToggleOnSignInPage is set', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(1);
+        });
+      });
+      itp('Toggles icon when the password toggle button with features.showPasswordToggleOnSignInPage is clicked', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(1);
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
+          test.form.passwordToggleShowContainer().click();
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+          test.form.passwordToggleHideContainer().click();
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
+        });
+      });
+      itp('Toggles password field from text to password after 30 seconds', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          jasmine.clock().uninstall();
+          var originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+          jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
+          jasmine.clock().install();
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(1);
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
+          test.form.passwordToggleShowContainer().click();
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+          // t25
+          jasmine.clock().tick(25 * 1000);
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+          // t35
+          jasmine.clock().tick(35 * 1000);
+          expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
+          jasmine.clock().uninstall();
+          jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+        });
+      });
+      itp('show username validation error when username field is dirty', function () {
+        return setup()
+        .then(function (test) {
+          test.form.usernameField().focus();
+          return tick(test);
+        }).then(function(test) {
+          test.form.setUsername('testuser');
+          return tick(test);
+        }).then(function (test) {
+          var msg = test.router.controller.model.validateField('username');
+          expect(msg).toEqual(undefined);
+          test.form.usernameField().focus();
+          return tick(test);
+        }).then(function(test) {
+          test.form.setUsername('');
+          return tick(test);
+        }).then(function(test) {
+          var msg = test.router.controller.model.validateField('username').username;
+          expect(msg).toEqual('Please enter a username');
+        });
+      });
+      itp('does not show username validation error when username field is not dirty', function () {
+        return setup()
+        .then(function (test) {
+          test.form.usernameField().focus();
+          expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+          return tick(test);
+        })
+        .then(function (test) {
+          test.form.passwordField().focus();
+          expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+          return tick(test);
+        })
+        .then(function (test) {
+          spyOn(test.router.controller.model, 'validate');
+          expect(test.router.controller.model.validate).not.toHaveBeenCalled();
+        });
+      });
+      itp('show password validation error when password field is dirty', function () {
+        return setup()
+        .then(function (test) {
+          test.form.passwordField().focus();
+          return tick(test);
+        }).then(function(test) {
+          test.form.setPassword('Abcd1234');
+          return tick(test);
+        }).then(function (test) {
+          var msg = test.router.controller.model.validateField('password');
+          expect(msg).toEqual(undefined);
+          test.form.passwordField().focus();
+          return tick(test);
+        }).then(function(test) {
+          test.form.setPassword('');
+          return tick(test);
+        }).then(function(test) {
+          var msg = test.router.controller.model.validateField('password').password;
+          expect(msg).toEqual('Please enter a password');
+        });
+      });
+      itp('does not show password validation error when password field is not dirty', function () {
+        return setup()
+        .then(function (test) {
+          test.form.passwordField().focus();
+          expect(test.form.passwordField()[0].parentElement).toHaveClass('focused-input');
+          return tick(test);
+        })
+        .then(function (test) {
+          test.form.usernameField().focus();
+          expect(test.form.passwordField()[0].parentElement).not.toHaveClass('focused-input');
+          return tick(test);
+        })
+        .then(function (test) {
+          spyOn(test.router.controller.model, 'validate');
+          expect(test.router.controller.model.validate).not.toHaveBeenCalled();
         });
       });
     });
@@ -1111,7 +1258,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('updates security beacon immediately if rememberMe is available', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           features: {
             rememberMe: true,
@@ -1148,7 +1295,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('has username in field if rememberMe is available', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           'features.rememberMe': true
         };
@@ -1157,7 +1304,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('has rememberMe checked if rememberMe is available', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           'features.rememberMe': true
         };
@@ -1166,7 +1313,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('unchecks rememberMe if username is changed', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           'features.rememberMe': true
         };
@@ -1177,7 +1324,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('does not re-render rememberMe checkbox on changes', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           'features.rememberMe': true
         };
@@ -1207,7 +1354,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('ignores lastUsername and hides rememberMe if features.rememberMe is false and cookie is set', function () {
-        Util.mockCookie('ln', 'testuser@ABC.com');
+        Util.mockGetCookie('ln', 'testuser@ABC.com');
         var options = {
           'features.rememberMe': false
         };
@@ -1218,7 +1365,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('unchecks rememberMe if username is populated and lastUsername is different from username', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var options = {
           'features.rememberMe': true,
           'username': 'testuser@ABC.com'
@@ -1229,7 +1376,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('checks rememberMe if username is populated and lastUsername is same as username', function () {
-        Util.mockCookie('ln', 'testuser@ABC.com');
+        Util.mockGetCookie('ln', 'testuser@ABC.com');
         var options = {
           'features.rememberMe': true,
           'username': 'testuser@ABC.com'
@@ -1462,7 +1609,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('sets rememberMe cookie if rememberMe is enabled and checked on submit', function () {
-        var cookieSpy = Util.mockCookie();
+        var cookieSpy = Util.mockSetCookie();
         return setup({ 'features.rememberMe': true })
         .then(function (test) {
           test.form.setUsername('testuser');
@@ -1480,7 +1627,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         });
       });
       itp('removes rememberMe cookie if called with existing username and unchecked', function () {
-        Util.mockCookie('ln', 'testuser');
+        Util.mockGetCookie('ln', 'testuser');
         var removeCookieSpy = Util.mockRemoveCookie();
         return setup({ 'features.rememberMe': true }).then(function (test) {
           test.form.setUsername('testuser');
@@ -1623,17 +1770,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
         return setupPasswordlessAuth().then(function (test) {
           var password = test.form.passwordField();
           expect(password.length).toBe(0);
-        });
-      });
-      itp('shows an error if username field is not a valid email', function () {
-        return setupPasswordlessAuth().then(function (test) {
-          test.form.setUsername('testuser');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.usernameErrorField().length).toBe(1);
         });
       });
       itp('calls authClient.signIn with username only', function () {
@@ -1851,6 +1987,21 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             'scope=openid%20email%20profile',
             'External Identity Provider User Authentication',
             'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
+          );
+        });
+      });
+      itp('navigate to "/sso/idp/:id" at none OIDC mode when an idp button is clicked', function () {
+        spyOn(SharedUtil, 'redirect');
+        const opt = {
+          relayState: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U',
+        };
+
+        return setupSocialNoneOIDCMode(opt).then(function (test) {
+          test.form.facebookButton().click();
+          expect(SharedUtil.redirect.calls.count()).toBe(1);
+          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            'https://foo.com/sso/idps/0oaidiw9udOSceD1234?' + 
+            $.param({fromURI: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U'})
           );
         });
       });
