@@ -35,8 +35,7 @@ function (_, $, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         features: {
           securityImage: showSecurityImage
         },
-        authClient: authClient,
-        globalSuccessFn: function () {}
+        authClient: authClient
       });
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);

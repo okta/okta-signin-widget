@@ -44,6 +44,11 @@ function (_, $, TemplateUtil, BasePicker) {
      * Fields in the parsed results to search for string matches
      */
 
+    /**
+     * @property {Boolean} canCreate
+     * Allow create arbitrary item when it's not from predefined option list.
+     */
+
     template: TemplateUtil.tpl('<select name="{{name}}" id="{{inputId}}"></select>'),
 
     height: null,
@@ -69,7 +74,7 @@ function (_, $, TemplateUtil, BasePicker) {
 
         preload: isSingle(this) ? this.getAttribute('preload', false) : false,
 
-        create: false,
+        create: this.getAttribute('canCreate', false),
         openOnFocus: !_.isUndefined(params.openOnFocus) ? params.openOnFocus : false,
         hideSelected: !_.isUndefined(params.hideSelected) ? params.hideSelected : true,
         closeAfterSelect: !_.isUndefined(params.closeAfterSelect) ? params.closeAfterSelect : true,

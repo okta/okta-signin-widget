@@ -182,6 +182,14 @@ define(['./Form'], function (Form) {
 
     signoutLink: function ($sandbox) {
       return $sandbox.find('[data-se=signout-link]');
+    },
+
+    passwordToggleShowContainer: function() {
+      return this.$('.password-toggle span.button-show');
+    },
+
+    passwordToggleHideContainer: function() {
+      return this.$('.password-toggle span.button-hide');
     }
 
   });

@@ -2,8 +2,9 @@
 define([
   'okta/underscore',
   'okta/jquery',
-  'shared/util/SchemaUtil'
-], function (_, $, SchemaUtil) {
+  'shared/util/SchemaUtil',
+  'shared/util/StringUtil'
+], function (_, $, SchemaUtil, StringUtil) {
   var NAME = 'name',
       ENUM_KEY_PREFIX = '_enum_';
 
@@ -80,16 +81,6 @@ define([
     });
   }
 
-  function isOneOfEnumHaveContent(values) {
-    if (!isOneOfEnumObject(values)) {
-      return false;
-    }
-
-    return _.all(values, function (value) {
-      return $.trim(value.const) !== '' && $.trim(value.title) !== '';
-    });
-  }
-
   function convertEnumToOneOf(values) {
     return _.map(values, function (value) {
       return {
@@ -160,9 +151,42 @@ define([
     return _.map(values, enumObjectToValue.bind(this));
   }
 
-  return {getEnumInputOptions: getEnumInputOptions,
+  function isStringConstraint(value) {
+    return _.isString(value) && $.trim(value) !== '';
+  }
+
+  function isNumberConstraint(value) {
+    return _.isNumber(value) || _.isNumber(StringUtil.parseFloat($.trim(value)));
+  }
+
+  function isIntegerConstraint(value) {
+    var integer = _.isNumber(value) ? value : StringUtil.parseInt($.trim(value));
+
+    return typeof integer === 'number' && isFinite(integer) && Math.floor(integer) === integer;
+  }
+
+  function isObjectConstraint(value) {
+    if (_.isObject(value) && !_.isArray(value)) {
+      return true;
+    }
+
+    var object = StringUtil.parseObject($.trim(value));
+    return _.isObject(object) && !_.isArray(object);
+  }
+
+  function isConstraintValueMatchType(value, type) {
+    switch (type) {
+    case SchemaUtil.STRING: return isStringConstraint(value);
+    case SchemaUtil.NUMBER: return isNumberConstraint(value);
+    case SchemaUtil.INTEGER: return isIntegerConstraint(value);
+    case SchemaUtil.OBJECT: return isObjectConstraint(value);
+    }
+  }
+
+  return {
+    getEnumInputOptions: getEnumInputOptions,
     getDropdownOptions: getDropdownOptions,
-    isOneOfEnumHaveContent: isOneOfEnumHaveContent,
-    convertToOneOf: convertToOneOf
+    convertToOneOf: convertToOneOf,
+    isConstraintValueMatchType: isConstraintValueMatchType
   };
 });

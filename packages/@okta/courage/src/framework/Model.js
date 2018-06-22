@@ -11,51 +11,49 @@
     root.Archer.Model = factory(root._, root.Backbone, root.Logger);
   }
 }(this, function (_, Backbone, Logger) {
-  var Model;
-
   /**
-  * @class Archer.Model
-  * @extend Backbone.Model
-  *
-  * Archer.Model is a standard [Backbone.Model](http://backbonejs.org/#Model) with a few additions:
-  *
-  * - {@link #derived Derived properties}
-  * - {@link #props Built in schema validation}
-  * - {@link #local Private properties (with schema validation)}
-  * - {@link #flat Flattening of nested objects}
-  *
-  * Both derived and private properties are filtered out when sending the data to the server.
-  *
-  * Example:
-  *
-  * ```javascript
-  * var Person = Archer.Model.extend({
-  *   props: {
-  *     'fname': 'string',
-  *     'lname': 'string'
-  *   },
-  *   local: {
-  *     isLoggedIn: 'boolean'
-  *   },
-  *   derived: {
-  *     name: {
-  *       deps: ['fname', 'lname'],
-  *       fn: function (fname, lname) {
-  *         return fname + ' ' + lname;
-  *       }
-  *     }
-  *   }
-  * });
-  * var model = new Person({fname: 'Joe', lname: 'Doe'});
-  * model.get('name'); //=> "Joe Doe"
-  * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
-  *
-  * model.set('isLoggedIn', true);
-  * model.get('isLoggedIn'); //=> true
-  * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
-  * ```
-  * See: [Backbone.Model](http://backbonejs.org/#Model-constructor)
-  */
+   * Archer.Model is a standard [Backbone.Model](http://backbonejs.org/#Model) with a few additions:
+   *
+   * - {@link src/framework/Model#derived Derived properties}
+   * - {@link src/framework/Model#props Built in schema validation}
+   * - {@link src/framework/Model#local Private properties (with schema validation)}
+   * - {@link src/framework/Model#flat Flattening of nested objects}
+   *
+   * Both derived and private properties are filtered out when sending the data to the server.
+   *
+   * See [Backbone.Model](http://backbonejs.org/#Model-constructor).
+   *
+   * @class src/framework/Model
+   * @extends external:Backbone.Model
+   * @param {Object} [attributes] - Initial model attributes (data)
+   * @param {Object} [options] - Options hash
+   * @example
+   * var Person = Archer.Model.extend({
+   *   props: {
+   *     'fname': 'string',
+   *     'lname': 'string'
+   *   },
+   *   local: {
+   *     isLoggedIn: 'boolean'
+   *   },
+   *   derived: {
+   *     name: {
+   *       deps: ['fname', 'lname'],
+   *       fn: function (fname, lname) {
+   *         return fname + ' ' + lname;
+   *       }
+   *     }
+   *   }
+   * });
+   * var model = new Person({fname: 'Joe', lname: 'Doe'});
+   * model.get('name'); //=> "Joe Doe"
+   * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
+   *
+   * model.set('isLoggedIn', true);
+   * model.get('isLoggedIn'); //=> true
+   * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
+   */
+  var Model;
 
   function flatten(value, objectTypeFields, key, target) {
     var filter = _.contains(objectTypeFields, key);
@@ -242,7 +240,7 @@
     }
   }
 
-  Model = Backbone.Model.extend({
+  Model = Backbone.Model.extend(/** @lends src/framework/Model.prototype */ {
 
     /**
      * Pass props as an object to extend, describing the observable properties of your model. The props
@@ -266,7 +264,8 @@
      *   To the `validate` method
      *   - Trying to set a property to an invalid type will raise an exception.
      *
-     * ```javascript
+     * @type {Mixed}
+     * @example
      * var Person = Model.extend({
      *   props: {
      *     name: 'string',
@@ -284,9 +283,6 @@
      *     }
      *   }
      * });
-     * ```
-     *
-     * @type {Mixed}
      */
     props: {},
 
@@ -294,7 +290,18 @@
      * Derived properties (also known as computed properties) are properties of the model that depend on the
      * other (props, local or even derived properties to determine their value. Best demonstrated with an example:
      *
-     * ```javascript
+     * Each derived property, is defined as an object with the current properties:
+     *
+     * - `deps` {Array} - An array of property names which the derived property depends on.
+     * - `fn` {Function} - A function which returns the value of the computed property. It is called in the context of
+     * the current object, so that this is set correctly.
+     * - `cache` {Boolean} -  - Whether to cache the property. Uncached properties are computed every time they are
+     * accessed. Useful if it depends on the current time for example. Defaults to `true`.
+     *
+     * Derived properties are retrieved and fire change events just like any other property. They cannot be set
+     * directly.
+     * @type {Object}
+     * @example
      * var Person = Model.extend({
      *   props: {
      *     firstName: 'string',
@@ -315,28 +322,16 @@
      *
      * person.set('firstName', 'Bob');
      * console.log(person.get('fullName')) //=> "Bob Roberts"
-     * ```
-     *
-     * Each derived property, is defined as an object with the current properties:
-     *
-     * - `deps` {Array} - An array of property names which the derived property depends on.
-     * - `fn` {Function} - A function which returns the value of the computed property. It is called in the context of
-     * the current object, so that this is set correctly.
-     * - `cache` {Boolean} -  - Whether to cache the property. Uncached properties are computed every time they are
-     * accessed. Useful if it depends on the current time for example. Defaults to `true`.
-     *
-     * Derived properties are retrieved and fire change events just like any other property. They cannot be set
-     * directly.
-     * @type {Object}
      */
     derived: {},
 
     /**
-     * local properties are defined and work in exactly the same way as {@link #props}, but generally only exist for
+     * local properties are defined and work in exactly the same way as {@link src/framework/Model#props|props}, but generally only exist for
      * the lifetime of the page.
-     * They would not typically be persisted to the server, and are not returned by calls to {@link #toJSON}.
+     * They would not typically be persisted to the server, and are not returned by calls to {@link src/framework/Model#toJSON|toJSON}.
      *
-     * ```javascript
+     * @type {Object}
+     * @example
      * var Person = Model.extend({
      *   props: {
      *     name: 'string',
@@ -345,36 +340,33 @@
      *     isLoggedIn: 'boolean'
      *   }
      * );
-     * ```
-     * @type {Object}
      */
     local: {},
 
     /**
-    * Flatten the payload into dot notation string keys:
-    *
-    * ```javascript
-    * var Person = Model.extend({
-    *   props: {
-    *     'profile.fname': 'string',
-    *     'profile.lname': 'string',
-    *     'profile.languages': 'object'
-    *   },
-    *   flat: true
-    * });
-    * var person = new Person({'profile': {
-    *                            'fname': 'John',
-    *                            'lname': 'Doe',
-    *                            'languages': {name: "English", value: "EN"}
-    *                         }}, {parse: true});
-    * person.get('profile'); //=> undefined
-    * person.get('profile.fname'); //=> 'John'
-    * person.get('profile.lname'); //=> 'Doe'
-    * person.get('profile.languages'); //=> {name: "English", value: "EN"}
-    * person.get('profile.languages.name'); //=> undefined
-    * person.toJSON(); //=> {'profile': {'fname': 'John'} }
-    * ```
+     * Flatten the payload into dot notation string keys:
+     *
      * @type {Boolean}
+     * @example
+     * var Person = Model.extend({
+     *   props: {
+     *     'profile.fname': 'string',
+     *     'profile.lname': 'string',
+     *     'profile.languages': 'object'
+     *   },
+     *   flat: true
+     * });
+     * var person = new Person({'profile': {
+     *                            'fname': 'John',
+     *                            'lname': 'Doe',
+     *                            'languages': {name: "English", value: "EN"}
+     *                         }}, {parse: true});
+     * person.get('profile'); //=> undefined
+     * person.get('profile.fname'); //=> 'John'
+     * person.get('profile.lname'); //=> 'Doe'
+     * person.get('profile.languages'); //=> {name: "English", value: "EN"}
+     * person.get('profile.languages.name'); //=> undefined
+     * person.toJSON(); //=> {'profile': {'fname': 'John'} }
      */
     flat: true,
 
@@ -384,11 +376,6 @@
      */
     defaults: {},
 
-    /**
-    * @constructor
-    * @param {Object} [attributes] - Initial model attributes (data)
-    * @param {Object} [options] - Options hash
-    */
     constructor: function (options) {
       this.options = options || {};
 
@@ -528,9 +515,13 @@
      * Return a shallow copy of the model's attributes for JSON stringification.
      * This can be used for persistence, serialization, or for augmentation before being sent to the server.
      * The name of this method is a bit confusing, as it doesn't actually return a JSON string —
-     *  but I'm afraid that it's the way that the JavaScript API for JSON.stringify works.
+     * but I'm afraid that it's the way that the JavaScript API for JSON.stringify works.
      *
-     * ```javascript
+     * See [Backbone.Model.toJSON](http://backbonejs.org/#Model-toJSON)
+     *
+     * @param  {Object} options
+     * @return {Object}
+     * @example
      * var artist = new Model({
      *   firstName: 'Wassily',
      *   lastName: 'Kandinsky'
@@ -538,10 +529,6 @@
      *
      * artist.set({birthday: 'December 16, 1866'});
      * JSON.stringify(artist); //=> {'firstName':'Wassily','lastName':'Kandinsky','birthday':'December 16, 1866'}
-     * ```
-     * See [Backbone.Model.toJSON](http://backbonejs.org/#Model-toJSON)
-     * @param  {Object} options
-     * @return {Object}
      */
     toJSON: function (options) {
       options || (options = {});
@@ -596,7 +583,7 @@
     },
 
     /**
-     * Runs local schema validation. Invoked internally by {@link #validate}.
+     * Runs local schema validation. Invoked internally by {@link src/framework/Model#validate|validate}.
      * @return {Object}
      * @protected
      */

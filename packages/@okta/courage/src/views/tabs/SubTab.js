@@ -10,8 +10,9 @@ function (_, BaseView) {
     attributes: {
       role: 'subtab'
     },
-    
-    template: '<a class="sub-tab-link ui-tabs-anchor" role="presentation" href="{{route}}">{{label}}</a>',
+
+    template: '<a class="sub-tab-link ui-tabs-anchor" \
+      role="presentation" href="{{route}}" data-se="{{label}}">{{label}}</a>',
 
     events: {
       'click a': function (e) {
@@ -27,14 +28,14 @@ function (_, BaseView) {
     },
 
     toggle: function (method) {
-      
+
       // if we load a subtab
       this.$el.toggleClass('ui-state-active ui-tabs-selected', method == this.method);
       // show the subtab panel and subtab content
       this.$el.parent().parent().find('.ui-tabs-panel').addClass('subtab-content');
       // show the subtab panel
       this.$el.parent().parent().find('.ui-subtabs').addClass('subtabs-panel');
-      
+
     }
   });
 

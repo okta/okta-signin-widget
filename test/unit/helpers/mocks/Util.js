@@ -1,12 +1,13 @@
-/* eslint no-global-assign: 0, max-statements: [2, 32] */
+/* eslint no-global-assign: 0, max-statements: [2, 33] */
 define([
   'okta/jquery',
   'okta/underscore',
   'backbone',
   'vendor/lib/q',
-  'duo'
+  'duo',
+  'shared/util/Cookie'
 ],
-function ($, _, Backbone, Q, Duo) {
+function ($, _, Backbone, Q, Duo, Cookie) {
 
   var fn = {};
 
@@ -15,12 +16,16 @@ function ($, _, Backbone, Q, Duo) {
       'ut tempor eros gravida egestas. Curabitur tempus dignissim justo et pellentesque. ' +
       'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.';
 
-  // Can mock both set and get
-  fn.mockCookie = function (name, value) {
-    spyOn($, 'cookie').and.callFake(function (nameGiven) {
+  fn.mockGetCookie = function (name, value) {
+    spyOn(Cookie, 'getCookie').and.callFake(function (nameGiven) {
       return name === nameGiven ? value : undefined;
     });
-    return $.cookie;
+    return Cookie.getCookie;
+  };
+
+  fn.mockSetCookie = function () {
+    spyOn(Cookie, 'setCookie');
+    return Cookie.setCookie;
   };
 
   fn.mockSDKCookie = function (authClient, key, value) {
@@ -30,8 +35,8 @@ function ($, _, Backbone, Q, Duo) {
   };
 
   fn.mockRemoveCookie = function () {
-    spyOn($, 'removeCookie');
-    return $.removeCookie;
+    spyOn(Cookie, 'removeCookie');
+    return Cookie.removeCookie;
   };
 
   fn.mockRouterNavigate = function (router, start) {

@@ -41,9 +41,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         remember: ['boolean', true, properties.remember],
         multiOptionalFactorEnroll: ['boolean', true]
       };
-      if (this.settings && this.settings.get('features.passwordlessAuth')) {
-        props.username.format = 'email';
-      } else {
+      if (!(this.settings && this.settings.get('features.passwordlessAuth'))) {
         props.password = {
           type: 'string',
           validate: function (value) {

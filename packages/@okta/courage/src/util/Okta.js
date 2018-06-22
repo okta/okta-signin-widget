@@ -1,3 +1,36 @@
+/**
+ * The main Courage module, which references the most commonly used classes
+ * and utility functions.
+ * @module Okta
+ * @borrows module:Okta.internal.util.StringUtil.localize as loc
+ * @borrows module:Okta.internal.util.ButtonFactory.create as createButton
+ * @borrows module:Okta.internal.views.components.Callout.create as createCallout
+ * @borrows module:Okta.internal.views.forms.helpers.InputRegistry.register as registerInput
+ * @borrows module:Okta.internal.util.TemplateUtil.tpl as tpl
+ * @example
+ * define(['okta'], function (Okta) {
+ *   var Form = Okta.FormDialog.extend({
+ *     title: Okta.loc('my.i18n.key'),
+ *     inputs: [
+ *       {
+ *         type: 'text',
+ *         name: 'name'
+ *       }
+ *     ]
+ *   });
+ *
+ *   var View = Okta.View.extend({
+ *     children: [
+ *       Okta.createButton({
+ *         title: 'Click Me',
+ *         click: function () {
+ *           new Form({model: new Okta.Model()}).render();
+ *         }
+ *       })
+ *     ]
+ *   });
+ * });
+ */
 /* eslint max-params: 0 */
 define([
   'backbone',
@@ -24,105 +57,47 @@ function (Backbone, $, _, Handlebars, moment, momentTz, Model, BaseModel, BaseCo
       util = utilBundle,
       views = viewsBundle;
 
-  /**
-   * @class Okta
-   * @singleton
-   *
-   * #### The Okta module holds reference to many frequently used objects and functions
-   *
-   * A quick example:
-   *
-   * ```javascript
-   * define(['okta'], function (Okta) {
-   *
-   *   var Form = Okta.FormDialog.extend({
-   *     title: Okta.loc('my.i18n.key'),
-   *     inputs: [
-   *       {
-   *         type: 'text',
-   *         name: 'name'
-   *       }
-   *     ]
-   *   });
-   *
-   *   var View = Okta.View.extend({
-   *     children: [
-   *       Okta.createButton({
-   *         title: 'Click Me',
-   *         click: function () {
-   *           new Form({model: new Okta.Model()}).render();
-   *         }
-   *       })
-   *     ]
-   *   });
-   *
-   * });
-   *
-   * ```
-   */
-
-  return {
+  return /** @lends module:Okta */ {
 
     /**
-     * A reference to Backbone
-     * @type {Backbone}
+     * A reference to [Backbone.js](http://backbonejs.org/).
      */
     Backbone: Backbone,
 
     /**
-     * A reference to jQuery
-     * @type {jQuery}
+     * A reference to [jQuery](http://api.jquery.com/).
      */
     $: $,
 
     /**
-     * A reference to underscore
-     * @type {underscore}
+     * A reference to [Underscore.js](http://underscorejs.org/).
      */
     _: _,
 
     /**
-     * A reference to moment
-     * @type {moment}
+     * A reference to [Moment.js](https://momentjs.com/docs/).
      */
     moment: moment,
 
     /**
-     * A reference to moment-tz
-     * @type {moment-tz}
+     * A reference to [Moment Timezone](https://momentjs.com/timezone/docs/).
      */
     momentTz: momentTz,
 
     /**
-     * A reference to Handlebars
-     * @type {Handlebars}
+     * A reference to [Handlebars.js](http://handlebarsjs.com/).
      */
     Handlebars: Handlebars,
 
-    /**
-     * @method
-     * @inheritdoc StringUtil#static-method-localize
-     */
     loc: util.StringUtil.localize,
 
-    /**
-     * @method
-     * @inheritdoc ButtonFactory#create
-     */
     createButton: util.ButtonFactory.create,
 
-    /**
-     * @method
-     * @inheritdoc Callout#static-method-create
-     */
     createCallout: views.components.Callout.create,
 
-    /**
-     * @method
-     * @inheritdoc TemplateUtil#tpl
-     */
-    tpl: util.TemplateUtil.tpl,
+    registerInput: views.forms.helpers.InputRegistry.register,
 
+    tpl: util.TemplateUtil.tpl,
 
     Model: Model,
 
@@ -145,6 +120,8 @@ function (Backbone, $, _, Handlebars, moment, momentTz, Model, BaseModel, BaseCo
     DataListController: util.DataListController,
 
     DataList: views.datalist.DeadSimpleDataList,
+
+    DependentCallout: views.components.BaseDependentCallout,
 
     ModalDialog: views.components.BaseModalDialog,
 

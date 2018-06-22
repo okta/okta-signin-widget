@@ -19,7 +19,10 @@ define([
     className: 'infobox infobox-confirm infobox-confirm-fixed',
 
     events: {
-      'click .infobox-dismiss-link': 'fadeOut'
+      'click .infobox-dismiss-link': function (e) {
+        e.preventDefault();
+        this.fadeOut();
+      }
     },
 
     template: '\

@@ -92,7 +92,7 @@ define([
     },
 
     getUsernameField: function() {
-      return {
+      var userNameFieldObject = {
         label: false,
         'label-top': true,
         placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
@@ -109,16 +109,21 @@ define([
           icon: 'person-16-gray'
         }
       };
+
+      if (this.settings.get('features.showPasswordToggleOnSignInPage')) {
+        userNameFieldObject.params.iconDivider = true;
+      }
+      return userNameFieldObject;
     },
 
     getPasswordField: function() {
-      return {
+      var passwordFieldObject = {
         label: false,
         'label-top': true,
         placeholder: Okta.loc('primaryauth.password.placeholder', 'login'),
         name: 'password',
-        input: TextBox,
         inputId: 'okta-signin-password',
+        validateOnlyIfDirty: true,
         type: 'password',
         params: {
           innerTooltip: {
@@ -128,6 +133,11 @@ define([
           icon: 'remote-lock-16'
         }
       };
+      if (this.settings.get('features.showPasswordToggleOnSignInPage')) {
+        passwordFieldObject.params.iconDivider = true;
+        passwordFieldObject.params.showPasswordToggle = true;
+      }
+      return passwordFieldObject;
     },
 
     getRemeberMeCheckbox: function() {

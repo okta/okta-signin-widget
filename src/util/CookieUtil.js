@@ -10,35 +10,26 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'jquery.cookie'], function (Okta) {
-
-  var $ = Okta.$;
+define(['okta'], function (Okta) {
+  var Cookie = Okta.internal.util.Cookie;
   var LAST_USERNAME_COOKIE_NAME = 'ln';
   var DAYS_SAVE_REMEMBER = 365;
-
-  function removeCookie (name) {
-    $.removeCookie(name, { path: '/' });
-  }
-
-  function setCookie (name, value) {
-    $.cookie(name, value, {
-      expires: DAYS_SAVE_REMEMBER,
-      path: '/'
-    });
-  }
 
   var fn = {};
 
   fn.getCookieUsername = function () {
-    return $.cookie(LAST_USERNAME_COOKIE_NAME);
+    return Cookie.getCookie(LAST_USERNAME_COOKIE_NAME);
   };
 
   fn.setUsernameCookie = function (username) {
-    setCookie(LAST_USERNAME_COOKIE_NAME, username);
+    Cookie.setCookie(LAST_USERNAME_COOKIE_NAME, username, {
+      expires: DAYS_SAVE_REMEMBER,
+      path: '/'
+    });
   };
 
   fn.removeUsernameCookie = function () {
-    removeCookie(LAST_USERNAME_COOKIE_NAME);
+    Cookie.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
   };
 
   return fn;

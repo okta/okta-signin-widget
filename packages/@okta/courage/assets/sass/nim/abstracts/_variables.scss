@@ -1,0 +1,20 @@
+// Establish Type Scale
+
+$base-font-size: 16px;
+$scale-ratio: (4 / 3);
+
+$base-line-height: 1.5;
+
+// Spacing Variables
+// Not ready for general use.
+
+$base-spacing: $base-line-height * 1rem;
+$small-spacing: $base-spacing / 2;
+$tiny-spacing: $small-spacing / 2;
+$big-spacing: $base-spacing * 2;
+$huge-spacing: $big-spacing * 2;
+
+$em-base-spacing: $base-line-height * 1em;
+$em-small-spacing: $em-base-spacing / 2;
+$em-tiny-spacing: $em-small-spacing / 2;
+$em-big-spacing: $em-base-spacing * 2;
