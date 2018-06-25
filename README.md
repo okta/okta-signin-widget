@@ -1262,6 +1262,7 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
       });
     });
     ```
+- **passwordRevealed** - triggered when the show password button is clicked.
 
 # Browser Support
 

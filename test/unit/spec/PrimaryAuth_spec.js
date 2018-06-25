@@ -598,6 +598,31 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(test.form.passwordToggleContainer().length).toBe(1);
         });
       });
+      itp('Triggers a passwordRevealed event when show password button is clicked', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          var eventSpy = jasmine.createSpy('eventSpy');
+          test.router.on('passwordRevealed', eventSpy);
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(1);
+          test.form.passwordToggleShowContainer().click();
+          expect(eventSpy).toHaveBeenCalled();
+        });
+      });
+      itp('Does not trigger a passwordRevealed event when hide password button is clicked', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          var eventSpy = jasmine.createSpy('eventSpy');
+          test.router.on('passwordRevealed', eventSpy);
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(1);
+          test.form.passwordToggleShowContainer().click();
+          expect(eventSpy).toHaveBeenCalledTimes(1);
+          test.form.passwordToggleHideContainer().click();
+          // Hide password should not have triggered passwordRevealed event, so called times should still be 1
+          expect(eventSpy).toHaveBeenCalledTimes(1);
+        });
+      });
       itp('Toggles icon when the password toggle button with features.showPasswordToggleOnSignInPage is clicked', function () {
         return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
           test.form.setPassword('testpass');

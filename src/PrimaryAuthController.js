@@ -97,6 +97,9 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       },
       'focusout input': function (e) {
         $(e.target.parentElement).removeClass('focused-input');
+      },
+      'click .button-show': function () {
+        this.trigger('passwordRevealed');
       }
     },
 
