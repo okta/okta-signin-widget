@@ -276,6 +276,18 @@ define({
             "hints": {"allow": ["POST"]}
           }
         }
+      }, {
+        "id": "customFactorId",
+        "factorType": "assertion:saml2",
+        "provider": "GENERIC_SAML",
+        "vendorName": "Third Party Factor",
+        "profile": {"user":"administrator1@clouditude.net"},
+        "_links": {
+          "verify": {
+            "href":"http://rain.okta1.com:1802/api/v1/authn/factors/customFactorId/verify",
+            "hints": {"allow": ["POST"]}
+          }
+        }
       }]
     },
     "_links": {
