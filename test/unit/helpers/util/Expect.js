@@ -237,6 +237,7 @@ define([
     EnrollU2F: 'enroll-u2f',
     EnrollWindowsHello: 'enroll-windows-hello',
     EnrollYubikey: 'enroll-yubikey',
+    EnrollCustomFactor: 'enroll-custom-factor',
     EnterPasscodePushFlow: 'activate-push',
     ForgotPassword: 'forgot-password',
     IDPDiscovery: 'idp-discovery',
@@ -258,7 +259,8 @@ define([
     UnlockEmailSent: 'account-unlock-email-sent',
     VerifyDuo: 'mfa-verify-duo',
     VerifyU2F: 'verify-u2f',
-    VerifyWindowsHello: 'verify-windows-hello'
+    VerifyWindowsHello: 'verify-windows-hello',
+    VerifyCustomFactor: 'verify-custom-factor'
   };
 
   _.each(controllerClasses, function (className, controller) {
