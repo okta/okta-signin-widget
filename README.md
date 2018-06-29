@@ -1272,7 +1272,7 @@ Need to know if the Sign-In Widget supports your browser requirements?  Please s
 1. Clone this repo and navigate to the new `okta-signin-widget` folder.
 
     ```bash
-    git clone git@github.com:okta/okta-signin-widget.git
+    git clone https://github.com/okta/okta-signin-widget.git
     cd okta-signin-widget
     ```
 
