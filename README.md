@@ -1240,6 +1240,8 @@ features: {
 
 - **features.idpDiscovery** - Enable [IdP Discovery](#idp-discovery). Defaults to `false`.
 
+- **features.customExpiredPassword** - Enable custom expired password flow. Defaults to `false`.
+
 # Events
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
