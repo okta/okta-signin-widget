@@ -38,6 +38,7 @@ function (_, TemplateUtil, TextBox) {
     postRender: function () {
       if (this.isEditMode() && this.__showPasswordToggle()) {
         this.$el.append(toggleTemplate);
+        this.$el.find('input[type="password"]').addClass('password-with-toggle');
       }
       TextBox.prototype.postRender.apply(this, arguments);
     },

@@ -1,0 +1,80 @@
+@mixin active-tab-styles() {
+  color: $text-heading;
+  text-decoration: none;
+  margin-bottom: -1px;
+  border-bottom: 4px solid cv(success);
+}
+
+.ui-tabs .ui-tabs-nav {
+  padding: 0;
+  border-top: 0;
+  border-bottom: 1px solid $base-border-color;
+  background: $white;
+
+  li {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    float: left;
+    border: 0;
+
+    + li {
+      margin-left: 12px;
+    }
+
+    a {
+      display: block;
+      padding: 15px;
+      color: $text-sub;
+      line-height: 1;
+
+      &:hover {
+        @include active-tab-styles;
+        border-bottom: 0;
+      }
+    }
+
+    &.ui-tabs-selected a {
+      @include active-tab-styles;
+      cursor: text;
+    }
+  }
+}
+
+.ui-tabs-margin {
+  margin-bottom: 27px;
+}
+
+.subtab-content {
+  float: left;
+  width: 85%;
+}
+
+
+.ui-subtabs {
+  float: left;
+  position: relative;
+  display: none;
+  &.subtabs-panel {
+    width: 15%;
+  }
+  li.subtab {
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+    border-left: none;
+    padding: 10px;
+    margin-top: 10px;
+    a.sub-tab-link {
+      color: $text-sub;
+      text-decoration: none;
+    }
+  }
+  li.ui-state-active {
+    border-left: 4px solid cv(success);
+    a.sub-tab-link {
+      cursor: text;
+    }
+  }
+}
+

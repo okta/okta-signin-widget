@@ -1,10 +1,6 @@
-// Generated from okta-core sha: 900f683
-// Note: Do not modify this file directly.
-
-// TODO: Fix lint
-// scss-lint:disable all
-
-@import './o-form-variable';
+$multi-2-width: 49%;
+$multi-3-width: 32%;
+$list-input-item-width: 92%;
 
 /*
  * Okta form styles
@@ -12,8 +8,8 @@
 /* Form layout and base styling */
 
 /* Build clearfix into o-form fieldset */
-.o-form-fieldset:after {
-  content: ".";
+.o-form-fieldset::after {
+  content: '.';
   display: block;
   height: 0;
   clear: both;
@@ -31,10 +27,11 @@
   margin-bottom: 0;
 }
 
-/* Required for helper to work with Opera \*/
+/* Required for helper to work with Opera */
 * html .o-form-fieldset {
   height: 1%;
 }
+
 .o-form-fieldset {
   display: block;
 }
@@ -51,7 +48,7 @@
   font-weight: bold;
   padding: 7px 10px 7px 0;
   line-height: 16px;
-  color: $text-color-dark;
+  color: $text-heading;
   box-sizing: border-box;
 
   a.icon-16 {
@@ -70,6 +67,11 @@
     margin-top: 15px;
   }
 
+  .o-form-input-group-compact + .o-form-input-group,
+  .o-form-input-group-compact + .link-button {
+    margin-top: 8px;
+  }
+
   .array-inputs-button {
     clear: both;
   }
@@ -78,17 +80,32 @@
     width: 100%;
   }
 
+  .o-form-input-group {
+    .o-form-control:first-child .chzn-single {
+      border-bottom-right-radius: 0;
+      border-right-width: 0;
+      border-top-right-radius: 0;
+    }
+
+    .chzn-container-single {
+      float: none;
+    }
+  }
 }
 
 /* Input and label */
 .o-form {
+  .o-form-input-group .input-fix {
+    height: 28px;
+  }
+
   .input-fix {
     height: 30px;
 
-    input[type="text"],
-    input[type="textbox"], /* Some custom type created by ghost dev */
-    input[type="number"],
-    input[type="password"] {
+    input[type='text'],
+    input[type='textbox'],
+    input[type='number'],
+    input[type='password'] {
       height: 100%;
       width: 100%;
       margin: 0;
@@ -99,32 +116,13 @@
       box-sizing: border-box;
     }
 
-    input.password-with-toggle {
-      padding-right: 35px;
-    }
-
-    .password-toggle {
-      .eyeicon {
-        right: 5px;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 32px;
-        height: 32px;
-        padding: 6px 8px;
-        opacity: 0.5;
-        cursor: pointer;
-      }
-      .button-hide {
-        display: none;
-      }
-    }
-
-    input[type="number"] {
+    input[type='number'] {
       border: none;
     }
   }
-  .input-fix, .textarea-fix {
+
+  .input-fix,
+  .textarea-fix {
     border-radius: 3px;
     width: 100%;
     box-sizing: border-box;
@@ -141,7 +139,6 @@
     max-width: 100% !important;
   }
 
-
   select {
     width: 62%;
     margin-top: 6px; /* For standard select boxes, not Chosen */
@@ -149,7 +146,8 @@
 }
 
 .o-form-wide {
-  select {
+  select,
+  .o-form-input-group {
     width: 100%;
   }
 }
@@ -157,18 +155,19 @@
 /* Label appears attached to an input, works best with fields and selects */
 .o-form-label-attached {
   .o-form-label {
-    background-color: #e2e2e2;
+    background-color: cv('gray', '000');
     border-bottom-left-radius: 3px;
     border-top-left-radius: 3px;
-    border: 1px solid #c8c8c8;
+    border: 1px solid $base-border-color;
     border-right-width: 0;
     font-weight: normal;
     padding: 6px 10px;
     width: auto;
   }
+
   .input-fix,
   .textarea-fix,
-  .input[type="text"],
+  .input[type='text'],
   .chzn-single {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
@@ -185,7 +184,15 @@
   background: transparent;
 }
 
-/* Input groups */
+// Input groups
+.o-form-label-inline {
+  padding: 6px 10px;
+  color: $text-body;
+  background-color: cv('gray', '000');
+  border: 1px solid $base-border-color;
+  border-right-width: 0;
+  font-weight: normal;
+}
 
 .o-form-input-group {
   position: relative;
@@ -217,6 +224,14 @@
     border-right-width: 1px;
   }
 
+  /* Overloads the default behavior of button icons
+   * when using the 'copy-clipboard-button' component.
+   */
+  .link-button-icon.icon-only.copy-clipboard-button span.icon {
+    display: inline-block;
+    float: none;
+  }
+
   .link-button:first-child,
   .o-form-label-inline:first-child {
     border-right-width: 0;
@@ -237,10 +252,6 @@
 
   .link-button-icon.icon-only {
     padding: 0 8px;
-  }
-
-  .link-button-icon span.icon {
-    top: 5px;
   }
 
   .o-form-control .chzn-single {
@@ -264,6 +275,7 @@
       border-left-width: 1px;
       margin-left: -1px;
     }
+
     .chzn-drop {
       border-left-width: 1px;
       border-top-right-radius: 0;
@@ -271,34 +283,58 @@
       width: 101%;  /* This could break with wider fields */
     }
   }
+
   select:first-child + .o-form-control.chzn-container-active.chzn-with-drop {
     .chzn-single {
       border-right-width: 1px;
       margin-right: -1px;
     }
+
     .chzn-drop {
       border-left-width: 1px;
       right: -1px;
       width: 101%;  /* This could break with wider fields */
     }
   }
+
+  .o-form-select + .o-form-label-inline {
+    border-left-width: 1px;
+  }
 }
 
-.o-form-label-inline {
-  padding: 6px 10px;
-  color: #999;
-  background-color: $component-bg-color-dark;
-  border-bottom-left-radius: 3px;
-  border-top-left-radius: 3px;
-  border: 1px solid #c8c8c8;
-  border-right-width: 0;
-  font-weight: normal;
+// Input groups with text instead of attached labels
+.o-form-input-group-subtle {
+  position: relative;
+  display: table;
+
+  .o-form-control,
+  .link-button,
+  .o-form-label-inline {
+    display: table-cell;
+    float: none;
+    white-space: nowrap;
+  }
+
+  .o-form-label-inline {
+    color: $text-heading;
+    background-color: transparent;
+    border: 0;
+
+    &:first-child {
+      padding-left: 0;
+    }
+  }
+
+  .chzn-container-single {
+    float: none;
+  }
 }
 
 .o-form-input-group.o-form-input-group-2 {
   .o-form-control {
     width: 50%;
   }
+
   .o-form-label-inline {
     border-left-width: 0;
   }
@@ -321,13 +357,13 @@
 
 .o-form-multi-input-2 .o-form-control,
 .o-form-multi-input-3 .o-form-control,
-.o-form-multi-input-4 .o-form-control{
+.o-form-multi-input-4 .o-form-control {
   margin-top: 0;
 }
 
 .o-form-multi-input-2 .o-form-control,
 .o-form-multi-input-2 .o-form-input-group {
-  width: 49%;
+  width: $multi-2-width;
 }
 
 .o-form-multi-input-2 .o-form-input-group,
@@ -337,38 +373,27 @@
 }
 
 .o-form-multi-input-3 .o-form-control,
-.o-form-multi-input-3 .o-form-input-group  {
-  width: 32%;
-}
-
-.o-form-multi-input-2 .o-form-control + .o-form-control,
-.o-form-multi-input-3 .o-form-control + .o-form-control {
-  margin-left: 2%;
+.o-form-multi-input-3 .o-form-input-group {
+  width: $multi-3-width;
 }
 
 .o-form-multi-input-2 .o-form-input-group,
-.o-form-multi-input-3 .o-form-input-group  {
+.o-form-multi-input-3 .o-form-input-group {
   margin-top: 0 !important;
 }
 
-.o-form-multi-input-2 .o-form-control + .o-form-control,
-.o-form-multi-input-3 .o-form-control + .o-form-control,
-.o-form-multi-input-2 .chzn-done + .o-form-control,  /* Ugly, need to work around the fact that the original select is in the dom */
-.o-form-multi-input-3 .chzn-done + .o-form-control {
+.o-form-multi-input-2 .o-form-control:not(:first-child),
+.o-form-multi-input-3 .o-form-control:not(:first-child),
+.o-form-multi-input-2 .o-form-input-group:not(:first-child),
+.o-form-multi-input-3 .o-form-input-group:not(:first-child) {
   margin-left: 2%;
 }
 
-.o-form-multi-input-group-2 .o-form-control:not(:first-child),
-.o-form-multi-input-group-3 .o-form-control:not(:first-child),
-.o-form-multi-input-group-2 .o-form-input-group:not(:first-child),
-.o-form-multi-input-group-3 .o-form-input-group:not(:first-child) {
-  margin-left: 2%;
-}
-
-.o-form-select {
-  width: 100%;
-  display: inline-block;
-  float: left;
+// Ugly, need to work around the fact that the original select is in the dom
+// When select is the first input we want to target the second child
+.o-form-multi-input-2 .chzn-done + .o-form-control:nth-child(2),
+.o-form-multi-input-3 .chzn-done + .o-form-control:nth-child(2) {
+  margin-left: 0;
 }
 
 .o-form-multi-input-2 .o-form-select .chzn-container,
@@ -379,17 +404,23 @@
 /* Temporary overrides: Uzi has this solved in the JS */
 
 .o-form-multi-input-2 .chzn-container {
-  width: 49% !important;
+  width: $multi-2-width !important;
 }
 
 .o-form-multi-input-3 .chzn-container {
-  width: 32% !important;
+  width: $multi-3-width !important;
 }
 
 .o-form-wide .chzn-container {
   width: 100% !important;
 }
 
+// Select
+.o-form-select {
+  width: 100%;
+  display: inline-block;
+  float: left;
+}
 
 /*
  * Custom input/select hybrid
@@ -406,15 +437,15 @@
   height: 30px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-color: #bbb #bbb #b1b1b1 #bbb;
+  border-color: $base-border-color;
   cursor: pointer;
   box-sizing: border-box;
 }
 
 .text-select.chzn-with-drop input[type=text] {
-  border-color: #888;
+  border-color: $base-border-color;
   border-bottom-left-radius: 0;
-  box-shadow: 0 -1px 0 0 #aaa inset;
+  box-shadow: 0 -1px 0 0 cv('gray', '600') inset;
 }
 
 
@@ -429,7 +460,7 @@
 %custom-checkbox-input {
   /* experimental : make sure this doesn't break older browsers */
   opacity: 0;
-  filter: Alpha(Opacity=0);
+  filter: alpha(opacity = 0);
   /* end experimental */
   position: absolute;
   left: 0;
@@ -441,6 +472,7 @@
   display: block;
   position: relative;
   line-height: 16px;
+  min-height: 16px;
   margin: 0;
   padding: 7px 10px 7px 24px;
   cursor: pointer;
@@ -448,52 +480,79 @@
 
 .custom-checkbox {
   @extend %custom-checkbox;
+
   input {
     @extend %custom-checkbox-input;
   }
+
   label {
     @extend %custom-checkbox-label;
-    background: url('../img/ui/forms/checkbox-01.png') no-repeat;
+    background: url('/img/ui/forms/checkbox-01.png') no-repeat;
   }
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (min-device-pixel-ratio: 2),
-only screen and (min-resolution: 2dppx) {
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 2dppx) {
   .custom-checkbox {
     label {
-      background: url('../img/ui/forms/checkbox-01@2x.png') no-repeat;
-      background-size: 50px 1155px;
+      background: url('/img/ui/forms/checkbox-01@2x.png') no-repeat;
+      background-size: 50px 1055px;
     }
   }
 }
 
-
 .custom-radio {
   @extend %custom-checkbox;
+
   input {
     @extend %custom-checkbox-input;
   }
+
+  label::before {
+    content: '';
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    display: block;
+    background: url('/img/ui/forms/radiobutton-01.png') no-repeat;
+    background-size: 50px 820px;
+    left: 0;
+  }
+
   label {
     @extend %custom-checkbox-label;
-    background: url('../img/ui/forms/radiobutton-01.png') no-repeat;
+    position: relative;
   }
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (min-device-pixel-ratio: 2),
-only screen and (min-resolution: 2dppx) {
+/* Style for radio disposed inline */
+.custom-radio.inline {
+  clear: none;
+  float: left;
+  padding-right: 60px;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 2dppx) {
   .custom-radio {
-    label {
-      background: url('../img/ui/forms/radiobutton-01@2x.png') no-repeat;
+    label::before {
+      content: '';
+      position: absolute;
+      height: 16px;
+      width: 16px;
+      display: block;
+      background: url('/img/ui/forms/radiobutton-01@2x.png') no-repeat;
       background-size: 50px 820px;
+      left: 0;
+    }
+
+    label {
+      position: relative;
     }
   }
 }
 
 .custom-checkbox + .o-form-explain,
 .custom-radio + .o-form-explain,
-.custom-checkbox + input + .o-form-explain,  /* some ajax-forms form add hidden inputs */
+.custom-checkbox + input + .o-form-explain, /* some ajax-forms form add hidden inputs */
 .custom-radio + input + .o-form-explain {
   padding-top: 0;
 }
@@ -505,7 +564,7 @@ only screen and (min-resolution: 2dppx) {
   padding: 10px;
   display: block;
   border-radius: 3px;
-  border: 1px solid #cacaca;
+  border: 1px solid $base-border-color;
 }
 
 /* Button bar */
@@ -513,12 +572,12 @@ only screen and (min-resolution: 2dppx) {
 .o-form-button-bar,
 .o-form-toolbar,
 .o-form-toolbar.ui-tabs {
-  background: $component-bg-color-dark;
+  background: cv('gray', '000');
   padding: 16px;
   box-shadow: 0 1px 1px rgba(175, 175, 175, 0.16);
   border-width: 1px;
   border-style: solid;
-  border-color: #dadada #dddddd;
+  border-color: $base-border-color;
   margin-top: -1px;
   border-radius: 0 0 3px 3px;
   text-align: right;
@@ -526,7 +585,6 @@ only screen and (min-resolution: 2dppx) {
   .button + .button {
     margin-left: 10px;
   }
-
 }
 
 .o-form-button-bar-no-border {
@@ -551,10 +609,10 @@ only screen and (min-resolution: 2dppx) {
   margin: 0;
   padding: 0 14px;
   border-width: 1px 0 1px 1px;
-  border-color: #d1d1d1;
+  border-color: $base-border-color;
   border-style: solid;
-  color: #5e5e5e;
-  background: #fbfbfb;
+  color: $text-body;
+  background: $white-4;
   display: block;
   float: none;
   font-size: 12px;
@@ -583,12 +641,12 @@ only screen and (min-resolution: 2dppx) {
   border-right-width: 1px;
   padding-right: 19px;
   color: $white;
-  border-color: $primary-medium-border-color;
-  background-color: $primary-medium-color;
+  border-color: $base-border-color;
+  background-color: cv(action);
 }
 
 .o-form-toolbar.ui-tabs .o-form-pillbar.ui-tabs-nav li.ui-state-active:last-child > a {
-  border-right-color: $primary-medium-border-color;
+  border-right-color: cv(action);
 }
 
 .o-form-toolbar.ui-tabs .o-form-pillbar.ui-tabs-nav li.ui-state-active + li > a {
@@ -614,11 +672,11 @@ only screen and (min-resolution: 2dppx) {
   line-height: 44px;
   font-size: 17px;
   font-weight: normal;
-  background: $component-bg-color-dark;
-  color: $text-color-dark;
+  background: cv('gray', '000');
+  color: $text-heading;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  border: 1px solid $border-color-default;
+  border: 1px solid $base-border-color;
   border-bottom-width: 0;
   margin: 0;
   position: relative;
@@ -632,7 +690,8 @@ only screen and (min-resolution: 2dppx) {
   /* Differs from link-button only in height and width */
   a {
     display: block;
-    font-size: $body-font-size;
+    font-size: ms(0);
+    font-weight: normal;
     height: 26px;
     line-height: 26px;
     padding: 0;
@@ -646,14 +705,24 @@ only screen and (min-resolution: 2dppx) {
   .o-form-title-bar {
     padding: 0;
     margin: 0 0 15px;
-    color: $text-color-dark;
+    color: $text-heading;
     border: none;
     border-radius: 0;
     box-shadow: none;
     background: transparent;
   }
+
   .o-form-toggle {
     right: 0;
+  }
+
+  .o-form-button-bar {
+    border-width: 1px 0 0;
+    border-color: $base-border-color;
+    box-shadow: none;
+    background: transparent;
+    padding: 16px 0 0;
+    margin-top: 20px;
   }
 }
 
@@ -663,7 +732,7 @@ only screen and (min-resolution: 2dppx) {
 
 /* A sub section within a form, not the title bar */
 .o-form-head {
-  color: $form-heading-color;
+  color: $text-heading;
   line-height: 30px;
   margin: 0 0 15px;
   padding: 0;
@@ -674,7 +743,7 @@ only screen and (min-resolution: 2dppx) {
 
 /* A variant of the o-form-head, should be used as a level beneath o-form-head */
 .o-form-subhead {
-  color: $text-color-light;
+  color: $text-sub;
   font-size: 15px;
   font-weight: 200;
   line-height: 30px;
@@ -685,7 +754,7 @@ only screen and (min-resolution: 2dppx) {
 .o-form-fieldset + .o-form-head,
 .o-form-explain + .o-form-head,
 .o-form-separator {
-  border-top: 1px solid #e3e3e3;
+  border-top: 1px solid $base-border-color;
   margin-top: 30px;
   padding-top: 30px;
 }
@@ -695,8 +764,12 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .o-form-explain {
-  color: $text-color-light;
+  color: $text-sub;
   font-weight: normal;
+
+  .o-form-text-counter-over {
+    color: cv(danger);
+  }
 }
 
 .o-form-explain + .o-form-explain {
@@ -709,15 +782,21 @@ only screen and (min-resolution: 2dppx) {
   padding: 8px 0 6px;
 }
 
-.o-form-explain.o-form-input-error {
-  color: #d93934;
-  padding-left: 18px;
-  position: relative;
-  display: none;
+.o-form-explain {
+  &.o-form-input-error {
+    color: cv(danger);
+    padding-left: 18px;
+    position: relative;
+    display: none;
+  }
 }
 
 .o-form-has-errors .o-form-explain.o-form-input-error {
   display: block;
+}
+
+.okta-form-subtitle {
+  color: $text-heading;
 }
 
 .o-form-input-error .icon-16 {
@@ -737,10 +816,10 @@ only screen and (min-resolution: 2dppx) {
 
 .o-form-theme {
   padding: 30px;
-  background: $component-bg-color;
+  background: cv('gray', '000');
   box-shadow: 0 1px 1px rgba(175, 175, 175, 0.16);
-  border: 1px solid $border-color-default;
-  border-bottom-color: #d2d2d2;
+  border: 1px solid $base-border-color;
+  border-bottom-color: $base-border-color;
   border-radius: 4px;
 }
 
@@ -752,7 +831,6 @@ only screen and (min-resolution: 2dppx) {
 .o-form-title-bar + .o-form-theme {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-
 }
 
 .o-form-has-title-bar {
@@ -775,8 +853,8 @@ only screen and (min-resolution: 2dppx) {
 .simplemodal-container .o-form-button-bar {
   border-radius: 0;
   margin-top: 0;
-  border-left-width: 0;
-  border-right-width: 0;
+  padding: 16px;
+  border-width: 1px 0;
 }
 
 .simplemodal-wrap .o-form-toolbar,
@@ -802,8 +880,8 @@ only screen and (min-resolution: 2dppx) {
 
 .simplemodal-wrap .o-form-content.o-form-theme,
 .simplemodal-container .o-form-theme {
-  border-width: 0 1px 0 1px;
-  border-color: #ddd;
+  border-width: 0;
+  border-color: $base-border-color;
   border-radius: 0;
   padding: 30px;
 }
@@ -824,7 +902,7 @@ only screen and (min-resolution: 2dppx) {
  */
 
 .o-form .o-form-focus {
-  border: 1px solid #888;
+  border: 1px solid $base-border-color;
   box-shadow: 0 1px 1px $white;
 }
 
@@ -845,6 +923,88 @@ only screen and (min-resolution: 2dppx) {
   margin-top: -8px;
 }
 
+.o-form-read-mode .custom-radio.inline,
+.o-form-read-mode.custom-radio.inline {
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+/* list input specifics */
+.o-form-list-input table {
+  width: 100%;
+
+  tr {
+    &.list-input-items-2 > * {
+      width: 50%;
+    }
+
+    &.list-input-items-3 > * {
+      width: 33%;
+    }
+
+    &.list-input-items-4 > * {
+      width: 25%;
+    }
+
+    th {
+      text-align: left;
+      font-weight: bold;
+      padding: 7px 0 3px;
+      line-height: 16px;
+    }
+
+    .list-input-cell {
+      padding: 3px 3px 3px 0;
+      vertical-align: middle;
+    }
+
+    .list-input-button {
+      width: 20px;
+      padding: 3px 0 3px 3px;
+      vertical-align: middle;
+    }
+
+    .list-input-gripper-cell,
+    .list-input-gripper-header {
+      width: 1px;
+      position: relative;
+    }
+
+    .list-input-gripper-header {
+      padding: 0;
+    }
+
+    .list-input-gripper {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 30px;
+      line-height: 26px;
+      cursor: grab;
+      color: $text-body;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    &.list-input-sortable-placeholder {
+      height: 36px;
+
+      > td:first-child {
+        width: 1px;
+        float: left;
+      }
+    }
+
+    .list-input-sortable-background {
+      background-color: cv('gray', '000');
+    }
+  }
+}
+/* End list input specifics */
+
+
 /* Edit mode */
 .o-form-edit-mode .o-form-content {
   border-bottom-left-radius: 0;
@@ -852,21 +1012,30 @@ only screen and (min-resolution: 2dppx) {
 }
 
 /* Checkbox and radio states */
-.custom-checkbox label,
-.custom-radio label {
+.custom-checkbox label {
   background-position: -16px -13px;
 }
 
+.custom-radio label::before {
+  background-position: -16px -20px;
+}
+
 .custom-checkbox label.hover,
-.custom-checkbox label.focus,
-.custom-radio label.hover,
-.custom-radio label.focus {
+.custom-checkbox label.focus {
   background-position: -16px -113px;
 }
 
-.custom-checkbox label.checked,
-.custom-radio label.checked {
+.custom-radio label.hover::before,
+.custom-radio label.focus::before {
+  background-position: -16px -120px;
+}
+
+.custom-checkbox label.checked {
   background-position: -16px -213px;
+}
+
+.custom-radio label.checked::before {
+  background-position: -16px -220px;
 }
 
 .custom-checkbox label.checked.hover,
@@ -889,14 +1058,39 @@ only screen and (min-resolution: 2dppx) {
 
 /* Read only mode */
 
+.o-form-read-mode {
+  .o-form-list-input-item,
+  .o-form-input-group {
+    .o-form-control {
+      float: left;
+    }
+  }
+}
+
+.o-form-read-mode .o-form-control:empty::after {
+  content: '\00a0';
+}
+
+.o-form-pre {
+  display: block;
+  font-family: monospace;
+  unicode-bidi: embed;
+  white-space: pre;
+}
+
+.o-form-read-mode .o-form-list-input-item {
+  float: left;
+  clear: both;
+}
+
 .o-form-read-mode .custom-checkbox label,
 .o-form-read-mode.custom-checkbox label {
   background-position: -16px -413px !important; /* can't be sure of hierachy so using important */
 }
 
-.o-form-read-mode .custom-radio label,
-.o-form-read-mode.custom-radio label{
-  background-position: -16px -313px !important; /* can't be sure of hierachy so using important */
+.o-form-read-mode .custom-radio label::before,
+.o-form-read-mode.custom-radio label::before {
+  background-position: -16px -320px !important; /* can't be sure of hierachy so using important */
 }
 
 .o-form-read-mode .custom-checkbox label.hover,
@@ -907,11 +1101,11 @@ only screen and (min-resolution: 2dppx) {
   cursor: text !important; /* can't be sure of hierachy so using important */
 }
 
-.o-form-read-mode .custom-radio label.hover,
-.o-form-read-mode .custom-radio label.focus,
-.o-form-read-mode.custom-radio label.hover,
-.o-form-read-mode.custom-radio label.focus {
-  background-position: -16px -413px !important; /* can't be sure of hierachy so using important */
+.o-form-read-mode .custom-radio label.hover::before,
+.o-form-read-mode .custom-radio label.focus::before,
+.o-form-read-mode.custom-radio label.hover::before,
+.o-form-read-mode.custom-radio label.focus::before {
+  background-position: -16px -420px !important; /* can't be sure of hierachy so using important */
   cursor: text;
 }
 
@@ -920,9 +1114,9 @@ only screen and (min-resolution: 2dppx) {
   background-position: -16px -613px !important; /* can't be sure of hierachy so using important */
 }
 
-.o-form-read-mode .custom-radio label.checked,
-.o-form-read-mode.custom-radio label.checked {
-  background-position: -16px -513px !important; /* can't be sure of hierachy so using important */
+.o-form-read-mode .custom-radio label.checked::before,
+.o-form-read-mode.custom-radio label.checked::before {
+  background-position: -16px -520px !important; /* can't be sure of hierachy so using important */
 }
 
 .o-form-read-mode .custom-checkbox label.checked.hover,
@@ -941,13 +1135,13 @@ only screen and (min-resolution: 2dppx) {
 }
 
 /* Forms in a two column layout, old style form look */
-
 .two_col_left .o-form-title-bar,
 .two_col_right .o-form-title-bar {
   font-size: 17px;
   padding-left: 20px;
   padding-right: 12px;
 }
+
 .two_col_left .o-form-read-mode .o-form-content,
 .two_col_right .o-form-read-mode .o-form-content {
   padding: 30px 31px;
@@ -962,10 +1156,10 @@ only screen and (min-resolution: 2dppx) {
 
 .two_col_left .o-form-read-mode .o-form-explain,
 .two_col_right .o-form-read-mode .o-form-explain {
-  background: $component-bg-color;
+  background: cv('gray', '000');
   padding: 15px;
   margin: -30px -31px 20px;
-  border: 1px solid $border-color-default;
+  border: 1px solid $base-border-color;
 }
 
 .two_col_left .o-form-edit-mode .o-form-explain,
@@ -973,7 +1167,7 @@ only screen and (min-resolution: 2dppx) {
   padding: 15px;
   margin: -30px -30px 20px;
   border: 0;
-  border-bottom: 1px solid $border-color-default;
+  border-bottom: 1px solid $base-border-color;
 }
 
 /* disabled state */
@@ -983,8 +1177,10 @@ only screen and (min-resolution: 2dppx) {
   pointer-events: none;
   display: block;
 }
+
 .o-form-saving .o-form-content {
   overflow: hidden;
+
   * {
     cursor: default !important;
   }
@@ -993,44 +1189,62 @@ only screen and (min-resolution: 2dppx) {
 
 /* checkbox and radio disabled */
 .o-form-disabled.custom-checkbox label,
-.o-form-disabled .custom-checkbox label  {
+.o-form-disabled .custom-checkbox label {
   background-position: -16px -13px; /* prevents change on hover */
 }
 
-.o-form-disabled.custom-radio label,
-.o-form-disabled .custom-radio label {
-  background-position: -16px -13px; /* prevents change on hover */
+.o-form-disabled.custom-radio label::before,
+.o-form-disabled .custom-radio label::before {
+  background-position: -16px -20px; /* prevents change on hover */
 }
 
 .o-form-disabled .custom-checkbox label.checked,
 .o-form-disabled.custom-checkbox label.checked,
-.o-form-disabled.custom-checkbox label.checked.hover,
-.o-form-disabled.custom-radio label.checked,
-.o-form-disabled.custom-radio label.checked.hover {
+.o-form-disabled.custom-checkbox label.checked.hover {
   background-position: -16px -213px; /* prevents change on hover */
 }
 
-.o-form-disabled.custom-radio label.checked,
-.o-form-disabled .custom-radio label.checked {
-  background-position: -16px -713px; /* prevents change on hover */
+.o-form-disabled.custom-radio label.checked::before,
+.o-form-disabled.custom-radio label.checked::before.hover {
+  background-position: -16px -220px; /* prevents change on hover */
+}
+
+.o-form-disabled.custom-radio label.checked::before,
+.o-form-disabled .custom-radio label.checked::before {
+  background-position: -16px -520px; /* prevents change on hover */
 }
 
 /* error state */
 .o-form-has-errors {
+  .o-form-input-list-wrap .inputs-wrap .input-fix,
+  .o-form-input-list-wrap .inputs-wrap .textarea-fix,
+  .o-form-input-list-wrap .inputs-wrap .link-button,
+  .file-upload-wrap .file-name-text-field,
+  .file-upload-wrap .browse-file-button,
+  .selectize-control,
   &.input-fix,
   &.textarea-fix,
   &.chzn-container-single .chzn-single,
   &.link-button {
-    border-color: $error-input-border-color;
+    border-color: cv(danger);
+  }
+
+  > .chzn-container-single .chzn-single {
+    border-color: cv(danger) !important;
+    border-right-width: 1px !important;
+  }
+
+  .file-upload-wrap .browse-file-button {
+    border-left-color: $base-border-color;
   }
 
   .o-form-control.o-form-focus,
   .link-button:hover {
-    border-color: #888;
+    border-color: $base-border-color;
   }
 
-  .custom-radio label {
-    background-position: -16px -613px;
+  .custom-radio label::before {
+    background-position: -16px -620px;
   }
 
   .custom-checkbox label {
@@ -1038,33 +1252,35 @@ only screen and (min-resolution: 2dppx) {
   }
 
   .custom-checkbox label.hover,
-  .custom-checkbox label.focus,
-  .custom-radio label.hover,
-  .custom-radio label.focus {
+  .custom-checkbox label.focus {
     background-position: -16px -113px;
+  }
+
+  .custom-radio label.hover::before,
+  .custom-radio label.focus::before {
+    background-position: -16px -120px;
   }
 
   .custom-checkbox label.checked {
     background-position: -16px -913px;
   }
 
-  .custom-radio label.checked {
-    background-position: -16px -713px;
+  .custom-radio label.checked::before {
+    background-position: -16px -720px;
   }
 
   .o-form-input-group .o-form-control .chzn-single {
-    border-color: #bbbbbb #bbbbbb #b1b1b1;
+    border-right-width: 0;
+    border-color: $base-border-color;
   }
 
   .o-form-input-group .chzn-container-active.chzn-with-drop .chzn-single {
-    border-color: #888;
+    border-color: $base-border-color;
   }
 
   .chzn-container-active .chzn-single {
-    -webkit-box-shadow: 0 1px 2px rgba(175,175,175, 0.3);
-    -moz-box-shadow:  0 1px 2px rgba(175,175,175, 0.3);
-    box-shadow:  0 1px 2px rgba(175,175,175, 0.3);
-    border: 1px solid #888;
+    box-shadow: 0 1px 2px rgba(175, 175, 175, 0.3);
+    border: 1px solid $base-border-color;
   }
 
   .infobox-error {
@@ -1076,14 +1292,14 @@ only screen and (min-resolution: 2dppx) {
 /* o-form + ajax-form hybrid */
 
 .o-form .infobox-error + form .o-form-focus {
-  border-color: #888 !important;
+  border-color: $base-border-color !important;
 }
 
 
 /* data-list styles */
 
 .data-list-inline-form .o-form-head {
-  color: #444444;
+  color: $charcoal;
   font-size: 16px;
   margin: 0;
 }
@@ -1093,8 +1309,76 @@ only screen and (min-resolution: 2dppx) {
   margin: 5px -30px -20px;
 }
 
+/* o-form used in a data-list sidebar as a filter */
+
+.data-list-sidebar-wrap {
+
+  /* Remove .data-list-sidebar-wrap from rule in final version, workaround for Devices page which mixes and matches implementations */
+
+  .data-list-sidebar-filter-form {
+    .o-form-head {
+      padding-right: 0;
+      padding-left: 0;
+      border-bottom: none;
+    }
+
+    .o-form-content {
+      padding: 0 10px;
+    }
+
+    .o-form-fieldset {
+      margin-bottom: 10px;
+    }
+
+    .o-form-label {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    .chzn-container {
+      margin: 0;
+      width: 100% !important; /* TODO: remove inline style at framework level */
+    }
+  }
+}
+
+/* searchable select specific */
+
+.selectize-dropdown.multi .dropdown-footer,
+.selectize-dropdown.single .dropdown-footer {
+  padding: 10px;
+  background-color: cv('gray', '000');
+  color: $text-sub;
+}
+
 /* form level explain text  */
 
 .o-form-content > .o-form-explain {
   margin-bottom: 20px;
+}
+
+/* Copy to clipboard input */
+.copy-input-element {
+  float: none !important;
+}
+
+.copy-text-element {
+  line-height: 16px;
+  min-height: 16px;
+  margin: 0;
+  padding: 7px 10px 7px 0;
+}
+
+/* Dependency UI */
+.dependency-callout {
+  .o-form-explain {
+    line-height: 28px;
+    margin-left: 8px;
+  }
+
+  .spinner {
+    position: relative;
+    width: 50px;
+    height: 50px;
+  }
 }

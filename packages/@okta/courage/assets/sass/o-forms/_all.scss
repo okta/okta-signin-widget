@@ -1181,6 +1181,15 @@
   cursor: text;
 }
 
+.o-form-read-mode {
+  .custom-radio,
+  &.custom-radio {
+    label {
+      cursor: text;
+    }
+  }
+}
+
 /* Styles for group picker in read mode */
 .o-form-read-mode .group-picker-wrap .as-selections {
   border-width: 0;

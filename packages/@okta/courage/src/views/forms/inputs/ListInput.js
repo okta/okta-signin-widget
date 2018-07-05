@@ -9,7 +9,9 @@ define([
   'shared/models/Model',
   'shared/util/ButtonFactory',
   'shared/views/Backbone.ListView',
-  'shared/util/StateMachine'
+  'shared/util/StateMachine',
+  'okta/jqueryui',
+  'qtip'
 ], function ($, _, StringUtil, BaseInput, BaseView, BaseCollection, Model, ButtonFactory, ListView, StateMachine) {
 
   function getCollection(options, data) {

@@ -195,7 +195,7 @@ function ($, _, BaseView, BaseModalDialog, BaseForm) {
         }
         else {
           form.contentHeight(
-            form.contentHeight() + (windowHeight - modalHeight) - (modal.outerHeight() - modalHeight)
+            form.contentHeight() + (windowHeight - modal.outerHeight())
           );
         }
         this.dialog.resize.apply(this.dialog, arguments);
