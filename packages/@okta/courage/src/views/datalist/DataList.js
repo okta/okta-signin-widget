@@ -1,5 +1,7 @@
 define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
 
+  const debounceTime = 100;
+
   /**
    * A low level DataList container
    * @class src/views/datalist/DataList
@@ -12,7 +14,7 @@ define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
      * @private
      * @type {Number}
      */
-    debounceTime: 100,
+    debounceTime,
 
     constructor: function () {
       BaseView.apply(this, arguments);
@@ -53,7 +55,7 @@ define(['okta/underscore', 'shared/views/BaseView'], function (_, BaseView) {
      */
     balance: _.debounce(function () {
       this.balanced() || this.content.height(this.sidebar.height() + 30);
-    }, this.debounceTime)
+    }, debounceTime)
   });
 
 });

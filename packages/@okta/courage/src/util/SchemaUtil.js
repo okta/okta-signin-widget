@@ -131,6 +131,11 @@ function (_, StringUtil) {
       APP_TO_OKTA: 'app-to-okta-username',
       IDP_TO_OKTA: 'idp-to-okta-username'
     },
+    LOGINPATTERNFORMAT: {
+      EMAIL: 'EMAIL',
+      CUSTOM: 'CUSTOM',
+      NONE: 'NONE'
+    },
 
     /*
      * Get a display string for a schema attribute type.

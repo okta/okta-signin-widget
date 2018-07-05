@@ -179,8 +179,8 @@ Command        | Description
 -------------- | --------------
 **yarn lint** | Runs *scss-lint*, *jshint*, and *eslint*
 **yarn test** | Runs the jasmine unit tests in the cli.
-**yarn test -- --br** | Runs the jasmine unit tests in the browser
+**yarn test --br** | Runs the jasmine unit tests in the browser
 **yarn start** | Start the playground server to run on port 3000 by default. Load a url in browser with the specified port to use the playground, ex. localhost:3000.
-**yarn test:e2e** | Runs end-2-end selenium tests.
-**yarn test:e2e -- --specs test/selenium/spec/NAME.js** | Runs single end-2-end selenium test
+**yarn test:e2e** | Runs end-2-end selenium tests. You **must** use a Chrome version [supported by the ChromeDriver version](http://chromedriver.chromium.org/downloads) we use.
+**yarn test:e2e --specs test/selenium/spec/NAME.js** | Runs single end-2-end selenium test
 **grunt link** | Links the current courage module to *enduser* or *admin*. Use **--enduser** or **--admin** for more specificity

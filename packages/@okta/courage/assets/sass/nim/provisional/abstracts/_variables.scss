@@ -1,14 +1,14 @@
 // Establish Type Scale
 
+$body-font-family: 'proxima-nova', 'Arial', 'Helvetica', sans-serif;
+
 $base-font-size: 16px;
-$scale-ratio: (4 / 3);
-
+$scale-ratio: 1.125;
 $base-line-height: 1.5;
-
 $max-line-length: 60ch;
 
+
 // Spacing Variables
-// Not ready for general use.
 
 $base-spacing: $base-line-height * 1rem;
 $small-spacing: $base-spacing / 2;
@@ -21,3 +21,20 @@ $em-small-spacing: $em-base-spacing / 2;
 $em-tiny-spacing: $em-small-spacing / 2;
 $em-big-spacing: $em-base-spacing * 2;
 
+
+// Animation/Transition Baselines
+
+$base-duration: 250ms;
+$base-timing: ease-in-out;
+
+
+// Borders
+
+$base-border-color: cv('gray', '300');
+$base-border-radius: 3px;
+$border-default: 1px solid $base-border-color;
+
+// Opacity
+
+$more-opaque: 0.618;
+$less-opaque: 0.382;
