@@ -13,8 +13,9 @@
 define([
   'okta',
   'views/shared/TextBox',
-  'util/DeviceFingerprint'
-], function (Okta, TextBox, DeviceFingerprint) {
+  'util/DeviceFingerprint',
+  'util/TypingUtil'
+], function (Okta, TextBox, DeviceFingerprint, TypingUtil) {
 
   var _ = Okta._;
 
@@ -41,7 +42,12 @@ define([
     },
 
     initialize: function () {
+      var trackTypingPattern = this.settings.get('features.trackTypingPattern');
       this.listenTo(this, 'save', function () {
+        if (trackTypingPattern) {
+          var typingPattern = TypingUtil.getTypingPattern();
+          this.options.appState.set('typingPatern', typingPattern);
+        }
         var self = this;
         var creds = {
           username: this.model.get('username')
@@ -167,8 +173,13 @@ define([
       } else if (!this.settings.get('features.passwordlessAuth')) {
         this.getInputs().toArray()[1].focus();
       }
-    }
+    },
 
+    postRender: function() {
+      if (this.settings.get('features.trackTypingPattern')) {
+        TypingUtil.track('okta-signin-username');
+      }
+    }
   });
 
 });
