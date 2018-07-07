@@ -81,6 +81,14 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       return setup(res, true);
     };
 
+    var setupXssVendorName = function () {
+      var responseCopy = Util.deepCopy(resAllFactorsOnPrem);
+      var factors = responseCopy['response']['_embedded']['factors'];
+      var factor = _.findWhere(factors, {factorType: 'token', provider: 'DEL_OATH'});
+      factor['vendorName'] = '><script>alert(123)</script>';
+      return setup(responseCopy, true);
+    };
+
     Expect.describe('RSA', function () {
 
       Expect.describe('Header & Footer', function () {
@@ -320,6 +328,12 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
                 stateToken: 'testStateToken'
               }
             });
+          });
+        });
+        itp('guards against XSS when displaying tooltip text', function () {
+          return setupXssVendorName().then(function (test) {
+            expect(test.form.credIdTooltipText()).toEqual('Enter ><script>alert(123)</script> username');
+            expect(test.form.codeTooltipText()).toEqual('Enter ><script>alert(123)</script> passcode');
           });
         });
       });
