@@ -1,9 +1,9 @@
 /*globals module */
-
 var OktaSignIn = (function () {
 
-  var config  = require('json!config/config'),
-      _ = require('okta/underscore');
+  var _        = require('okta/underscore'),
+      config   = require('json!config/config'),
+      handlers = require('../util/Handlers');
 
   function getProperties(authClient, LoginRouter, Util, config) {
 
@@ -145,6 +145,16 @@ var OktaSignIn = (function () {
       .fail(error);
     }
 
+    /**
+     * Parses tokens from the url and stores tokens based on given keys
+     * @param tokenStorageKeys - optional naming keys for storing tokens
+     */
+    function parseAndStoreTokensFromUrl(tokenStorageKeys) {
+      return authClient.token.parseFromUrl()
+      .then(handlers.defaultSuccessTokenHandler(authClient.tokenManager, tokenStorageKeys))
+      .fail(handlers.defaultErrorHandler());
+    }
+
     // Properties exposed on OktaSignIn object.
     return {
       renderEl: render,
@@ -160,7 +170,8 @@ var OktaSignIn = (function () {
       },
       token: {
         hasTokensInUrl: hasTokensInUrl,
-        parseTokensFromUrl: parseTokensFromUrl
+        parseTokensFromUrl: parseTokensFromUrl,
+        parseAndStoreTokensFromUrl: parseAndStoreTokensFromUrl
       },
       tokenManager: authClient.tokenManager,
       hide: hide,

@@ -39,6 +39,25 @@ class AppPage {
     });
   }
 
+  callParseTokens() {
+    browser.wait(EC.presenceOf(this.pageEl));
+    browser.executeScript('parseTokens()');
+  }
+
+  callParseAndStoreTokens() {
+    browser.wait(EC.presenceOf(this.pageEl));
+    browser.executeScript('parseAndStoreTokens()');
+  }
+
+  callParseAndStoreTokensGivenKeys(keys) {
+    browser.wait(EC.presenceOf(this.pageEl));
+    browser.executeScript(`parseAndStoreTokensGivenKeys(${JSON.stringify(keys)})`);
+  }
+
+  changeRedirectUriState(state) {
+    browser.wait(EC.presenceOf(this.pageEl));
+    browser.executeScript(`window.location.hash = window.location.hash.split("state=")[0] + "state=${state}"`);
+  }
 }
 
 module.exports = AppPage;
