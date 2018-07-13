@@ -27,10 +27,10 @@ module.exports = function (outputFilename) {
         'okta/handlebars': SHARED_JS + '/util/handlebars-wrapper',
         'okta/moment': 'moment/moment',
         'okta/moment-tz': EMPTY,
-
         'okta/jqueryui': EMPTY,
         'okta': 'shared/util/Okta',
         'shared/util/Bundles': 'util/Bundles',
+        'vendor/plugins/vkbeautify.0.99.00.beta': EMPTY,
 
         // Vendor files from courage that are remapped in OSW to point to an npm
         // module in our package.json dependencies
@@ -66,8 +66,8 @@ module.exports = function (outputFilename) {
             'util/DataListController',
             'util/markdownToHtml',
             'util/Bundle.js',
+            'util/formatXml.js',
             'models/modelsBundle',
-            'views/Backbone.TableVie',
             'views/datalist/SimpleDataList',
             'views/datalist/Table',
             'views/forms/components/ReadModeBar',
@@ -86,7 +86,6 @@ module.exports = function (outputFilename) {
             return path.resolve(TARGET_JS, 'shared', file);
           }).concat([
             /moment-tz/,
-            /vendor\/plugins\/vkbeautify/,
             /vendor\/plugins\/jquery.simplemodal/,
             /vendor\/plugins\/spin/,
             'jqueryui',
