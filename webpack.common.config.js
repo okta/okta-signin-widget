@@ -43,6 +43,7 @@ module.exports = function (outputFilename) {
         // v2 version. Continue to use the vendor file that is checked into
         // source.
         'duo': 'vendor/Duo-Web-v2.6',
+        'vendor/plugins/vkbeautify.0.99.00.beta': EMPTY
       }
     },
 
@@ -86,7 +87,6 @@ module.exports = function (outputFilename) {
             return path.resolve(TARGET_JS, 'shared', file);
           }).concat([
             /moment-tz/,
-            /vendor\/plugins\/vkbeautify/,
             /vendor\/plugins\/jquery.simplemodal/,
             /vendor\/plugins\/spin/,
             'jqueryui',
