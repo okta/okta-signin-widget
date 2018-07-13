@@ -1170,7 +1170,8 @@ function (Okta,
             });
           });
         });
-        itp('posts resend if send code button is clicked second time', function () {
+        // See OKTA-179504
+        xit('posts resend if send code button is clicked second time', function () {
           Util.speedUpPolling();
           return setupSMS().then(function (test) {
             test.setNextResponse(resChallengeSms);
@@ -2895,7 +2896,8 @@ function (Okta,
           });
         });
 
-        itp('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
+        // See OKTA-179504
+        xit('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
           var signStub = function (appId, nonce, registeredKeys, callback) {
             callback({
               keyHandle: 'someKeyHandle',
