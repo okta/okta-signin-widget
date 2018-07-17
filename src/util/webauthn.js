@@ -13,9 +13,10 @@
 /* globals JSON */
 define([
   'okta',
-  'q'
+  'q',
+  'util/FidoUtil'
 ],
-function (Okta, Q) {
+function (Okta, Q, FidoUtil) {
 
   function adaptToOkta(promise) {
     return new Q(promise);
@@ -63,6 +64,12 @@ function (Okta, Q) {
     getAssertion: getAssertion,
     isAvailable: function () {
       return window.hasOwnProperty('msCredentials');
+    },
+    isNewApiAvailable: function () {
+      return navigator && navigator.credentials && navigator.credentials.create;
+    },
+    isWebauthnOrU2fAvailable: function () {
+      return this.isNewApiAvailable() || FidoUtil.isU2fAvailable();
     }
   };
 });

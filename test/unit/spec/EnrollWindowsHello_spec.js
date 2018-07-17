@@ -12,7 +12,7 @@ define([
   'util/webauthn',
   'LoginRouter',
   'helpers/xhr/MFA_ENROLL_allFactors',
-  'helpers/xhr/MFA_ENROLL_ACTIVATE_Webauthn',
+  'helpers/xhr/MFA_ENROLL_ACTIVATE_windows_hello',
   'helpers/xhr/SUCCESS'
 ],
 function (Okta,
@@ -27,7 +27,7 @@ function (Okta,
           webauthn,
           Router,
           responseMfaEnrollAll,
-          responseMfaEnrollActivateWebauthn,
+          responseMfaEnrollActivateWindowsHello,
           responseSuccess) {
 
   var { $ } = Okta;
@@ -37,7 +37,7 @@ function (Okta,
   Expect.describe('EnrollWindowsHello', function () {
 
     function setup() {
-      var setNextResponse = Util.mockAjax([responseMfaEnrollAll, responseMfaEnrollActivateWebauthn]);
+      var setNextResponse = Util.mockAjax([responseMfaEnrollAll, responseMfaEnrollActivateWindowsHello]);
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var successSpy = jasmine.createSpy('success');
@@ -55,7 +55,7 @@ function (Okta,
         return Expect.waitForEnrollChoices();
       })
       .then(function () {
-        router.enrollWindowsHello();
+        router.enrollWebauthn();
         return Expect.waitForEnrollWindowsHello({
           router: router,
           beacon: new Beacon($sandbox),
@@ -184,7 +184,7 @@ function (Okta,
         return emulateWindows()
         .then(setup)
         .then(function (test) {
-          test.setNextResponse([responseMfaEnrollActivateWebauthn, responseSuccess]);
+          test.setNextResponse([responseMfaEnrollActivateWindowsHello, responseSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
@@ -207,7 +207,7 @@ function (Okta,
         return emulateWindows('AbortError')
         .then(setup)
         .then(function (test) {
-          test.setNextResponse([responseMfaEnrollActivateWebauthn, responseSuccess]);
+          test.setNextResponse([responseMfaEnrollActivateWindowsHello, responseSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(webauthn.makeCredential, test);
         })
@@ -221,7 +221,7 @@ function (Okta,
         return emulateWindows('NotSupportedError')
         .then(setup)
         .then(function (test) {
-          test.setNextResponse([responseMfaEnrollActivateWebauthn, responseSuccess]);
+          test.setNextResponse([responseMfaEnrollActivateWindowsHello, responseSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(webauthn.makeCredential, test);
         })

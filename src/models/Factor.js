@@ -106,7 +106,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
           if (_.contains(['DEL_OATH', 'GENERIC_SAML', 'GENERIC_OIDC'], provider)) {
             return vendorName;
           }
-          return factorUtil.getFactorLabel(provider, factorType);
+          return factorUtil.getFactorLabel.apply(this, [provider, factorType]);
         }
       },
       factorDescription: {

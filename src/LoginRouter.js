@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 44] */
+/* eslint max-params: [2, 50] */
 define([
   'util/BaseLoginRouter',
   'IDPDiscoveryController',
@@ -19,6 +19,7 @@ define([
   'MfaVerifyController',
   'VerifyWindowsHelloController',
   'VerifyU2FController',
+  'VerifyWebauthnController',
   'VerifyCustomFactorController',
   'EnrollChoicesController',
   'EnrollDuoController',
@@ -30,6 +31,7 @@ define([
   'EnrollYubikeyController',
   'EnrollTotpController',
   'EnrollU2FController',
+  'EnrollWebauthnController',
   'EnrollCustomFactorController',
   'BarcodeTotpController',
   'BarcodePushController',
@@ -64,6 +66,7 @@ function (BaseLoginRouter,
           MfaVerifyController,
           VerifyWindowsHelloController,
           VerifyU2FController,
+          VerifyWebauthnController,
           VerifyCustomFactorController,
           EnrollChoicesController,
           EnrollDuoController,
@@ -75,6 +78,7 @@ function (BaseLoginRouter,
           EnrollYubikeyController,
           EnrollTotpController,
           EnrollU2FController,
+          EnrollWebauthnController,
           EnrollCustomFactorController,
           BarcodeTotpController,
           BarcodePushController,
@@ -107,7 +111,7 @@ function (BaseLoginRouter,
       '': 'defaultAuth',
       'signin': 'primaryAuth',
       'signin/verify/duo/web': 'verifyDuo',
-      'signin/verify/fido/webauthn': 'verifyWindowsHello',
+      'signin/verify/fido/webauthn': 'verifyWebauthn',
       'signin/verify/fido/u2f': 'verifyU2F',
       'signin/verify/generic_saml/assertion:saml2': 'verifySAMLFactor',
       'signin/verify/generic_oidc/assertion:oidc': 'verifyOIDCFactor',
@@ -122,7 +126,7 @@ function (BaseLoginRouter,
       'signin/enroll/del_oath/token': 'enrollOnPrem',
       'signin/enroll/symantec/token': 'enrollSymantecVip',
       'signin/enroll/yubico/token:hardware': 'enrollYubikey',
-      'signin/enroll/fido/webauthn': 'enrollWindowsHello',
+      'signin/enroll/fido/webauthn': 'enrollWebauthn',
       'signin/enroll/fido/u2f': 'enrollU2F',
       'signin/enroll/generic_saml/assertion:saml2': 'enrollSAMLFactor',
       'signin/enroll/generic_oidc/assertion:oidc': 'enrollOIDCFactor',
@@ -186,12 +190,20 @@ function (BaseLoginRouter,
       });
     },
 
-    verifyWindowsHello: function () {
-      this.render(VerifyWindowsHelloController, {
-        provider: 'FIDO',
-        factorType: 'webauthn',
-        Beacon: FactorBeacon
-      });
+    verifyWebauthn: function () {
+      if (this.settings.get('features.webauthn')) {
+        this.render(VerifyWebauthnController, {
+          provider: 'FIDO',
+          factorType: 'webauthn',
+          Beacon: FactorBeacon
+        });
+      } else {
+        this.render(VerifyWindowsHelloController, {
+          provider: 'FIDO',
+          factorType: 'webauthn',
+          Beacon: FactorBeacon
+        });
+      }
     },
 
     verifyU2F: function () {
@@ -318,12 +330,20 @@ function (BaseLoginRouter,
       });
     },
 
-    enrollWindowsHello: function () {
-      this.render(EnrollWindowsHelloController, {
-        provider: 'FIDO',
-        factorType: 'webauthn',
-        Beacon: FactorBeacon
-      });
+    enrollWebauthn: function () {
+      if (this.settings.get('features.webauthn')) {
+        this.render(EnrollWebauthnController, {
+          provider: 'FIDO',
+          factorType: 'webauthn',
+          Beacon: FactorBeacon
+        });
+      } else {
+        this.render(EnrollWindowsHelloController, {
+          provider: 'FIDO',
+          factorType: 'webauthn',
+          Beacon: FactorBeacon
+        });
+      }
     },
 
     enrollU2F: function () {

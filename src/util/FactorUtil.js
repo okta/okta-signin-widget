@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 18], max-statements: [2, 34] */
+/* eslint complexity: [2, 19], max-statements: [2, 36] */
 define([
   'okta'
 ],
@@ -162,7 +162,11 @@ function (Okta) {
       return 'QUESTION';
     }
     if (provider === 'FIDO' && factorType === 'webauthn') {
-      return 'WINDOWS_HELLO';
+      if (this.settings.get('features.webauthn')) {
+        return 'U2F';
+      } else {
+        return 'WINDOWS_HELLO';
+      }
     }
     if (provider === 'FIDO' && factorType === 'u2f') {
       return 'U2F';
@@ -186,21 +190,21 @@ function (Okta) {
   };
 
   fn.getFactorLabel = function (provider, factorType) {
-    var key = factorData[fn.getFactorName(provider, factorType)].label;
+    var key = factorData[fn.getFactorName.apply(this, [provider, factorType])].label;
     return Okta.loc(key, 'login');
   };
 
   fn.getFactorDescription = function (provider, factorType) {
-    var key = factorData[fn.getFactorName(provider, factorType)].description;
+    var key = factorData[fn.getFactorName.apply(this, [provider, factorType])].description;
     return Okta.loc(key, 'login');
   };
 
   fn.getFactorIconClassName = function (provider, factorType) {
-    return factorData[fn.getFactorName(provider, factorType)].iconClassName;
+    return factorData[fn.getFactorName.apply(this, [provider, factorType])].iconClassName;
   };
 
   fn.getFactorSortOrder = function (provider, factorType) {
-    return factorData[fn.getFactorName(provider, factorType)].sortOrder;
+    return factorData[fn.getFactorName.apply(this, [provider, factorType])].sortOrder;
   };
 
   fn.getRememberDeviceValue = function (appState) {
