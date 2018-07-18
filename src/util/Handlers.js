@@ -17,7 +17,7 @@ define(['util/Logger'], function (Logger) {
   Handlers.defaultSuccessTokenHandler = function(tokenManager, keys = {}) {
     /**
      * Default success handler which is normally invoked when
-     * `parseTokenFromUrl` is called. This success handler will
+     * `parseAndStoreTokenFromUrl` is called. This success handler will
      * automatically store the tokens with the keys "accessToken" and
      * "idToken", if returned in the response.
      */

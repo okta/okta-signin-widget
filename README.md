@@ -32,7 +32,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [session.close](#sessionclosecallback)
   * [token.hasTokensInUrl](#oidc-tokenhastokensinurl)
   * [token.parseTokensFromUrl](#oidc-tokenparsetokensfromurlsuccess-error)
-  * [token.parseAndStoreTokensFromUrl](#oidc-tparseAndStoreTokensFromUrl-tokenStorageKeys)
+  * [token.parseAndStoreTokensFromUrl](#oidc-tokenparseandstoretokensfromurltokenstoragekeys)
   * [tokenManager.add](#oidc-tokenmanageraddkey-token)
   * [tokenManager.get](#oidc-tokenmanagergetkey)
   * [tokenManager.remove](#oidc-tokenmanagerremovekey)
@@ -471,12 +471,11 @@ var signIn = new OktaSignIn({
 });
 
 // The user has just landed on our login form, and has not yet authenticated
-// with a Social Auth IDP.
 if (!signIn.token.hasTokensInUrl()) {
   signIn.renderEl({el: '#osw-container'});
 }
 
-// The user has redirected back after authenticating and has their access or
+// The user has redirected back after authenticating and has their access and/or
 // ID Token in the URL.
 else {
   signIn.token.parseAndStoreTokensFromUrl()
