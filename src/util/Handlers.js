@@ -23,8 +23,8 @@ define(['util/Logger'], function (Logger) {
      */
 
     var tokenKeys = {
-      accessToken: keys.accessToken || 'accessToken',
-      idToken: keys.idToken || 'idToken'
+      accessToken: keys.ACCESS_TOKEN || 'accessToken',
+      idToken: keys.ID_TOKEN || 'idToken'
     };
 
     return function (res) {
@@ -39,14 +39,12 @@ define(['util/Logger'], function (Logger) {
     };
   };
 
-  Handlers.defaultErrorHandler = function() {
+  Handlers.defaultErrorHandler = function(err) {
     /**
      * Default error handler that outputs the
      * response using the window.console in "error" form.
      */
-    return function (err) {
-      Logger.error(err.toString());
-    };
+    Logger.error(err.toString());
   };
 
   return Handlers;

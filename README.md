@@ -464,7 +464,7 @@ var signIn = new OktaSignIn({
   clientId: '{{myClientId}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
   authParams: {
-    responseType: 'id_token',
+    responseType: ['id_token', 'token'],
     // `display: page` will initiate the OAuth2 page redirect flow
     display: 'page'
   }
@@ -484,11 +484,15 @@ else {
     console.log(idToken);
   });
 
-  // Optionally - use a different key for the idToken
-  signIn.token.parseAndStoreTokensFromUrl({ idToken: 'id-token-key' })
+  // Optionally - use a different key for the tokens
+  signIn.token.parseAndStoreTokensFromUrl({
+    ACCESS_TOKEN: 'access-token-key',
+    ID_TOKEN: 'id-token-key'
+  })
   .then(function() {
+    const accessToken = signIn.tokenManager.get('access-token-key');
     const idToken = signIn.tokenManager.get('id-token-key');
-    console.log(idToken);
+    console.log(accessToken, idToken);
   });
 }
 ```

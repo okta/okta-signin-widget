@@ -132,7 +132,7 @@ describe('Dev Mode flows', function() {
 
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
 
-    oidcApp.callParseAndStoreTokensGivenKeys({ idToken: 'my-id-token' });
+    oidcApp.callParseAndStoreTokensGivenKeys({ ID_TOKEN: 'my-id-token' });
     expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
   });
 

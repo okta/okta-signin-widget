@@ -49,7 +49,7 @@ function parseAndStoreTokensGivenKeys(keys) {
   if (oktaSignIn.token.hasTokensInUrl()) {
     oktaSignIn.token.parseAndStoreTokensFromUrl(keys)
     .then(function() {
-      var idToken = oktaSignIn.tokenManager.get(keys.idToken);
+      var idToken = oktaSignIn.tokenManager.get(keys.ID_TOKEN);
       addMessageToPage('idtoken_user', idToken.claims.name);
     });
   }

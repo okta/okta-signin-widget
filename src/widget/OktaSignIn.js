@@ -152,7 +152,7 @@ var OktaSignIn = (function () {
     function parseAndStoreTokensFromUrl(tokenStorageKeys) {
       return authClient.token.parseFromUrl()
       .then(handlers.defaultSuccessTokenHandler(authClient.tokenManager, tokenStorageKeys))
-      .fail(handlers.defaultErrorHandler());
+      .fail(handlers.defaultErrorHandler);
     }
 
     // Properties exposed on OktaSignIn object.
