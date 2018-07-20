@@ -95,6 +95,43 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     }
   };
 
+  // Parse through the OAuth 'authParams' object to ensure the 'openid' scope is
+  // included (if required)
+  util.scrubScopes = function (authParams) {
+    if (!authParams.responseType) {
+      return;
+    }
+
+    //  Convert scope into an Array
+    var scope = Array.isArray(authParams.scopes) ? authParams.scopes : authParams.scopes.split(' ');
+
+    // Remove the 'openid' scope, as it is only required if an 'id_token' is requested
+    if (scope.indexOf('openid') > -1) {
+      scope.splice(scope.indexOf('openid'), 1);
+    }
+
+    // Add the 'openid' scope
+    if (authParams.responseType.indexOf('id_token') !== -1) {
+      scope.push('openid');
+    }
+
+    return scope;
+  };
+
+  // Utility handlers for maping convenience keys to OAuth params
+  util.getResponseType = function (options) {
+    var responseType = [];
+    if (options.getIdToken !== false) {
+      responseType.push('id_token');
+    }
+
+    if (options.getAccessToken) {
+      responseType.push('token');
+    }
+
+    return responseType;
+  };
+
   return util;
 
 });
