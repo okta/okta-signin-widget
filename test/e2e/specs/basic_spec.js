@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-/* global browser, element, by, oktaSignIn */
+/* global browser, element, by, oktaSignIn, options, OktaSignIn */
 var util = require('../util/util');
 
 describe('Basic flows', function() {
@@ -23,6 +23,7 @@ describe('Basic flows', function() {
   it('can hide, show, remove, and start a widget', function() {
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
+    var signInTitle = element(by.css('[data-se="o-form-head"]'));
     expect(el.isDisplayed()).toBe(true);
 
     // Ensure the widget can hide
@@ -39,12 +40,20 @@ describe('Basic flows', function() {
 
     // Ensure a new widget can be created
     function createWidget() {
+      options.i18n = {
+        en: {
+          'primaryauth.title': 'Sign In to Acme'
+        }
+      };
+      // eslint-disable-next-line no-global-assign
+      oktaSignIn = new OktaSignIn(options);
       oktaSignIn.renderEl({
         el: '#okta-login-container'
       }, function() {});
     }
     browser.executeScript(createWidget);
     expect(el.isDisplayed()).toBe(true);
+    expect(signInTitle.getText()).toBe('Sign In to Acme');
   });
 
 });
