@@ -301,6 +301,7 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
     remove: function () {
       this.controller.remove();
       this.header.$el.remove();
+      Bundles.remove();
       Backbone.history.stop();
     }
 
