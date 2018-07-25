@@ -207,6 +207,10 @@ define([
       return this.currentLanguage === language;
     },
 
+    remove: function () {
+      this.currentLanguage = null;
+    },
+
     loadLanguage: function (language, overrides, assets) {
       var parsedOverrides = parseOverrides(overrides);
       var lowerCaseLanguage = language.toLowerCase();
