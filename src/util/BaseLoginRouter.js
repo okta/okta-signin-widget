@@ -303,6 +303,7 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
       this.header.$el.remove();
       Bundles.remove();
       Backbone.history.stop();
+      Bundles.remove();
     }
 
   });
