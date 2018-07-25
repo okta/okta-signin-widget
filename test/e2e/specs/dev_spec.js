@@ -10,9 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* global browser, element, by, oktaSignIn */
-var util = require('../util/util');
+var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
+    OIDCAppPage     = require('../page-objects/OIDCAppPage'),
+    util            = require('../util/util');
 
 describe('Dev Mode flows', function() {
+  function setup(options) {
+    browser.executeScript('initialize(' + JSON.stringify(options) + ')');
+  }
 
   beforeEach(function() {
     browser.driver.get('about:blank');
@@ -21,6 +26,9 @@ describe('Dev Mode flows', function() {
   });
 
   it('can hide, show, remove, and start a widget', function() {
+    setup({
+      baseUrl: '{{{WIDGET_TEST_SERVER}}}'
+    });
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
     expect(el.isDisplayed()).toBe(true);
@@ -48,6 +56,10 @@ describe('Dev Mode flows', function() {
   });
 
   it('log a console message when tokens are not parsed from the URL after the Widget is rendered', function() {
+    setup({
+      baseUrl: '{{{WIDGET_TEST_SERVER}}}'
+    });
+
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
     expect(el.isDisplayed()).toBe(true);
@@ -56,10 +68,102 @@ describe('Dev Mode flows', function() {
     browser.executeScript('window.location = window.location + "#id_token=abc"');
     browser.refresh(true);
 
+    setup({
+      baseUrl: '{{{WIDGET_TEST_SERVER}}}'
+    });
+
+    expectToFindLogMessage('Looks like there are still tokens in the URL!');
+  });
+
+  it('can parse tokens from the url', function() {
+    setup({
+      baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+      clientId: '{{{WIDGET_CLIENT_ID}}}',
+      redirectUri: 'http://localhost:3000/done',
+      authParams: {
+        responseType: 'id_token',
+        display: 'page',
+        scope: ['openid', 'email', 'profile']
+      }
+    });
+
+    var primaryAuth = new PrimaryAuthPage(),
+        oidcApp = new OIDCAppPage();
+
+    primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
+    oidcApp.callParseTokens();
+    expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
+  });
+
+  it('can parse tokens from the url with default handlers', function() {
+    setup({
+      baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+      clientId: '{{{WIDGET_CLIENT_ID}}}',
+      redirectUri: 'http://localhost:3000/done',
+      authParams: {
+        responseType: 'id_token',
+        display: 'page',
+        scope: ['openid', 'email', 'profile']
+      }
+    });
+
+    var primaryAuth = new PrimaryAuthPage(),
+        oidcApp = new OIDCAppPage();
+
+    primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
+    oidcApp.callParseAndStoreTokens();
+    expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
+  });
+
+  it('can parse tokens from the url with default handlers given token keys', function() {
+    setup({
+      baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+      clientId: '{{{WIDGET_CLIENT_ID}}}',
+      redirectUri: 'http://localhost:3000/done',
+      authParams: {
+        responseType: 'id_token',
+        display: 'page',
+        scope: ['openid', 'email', 'profile']
+      }
+    });
+
+    var primaryAuth = new PrimaryAuthPage(),
+        oidcApp = new OIDCAppPage();
+
+    primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
+
+    oidcApp.callParseAndStoreTokensGivenKeys({ ID_TOKEN: 'my-id-token' });
+    expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
+  });
+
+  it('logs an error when attempting to parse tokens from the url with default handlers', function() {
+    setup({
+      baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+      clientId: '{{{WIDGET_CLIENT_ID}}}',
+      redirectUri: 'http://localhost:3000/done',
+      authParams: {
+        responseType: 'id_token',
+        display: 'page',
+        scope: ['openid', 'email', 'profile']
+      }
+    });
+
+    var primaryAuth = new PrimaryAuthPage(),
+        oidcApp = new OIDCAppPage();
+
+    primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
+
+    // Remove the hash fragment from the URL
+    oidcApp.changeRedirectUriState('fakeState123');
+    oidcApp.callParseAndStoreTokens();
+    expectToFindLogMessage('OAuth flow response state doesn\'t match request state');
+  });
+
+  function expectToFindLogMessage(text) {
     browser.manage().logs().get('browser')
     .then(function(logs) {
       var log = logs.find(function(entry) {
-        var message = 'Looks like there are still tokens in the URL!';
+        var message = text;
         return entry.message.includes(message) === true;
       });
       expect(log).toBeDefined();
@@ -67,6 +171,5 @@ describe('Dev Mode flows', function() {
     .catch(function(err) {
       expect(err).toBeUndefined();
     });
-  });
-
+  }
 });

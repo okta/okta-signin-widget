@@ -32,6 +32,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [session.close](#sessionclosecallback)
   * [token.hasTokensInUrl](#oidc-tokenhastokensinurl)
   * [token.parseTokensFromUrl](#oidc-tokenparsetokensfromurlsuccess-error)
+  * [token.parseAndStoreTokensFromUrl](#oidc-tokenparseandstoretokensfromurltokenstoragekeys)
   * [tokenManager.add](#oidc-tokenmanageraddkey-token)
   * [tokenManager.get](#oidc-tokenmanagergetkey)
   * [tokenManager.remove](#oidc-tokenmanagerremovekey)
@@ -409,8 +410,9 @@ else {
 
 Parses the access or ID Tokens from the url after a successful authentication redirect. This is used when `authParams.display = 'page'`.
 
-- `success` - Function that is called after the tokens have been parsed and validated
-- `error` - Function that is called if an error occurs while trying to parse or validate the tokens
+- `success` - Function called after the tokens have been parsed and validated
+- `error` - Function called if an error occurs while trying to parse or validate the tokens
+
 
 ```javascript
 var signIn = new OktaSignIn({
@@ -447,6 +449,51 @@ else {
       // handleError(err);
     }
   );
+}
+```
+
+## `OIDC` token.parseAndStoreTokensFromUrl(tokenStorageKeys)
+
+Parse and **store** the access or ID Tokens from the url after a successful authentication redirect. This is used when `authParams.display = 'page'`.
+
+* `tokenStorageKeys` - Override the default storage naming conventions for the access and/or ID tokens. Defaults to `accessToken` and `idToken`.
+
+```javascript
+var signIn = new OktaSignIn({
+  baseUrl: 'https://{yourOktaDomain}',
+  clientId: '{{myClientId}}',
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  authParams: {
+    responseType: ['id_token', 'token'],
+    // `display: page` will initiate the OAuth2 page redirect flow
+    display: 'page'
+  }
+});
+
+// The user has just landed on our login form, and has not yet authenticated
+if (!signIn.token.hasTokensInUrl()) {
+  signIn.renderEl({el: '#osw-container'});
+}
+
+// The user has redirected back after authenticating and has their access and/or
+// ID Token in the URL.
+else {
+  signIn.token.parseAndStoreTokensFromUrl()
+  .then(function() {
+    const idToken = signIn.tokenManager.get('idToken');
+    console.log(idToken);
+  });
+
+  // Optionally - use a different key for the tokens
+  signIn.token.parseAndStoreTokensFromUrl({
+    ACCESS_TOKEN: 'access-token-key',
+    ID_TOKEN: 'id-token-key'
+  })
+  .then(function() {
+    const accessToken = signIn.tokenManager.get('access-token-key');
+    const idToken = signIn.tokenManager.get('id-token-key');
+    console.log(accessToken, idToken);
+  });
 }
 ```
 
@@ -957,7 +1004,7 @@ Optional configuration:
      // The callback function is passed 3 arguments: response, onSuccess, onFailure
      // 1) response: response returned from the API post registration.
      // 2) onSuccess: success callback.
-     // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level 
+     // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level
      //    or field level errors.
     postSubmit: function (response, onSuccess, onFailure) {
       // In this example postSubmit callback is used to log the server response to the browser console before completing registration flow

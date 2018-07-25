@@ -206,6 +206,7 @@ module.exports = function (grunt) {
             return tpl({
               browserName: browserName,
               WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER,
+              WIDGET_CLIENT_ID: process.env.WIDGET_CLIENT_ID,
               WIDGET_BASIC_USER: process.env.WIDGET_BASIC_USER,
               WIDGET_BASIC_PASSWORD: process.env.WIDGET_BASIC_PASSWORD,
               WIDGET_BASIC_USER_2: process.env.WIDGET_BASIC_USER_2,
@@ -273,7 +274,8 @@ module.exports = function (grunt) {
             Handlebars.registerPartial('devLayout', devLayout);
             Handlebars.registerPartial('npmLayout', npmLayout);
             return testTpl({
-              WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER
+              WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER,
+              WIDGET_CLIENT_ID: process.env.WIDGET_CLIENT_ID
             });
           }
         },
@@ -309,7 +311,7 @@ module.exports = function (grunt) {
         }())
       }
     },
-  
+
     search: {
       noAbsoluteUrlsInCss: {
         files: {
