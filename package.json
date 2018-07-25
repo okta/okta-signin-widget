@@ -82,6 +82,7 @@
     "phantomjs": "1.9.20",
     "protractor": "5.2.2",
     "request-promise": "2.0.0",
+    "rimraf": "^2.6.2",
     "semver": "5.1.0",
     "time-grunt": "1.4.0",
     "wait-on": "2.0.2",
