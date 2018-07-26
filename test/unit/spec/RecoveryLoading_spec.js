@@ -27,8 +27,7 @@ function (Q, _, $, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
-      authClient: authClient,
-      globalSuccessFn: function () {}
+      authClient: authClient
     }, settings));
     var beacon = new Beacon($sandbox);
     var form = new RecoveryFormView($sandbox);

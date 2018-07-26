@@ -3,11 +3,10 @@ define([
   'shared/views/components/BaseButtonLink'
 ],
 function (_, BaseButtonLink) {
+
   /**
-   * @class ButtonFactory
-   * @private
-   *
    * A factory method wrapper for {@link BaseButtonLink} creation
+   * @class module:Okta.internal.util.ButtonFactory
    */
 
   function normalizeEvents(options) {
@@ -25,9 +24,9 @@ function (_, BaseButtonLink) {
     return target;
   }
 
-  return {
+  return /** @lends module:Okta.internal.util.ButtonFactory */ {
     /**
-     * Creates a BaseButtonLink
+     * Creates a {@link module:Okta.internal.views.components.BaseButtonLink|BaseButtonLink}.
      * @param  {Object} options Options hash
      * @param  {String} [options.title] The button text
      * @param  {String} [options.icon]
@@ -35,7 +34,7 @@ function (_, BaseButtonLink) {
      * @param {String} [options.href] The button link
      * @param {Function} [options.click] On click callback
      * @param {Object} [options.events] a [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
-     * @return {BaseButtonLink} BaseButtonLink prototype ("class")
+     * @returns {module:Okta.internal.views.components.BaseButtonLink} BaseButtonLink prototype ("class")
      */
     create: function (options) {
       options = _.clone(options);

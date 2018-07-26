@@ -1,0 +1,251 @@
+// TODO Eventually move all this into relevant modules
+
+// Inputs
+input[type=text],
+input[type=password],
+textarea,
+.text-field-default {
+  box-shadow: 0 1px 1px rgba(160, 160, 160, 0.2) inset;
+  padding: 7px 8px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: $very-light-gray-3;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+textarea:focus,
+.text-field-default:focus,
+.input-focus {
+  box-shadow: 0 1px 1px $white;
+  border-color: $suva-gray !important;
+}
+
+/* Prevent IE10+ from displaying a clear X in inputs, interferes with our own implementation */
+input[type=text]::-ms-clear {
+  display: none;
+}
+
+input[type=text].disabled:focus,
+input[type=password].disabled:focus,
+textarea.disabled:focus,
+.text-field-default.disabled:focus,
+input[readonly]:focus,
+textarea[readonly]:focus,
+.text-field-default[readonly]:focus {
+  box-shadow: none;
+  border-color: $light-gray !important;
+  color: $gray;
+}
+
+span.input-fix,
+span.input-fix input[type=text] {
+  margin: 0;
+  padding: 0;
+}
+
+span.input-fix,
+.textarea-fix {
+  display: inline-block;
+  background: $white;
+  border: 1px solid $very-light-gray-2;
+  height: 28px;
+  overflow: hidden;
+  box-shadow: 0 1px 1px rgba(160, 160, 160, 0.2) inset;
+  float: left;
+}
+
+.textarea-fix {
+  height: auto;
+  min-height: 14px;
+}
+
+span.input-fix input[type=text],
+span.input-fix input[type=password],
+.textarea-fix textarea {
+  border: none;
+  height: 100%;
+  box-shadow: none;
+  padding: 0 8px;
+  background: transparent;
+}
+
+.input-fix.rounded-15 input[type=text] {
+  padding: 0 12px;
+}
+
+.input-fix.rounded-15 .inline-label {
+  left: 12px;
+}
+
+// Icons
+.icon-16.icon,
+.icon-24.icon,
+.icon-32.icon {
+  position: static !important;
+}
+
+.icon-16 span.icon,
+.icon-list-16 li,
+.icon-16.icon,
+.icon-16.icon-only {
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+  position: absolute;
+}
+
+.icon-24 span.icon,
+.icon-24.icon {
+  display: inline-block;
+  position: absolute;
+  height: 24px;
+  width: 24px;
+}
+
+.icon-32.icon {
+  display: inline-block;
+  position: absolute;
+  height: 32px;
+  width: 32px;
+}
+
+.icon-48.icon {
+  display: inline-block;
+  position: absolute;
+  height: 48px;
+  width: 48px;
+}
+
+.icon-128.icon {
+  display: inline-block;
+  height: 128px;
+  width: 78px;
+}
+
+.icon-128 span.icon {
+  position: absolute;
+}
+
+.icon-16.icon-only,
+.icon-24.icon-only,
+.icon-32.icon-only {
+  position: relative;
+  padding: 0;
+}
+
+.icon-dm {
+  background: url('/img/ui/indicators/drop-menu-s.png') no-repeat scroll 0 0 transparent;
+}
+
+.search-box .clear-input-16 {
+  line-height: 16px;
+}
+
+// Tooltips
+.qtip-content {
+  font-size: 12px;
+  line-height: 1.35em;
+}
+.qtip-content ol {
+  list-style-type: decimal;
+}
+.qtip-content li {
+  color: $white;
+  margin-left: 18px;
+}
+.qtip-content p {
+  color: $white;
+}
+
+// Lists
+.bullets,
+.no-bullets {
+  margin: 0 27px;
+}
+.bullets li,
+.no-bullets li,
+.border-list li {
+  line-height: 18px;
+}
+ul.bullets {
+  list-style-type: disc;
+}
+ul.bullets li > ul > li {
+  list-style-type: circle;
+}
+ol.bullets {
+  list-style-type: decimal;
+}
+
+// Form labels
+.o-form-label-callout {
+  color: $dim-gray-2;
+  background-color: $gainsboro-4;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  padding: 7px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  margin-right: 2px;
+}
+
+// Misc
+.float-l {
+  float: left !important;
+}
+
+.float-r {
+  float: right !important;
+}
+
+.disabled {
+  background: $white-smoke !important;
+  border-color: $white-smoke-5 !important;
+  cursor: default !important;
+  color: $dark-gray-3 !important;
+}
+
+.clearfix {
+  display: block;
+}
+
+.clearfix::after {
+  content: '.';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+/* Required for helper to work with Opera */
+* html .clearfix {
+  height: 1%;
+}
+
+.margin-btm-5 {
+  margin-bottom: 5px !important;
+}
+
+.margin-btm-10 {
+  margin-bottom: 10px !important;
+}
+
+.margin-btm-15 {
+  margin-bottom: 15px !important;
+}
+
+.margin-btm-30 {
+  margin-bottom: 30px !important;
+}
+
+.margin-top-15 {
+  margin-top: 15px !important;
+}
+
+.hide {
+  display: none !important;
+}

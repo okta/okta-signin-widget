@@ -24,7 +24,6 @@
   var metaViews = {};
 
   /**
-   * @ignore
    * Adds a section (header/footer/section) to the table view
    * it will find the matching property on the table instance, normalize it, and add it as child view.
    *
@@ -55,8 +54,6 @@
   }
 
   /**
-   * @ignore
-   *
    * checks if a given array of object has at least one of the properties asked for.
    *
    * ```javascript
@@ -75,12 +72,12 @@
   }
 
   /**
-   * @class Archer.TableView
    * Archer.TableView is a special ListView that implements an HTML table
-   *
-   * Example:
-   *
-   * ```javascript
+   * @class src/framework/TableView
+   * @extends src/framework/ListView
+   * @param {Object} options options hash
+   * @param {Object} options.collection The collection which this view operates on
+   * @example
    * var UserTable = Archer.TableView.extend({
    *   columns: [
    *     {
@@ -101,21 +98,9 @@
    *
    * var userTable = new UserTable({collection: users});
    * userTable.render();
-   * ```
-   *
-   * @extends Archer.ListView
    */
-  return ListView.extend({
+  return ListView.extend(/** @lends src/framework/TableView.prototype */ {
 
-    /**
-    * @constructor
-    *
-    * A table presentation of a collection
-    *
-    * @param {Object} options options hash
-    * @param {Object} options.collection The collection which this view operates on
-    *
-    */
     constructor: function () {
       /* eslint max-statements: [2, 11]*/
       this.tagName = 'table';
@@ -138,9 +123,15 @@
     },
 
     /**
-     * Definition of a the table in a column based prespective:
-     *
-     * ```javascript
+     * Definition of a the table in a column based prespective.
+     * @property {Array|Function} [columns]
+     * @property {String} [columns.label] The heading label of the column
+     * @property {Archer.View} [columns.headerView] The heading label view of the column (overrides `label`)
+     * @property {String} [columns.name] The name of model field to render. Equals to `template: {{fieldName}}`
+     * @property {String} [columns.template] The template to render for this column (overrides `name`)
+     * @property {Archer.View} [columns.view] A custom view to render for this column (overrides `name` and `template`)
+     * @property {Object} [columns.events] A event hash for this column
+     * @example
      * var UserTable = Archer.TableView.extend({
      *   columns: [
      *     {
@@ -153,142 +144,119 @@
      *     }
      *   ]
      * });
-     * ```
-     *
-     * @property {Array|Function} [columns]
-     * @property {String} [columns.label] The heading lablel of the column
-     * @property {Archer.View} [columns.headerView] The heading lablel view of the column (overrides `label`)
-     * @property {String} [columns.name] The name of model field to render. Equals to `template: {{fieldName}}`
-     * @property {String} [columns.tempalte] The template to render for this column (overrides `name`)
-     * @property {Archer.View} [columns.view] A custom view to render for this column (overrides `name` and `template`)
-     * @property {Object} [columns.events] A event hash for this column
-     *
      */
     columns: [],
 
     /**
-    * @property {Archer.View|String|Array} [header]
-    *
-    *  The table header
-    *
-    * - If set as an {@link Archer.View}, it's `tagName` needs to be a `thead`
-    * - If set as a string, it needs to be a valid html `tr` block
-    * - If set as an array, the markup will be generated automagically
-    *
-    * Exmaples: (these examples will result in identical outcome)
-    *
-    * ```javascript
-    * var UserList = Archer.TableView.extend({
-    *   header: Archer.View.extend(
-    *     tagName: 'thead',
-    *     template: '\
-    *       <tr>\
-    *         <th>First Name</th>\
-    *         <th>Last Name</th>\
-    *         <th>Email Address</th>\
-    *       </tr>\
-    *    '
-    * });
-    *
-    * var UserList = Archer.TableView.extend({
-    *   header: '\
-    *     <tr>\
-    *       <th>First Name</th>\
-    *       <th>Last Name</th>\
-    *       <th>Email Address</th>\
-    *     </tr>\
-    *  '
-    * });
-    *
-    * var UserList = Archer.TableView.extend({
-    *   header: ['First Name', 'Last Name', 'Email Address']
-    * });
-    * ```
-    *
-    * See:
-    *
-    * - [http://www.w3.org/wiki/HTML/Elements/thead](http://www.w3.org/wiki/HTML/Elements/thead)
-    * - [http://www.w3.org/wiki/HTML/Elements/tr](http://www.w3.org/wiki/HTML/Elements/tr)
-    * - [http://backbonejs.org/#View](http://backbonejs.org/#View)
-    */
+     *  The table header
+     *
+     * - If set as an {@link Archer.View}, it's `tagName` needs to be a `thead`
+     * - If set as a string, it needs to be a valid html `tr` block
+     * - If set as an array, the markup will be generated automagically
+     *
+     * See:
+     * - [http://www.w3.org/wiki/HTML/Elements/thead](http://www.w3.org/wiki/HTML/Elements/thead)
+     * - [http://www.w3.org/wiki/HTML/Elements/tr](http://www.w3.org/wiki/HTML/Elements/tr)
+     * - [http://backbonejs.org/#View](http://backbonejs.org/#View)
+     *
+     * @type {module:Okta.View|String|Array}
+     * @example
+     * // These examples will result in identical outcomes
+     * var UserList = Archer.TableView.extend({
+     *   header: Archer.View.extend(
+     *     tagName: 'thead',
+     *     template: '\
+     *       <tr>\
+     *         <th>First Name</th>\
+     *         <th>Last Name</th>\
+     *         <th>Email Address</th>\
+     *       </tr>\
+     *    '
+     * });
+     *
+     * var UserList = Archer.TableView.extend({
+     *   header: '\
+     *     <tr>\
+     *       <th>First Name</th>\
+     *       <th>Last Name</th>\
+     *       <th>Email Address</th>\
+     *     </tr>\
+     *  '
+     * });
+     *
+     * var UserList = Archer.TableView.extend({
+     *   header: ['First Name', 'Last Name', 'Email Address']
+     * });
+     */
     header: null,
 
     /**
-    * @property {Archer.View|String} [footer]
-    *
-    * The table footer
-    *
-    * - If set as a {@link Archer.View}, it's `tagName` needs to be a `tfoot`
-    * - If set as a string, it needs to be a valid html `tr` block
-    *
-    * Exmaples:
-    *
-    * ```javascript
-    * var UserList = Archer.TableView.extend({
-    *   footer: Archer.View.extend(
-    *     tagName: 'tfoot',
-    *     template: '\
-    *       <tr>\
-    *         <th>First Name</th>\
-    *         <th>Last Name</th>\
-    *         <th>Email Address</th>\
-    *       </tr>\
-    *    '
-    * });
-    *
-    * var UserList = Archer.TableView.extend({
-    *   footer: '\
-    *     <tr>\
-    *       <th>First Name</th>\
-    *       <th>Last Name</th>\
-    *       <th>Email Address</th>\
-    *     </tr>\
-    *  '
-    * });
-    * ```
-    * See:
-    *
-    * - [http://www.w3.org/wiki/HTML/Elements/table](http://www.w3.org/wiki/HTML/Elements/table)
-    * - [http://backbonejs.org/#View](http://backbonejs.org/#View)
-    */
+     * The table footer
+     *
+     * - If set as a {@link Archer.View}, it's `tagName` needs to be a `tfoot`
+     * - If set as a string, it needs to be a valid html `tr` block
+     *
+     * See:
+     * - [http://www.w3.org/wiki/HTML/Elements/table](http://www.w3.org/wiki/HTML/Elements/table)
+     * - [http://backbonejs.org/#View](http://backbonejs.org/#View)
+     *
+     * @type {module:Okta.View|String}
+     * @example
+     * var UserList = Archer.TableView.extend({
+     *   footer: Archer.View.extend(
+     *     tagName: 'tfoot',
+     *     template: '\
+     *       <tr>\
+     *         <th>First Name</th>\
+     *         <th>Last Name</th>\
+     *         <th>Email Address</th>\
+     *       </tr>\
+     *    '
+     * });
+     *
+     * var UserList = Archer.TableView.extend({
+     *   footer: '\
+     *     <tr>\
+     *       <th>First Name</th>\
+     *       <th>Last Name</th>\
+     *       <th>Email Address</th>\
+     *     </tr>\
+     *  '
+     * });
+     */
     footer: null,
 
     /**
-    * @property {Archer.View|String} [caption]
-    *
-    * The table caption.
-    * We don't use an actual html `caption` tag, to get more flexibility we define the caption as a special row, that
-    * Stays static below the header for the lifespan of the table view life cycle.
-    *
-    *
-    * Exmaple:
-    *
-    * ```javascript
-    * var UserList = Archer.TableView.extend({
-    *   caption: 'LIST OF USERS'
-    * });
-    *
-    * var UserList = Archer.TableView.extend({
-    *   caption: Archer.View.extend(
-    *     tagName: 'caption',
-    *     template: 'LIST OF USERS'
-    *   })
-    * });
-    *
-    * // or it could technically also be a tbody
-    * var UserList = Archer.TableView.extend({
-    *   caption: Archer.View.extend(
-    *     tagName: 'tbody',
-    *     template: '<tr><td colspan="100">My Custom Caption</td></tr>'
-    *   })
-    * });
-    * ```
-    *
-    * See:
-    *
-    * - [http://www.w3.org/wiki/HTML/Elements/table](http://www.w3.org/wiki/HTML/Elements/table)
-    * - [http://backbonejs.org/#View](http://backbonejs.org/#View)
-    */
+     * The table caption.
+     *
+     * We don't use an actual html `caption` tag, to get more flexibility we define the caption as a special row, that
+     * stays static below the header for the lifespan of the table view life cycle.
+     *
+     * See:
+     * - [http://www.w3.org/wiki/HTML/Elements/table](http://www.w3.org/wiki/HTML/Elements/table)
+     * - [http://backbonejs.org/#View](http://backbonejs.org/#View)
+     *
+     * @type {module:Okta.View|String}
+     * @example
+     * var UserList = Archer.TableView.extend({
+     *   caption: 'LIST OF USERS'
+     * });
+     *
+     * var UserList = Archer.TableView.extend({
+     *   caption: Archer.View.extend(
+     *     tagName: 'caption',
+     *     template: 'LIST OF USERS'
+     *   })
+     * });
+     *
+     * // or it could technically also be a tbody
+     * var UserList = Archer.TableView.extend({
+     *   caption: Archer.View.extend(
+     *     tagName: 'tbody',
+     *     template: '<tr><td colspan="100">My Custom Caption</td></tr>'
+     *   })
+     * });
+     */
     caption: null,
 
     removeChildren: function () {

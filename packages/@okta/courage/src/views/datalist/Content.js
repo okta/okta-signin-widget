@@ -5,22 +5,21 @@ define([
   './Empty'
 ], function (_, BaseView, Loading, Empty) {
 
-  return BaseView.extend({
-    /**
-     * @class Content
-     * @private
-     * @extends Okta.View
-     */
+  /**
+   * @class src/views/datalist/Content
+   * @extends module:Okta.View
+   */
+  return BaseView.extend(/** @lends src/views/datalist/Content.prototype */ {
 
     /**
      * A custom view to set as the empty view when the collection is empty
-     * @type Okta.View
+     * @type {module:Okta.View}
      */
     Empty: null,
 
     /**
      * A custom loading animation view
-     * @type Okta.View
+     * @type {module:Okta.View}
      */
     Loading: null,
 

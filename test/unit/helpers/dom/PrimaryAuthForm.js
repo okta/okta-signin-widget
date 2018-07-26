@@ -229,6 +229,18 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
 
     registrationLink: function() {
       return this.$('.registration-container .content .registration-link');
+    },
+
+    passwordToggleContainer: function() {
+      return this.$('.password-toggle');
+    },
+
+    passwordToggleShowContainer: function() {
+      return this.$('.password-toggle span.button-show');
+    },
+
+    passwordToggleHideContainer: function() {
+      return this.$('.password-toggle span.button-hide');
     }
   });
 

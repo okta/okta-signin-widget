@@ -28,6 +28,9 @@ define([
         this._origDeprecate = Logger.deprecate;
         Logger.deprecate = jasmine.createSpy('deprecate');
 
+        this._origError = Logger.error;
+        Logger.error = jasmine.createSpy('error');
+
         this._origVersion = config.version;
         config.version = '9.9.99';
 
@@ -37,6 +40,7 @@ define([
 
       afterEach(function () {
         Logger.deprecate = this._origDeprecate;
+        Logger.error = this._origError;
         config.version = this._origVersion;
         Util.clearAllTimeouts();
         Util.clearAllIntervals();
@@ -233,6 +237,7 @@ define([
     EnrollU2F: 'enroll-u2f',
     EnrollWindowsHello: 'enroll-windows-hello',
     EnrollYubikey: 'enroll-yubikey',
+    EnrollCustomFactor: 'enroll-custom-factor',
     EnterPasscodePushFlow: 'activate-push',
     ForgotPassword: 'forgot-password',
     IDPDiscovery: 'idp-discovery',
@@ -254,7 +259,8 @@ define([
     UnlockEmailSent: 'account-unlock-email-sent',
     VerifyDuo: 'mfa-verify-duo',
     VerifyU2F: 'verify-u2f',
-    VerifyWindowsHello: 'verify-windows-hello'
+    VerifyWindowsHello: 'verify-windows-hello',
+    VerifyCustomFactor: 'verify-custom-factor'
   };
 
   _.each(controllerClasses, function (className, controller) {

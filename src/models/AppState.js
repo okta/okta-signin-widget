@@ -226,13 +226,23 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return isMfaEnrollActivate && res.factorResult === 'WAITING';
         }
       },
-      'hasMfaRequiredOptions': {
+      'hasMultipleFactorsAvailable': {
         deps: ['lastAuthResponse', 'factors'],
         fn: function (res, factors) {
-          if (res.status !== 'MFA_REQUIRED' && res.status !== 'MFA_CHALLENGE') {
+          if (res.status !== 'MFA_REQUIRED' && res.status !== 'MFA_CHALLENGE'
+              && res.status !== 'UNAUTHENTICATED') {
             return false;
           }
           return factors && factors.length > 1;
+        }
+      },
+      'promptForFactorInUnauthenticated': {
+        deps: ['lastAuthResponse', 'factors'],
+        fn: function (res, factors) {
+          if (res.status !== 'UNAUTHENTICATED') {
+            return false;
+          }
+          return factors && factors.length > 0;
         }
       },
       'userId': {
@@ -591,6 +601,24 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         deps: ['policy'],
         fn: function (policy) {
           return (policy && policy.factorsPolicyInfo) ? policy.factorsPolicyInfo: null;
+        }
+      },
+      'verifyCustomFactorRedirectUrl': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._links || !res._links.next || res._links.next.name !== 'redirect' || !res._links.next.href) {
+            return null;
+          }
+          return res._links.next.href;
+        }
+      },
+      'enrollCustomFactorRedirectUrl': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._links || !res._links.next || res._links.next.name !== 'activate' || !res._links.next.href) {
+            return null;
+          }
+          return res._links.next.href;
         }
       }
     },

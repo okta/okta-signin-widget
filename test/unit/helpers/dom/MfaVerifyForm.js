@@ -44,6 +44,10 @@ define(['./Form'], function (Form) {
       return this.el('factor-password').length === 1;
     },
 
+    isCustomFactor: function () {
+      return this.el('factor-custom').length === 1;
+    },
+
     answerField: function () {
       return this.input(ANSWER_FIELD);
     },
@@ -182,6 +186,14 @@ define(['./Form'], function (Form) {
 
     signoutLink: function ($sandbox) {
       return $sandbox.find('[data-se=signout-link]');
+    },
+
+    passwordToggleShowContainer: function() {
+      return this.$('.password-toggle span.button-show');
+    },
+
+    passwordToggleHideContainer: function() {
+      return this.$('.password-toggle span.button-hide');
     }
 
   });

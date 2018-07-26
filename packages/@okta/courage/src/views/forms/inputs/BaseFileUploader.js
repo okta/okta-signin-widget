@@ -25,6 +25,14 @@ define([
     }
   }
 
+  function ensureChildren(parent) {
+    _.each(_.rest(arguments), function (child) {
+      if (parent.$(child.$el).length == 0) {
+        parent.$el.append(child.render().el);
+      }
+    });
+  }
+
   return BaseInput.extend({
 
     idAttribute: 'id',
@@ -96,9 +104,6 @@ define([
 
       this.listenTo(this.collection, 'update', this.update);
       this.listenTo(this.collection, 'update', this.resize);
-
-      this.$el.append(this.fileUploadInput.render().el);
-      this.$el.append(this.previewListView.render().el);
 
       this.$el.addClass('o-form-control file-upload clearfix');
     },
@@ -176,6 +181,8 @@ define([
      */
 
     editMode: function () {
+      ensureChildren(this, this.fileUploadInput, this.previewListView);
+
       this.previewFromModel();
       this.fileUploadInput.toggle(true);
     },

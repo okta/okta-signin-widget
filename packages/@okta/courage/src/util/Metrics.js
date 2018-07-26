@@ -23,16 +23,20 @@ function ($, _, mixpanel, Class, Logger, TemplateUtil) {
   }
 
   /**
-   * @class Okta.Metrics
-   * @abstract
-   *
    * Abstract class that initializes the global mixpanel object, enforces
    * component and flow properties, and handles behavior in development vs.
    * production.
    *
-   * Example class that extends Metrics:
+   * @class module:Okta.Metrics
+   * @abstract
+   * @param {Object} [options]
+   * @param {Boolean} [options.sendEventsInDev=false]
+   *   Send events to the okta-dev mixpanel project. By default, events in
+   *   dev are logged to the console. If true, will actually send the events.
+   *   Only enable this in dev.
    *
-   * ```javascript
+   * @example
+   * // Example class that extends Metrics
    * var EVENT_DISMISSED = 'AdminBanner Dismissed',
    *     EVENT_VIEWED    = 'AdminBanner Viewed';
    *
@@ -58,15 +62,14 @@ function ($, _, mixpanel, Class, Logger, TemplateUtil) {
    *   }
    *
    * });
-   * ```
    */
-  return Class.extend({
+  return Class.extend(/** @lends module:Okta.Metrics.prototype */ {
 
     /**
     * Component that is being tracked. This is sent on every track event, and
     * is used as a filter when creating funnels.
     *
-    * @type {String} component (required)
+    * @type {String}
     * @abstract
     */
     component: undefined,
@@ -75,18 +78,11 @@ function ($, _, mixpanel, Class, Logger, TemplateUtil) {
     * Name of the flow. This is also sent on every track event, and is an
     * additional filter when creating funnels.
     *
-    * @type {String} name (required)
+    * @type {String}
     * @abstract
     */
     name: undefined,
 
-    /**
-     * @param {Object} [options]
-     * @param {Boolean} [options.sendEventsInDev=false]
-     *   Send events to the okta-dev mixpanel project. By default, events in
-     *   dev are logged to the console. If true, will actually send the events.
-     *   Only enable this in dev.
-     */
     initialize: function (options) {
       options || (options = {});
 
@@ -124,6 +120,7 @@ function ($, _, mixpanel, Class, Logger, TemplateUtil) {
      * okta-prod vs. okta-dev mixpanel token.
      *
      * @return {Boolean} true if in production
+     * @protected
      */
     isProduction: function () {
       var env = this.getDeployEnvironment();
@@ -132,23 +129,31 @@ function ($, _, mixpanel, Class, Logger, TemplateUtil) {
 
     /**
      * Returns the distinctId, which is normally the userId. Override if the
-     * page does not write the userId to the \#analytics-uid element.
+     * page does not write the userId to window.okta object.
      *
      * @return {String} distinctId
+     * @protected
      */
     getDistinctId: function () {
-      return $('#analytics-uid').text();
+      if (window.okta && window.okta.userId) {
+        return window.okta.userId;
+      }
+      return '';
     },
 
     /**
      * Returns the deployEnvironment, which can be DEV, PREVIEW, or PROD.
-     * Override if the page does not write the deployEnvironment to the
-     * \#analytics-env element.
+     * Override if the page does not write the deployEnv to the
+     * window.okta object.
      *
      * @return {String} env
+     * @protected
      */
     getDeployEnvironment: function () {
-      return $('#analytics-env').text() || 'DEV';
+      if (window.okta && window.okta.deployEnv) {
+        return window.okta.deployEnv;
+      }
+      return 'DEV';
     },
 
     /**
@@ -157,6 +162,7 @@ function ($, _, mixpanel, Class, Logger, TemplateUtil) {
      * defaults listed here.
      *
      * @return {Object} map of super properties to register on initialize
+     * @protected
      */
     getSuperProperties: function () {
       return {
@@ -169,6 +175,7 @@ function ($, _, mixpanel, Class, Logger, TemplateUtil) {
      * if customizing the defaults listed here.
      *
      * @return {Object} map of default properties to send with each event
+     * @protected
      */
     getDefaultProperties: function () {
       return {
@@ -177,11 +184,10 @@ function ($, _, mixpanel, Class, Logger, TemplateUtil) {
       };
     },
 
-    /*
-     * Returns eventNames prefixed with component and flow name, i.e.
-     * Courage:Test Mixpanel:button clicked
-     *
+    /**
+     * Returns eventNames prefixed with component and flow name
      * @return {String} prefixed event name.
+     * @private
      */
     getFullEventName: function (eventName) {
       var defaultProperties = this.getDefaultProperties();

@@ -6,7 +6,7 @@ define([
 function (_, TemplateUtil, BasePicker) {
 
   var autoSuggestTemplate = TemplateUtil.tpl('\
-    <div class="clearfix">\
+    <div class="group-result-template">\
       <span class="link-button link-button-small">Add</span>\
       <div class="group-medium-app-logo-wrapper"><img class="app-logo" src="{{mediumIconUrl}}"/></div>\
       <div class="group-desc">\
@@ -57,6 +57,7 @@ function (_, TemplateUtil, BasePicker) {
     extraParams: {
       expand: 'stats,app'
     },
+    appendExtraParamsInPrefetch: false,
 
     /**
      * extra customized footer element that will be append after the result list.
@@ -90,12 +91,16 @@ function (_, TemplateUtil, BasePicker) {
     },
 
     parse: function (group) {
-      var newGroup = _.extend({}, group, group.profile, group._embedded.stats, {
+      var newGroup = _.extend({}, group, group.profile, {
         smallIconUrl: _.findWhere(group._links.logo, {name: 'medium'}).href,
         mediumIconUrl: _.findWhere(group._links.logo, {name: 'medium'}).href,
-        name: this.escape(group.profile.name),
-        appGroup: group._embedded.app && group._embedded.app.label
+        name: this.escape(group.profile.name)
       });
+      if (group._embedded) {
+        _.extend(newGroup, group._embedded.stats, {
+          appGroup: group._embedded.app && group._embedded.app.label
+        });
+      }
       return _.pick(newGroup, 'id', 'name', 'description', 'smallIconUrl', 'mediumIconUrl',
                               'usersCount', 'appsCount', 'groupPushMappingsCount', 'appGroup', 'mfaPolicy');
     },

@@ -29,11 +29,6 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
     // are listening to the model events.
     // Note - Figure out a way to call the constructor in the right order.
     addListeners: function () {
-      // TOTP model is special, its model will not be attached to a controller, but will
-      // tag along with the push factor model. We need to listen to the transaction
-      // changes on this as well (in case of the push+totp form).
-      var totpModel = this.model.get('backupFactor');
-
       // Events to enable/disable the primary button on the forms
       this.listenTo(this.model, 'save', function () {
         //disable the submit button on forms while making the request
@@ -51,6 +46,10 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
         this.toggleButtonState(false);
       });
 
+      this.addModelListeners(this.model);
+    },
+
+    addModelListeners: function(model) {
       var setTransactionHandler = _.bind(function (transaction) {
         this.options.appState.set('transaction', transaction);
       }, this);
@@ -59,10 +58,14 @@ define(['okta', 'vendor/lib/q'], function (Okta, Q) {
       }, this);
 
       // Events to set the transaction attributes on the app state.
-      this.listenTo(this.model, 'setTransaction', setTransactionHandler);
-      this.listenTo(this.model, 'setTransactionError', transactionErrorHandler);
+      this.listenTo(model, 'setTransaction', setTransactionHandler);
+      this.listenTo(model, 'setTransactionError', transactionErrorHandler);
 
       // For TOTP factor model
+      // TOTP model is special, its model will not be attached to a controller, but will
+      // tag along with the push factor model. We need to listen to the transaction
+      // changes on this as well (in case of the push+totp form).
+      var totpModel = model.get('backupFactor');
       if (totpModel) {
         this.listenTo(totpModel, 'setTransaction', setTransactionHandler);
         this.listenTo(totpModel, 'setTransactionError', transactionErrorHandler);

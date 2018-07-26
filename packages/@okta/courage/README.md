@@ -25,8 +25,9 @@ Setting up courage is easy:
     ```bash
     [okta]$ git clone git@github.com:okta/courage.git
     ```
+3. Make sure you are on the right node version - node 8.1.1.
 
-3. Run a [yarn install](https://yarnpkg.com/en/docs/cli/install)
+4. Run a [yarn install](https://yarnpkg.com/en/docs/cli/install)
     ```bash
     [okta/courage]$ yarn install
     ```
@@ -130,12 +131,17 @@ You're done developing the courage component of your feature - now what? There a
 
 2. Install the package with your new version number
 
-  - If you're updating *okta-core*, update *clients/enduser* and *clients/admin* using yarn:
+  Note: Examples below use version number is _1.1.0-beta.20_, replace that number with your new version
+
+  - If you're updating *okta-core*, run the following command:
 
       ```bash
-      # If your version number is 1.1.0-beta.20:
-      [okta-core/clients/enduser]$ yarn upgrade @okta/courage@1.1.0-beta.20
-      [okta-core/clients/admin]$ yarn upgrade @okta/courage@1.1.0-beta.20
+      [okta-core/]$ ant yarn.upgrade.courage -Dver=1.1.0-beta.20
+      ```
+
+  - If you're updating a repo that uses yarn:
+      ```bash
+      [your-module]$ yarn upgrade @okta/courage@1.1.0-beta.20
       ```
 
   - If you're updating another repo that does not use yarn, use `npm install`:
@@ -173,8 +179,8 @@ Command        | Description
 -------------- | --------------
 **yarn lint** | Runs *scss-lint*, *jshint*, and *eslint*
 **yarn test** | Runs the jasmine unit tests in the cli.
-**yarn test -- --br** | Runs the jasmine unit tests in the browser
+**yarn test --br** | Runs the jasmine unit tests in the browser
 **yarn start** | Start the playground server to run on port 3000 by default. Load a url in browser with the specified port to use the playground, ex. localhost:3000.
-**yarn test:e2e** | Runs end-2-end selenium tests.
-**yarn test:e2e -- --specs test/selenium/spec/NAME.js** | Runs single end-2-end selenium test
+**yarn test:e2e** | Runs end-2-end selenium tests. You **must** use a Chrome version [supported by the ChromeDriver version](http://chromedriver.chromium.org/downloads) we use.
+**yarn test:e2e --specs test/selenium/spec/NAME.js** | Runs single end-2-end selenium test
 **grunt link** | Links the current courage module to *enduser* or *admin*. Use **--enduser** or **--admin** for more specificity

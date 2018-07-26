@@ -1,8 +1,9 @@
 define([
+  'okta/underscore',
   'shared/views/BaseView',
   './FileUpload',
   './SubmitLogo'
-], function (BaseView, FileUpload, SubmitLogo) {
+], function (_, BaseView, FileUpload, SubmitLogo) {
 
   var View = BaseView.extend({
 
@@ -19,19 +20,23 @@ define([
       };
     },
 
-    events: {
-      'submit': function () {
-        this.submitBtn.disable(true);
-      }
-    },
-
     initialize: function () {
       this.fileUpload = new FileUpload();
       this.add(this.fileUpload);
 
       this.submitBtn = new SubmitLogo();
       this.add(this.submitBtn);
-      return this;
+      this.submitBtn.$el.on('click', _.bind(this.submit, this));
+    },
+
+    submit: function (e) {
+      e.preventDefault();
+      this.submitBtn.disable(true);
+
+      var $parent = this.$el.parent();
+      this.$el.detach().appendTo('body');
+      this.$el.submit();
+      this.$el.detach().appendTo($parent);
     },
 
     uploadDone: function () {

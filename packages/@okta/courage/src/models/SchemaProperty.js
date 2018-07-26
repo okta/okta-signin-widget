@@ -1,19 +1,21 @@
-/* eslint max-statements: [2, 15], complexity: [2, 8], max-params: [2, 7] */
+/* eslint max-statements: [2, 15], complexity: [2, 8], max-params: [2, 8] */
 define([
   'okta/underscore',
+  'okta/jquery',
   'shared/models/BaseCollection',
   'shared/models/BaseModel',
   'shared/util/Logger',
   'shared/util/SchemaUtil',
   'shared/util/StringUtil',
   'shared/views/forms/helpers/EnumTypeHelper'
-], function (_, BaseCollection, BaseModel, Logger, SchemaUtil, StringUtil, EnumTypeHelper) {
+], function (_, $, BaseCollection, BaseModel, Logger, SchemaUtil, StringUtil, EnumTypeHelper) {
 
   var loc = StringUtil.localize;
 
   var STRING = SchemaUtil.STRING,
       NUMBER = SchemaUtil.NUMBER,
-      INTEGER = SchemaUtil.INTEGER;
+      INTEGER = SchemaUtil.INTEGER,
+      OBJECT = SchemaUtil.OBJECT;
 
   var getArrayTypeName = function (type, elementType) {
     return type + 'of' + elementType;
@@ -52,6 +54,17 @@ define([
   var SubSchemaNoneOfCollection = SubSchemaCollection.extend({
     _type: 'noneOf'
   });
+
+  var constraintTypeErrorMessages = {
+    string: loc('schema.validation.field.value.must.string', 'courage'),
+    number: loc('schema.validation.field.value.must.number', 'courage'),
+    integer: loc('schema.validation.field.value.must.integer', 'courage'),
+    object: loc('schema.validation.field.value.must.object', 'courage')
+  };
+
+  var loginFormatNonePattern = '.+';
+
+  var escapedLoginCharsRe = /[^a-zA-Z0-9\-]/;
 
   var SchemaProperty = BaseModel.extend({
 
@@ -129,10 +142,36 @@ define([
       '__isIntegerTypeEnum__': BaseModel.ComputedProperty(['__displayType__'], function (displayType) {
         return _.contains([SchemaUtil.INTEGER, SchemaUtil.ARRAYDISPLAYTYPE.arrayofinteger], displayType);
       }),
+      '__isObjectTypeEnum__': BaseModel.ComputedProperty(['__displayType__'], function (displayType) {
+        return _.contains([SchemaUtil.OBJECT, SchemaUtil.ARRAYDISPLAYTYPE.arrayofobject], displayType);
+      }),
+      '__isStringTypeEnum__': BaseModel.ComputedProperty(['__displayType__'], function (displayType) {
+        return _.contains([SchemaUtil.STRING, SchemaUtil.ARRAYDISPLAYTYPE.arrayofstring], displayType);
+      }),
+      '__enumConstraintType__': BaseModel.ComputedProperty(
+        ['__isStringTypeEnum__', '__isNumberTypeEnum__', '__isIntegerTypeEnum__', '__isObjectTypeEnum__'],
+        function (isStringType, isNumberType, isIntegerType, isObjectType) {
+          if (isStringType) {
+            return STRING;
+          }
+          if (isNumberType) {
+            return NUMBER;
+          }
+          if (isIntegerType) {
+            return INTEGER;
+          }
+          if (isObjectType) {
+            return OBJECT;
+          }
+        }),
       '__isEnumDefinedAndSupported__': BaseModel.ComputedProperty(
         ['__enumDefined__', '__supportEnum__'],
         function (enumDefined, supportEnum) {
           return enumDefined && supportEnum;
+        }),
+      '__isLoginOfBaseSchema__': BaseModel.ComputedProperty(
+        ['__isFromBaseSchema__', 'name'], function (isFromBaseSchema, name) {
+          return isFromBaseSchema && name === 'login';
         })
     },
 
@@ -144,6 +183,7 @@ define([
       this.listenTo(this, 'change:__equals__', this._convertEqualsToMinMax);
       this.listenTo(this, 'change:__constraint__', this._setConstraintText);
       this._setConstraintText();
+      this._setLoginPattern();
     },
 
     parse: function (resp) {
@@ -153,7 +193,9 @@ define([
         resp.type = 'image';
       }
       resp['__displayType__'] = SchemaUtil.getDisplayType(
-        resp.type, resp.format, resp.items ? resp.items.type : undefined
+        resp.type, resp.format, resp.items ? (
+          resp.items.format ? resp.items.format : resp.items.type
+        ) : undefined
       );
       this._setRangeConstraints(resp);
       resp['__supportsMinMax__'] = SchemaUtil.SUPPORTSMINMAX.indexOf(resp['__displayType__']) != -1;
@@ -307,12 +349,29 @@ define([
       }
     },
 
+    _setLoginPattern: function () {
+      if (!this.get('__isLoginOfBaseSchema__')) {
+        return;
+      }
+
+      var pattern = this.get('pattern');
+      if (pattern === loginFormatNonePattern) {
+        this.set('__loginFormatRestriction__', SchemaUtil.LOGINPATTERNFORMAT.NONE);
+      } else if (pattern) {
+        this.set('__loginFormatRestriction__', SchemaUtil.LOGINPATTERNFORMAT.CUSTOM);
+        this.set('__loginFormatRestrictionCustom__', this._extractLoginPattern(pattern));
+      } else {
+        this.set('__loginFormatRestriction__', SchemaUtil.LOGINPATTERNFORMAT.EMAIL);
+      }
+    },
+
     _updateDisplayType: function () {
       var type = this.get('type');
       if (type === STRING && this.get('format')) {
         this.set('__displayType__', SchemaUtil.FORMATDISPLAYTYPE[this.get('format')]);
       } else {
-        var arraytype = this.get('items') ? this.get('items').type : undefined;
+        var items = this.get('items');
+        var arraytype = items && (items.format ? items.format : items.type);
         if (type && arraytype) {
           this.set('__displayType__', SchemaUtil.ARRAYDISPLAYTYPE[getArrayTypeName(type, arraytype)]);
         } else {
@@ -326,12 +385,26 @@ define([
         return;
       }
 
-      var enumOneOf = this.get('__oneOf__') || [],
-          allEnumOneOfHaveContent = EnumTypeHelper.isOneOfEnumHaveContent(enumOneOf);
+      var enumOneOf = this.get('__oneOf__') || [];
 
-      if (!allEnumOneOfHaveContent) {
+      if (_.isEmpty(enumOneOf)) {
         return { '__oneOf__': loc('model.validation.field.blank', 'courage') };
       }
+
+      if (!this._isValidateOneOfConstraint(enumOneOf)) {
+        var constraintType = this.get('__enumConstraintType__'),
+            errorTypeMsg = constraintTypeErrorMessages[constraintType];
+
+        return { '__oneOf__': errorTypeMsg };
+      }
+    },
+
+    _isValidateOneOfConstraint: function (values) {
+      var constraintType = this.get('__enumConstraintType__');
+
+      return _.all(values, function (value) {
+        return EnumTypeHelper.isConstraintValueMatchType(value.const, constraintType);
+      });
     },
 
     toJSON: function () {
@@ -352,6 +425,7 @@ define([
       json = this._enumAssignment(json);
       json = this._attributeOverrideToJson(json);
       json = this._normalizeUnionValue(json);
+      json = this._patternAssignment(json);
       return json;
     },
 
@@ -400,15 +474,81 @@ define([
         return json;
       }
 
+      // backfill empty title by constraint
+      var enumOneOf = this._getEnumOneOfWithTitleCheck();
+
       if (this.get('type') === 'array') {
         delete json.items.enum;
-        json.items.oneOf = this.get('__oneOf__');
+        json.items.oneOf = enumOneOf;
       } else {
         delete json.enum;
-        json.oneOf = this.get('__oneOf__');
+        json.oneOf = enumOneOf;
       }
 
       return json;
+    },
+
+    _patternAssignment: function (json) {
+      if (!this.get('__isLoginOfBaseSchema__') || !this.get('__loginFormatRestriction__')) {
+        return json;
+      }
+
+      switch (this.get('__loginFormatRestriction__')) {
+      case SchemaUtil.LOGINPATTERNFORMAT.EMAIL: 
+        delete json.pattern; 
+        break;
+      case SchemaUtil.LOGINPATTERNFORMAT.CUSTOM:
+        json.pattern = this._buildLoginPattern(this.get('__loginFormatRestrictionCustom__'));
+        break;
+      case SchemaUtil.LOGINPATTERNFORMAT.NONE:
+        json.pattern = loginFormatNonePattern;
+        break;
+      }
+
+      return json;
+    },
+
+    /**
+     * Character should be escaped except letters, digits and hyphen
+     */
+    _escapedRegexChar: function (pattern, index) {
+      var char = pattern.charAt(index);
+
+      if (escapedLoginCharsRe.test(char)) {
+        return '\\' + char;
+      } 
+
+      return char;
+    },
+
+    _buildLoginPattern: function (pattern) {
+      var result = '';
+
+      for (var i = 0; i < pattern.length; i++) {
+        result = result + this._escapedRegexChar(pattern, i);
+      }
+
+      return '[' + result + ']+';
+    },
+
+    _extractLoginPattern: function (pattern) {
+      var re = /^\[(.*)\]\+/,
+          matches = pattern.match(re);
+      return matches ? matches[1].replace(/\\(.)/g, '$1') : pattern;
+    },
+
+    _getEnumOneOfWithTitleCheck: function () {
+      var enumOneOf = this.get('__oneOf__');
+
+      return _.map(enumOneOf, function (value) {
+        if ($.trim(value.title) !== '') {
+          return value;
+        }
+
+        value.title = !_.isString(value.const) ? JSON.stringify(value.const) : value.const;
+
+        return value;
+      });
     },
 
     _updateTypeFormatConstraints: function () {

@@ -170,6 +170,16 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       }
     },
 
+    'PASSWORD': {
+      icon: 'factor-icon mfa-password-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    },
+
     'WINDOWS_HELLO': {
       icon: 'factor-icon mfa-windows-hello-30',
       title: function () {
@@ -189,7 +199,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
         action.call(this, this.model);
       }
     },
-    
+
     'EMAIL': {
       icon: 'factor-icon mfa-email-30',
       title: function () {
@@ -199,6 +209,16 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
         action.call(this, this.model);
       }
     },
+
+    'GENERIC_SAML': {
+      icon: 'factor-icon mfa-custom-factor-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    }
   };
 
   return {

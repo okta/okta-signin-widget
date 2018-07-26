@@ -1,9 +1,9 @@
 @import '../helpers/variables';
 
 %selectize-colors {
-  $background-color: #e5f6ff;
-  $border-color: #6dbfe8;
-  $text-color: #000;
+  $background-color: $alice-blue-2;
+  $border-color: $malibu;
+  $text-color: $black;
 
   background: $background-color;
   background-color: $background-color;
@@ -13,6 +13,22 @@
 }
 
 .selectize-control {
+
+  .selectize-input {
+    padding: 5px 8px;
+  }
+
+  &.single .selectize-input {
+    &.dropdown-active:after {
+      right: 10px;
+      border-width: 0 3px 5px 3px
+    }
+    &:after {
+      right: 10px;
+      border-width: 5px 3px 0 3px;
+    }
+  }
+
   &.multi .selectize-input {
     [data-value] {
       @extend %selectize-colors;
@@ -53,7 +69,7 @@
       font-weight: 700;
     }
   }
-  
+
   .selectize-dropdown .optgroup {
     border-top: 0;
   }
@@ -67,7 +83,7 @@
   .selectize-dropdown .optgroup-header::before {
     content: '\2014 \00a0'
   }
-  
+
   .selectize-dropdown .optgroup-header::after {
     content: '\00a0 \2014'
   }

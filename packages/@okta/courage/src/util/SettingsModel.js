@@ -12,8 +12,10 @@ define(['okta/underscore', 'shared/models/Model'], function (_, Model) {
       return {
         orgId: ['string', false, settings.orgId],
         orgName: ['string', false, settings.orgName],
-        isPreview: ['boolean', false, settings.isPreview],
         serverStatus: ['string', false, settings.serverStatus],
+        persona: ['string', false, settings.persona],
+        isDeveloperConsole: ['boolean', false, settings.isDeveloperConsole],
+        isPreview: ['boolean', false, settings.isPreview],
         permissions: ['array', true, settings.permissions || []]
       };
     },

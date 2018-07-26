@@ -133,6 +133,35 @@
     /* set the helper's color value to the same color as the main-container's background */
       color: $primary-bg-color;
     }
+
+    .primary-auth {
+      // adjust password toggle on login page to accomodate for Tooltips
+      .password-with-toggle {
+        padding-right: 65px;
+      }
+
+      .password-toggle {
+        .eyeicon {
+          right: 38px;
+        }
+      }
+    }
+    // add divider to username/password on login when password toggle on
+    .o-form .o-form-input .o-form-control {
+      .input-icon-divider {
+        border-right: 1px solid $input-border-color;
+        height: 38px;
+        position: absolute;
+        right: 34px;
+        top: 0;
+      }
+
+      &.focused-input {
+        .input-icon-divider {
+          border-right: 1px solid $input-border-color-focus;
+        }
+      }
+    }
   }
 
   .okta-sign-in-header {
@@ -432,6 +461,18 @@
     }
   }
 
+  .mfa-password-30 {
+    /* -- Factor Icons (small): Password -- */
+    background-image: url('../img/icons/mfa/password_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Password -- */
+      background-image: url('../img/icons/mfa/password_ico@2x.png');
+    }
+  }
+
   .mfa-windows-hello-30,
   .enroll-factor-row .mfa-windows-hello {
     /* -- Factor Icons (small): Windows Hello -- */
@@ -491,6 +532,31 @@
     (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Password -- */
       background-image: url('../img/icons/mfa/password@2x.png');
+    }
+  }
+
+  .mfa-custom-factor-30,
+  .enroll-factor-row .mfa-custom-factor {
+    /* -- Factor Icons (small): Custom Factor -- */
+    background-image: url('../img/icons/mfa/customFactor_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Custom Factor -- */
+      background-image: url('../img/icons/mfa/customFactor_ico@2x.png');
+    }
+  }
+
+  .mfa-custom-factor {
+    /* -- Factor Icons (large): Custom Factor -- */
+    background-image: url('../img/icons/mfa/customFactor_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Custom Factor -- */
+      background-image: url('../img/icons/mfa/customFactor@2x.png');
     }
   }
 
@@ -672,6 +738,10 @@
       &[type="password"] {
       /* -- Input Fields: password input field -- */
         font-family: Verdana, sans-serif;
+
+        &:placeholder-shown {
+          font-family: $fonts;
+        }
       }
 
     }
@@ -792,7 +862,7 @@
 }
 
 
-.okta-sign-in-tooltip.qtip-custom {
+.okta-tooltip.qtip-custom {
 /* -- Tooltips -- */
   font-family: $fonts;
   /* background-color: #4d4d4d; */

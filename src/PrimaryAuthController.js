@@ -50,6 +50,13 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       if (options.settings.get('hasConfiguredButtons')) {
         this.add(CustomButtons, {prepend: options.settings.get('socialAuthPositionTop')});
       }
+
+      this.addFooter(options);
+
+      this.setUsername();
+    },
+
+    addFooter: function(options) {
       this.add(new Footer(this.toJSON({appState: options.appState})));
 
       if (options.settings.get('features.registration')) {
@@ -58,10 +65,9 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
           appState: options.appState
         }));
       }
-      this.setUsername();
     },
 
-    setUsername : function() {
+    setUsername: function() {
       var username = this.model.get('username');
       if (username) {
         this.options.appState.set('username', username);
@@ -91,6 +97,9 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       },
       'focusout input': function (e) {
         $(e.target.parentElement).removeClass('focused-input');
+      },
+      'click .button-show': function () {
+        this.trigger('passwordRevealed');
       }
     },
 

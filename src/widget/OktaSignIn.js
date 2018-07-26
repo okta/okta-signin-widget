@@ -84,6 +84,21 @@ var OktaSignIn = (function () {
       if (router) {
         throw 'An instance of the widget has already been rendered. Call remove() first.';
       }
+
+      /**
+       * -- Development Mode --
+       * When the page loads, provide a helpful message to remind the developer that
+       * tokens have not been removed from the hash fragment.
+       */
+      if (hasTokensInUrl()) {
+        Util.debugMessage(
+          `
+            Looks like there are still tokens in the URL! Don't forget to parse and store them.
+            See: https://github.com/okta/okta-signin-widget/#oidc-tokenparsetokensfromurlsuccess-error.
+          `
+        );
+      }
+
       router = new LoginRouter(_.extend({}, config, options, {
         authClient: authClient,
         globalSuccessFn: success,
@@ -167,6 +182,14 @@ var OktaSignIn = (function () {
     Util = require('util/Util');
     LoginRouter = require('LoginRouter');
 
+    Util.debugMessage(
+      `
+        The Okta Sign-In Widget is running in development mode.
+        When you are ready to publish your app, embed the minified version to turn on production mode.
+        See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
+      `
+    );
+
     authClient = new OktaAuth({
       url: options.baseUrl,
       transformErrorXHR: Util.transformErrorXHR,
@@ -180,11 +203,9 @@ var OktaSignIn = (function () {
 
     // Triggers the event up the chain so it is available to the consumers of the widget.
     this.listenTo(LoginRouter.prototype, 'all', this.trigger);
-
   }
 
   return OktaSignIn;
 
 })();
-
 module.exports = OktaSignIn;

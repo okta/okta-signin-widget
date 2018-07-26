@@ -37,7 +37,8 @@ module.exports = function (grunt) {
         'test/**/**/*.js',
         '!test/e2e/react-app/**/*.js',
         '!test/unit/helpers/xhr/*.js',
-        '!test/unit/vendor/*.js'
+        '!test/unit/vendor/*.js',
+        'webpack.*.js'
       ],
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
@@ -265,9 +266,11 @@ module.exports = function (grunt) {
         options: {
           process: function (content) {
             var cdnLayout = grunt.file.read('./test/e2e/layouts/cdn.tpl', {encoding: 'utf8'}),
+                devLayout = grunt.file.read('./test/e2e/layouts/cdn-dev.tpl', {encoding: 'utf8'}),
                 npmLayout = grunt.file.read('./test/e2e/layouts/npm.tpl', {encoding: 'utf8'}),
                 testTpl = Handlebars.compile(content);
             Handlebars.registerPartial('cdnLayout', cdnLayout);
+            Handlebars.registerPartial('devLayout', devLayout);
             Handlebars.registerPartial('npmLayout', npmLayout);
             return testTpl({
               WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER

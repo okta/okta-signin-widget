@@ -65,7 +65,7 @@
 }
 
 .link-button span {
-  color: #3b3b3b;
+  color: $eclipse;
   cursor: pointer;
 }
 
@@ -87,6 +87,11 @@
   position: relative;
 }
 
+.link-button-icon.link-button-icon-right span.icon {
+  float: right;
+  margin: 0 0 0 6px;
+}
+
 .link-button-icon.disabled span.icon {
   opacity: 0.4;
 }
@@ -101,6 +106,6 @@
 
 .link-button.active span,
 .link-button.active:hover span {
-  color: #5e5e5e !important;
+  color: $dim-gray-2 !important;
   text-shadow: 0 1px 0 $white;
 }

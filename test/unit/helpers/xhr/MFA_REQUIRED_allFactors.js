@@ -135,6 +135,21 @@ define({
             }
           }
         }
+      }, {
+        "id": "passwordhp9NXcoX",
+        "factorType": "password",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "_links": {
+          "verify": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/passwordhp9NXcoX\/verify",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
       },{
         "id": "opfhw7v2OnxKpftO40g3",
         "factorType": "push",
@@ -261,6 +276,18 @@ define({
             "hints": {"allow": ["POST"]}
           }
         }
+      }, {
+        "id": "customFactorId",
+        "factorType": "assertion:saml2",
+        "provider": "GENERIC_SAML",
+        "vendorName": "Third Party Factor",
+        "profile": {"user":"administrator1@clouditude.net"},
+        "_links": {
+          "verify": {
+            "href":"http://rain.okta1.com:1802/api/v1/authn/factors/customFactorId/verify",
+            "hints": {"allow": ["POST"]}
+          }
+        }
       }]
     },
     "_links": {
@@ -275,5 +302,3 @@ define({
     }
   }
 });
-
-

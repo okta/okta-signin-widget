@@ -23,43 +23,8 @@ define([
 ],
 function ($, Handlebars, BrowserFeatures, TextBox) {
 
-  function hasTitleAndText(options) {
-    var title = options.title,
-        text = options.text;
-
-    if (title && text && title !== text) {
-      return true;
-    }
-    return false;
-  }
-
-  // options may be a string or an object.
-  function createQtipContent(options) {
-    if (hasTitleAndText(options)) {
-      return options;
-    }
-    return {text: options.text || options};
-  }
-
   return TextBox.extend({
-
-    template: Handlebars.compile('\
-      {{#if params}}\
-        {{#if params.innerTooltip}}\
-          <span class="input-tooltip icon form-help-16"></span>\
-        {{/if}}\
-        {{#if params.icon}}\
-          <span class="icon input-icon {{params.icon}}"></span>\
-        {{/if}}\
-      {{/if}}\
-      <input type="{{type}}" placeholder="{{placeholder}}" aria-label="{{placeholder}}"\
-        name="{{name}}" id="{{inputId}}" value="{{value}}" autocomplete="off"/>\
-    '),
-
     postRender: function () {
-      var params = this.options.params,
-          content;
-
       if (this.options.type === 'number') {
         var input = this.$('input');
         input.attr({
@@ -67,41 +32,8 @@ function ($, Handlebars, BrowserFeatures, TextBox) {
           inputmode: 'numeric'
         });
       }
-
-      if (params && params.innerTooltip) {
-        content = createQtipContent(params.innerTooltip);
-        this.$('.input-tooltip').qtip({
-          content: content,
-          style: {classes: 'okta-sign-in-tooltip qtip-custom qtip-shadow'},
-          position: {
-            my: 'bottom left',
-            // Note: qTip2 has a known issue calculating the tooltip offset when:
-            // 1. A container element has both:
-            //    a) position: relative/absolute
-            //    b) overlay: value other than 'visible'
-            // 2. The page is scrolled
-            //
-            // We set position:relative and overlay:auto on the body element,
-            // where both are required for:
-            // - Positioning the footer correctly
-            // - Displaying long pages in embedded browsers
-            //
-            // The original design called for a fixed position relative to the
-            // tooltip icon - this has been switched to "relative to mouse, and
-            // update position when mouse moves" because of this constraint.
-            target: 'mouse',
-            adjust: {
-              method: 'flip',
-              mouse: true,
-              y: -5,
-              x: 5
-            },
-            viewport: $('body')
-          }
-        });
-      }
+      TextBox.prototype.postRender.apply(this, arguments);
     },
-
     // Override the focus() to ignore focus in IE. IE (8-11) has a known bug where
     // the placeholder text disappears when the input field is focused.
     focus: function () {

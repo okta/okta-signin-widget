@@ -1,0 +1,250 @@
+// Color Variants
+// *NB* These colors are not approved for use yet.
+// Please refer to the "Legacy Inventory" variables below.
+
+$colors: (
+  success: (
+    dark: #319737,
+    base: #00ff00,
+    light: #b5dfb4,
+    lightest: #e7f2e2,
+  ),
+  action: (
+    dark: #1c49b9,
+    base: #0000ff,
+    light: #a8c9ef,
+    lightest: #edf6fc,
+  ),
+  warning: (
+    dark: #db7530,
+    base: #fc8641,
+    light: #f9c9a8,
+    lightest: #fdf2eb,
+  ),
+  danger: (
+    dark: #d41818,
+    base: #ff0000,
+    light: #efa9a9,
+    lightest: #fce8e8,
+  ),
+  gray: (
+    100: #111111,
+    200: #222222,
+    300: #333333,
+    400: #444444,
+    500: #555555,
+    600: #666666,
+    700: #777777,
+    800: #888888,
+    900: #999999,
+  ),
+);
+
+/**
+ * Retrieves color variants from variation map.
+ * color: cv(action, light); // color: #96bafa;
+ */
+
+@function cv($color, $variation: 'base') {
+  @if not map-has-key($colors, $color) {
+    @error 'Invalid color name: `#{$color}`.';
+  }
+
+  $variant: map-deep-get($colors, $color, $variation);
+
+  @if not $variant {
+    @error 'Invalid variation: `#{$variation}`.';
+  }
+
+  @return $variant;
+}
+
+// Legacy Inventory
+// This is a temporary inventory of *all* colors used throughout Courage.
+
+// Whites
+$white: #ffffff;
+$white-2: #fefefe;
+$white-3: #fafafa;
+$white-4: #fbfbfb;
+$white-smoke: #f9f9f9;
+$white-smoke-2: #f8f8f8;
+$white-smoke-3: #f2f2f2;
+$white-smoke-4: #eeeeee;
+$white-smoke-5: #eaeaea;
+$white-smoke-6: #f0f0f0;
+$white-smoke-7: #e9e9e9;
+$white-smoke-8: #f5f5f5;
+$white-smoke-9: #ebebeb;
+$white-smoke-10: #f4f4f4;
+$gainsboro: #dadada;
+$gainsboro-2: #dddddd;
+$gainsboro-3: #e2e2e2;
+$gainsboro-4: #e5e5e5;
+$gainsboro-5: #e1e1e1;
+$gainsboro-6: #e3e3e3;
+$gainsboro-7: #e6e6e6;
+$gainsboro-8: #e4e4e4; // developer.okta.com
+$snow: #fff2f2;
+$floral-white: #fffbea;
+
+// Grays
+$light-gray: #d1d1d1;
+$light-gray-2: #d2d2d2;
+$light-gray-3: #d0d0d0;
+$light-gray-4: #d7d7d7;
+$gray: #777777;
+$gray-2: #808080;
+$suva-gray: #888888;
+$suva-gray-2: #919191;
+$suva-gray-3: #909090;
+$dim-gray: #666666; // GSuite Okticon Color
+$dim-gray-2: #5e5e5e;
+$dim-gray-3: #5d5d5d;
+$nobel: #999999;
+$eclipse: #3b3b3b;
+$eclipse-2: #3d3d3d; // developer.okta.com
+$night-rider: #333333;
+$night-rider-2: #303030;
+$very-light-gray: #cccccc;
+$very-light-gray-2: #cacaca;
+$very-light-gray-3: #c8c8c8;
+$silver: #bbbbbb;
+$silver-2: #c4c4c4;
+$silver-3: #b8b8b8;
+$dark-gray: #b1b1b1;
+$dark-gray-2: #a7a7a7;
+$dark-gray-3: #a1a1a1;
+$dark-gray-4: #aaaaaa;
+$dark-gray-5: #a5a5a5;
+$charcoal: #444444;
+$charcoal-2: #3f3f3f;
+$tiara: #c5c8c6;
+$slate-gray: #6c818f;
+$iron: #c2c3c3; // developer.okta.com
+$lily-white: #f2f5f5; // developer.okta.com
+$mortar: #555555; // developer.okta.com
+$mystic: #dee0df; // developer.okta.com
+$nobel-2: #9a9a9a; // developer.okta.com
+$shady-lady: #979797; // developer.okta.com
+$suva-gray-4: #8f8f8f; // developer.okta.com
+
+// Blacks
+$black: #000000;
+
+// Reds
+$we-peep: #fedada;
+$persian-red: #cf3232;
+$pale-pink: #fce5e6;
+$cinnabar: #e34843;
+$cinnabar-2: #e24545;
+$cinnabar-3: #d93934;
+$cinnabar-4: #dd4b39;
+$cinnabar-5: #d93726; // O365 Okticon Color
+$red: #ff0000;
+$jazzberry-jam: #990f69; // developer.okta.com
+$valencia: #d9534f; // developer.okta.com
+
+// Oranges
+$dark-orange: #ff8b00;
+$tangerine: #f38b00; // Workday Okticon Color
+$burnt-orange: #ff7640; // developer.okta.com
+$light-coral: #f57f7f; // developer.okta.com
+$red-orange: #ff3333; // developer.okta.com
+$sea-buckthorn: #f39c44; // developer.okta.com
+
+// Yellows
+$moon-yellow: #f1d10d;
+$lemon: #f7f01b; // developer.okta.com
+
+// Blues
+$spindle: #b6c7d5; // NetSuite Okticon Color
+$solitude: #e6e8ec;
+$solitude-2: #f1f5f7;
+$solitude-3: #f8fafb;
+$solitude-4: #dbe3e7; // developer.okta.com
+$san-juan: #495c68;
+$prussian-blue: #01476d;
+$prussian-blue-2: #01486e;
+$link-water: #c4cddc;
+$alice-blue: #eef7ff;
+$alice-blue-2: #e5f6ff;
+$navy-blue: #007dc1;
+$navy-blue-2: #0073bb;
+$nav-blue-3: #0075cf;
+$pacific-blue: #0085d4;
+$pacific-blue-2: #008fd8;
+$pacific-blue-3: #0095e5; // developer.okta.com
+$deep-sky-blue: #00a1f1; // MS Okticon Color
+$deep-sky-blue-2: #00abef;
+$cerulean: #026ca4;
+$cerulean-2: #0074b3;
+$cerulean-3: #0a74b5;
+$summer-sky: #46b3e9;
+$summer-sky-2: #1dafec; // Box Okticon Color
+$summer-sky-3: #1b9dec;
+$summer-sky-4: #178ee9;
+$dodger-blue: #1da7ee;
+$pelorous: #1b90c5;
+$pelorous-2: #2084ba;
+$columbia-blue: #a9e6fd;
+$columbia-blue-2: #a8e7fd;
+$dark-cerulean: #115d8b; // intentional developer color
+$dark-cerulean-2: #13527d; // NetSuite Okticon Color
+$cerulean-blue: #2367ae; // Workday Okticon Color
+$mariner: #3b5998;
+$malibu: #6dbfe8;
+$light-steel-blue: #b0c4de;
+$blumine: #335e77;
+$echo-blue: #a2b9c8;
+$white-lilac: #efeef1;
+$blue-whale: #142430; // intentional developer color
+$cerulean-4: #00659d; // developer.okta.com
+$cerulean-5: #0069aa; // developer.okta.com
+$curious-blue: #428bca; // developer.okta.com
+$curious-blue-2: #357ebd; // developer.okta.com
+$ghost: #d2d2d6; // intentional developer color
+$maya-blue: #4cc3ff; // developer.okta.com
+$maya-blue-2: #5dd2fc; // developer.okta.com
+$midnight: #20313b; // intentional developer color
+$mischka: #b3b3b5; // developer.okta.com
+$pattens-blue: #e0eef6; // developer.okta.com
+$pattens-blue-2: #deeef6; // developer.okta.com
+$turquoise: #5ce5bc; // developer.okta.com
+$white-lilac-2: #e6e6e8; // developer.okta.com
+
+// Greens
+$periglacial-blue: #abadac;
+$travertine: #e5e5ce;
+$mindaro: #cfeb76;
+$blue-lagoon: #005380;
+$blue-lagoon-2: #00578d;
+$puerto-rico: #4cbf9c;
+$puerto-rico-2: #46b090;
+$puerto-rico-3: #49b897;
+$puerto-rico-4: #53b9a1;
+$puerto-rico-5: #4cbf9d; // developer.okta.com
+$genoa: #338069;
+$shamrock: #4cdb82;
+$yellow-green: #92c836;
+$yellow-green-2: #86c13a; // Ulti Pro Okticon Color
+$yellow-green-3: #8cc63e; // Bamboo HR Okticon Color
+$atlantis: #b0d244;
+$celery: #92bf43;
+$dark-green: #012033;
+$dark-green-2: #011e2d;
+$cyprus: #153c56;
+$cyprus-2: #153b56; // intentional developer color
+$mint-julep: #d9df9f;
+$islamic-green: #009900; // developer.okta.com
+$screamin-green: #59ff99; // developer.okta.com
+
+// Purples
+$lavender: #cce2f7;
+$lavender-2: #f5fafd;
+$lavender-3: #f7fbfd; // developer.okta.com
+$blue-marguerite: #835ab1;
+$cerise: #e22866; // intentional developer color
+
+// Browns
+$squirrel: #8b7c6d; // Ulti Pro Okticon Color

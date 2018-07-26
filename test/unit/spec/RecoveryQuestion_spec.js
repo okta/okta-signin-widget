@@ -31,8 +31,7 @@ function (Q, _, $, OktaAuth, SharedUtil, Util, RecoveryQuestionForm, Beacon, Exp
       el: $sandbox,
       baseUrl: baseUrl,
       features: { securityImage: true },
-      authClient: authClient,
-      globalSuccessFn: function () {}
+      authClient: authClient
     }, settings));
     var form = new RecoveryQuestionForm($sandbox);
     var beacon = new Beacon($sandbox);

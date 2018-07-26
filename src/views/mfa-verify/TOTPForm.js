@@ -50,6 +50,17 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
           type: 'checkbox'
         });
       }
+
+      if (this.model.get('provider') === 'RSA' || this.model.get('provider') === 'DEL_OATH') {
+        this.listenTo(this.model, 'error', _.bind(function (source, error) {
+          if (error && error.status === 409) {
+            // 409 means we are in change pin, so we should clear out answer input
+            this.$('.auth-passcode input').val('');
+            this.$('.auth-passcode input').trigger('change');
+            this.$('.auth-passcode input').focus();
+          }
+        }, this));
+      }
     }
 
   });

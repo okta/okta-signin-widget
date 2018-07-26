@@ -1,15 +1,15 @@
 define(['okta/underscore', 'okta/handlebars'], function (_, Handlebars) {
 
   /**
-   * @class TemplateUtil
-   * @private
+   * @class module:Okta.internal.util.TemplateUtil
+   * @hideconstructor
    */
-
-  return {
+  return /** @lends module:Okta.internal.util.TemplateUtil */ {
 
     /**
-     * @method
      * Compiles a Handlebars template
+     * @static
+     * @method
      */
     tpl: _.memoize(function (tpl) {
       /* eslint okta/no-specific-methods: 0 */

@@ -10,27 +10,25 @@ function ($, _, TemplateUtil, BaseView) {
   var tpl = TemplateUtil.tpl;
 
   /**
-  * @class Okta.ModalDialog
-  *
   * A view that renders as a modal dialog.
   * The template of the view will render inside a dialog.
   *
   * It uses [SimpleModal](http://www.ericmmartin.com/projects/simplemodal) as the base modal widget.
   *
-  * In the context of a {@link Okta.View}, do not `add` this view to the container - simply call render
+  * In the context of a {@link module:Okta.View|View}, do not `add` this view to the container - simply call render
   * A modal dialog is a special view in terms of - it has an overlay and takes over the screen, so conceptually
   * it is not a part of any other view.
   *
-  * @extends Okta.View
-  *
+  * @class module:Okta.ModalDialog
+  * @extends module:Okta.View
   */
-
-  return BaseView.extend({
+  return BaseView.extend(/** @lends module:Okta.ModalDialog.prototype */ {
 
     /**
-     * @property {Object} [params] parameters to pass to the simplemodal plugin
-     *
-     * See [Available Options](http://www.ericmmartin.com/projects/simplemodal/#options)
+     * Parameters to pass to the simplemodal plugin.
+     * See [Available Options](http://www.ericmmartin.com/projects/simplemodal/#options).
+     * @type {Object}
+     * @property {Object} [params]
      */
     params: {},
 
