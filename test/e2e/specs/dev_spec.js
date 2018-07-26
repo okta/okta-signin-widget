@@ -19,7 +19,7 @@ describe('Dev Mode flows', function() {
   function renderWidget() {
     function renderAndRedirect() {
       oktaSignIn.renderEl(
-        { el: '#okta-login-container' },
+        {},
         function (res) {
           if (res.status === 'SUCCESS') {
             res.session.setCookieAndRedirect('{{{WIDGET_TEST_SERVER}}}' + '/app/UserHome');
@@ -56,17 +56,14 @@ describe('Dev Mode flows', function() {
 
     // Ensure a new widget can be created
     function createWidget() {
-      oktaSignIn.renderEl({
-        el: '#okta-login-container'
-      }, function() {});
+      oktaSignIn.renderEl({}, function() {});
     }
     browser.executeScript(createWidget);
     expect(el.isDisplayed()).toBe(true);
   });
 
-  it('can login and return tokens using the setupWithShowSignInToGetTokens method', function () {
+  it('can login and return tokens using the showSignInToGetTokens method', function () {
     var options = {
-      el: '#okta-login-container',
       clientId: 'rW47c465c1wc3MKzHznu',
       redirectUri: 'http://localhost:3000/done',
       scope: 'openid profile'

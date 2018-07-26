@@ -4,7 +4,7 @@ var OktaSignIn = (function () {
 
   var _        = require('okta/underscore'),
       config   = require('json!config/config'),
-      handlers = require('util/Handlers');
+      OAuth2Util = require('util/OAuth2Util');
 
   function getProperties(authClient, LoginRouter, Util, config) {
 
@@ -152,7 +152,7 @@ var OktaSignIn = (function () {
      * @param options - options for the signin widget
      */
     function showSignInToGetTokens(options) {
-      var renderOptions = handlers.filterOAuthRedirectParams(options, config);
+      var renderOptions = OAuth2Util.transformShowSignInToGetTokensOptions(options, config);
       return render(renderOptions);
     }
 

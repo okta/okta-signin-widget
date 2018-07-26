@@ -97,7 +97,7 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
 
   // Parse through the OAuth 'authParams' object to ensure the 'openid' scope is
   // included (if required)
-  util.scrubScopes = function (authParams) {
+  util.addOrRemoveOpenIdScope = function (authParams) {
     if (!authParams.responseType) {
       return;
     }
@@ -106,19 +106,19 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     var scope = Array.isArray(authParams.scopes) ? authParams.scopes : authParams.scopes.split(' ');
 
     // Remove the 'openid' scope, as it is only required if an 'id_token' is requested
-    if (scope.indexOf('openid') > -1) {
+    if (scope.includes('openid')) {
       scope.splice(scope.indexOf('openid'), 1);
     }
 
     // Add the 'openid' scope
-    if (authParams.responseType.indexOf('id_token') !== -1) {
+    if (authParams.responseType.includes('id_token')) {
       scope.push('openid');
     }
 
     return scope;
   };
 
-  // Utility handlers for maping convenience keys to OAuth params
+  // Utility handlers for mapping convenience keys to OAuth params
   util.getResponseType = function (options) {
     var responseType = [];
     if (options.getIdToken !== false) {
@@ -130,6 +130,35 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     }
 
     return responseType;
+  };
+
+  util.transformShowSignInToGetTokensOptions = function(options, config = {}) {
+    // Override specific OAuth/OIDC values
+    var renderOptions = {
+      clientId: options.clientId,
+      redirectUri: options.redirectUri,
+      authParams: {
+        display: 'page',
+        responseMode: 'fragment',
+        responseType: util.getResponseType(options),
+        scopes: options.scope || (config.authParams && config.authParams.scopes) || ['openid']
+      }
+    };
+
+    if (options.authorizationServerId) {
+      // Map the authorizationServerId to issuer
+      renderOptions.authParams.issuer = options.authorizationServerId;
+    }
+
+    // Ensure the 'openid' scope is provided when an 'id_token' is requested.
+    // If the 'openid' scope is present and isn't needed, remove it.
+    renderOptions.authParams.scopes = util.addOrRemoveOpenIdScope(renderOptions.authParams);
+
+    // Remove 'undefined' values
+    Object.keys(renderOptions).forEach(function(key) {
+      return renderOptions[key] === undefined && delete renderOptions[key];
+    });
+    return renderOptions;
   };
 
   return util;

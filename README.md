@@ -21,6 +21,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
 * [API](#api)
   * [OktaSignIn](#new-oktasigninconfig)
   * [renderEl](#rendereloptions-success-error)
+  * [showSignInToGetTokens](#oidc-showsignintogettokensoptions)
   * [hide](#hide)
   * [show](#show)
   * [remove](#remove)
@@ -272,6 +273,39 @@ signIn.renderEl(
     // 2. Uncaught exceptions
   }
 );
+```
+
+## `OIDC` showSignInToGetTokens(options)
+
+Renders the widget to the DOM to prompt the user to sign in using opinionated defaults. On successful authentication, users are redirected back to the application via the `redirectUri` with an Okta SSO session in the browser, and access and/or identity tokens in the fragment identifier.
+
+* `options`
+  * `authorizationServerId` *(optional)* - Specify a custom authorization server to perform the OIDC flow.
+  * `clientId` *(optional)* - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during instantiation.
+  * `redirectUri` *(optional)* - The url that is redirected to after authentication. This must be pre-registered as part of client registration. Defaults to the current origin.
+  * `getAccessToken` *(optional)* - Return an access token from the authorization server. Defaults to `false`.
+  * `getIdToken` *(optional)* - Return an ID token from the authorization server. Defaults to `true`.
+  * `scope` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value passed in during instantiation.
+
+```javascript
+var signIn = new OktaSignIn({
+  baseUrl: 'https://{yourOktaDomain}',
+  // Assumes there is an empty element on the page with an id of 'osw-container'
+  el: '#osw-container'
+});
+
+signIn.showSignInToGetTokens({
+  clientId: '{{myClientId}}',
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+
+  // Return an access token from the authorization server
+  getAccessToken: true,
+
+  // Return an ID token from the authorization server
+  getIdToken: true,
+
+  scope: 'openid profile'
+});
 ```
 
 ## hide
@@ -958,7 +992,7 @@ Optional configuration:
      // The callback function is passed 3 arguments: response, onSuccess, onFailure
      // 1) response: response returned from the API post registration.
      // 2) onSuccess: success callback.
-     // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level 
+     // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level
      //    or field level errors.
     postSubmit: function (response, onSuccess, onFailure) {
       // In this example postSubmit callback is used to log the server response to the browser console before completing registration flow
