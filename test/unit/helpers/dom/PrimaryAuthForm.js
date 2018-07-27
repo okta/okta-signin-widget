@@ -154,10 +154,14 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
     customLinks: function () {
       return _.map(this.$('a.js-custom'), function (el) {
         var $el = $(el);
-        return {
+        var link = {
           text: $el.text(),
           href: $el.attr('href')
         };
+        if($el.attr('target')) {
+          link.target = $el.attr('target');
+        }
+        return link;
       });
     },
 
@@ -184,7 +188,7 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
     linkedInButton: function () {
       return this.socialAuthButton('linkedin');
     },
-    
+
     microsoftButton: function () {
       return this.socialAuthButton('microsoft');
     },
@@ -210,7 +214,7 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
     additionalAuthButton: function() {
       return this.$('.default-custom-button');
     },
-    
+
     authDivider: function() {
       return this.$('.auth-divider');
     },
