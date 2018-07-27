@@ -79,7 +79,6 @@
     "normalize-url": "1.4.1",
     "null-loader": "0.1.1",
     "open": "0.0.5",
-    "phantomjs": "1.9.20",
     "protractor": "5.2.2",
     "request-promise": "2.0.0",
     "rimraf": "^2.6.2",

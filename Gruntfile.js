@@ -35,6 +35,7 @@ module.exports = function (grunt) {
         '!buildtools/r.js',
         'test/unit/helpers/**/*.js',
         'test/**/**/*.js',
+        '!test/e2e/angular-app/**/*.js',
         '!test/e2e/react-app/**/*.js',
         '!test/unit/helpers/xhr/*.js',
         '!test/unit/vendor/*.js',
@@ -201,10 +202,8 @@ module.exports = function (grunt) {
       'e2e': {
         options: {
           process: function (content) {
-            var browserName = grunt.option('browserName') || 'phantomjs',
-                tpl = Handlebars.compile(content);
+            var tpl = Handlebars.compile(content);
             return tpl({
-              browserName: browserName,
               WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER,
               WIDGET_BASIC_USER: process.env.WIDGET_BASIC_USER,
               WIDGET_BASIC_PASSWORD: process.env.WIDGET_BASIC_PASSWORD,
@@ -309,7 +308,7 @@ module.exports = function (grunt) {
         }())
       }
     },
-  
+
     search: {
       noAbsoluteUrlsInCss: {
         files: {
@@ -481,8 +480,6 @@ module.exports = function (grunt) {
 
   grunt.task.registerTask(
     'test-e2e',
-    'Runs end to end webdriver tests. Pass in `--browserName {{browser}}` to ' +
-    'override default phantomjs browser',
     function () {
       // We will only run webdriver tests in these two environments:
       // 1. Travis, non pull request builds
