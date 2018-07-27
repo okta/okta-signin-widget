@@ -342,6 +342,7 @@ module.exports = function (grunt) {
     jasmine: {
       test: {
         options: {
+          version: '2',
           keepRunner: true,
           outfile: JASMINE_TEST_FILE,
           specs: [
