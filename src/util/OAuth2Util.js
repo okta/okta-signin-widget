@@ -134,6 +134,10 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
 
   util.transformShowSignInToGetTokensOptions = function(options, config = {}) {
     // Override specific OAuth/OIDC values
+    if (!options.clientId && !config.clientId) {
+      throw new Errors.ConfigError('showSignInToGetTokens() requires a "clientId" property.');
+    }
+
     var renderOptions = {
       clientId: options.clientId,
       redirectUri: options.redirectUri,
@@ -154,10 +158,6 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     // If the 'openid' scope is present and isn't needed, remove it.
     renderOptions.authParams.scopes = util.addOrRemoveOpenIdScope(renderOptions.authParams);
 
-    // Remove 'undefined' values
-    Object.keys(renderOptions).forEach(function(key) {
-      return renderOptions[key] === undefined && delete renderOptions[key];
-    });
     return renderOptions;
   };
 

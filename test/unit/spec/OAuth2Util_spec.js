@@ -84,8 +84,23 @@ define(['util/OAuth2Util'], function (Util) {
     describe('util/Util', function () {
 
       describe('transformShowSignInToGetTokensOptions', function () {
+        it('throws a CONFIG error when no clientId property is provided in the args or default config', function () {
+          var fn = function () { Util.transformShowSignInToGetTokensOptions({}); };
+          expect(fn).toThrowError('showSignInToGetTokens() requires a "clientId" property.');
+        });
+
+        it('does not throw a CONFIG error when a clientId property is provided in the Widget constructor', function () {
+          var fn = function () { Util.transformShowSignInToGetTokensOptions({}, {clientId: 'foo'}); };
+          expect(fn).not.toThrow();
+        });
+
+        it('does not throw a CONFIG error when a clientId property is provided in the render options', function () {
+          var fn = function () { Util.transformShowSignInToGetTokensOptions({clientId: 'foo'}, {}); };
+          expect(fn).not.toThrow();
+        });
+
         it('returns default authParams if no overrides are provided', function () {
-          var renderOptions = Util.transformShowSignInToGetTokensOptions({});
+          var renderOptions = Util.transformShowSignInToGetTokensOptions({clientId: 'foo'});
           assertAuthParams(renderOptions);
         });
 
@@ -106,6 +121,7 @@ define(['util/OAuth2Util'], function (Util) {
 
         it('updates the responseType given getAccessToken key', function () {
           var options = {
+            clientId: 'foo',
             getAccessToken: true
           };
           var renderOptions = Util.transformShowSignInToGetTokensOptions(options);
@@ -114,6 +130,7 @@ define(['util/OAuth2Util'], function (Util) {
 
         it('updates the responseType given getAccessToken is truthy and getIdToken is falsey', function () {
           var options = {
+            clientId: 'foo',
             getAccessToken: true,
             getIdToken: false
           };
@@ -123,6 +140,7 @@ define(['util/OAuth2Util'], function (Util) {
 
         it('maps the authorizationServerId key to issuer', function () {
           var options = {
+            clientId: 'foo',
             authorizationServerId: 'default'
           };
           var renderOptions = Util.transformShowSignInToGetTokensOptions(options);

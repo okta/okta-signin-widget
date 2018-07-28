@@ -277,15 +277,15 @@ signIn.renderEl(
 
 ## `OIDC` showSignInToGetTokens(options)
 
-Renders the widget to the DOM to prompt the user to sign in using opinionated defaults. On successful authentication, users are redirected back to the application via the `redirectUri` with an Okta SSO session in the browser, and access and/or identity tokens in the fragment identifier.
+Renders the widget to the DOM to prompt the user to sign in. On successful authentication, users are redirected back to the application via the `redirectUri` with an Okta SSO session in the browser, and access and/or identity tokens in the fragment identifier.
 
 * `options`
   * `authorizationServerId` *(optional)* - Specify a custom authorization server to perform the OIDC flow.
-  * `clientId` *(optional)* - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during instantiation.
+  * `clientId` *(optional)* - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
   * `redirectUri` *(optional)* - The url that is redirected to after authentication. This must be pre-registered as part of client registration. Defaults to the current origin.
   * `getAccessToken` *(optional)* - Return an access token from the authorization server. Defaults to `false`.
   * `getIdToken` *(optional)* - Return an ID token from the authorization server. Defaults to `true`.
-  * `scope` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value passed in during instantiation.
+  * `scope` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value passed in during construction of the Widget.
 
 ```javascript
 var signIn = new OktaSignIn({
