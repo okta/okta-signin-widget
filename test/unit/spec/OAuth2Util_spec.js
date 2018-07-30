@@ -4,6 +4,7 @@ define(['util/OAuth2Util'], function (Util) {
   function assertAuthParams (response, extras) {
     // Contains default key/value pairs
     var defaults = {
+      issuer: 'default',
       display: 'page',
       responseMode: 'fragment',
       responseType: ['id_token']
@@ -81,93 +82,90 @@ define(['util/OAuth2Util'], function (Util) {
       });
     });
 
-    describe('util/Util', function () {
+    describe('transformShowSignInToGetTokensOptions', function () {
+      it('throws a CONFIG error when no clientId property is provided in the args or default config', function () {
+        var fn = function () { Util.transformShowSignInToGetTokensOptions({}); };
+        expect(fn).toThrowError('showSignInToGetTokens() requires a "clientId" property.');
+      });
 
-      describe('transformShowSignInToGetTokensOptions', function () {
-        it('throws a CONFIG error when no clientId property is provided in the args or default config', function () {
-          var fn = function () { Util.transformShowSignInToGetTokensOptions({}); };
-          expect(fn).toThrowError('showSignInToGetTokens() requires a "clientId" property.');
-        });
+      it('does not throw a CONFIG error when a clientId property is provided in the Widget constructor', function () {
+        var fn = function () { Util.transformShowSignInToGetTokensOptions({}, {clientId: 'foo'}); };
+        expect(fn).not.toThrow();
+      });
 
-        it('does not throw a CONFIG error when a clientId property is provided in the Widget constructor', function () {
-          var fn = function () { Util.transformShowSignInToGetTokensOptions({}, {clientId: 'foo'}); };
-          expect(fn).not.toThrow();
-        });
+      it('does not throw a CONFIG error when a clientId property is provided in the render options', function () {
+        var fn = function () { Util.transformShowSignInToGetTokensOptions({clientId: 'foo'}, {}); };
+        expect(fn).not.toThrow();
+      });
 
-        it('does not throw a CONFIG error when a clientId property is provided in the render options', function () {
-          var fn = function () { Util.transformShowSignInToGetTokensOptions({clientId: 'foo'}, {}); };
-          expect(fn).not.toThrow();
-        });
+      it('returns default authParams if no overrides are provided', function () {
+        var renderOptions = Util.transformShowSignInToGetTokensOptions({clientId: 'foo'});
+        assertAuthParams(renderOptions);
+      });
 
-        it('returns default authParams if no overrides are provided', function () {
-          var renderOptions = Util.transformShowSignInToGetTokensOptions({clientId: 'foo'});
-          assertAuthParams(renderOptions);
-        });
+      it('overrides signIn configuration when overrides are provided', function () {
+        var signInConfig = {
+          clientId: 'foo',
+          authParams: {
+            scopes: 'bazz'
+          }
+        };
+        var options = {
+          clientId: 'bar',
+          scope: 'foo'
+        };
+        var renderOptions = Util.transformShowSignInToGetTokensOptions(options, signInConfig);
+        assertAuthParams(renderOptions, { scopes: ['foo', 'openid'] });
+      });
 
-        it('overrides signIn configuration when overrides are provided', function () {
-          var signInConfig = {
-            clientId: 'foo',
-            authParams: {
-              scopes: 'bazz'
-            }
-          };
-          var options = {
-            clientId: 'bar',
-            scope: 'foo'
-          };
-          var renderOptions = Util.transformShowSignInToGetTokensOptions(options, signInConfig);
-          assertAuthParams(renderOptions, { scopes: ['foo', 'openid'] });
-        });
+      it('updates the responseType given getAccessToken key', function () {
+        var options = {
+          clientId: 'foo',
+          getAccessToken: true
+        };
+        var renderOptions = Util.transformShowSignInToGetTokensOptions(options);
+        assertAuthParams(renderOptions, { responseType: ['id_token', 'token'], scopes: ['openid'] });
+      });
 
-        it('updates the responseType given getAccessToken key', function () {
-          var options = {
-            clientId: 'foo',
-            getAccessToken: true
-          };
-          var renderOptions = Util.transformShowSignInToGetTokensOptions(options);
-          assertAuthParams(renderOptions, { responseType: ['id_token', 'token'], scopes: ['openid'] });
-        });
+      it('updates the responseType given getAccessToken is truthy and getIdToken is falsey', function () {
+        var options = {
+          clientId: 'foo',
+          getAccessToken: true,
+          getIdToken: false
+        };
+        var renderOptions = Util.transformShowSignInToGetTokensOptions(options);
+        assertAuthParams(renderOptions, { responseType: ['token'] });
+      });
 
-        it('updates the responseType given getAccessToken is truthy and getIdToken is falsey', function () {
-          var options = {
-            clientId: 'foo',
-            getAccessToken: true,
-            getIdToken: false
-          };
-          var renderOptions = Util.transformShowSignInToGetTokensOptions(options);
-          assertAuthParams(renderOptions, { responseType: ['token'] });
-        });
+      it('maps the authorizationServerId key to issuer', function () {
+        var options = {
+          clientId: 'foo',
+          authorizationServerId: 'abc123'
+        };
+        var renderOptions = Util.transformShowSignInToGetTokensOptions(options);
+        assertAuthParams(renderOptions, { issuer: 'abc123' });
+      });
 
-        it('maps the authorizationServerId key to issuer', function () {
-          var options = {
-            clientId: 'foo',
-            authorizationServerId: 'default'
-          };
-          var renderOptions = Util.transformShowSignInToGetTokensOptions(options);
-          assertAuthParams(renderOptions, { issuer: 'default' });
+      it('returns a complex object, overriding the basic Widget configuration options', function () {
+        var signInConfig = {
+          clientId: 'cid',
+          authParams: {
+            responseType: ['id_token'],
+            scopes: ['openid']
+          }
+        };
+        var options = {
+          getAccessToken: true,
+          scope: 'openid profile',
+          clientId: 'bar'
+        };
+        var renderOptions = Util.transformShowSignInToGetTokensOptions(options, signInConfig);
+        assertAuthParams(renderOptions, {
+          responseType: ['id_token', 'token'],
+          // 'openid' should always be last
+          scopes: ['profile', 'openid']
         });
-
-        it('returns a complex object, overriding the basic Widget configuration options', function () {
-          var signInConfig = {
-            clientId: 'cid',
-            authParams: {
-              responseType: ['id_token'],
-              scopes: ['openid']
-            }
-          };
-          var options = {
-            getAccessToken: true,
-            scope: 'openid profile',
-            clientId: 'bar'
-          };
-          var renderOptions = Util.transformShowSignInToGetTokensOptions(options, signInConfig);
-          assertAuthParams(renderOptions, {
-            responseType: ['id_token', 'token'],
-            // 'openid' should always be last
-            scopes: ['profile', 'openid']
-          });
-          expect(renderOptions).toEqual(jasmine.objectContaining({ clientId: 'bar' }));
-        });
+        expect(renderOptions).toEqual(jasmine.objectContaining({ clientId: 'bar' }));
       });
     });
   });

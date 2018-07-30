@@ -142,17 +142,13 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
       clientId: options.clientId,
       redirectUri: options.redirectUri,
       authParams: {
+        issuer: options.authorizationServerId || 'default',
         display: 'page',
         responseMode: 'fragment',
         responseType: util.getResponseType(options),
         scopes: options.scope || (config.authParams && config.authParams.scopes) || ['openid']
       }
     };
-
-    if (options.authorizationServerId) {
-      // Map the authorizationServerId to issuer
-      renderOptions.authParams.issuer = options.authorizationServerId;
-    }
 
     // Ensure the 'openid' scope is provided when an 'id_token' is requested.
     // If the 'openid' scope is present and isn't needed, remove it.
