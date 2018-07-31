@@ -2,8 +2,9 @@
 
 var OktaSignIn = (function () {
 
-  var config  = require('json!config/config'),
-      _ = require('okta/underscore');
+  var _        = require('okta/underscore'),
+      config   = require('json!config/config'),
+      OAuth2Util = require('util/OAuth2Util');
 
   function getProperties(authClient, LoginRouter, Util, config) {
 
@@ -145,9 +146,20 @@ var OktaSignIn = (function () {
       .fail(error);
     }
 
+    /**
+     * Renders the Widget with opinionated defaults for the full-page
+     * redirect flow.
+     * @param options - options for the signin widget
+     */
+    function showSignInToGetTokens(options) {
+      var renderOptions = OAuth2Util.transformShowSignInToGetTokensOptions(options, config);
+      return render(renderOptions);
+    }
+
     // Properties exposed on OktaSignIn object.
     return {
       renderEl: render,
+      showSignInToGetTokens: showSignInToGetTokens,
       signOut: closeSession,
       idToken: {
         refresh: refreshIdToken

@@ -31,6 +31,9 @@ function (Widget, Expect, Logger) {
       it('has a renderEl method', function () {
         expect(signIn.renderEl).toBeDefined();
       });
+      it('has a showSignInToGetTokens method', function () {
+        expect(signIn.showSignInToGetTokens).toBeDefined();
+      });
       it('has a signOut method', function () {
         expect(signIn.signOut).toBeDefined();
       });

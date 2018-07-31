@@ -95,6 +95,68 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     }
   };
 
+  // Parse through the OAuth 'authParams' object to ensure the 'openid' scope is
+  // included (if required)
+  util.addOrRemoveOpenIdScope = function (authParams) {
+    if (!authParams.responseType) {
+      return;
+    }
+
+    //  Convert scope into an Array
+    var scope = Array.isArray(authParams.scopes) ? authParams.scopes : authParams.scopes.split(' ');
+
+    // Remove the 'openid' scope, as it is only required if an 'id_token' is requested
+    if (scope.includes('openid')) {
+      scope.splice(scope.indexOf('openid'), 1);
+    }
+
+    // Add the 'openid' scope
+    if (authParams.responseType.includes('id_token')) {
+      scope.push('openid');
+    }
+
+    return scope;
+  };
+
+  // Utility handlers for mapping convenience keys to OAuth params
+  util.getResponseType = function (options) {
+    var responseType = [];
+    if (options.getIdToken !== false) {
+      responseType.push('id_token');
+    }
+
+    if (options.getAccessToken) {
+      responseType.push('token');
+    }
+
+    return responseType;
+  };
+
+  util.transformShowSignInToGetTokensOptions = function(options, config = {}) {
+    // Override specific OAuth/OIDC values
+    if (!options.clientId && !config.clientId) {
+      throw new Errors.ConfigError('showSignInToGetTokens() requires a "clientId" property.');
+    }
+
+    var renderOptions = {
+      clientId: options.clientId,
+      redirectUri: options.redirectUri,
+      authParams: {
+        issuer: options.authorizationServerId || 'default',
+        display: 'page',
+        responseMode: 'fragment',
+        responseType: util.getResponseType(options),
+        scopes: options.scope || (config.authParams && config.authParams.scopes) || ['openid']
+      }
+    };
+
+    // Ensure the 'openid' scope is provided when an 'id_token' is requested.
+    // If the 'openid' scope is present and isn't needed, remove it.
+    renderOptions.authParams.scopes = util.addOrRemoveOpenIdScope(renderOptions.authParams);
+
+    return renderOptions;
+  };
+
   return util;
 
 });
