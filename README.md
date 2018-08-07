@@ -27,7 +27,6 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [remove](#remove)
   * [on](#onevent-callback-context)
   * [off](#offevent-callback)
-  * [authClient](#authclient)
   * [session.get](#sessiongetcallback)
   * [session.refresh](#sessionrefreshcallback)
   * [session.close](#sessionclosecallback)
