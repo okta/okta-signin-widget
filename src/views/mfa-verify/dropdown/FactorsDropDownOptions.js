@@ -18,7 +18,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
   var action = function (model) {
     var url = RouterUtil.createVerifyUrl(model.get('provider'), model.get('factorType')),
         self = this;
-
+    this.options.appState.trigger('factorSwitched');
     this.model.manageTransaction(function (transaction, setTransaction) {
       if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
         this.options.appState.set('trapMfaRequiredResponse', true);

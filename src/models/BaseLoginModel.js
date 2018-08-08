@@ -12,9 +12,10 @@
 
 define([
   'okta',
-  'vendor/lib/q'
+  'vendor/lib/q',
+  'util/Enums',
 ],
-function (Okta, Q) {
+function (Okta, Q, Enums) {
 
   var _ = Okta._;
   var KNOWN_ERRORS = [
@@ -34,7 +35,8 @@ function (Okta, Q) {
       })
       .fail(function(err) {
         // Q may still consider AuthPollStopError to be unhandled
-        if (err.name === 'AuthPollStopError') {
+        if (err.name === 'AuthPollStopError' ||
+            err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR) {
           return;
         }
         self.trigger('setTransactionError', err);
@@ -52,7 +54,8 @@ function (Okta, Q) {
       // If it's a promise, listen for failures
       if (Q.isPromiseAlike(res)) {
         return res.fail(function(err) {
-          if (err.name === 'AuthPollStopError') {
+          if (err.name === 'AuthPollStopError' ||
+              err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR) {
             return;
           }
           self.trigger('setTransactionError', err);
