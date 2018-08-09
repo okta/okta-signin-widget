@@ -14,9 +14,11 @@ define([
   'okta',
   'vendor/lib/q',
   'util/FactorUtil',
+  'util/Util',
+  'util/Errors',
   './BaseLoginModel'
 ],
-function (Okta, Q, factorUtil, BaseLoginModel) {
+function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
   var _ = Okta._;
 
   // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
@@ -249,7 +251,15 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           setTransaction(trans);
           // In Okta verify case we initiate poll.
           if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
-            return Q.delay(PUSH_INTERVAL).then(function() {
+            const deferred = Q.defer();
+            const initiatePollTimout = Util.callAfterTimeout(deferred.resolve, PUSH_INTERVAL);
+            self.listenToOnce(self.options.appState, 'factorSwitched', () => {
+              clearTimeout(initiatePollTimout);
+              deferred.reject(new Errors.AuthStopPollInitiationError());
+            });
+            return deferred.promise.then(function() {
+              // Stop listening if factor was not switched before poll.
+              self.stopListening(self.options.appState, 'factorSwitched');
               if (self.pushFactorHasAutoPush()) {
                 options.autoPush = function () {
                   return self.get('autoPush');

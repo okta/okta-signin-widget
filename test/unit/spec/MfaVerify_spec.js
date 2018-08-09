@@ -394,6 +394,10 @@ function (Okta,
     }
 
     function setupPolling(test, finalResponse) {
+      // This is to reduce delay before initiating polling in the tests.
+      spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+        return setTimeout(arguments[0]);
+      });
       $.ajax.calls.reset();
 
       // Mock calls to startVerifyFactorPoll to include a faster poll
@@ -2301,6 +2305,72 @@ function (Okta,
                 });
               });
             });
+            itp('starts poll after a delay of 6000ms', function () {
+              return setupOktaPush().then(function (test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                  // reducing the timeout to 100 so that test is fast.
+                  return setTimeout(arguments[0], 100);
+                });
+
+                $.ajax.calls.reset();
+                test.setNextResponse(resChallengePush);
+                test.form[0].submit();
+                return tick(test).then(function() {
+                  expect(LoginUtil.callAfterTimeout.calls.argsFor(1)[1]).toBe(6000);
+                  expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
+                  var transaction = test.router.controller.model.appState.get('transaction');
+                  spyOn(transaction, 'poll');
+                  // Check between 0 and 6000ms (in test 100ms).
+                  setTimeout(function() {
+                    expect(transaction.poll).not.toHaveBeenCalled();
+                  }, 80);
+                  var deferred = Q.defer();
+                  setTimeout(deferred.resolve, 150);
+                  return deferred.promise.then(function() {
+                    expect(transaction.poll).toHaveBeenCalled();
+                  });
+                });
+              }); 
+            });
+            itp('does not start poll if factor was switched before 6000ms', function () {
+              return setupOktaPush().then(function (test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                  // reducing the timeout to 100 so that test is fast.
+                  return setTimeout(arguments[0], 100);
+                });
+                $.ajax.calls.reset();
+                test.setNextResponse([resChallengePush, resAllFactors]);
+                test.form[0].submit();
+                return tick(test).then(function() {
+                  var deferred = Q.defer();
+                  expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
+                  var transaction = test.router.controller.model.appState.get('transaction');
+                  spyOn(transaction, 'poll');
+                  spyOn(test.router.controller.model.appState, 'trigger').and.callThrough();
+                  clickFactorInDropdown(test, 'DUO');
+                  expect(test.router.controller.model.appState.trigger).toHaveBeenCalledWith('factorSwitched');
+                  setTimeout(deferred.resolve, 150);
+                  return deferred.promise.then(function() {
+                    expect(transaction.poll).not.toHaveBeenCalled();
+                  });
+                });
+              });
+            });
+            itp('stops listening on factorSwitched when we start polling', function () {
+              return setupOktaPush().then(function (test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                  return setTimeout(arguments[0]);
+                });
+                $.ajax.calls.reset();
+                test.setNextResponse(resChallengePush);
+                test.form[0].submit();
+                spyOn(test.router.controller.model, 'stopListening').and.callThrough();
+                return tick(test).then(function() {
+                  expect(test.router.controller.model.stopListening).toHaveBeenCalledWith(
+                    test.router.controller.model.appState, 'factorSwitched');
+                });
+              });
+            });
             itp('on REJECTED, re-enables submit, displays an error, and allows resending', function () {
               return setupOktaPush().then(function (test) {
                 return setupPolling(test, resRejectedPush)
@@ -2360,6 +2430,10 @@ function (Okta,
             });
             itp('re-enables submit and displays an error when request fails', function () {
               function setupFailurePolling(test) {
+                // This is to reduce delay before initiating polling in the tests.
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                  return setTimeout(arguments[0]);
+                });
                 var failureResponse = {status: 0, response: {}};
                 $.ajax.calls.reset();
                 Util.speedUpPolling(test.ac);
@@ -2382,9 +2456,6 @@ function (Okta,
               });
             });
             itp('on WARNING_TIMEOUT, shows warning message', function () {
-              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
-                return setTimeout(arguments[0], 0);
-              });
               return setupOktaPush().then(function (test) {
                 return setupPolling(test, resSuccess)
                 .then(function (test) {
@@ -2395,10 +2466,10 @@ function (Okta,
               });
             });
             itp('removes warnings and displays error when an error occurs', function () {
-              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
-                return setTimeout(arguments[0], 0);
-              });
               function setupFailurePolling(test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                  return setTimeout(arguments[0]);
+                });
                 var failureResponse = {status: 0, response: {}};
                 $.ajax.calls.reset();
                 Util.speedUpPolling(test.ac);
