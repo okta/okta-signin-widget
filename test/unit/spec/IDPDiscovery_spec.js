@@ -222,6 +222,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         return setup().then(function (test) {
           var nextButton = test.form.nextButton();
           expect(nextButton.length).toBe(1);
+          expect(nextButton.attr('value')).toBe('Next');
           expect(nextButton.attr('type')).toEqual('submit');
           expect(nextButton.attr('id')).toEqual('idp-discovery-submit');
         });
