@@ -5,8 +5,6 @@ cd ${OKTA_HOME}/${REPO}
 setup_service grunt
 setup_service bundler
 
-setup_service node v8.1.1
-
 # Install required dependencies
 npm install -g @okta/ci-update-package
 npm install -g @okta/ci-pkginfo
