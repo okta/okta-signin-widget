@@ -19,7 +19,9 @@ define([
 
   return PrimaryAuthForm.extend({
     className: 'idp-discovery-form',
-    save: Okta.loc('oform.next', 'login'),
+    save: function () {
+      return Okta.loc('oform.next', 'login');
+    },
     saveId: 'idp-discovery-submit',
 
     initialize: function () {
