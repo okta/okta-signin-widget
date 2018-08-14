@@ -224,11 +224,11 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
     },
 
     registrationLabel: function() {
-      return this.$('.registration-container .content .registration-label');
+      return this.$('.registration-container .content-container .registration-label');
     },
 
     registrationLink: function() {
-      return this.$('.registration-container .content .registration-link');
+      return this.$('.registration-container .content-container .registration-link');
     },
 
     passwordToggleContainer: function() {
