@@ -109,13 +109,11 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       if (this.appState.get('isUnauthenticated') && !this.settings.get('features.passwordlessAuth')) {
         primaryAuthPromise = this.doTransaction(function (transaction) {
           var authClient = this.appState.settings.authClient;
-          return this.doPrimaryAuth(authClient, signInArgs,
-                                    transaction.authenticate);
+          return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
         });
       } else {
         primaryAuthPromise = this.startTransaction(function (authClient) {
-          return this.doPrimaryAuth(authClient, signInArgs,
-                                    _.bind(authClient.signIn, authClient));
+          return this.doPrimaryAuth(authClient, signInArgs, _.bind(authClient.signIn, authClient));
         });
       }
 

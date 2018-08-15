@@ -173,13 +173,9 @@ define([
       } else if (!this.settings.get('features.passwordlessAuth')) {
         this.getInputs().toArray()[1].focus();
       }
-    },
-
-    postRender: function() {
       if (this.settings.get('features.trackTypingPattern')) {
         TypingUtil.track('okta-signin-username');
       }
     }
   });
-
 });

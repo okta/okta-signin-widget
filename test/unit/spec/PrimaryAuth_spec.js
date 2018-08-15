@@ -900,7 +900,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             expect(target).toBe('okta-signin-username');
           });
           test.form.submit();
-          return tick();
+          return Expect.waitForSpyCall(test.successSpy, test);
         })
         .then(function () {
           expect(TypingUtil.track).not.toHaveBeenCalled();
@@ -924,7 +924,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             return typingPattern;
           });
           test.form.submit();
-          return tick();
+          return Expect.waitForSpyCall(test.successSpy, test);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -944,7 +944,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             return null;
           });
           test.form.submit();
-          return tick();
+          return Expect.waitForSpyCall(test.successSpy, test);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
@@ -1080,7 +1080,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
-          return tick();
+          return Expect.waitForSpyCall(test.successSpy, test);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
