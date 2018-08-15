@@ -46,7 +46,7 @@ define([
       this.listenTo(this, 'save', function () {
         if (trackTypingPattern) {
           var typingPattern = TypingUtil.getTypingPattern();
-          this.options.appState.set('typingPatern', typingPattern);
+          this.options.appState.set('typingPattern', typingPattern);
         }
         var self = this;
         var creds = {

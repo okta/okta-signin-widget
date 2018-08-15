@@ -169,7 +169,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         authClient.options.headers['X-Device-Fingerprint'] = this.appState.get('deviceFingerprint');
       }
       if (this.settings.get('features.trackTypingPattern')) {
-        authClient.options.headers['X-Typing-Pattern'] = this.appState.get('typingPatern');
+        authClient.options.headers['X-Typing-Pattern'] = this.appState.get('typingPattern');
       }
       var self = this;
       return func(signInArgs)
