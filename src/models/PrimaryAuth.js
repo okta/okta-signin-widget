@@ -163,7 +163,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       var deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting'),
           typingPatternEnabled = this.settings.get('features.trackTypingPattern');
 
-      // Add the custom header for fingerprint if needed, and then remove it afterwards
+      // Add the custom header for fingerprint, typing pattern if needed, and then remove it afterwards
       // Since we only need to send it for primary auth
       if (deviceFingerprintEnabled) {
         authClient.options.headers['X-Device-Fingerprint'] = this.appState.get('deviceFingerprint');
@@ -180,7 +180,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         }
         if (typingPatternEnabled) {
           delete authClient.options.headers['X-Typing-Pattern'];
-          self.appState.unset('deviceFingerprint');
+          self.appState.unset('typingPattern');
         }
       });
     }
