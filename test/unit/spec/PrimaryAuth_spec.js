@@ -917,8 +917,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
-          spyOn(TypingUtil, 'track').and.callFake(function (target) {
-            expect(target).toBe('okta-signin-username');
+          spyOn(TypingUtil, 'track').and.callFake(function (targetId) {
+            expect(targetId).toBe('okta-signin-username');
           });
           spyOn(TypingUtil, 'getTypingPattern').and.callFake(function () {
             return typingPattern;

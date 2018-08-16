@@ -160,13 +160,15 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
     },
 
     doPrimaryAuth: function (authClient, signInArgs, func) {
-      var deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting');
+      var deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting'),
+          typingPatternEnabled = this.settings.get('features.trackTypingPattern');
+
       // Add the custom header for fingerprint if needed, and then remove it afterwards
       // Since we only need to send it for primary auth
       if (deviceFingerprintEnabled) {
         authClient.options.headers['X-Device-Fingerprint'] = this.appState.get('deviceFingerprint');
       }
-      if (this.settings.get('features.trackTypingPattern')) {
+      if (typingPatternEnabled) {
         authClient.options.headers['X-Typing-Pattern'] = this.appState.get('typingPattern');
       }
       var self = this;
@@ -175,6 +177,10 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         if (deviceFingerprintEnabled) {
           delete authClient.options.headers['X-Device-Fingerprint'];
           self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once
+        }
+        if (typingPatternEnabled) {
+          delete authClient.options.headers['X-Typing-Pattern'];
+          self.appState.unset('deviceFingerprint');
         }
       });
     }
