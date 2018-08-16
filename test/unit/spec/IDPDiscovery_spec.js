@@ -141,10 +141,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         var model = new IDPDiscovery({username: ''});
         expect(model.validate().username).toEqual('The field cannot be left blank');
       });
-      it('returns username validation error when username is not an email', function () {
-        var model = new IDPDiscovery({username: 'testuser'});
-        expect(model.validate().username).toEqual('model.validation.field.invalid.format.email');
-      });
     });
 
     Expect.describe('settings', function () {
@@ -475,7 +471,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           return waitForWebfingerCall(test);
         }).then(function (test) {
           expect(test.ac.webfinger).toHaveBeenCalledWith({
-            resource: 'acct:testuser@example.com',
+            resource: 'okta:acct:testuser@example.com',
             requestContext: undefined
           });
         });
@@ -489,7 +485,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         })
         .then(function (test) {
           expect(test.ac.webfinger).toHaveBeenCalledWith({
-            resource: 'acct:testuser@clouditude.net',
+            resource: 'okta:acct:testuser@clouditude.net',
             requestContext: undefined
           });
         });
@@ -907,7 +903,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         .then(function (test) {
           expect(test.form.isDisabled()).toBe(true);
           expect(test.ac.webfinger).toHaveBeenCalledWith({
-            resource: 'acct:testuser@clouditude.net',
+            resource: 'okta:acct:testuser@clouditude.net',
             requestContext: 'http://rain.okta1.com:1802/app/UserHome'
           });
         });
@@ -1042,6 +1038,20 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           Util.mockRouterNavigate(test.router);
           test.setNextWebfingerResponse(resSuccessOktaIDP);
           test.form.setUsername('testuser@clouditude.net');
+          test.form.submit();
+          return Expect.waitForPrimaryAuth(test);
+        })
+        .then(function (test) {
+          expect(test.router.appState.get('disableUsername')).toBe(true);
+          expect(test.router.navigate).toHaveBeenCalledWith('signin', {trigger: true});
+        });
+      });
+      itp('renders primary auth when idp is okta with shortname', function () {
+        return setup()
+        .then(function (test) {
+          Util.mockRouterNavigate(test.router);
+          test.setNextWebfingerResponse(resSuccessOktaIDP);
+          test.form.setUsername('testuser');
           test.form.submit();
           return Expect.waitForPrimaryAuth(test);
         })
