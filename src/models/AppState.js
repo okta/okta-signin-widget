@@ -138,7 +138,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       flashError: 'object',
       beaconType: 'string',
       deviceFingerprint: 'string', // valid only once
-
+      typingPattern: 'string',
       // Note: languageCode is special in that it is shared between Settings
       // and AppState. Settings is the *configured* language, and is static.
       // AppState is the dynamic language state - it can be changed via a
