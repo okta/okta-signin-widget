@@ -19,7 +19,8 @@ define([
   'helpers/util/Expect',
   'helpers/xhr/security_image',
   'helpers/xhr/security_image_fail',
-  'helpers/xhr/IDPDiscoverySuccess',
+  'helpers/xhr/IDPDiscoverySuccess_IWA',
+  'helpers/xhr/IDPDiscoverySuccess_SAML',
   'helpers/xhr/IDPDiscoverySuccess_OktaIDP',
   'helpers/xhr/ERROR_webfinger',
   'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED',
@@ -27,7 +28,7 @@ define([
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
           Router, BrowserFeatures, DeviceFingerprint, Errors, SharedUtil, Expect, resSecurityImage,
-          resSecurityImageFail, resSuccess, resSuccessOktaIDP, resError, resPasswordlessUnauthenticated, $sandbox) {
+          resSecurityImageFail, resSuccessIWA, resSuccessSAML, resSuccessOktaIDP, resError, resPasswordlessUnauthenticated, $sandbox) {
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -278,7 +279,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
       itp('does not show forgot password link when disabled and clicked', function () {
         return setup().then(function (test) {
           test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         }).then(function(test) {
@@ -298,7 +299,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         return setup().then(function (test) {
           spyOn(test.router, 'navigate');
           test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         }).then(function(test) {
@@ -319,7 +320,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         return setup({ 'helpLinks.forgotPassword': 'https://foo.com' }).then(function (test) {
           spyOn(SharedUtil, 'redirect');
           test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         }).then(function(test) {
@@ -351,7 +352,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         return setup().then(function (test) {
           spyOn(test.router, 'navigate');
           test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         }).then(function(test) {
@@ -378,7 +379,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         }).then(function (test) {
           spyOn(SharedUtil, 'redirect');
           test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         }).then(function(test) {
@@ -440,7 +441,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         return setupWithTransformUsername().then(function (test) {
           spyOn(test.router.settings, 'transformUsername');
           test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         }).then(function(test) {
@@ -468,7 +469,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
       itp('changs the suffix of the username', function () {
         return setupWithTransformUsername().then(function (test) {
           test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         }).then(function (test) {
@@ -481,7 +482,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
       itp('does not change the suffix of the username if "IDP_DISCOVERY" operation is not handled', function () {
         return setupWithTransformUsernameOnUnlock().then(function (test) {
           test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         })
@@ -544,7 +545,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           })
           .then(function (test) {
             spyOn(test.securityBeacon, 'toggleClass');
-            test.setNextWebfingerResponse(resSuccess);
+            test.setNextWebfingerResponse(resSuccessSAML);
             test.form.submit();
             return waitForWebfingerCall(test);
           })
@@ -578,7 +579,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
         itp('shows beacon-loading animation when webfinger is submitted (no security image)', function () {
           return setup().then(function (test) {
-            test.setNextWebfingerResponse(resSuccess);
+            test.setNextWebfingerResponse(resSuccessSAML);
             test.form.setUsername('testuser@clouditude.net');
             test.form.submit();
             return waitForWebfingerCall(test);
@@ -898,7 +899,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         return setup({'idpDiscovery.requestContext': 'http://rain.okta1.com:1802/app/UserHome'})
         .then(function (test) {
           test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         })
@@ -917,7 +918,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         })
         .then(function (test) {
           test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         })
@@ -932,7 +933,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         .then(function (test) {
           test.form.setUsername('testuser@clouditude.net');
           test.form.setRememberMe(true);
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         })
@@ -949,7 +950,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         return setup({ 'features.rememberMe': true }).then(function (test) {
           test.form.setUsername('testuser@clouditude.net');
           test.form.setRememberMe(false);
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
         })
@@ -1016,11 +1017,11 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect(test.router.navigate).toHaveBeenCalledWith('signin', {trigger: true});
         });
       });
-      itp('redirects to idp for idps other than okta', function () {
+      itp('redirects to idp for SAML idps', function () {
         spyOn(SharedUtil, 'redirect');
         return setup()
         .then(function (test) {
-          test.setNextWebfingerResponse(resSuccess);
+          test.setNextWebfingerResponse(resSuccessSAML);
           test.form.setUsername('testuser@clouditude.net');
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
@@ -1030,7 +1031,25 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           expect(redirectToIdp).toEqual(jasmine.any(Function));
           redirectToIdp('https://foo.com');
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
-            'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com'
+            'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
+          );
+        });
+      });
+      itp('redirects to idp for idps other than okta/saml', function () {
+        spyOn(SharedUtil, 'redirect');
+        return setup()
+        .then(function (test) {
+          test.setNextWebfingerResponse(resSuccessIWA);
+          test.form.setUsername('testuser@clouditude.net');
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function (test) {
+          var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
+          expect(redirectToIdp).toEqual(jasmine.any(Function));
+          redirectToIdp('https://foo.com');
+          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com'
           );
         });
       });
