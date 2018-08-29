@@ -30,7 +30,6 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
       return {
         username: {
           type: 'string',
-          format: 'email',
           validate: function (value) {
             if(_.isEmpty(value)) {
               return Okta.loc('model.validation.field.blank', 'login');
@@ -50,7 +49,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
       var username = this.settings.transformUsername(this.get('username'), Enums.IDP_DISCOVERY),
           remember = this.get('remember'),
           lastUsername = this.get('lastUsername'),
-          resource = 'acct:' + username,
+          resource = 'okta:acct:' + username,
           requestContext = this.get('requestContext');
 
       this.setUsernameCookie(username, remember, lastUsername);
