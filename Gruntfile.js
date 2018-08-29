@@ -36,6 +36,7 @@ module.exports = function (grunt) {
         'test/unit/helpers/**/*.js',
         'test/**/**/*.js',
         '!test/e2e/react-app/**/*.js',
+        '!test/e2e/angular-app/**/*.js',
         '!test/unit/helpers/xhr/*.js',
         '!test/unit/vendor/*.js',
         'webpack.*.js'
