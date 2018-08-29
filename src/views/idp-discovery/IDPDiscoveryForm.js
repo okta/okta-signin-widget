@@ -33,7 +33,7 @@ define([
       var inputs = [];
       var usernameProps = {
         inputId: 'idp-discovery-username',
-        placeholder: Okta.loc('idpDiscovery.email.placeholder', 'login'),
+        placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
         disabled: false,
         params: {
           icon: 'person-16-gray'
