@@ -154,7 +154,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
       itp('uses default for username placeholder', function () {
         return setup().then(function (test) {
           var $username = test.form.usernameField();
-          expect($username.attr('placeholder')).toEqual('Email');
+          expect($username.attr('placeholder')).toEqual('Username');
         });
       });
       itp('prevents autocomplete on username', function () {
