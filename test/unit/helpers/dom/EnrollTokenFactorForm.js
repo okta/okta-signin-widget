@@ -47,7 +47,15 @@ define(['./Form'], function (Form) {
 
     backLink: function () {
       return this.el('back-link');
-    }
+    },
+
+    credIdTooltipText: function () {
+      return this.tooltipText(CRED_ID_FIELD);
+    },
+
+    codeTooltipText: function () {
+      return this.tooltipText(CODE_FIELD);
+    },
 
   });
 

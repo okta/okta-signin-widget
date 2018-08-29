@@ -5,6 +5,8 @@ $scale-ratio: (4 / 3);
 
 $base-line-height: 1.5;
 
+$max-line-length: 60ch;
+
 // Spacing Variables
 // Not ready for general use.
 
@@ -18,3 +20,4 @@ $em-base-spacing: $base-line-height * 1em;
 $em-small-spacing: $em-base-spacing / 2;
 $em-tiny-spacing: $em-small-spacing / 2;
 $em-big-spacing: $em-base-spacing * 2;
+

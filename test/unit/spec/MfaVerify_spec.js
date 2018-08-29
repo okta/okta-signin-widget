@@ -30,6 +30,7 @@ define([
   'helpers/xhr/MFA_CHALLENGE_email',
   'helpers/xhr/MFA_CHALLENGE_Webauthn',
   'helpers/xhr/MFA_CHALLENGE_u2f',
+  'helpers/xhr/MFA_CHALLENGE_customFactor',
   'helpers/xhr/MFA_CHALLENGE_push',
   'helpers/xhr/MFA_CHALLENGE_push_rejected',
   'helpers/xhr/MFA_CHALLENGE_push_timeout',
@@ -37,7 +38,9 @@ define([
   'helpers/xhr/MFA_VERIFY_invalid_answer',
   'helpers/xhr/MFA_VERIFY_invalid_password',
   'helpers/xhr/MFA_VERIFY_totp_invalid_answer',
+  'helpers/xhr/RSA_ERROR_change_pin',
   'helpers/xhr/SMS_RESEND_error',
+  'helpers/xhr/NO_PERMISSION_error',
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS',
   'helpers/xhr/MFA_REQUIRED_policy_always',
   'helpers/xhr/labels_login_ja',
@@ -73,6 +76,7 @@ function (Okta,
           resChallengeEmail,
           resChallengeWebauthn,
           resChallengeU2F,
+          resChallengeCustomFactor,
           resChallengePush,
           resRejectedPush,
           resTimeoutPush,
@@ -80,7 +84,9 @@ function (Okta,
           resInvalid,
           resInvalidPassword,
           resInvalidTotp,
+          resRSAChangePin,
           resResendError,
+          resNoPermissionError,
           resMfaLocked,
           resMfaAlwaysPolicy,
           labelsLoginJa,
@@ -103,6 +109,7 @@ function (Okta,
     'SYMANTEC_VIP': 10,
     'RSA_SECURID': 11,
     'ON_PREM': 12,
+    'GENERIC_SAML': 14
   };
 
   function clickFactorInDropdown(test, factorName) {
@@ -151,6 +158,11 @@ function (Okta,
             setNextResponse(resChallengeWebauthn);
             router.verifyWindowsHello();
             return Expect.waitForVerifyWindowsHello();
+          }
+          else if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
+            setNextResponse(resChallengeCustomFactor);
+            router.verifyCustomFactor();
+            return Expect.waitForVerifyCustomFactor();
           }
           else {
             router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
@@ -229,6 +241,8 @@ function (Okta,
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
     var setupPassword = _.partial(setup, resPassword, { factorType: 'password' });
+    var setupCustomFactor = _.partial(setup, resAllFactors,
+                              { factorType: 'assertion:saml2', provider: 'GENERIC_SAML' });
     var setupAllFactorsWithRouter = _.partial(setup, resAllFactors, null, { 'features.router': true });
     function setupSecurityQuestionLocalized(options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
@@ -380,6 +394,10 @@ function (Okta,
     }
 
     function setupPolling(test, finalResponse) {
+      // This is to reduce delay before initiating polling in the tests.
+      spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+        return setTimeout(arguments[0]);
+      });
       $.ajax.calls.reset();
 
       // Mock calls to startVerifyFactorPoll to include a faster poll
@@ -925,6 +943,34 @@ function (Okta,
             expectSetTransactionError(test.router, resInvalidTotp);
           });
         });
+        itp('clears input field value if error is for PIN change (RSA)', function () {
+          return setupRsaTOTP()
+          .then(function (test) {
+            test.setNextResponse(resRSAChangePin);
+            test.form.setAnswer('correct');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+            expect(test.form.answerField().val()).toEqual('');
+          });
+        });
+        itp('clears input field value if error is for PIN change (On-Prem)', function () {
+          return setupOnPremTOTP()
+          .then(function (test) {
+            test.setNextResponse(resRSAChangePin);
+            test.form.setAnswer('correct');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+            expect(test.form.answerField().val()).toEqual('');
+          });
+        });
       });
 
       Expect.describe('Yubikey', function () {
@@ -1128,28 +1174,30 @@ function (Okta,
             });
           });
         });
-        itp('posts resend if send code button is clicked second time', function () {
+        // See OKTA-179504
+        xit('posts resend if send code button is clicked second time', function () {
           Util.speedUpPolling();
-
           return setupSMS().then(function (test) {
-            $.ajax.calls.reset();
             test.setNextResponse(resChallengeSms);
+            expect(test.form.smsSendCode().text()).toBe('Send code');
             test.form.smsSendCode().click();
-            return Expect.waitForCss('.sms-request-button.disabled', test);
+            return Expect.wait(function () {
+              return test.form.smsSendCode().text() === 'Re-send code';
+            }, test);
           })
           .then(function (test) {
-            return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
-          })
-          .then(function (test) {
-            expect(test.form.smsSendCode().trimmedText()).toEqual('Re-send code');
             expect(test.form.submitButton().prop('disabled')).toBe(false);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeSms);
             test.form.smsSendCode().click();
-            return Expect.waitForCss('.sms-request-button.disabled', test);
+            return Expect.wait(function () {
+              return test.form.smsSendCode().text() === 'Sent';
+            }, test);
           })
           .then(function (test) {
-            return Expect.waitForCss('.sms-request-button:not(.disabled)', test);
+            return Expect.wait(function () {
+              return test.form.smsSendCode().text() === 'Re-send code';
+            }, test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
@@ -1603,19 +1651,27 @@ function (Okta,
         });
         itp('posts to resend link if call button is clicked for the second time', function () {
           Util.speedUpPolling();
-
           return setupCall().then(function (test) {
-            $.ajax.calls.reset();
             test.setNextResponse(resChallengeCall);
+            expect(test.form.makeCall().text()).toBe('Call');
             test.form.makeCall().click();
-            return tick(test);
+            return Expect.wait(function () {
+              return test.form.makeCall().text() === 'Redial';
+            }, test);
           })
           .then(function (test) {
             expect(test.form.submitButton().prop('disabled')).toBe(false);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeCall);
             test.form.makeCall().click();
-            return tick(test);
+            return Expect.wait(function () {
+              return test.form.makeCall().text() === 'Calling';
+            }, test);
+          })
+          .then(function (test) {
+            return Expect.wait(function () {
+              return test.form.makeCall().text() === 'Redial';
+            }, test);
           })
           .then(function (test) {
             expect(test.form.submitButton().prop('disabled')).toBe(false);
@@ -2249,6 +2305,72 @@ function (Okta,
                 });
               });
             });
+            itp('starts poll after a delay of 6000ms', function () {
+              return setupOktaPush().then(function (test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                  // reducing the timeout to 100 so that test is fast.
+                  return setTimeout(arguments[0], 100);
+                });
+
+                $.ajax.calls.reset();
+                test.setNextResponse(resChallengePush);
+                test.form[0].submit();
+                return tick(test).then(function() {
+                  expect(LoginUtil.callAfterTimeout.calls.argsFor(1)[1]).toBe(6000);
+                  expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
+                  var transaction = test.router.controller.model.appState.get('transaction');
+                  spyOn(transaction, 'poll');
+                  // Check between 0 and 6000ms (in test 100ms).
+                  setTimeout(function() {
+                    expect(transaction.poll).not.toHaveBeenCalled();
+                  }, 80);
+                  var deferred = Q.defer();
+                  setTimeout(deferred.resolve, 150);
+                  return deferred.promise.then(function() {
+                    expect(transaction.poll).toHaveBeenCalled();
+                  });
+                });
+              }); 
+            });
+            itp('does not start poll if factor was switched before 6000ms', function () {
+              return setupOktaPush().then(function (test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                  // reducing the timeout to 100 so that test is fast.
+                  return setTimeout(arguments[0], 100);
+                });
+                $.ajax.calls.reset();
+                test.setNextResponse([resChallengePush, resAllFactors]);
+                test.form[0].submit();
+                return tick(test).then(function() {
+                  var deferred = Q.defer();
+                  expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
+                  var transaction = test.router.controller.model.appState.get('transaction');
+                  spyOn(transaction, 'poll');
+                  spyOn(test.router.controller.model.appState, 'trigger').and.callThrough();
+                  clickFactorInDropdown(test, 'DUO');
+                  expect(test.router.controller.model.appState.trigger).toHaveBeenCalledWith('factorSwitched');
+                  setTimeout(deferred.resolve, 150);
+                  return deferred.promise.then(function() {
+                    expect(transaction.poll).not.toHaveBeenCalled();
+                  });
+                });
+              });
+            });
+            itp('stops listening on factorSwitched when we start polling', function () {
+              return setupOktaPush().then(function (test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                  return setTimeout(arguments[0]);
+                });
+                $.ajax.calls.reset();
+                test.setNextResponse(resChallengePush);
+                test.form[0].submit();
+                spyOn(test.router.controller.model, 'stopListening').and.callThrough();
+                return tick(test).then(function() {
+                  expect(test.router.controller.model.stopListening).toHaveBeenCalledWith(
+                    test.router.controller.model.appState, 'factorSwitched');
+                });
+              });
+            });
             itp('on REJECTED, re-enables submit, displays an error, and allows resending', function () {
               return setupOktaPush().then(function (test) {
                 return setupPolling(test, resRejectedPush)
@@ -2308,6 +2430,10 @@ function (Okta,
             });
             itp('re-enables submit and displays an error when request fails', function () {
               function setupFailurePolling(test) {
+                // This is to reduce delay before initiating polling in the tests.
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                  return setTimeout(arguments[0]);
+                });
                 var failureResponse = {status: 0, response: {}};
                 $.ajax.calls.reset();
                 Util.speedUpPolling(test.ac);
@@ -2330,9 +2456,6 @@ function (Okta,
               });
             });
             itp('on WARNING_TIMEOUT, shows warning message', function () {
-              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
-                return setTimeout(arguments[0], 0);
-              });
               return setupOktaPush().then(function (test) {
                 return setupPolling(test, resSuccess)
                 .then(function (test) {
@@ -2343,10 +2466,10 @@ function (Okta,
               });
             });
             itp('removes warnings and displays error when an error occurs', function () {
-              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
-                return setTimeout(arguments[0], 0);
-              });
               function setupFailurePolling(test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                  return setTimeout(arguments[0]);
+                });
                 var failureResponse = {status: 0, response: {}};
                 $.ajax.calls.reset();
                 Util.speedUpPolling(test.ac);
@@ -2844,7 +2967,8 @@ function (Okta,
           });
         });
 
-        itp('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
+        // See OKTA-179504
+        xit('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
           var signStub = function (appId, nonce, registeredKeys, callback) {
             callback({
               keyHandle: 'someKeyHandle',
@@ -2888,6 +3012,76 @@ function (Okta,
           .then(function (test) {
             expect(window.u2f.sign).toHaveBeenCalled();
             expect(test.form.hasErrors()).toBe(true);
+          });
+        });
+      });
+
+      Expect.describe('Custom Factor', function () {
+        itp('is custom factor', function () {
+          return setupCustomFactor().then(function (test) {
+            expect(test.form.isCustomFactor()).toBe(true);
+          });
+        });
+        itp('shows the right beacon', function () {
+          return setupCustomFactor().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-custom-factor');
+          });
+        });
+        itp('shows the right title', function () {
+          return setupCustomFactor().then(function (test) {
+            expectTitleToBe(test, 'Third Party Factor');
+          });
+        });
+        itp('shows the right subtitle', function () {
+          return setupCustomFactor().then(function (test) {
+            expectSubtitleToBe(test, 'Clicking below will redirect to verification with Third Party Factor');
+          });
+        });
+        itp('has remember device checkbox', function () {
+          return setupCustomFactor().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
+        itp('redirects to third party when Verify button is clicked', function () {
+          spyOn(SharedUtil, 'redirect');
+          return setupCustomFactor().then(function (test) {
+            test.setNextResponse([resChallengeCustomFactor, resSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(SharedUtil.redirect);
+          })
+          .then(function () {
+            expect(SharedUtil.redirect).toHaveBeenCalledWith(
+              'http://rain.okta1.com:1802/policy/mfa-idp-redirect?okta_key=mfa.redirect.id'
+            );
+          });
+        });
+        itp('displays error when error response received', function () {
+          return setupCustomFactor().then(function (test) {
+            test.setNextResponse(resNoPermissionError);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+          });
+        });
+        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+          return setupCustomFactor().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.setRememberDevice(true);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'http://rain.okta1.com:1802/api/v1/authn/factors/customFactorId/verify?rememberDevice=true',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
           });
         });
       });
@@ -3043,7 +3237,7 @@ function (Okta,
       itp('has a dropdown if there is more than one factor', function () {
         return setup(resAllFactors).then(function (test) {
           var options = test.beacon.getOptionsLinks();
-          expect(options.length).toBe(13);
+          expect(options.length).toBe(14);
         });
       });
       itp('shows the right options in the dropdown, removes okta totp if ' +
@@ -3053,7 +3247,7 @@ function (Okta,
           expect(options).toEqual([
             'Okta Verify', 'Security Key (U2F)', 'Windows Hello', 'Yubikey', 'Google Authenticator',
             'SMS Authentication', 'Voice Call Authentication', 'Email Authentication', 'Security Question',
-            'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password'
+            'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password', 'Third Party Factor'
           ]);
         });
       });
@@ -3063,7 +3257,7 @@ function (Okta,
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
             'Okta Verify', 'Yubikey', 'Google Authenticator', 'SMS Authentication', 'Security Question',
-            'Duo Security', 'Symantec VIP', 'On-Prem MFA'
+            'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'Third Party Factor'
           ]);
         });
       });

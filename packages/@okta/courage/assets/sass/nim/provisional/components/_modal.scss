@@ -1,0 +1,133 @@
+@mixin modal-heading-text {
+  color: $white;
+  font-size: 17px;
+  font-weight: 200;
+  line-height: 54px;
+}
+
+.simplemodal-overlay {
+  background-color: $white;
+}
+
+.simplemodal-container,
+.simplemodal-container-absolute,
+.simplemodal-container-new {
+  border-radius: 6px;
+  background-color: cv('gray', '000');
+  box-shadow: 0 0 40px 1px rgba(0, 0, 0, 0.3);
+  background-clip: padding-box;
+
+  .block {
+    @include modal-heading-text;
+    height: 54px;
+    border: 1px solid cv(action, dark);
+    background: cv(action);
+
+    span {
+      @include modal-heading-text;
+    }
+  }
+
+  .button-bar {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .modalCloseImg {
+    display: inline;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 54px;
+    height: 54px;
+    background-color: transparent;
+    background-image: url('/img/icons/16x16/modal-close-admin-001.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    font-size: 20px;
+    line-height: 54px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 3200;
+
+    &:hover {
+      background-image: url('/img/icons/16x16/modal-close-admin-hover-001.png');
+      text-decoration: none;
+    }
+  }
+}
+
+.simplemodal-container {
+  top: 50% !important;
+  left: 50% !important;
+  height: auto !important;
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0 0 15px;
+    padding: 0;
+  }
+
+  .o-form-button-bar {
+    background: cv('gray', '000');
+  }
+
+  .m-form,
+  .v-form {
+    border-right: 0;
+    border-left: 0;
+  }
+}
+
+// Use simplemodal-container-absolute if the modal is long or its height can change when the user interacts with it,
+// allows the user to scroll if the modal extends outside of the viewable area
+.simplemodal-container-absolute {
+  position: absolute !important;
+  top: 30px !important;
+  height: auto !important;
+  margin-bottom: 40px;
+
+  .m-form,
+  .v-form {
+    border-right: 0;
+    border-left: 0;
+  }
+}
+
+.simplemodal-wrap {
+  height: auto !important;
+
+  .infobox-header + p {
+    margin-top: 12px;
+  }
+}
+
+.simplemodal-data,
+.simplemodal-content-bg {
+  background-color: cv('gray', '000');
+}
+
+.no-close .simplemodal-close {
+  display: none;
+}
+
+.modal-content-wrap {
+  padding: 30px;
+  border-bottom: 1px solid $base-border-color;
+
+  h3,
+  h3 * {
+    margin: 0;
+    padding: 0;
+    font-size: ms(0);
+    font-weight: bold;
+    line-height: 1.5;
+  }
+
+  h3 + p {
+    margin-top: 12px;
+  }
+}

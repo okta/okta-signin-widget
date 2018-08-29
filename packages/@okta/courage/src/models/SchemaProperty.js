@@ -62,6 +62,10 @@ define([
     object: loc('schema.validation.field.value.must.object', 'courage')
   };
 
+  var loginFormatNonePattern = '.+';
+
+  var escapedLoginCharsRe = /[^a-zA-Z0-9\-]/;
+
   var SchemaProperty = BaseModel.extend({
 
     constraintHandlers: {
@@ -164,6 +168,10 @@ define([
         ['__enumDefined__', '__supportEnum__'],
         function (enumDefined, supportEnum) {
           return enumDefined && supportEnum;
+        }),
+      '__isLoginOfBaseSchema__': BaseModel.ComputedProperty(
+        ['__isFromBaseSchema__', 'name'], function (isFromBaseSchema, name) {
+          return isFromBaseSchema && name === 'login';
         })
     },
 
@@ -175,6 +183,7 @@ define([
       this.listenTo(this, 'change:__equals__', this._convertEqualsToMinMax);
       this.listenTo(this, 'change:__constraint__', this._setConstraintText);
       this._setConstraintText();
+      this._setLoginPattern();
     },
 
     parse: function (resp) {
@@ -340,6 +349,22 @@ define([
       }
     },
 
+    _setLoginPattern: function () {
+      if (!this.get('__isLoginOfBaseSchema__')) {
+        return;
+      }
+
+      var pattern = this.get('pattern');
+      if (pattern === loginFormatNonePattern) {
+        this.set('__loginFormatRestriction__', SchemaUtil.LOGINPATTERNFORMAT.NONE);
+      } else if (pattern) {
+        this.set('__loginFormatRestriction__', SchemaUtil.LOGINPATTERNFORMAT.CUSTOM);
+        this.set('__loginFormatRestrictionCustom__', this._extractLoginPattern(pattern));
+      } else {
+        this.set('__loginFormatRestriction__', SchemaUtil.LOGINPATTERNFORMAT.EMAIL);
+      }
+    },
+
     _updateDisplayType: function () {
       var type = this.get('type');
       if (type === STRING && this.get('format')) {
@@ -400,6 +425,7 @@ define([
       json = this._enumAssignment(json);
       json = this._attributeOverrideToJson(json);
       json = this._normalizeUnionValue(json);
+      json = this._patternAssignment(json);
       return json;
     },
 
@@ -460,6 +486,55 @@ define([
       }
 
       return json;
+    },
+
+    _patternAssignment: function (json) {
+      if (!this.get('__isLoginOfBaseSchema__') || !this.get('__loginFormatRestriction__')) {
+        return json;
+      }
+
+      switch (this.get('__loginFormatRestriction__')) {
+      case SchemaUtil.LOGINPATTERNFORMAT.EMAIL: 
+        delete json.pattern; 
+        break;
+      case SchemaUtil.LOGINPATTERNFORMAT.CUSTOM:
+        json.pattern = this._buildLoginPattern(this.get('__loginFormatRestrictionCustom__'));
+        break;
+      case SchemaUtil.LOGINPATTERNFORMAT.NONE:
+        json.pattern = loginFormatNonePattern;
+        break;
+      }
+
+      return json;
+    },
+
+    /**
+     * Character should be escaped except letters, digits and hyphen
+     */
+    _escapedRegexChar: function (pattern, index) {
+      var char = pattern.charAt(index);
+
+      if (escapedLoginCharsRe.test(char)) {
+        return '\\' + char;
+      } 
+
+      return char;
+    },
+
+    _buildLoginPattern: function (pattern) {
+      var result = '';
+
+      for (var i = 0; i < pattern.length; i++) {
+        result = result + this._escapedRegexChar(pattern, i);
+      }
+
+      return '[' + result + ']+';
+    },
+
+    _extractLoginPattern: function (pattern) {
+      var re = /^\[(.*)\]\+/,
+          matches = pattern.match(re);
+      return matches ? matches[1].replace(/\\(.)/g, '$1') : pattern;
     },
 
     _getEnumOneOfWithTitleCheck: function () {

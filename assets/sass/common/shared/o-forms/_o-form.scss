@@ -99,15 +99,21 @@
       box-sizing: border-box;
     }
 
+    input.password-with-toggle {
+      padding-right: 35px;
+    }
+
     .password-toggle {
       .eyeicon {
-        right: 10px;
+        right: 5px;
         position: absolute;
-        top: 45%;
+        top: 50%;
         transform: translateY(-50%);
-        width: 16px;
-        height: 16px;
+        width: 32px;
+        height: 32px;
+        padding: 6px 8px;
         opacity: 0.5;
+        cursor: pointer;
       }
       .button-hide {
         display: none;

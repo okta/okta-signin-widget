@@ -16,7 +16,7 @@ define([
 
   return Okta.View.extend({
     template: '\
-        <div class="content">\
+        <div class="content-container">\
           <span class="registration-label">{{label}}</span>\
           <a title="{{text}}" aria-label="{{text}}" class="registration-link" href="#">{{text}}</a>\
         </div>\

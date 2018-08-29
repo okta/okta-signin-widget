@@ -1,15 +1,8 @@
 {{#> devLayout}}
 var options = {
-  'baseUrl': '{{{WIDGET_TEST_SERVER}}}'
+  'baseUrl': '{{{WIDGET_TEST_SERVER}}}',
+  'el': '#okta-login-container'
+
 };
 var oktaSignIn = new OktaSignIn(options);
-
-oktaSignIn.renderEl(
-  { el: '#okta-login-container' },
-  function (res) {
-    if (res.status === 'SUCCESS') {
-      res.session.setCookieAndRedirect(options.baseUrl + '/app/UserHome');
-    }
-  }
-);
 {{/devLayout}}

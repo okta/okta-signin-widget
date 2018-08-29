@@ -115,8 +115,10 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
   }
 
   function waitForWebfingerCall(test) {
-    //wait for the webfinger call
-    return Expect.waitForSpyCall(test.ac.webfinger, test);
+    return tick() // wait for the webfinger call cycle finish (promise -> then -> final)
+    .then(function () {
+      return Expect.waitForSpyCall(test.ac.webfinger, test);
+    });
   }
 
   function transformUsername(name) {
@@ -222,6 +224,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         return setup().then(function (test) {
           var nextButton = test.form.nextButton();
           expect(nextButton.length).toBe(1);
+          expect(nextButton.attr('value')).toBe('Next');
           expect(nextButton.attr('type')).toEqual('submit');
           expect(nextButton.attr('id')).toEqual('idp-discovery-submit');
         });
@@ -402,6 +405,17 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         var customLinks = [
           { text: 'github', href: 'https://github.com' },
           { text: 'google', href: 'https://google.com' }
+        ];
+        return setup({ 'helpLinks.custom': customLinks }).then(function (test) {
+          var links = test.form.customLinks();
+          expect(links).toEqual(customLinks);
+        });
+      });
+      itp('shows custom links with target attribute', function () {
+        var customLinks = [
+          { text: 'github', href: 'https://github.com', target: '_blank' },
+          { text: 'google', href: 'https://google.com' },
+          { text: 'okta', href: 'https://okta.com', target: '_custom' }
         ];
         return setup({ 'helpLinks.custom': customLinks }).then(function (test) {
           var links = test.form.customLinks();
@@ -900,7 +914,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           });
         });
       });
-      itp('calls processCreds function before saving a model', function () {
+      itp('does not call processCreds function before saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCreds');
         return setup({
           processCreds: processCredsSpy
@@ -912,54 +926,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           return waitForWebfingerCall(test);
         })
         .then(function(test) {
-          expect(processCredsSpy.calls.count()).toBe(1);
-          expect(processCredsSpy).toHaveBeenCalledWith({
-            username: 'testuser@clouditude.net'
-          });
+          expect(processCredsSpy.calls.count()).toBe(0);
           expect(test.ac.webfinger).toHaveBeenCalled();
-        });
-      });
-      itp('calls async processCreds function before saving a model', function () {
-        var processCredsSpy = jasmine.createSpy('processCreds');
-        return setup({
-          'processCreds': function(creds, callback) {
-            processCredsSpy(creds, callback);
-            callback();
-          }
-        })
-        .then(function (test) {
-          test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
-          test.form.submit();
-          return waitForWebfingerCall(test);
-        })
-        .then(function(test) {
-          expect(processCredsSpy.calls.count()).toBe(1);
-          expect(processCredsSpy).toHaveBeenCalledWith({
-            username: 'testuser@clouditude.net'
-          }, jasmine.any(Function));
-          expect(test.ac.webfinger).toHaveBeenCalled();
-        });
-      });
-      itp('calls async processCreds function and can prevent saving a model', function () {
-        var processCredsSpy = jasmine.createSpy('processCreds');
-        return setup({
-          'processCreds': function(creds, callback) {
-            processCredsSpy(creds, callback);
-          }
-        })
-        .then(function (test) {
-          test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccess);
-          test.form.submit();
-          return Expect.waitForSpyCall(processCredsSpy, test);
-        })
-        .then(function(test) {
-          expect(processCredsSpy.calls.count()).toBe(1);
-          expect(processCredsSpy).toHaveBeenCalledWith({
-            username: 'testuser@clouditude.net',
-          }, jasmine.any(Function));
-          expect(test.ac.webfinger).not.toHaveBeenCalled();
         });
       });
       itp('sets rememberMe cookie if rememberMe is enabled and checked on submit', function () {

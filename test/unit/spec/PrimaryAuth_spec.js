@@ -1,4 +1,4 @@
-/* eslint max-params:[2, 29], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
+/* eslint max-params:[2, 30], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
 define([
   'okta/underscore',
   'okta/jquery',
@@ -15,6 +15,7 @@ define([
   'util/BrowserFeatures',
   'util/Errors',
   'util/DeviceFingerprint',
+  'util/TypingUtil',
   'shared/util/Util',
   'helpers/util/Expect',
   'helpers/xhr/security_image',
@@ -31,7 +32,7 @@ define([
   'sandbox'
 ],
 function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth,
-          Router, BrowserFeatures, Errors, DeviceFingerprint, SharedUtil, Expect, resSecurityImage,
+          Router, BrowserFeatures, Errors, DeviceFingerprint, TypingUtil, SharedUtil, Expect, resSecurityImage,
           resSecurityImageFail, resSuccess, resUnauthenticated, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
 
@@ -60,6 +61,8 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
                        'e4J-RRZxZ0EbQZ6n8l9KVdUb_ndhcKmVAhmhK0GcQbuwk8frcVou' +
                        '6gAQPJowg832umoCss-gEvimU';
   var VALID_ACCESS_TOKEN = 'anythingbecauseitsopaque';
+  var typingPattern = '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
+          0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
 
   function setup(settings, requests, refreshState) {
     settings || (settings = {});
@@ -147,6 +150,19 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
       });
       return tick(test);
     });
+  }
+
+  function setupSocialNoneOIDCMode(settings) {
+    Util.mockOIDCStateGenerator();
+    return setup(_.extend({
+      redirectUri: 'https://0.0.0.0:9999',
+      idps: [
+        {
+          type: 'FACEBOOK',
+          id: '0oaidiw9udOSceD1234'
+        }
+      ]
+    }, settings));
   }
 
   function setupAdditionalAuthButton() {
@@ -556,6 +572,17 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(links).toEqual(customLinks);
         });
       });
+      itp('shows custom links with target attribute', function () {
+        var customLinks = [
+          { text: 'github', href: 'https://github.com', target: '_blank' },
+          { text: 'google', href: 'https://google.com' },
+          { text: 'okta', href: 'https://okta.com', target: '_custom' }
+        ];
+        return setup({ 'helpLinks.custom': customLinks }).then(function (test) {
+          var links = test.form.customLinks();
+          expect(links).toEqual(customLinks);
+        });
+      });
       itp('toggles "focused-input" css class on focus in and focus out', function () {
         return setup()
         .then(function (test) {
@@ -583,6 +610,31 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           test.form.setPassword('testpass');
           test.form.setUsername('testuser');
           expect(test.form.passwordToggleContainer().length).toBe(1);
+        });
+      });
+      itp('Triggers a passwordRevealed event when show password button is clicked', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          var eventSpy = jasmine.createSpy('eventSpy');
+          test.router.on('passwordRevealed', eventSpy);
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(1);
+          test.form.passwordToggleShowContainer().click();
+          expect(eventSpy).toHaveBeenCalled();
+        });
+      });
+      itp('Does not trigger a passwordRevealed event when hide password button is clicked', function () {
+        return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
+          var eventSpy = jasmine.createSpy('eventSpy');
+          test.router.on('passwordRevealed', eventSpy);
+          test.form.setPassword('testpass');
+          test.form.setUsername('testuser');
+          expect(test.form.passwordToggleContainer().length).toBe(1);
+          test.form.passwordToggleShowContainer().click();
+          expect(eventSpy).toHaveBeenCalledTimes(1);
+          test.form.passwordToggleHideContainer().click();
+          // Hide password should not have triggered passwordRevealed event, so called times should still be 1
+          expect(eventSpy).toHaveBeenCalledTimes(1);
         });
       });
       itp('Toggles icon when the password toggle button with features.showPasswordToggleOnSignInPage is clicked', function () {
@@ -836,6 +888,72 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
       });
     });
 
+    Expect.describe('Typing biometrics', function () {
+      itp('does not contain typing pattern header in primary auth request if feature is disabled', function () {
+        return setup({ features: { trackTypingPattern: false }})
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          spyOn(TypingUtil, 'track').and.callFake(function (target) {
+            expect(target).toBe('okta-signin-username');
+          });
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function () {
+          expect(TypingUtil.track).not.toHaveBeenCalled();
+          expect($.ajax.calls.count()).toBe(1);
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(undefined);
+        });
+      });
+
+      itp('contains typing pattern header in primary auth request if feature is enabled', function () {
+        return setup({ features: { trackTypingPattern: true }})
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          spyOn(TypingUtil, 'track').and.callFake(function (targetId) {
+            expect(targetId).toBe('okta-signin-username');
+          });
+          spyOn(TypingUtil, 'getTypingPattern').and.callFake(function () {
+            return typingPattern;
+          });
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(typingPattern);
+        });
+      });
+
+      itp('continues with primary auth if typing pattern cannot be computed', function () {
+        return setup({ features: { trackTypingPattern: true }})
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          spyOn(TypingUtil, 'getTypingPattern').and.callFake(function () {
+            return null;
+          });
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(null);
+        });
+      });
+    });
+
     Expect.describe('Device Fingerprint', function () {
       itp('contains fingerprint header in get security image request if feature is enabled', function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
@@ -943,6 +1061,35 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           });
         });
       });
+      itp('contains device fingerprint and typing pattern header in primaryAuth if both features are enabled', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
+          var deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        spyOn(TypingUtil, 'track').and.callFake(function (target) {
+          expect(target).toBe('okta-signin-username');
+        });
+        spyOn(TypingUtil, 'getTypingPattern').and.callFake(function () {
+          return typingPattern;
+        });
+        return setup({ features: { deviceFingerprinting: true, trackTypingPattern: true }})
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+          var ajaxArgs = $.ajax.calls.argsFor(0);
+          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+          expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(typingPattern);
+        });
+      });      
     });
 
     Expect.describe('events', function () {
@@ -1759,17 +1906,6 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
           expect(password.length).toBe(0);
         });
       });
-      itp('shows an error if username field is not a valid email', function () {
-        return setupPasswordlessAuth().then(function (test) {
-          test.form.setUsername('testuser');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.usernameErrorField().length).toBe(1);
-        });
-      });
       itp('calls authClient.signIn with username only', function () {
         return setupPasswordlessAuth().then(function (test) {
           $.ajax.calls.reset();
@@ -1985,6 +2121,21 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthFo
             'scope=openid%20email%20profile',
             'External Identity Provider User Authentication',
             'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
+          );
+        });
+      });
+      itp('navigate to "/sso/idp/:id" at none OIDC mode when an idp button is clicked', function () {
+        spyOn(SharedUtil, 'redirect');
+        const opt = {
+          relayState: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U',
+        };
+
+        return setupSocialNoneOIDCMode(opt).then(function (test) {
+          test.form.facebookButton().click();
+          expect(SharedUtil.redirect.calls.count()).toBe(1);
+          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            'https://foo.com/sso/idps/0oaidiw9udOSceD1234?' + 
+            $.param({fromURI: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U'})
           );
         });
       });

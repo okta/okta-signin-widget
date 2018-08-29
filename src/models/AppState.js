@@ -138,7 +138,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       flashError: 'object',
       beaconType: 'string',
       deviceFingerprint: 'string', // valid only once
-
+      typingPattern: 'string',
       // Note: languageCode is special in that it is shared between Settings
       // and AppState. Settings is the *configured* language, and is static.
       // AppState is the dynamic language state - it can be changed via a
@@ -601,6 +601,24 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         deps: ['policy'],
         fn: function (policy) {
           return (policy && policy.factorsPolicyInfo) ? policy.factorsPolicyInfo: null;
+        }
+      },
+      'verifyCustomFactorRedirectUrl': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._links || !res._links.next || res._links.next.name !== 'redirect' || !res._links.next.href) {
+            return null;
+          }
+          return res._links.next.href;
+        }
+      },
+      'enrollCustomFactorRedirectUrl': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res._links || !res._links.next || res._links.next.name !== 'activate' || !res._links.next.href) {
+            return null;
+          }
+          return res._links.next.href;
         }
       }
     },

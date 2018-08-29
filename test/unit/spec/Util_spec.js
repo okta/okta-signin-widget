@@ -1,5 +1,5 @@
 /* eslint max-len: [2, 140] */
-define(['util/Util'], function (Util) {
+define(['util/Util', 'util/Logger'], function (Util, Logger) {
 
   describe('util/Util', function () {
 
@@ -116,6 +116,20 @@ define(['util/Util'], function (Util) {
         var arr = ['Hi', 'THERE', 'i', 'wOUld'],
             expected = ['hi', 'there', 'i', 'would'];
         expect(Util.toLower(arr)).toEqual(expected);
+      });
+    });
+
+    describe('debugMessage', function () {
+      it('formats template literal strings into a consistent format', function () {
+        var debugMessage = `
+          Multi-line
+          String
+          Message
+        `;
+        // Remove all prior tracking of Spy
+        Logger.warn.calls.reset();
+        Util.debugMessage(debugMessage);
+        expect(Logger.warn).toHaveBeenCalledWith('\nMulti-line\nString\nMessage\n');
       });
     });
 

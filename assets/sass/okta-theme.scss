@@ -133,11 +133,16 @@
     /* set the helper's color value to the same color as the main-container's background */
       color: $primary-bg-color;
     }
-    // adjust password toggle on login page to accomodate for tooltip
-    .o-form-input-name-password {
+
+    .primary-auth {
+      // adjust password toggle on login page to accomodate for Tooltips
+      .password-with-toggle {
+        padding-right: 65px;
+      }
+
       .password-toggle {
         .eyeicon {
-          right: 45px;
+          right: 38px;
         }
       }
     }
@@ -530,6 +535,31 @@
     }
   }
 
+  .mfa-custom-factor-30,
+  .enroll-factor-row .mfa-custom-factor {
+    /* -- Factor Icons (small): Custom Factor -- */
+    background-image: url('../img/icons/mfa/customFactor_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Custom Factor -- */
+      background-image: url('../img/icons/mfa/customFactor_ico@2x.png');
+    }
+  }
+
+  .mfa-custom-factor {
+    /* -- Factor Icons (large): Custom Factor -- */
+    background-image: url('../img/icons/mfa/customFactor_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Custom Factor -- */
+      background-image: url('../img/icons/mfa/customFactor@2x.png');
+    }
+  }
+
   .button {
   /* -- Buttons' Colors -- */
     @include light-button-template($button-bg-color);
@@ -708,6 +738,10 @@
       &[type="password"] {
       /* -- Input Fields: password input field -- */
         font-family: Verdana, sans-serif;
+
+        &:placeholder-shown {
+          font-family: $fonts;
+        }
       }
 
     }

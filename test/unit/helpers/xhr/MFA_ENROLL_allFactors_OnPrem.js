@@ -215,7 +215,26 @@ define({
             }
           }
         }
-      }]
+      }, {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
+        "factorType":"assertion:saml2",
+        "provider":"GENERIC_SAML",
+        "vendorName":"Third Party Factor",
+        "_links":{  
+           "enroll":{  
+              "href":"http://rain.okta1.com:1802/api/v1/authn/factors",
+              "hints":{  
+                 "allow":[  
+                    "POST"
+                 ]
+              }
+           }
+        },
+        "profile":{  
+           "user":"inca@clouditude.net"
+        }
+     }]
     },
     "_links": {
       "skip": {

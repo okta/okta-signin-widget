@@ -71,7 +71,7 @@ function banner() {
 
 function plugins(options = {}) {
   if (options.isProduction) {
-    // Uglify and add license header 
+    // Uglify and add license header
     return [ uglify(), banner() ];
   }
   // Use DEBUG/development environment w/ console warnings

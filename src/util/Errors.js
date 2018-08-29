@@ -36,11 +36,18 @@ define(['okta', './Enums'], function (Okta, Enums) {
   }
   RegistrationError.prototype = new Error();
 
+  // Thrown when initiation of poll was cancelled.
+  function AuthStopPollInitiationError() {
+    this.name = Enums.AUTH_STOP_POLL_INITIATION_ERROR;
+  }
+  AuthStopPollInitiationError.prototype = new Error();
+
   return {
     ConfigError: ConfigError,
     UnsupportedBrowserError: UnsupportedBrowserError,
     OAuthError: OAuthError,
-    RegistrationError: RegistrationError
+    RegistrationError: RegistrationError,
+    AuthStopPollInitiationError: AuthStopPollInitiationError
   };
 
 });

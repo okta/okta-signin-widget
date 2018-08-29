@@ -19,17 +19,13 @@ define([
 
   return PrimaryAuthForm.extend({
     className: 'idp-discovery-form',
-    save: Okta.loc('oform.next', 'login'),
+    save: function () {
+      return Okta.loc('oform.next', 'login');
+    },
     saveId: 'idp-discovery-submit',
 
     initialize: function () {
-      this.listenTo(this, 'save', function () {
-        var creds = {
-          username: this.model.get('username')
-        };
-        this.settings.processCreds(creds)
-        .then(_.bind(this.model.save, this.model));
-      });
+      this.listenTo(this, 'save', _.bind(this.model.save, this.model));
       this.stateEnableChange();
     },
 

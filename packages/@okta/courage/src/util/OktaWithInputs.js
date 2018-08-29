@@ -30,7 +30,6 @@ define([
   'shared/views/forms/inputs/BaseSelectize',
   'shared/views/forms/inputs/BaseFileUploader',
   'shared/views/forms/inputs/GroupSelect',
-  'shared/views/forms/inputs/ScopesPicker',
   'shared/views/forms/inputs/IdpPicker',
   'shared/views/forms/inputs/DateTimePicker',
   'shared/views/forms/inputs/CheckBoxSet',
@@ -43,7 +42,7 @@ function (Okta, TextBox, TextArea, Select, Radio, CheckBox, TextSelect, TextPlus
           NumberBox, GroupPicker, UserPicker, AppPicker, AppInstancePicker, SUOrgsPicker, ZonePicker, ListInput,
           InputGroup, SimpleCheckBoxSet, ImageFileUploader, CertificationFileUploader, MultiSearchableSelect,
           SearchableSelect, UniqueSelect, BaseInput, BasePicker, BaseSelectize, BaseFileUploader, GroupSelect,
-          ScopesPicker, IdpPicker, DateTimePicker, CheckBoxSet, TextBoxSet, BooleanSelect, DeletableBox,
+          IdpPicker, DateTimePicker, CheckBoxSet, TextBoxSet, BooleanSelect, DeletableBox,
           PasswordBox) {
 
   Okta.internal.views.forms.inputs = Okta.internal.views.forms.inputs || {};
@@ -106,7 +105,6 @@ function (Okta, TextBox, TextArea, Select, Radio, CheckBox, TextSelect, TextPlus
   Okta.internal.views.forms.inputs.BaseSelectize = BaseSelectize;
   Okta.internal.views.forms.inputs.BaseFileUploader = BaseFileUploader;
   Okta.internal.views.forms.inputs.GroupSelect = GroupSelect;
-  Okta.internal.views.forms.inputs.ScopesPicker = ScopesPicker;
   Okta.internal.views.forms.inputs.IdpPicker = IdpPicker;
   Okta.internal.views.forms.inputs.DateTimePicker = DateTimePicker;
   Okta.internal.views.forms.inputs.CheckBoxSet = CheckBoxSet;

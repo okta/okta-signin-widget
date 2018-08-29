@@ -21,12 +21,12 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
 * [API](#api)
   * [OktaSignIn](#new-oktasigninconfig)
   * [renderEl](#rendereloptions-success-error)
+  * [showSignInToGetTokens](#oidc-showsignintogettokensoptions)
   * [hide](#hide)
   * [show](#show)
   * [remove](#remove)
   * [on](#onevent-callback-context)
   * [off](#offevent-callback)
-  * [authClient](#authclient)
   * [session.get](#sessiongetcallback)
   * [session.refresh](#sessionrefreshcallback)
   * [session.close](#sessionclosecallback)
@@ -272,6 +272,39 @@ signIn.renderEl(
     // 2. Uncaught exceptions
   }
 );
+```
+
+## `OIDC` showSignInToGetTokens(options)
+
+Renders the widget to the DOM to prompt the user to sign in. On successful authentication, users are redirected back to the application via the `redirectUri` with an Okta SSO session in the browser, and access and/or identity tokens in the fragment identifier.
+
+* `options`
+  * `authorizationServerId` *(optional)* - Specify a custom authorization server to perform the OIDC flow. Defaults to `default`.
+  * `clientId` *(optional)* - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
+  * `redirectUri` *(optional)* - The url that is redirected to after authentication. This must be pre-registered as part of client registration. Defaults to the current origin.
+  * `getAccessToken` *(optional)* - Return an access token from the authorization server. Defaults to `false`.
+  * `getIdToken` *(optional)* - Return an ID token from the authorization server. Defaults to `true`.
+  * `scope` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value passed in during construction of the Widget.
+
+```javascript
+var signIn = new OktaSignIn({
+  baseUrl: 'https://{yourOktaDomain}',
+  // Assumes there is an empty element on the page with an id of 'osw-container'
+  el: '#osw-container'
+});
+
+signIn.showSignInToGetTokens({
+  clientId: '{{myClientId}}',
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+
+  // Return an access token from the authorization server
+  getAccessToken: true,
+
+  // Return an ID token from the authorization server
+  getIdToken: true,
+
+  scope: 'openid profile'
+});
 ```
 
 ## hide
@@ -814,7 +847,8 @@ helpLinks: {
     },
     {
       text: 'Acme Portal',
-      href: 'https://acme.com'
+      href: 'https://acme.com',
+      target: '_blank'
     }
   ]
 }
@@ -826,7 +860,7 @@ helpLinks: {
 
 - **helpLinks.unlock** - Custom link href for the "Unlock Account" link. For this link to display, `features.selfServiceUnlock` must be set to `true`, and the self service unlock feature must be enabled in your admin settings.
 
-- **helpLinks.custom** - Array of custom link objects `{text, href}` that will be added to the *"Need help signing in?"* section.
+- **helpLinks.custom** - Array of custom link objects `{text, href, target}` that will be added to the *"Need help signing in?"* section. The `target` of the link is optional.
 
 #### Sign Out Link
 
@@ -957,7 +991,7 @@ Optional configuration:
      // The callback function is passed 3 arguments: response, onSuccess, onFailure
      // 1) response: response returned from the API post registration.
      // 2) onSuccess: success callback.
-     // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level 
+     // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level
      //    or field level errors.
     postSubmit: function (response, onSuccess, onFailure) {
       // In this example postSubmit callback is used to log the server response to the browser console before completing registration flow
@@ -1240,6 +1274,8 @@ features: {
 
 - **features.idpDiscovery** - Enable [IdP Discovery](#idp-discovery). Defaults to `false`.
 
+- **features.showPasswordToggleOnSignInPage** - End users can now toggle visibility of their password on the Okta Sign-In page, allowing end users to check their password before they click Sign In. This helps prevent account lock outs caused by end users exceeding your org's permitted number of failed sign-in attempts. Note that passwords are visible for 30 seconds and then hidden automatically. Defaults to `false`.
+
 # Events
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
@@ -1260,6 +1296,7 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
       });
     });
     ```
+- **passwordRevealed** - triggered when the show password button is clicked.
 
 # Browser Support
 
@@ -1272,7 +1309,7 @@ Need to know if the Sign-In Widget supports your browser requirements?  Please s
 1. Clone this repo and navigate to the new `okta-signin-widget` folder.
 
     ```bash
-    git clone git@github.com:okta/okta-signin-widget.git
+    git clone https://github.com/okta/okta-signin-widget.git
     cd okta-signin-widget
     ```
 

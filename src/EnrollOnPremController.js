@@ -72,6 +72,16 @@ function (Okta, FormType, FormController, Footer, TextBox) {
         noButtonBar: true,
         autoSave: true,
         className: getClassName(provider),
+        initialize: function() {
+          this.listenTo(this.model, 'error', _.bind(function (source, error) {
+            if (error && error.status === 409) {
+              // 409 means we are in change pin, so we should clear out answer input
+              this.$('.o-form-input-name-passCode input').val('');
+              this.$('.o-form-input-name-passCode input').trigger('change');
+              this.$('.o-form-input-name-passCode input').focus();
+            }
+          }, this));
+        },
         formChildren: [
           FormType.Input({
             name: 'credentialId',
@@ -79,7 +89,7 @@ function (Okta, FormType, FormController, Footer, TextBox) {
             type: 'text',
             placeholder: Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName]),
             params: {
-              innerTooltip: Okta.loc('enroll.onprem.username.tooltip', 'login', [vendorName])
+              innerTooltip: Okta.loc('enroll.onprem.username.tooltip', 'login', [_.escape(vendorName)])
             }
           }),
           FormType.Input({
@@ -88,7 +98,7 @@ function (Okta, FormType, FormController, Footer, TextBox) {
             type: 'password',
             placeholder: Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
             params: {
-              innerTooltip: Okta.loc('enroll.onprem.passcode.tooltip', 'login', [vendorName])
+              innerTooltip: Okta.loc('enroll.onprem.passcode.tooltip', 'login', [_.escape(vendorName)])
             }
           }),
           FormType.Toolbar({
