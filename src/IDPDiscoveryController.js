@@ -11,16 +11,15 @@
  */
 
 define([
-  'okta',
   'PrimaryAuthController',
   'models/PrimaryAuth',
   'views/idp-discovery/IDPDiscoveryForm',
   'models/IDPDiscovery',
-  'views/shared/Footer',
-  'util/BaseLoginController'
+  'util/BaseLoginController',
+  'util/Util'
 ],
-function (Okta, PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDiscoveryModel,
-          Footer, BaseLoginController) {
+function (PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDiscoveryModel,
+          BaseLoginController, Util) {
 
   return PrimaryAuthController.extend({
     className: 'idp-discovery',
@@ -65,6 +64,10 @@ function (Okta, PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDi
           this.options.appState.set('disableUsername', true);
           this.options.appState.trigger('navigate', 'signin');
         }
+      });
+
+      this.listenTo(this.model, 'goToOtherIdpAuth', function (url) {
+        Util.postToUrl(url, this.$el);
       });
     }
 

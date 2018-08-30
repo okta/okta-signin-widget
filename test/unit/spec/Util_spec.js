@@ -1,5 +1,7 @@
 /* eslint max-len: [2, 140] */
-define(['util/Util', 'util/Logger'], function (Util, Logger) {
+define(['okta', 'util/Util', 'util/Logger'], function (Okta, Util, Logger) {
+
+  var $ = Okta.$;
 
   describe('util/Util', function () {
 
@@ -130,6 +132,41 @@ define(['util/Util', 'util/Logger'], function (Util, Logger) {
         Logger.warn.calls.reset();
         Util.debugMessage(debugMessage);
         expect(Logger.warn).toHaveBeenCalledWith('\nMulti-line\nString\nMessage\n');
+      });
+    });
+
+    describe('postToUrl', function () {
+      beforeEach(function () {
+        spyOn($.fn, 'submit');
+      });
+
+      it('post the from only when no query parameters', function () {
+        var container = $('<div/>');
+
+        Util.postToUrl('http://test.abc.com/', container);
+        expect(container.children().size()).toBe(1);
+
+        var form = $(container.children()[0]);
+        expect(form[0].outerHTML).toBe(
+          '<form method="POST" action="http://test.abc.com/" style="display:none;"></form>'
+        );
+        expect(form.submit.calls.count()).toBe(1);
+      });
+
+      it('post the from when has query parameters', function () {
+        var container = $('<div/>');
+
+        Util.postToUrl('http://test.foo.com?aa=12&bb=34', container);
+        expect(container.children().size()).toBe(1);
+
+        var form = $(container.children()[0]);
+        expect(form[0].outerHTML).toBe(
+          '<form method="POST" action="http://test.foo.com" style="display:none;">'+
+          '<input type="hidden" name="aa" value="12">' +
+          '<input type="hidden" name="bb" value="34">' +
+          '</form>'
+        );
+        expect(form.submit.calls.count()).toBe(1);
       });
     });
 

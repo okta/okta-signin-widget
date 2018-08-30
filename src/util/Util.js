@@ -15,7 +15,14 @@ define(['okta', 'util/Logger'], function (Okta, Logger) {
 
   var Util = {};
   var _ = Okta._;
-
+  var $ = Okta.$;
+  var hiddenPostFormTpl = Okta.tpl(
+    '<form method="POST" action="{{action}}" style="display:none;">' +
+    '{{#each inputs}}'+
+    '<input type="hidden" name="{{name}}" value="{{value}}">' +
+    '{{/each}}'+
+    '</form>');
+  
   Util.hasTokensInHash = function (hash) {
     return /((id|access)_token=)/i.test(hash);
   };
@@ -99,6 +106,34 @@ define(['okta', 'util/Logger'], function (Okta, Logger) {
   // that are logged when in development mode.
   Util.debugMessage = function (message) {
     Logger.warn(`\n${message.replace(/^(\s)+/gm, '')}`);
+  };
+
+  // Heleper function to submit a url via POST request.
+  // what it does is actually create a hidden form
+  // and fill values from the url (base url, query parameters)
+  // and submit the form.
+  Util.postToUrl = function (url, $el) {
+    var parts = url.split('?'),
+        baseUrl = parts[0],
+        queryString = parts[1],
+        queryParams,
+        form;
+    var formData = {
+      action: baseUrl
+    };
+    if (queryString) {
+      queryParams = queryString.split('&');
+      formData.inputs = _.map(queryParams, function (param) {
+        var tokens = param.split('=');
+        return {
+          name: tokens[0],
+          value: decodeURIComponent(tokens[1])
+        };
+      });
+    }
+    form = $(hiddenPostFormTpl(formData));
+    $el.append(form);
+    form.submit();
   };
 
   return Util;

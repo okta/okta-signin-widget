@@ -1018,7 +1018,9 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         });
       });
       itp('redirects to idp for SAML idps', function () {
-        spyOn(SharedUtil, 'redirect');
+        spyOn(IDPDiscovery.prototype, 'trigger').and.callThrough();
+        spyOn(LoginUtil, 'postToUrl');
+
         return setup()
         .then(function (test) {
           test.setNextWebfingerResponse(resSuccessSAML);
@@ -1030,13 +1032,19 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
           expect(redirectToIdp).toEqual(jasmine.any(Function));
           redirectToIdp('https://foo.com');
-          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+          expect(IDPDiscovery.prototype.trigger).toHaveBeenCalledWith(
+            'goToOtherIdpAuth',
             'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
+          );
+          expect(LoginUtil.postToUrl).toHaveBeenCalledWith(
+            'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net',
+            test.router.controller.$el
           );
         });
       });
       itp('redirects to idp for idps other than okta/saml', function () {
-        spyOn(SharedUtil, 'redirect');
+        spyOn(IDPDiscovery.prototype, 'trigger').and.callThrough();
+        spyOn(LoginUtil, 'postToUrl');
         return setup()
         .then(function (test) {
           test.setNextWebfingerResponse(resSuccessIWA);
@@ -1048,8 +1056,13 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
           var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
           expect(redirectToIdp).toEqual(jasmine.any(Function));
           redirectToIdp('https://foo.com');
-          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+          expect(IDPDiscovery.prototype.trigger).toHaveBeenCalledWith(
+            'goToOtherIdpAuth',
             'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com'
+          );
+          expect(LoginUtil.postToUrl).toHaveBeenCalledWith(
+            'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com',
+            test.router.controller.$el
           );
         });
       });
