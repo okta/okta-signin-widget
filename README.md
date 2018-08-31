@@ -750,6 +750,7 @@ var signIn = new OktaSignIn(config);
   - `ja` - Japanese
   - `ko` - Korean
   - `ms` - Malaysian
+  - `nb` - Norwegian
   - `nl-NL` - Dutch
   - `pl` - Polish
   - `pt-BR` - Portuguese (Brazil)

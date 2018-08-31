@@ -1390,8 +1390,8 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CourageLogger, Logger, Okta
             expect(userLanguages).toEqual(['ja', 'ko', 'en']);
             expect(supported).toEqual([
               'en', 'cs', 'da', 'de', 'el', 'es', 'fi', 'fr', 'hu', 'id', 'in',
-              'it', 'ja', 'ko', 'ms', 'nl-NL', 'pl', 'pt-BR', 'ro', 'ru', 'sv',
-              'th', 'tr', 'uk', 'zh-CN', 'zh-TW'
+              'it', 'ja', 'ko', 'ms', 'nb', 'nl-NL', 'pl', 'pt-BR', 'ro', 'ru',
+              'sv', 'th', 'tr', 'uk', 'zh-CN', 'zh-TW'
             ]);
           });
         });
