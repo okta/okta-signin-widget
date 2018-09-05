@@ -140,7 +140,7 @@ define(['okta', 'util/Util', 'util/Logger'], function (Okta, Util, Logger) {
         spyOn($.fn, 'submit');
       });
 
-      it('post the from only when no query parameters', function () {
+      it('post the from when no query parameters', function () {
         var container = $('<div/>');
 
         Util.postToUrl('http://test.abc.com/', container);

@@ -22,7 +22,7 @@ define(['okta', 'util/Logger'], function (Okta, Logger) {
     '<input type="hidden" name="{{name}}" value="{{value}}">' +
     '{{/each}}'+
     '</form>');
-  
+
   Util.hasTokensInHash = function (hash) {
     return /((id|access)_token=)/i.test(hash);
   };
@@ -117,10 +117,9 @@ define(['okta', 'util/Logger'], function (Okta, Logger) {
         baseUrl = parts[0],
         queryString = parts[1],
         queryParams,
-        form;
-    var formData = {
-      action: baseUrl
-    };
+        form,
+        formData = { action: baseUrl };
+
     if (queryString) {
       queryParams = queryString.split('&');
       formData.inputs = _.map(queryParams, function (param) {
