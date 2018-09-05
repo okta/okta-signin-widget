@@ -112,7 +112,7 @@ define(['okta', 'util/Logger'], function (Okta, Logger) {
   // what it does is actually create a hidden form
   // and fill values from the url (base url, query parameters)
   // and submit the form.
-  Util.postToUrl = function (url, $el) {
+  Util.redirectToUrlWithPost = function (url, $el) {
     var parts = url.split('?'),
         baseUrl = parts[0],
         queryString = parts[1],

@@ -135,15 +135,15 @@ define(['okta', 'util/Util', 'util/Logger'], function (Okta, Util, Logger) {
       });
     });
 
-    describe('postToUrl', function () {
+    describe('redirectToUrlWithPost', function () {
       beforeEach(function () {
         spyOn($.fn, 'submit');
       });
 
-      it('post the from when no query parameters', function () {
+      it('post the form without query parameters', function () {
         var container = $('<div/>');
 
-        Util.postToUrl('http://test.abc.com/', container);
+        Util.redirectToUrlWithPost('http://test.abc.com/', container);
         expect(container.children().size()).toBe(1);
 
         var form = $(container.children()[0]);
@@ -153,10 +153,10 @@ define(['okta', 'util/Util', 'util/Logger'], function (Okta, Util, Logger) {
         expect(form.submit.calls.count()).toBe(1);
       });
 
-      it('post the from when has query parameters', function () {
+      it('post the form with query parameters', function () {
         var container = $('<div/>');
 
-        Util.postToUrl('http://test.foo.com?aa=12&bb=34', container);
+        Util.redirectToUrlWithPost('http://test.foo.com?aa=12&bb=34', container);
         expect(container.children().size()).toBe(1);
 
         var form = $(container.children()[0]);

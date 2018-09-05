@@ -67,7 +67,7 @@ function (PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDiscover
       });
 
       this.listenTo(this.model, 'goToOtherIdpAuth', function (url) {
-        Util.postToUrl(url, this.$el);
+        Util.redirectToUrlWithPost(url, this.$el);
       });
     }
 

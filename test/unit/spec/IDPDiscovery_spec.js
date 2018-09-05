@@ -1019,7 +1019,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
       });
       itp('redirects to idp for SAML idps', function () {
         spyOn(IDPDiscovery.prototype, 'trigger').and.callThrough();
-        spyOn(LoginUtil, 'postToUrl');
+        spyOn(LoginUtil, 'redirectToUrlWithPost');
 
         return setup()
         .then(function (test) {
@@ -1036,7 +1036,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
             'goToOtherIdpAuth',
             'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
           );
-          expect(LoginUtil.postToUrl).toHaveBeenCalledWith(
+          expect(LoginUtil.redirectToUrlWithPost).toHaveBeenCalledWith(
             'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net',
             test.router.controller.$el
           );
@@ -1044,7 +1044,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
       });
       itp('redirects to idp for idps other than okta/saml', function () {
         spyOn(IDPDiscovery.prototype, 'trigger').and.callThrough();
-        spyOn(LoginUtil, 'postToUrl');
+        spyOn(LoginUtil, 'redirectToUrlWithPost');
         return setup()
         .then(function (test) {
           test.setNextWebfingerResponse(resSuccessIWA);
@@ -1060,7 +1060,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
             'goToOtherIdpAuth',
             'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com'
           );
-          expect(LoginUtil.postToUrl).toHaveBeenCalledWith(
+          expect(LoginUtil.redirectToUrlWithPost).toHaveBeenCalledWith(
             'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com',
             test.router.controller.$el
           );
