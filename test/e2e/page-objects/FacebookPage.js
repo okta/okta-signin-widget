@@ -22,8 +22,10 @@ class FacebookPage {
   }
 
   logout() {
+    const bookmarkElemId = '#bookmarks_jewel';
     browser.get('https://m.facebook.com/');
-    $('#bookmarks_jewel').click();
+    browser.wait(EC.presenceOf($(bookmarkElemId)), 5000);
+    $(bookmarkElemId).click();
     browser.wait(EC.presenceOf($('[data-sigil=logout]')), 5000);
     $('[data-sigil=logout]').click();
   }
