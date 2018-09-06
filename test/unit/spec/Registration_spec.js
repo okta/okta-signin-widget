@@ -143,9 +143,33 @@ function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema,
           expect(test.form.titleText()).toEqual('Create Account');
         });
       });
+      itp('uses custom title', function () {
+        var config = {
+          'i18n': {
+            'en': {
+              'registration.form.title': 'Custom Form Title'
+            }
+          }
+        };
+        return setup(config).then(function (test) {
+          expect(test.form.titleText()).toEqual('Custom Form Title');
+        });
+      });
       itp('uses default for submit', function () {
         return setup().then(function (test) {
           expect(test.form.submitButtonText()).toEqual('Register');
+        });
+      });
+      itp('uses custom text for submit', function () {
+        var config = {
+          'i18n': {
+            'en': {
+              'registration.form.submit': 'Custom Register Button'
+            }
+          }
+        };
+        return setup(config).then(function (test) {
+          expect(test.form.submitButtonText()).toEqual('Custom Register Button');
         });
       });
       itp('policyid is retrieved from default org policy', function () {
