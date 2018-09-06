@@ -1,3 +1,4 @@
+// Manually updated from courage 4.4.0-beta.7d33b21
 define([
   'okta/jquery',
   'shared/util/TemplateUtil',
@@ -14,10 +15,7 @@ function ($, TemplateUtil, BaseInput, Keys) {
     var title = options.title,
         text = options.text;
 
-    if (title && text && title !== text) {
-      return true;
-    }
-    return false;
+    return title && text && title !== text;
   }
 
   // options may be a string or an object.
@@ -89,7 +87,12 @@ function ($, TemplateUtil, BaseInput, Keys) {
     */
     val: function () {
       //IE will only read clear text pw if type="password" is explicitly in selector
-      return this.$('input[type="' + this.options.type + '"]').val();
+      var inputValue = this.$('input[type="' + this.options.type + '"]').val();
+
+      if (this.options.type !== 'password') {
+        inputValue = $.trim(inputValue);
+      }
+      return inputValue;
     },
 
     /**

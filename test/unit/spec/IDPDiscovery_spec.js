@@ -142,7 +142,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
     Expect.describe('IDPDiscoveryModel', function () {
       it('returns validation error when email is blank', function () {
         var model = new IDPDiscovery({username: ''});
-        expect(model.validate().username).toEqual('The field cannot be left blank');
+        expect(model.validate().username).toEqual('model.validation.field.blank');
       });
     });
 
@@ -898,7 +898,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
       itp('calls authClient webfinger with correct values when submitted', function () {
         return setup({'idpDiscovery.requestContext': 'http://rain.okta1.com:1802/app/UserHome'})
         .then(function (test) {
-          test.form.setUsername('testuser@clouditude.net');
+          test.form.setUsername(' testuser@clouditude.net');
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
@@ -931,7 +931,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         var cookieSpy = Util.mockSetCookie();
         return setup({ 'features.rememberMe': true })
         .then(function (test) {
-          test.form.setUsername('testuser@clouditude.net');
+          test.form.setUsername('testuser@clouditude.net ');
           test.form.setRememberMe(true);
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
@@ -1022,7 +1022,7 @@ function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryF
         return setup()
         .then(function (test) {
           test.setNextWebfingerResponse(resSuccessSAML);
-          test.form.setUsername('testuser@clouditude.net');
+          test.form.setUsername(' testuser@clouditude.net ');
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
