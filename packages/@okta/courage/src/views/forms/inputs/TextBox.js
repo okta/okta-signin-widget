@@ -1,3 +1,4 @@
+// Manually updated from courage 4.4.0-beta.7d33b21
 define([
   'okta/jquery',
   'shared/util/TemplateUtil',
