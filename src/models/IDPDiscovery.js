@@ -28,15 +28,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
           properties = this.getUsernameAndRemember(cookieUsername);
 
       return {
-        username: {
-          type: 'string',
-          validate: function (value) {
-            if(_.isEmpty(value)) {
-              return Okta.loc('model.validation.field.blank', 'login');
-            }
-          },
-          value: properties.username
-        },
+        username: ['string', true, properties.username],
         lastUsername: ['string', false, cookieUsername],
         context: ['object', false],
         remember: ['boolean', true, properties.remember]
