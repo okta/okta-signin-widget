@@ -58,14 +58,6 @@ function (
     }
   });
 
-  var Form = Okta.Form.extend({
-    layout: 'o-form-theme',
-    autoSave: true,
-    noCancelButton: true,
-    title: Okta.loc('registration.form.title', 'login'),
-    save: Okta.loc('registration.form.submit', 'login')
-  });
-
   return BaseLoginController.extend({
     className: 'registration',
     initialize: function() {
@@ -190,6 +182,13 @@ function (
         // create model
         self.model = self.createRegistrationModel(modelProperties);
         // create form
+        var Form = Okta.Form.extend({
+          layout: 'o-form-theme',
+          autoSave: true,
+          noCancelButton: true,
+          title: Okta.loc('registration.form.title', 'login'),
+          save: Okta.loc('registration.form.submit', 'login')
+        });
         var form = new Form(self.toJSON());
         // add form
         self.add(form);
