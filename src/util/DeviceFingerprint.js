@@ -12,8 +12,9 @@
 
 /* eslint complexity: [2, 8] */
 
-define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
+define(['vendor/lib/q', 'okta'], function (Q, Okta) {
 
+  var $ = Okta.$;
   return {
     getUserAgent: function() {
       return navigator.userAgent;

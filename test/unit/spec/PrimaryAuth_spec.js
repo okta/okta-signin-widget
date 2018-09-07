@@ -1,7 +1,5 @@
 /* eslint max-params:[2, 30], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
 define([
-  'okta/underscore',
-  'okta/jquery',
   'vendor/lib/q',
   '@okta/okta-auth-js/jquery',
   'util/Util',
@@ -16,7 +14,6 @@ define([
   'util/Errors',
   'util/DeviceFingerprint',
   'util/TypingUtil',
-  'shared/util/Util',
   'helpers/util/Expect',
   'helpers/xhr/security_image',
   'helpers/xhr/security_image_fail',
@@ -31,11 +28,13 @@ define([
   'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED',
   'sandbox'
 ],
-function (_, $, Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth,
-          Router, BrowserFeatures, Errors, DeviceFingerprint, TypingUtil, SharedUtil, Expect, resSecurityImage,
+function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth,
+          Router, BrowserFeatures, Errors, DeviceFingerprint, TypingUtil, Expect, resSecurityImage,
           resSecurityImageFail, resSuccess, resUnauthenticated, resLockedOut, resPwdExpired, resUnauthorized,
           resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
 
+  var { _, $ } = Okta;
+  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

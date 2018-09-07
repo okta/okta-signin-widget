@@ -16,11 +16,10 @@ define([
   './util/FormController',
   './util/Enums',
   './util/RouterUtil',
-  'shared/views/forms/components/Toolbar',
   'views/enroll-choices/FactorList',
   'views/enroll-choices/RequiredFactorList'
 ],
-function (Okta, FormController, Enums, RouterUtil, Toolbar, FactorList,
+function (Okta, FormController, Enums, RouterUtil, FactorList,
           RequiredFactorList) {
 
   var _ = Okta._;

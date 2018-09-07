@@ -13,13 +13,13 @@
 define([
   'okta',
   './FormType',
-  'shared/views/forms/components/Toolbar',
-  'shared/views/forms/helpers/FormUtil',
   './BaseLoginController',
   'models/BaseLoginModel'
 ],
-function (Okta, FormType, Toolbar, FormUtil, BaseLoginController, BaseLoginModel) {
+function (Okta, FormType, BaseLoginController, BaseLoginModel) {
 
+  var { Toolbar } = Okta.internal.views.forms.components;
+  var { FormUtil } = Okta.internal.views.forms.helpers;
   var _ = Okta._;
 
   var SimpleForm = Okta.Form.extend({

@@ -1,8 +1,7 @@
 /* eslint max-params: [2, 18] */
 define([
   'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollQuestionsForm',
@@ -19,9 +18,10 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures, LoginUtil,
+function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures, LoginUtil,
           $sandbox, resAllFactors, resQuestions, resError, resSuccess, labelsLoginJa, labelsCountryJa) {
 
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

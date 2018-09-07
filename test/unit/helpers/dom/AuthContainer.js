@@ -1,4 +1,4 @@
-define(['okta/jquery', './Dom'], function ($, Dom) {
+define(['./Dom'], function (Dom) {
 
   return Dom.extend({
 

@@ -14,12 +14,12 @@ define([
   'okta',
   'util/FormController',
   'views/shared/FooterSignout',
-  'util/FactorUtil',
-  'shared/util/Util'
+  'util/FactorUtil'
 ],
-function (Okta, FormController, FooterSignout, FactorUtil, Util) {
+function (Okta, FormController, FooterSignout, FactorUtil) {
 
   var _ = Okta._;
+  var { Util } = Okta.internal.util;
 
   return FormController.extend({
 

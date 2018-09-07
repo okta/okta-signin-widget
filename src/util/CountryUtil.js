@@ -11,12 +11,12 @@
  */
 
 define([
-  'okta/underscore',
-  'shared/util/Bundles',
+  'okta',
+  './Bundles',
   './countryCallingCodes'
 ],
-function (_, bundles, countryCallingCodes) {
-
+function (Okta, bundles, countryCallingCodes) {
+  var _ = Okta._;
   var fn = {};
 
   // () => [{ countryCode: countryName }], sorted by countryName

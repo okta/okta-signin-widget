@@ -11,16 +11,16 @@
  */
 
 define([
-  'okta/underscore',
+  'okta',
   'vendor/lib/q',
-  'okta/jquery',
   'json!nls/login',
   'json!nls/country',
   'util/Logger',
   'json!config/config',
   'util/BrowserFeatures'
-], function (_, Q, $, login, country, Logger, config, BrowserFeatures) {
+], function (Okta, Q, login, country, Logger, config, BrowserFeatures) {
 
+  var { _, $ } = Okta;
   var STORAGE_KEY = 'osw.languages';
 
   var bundlePathTpl = _.template('/labels/jsonp/{{bundle}}_{{languageCode}}.jsonp');

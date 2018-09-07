@@ -13,11 +13,11 @@
 
 define([
   'okta',
-  'shared/views/forms/helpers/SchemaFormFactory',
   'views/shared/TextBox'
-], function (Okta, SchemaFormFactory, TextBox) {
+], function (Okta, TextBox) {
 
   var _ = Okta._;
+  var { SchemaFormFactory } = Okta.internal.views.forms.helpers;
 
   var getParts = function(username) {
     var usernameArr = username.split('');

@@ -10,7 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/Enums', 'shared/util/Util'], function (Okta, Enums, Util) {
+define(['okta', 'util/Enums'], function (Okta, Enums) {
+
+  var { Util } = Okta.internal.util;
 
   return Okta.View.extend({
     template: '\

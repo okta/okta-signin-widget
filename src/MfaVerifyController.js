@@ -13,7 +13,6 @@
 /* eslint complexity: [2, 15], max-params: [2, 12] */
 define([
   'okta',
-  'shared/views/forms/inputs/CheckBox',
   'util/BaseLoginController',
   'util/CookieUtil',
   'views/mfa-verify/TOTPForm',
@@ -25,8 +24,10 @@ define([
   'views/mfa-verify/InlineTOTPForm',
   'views/shared/FooterSignout'
 ],
-function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
+function (Okta, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
           PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
+
+  var { CheckBox } = Okta.internal.views.forms.inputs;
 
   return BaseLoginController.extend({
     className: 'mfa-verify',
@@ -81,7 +82,7 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
         });
 
         if (this.settings.get('features.autoPush')) {
-          this.add(Checkbox, {
+          this.add(CheckBox, {
             options: {
               model: this.model,
               name: 'autoPush',
@@ -95,7 +96,7 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
 
         // Remember Device checkbox resides outside of the Push and TOTP forms.
         if (this.options.appState.get('allowRememberDevice')) {
-          this.add(Checkbox, {
+          this.add(CheckBox, {
             options: {
               model: this.model,
               name: 'rememberDevice',

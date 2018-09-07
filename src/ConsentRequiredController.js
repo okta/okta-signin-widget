@@ -13,12 +13,11 @@
 /* eslint max-len: [2, 160] */
 define([
   'okta',
-  'shared/util/Util',
   'util/FormController',
   'util/FormType',
   'views/consent/ScopeList'
 ],
-function (Okta, Util, FormController, FormType, ScopeList) {
+function (Okta, FormController, FormType, ScopeList) {
 
   var _ = Okta._;
 

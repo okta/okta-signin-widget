@@ -1,11 +1,9 @@
 /* eslint max-params: [2, 25], max-statements: [2, 36], complexity:[2, 10], max-len: [2, 125] */
 define([
   'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
-  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/PasswordResetForm',
   'helpers/dom/Beacon',
@@ -18,9 +16,11 @@ define([
   'helpers/xhr/200',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordResetForm, Beacon, Expect, Router,
+function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect, Router,
           $sandbox, resPasswordReset, resPasswordResetWithComplexity, resError, res200, resSuccess) {
 
+  var { _, $ } = Okta;
+  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

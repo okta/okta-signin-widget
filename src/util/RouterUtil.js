@@ -13,15 +13,15 @@
 /* eslint complexity: [2, 28],max-statements: [2, 30] */
 define([
   'okta',
-  'shared/util/Util',
   './OAuth2Util',
   './Enums',
   './BrowserFeatures',
   './Errors',
   './ErrorCodes'
 ],
-function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
+function (Okta, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
 
+  var { Util } = Okta.internal.util;
   var fn = {};
 
   var verifyUrlTpl = Okta.tpl('signin/verify/{{provider}}/{{factorType}}');

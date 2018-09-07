@@ -16,9 +16,7 @@
 // responsible for adding new routes)
 define([
   'okta',
-  'backbone',
   './BrowserFeatures',
-  'RefreshAuthStateController',
   'models/Settings',
   'views/shared/Header',
   'views/shared/SecurityBeacon',
@@ -30,12 +28,11 @@ define([
   'util/Bundles',
   'util/Logger'
 ],
-function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
+function (Okta, BrowserFeatures, Settings,
           Header, SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations,
           Errors, Bundles, Logger) {
 
-  var _ = Okta._,
-      $ = Okta.$;
+  var { _, $, Backbone } = Okta;
 
   function isStateLessRouteHandler(router, fn) {
     return _.find(router.stateLessRouteHandlers, function (routeName) {

@@ -1,9 +1,11 @@
 /* eslint max-statements: [2, 22]*/
 define([
-  'shared/models/SchemaProperty',
+  'okta',
   'util/RegistrationFormFactory'
 ],
-function (SchemaProperty, RegistrationFormFactory) {
+function (Okta, RegistrationFormFactory) {
+  var { SchemaProperty } = Okta.internal.models;
+  
   describe('RegistrationFormFactory', function () {
     describe('string field', function () {
       beforeEach(function () {

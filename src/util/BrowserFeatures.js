@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta/underscore'], function (_) {
+define(['okta'], function (Okta) {
 
+  var _ = Okta._;
   var fn = {},
       hasFullCorsSupport = 'withCredentials' in new window.XMLHttpRequest(),
       hasXDomainRequest = typeof XDomainRequest !== 'undefined';

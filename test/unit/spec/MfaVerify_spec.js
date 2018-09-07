@@ -2,13 +2,9 @@
 define([
   'okta',
   'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
   'duo',
   '@okta/okta-auth-js/jquery',
   'util/Util',
-  'util/CryptoUtil',
-  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/MfaVerifyForm',
   'helpers/dom/Beacon',
@@ -48,13 +44,9 @@ define([
 ],
 function (Okta,
           Q,
-          _,
-          $,
           Duo,
           OktaAuth,
           LoginUtil,
-          CryptoUtil,
-          SharedUtil,
           Util,
           MfaVerifyForm,
           Beacon,
@@ -92,6 +84,8 @@ function (Okta,
           labelsLoginJa,
           labelsCountryJa) {
 
+  var { _, $ } = Okta;
+  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
   var factors = {

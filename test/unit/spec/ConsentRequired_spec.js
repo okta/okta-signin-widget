@@ -1,11 +1,8 @@
 /* eslint max-params: [2, 13], max-len: [2, 160] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
-  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/ConsentRequiredForm',
   'helpers/util/Expect',
@@ -14,9 +11,10 @@ define([
   'helpers/xhr/CONSENT_REQUIRED',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, ConsentRequiredForm, Expect, Router,
+function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
           $sandbox, resConsentRequired, resSuccess) {
 
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

@@ -1,8 +1,6 @@
 /* eslint max-params: [2, 15] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/Beacon',
@@ -14,9 +12,10 @@ define([
   'helpers/xhr/security_image',
   'sandbox'
 ],
-function (Q, _, $, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView,
+function (Okta, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView,
           Expect, Router, resRecovery, resSecurityImage, $sandbox) {
 
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
