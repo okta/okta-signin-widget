@@ -11,19 +11,21 @@
  */
 
 define([
-  'okta',
+  'jquery',
+  'underscore',
+  'handlebars',
   'vendor/lib/q',
   'json!nls/login',
   'json!nls/country',
   'util/Logger',
   'json!config/config',
   'util/BrowserFeatures'
-], function (Okta, Q, login, country, Logger, config, BrowserFeatures) {
+], function ($, _, Handlebars, Q, login, country, Logger, config, BrowserFeatures) {
 
-  var { _, $ } = Okta;
+  // var { _, $ } = Okta;
   var STORAGE_KEY = 'osw.languages';
 
-  var bundlePathTpl = _.template('/labels/jsonp/{{bundle}}_{{languageCode}}.jsonp');
+  var bundlePathTpl = Handlebars.compile('/labels/jsonp/{{bundle}}_{{languageCode}}.jsonp');
 
   /**
    * Converts options to our internal format, which distinguishes between

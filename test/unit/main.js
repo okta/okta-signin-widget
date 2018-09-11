@@ -1,5 +1,3 @@
-// require('okta/underscore');
-// require('okta/handlebars');
 require('./vendor/jasmine-jquery');
 var Okta = require('okta');
 var $ = Okta.$;

@@ -15,3 +15,5 @@ build2
 
 # These paths should be included in the published artifact, but not the repo
 /dist
+packages/@okta/courage-for-signin-widget.html
+packages/@okta/courage-for-signin-widget.js.map

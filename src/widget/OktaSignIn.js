@@ -2,8 +2,7 @@
 
 var OktaSignIn = (function () {
 
-  var Okta     = require('okta'),
-      _        = Okta._,
+  var _        = require('underscore'),
       config   = require('json!config/config'),
       OAuth2Util = require('util/OAuth2Util');
 
@@ -183,17 +182,11 @@ var OktaSignIn = (function () {
   }
 
   function OktaSignIn(options) {
-    var OktaAuth, Util, authClient, LoginRouter;
+    require('okta');
 
-    // Modify the underscore, handlebars, and jquery modules
-    // Remove once these are explicitly required in Courage
-    // require('okta/underscore');
-    // require('okta/handlebars');
-    // require('okta/jquery');
-
-    OktaAuth = require('@okta/okta-auth-js/jquery');
-    Util = require('util/Util');
-    LoginRouter = require('LoginRouter');
+    var OktaAuth = require('@okta/okta-auth-js/jquery');
+    var Util = require('util/Util');
+    var LoginRouter = require('LoginRouter');
 
     Util.debugMessage(
       `
@@ -203,7 +196,7 @@ var OktaSignIn = (function () {
       `
     );
 
-    authClient = new OktaAuth({
+    var authClient = new OktaAuth({
       url: options.baseUrl,
       transformErrorXHR: Util.transformErrorXHR,
       headers: {

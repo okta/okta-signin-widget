@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
+define(function () {
 
-  var _ = Okta._;
   var fn = {},
       hasFullCorsSupport = 'withCredentials' in new window.XMLHttpRequest(),
       hasXDomainRequest = typeof XDomainRequest !== 'undefined';
@@ -72,7 +71,7 @@ define(['okta'], function (Okta) {
       'systemLanguage'    // IE
     ];
 
-    _.each(properties, function (property) {
+    properties.forEach(function (property) {
       if (navigator[property]) {
         languages.push(navigator[property]);
       }
