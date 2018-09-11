@@ -1,8 +1,8 @@
 {
-  "_from": "@okta/i18n@45.5.0",
-  "_id": "@okta/i18n@45.5.0",
+  "_from": "@okta/i18n@45.6.0",
+  "_id": "@okta/i18n@45.6.0",
   "_inBundle": false,
-  "_integrity": "sha1-EQjEv7WtLpfYihB8/IOMm+jtLHY=",
+  "_integrity": "sha1-pSf3zh8sQYzB8ZcXku6Uu8HTEnE=",
   "_location": "/@okta/i18n",
   "_phantomChildren": {
     "abbrev": "1.1.1",
@@ -82,21 +82,21 @@
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@okta/i18n@45.5.0",
+    "raw": "@okta/i18n@45.6.0",
     "name": "@okta/i18n",
     "escapedName": "@okta%2fi18n",
     "scope": "@okta",
-    "rawSpec": "45.5.0",
+    "rawSpec": "45.6.0",
     "saveSpec": null,
-    "fetchSpec": "45.5.0"
+    "fetchSpec": "45.6.0"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-45.5.0.tgz",
-  "_shasum": "1108c4bfb5ad2e97d88a107cfc838c9be8ed2c76",
-  "_spec": "@okta/i18n@45.5.0",
-  "_where": "/Users/mauricio.castillosilva/okta/okta-signin-widget",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-45.6.0.tgz",
+  "_shasum": "a527f7ce1f2c418cc1f1971792ee94bbc1d31271",
+  "_spec": "@okta/i18n@45.6.0",
+  "_where": "/Users/gowthamidommety/okta/okta-signin-widget",
   "bin": {
     "i18n": "dist/bin/i18n.js"
   },
@@ -135,8 +135,9 @@
   "license": "Apache-2.0",
   "name": "@okta/i18n",
   "okta": {
-    "commitSha": "3d8a681a5064b6ac99dafccf31dc16dc4a3c3725",
-    "fullVersion": "45.5.0-20180905190107-3d8a681"
+    "commitSha": "a5985c64d4a1ce76cb4fae2c58a5cedc34388d7b",
+    "fullVersion": "45.6.0-20180907201905-a5985c6",
+    "testedSha": "a621bf26c9973634613c01a7718fdc6791ef8496"
   },
   "repository": {
     "type": "git",
@@ -156,5 +157,5 @@
     "test:unit": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R spec tasks/i18ndiff/test",
     "test:unit-report": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R mocha-junit-reporter -O mochaFile=./build2/reports/unit/mocha-junit-result.xml tasks/i18ndiff/test"
   },
-  "version": "45.5.0"
+  "version": "45.6.0"
 }
