@@ -128,4 +128,3 @@ define([
 
     return Okta;
   });
-  

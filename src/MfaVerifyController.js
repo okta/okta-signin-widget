@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 15], max-params: [2, 12] */
+/* eslint complexity: [2, 15] */
 define([
   'okta',
   'util/BaseLoginController',
-  'util/CookieUtil',
   'views/mfa-verify/TOTPForm',
   'views/mfa-verify/YubikeyForm',
   'views/mfa-verify/SecurityQuestionForm',
@@ -24,7 +23,7 @@ define([
   'views/mfa-verify/InlineTOTPForm',
   'views/shared/FooterSignout'
 ],
-function (Okta, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
+function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
           PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
 
   var { CheckBox } = Okta.internal.views.forms.inputs;

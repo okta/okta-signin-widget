@@ -15,8 +15,7 @@ define([
   './FactorsDropDownOptions'
 ],
 function (Okta, FactorsDropDownOptions) {
-  var _ = Okta._;
-  var $ = Okta.$;
+  var { _, $ } = Okta;
   var { BaseDropDown } = Okta.internal.views.components;
 
   $(document).click(function (e) {

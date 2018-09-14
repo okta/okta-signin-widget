@@ -2,7 +2,7 @@
 const path = require('path');
 const EMPTY = 'src/empty';
 const SHARED_JS = path.resolve(__dirname, 'node_modules/@okta/courage/src');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const DIST_FILE_NAME = 'courage-for-signin-widget';
 
 const EXTERNAL_PATHS = [
@@ -26,7 +26,7 @@ const EXTERNALS = EXTERNAL_PATHS.reduce((init, pathName) => {
 EXTERNALS.jquery.root = 'jQuery';
 
 const webpackConfig = {
-  entry: ['./src/OktaForSigninWidget.js'],
+  entry: ['./src/CourageForSigninWidget.js'],
   devtool: 'source-map',
   output: {
     // why the destination is outside current directory?

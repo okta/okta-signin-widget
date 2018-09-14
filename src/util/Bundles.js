@@ -22,7 +22,6 @@ define([
   'util/BrowserFeatures'
 ], function ($, _, Handlebars, Q, login, country, Logger, config, BrowserFeatures) {
 
-  // var { _, $ } = Okta;
   var STORAGE_KEY = 'osw.languages';
 
   var bundlePathTpl = Handlebars.compile('/labels/jsonp/{{bundle}}_{{languageCode}}.jsonp');
