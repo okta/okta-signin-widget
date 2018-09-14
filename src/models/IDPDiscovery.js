@@ -62,6 +62,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
       authClient.webfinger(webfingerArgs)
       .then(_.bind(function(res) {
         if(res) {
+          var that = this;
           if(res.links && res.links[0] && res.links[0].properties['okta:idp:type'] === 'OKTA') {
             this.trigger('goToPrimaryAuth');
           }
@@ -75,7 +76,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
                       queryParams['login_hint'] = username;
                     }
                     var url = res.links[0].href + Util.getUrlQueryString(queryParams);
-                    Util.redirect(url);
+                    that.trigger('goToOtherIdpAuth', url);
                   }
                 }
               }
