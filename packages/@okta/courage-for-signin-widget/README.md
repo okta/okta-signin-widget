@@ -1,6 +1,7 @@
 # @okta/courage-for-signin-widget
 
-Generates a custom version of Courage for the Sign-In Widget
+Generates a custom version of Courage for the Sign-In Widget. 
+It's intend for internal developers and please open a ticket if any questions.
 
 ## Steps
 

@@ -3,6 +3,7 @@ const path = require('path');
 const EMPTY = 'src/empty';
 const SHARED_JS = path.resolve(__dirname, 'node_modules/@okta/courage/src');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { BannerPlugin } = require('webpack');
 const DIST_FILE_NAME = 'courage-for-signin-widget';
 
 const EXTERNAL_PATHS = [
@@ -74,6 +75,8 @@ const webpackConfig = {
   },
 
   plugins: [
+    new BannerPlugin('DO NOT MODIFY THIS FILE MANUALLY. ' +
+      'IT IS GENERATED FROM PACKAGE @OKTA/COURAGE-FOR-SIGNIN-WIDGET.'),
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
       reportFilename: `${DIST_FILE_NAME}.html`,
