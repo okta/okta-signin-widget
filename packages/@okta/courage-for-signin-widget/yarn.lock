@@ -10,9 +10,9 @@
   version "0.1.0-beta.c02666d5"
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/core.vendor/-/@okta/core.vendor-0.1.0-beta.c02666d5.tgz#09535c70fcdf1b1d062e7149e57a91d81e01857e"
 
-"@okta/courage@4.4.0-beta.2818bde":
-  version "4.4.0-beta.2818bde"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.4.0-beta.2818bde.tgz#6e490bf96e3f263aaee27712e7de7bbc074cfdd6"
+"@okta/courage@4.4.0":
+  version "4.4.0"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.4.0.tgz#29a1c358499fd0a7677b7fc460d887e8cedc578f"
   dependencies:
     "@okta/core.components" "0.1.0-beta.0c7b0449"
     "@okta/core.vendor" "0.1.0-beta.c02666d5"

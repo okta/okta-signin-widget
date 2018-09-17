@@ -1,4 +1,4 @@
-/*! DO NOT MODIFY THIS FILE MANUALLY. IT IS GENERATED FROM PACKAGE @OKTA/COURAGE-FOR-SIGNIN-WIDGET. */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.4.0 */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("underscore"), require("handlebars"), require("backbone"), require("jquery"), require("shared/util/Bundles"), require("moment"), require("qtip"));

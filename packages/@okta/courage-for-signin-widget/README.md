@@ -5,7 +5,8 @@ It's intend for internal developers and please open a ticket if any questions.
 
 ## Steps
 
-0. make sure VPN is connected
-1. upgrade courage version. e.g. `yarn upgrade @okta/courage@4.4.0-beta.xxxxxx`
-2. `yarn build`
-3. check file `../okta-for-signin-widget.js` which may be changed depending on the change set since last upgrade
+0. Make sure VPN is connected
+1. Upgrade courage version. e.g. `yarn upgrade @okta/courage@4.4.0`
+2. Run `yarn build`
+3. Commit file `..okta/courage-for-signin-widget.js` if it has changes. 
+   This file will have changes only if the relevant components of courage that we consume in the Sign-In Widget have changed.
