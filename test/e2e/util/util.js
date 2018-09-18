@@ -14,5 +14,5 @@
 var util = module.exports = {};
 
 util.loadTestPage = function (pageName) {
-  browser.get('http://localhost:3000/' + pageName + '.html');
+  browser.get('http://{{{E2E_HOST}}}:{{{E2E_PORT}}}/' + pageName + '.html');
 };

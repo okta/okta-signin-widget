@@ -41,8 +41,8 @@ describe('OIDC flows', function() {
     it('can login and exchange a sessionToken for an id_token', function() {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
-        redirectUri: 'http://localhost:3000/done',
+        clientId: '{{{CLIENT_ID}}}',
+        redirectUri: 'http://{{{E2E_HOST}}}:{{{E2E_PORT}}}/done',
         authParams: {
           responseType: 'id_token',
           scope: ['openid', 'email', 'profile', 'address', 'phone']
@@ -62,8 +62,8 @@ describe('OIDC flows', function() {
     it('throws form error if auth client returns with OAuth error', function() {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
-        redirectUri: 'http://localhost:3000/done',
+        clientId: '{{{CLIENT_ID}}}',
+        redirectUri: 'http://{{{E2E_HOST}}}:{{{E2E_PORT}}}/done',
         authParams: {
           responseType: 'id_token',
           scope: ['openid', 'email', 'profile', 'address', 'phone']
@@ -76,8 +76,8 @@ describe('OIDC flows', function() {
     it('can login and get a token and id_token', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
-        redirectUri: 'http://localhost:3000/done',
+        clientId: '{{{CLIENT_ID}}}',
+        redirectUri: 'http://{{{E2E_HOST}}}:{{{E2E_PORT}}}/done',
         authParams: {
           responseType: ['id_token', 'token'],
           scope: ['openid', 'email', 'profile', 'address', 'phone']
@@ -98,8 +98,8 @@ describe('OIDC flows', function() {
     it('logs in and uses the redirect flow for responseType "code"', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
-        redirectUri: 'http://localhost:3000/done',
+        clientId: '{{{CLIENT_ID}}}',
+        redirectUri: 'http://{{{E2E_HOST}}}:{{{E2E_PORT}}}/done',
         authParams: {
           responseType: 'code',
           scope: ['openid', 'email', 'profile', 'address', 'phone']
@@ -117,12 +117,12 @@ describe('OIDC flows', function() {
     afterEach(function () {
       facebook.logout();
     });
-
-    it('can login and get an idToken in the popup flow', function () {
+// eslint-disable-next-line no-constant-condition
+    ('{{{WIDGET_FB_USER}}}' !== '' ? it : xit)('can login and get an idToken in the popup flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
-        redirectUri: 'http://localhost:3000/done',
+        clientId: '{{{CLIENT_ID}}}',
+        redirectUri: 'http://{{{E2E_HOST}}}:{{{E2E_PORT}}}/done',
         authParams: {
           responseType: 'id_token',
           scope: ['openid', 'email', 'profile', 'address', 'phone']
@@ -137,12 +137,12 @@ describe('OIDC flows', function() {
       primaryAuth.loginToSocialIdpPopup('facebook', '{{{WIDGET_FB_USER}}}', '{{{WIDGET_FB_PASSWORD}}}');
       expect(oidcApp.getIdTokenUser()).toBe('Tom Alacddgjegbja Qinson');
     });
-
-    it('can login and get an idToken in the redirect flow', function () {
+// eslint-disable-next-line no-constant-condition
+    ('{{{WIDGET_FB_USER}}}' !== '' ? it : xit)('can login and get an idToken in the redirect flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
-        redirectUri: 'http://localhost:3000/done',
+        clientId: '{{{CLIENT_ID}}}',
+        redirectUri: 'http://{{{E2E_HOST}}}:{{{E2E_PORT}}}/done',
         authParams: {
           responseType: 'id_token',
           scope: ['openid', 'email', 'profile', 'address', 'phone'],
@@ -158,12 +158,12 @@ describe('OIDC flows', function() {
       primaryAuth.loginToSocialIdpRedirect('facebook', '{{{WIDGET_FB_USER_2}}}', '{{{WIDGET_FB_PASSWORD_2}}}');
       expect(oidcApp.getIdTokenUser()).toBe('Joe Alacchebjdhcf Bharambewitz');
     });
-
-    it('can login and get a "code" using the redirect flow', function () {
+// eslint-disable-next-line no-constant-condition
+    ('{{{WIDGET_FB_USER}}}' !== '' ? it : xit)('can login and get a "code" using the redirect flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
-        redirectUri: 'http://localhost:3000/done',
+        clientId: '{{{CLIENT_ID}}}',
+        redirectUri: 'http://{{{E2E_HOST}}}:{{{E2E_PORT}}}/done',
         authParams: {
           responseType: 'code',
           scope: ['openid', 'email', 'profile', 'address', 'phone'],

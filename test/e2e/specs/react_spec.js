@@ -18,7 +18,7 @@ describe('React flows', function() {
   it('should allow logging in with the widget', function() {
     // open browser to a protected route
     browser.ignoreSynchronization = true;
-    browser.driver.get('http://localhost:3001/protected');
+    browser.driver.get('http://{{{REACT_HOST}}}:{{{REACT_PORT}}}/protected');
 
     // expect to see widget
     var widget = element(by.css('#okta-sign-in'));
