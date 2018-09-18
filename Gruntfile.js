@@ -74,10 +74,6 @@ module.exports = function (grunt) {
           // Source Files
           {expand: true, cwd: 'src/', src: ['**'], dest: JS + '/'},
 
-          // Courage files
-          {expand: true, cwd: 'packages/@okta/courage/src/', src: ['**'], dest: JS + '/shared/'},
-          {expand: true, cwd: 'packages/@okta/courage/src/vendor', src: ['**'], dest: JS + '/vendor/'},
-
           // i18n files
           {
             expand: true,

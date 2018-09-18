@@ -1,7 +1,6 @@
 /* eslint max-params: [2, 14] */
 define([
   'okta',
-  'okta/jquery',
   'q',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
@@ -16,7 +15,6 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta,
-          $,
           Q,
           OktaAuth,
           Util,
@@ -29,7 +27,7 @@ function (Okta,
           resU2F,
           resEnrollActivateU2F,
           resSuccess) {
-
+  var { $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

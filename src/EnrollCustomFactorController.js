@@ -13,12 +13,12 @@
 define([
   'okta',
   'util/FormController',
-  'views/enroll-factors/Footer',
-  'shared/util/Util'
+  'views/enroll-factors/Footer'
 ],
-function (Okta, FormController, Footer, Util) {
+function (Okta, FormController, Footer) {
 
   var _ = Okta._;
+  var { Util } = Okta.internal.util;
 
   return FormController.extend({
     className: 'enroll-custom-factor',

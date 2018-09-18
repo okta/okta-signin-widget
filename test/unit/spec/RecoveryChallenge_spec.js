@@ -1,10 +1,7 @@
 /* eslint max-params: [2, 16] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
-  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/RecoveryChallengeForm',
   'helpers/dom/Beacon',
@@ -17,9 +14,11 @@ define([
   'helpers/xhr/200',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, _, $, OktaAuth, SharedUtil, Util, RecoveryChallengeForm, Beacon, Expect, Router,
+function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
           $sandbox, resChallenge, resResendError, resVerifyError, res200, resSuccess) {
 
+  var { _, $ } = Okta;
+  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

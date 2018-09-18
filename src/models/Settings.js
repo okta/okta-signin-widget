@@ -20,10 +20,11 @@ define([
   'util/Util',
   'util/Logger',
   'util/OAuth2Util',
-  'shared/util/Util',
   'json!config/config'
 ],
-function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, SharedUtil, config) {
+function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
+
+  var SharedUtil = Okta.internal.util.Util;
 
   var DEFAULT_LANGUAGE = 'en';
 

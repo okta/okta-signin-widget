@@ -1,13 +1,13 @@
-/* eslint no-global-assign: 0, max-statements: [2, 33] */
+/* eslint no-global-assign: 0, max-statements: 0 */
 define([
-  'okta/jquery',
-  'okta/underscore',
-  'backbone',
+  'okta',
   'vendor/lib/q',
-  'duo',
-  'shared/util/Cookie'
+  'duo'
 ],
-function ($, _, Backbone, Q, Duo, Cookie) {
+function (Okta, Q, Duo) {
+
+  var { _, $, Backbone } = Okta;
+  var { Cookie } = Okta.internal.util;
 
   var fn = {};
 

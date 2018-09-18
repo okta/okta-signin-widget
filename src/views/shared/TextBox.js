@@ -15,13 +15,13 @@
 //and want to avoid the cirucular dependency that occurs if we
 //include Okta
 define([
-  'okta/jquery',
-  'shared/util/handlebars-wrapper',
+  'okta',
   'util/BrowserFeatures',
-  'shared/views/forms/inputs/TextBox',
   'qtip'
 ],
-function ($, Handlebars, BrowserFeatures, TextBox) {
+function (Okta, BrowserFeatures) {
+
+  var { TextBox } = Okta.internal.views.forms.inputs;
 
   return TextBox.extend({
     postRender: function () {

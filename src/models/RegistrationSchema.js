@@ -11,13 +11,12 @@
  */
 
 define([
-  'okta',
-  'shared/models/BaseSchema',
-  'shared/models/SchemaProperty'
+  'okta'
 ],
-function (Okta, BaseSchema, SchemaProperty) {
+function (Okta) {
 
   var _ = Okta._;
+  var { BaseSchema, SchemaProperty } = Okta.internal.models;
 
   var RegistrationSchemaPropertyCollection = SchemaProperty.Collection.extend({
     createModelProperties: function () {

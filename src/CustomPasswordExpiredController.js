@@ -14,12 +14,12 @@ define([
   'okta',
   'util/FormController',
   'util/FormType',
-  'views/expired-password/Footer',
-  'shared/util/Util'
+  'views/expired-password/Footer'
 ],
-function (Okta, FormController, FormType, Footer, Util) {
+function (Okta, FormController, FormType, Footer) {
 
   var _ = Okta._;
+  var { Util } = Okta.internal.util;
 
   return FormController.extend({
     className: 'custom-password-expired',

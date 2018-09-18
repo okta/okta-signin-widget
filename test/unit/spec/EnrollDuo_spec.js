@@ -1,7 +1,6 @@
 /* eslint max-params: [2, 13], camelcase: 0 */
 define([
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   'duo',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
@@ -14,9 +13,10 @@ define([
   'helpers/xhr/MFA_ENROLL_ACTIVATE_duo',
   'helpers/xhr/SUCCESS'
 ],
-function (_, $, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
+function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
           resAllFactors, resActivateDuo, resSuccess) {
 
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

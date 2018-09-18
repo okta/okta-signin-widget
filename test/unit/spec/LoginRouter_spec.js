@@ -2,10 +2,6 @@
 define([
   'okta',
   'vendor/lib/q',
-  'backbone',
-  'shared/util/Util',
-  'util/CryptoUtil',
-  'shared/util/Logger',
   'util/Logger',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
@@ -33,16 +29,18 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CourageLogger, Logger, OktaAuth, Util, Expect, Router,
+function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm,
           resSuccess, resRecovery, resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
           resMfaChallengePush, resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp,
           Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
 
+  var SharedUtil = Okta.internal.util.Util;
+  var CourageLogger = Okta.internal.util.Logger;
+  var {_, $, Backbone} = Okta;
+
   var itp = Expect.itp,
-      tick = Expect.tick,
-      _ = Okta._,
-      $ = Okta.$;
+      tick = Expect.tick;
 
   var OIDC_IFRAME_ID = 'okta-oauth-helper-frame';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta/underscore'], function (_) {
+define(function () {
 
   var fn = {},
       hasFullCorsSupport = 'withCredentials' in new window.XMLHttpRequest(),
@@ -71,7 +71,7 @@ define(['okta/underscore'], function (_) {
       'systemLanguage'    // IE
     ];
 
-    _.each(properties, function (property) {
+    properties.forEach(function (property) {
       if (navigator[property]) {
         languages.push(navigator[property]);
       }

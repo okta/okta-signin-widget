@@ -17,13 +17,13 @@ define([
   'views/enroll-factors/PhoneTextBox',
   'views/shared/TextBox',
   'util/CountryUtil',
-  'util/FormType',
-  'shared/util/Keys'
+  'util/FormType'
 ],
-function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, FormType, Keys) {
+function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, FormType) {
 
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
+  var { Keys } = Okta.internal.util;
 
   var factorIdIsDefined = {
     factorId: function (val) {

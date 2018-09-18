@@ -1,10 +1,9 @@
 /* eslint max-params:[2, 28], max-statements:[2, 40], camelcase:0, max-len:[2, 180] */
 define([
-  'okta/underscore',
   'models/RegistrationSchema',
   'helpers/util/Expect'
 ],
-function (_, RegistrationSchema, Expect) {
+function (RegistrationSchema, Expect) {
 
   Expect.describe('RegistrationSchema', function () {
 

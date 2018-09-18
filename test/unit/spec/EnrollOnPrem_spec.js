@@ -1,8 +1,6 @@
 /* eslint max-params: [2, 15] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTokenFactorForm',
@@ -16,9 +14,10 @@ define([
   'helpers/xhr/SUCCESS',
   'LoginRouter'
 ],
-function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
+function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           resAllFactors, resAllFactorsOnPrem, resEnrollError, resRSAChangePin, resSuccess, Router) {
 
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

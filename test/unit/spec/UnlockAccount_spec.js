@@ -1,8 +1,7 @@
 /* eslint max-params: [2, 16], max-statements: [2, 39] */
 define([
   'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/AccountRecoveryForm',
@@ -15,9 +14,10 @@ define([
   'helpers/xhr/RECOVERY_CHALLENGE_SMS_UNLOCK',
   'helpers/xhr/RECOVERY_CHALLENGE_CALL_UNLOCK'
 ],
-function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
+function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
           $sandbox, resError, resChallengeEmail, resChallengeSms, resChallengeCall) {
 
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

@@ -1,11 +1,9 @@
 define([
-  'okta/jquery',
-  'vendor/lib/q',
   'helpers/util/Expect',
   'sandbox',
   'util/DeviceFingerprint'
 ],
-function ($, Q, Expect, $sandbox, DeviceFingerprint) {
+function (Expect, $sandbox, DeviceFingerprint) {
 
   Expect.describe('DeviceFingerprint', function () {
 

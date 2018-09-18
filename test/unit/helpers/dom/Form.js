@@ -1,5 +1,6 @@
-define(['okta/jquery', 'okta/underscore', './Dom'], function ($, _, Dom) {
+define(['okta', './Dom'], function (Okta, Dom) {
 
+  var { _, $ } = Okta;
   return Dom.extend({
 
     titleText: function () {

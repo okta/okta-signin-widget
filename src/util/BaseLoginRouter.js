@@ -10,15 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 14], max-statements: [2, 18] */
+/* eslint max-params: [2, 12], max-statements: [2, 18] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
 define([
   'okta',
-  'backbone',
   './BrowserFeatures',
-  'RefreshAuthStateController',
   'models/Settings',
   'views/shared/Header',
   'views/shared/SecurityBeacon',
@@ -30,12 +28,11 @@ define([
   'util/Bundles',
   'util/Logger'
 ],
-function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
+function (Okta, BrowserFeatures, Settings,
           Header, SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations,
           Errors, Bundles, Logger) {
 
-  var _ = Okta._,
-      $ = Okta.$;
+  var { _, $, Backbone } = Okta;
 
   function isStateLessRouteHandler(router, fn) {
     return _.find(router.stateLessRouteHandlers, function (routeName) {

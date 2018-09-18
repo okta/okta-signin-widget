@@ -3,7 +3,6 @@ define([
   'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
-  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/EnrollCustomFactorForm',
   'helpers/dom/Beacon',
@@ -18,7 +17,6 @@ define([
 function (Okta,
           OktaAuth,
           LoginUtil,
-          SharedUtil,
           Util,
           Form,
           Beacon,
@@ -29,7 +27,8 @@ function (Okta,
           responseMfaEnrollActivateCustomFactor,
           resNoPermissionError,
           responseSuccess) {
-
+  
+  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

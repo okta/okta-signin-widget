@@ -11,11 +11,11 @@
  */
 
 define([
-  'okta',
-  '../../shared/util/Util'
+  'okta'
 ],
-function (Okta, Util) {
+function (Okta) {
 
+  var { Util } = Okta.internal.util;
   var compile = Okta.Handlebars.compile;
   var _ = Okta._;
 

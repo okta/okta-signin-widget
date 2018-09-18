@@ -1,4 +1,4 @@
-define(['okta/jquery', 'okta/underscore', './PrimaryAuthForm'], function ($, _, PrimaryAuthForm) {
+define(['./PrimaryAuthForm'], function (PrimaryAuthForm) {
 
   var CLASS_SELECTOR = '.idp-discovery';
   var NEXT_BUTTON = '.button.button-primary';

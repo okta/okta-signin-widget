@@ -12,12 +12,11 @@
 
 define([
   'okta',
-  './FactorsDropDownOptions',
-  'shared/views/components/BaseDropDown'
+  './FactorsDropDownOptions'
 ],
-function (Okta, FactorsDropDownOptions, BaseDropDown) {
-  var _ = Okta._;
-  var $ = Okta.$;
+function (Okta, FactorsDropDownOptions) {
+  var { _, $ } = Okta;
+  var { BaseDropDown } = Okta.internal.views.components;
 
   $(document).click(function (e) {
     var $target = $(e.target);

@@ -1,11 +1,8 @@
 /* eslint max-params: [2, 19], max-statements: [2, 22] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
-  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/PasswordExpiredForm',
   'helpers/dom/Beacon',
@@ -20,10 +17,12 @@ define([
   'helpers/xhr/CUSTOM_PASSWORD_EXPIRED',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
+function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
           $sandbox, resPassWarn, resPassExpired, resErrorComplexity,
           resErrorOldPass, resCustomPassWarn, resCustomPassExpired, resSuccess) {
 
+  var { _, $ } = Okta;
+  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

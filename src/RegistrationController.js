@@ -9,35 +9,28 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-/* eslint max-params: [2, 11]*/
 define([
   'okta',
-  'backbone',
   'models/RegistrationSchema',
   'models/LoginModel',
   'util/BaseLoginController',
   'util/Enums',
   'util/RegistrationFormFactory',
-  'util/RouterUtil',
-  'util/Util',
   'views/registration/SubSchema',
   'util/Errors'
 ],
 function (
   Okta,
-  Backbone,
   RegistrationSchema,
   LoginModel,
   BaseLoginController,
   Enums,
   RegistrationFormFactory,
-  RouterUtil,
-  Util,
   SubSchema,
   Errors
 ) {
 
-  var _ = Okta._;
+  var { _, Backbone } = Okta;
 
   var Footer = Okta.View.extend({
     template: '\

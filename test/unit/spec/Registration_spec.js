@@ -1,10 +1,7 @@
 /* eslint max-params: [2, 17], max-statements:[2, 70] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
-  'backbone',
   'helpers/mocks/Util',
   'helpers/util/Expect',
   'helpers/dom/Beacon',
@@ -13,12 +10,12 @@ define([
   'LoginRouter',
   'sandbox',
   'util/Errors',
-  'util/Util',
   'helpers/xhr/SUCCESS',
 ],
-function (Q, _, $, OktaAuth, Backbone, Util, Expect, Beacon, RegForm, RegSchema, 
-  Router, $sandbox, Errors, srcUtil, resSuccess) {
+function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema, 
+  Router, $sandbox, Errors, resSuccess) {
 
+  var { _, $, Backbone } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
   var testData = {

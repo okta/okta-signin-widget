@@ -14,11 +14,11 @@ define([
   'okta',
   'models/PrimaryAuth',
   'util/CookieUtil',
-  'util/Enums',
-  '../shared/util/Util'
+  'util/Enums'
 ],
-function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
+function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
 
+  var { Util } = Okta.internal.util;
   var _ = Okta._;
 
   return PrimaryAuthModel.extend({
