@@ -26,7 +26,8 @@ define([
   'helpers/xhr/MFA_CHALLENGE_email',
   'helpers/xhr/MFA_CHALLENGE_Webauthn',
   'helpers/xhr/MFA_CHALLENGE_u2f',
-  'helpers/xhr/MFA_CHALLENGE_customFactor',
+  'helpers/xhr/MFA_CHALLENGE_customSAMLFactor',
+  'helpers/xhr/MFA_CHALLENGE_customOIDCFactor',
   'helpers/xhr/MFA_CHALLENGE_push',
   'helpers/xhr/MFA_CHALLENGE_push_rejected',
   'helpers/xhr/MFA_CHALLENGE_push_timeout',
@@ -68,7 +69,8 @@ function (Okta,
           resChallengeEmail,
           resChallengeWebauthn,
           resChallengeU2F,
-          resChallengeCustomFactor,
+          resChallengeCustomSAMLFactor,
+          resChallengeCustomOIDCFactor,
           resChallengePush,
           resRejectedPush,
           resTimeoutPush,
@@ -103,7 +105,8 @@ function (Okta,
     'SYMANTEC_VIP': 10,
     'RSA_SECURID': 11,
     'ON_PREM': 12,
-    'GENERIC_SAML': 14
+    'GENERIC_SAML': 14,
+    'GENERIC_OIDC': 15
   };
 
   function clickFactorInDropdown(test, factorName) {
@@ -154,8 +157,13 @@ function (Okta,
             return Expect.waitForVerifyWindowsHello();
           }
           else if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
-            setNextResponse(resChallengeCustomFactor);
-            router.verifyCustomFactor();
+            setNextResponse(resChallengeCustomSAMLFactor);
+            router.verifySAMLFactor();
+            return Expect.waitForVerifyCustomFactor();
+          }
+          else if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
+            setNextResponse(resChallengeCustomOIDCFactor);
+            router.verifyOIDCFactor();
             return Expect.waitForVerifyCustomFactor();
           }
           else {
@@ -235,8 +243,10 @@ function (Okta,
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
     var setupPassword = _.partial(setup, resPassword, { factorType: 'password' });
-    var setupCustomFactor = _.partial(setup, resAllFactors,
+    var setupCustomSAMLFactor = _.partial(setup, resAllFactors,
                               { factorType: 'assertion:saml2', provider: 'GENERIC_SAML' });
+    var setupCustomOIDCFactor = _.partial(setup, resAllFactors,
+                              { factorType: 'assertion:oidc', provider: 'GENERIC_OIDC' });
     var setupAllFactorsWithRouter = _.partial(setup, resAllFactors, null, { 'features.router': true });
     function setupSecurityQuestionLocalized(options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
@@ -3010,47 +3020,47 @@ function (Okta,
         });
       });
 
-      Expect.describe('Custom Factor', function () {
-        itp('is custom factor', function () {
-          return setupCustomFactor().then(function (test) {
+      Expect.describe('Custom SAML Factor', function () {
+        itp('is custom SAML factor', function () {
+          return setupCustomSAMLFactor().then(function (test) {
             expect(test.form.isCustomFactor()).toBe(true);
           });
         });
         itp('shows the right beacon', function () {
-          return setupCustomFactor().then(function (test) {
+          return setupCustomSAMLFactor().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-custom-factor');
           });
         });
         itp('shows the right title', function () {
-          return setupCustomFactor().then(function (test) {
-            expectTitleToBe(test, 'Third Party Factor');
+          return setupCustomSAMLFactor().then(function (test) {
+            expectTitleToBe(test, 'SAML Factor');
           });
         });
         itp('shows the right subtitle', function () {
-          return setupCustomFactor().then(function (test) {
-            expectSubtitleToBe(test, 'Clicking below will redirect to verification with Third Party Factor');
+          return setupCustomSAMLFactor().then(function (test) {
+            expectSubtitleToBe(test, 'Clicking below will redirect to verification with SAML Factor');
           });
         });
         itp('has remember device checkbox', function () {
-          return setupCustomFactor().then(function (test) {
+          return setupCustomSAMLFactor().then(function (test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
         itp('redirects to third party when Verify button is clicked', function () {
           spyOn(SharedUtil, 'redirect');
-          return setupCustomFactor().then(function (test) {
-            test.setNextResponse([resChallengeCustomFactor, resSuccess]);
+          return setupCustomSAMLFactor().then(function (test) {
+            test.setNextResponse([resChallengeCustomSAMLFactor, resSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
           .then(function () {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
-              'http://rain.okta1.com:1802/policy/mfa-idp-redirect?okta_key=mfa.redirect.id'
+              'http://rain.okta1.com:1802/policy/mfa-saml-idp-redirect?okta_key=mfa.redirect.id'
             );
           });
         });
         itp('displays error when error response received', function () {
-          return setupCustomFactor().then(function (test) {
+          return setupCustomSAMLFactor().then(function (test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
@@ -3061,7 +3071,76 @@ function (Okta,
           });
         });
         itp('calls authClient verifyFactor with rememberDevice URL param', function () {
-          return setupCustomFactor().then(function (test) {
+          return setupCustomSAMLFactor().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.setRememberDevice(true);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'http://rain.okta1.com:1802/api/v1/authn/factors/customFactorId/verify?rememberDevice=true',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+          });
+        });
+      });
+      Expect.describe('Custom OIDC Factor', function () {
+        itp('is custom factor', function () {
+          return setupCustomOIDCFactor().then(function (test) {
+            expect(test.form.isCustomFactor()).toBe(true);
+          });
+        });
+        itp('shows the right beacon', function () {
+          return setupCustomOIDCFactor().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-custom-factor');
+          });
+        });
+        itp('shows the right title', function () {
+          return setupCustomOIDCFactor().then(function (test) {
+            expectTitleToBe(test, 'OIDC Factor');
+          });
+        });
+        itp('shows the right subtitle', function () {
+          return setupCustomOIDCFactor().then(function (test) {
+            expectSubtitleToBe(test, 'Clicking below will redirect to verification with OIDC Factor');
+          });
+        });
+        itp('has remember device checkbox', function () {
+          return setupCustomOIDCFactor().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
+        itp('redirects to third party when Verify button is clicked', function () {
+          spyOn(SharedUtil, 'redirect');
+          return setupCustomOIDCFactor().then(function (test) {
+            test.setNextResponse([resChallengeCustomOIDCFactor, resSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(SharedUtil.redirect);
+          })
+          .then(function () {
+            expect(SharedUtil.redirect).toHaveBeenCalledWith(
+              'http://rain.okta1.com:1802/policy/mfa-oidc-idp-redirect?okta_key=mfa.redirect.id'
+            );
+          });
+        });
+        itp('displays error when error response received', function () {
+          return setupCustomOIDCFactor().then(function (test) {
+            test.setNextResponse(resNoPermissionError);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+          });
+        });
+        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+          return setupCustomOIDCFactor().then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse(resSuccess);
             test.form.setRememberDevice(true);
@@ -3231,7 +3310,7 @@ function (Okta,
       itp('has a dropdown if there is more than one factor', function () {
         return setup(resAllFactors).then(function (test) {
           var options = test.beacon.getOptionsLinks();
-          expect(options.length).toBe(14);
+          expect(options.length).toBe(15);
         });
       });
       itp('shows the right options in the dropdown, removes okta totp if ' +
@@ -3241,7 +3320,7 @@ function (Okta,
           expect(options).toEqual([
             'Okta Verify', 'Security Key (U2F)', 'Windows Hello', 'Yubikey', 'Google Authenticator',
             'SMS Authentication', 'Voice Call Authentication', 'Email Authentication', 'Security Question',
-            'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password', 'Third Party Factor'
+            'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password', 'SAML Factor', 'OIDC Factor'
           ]);
         });
       });
@@ -3251,7 +3330,7 @@ function (Okta,
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
             'Okta Verify', 'Yubikey', 'Google Authenticator', 'SMS Authentication', 'Security Question',
-            'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'Third Party Factor'
+            'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'SAML Factor', 'OIDC Factor'
           ]);
         });
       });

@@ -218,6 +218,16 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       action: function () {
         action.call(this, this.model);
       }
+    },
+
+    'GENERIC_OIDC': {
+      icon: 'factor-icon mfa-custom-factor-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
     }
   };
 

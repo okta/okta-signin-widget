@@ -277,10 +277,22 @@ define({
           }
         }
       }, {
-        "id": "customFactorId",
+        "id": "customSAMLFactorId",
         "factorType": "assertion:saml2",
         "provider": "GENERIC_SAML",
-        "vendorName": "Third Party Factor",
+        "vendorName": "SAML Factor",
+        "profile": {"user":"administrator1@clouditude.net"},
+        "_links": {
+          "verify": {
+            "href":"http://rain.okta1.com:1802/api/v1/authn/factors/customFactorId/verify",
+            "hints": {"allow": ["POST"]}
+          }
+        }
+      }, {
+        "id": "customOIDCFactorId",
+        "factorType": "assertion:oidc",
+        "provider": "GENERIC_OIDC",
+        "vendorName": "OIDC Factor",
         "profile": {"user":"administrator1@clouditude.net"},
         "_links": {
           "verify": {

@@ -39,19 +39,18 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
 
       save: function () {
         var rememberDevice = !!this.get('rememberDevice');
-        return this.manageTransaction(function (transaction, setTransaction) {
+        return this.manageTransaction((transaction, setTransaction) => {
           var data = {
             rememberDevice: rememberDevice
           };
           var factor = _.findWhere(transaction.factors, {
-            provider: 'GENERIC_SAML',
-            factorType: 'assertion:saml2'
+            provider: this.get('provider'),
+            factorType: this.get('factorType')
           });
-          var self = this;
           return factor.verify(data)
-          .then(function (trans) {
+          .then((trans) => {
             setTransaction(trans);
-            var url = self.appState.get('verifyCustomFactorRedirectUrl');
+            var url = this.appState.get('verifyCustomFactorRedirectUrl');
             if(url !== null) {
               Util.redirect(url);
             }
@@ -66,8 +65,8 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
     Form: function() {
       var factors = this.options.appState.get('factors');
       var factor = factors.findWhere({
-        factorType: 'assertion:saml2',
-        provider: 'GENERIC_SAML'
+        provider: this.options.provider,
+        factorType: this.options.factorType
       });
       var vendorName = factor.get('vendorName');
       var saveText = Okta.loc('mfa.challenge.verify', 'login');
@@ -106,6 +105,11 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
       // from navigating back during 'verify' using the browser's
       // back button. The URL will still change, but the view will not
       // More details in OKTA-135060.
+    },
+
+    initialize: function () {
+      this.model.set('provider', this.options.provider);
+      this.model.set('factorType', this.options.factorType);
     }
 
   });

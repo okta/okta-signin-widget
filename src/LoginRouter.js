@@ -109,7 +109,8 @@ function (BaseLoginRouter,
       'signin/verify/duo/web': 'verifyDuo',
       'signin/verify/fido/webauthn': 'verifyWindowsHello',
       'signin/verify/fido/u2f': 'verifyU2F',
-      'signin/verify/generic_saml/assertion:saml2': 'verifyCustomFactor',
+      'signin/verify/generic_saml/assertion:saml2': 'verifySAMLFactor',
+      'signin/verify/generic_oidc/assertion:oidc': 'verifyOIDCFactor',
       'signin/verify/:provider/:factorType': 'verify',
       'signin/enroll': 'enrollChoices',
       'signin/enroll/duo/web': 'enrollDuo',
@@ -123,7 +124,8 @@ function (BaseLoginRouter,
       'signin/enroll/yubico/token:hardware': 'enrollYubikey',
       'signin/enroll/fido/webauthn': 'enrollWindowsHello',
       'signin/enroll/fido/u2f': 'enrollU2F',
-      'signin/enroll/generic_saml/assertion:saml2': 'enrollCustomFactor',
+      'signin/enroll/generic_saml/assertion:saml2': 'enrollSAMLFactor',
+      'signin/enroll/generic_oidc/assertion:oidc': 'enrollOIDCFactor',
       'signin/enroll/:provider/:factorType': 'enrollTotpFactor',
       'signin/enroll-activate/okta/push': 'scanBarcodePushFactor',
       'signin/enroll-activate/okta/push/manual': 'manualSetupPushFactor',
@@ -200,10 +202,18 @@ function (BaseLoginRouter,
       });
     },
 
-    verifyCustomFactor: function () {
+    verifySAMLFactor: function () {
       this.render(VerifyCustomFactorController, {
         provider: 'GENERIC_SAML',
         factorType: 'assertion:saml2',
+        Beacon: FactorBeacon
+      });
+    },
+
+    verifyOIDCFactor: function () {
+      this.render(VerifyCustomFactorController, {
+        provider: 'GENERIC_OIDC',
+        factorType: 'assertion:oidc',
         Beacon: FactorBeacon
       });
     },
@@ -284,10 +294,18 @@ function (BaseLoginRouter,
       });
     },
 
-    enrollCustomFactor: function () {
+    enrollSAMLFactor: function () {
       this.render(EnrollCustomFactorController, {
         provider: 'GENERIC_SAML',
         factorType: 'assertion:saml2',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollOIDCFactor: function () {
+      this.render(EnrollCustomFactorController, {
+        provider: 'GENERIC_OIDC',
+        factorType: 'assertion:oidc',
         Beacon: FactorBeacon
       });
     },

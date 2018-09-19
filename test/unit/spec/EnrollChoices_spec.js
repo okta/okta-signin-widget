@@ -212,6 +212,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.factorRow('DUO').length).toBe(0);
             expect(test.form.factorRow('SMS').length).toBe(0);
             expect(test.form.factorRow('GENERIC_SAML').length).toBe(0);
+            expect(test.form.factorRow('GENERIC_OIDC').length).toBe(0);
           });
         });
         itp('has the button text "Configure factor" if no required factors have been enrolled', function () {
@@ -308,6 +309,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.isFactorMinimized('SMS')).toBe(false);
             expect(test.form.isFactorMinimized('CALL')).toBe(false);
             expect(test.form.isFactorMinimized('GENERIC_SAML')).toBe(false);
+            expect(test.form.isFactorMinimized('GENERIC_OIDC')).toBe(false);
           });
         });
         itp('shows optional factors in their expanded title + description state (On-Prem)', function () {
@@ -318,6 +320,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.isFactorMinimized('DUO')).toBe(false);
             expect(test.form.isFactorMinimized('SMS')).toBe(false);
             expect(test.form.isFactorMinimized('GENERIC_SAML')).toBe(false);
+            expect(test.form.isFactorMinimized('GENERIC_OIDC')).toBe(false);
           });
         });
         itp('has a setup button for each unenrolled optional factor which navigates to the correct page', function () {
@@ -330,6 +333,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.factorButton('SMS').length).toBe(1);
             expect(test.form.factorButton('CALL').length).toBe(1);
             expect(test.form.factorButton('GENERIC_SAML').length).toBe(1);
+            expect(test.form.factorButton('GENERIC_OIDC').length).toBe(1);
             test.form.factorButton('SMS').click();
             expect(test.router.navigate)
               .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
@@ -350,6 +354,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
               expect(test.form.factorButton('CALL').length).toBe(1);
               expect(test.form.factorButton('SMS').length).toBe(1);
               expect(test.form.factorButton('GENERIC_SAML').length).toBe(1);
+              expect(test.form.factorButton('GENERIC_OIDC').length).toBe(1);
               test.form.factorButton('SMS').click();
               expect(test.router.navigate)
               .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
@@ -537,11 +542,20 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           resAllFactors
         );
       });
-      Expect.describe('CUSTOM FACTOR', function () {
+      Expect.describe('CUSTOM SAML FACTOR', function () {
         itHasIconAndText(
           'GENERIC_SAML',
           'mfa-custom-factor',
           'Third Party Factor',
+          'Redirect to a third party MFA provider to sign in to Okta.',
+          resAllFactors
+        );
+      });
+      Expect.describe('CUSTOM OIDC FACTOR', function () {
+        itHasIconAndText(
+          'GENERIC_OIDC',
+          'mfa-custom-factor',
+          'OIDC Factor',
           'Redirect to a third party MFA provider to sign in to Okta.',
           resAllFactors
         );
@@ -553,14 +567,14 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         return setup(resAllFactors).then(function (test) {
           var factorList = test.form.getFactorList();
           expect(factorList).toEqual(['OKTA_VERIFY', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH',
-            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'RSA_SECURID', 'GENERIC_SAML']);
+            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'RSA_SECURID', 'GENERIC_SAML', 'GENERIC_OIDC']);
         });
       });
       itp('with push and onPrem is in correct order', function () {
         return setup(resAllFactorsOnPrem).then(function (test) {
           var factorList = test.form.getFactorList();
           expect(factorList).toEqual(['OKTA_VERIFY_PUSH', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH',
-            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'ON_PREM', 'GENERIC_SAML']);
+            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'ON_PREM', 'GENERIC_SAML', 'GENERIC_OIDC']);
         });
       });
     });

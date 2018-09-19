@@ -10,7 +10,8 @@ define([
   'sandbox',
   'LoginRouter',
   'helpers/xhr/MFA_ENROLL_allFactors',
-  'helpers/xhr/MFA_ENROLL_ACTIVATE_CustomFactor',
+  'helpers/xhr/MFA_ENROLL_ACTIVATE_CustomSaml',
+  'helpers/xhr/MFA_ENROLL_ACTIVATE_CustomOidc',
   'helpers/xhr/NO_PERMISSION_error',
   'helpers/xhr/SUCCESS'
 ],
@@ -24,7 +25,8 @@ function (Okta,
           $sandbox,
           Router,
           responseMfaEnrollAll,
-          responseMfaEnrollActivateCustomFactor,
+          responseMfaEnrollActivateCustomSaml,
+          responseMfaEnrollActivateCustomOidc,
           resNoPermissionError,
           responseSuccess) {
   
@@ -34,8 +36,8 @@ function (Okta,
 
   Expect.describe('EnrollCustomFactor', function () {
 
-    function setup() {
-      var setNextResponse = Util.mockAjax([responseMfaEnrollAll, responseMfaEnrollActivateCustomFactor]);
+    function setup(isOidc) {
+      var setNextResponse = Util.mockAjax([responseMfaEnrollAll]);
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var successSpy = jasmine.createSpy('success');
@@ -53,7 +55,11 @@ function (Okta,
         return Expect.waitForEnrollChoices();
       })
       .then(function () {
-        router.enrollCustomFactor();
+        if(isOidc) {
+          router.enrollOIDCFactor();
+        } else {
+          router.enrollSAMLFactor();
+        }
         return Expect.waitForEnrollCustomFactor({
           router: router,
           beacon: new Beacon($sandbox),
@@ -81,47 +87,97 @@ function (Okta,
 
     Expect.describe('Enroll factor', function () {
 
-      itp('displays correct title', function () {
-        return setup().then(function (test) {
-          test.setNextResponse(responseSuccess);
-          expect(test.form.titleText()).toBe('Third Party Factor');
-          expect(test.form.buttonBar().hasClass('hide')).toBe(false);
+      Expect.describe('GENERIC_SAML', function () {
+
+        itp('displays correct title', function () {
+          return setup().then(function (test) {
+            test.setNextResponse(responseSuccess);
+            expect(test.form.titleText()).toBe('Third Party Factor');
+            expect(test.form.buttonBar().hasClass('hide')).toBe(false);
+          });
+        });
+
+        itp('displays correct subtitle', function () {
+          return setup().then(function (test) {
+            test.setNextResponse(responseSuccess);
+            expect(test.form.subtitleText())
+              .toBe('Clicking below will redirect to MFA enrollment with Third Party Factor');
+            expect(test.form.buttonBar().hasClass('hide')).toBe(false);
+          });
+        });
+
+        itp('redirects to third party when Enroll button is clicked', function () {
+          spyOn(SharedUtil, 'redirect');
+          return setup().then(function (test) {
+            test.setNextResponse([responseMfaEnrollActivateCustomSaml, responseSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(SharedUtil.redirect);
+          })
+          .then(function () {
+            expect(SharedUtil.redirect).toHaveBeenCalledWith(
+              'http://rain.okta1.com:1802/policy/mfa-saml-idp-redirect?okta_key=mfa.redirect.id'
+            );
+          });
+        });
+
+        itp('displays error when error response received', function () {
+          return setup().then(function (test) {
+            test.setNextResponse(resNoPermissionError);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage())
+              .toBe('You do not have permission to perform the requested action');
+          });
         });
       });
 
-      itp('displays correct subtitle', function () {
-        return setup().then(function (test) {
-          test.setNextResponse(responseSuccess);
-          expect(test.form.subtitleText())
-            .toBe('Clicking below will redirect to MFA enrollment with Third Party Factor');
-          expect(test.form.buttonBar().hasClass('hide')).toBe(false);
-        });
-      });
+      Expect.describe('GENERIC_OIDC', function () {
 
-      itp('redirects to third party when Enroll button is clicked', function () {
-        spyOn(SharedUtil, 'redirect');
-        return setup().then(function (test) {
-          test.setNextResponse([responseMfaEnrollActivateCustomFactor, responseSuccess]);
-          test.form.submit();
-          return Expect.waitForSpyCall(SharedUtil.redirect);
-        })
-        .then(function () {
-          expect(SharedUtil.redirect).toHaveBeenCalledWith(
-            'http://rain.okta1.com:1802/policy/mfa-idp-redirect?okta_key=mfa.redirect.id'
-          );
+        itp('displays correct title', function () {
+          return setup(true).then(function (test) {
+            test.setNextResponse(responseSuccess);
+            expect(test.form.titleText()).toBe('OIDC Factor');
+            expect(test.form.buttonBar().hasClass('hide')).toBe(false);
+          });
         });
-      });
 
-      itp('displays error when error response received', function () {
-        return setup().then(function (test) {
-          test.setNextResponse(resNoPermissionError);
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage())
-            .toBe('You do not have permission to perform the requested action');
+        itp('displays correct subtitle', function () {
+          return setup(true).then(function (test) {
+            test.setNextResponse(responseSuccess);
+            expect(test.form.subtitleText())
+              .toBe('Clicking below will redirect to MFA enrollment with OIDC Factor');
+            expect(test.form.buttonBar().hasClass('hide')).toBe(false);
+          });
+        });
+
+        itp('redirects to third party when Enroll button is clicked', function () {
+          spyOn(SharedUtil, 'redirect');
+          return setup(true).then(function (test) {
+            test.setNextResponse([responseMfaEnrollActivateCustomOidc, responseSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(SharedUtil.redirect);
+          })
+          .then(function () {
+            expect(SharedUtil.redirect).toHaveBeenCalledWith(
+              'http://rain.okta1.com:1802/policy/mfa-oidc-idp-redirect?okta_key=mfa.redirect.id'
+            );
+          });
+        });
+
+        itp('displays error when error response received', function () {
+          return setup(true).then(function (test) {
+            test.setNextResponse(resNoPermissionError);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage())
+              .toBe('You do not have permission to perform the requested action');
+          });
         });
       });
     });
