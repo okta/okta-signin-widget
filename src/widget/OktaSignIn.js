@@ -156,6 +156,16 @@ var OktaSignIn = (function () {
       return render(renderOptions);
     }
 
+    /**
+     * Returns authentication transaction information given a stateToken.
+     * @param {String} stateToken - Ephemeral token that represents the current state of an authentication
+     *                              or recovery transaction
+     * @returns {Promise} - Returns a promise for an object containing the transaction information
+     */
+    function getTransaction(stateToken) {
+      return authClient.tx.resume({ stateToken: stateToken });
+    }
+
     // Properties exposed on OktaSignIn object.
     return {
       renderEl: render,
@@ -175,6 +185,7 @@ var OktaSignIn = (function () {
         parseTokensFromUrl: parseTokensFromUrl
       },
       tokenManager: authClient.tokenManager,
+      getTransaction: getTransaction,
       hide: hide,
       show: show,
       remove: remove
