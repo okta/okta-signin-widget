@@ -20,8 +20,8 @@ if ! ci-update-package --branch ${TARGET_BRANCH}; then
   exit $FAILED_SETUP
 fi
 
-if ! npm publish --registry ${REGISTRY}; then
-  echo "npm publish failed! Exiting..."
+if ! yarn publish --registry ${REGISTRY}; then
+  echo "yarn publish failed! Exiting..."
   exit $PUBLISH_ARTIFACTORY_FAILURE
 fi
 
