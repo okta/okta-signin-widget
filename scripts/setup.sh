@@ -6,20 +6,20 @@ setup_service grunt
 setup_service bundler
 
 # Install required dependencies
-npm install -g @okta/ci-update-package
-npm install -g @okta/ci-pkginfo
+yarn global add  @okta/ci-update-package
+yarn global add @okta/ci-pkginfo
 
 if ! bundle install; then
   echo "bundle install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
-if ! npm install --no-optional --unsafe-perm; then
-  echo "npm install failed! Exiting..."
+if ! yarn install --no-optional --unsafe-perm; then
+  echo "yarn install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
-if ! npm run build:release; then
-  echo "npm build release failed! Exiting..."
+if ! yarn build:release; then
+  echo "yarn build release failed! Exiting..."
   exit ${FAILED_SETUP}
 fi

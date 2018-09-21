@@ -15,10 +15,10 @@ if (!filename) {
 const fullpath = path.join(__dirname, filename);
 
 console.log(`Installing ${fullpath} to React App`);
-execSync(`npm install --prefix test/e2e/react-app ${fullpath} --no-save`);
+execSync(`yarn --cwd test/e2e/react-app add ${fullpath}`);
 
 console.log(`Installing ${fullpath} to Angular App`);
-execSync(`npm install --prefix test/e2e/angular-app ${fullpath} --no-save`);
+execSync(`yarn --cwd test/e2e/angular-app add ${fullpath}`);
 
 console.log(`Deleting ${fullpath}`);
 if (__dirname === fullpath) {
