@@ -12,8 +12,6 @@ function (Okta, Widget, Expect, Logger) {
 
   beforeEach(function () {
     spyOn(Logger, 'warn');
-    spyOn($, 'ajax').and.callThrough();
-
     signIn = new Widget({
       baseUrl: url
     });
@@ -98,16 +96,16 @@ function (Okta, Widget, Expect, Logger) {
     });
 
     Expect.describe('getTransaction', function () {
-      it('resolves to an error if a transaction cannot resume', function (done) {
-        signIn.getTransaction()
-        .then(function(){/* Should never reach this */})
-        .catch(function(err) {
-          expect(err.name).toBe('AuthSdkError');
-          expect(err.errorSummary).toBe('No transaction to resume');
-          done();
-        });
+      beforeEach(function () {
+        spyOn($, 'ajax').and.callThrough();
+      });
+      it('throws an error if a state token is not provided', function () {
+        expect(function () {
+          signIn.getTransaction();
+        }).toThrow('A state token is required.');
       });
       it('calls the authentication api with a stateToken', function (done) {
+        $.ajax.calls.reset();
         signIn.getTransaction('fooToken')
         .then(function(){/* Should never reach this */})
         .catch(function() {

@@ -163,6 +163,9 @@ var OktaSignIn = (function () {
      * @returns {Promise} - Returns a promise for an object containing the transaction information
      */
     function getTransaction(stateToken) {
+      if (!stateToken) {
+        throw 'A state token is required.';
+      }
       return authClient.tx.resume({ stateToken: stateToken });
     }
 

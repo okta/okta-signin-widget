@@ -366,7 +366,7 @@ signIn.off('pageRendered', onPageRendered);
 
 ## getTransaction(stateToken)
 
-Returns [authentication transaction information](https://developer.okta.com/docs/api/resources/authn#transaction-model) given a `stateToken`. If a `stateToken` is not provided, it will fetch the current token from a saved browser cookie.
+Returns [authentication transaction information](https://developer.okta.com/docs/api/resources/authn#transaction-model) given a `stateToken`.
 
 ```javascript
 signIn.getTransaction(stateToken)
