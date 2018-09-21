@@ -27,6 +27,7 @@ Contributors should read our [contributing guidelines](./CONTRIBUTING.md) if the
   * [remove](#remove)
   * [on](#onevent-callback-context)
   * [off](#offevent-callback)
+  * [getTransaction](#gettransactionstatetoken)
   * [session.get](#sessiongetcallback)
   * [session.refresh](#sessionrefreshcallback)
   * [session.close](#sessionclosecallback)
@@ -362,6 +363,27 @@ signIn.off('pageRendered');
 // Unsubscribe the onPageRendered listener from the 'pageRendered' event
 signIn.off('pageRendered', onPageRendered);
 ```
+
+## getTransaction(stateToken)
+
+Returns [authentication transaction information](https://developer.okta.com/docs/api/resources/authn#transaction-model) given a `stateToken`.
+
+```javascript
+signIn.getTransaction(stateToken)
+.then(function (transaction) {
+  console.log(transaction.status);
+  console.log(transaction.user.profile.login);
+  // PASSWORD_EXPIRED
+  // user@example.com
+})
+.catch(function (err) {
+  console.log(error.message);
+});
+```
+
+When the `getTransaction` method resolves, it returns a **transaction** object that encapulates the [state authentication flow](https://developer.okta.com/docs/api/resources/authn#transaction-model). The **transaction** contains metadata about the current state, and provides methods that can be used to progress into another state.
+
+> For a list of examples, see the [`transaction`](https://github.com/okta/okta-auth-js/#locked_out) documentation.
 
 ## session.get(callback)
 

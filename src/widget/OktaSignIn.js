@@ -83,7 +83,7 @@ var OktaSignIn = (function () {
     var router;
     function render(options, success, error) {
       if (router) {
-        throw 'An instance of the widget has already been rendered. Call remove() first.';
+        throw new Error('An instance of the widget has already been rendered. Call remove() first.');
       }
 
       /**
@@ -156,6 +156,19 @@ var OktaSignIn = (function () {
       return render(renderOptions);
     }
 
+    /**
+     * Returns authentication transaction information given a stateToken.
+     * @param {String} stateToken - Ephemeral token that represents the current state of an authentication
+     *                              or recovery transaction
+     * @returns {Promise} - Returns a promise for an object containing the transaction information
+     */
+    function getTransaction(stateToken) {
+      if (!stateToken) {
+        throw new Error('A state token is required.');
+      }
+      return authClient.tx.resume({ stateToken: stateToken });
+    }
+
     // Properties exposed on OktaSignIn object.
     return {
       renderEl: render,
@@ -175,6 +188,7 @@ var OktaSignIn = (function () {
         parseTokensFromUrl: parseTokensFromUrl
       },
       tokenManager: authClient.tokenManager,
+      getTransaction: getTransaction,
       hide: hide,
       show: show,
       remove: remove
