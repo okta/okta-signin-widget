@@ -102,7 +102,7 @@ function (Okta, Widget, Expect, Logger) {
       it('throws an error if a state token is not provided', function () {
         expect(function () {
           signIn.getTransaction();
-        }).toThrow('A state token is required.');
+        }).toThrow(new Error('A state token is required.'));
       });
       it('calls the authentication api with a stateToken', function (done) {
         $.ajax.calls.reset();

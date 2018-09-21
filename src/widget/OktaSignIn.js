@@ -83,7 +83,7 @@ var OktaSignIn = (function () {
     var router;
     function render(options, success, error) {
       if (router) {
-        throw 'An instance of the widget has already been rendered. Call remove() first.';
+        throw new Error('An instance of the widget has already been rendered. Call remove() first.');
       }
 
       /**
@@ -164,7 +164,7 @@ var OktaSignIn = (function () {
      */
     function getTransaction(stateToken) {
       if (!stateToken) {
-        throw 'A state token is required.';
+        throw new Error('A state token is required.');
       }
       return authClient.tx.resume({ stateToken: stateToken });
     }
