@@ -20,7 +20,7 @@
   ],
   "main": "./dist/js/okta-sign-in.entry.js",
   "scripts": {
-    "clean": "rimraf target && rimraf dist",
+    "clean": "rimraf target && rimraf dist && rimraf build2",
     "lint:report": "grunt lint --checkstyle",
     "lint": "grunt lint",
     "test": "grunt test",

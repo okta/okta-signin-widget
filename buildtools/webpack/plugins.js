@@ -3,10 +3,14 @@
 
 const { readFileSync } = require('fs');
 const { join } = require('path');
-const { DefinePlugin, BannerPlugin, optimize } = require('webpack');
+const { DefinePlugin, BannerPlugin, IgnorePlugin, optimize } = require('webpack');
 const { some } = require('underscore');
 
 const UglifyJsPlugin = optimize.UglifyJsPlugin;
+
+function emptyModule() {
+  return new IgnorePlugin(/^\.\/locale$/, /moment$/);
+}
 
 function devMode() {
   return new DefinePlugin({
@@ -72,10 +76,10 @@ function banner() {
 function plugins(options = {}) {
   if (options.isProduction) {
     // Uglify and add license header
-    return [ uglify(), banner() ];
+    return [ emptyModule(), uglify(), banner() ];
   }
   // Use DEBUG/development environment w/ console warnings
-  return [ devMode() ];
+  return [ emptyModule(), devMode() ];
 }
 
 module.exports = plugins;
