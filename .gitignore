@@ -17,3 +17,4 @@ build2
 /dist
 packages/@okta/courage-for-signin-widget.html
 packages/@okta/courage-for-signin-widget.js.map
+yarn-error.log
