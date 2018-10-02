@@ -5,9 +5,17 @@ const { readFileSync } = require('fs');
 const { join } = require('path');
 const { DefinePlugin, BannerPlugin, IgnorePlugin, optimize } = require('webpack');
 const { some } = require('underscore');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const UglifyJsPlugin = optimize.UglifyJsPlugin;
 
+function webpackBundleAnalyzer() {
+  return new BundleAnalyzerPlugin({
+    openAnalyzer: false,
+    reportFilename: 'okta-sign-in.html',
+    analyzerMode: 'static',
+  });
+}
 function emptyModule() {
   return new IgnorePlugin(/^\.\/locale$/, /moment$/);
 }
@@ -79,7 +87,7 @@ function plugins(options = {}) {
     return [ emptyModule(), uglify(), banner() ];
   }
   // Use DEBUG/development environment w/ console warnings
-  return [ emptyModule(), devMode() ];
+  return [ emptyModule(), devMode(), webpackBundleAnalyzer() ];
 }
 
 module.exports = plugins;
