@@ -34,6 +34,7 @@ module.exports = function (outputFilename) {
         // v2 version. Continue to use the vendor file that is checked into
         // source.
         'duo': 'vendor/Duo-Web-v2.6',
+        'moment': TARGET_JS + '/widget/empty.js',
       }
     },
 
