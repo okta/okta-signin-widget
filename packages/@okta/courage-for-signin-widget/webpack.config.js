@@ -15,7 +15,6 @@ const EXTERNAL_PATHS = [
   'backbone',
   'underscore',
   'handlebars',
-  'moment',
   'shared/util/Bundles'
 ];
 
@@ -41,6 +40,13 @@ const webpackConfig = {
 
       // jsons is from StringUtil
       'vendor/lib/json2': EMPTY,
+
+      // util/handlebars-wrapper -> moment
+      // It's usage for formatting date in handlebar template.
+      // signin-widget doesn't use that feature hence it's safe to comment out.
+      // Could be remove when upgrade courage to latest version from which
+      // we would explicitly import handlerbar plugins in main file.
+      'moment': EMPTY,
 
       // simplemodal is from dependency chain:
       //   BaseRouter -> ConfirmationDialog -> BaseFormDialog -> BaseModalDialog -> simplemodal

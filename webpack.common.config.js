@@ -41,7 +41,15 @@ module.exports = function (outputFilename) {
         // Babel
         {
           test: /\.js$/,
-          exclude: /node_modules/,
+          exclude: function (filePath) {
+            const npmRequiresTransform = [
+              '/node_modules/parse-ms',
+              '/node_modules/@sindresorhus/to-milliseconds'
+            ].some(f => filePath.indexOf(f) > 0);
+
+            return filePath.indexOf('/node_modules/') > 0 && !npmRequiresTransform;
+
+          },
           loader: 'babel-loader',
           query: {
             presets: ['env'],
