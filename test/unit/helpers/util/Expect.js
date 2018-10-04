@@ -1,4 +1,3 @@
-/* eslint max-statements:[2, 28] */
 define([
   'okta',
   'q',
@@ -15,6 +14,32 @@ define([
 
   var WAIT_MAX_TIME = 2000;
   var WAIT_INTERVAL = 20;
+
+  function runTest(jasmineFn, desc, testFn) {
+    jasmineFn(desc, function (done) {
+      var errListener = function (err) {
+        // We've thrown an unexpected error in the test - setup a fake
+        // expectation to expose it to the developer
+        expect('Unexpected error thrown').toEqual(err.message);
+      };
+      window.addEventListener('error', errListener);
+      testFn.call(this)
+      .then(fn.tick) // Wait a tick for the tests to clean up
+      .then(function () {
+        expect(Q.getUnhandledReasons()).toEqual([]);
+        // Reset unhandled exceptions (which in the normal case come from the
+        // error tests we're running) so that this array does not get
+        // unreasonably large (and subsequently slow down our tests)
+        // Also, if a test turns off unhandled exceptions (necessary in the
+        // case of returning an api error response), this method will turn it
+        // back on.
+        Q.resetUnhandledRejections();
+        window.removeEventListener('error', errListener);
+        done();
+      })
+      .done();
+    });
+  }
 
   fn.describe = function(desc, fn) {
     return describe(desc, function() {
@@ -57,31 +82,9 @@ define([
 
   // Helper function to work with promises - when the return promise is
   // resolved, done is called
-  fn.itp = function (desc, testFn) {
-    it(desc, function (done) {
-      var errListener = function (err) {
-        // We've thrown an unexpected error in the test - setup a fake
-        // expectation to expose it to the developer
-        expect('Unexpected error thrown').toEqual(err.message);
-      };
-      window.addEventListener('error', errListener);
-      testFn.call(this)
-      .then(fn.tick) // Wait a tick for the tests to clean up
-      .then(function () {
-        expect(Q.getUnhandledReasons()).toEqual([]);
-        // Reset unhandled exceptions (which in the normal case come from the
-        // error tests we're running) so that this array does not get
-        // unreasonably large (and subsequently slow down our tests)
-        // Also, if a test turns off unhandled exceptions (necessary in the
-        // case of returning an api error response), this method will turn it
-        // back on.
-        Q.resetUnhandledRejections();
-        window.removeEventListener('error', errListener);
-        done();
-      })
-      .done();
-    });
-  };
+  fn.itp = runTest.bind({}, it);
+
+  fn.fitp = runTest.bind({}, fit);
 
   fn.tick = function (returnVal) {
     var deferred = Q.defer();

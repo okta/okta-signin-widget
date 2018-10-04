@@ -1939,14 +1939,18 @@ function (Okta,
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeEmail);
             test.form.emailSendCode().click();
-            return tick(test);
+            return Expect.wait(() => {
+              return $('[data-se="email-send-code"]').text() === 'Re-send email';
+            }, test);
           })
           .then(function (test) {
             expect(test.form.submitButton().prop('disabled')).toBe(false);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeEmail);
             test.form.emailSendCode().click();
-            return tick(test);
+            return Expect.wait(() => {
+              return $('[data-se="email-send-code"]').text() === 'Re-send email';
+            }, test);
           })
           .then(function (test) {
             expect(test.form.submitButton().prop('disabled')).toBe(false);
@@ -2334,7 +2338,7 @@ function (Okta,
                     expect(transaction.poll).toHaveBeenCalled();
                   });
                 });
-              }); 
+              });
             });
             itp('does not start poll if factor was switched before 6000ms', function () {
               return setupOktaPush().then(function (test) {

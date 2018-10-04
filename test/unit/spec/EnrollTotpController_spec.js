@@ -277,7 +277,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           expect(test.scanCodeForm.qrcodeImg().length).toBe(1);
           // Note: Modifying API qr code return image with something we can load locally
           expect(test.scanCodeForm.qrcodeImg().attr('src'))
-            .toEqual('../../../test/unit/assets/1x1.gif');
+            .toEqual('/base/test/unit/assets/1x1.gif');
         });
       });
       itp('has a link to setup app manually', function () {
@@ -485,7 +485,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
         return setupAndEnrollOktaPush().then(function (test) {
           expect(test.scanCodeForm.qrcodeImg().length).toBe(1);
           expect(test.scanCodeForm.qrcodeImg().attr('src'))
-            .toEqual('../../../test/unit/assets/1x1.gif');
+            .toEqual('/base/test/unit/assets/1x1.gif');
         });
       });
       itp('has a link to setup app manually', function () {
@@ -950,7 +950,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           return setupAndEnrollOktaPush()
           .then(function (test) {
             var oldQrCodeSrc = test.scanCodeForm.qrcodeImg().attr('src');
-            expect(oldQrCodeSrc).toBe('../../../test/unit/assets/1x1.gif');
+            expect(oldQrCodeSrc).toBe('/base/test/unit/assets/1x1.gif');
             test.scanCodeForm.clickManualSetupLink();
             return Expect.waitForManualSetupPush(test);
           })
@@ -972,7 +972,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             });
             Expect.isVisible(test.scanCodeForm.form());
             var newQrCodeSrc = test.scanCodeForm.qrcodeImg().attr('src');
-            expect(newQrCodeSrc).toBe('../../../test/unit/assets/1x1v2.gif');
+            expect(newQrCodeSrc).toBe('/base/test/unit/assets/1x1v2.gif');
           });
         });
       });

@@ -7,10 +7,12 @@ install:
 script:
 - yarn build:release
 - yarn lint
-- yarn test
+- yarn test:report
 - yarn test:e2e
 cache: false
 addons:
+  chrome: stable
+  firefox: latest
   sauce_connect:
     username: OktaSignInWidget
   jwt:

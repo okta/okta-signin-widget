@@ -1467,7 +1467,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           .then(expectZz);
         });
         itp('caches the language after the initial fetch', function () {
-          spyOn(localStorage, 'setItem').and.callThrough();
+          spyOn(Storage.prototype, 'setItem').and.callThrough();
           return setupLanguage({
             mockLanguageRequest: 'ja',
             settings: {
@@ -1491,7 +1491,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           });
         });
         itp('fetches from the cache if it is available', function () {
-          spyOn(localStorage, 'getItem').and.callFake(function (key) {
+          spyOn(Storage.prototype, 'getItem').and.callFake(function (key) {
             if (key === 'osw.languages') {
               return JSON.stringify({
                 version: '9.9.99',
@@ -1516,7 +1516,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           .then(expectJa);
         });
         itp('fetches language again (even if its cached) after the osw version is updated', function () {
-          spyOn(localStorage, 'getItem').and.callFake(function (key) {
+          spyOn(Storage.prototype, 'getItem').and.callFake(function (key) {
             if (key === 'osw.languages') {
               return JSON.stringify({
                 version: '0.0.00',

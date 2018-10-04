@@ -5,8 +5,7 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
 
-  var open        = require('open'),
-      Handlebars  = require('handlebars'),
+  var Handlebars  = require('handlebars'),
       _           = require('underscore'),
       postcssAutoprefixer = require('autoprefixer')({remove: false}),
       cssnano     = require('cssnano')({safe: true}),
@@ -14,8 +13,6 @@ module.exports = function (grunt) {
       path        = require('path');
 
   var JS                    = 'target/js',
-      JASMINE_TEST_FOLDER   = 'build2/reports/jasmine',
-      JASMINE_TEST_FILE     = JASMINE_TEST_FOLDER + '/login.html',
       ESLINT_OUT_FILE       = 'build2/loginjs-eslint-checkstyle.xml',
       DIST                  = 'dist',
       SASS                  = 'target/sass',
@@ -333,23 +330,6 @@ module.exports = function (grunt) {
       'run-protractor': 'yarn protractor'
     },
 
-    jasmine: {
-      test: {
-        options: {
-          keepRunner: true,
-          outfile: JASMINE_TEST_FILE,
-          specs: [
-            'target/test/unit/main-tests.js'
-          ],
-          junit: {
-            path: JASMINE_TEST_FOLDER
-          },
-          display: grunt.option('display') || 'full',
-          summary: true // show stack traces and errors
-        }
-      }
-    },
-
     sass: {
       options: {
         implementation: nodesass,
@@ -434,7 +414,7 @@ module.exports = function (grunt) {
 
     'generate-config': {
       options: {
-        languageGlob: 'target/labels/json/login_*.json',
+        languageGlob: 'packages/@okta/i18n/dist/json/login_*.json',
         out: JS + '/config/config.json'
       }
     },
@@ -495,30 +475,6 @@ module.exports = function (grunt) {
       ]);
     }
   );
-
-  grunt.task.registerTask(
-    'test',
-    'Runs Jasmine Unit tests. If you are debugging in the browser with ' +
-    '`grunt btest`, run `grunt test:build` to copy your changed files ' +
-    'and refresh the browser',
-    function (build) {
-      grunt.task.run([
-        'exec:clean',
-        'copy',
-        'generate-config',
-        'exec:build-test',
-        'jasmine:test' + (build ? ':build' : '')
-      ]);
-    }
-  );
-
-  grunt.task.registerTask('open-jasmine-specs-in-browser', 'Runs a File Tests on Browser', function () {
-    open(JASMINE_TEST_FILE);
-  });
-
-  grunt.task.registerTask('btest', 'Runs Jasmine Unit Tests on Browser', function () {
-    grunt.task.run(['test:build', 'open-jasmine-specs-in-browser']);
-  });
 
   grunt.task.registerTask('build', function (target) {
     var preBuildTasks = [],
