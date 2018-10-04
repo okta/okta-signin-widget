@@ -23,17 +23,20 @@ function (Okta, FormController, Footer) {
   return FormController.extend({
     className: 'enroll-custom-factor',
     Model: {
+      local: {
+        provider: 'string',
+        factorType: 'string'
+      },
       save: function () {
-        return this.manageTransaction(function (transaction, setTransaction) {
+        return this.manageTransaction((transaction, setTransaction) => {
           var factor = _.findWhere(transaction.factors, {
-            provider: 'GENERIC_SAML',
-            factorType: 'assertion:saml2'
+            provider: this.get('provider'),
+            factorType: this.get('factorType')
           });
-          var self = this;
           return factor.enroll()
-          .then(function (trans) {
+          .then((trans) => {
             setTransaction(trans);
-            var url = self.appState.get('enrollCustomFactorRedirectUrl');
+            var url = this.appState.get('enrollCustomFactorRedirectUrl');
             if(url !== null) {
               Util.redirect(url);
             }
@@ -48,8 +51,8 @@ function (Okta, FormController, Footer) {
     Form: function() {
       var factors = this.options.appState.get('factors');
       var factor = factors.findWhere({
-        factorType: 'assertion:saml2',
-        provider: 'GENERIC_SAML'
+        provider: this.options.provider,
+        factorType: this.options.factorType
       });
       var vendorName = factor.get('vendorName');
       var subtitle = Okta.loc('enroll.customFactor.subtitle', 'login', [vendorName]);
@@ -66,6 +69,11 @@ function (Okta, FormController, Footer) {
       if (this.options.appState.get('isMfaEnrollActivate')) {
         return true;
       }
+    },
+
+    initialize: function () {
+      this.model.set('provider', this.options.provider);
+      this.model.set('factorType', this.options.factorType);
     },
 
     Footer: Footer

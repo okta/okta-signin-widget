@@ -19,9 +19,9 @@ define({
      },
      "factor":{  
        "id":"factorId1234",
-       "factorType":"assertion:saml2",
-       "provider":"GENERIC_SAML",
-       "vendorName":"Third Party Factor",
+       "factorType":"assertion:oidc",
+       "provider":"GENERIC_OIDC",
+       "vendorName":"OIDC Factor",
        "profile":{  
          "user":"inca@clouditude.net"
        }
@@ -30,7 +30,7 @@ define({
     "_links":{  
      "next":{  
        "name":"activate",
-       "href":"http://rain.okta1.com:1802/policy/mfa-idp-redirect?okta_key=mfa.redirect.id",
+       "href":"http://rain.okta1.com:1802/policy/mfa-oidc-idp-redirect?okta_key=mfa.redirect.id",
        "hints":{"allow":["GET"]}
      },
      "cancel":{  
