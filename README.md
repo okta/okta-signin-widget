@@ -1364,7 +1364,7 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
 5. Build the widget, start a local connect server that hosts it, and launch a browser window with the widget running.
 
     ```bash
-    npm start
+    yarn start
     ```
 
 6. Finally, enable CORS support for our new server by [following these instructions](http://developer.okta.com/docs/guides/okta_sign-in_widget.html#configuring-cors-support-on-your-okta-organization). You can now authenticate to Okta using your very own, customizable widget!
