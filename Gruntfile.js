@@ -10,6 +10,7 @@ module.exports = function (grunt) {
       _           = require('underscore'),
       postcssAutoprefixer = require('autoprefixer')({remove: false}),
       cssnano     = require('cssnano')({safe: true}),
+      nodesass = require('node-sass'),
       path        = require('path');
 
   var JS                    = 'target/js',
@@ -301,7 +302,7 @@ module.exports = function (grunt) {
         }())
       }
     },
-  
+
     search: {
       noAbsoluteUrlsInCss: {
         files: {
@@ -351,6 +352,7 @@ module.exports = function (grunt) {
 
     sass: {
       options: {
+        implementation: nodesass,
         sourceMap: true,
         outputStyle: 'expanded',
         includePaths: [SASS]
