@@ -103,6 +103,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
             name: 'username',
             input: TextBox,
             type: 'text',
+            inlineValidation: false,
             params: {
               innerTooltip: Okta.loc('account.unlock.email.or.username.tooltip', 'login'),
               icon: 'person-16-gray'
