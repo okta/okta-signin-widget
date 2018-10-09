@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 18], max-statements:[2, 43] */
+/* eslint max-params: [2, 18], max-statements: 0 */
 define([
   'vendor/lib/q',
   'okta',
@@ -10,7 +10,6 @@ define([
   'helpers/util/Expect',
   'LoginRouter',
   'sandbox',
-  'util/Util',
   'helpers/xhr/RECOVERY_error',
   'helpers/xhr/RECOVERY_CHALLENGE_EMAIL_PWD',
   'helpers/xhr/RECOVERY_CHALLENGE_SMS_PWD',
@@ -19,7 +18,7 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon, Expect,
-          Router, $sandbox, srcUtil, resError, resChallengeEmail, resChallengeSms, resChallengeCall,
+          Router, $sandbox, resError, resChallengeEmail, resChallengeSms, resChallengeCall,
           resMfaRequired, resSuccess) {
 
   var { _, $ } = Okta;
@@ -216,6 +215,17 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.form.setUsername(Util.LoremIpsum);
           test.form.sendEmail();
           expect(test.form.usernameErrorField().length).toBe(1);
+          expect(test.form.usernameErrorField().text()).toBe('Please check your username');
+        });
+      });
+      itp('does not send email and show error when username is all whitespace', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('  ');
+          test.form.sendEmail();
+          expect($.ajax.calls.count()).toBe(0);
+          expect(test.form.usernameErrorField().length).toBe(1);
+          expect(test.form.usernameErrorField().text()).toBe('The field cannot be left blank');
         });
       });
       itp('sends email', function () {
