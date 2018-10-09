@@ -199,6 +199,17 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
           test.form.setUsername(Util.LoremIpsum);
           test.form.sendEmail();
           expect(test.form.usernameErrorField().length).toBe(1);
+          expect(test.form.usernameErrorField().text()).toBe('Please check your username');
+        });
+      });
+      itp('shows an error if username is empty', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername(' ');
+          test.form.sendEmail();
+          expect($.ajax.calls.count()).toBe(0);
+          expect(test.form.usernameErrorField().length).toBe(1);
+          expect(test.form.usernameErrorField().text()).toBe('The field cannot be left blank');
         });
       });
       itp('sends email', function () {
