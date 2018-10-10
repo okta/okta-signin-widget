@@ -1,41 +1,93 @@
 # Contributing to Okta Open Source Repos
 
-## Style
+Thank you for your interest in contributing to Okta's Open Source Projects! As a contributor, here are guidelines we would like you to follow:
 
-### Git Commit Messages
+<!-- TOC depthFrom:2 depthTo:2 -->
 
-We use a simplified form of [Atom's](https://github.com/atom/atom/blob/master/CONTRIBUTING.md#git-commit-messages) commit convention.
+- [Need Help?](#need-help)
+- [Commit Message Guidelines](#commit-message-guidelines)
+- [Signing the CLA](#signing-the-cla)
 
-  * Use the present tense ("Adds feature" not "Added feature")
-  * Limit the first line to 72 characters or less
-  * Add one feature per commit. If you have multiple features, have multiple commits.
-  
+<!-- /TOC -->
+
+## Need Help?
+
+If you run into problems using this library, you can:
+
+- Ask questions on the [Okta Developer Forums][devforum]
+- Post [issues][github-issues] here on GitHub (for code errors)
+
+## Commit Message Guidelines
+
+### Commit Message Format
+
+We use an adapted form of [Conventional Commits](http://conventionalcommits.org/).
+
+- Use the present tense ("Adds feature" not "Added feature")
+- Limit the first line to 72 characters or less
+- Add one feature per commit. If you have multiple features, have multiple commits.
+
 #### Template
 
-    <emoji> Short Description of Commit
+    <type>: Short Description of Commit
     <BLANKLINE>
     More detailed description of commit
     <BLANKLINE>
-    Resolves: <Jira # or Issue #>
+    (Optional) Resolves: <Issue #>
 
-#### Emoji Categories
-Our categories include:
-  * :seedling: `:seedling`: when creating a new feature
-  * :bug: `:bug:` when fixing a bug
-  * :white_check_mark: `:white_check_mark:` when adding tests
-  * :art: `:art:` when improving the format/structure of the code
-  * :memo: `:memo:` when writing docs
-  * :fire: `:fire:` when removing code or files
-  * :package: `:package` when pushing a new release
-  * :arrow_up: `:arrow_up:` when upgrading dependencies
-  * :arrow_down: `:arrow_down:` when downgrading dependencies
-    
-If you do not see an exact emoji match, use the best matching emoji.
+#### Template for specific package change
+
+    <type>[<package-name>]: Short Description of Commit
+    <BLANKLINE>
+    More detailed description of commit
+    <BLANKLINE>
+    (Optional) Resolves: <Issue #>
+
+#### Type
+
+Our types include:
+
+- `feat` when creating a new feature
+- `fix` when fixing a bug
+- `test` when adding tests
+- `refactor` when improving the format/structure of the code
+- `docs` when writing docs
+- `release` when pushing a new release
+- `chore` others (ex: upgrading/downgrading dependencies)
 
 #### Example
-    :memo: Updates CONTRIBUTING.md
 
-    Updates Contributing.md with new emoji categories
-    Updates Contributing.md with new template 
-    
-    Resolves: OKTA-12345
+    docs: Updates CONTRIBUTING.md
+
+    Updates Contributing.md with new conventional commit types
+    Updates Contributing.md with new template
+
+    Resolves: #1234
+
+#### Example for specific package change
+
+    fix[okta-angular]: Fixes a bad bug
+
+    Fixes a very bad bug in okta-angular
+
+    Resolves: #5678
+
+#### Breaking changes
+
+- Breaking changes MUST be indicated at the very beginning of the body section of a commit. A breaking change MUST consist of the uppercase text `BREAKING CHANGE`, followed by a colon and a space.
+- A description MUST be provided after the `BREAKING CHANGE:`, describing what has changed about the API.
+
+#### Example for a breaking change
+
+    feat: Allows provided config object to extend other configs
+
+    BREAKING CHANGE: `extends` key in config file is now used for extending other config files<!-- TOC -->
+
+## Signing the CLA
+
+Before submitting a PR, please take a moment to read over our [Contributer License Agreement][okta-cla]. In certain cases, we ask that you [sign a CLA][okta-sign-cla] before we merge your pull request.
+
+[devforum]: https://devforum.okta.com/
+[github-issues]: https://github.com/okta/okta-signin-widget/issues
+[okta-cla]: https://developer.okta.com/cla/
+[okta-sign-cla]: https://developer.okta.com/sites/all/themes/developer/pdf/okta_individual_contributor_license_agreement_2016-11.pdf
