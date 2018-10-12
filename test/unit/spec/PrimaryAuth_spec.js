@@ -758,6 +758,117 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
     });
 
+    Expect.describe('relayState', function () {
+      itp('is not sent by default in primaryAuth', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser',
+              password: 'pass',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+
+      itp('is not sent if sendRelayStateInPrimaryAuth=false', function () {
+        return setup({
+          features: { sendRelayStateInPrimaryAuth: false },
+          relayState: '/test/path'
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser',
+              password: 'pass',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+
+      itp('is not sent if relayState is empty, even if sendRelayStateInPrimaryAuth=true', function () {
+        return setup({
+          features: { sendRelayStateInPrimaryAuth: true }
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser',
+              password: 'pass',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+
+      itp('is sent if sendRelayStateInPrimaryAuth=true and relayState is not empty', function () {
+        return setup({
+          features: { sendRelayStateInPrimaryAuth: true },
+          relayState: '/test/path'
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              username: 'testuser',
+              password: 'pass',
+              relayState: '/test/path',
+              options: {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+        });
+      });
+    });
+
     Expect.describe('transform username', function () {
       itp('calls the transformUsername function with the right parameters', function () {
         return setupWithTransformUsername().then(function (test) {
@@ -1088,7 +1199,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
           expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(typingPattern);
         });
-      });      
+      });
     });
 
     Expect.describe('events', function () {
@@ -2133,7 +2244,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.facebookButton().click();
           expect(SharedUtil.redirect.calls.count()).toBe(1);
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
-            'https://foo.com/sso/idps/0oaidiw9udOSceD1234?' + 
+            'https://foo.com/sso/idps/0oaidiw9udOSceD1234?' +
             $.param({fromURI: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U'})
           );
         });

@@ -142,6 +142,9 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       if (!this.settings.get('features.passwordlessAuth')) {
         signInArgs.password = this.get('password');
       }
+      if (this.settings.get('features.sendRelayStateInPrimaryAuth') && this.settings.get('relayState')) {
+        signInArgs.relayState = this.settings.get('relayState');
+      }
       return signInArgs;
     },
 
