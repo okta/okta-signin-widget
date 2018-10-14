@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* eslint complexity: [2, 7] */
-define(['okta', 'vendor/lib/q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
+define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
 
   var subtitleTpl = Okta.Handlebars.compile('({{subtitle}})');
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
-  
+
   function getFormAndButtonDetails(factorType) {
     switch(factorType) {
     case 'sms':

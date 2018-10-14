@@ -12,7 +12,7 @@
 
 /* eslint complexity: [2, 8] */
 
-define(['vendor/lib/q', 'okta'], function (Q, Okta) {
+define(['q', 'okta'], function (Q, Okta) {
 
   var $ = Okta.$;
   return {

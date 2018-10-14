@@ -13,7 +13,7 @@
 /* eslint complexity: [2, 8] */
 define([
   'okta',
-  'vendor/lib/q',
+  'q',
   'util/FactorUtil',
   'views/mfa-verify/dropdown/FactorsDropDown',
   'models/Factor'

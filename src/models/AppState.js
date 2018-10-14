@@ -12,7 +12,7 @@
 
 define([
   'okta',
-  'vendor/lib/q',
+  'q',
   'models/Factor',
   'util/BrowserFeatures',
   'util/Errors'

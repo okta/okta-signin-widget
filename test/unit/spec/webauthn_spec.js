@@ -1,5 +1,5 @@
 define([
-  'vendor/lib/q',
+  'q',
   'helpers/util/Expect',
   'util/webauthn'
 ],

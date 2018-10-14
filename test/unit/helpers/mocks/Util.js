@@ -1,7 +1,7 @@
 /* eslint no-global-assign: 0, max-statements: 0 */
 define([
   'okta',
-  'vendor/lib/q',
+  'q',
   'duo'
 ],
 function (Okta, Q, Duo) {

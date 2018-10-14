@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 16], max-statements: [2, 39] */
 define([
-  'vendor/lib/q',
+  'q',
   'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',

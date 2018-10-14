@@ -14,7 +14,7 @@
 define([
   'okta',
   'duo',
-  'vendor/lib/q',
+  'q',
   'util/FactorUtil',
   'util/FormController',
   'util/Enums',

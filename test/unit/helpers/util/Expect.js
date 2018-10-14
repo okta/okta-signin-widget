@@ -1,7 +1,7 @@
 /* eslint max-statements:[2, 28] */
 define([
   'okta',
-  'vendor/lib/q',
+  'q',
   'helpers/mocks/Util',
   'util/Logger',
   'util/Bundles',

@@ -12,7 +12,7 @@
 
 define([
   'okta',
-  'vendor/lib/q',
+  'q',
   'util/Enums',
 ],
 function (Okta, Q, Enums) {
