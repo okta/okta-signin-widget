@@ -1,6 +1,7 @@
 define(['./Form'], function (Form) {
 
   var ANSWER_FIELD = 'answer';
+  var PASSWORD_FIELD = 'password';
   var SHOW_ANSWER_FIELD = 'showAnswer';
   var REMEMBER_DEVICE = 'rememberDevice';
   var AUTO_PUSH = 'autoPush';
@@ -30,9 +31,21 @@ define(['./Form'], function (Form) {
     isCall: function () {
       return this.el('factor-call').length === 1;
     },
+    
+    isEmail: function () {
+      return this.el('factor-email').length === 1;
+    },
 
     isInlineTOTP: function () {
       return this.el('factor-inline-totp').length === 1;
+    },
+
+    isPassword: function () {
+      return this.el('factor-password').length === 1;
+    },
+
+    isCustomFactor: function () {
+      return this.el('factor-custom').length === 1;
     },
 
     answerField: function () {
@@ -59,6 +72,32 @@ define(['./Form'], function (Form) {
 
     hideAnswerButton: function () {
       return this.el('o-form-input-answer').find('.button-hide');
+    },
+
+    passwordField: function () {
+      return this.input(PASSWORD_FIELD);
+    },
+
+    setPassword: function (val) {
+      var field = this.passwordField();
+      field.val(val);
+      field.trigger('change');
+    },
+
+    showPasswordLabelText: function () {
+      return this.checkboxLabelText(SHOW_ANSWER_FIELD);
+    },
+
+    passwordButtonsContainer: function () {
+      return this.el('o-form-input-password').find('.password-toggle');
+    },
+
+    showPasswordButton: function () {
+      return this.el('o-form-input-password').find('.button-show');
+    },
+
+    hidePasswordButton: function () {
+      return this.el('o-form-input-password').find('.button-hide');
     },
 
     rememberDeviceCheckbox: function () {
@@ -108,6 +147,10 @@ define(['./Form'], function (Form) {
     makeCall: function () {
       return this.el('make-call');
     },
+    
+    emailSendCode: function () {
+      return this.el('email-send-code');
+    },
 
     inlineTOTPVerify: function () {
       return this.el('inline-totp-verify');
@@ -133,8 +176,24 @@ define(['./Form'], function (Form) {
       return this.error('answer');
     },
 
+    passwordErrorField: function () {
+      return this.error('password');
+    },
+
     getAutocomplete: function () {
       return this.autocomplete(ANSWER_FIELD);
+    },
+
+    signoutLink: function ($sandbox) {
+      return $sandbox.find('[data-se=signout-link]');
+    },
+
+    passwordToggleShowContainer: function() {
+      return this.$('.password-toggle span.button-show');
+    },
+
+    passwordToggleHideContainer: function() {
+      return this.$('.password-toggle span.button-hide');
     }
 
   });

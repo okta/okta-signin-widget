@@ -17,13 +17,13 @@ define([
   'views/enroll-factors/PhoneTextBox',
   'views/shared/TextBox',
   'util/CountryUtil',
-  'util/FormType',
-  'shared/util/Keys'
+  'util/FormType'
 ],
-function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, FormType, Keys) {
+function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, FormType) {
 
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
+  var { Keys } = Okta.internal.util;
 
   var factorIdIsDefined = {
     factorId: function (val) {
@@ -66,7 +66,8 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         hasExistingPhones: 'boolean',
         trapEnrollment: 'boolean',
         ableToResend: 'boolean',
-        factorType: 'string'
+        factorType: 'string',
+        skipPhoneValidation: 'boolean'
       },
       derived: {
         countryCallingCode: {
@@ -114,28 +115,35 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
             profileData['phoneExtension'] = phoneExtension;
           }
 
-          if (isMfaEnroll) {
-            var factor = _.findWhere(transaction.factors, {
+          if (self.get('skipPhoneValidation')) {
+            profileData['validatePhone'] = false;
+          }
+
+          var doEnroll = function (trans) {
+            var factor = _.findWhere(trans.factors, {
               factorType: self.get('factorType'),
               provider: 'OKTA'
             });
             return factor.enroll({
               profile: profileData
+            })
+            .fail(function (error) {
+              if(error.errorCode === 'E0000098') { // E0000098: "This phone number is invalid."
+                self.set('skipPhoneValidation', true);
+                error.xhr.responseJSON.errorSummary = Okta.loc('enroll.sms.try_again', 'login');
+              }
+              throw error;
             });
+          };
 
-          } else {
+          if (isMfaEnroll) {
+            return doEnroll(transaction);
+          }
+          else {
             // We must transition to MfaEnroll before updating the phone number
             self.set('trapEnrollment', true);
             return transaction.prev()
-            .then(function (trans) {
-              var factor = _.findWhere(trans.factors, {
-                factorType: self.get('factorType'),
-                provider: 'OKTA'
-              });
-              return factor.enroll({
-                profile: profileData
-              });
-            })
+            .then(doEnroll)
             .then(function (trans) {
               self.set('trapEnrollment', false);
               return trans;
@@ -248,7 +256,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
           placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
           name: 'passCode',
           input: TextBox,
-          type: 'number',
+          type: 'tel',
           params: {
             innerTooltip: Okta.loc('mfa.challenge.enterCode.tooltip', 'login')
           },

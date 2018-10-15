@@ -34,7 +34,7 @@ define([
         FormType.Input({
           name: 'passCode',
           input: TextBox,
-          type: 'number',
+          type: 'tel',
           placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
           params: {
             innerTooltip: Okta.loc('mfa.challenge.enterCode.tooltip', 'login')

@@ -10,8 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 14], max-statements: [2, 26] */
-define(['okta'], function (Okta) {
+/* eslint complexity: [2, 18], max-statements: [2, 34] */
+define([
+  'okta'
+],
+function (Okta) {
+
+  var { TimeUtil } = Okta.internal.util;
 
   var _ = Okta._;
 
@@ -30,71 +35,95 @@ define(['okta'], function (Okta) {
       iconClassName: 'mfa-okta-verify',
       sortOrder: 1
     },
-    'SMS': {
-      label: 'factor.sms',
-      description: 'factor.sms.description',
-      iconClassName: 'mfa-okta-sms',
+    'U2F': {
+      label: 'factor.u2f',
+      description: 'factor.u2f.description',
+      iconClassName: 'mfa-u2f',
       sortOrder: 2
-    },
-    'CALL': {
-      label: 'factor.call',
-      description: 'factor.call.description',
-      iconClassName: 'mfa-okta-call',
-      sortOrder: 3
     },
     'WINDOWS_HELLO': {
       label: 'factor.windowsHello',
       description: 'factor.windowsHello.signin.description',
       iconClassName: 'mfa-windows-hello',
-      sortOrder: 4
-    },
-    'U2F': {
-      label: 'factor.u2f',
-      description: 'factor.u2f.description',
-      iconClassName: 'mfa-u2f',
-      sortOrder: 5
+      sortOrder: 3
     },
     'YUBIKEY': {
       label: 'factor.totpHard.yubikey',
       description: 'factor.totpHard.yubikey.description',
       iconClassName: 'mfa-yubikey',
-      sortOrder: 6
-    },
-    'DUO': {
-      label: 'factor.duo',
-      description: 'factor.duo.description',
-      iconClassName: 'mfa-duo',
-      sortOrder: 7
+      sortOrder: 4
     },
     'GOOGLE_AUTH': {
       label: 'factor.totpSoft.googleAuthenticator',
       description: 'factor.totpSoft.description',
       iconClassName: 'mfa-google-auth',
+      sortOrder: 5
+    },
+    'SMS': {
+      label: 'factor.sms',
+      description: 'factor.sms.description',
+      iconClassName: 'mfa-okta-sms',
+      sortOrder: 6
+    },
+    'CALL': {
+      label: 'factor.call',
+      description: 'factor.call.description',
+      iconClassName: 'mfa-okta-call',
+      sortOrder: 7
+    },
+    'EMAIL': {
+      label: 'factor.email',
+      description: '',
+      iconClassName: 'mfa-okta-email',
       sortOrder: 8
-    },
-    'SYMANTEC_VIP': {
-      label: 'factor.totpHard.symantecVip',
-      description: 'factor.totpHard.description',
-      iconClassName: 'mfa-symantec',
-      sortOrder: 9
-    },
-    'RSA_SECURID': {
-      label: 'factor.totpHard.rsaSecurId',
-      description: 'factor.totpHard.description',
-      iconClassName: 'mfa-rsa',
-      sortOrder: 10
-    },
-    'ON_PREM': {
-      label: '',
-      description: 'factor.totpHard.description',
-      iconClassName: 'mfa-onprem',
-      sortOrder: 10
     },
     'QUESTION': {
       label: 'factor.securityQuestion',
       description: 'factor.securityQuestion.description',
       iconClassName: 'mfa-okta-security-question',
+      sortOrder: 9
+    },
+    'DUO': {
+      label: 'factor.duo',
+      description: 'factor.duo.description',
+      iconClassName: 'mfa-duo',
+      sortOrder: 10
+    },
+    'SYMANTEC_VIP': {
+      label: 'factor.totpHard.symantecVip',
+      description: 'factor.totpHard.description',
+      iconClassName: 'mfa-symantec',
       sortOrder: 11
+    },
+    'RSA_SECURID': {
+      label: 'factor.totpHard.rsaSecurId',
+      description: 'factor.totpHard.description',
+      iconClassName: 'mfa-rsa',
+      sortOrder: 12
+    },
+    'ON_PREM': {
+      label: '',
+      description: 'factor.totpHard.description',
+      iconClassName: 'mfa-onprem',
+      sortOrder: 13
+    },
+    'PASSWORD': {
+      label: 'factor.password',
+      description: '',
+      iconClassName: 'mfa-okta-password',
+      sortOrder: 14
+    },
+    'GENERIC_SAML': {
+      label: '',
+      description: 'factor.customFactor.description',
+      iconClassName: 'mfa-custom-factor',
+      sortOrder: 15
+    },
+    'GENERIC_OIDC': {
+      label: '',
+      description: 'factor.customFactor.description',
+      iconClassName: 'mfa-custom-factor',
+      sortOrder: 16
     }
   };
 
@@ -138,6 +167,18 @@ define(['okta'], function (Okta) {
     if (provider === 'FIDO' && factorType === 'u2f') {
       return 'U2F';
     }
+    if (provider === 'OKTA' && factorType === 'email') {
+      return 'EMAIL';
+    }
+    if (provider === 'OKTA' && factorType === 'password') {
+      return 'PASSWORD';
+    }
+    if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
+      return 'GENERIC_SAML';
+    }
+    if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
+      return 'GENERIC_OIDC';
+    }
   };
 
   fn.isOktaVerify = function (provider, factorType) {
@@ -174,6 +215,28 @@ define(['okta'], function (Okta) {
   fn.getPasswordComplexityDescription = function (policy) {
     var result = [];
 
+    var getPasswordAgeRequirement = function(displayableTime) {
+      var propertiesString;
+      switch (displayableTime.unit) {
+      case 'DAY':
+        propertiesString = 'password.complexity.minAgeDays';
+        break;
+      case 'HOUR':
+        propertiesString = 'password.complexity.minAgeHours';
+        break;
+      case 'MINUTE':
+        propertiesString = 'password.complexity.minAgeMinutes';
+      }
+      return Okta.loc(propertiesString, 'login', [displayableTime.time]);
+    };
+
+    var setExcludeAttributes = function (policyComplexity) {
+      var excludeAttributes = policyComplexity.excludeAttributes;
+      policyComplexity.excludeFirstName = _.contains(excludeAttributes, 'firstName');
+      policyComplexity.excludeLastName = _.contains(excludeAttributes, 'lastName');
+      return _.omit(policyComplexity, 'excludeAttributes');
+    };
+
     if (policy.complexity) {
       var complexityFields = {
         minLength: {i18n: 'password.complexity.length', args: true},
@@ -181,12 +244,15 @@ define(['okta'], function (Okta) {
         minUpperCase: {i18n: 'password.complexity.uppercase'},
         minNumber: {i18n: 'password.complexity.number'},
         minSymbol: {i18n: 'password.complexity.symbol'},
-        excludeUsername: {i18n: 'password.complexity.no_username'}
+        excludeUsername: {i18n: 'password.complexity.no_username'},
+        excludeFirstName: {i18n: 'password.complexity.no_first_name'},
+        excludeLastName: {i18n: 'password.complexity.no_last_name'}
       };
 
-      var policyComplexity = policy.complexity;
+      var policyComplexity = setExcludeAttributes(policy.complexity);
+
       var requirements = _.map(policyComplexity, function (complexityValue, complexityType) {
-        if (!complexityValue) {
+        if (complexityValue <= 0) { // to skip 0 and -1
           return;
         }
 
@@ -202,12 +268,18 @@ define(['okta'], function (Okta) {
           return result ? (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) : requirement;
         });
 
-        result.push(Okta.loc('password.complexity.description', 'login', [requirements]));
+        result.push(Okta.loc('password.complexity.requirements', 'login', [requirements]));
       }
     }
 
-    if (policy.age && policy.age.historyCount) {
+    if (policy.age && policy.age.historyCount > 0) {
       result.push(Okta.loc('password.complexity.history', 'login', [policy.age.historyCount]));
+    }
+
+    if (policy.age && policy.age.minAgeMinutes > 0) {
+      var displayableTime = TimeUtil.getTimeInHighestRelevantUnit(policy.age.minAgeMinutes, 'MINUTE');
+      var minAgeDescription = getPasswordAgeRequirement(displayableTime);
+      result.push(minAgeDescription);
     }
 
     return result.join(' ');

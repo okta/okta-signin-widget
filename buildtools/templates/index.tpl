@@ -33,6 +33,13 @@
           return;
         }
 
+        //IDP Discovery
+        if (res.status == 'IDP_DISCOVERY') {
+          console.log('idp discovery');
+          res.idpDiscovery.redirectToIdp(options.baseUrl + '/app/UserHome');
+          return;
+        }
+
         // User has completed authentication (res.status === 'SUCCESS')
 
         // 1. Widget is not configured for OIDC, and returns a sessionToken

@@ -1,4 +1,4 @@
-// The release webpack config exports three configs:
+// The release webpack config exports four configs:
 // 1. entryConfig - generates okta-sign-in.entry.js, a non-minified built
 //    version of the widget that does not include any vendor dependencies. This
 //    is meant to be imported through a require() statement using webpack or
@@ -9,11 +9,13 @@
 // 3. noJqueryConfig - generates okta.sign-in.no-jquery.js, which is used by
 //    our own internal login flow. We can remove this once we update loginpage
 //    to use webpack.
+// 4. devConfig - generates okta.sign-in.js, which is a non-minified version of
+//    the widget that contains helpful warning messages and includes everything
+//    necessary to run (including all vendor libraries).
 
-var webpack = require('webpack');
-var fs      = require('fs');
-var _       = require('underscore');
+/* global module */
 var config  = require('./webpack.common.config');
+var plugins = require('./buildtools/webpack/plugins');
 
 // 1. entryConfig
 var entryConfig = config('okta-sign-in.entry.js');
@@ -27,7 +29,6 @@ entryConfig.externals = {
     'amd': 'jquery',
     'root': 'jQuery'
   },
-  'jquery.cookie': true,
   'handlebars': {
     'commonjs': 'handlebars/dist/handlebars',
     'commonjs2': 'handlebars/dist/handlebars',
@@ -35,7 +36,6 @@ entryConfig.externals = {
     'root': 'handlebars'
   },
   'q': true,
-  'qtip': 'qtip2',
   'u2f-api-polyfill': true,
   'underscore': true,
   'vendor/lib/q': 'q'
@@ -47,48 +47,23 @@ entryConfig.externals = {
   // Chosen is also another special case - because we're currently modifying
   // some of the chosen code, we cannot include it as an npm dependency.
 };
+// Add transform-runtime
+entryConfig.module.loaders = entryConfig.module.loaders || [];
+const loader = entryConfig.module.loaders.find(item =>
+  item.loader === 'babel-loader');
+if (loader) {
+  loader.query.plugins = loader.query.plugins || [];
+  loader.query.plugins.push('transform-runtime');
+}
 
 // 2. cdnConfig
-var license = fs.readFileSync('src/widget/copyright.txt', 'utf8');
 var cdnConfig = config('okta-sign-in.min.js');
-cdnConfig.plugins = [
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false
-    },
-    sourceMap: false,
-    comments: function(node, comment) {
-      // Remove other Okta copyrights
-      var isLicense = /^!/.test(comment.value) ||
-                      /.*(([Ll]icense)|([Cc]opyright)|(\([Cc]\))).*/.test(comment.value);
-      var isOkta = /.*Okta.*/.test(comment.value);
-
-      // Some licenses are in inline comments, rather than standard block comments.
-      // UglifyJS2 treats consecutive inline comments as separate comments, so we
-      // need exceptions to include all relevant licenses.
-      var exceptions = [
-        'Chosen, a Select Box Enhancer',
-        'by Patrick Filler for Harvest',
-        'Version 0.11.1',
-        'Full source at https://github.com/harvesthq/chosen',
-
-        'Underscore.js 1.8.3'
-      ];
-
-      var isException = _.some(exceptions, function(exception) {
-        return comment.value.indexOf(exception) !== -1;
-      });
-
-      return (isLicense || isException) && !isOkta;
-    }
-  }),
-
-  // Add a single Okta license after removing others
-  new webpack.BannerPlugin(license)
-];
+cdnConfig.entry.unshift('babel-polyfill');
+cdnConfig.plugins = plugins({ isProduction: true });
 
 // 3. noJqueryConfig
 var noJqueryConfig = config('okta-sign-in-no-jquery.js');
+noJqueryConfig.entry = cdnConfig.entry;
 noJqueryConfig.plugins = cdnConfig.plugins;
 noJqueryConfig.externals = {
   'jquery': {
@@ -99,4 +74,9 @@ noJqueryConfig.externals = {
   }
 };
 
-module.exports = [entryConfig, cdnConfig, noJqueryConfig];
+// 4. devConfig
+var devConfig = config('okta-sign-in.js');
+devConfig.entry.unshift('babel-polyfill');
+devConfig.plugins = plugins({ isProduction: false });
+
+module.exports = [entryConfig, cdnConfig, noJqueryConfig, devConfig];

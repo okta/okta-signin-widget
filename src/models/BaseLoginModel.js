@@ -12,15 +12,16 @@
 
 define([
   'okta',
-  'vendor/lib/q'
+  'vendor/lib/q',
+  'util/Enums',
 ],
-function (Okta, Q) {
+function (Okta, Q, Enums) {
 
   var _ = Okta._;
   var KNOWN_ERRORS = [
-    'OAuthError', 
-    'AuthSdkError', 
-    'AuthPollStopError', 
+    'OAuthError',
+    'AuthSdkError',
+    'AuthPollStopError',
     'AuthApiError'
   ];
 
@@ -34,7 +35,8 @@ function (Okta, Q) {
       })
       .fail(function(err) {
         // Q may still consider AuthPollStopError to be unhandled
-        if (err.name === 'AuthPollStopError') {
+        if (err.name === 'AuthPollStopError' ||
+            err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR) {
           return;
         }
         self.trigger('setTransactionError', err);
@@ -48,11 +50,12 @@ function (Okta, Q) {
     manageTransaction: function (fn) {
       var self = this,
           res = fn.call(this, this.appState.get('transaction'), _.bind(this.setTransaction, this));
-      
+
       // If it's a promise, listen for failures
-      if (Q.isPromise(res)) {
-        res.fail(function(err) {
-          if (err.name === 'AuthPollStopError') {
+      if (Q.isPromiseAlike(res)) {
+        return res.fail(function(err) {
+          if (err.name === 'AuthPollStopError' ||
+              err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR) {
             return;
           }
           self.trigger('setTransactionError', err);
@@ -68,7 +71,7 @@ function (Okta, Q) {
           res = fn.call(this, this.settings.getAuthClient());
 
       // If it's a promise, then chain to it
-      if (Q.isPromise(res)) {
+      if (Q.isPromiseAlike(res)) {
         return res.then(function(trans) {
           self.trigger('setTransaction', trans);
           return trans;

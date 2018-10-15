@@ -2,8 +2,6 @@
 define([
   'okta',
   'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
   '@okta/okta-auth-js/jquery',
   'util/Util',
   'helpers/mocks/Util',
@@ -19,8 +17,6 @@ define([
 ],
 function (Okta,
           Q,
-          _,
-          $,
           OktaAuth,
           LoginUtil,
           Util,
@@ -34,6 +30,7 @@ function (Okta,
           responseMfaEnrollActivateWebauthn,
           responseSuccess) {
 
+  var { $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

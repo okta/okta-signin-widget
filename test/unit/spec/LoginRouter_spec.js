@@ -1,17 +1,15 @@
-/* eslint max-params: [2, 30], max-statements: [2, 36], max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 32], max-statements: 0, max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'vendor/lib/q',
-  'backbone',
-  'shared/util/Util',
-  'util/CryptoUtil',
-  'util/CookieUtil',
+  'util/Logger',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/util/Expect',
   'LoginRouter',
   'sandbox',
   'helpers/dom/PrimaryAuthForm',
+  'helpers/dom/IDPDiscoveryForm',
   'helpers/dom/RecoveryQuestionForm',
   'helpers/dom/MfaVerifyForm',
   'helpers/dom/EnrollCallForm',
@@ -31,16 +29,18 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util, Expect, Router,
-          $sandbox, PrimaryAuthForm, RecoveryForm, MfaVerifyForm, EnrollCallForm, resSuccess, resRecovery,
-          resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo, resMfaChallengePush,
-          resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp, Errors, BrowserFeatures,
-          labelsLoginJa, labelsCountryJa) {
+function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
+          $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm,
+          resSuccess, resRecovery, resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
+          resMfaChallengePush, resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp,
+          Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
+
+  var SharedUtil = Okta.internal.util.Util;
+  var CourageLogger = Okta.internal.util.Logger;
+  var {_, $, Backbone} = Okta;
 
   var itp = Expect.itp,
-      tick = Expect.tick,
-      _ = Okta._,
-      $ = Okta.$;
+      tick = Expect.tick;
 
   var OIDC_IFRAME_ID = 'okta-oauth-helper-frame';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
@@ -69,13 +69,12 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
     function setup(settings) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({url: baseUrl});
+      var authClient = new OktaAuth({url: baseUrl, headers: {}});
       var eventSpy = jasmine.createSpy('eventSpy');
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
-        authClient: authClient,
-        globalSuccessFn: function () {}
+        authClient: authClient
       }, settings));
       Util.registerRouter(router);
       router.on('pageRendered', eventSpy);
@@ -161,45 +160,74 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
           form: new EnrollCallForm($sandbox),
           loadingSpy: loadingSpy
         }));
+      })
+      .then(function (test) {
+        return Expect.wait(function () {
+          return test.form.hasCountriesList();
+        }, test);
       });
     }
 
-    it('throws a ConfigError if unknown option is passed as a widget param', function () {
+    function expectPrimaryAuthRender(options = {}, path = '') {
+      // Reusable stub to assert that the Primary Auth for renders
+      // given Widget parameters and a navigation path.
+      return setup(options)
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate(path);
+        return Expect.waitForPrimaryAuth();
+      })
+      .then(function () {
+        var form = new PrimaryAuthForm($sandbox);
+        expect(form.isPrimaryAuth()).toBe(true);
+      });
+    }
+
+    function expectUnexpectedFieldLog(arg1) {
+      // These console warnings are called from Courage's Logger class, not
+      // the Widget's. We need to assert that the following is called in specific
+      // environments (window.okta && window.okta.debug are defined).
+      expect(CourageLogger.warn).toHaveBeenCalledWith('Field not defined in schema', arg1);
+    }
+
+    it('logs a ConfigError error if unknown option is passed as a widget param', function () {
+      spyOn(CourageLogger, 'warn');
       var fn = function () { setup({ foo: 'bla' }); };
-      expect(fn).toThrowError(Errors.ConfigError);
+      expect(fn).not.toThrowError(Errors.ConfigError);
+      expectUnexpectedFieldLog('foo');
     });
     it('has the correct error message if unknown option is passed as a widget param', function () {
+      spyOn(CourageLogger, 'warn');
       var fn = function () { setup({ foo: 'bla' }); };
-      expect(fn).toThrowError('field not allowed: foo');
+      expect(fn).not.toThrow();
+      expectUnexpectedFieldLog('foo');
     });
-    it('throws a ConfigError if el is not passed as a widget param', function () {
+    it('logs a ConfigError error if el is not passed as a widget param', function () {
       var fn = function () { setup({ el: undefined }); };
-      expect(fn).toThrowError(Errors.ConfigError);
+      expect(fn).not.toThrow();
+      expect(Logger.error).toHaveBeenCalled();
     });
     it('has the correct error message if el is not passed as a widget param', function () {
       var fn = function () { setup({ el: undefined }); };
-      expect(fn).toThrowError('"el" is a required widget parameter');
+      expect(fn).not.toThrow();
+      var err = Logger.error.calls.mostRecent().args[0];
+      expect(err.name).toBe('CONFIG_ERROR');
+      expect(err.message).toEqual('"el" is a required widget parameter');
     });
     it('throws a ConfigError if baseUrl is not passed as a widget param', function () {
-      var fn = function () { setup({ baseUrl: undefined }); };
-      expect(fn).toThrowError(Errors.ConfigError);
+      var fn = function () { setup({ authClient: new OktaAuth({baseUrl: undefined }) }); };
+      expect(fn).toThrowError('No url passed to constructor. Required usage: new OktaAuth({url: "https://sample.okta.com"})');
     });
-    it('has the correct error message if baseUrl is not passed as a widget param', function () {
-      var fn = function () { setup({ baseUrl: undefined }); };
-      expect(fn).toThrowError('"baseUrl" is a required widget parameter');
+    itp('renders the primary autenthentication form when no globalSuccessFn and globalErrorFn are passed as widget params', function () {
+      return expectPrimaryAuthRender({ globalSuccessFn: undefined, globalErrorFn: undefined });
     });
-    it('throws a ConfigError if globalSuccessFn is not passed as a widget param', function () {
-      var fn = function () { setup({ globalSuccessFn: undefined }); };
-      expect(fn).toThrowError(Errors.ConfigError);
-    });
-    it('has the correct error message if globalSuccessFn is not passed as a widget param', function () {
-      var fn = function () { setup({ globalSuccessFn: undefined }); };
-      expect(fn).toThrowError('A success handler is required');
+    itp('renders the primary autenthentication form when a null globalSuccessFn and globalErrorFn are passed as widget params', function () {
+      return expectPrimaryAuthRender({ globalSuccessFn: null, globalErrorFn: null });
     });
     itp('set pushState true if pushState is supported', function () {
       spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(true);
       spyOn(Okta.Router.prototype, 'start');
-      return setup().then(function (test) {
+      return setup({ 'features.router': true }).then(function (test) {
         test.router.start();
         expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: true });
       });
@@ -207,7 +235,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
     itp('set pushState false if pushState is not supported', function () {
       spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(false);
       spyOn(Okta.Router.prototype, 'start');
-      return setup().then(function (test) {
+      return setup({ 'features.router': true }).then(function (test) {
         test.router.start();
         expect(Okta.Router.prototype.start).toHaveBeenCalledWith({ pushState: false });
       });
@@ -276,22 +304,23 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         );
       });
     });
-    it('throws an error on unrecoverable errors if no globalErrorFn is defined', function () {
+    it('logs an error on unrecoverable errors if no globalErrorFn is defined', function () {
       var fn = function () {
         setup({ foo: 'bar' });
       };
-      expect(fn).toThrowError('field not allowed: foo');
+      spyOn(CourageLogger, 'warn');
+      expect(fn).not.toThrow('field not allowed: foo');
+      expectUnexpectedFieldLog('foo');
     });
     it('calls globalErrorFn on unrecoverable errors if it is defined', function () {
       var errorSpy = jasmine.createSpy('errorSpy');
       var fn = function () {
-        setup({ globalErrorFn: errorSpy, foo: 'bar' });
+        setup({ globalErrorFn: errorSpy, baseUrl: undefined });
       };
       expect(fn).not.toThrow();
       var err = errorSpy.calls.mostRecent().args[0];
-      expect(err instanceof Errors.ConfigError).toBe(true);
       expect(err.name).toBe('CONFIG_ERROR');
-      expect(err.message).toEqual('field not allowed: foo');
+      expect(err.message).toEqual('"baseUrl" is a required widget parameter');
     });
     it('calls globalErrorFn if cors is not supported by the browser', function () {
       var errorSpy = jasmine.createSpy('errorSpy');
@@ -322,16 +351,64 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
       });
     });
     itp('navigates to PrimaryAuth if requesting a stateful url without a stateToken', function () {
-      return setup()
+      return expectPrimaryAuthRender({}, 'signin/recovery-question');
+    });
+    itp('navigates to IDPDiscovery if features.idpDiscovery is set to true', function () {
+      return setup({'features.idpDiscovery': true})
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
-        test.router.navigate('signin/recovery-question');
-        return Expect.waitForPrimaryAuth();
+        test.router.navigate('');
+        return Expect.waitForIDPDiscovery();
       })
       .then(function () {
-        var form = new PrimaryAuthForm($sandbox);
-        expect(form.isPrimaryAuth()).toBe(true);
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
       });
+    });
+    itp('navigates to IDPDiscovery for /login/login.htm when features.idpDiscovery is true', function () {
+      return setup({'features.idpDiscovery': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('login/login.htm');
+        return Expect.waitForIDPDiscovery();
+      })
+      .then(function () {
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to PrimaryAuth for /login/login.htm when features.idpDiscovery is false', function () {
+      return expectPrimaryAuthRender({}, 'login/login.htm');
+    });
+    itp('navigates to IDPDiscovery for /app/salesforce/{id}/sso/saml when features.idpDiscovery is true', function () {
+      return setup({'features.idpDiscovery': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('/app/salesforce/abc123sef/sso/saml');
+        return Expect.waitForIDPDiscovery();
+      })
+      .then(function () {
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to PrimaryAuth for /app/salesforce/{id}/sso/saml when features.idpDiscovery is false', function () {
+      return expectPrimaryAuthRender({ 'features.idpDiscovery': false }, '/app/salesforce/abc123sef/sso/saml');
+    });
+    itp('navigates to IDPDiscovery for /any/other when features.idpDiscovery is true', function () {
+      return setup({'features.idpDiscovery': true})
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.router.navigate('any/other');
+        return Expect.waitForIDPDiscovery();
+      })
+      .then(function () {
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to PrimaryAuth for /any/other when features.idpDiscovery is false', function () {
+      return expectPrimaryAuthRender({ 'features.idpDiscovery': false }, 'any/other');
     });
     itp('refreshes auth state on stateful url if it needs a refresh', function () {
       return setup()
@@ -408,7 +485,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         expect(form.hasErrors()).toBe(false);
       });
     });
-    itp('navigates to PrimaryAuth if status is UNAUTHENTICATED', function () {
+    itp('navigates to PrimaryAuth if status is UNAUTHENTICATED, and IDP_DISCOVERY is disabled', function () {
       return setup({ stateToken: 'aStateToken' })
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
@@ -427,6 +504,39 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         expect(test.router.appState.get('isUnauthenticated')).toBe(true);
         var form = new PrimaryAuthForm($sandbox);
         expect(form.isPrimaryAuth()).toBe(true);
+      });
+    });
+    itp('navigates to IDPDiscovery if status is UNAUTHENTICATED, and IDP_DISCOVERY is enabled', function () {
+      return setup({ stateToken: 'aStateToken', 'features.idpDiscovery': true })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.setNextResponse(resUnauthenticated);
+        test.router.navigate('/app/sso');
+        return Expect.waitForIDPDiscovery(test);
+      })
+      .then(function (test) {
+        expect($.ajax.calls.count()).toBe(1);
+        Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          url: 'https://foo.com/api/v1/authn',
+          data: {
+            stateToken: 'aStateToken'
+          }
+        });
+        expect(test.router.appState.get('isUnauthenticated')).toBe(true);
+        var form = new IDPDiscoveryForm($sandbox);
+        expect(form.isIDPDiscovery()).toBe(true);
+      });
+    });
+    itp('navigates to default route when status is UNAUTHENTICATED', function () {
+      return setup({ stateToken: 'aStateToken' })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.setNextResponse(resUnauthenticated);
+        test.router.navigate('/app/sso');
+        return Expect.waitForPrimaryAuth(test);
+      })
+      .then(function (test) {
+        expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
       });
     });
     itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {
@@ -472,8 +582,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         expect(form.isSecurityQuestion()).toBe(true);
       });
     });
-    itp('checks auto push by default for a returning user', function () {
-      Util.mockCookie('auto_push_' + CryptoUtil.getStringHash('00uhn6dAGR4nUB4iY0g3'), 'true');
+    itp('checks auto push by default for a returning user with autoPush true', function () {
       return setup({'features.autoPush': true})
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
@@ -485,7 +594,8 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         expect(form.isPrimaryAuth()).toBe(true);
         // Respond with MFA_REQUIRED
         // Verify is immediately called, so respond with MFA_CHALLENGE
-        test.setNextResponse([resMfaRequiredOktaVerify, resMfaChallengePush]);
+        var resAutoPushTrue = Util.getAutoPushResponse(resMfaRequiredOktaVerify, true);
+        test.setNextResponse([resAutoPushTrue, resMfaChallengePush]);
         form.setUsername('testuser');
         form.setPassword('pass');
         form.submit();
@@ -498,7 +608,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         expect(form.isPushSent()).toBe(true);
         expect($.ajax.calls.count()).toBe(2);
         Expect.isJsonPost($.ajax.calls.argsFor(1), {
-          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify',
+          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
           data: {
             stateToken: 'testStateToken'
           }
@@ -528,8 +638,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         expect(form.isPushSent()).toBe(false);
       });
     });
-    itp('auto push updates cookie on MFA success', function () {
-      spyOn(CookieUtil, 'removeAutoPushCookie');
+    itp('sends autoPush=false as url param when auto push checkbox is unchecked', function () {
       return setup({'features.autoPush': true})
       .then(function (test) {
         Util.mockRouterNavigate(test.router);
@@ -546,13 +655,19 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         return Expect.waitForMfaVerify(test);
       })
       .then(function (test) {
-        test.setNextResponse(resSuccess);
+        test.setNextResponse(resMfaChallengePush);
         var form = new MfaVerifyForm($sandbox);
         form.submit();
-        return tick(test);
+        return tick();
       })
       .then(function () {
-        expect(CookieUtil.removeAutoPushCookie).toHaveBeenCalledWith('00ui0jgywTAHxYGMM0g3');
+        expect($.ajax.calls.count()).toBe(2);
+        Expect.isJsonPost($.ajax.calls.argsFor(1), {
+          url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
+          data: {
+            stateToken: 'testStateToken'
+          }
+        });
       });
     });
 
@@ -875,6 +990,66 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
           expect(test.form.titleText()).toBe('test override title');
         });
       });
+      itp('overrides text in the login bundle if language field and key in i18n object is in different cases', function () {
+        return setupLanguage({
+          settings: {
+            language: 'zz-zz',
+            i18n: {
+              'zz-ZZ': {
+                'enroll.call.setup': 'custom label'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          expect(test.form.titleText()).toBe('custom label');
+        });
+      });
+      itp('overrides text in the login bundle if language field and key in i18n object is in different cases', function () {
+        return setupLanguage({
+          settings: {
+            language: 'zz-ZZ',
+            i18n: {
+              'zz-zz': {
+                'enroll.call.setup': 'custom label'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          expect(test.form.titleText()).toBe('custom label');
+        });
+      });
+      itp('overrides text in the login bundle if language field and key in i18n object is in different cases', function () {
+        return setupLanguage({
+          settings: {
+            language: 'nl',
+            i18n: {
+              'NL': {
+                'enroll.call.setup': 'custom label'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          expect(test.form.titleText()).toBe('custom label');
+        });
+      });
+      itp('overrides text in the login bundle if language field and key in i18n object is in different cases', function () {
+        return setupLanguage({
+          settings: {
+            language: 'NL',
+            i18n: {
+              'nl': {
+                'enroll.call.setup': 'custom label'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          expect(test.form.titleText()).toBe('custom label');
+        });
+      });
       itp('uses "country.COUNTRY" to override text in the country bundle', function () {
         return setupLanguage({
           settings: {
@@ -904,6 +1079,83 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
         .then(function (test) {
           test.form.selectCountry('JP');
           expect(test.form.selectedCountry()).toBe('Nihon');
+        });
+      });
+
+      itp('overrides text in the courage bundle for non English language', function () {
+        return setupLanguage({
+          settings: {
+            language: 'NL',
+            i18n: {
+              'nl': {
+                'oform.errorbanner.title': 'Dutch error banner title'
+              }
+            }
+          }
+        })
+        .then(function (test) {
+          test.form.submit();
+          expect(test.form.errorMessage()).toBe('Dutch error banner title');
+        });
+      });
+
+      itp('Strings in courage bundle are in jp as set in settings.language', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja'
+          }
+        })
+        .then(function(test){
+          test.form.submit();
+          expect(test.form.errorMessage()).toBe('JA: Japanese error banner title');
+        });
+      });
+
+      itp('Strings in courage bundle are in en by default', function () {
+        return setupLanguage({})
+        .then(function(test){
+          test.form.submit();
+          expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+        });
+      });
+
+      itp('Sends the default accept lang header en with API calls if widget is not configured with a language', function () {
+        return setupLanguage({})
+        .then(function (test) {
+          test.setNextResponse(resSuccess);
+          test.router.navigate('');
+          return Expect.waitForPrimaryAuth();
+        })
+        .then(function () {
+          var form = new PrimaryAuthForm($sandbox);
+          expect(form.isPrimaryAuth()).toBe(true);
+          form.setUsername('testuser');
+          form.setPassword('testpassword');
+          form.submit();
+          expect($.ajax.calls.mostRecent().args[0].headers['Accept-Language']).toBe('en');
+        });
+      });
+
+      itp('Sends the right accept lang header with API calls if widget is configured with a language', function () {
+        return setupLanguage({
+          mockLanguageRequest: 'ja',
+          settings: {
+            language: 'ja'
+          }
+        })
+        .then(function (test) {
+          test.setNextResponse(resSuccess);
+          test.router.navigate('');
+          return Expect.waitForPrimaryAuth();
+        })
+        .then(function () {
+          var form = new PrimaryAuthForm($sandbox);
+          expect(form.isPrimaryAuth()).toBe(true);
+          form.setUsername('testuser');
+          form.setPassword('testpassword');
+          form.submit();
+          expect($.ajax.calls.mostRecent().args[0].headers['Accept-Language']).toBe('ja');
         });
       });
     });
@@ -1135,19 +1387,19 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
             var userLanguages = args[1];
             expect(userLanguages).toEqual(['ja', 'ko', 'en']);
             expect(supported).toEqual([
-              'en', 'cs', 'da', 'de', 'es', 'fi', 'fr', 'hu', 'id', 'in', 'it',
-              'ja', 'ko', 'ms', 'nl-NL', 'pl', 'pt-BR', 'ro', 'ru', 'sv', 'th',
-              'uk', 'zh-CN', 'zh-TW'
+              'en', 'cs', 'da', 'de', 'el', 'es', 'fi', 'fr', 'hu', 'id', 'in',
+              'it', 'ja', 'ko', 'ms', 'nb', 'nl-NL', 'pl', 'pt-BR', 'ro', 'ru',
+              'sv', 'th', 'tr', 'uk', 'zh-CN', 'zh-TW'
             ]);
           });
         });
         itp('allows the developer to pass in a new language and will add that to the list of supported languages', function () {
-          var spy = jasmine.createSpy('language').and.returnValue('zz-ZZ');
+          var spy = jasmine.createSpy('language').and.returnValue('zz-zz');
           return setupLanguage({
             settings: {
               language: spy,
               i18n: {
-                'zz-ZZ': {
+                'zz-zz': {
                   'enroll.call.setup': 'ZZ: enroll.call.setup',
                   'country.JP': 'ZZ: country.JP'
                 }
@@ -1156,7 +1408,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
           })
           .then(function (test) {
             var supported = spy.calls.argsFor(0)[0];
-            expect(supported).toContain('zz-ZZ');
+            expect(supported).toContain('zz-zz');
             expectZz(test);
           });
         });
@@ -1192,7 +1444,7 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
           return setupLanguage({
             settings: {
               i18n: {
-                'zz-ZZ': {
+                'zz-zz': {
                   'enroll.call.setup': 'ZZ: enroll.call.setup',
                   'country.JP': 'ZZ: country.JP'
                 }
@@ -1207,10 +1459,11 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
             return Expect.waitForForgotPassword(test);
           })
           .then(function (test) {
-            test.router.appState.set('languageCode', 'zz-ZZ');
+            test.router.appState.set('languageCode', 'zz-zz');
             test.router.enrollCall();
             return Expect.waitForEnrollCall(test);
           })
+          .then(tick) // Wait for Chosen items to update
           .then(expectZz);
         });
         itp('caches the language after the initial fetch', function () {
@@ -1227,7 +1480,8 @@ function (Okta, Q, Backbone, SharedUtil, CryptoUtil, CookieUtil, OktaAuth, Util,
               ja: {
                 login: {
                   'enroll.call.setup': 'JA: enroll.call.setup',
-                  'security.disliked_food': 'JA: What is the food you least liked as a child?'
+                  'security.disliked_food': 'JA: What is the food you least liked as a child?',
+                  'oform.errorbanner.title': 'JA: Japanese error banner title'
                 },
                 country: {
                   'JP': 'JA: country.JP'

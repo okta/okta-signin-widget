@@ -10,15 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 13], max-statements: [2, 18] */
+/* eslint max-params: [2, 12], max-statements: [2, 18] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
 define([
   'okta',
-  'backbone',
   './BrowserFeatures',
-  'RefreshAuthStateController',
   'models/Settings',
   'views/shared/Header',
   'views/shared/SecurityBeacon',
@@ -27,13 +25,14 @@ define([
   './RouterUtil',
   './Animations',
   './Errors',
-  'util/Bundles'
+  'util/Bundles',
+  'util/Logger'
 ],
-function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings, Header,
-          SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations, Errors, Bundles) {
+function (Okta, BrowserFeatures, Settings,
+          Header, SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations,
+          Errors, Bundles, Logger) {
 
-  var _ = Okta._,
-      $ = Okta.$;
+  var { _, $, Backbone } = Okta;
 
   function isStateLessRouteHandler(router, fn) {
     return _.find(router.stateLessRouteHandlers, function (routeName) {
@@ -74,6 +73,16 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
     Events:  Backbone.Events,
 
     initialize: function (options) {
+      // Create a default success and/or error handler if
+      // one is not provided.
+      if (!options.globalSuccessFn) {
+        options.globalSuccessFn = function () {};
+      }
+      if (!options.globalErrorFn) {
+        options.globalErrorFn = function(err) {
+          Logger.error(err);
+        };
+      }
       this.settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });
       this.settings.setAuthClient(options.authClient);
 
@@ -265,7 +274,7 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
     start: function () {
       var pushState = false;
       // Support for browser's back button.
-      if (window.addEventListener) {
+      if (window.addEventListener && this.settings.get('features.router')) {
         window.addEventListener('popstate', _.bind(function(e) {
           if (this.controller.back) {
             e.preventDefault();
@@ -289,6 +298,7 @@ function (Okta, Backbone, BrowserFeatures, RefreshAuthStateController, Settings,
     remove: function () {
       this.controller.remove();
       this.header.$el.remove();
+      Bundles.remove();
       Backbone.history.stop();
     }
 

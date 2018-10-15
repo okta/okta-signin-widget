@@ -10,14 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 37] */
+/* eslint max-params: [2, 44] */
 define([
   'util/BaseLoginRouter',
+  'IDPDiscoveryController',
   'PrimaryAuthController',
   'VerifyDuoController',
   'MfaVerifyController',
   'VerifyWindowsHelloController',
   'VerifyU2FController',
+  'VerifyCustomFactorController',
   'EnrollChoicesController',
   'EnrollDuoController',
   'EnrollQuestionController',
@@ -28,6 +30,7 @@ define([
   'EnrollYubikeyController',
   'EnrollTotpController',
   'EnrollU2FController',
+  'EnrollCustomFactorController',
   'BarcodeTotpController',
   'BarcodePushController',
   'ActivateTotpController',
@@ -47,15 +50,21 @@ define([
   'AccountUnlockedController',
   'UnlockEmailSentController',
   'RefreshAuthStateController',
+  'RegistrationController',
+  'RegistrationCompleteController',
+  'ConsentRequiredController',
   'views/shared/SecurityBeacon',
-  'views/shared/FactorBeacon'
+  'views/shared/FactorBeacon',
+  'views/consent/ConsentBeacon'
 ],
 function (BaseLoginRouter,
+          IDPDiscoveryController,
           PrimaryAuthController,
           VerifyDuoController,
           MfaVerifyController,
           VerifyWindowsHelloController,
           VerifyU2FController,
+          VerifyCustomFactorController,
           EnrollChoicesController,
           EnrollDuoController,
           EnrollQuestionController,
@@ -66,6 +75,7 @@ function (BaseLoginRouter,
           EnrollYubikeyController,
           EnrollTotpController,
           EnrollU2FController,
+          EnrollCustomFactorController,
           BarcodeTotpController,
           BarcodePushController,
           ActivateTotpController,
@@ -85,16 +95,22 @@ function (BaseLoginRouter,
           AccountUnlockedController,
           UnlockEmailSentController,
           RefreshAuthStateController,
+          RegistrationController,
+          RegistrationCompleteController,
+          ConsentRequiredController,
           SecurityBeacon,
-          FactorBeacon) {
+          FactorBeacon,
+          ConsentBeacon) {
   return BaseLoginRouter.extend({
 
     routes: {
-      '': 'primaryAuth',
+      '': 'defaultAuth',
       'signin': 'primaryAuth',
       'signin/verify/duo/web': 'verifyDuo',
       'signin/verify/fido/webauthn': 'verifyWindowsHello',
       'signin/verify/fido/u2f': 'verifyU2F',
+      'signin/verify/generic_saml/assertion:saml2': 'verifySAMLFactor',
+      'signin/verify/generic_oidc/assertion:oidc': 'verifyOIDCFactor',
       'signin/verify/:provider/:factorType': 'verify',
       'signin/enroll': 'enrollChoices',
       'signin/enroll/duo/web': 'enrollDuo',
@@ -108,6 +124,8 @@ function (BaseLoginRouter,
       'signin/enroll/yubico/token:hardware': 'enrollYubikey',
       'signin/enroll/fido/webauthn': 'enrollWindowsHello',
       'signin/enroll/fido/u2f': 'enrollU2F',
+      'signin/enroll/generic_saml/assertion:saml2': 'enrollSAMLFactor',
+      'signin/enroll/generic_oidc/assertion:oidc': 'enrollOIDCFactor',
       'signin/enroll/:provider/:factorType': 'enrollTotpFactor',
       'signin/enroll-activate/okta/push': 'scanBarcodePushFactor',
       'signin/enroll-activate/okta/push/manual': 'manualSetupPushFactor',
@@ -130,14 +148,31 @@ function (BaseLoginRouter,
       'signin/unlock': 'unlockAccount',
       'signin/account-unlocked': 'accountUnlocked',
       'signin/refresh-auth-state(/:token)': 'refreshAuthState',
-      '*wildcard': 'primaryAuth'
+      'signin/register': 'register',
+      'signin/register-complete': 'registerComplete',
+      'signin/consent': 'consentRequired',
+      '*wildcard': 'defaultAuth'
     },
 
     // Route handlers that do not require a stateToken. If the page is refreshed,
     // these functions will not require a status call to refresh the stateToken.
     stateLessRouteHandlers: [
-      'primaryAuth', 'forgotPassword', 'recoveryLoading', 'unlockAccount', 'refreshAuthState'
+      'defaultAuth', 'idpDiscovery', 'primaryAuth', 'forgotPassword', 'recoveryLoading',
+      'unlockAccount', 'refreshAuthState', 'register', 'registerComplete'
     ],
+
+    defaultAuth: function() {
+      if(this.settings.get('features.idpDiscovery')) {
+        this.idpDiscovery();
+      }
+      else {
+        this.primaryAuth();
+      }
+    },
+
+    idpDiscovery: function () {
+      this.render(IDPDiscoveryController, {Beacon: SecurityBeacon});
+    },
 
     primaryAuth: function () {
       this.render(PrimaryAuthController, { Beacon: SecurityBeacon });
@@ -163,6 +198,22 @@ function (BaseLoginRouter,
       this.render(VerifyU2FController, {
         provider: 'FIDO',
         factorType: 'u2f',
+        Beacon: FactorBeacon
+      });
+    },
+
+    verifySAMLFactor: function () {
+      this.render(VerifyCustomFactorController, {
+        provider: 'GENERIC_SAML',
+        factorType: 'assertion:saml2',
+        Beacon: FactorBeacon
+      });
+    },
+
+    verifyOIDCFactor: function () {
+      this.render(VerifyCustomFactorController, {
+        provider: 'GENERIC_OIDC',
+        factorType: 'assertion:oidc',
         Beacon: FactorBeacon
       });
     },
@@ -239,6 +290,22 @@ function (BaseLoginRouter,
       this.render(EnrollYubikeyController, {
         provider: 'YUBICO',
         factorType: 'token:hardware',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollSAMLFactor: function () {
+      this.render(EnrollCustomFactorController, {
+        provider: 'GENERIC_SAML',
+        factorType: 'assertion:saml2',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollOIDCFactor: function () {
+      this.render(EnrollCustomFactorController, {
+        provider: 'GENERIC_OIDC',
+        factorType: 'assertion:oidc',
         Beacon: FactorBeacon
       });
     },
@@ -375,6 +442,18 @@ function (BaseLoginRouter,
         token: token,
         Beacon: SecurityBeacon
       });
+    },
+
+    register: function() {
+      this.render(RegistrationController);
+    },
+
+    registerComplete: function() {
+      this.render(RegistrationCompleteController);
+    },
+
+    consentRequired: function() {
+      this.render(ConsentRequiredController, { Beacon: ConsentBeacon });
     }
 
   });

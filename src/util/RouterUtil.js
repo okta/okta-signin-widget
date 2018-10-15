@@ -10,18 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 26],max-statements: [2, 29] */
+/* eslint complexity: [2, 28],max-statements: [2, 30] */
 define([
   'okta',
-  'shared/util/Util',
   './OAuth2Util',
   './Enums',
   './BrowserFeatures',
   './Errors',
   './ErrorCodes'
 ],
-function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
+function (Okta, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
 
+  var { Util } = Okta.internal.util;
   var fn = {};
 
   var verifyUrlTpl = Okta.tpl('signin/verify/{{provider}}/{{factorType}}');
@@ -98,8 +98,17 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       return;
     }
 
+    fn.handleResponseStatus(router, err, res);
+  };
+
+  fn.handleResponseStatus = function (router, err, res) {
     switch (res.status) {
     case 'SUCCESS':
+      if(res.recoveryType === Enums.RECOVERY_TYPE_UNLOCK) {
+        router.navigate('signin/account-unlocked', {trigger: true});
+        return;
+      }
+
       // If the desired end result object needs to have idToken (and not sessionToken),
       // get the id token from session token before calling the global success function.
       if (router.settings.get('oauth2Enabled')) {
@@ -107,15 +116,14 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
         return;
       }
 
-      if(res.recoveryType === Enums.RECOVERY_TYPE_UNLOCK) {
-        router.navigate('signin/account-unlocked', {trigger: true});
-        return;
-      }
-
       var successData = {
         user: res._embedded.user,
         type: res.type
       };
+
+      if (res.relayState) {
+        successData.relayState = res.relayState;
+      }
 
       if (res.type === Enums.SESSION_STEP_UP) {
         var targetUrl = res._links && res._links.next && res._links.next.href;
@@ -141,6 +149,11 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       }
 
       router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
+      return;
+    case 'CONSENT_REQUIRED':
+      if (router.settings.get('features.consent')) {
+        router.navigate('signin/consent', {trigger: true});
+      }
       return;
     case 'MFA_REQUIRED':
       var factor = router.appState.get('factors').getDefaultFactor();
@@ -206,7 +219,15 @@ function (Okta, Util, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       }
       return;
     case 'UNAUTHENTICATED':
-      router.navigate('signin', { trigger: true });
+      // Either we have factors and we are in passwordlessAuth mode
+      if (router.appState.get('promptForFactorInUnauthenticated')) {
+        var defaultFactor = router.appState.get('factors').getDefaultFactor();
+        var factorURL = fn.createVerifyUrl(defaultFactor.get('provider'), defaultFactor.get('factorType'));
+        router.navigate(factorURL, { trigger: true });
+        return;
+      }
+      // Or we don't have anything and we need to show the login page
+      router.navigate('', { trigger: true });
       return;
     default:
       throw new Error('Unknown status: ' + res.status);

@@ -1,11 +1,8 @@
-/* eslint max-params: [2, 19] */
+/* eslint max-params: [2, 19], max-statements: [2, 22] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
-  'shared/util/Util',
   'helpers/mocks/Util',
   'helpers/dom/PasswordExpiredForm',
   'helpers/dom/Beacon',
@@ -20,12 +17,18 @@ define([
   'helpers/xhr/CUSTOM_PASSWORD_EXPIRED',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
+function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
           $sandbox, resPassWarn, resPassExpired, resErrorComplexity,
           resErrorOldPass, resCustomPassWarn, resCustomPassExpired, resSuccess) {
 
+  var { _, $ } = Okta;
+  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
+
+  function deepClone(res) {
+    return JSON.parse(JSON.stringify(res));
+  }
 
   function setup(settings, res, custom) {
     settings || (settings = {});
@@ -33,14 +36,14 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
-    var router = new Router({
+    var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
       features: { securityImage: true, customExpiredPassword: custom },
       authClient: authClient,
       globalSuccessFn: successSpy,
       processCreds: settings.processCreds
-    });
+    }, settings));
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
@@ -81,6 +84,13 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
     test.form.submit();
   }
 
+  function setupExcludeAttributes(excludeAttributesArray) {
+    var passwordExpiredResponse = deepClone(resPassExpired);
+    var policyComplexity = passwordExpiredResponse.response._embedded.policy.complexity;
+    policyComplexity.excludeAttributes = excludeAttributesArray;
+    return setup(undefined, passwordExpiredResponse);
+  }
+
   Expect.describe('PasswordExpiration', function () {
 
     Expect.describe('PasswordExpired', function () {
@@ -97,7 +107,28 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
       });
       itp('has a valid subtitle', function () {
         return setup().then(function (test) {
-          expect(test.form.subtitleText()).toEqual('Your password must have at least 8 characters,' +
+          expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters,' +
+            ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
+            ' does not include your first name, does not include your last name.');
+        });
+      });
+      itp('has a valid subtitle if only excludeAttributes["firstName"] is defined', function () {
+        return setupExcludeAttributes(['firstName']).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters,' +
+            ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
+            ' does not include your first name.');
+        });
+      });
+      itp('has a valid subtitle if only excludeAttributes["lastName"] is defined', function () {
+        return setupExcludeAttributes(['lastName']).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters,' +
+            ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
+            ' does not include your last name.');
+        });
+      });
+      itp('has a valid subtitle if only excludeAttributes[] is defined', function () {
+        return setupExcludeAttributes([]).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters,' +
             ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username.');
         });
       });
@@ -129,6 +160,45 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
       itp('does not have a skip link', function () {
         return setup().then(function (test) {
           expect(test.form.skipLink().length).toBe(0);
+        });
+      });
+      itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
+        return setup().then(function (test) {
+          spyOn(SharedUtil, 'redirect');
+          $.ajax.calls.reset();
+          test.setNextResponse(resSuccess);
+          test.form.signout();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/cancel',
+            data: {
+              stateToken: 'testStateToken'
+            }
+          });
+          Expect.isPrimaryAuth(test.router.controller);
+        });
+      });
+      itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
+      function () {
+        return setup({ signOutLink: 'http://www.goodbye.com' }).then(function (test) {
+          spyOn(SharedUtil, 'redirect');
+          $.ajax.calls.reset();
+          test.setNextResponse(resSuccess);
+          test.form.signout();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/cancel',
+            data: {
+              stateToken: 'testStateToken'
+            }
+          });
+          expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
         });
       });
       itp('calls processCreds function before saving a model', function () {
@@ -223,7 +293,7 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe(
-            'We found some errors. Please review the form and make corrections.'
+            'Old password is not correct'
           );
         });
       });
@@ -237,8 +307,9 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe(
-            'Passwords must have at least 8 characters, a lowercase letter, ' +
-            'an uppercase letter, a number, no parts of your username'
+            'Password requirements were not met. Password requirements: at least 8 characters,' +
+            ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
+            ' does not include your first name, does not include your last name.'
           );
         });
       });
@@ -327,6 +398,16 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
           expect(test.form.titleText()).toBe('Your password will expire later today');
         });
       });
+      itp('has the correct title if numDays is null', function () {
+        return setupWarn(null).then(function (test) {
+          expect(test.form.titleText()).toBe('Your password is expiring soon');
+        });
+      });
+      itp('has the correct title if numDays is undefined', function () {
+        return setupWarn(undefined).then(function (test) {
+          expect(test.form.titleText()).toBe('Your password is expiring soon');
+        });
+      });
       itp('has the correct subtitle', function () {
         return setupWarn(4).then(function (test) {
           expect(test.form.subtitleText()).toBe('When password expires you may be ' +
@@ -389,6 +470,16 @@ function (Q, _, $, OktaAuth, LoginUtil, SharedUtil, Util, PasswordExpiredForm, B
       itp('has the correct title if expiring in 0 days', function () {
         return setupCustomExpiredPasswordWarn(0).then(function (test) {
           expect(test.form.titleText()).toBe('Your password will expire later today');
+        });
+      });
+      itp('has the correct title if numDays is null', function () {
+        return setupCustomExpiredPasswordWarn(null).then(function (test) {
+          expect(test.form.titleText()).toBe('Your password is expiring soon');
+        });
+      });
+      itp('has the correct title if numDays is undefined', function () {
+        return setupCustomExpiredPasswordWarn(undefined).then(function (test) {
+          expect(test.form.titleText()).toBe('Your password is expiring soon');
         });
       });
       itp('has a valid subtitle', function () {

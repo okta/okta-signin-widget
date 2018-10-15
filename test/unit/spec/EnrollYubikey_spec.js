@@ -1,5 +1,5 @@
 define([
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTokenFactorForm',
@@ -10,9 +10,10 @@ define([
   'helpers/xhr/SUCCESS',
   'LoginRouter'
 ],
-function ($, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
+function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           resAllFactors, resSuccess, Router) {
 
+  var { $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -26,7 +27,7 @@ function ($, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {}
+        'features.router': startRouter
       });
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);

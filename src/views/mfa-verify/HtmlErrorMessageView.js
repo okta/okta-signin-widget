@@ -11,10 +11,9 @@
  */
 
 define([
-  'okta',
-  'shared/views/BaseView'
+  'okta'
 ],
-function (Okta, BaseView) {
+function (Okta) {
 
   // Have to be unescaped for the html in enroll.windowsHello.error.notConfiguredHtml
   var template = '\
@@ -22,7 +21,7 @@ function (Okta, BaseView) {
     <h4><strong>{{{message}}}</strong></h4>\
   ';
 
-  return BaseView.extend({
+  return Okta.View.extend({
     template: template,
     className: 'okta-infobox-error infobox infobox-error infobox-md margin-btm-25',
     attributes: {

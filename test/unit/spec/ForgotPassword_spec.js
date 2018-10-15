@@ -1,8 +1,7 @@
-/* eslint max-params: [2, 17], max-statements:[2, 33] */
+/* eslint max-params: [2, 18], max-statements: 0 */
 define([
   'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/AccountRecoveryForm',
@@ -18,10 +17,11 @@ define([
   'helpers/xhr/MFA_REQUIRED_oktaVerify',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon, Expect,
+function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon, Expect,
           Router, $sandbox, resError, resChallengeEmail, resChallengeSms, resChallengeCall,
           resMfaRequired, resSuccess) {
 
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -34,7 +34,8 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
-      globalSuccessFn: successSpy
+      globalSuccessFn: successSpy,
+      'features.router': startRouter
     }, settings));
     var form = new AccountRecoveryForm($sandbox);
     var loginForm = new PrimaryAuthForm($sandbox);
@@ -59,9 +60,16 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
   }
 
   var setupWithSms = _.partial(setup, { 'features.smsRecovery': true });
+  var setupWithRedirect = _.partial(setup, {
+    suppliedRedirectUri: 'https://example.com',
+    relayState: '%2Fapp%2FUserHome'
+  });
   var setupWithCall = _.partial(setup, { 'features.callRecovery': true });
   var setupWithSmsAndCall = _.partial(setup, { 'features.smsRecovery': true, 'features.callRecovery': true });
   var setupWithTransformUsername = _.partial(setup, { transformUsername: transformUsername });
+  var setupWithoutEmail = _.partial(setup, { 'features.emailRecovery': false });
+  var setupWithSmsWithoutEmail = _.partial(setup, { 'features.smsRecovery': true, 'features.emailRecovery': false });
+  var setupWithCallWithoutEmail = _.partial(setup, { 'features.callRecovery': true, 'features.emailRecovery': false });
 
   Expect.describe('ForgotPassword', function () {
 
@@ -162,13 +170,42 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.hasCantAccessEmailLink()).toBe(false);
         });
       });
+      itp('does not show email recovery button if emailRecovery is false', function () {
+        return setupWithoutEmail().then(function (test) {
+          expect(test.form.hasEmailButton()).toBe(false);
+        });
+      });
+      itp('shows email recovery button if emailRecovery is true', function () {
+        return setup().then(function (test) {
+          expect(test.form.hasEmailButton()).toBe(true);
+        });
+      });
+      itp('shows error if no recovery factors are enabled', function() {
+        return setupWithoutEmail().then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage())
+            .toBe('No password reset options available. Please contact your administrator.');
+        });
+      });
+      itp('supports SMS without email', function () {
+        return setupWithSmsWithoutEmail().then(function (test) {
+          expect(test.form.hasSmsButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(false);
+        });
+      });
+      itp('supports Voice Call without email', function () {
+        return setupWithCallWithoutEmail().then(function (test) {
+          expect(test.form.hasCallButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(false);
+        });
+      });
     });
 
     Expect.describe('events', function () {
       itp('shows an error if username is empty and request email', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
-          test.form.submit();
+          test.form.sendEmail();
           expect($.ajax).not.toHaveBeenCalled();
           expect(test.form.usernameErrorField().length).toBe(1);
         });
@@ -176,8 +213,19 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       itp('shows an error if username is too long', function () {
         return setup().then(function (test) {
           test.form.setUsername(Util.LoremIpsum);
-          test.form.submit();
+          test.form.sendEmail();
           expect(test.form.usernameErrorField().length).toBe(1);
+          expect(test.form.usernameErrorField().text()).toBe('Please check your username');
+        });
+      });
+      itp('does not send email and show error when username is all whitespace', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('  ');
+          test.form.sendEmail();
+          expect($.ajax.calls.count()).toBe(0);
+          expect(test.form.usernameErrorField().length).toBe(1);
+          expect(test.form.usernameErrorField().text()).toBe('The field cannot be left blank');
         });
       });
       itp('sends email', function () {
@@ -185,7 +233,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           return tick();
         })
         .then(function () {
@@ -194,7 +242,46 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo',
-              'factorType': 'EMAIL'
+              'factorType': 'EMAIL',
+            }
+          });
+        });
+      });
+      itp('sends email with relayState', function () {
+        return setupWithRedirect().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeEmail);
+          test.form.setUsername('foo');
+          test.form.sendEmail();
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'EMAIL',
+              'relayState': '%2Fapp%2FUserHome'
+            }
+          });
+        });
+      });
+      itp('sends email when pressing enter if Email is the only factor', function () {
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeEmail);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForPwdResetEmailSent();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'EMAIL',
             }
           });
         });
@@ -204,7 +291,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           spyOn(test.router.settings, 'transformUsername');
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           expect(test.router.settings.transformUsername.calls.count()).toBe(1);
           expect(test.router.settings.transformUsername.calls.argsFor(0)).toEqual(['foo', 'FORGOT_PASSWORD']);
         });
@@ -214,7 +301,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           return tick();
         })
         .then(function () {
@@ -223,7 +310,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             url: 'https://foo.com/api/v1/authn/recovery/password',
             data: {
               'username': 'foo@example.com',
-              'factorType': 'EMAIL'
+              'factorType': 'EMAIL',
             }
           });
         });
@@ -233,7 +320,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         .then(function (test) {
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           return tick(test);
         })
         .then(function (test) {
@@ -245,7 +332,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         .then(function (test) {
           test.form.setUsername('baz@bar');
           test.setNextResponse(resChallengeEmail);
-          test.form.submit();
+          test.form.sendEmail();
           return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function (test) {
@@ -275,7 +362,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
               status: 'RECOVERY_CHALLENGE'
             }
           });
-          test.form.submit();
+          test.form.sendEmail();
           return Expect.waitForUnlockEmailSent(test);
         })
         .then(function (test) {
@@ -288,7 +375,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         .then(function (test) {
           test.form.setUsername('foo@bar');
           test.setNextResponse(resChallengeEmail);
-          test.form.submit();
+          test.form.sendEmail();
           return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function () {
@@ -304,7 +391,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           Q.stopUnhandledRejectionTracking();
           test.setNextResponse(resError);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           return tick(test);
         })
         .then(function (test) {
@@ -326,6 +413,68 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo');
           test.form.sendSms();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'SMS'
+            }
+          });
+        });
+      });
+      itp('sends sms without email enabled', function () {
+        return setupWithSmsWithoutEmail().then(function (test) {
+          expect(test.form.hasSmsButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(false);
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.sendSms();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'SMS'
+            }
+          });
+        });
+      });
+      itp('sends sms when pressing enter if SMS is the only factor', function () {
+        return setupWithSmsWithoutEmail().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'SMS'
+            }
+          });
+        });
+      });
+      itp('sends sms when pressing enter if SMS is the first factor of the list', function () {
+        return setupWithSmsAndCall().then(function (test) {
+          expect(test.form.hasSmsButton()).toBe(true);
+          expect(test.form.hasCallButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(true);
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
           return Expect.waitForRecoveryChallenge();
         })
         .then(function () {
@@ -375,7 +524,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
-          test.form.submit();
+          test.form.sendEmail();
           return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
@@ -403,6 +552,67 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeCall);
           test.form.setUsername('foo');
           test.form.makeCall();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'CALL'
+            }
+          });
+        });
+      });
+      itp('makes a Voice Call without email enabled', function () {
+        return setupWithCallWithoutEmail().then(function (test) {
+          expect(test.form.hasCallButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(false);
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.makeCall();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'CALL'
+            }
+          });
+        });
+      });
+      itp('makes a Voice Call when pressing enter if Voice Call is the only factor', function () {
+        return setupWithCallWithoutEmail().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForRecoveryChallenge();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/password',
+            data: {
+              'username': 'foo',
+              'factorType': 'CALL'
+            }
+          });
+        });
+      });
+      itp('makes a Voice Call when pressing enter if Voice Call is the first factor of the list', function () {
+        return setupWithCall().then(function (test) {
+          expect(test.form.hasCallButton()).toBe(true);
+          expect(test.form.hasEmailButton()).toBe(true);
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
           return Expect.waitForRecoveryChallenge();
         })
         .then(function () {
@@ -452,7 +662,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
-          test.form.submit();
+          test.form.sendEmail();
           return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
@@ -473,7 +683,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         });
       });
       itp('returns to primary auth when browser\'s back button is clicked', function () {
-        return setup({}, {}, true).then(function (test) {
+        return setup({}, true).then(function (test) {
           Util.triggerBrowserBackButton();
           return Expect.waitForPrimaryAuth(test);
         })
@@ -503,7 +713,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           return tick();
         })
         .then(function () {
@@ -515,7 +725,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function (test) {
@@ -545,7 +755,7 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           $.ajax.calls.reset();
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
-          test.form.submit();
+          test.form.sendEmail();
           return Expect.waitForPwdResetEmailSent(test);
         })
         .then(function () {
@@ -580,6 +790,18 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         .then(function (test) {
           expect(test.form.hasSendEmailLink()).toBe(true);
           expect(test.form.sendEmailLink().trimmedText()).toEqual('Didn\'t receive a code? Reset via email');
+        });
+      });
+      itp('does not show the "Reset via email" link after sending sms if emailRecovery is false', function () {
+        return setupWithSmsWithoutEmail()
+        .then(function (test) {
+          test.setNextResponse(resChallengeSms);
+          test.form.setUsername('foo');
+          test.form.sendSms();
+          return Expect.waitForRecoveryChallenge(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasSendEmailLink()).toBe(false);
         });
       });
       itp('sends an email when user clicks the "Reset via email" link, after sending sms', function () {
@@ -654,6 +876,18 @@ function (Q, _, $, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         .then(function (test) {
           expect(test.form.hasSendEmailLink()).toBe(true);
           expect(test.form.sendEmailLink().trimmedText()).toEqual('Didn\'t receive a code? Reset via email');
+        });
+      });
+      itp('does not show the "Reset via email" link after making a Voice Call if emailRecovery is false', function () {
+        return setupWithCallWithoutEmail()
+        .then(function (test) {
+          test.setNextResponse(resChallengeCall);
+          test.form.setUsername('foo');
+          test.form.makeCall();
+          return Expect.waitForRecoveryChallenge(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasSendEmailLink()).toBe(false);
         });
       });
       itp('sends an email when user clicks the "Reset via email" link, after making a Voice Call', function () {

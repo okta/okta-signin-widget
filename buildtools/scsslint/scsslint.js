@@ -29,7 +29,7 @@ module.exports = function (grunt) {
         args.push('--format=Checkstyle');
       }
 
-      execOptions.maxBuffer = 'Infinity';
+      execOptions.maxBuffer = Infinity;
       execOptions.cwd = process.cwd();
 
       grunt.log.ok('Running: ' + args.join(' '));

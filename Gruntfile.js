@@ -1,20 +1,16 @@
-// Install grunt: http://gruntjs.com/getting-started
-// npm install -g grunt-cli (to install grunt cli tool)
-// npm install (to install all dependencies, including grunt)
-// grunt test (to run test task)
-
 /* global module, process */
 /* eslint max-statements: 0 */
 module.exports = function (grunt) {
 
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
-  
+
   var open        = require('open'),
       Handlebars  = require('handlebars'),
       _           = require('underscore'),
       postcssAutoprefixer = require('autoprefixer')({remove: false}),
       cssnano     = require('cssnano')({safe: true}),
+      nodesass = require('node-sass'),
       path        = require('path');
 
   var JS                    = 'target/js',
@@ -35,8 +31,11 @@ module.exports = function (grunt) {
         '!buildtools/r.js',
         'test/unit/helpers/**/*.js',
         'test/**/**/*.js',
+        '!test/e2e/react-app/**/*.js',
+        '!test/e2e/angular-app/**/*.js',
         '!test/unit/helpers/xhr/*.js',
-        '!test/unit/vendor/*.js'
+        '!test/unit/vendor/*.js',
+        'webpack.*.js'
       ],
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
@@ -71,14 +70,10 @@ module.exports = function (grunt) {
           // Source Files
           {expand: true, cwd: 'src/', src: ['**'], dest: JS + '/'},
 
-          // Courage files
-          {expand: true, cwd: 'node_modules/@okta/courage/src/', src: ['**'], dest: JS + '/shared/'},
-          {expand: true, cwd: 'node_modules/@okta/courage/src/vendor', src: ['**'], dest: JS + '/vendor/'},
-
           // i18n files
           {
             expand: true,
-            cwd: 'node_modules/@okta/i18n/dist/',
+            cwd: 'packages/@okta/i18n/dist/',
             src: [
               'json/{login,country}*.json',
               'properties/{login,country}*.properties'
@@ -97,7 +92,7 @@ module.exports = function (grunt) {
           // jquery.qtip.css -> _jquery.qtip.scss
           {
             expand: true,
-            cwd: 'node_modules/qtip2/dist/',
+            cwd: 'packages/@okta/qtip2/dist/',
             src: 'jquery.qtip.css',
             dest: 'target/sass/widgets',
             rename: function () {
@@ -264,9 +259,11 @@ module.exports = function (grunt) {
         options: {
           process: function (content) {
             var cdnLayout = grunt.file.read('./test/e2e/layouts/cdn.tpl', {encoding: 'utf8'}),
+                devLayout = grunt.file.read('./test/e2e/layouts/cdn-dev.tpl', {encoding: 'utf8'}),
                 npmLayout = grunt.file.read('./test/e2e/layouts/npm.tpl', {encoding: 'utf8'}),
                 testTpl = Handlebars.compile(content);
             Handlebars.registerPartial('cdnLayout', cdnLayout);
+            Handlebars.registerPartial('devLayout', devLayout);
             Handlebars.registerPartial('npmLayout', npmLayout);
             return testTpl({
               WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER
@@ -306,13 +303,34 @@ module.exports = function (grunt) {
       }
     },
 
+    search: {
+      noAbsoluteUrlsInCss: {
+        files: {
+          src: ['assets/sass/**/*.scss']
+        },
+        options: {
+          searchString: /url\([\'\"]\//g,
+          failOnMatch: true,
+          logFile: SCSSLINT_OUT_FILE,
+          logFormat: 'xml',
+          onMatch: function(match) {
+            grunt.log.errorlns('URLs starting with \'/\' are not allowed in SCSS files. ' +
+              'Fix this by replacing with a relative link.');
+            grunt.log.errorlns('Found in file: ' + match.file + '. Line: ' + match.line);
+            grunt.log.errorlns('Error log also written to: ' + SCSSLINT_OUT_FILE);
+            grunt.log.errorlns('');
+          }
+        }
+      }
+    },
+
     exec: {
-      'clean': 'npm run clean',
-      'build-dev': 'npm run build:webpack-dev',
-      'build-release': 'npm run build:webpack-release',
-      'build-test': 'npm run build:webpack-test',
-      'build-e2e-app': 'npm run build:webpack-e2e-app',
-      'run-protractor': 'npm run protractor'
+      'clean': 'yarn clean',
+      'build-dev': 'yarn build:webpack-dev',
+      'build-release': 'yarn build:webpack-release',
+      'build-test': 'yarn build:webpack-test',
+      'build-e2e-app': 'yarn build:webpack-e2e-app',
+      'run-protractor': 'yarn protractor'
     },
 
     jasmine: {
@@ -334,6 +352,7 @@ module.exports = function (grunt) {
 
     sass: {
       options: {
+        implementation: nodesass,
         sourceMap: true,
         outputStyle: 'expanded',
         includePaths: [SASS]
@@ -440,8 +459,8 @@ module.exports = function (grunt) {
     },
 
     retire: {
-      js: ['src/**/*.js', 'test/**/*.js'],
-      node: ['node_modules'],
+      js: ['src/**/*.js'],
+      node: ['node_modules', 'packages'],
       options: {
         packageOnly: false
       }
@@ -468,7 +487,6 @@ module.exports = function (grunt) {
         return;
       }
       grunt.task.run([
-        'build:release',
         'copy:e2e',
         'copy:e2e-pages',
         'exec:build-e2e-app',
@@ -536,6 +554,6 @@ module.exports = function (grunt) {
 
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
-  grunt.task.registerTask('lint', ['scss-lint', 'eslint']);
+  grunt.task.registerTask('lint', ['scss-lint', 'search:noAbsoluteUrlsInCss', 'eslint']);
   grunt.task.registerTask('default', ['lint', 'test']);
 };

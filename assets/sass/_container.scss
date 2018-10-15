@@ -1,0 +1,48 @@
+// scss-lint:disable IdSelector
+#okta-sign-in {
+// scss-lint:enable IdSelector
+
+  // Html and body styles in _base.scss that were moved here
+  font-family: $fonts;
+  font-size: $font-size;
+  font-weight: $font-weight-body;
+  line-height: 1.4;
+  background-color: $secondary-bg-color;
+  color: $medium-text-color;
+  position: relative;
+  overflow: auto;
+
+  // Auth-container styles
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+  height: auto;
+  margin: 100px auto 8px;
+  width: $container-width;
+  min-width: $container-min-width;
+
+  @include device-mq(x-small) {
+    margin-top: 0;
+    width: 100%;
+  }
+
+  @include max-width-mq($container-width) {
+    width: 100%;
+  }
+
+  @include max-height-mq(750px) {
+    margin-top: 0;
+  }
+}
+
+// scss-lint:disable IdSelector
+#okta-sign-in.no-beacon .auth-content {
+// scss-lint:enable IdSelector
+  padding-top: 20px;
+}
+
+// scss-lint:disable IdSelector
+#okta-sign-in.no-beacon .auth-header {
+// scss-lint:enable IdSelector
+  padding-bottom: 30px;
+}

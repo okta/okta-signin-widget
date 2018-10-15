@@ -14,12 +14,12 @@ define([
   'okta',
   'util/FormController',
   'util/FormType',
-  'views/expired-password/Footer',
-  'shared/util/Util'
+  'views/expired-password/Footer'
 ],
-function (Okta, FormController, FormType, Footer, Util) {
+function (Okta, FormController, FormType, Footer) {
 
   var _ = Okta._;
+  var { Util } = Okta.internal.util;
 
   return FormController.extend({
     className: 'custom-password-expired',
@@ -34,6 +34,9 @@ function (Okta, FormController, FormType, Footer, Util) {
         }
         else if (expiringSoon && numDays === 0) {
           return Okta.loc('password.expiring.today', 'login');
+        }
+        else if (expiringSoon) {
+          return Okta.loc('password.expiring.soon', 'login');
         }
         else {
           return Okta.loc('password.expired.title', 'login');

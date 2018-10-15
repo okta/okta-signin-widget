@@ -143,14 +143,14 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
       case Enums.RECOVERY_TYPE_UNLOCK:
         sendEmailLink = '\
           <a href="#" class="link send-email-link" data-se="send-email-link">\
-            {{i18n code="account.unlock.sms.notReceived" bundle="login"}}\
+            {{i18n code="account.unlock.code.notReceived" bundle="login"}}\
           </a>';
         break;
       default:
         break;
       }
 
-      if (sendEmailLink) {
+      if (sendEmailLink && this.settings.get('features.emailRecovery')) {
         this.add(sendEmailLink);
       }
 

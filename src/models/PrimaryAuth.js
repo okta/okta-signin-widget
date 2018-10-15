@@ -23,31 +23,58 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
   return BaseLoginModel.extend({
 
     props: function () {
+      var cookieUsername = CookieUtil.getCookieUsername(),
+          properties = this.getUsernameAndRemember(cookieUsername);
+
+      var props = {
+        username: {
+          type: 'string',
+          validate: function (value) {
+            if(_.isEmpty(value)) {
+              return Okta.loc('error.username.required', 'login');
+            }
+          },
+          value: properties.username
+        },
+        lastUsername: ['string', false, cookieUsername],
+        context: ['object', false],
+        remember: ['boolean', true, properties.remember],
+        multiOptionalFactorEnroll: ['boolean', true]
+      };
+      if (!(this.settings && this.settings.get('features.passwordlessAuth'))) {
+        props.password = {
+          type: 'string',
+          validate: function (value) {
+            if(_.isEmpty(value)) {
+              return Okta.loc('error.password.required', 'login');
+            }
+          }
+        };
+      }
+      return props;
+    },
+
+    getUsernameAndRemember: function(cookieUsername) {
       var settingsUsername = this.settings && this.settings.get('username'),
-          cookieUsername = CookieUtil.getCookieUsername(),
+          rememberMeEnabled = this.settings && this.settings.get('features.rememberMe'),
           remember = false,
           username;
+
       if (settingsUsername) {
         username = settingsUsername;
-        remember = username === cookieUsername;
+        remember = rememberMeEnabled && username === cookieUsername;
       }
-      else if (cookieUsername) {
+      else if (rememberMeEnabled && cookieUsername) {
+        // Only respect the cookie if the feature is enabled.
+        // Allows us to force prompting when necessary, e.g. SAML ForceAuthn
         username = cookieUsername;
         remember = true;
       }
 
       return {
-        username: ['string', true, username],
-        lastUsername: ['string', false, cookieUsername],
-        password: ['string', true],
-        context: ['object', false],
-        remember: ['boolean', true, remember],
-        multiOptionalFactorEnroll: ['boolean', true]
+        username: username,
+        remember:remember
       };
-    },
-
-    local: {
-      deviceFingerprint: ['string', false]
     },
 
     constructor: function (options) {
@@ -64,20 +91,10 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
     save: function () {
       var username = this.settings.transformUsername(this.get('username'), Enums.PRIMARY_AUTH),
-          password = this.get('password'),
           remember = this.get('remember'),
-          lastUsername = this.get('lastUsername'),
-          multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll'),
-          deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting');
+          lastUsername = this.get('lastUsername');
 
-      // Only delete the cookie if its owner says so. This allows other
-      // users to log in on a one-off basis.
-      if (!remember && lastUsername === username) {
-        CookieUtil.removeUsernameCookie();
-      }
-      else if (remember) {
-        CookieUtil.setUsernameCookie(username);
-      }
+      this.setUsernameCookie(username, remember, lastUsername);
 
       //the 'save' event here is triggered and used in the BaseLoginController
       //to disable the primary button on the primary auth form
@@ -85,26 +102,18 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
       this.appState.trigger('loading', true);
 
-      var signInArgs = {
-        username: username,
-        password: password,
-        options: {
-          warnBeforePasswordExpired: true,
-          multiOptionalFactorEnroll: multiOptionalFactorEnroll
-        }
-      };
+      var signInArgs = this.getSignInArgs(username);
 
       var primaryAuthPromise;
-      if (this.appState.get('isUnauthenticated')) {
+
+      if (this.appState.get('isUnauthenticated') && !this.settings.get('features.passwordlessAuth')) {
         primaryAuthPromise = this.doTransaction(function (transaction) {
           var authClient = this.appState.settings.authClient;
-          return this.doPrimaryAuth(authClient, deviceFingerprintEnabled, signInArgs,
-                                    transaction.authenticate);
+          return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
         });
       } else {
         primaryAuthPromise = this.startTransaction(function (authClient) {
-          return this.doPrimaryAuth(authClient, deviceFingerprintEnabled, signInArgs,
-                                    _.bind(authClient.signIn, authClient));
+          return this.doPrimaryAuth(authClient, signInArgs, _.bind(authClient.signIn, authClient));
         });
       }
 
@@ -121,16 +130,57 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       }, this));
     },
 
-    doPrimaryAuth: function (authClient, deviceFingerprintEnabled, signInArgs, func) {
-      // Add the custom header for fingerprint if needed, and then remove it afterwards
+    getSignInArgs: function (username) {
+      var multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
+      var signInArgs = {
+        username: username,
+        options: {
+          warnBeforePasswordExpired: true,
+          multiOptionalFactorEnroll: multiOptionalFactorEnroll
+        }
+      };
+      if (!this.settings.get('features.passwordlessAuth')) {
+        signInArgs.password = this.get('password');
+      }
+      return signInArgs;
+    },
+
+    setUsernameCookie: function (username, remember, lastUsername) {
+      // Do not modify the cookie when feature is disabled, relevant for SAML ForceAuthn prompts
+      if (this.settings.get('features.rememberMe')) {
+        // Only delete the cookie if its owner says so. This allows other
+        // users to log in on a one-off basis.
+        if (!remember && lastUsername === username) {
+          CookieUtil.removeUsernameCookie();
+        }
+        else if (remember) {
+          CookieUtil.setUsernameCookie(username);
+        }
+      }
+    },
+
+    doPrimaryAuth: function (authClient, signInArgs, func) {
+      var deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting'),
+          typingPatternEnabled = this.settings.get('features.trackTypingPattern');
+
+      // Add the custom header for fingerprint, typing pattern if needed, and then remove it afterwards
       // Since we only need to send it for primary auth
       if (deviceFingerprintEnabled) {
-        authClient.options.headers['X-Device-Fingerprint'] = this.get('deviceFingerprint');
+        authClient.options.headers['X-Device-Fingerprint'] = this.appState.get('deviceFingerprint');
       }
+      if (typingPatternEnabled) {
+        authClient.options.headers['X-Typing-Pattern'] = this.appState.get('typingPattern');
+      }
+      var self = this;
       return func(signInArgs)
       .fin(function () {
         if (deviceFingerprintEnabled) {
           delete authClient.options.headers['X-Device-Fingerprint'];
+          self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once
+        }
+        if (typingPatternEnabled) {
+          delete authClient.options.headers['X-Typing-Pattern'];
+          self.appState.unset('typingPattern');
         }
       });
     }

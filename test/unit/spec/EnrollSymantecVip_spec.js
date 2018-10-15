@@ -1,8 +1,6 @@
 /* eslint max-params: [2, 15] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTokenFactorForm',
@@ -14,9 +12,10 @@ define([
   'LoginRouter',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
+function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           resAllFactors, resEnrollError, Router, resSuccess) {
 
+  var { $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -30,7 +29,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {}
+        'features.router': startRouter
       });
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);

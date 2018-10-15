@@ -33,6 +33,12 @@ define(['./Form', 'helpers/util/Expect'], function (Form, Expect) {
       return this.inputWrap(COUNTRY_CODE_SELECTOR).find('.chzn-container');
     },
 
+    waitForCountryCodeSelect: function (resolveValue) {
+      return Expect.wait(function () {
+        return this.countryCodeSelect().length > 0;
+      }.bind(this), resolveValue);
+    },
+
     phoneNumberField: function () {
       return this.input(PHONE_INPUT);
     },
@@ -45,6 +51,12 @@ define(['./Form', 'helpers/util/Expect'], function (Form, Expect) {
 
     dropdownElement: function () {
       return this.inputWrap(DROPDOWN).find('.chzn-container');
+    },
+
+    waitForDropdownElement: function (resolveValue) {
+      return Expect.wait(function () {
+        return this.dropdownElement().length > 0;
+      }.bind(this), resolveValue);
     },
 
     dropdownOptions: function () {

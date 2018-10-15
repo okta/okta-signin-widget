@@ -1,0 +1,145 @@
+.consent-beacon {
+
+  .logo-wrapper {
+    width: 71px;
+    height: 71px;
+    position: absolute;
+    border-radius: 50%;
+    top: 7px;
+    background-color: $white;
+  }
+
+  .consent-beacon-border {
+    position: absolute;
+    border: 1px solid #ddd;
+    border-radius: $border-radius-default;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+
+  .consent-beacon-user {
+    left: -45px;
+
+    .user-logo::before {
+      color: #737373;
+      font-size: 69px;
+      margin: -10px 0 0;
+    }
+  }
+
+  .consent-beacon-client {
+    left: 59px;
+
+    .client-logo {
+      border-radius: $border-radius-default;
+    }
+
+    .custom-logo {
+      width: 70px;
+      height: 70px;
+    }
+
+    .default-logo {
+      width: 50px;
+      height: 50px;
+      padding: 10px;
+    }
+  }
+
+  .arrows-wrapper {
+    background: $white;
+    position: absolute;
+    top: 10px;
+    left: 26px;
+    height: 65px;
+    width: 34px;
+  }
+
+  .arrow-left {
+    position: absolute;
+    top: 24px;
+    left: 5px;
+  }
+
+  .arrow-right {
+    position: absolute;
+    top: 10px;
+    left: 5px;
+  }
+
+  .arrow::before {
+    color: $light-text-color;
+    font-size: 24px;
+  }
+}
+
+.consent-required {
+  .consent-title {
+    padding-top: 20px;
+    padding-bottom: 25px;
+    text-align: center;
+    word-wrap: break-word;
+
+    p {
+      font-size: 16px;
+    }
+
+    b {
+      font-weight: bold;
+    }
+  }
+
+  .scope-item {
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 5px;
+
+    .scope-item-text {
+      float: left;
+      font-size: 14px;
+      width: 85%;
+      word-wrap: break-word;
+    }
+
+    .scope-item-tooltip {
+      float: right;
+      margin-right: 16px;
+    }
+  }
+
+  .consent-description {
+    padding-top: 15px;
+    padding-bottom: 25px;
+    font-size: $body-font-size;
+
+    p {
+      color: $text-color-light;
+      padding-bottom: 25px;
+    }
+
+    a {
+      color: $primary-color;
+    }
+  }
+
+  .o-form-button-bar {
+    display: inline-block;
+    width: 100%;
+    padding: 0 0 14px;
+
+    input {
+      width: 140px;
+    }
+
+    input[data-type="cancel"] {
+      float: left;
+      margin-left: 0;
+    }
+
+    input[data-type="save"] {
+      float: right;
+    }
+  }
+}

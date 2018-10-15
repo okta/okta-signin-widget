@@ -12,6 +12,8 @@
 
 define(['okta', 'util/Enums'], function (Okta, Enums) {
 
+  var { Util } = Okta.internal.util;
+
   return Okta.View.extend({
     template: '\
       {{#if passwordWarn}}\
@@ -30,8 +32,12 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
           return transaction.cancel();
         })
         .then(function () {
-          self.state.set('navigateDir', Enums.DIRECTION_BACK);
-          self.options.appState.trigger('navigate', '');
+          if (self.settings.get('signOutLink')) {
+            Util.redirect(self.settings.get('signOutLink'));
+          } else {
+            self.state.set('navigateDir', Enums.DIRECTION_BACK);
+            self.options.appState.trigger('navigate', '');
+          }
         });
       },
       'click .js-skip' : function (e) {

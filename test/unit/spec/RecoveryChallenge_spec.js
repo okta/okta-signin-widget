@@ -1,8 +1,6 @@
-/* eslint max-params: [2, 15] */
+/* eslint max-params: [2, 16] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/RecoveryChallengeForm',
@@ -16,9 +14,11 @@ define([
   'helpers/xhr/200',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
+function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
           $sandbox, resChallenge, resResendError, resVerifyError, res200, resSuccess) {
 
+  var { _, $ } = Okta;
+  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -30,8 +30,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
       el: $sandbox,
       baseUrl: baseUrl,
       features: { securityImage: true },
-      authClient: authClient,
-      globalSuccessFn: function () {}
+      authClient: authClient
     }, settings));
     var form = new RecoveryChallengeForm($sandbox);
     var beacon = new Beacon($sandbox);
@@ -87,6 +86,29 @@ function (Q, _, $, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router
           }
         });
         Expect.isPrimaryAuth(test.router.controller);
+      });
+    });
+    itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
+    function () {
+      return setup({ signOutLink: 'http://www.goodbye.com' })
+      .then(function (test) {
+        spyOn(SharedUtil, 'redirect');
+        $.ajax.calls.reset();
+        test.setNextResponse(res200);
+        var $link = test.form.signoutLink();
+        expect($link.length).toBe(1);
+        $link.click();
+        return tick();
+      })
+      .then(function () {
+        expect($.ajax.calls.count()).toBe(1);
+        Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          url: 'https://foo.com/api/v1/authn/cancel',
+          data: {
+            stateToken: 'testStateToken'
+          }
+        });
+        expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
       });
     });
     itp('has a text field to enter the recovery sms code', function () {

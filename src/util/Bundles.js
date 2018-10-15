@@ -11,19 +11,20 @@
  */
 
 define([
-  'okta/underscore',
+  'jquery',
+  'underscore',
+  'handlebars',
   'vendor/lib/q',
-  'okta/jquery',
   'json!nls/login',
   'json!nls/country',
   'util/Logger',
   'json!config/config',
   'util/BrowserFeatures'
-], function (_, Q, $, login, country, Logger, config, BrowserFeatures) {
+], function ($, _, Handlebars, Q, login, country, Logger, config, BrowserFeatures) {
 
   var STORAGE_KEY = 'osw.languages';
 
-  var bundlePathTpl = _.template('/labels/jsonp/{{bundle}}_{{languageCode}}.jsonp');
+  var bundlePathTpl = Handlebars.compile('/labels/jsonp/{{bundle}}_{{languageCode}}.jsonp');
 
   /**
    * Converts options to our internal format, which distinguishes between
@@ -55,7 +56,14 @@ define([
     if (!i18n) {
       return {};
     }
-    return _.mapObject(i18n, function (props) {
+
+    var i18nWithLowerCaseKeys = {};
+
+    _.each(_.keys(i18n), function (key) {
+      i18nWithLowerCaseKeys[key.toLowerCase()] = i18n[key];
+    });
+
+    return _.mapObject(i18nWithLowerCaseKeys, function (props) {
       var mapped = { login: {}, country: {} };
       if (!_.isObject(props)) {
         throw new Error('Invalid format for "i18n"');
@@ -189,6 +197,10 @@ define([
   return {
     login: login,
     country: country,
+    // Courage components within the sign in widget point to courage bundle to look
+    // up i18nkeys. Since we dont have courage.properties inside the sign in widget
+    // we are pointing courage bundle to login.
+    courage: login,
 
     currentLanguage: null,
 
@@ -196,17 +208,24 @@ define([
       return this.currentLanguage === language;
     },
 
+    remove: function () {
+      this.currentLanguage = null;
+    },
+
     loadLanguage: function (language, overrides, assets) {
       var parsedOverrides = parseOverrides(overrides);
+      var lowerCaseLanguage = language.toLowerCase();
       return getBundles(language, assets)
       .then(_.bind(function (bundles) {
         // Always extend from the built in defaults in the event that some
         // properties are not translated
         this.login = _.extend({}, login, bundles.login);
         this.country = _.extend({}, country, bundles.country);
-        if (parsedOverrides[language]) {
-          _.extend(this.login, parsedOverrides[language]['login']);
-          _.extend(this.country, parsedOverrides[language]['country']);
+        this.courage = _.extend({}, login, bundles.login);
+        if (parsedOverrides[lowerCaseLanguage]) {
+          _.extend(this.login, parsedOverrides[lowerCaseLanguage]['login']);
+          _.extend(this.country, parsedOverrides[lowerCaseLanguage]['country']);
+          _.extend(this.courage, parsedOverrides[lowerCaseLanguage]['login']);
         }
         this.currentLanguage = language;
       }, this));

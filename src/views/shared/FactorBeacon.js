@@ -63,7 +63,7 @@ function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
         this.$('.auth-beacon-factor').fadeIn(200);
       }
       var appState = this.options.appState;
-      if (appState.get('hasMfaRequiredOptions')) {
+      if (appState.get('hasMultipleFactorsAvailable')) {
         this.add(FactorsDropDown, '[data-type="factor-types-dropdown"]');
       }
     },

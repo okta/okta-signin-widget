@@ -13,15 +13,22 @@
 define([
   'okta',
   'views/shared/TextBox',
-  'util/DeviceFingerprint'
-], function (Okta, TextBox, DeviceFingerprint) {
+  'util/DeviceFingerprint',
+  'util/TypingUtil'
+], function (Okta, TextBox, DeviceFingerprint, TypingUtil) {
 
   var _ = Okta._;
 
   return Okta.Form.extend({
     className: 'primary-auth-form',
     noCancelButton: true,
-    save: _.partial(Okta.loc, 'primaryauth.submit', 'login'),
+    save: function () {
+      if (this.settings.get('features.passwordlessAuth')) {
+        return Okta.loc('oform.next', 'login') ;
+      }
+      return Okta.loc('primaryauth.submit', 'login');
+    },
+    saveId: 'okta-signin-submit',
     layout: 'o-form-theme',
 
     // If socialAuth is configured, the title moves from the form to
@@ -35,12 +42,19 @@ define([
     },
 
     initialize: function () {
+      var trackTypingPattern = this.settings.get('features.trackTypingPattern');
       this.listenTo(this, 'save', function () {
+        if (trackTypingPattern) {
+          var typingPattern = TypingUtil.getTypingPattern();
+          this.options.appState.set('typingPattern', typingPattern);
+        }
         var self = this;
         var creds = {
-          username: this.model.get('username'),
-          password: this.model.get('password')
+          username: this.model.get('username')
         };
+        if (!this.settings.get('features.passwordlessAuth')) {
+          creds.password = this.model.get('password');
+        }
         this.settings.processCreds(creds)
         .then(function() {
           if (!self.settings.get('features.deviceFingerprinting')) {
@@ -48,7 +62,7 @@ define([
           }
           return DeviceFingerprint.generateDeviceFingerprint(self.settings.get('baseUrl'), self.$el)
           .then(function (fingerprint) {
-            self.model.set('deviceFingerprint', fingerprint);
+            self.options.appState.set('deviceFingerprint', fingerprint);
           })
           .fail(function () {
             // Keep going even if device fingerprint fails
@@ -56,6 +70,11 @@ define([
         })
         .then(_.bind(this.model.save, this.model));
       });
+
+      this.stateEnableChange();
+    },
+
+    stateEnableChange: function() {
       this.listenTo(this.state, 'change:enabled', function (model, enable) {
         if (enable) {
           this.enable();
@@ -67,13 +86,27 @@ define([
     },
 
     inputs: function () {
-      var inputs = [{
+      var inputs = [];
+      inputs.push(this.getUsernameField());
+      if (!this.settings.get('features.passwordlessAuth')) {
+        inputs.push(this.getPasswordField());
+      }
+      if (this.settings.get('features.rememberMe')) {
+        inputs.push(this.getRemeberMeCheckbox());
+      }
+      return inputs;
+    },
+
+    getUsernameField: function() {
+      var userNameFieldObject = {
         label: false,
         'label-top': true,
         placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
         name: 'username',
         input: TextBox,
+        inputId: 'okta-signin-username',
         type: 'text',
+        disabled: this.options.appState.get('disableUsername'),
         params: {
           innerTooltip: {
             title: Okta.loc('primaryauth.username.placeholder', 'login'),
@@ -81,12 +114,22 @@ define([
           },
           icon: 'person-16-gray'
         }
-      }, {
+      };
+
+      if (this.settings.get('features.showPasswordToggleOnSignInPage')) {
+        userNameFieldObject.params.iconDivider = true;
+      }
+      return userNameFieldObject;
+    },
+
+    getPasswordField: function() {
+      var passwordFieldObject = {
         label: false,
         'label-top': true,
         placeholder: Okta.loc('primaryauth.password.placeholder', 'login'),
         name: 'password',
-        input: TextBox,
+        inputId: 'okta-signin-password',
+        validateOnlyIfDirty: true,
         type: 'password',
         params: {
           innerTooltip: {
@@ -95,39 +138,44 @@ define([
           },
           icon: 'remote-lock-16'
         }
-      }];
-      if (this.settings.get('features.rememberMe')) {
-        inputs.push({
-          label: false,
-          placeholder: Okta.loc('remember', 'login'),
-          name: 'remember',
-          type: 'checkbox',
-          'label-top': true,
-          className: 'margin-btm-0',
-          initialize: function () {
-            this.listenTo(this.model, 'change:remember', function (model, val) {
-              // OKTA-98946: We normally re-render on changes to model values,
-              // but in this case we will manually update the checkbox due to
-              // iOS Safari and how it handles autofill - it will autofill the
-              // form anytime the dom elements are re-rendered, which prevents
-              // the user from editing their username.
-              this.$(':checkbox').prop('checked', val).trigger('updateState');
-            });
-          }
-        });
+      };
+      if (this.settings.get('features.showPasswordToggleOnSignInPage')) {
+        passwordFieldObject.params.iconDivider = true;
+        passwordFieldObject.params.showPasswordToggle = true;
       }
+      return passwordFieldObject;
+    },
 
-      return inputs;
+    getRemeberMeCheckbox: function() {
+      return {
+        label: false,
+        placeholder: Okta.loc('remember', 'login'),
+        name: 'remember',
+        type: 'checkbox',
+        'label-top': true,
+        className: 'margin-btm-0',
+        initialize: function () {
+          this.listenTo(this.model, 'change:remember', function (model, val) {
+            // OKTA-98946: We normally re-render on changes to model values,
+            // but in this case we will manually update the checkbox due to
+            // iOS Safari and how it handles autofill - it will autofill the
+            // form anytime the dom elements are re-rendered, which prevents
+            // the user from editing their username.
+            this.$(':checkbox').prop('checked', val).trigger('updateState');
+          });
+        }
+      };
     },
 
     focus: function () {
       if (!this.model.get('username')) {
         this.getInputs().first().focus();
-      } else {
+      } else if (!this.settings.get('features.passwordlessAuth')) {
         this.getInputs().toArray()[1].focus();
       }
+      if (this.settings.get('features.trackTypingPattern')) {
+        TypingUtil.track('okta-signin-username');
+      }
     }
-
   });
-
 });

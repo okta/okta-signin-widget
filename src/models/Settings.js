@@ -24,6 +24,8 @@ define([
 ],
 function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
 
+  var SharedUtil = Okta.internal.util.Util;
+
   var DEFAULT_LANGUAGE = 'en';
 
   var supportedIdps = ['facebook', 'google', 'linkedin', 'microsoft'],
@@ -31,6 +33,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       oauthRedirectTpl = Okta.tpl('{{origin}}');
 
   var _ = Okta._,
+      $ = Okta.$,
       ConfigError = Errors.ConfigError,
       UnsupportedBrowserError = Errors.UnsupportedBrowserError;
 
@@ -48,6 +51,8 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'recoveryToken': ['string', false, undefined],
       'stateToken': ['string', false, undefined],
       'username' : ['string', false],
+      'signOutLink': ['string', false],
+      'relayState': ['string', false],
 
       // Function to transform the username before passing it to the API
       // for Primary Auth, Forgot Password and Unlock Account.
@@ -70,6 +75,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'features.autoPush': ['boolean', true, false],
       'features.smsRecovery': ['boolean', true, false],
       'features.callRecovery': ['boolean', true, false],
+      'features.emailRecovery': ['boolean', false, true],
       'features.windowsVerify': ['boolean', true, false],
       'features.selfServiceUnlock': ['boolean', true, false],
       'features.multiOptionalFactorEnroll': ['boolean', true, false],
@@ -77,6 +83,12 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'features.deviceFingerprinting': ['boolean', false, false],
       'features.hideSignOutLinkInMFA' : ['boolean', false, false],
       'features.customExpiredPassword': ['boolean', true, false],
+      'features.registration': ['boolean', false, false],
+      'features.consent': ['boolean', false, false],
+      'features.idpDiscovery': ['boolean', false, false],
+      'features.passwordlessAuth': ['boolean', false, false],
+      'features.showPasswordToggleOnSignInPage': ['boolean', false, false],
+      'features.trackTypingPattern': ['boolean', false, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function
@@ -115,6 +127,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'authParams.state': ['string', false],
       'authParams.nonce': ['string', false],
 
+      'policyId': 'string',
       'clientId': 'string',
       'redirectUri': 'string',
       'idps': ['array', false, []],
@@ -132,7 +145,19 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'helpLinks.custom': 'array',
 
       //Custom Buttons
-      'customButtons': ['array', false, []]
+      'customButtons': ['array', false, []],
+
+      //Registration
+      'registration.click': 'function',
+      'registration.parseSchema': 'function',
+      'registration.preSubmit': 'function',
+      'registration.postSubmit': 'function',
+
+      //Consent
+      'consent.cancel': 'function',
+
+      //IDP Discovery
+      'idpDiscovery.requestContext': 'string'
     },
 
     derived: {
@@ -249,10 +274,21 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
               type: idp.type,
               dataAttr: dataAttr,
               className: 'social-auth-button ' + dataAttr,
-              title: idp.title = Okta.loc('socialauth.' + type + '.label'),
+              title: function () {
+                return Okta.loc('socialauth.' + type + '.label');
+              },
               click: function (e) {
                 e.preventDefault();
-                OAuth2Util.getTokens(self, {idp: idp.id});
+                if (self.get('oauth2Enabled')) {
+                  OAuth2Util.getTokens(self, {idp: idp.id});
+                } else {
+                  const baseUrl = self.get('baseUrl');
+                  const params = $.param({
+                    fromURI: self.get('relayState'),
+                  });
+                  const targetUri = `${baseUrl}/sso/idps/${idp.id}?${params}`;
+                  SharedUtil.redirect(targetUri);
+                }
               }
             };
             buttonArray.push(socialAuthButton);
@@ -285,15 +321,19 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       if (!options.baseUrl) {
         this.callGlobalError(new ConfigError(Okta.loc('error.required.baseUrl')));
       }
-      else if (!options.globalSuccessFn) {
-        this.callGlobalError(new ConfigError(Okta.loc('error.required.success')));
-      }
       else if (BrowserFeatures.corsIsNotSupported()) {
         this.callGlobalError(new UnsupportedBrowserError(Okta.loc('error.unsupported.cors')));
       }
     },
 
+    setAcceptLanguageHeader: function (authClient) {
+      if (authClient && authClient.options && authClient.options.headers) {
+        authClient.options.headers['Accept-Language'] = this.get('languageCode');
+      }
+    },
+
     setAuthClient: function (authClient) {
+      this.setAcceptLanguageHeader(authClient);
       this.authClient = authClient;
     },
 
@@ -360,6 +400,57 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
           resolve();
         }
       });
+    },
+
+    parseSchema: function (schema, onSuccess, onFailure) {
+      var parseSchema = this.get('registration.parseSchema');
+      //check for parseSchema callback
+      if (_.isFunction(parseSchema)) {
+        parseSchema(schema, function(schema) {
+          onSuccess(schema);
+        }, function (error) {
+          error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
+          error['callback'] = 'parseSchema';
+          onFailure(error);
+        });
+      } else {
+        //no callback
+        onSuccess(schema);
+      }
+    },
+
+    preSubmit: function(postData, onSuccess, onFailure) {
+      var preSubmit = this.get('registration.preSubmit');
+      //check for preSubmit callback
+      if (_.isFunction(preSubmit)) {
+        preSubmit(postData, function(postData) {
+          onSuccess(postData);
+        }, function (error) {
+          error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
+          error['callback'] = 'preSubmit';
+          onFailure(error);
+        });
+      } else {
+        //no callback
+        onSuccess(postData);
+      }
+    },
+
+    postSubmit: function(response, onSuccess, onFailure) {
+      var postSubmit = this.get('registration.postSubmit');
+      //check for postSubmit callback
+      if (_.isFunction(postSubmit)) {
+        postSubmit(response, function(response) {
+          onSuccess(response);
+        }, function (error) {
+          error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
+          error['callback'] = 'postSubmit';
+          onFailure(error);
+        });
+      } else {
+        //no callback
+        onSuccess(response);
+      }
     },
 
     // Use the parse function to transform config options to the standard

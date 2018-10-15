@@ -1,11 +1,8 @@
 /* eslint max-params: [2, 26] */
 define([
-  'okta/underscore',
-  'okta/jquery',
-  'vendor/lib/q',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
-  'shared/util/StringUtil',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTotpDeviceTypeForm',
   'helpers/dom/EnrollTotpBarcodeForm',
@@ -27,12 +24,13 @@ define([
   'helpers/xhr/SUCCESS',
   'LoginRouter'
 ],
-function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, BarcodeForm,
+function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           ManualSetupForm, PassCodeForm, LinkSentConfirmation,  Beacon, Expect,
           $sandbox, resAllFactors, resFactorsWithPush, resTotpEnrollSuccess,
           resPushEnrollSuccess, resPushEnrollSuccessNewQR, resActivateError, resActivatePushEmail,
           resActivatePushSms, resActivatePushTimeout, resSuccess, Router) {
 
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -47,7 +45,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {}
+        'features.router': startRouter
       }, settings));
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
@@ -339,7 +337,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           .then(function (test) {
             Expect.isVisible(test.passCodeForm.form());
             Expect.isVisible(test.passCodeForm.codeField());
-            expect(test.passCodeForm.codeField().attr('type')).toBe('number');
+            expect(test.passCodeForm.codeField().attr('type')).toBe('tel');
           });
         });
         itp('returns to factor list when browser\'s back button is clicked', function () {
@@ -397,6 +395,7 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           .then(function (test) {
             Expect.isVisible(test.passCodeForm.form());
             Expect.isVisible(test.passCodeForm.codeField());
+            expect(test.passCodeForm.codeField().attr('type')).toBe('tel');
           });
         });
         itp('shows error in case of an error response', function () {
@@ -589,12 +588,15 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
           return setupFailurePolling(test);
         })
         .then(function (test) {
+          return test.scanCodeForm.waitForRefreshQrcodeLink(test);
+        })
+        .then(function (test) {
           expect($.ajax.calls.count()).toBe(9);
           expect(test.scanCodeForm.hasManualSetupLink()).toBe(false);
           expect(test.scanCodeForm.hasRefreshQrcodeLink()).toBe(true);
           expect(test.scanCodeForm.hasErrors()).toBe(true);
           expect(test.scanCodeForm.errorMessage())
-            .toEqual(StringUtil.localize('error.network.connection', 'login'));
+            .toEqual(Okta.loc('error.network.connection', 'login'));
 
           // on "Refresh code" link click
           // it sends reactivation request and starts polling again
@@ -695,6 +697,12 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
         });
         itp('has correct fields displayed when different dropdown options selected', function () {
           return enrollOktaPushGoCannotScan()
+          .then(function (test) {
+            return test.manualSetupForm.waitForDropdownElement(test);
+          })
+          .then(function (test) {
+            return test.manualSetupForm.waitForCountryCodeSelect(test);
+          })
           .then(function (test) {
             Expect.isVisible(test.manualSetupForm.dropdownElement());
             // sms (default)
@@ -924,6 +932,9 @@ function (_, $, Q, OktaAuth, LoginUtil, StringUtil, Util, DeviceTypeForm, Barcod
             Expect.isVisible(test.passCodeForm.form());
             test.passCodeForm.backLink().click();
             return Expect.waitForManualSetupPush(test);
+          })
+          .then(function (test) {
+            return test.manualSetupForm.waitForCountryCodeSelect(test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(0);

@@ -19,7 +19,12 @@ define({
       "policy": {
         "allowRememberDevice": true,
         "rememberDeviceLifetimeInMinutes": 0,
-        "rememberDeviceByDefault": false
+        "rememberDeviceByDefault": false,
+        "factorsPolicyInfo":{
+            "opfhw7v2OnxKpftO40g3":{
+               "autoPushEnabled": false
+            }
+         }
       },
       "factors": [{
         "id": "ufshpdkgNun3xNE3W0g3",
@@ -113,6 +118,39 @@ define({
           }
         }
       }, {
+        "id": "emailhp9NXcoXu8z2wN0g3",
+        "factorType": "email",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "profile": {
+          "email": "a...1@clouditude.net"
+        },
+        "_links": {
+          "verify": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/emailhp9NXcoXu8z2wN0g3\/verify",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      }, {
+        "id": "passwordhp9NXcoX",
+        "factorType": "password",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "_links": {
+          "verify": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/passwordhp9NXcoX\/verify",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      },{
         "id": "opfhw7v2OnxKpftO40g3",
         "factorType": "push",
         "provider": "OKTA",
@@ -238,6 +276,30 @@ define({
             "hints": {"allow": ["POST"]}
           }
         }
+      }, {
+        "id": "customSAMLFactorId",
+        "factorType": "assertion:saml2",
+        "provider": "GENERIC_SAML",
+        "vendorName": "SAML Factor",
+        "profile": {"user":"administrator1@clouditude.net"},
+        "_links": {
+          "verify": {
+            "href":"http://rain.okta1.com:1802/api/v1/authn/factors/customFactorId/verify",
+            "hints": {"allow": ["POST"]}
+          }
+        }
+      }, {
+        "id": "customOIDCFactorId",
+        "factorType": "assertion:oidc",
+        "provider": "GENERIC_OIDC",
+        "vendorName": "OIDC Factor",
+        "profile": {"user":"administrator1@clouditude.net"},
+        "_links": {
+          "verify": {
+            "href":"http://rain.okta1.com:1802/api/v1/authn/factors/customFactorId/verify",
+            "hints": {"allow": ["POST"]}
+          }
+        }
       }]
     },
     "_links": {
@@ -252,5 +314,3 @@ define({
     }
   }
 });
-
-

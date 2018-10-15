@@ -1,0 +1,92 @@
+.registration-container {
+  margin-top: 30px;
+  
+  .content-container {
+    padding: 30px 42px;
+    -moz-transition: padding-top 0.4s;
+    -webkit-transition: padding-top 0.4s;
+    transition: padding-top 0.4s;
+    border-top: 1px solid #ddd;
+    margin-top: 5px;
+  }
+
+  .registration-link {
+    margin-left: 10px;
+    color: $primary-button-bg-color;
+  }
+
+}
+
+.registration {
+  .o-form-fieldset-container {
+    .required-fields-label {
+      color: $light-text-color;
+    }
+  }
+}
+
+.registration .subschema {
+
+  margin-bottom: 15px;
+
+  p {
+    padding: 5px 20px;
+    position: relative;
+
+    &.default-schema {
+      display: none;
+    }
+
+    span {
+      position: absolute;
+      left: -2px;
+    }
+  }
+
+  .subschema-unsatisfied {
+    color: $medium-text-color;
+  }
+
+  .subschema-satisfied {
+    color: $light-text-color;
+  }
+
+  .subschema-error {
+    color: $error-text-color;
+
+    span.error-16-small {
+      display: block;
+    }
+  }
+}
+
+.registration-complete {
+  margin-top: 20px;
+
+  h2 {
+    color: #46b090;
+    text-align: center;
+    margin: 15px 0;
+    font-size: 15px;
+  }
+
+  .back-btn {
+    margin-top: 15px;
+  }
+
+  .title-icon {
+    position: absolute;
+    display: block;
+    top: -10px;
+    left: 45%;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #46b090;
+
+    &:before {
+      color: #fff;
+      left: 4px;
+    }
+  }
+}

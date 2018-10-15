@@ -1,8 +1,6 @@
-/* eslint max-params: [2, 15] */
+/* eslint max-params: [2, 16] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/RecoveryQuestionForm',
@@ -16,9 +14,11 @@ define([
   'helpers/xhr/SUCCESS',
   'helpers/xhr/SUCCESS_unlock'
 ],
-function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
+function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
           $sandbox, resRecovery, resError, res200, resSuccess, resSuccessUnlock) {
 
+  var { _, $ } = Okta;
+  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -30,8 +30,7 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
       el: $sandbox,
       baseUrl: baseUrl,
       features: { securityImage: true },
-      authClient: authClient,
-      globalSuccessFn: function () {}
+      authClient: authClient
     }, settings));
     var form = new RecoveryQuestionForm($sandbox);
     var beacon = new Beacon($sandbox);
@@ -51,6 +50,8 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
       setNextResponse: setNextResponse
     });
   }
+
+  var setupOIDC = _.partial(setup, { clientId: 'someClientId' });
 
   Expect.describe('RecoveryQuestion', function () {
     itp('displays the security beacon', function () {
@@ -77,6 +78,29 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
           }
         });
         Expect.isPrimaryAuth(test.router.controller);
+      });
+    });
+    itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
+    function () {
+      return setup({ signOutLink: 'http://www.goodbye.com' })
+      .then(function (test) {
+        spyOn(SharedUtil, 'redirect');
+        $.ajax.calls.reset();
+        test.setNextResponse(res200);
+        var $link = test.form.signoutLink();
+        expect($link.length).toBe(1);
+        $link.click();
+        return tick();
+      })
+      .then(function () {
+        expect($.ajax.calls.count()).toBe(1);
+        Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          url: 'https://foo.com/api/v1/authn/cancel',
+          data: {
+            stateToken: 'testStateToken'
+          }
+        });
+        expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
       });
     });
     itp('sets the correct title for a forgotten password flow', function () {
@@ -150,6 +174,29 @@ function (Q, _, $, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     });
     itp('shows unlock page when response is success with unlock recoveryType', function () {
       return setup().then(function (test) {
+        $.ajax.calls.reset();
+        test.form.setAnswer('4444');
+        test.setNextResponse(resSuccessUnlock);
+        test.form.submit();
+        return Expect.waitForAccountUnlocked(test);
+      })
+      .then(function (test) {
+        expect($.ajax.calls.count()).toBe(1);
+        Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          url: 'https://foo.com/api/v1/authn/recovery/answer',
+          data: {
+            answer: '4444',
+            stateToken: 'testStateToken'
+          }
+        });
+        expect(test.form.titleText()).toBe('Account successfully unlocked!');
+        expect(test.form.backToLoginButton().length).toBe(1);
+        test.form.goBackToLogin();
+        expect(test.router.navigate).toHaveBeenCalledWith('', {trigger: true});
+      });
+    });
+    itp('with OIDC configured, it shows unlock page when response is success with unlock recoveryType', function () {
+      return setupOIDC().then(function (test) {
         $.ajax.calls.reset();
         test.form.setAnswer('4444');
         test.setNextResponse(resSuccessUnlock);

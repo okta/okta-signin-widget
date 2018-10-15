@@ -1,8 +1,6 @@
-/* eslint max-params: [2, 14] */
+/* eslint max-params: [2, 15] */
 define([
-  'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTokenFactorForm',
@@ -12,18 +10,20 @@ define([
   'helpers/xhr/MFA_ENROLL_allFactors',
   'helpers/xhr/MFA_ENROLL_allFactors_OnPrem',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_OnPrem_error',
+  'helpers/xhr/RSA_ERROR_change_pin',
   'helpers/xhr/SUCCESS',
   'LoginRouter'
 ],
-function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
-          resAllFactors, resAllFactorsOnPrem, resEnrollError, resSuccess, Router) {
+function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
+          resAllFactors, resAllFactorsOnPrem, resEnrollError, resRSAChangePin, resSuccess, Router) {
 
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
   Expect.describe('EnrollOnPrem', function () {
 
-    function setup(includeOnPrem, startRouter) {
+    function setup(response, includeOnPrem, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
@@ -31,13 +31,13 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {}
+        'features.router': startRouter
       });
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
       .then(function () {
-        var res = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
+        var res = response ? response : resAllFactors;
         setNextResponse(res);
         router.refreshAuthState('dummy-token');
         return Expect.waitForEnrollChoices();
@@ -60,7 +60,33 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       });
     }
 
-    var setupOnPrem = _.partial(setup, true);
+    var setupOnPrem = _.partial(setup, resAllFactorsOnPrem, true);
+
+    var getResponseNoProfile = function (response, factorType, provider) {
+      var responseCopy = Util.deepCopy(response);
+      var factors = responseCopy['response']['_embedded']['factors'];
+      var factor = _.findWhere(factors, {factorType: factorType, provider: provider});
+      delete factor['profile'];
+      return responseCopy;
+    };
+
+    var setupRsaNoProfile = function () {
+      var res = getResponseNoProfile(resAllFactors, 'token', 'RSA');
+      return setup(res, false);
+    };
+
+    var setupOnPremNoProfile = function() {
+      var res = getResponseNoProfile(resAllFactorsOnPrem, 'token', 'DEL_OATH');
+      return setup(res, true);
+    };
+
+    var setupXssVendorName = function () {
+      var responseCopy = Util.deepCopy(resAllFactorsOnPrem);
+      var factors = responseCopy['response']['_embedded']['factors'];
+      var factor = _.findWhere(factors, {factorType: 'token', provider: 'DEL_OATH'});
+      factor['vendorName'] = '><script>alert(123)</script>';
+      return setup(responseCopy, true);
+    };
 
     Expect.describe('RSA', function () {
 
@@ -82,7 +108,7 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           });
         });
         itp('returns to factor list when browser\'s back button is clicked', function () {
-          return setup(false, true).then(function (test) {
+          return setup(false, false, true).then(function (test) {
             Util.triggerBrowserBackButton();
             return Expect.waitForEnrollChoices(test);
           })
@@ -97,6 +123,16 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         itp('has a credentialId text field', function () {
           return setup().then(function (test) {
             Expect.isTextField(test.form.credentialIdField());
+          });
+        });
+        itp('autopopulates credentialId text field', function () {
+          return setup().then(function (test) {
+            expect(test.form.getCredentialId()).toEqual('test123');
+          });
+        });
+        itp('does not autopopulate credentialId when profile does not exist', function () {
+          return setupRsaNoProfile().then(function (test) {
+            expect(test.form.getCredentialId()).toEqual('');
           });
         });
         itp('has passCode text field', function () {
@@ -131,6 +167,21 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             expect(test.form.hasErrors()).toBe(true);
             // Note: This will change when we get field specific error messages
             expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
+          });
+        });
+        itp('clears passcode field if error is for PIN change', function () {
+          return setup()
+          .then(function (test) {
+            test.setNextResponse(resRSAChangePin);
+            test.form.setCredentialId('Username');
+            test.form.setCode(123);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+            expect(test.form.codeField().val()).toEqual('');
           });
         });
         itp('calls activate with the right params', function () {
@@ -196,6 +247,16 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             Expect.isTextField(test.form.credentialIdField());
           });
         });
+        itp('autopopulates credentialId text field', function () {
+          return setupOnPrem().then(function (test) {
+            expect(test.form.getCredentialId()).toEqual('test123');
+          });
+        });
+        itp('does not autopopulate credentialId when profile does not exist', function () {
+          return setupOnPremNoProfile().then(function (test) {
+            expect(test.form.getCredentialId()).toEqual('');
+          });
+        });
         itp('has passCode text field', function () {
           return setupOnPrem().then(function (test) {
             Expect.isPasswordField(test.form.codeField());
@@ -230,6 +291,21 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
           });
         });
+        itp('clears passcode field if error is for PIN change', function () {
+          return setupOnPrem()
+          .then(function (test) {
+            test.setNextResponse(resRSAChangePin);
+            test.form.setCredentialId('Username');
+            test.form.setCode(123);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+            expect(test.form.codeField().val()).toEqual('');
+          });
+        });
         itp('calls activate with the right params', function () {
           return setupOnPrem().then(function (test) {
             $.ajax.calls.reset();
@@ -251,6 +327,12 @@ function (Q, _, $, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
                 stateToken: 'testStateToken'
               }
             });
+          });
+        });
+        itp('guards against XSS when displaying tooltip text', function () {
+          return setupXssVendorName().then(function (test) {
+            expect(test.form.credIdTooltipText()).toEqual('Enter ><script>alert(123)</script> username');
+            expect(test.form.codeTooltipText()).toEqual('Enter ><script>alert(123)</script> passcode');
           });
         });
       });

@@ -10,17 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 9], max-params: [2, 11] */
+/* eslint complexity: [2, 9] */
 define([
   'okta',
   './util/FormController',
   './util/Enums',
   './util/RouterUtil',
-  'shared/views/forms/components/Toolbar',
   'views/enroll-choices/FactorList',
   'views/enroll-choices/RequiredFactorList'
 ],
-function (Okta, FormController, Enums, RouterUtil, Toolbar, FactorList,
+function (Okta, FormController, Enums, RouterUtil, FactorList,
           RequiredFactorList) {
 
   var _ = Okta._;

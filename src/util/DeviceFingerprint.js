@@ -10,19 +10,38 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 7] */
+/* eslint complexity: [2, 8] */
 
-define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
+define(['vendor/lib/q', 'okta'], function (Q, Okta) {
 
+  var $ = Okta.$;
   return {
+    getUserAgent: function() {
+      return navigator.userAgent;
+    },
+    isMessageFromCorrectSource: function($iframe, event) {
+      return event.source === $iframe[0].contentWindow;
+    },
     generateDeviceFingerprint: function (oktaDomainUrl, element) {
+      var userAgent = this.getUserAgent();
+      if (!userAgent) {
+        return Q.reject('user agent is not defined');
+      } else if (isWindowsPhone(userAgent)) {
+        return Q.reject('device fingerprint is not supported on Windows phones');
+      }
+
       var deferred = Q.defer();
+      var self = this;
 
       // Create iframe
       var $iframe = $('<iframe>', {
         style: 'display: none;'
       });
       $iframe.appendTo(element);
+
+      function isWindowsPhone(userAgent) {
+        return userAgent.match(/windows phone|iemobile|wpdesktop/i);
+      }
 
       function removeIframe() {
         $iframe.off();
@@ -36,6 +55,9 @@ define(['vendor/lib/q', 'okta/jquery'], function (Q, $) {
       }
 
       function onMessageReceivedFromOkta(event) {
+        if (!self.isMessageFromCorrectSource($iframe, event)) {
+          return;
+        }
         if (!event || !event.data || event.origin != oktaDomainUrl) {
           handleError('no data');
           return;

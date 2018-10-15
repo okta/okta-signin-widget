@@ -18,17 +18,11 @@
       left: -20px;
     }
   }
-
-  .can-remove-beacon & {
-    @include max-height-mq(550px) {
-      display: none;
-    }
-  }
 }
 
 .beacon-blank {
   background-image: none;
-  background-color: $primary-bg-color;
+  background-color: transparent;
   position: absolute;
   top: 0;
   bottom: 0;

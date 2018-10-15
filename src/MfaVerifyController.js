@@ -10,22 +10,23 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 13], max-params: [2, 11] */
+/* eslint complexity: [2, 15] */
 define([
   'okta',
-  'shared/views/forms/inputs/CheckBox',
   'util/BaseLoginController',
-  'util/CookieUtil',
   'views/mfa-verify/TOTPForm',
   'views/mfa-verify/YubikeyForm',
   'views/mfa-verify/SecurityQuestionForm',
-  'views/mfa-verify/CallAndSMSForm',
+  'views/mfa-verify/PassCodeForm',
   'views/mfa-verify/PushForm',
+  'views/mfa-verify/PasswordForm',
   'views/mfa-verify/InlineTOTPForm',
   'views/shared/FooterSignout'
 ],
-function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm, SecurityQuestionForm, CallAndSMSForm,
-          PushForm, InlineTOTPForm, FooterSignout) {
+function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
+          PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
+
+  var { CheckBox } = Okta.internal.views.forms.inputs;
 
   return BaseLoginController.extend({
     className: 'mfa-verify',
@@ -42,7 +43,8 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
         break;
       case 'sms':
       case 'call':
-        View = CallAndSMSForm;
+      case 'email':
+        View = PassCodeForm;
         break;
       case 'token':
       case 'token:software:totp':
@@ -53,6 +55,9 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
         break;
       case 'push':
         View = PushForm;
+        break;
+      case 'password':
+        View = PasswordForm;
         break;
       default:
         throw new Error('Unrecognized factor type');
@@ -76,7 +81,7 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
         });
 
         if (this.settings.get('features.autoPush')) {
-          this.add(Checkbox, {
+          this.add(CheckBox, {
             options: {
               model: this.model,
               name: 'autoPush',
@@ -90,7 +95,7 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
 
         // Remember Device checkbox resides outside of the Push and TOTP forms.
         if (this.options.appState.get('allowRememberDevice')) {
-          this.add(Checkbox, {
+          this.add(CheckBox, {
             options: {
               model: this.model,
               name: 'rememberDevice',
@@ -113,19 +118,20 @@ function (Okta, Checkbox, BaseLoginController, CookieUtil, TOTPForm, YubikeyForm
     },
 
     trapAuthResponse: function () {
-      if (this.options.appState.get('isMfaChallenge') ||
-          this.options.appState.get('isMfaRequired')) {
+      if((this.options.appState.get('isMfaRequired') &&
+          this.options.appState.get('trapMfaRequiredResponse')) ||
+          this.options.appState.get('isMfaChallenge')) {
+        this.options.appState.set('trapMfaRequiredResponse', false);
         return true;
       }
-      // update auto push cookie after user accepts Okta Verify MFA
-      if (this.options.factorType == 'push') {
-        if (this.settings.get('features.autoPush') && this.model.get('autoPush')) {
-          CookieUtil.setAutoPushCookie(this.options.appState.get('userId'));
-        } else {
-          CookieUtil.removeAutoPushCookie(this.options.appState.get('userId'));
-        }
-      }
       return false;
+    },
+
+    back: function() {
+      // Empty function on verify controllers to prevent users
+      // from navigating back during 'verify' using the browser's
+      // back button. The URL will still change, but the view will not
+      // More details in OKTA-135060.
     }
   });
 

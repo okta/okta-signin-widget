@@ -1,10 +1,10 @@
 define([
-  'okta/jquery',
-  'okta/underscore',
-  'shared/util/Class',
+  'okta',
   'helpers/util/jquery.okta'
 ],
-function ($, _, Class) {
+function (Okta) {
+
+  var { Class } = Okta.internal.util;
 
   return Class.extend({
 

@@ -18,9 +18,10 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
   var action = function (model) {
     var url = RouterUtil.createVerifyUrl(model.get('provider'), model.get('factorType')),
         self = this;
-
+    this.options.appState.trigger('factorSwitched');
     this.model.manageTransaction(function (transaction, setTransaction) {
       if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
+        this.options.appState.set('trapMfaRequiredResponse', true);
         return transaction.prev()
         .then(function (trans) {
           self.trigger('options:toggle');
@@ -169,6 +170,16 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       }
     },
 
+    'PASSWORD': {
+      icon: 'factor-icon mfa-password-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    },
+
     'WINDOWS_HELLO': {
       icon: 'factor-icon mfa-windows-hello-30',
       title: function () {
@@ -181,6 +192,36 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'U2F': {
       icon: 'factor-icon mfa-u2f-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    },
+
+    'EMAIL': {
+      icon: 'factor-icon mfa-email-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    },
+
+    'GENERIC_SAML': {
+      icon: 'factor-icon mfa-custom-factor-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    },
+
+    'GENERIC_OIDC': {
+      icon: 'factor-icon mfa-custom-factor-30',
       title: function () {
         return this.model.get('factorLabel');
       },

@@ -57,7 +57,7 @@
 
 
 // scss-lint:disable IdSelector
-#okta-sign-in {
+#okta-sign-in.auth-container {
 // scss-lint:enable IdSelector
 
   &.main-container {
@@ -132,6 +132,35 @@
     /* -- Main Background and Border Colors -- */
     /* set the helper's color value to the same color as the main-container's background */
       color: $primary-bg-color;
+    }
+
+    .primary-auth {
+      // adjust password toggle on login page to accomodate for Tooltips
+      .password-with-toggle {
+        padding-right: 65px;
+      }
+
+      .password-toggle {
+        .eyeicon {
+          right: 38px;
+        }
+      }
+    }
+    // add divider to username/password on login when password toggle on
+    .o-form .o-form-input .o-form-control {
+      .input-icon-divider {
+        border-right: 1px solid $input-border-color;
+        height: 38px;
+        position: absolute;
+        right: 34px;
+        top: 0;
+      }
+
+      &.focused-input {
+        .input-icon-divider {
+          border-right: 1px solid $input-border-color-focus;
+        }
+      }
     }
   }
 
@@ -382,6 +411,31 @@
     }
   }
 
+  .mfa-email-30,
+  .enroll-factor-row .mfa-okta-email {
+    /* -- Factor Icons (small): EMAIL -- */
+    background-image: url('../img/icons/mfa/email_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): EMAIL -- */
+      background-image: url('../img/icons/mfa/email_ico@2x.png');
+    }
+  }
+
+  .mfa-okta-email {
+    /* -- Factor Icons (large): EMAIL -- */
+    background-image: url('../img/icons/mfa/email_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): EMAIL -- */
+      background-image: url('../img/icons/mfa/email@2x.png');
+    }
+  }
+
   .mfa-question-30,
   .enroll-factor-row .mfa-okta-security-question {
     /* -- Factor Icons (small): Security Question -- */
@@ -404,6 +458,18 @@
     (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Security Question -- */
       background-image: url('../img/icons/mfa/question@2x.png');
+    }
+  }
+
+  .mfa-password-30 {
+    /* -- Factor Icons (small): Password -- */
+    background-image: url('../img/icons/mfa/password_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Password -- */
+      background-image: url('../img/icons/mfa/password_ico@2x.png');
     }
   }
 
@@ -454,6 +520,43 @@
     (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): U2F -- */
       background-image: url('../img/icons/mfa/u2f@2x.png');
+    }
+  }
+
+  .mfa-okta-password {
+    /* -- Factor Icons (large): Password -- */
+    background-image: url('../img/icons/mfa/password_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Password -- */
+      background-image: url('../img/icons/mfa/password@2x.png');
+    }
+  }
+
+  .mfa-custom-factor-30,
+  .enroll-factor-row .mfa-custom-factor {
+    /* -- Factor Icons (small): Custom Factor -- */
+    background-image: url('../img/icons/mfa/customFactor_38x38.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Custom Factor -- */
+      background-image: url('../img/icons/mfa/customFactor_ico@2x.png');
+    }
+  }
+
+  .mfa-custom-factor {
+    /* -- Factor Icons (large): Custom Factor -- */
+    background-image: url('../img/icons/mfa/customFactor_70x70.png');
+
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Custom Factor -- */
+      background-image: url('../img/icons/mfa/customFactor@2x.png');
     }
   }
 
@@ -628,12 +731,17 @@
       &[disabled] {
       /* -- Input Fields: disabled input field -- */
         color: $medium-text-color;
+        -webkit-text-fill-color: $medium-text-color;
         /* background: #f4f4f4; */
       }
 
       &[type="password"] {
       /* -- Input Fields: password input field -- */
         font-family: Verdana, sans-serif;
+
+        &:placeholder-shown {
+          font-family: $fonts;
+        }
       }
 
     }
@@ -748,12 +856,13 @@
   .mfa-verify-push { /* -- Page specific top level selectors -- */ }
   .mfa-verify-totp-inline { /* -- Page specific top level selectors -- */ }
   .mfa-verify-question { /* -- Page specific top level selectors -- */ }
-  .mfa-verify-sms-call { /* -- Page specific top level selectors -- */ }
+  .mfa-verify-passcode { /* -- Page specific top level selectors -- */ }
+  .mfa-verify-password { /* -- Page specific top level selectors -- */ }
 
 }
 
 
-.okta-sign-in-tooltip.qtip-custom {
+.okta-tooltip.qtip-custom {
 /* -- Tooltips -- */
   font-family: $fonts;
   /* background-color: #4d4d4d; */
@@ -779,5 +888,35 @@
   .qtip-content {
     /* -- Tooltips -- */
     /* color: #f3f3f3; */
+  }
+}
+
+/*  Remove the background image and borders on a smaller window size */
+@include max-width-mq(600px) {
+  // scss-lint:disable ImportantRule
+  .login-bg-image {
+    background-image: none !important;
+    background-color: #fff !important;
+    filter: unset !important;
+  }
+
+  /* Using the same selector as line 59 to override styles at small screen sizes. */
+  // scss-lint:disable IdSelector
+  #okta-sign-in.auth-container {
+
+    width: auto;
+    margin-right: 0;
+    margin-left: 0;
+
+    &.main-container {
+      border: 0;
+      box-shadow: none;
+    }
+
+    .auth-content {
+      max-width: $container-width - 84px;
+      margin: 0 auto;
+    }
+
   }
 }

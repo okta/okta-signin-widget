@@ -1,14 +1,14 @@
 language: node_js
 node_js:
-- '5.8'
+- '8'
 install:
 - bundle install
-- npm install
+- TMPDIR=/tmp yarn install
 script:
-- npm run build:release
-- npm run lint
-- npm test
-- npm run test:e2e
+- yarn build:release
+- yarn lint
+- yarn test
+- yarn test:e2e
 cache: false
 addons:
   sauce_connect:

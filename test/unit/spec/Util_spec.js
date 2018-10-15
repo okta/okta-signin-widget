@@ -1,6 +1,77 @@
-define(['util/Util'], function (Util) {
+/* eslint max-len: [2, 140] */
+define(['util/Util', 'util/Logger'], function (Util, Logger) {
 
   describe('util/Util', function () {
+
+    describe('transformErrorXHR', function () {
+      it('errorSummary shows network connection error when status is 0', function () {
+        var xhr = {
+          'status': 0
+        };
+        Util.transformErrorXHR(xhr);
+        expect(xhr.responseJSON.errorSummary).toEqual('Unable to connect to the server. Please check your network connection.');
+      });
+      it('errorSummary shows internal error when there are no responseJSON and no responseText', function () {
+        var xhr = {
+          'status': 400
+        };
+        Util.transformErrorXHR(xhr);
+        expect(xhr.responseJSON.errorSummary).toEqual('There was an unexpected internal error. Please try again.');
+      });
+      it('errorSummary is set from responseText when there is no responseJSON', function () {
+        var responseText = '{"errorSummary": "errorSummary from responseText"}';
+        var xhr = {
+          'status': 400,
+          'responseText': responseText
+        };
+        Util.transformErrorXHR(xhr);
+        expect(xhr.responseJSON.errorSummary).toEqual('errorSummary from responseText');
+      });
+      it('If there is an errorCauses array and there is no error code, get errorSummary from errorCauses array', function () {
+        var errorCauses = [{
+          'errorSummary': 'errorSummary from errorCauses'
+        }];
+        var xhr = {
+          'status': 400,
+          'responseJSON': {
+            'errorCauses': errorCauses
+          }
+        };
+        Util.transformErrorXHR(xhr);
+        expect(xhr.responseJSON.errorSummary).toEqual('errorSummary from errorCauses');
+        expect(xhr.responseJSON.errorCauses).toBe(errorCauses);
+      });
+      it('If there is an errorCauses array and there is an invalid error code, get errorSummary from errorCauses array', function () {
+        var errorCauses = [{
+          'errorSummary': 'errorSummary from errorCauses'
+        }];
+        var xhr = {
+          'status': 400,
+          'responseJSON': {
+            'errorCauses': errorCauses,
+            'errorCode': 'E01212AB'
+          }
+        };
+        Util.transformErrorXHR(xhr);
+        expect(xhr.responseJSON.errorSummary).toEqual('errorSummary from errorCauses');
+        expect(xhr.responseJSON.errorCauses).toBe(errorCauses);
+      });
+      it('If there is a valid error code, get errorSummary from that and delete errorCauses array', function () {
+        var errorCauses = [{
+          'errorSummary': 'errorSummary from errorCauses'
+        }];
+        var xhr = {
+          'status': 400,
+          'responseJSON': {
+            'errorCauses': errorCauses,
+            'errorCode': 'E0000017'
+          }
+        };
+        Util.transformErrorXHR(xhr);
+        expect(xhr.responseJSON.errorSummary).toEqual('Password reset failed');
+        expect(xhr.responseJSON.errorCauses).not.toBeDefined();
+      });
+    });
 
     describe('expandLanguages', function () {
       it('works with an empty array', function () {
@@ -45,6 +116,20 @@ define(['util/Util'], function (Util) {
         var arr = ['Hi', 'THERE', 'i', 'wOUld'],
             expected = ['hi', 'there', 'i', 'would'];
         expect(Util.toLower(arr)).toEqual(expected);
+      });
+    });
+
+    describe('debugMessage', function () {
+      it('formats template literal strings into a consistent format', function () {
+        var debugMessage = `
+          Multi-line
+          String
+          Message
+        `;
+        // Remove all prior tracking of Spy
+        Logger.warn.calls.reset();
+        Util.debugMessage(debugMessage);
+        expect(Logger.warn).toHaveBeenCalledWith('\nMulti-line\nString\nMessage\n');
       });
     });
 

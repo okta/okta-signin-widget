@@ -1,11 +1,6 @@
 # If a change is made in here, add it to .npmignore as well unless you
 # explicitly want to include it in the published artifact
-node_modules/*
-!node_modules/@okta
-node_modules/@okta/*
-!node_modules/@okta/i18n
-!node_modules/@okta/courage
-!node_modules/@okta/jquery.simplemodal
+node_modules
 npm-debug.log
 test/unit/SpecRunner.html
 target
@@ -20,10 +15,6 @@ build2
 
 # These paths should be included in the published artifact, but not the repo
 /dist
-
-# @okta/i18n module specific ignores
-**/node_modules/@okta/i18n/**/*.*
-!**/node_modules/@okta/i18n/**/login*.json
-!**/node_modules/@okta/i18n/**/login*.properties
-!**/node_modules/@okta/i18n/**/country*.json
-!**/node_modules/@okta/i18n/**/country*.properties
+packages/@okta/courage-for-signin-widget.html
+packages/@okta/courage-for-signin-widget.js.map
+yarn-error.log

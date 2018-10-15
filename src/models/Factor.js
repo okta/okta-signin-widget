@@ -14,9 +14,11 @@ define([
   'okta',
   'vendor/lib/q',
   'util/FactorUtil',
+  'util/Util',
+  'util/Errors',
   './BaseLoginModel'
 ],
-function (Okta, Q, factorUtil, BaseLoginModel) {
+function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
   var _ = Okta._;
 
   // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
@@ -34,12 +36,16 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         values: [
           'sms',
           'call',
+          'email',
           'token',
           'token:software:totp',
           'token:hardware',
           'question',
           'push',
-          'u2f'
+          'u2f',
+          'password',
+          'assertion:saml2',
+          'assertion:oidc'
         ]
       },
       provider: {
@@ -51,7 +57,9 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           'SYMANTEC',
           'GOOGLE',
           'YUBICO',
-          'FIDO'
+          'FIDO',
+          'GENERIC_SAML',
+          'GENERIC_OIDC'
         ]
       },
       enrollment: {
@@ -74,6 +82,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
 
     local: {
       'answer': 'string',
+      'password': 'string',
       'backupFactor': 'object',
       'showAnswer': 'boolean',
       'rememberDevice': 'boolean',
@@ -94,7 +103,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
       factorLabel: {
         deps: ['provider', 'factorType', 'vendorName'],
         fn: function (provider, factorType, vendorName) {
-          if (provider === 'DEL_OATH') {
+          if (_.contains(['DEL_OATH', 'GENERIC_SAML', 'GENERIC_OIDC'], provider)) {
             return vendorName;
           }
           return factorUtil.getFactorLabel(provider, factorType);
@@ -130,6 +139,15 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
           return null;
         }
       },
+      email: {
+        deps: ['profile', 'factorType'],
+        fn: function (profile, factorType) {
+          if (factorType === 'email') {
+            return profile && profile.email;
+          }
+          return null;
+        }
+      },
       deviceName: {
         deps: ['profile', 'factorType'],
         fn: function (profile, factorType) {
@@ -154,17 +172,14 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
       canUseResend: {
         deps: ['provider', 'factorType'],
         fn: function (provider, factorType) {
-          // Only push and sms have resend links.
-          // However, we currently have a problem with SMS
-          // (no way to know whether we want resend or verifyFactor),
-          // so we're turning it off for now.
-          return (provider === 'OKTA' && factorType === 'push');
+          // Only push, sms and call have resend links.
+          return (provider === 'OKTA' && _.contains(['push', 'sms', 'call', 'email'], factorType));
         }
       },
-      isSMSorCall: {
+      isAnswerRequired: {
         deps: ['factorType'],
         fn: function (factorType) {
-          return _.contains(['sms', 'call'], factorType);
+          return _.contains(['sms', 'call', 'email', 'token', 'token:software:totp', 'question'], factorType);
         }
       }
     },
@@ -178,28 +193,41 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
     },
 
     validate: function () {
-      if (this.get('isSMSorCall') && !this.get('answer')) {
+      if (this.get('isAnswerRequired') && !this.get('answer')) {
         return {'answer': Okta.loc('model.validation.field.blank')};
+      }
+      else if(this.get('factorType') === 'password' && !this.get('password')) {
+        return {'password': Okta.loc('error.password.required')};
       }
     },
 
+    /* eslint complexity: [2, 7] */
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
       // Set/Remove the remember device cookie based on the remember device input.
+      var self = this;
 
-      return this.doTransaction(function (transaction) {
+      return this.manageTransaction(function (transaction, setTransaction) {
         var data = {
           rememberDevice: rememberDevice
         };
         if (this.get('factorType') === 'question') {
           data.answer = this.get('answer');
-        } else {
+        }
+        else if (this.get('factorType') === 'password') {
+          data.password = this.get('password');
+        }
+        else {
           data.passCode = this.get('answer');
         }
 
+        if (this.pushFactorHasAutoPush()) {
+          data.autoPush = this.get('autoPush');
+        }
+
         var promise;
-        // MFA_REQUIRED
-        if (transaction.status === 'MFA_REQUIRED') {
+        // MFA_REQUIRED or UNAUTHENTICATED with factors (passwordlessAuth)
+        if (transaction.status === 'MFA_REQUIRED' || this.appState.get('promptForFactorInUnauthenticated')) {
           var factor = _.findWhere(transaction.factors, {
             id: this.get('id')
           });
@@ -207,7 +235,7 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
         }
 
         // MFA_CHALLENGE
-        else if (this.get('canUseResend') && transaction.resend) {
+        else if (this.get('canUseResend') && !this.get('answer') && transaction.resend) {
           var firstLink = transaction.data._links.resend[0];
           promise = transaction.resend(firstLink.name);
         } else {
@@ -219,18 +247,40 @@ function (Okta, Q, factorUtil, BaseLoginModel) {
 
         return promise
         .then(function (trans) {
+          var options = {
+            'delay': PUSH_INTERVAL
+          };
+          setTransaction(trans);
+          // In Okta verify case we initiate poll.
           if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
-            return Q.delay(PUSH_INTERVAL).then(function() {
-              return trans.poll(PUSH_INTERVAL);
+            const deferred = Q.defer();
+            const initiatePollTimout = Util.callAfterTimeout(deferred.resolve, PUSH_INTERVAL);
+            self.listenToOnce(self.options.appState, 'factorSwitched', () => {
+              clearTimeout(initiatePollTimout);
+              deferred.reject(new Errors.AuthStopPollInitiationError());
+            });
+            return deferred.promise.then(function() {
+              // Stop listening if factor was not switched before poll.
+              self.stopListening(self.options.appState, 'factorSwitched');
+              if (self.pushFactorHasAutoPush()) {
+                options.autoPush = function () {
+                  return self.get('autoPush');
+                };
+                options.rememberDevice = function () {
+                  return self.get('rememberDevice');
+                };
+              }
+              return trans.poll(options).then(function(trans) {
+                setTransaction(trans);
+              });
             });
           }
-          return trans;
-        })
-        .fail(function (err) {
-          // Clean up the cookie on failure.
-          throw err;
         });
       });
+    },
+
+    pushFactorHasAutoPush: function() {
+      return this.settings.get('features.autoPush') && this.get('factorType') === 'push';
     }
   });
 

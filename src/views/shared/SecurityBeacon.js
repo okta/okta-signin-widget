@@ -45,7 +45,13 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
     }
   }
 
-  function antiPhishingMessage (image, host, shown) {
+  function antiPhishingMessage (image, host) {
+    $(window).on('resize.securityBeaconQtip', _.debounce(function () {
+      if(image.is(':visible')){
+        image.qtip('show');
+      }
+    }, 300));
+
     // Show the message that the user has not logged in from this device before.
     image.qtip({
       prerender: true,
@@ -59,17 +65,34 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       },
       position: {
         my: 'top center',
-        at: 'bottom center',
-        adjust: {method: 'flip', y: -22},
-        viewport: $('body')
+        at: 'center',
+        target: $('.auth-beacon-security'),
+        adjust: {method: 'flip', scroll: false, resize: true},
+        effect: false
       },
       hide: {event: false, fixed: true},
-      show: {event: false, delay: 200}
+      show: {event: false, delay: 200},
+      events: {
+        move: function(event, api) {
+          if (!api.elements.target.is(':visible')) {
+            // Have to hide it immediately, with no effect
+            api.set('hide.effect', false);
+            api.hide();
+            api.set('hide.effect', true);
+          }
+        }
+      }
     });
-    image.qtip('toggle', shown);
+
+    image.qtip('toggle', image.is(':visible'));
   }
 
-  function updateSecurityImage($el, appState, animate) {
+  function destroyAntiPhishingMessage(image) {
+    image.qtip('destroy');
+    $(window).off('resize.securityBeaconQtip');
+  }
+
+  async function updateSecurityImage($el, appState, animate) {
     var image = $el.find('.auth-beacon-security'),
         border = $el.find('.js-auth-beacon-border'),
         hasBorder = !appState.get('isUndefinedUser'),
@@ -84,11 +107,13 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       border.toggleClass('auth-beacon-border', hasBorder);
       return;
     }
+
+    destroyAntiPhishingMessage(image);
+
     // Animate loading the security beacon
     if (!hasBorder) {
       // This occurrs when appState username is blank
       // we do not yet know if the user is recognized
-      image.qtip('destroy');
       image.fadeOut(duration, function () {
         setBackgroundImage(image, appState);
         border.removeClass('auth-beacon-border');
@@ -97,21 +122,20 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
     } else {
       // Animate loading the security beacon with a loading bar for the border
       // This occurrs when the username has been checked against Okta.
-      image.qtip('destroy');
       border.removeClass('auth-beacon-border');
-      Animations.radialProgressBar({
+      await Animations.radialProgressBar({
         $el: radialProgressBar,
-        swap: function () {
-          image.fadeOut(duration, function () {
+        swap() {
+          image.fadeOut(duration, () => {
             setBackgroundImage(image, appState);
             image.fadeIn(duration);
           });
         }
-      }).then(function () {
-        border.addClass('auth-beacon-border');
-      }).then(function () {
-        antiPhishingMessage(image, host, hasAntiPhishing);
       });
+      border.addClass('auth-beacon-border');
+      if (hasAntiPhishing) {
+        antiPhishingMessage(image, host);
+      }
     }
   }
 

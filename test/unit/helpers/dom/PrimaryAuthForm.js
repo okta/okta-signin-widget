@@ -1,11 +1,13 @@
-define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
+define(['okta', './Form'], function (Okta, Form) {
 
+  var { _, $ } = Okta;
   var USERNAME_FIELD = 'username';
   var PASSWORD_FIELD = 'password';
   var REMEMBER_ME_FIELD = 'remember';
   var REMEMBER_ME_LABEL = 'label[data-se-for-name="remember"]';
   var SECURITY_BEACON = 'security-beacon';
   var CLASS_SELECTOR = '.primary-auth';
+  var SIGN_IN_BUTTON = '.button.button-primary';
 
   return Form.extend({
 
@@ -41,6 +43,10 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
       return this.autocomplete(PASSWORD_FIELD);
     },
 
+    signInButton: function () {
+      return this.$(SIGN_IN_BUTTON);
+    },
+
     rememberMeCheckbox: function () {
       return this.checkbox(REMEMBER_ME_FIELD);
     },
@@ -73,6 +79,10 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
 
     securityBeacon: function () {
       return this.el(SECURITY_BEACON);
+    },
+
+    securityBeaconContainer: function () {
+      return this.$('.beacon-container');
     },
 
     editingUsername: function (val) {
@@ -145,10 +155,14 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
     customLinks: function () {
       return _.map(this.$('a.js-custom'), function (el) {
         var $el = $(el);
-        return {
+        var link = {
           text: $el.text(),
           href: $el.attr('href')
         };
+        if($el.attr('target')) {
+          link.target = $el.attr('target');
+        }
+        return link;
       });
     },
 
@@ -175,7 +189,7 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
     linkedInButton: function () {
       return this.socialAuthButton('linkedin');
     },
-    
+
     microsoftButton: function () {
       return this.socialAuthButton('microsoft');
     },
@@ -201,9 +215,33 @@ define(['okta/jquery', 'okta/underscore', './Form'], function ($, _, Form) {
     additionalAuthButton: function() {
       return this.$('.default-custom-button');
     },
-    
+
     authDivider: function() {
       return this.$('.auth-divider');
+    },
+
+    registrationContainer: function() {
+      return this.$('.registration-container');
+    },
+
+    registrationLabel: function() {
+      return this.$('.registration-container .content-container .registration-label');
+    },
+
+    registrationLink: function() {
+      return this.$('.registration-container .content-container .registration-link');
+    },
+
+    passwordToggleContainer: function() {
+      return this.$('.password-toggle');
+    },
+
+    passwordToggleShowContainer: function() {
+      return this.$('.password-toggle span.button-show');
+    },
+
+    passwordToggleHideContainer: function() {
+      return this.$('.password-toggle span.button-hide');
     }
   });
 

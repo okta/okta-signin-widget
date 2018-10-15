@@ -6,13 +6,14 @@
     "amd": true
   },
   "parserOptions": {
-    "ecmaVersion": 3
+    "ecmaVersion": 2017
   },
   "globals": {
     "spyOnEvent": false,
-    "JSON": true
+    "JSON": true,
+    "DEBUG": true
   },
-  rules: {
+  "rules": {
     "camelcase": 2,
     "comma-spacing": [2, { "before": false, "after": true }],
     "comma-style": [2, "last"],
@@ -25,7 +26,7 @@
     "max-len": [2, 120],
     "max-params": [2, 10],
     "max-statements": [2, 20],
-    "new-cap": [2, { properties: false, capIsNewExceptions: ["Q"] }],
+    "new-cap": [2, { "properties": false, "capIsNewExceptions": ["Q"] }],
     "no-caller": 2,
     "no-eval": 2,
     "no-implied-eval": 2,
@@ -33,7 +34,7 @@
     "no-multi-str": 0,
     "no-new": 2,
     "no-undef": 2,
-    "no-unused-expressions": [2, { allowShortCircuit: true, allowTernary: true }],
+    "no-unused-expressions": [2, { "allowShortCircuit": true, "allowTernary": true }],
     "no-unused-vars": [2, { "args": "after-used","vars": "all" }],
     "no-use-before-define": [2, "nofunc"],
     "quotes": [2, "single"],

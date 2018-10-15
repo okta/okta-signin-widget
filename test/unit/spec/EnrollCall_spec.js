@@ -1,8 +1,7 @@
-/* eslint max-params: [2, 17] */
+/* eslint max-params: [2, 18] */
 define([
   'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
   'helpers/mocks/Util',
@@ -15,13 +14,15 @@ define([
   'helpers/xhr/MFA_ENROLL_ACTIVATE_call_success',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_error',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_errorActivate',
+  'helpers/xhr/MFA_ENROLL_ACTIVATE_invalid_phone',
   'helpers/xhr/SUCCESS',
   'LoginRouter'
 ],
-function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
+function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           resAllFactors, resExistingPhone, resEnrollSuccess, resEnrollError, resActivateError,
-          resSuccess, Router) {
+          resEnrollInvalidPhoneError, resSuccess, Router) {
 
+  var { _, $ } = Okta;       
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -35,7 +36,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: function () {}
+        'features.router': startRouter
       });
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
@@ -160,7 +161,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           var countries = test.form.countriesList();
           expect(countries[0]).toEqual({ val: 'AF', text: 'Afghanistan' });
           expect(countries[1]).toEqual({ val: 'AL', text: 'Albania' });
-          expect(countries[238]).toEqual({ val: 'ZW', text: 'Zimbabwe' });
+          expect(countries[239]).toEqual({ val: 'ZW', text: 'Zimbabwe' });
         });
       });
       itp('does not include countries with no calling codes', function () {
@@ -291,6 +292,95 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           });
         });
       });
+      itp('uses send code button with validatePhone:false if user has retried with invalid phone number', function () {
+        return setup()
+        .then(function (test) {
+          $.ajax.calls.reset();
+          return sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'call',
+              provider: 'OKTA',
+              profile: {
+                phoneNumber: '+68912345678',
+                phoneExtension: ''
+              },
+              stateToken: 'testStateToken'
+            }
+          });
+
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage())
+          .toEqual('The number you entered seems invalid. If the number is correct, please try again.');
+
+          $.ajax.calls.reset();
+          return sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'call',
+              provider: 'OKTA',
+              profile: {
+                phoneNumber: '+68912345678',
+                phoneExtension: '',
+                validatePhone: false
+              },
+              stateToken: 'testStateToken'
+            }
+          });
+        });
+      });
+      itp('does not set validatePhone:false if the error is not a validation error (E0000098).', function () {
+        return setup()
+        .then(function (test) {
+          $.ajax.calls.reset();
+          return sendCode(test, resEnrollError, 'PF', '12345678');
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'call',
+              provider: 'OKTA',
+              profile: {
+                phoneNumber: '+68912345678',
+                phoneExtension: ''
+              },
+              stateToken: 'testStateToken'
+            }
+          });
+
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage())
+          .toEqual('Invalid Phone Number.');
+
+          $.ajax.calls.reset();
+          return sendCode(test, resEnrollError, 'PF', '12345678');
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'call',
+              provider: 'OKTA',
+              profile: {
+                phoneNumber: '+68912345678',
+                phoneExtension: ''
+              },
+              stateToken: 'testStateToken'
+            }
+          });
+        });
+      });
       itp('uses resend and not enrollFactor when redial is clicked', function () {
         Util.speedUpDelay();
         return setupAndSendValidCode()
@@ -397,6 +487,7 @@ function (Q, _, $, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       itp('shows enter code input', function () {
         return setupAndSendValidCode().then(function (test) {
           Expect.isVisible(test.form.codeField());
+          expect(test.form.codeField().attr('type')).toBe('tel');
         });
       });
       itp('shows verify button when enrolled', function () {

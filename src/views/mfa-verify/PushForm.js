@@ -10,11 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
+define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Util) {
 
   var _ = Okta._;
   // deviceName is escaped on BaseForm (see BaseForm's template)
   var titleTpl = Okta.Handlebars.compile('{{factorName}} ({{{deviceName}}})');
+  var WARNING_TIMEOUT = 30000; //milliseconds
+  var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning">\
+                           <span class="icon warning-16"></span>\
+                           <p>{{warning}}</p>\
+                         </div>';
 
   return Okta.Form.extend({
     className: 'mfa-verify-push',
@@ -50,6 +55,7 @@ define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
         function (state, isMfaRequired) {
           if (isMfaRequired) {
             this.clearErrors();
+            this.clearWarnings();
           }
         }
       );
@@ -81,21 +87,43 @@ define(['okta', 'util/CookieUtil'], function (Okta, CookieUtil) {
       }
     },
     postRender: function() {
-      if (this.settings.get('features.autoPush') && CookieUtil.isAutoPushEnabled(this.options.appState.get('userId'))) {
+      var factorsPolicyInfo = this.options.appState.get('factorsPolicyInfo');
+      var id = this.model.get('id');
+      var isAutoPushEnabled = (this.settings.get('features.autoPush') && factorsPolicyInfo &&
+                              factorsPolicyInfo[id]) ? factorsPolicyInfo[id]['autoPushEnabled'] : false;
+
+      if (isAutoPushEnabled) {
         this.model.set('autoPush', true);
         // bind after $el has been rendered, and trigger push once DOM is fully loaded
         _.defer(_.bind(this.submit, this));
       }
     },
     doSave: function () {
+      var warningTimeout;
       this.clearErrors();
+      this.clearWarnings();
       if (this.model.isValid()) {
-        this.listenToOnce(this.model, 'error', this.setSubmitState, true);
+        this.listenToOnce(this.model, 'error', function() {
+          this.setSubmitState(true);
+          this.clearWarnings();
+          clearTimeout(warningTimeout);
+        });
         this.trigger('save', this.model);
+        warningTimeout = Util.callAfterTimeout(_.bind(function() {
+          this.showWarning(Okta.loc('oktaverify.warning', 'login'));
+        }, this), WARNING_TIMEOUT);
       }
     },
     showError: function (msg) {
+      this.clearWarnings();
       this.model.trigger('error', this.model, {responseJSON: {errorSummary: msg}});
+    },
+    showWarning: function(msg) {
+      this.clearWarnings();
+      this.add(warningTemplate, '.o-form-error-container', {options: {warning: msg}});
+    },
+    clearWarnings: function() {
+      this.$('.okta-form-infobox-warning').remove();
     }
   });
 });

@@ -28,6 +28,11 @@ define(['./Form'], function (Form) {
       field.trigger('change');
     },
 
+    getCredentialId: function() {
+      var field = this.credentialIdField();
+      return field.val();
+    },
+
     setCode: function (val) {
       var field = this.codeField();
       field.val(val);
@@ -42,7 +47,15 @@ define(['./Form'], function (Form) {
 
     backLink: function () {
       return this.el('back-link');
-    }
+    },
+
+    credIdTooltipText: function () {
+      return this.tooltipText(CRED_ID_FIELD);
+    },
+
+    codeTooltipText: function () {
+      return this.tooltipText(CODE_FIELD);
+    },
 
   });
 

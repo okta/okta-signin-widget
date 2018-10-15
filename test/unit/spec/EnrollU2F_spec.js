@@ -1,41 +1,39 @@
 /* eslint max-params: [2, 14] */
 define([
   'okta',
-  'okta/jquery',
   'q',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollU2FForm',
   'helpers/dom/Beacon',
   'helpers/util/Expect',
-  'util/BrowserFeatures',
   'sandbox',
   'LoginRouter',
   'helpers/xhr/MFA_ENROLL_allFactors',
+  'helpers/xhr/MFA_ENROLL_U2F',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_u2f',
   'helpers/xhr/SUCCESS'
 ],
 function (Okta,
-          $,
           Q,
           OktaAuth,
           Util,
           Form,
           Beacon,
           Expect,
-          BrowserFeatures,
           $sandbox,
           Router,
           resAllFactors,
+          resU2F,
           resEnrollActivateU2F,
           resSuccess) {
-
+  var { $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
   Expect.describe('EnrollU2F', function () {
 
-    function setup(startRouter) {
+    function setup(startRouter, onlyU2F) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
@@ -50,7 +48,7 @@ function (Okta,
       Util.mockRouterNavigate(router, startRouter);
       return tick()
       .then(function () {
-        setNextResponse(resAllFactors);
+        setNextResponse(onlyU2F ? resU2F : resAllFactors);
         router.refreshAuthState('dummy-token');
         return Expect.waitForEnrollChoices();
       })
@@ -65,10 +63,6 @@ function (Okta,
           successSpy: successSpy
         });
       });
-    }
-
-    function mockFirefox(isAvailable){
-      spyOn(BrowserFeatures, 'isFirefox').and.returnValue(isAvailable);
     }
 
     function mockU2f(){
@@ -123,41 +117,28 @@ function (Okta,
     });
 
     Expect.describe('Enroll factor', function () {
-      itp('shows error if wrong browser', function () {
+      itp('shows error if browser does not support u2f', function () {
         delete window.u2f;
-        mockFirefox(false);
 
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
-          expect(test.form.errorHtml().html()).toEqual('The Security Key is only supported for Chrome or ' +
-            'Firefox browsers. Select another factor or contact your admin for assistance.');
+          expect(test.form.errorHtml().html()).toEqual('Security Key (U2F) is not supported on this browser.' +
+            ' Select another factor or contact your admin for assistance.');
         });
       });
 
-      itp('shows error if Firefox without extension', function () {
+      itp('shows error if browser does not support u2f and only one factor', function () {
         delete window.u2f;
-        mockFirefox(true);
 
-        return setup().then(function (test) {
+        return setup(false, true).then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
-          expect(test.form.errorHtml().html()).toEqual('<a target="_blank" ' +
-            'href="https://addons.mozilla.org/en-US/firefox/addon/u2f-support-add-on/">Download</a> ' +
-            'and install the Firefox U2F browser extension before proceeding. You may be required to restart ' +
-            'your browser after installation.');
+          expect(test.form.errorHtml().html()).toEqual('Security Key (U2F) is not supported on this browser.' +
+            ' Contact your admin for assistance.');
         });
       });
 
-      itp('does not show error if Chrome', function () {
+      itp('does not show error if browser supports u2f', function () {
         mockU2f();
-
-        return setup().then(function (test) {
-          expect(test.form.errorHtml()).toHaveLength(0);
-        });
-      });
-
-      itp('does not show error if Firefox with extension', function () {
-        mockU2f();
-        mockFirefox(true);
 
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(0);

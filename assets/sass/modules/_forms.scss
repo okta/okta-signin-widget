@@ -189,33 +189,6 @@
       right: 10px;
       opacity: 0.5;
     }
-
-    .password-toggle {
-      .button {
-        right: 5px;
-        position: absolute;
-        top: 50%;
-        margin-top: -13px;
-        line-height: 24px;
-        height: 26px;
-        padding: 0 5px;
-        font-size: 11px;
-      }
-
-      .button-hide {
-        display: none;
-      }
-    }
-
-    .password-toggle-on {
-      .button-show {
-        display: none;
-      }
-
-      .button-hide {
-        display: block;
-      }
-    }
   }
 
 }
@@ -250,7 +223,7 @@
 
 .custom-checkbox {
   label {
-    background-image: url('/img/ui/forms/checkbox-sign-in-widget.png');
+    background-image: url('../img/ui/forms/checkbox-sign-in-widget.png');
   }
 
   label.focus {
@@ -267,7 +240,7 @@ only screen and (min-device-pixel-ratio: 2),
 only screen and (min-resolution: 2dppx) {
   .custom-checkbox {
     label {
-      background-image: url('/img/ui/forms/checkbox-sign-in-widget@2x.png');
+      background-image: url('../img/ui/forms/checkbox-sign-in-widget@2x.png');
       background-size: 50px 1155px;
     }
   }

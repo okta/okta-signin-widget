@@ -1,0 +1,8 @@
+<!-- src/app/app.component.html -->
+
+<button routerLink="/"> Home </button>
+<button *ngIf="!signIn.isAuthenticated()" routerLink="/login"> Login </button>
+<button *ngIf="signIn.isAuthenticated()" (click)="logout()"> Logout </button>
+<button routerLink="/protected"> Protected </button>
+
+<router-outlet></router-outlet>

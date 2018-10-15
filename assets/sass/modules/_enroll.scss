@@ -210,13 +210,17 @@
 /* TOTP Factor Enrollment */
 .device-type-input {
 
-  .o-form-input > span {
+  .o-form-input {
     display: table;
     width: 100%;
-  }
 
-  .custom-radio {
-    display: table-cell;
+    > span {
+      display: table-row;
+
+      > div {
+        display: table-cell;
+      }
+    }
   }
 
   label,
@@ -403,6 +407,7 @@
 [name="sharedSecret"] {
   text-align: center;
   cursor: text;
+  opacity: 1;
 }
 
 .enroll-activation-link-sent {

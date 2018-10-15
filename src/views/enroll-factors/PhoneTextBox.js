@@ -11,12 +11,12 @@
  */
 
 define([
-  'okta',
-  'shared/views/forms/inputs/TextBox'
+  'okta'
 ],
-function (Okta, TextBox) {
+function (Okta, ) {
 
   var _ = Okta._;
+  var { TextBox } = Okta.internal.views.forms.inputs;
 
   return TextBox.extend({
 

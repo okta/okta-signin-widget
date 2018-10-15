@@ -2,8 +2,9 @@
 
 var OktaSignIn = (function () {
 
-  var config  = require('json!config/config'),
-      _ = require('okta/underscore');
+  var _        = require('underscore'),
+      config   = require('json!config/config'),
+      OAuth2Util = require('util/OAuth2Util');
 
   function getProperties(authClient, LoginRouter, Util, config) {
 
@@ -82,8 +83,23 @@ var OktaSignIn = (function () {
     var router;
     function render(options, success, error) {
       if (router) {
-        throw 'An instance of the widget has already been rendered. Call remove() first.';
+        throw new Error('An instance of the widget has already been rendered. Call remove() first.');
       }
+
+      /**
+       * -- Development Mode --
+       * When the page loads, provide a helpful message to remind the developer that
+       * tokens have not been removed from the hash fragment.
+       */
+      if (hasTokensInUrl()) {
+        Util.debugMessage(
+          `
+            Looks like there are still tokens in the URL! Don't forget to parse and store them.
+            See: https://github.com/okta/okta-signin-widget/#oidc-tokenparsetokensfromurlsuccess-error.
+          `
+        );
+      }
+
       router = new LoginRouter(_.extend({}, config, options, {
         authClient: authClient,
         globalSuccessFn: success,
@@ -130,9 +146,33 @@ var OktaSignIn = (function () {
       .fail(error);
     }
 
+    /**
+     * Renders the Widget with opinionated defaults for the full-page
+     * redirect flow.
+     * @param options - options for the signin widget
+     */
+    function showSignInToGetTokens(options) {
+      var renderOptions = OAuth2Util.transformShowSignInToGetTokensOptions(options, config);
+      return render(renderOptions);
+    }
+
+    /**
+     * Returns authentication transaction information given a stateToken.
+     * @param {String} stateToken - Ephemeral token that represents the current state of an authentication
+     *                              or recovery transaction
+     * @returns {Promise} - Returns a promise for an object containing the transaction information
+     */
+    function getTransaction(stateToken) {
+      if (!stateToken) {
+        throw new Error('A state token is required.');
+      }
+      return authClient.tx.resume({ stateToken: stateToken });
+    }
+
     // Properties exposed on OktaSignIn object.
     return {
       renderEl: render,
+      showSignInToGetTokens: showSignInToGetTokens,
       signOut: closeSession,
       idToken: {
         refresh: refreshIdToken
@@ -148,6 +188,7 @@ var OktaSignIn = (function () {
         parseTokensFromUrl: parseTokensFromUrl
       },
       tokenManager: authClient.tokenManager,
+      getTransaction: getTransaction,
       hide: hide,
       show: show,
       remove: remove
@@ -155,19 +196,21 @@ var OktaSignIn = (function () {
   }
 
   function OktaSignIn(options) {
-    var OktaAuth, Util, authClient, LoginRouter;
+    require('okta');
 
-    // Modify the underscore, handlebars, and jquery modules
-    // Remove once these are explicitly required in Courage
-    require('okta/underscore');
-    require('handlebars');
-    require('okta/jquery');
+    var OktaAuth = require('@okta/okta-auth-js/jquery');
+    var Util = require('util/Util');
+    var LoginRouter = require('LoginRouter');
 
-    OktaAuth = require('@okta/okta-auth-js/jquery');
-    Util = require('util/Util');
-    LoginRouter = require('LoginRouter');
+    Util.debugMessage(
+      `
+        The Okta Sign-In Widget is running in development mode.
+        When you are ready to publish your app, embed the minified version to turn on production mode.
+        See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
+      `
+    );
 
-    authClient = new OktaAuth({
+    var authClient = new OktaAuth({
       url: options.baseUrl,
       transformErrorXHR: Util.transformErrorXHR,
       headers: {
@@ -181,11 +224,9 @@ var OktaSignIn = (function () {
 
     // Triggers the event up the chain so it is available to the consumers of the widget.
     this.listenTo(LoginRouter.prototype, 'all', this.trigger);
-
   }
 
   return OktaSignIn;
 
 })();
-
 module.exports = OktaSignIn;

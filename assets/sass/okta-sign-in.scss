@@ -1,32 +1,163 @@
-
 @import 'widgets/jquery.qtip';
-@import 'widgets/mega-drop-down';
-@import 'widgets/chosen';
 
-@import 'common/enduser/reset';
 @import 'common/shared/helpers/all';
-@import 'common/admin/icons/all';
 @import 'variables';
-@import 'common/enduser/responsive-variables';
-@import 'common/enduser/helpers';
-@import 'common/shared/o-forms/o-form';
-@import 'common/admin/modules/infobox/infobox';
 @import 'fonts';
 @import 'helpers';
-@import 'base';
-@import 'layout';
-@import 'modules/forms';
-@import 'modules/infobox';
-@import 'modules/qtip';
-@import 'modules/mfa-challenge-forms';
-@import 'modules/forgot-password';
-@import 'modules/btns';
-@import 'modules/header';
-@import 'modules/beacon';
-@import 'modules/factors-dropdown';
-@import 'modules/footer';
-@import 'modules/enroll';
-@import 'modules/app-login-banner';
+@import 'common/enduser/responsive-variables';
+@import 'common/enduser/helpers';
+@import 'container';
 @import 'modules/okta-footer';
-@import 'modules/accessibility';
 @import 'ie';
+
+/* Layout */
+.login-bg-image {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -5;
+}
+
+.okta-container {
+  @import 'modules/app-login-banner';
+}
+
+// scss-lint:disable IdSelector
+#okta-sign-in {
+// scss-lint:enable IdSelector
+  @import 'common/admin/icons/all';
+
+  @import 'common/enduser/reset';
+  @import 'widgets/mega-drop-down';
+  @import 'widgets/chosen';
+  @import 'common/shared/o-forms/o-form';
+  @import 'common/admin/modules/infobox/infobox';
+  @import 'base';
+  @import 'layout';
+  @import 'modules/forms';
+  @import 'modules/infobox';
+  @import 'modules/qtip';
+  @import 'modules/mfa-challenge-forms';
+  @import 'modules/forgot-password';
+  @import 'modules/btns';
+  @import 'modules/consent';
+  @import 'modules/header';
+  @import 'modules/beacon';
+  @import 'modules/factors-dropdown';
+  @import 'modules/footer';
+  @import 'modules/enroll';
+  @import 'modules/accessibility';
+  @import 'modules/registration';
+
+  &.can-remove-beacon {
+    @include max-height-mq(550px) {
+      .beacon-container {
+        display: none;
+      }
+
+      .auth-content {
+        padding-top: 20px;
+      }
+
+      .enroll-choices {
+        padding-top: 15px;
+      }
+
+      .auth-header {
+        padding: 30px 90px 25px;
+      }
+    }
+  }
+
+}
+
+@import 'modules/qtip';
+@import 'widgets/chosen';
+@import 'modules/forms';
+
+.chzn-container-active {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  vertical-align: baseline;
+  background: transparent;
+  font-size: $font-size;
+  font-family: $fonts;
+  color: $medium-text-color;
+
+  div,
+  span,
+  applet,
+  object,
+  iframe,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  blockquote,
+  pre,
+  a,
+  abbr,
+  acronym,
+  address,
+  big,
+  cite,
+  code,
+  del,
+  dfn,
+  em,
+  img,
+  ins,
+  kbd,
+  q,
+  s,
+  samp,
+  small,
+  strike,
+  strong,
+  sub,
+  sup,
+  tt,
+  var,
+  b,
+  u,
+  i,
+  center,
+  dl,
+  dt,
+  dd,
+  ol,
+  ul,
+  li,
+  fieldset,
+  form,
+  label,
+  legend,
+  table,
+  caption,
+  tbody,
+  tfoot,
+  thead,
+  tr,
+  th,
+  td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    background: transparent;
+  }
+}

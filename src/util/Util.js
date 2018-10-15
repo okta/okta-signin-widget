@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 8] */
-define(['okta'], function (Okta) {
+/* eslint complexity: [2, 8], max-depth: [2, 3] */
+define(['okta', 'util/Logger'], function (Okta, Logger) {
 
   var Util = {};
   var _ = Okta._;
@@ -44,6 +44,11 @@ define(['okta'], function (Okta) {
       var errorMsg = Okta.loc('errors.' + xhr.responseJSON.errorCode, 'login');
       if (errorMsg.indexOf('L10N_ERROR[') === -1) {
         xhr.responseJSON.errorSummary = errorMsg;
+        if (xhr.responseJSON && xhr.responseJSON.errorCauses && xhr.responseJSON.errorCauses.length) {
+          // BaseForm will consume errorCauses before errorSummary if it is an array,
+          // so, we have to make sure to remove it when we have a valid error code
+          delete xhr.responseJSON.errorCauses;
+        }
       }
     }
     return xhr;
@@ -83,6 +88,17 @@ define(['okta'], function (Okta) {
       .flatten()
       .uniq()
       .value();
+  };
+
+  //helper to call setTimeout
+  Util.callAfterTimeout = function (callback, time) {
+    return setTimeout(callback, time);
+  };
+
+  // Helper function to provide consistent formatting of template literals
+  // that are logged when in development mode.
+  Util.debugMessage = function (message) {
+    Logger.warn(`\n${message.replace(/^(\s)+/gm, '')}`);
   };
 
   return Util;

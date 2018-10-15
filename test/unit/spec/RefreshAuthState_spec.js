@@ -1,8 +1,7 @@
 /* eslint max-params: [2, 25] */
 define([
   'vendor/lib/q',
-  'okta/underscore',
-  'okta/jquery',
+  'okta',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/Beacon',
@@ -13,9 +12,10 @@ define([
   'helpers/xhr/security_image',
   'sandbox'
 ],
-function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
+function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
           Router, resEnroll, resSecurityImage, $sandbox) {
 
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -27,7 +27,6 @@ function (Q, _, $, OktaAuth, Util, Beacon, FormView, Expect,
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
-      globalSuccessFn: function () {},
       features: {
         securityImage: true
       }
