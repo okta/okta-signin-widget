@@ -23,6 +23,7 @@ module.exports = (config) => {
     reporters: ['progress', 'junit'],
     junitReporter: {
       outputDir: `${rootDir}/build2/reports/unit`,
+      outputFile: 'okta-sign-in-widget-junit-result.xml',
       useBrowserName: false,
     },
     coverageReporter: {
