@@ -24,6 +24,7 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
   var fn = {};
 
   var verifyUrlTpl = Okta.tpl('signin/verify/{{provider}}/{{factorType}}');
+  var verifyUrlNoProviderTpl = Okta.tpl('signin/verify/{{factorType}}');
   var enrollFactorUrlTpl = Okta.tpl('signin/enroll/{{provider}}/{{factorType}}');
   var activateFactorUrlTpl = Okta.tpl(
     'signin/enroll-activate/{{provider}}/{{factorType}}{{#if step}}/{{step}}{{/if}}'
@@ -36,10 +37,17 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
   );
 
   fn.createVerifyUrl = function (provider, factorType) {
-    return verifyUrlTpl({
-      provider: encodeURIComponent(provider.toLowerCase()),
-      factorType: encodeURIComponent(factorType)
-    });
+    if (provider) {
+      return verifyUrlTpl({
+        provider: encodeURIComponent(provider.toLowerCase()),
+        factorType: encodeURIComponent(factorType)
+      });
+    }
+    else {
+      return verifyUrlNoProviderTpl({
+        factorType: encodeURIComponent(factorType)
+      });
+    }
   };
 
   fn.createEnrollFactorUrl = function (provider, factorType) {

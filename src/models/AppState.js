@@ -91,6 +91,25 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
     return Okta.loc('minutes', 'login', [factorLifetimeInMinutes]);
   }
 
+  function combineFactorsObjects (factorTypes, factors) {
+    var addedFactorTypes = [];
+    var combinedFactors = [];
+    _.each(factors, function (factor) {
+      var factorType = factor.factorType;
+      if (!_.contains(addedFactorTypes, factorType)) {
+        var factorTypeObj = _.findWhere(factorTypes, {factorType: factorType});
+        if (factorTypeObj) {
+          addedFactorTypes.push(factorType);
+          combinedFactors.push(factorTypeObj);
+        }
+        else {
+          combinedFactors.push(factor);
+        }
+      }
+    });
+    return combinedFactors;
+  }
+
   return Okta.Model.extend({
 
     initialize: function () {
@@ -128,6 +147,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       transactionError: 'object',
       username: 'string',
       factors: 'object',
+      factorTypes: 'object',
       policy: 'object',
       securityImage: ['string', true, UNDEFINED_USER],
       securityImageDescription:
@@ -152,19 +172,24 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       // Because of MFA_CHALLENGE (i.e. DUO), we need to remember factors
       // across auth responses. Not doing this, for example, results in being
       // unable to switch away from the duo factor dropdown.
-      var self = this;
       if (res._embedded && res._embedded.policy) {
         this.set('policy', res._embedded.policy);
       }
+
       if (res._embedded && res._embedded.factors) {
-        var settings = this.settings;
-        var factors = _.map(res._embedded.factors, function (factor) {
-          factor.settings = settings;
-          factor.appState = self;
+        var factors = res._embedded.factors;
+        if (res._embedded.factorTypes) {
+          factors = combineFactorsObjects(res._embedded.factorTypes, factors);
+        }
+
+        var factorsObject = _.map(factors, (factor) => {
+          factor.settings = this.settings;
+          factor.appState = this;
           return factor;
         });
-        this.set('factors', new Factor.Collection(factors, { parse: true }));
+        this.set('factors', new Factor.Collection(factorsObject, { parse: true }));
       }
+
       this.set('lastAuthResponse', res);
     },
 

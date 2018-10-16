@@ -22,13 +22,6 @@ define(['okta', './FactorList'], function (Okta, FactorList) {
       return FactorList.prototype.className + ' enroll-required-factor-list';
     },
 
-    initialize: function () {
-      var numRequired = this.collection.length,
-          numCompleted = this.collection.where({ enrolled: true }).length,
-          currentStep = numCompleted + 1;
-      this.listSubtitle = Okta.loc('enroll.choices.step', 'login', [currentStep, numRequired]);
-    },
-
     postRender: function () {
       var currentModel, currentRow;
       FactorList.prototype.postRender.apply(this, arguments);

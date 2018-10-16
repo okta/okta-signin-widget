@@ -191,6 +191,13 @@ define({
         "factorType": "u2f",
         "provider": "FIDO",
         "vendorName": "FIDO",
+        "policy": {
+          "enrollment": {
+            "enrolled": 0,
+            "minimum": 0,
+            "maximum": 2
+          }
+        },
         "_links": {
           "enroll": {
             "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",

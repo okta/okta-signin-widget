@@ -28,6 +28,17 @@ function (Okta, Errors, FormController, FormType, FooterSignout, Q, FactorUtil, 
 
   var _ = Okta._;
 
+  function getRegisteredKeysSequence (factors) {
+    var keys = [];
+    _.each(factors, function (factor) {
+      keys.push({
+        version: factor.profile.version,
+        keyHandle: factor.profile.credentialId
+      });
+    });
+    return keys;
+  }
+
   return FormController.extend({
     className: 'mfa-verify verify-u2f',
     Model: {
@@ -46,20 +57,38 @@ function (Okta, Errors, FormController, FormType, FooterSignout, Q, FactorUtil, 
         this.trigger('request');
 
         return this.doTransaction(function (transaction) {
-          var factor = _.findWhere(transaction.factors, {
-            factorType: 'u2f',
-            provider: 'FIDO'
-          });
+          var factor;
+          if (transaction.factorTypes) {
+            factor = _.findWhere(transaction.factorTypes, {
+              factorType: 'u2f'
+            });
+          }
+          else {
+            factor = _.findWhere(transaction.factors, {
+              factorType: 'u2f',
+              provider: 'FIDO'
+            });
+          }
           var self = this;
           return factor.verify()
             .then(function (transaction) {
-              var factorData = transaction.factor;
-              var appId = factorData.profile.appId;
-              var registeredKeys = [{version: FidoUtil.getU2fVersion(), keyHandle: factorData.profile.credentialId }];
+              var registeredKeys, appId, nonce;
+              if (transaction.factors) {
+                var factors = transaction.factors;
+                appId = factors[0]['profile']['appId'];
+                nonce = transaction.challenge.nonce;
+                registeredKeys = getRegisteredKeysSequence(factors);
+              }
+              else {
+                var factorData = transaction.factor;
+                appId = factorData.profile.appId;
+                nonce = factorData.challenge.nonce;
+                registeredKeys = [{version: FidoUtil.getU2fVersion(), keyHandle: factorData.profile.credentialId }];
+              }
               self.trigger('request');
 
               var deferred = Q.defer();
-              u2f.sign(appId, factorData.challenge.nonce, registeredKeys, function (data) {
+              u2f.sign(appId, nonce, registeredKeys, function (data) {
                 self.trigger('errors:clear');
                 if (data.errorCode && data.errorCode !== 0) {
                   var isOneFactor = self.options.appState.get('factors').length === 1;
