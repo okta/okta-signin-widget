@@ -95,6 +95,40 @@ function (Okta, Widget, Expect, Logger) {
       });
     });
 
+    Expect.describe('Token Manager', function () {
+      beforeEach(function () {
+        spyOn(localStorage, 'getItem').and.callThrough();
+        spyOn(sessionStorage, 'getItem').and.callThrough();
+      });
+  
+      afterEach(function() {
+        localStorage.getItem.calls.reset();
+        sessionStorage.getItem.calls.reset();
+      });
+  
+      it('attempts to access sessionStorage if configured', function () {
+        const widget = new Widget({
+          baseUrl: url,
+          tokenManager: {
+            storage: 'sessionStorage'
+          }
+        });
+        widget.tokenManager.get('foo');
+        expect(localStorage.getItem.calls.any()).toEqual(false);
+        expect(sessionStorage.getItem).toHaveBeenCalled();
+      });
+
+      it('attempts to access localStorage if token manager is not configured', function () {
+        const widget = new Widget({
+          baseUrl: url,
+          tokenManager: { }
+        });
+        widget.tokenManager.get('foo');
+        expect(localStorage.getItem).toHaveBeenCalled();
+        expect(sessionStorage.getItem.calls.any()).toEqual(false);
+      });      
+    });    
+
     Expect.describe('getTransaction', function () {
       beforeEach(function () {
         spyOn($, 'ajax').and.callThrough();
