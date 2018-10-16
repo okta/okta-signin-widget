@@ -1,4 +1,3 @@
-// jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 const karma = window.__karma__;
 const testsContext = require.context('./spec', true, /.*_spec\.js$/);
 

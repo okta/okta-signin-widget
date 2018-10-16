@@ -325,7 +325,6 @@ module.exports = function (grunt) {
       'clean': 'yarn clean',
       'build-dev': 'yarn build:webpack-dev',
       'build-release': 'yarn build:webpack-release',
-      'build-test': 'yarn build:webpack-test',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'run-protractor': 'yarn protractor'
     },
