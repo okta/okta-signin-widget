@@ -11,6 +11,8 @@ script:
 - yarn test:e2e
 cache: false
 addons:
+  chrome: stable
+  firefox: latest
   sauce_connect:
     username: OktaSignInWidget
   jwt:

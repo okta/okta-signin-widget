@@ -590,7 +590,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         })
         .then(function (test) {
           expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
-          test.form.passwordField().focus();
+          test.form.usernameField().focusout();
           return tick(test);
         })
         .then(function (test) {
@@ -709,7 +709,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return tick(test);
         })
         .then(function (test) {
-          test.form.passwordField().focus();
+          test.form.usernameField().focusout();
           expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
           return tick(test);
         })
@@ -740,14 +740,14 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         });
       });
       itp('does not show password validation error when password field is not dirty', function () {
-        return setup()
+        return setup({username: 'abc'})
         .then(function (test) {
           test.form.passwordField().focus();
           expect(test.form.passwordField()[0].parentElement).toHaveClass('focused-input');
           return tick(test);
         })
         .then(function (test) {
-          test.form.usernameField().focus();
+          test.form.passwordField().focusout();
           expect(test.form.passwordField()[0].parentElement).not.toHaveClass('focused-input');
           return tick(test);
         })
@@ -1088,7 +1088,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
           expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(typingPattern);
         });
-      });      
+      });
     });
 
     Expect.describe('events', function () {
@@ -1270,7 +1270,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             url: 'https://foo.com/login/getimage?username=testuser',
             dataType: 'json'
           });
-          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
+          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
           expect(test.form.accessibilityText()).toBe('a single pixel');
         });
       });
@@ -1401,7 +1401,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setup(options, [resSecurityImage])
         .then(waitForBeaconChange)
         .then(function (test) {
-          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
+          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
           expect(test.form.accessibilityText()).toBe('a single pixel');
         });
       });
@@ -2133,7 +2133,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.facebookButton().click();
           expect(SharedUtil.redirect.calls.count()).toBe(1);
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
-            'https://foo.com/sso/idps/0oaidiw9udOSceD1234?' + 
+            'https://foo.com/sso/idps/0oaidiw9udOSceD1234?' +
             $.param({fromURI: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U'})
           );
         });

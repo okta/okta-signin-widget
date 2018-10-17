@@ -1,3 +1,11 @@
 define(['okta'], function (Okta) {
-  return Okta.$('#sandbox');
+  const $ = Okta.$;
+
+  let sandbox = $('#sandbox');
+  if (!sandbox.length) {
+    sandbox = $('<div>').attr('id', 'sandbox')
+      .appendTo('body');
+  }
+
+  return sandbox;
 });

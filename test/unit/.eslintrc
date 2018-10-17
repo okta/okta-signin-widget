@@ -1,0 +1,11 @@
+{
+  "env": {
+    "node": true,
+    "browser": true,
+    "jasmine": true
+  },
+  "rules": {
+    "max-params": 0,
+    "max-statements": 0
+  }
+}

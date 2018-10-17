@@ -60,7 +60,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
         else {
           deferred.resolve(res);
         }
-        return tick(deferred.promise);
+        return deferred.promise;
       });
     };
 
@@ -427,7 +427,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
         })
         .then(function (test) {
           expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
-          test.form.rememberMeCheckbox().focus();
+          test.form.usernameField().focusout();
           return tick(test);
         })
         .then(function (test) {
@@ -634,7 +634,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
             url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
             dataType: 'json'
           });
-          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
+          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
           expect(test.form.accessibilityText()).toBe('a single pixel');
         });
       });
@@ -765,7 +765,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
         return setup(options, [resSecurityImage])
         .then(waitForBeaconChange)
         .then(function (test) {
-          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(../../../test/unit/assets/1x1.gif)');
+          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
           expect(test.form.accessibilityText()).toBe('a single pixel');
         });
       });
