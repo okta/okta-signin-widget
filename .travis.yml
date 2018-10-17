@@ -7,7 +7,7 @@ install:
 script:
 - yarn build:release
 - yarn lint
-- yarn test:report
+- yarn test
 - yarn test:e2e
 cache: false
 addons:
