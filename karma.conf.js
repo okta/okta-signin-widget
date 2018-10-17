@@ -6,7 +6,7 @@ const rootDir = path.resolve(__dirname);
 module.exports = (config) => {
   const options = {
     basePath: './',
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeHeadlessNoSandbox'],
     frameworks: ['karma-overrides', 'jasmine-jquery', 'jasmine'],
     files: [
       './node_modules/babel-polyfill/dist/polyfill.js',
@@ -50,6 +50,11 @@ module.exports = (config) => {
         base: 'Firefox',
         flags: [ '-headless' ],
       },
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+
     },
 
   };
