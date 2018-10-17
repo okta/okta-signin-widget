@@ -18,7 +18,7 @@ define([
   'util/FormController',
   'util/FormType',
   'views/shared/FooterSignout',
-  'vendor/lib/q',
+  'q',
   'util/FactorUtil',
   'views/mfa-verify/HtmlErrorMessageView',
   'u2f-api-polyfill'

@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 25], max-statements: [2, 36], complexity:[2, 10], max-len: [2, 125] */
 define([
-  'vendor/lib/q',
+  'q',
   'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',

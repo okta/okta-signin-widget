@@ -1,4 +1,4 @@
-define(['vendor/lib/q'], function (Q) {
+define(['q'], function (Q) {
 
   function addMethodSpy(mock, methodName) {
     var spy = jasmine.createSpy(methodName + 'Spy').and.callFake(function () {

@@ -9,10 +9,10 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const UglifyJsPlugin = optimize.UglifyJsPlugin;
 
-function webpackBundleAnalyzer() {
+function webpackBundleAnalyzer(reportFilename = 'okta-sign-in.analyzer') {
   return new BundleAnalyzerPlugin({
     openAnalyzer: false,
-    reportFilename: 'okta-sign-in.html',
+    reportFilename: `${reportFilename}.html`,
     analyzerMode: 'static',
   });
 }
@@ -84,10 +84,10 @@ function banner() {
 function plugins(options = {}) {
   if (options.isProduction) {
     // Uglify and add license header
-    return [ emptyModule(), uglify(), banner() ];
+    return [ emptyModule(), uglify(), banner(), webpackBundleAnalyzer(options.analyzerFile) ];
   }
   // Use DEBUG/development environment w/ console warnings
-  return [ emptyModule(), devMode(), webpackBundleAnalyzer() ];
+  return [ emptyModule(), devMode(), webpackBundleAnalyzer(options.analyzerFile) ];
 }
 
 module.exports = plugins;

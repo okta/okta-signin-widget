@@ -14,7 +14,7 @@ define([
   'jquery',
   'underscore',
   'handlebars',
-  'vendor/lib/q',
+  'q',
   'json!nls/login',
   'json!nls/country',
   'util/Logger',

@@ -14,7 +14,7 @@
 define([
   'okta',
   'duo',
-  'vendor/lib/q',
+  'q',
   'util/FormController',
   'views/enroll-factors/Footer'
 ],

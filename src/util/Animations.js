@@ -12,7 +12,7 @@
 
  /* eslint max-statements: [2, 15] */
 
-define(['vendor/lib/q', './Enums'], function (Q, Enums) {
+define(['q', './Enums'], function (Q, Enums) {
 
   var SWAP_PAGE_TIME = 200;
 

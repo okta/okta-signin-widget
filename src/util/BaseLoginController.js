@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'vendor/lib/q'], function (Okta, Q) {
+define(['okta', 'q'], function (Okta, Q) {
   var _ = Okta._;
 
   function getForm(controller) {

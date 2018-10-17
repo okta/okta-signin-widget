@@ -12,7 +12,7 @@
 
 define([
   'okta',
-  'vendor/lib/q',
+  'q',
   'util/FactorUtil',
   'util/Util',
   'util/Errors',

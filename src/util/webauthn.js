@@ -13,7 +13,7 @@
 /* globals JSON */
 define([
   'okta',
-  'vendor/lib/q'
+  'q'
 ],
 function (Okta, Q) {
 

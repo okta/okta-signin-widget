@@ -37,15 +37,7 @@ entryConfig.externals = {
   },
   'q': true,
   'u2f-api-polyfill': true,
-  'underscore': true,
-  'vendor/lib/q': 'q'
-
-  // We explicitly choose not to include jquery.placeholder in the externals
-  // array because it requires a shim (requires work in their webpack.config).
-  // 'vendor/plugins/jquery.placeholder': 'jquery-placeholder'
-
-  // Chosen is also another special case - because we're currently modifying
-  // some of the chosen code, we cannot include it as an npm dependency.
+  'underscore': true
 };
 // Add transform-runtime
 entryConfig.module.loaders = entryConfig.module.loaders || [];
@@ -55,11 +47,12 @@ if (loader) {
   loader.query.plugins = loader.query.plugins || [];
   loader.query.plugins.push('transform-runtime');
 }
+entryConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in.entry.analyzer' });
 
 // 2. cdnConfig
 var cdnConfig = config('okta-sign-in.min.js');
 cdnConfig.entry.unshift('babel-polyfill');
-cdnConfig.plugins = plugins({ isProduction: true });
+cdnConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.min.analyzer' });
 
 // 3. noJqueryConfig
 var noJqueryConfig = config('okta-sign-in-no-jquery.js');
@@ -77,6 +70,6 @@ noJqueryConfig.externals = {
 // 4. devConfig
 var devConfig = config('okta-sign-in.js');
 devConfig.entry.unshift('babel-polyfill');
-devConfig.plugins = plugins({ isProduction: false });
+devConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in.analyzer' });
 
 module.exports = [entryConfig, cdnConfig, noJqueryConfig, devConfig];

@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 18] */
 define([
-  'vendor/lib/q',
+  'q',
   'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
@@ -22,7 +22,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           resAllFactors, resExistingPhone, resEnrollSuccess, resEnrollError, resActivateError,
           resEnrollInvalidPhoneError, resSuccess, Router) {
 
-  var { _, $ } = Okta;       
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 

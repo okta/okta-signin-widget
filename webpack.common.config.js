@@ -26,7 +26,6 @@ module.exports = function (outputFilename) {
 
         // Vendor files from courage that are remapped in OSW to point to an npm
         // module in our package.json dependencies
-        'vendor/lib/q': 'q',
         'handlebars': 'handlebars/dist/handlebars',
         'qtip': '@okta/qtip2',
 
