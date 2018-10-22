@@ -223,6 +223,11 @@ var OktaSignIn = (function () {
 
     // Triggers the event up the chain so it is available to the consumers of the widget.
     this.listenTo(LoginRouter.prototype, 'all', this.trigger);
+
+    // On the first afterRender event (usually when the Widget is ready) - emit a 'ready' event
+    this.once('afterRender', function (context) {
+      this.trigger('ready', context);
+    });
   }
 
   return OktaSignIn;

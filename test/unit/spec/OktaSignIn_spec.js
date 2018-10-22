@@ -3,9 +3,10 @@ define([
   'okta',
   'widget/OktaSignIn',
   'helpers/util/Expect',
-  'util/Logger'
+  'util/Logger',
+  'sandbox'
 ],
-function (Okta, Widget, Expect, Logger) {
+function (Okta, Widget, Expect, Logger, $sandbox) {
   var signIn;
   var url = 'https://foo.com';
   var { $ } = Okta;
@@ -122,6 +123,41 @@ function (Okta, Widget, Expect, Logger) {
             });
             done();
           });
+      });
+    });
+
+    Expect.describe('events', function () {
+      afterEach(function () {
+        signIn.remove();
+        signIn.off();
+      });
+      it('triggers an afterRender event when the Widget renders a page', function (done) {
+        signIn.on('afterRender', function (context) {
+          expect(context).toEqual({ controller: 'primary-auth' });
+          done();
+        });
+        signIn.renderEl({ el: $sandbox });
+      });
+      it('triggers a ready event when the Widget is loaded for the first time', function (done) {
+        signIn.on('ready', function (context) {
+          expect(context).toEqual({ controller: 'primary-auth' });
+          done();
+        });
+        signIn.renderEl({ el: $sandbox });
+      });
+      it('does not trigger a ready event twice', function (done) {
+        signIn.on('ready', function (context) {
+          expect(context).toEqual({ controller: 'primary-auth' });
+          // Navigate directly to forgot-password page
+          var forgotPasswordLink = document.getElementsByClassName('link js-forgot-password');
+          forgotPasswordLink[0].click();
+        });
+        signIn.on('afterRender', function (context) {
+          if (context.controller === 'forgot-password') {
+            done();
+          }
+        });
+        signIn.renderEl({ el: '#sandbox' });
       });
     });
   });
