@@ -357,8 +357,12 @@ Subscribe to an event published by the widget.
 - `context` - Optional context to bind the callback to
 
 ```javascript
-signIn.on('pageRendered', function (data) {
-  console.log(data);
+signIn.on('navigated', function (context) {
+  console.log(context);
+  // {
+  //   view: '/',
+  //   controller: 'primary-auth'
+  // }
 });
 ```
 
@@ -373,11 +377,11 @@ Unsubscribe from widget events. If no callback is provided, unsubscribes all lis
 // Unsubscribe all listeners from all events
 signIn.off();
 
-// Unsubscribe all listeners that have been registered to the 'pageRendered' event
-signIn.off('pageRendered');
+// Unsubscribe all listeners that have been registered to the 'navigated' event
+signIn.off('navigated');
 
-// Unsubscribe the onPageRendered listener from the 'pageRendered' event
-signIn.off('pageRendered', onPageRendered);
+// Unsubscribe the onNavigated listener from the 'navigated' event
+signIn.off('navigated', onNavigated);
 ```
 
 ### getTransaction
@@ -1319,12 +1323,26 @@ features: {
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
 
-- **pageRendered** - triggered when the widget transitions to a new page, and animations have finished.
+- **navigated** - triggered when the widget transitions to a new page and animations have finished.
+
+    ```javascript
+    signIn.on('navigated', function (context) {
+      // Assume view transitions between Primary Auth and MFA Push
+      console.log(context);
+      // {
+      //   view: '/signin/verify/okta/push',
+      //   controller: 'mfa-verify',
+      //   transaction: AuthTransaction
+      // }
+    });
+    ```
+
+    To perform logic based on a specific controller:
 
     ```javascript
     // Overriding the "Back to Sign In" click action on the Forgot Password page
-    signIn.on('pageRendered', function (data) {
-      if (data.page !== 'forgot-password') {
+    signIn.on('navigated', function (context) {
+      if (context.controller !== 'forgot-password') {
         return;
       }
       var backLink = document.getElementsByClassName('js-back')[0];
@@ -1333,6 +1351,16 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
         e.stopPropagation();
         // Custom link behavior
       });
+    });
+    ```
+- **pageRendered** (*Deprecated*) - triggered when the widget transitions to a new page and animations have finished.
+
+    ```javascript
+    signIn.on('pageRendered', function (data) {
+      console.log(data);
+      // {
+      //  page: 'forgot-password'
+      // }
     });
     ```
 - **passwordRevealed** - triggered when the show password button is clicked.
