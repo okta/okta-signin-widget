@@ -106,7 +106,7 @@ define(['okta', 'q'], function (Okta, Q) {
         controller: this.className,
         transaction: this.options.appState.get('transaction')
       };
-      this.trigger('navigated', _.pick(context, _.identity));
+      this.trigger('navigated', context);
     }
   });
 

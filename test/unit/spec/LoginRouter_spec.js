@@ -555,7 +555,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         expect(test.navigatedSpy.calls.count()).toBe(2);
         expect(test.navigatedSpy.calls.allArgs()[0]).toEqual([{
           view: '/context.html',
-          controller: 'refresh-auth-state'
+          controller: 'refresh-auth-state',
+          transaction: undefined
         }]);
         expect(test.navigatedSpy.calls.allArgs()[1]).toEqual([{
           view: '/context.html',
@@ -955,7 +956,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           expect(test.navigatedSpy.calls.count()).toBe(1);
           expect(test.navigatedSpy).toHaveBeenCalledWith({
             view: '/context.html',
-            controller: 'primary-auth'
+            controller: 'primary-auth',
+            transaction: undefined
           });
         });
       });
@@ -971,7 +973,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           expect(test.navigatedSpy.calls.count()).toBe(1);
           expect(test.navigatedSpy).toHaveBeenCalledWith({
             view: '/context.html',
-            controller: 'primary-auth'
+            controller: 'primary-auth',
+            transaction: undefined
           });
         });
       });
@@ -1003,7 +1006,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           expect(test.navigatedSpy.calls.count()).toBe(1);
           expect(test.navigatedSpy.calls.allArgs()[0]).toEqual([{
             view: '/context.html',
-            controller: 'primary-auth'
+            controller: 'primary-auth',
+            transaction: undefined
           }]);
           Util.mockRouterNavigate(test.router);
           test.router.navigate('signin/forgot-password');
@@ -1015,7 +1019,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           expect(test.navigatedSpy.calls.count()).toBe(2);
           expect(test.navigatedSpy.calls.allArgs()[1]).toEqual([{
             view: '/context.html',
-            controller: 'forgot-password'
+            controller: 'forgot-password',
+            transaction: undefined
           }]);
         });
       });
