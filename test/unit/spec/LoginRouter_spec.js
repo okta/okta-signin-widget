@@ -542,6 +542,30 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
       });
     });
+    itp('triggers a "navigated" event when routing to default route and when status is UNAUTHENTICATED', function () {
+      return setup({ stateToken: 'aStateToken' })
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.setNextResponse(resUnauthenticated);
+        test.router.navigate('/app/sso');
+        return Expect.waitForPrimaryAuth(test);
+      })
+      .then(function (test) {
+        expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
+        expect(test.navigatedSpy.calls.count()).toBe(2);
+        expect(test.navigatedSpy.calls.allArgs()[0]).toEqual([{
+          view: '/context.html',
+          controller: 'refresh-auth-state'
+        }]);
+        expect(test.navigatedSpy.calls.allArgs()[1]).toEqual([{
+          view: '/context.html',
+          controller: 'primary-auth',
+          transaction: jasmine.objectContaining({
+            status: 'UNAUTHENTICATED'
+          })
+        }]);
+      });
+    });
     itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {
       Util.mockDuo();
       return setup()

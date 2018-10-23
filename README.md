@@ -1332,7 +1332,14 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
       // {
       //   view: '/signin/verify/okta/push',
       //   controller: 'mfa-verify',
-      //   transaction: AuthTransaction
+      //   transaction: {
+      //     status: 'MFA_REQUIRED',
+      //     user: {
+      //       id: "00u..",
+      //       ...
+      //     }
+      //     ...
+      //   }
       // }
     });
     ```
@@ -1353,7 +1360,7 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
       });
     });
     ```
-- **pageRendered** (*Deprecated*) - triggered when the widget transitions to a new page and animations have finished.
+- **pageRendered** (*Deprecated in favor of **navigated***) - triggered when the widget transitions to a new page and animations have finished.
 
     ```javascript
     signIn.on('pageRendered', function (data) {
