@@ -1324,30 +1324,7 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
 
 Triggered when the widget transitions to a new page and animations have finished. Returns a `context` object containing the following properties:
 
-- **view** - Current page path
 - **controller** - Current controller name
-- **transaction** - Current [authentication transaction](https://developer.okta.com/docs/api/resources/authn#transaction-model) (if available)
-
-```javascript
-signIn.on('navigated', function (context) {
-  // Assume view transitions between Primary Auth and MFA Push
-  console.log(context);
-  // {
-  //   view: '/signin/verify/okta/push',
-  //   controller: 'mfa-verify',
-  //   transaction: {
-  //     status: 'MFA_REQUIRED',
-  //     user: {
-  //       id: "00u..",
-  //       ...
-  //     }
-  //     ...
-  //   }
-  // }
-});
-```
-
-To perform logic based on a specific controller:
 
 ```javascript
 // Overriding the "Back to Sign In" click action on the Forgot Password page
