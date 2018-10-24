@@ -1326,7 +1326,7 @@ Triggered when the widget transitions to a new page and animations have finished
 
 - **view** - Current page path
 - **controller** - Current controller name
-- **transaction** - Current authentication [transaction](https://github.com/okta/okta-auth-js/#transactionstatus) (if available)
+- **transaction** - Current [authentication transaction](https://developer.okta.com/docs/api/resources/authn#transaction-model) (if available)
 
 ```javascript
 signIn.on('navigated', function (context) {

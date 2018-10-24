@@ -561,11 +561,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         expect(test.navigatedSpy.calls.allArgs()[1]).toEqual([{
           view: '/context.html',
           controller: 'primary-auth',
-          transaction: jasmine.objectContaining({
-            status: 'UNAUTHENTICATED',
-            authenticate: jasmine.any(Function),
-            data: jasmine.objectContaining(resUnauthenticated.response)
-          })
+          transaction: resUnauthenticated.response
         }]);
       });
     });
