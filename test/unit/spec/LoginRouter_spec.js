@@ -562,7 +562,9 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           view: '/context.html',
           controller: 'primary-auth',
           transaction: jasmine.objectContaining({
-            status: 'UNAUTHENTICATED'
+            status: 'UNAUTHENTICATED',
+            authenticate: jasmine.any(Function),
+            data: jasmine.objectContaining(resUnauthenticated.response)
           })
         }]);
       });

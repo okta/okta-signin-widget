@@ -53,6 +53,9 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   - [Feature flags](#feature-flags)
 - [Events](#events)
+  - [navigated](#navigated)
+  - [pageRendered](#pagerendered)
+  - [passwordRevealed](#passwordrevealed)
 - [Building the Widget](#building-the-widget)
   - [The `.widgetrc` config file](#the-widgetrc-config-file)
   - [Build and test commands](#build-and-test-commands)
@@ -354,23 +357,17 @@ Subscribe to an event published by the widget.
 
 - `event` - [Event](#events) to subscribe to
 - `callback` - Function to call when the event is triggered
-- `context` - Optional context to bind the callback to
 
 ```javascript
-signIn.on('navigated', function (context) {
-  console.log(context);
-  // {
-  //   view: '/',
-  //   controller: 'primary-auth'
-  // }
-});
+// Handle a 'navigated' event using an onNavigated callback
+signIn.on('navigated', onNavigated);
 ```
 
 ### off
 
 Unsubscribe from widget events. If no callback is provided, unsubscribes all listeners from the event.
 
-- `event` - Optional event to unsubscribe from
+- `event` - Optional [event](#events) to unsubscribe from
 - `callback` - Optional callback that was used to subscribe to the event
 
 ```javascript
@@ -1323,54 +1320,74 @@ features: {
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
 
-- **navigated** - triggered when the widget transitions to a new page and animations have finished.
+### navigated
 
-    ```javascript
-    signIn.on('navigated', function (context) {
-      // Assume view transitions between Primary Auth and MFA Push
-      console.log(context);
-      // {
-      //   view: '/signin/verify/okta/push',
-      //   controller: 'mfa-verify',
-      //   transaction: {
-      //     status: 'MFA_REQUIRED',
-      //     user: {
-      //       id: "00u..",
-      //       ...
-      //     }
-      //     ...
-      //   }
-      // }
-    });
-    ```
+Triggered when the widget transitions to a new page and animations have finished. Returns a `context` object containing the following properties:
 
-    To perform logic based on a specific controller:
+- **view** - Current page path
+- **controller** - Current controller name
+- **transaction** - Current authentication [transaction](https://github.com/okta/okta-auth-js/#transactionstatus) (if available)
 
-    ```javascript
-    // Overriding the "Back to Sign In" click action on the Forgot Password page
-    signIn.on('navigated', function (context) {
-      if (context.controller !== 'forgot-password') {
-        return;
-      }
-      var backLink = document.getElementsByClassName('js-back')[0];
-      backLink.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        // Custom link behavior
-      });
-    });
-    ```
-- **pageRendered** (*Deprecated in favor of **navigated***) - triggered when the widget transitions to a new page and animations have finished.
+```javascript
+signIn.on('navigated', function (context) {
+  // Assume view transitions between Primary Auth and MFA Push
+  console.log(context);
+  // {
+  //   view: '/signin/verify/okta/push',
+  //   controller: 'mfa-verify',
+  //   transaction: {
+  //     status: 'MFA_REQUIRED',
+  //     user: {
+  //       id: "00u..",
+  //       ...
+  //     }
+  //     ...
+  //   }
+  // }
+});
+```
 
-    ```javascript
-    signIn.on('pageRendered', function (data) {
-      console.log(data);
-      // {
-      //  page: 'forgot-password'
-      // }
-    });
-    ```
-- **passwordRevealed** - triggered when the show password button is clicked.
+To perform logic based on a specific controller:
+
+```javascript
+// Overriding the "Back to Sign In" click action on the Forgot Password page
+signIn.on('navigated', function (context) {
+  if (context.controller !== 'forgot-password') {
+    return;
+  }
+  var backLink = document.getElementsByClassName('js-back')[0];
+  backLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // Custom link behavior
+  });
+});
+```
+
+### pageRendered
+
+:warning: This event has been *deprecated*, please use [**navigated**](#navigated) instead.
+
+Triggered when the widget transitions to a new page and animations have finished.
+
+```javascript
+signIn.on('pageRendered', function (data) {
+  console.log(data);
+  // {
+  //  page: 'forgot-password'
+  // }
+});
+```
+
+### passwordRevealed
+
+Triggered when the show password button is clicked.
+
+```javascript
+signIn.on('passwordRevealed', function () {
+  // Handle the event
+})
+```
 
 ## Building the Widget
 
