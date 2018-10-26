@@ -1325,6 +1325,7 @@ Events published by the widget. Subscribe to these events using [on](#onevent-ca
 Triggered when the widget transitions to a new page and animations have finished. Returns a `context` object containing the following properties:
 
 - **controller** - Current controller name
+- **stateToken** (*optional*) - An ephemeral token mapped to the current state of an authenticataion transaction.
 
 ```javascript
 // Overriding the "Back to Sign In" click action on the Forgot Password page
@@ -1337,6 +1338,43 @@ signIn.on('navigated', function (context) {
     e.preventDefault();
     e.stopPropagation();
     // Custom link behavior
+  });
+});
+```
+
+```javascript
+// Request authentication transaction information
+signIn.on('navigated', function (context) {
+  if (context.controller !== 'mfa-verify') {
+    return;
+  }
+  signIn.getTransaction(context.stateToken)
+  .then(function (transaction) {
+    console.log(transaction);
+    // {
+    //   status: 'MFA_REQUIRED',
+    //   user: {
+    //     id: '00ugti3kwafWJBRIY0g3',
+    //     profile: {
+    //       login: 'isaac@example.org',
+    //       ...
+    //     },
+    //   },
+    //   factors: [{
+    //     id: 'ufsigasO4dVUPM5O40g3',
+    //     provider: 'OKTA',
+    //     factorType: 'question',
+    //     profile: {
+    //       question: 'disliked_food',
+    //       questionText: 'What is the food you least liked as a child?'
+    //     },
+    //     verify: function(options) { /* returns another transaction */ }
+    //   }],
+    //   ...
+    // }
+  })
+  .catch(function (err) {
+    console.error(err);
   });
 });
 ```

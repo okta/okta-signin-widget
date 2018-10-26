@@ -101,8 +101,12 @@ define(['okta', 'q'], function (Okta, Q) {
     postRenderAnimation: function() {
       // Event triggered after a page is rendered along with the classname to identify the page
       this.trigger('pageRendered', {page: this.className});
+
+      // If a stateToken exists, return it in the event context
+      var transaction = this.options.appState.get('transaction') && this.options.appState.get('transaction').data;
       this.trigger('navigated', {
-        controller: this.className
+        controller: this.className,
+        stateToken: transaction && transaction.stateToken
       });
     }
   });

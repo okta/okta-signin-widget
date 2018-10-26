@@ -553,8 +553,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
       .then(function (test) {
         expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
         expect(test.navigatedSpy.calls.count()).toBe(2);
-        expect(test.navigatedSpy.calls.allArgs()[0]).toEqual([{ controller: 'refresh-auth-state' }]);
-        expect(test.navigatedSpy.calls.allArgs()[1]).toEqual([{ controller: 'primary-auth' }]);
+        expect(test.navigatedSpy.calls.allArgs()[0]).toEqual([{ controller: 'refresh-auth-state', stateToken: undefined }]);
+        expect(test.navigatedSpy.calls.allArgs()[1]).toEqual([{ controller: 'primary-auth', stateToken: 'aStateToken' }]);
       });
     });
     itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {
@@ -944,7 +944,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         })
         .then(function(test){
           expect(test.navigatedSpy.calls.count()).toBe(1);
-          expect(test.navigatedSpy).toHaveBeenCalledWith({ controller: 'primary-auth' });
+          expect(test.navigatedSpy).toHaveBeenCalledWith({ controller: 'primary-auth', stateToken: undefined });
         });
       });
       itp('triggers both pageRendered and navigated events when first controller is loaded', function() {
@@ -957,7 +957,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           expect(test.eventSpy.calls.count()).toBe(1);
           expect(test.eventSpy).toHaveBeenCalledWith({ page: 'primary-auth'});
           expect(test.navigatedSpy.calls.count()).toBe(1);
-          expect(test.navigatedSpy).toHaveBeenCalledWith({ controller: 'primary-auth' });
+          expect(test.navigatedSpy).toHaveBeenCalledWith({ controller: 'primary-auth', stateToken: undefined });
         });
       });
       itp('triggers a pageRendered event when navigating to a new controller', function() {
@@ -986,7 +986,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         })
         .then(function(test) {
           expect(test.navigatedSpy.calls.count()).toBe(1);
-          expect(test.navigatedSpy.calls.allArgs()[0]).toEqual([{ controller: 'primary-auth' }]);
+          expect(test.navigatedSpy.calls.allArgs()[0]).toEqual([{ controller: 'primary-auth', stateToken: undefined }]);
           Util.mockRouterNavigate(test.router);
           test.router.navigate('signin/forgot-password');
           return Expect.waitForForgotPassword(test);
@@ -995,7 +995,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           // since the event is triggered from the success function of the animation
           // as well as after render, we expect two calls
           expect(test.navigatedSpy.calls.count()).toBe(2);
-          expect(test.navigatedSpy.calls.allArgs()[1]).toEqual([{ controller: 'forgot-password' }]);
+          expect(test.navigatedSpy.calls.allArgs()[1]).toEqual([{ controller: 'forgot-password', stateToken: undefined }]);
         });
       });
     });
