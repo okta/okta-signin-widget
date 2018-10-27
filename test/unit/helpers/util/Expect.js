@@ -238,6 +238,7 @@ define([
     EnrollSymantecVip: 'enroll-symantec',
     EnrollTotp: 'enroll-totp',
     EnrollU2F: 'enroll-u2f',
+    EnrollWebauthn: 'enroll-webauthn',
     EnrollWindowsHello: 'enroll-windows-hello',
     EnrollYubikey: 'enroll-yubikey',
     EnrollCustomFactor: 'enroll-custom-factor',
@@ -262,6 +263,7 @@ define([
     UnlockEmailSent: 'account-unlock-email-sent',
     VerifyDuo: 'mfa-verify-duo',
     VerifyU2F: 'verify-u2f',
+    VerifyWebauthn: 'verify-webauthn',
     VerifyWindowsHello: 'verify-windows-hello',
     VerifyCustomFactor: 'verify-custom-factor'
   };

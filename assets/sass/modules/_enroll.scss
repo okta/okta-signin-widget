@@ -174,8 +174,9 @@
 
 }
 
-// U2F Enrollment
-.enroll-u2f {
+// U2F/Webauthn Enrollment
+.enroll-u2f,
+.enroll-webauthn {
 
   .u2f-instructions ol {
     list-style: decimal;
@@ -421,7 +422,9 @@
 }
 
 .verify-u2f-form,
-.enroll-u2f-form {
+.enroll-u2f-form,
+.verify-webauthn-form,
+.enroll-webauthn-form {
 
   .o-form-fieldset-container p {
     margin-bottom: 15px;

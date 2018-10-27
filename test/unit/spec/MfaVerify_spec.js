@@ -17,14 +17,14 @@ define([
   'helpers/xhr/MFA_REQUIRED_allFactors',
   'helpers/xhr/MFA_REQUIRED_allFactors_OnPrem',
   'helpers/xhr/MFA_REQUIRED_oktaVerifyTotpOnly',
-  'helpers/xhr/MFA_REQUIRED_webauthn',
+  'helpers/xhr/MFA_REQUIRED_windows_hello',
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
   'helpers/xhr/MFA_REQUIRED_U2F',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
   'helpers/xhr/MFA_CHALLENGE_email',
-  'helpers/xhr/MFA_CHALLENGE_Webauthn',
+  'helpers/xhr/MFA_CHALLENGE_windows_hello',
   'helpers/xhr/MFA_CHALLENGE_u2f',
   'helpers/xhr/MFA_CHALLENGE_customSAMLFactor',
   'helpers/xhr/MFA_CHALLENGE_customOIDCFactor',
@@ -60,14 +60,14 @@ function (Okta,
           resAllFactors,
           resAllFactorsOnPrem,
           resVerifyTOTPOnly,
-          resRequiredWebauthn,
+          resRequiredWindowsHello,
           resPassword,
           resU2F,
           resChallengeDuo,
           resChallengeSms,
           resChallengeCall,
           resChallengeEmail,
-          resChallengeWebauthn,
+          resChallengeWindowsHello,
           resChallengeU2F,
           resChallengeCustomSAMLFactor,
           resChallengeCustomOIDCFactor,
@@ -152,8 +152,8 @@ function (Okta,
             return Expect.waitForVerifyDuo();
           }
           else if (provider === 'FIDO' && factorType === 'webauthn') {
-            setNextResponse(resChallengeWebauthn);
-            router.verifyWindowsHello();
+            setNextResponse(resChallengeWindowsHello);
+            router.verifyWebauthn();
             return Expect.waitForVerifyWindowsHello();
           }
           else if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
@@ -192,13 +192,13 @@ function (Okta,
       });
     }
 
-    function setupWebauthnOnly() {
+    function setupWindowsHelloOnly() {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var successSpy = jasmine.createSpy('success');
       var router = createRouter(baseUrl, authClient, successSpy);
-      setNextResponse([resRequiredWebauthn, resChallengeWebauthn, resSuccess]);
+      setNextResponse([resRequiredWindowsHello, resChallengeWindowsHello, resSuccess]);
       router.refreshAuthState('dummy-token');
       return Expect.waitForVerifyWindowsHello()
       .then(function() {
@@ -241,7 +241,8 @@ function (Okta,
     var setupEmail = _.partial(setup, resAllFactors, { factorType: 'email' });
     var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
-    var setupWebauthn = _.partial(setup, resAllFactors, {  factorType: 'webauthn', provider: 'FIDO' });
+    var setupWindowsHello = _.partial(
+      setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false });
     var setupPassword = _.partial(setup, resPassword, { factorType: 'password' });
     var setupCustomSAMLFactor = _.partial(setup, resAllFactors,
                               { factorType: 'assertion:saml2', provider: 'GENERIC_SAML' });
@@ -2767,7 +2768,7 @@ function (Okta,
       Expect.describe('Windows Hello', function () {
         itp('shows the right beacon for Windows Hello', function () {
           return emulateNotWindows()
-          .then(setupWebauthn)
+          .then(setupWindowsHello)
           .then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-windows-hello');
           });
@@ -2775,7 +2776,7 @@ function (Okta,
 
         itp('displays error message if not Windows', function () {
           return emulateNotWindows()
-          .then(setupWebauthn)
+          .then(setupWindowsHello)
           .then(function (test) {
             expect(test.form.el('o-form-error-html').length).toBe(1);
             expect(test.form.submitButton().length).toBe(0);
@@ -2784,7 +2785,7 @@ function (Okta,
 
         itp('does not display error message if Windows', function () {
           return emulateWindows()
-          .then(setupWebauthn)
+          .then(setupWindowsHello)
           .then(function (test) {
             expect(test.form.el('o-form-error-html').length).toBe(0);
             expect(test.form.submitButton().length).toBe(1);
@@ -2793,9 +2794,9 @@ function (Okta,
 
         itp('calls webauthn.getAssertion and verifies factor', function () {
           return emulateWindows()
-          .then(setupWebauthn)
+          .then(setupWindowsHello)
           .then(function (test) {
-            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.setNextResponse([resChallengeWindowsHello, resSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
@@ -2819,9 +2820,9 @@ function (Okta,
 
         itp('does not show error if webauthn.getAssertion fails with AbortError', function () {
           return emulateWindows('AbortError')
-          .then(setupWebauthn)
+          .then(setupWindowsHello)
           .then(function (test) {
-            test.setNextResponse(resChallengeWebauthn);
+            test.setNextResponse(resChallengeWindowsHello);
             test.form.submit();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
@@ -2833,9 +2834,9 @@ function (Okta,
 
         itp('shows error if webauthn.getAssertion fails with NotSupportedError', function () {
           return emulateWindows('NotSupportedError')
-          .then(setupWebauthn)
+          .then(setupWindowsHello)
           .then(function (test) {
-            test.setNextResponse(resChallengeWebauthn);
+            test.setNextResponse(resChallengeWindowsHello);
             test.form.submit();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
@@ -2847,9 +2848,9 @@ function (Okta,
 
         itp('shows error if webauthn.getAssertion fails with NotFound', function () {
           return emulateWindows('NotFoundError')
-          .then(setupWebauthn)
+          .then(setupWindowsHello)
           .then(function (test) {
-            test.setNextResponse(resChallengeWebauthn);
+            test.setNextResponse(resChallengeWindowsHello);
             test.form.submit();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
@@ -2861,9 +2862,9 @@ function (Okta,
 
         itp('subtitle changes after submitting the form', function () {
           return emulateWindows()
-          .then(setupWebauthn)
+          .then(setupWindowsHello)
           .then(function (test) {
-            test.setNextResponse([resChallengeWebauthn, resSuccess]);
+            test.setNextResponse([resChallengeWindowsHello, resSuccess]);
             expect(test.form.subtitleText()).toBe('Verify your identity with Windows Hello');
             expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(false);
 
@@ -2883,7 +2884,7 @@ function (Okta,
 
         itp('automatically triggers Windows Hello only once', function () {
           return emulateWindows()
-          .then(setupWebauthnOnly)
+          .then(setupWindowsHelloOnly)
           .then(function (test) {
             expect(test.router.controller.model.get('__autoTriggered__')).toBe(true);
             spyOn(test.router.controller.model, 'save');
@@ -3616,7 +3617,7 @@ function (Okta,
           spyOn(window, 'addEventListener');
           test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
-          test.setNextResponse(resChallengeWebauthn);
+          test.setNextResponse(resChallengeWindowsHello);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'WINDOWS_HELLO');
           return tick(test);
