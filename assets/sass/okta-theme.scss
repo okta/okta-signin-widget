@@ -166,7 +166,7 @@
 
   .okta-sign-in-header {
   /* -- Main Background and Border Colors -- */
-    border-bottom-color: #ddd;
+    border-bottom-color: $header-divider-color;
   }
 
   .okta-sign-in-beacon-border {
@@ -176,7 +176,7 @@
 
   .okta-form-divider {
   /* -- Main Background and Border Colors -- */
-    border-bottom-color: #e8e8e8;
+    border-bottom-color: $form-divider-color;
   }
 
   .factor-icon,
@@ -756,7 +756,7 @@
   .input-icon:before,
   .input-tooltip:before {
   /* -- Input Fields: icons -- */
-    color: $light-text-color;
+    color: $input-icons-color;
   }
 
   .okta-form-label-inline {
