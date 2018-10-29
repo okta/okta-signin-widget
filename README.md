@@ -49,6 +49,9 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [Buttons](#buttons)
   - [Registration](#registration)
   - [IdP Discovery](#idp-discovery)
+  - [OpenID Connect](#openid-connect)
+  - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
+  - [Feature flags](#feature-flags)
 - [Events](#events)
 - [Building the Widget](#building-the-widget)
   - [The `.widgetrc` config file](#the-widgetrc-config-file)
@@ -1125,7 +1128,7 @@ For the identifier first flow,
 - `response.status` is `IDP_DISCOVERY` when the authentication needs to be done agaist 3rd party IdP.
 - `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the 3rd party IdP. This function takes one parameter which is the **idpDiscovery.requestContext**.
 
-##### OpenID Connect
+### OpenID Connect
 
 Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth 2.0 client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
 
@@ -1268,7 +1271,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     }
     ```
 
-#### Bootstrapping from a recovery token
+### Bootstrapping from a recovery token
 
 - **recoveryToken:** Bootstrap the widget into continuing either the Forgot Password or Unlock Account flow after the recovery email has been sent to the user with the `recoveryToken`.
 
@@ -1276,7 +1279,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     recoveryToken: 'x0whAcR02i0leKtWMZVc'
     ```
 
-#### Feature flags
+### Feature flags
 
 Enable or disable widget functionality with the following options. Some of these features require additional configuration in your Okta admin settings.
 
