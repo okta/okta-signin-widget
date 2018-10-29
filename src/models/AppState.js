@@ -126,7 +126,6 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       lastAuthResponse: ['object', true, {}],
       transaction: 'object',
       transactionError: 'object',
-      stateToken: 'string',
       username: 'string',
       factors: 'object',
       policy: 'object',

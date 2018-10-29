@@ -52,9 +52,6 @@ define(['okta', 'q'], function (Okta, Q) {
     addModelListeners: function(model) {
       var setTransactionHandler = _.bind(function (transaction) {
         this.options.appState.set('transaction', transaction);
-        if (transaction && transaction.data) {
-          this.options.appState.set('stateToken', transaction.data.stateToken);
-        }
       }, this);
       var transactionErrorHandler = _.bind(function (err) {
         this.options.appState.set('transactionError', err);
@@ -105,10 +102,7 @@ define(['okta', 'q'], function (Okta, Q) {
       // Event triggered after a page is rendered along with the classname to identify the page
       this.trigger('pageRendered', {page: this.className});
 
-      this.trigger('navigated', {
-        controller: this.className,
-        stateToken: this.options.appState.get('stateToken')
-      });
+      this.trigger('navigated', { controller: this.className });
     }
   });
 
