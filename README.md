@@ -55,6 +55,7 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
 - [Events](#events)
   - [navigated](#navigated)
   - [pageRendered](#pagerendered)
+  - [beforeNavigate](#beforenavigate)
   - [passwordRevealed](#passwordrevealed)
 - [Building the Widget](#building-the-widget)
   - [The `.widgetrc` config file](#the-widgetrc-config-file)
@@ -1353,6 +1354,24 @@ signIn.on('pageRendered', function (data) {
   // {
   //  page: 'forgot-password'
   // }
+});
+```
+
+### beforeNavigate
+
+Triggered when the widget is transitioning between pages. Returns `data` and `context` objects containing the following properties:
+
+- `data`
+  - **toController** - Controller name the widget is navigating to
+- `context`
+  - **controller** - Current controller name
+
+```javascript
+// Log a message when the user transitions from primary auth and MFA verify
+signIn.on('beforeNavigate', function (data, context) {
+  if (data.toController === 'mfa-verify' && context.controller === 'primary-auth') {
+    console.log('Attempting MFA Verify');
+  }
 });
 ```
 
