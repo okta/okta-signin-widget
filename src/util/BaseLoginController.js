@@ -100,7 +100,10 @@ define(['okta', 'q'], function (Okta, Q) {
 
     postRenderAnimation: function() {
       // Event triggered after a page is rendered along with the classname to identify the page
+      // TODO: Deprecate this event in the next major version in favor of 'navigated'
       this.trigger('pageRendered', {page: this.className});
+
+      this.trigger('navigated', { controller: this.className });
     }
   });
 
