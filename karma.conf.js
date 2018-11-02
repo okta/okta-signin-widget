@@ -1,4 +1,3 @@
-/* global module, __dirname */
 const path = require('path');
 const webpackConfig = require('./webpack.test.config.js');
 const karmaOverrides = require('./test/unit/karma/karma-overrides');
