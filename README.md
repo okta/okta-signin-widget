@@ -53,9 +53,6 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   - [Feature flags](#feature-flags)
 - [Events](#events)
-  - [navigated](#navigated)
-  - [pageRendered](#pagerendered)
-  - [passwordRevealed](#passwordrevealed)
 - [Building the Widget](#building-the-widget)
   - [The `.widgetrc` config file](#the-widgetrc-config-file)
   - [Build and test commands](#build-and-test-commands)
@@ -357,28 +354,30 @@ Subscribe to an event published by the widget.
 
 - `event` - [Event](#events) to subscribe to
 - `callback` - Function to call when the event is triggered
+- `context` - Optional context to bind the callback to
 
 ```javascript
-// Handle a 'navigated' event using an onNavigated callback
-signIn.on('navigated', onNavigated);
+signIn.on('pageRendered', function (data) {
+  console.log(data);
+});
 ```
 
 ### off
 
 Unsubscribe from widget events. If no callback is provided, unsubscribes all listeners from the event.
 
-- `event` - Optional [event](#events) to unsubscribe from
+- `event` - Optional event to unsubscribe from
 - `callback` - Optional callback that was used to subscribe to the event
 
 ```javascript
 // Unsubscribe all listeners from all events
 signIn.off();
 
-// Unsubscribe all listeners that have been registered to the 'navigated' event
-signIn.off('navigated');
+// Unsubscribe all listeners that have been registered to the 'pageRendered' event
+signIn.off('pageRendered');
 
-// Unsubscribe the onNavigated listener from the 'navigated' event
-signIn.off('navigated', onNavigated);
+// Unsubscribe the onPageRendered listener from the 'pageRendered' event
+signIn.off('pageRendered', onPageRendered);
 ```
 
 ### getTransaction
@@ -1320,51 +1319,23 @@ features: {
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
 
-### navigated
+- **pageRendered** - triggered when the widget transitions to a new page, and animations have finished.
 
-Triggered when the widget transitions to a new page and animations have finished. Returns a `context` object containing the following properties:
-
-- **controller** - Current controller name
-
-```javascript
-// Overriding the "Back to Sign In" click action on the Forgot Password page
-signIn.on('navigated', function (context) {
-  if (context.controller !== 'forgot-password') {
-    return;
-  }
-  var backLink = document.getElementsByClassName('js-back')[0];
-  backLink.addEventListener('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    // Custom link behavior
-  });
-});
-```
-
-### pageRendered
-
-:warning: This event has been *deprecated*, please use [**navigated**](#navigated) instead.
-
-Triggered when the widget transitions to a new page and animations have finished.
-
-```javascript
-signIn.on('pageRendered', function (data) {
-  console.log(data);
-  // {
-  //  page: 'forgot-password'
-  // }
-});
-```
-
-### passwordRevealed
-
-Triggered when the show password button is clicked.
-
-```javascript
-signIn.on('passwordRevealed', function () {
-  // Handle the event
-})
-```
+    ```javascript
+    // Overriding the "Back to Sign In" click action on the Forgot Password page
+    signIn.on('pageRendered', function (data) {
+      if (data.page !== 'forgot-password') {
+        return;
+      }
+      var backLink = document.getElementsByClassName('js-back')[0];
+      backLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        // Custom link behavior
+      });
+    });
+    ```
+- **passwordRevealed** - triggered when the show password button is clicked.
 
 ## Building the Widget
 
