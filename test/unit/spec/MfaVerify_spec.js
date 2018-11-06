@@ -2318,30 +2318,38 @@ function (Okta,
               });
             });
             itp('starts poll after a delay of 6000ms', function () {
-              return setupOktaPush().then(function (test) {
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
-                  // reducing the timeout to 100 so that test is fast.
-                  return setTimeout(arguments[0], 100);
+              var callAfterTimeoutStub;
+
+              return setupOktaPush()
+              .then(function (test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function(pullPromiseResolver) {
+                  // setup a deterministic callAfterTimeout stub
+                  callAfterTimeoutStub = function() {
+                    pullPromiseResolver();
+                  };
                 });
 
                 $.ajax.calls.reset();
                 test.setNextResponse(resChallengePush);
                 test.form[0].submit();
-                return tick(test).then(function() {
-                  expect(LoginUtil.callAfterTimeout.calls.argsFor(1)[1]).toBe(6000);
-                  expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
-                  var transaction = test.router.controller.model.appState.get('transaction');
-                  spyOn(transaction, 'poll');
-                  // Check between 0 and 6000ms (in test 100ms).
-                  setTimeout(function() {
-                    expect(transaction.poll).not.toHaveBeenCalled();
-                  }, 80);
-                  var deferred = Q.defer();
-                  setTimeout(deferred.resolve, 150);
-                  return deferred.promise.then(function() {
-                    expect(transaction.poll).toHaveBeenCalled();
-                  });
-                });
+
+                // clear up the showWarning timer which isn't the concern of this test.
+                LoginUtil.callAfterTimeout.calls.reset();
+                // wait for callAfterTimeout to be called at `models/Factor#save`
+                return Expect.waitForSpyCall(LoginUtil.callAfterTimeout, test);
+              })
+              .then(function(test) {
+                expect(LoginUtil.callAfterTimeout.calls.argsFor(0)[1]).toBe(6000);
+                expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
+                var transaction = test.router.controller.model.appState.get('transaction');
+                spyOn(transaction, 'poll');
+                expect(transaction.poll).not.toHaveBeenCalled();
+                callAfterTimeoutStub();
+                return Expect.waitForSpyCall(transaction.poll, transaction);
+              })
+              .then(function(transaction) {
+                expect(transaction.poll.calls.count()).toBe(1);
+                expect(transaction.poll).toHaveBeenCalledWith({delay: 6000});
               });
             });
             itp('does not start poll if factor was switched before 6000ms', function () {
