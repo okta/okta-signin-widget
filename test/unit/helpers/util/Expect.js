@@ -139,7 +139,7 @@ define([
   };
 
   /**
-   * Use this function to wait for a error view which has top level class '.okta-form-infobox-error'.
+   * Use this function to wait for an error view which has top level class '.okta-form-infobox-error'.
    */
   fn.waitForFormError = function (form, resolveValue) {
     var condition = function () {
@@ -149,7 +149,7 @@ define([
   };
 
   /**
-   * Use this function to wait for a error view which has top level class '.okta-infobox-error'.
+   * Use this function to wait for an error view which has top level class '.okta-infobox-error'.
    */
   fn.waitForFormErrorBox = function (form, resolveValue) {
     var condition = function () {

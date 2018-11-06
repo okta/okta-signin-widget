@@ -2319,7 +2319,6 @@ function (Okta,
             });
             itp('starts poll after a delay of 6000ms', function () {
               var callAfterTimeoutStub;
-
               return setupOktaPush()
               .then(function (test) {
                 spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function(pullPromiseResolver) {
