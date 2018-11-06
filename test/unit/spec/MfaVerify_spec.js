@@ -263,12 +263,15 @@ function (Okta,
 
       if (options.u2f) {
         window.u2f = {
-          sign: function () {
-          }
+          sign: jasmine.createSpy('window-u2f-spy')
         };
-        spyOn(window.u2f, 'sign');
         if (options && options.signStub) {
-          window.u2f.sign.and.callFake(options.signStub);
+          window.u2f.sign.and.callFake(function () {
+            var signArgs = arguments;
+            window.u2f.tap = function () {
+              options.signStub.apply(window.u2f, signArgs);
+            };
+          });
         }
       }
       else {
@@ -1179,8 +1182,8 @@ function (Okta,
             });
           });
         });
-        // See OKTA-179504
-        xit('posts resend if send code button is clicked second time', function () {
+
+        it('posts resend if send code button is clicked second time', function () {
           Util.speedUpPolling();
           return setupSMS().then(function (test) {
             test.setNextResponse(resChallengeSms);
@@ -2855,7 +2858,15 @@ function (Okta,
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
           .then(function (test) {
-            expect(test.form.el('o-form-error-html').length).toBe(1);
+            return Expect.wait(() => {
+              return test.form.errorBox().length > 0;
+            }, test);
+          })
+          .then(function (test) {
+            expect(test.form.errorBox().length).toBe(1);
+            expect(test.form.errorBox().text().trim())
+              .toBe('Your Windows Hello enrollment does not match our records. ' +
+                    'Select another factor or contact your administrator for assistance.');
             expect($.ajax.calls.count()).toBe(2);
           });
         });
@@ -2954,10 +2965,11 @@ function (Okta,
             });
           };
           return setupU2F({u2f: true, signStub: signStub, res: resSuccess})
-          .then(function (test) {
-            return Expect.waitForSpyCall(test.successSpy);
+          .then(function () {
+            return Expect.waitForSpyCall(window.u2f.sign);
           })
           .then(function () {
+            window.u2f.tap();
             expect(window.u2f.sign).toHaveBeenCalledWith(
               'https://test.okta.com',
               'NONCE',
@@ -2976,8 +2988,7 @@ function (Okta,
           });
         });
 
-        // See OKTA-179504
-        xit('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
+        itp('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
           var signStub = function (appId, nonce, registeredKeys, callback) {
             callback({
               keyHandle: 'someKeyHandle',
@@ -2988,9 +2999,10 @@ function (Okta,
           return setupU2F({u2f: true, signStub: signStub, res: resSuccess})
           .then(function (test) {
             test.form.setRememberDevice(true);
-            return Expect.waitForSpyCall(test.successSpy);
+            return Expect.waitForSpyCall(window.u2f.sign, test);
           })
           .then(function () {
+            window.u2f.tap();
             expect(window.u2f.sign).toHaveBeenCalledWith(
               'https://test.okta.com',
               'NONCE',
@@ -3016,6 +3028,10 @@ function (Okta,
           };
           return setupU2F({u2f: true, signStub: signStub})
           .then(function (test) {
+            return Expect.waitForSpyCall(window.u2f.sign, test);
+          })
+          .then(function (test) {
+            window.u2f.tap();
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
@@ -3438,8 +3454,7 @@ function (Okta,
         });
       });
       itp('Verify Google TOTP after switching from Push MFA_CHALLENGE', function () {
-        return setupOktaPush().then(function (test) {
-          return setupPolling(test, resAllFactors)
+        return setupOktaPush()
           .then(function (test) {
             test.beacon.dropDownButton().click();
             clickFactorInDropdown(test, 'GOOGLE_AUTH');
@@ -3465,7 +3480,6 @@ function (Okta,
               }
             });
           });
-        });
       });
       itp('Verify Okta TOTP on active Push MFA_CHALLENGE', function () {
         return setupOktaPush().then(function (test) {

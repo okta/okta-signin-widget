@@ -86,6 +86,10 @@ define([
 
   fn.fitp = runTest.bind({}, fit);
 
+  /**
+   * @deprecated This is very hacky rather solving the actual reason of flakiness.
+   *             Please slack eng-ui and think twice before you want to use this function.
+   */
   fn.tick = function (returnVal) {
     var deferred = Q.defer();
     // Using four setTimeouts to remove flakiness (some tests need an extra
