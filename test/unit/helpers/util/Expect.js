@@ -138,6 +138,9 @@ define([
     return fn.wait(condition, resolveValue);
   };
 
+  /**
+   * Use this function to wait for a error view which has top level class '.okta-form-infobox-error'.
+   */
   fn.waitForFormError = function (form, resolveValue) {
     var condition = function () {
       return form.hasErrors();
@@ -145,6 +148,9 @@ define([
     return fn.wait(condition, resolveValue);
   };
 
+  /**
+   * Use this function to wait for a error view which has top level class '.okta-infobox-error'.
+   */
   fn.waitForFormErrorBox = function (form, resolveValue) {
     var condition = function () {
       return form.errorBox().length > 0;
