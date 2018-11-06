@@ -152,13 +152,6 @@ define([
     return fn.wait(condition, resolveValue);
   };
 
-  fn.waitForEnrollChoices = function (resolveValue) {
-    var condition = function () {
-      return $('.enroll-choices').length > 0;
-    };
-    return fn.wait(condition, resolveValue);
-  };
-
   fn.wait = function (condition, resolveValue, timeout) {
     function check(success, fail, triesLeft) {
       if (condition()) {
