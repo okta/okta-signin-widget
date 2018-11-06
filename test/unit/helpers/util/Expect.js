@@ -87,8 +87,8 @@ define([
   fn.fitp = runTest.bind({}, fit);
 
   /**
-   * @deprecated This is very hacky rather solving the actual reason of flakiness.
-   *             Please slack eng-ui and think twice before you want to use this function.
+   * @deprecated This function is non deterministic and can affect the output of the tests
+   *             Instead use any of the Expect.wait* functions.
    */
   fn.tick = function (returnVal) {
     var deferred = Q.defer();
@@ -141,6 +141,20 @@ define([
   fn.waitForFormError = function (form, resolveValue) {
     var condition = function () {
       return form.hasErrors();
+    };
+    return fn.wait(condition, resolveValue);
+  };
+
+  fn.waitForFormErrorBox = function (form, resolveValue) {
+    var condition = function () {
+      return form.errorBox().length > 0;
+    };
+    return fn.wait(condition, resolveValue);
+  };
+
+  fn.waitForEnrollChoices = function (resolveValue) {
+    var condition = function () {
+      return $('.enroll-choices').length > 0;
     };
     return fn.wait(condition, resolveValue);
   };

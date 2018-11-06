@@ -2849,14 +2849,10 @@ function (Okta,
           .then(function (test) {
             test.setNextResponse(resChallengeWindowsHello);
             test.form.submit();
-            return Expect.waitForSpyCall(webauthn.getAssertion, test);
+            return Expect.waitForFormErrorBox(test.form, test);
           })
           .then(function (test) {
-            return Expect.wait(() => {
-              return test.form.errorBox().length > 0;
-            }, test);
-          })
-          .then(function (test) {
+            expect(webauthn.getAssertion.calls.count()).toBe(1);
             expect(test.form.errorBox().length).toBe(1);
             expect(test.form.errorBox().text().trim())
               .toBe('Windows Hello is not configured. Select the Start button, ' +
@@ -2871,14 +2867,10 @@ function (Okta,
           .then(function (test) {
             test.setNextResponse(resChallengeWindowsHello);
             test.form.submit();
-            return Expect.waitForSpyCall(webauthn.getAssertion, test);
+            return Expect.waitForFormErrorBox(test.form, test);
           })
           .then(function (test) {
-            return Expect.wait(() => {
-              return test.form.errorBox().length > 0;
-            }, test);
-          })
-          .then(function (test) {
+            expect(webauthn.getAssertion.calls.count()).toBe(1);
             expect(test.form.errorBox().length).toBe(1);
             expect(test.form.errorBox().text().trim())
               .toBe('Your Windows Hello enrollment does not match our records. ' +
