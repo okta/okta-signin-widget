@@ -862,7 +862,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             Expect.isVisible(test.linkSentConfirmation.smsSentMsg());
             expect(test.linkSentConfirmation.getMsgText().indexOf('+14152554668') >= 0).toBe(true);
             test.originalAjax = Util.resumeEnrollFactorPoll(test.ac, test.originalAjax, resAllFactors);
-            return tick(test);
+            return Expect.waitForEnrollChoices(test);
           })
           .then(function (test) {
             expect(test.linkSentConfirmation.smsSentMsg().length).toBe(0);

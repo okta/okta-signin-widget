@@ -86,6 +86,10 @@ define([
 
   fn.fitp = runTest.bind({}, fit);
 
+  /**
+   * @deprecated This function is non deterministic and can affect the output of the tests
+   *             Instead use any of the Expect.wait* functions.
+   */
   fn.tick = function (returnVal) {
     var deferred = Q.defer();
     // Using four setTimeouts to remove flakiness (some tests need an extra
@@ -134,9 +138,22 @@ define([
     return fn.wait(condition, resolveValue);
   };
 
+  /**
+   * Use this function to wait for an error view which has top level class '.okta-form-infobox-error'.
+   */
   fn.waitForFormError = function (form, resolveValue) {
     var condition = function () {
       return form.hasErrors();
+    };
+    return fn.wait(condition, resolveValue);
+  };
+
+  /**
+   * Use this function to wait for an error view which has top level class '.okta-infobox-error'.
+   */
+  fn.waitForFormErrorBox = function (form, resolveValue) {
+    var condition = function () {
+      return form.errorBox().length > 0;
     };
     return fn.wait(condition, resolveValue);
   };

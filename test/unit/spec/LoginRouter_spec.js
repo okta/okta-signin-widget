@@ -850,7 +850,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
               state: OIDC_STATE
             }
           });
-          return tick();
+          return Expect.waitForSpyCall(successSpy);
         })
         .then(function () {
           expect(successSpy.calls.count()).toBe(1);
