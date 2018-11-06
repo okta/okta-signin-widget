@@ -2852,7 +2852,15 @@ function (Okta,
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
           .then(function (test) {
-            expect(test.form.el('o-form-error-html').length).toBe(1);
+            return Expect.wait(() => {
+              return test.form.errorBox().length > 0;
+            }, test);
+          })
+          .then(function (test) {
+            expect(test.form.errorBox().length).toBe(1);
+            expect(test.form.errorBox().text().trim())
+              .toBe('Windows Hello is not configured. Select the Start button, ' +
+                    'then select Settings > Accounts > Sign-in to configure Windows Hello.');
             expect($.ajax.calls.count()).toBe(2);
           });
         });
