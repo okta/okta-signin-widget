@@ -32,12 +32,7 @@ define(['q', 'okta'], function (Q, Okta) {
 
       var deferred = Q.defer();
       var self = this;
-
-      // Create iframe
-      var $iframe = $('<iframe>', {
-        style: 'display: none;'
-      });
-      $iframe.appendTo(element);
+      var $iframe;
 
       function isWindowsPhone(userAgent) {
         return userAgent.match(/windows phone|iemobile|wpdesktop/i);
@@ -86,8 +81,12 @@ define(['q', 'okta'], function (Q, Okta) {
 
       // Attach listener
       window.addEventListener('message', onMessageReceivedFromOkta, false);
-      // Load devicefingerprint page inside the iframe
-      $iframe.attr('src', oktaDomainUrl + '/auth/services/devicefingerprint');
+      // Create and Load devicefingerprint page inside the iframe
+      $iframe = $('<iframe>', {
+        style: 'display: none;',
+        src: oktaDomainUrl + '/auth/services/devicefingerprint'
+      });
+      element.append($iframe);
 
       return deferred.promise;
     }
