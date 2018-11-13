@@ -45,37 +45,37 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Html
           });
 
           return factor.verify()
-          .then(function (verifyData) {
-            var factorData = verifyData.factor;
+            .then(function (verifyData) {
+              var factorData = verifyData.factor;
 
-            return webauthn.getAssertion(
-              factorData.challenge.nonce,
-              [{ id: factorData.profile.credentialId }]
-            )
-            .then(function (assertion) {
-              return factor.verify({
-                authenticatorData: assertion.authenticatorData,
-                clientData: assertion.clientData,
-                signatureData: assertion.signature
-              });
-            })
-            .then(function (data) {
-              model.trigger('sync');
-              model.trigger('signIn');
-              return data;
-            })
-            .fail(function (error) {
-              switch (error.message) {
-              case 'AbortError':
-              case 'NotFoundError':
-              case 'NotSupportedError':
-                model.trigger('abort', error.message);
-                return transaction;
-              }
+              return webauthn.getAssertion(
+                factorData.challenge.nonce,
+                [{ id: factorData.profile.credentialId }]
+              )
+                .then(function (assertion) {
+                  return factor.verify({
+                    authenticatorData: assertion.authenticatorData,
+                    clientData: assertion.clientData,
+                    signatureData: assertion.signature
+                  });
+                })
+                .then(function (data) {
+                  model.trigger('sync');
+                  model.trigger('signIn');
+                  return data;
+                })
+                .fail(function (error) {
+                  switch (error.message) {
+                  case 'AbortError':
+                  case 'NotFoundError':
+                  case 'NotSupportedError':
+                    model.trigger('abort', error.message);
+                    return transaction;
+                  }
 
-              throw error;
+                  throw error;
+                });
             });
-          });
         });
       }
     },

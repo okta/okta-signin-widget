@@ -125,7 +125,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
           password: this.model.get('newPassword')
         };
         this.settings.processCreds(creds)
-        .then(_.bind(this.model.save, this.model));
+          .then(_.bind(this.model.save, this.model));
       });
     }
 

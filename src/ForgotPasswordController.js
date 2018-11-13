@@ -80,9 +80,9 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, Util, ContactSu
             relayState: relayState
           });
         })
-        .fail(function () {
+          .fail(function () {
           //need empty fail handler on model to display errors on form
-        });
+          });
       }
     },
     Form: {

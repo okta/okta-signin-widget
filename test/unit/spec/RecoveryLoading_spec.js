@@ -13,7 +13,7 @@ define([
   'sandbox'
 ],
 function (Okta, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView,
-          Expect, Router, resRecovery, resSecurityImage, $sandbox) {
+  Expect, Router, resRecovery, resSecurityImage, $sandbox) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;

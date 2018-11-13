@@ -93,16 +93,16 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
           // an empty passCode
           this.model.set('answer', '');
           this.model.save()
-          .then(function () {
+            .then(function () {
             // render and focus on the passcode input field.
-            form.getInputs().first().render().focus();
-            return Q.delay(API_RATE_LIMIT);
-          })
-          .then(_.bind(function () {
-            this.options.title = formAndButtonDetails.formRetry;
-            this.enable();
-            this.render();
-          }, this));
+              form.getInputs().first().render().focus();
+              return Q.delay(API_RATE_LIMIT);
+            })
+            .then(_.bind(function () {
+              this.options.title = formAndButtonDetails.formRetry;
+              this.enable();
+              this.render();
+            }, this));
         }
       }));
       this.addInput({

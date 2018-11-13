@@ -20,7 +20,7 @@ define([
   'views/enroll-choices/RequiredFactorList'
 ],
 function (Okta, FormController, Enums, RouterUtil, FactorList,
-          RequiredFactorList) {
+  RequiredFactorList) {
 
   var _ = Okta._;
 

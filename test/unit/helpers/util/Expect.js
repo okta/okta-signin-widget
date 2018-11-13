@@ -24,20 +24,20 @@ define([
       };
       window.addEventListener('error', errListener);
       testFn.call(this)
-      .then(fn.tick) // Wait a tick for the tests to clean up
-      .then(function () {
-        expect(Q.getUnhandledReasons()).toEqual([]);
-        // Reset unhandled exceptions (which in the normal case come from the
-        // error tests we're running) so that this array does not get
-        // unreasonably large (and subsequently slow down our tests)
-        // Also, if a test turns off unhandled exceptions (necessary in the
-        // case of returning an api error response), this method will turn it
-        // back on.
-        Q.resetUnhandledRejections();
-        window.removeEventListener('error', errListener);
-        done();
-      })
-      .done();
+        .then(fn.tick) // Wait a tick for the tests to clean up
+        .then(function () {
+          expect(Q.getUnhandledReasons()).toEqual([]);
+          // Reset unhandled exceptions (which in the normal case come from the
+          // error tests we're running) so that this array does not get
+          // unreasonably large (and subsequently slow down our tests)
+          // Also, if a test turns off unhandled exceptions (necessary in the
+          // case of returning an api error response), this method will turn it
+          // back on.
+          Q.resetUnhandledRejections();
+          window.removeEventListener('error', errListener);
+          done();
+        })
+        .done();
     });
   }
 

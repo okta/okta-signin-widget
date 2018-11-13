@@ -29,8 +29,8 @@ define([
   'util/Logger'
 ],
 function (Okta, BrowserFeatures, Settings,
-          Header, SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations,
-          Errors, Bundles, Logger) {
+  Header, SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations,
+  Errors, Bundles, Logger) {
 
   var { _, $, Backbone } = Okta;
 
@@ -63,10 +63,10 @@ function (Okta, BrowserFeatures, Settings,
         rewrite: assetRewrite
       }
     )
-    .then(function () {
-      clearTimeout(timeout);
-      appState.trigger('loading', false);
-    });
+      .then(function () {
+        clearTimeout(timeout);
+        appState.trigger('loading', false);
+      });
   }
 
   return Okta.Router.extend({
@@ -201,8 +201,8 @@ function (Okta, BrowserFeatures, Settings,
           this.settings.get('assets.baseUrl'),
           this.settings.get('assets.rewrite')
         )
-        .then(_.bind(this.render, this, Controller, options))
-        .done();
+          .then(_.bind(this.render, this, Controller, options))
+          .done();
       }
 
       var oldController = this.controller;
@@ -215,59 +215,59 @@ function (Okta, BrowserFeatures, Settings,
       // before it's initial render. This will leave the current page in a
       // loading state.
       this.controller.fetchInitialData()
-      .then(_.bind(function () {
+        .then(_.bind(function () {
 
-        // Beacon transition occurs in parallel to page swap
-        if (!beaconIsAvailable(Beacon, this.settings)) {
-          Beacon = null;
-        }
-        this.header.setBeacon(Beacon, controllerOptions);
-
-        this.controller.render();
-
-        if (!oldController) {
-          this.el.append(this.controller.el);
-          this.controller.postRenderAnimation();
-          return;
-        }
-
-        return Animations.swapPages({
-          $parent: this.el,
-          $oldRoot: oldController.$el,
-          $newRoot: this.controller.$el,
-          dir: oldController.state.get('navigateDir'),
-          ctx: this,
-          success: function () {
-            var flashError = this.appState.get('flashError'),
-                model = this.controller.model;
-            oldController.remove();
-            oldController.$el.remove();
-            this.controller.postRenderAnimation();
-            if (flashError) {
-              model.trigger('error', model, {
-                responseJSON: {
-                  errorSummary: flashError
-                }
-              });
-              this.appState.unset('flashError');
-            }
+          // Beacon transition occurs in parallel to page swap
+          if (!beaconIsAvailable(Beacon, this.settings)) {
+            Beacon = null;
           }
-        });
+          this.header.setBeacon(Beacon, controllerOptions);
 
-      }, this))
-      .fail(function () {
+          this.controller.render();
+
+          if (!oldController) {
+            this.el.append(this.controller.el);
+            this.controller.postRenderAnimation();
+            return;
+          }
+
+          return Animations.swapPages({
+            $parent: this.el,
+            $oldRoot: oldController.$el,
+            $newRoot: this.controller.$el,
+            dir: oldController.state.get('navigateDir'),
+            ctx: this,
+            success: function () {
+              var flashError = this.appState.get('flashError'),
+                  model = this.controller.model;
+              oldController.remove();
+              oldController.$el.remove();
+              this.controller.postRenderAnimation();
+              if (flashError) {
+                model.trigger('error', model, {
+                  responseJSON: {
+                    errorSummary: flashError
+                  }
+                });
+                this.appState.unset('flashError');
+              }
+            }
+          });
+
+        }, this))
+        .fail(function () {
         // OKTA-69665 - if an error occurs in fetchInitialData, we're left in
         // a state with two active controllers. Therefore, we clean up the
         // old one. Note: This explicitly handles the invalid token case -
         // if we get some other type of error which doesn't force a redirect,
         // we will probably be left in a bad state. I.e. old controller is
         // dropped and new controller is not rendered.
-        if (oldController) {
-          oldController.remove();
-          oldController.$el.remove();
-        }
-      })
-      .done();
+          if (oldController) {
+            oldController.remove();
+            oldController.$el.remove();
+          }
+        })
+        .done();
 
     },
 

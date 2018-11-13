@@ -18,8 +18,8 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
-          $sandbox, resPassWarn, resPassExpired, resErrorComplexity,
-          resErrorOldPass, resCustomPassWarn, resCustomPassExpired, resSuccess) {
+  $sandbox, resPassWarn, resPassExpired, resErrorComplexity,
+  resErrorOldPass, resCustomPassWarn, resCustomPassExpired, resSuccess) {
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
@@ -170,54 +170,54 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
           test.form.signout();
           return tick(test);
         })
-        .then(function (test) {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/cancel',
-            data: {
-              stateToken: 'testStateToken'
-            }
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/cancel',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            Expect.isPrimaryAuth(test.router.controller);
           });
-          Expect.isPrimaryAuth(test.router.controller);
-        });
       });
       itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
-      function () {
-        return setup({ signOutLink: 'http://www.goodbye.com' }).then(function (test) {
-          spyOn(SharedUtil, 'redirect');
-          $.ajax.calls.reset();
-          test.setNextResponse(resSuccess);
-          test.form.signout();
-          return tick();
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/cancel',
-            data: {
-              stateToken: 'testStateToken'
-            }
-          });
-          expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+        function () {
+          return setup({ signOutLink: 'http://www.goodbye.com' }).then(function (test) {
+            spyOn(SharedUtil, 'redirect');
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.signout();
+            return tick();
+          })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/cancel',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
+              expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+            });
         });
-      });
       itp('calls processCreds function before saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCredsSpy');
         return setup({ processCreds: processCredsSpy })
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.setNextResponse(resSuccess);
-          submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
-          return Expect.waitForSpyCall(test.successSpy);
-        })
-        .then(function() {
-          expect(processCredsSpy.calls.count()).toBe(1);
-          expect(processCredsSpy).toHaveBeenCalledWith({
-            username: 'inca@clouditude.net',
-            password: 'newpwd'
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function() {
+            expect(processCredsSpy.calls.count()).toBe(1);
+            expect(processCredsSpy).toHaveBeenCalledWith({
+              username: 'inca@clouditude.net',
+              password: 'newpwd'
+            });
+            expect($.ajax.calls.count()).toBe(1);
           });
-          expect($.ajax.calls.count()).toBe(1);
-        });
       });
       itp('calls async processCreds function before saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCredsSpy');
@@ -227,20 +227,20 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             callback();
           }
         })
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.setNextResponse(resSuccess);
-          submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
-          return Expect.waitForSpyCall(test.successSpy);
-        })
-        .then(function() {
-          expect(processCredsSpy.calls.count()).toBe(1);
-          expect(processCredsSpy).toHaveBeenCalledWith({
-            username: 'inca@clouditude.net',
-            password: 'newpwd'
-          }, jasmine.any(Function));
-          expect($.ajax.calls.count()).toBe(1);
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function() {
+            expect(processCredsSpy.calls.count()).toBe(1);
+            expect(processCredsSpy).toHaveBeenCalledWith({
+              username: 'inca@clouditude.net',
+              password: 'newpwd'
+            }, jasmine.any(Function));
+            expect($.ajax.calls.count()).toBe(1);
+          });
       });
       itp('calls async processCreds function and can prevent saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCredsSpy');
@@ -249,20 +249,20 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             processCredsSpy(creds, callback);
           }
         })
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.setNextResponse(resSuccess);
-          submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
-          return tick();
-        })
-        .then(function() {
-          expect(processCredsSpy.calls.count()).toBe(1);
-          expect(processCredsSpy).toHaveBeenCalledWith({
-            username: 'inca@clouditude.net',
-            password: 'newpwd'
-          }, jasmine.any(Function));
-          expect($.ajax.calls.count()).toBe(0);
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
+            return tick();
+          })
+          .then(function() {
+            expect(processCredsSpy.calls.count()).toBe(1);
+            expect(processCredsSpy).toHaveBeenCalledWith({
+              username: 'inca@clouditude.net',
+              password: 'newpwd'
+            }, jasmine.any(Function));
+            expect($.ajax.calls.count()).toBe(0);
+          });
       });
       itp('saves the new password successfully', function () {
         return setup().then(function (test) {
@@ -271,47 +271,47 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
           submitNewPass(test, 'oldpassyo', 'boopity', 'boopity');
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function() {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/credentials/change_password',
-            data: {
-              oldPassword: 'oldpassyo',
-              newPassword: 'boopity',
-              stateToken: 'testStateToken'
-            }
+          .then(function() {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/credentials/change_password',
+              data: {
+                oldPassword: 'oldpassyo',
+                newPassword: 'boopity',
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
       itp('shows an error if the server returns a wrong old pass error', function () {
         return setup()
-        .then(function (test) {
-          test.setNextResponse(resErrorOldPass);
-          submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe(
-            'Old password is not correct'
-          );
-        });
+          .then(function (test) {
+            test.setNextResponse(resErrorOldPass);
+            submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe(
+              'Old password is not correct'
+            );
+          });
       });
       itp('shows an error if the server returns a complexity error', function () {
         return setup()
-        .then(function (test) {
-          test.setNextResponse(resErrorComplexity);
-          submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe(
-            'Password requirements were not met. Password requirements: at least 8 characters,' +
+          .then(function (test) {
+            test.setNextResponse(resErrorComplexity);
+            submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe(
+              'Password requirements were not met. Password requirements: at least 8 characters,' +
             ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
             ' does not include your first name, does not include your last name.'
-          );
-        });
+            );
+          });
       });
       itp('validates that fields are not empty', function () {
         return setup().then(function (test) {

@@ -23,9 +23,9 @@ var OktaSignIn = (function () {
      */
     function closeSession(callback) {
       authClient.session.close().then(callback)
-      .fail(function () {
-        callback('There was a problem closing the session');
-      });
+        .fail(function () {
+          callback('There was a problem closing the session');
+        });
     }
 
     /**
@@ -35,9 +35,9 @@ var OktaSignIn = (function () {
      */
     function refreshSession(callback) {
       authClient.session.refresh().then(callback)
-      .fail(function() {
-        callback({status: 'INACTIVE'});
-      });
+        .fail(function() {
+          callback({status: 'INACTIVE'});
+        });
     }
 
     /**
@@ -50,9 +50,9 @@ var OktaSignIn = (function () {
      */
     function refreshIdToken(idToken, callback, opts) {
       authClient.idToken.refresh(opts).then(callback)
-      .fail(function () {
-        callback('There was a problem refreshing the id_token');
-      });
+        .fail(function () {
+          callback('There was a problem refreshing the id_token');
+        });
     }
 
     /**
@@ -64,13 +64,13 @@ var OktaSignIn = (function () {
      */
     function getSession(callback) {
       authClient.session.get()
-      .then(function(res) {
-        if (res.status === 'ACTIVE' && res.user) {
+        .then(function(res) {
+          if (res.status === 'ACTIVE' && res.user) {
           // only include the attributes that are passed into the successFn on primary auth.
-          res.user = _.pick(res.user, 'id', 'profile', 'passwordChanged');
-        }
-        callback(res);
-      });
+            res.user = _.pick(res.user, 'id', 'profile', 'passwordChanged');
+          }
+          callback(res);
+        });
     }
 
     /**
@@ -142,8 +142,8 @@ var OktaSignIn = (function () {
      */
     function parseTokensFromUrl(success, error) {
       authClient.token.parseFromUrl()
-      .then(success)
-      .fail(error);
+        .then(success)
+        .fail(error);
     }
 
     /**

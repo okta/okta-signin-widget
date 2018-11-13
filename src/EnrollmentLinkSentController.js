@@ -40,7 +40,7 @@ function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
     },
     back: function() {
       var url = RouterUtil.createActivateFactorUrl(this.options.appState.get('activatedFactorProvider'),
-          this.options.appState.get('activatedFactorType'), 'manual');
+        this.options.appState.get('activatedFactorType'), 'manual');
       this.options.appState.trigger('navigate', url);
     }
   });

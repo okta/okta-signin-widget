@@ -60,40 +60,40 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
       var authClient = this.appState.settings.authClient;
 
       authClient.webfinger(webfingerArgs)
-      .then(_.bind(function(res) {
-        if(res) {
-          if(res.links && res.links[0] && res.links[0].properties['okta:idp:type'] === 'OKTA') {
-            this.trigger('goToPrimaryAuth');
-          }
-          else {
-            var successData = {
-              idpDiscovery: {
-                redirectToIdp: function(redirectUrl) {
-                  if(res.links && res.links[0] && res.links[0].href) {
-                    var queryParams = {fromURI: redirectUrl};
-                    if (res.links[0].properties && res.links[0].properties['okta:idp:type'] === 'SAML2') {
-                      queryParams['login_hint'] = username;
+        .then(_.bind(function(res) {
+          if(res) {
+            if(res.links && res.links[0] && res.links[0].properties['okta:idp:type'] === 'OKTA') {
+              this.trigger('goToPrimaryAuth');
+            }
+            else {
+              var successData = {
+                idpDiscovery: {
+                  redirectToIdp: function(redirectUrl) {
+                    if(res.links && res.links[0] && res.links[0].href) {
+                      var queryParams = {fromURI: redirectUrl};
+                      if (res.links[0].properties && res.links[0].properties['okta:idp:type'] === 'SAML2') {
+                        queryParams['login_hint'] = username;
+                      }
+                      var url = res.links[0].href + Util.getUrlQueryString(queryParams);
+                      Util.redirect(url);
                     }
-                    var url = res.links[0].href + Util.getUrlQueryString(queryParams);
-                    Util.redirect(url);
                   }
                 }
-              }
-            };
-            this.settings.callGlobalSuccess(Enums.IDP_DISCOVERY, successData);
+              };
+              this.settings.callGlobalSuccess(Enums.IDP_DISCOVERY, successData);
+            }
           }
-        }
-      }, this))
-      .fail(_.bind(function () {
-        this.trigger('error');
-        // Specific event handled by the Header for the case where the security image is not
-        // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
-        this.appState.trigger('removeLoading');
-        CookieUtil.removeUsernameCookie();
-      }, this))
-      .fin(_.bind(function () {
-        this.appState.trigger('loading', false);
-      }, this));
+        }, this))
+        .fail(_.bind(function () {
+          this.trigger('error');
+          // Specific event handled by the Header for the case where the security image is not
+          // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
+          this.appState.trigger('removeLoading');
+          CookieUtil.removeUsernameCookie();
+        }, this))
+        .fin(_.bind(function () {
+          this.appState.trigger('loading', false);
+        }, this));
     }
   });
 

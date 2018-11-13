@@ -29,14 +29,14 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
         this.model.doTransaction(function(transaction) {
           return transaction.cancel();
         })
-        .then(function() {
-          if (self.settings.get('signOutLink')) {
-            Util.redirect(self.settings.get('signOutLink'));
-          } else {
-            self.state.set('navigateDir', Enums.DIRECTION_BACK);
-            self.options.appState.trigger('navigate', '');
-          }
-        });
+          .then(function() {
+            if (self.settings.get('signOutLink')) {
+              Util.redirect(self.settings.get('signOutLink'));
+            } else {
+              self.state.set('navigateDir', Enums.DIRECTION_BACK);
+              self.options.appState.trigger('navigate', '');
+            }
+          });
       }
     },
     getTemplateData: function () {

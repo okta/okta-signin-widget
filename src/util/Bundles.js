@@ -180,18 +180,18 @@ define([
       fetchJsonp('login', language, assets),
       fetchJsonp('country', language, assets)
     ])
-    .spread(function (loginJson, countryJson) {
-      if (localStorageIsSupported) {
-        addLanguageToCache(language, loginJson, countryJson);
-      }
-      return { login: loginJson, country: countryJson };
-    })
-    .fail(function () {
+      .spread(function (loginJson, countryJson) {
+        if (localStorageIsSupported) {
+          addLanguageToCache(language, loginJson, countryJson);
+        }
+        return { login: loginJson, country: countryJson };
+      })
+      .fail(function () {
       // If there is an error, this will default to the bundled language and
       // we will no longer try to load the language this session.
-      Logger.warn('Unable to load language: ' + language);
-      return {};
-    });
+        Logger.warn('Unable to load language: ' + language);
+        return {};
+      });
   }
 
   return {
@@ -216,19 +216,19 @@ define([
       var parsedOverrides = parseOverrides(overrides);
       var lowerCaseLanguage = language.toLowerCase();
       return getBundles(language, assets)
-      .then(_.bind(function (bundles) {
+        .then(_.bind(function (bundles) {
         // Always extend from the built in defaults in the event that some
         // properties are not translated
-        this.login = _.extend({}, login, bundles.login);
-        this.country = _.extend({}, country, bundles.country);
-        this.courage = _.extend({}, login, bundles.login);
-        if (parsedOverrides[lowerCaseLanguage]) {
-          _.extend(this.login, parsedOverrides[lowerCaseLanguage]['login']);
-          _.extend(this.country, parsedOverrides[lowerCaseLanguage]['country']);
-          _.extend(this.courage, parsedOverrides[lowerCaseLanguage]['login']);
-        }
-        this.currentLanguage = language;
-      }, this));
+          this.login = _.extend({}, login, bundles.login);
+          this.country = _.extend({}, country, bundles.country);
+          this.courage = _.extend({}, login, bundles.login);
+          if (parsedOverrides[lowerCaseLanguage]) {
+            _.extend(this.login, parsedOverrides[lowerCaseLanguage]['login']);
+            _.extend(this.country, parsedOverrides[lowerCaseLanguage]['country']);
+            _.extend(this.courage, parsedOverrides[lowerCaseLanguage]['login']);
+          }
+          this.currentLanguage = language;
+        }, this));
     }
 
   };

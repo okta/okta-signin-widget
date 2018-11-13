@@ -75,24 +75,24 @@ function (Okta, FormController, FormType, webauthn, Spinner, Footer, HtmlErrorMe
           var challenge = activation.nonce;
 
           return webauthn.makeCredential(accountInfo, cryptoParams, challenge)
-          .then(function (creds) {
-            return transaction.activate({
-              credentialId: creds.credential.id,
-              publicKey: creds.publicKey,
-              attestation: null
-            });
-          })
-          .fail(function (error) {
-            switch (error.message) {
-            case 'AbortError':
-            case 'NotFoundError':
-            case 'NotSupportedError':
-              model.trigger('abort', error.message);
-              return transaction;
-            }
+            .then(function (creds) {
+              return transaction.activate({
+                credentialId: creds.credential.id,
+                publicKey: creds.publicKey,
+                attestation: null
+              });
+            })
+            .fail(function (error) {
+              switch (error.message) {
+              case 'AbortError':
+              case 'NotFoundError':
+              case 'NotSupportedError':
+                model.trigger('abort', error.message);
+                return transaction;
+              }
 
-            throw error;
-          });
+              throw error;
+            });
         });
       }
     },

@@ -18,20 +18,20 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta,
-          Q,
-          OktaAuth,
-          LoginUtil,
-          CryptoUtil,
-          Util,
-          MfaVerifyForm,
-          Beacon,
-          Expect,
-          Router,
-          $sandbox,
-          webauthn,
-          resAllFactors,
-          resChallengeWebauthn,
-          resSuccess) {
+  Q,
+  OktaAuth,
+  LoginUtil,
+  CryptoUtil,
+  Util,
+  MfaVerifyForm,
+  Beacon,
+  Expect,
+  Router,
+  $sandbox,
+  webauthn,
+  resAllFactors,
+  resChallengeWebauthn,
+  resSuccess) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;

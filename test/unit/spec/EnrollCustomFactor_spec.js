@@ -16,19 +16,19 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta,
-          OktaAuth,
-          LoginUtil,
-          Util,
-          Form,
-          Beacon,
-          Expect,
-          $sandbox,
-          Router,
-          responseMfaEnrollAll,
-          responseMfaEnrollActivateCustomSaml,
-          responseMfaEnrollActivateCustomOidc,
-          resNoPermissionError,
-          responseSuccess) {
+  OktaAuth,
+  LoginUtil,
+  Util,
+  Form,
+  Beacon,
+  Expect,
+  $sandbox,
+  Router,
+  responseMfaEnrollAll,
+  responseMfaEnrollActivateCustomSaml,
+  responseMfaEnrollActivateCustomOidc,
+  resNoPermissionError,
+  responseSuccess) {
   
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
@@ -50,25 +50,25 @@ function (Okta,
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
       return tick()
-      .then(function () {
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollChoices();
-      })
-      .then(function () {
-        if(isOidc) {
-          router.enrollOIDCFactor();
-        } else {
-          router.enrollSAMLFactor();
-        }
-        return Expect.waitForEnrollCustomFactor({
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          successSpy: successSpy
+        .then(function () {
+          router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices();
+        })
+        .then(function () {
+          if(isOidc) {
+            router.enrollOIDCFactor();
+          } else {
+            router.enrollSAMLFactor();
+          }
+          return Expect.waitForEnrollCustomFactor({
+            router: router,
+            beacon: new Beacon($sandbox),
+            form: new Form($sandbox),
+            ac: authClient,
+            setNextResponse: setNextResponse,
+            successSpy: successSpy
+          });
         });
-      });
     }
 
     Expect.describe('Header & Footer', function () {
@@ -113,11 +113,11 @@ function (Okta,
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
-          .then(function () {
-            expect(SharedUtil.redirect).toHaveBeenCalledWith(
-              'http://rain.okta1.com:1802/policy/mfa-saml-idp-redirect?okta_key=mfa.redirect.id'
-            );
-          });
+            .then(function () {
+              expect(SharedUtil.redirect).toHaveBeenCalledWith(
+                'http://rain.okta1.com:1802/policy/mfa-saml-idp-redirect?okta_key=mfa.redirect.id'
+              );
+            });
         });
 
         itp('displays error when error response received', function () {
@@ -126,11 +126,11 @@ function (Okta,
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage())
-              .toBe('You do not have permission to perform the requested action');
-          });
+            .then(function (test) {
+              expect(test.form.hasErrors()).toBe(true);
+              expect(test.form.errorMessage())
+                .toBe('You do not have permission to perform the requested action');
+            });
         });
       });
 
@@ -160,11 +160,11 @@ function (Okta,
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
-          .then(function () {
-            expect(SharedUtil.redirect).toHaveBeenCalledWith(
-              'http://rain.okta1.com:1802/policy/mfa-oidc-idp-redirect?okta_key=mfa.redirect.id'
-            );
-          });
+            .then(function () {
+              expect(SharedUtil.redirect).toHaveBeenCalledWith(
+                'http://rain.okta1.com:1802/policy/mfa-oidc-idp-redirect?okta_key=mfa.redirect.id'
+              );
+            });
         });
 
         itp('displays error when error response received', function () {
@@ -173,11 +173,11 @@ function (Okta,
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage())
-              .toBe('You do not have permission to perform the requested action');
-          });
+            .then(function (test) {
+              expect(test.form.hasErrors()).toBe(true);
+              expect(test.form.errorMessage())
+                .toBe('You do not have permission to perform the requested action');
+            });
         });
       });
     });

@@ -13,7 +13,7 @@ define([
   'sandbox'
 ],
 function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
-          Router, resEnroll, resSecurityImage, $sandbox) {
+  Router, resEnroll, resSecurityImage, $sandbox) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -49,49 +49,49 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
 
     itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
       return setup()
-      .then(function (test) {
-        spyOn(test.ac.tx, 'exists').and.returnValue(false);
-        test.router.refreshAuthState();
-        return Expect.waitForPrimaryAuth(test);
-      })
-      .then(function (test) {
-        Expect.isPrimaryAuth(test.router.controller);
-      });
+        .then(function (test) {
+          spyOn(test.ac.tx, 'exists').and.returnValue(false);
+          test.router.refreshAuthState();
+          return Expect.waitForPrimaryAuth(test);
+        })
+        .then(function (test) {
+          Expect.isPrimaryAuth(test.router.controller);
+        });
     });
     itp('refreshes auth state on render if it does need a refresh', function () {
       return setup()
-      .then(function (test) {
-        Util.mockSDKCookie(test.ac);
-        test.setNextResponse(resEnroll);
-        test.router.refreshAuthState();
-        return tick(test);
-      })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn',
-          data: {
-            stateToken: 'testStateToken'
-          }
+        .then(function (test) {
+          Util.mockSDKCookie(test.ac);
+          test.setNextResponse(resEnroll);
+          test.router.refreshAuthState();
+          return tick(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              stateToken: 'testStateToken'
+            }
+          });
         });
-      });
     });
     itp('calls status with token if initialized with token', function () {
       return setup({ stateToken: 'someStateToken' })
-      .then(function (test) {
-        test.setNextResponse(resEnroll);
-        test.router.refreshAuthState();
-        return tick(test);
-      })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn',
-          data: {
-            stateToken: 'someStateToken'
-          }
+        .then(function (test) {
+          test.setNextResponse(resEnroll);
+          test.router.refreshAuthState();
+          return tick(test);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              stateToken: 'someStateToken'
+            }
+          });
         });
-      });
     });
 
   });

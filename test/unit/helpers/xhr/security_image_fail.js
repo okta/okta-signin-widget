@@ -1,7 +1,7 @@
 define({
-  "status": 200,
-  "responseType": "json",
-  "response": {
+  'status': 200,
+  'responseType': 'json',
+  'response': {
     result: 'success',
     pwdImg: '/img/security/unknown.png',
     imageDescription: ''

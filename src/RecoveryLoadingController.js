@@ -27,10 +27,10 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
           recoveryToken: options.token
         });
       })
-      .fail(function () {
-        self.options.appState.trigger('loading', false);
-        self.options.appState.trigger('removeLoading');
-      });
+        .fail(function () {
+          self.options.appState.trigger('loading', false);
+          self.options.appState.trigger('removeLoading');
+        });
     },
 
     preRender: function () {

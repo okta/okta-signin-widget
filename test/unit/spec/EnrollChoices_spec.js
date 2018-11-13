@@ -15,7 +15,7 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
-          $sandbox, resAllFactors, resAllFactorsOnPrem, resPush, resSuccess) {
+  $sandbox, resAllFactors, resAllFactorsOnPrem, resPush, resSuccess) {
 
   var { $ } = Okta;
   var itp = Expect.itp;
@@ -288,11 +288,11 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         });
         itp('has a list title of "Additional optional factors" for the optional list if ' +
             'there are enrolled factors',
-          function () {
-            return setupWithAllOptionalSomeEnrolled().then(function (test) {
-              expect(test.form.optionalFactorListTitle()).toBe('Additional optional factors');
-            });
-          }
+        function () {
+          return setupWithAllOptionalSomeEnrolled().then(function (test) {
+            expect(test.form.optionalFactorListTitle()).toBe('Additional optional factors');
+          });
+        }
         );
         itp('shows enrolled factors as a minimized list', function () {
           return setupWithRequiredAllRequiredEnrolled().then(function (test) {
@@ -357,7 +357,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
               expect(test.form.factorButton('GENERIC_OIDC').length).toBe(1);
               test.form.factorButton('SMS').click();
               expect(test.router.navigate)
-              .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
+                .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
             });
           });
         itp('has the button "Finish" if all required factors have been enrolled', function () {
@@ -377,23 +377,23 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             test.form.submit();
             return tick();
           })
-          .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/skip',
-              data: {
-                stateToken: 'testStateToken'
-              }
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/skip',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
             });
-          });
         });
         itp('does not show the Finish button if there are no required factors and no ' +
             'optional factors have been enrolled',
-          function () {
-            return setupWithAllOptionalNoneEnrolled().then(function (test) {
-              expect(test.form.submitButton().length).toBe(0);
-            });
+        function () {
+          return setupWithAllOptionalNoneEnrolled().then(function (test) {
+            expect(test.form.submitButton().length).toBe(0);
           });
+        });
       });
 
     });

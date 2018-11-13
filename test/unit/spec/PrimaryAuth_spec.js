@@ -29,9 +29,9 @@ define([
   'sandbox'
 ],
 function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth,
-          Router, BrowserFeatures, Errors, DeviceFingerprint, TypingUtil, Expect, resSecurityImage,
-          resSecurityImageFail, resSuccess, resUnauthenticated, resLockedOut, resPwdExpired, resUnauthorized,
-          resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
+  Router, BrowserFeatures, Errors, DeviceFingerprint, TypingUtil, Expect, resSecurityImage,
+  resSecurityImageFail, resSuccess, resUnauthenticated, resLockedOut, resPwdExpired, resUnauthorized,
+  resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
@@ -113,11 +113,11 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
 
   function setupPasswordlessAuth(requests) {
     return setup({ 'features.passwordlessAuth': true }, requests)
-    .then(function(test){
-      Util.mockRouterNavigate(test.router);
-      test.setNextResponse(resPasswordlessUnauthenticated);
-      return tick(test);
-    });
+      .then(function(test){
+        Util.mockRouterNavigate(test.router);
+        test.setNextResponse(resPasswordlessUnauthenticated);
+        return tick(test);
+      });
   }
 
   function setupSocial(settings) {
@@ -142,13 +142,13 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         }
       ]
     }, settings))
-    .then(function (test) {
-      spyOn(window, 'open').and.callFake(function () {
-        test.oidcWindow = {closed: false, close: jasmine.createSpy()};
-        return test.oidcWindow;
+      .then(function (test) {
+        spyOn(window, 'open').and.callFake(function () {
+          test.oidcWindow = {closed: false, close: jasmine.createSpy()};
+          return test.oidcWindow;
+        });
+        return tick(test);
       });
-      return tick(test);
-    });
   }
 
   function setupSocialNoneOIDCMode(settings) {
@@ -192,9 +192,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
 
   function waitForBeaconChange(test) {
     return tick() //wait to read value of user input
-    .then(tick)   //wait to receive ajax response
-    .then(tick)   //wait for animation (TODO: verify if needed)
-    .then(function () { return test; });
+      .then(tick)   //wait to receive ajax response
+      .then(tick)   //wait for animation (TODO: verify if needed)
+      .then(function () { return test; });
   }
 
   function transformUsername(name) {
@@ -584,18 +584,18 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('toggles "focused-input" css class on focus in and focus out', function () {
         return setup()
-        .then(function (test) {
-          test.form.usernameField().focus();
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
-          test.form.usernameField().focusout();
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
-        });
+          .then(function (test) {
+            test.form.usernameField().focus();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+            test.form.usernameField().focusout();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+          });
       });
       itp('Does not show the password toggle button if features.showPasswordToggleOnSignInPage is not set', function () {
         return setup({ 'features.showPasswordToggleOnSignInPage': false }).then(function (test) {
@@ -682,79 +682,79 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('show username validation error when username field is dirty', function () {
         return setup()
-        .then(function (test) {
-          test.form.usernameField().focus();
-          return tick(test);
-        }).then(function(test) {
-          test.form.setUsername('testuser');
-          return tick(test);
-        }).then(function (test) {
-          var msg = test.router.controller.model.validateField('username');
-          expect(msg).toEqual(undefined);
-          test.form.usernameField().focus();
-          return tick(test);
-        }).then(function(test) {
-          test.form.setUsername('');
-          return tick(test);
-        }).then(function(test) {
-          var msg = test.router.controller.model.validateField('username').username;
-          expect(msg).toEqual('Please enter a username');
-        });
+          .then(function (test) {
+            test.form.usernameField().focus();
+            return tick(test);
+          }).then(function(test) {
+            test.form.setUsername('testuser');
+            return tick(test);
+          }).then(function (test) {
+            var msg = test.router.controller.model.validateField('username');
+            expect(msg).toEqual(undefined);
+            test.form.usernameField().focus();
+            return tick(test);
+          }).then(function(test) {
+            test.form.setUsername('');
+            return tick(test);
+          }).then(function(test) {
+            var msg = test.router.controller.model.validateField('username').username;
+            expect(msg).toEqual('Please enter a username');
+          });
       });
       itp('does not show username validation error when username field is not dirty', function () {
         return setup()
-        .then(function (test) {
-          test.form.usernameField().focus();
-          expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
-          return tick(test);
-        })
-        .then(function (test) {
-          test.form.usernameField().focusout();
-          expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
-          return tick(test);
-        })
-        .then(function (test) {
-          spyOn(test.router.controller.model, 'validate');
-          expect(test.router.controller.model.validate).not.toHaveBeenCalled();
-        });
+          .then(function (test) {
+            test.form.usernameField().focus();
+            expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+            return tick(test);
+          })
+          .then(function (test) {
+            test.form.usernameField().focusout();
+            expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+            return tick(test);
+          })
+          .then(function (test) {
+            spyOn(test.router.controller.model, 'validate');
+            expect(test.router.controller.model.validate).not.toHaveBeenCalled();
+          });
       });
       itp('show password validation error when password field is dirty', function () {
         return setup()
-        .then(function (test) {
-          test.form.passwordField().focus();
-          return tick(test);
-        }).then(function(test) {
-          test.form.setPassword('Abcd1234');
-          return tick(test);
-        }).then(function (test) {
-          var msg = test.router.controller.model.validateField('password');
-          expect(msg).toEqual(undefined);
-          test.form.passwordField().focus();
-          return tick(test);
-        }).then(function(test) {
-          test.form.setPassword('');
-          return tick(test);
-        }).then(function(test) {
-          var msg = test.router.controller.model.validateField('password').password;
-          expect(msg).toEqual('Please enter a password');
-        });
+          .then(function (test) {
+            test.form.passwordField().focus();
+            return tick(test);
+          }).then(function(test) {
+            test.form.setPassword('Abcd1234');
+            return tick(test);
+          }).then(function (test) {
+            var msg = test.router.controller.model.validateField('password');
+            expect(msg).toEqual(undefined);
+            test.form.passwordField().focus();
+            return tick(test);
+          }).then(function(test) {
+            test.form.setPassword('');
+            return tick(test);
+          }).then(function(test) {
+            var msg = test.router.controller.model.validateField('password').password;
+            expect(msg).toEqual('Please enter a password');
+          });
       });
       itp('does not show password validation error when password field is not dirty', function () {
         return setup({username: 'abc'})
-        .then(function (test) {
-          test.form.passwordField().focus();
-          expect(test.form.passwordField()[0].parentElement).toHaveClass('focused-input');
-          return tick(test);
-        })
-        .then(function (test) {
-          test.form.passwordField().focusout();
-          expect(test.form.passwordField()[0].parentElement).not.toHaveClass('focused-input');
-          return tick(test);
-        })
-        .then(function (test) {
-          spyOn(test.router.controller.model, 'validate');
-          expect(test.router.controller.model.validate).not.toHaveBeenCalled();
-        });
+          .then(function (test) {
+            test.form.passwordField().focus();
+            expect(test.form.passwordField()[0].parentElement).toHaveClass('focused-input');
+            return tick(test);
+          })
+          .then(function (test) {
+            test.form.passwordField().focusout();
+            expect(test.form.passwordField()[0].parentElement).not.toHaveClass('focused-input');
+            return tick(test);
+          })
+          .then(function (test) {
+            spyOn(test.router.controller.model, 'validate');
+            expect(test.router.controller.model.validate).not.toHaveBeenCalled();
+          });
       });
     });
 
@@ -768,27 +768,27 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function(test) {
-          expect(test.router.settings.transformUsername.calls.count()).toBe(1);
-          expect(test.router.settings.transformUsername.calls.argsFor(0)).toEqual(['testuser', 'PRIMARY_AUTH']);
-        });
+          .then(function(test) {
+            expect(test.router.settings.transformUsername.calls.count()).toBe(1);
+            expect(test.router.settings.transformUsername.calls.argsFor(0)).toEqual(['testuser', 'PRIMARY_AUTH']);
+          });
       });
       itp('does not call transformUsername while loading security image', function () {
         return setup({ features: { securityImage: true }, transformUsername: transformUsername })
-        .then(function (test) {
-          spyOn(test.router.settings, 'transformUsername');
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect(test.router.settings.transformUsername.calls.count()).toBe(0);
-          expect($.ajax.calls.count()).toBe(1);
-          expect($.ajax.calls.argsFor(0)[0]).toEqual({
-            url: 'https://foo.com/login/getimage?username=testuser',
-            dataType: 'json'
+          .then(function (test) {
+            spyOn(test.router.settings, 'transformUsername');
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect(test.router.settings.transformUsername.calls.count()).toBe(0);
+            expect($.ajax.calls.count()).toBe(1);
+            expect($.ajax.calls.argsFor(0)[0]).toEqual({
+              url: 'https://foo.com/login/getimage?username=testuser',
+              dataType: 'json'
+            });
           });
-        });
       });
       itp('adds the suffix to the username if the username does not have it', function () {
         return setupWithTransformUsername().then(function (test) {
@@ -799,20 +799,20 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return tick();
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
-            data: {
-              username: 'testuser@example.com',
-              password: 'pass',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: false
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn',
+              data: {
+                username: 'testuser@example.com',
+                password: 'pass',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
-            }
+            });
           });
-        });
       });
       itp('adds the suffix to the inital username if it is provided', function () {
         return setupWithTransformUsername().then(function (test) {
@@ -822,20 +822,20 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return tick();
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
-            data: {
-              username: 'foobar@example.com',
-              password: 'pass',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: false
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn',
+              data: {
+                username: 'foobar@example.com',
+                password: 'pass',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
-            }
+            });
           });
-        });
       });
       itp('does not add the suffix to the username if the username already has it', function () {
         return setupWithTransformUsername().then(function (test) {
@@ -846,20 +846,20 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return tick();
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
-            data: {
-              username: 'testuser@example.com',
-              password: 'pass',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: false
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn',
+              data: {
+                username: 'testuser@example.com',
+                password: 'pass',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
-            }
+            });
           });
-        });
       });
       itp('does not add the suffix to the username if "PRIMARY_AUTH" operation is not handled', function () {
         return setupWithTransformUsernameOnUnlock().then(function (test) {
@@ -870,86 +870,86 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return tick();
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
-            data: {
-              username: 'testuser',
-              password: 'pass',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: false
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn',
+              data: {
+                username: 'testuser',
+                password: 'pass',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
-            }
+            });
           });
-        });
       });
     });
 
     Expect.describe('Typing biometrics', function () {
       itp('does not contain typing pattern header in primary auth request if feature is disabled', function () {
         return setup({ features: { trackTypingPattern: false }})
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          spyOn(TypingUtil, 'track').and.callFake(function (target) {
-            expect(target).toBe('okta-signin-username');
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            spyOn(TypingUtil, 'track').and.callFake(function (target) {
+              expect(target).toBe('okta-signin-username');
+            });
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function () {
+            expect(TypingUtil.track).not.toHaveBeenCalled();
+            expect($.ajax.calls.count()).toBe(1);
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(undefined);
           });
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function () {
-          expect(TypingUtil.track).not.toHaveBeenCalled();
-          expect($.ajax.calls.count()).toBe(1);
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(undefined);
-        });
       });
 
       itp('contains typing pattern header in primary auth request if feature is enabled', function () {
         return setup({ features: { trackTypingPattern: true }})
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          spyOn(TypingUtil, 'track').and.callFake(function (targetId) {
-            expect(targetId).toBe('okta-signin-username');
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            spyOn(TypingUtil, 'track').and.callFake(function (targetId) {
+              expect(targetId).toBe('okta-signin-username');
+            });
+            spyOn(TypingUtil, 'getTypingPattern').and.callFake(function () {
+              return typingPattern;
+            });
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(typingPattern);
           });
-          spyOn(TypingUtil, 'getTypingPattern').and.callFake(function () {
-            return typingPattern;
-          });
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(typingPattern);
-        });
       });
 
       itp('continues with primary auth if typing pattern cannot be computed', function () {
         return setup({ features: { trackTypingPattern: true }})
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          spyOn(TypingUtil, 'getTypingPattern').and.callFake(function () {
-            return null;
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            spyOn(TypingUtil, 'getTypingPattern').and.callFake(function () {
+              return null;
+            });
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(null);
           });
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(null);
-        });
       });
     });
 
@@ -961,32 +961,32 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return deferred.promise;
         });
         return setup({ features: { securityImage: true, deviceFingerprinting: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+          });
       });
       itp('does not contain fingerprint header in get security image request if feature is disabled', function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers).toBeUndefined();
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers).toBeUndefined();
+          });
       });
       itp('does not contain device fingerprint header in primaryAuth if feature is disabled', function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
@@ -998,12 +998,12 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return tick();
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBeUndefined();
-        });
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBeUndefined();
+          });
       });
       itp('contains device fingerprint header in primaryAuth if feature is enabled', function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
@@ -1012,20 +1012,20 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return deferred.promise;
         });
         return setup({ features: { deviceFingerprinting: true }})
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          test.form.submit();
-          return tick();
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+          });
       });
       itp('continues with primary auth if there is an error getting fingerprint when feature is enabled', function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
@@ -1034,31 +1034,31 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return deferred.promise;
         });
         return setup({ features: { deviceFingerprinting: true }})
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          test.form.submit();
-          return tick();
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBeUndefined();
-          Expect.isJsonPost(ajaxArgs, {
-            url: 'https://foo.com/api/v1/authn',
-            data: {
-              username: 'testuser',
-              password: 'pass',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: false
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBeUndefined();
+            Expect.isJsonPost(ajaxArgs, {
+              url: 'https://foo.com/api/v1/authn',
+              data: {
+                username: 'testuser',
+                password: 'pass',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
-            }
+            });
           });
-        });
       });
       itp('contains device fingerprint and typing pattern header in primaryAuth if both features are enabled', function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
@@ -1073,21 +1073,21 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return typingPattern;
         });
         return setup({ features: { deviceFingerprinting: true, trackTypingPattern: true }})
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
-          expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(typingPattern);
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+            expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(typingPattern);
+          });
       });
     });
 
@@ -1096,92 +1096,92 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       Expect.describe('beacon loading', function () {
         itp('shows beacon-loading animation when primaryAuth is submitted', function () {
           return setup({ features: { securityImage: true }})
-          .then(function (test) {
-            test.securityBeacon = test.router.header.currentBeacon.$el;
-            test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
-          })
-          .then(function (test) {
-            spyOn(test.securityBeacon, 'toggleClass');
-            test.setNextResponse(resSuccess);
-            test.form.setPassword('pass');
-            test.form.submit();
-            return tick(test);
-          })
-          .then(function (test) {
-            var spyCalls = test.securityBeacon.toggleClass.calls;
-            expect(spyCalls.count()).toBe(2);
-            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-          });
+            .then(function (test) {
+              test.securityBeacon = test.router.header.currentBeacon.$el;
+              test.setNextResponse(resSecurityImage);
+              test.form.setUsername('testuser');
+              return waitForBeaconChange(test);
+            })
+            .then(function (test) {
+              spyOn(test.securityBeacon, 'toggleClass');
+              test.setNextResponse(resSuccess);
+              test.form.setPassword('pass');
+              test.form.submit();
+              return tick(test);
+            })
+            .then(function (test) {
+              var spyCalls = test.securityBeacon.toggleClass.calls;
+              expect(spyCalls.count()).toBe(2);
+              expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+              expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+            });
         });
         itp('does not show beacon-loading animation when primaryAuth fails', function () {
           return setup({ features: { securityImage: true }})
-          .then(function (test) {
-            test.securityBeacon = test.router.header.currentBeacon.$el;
-            test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
-          })
-          .then(function (test) {
-            Q.stopUnhandledRejectionTracking();
-            spyOn(test.securityBeacon, 'toggleClass');
-            test.setNextResponse(resUnauthorized);
-            test.form.setPassword('pass');
-            test.form.submit();
-            return tick(test);
-          })
-          .then(function (test) {
-            var spyCalls = test.securityBeacon.toggleClass.calls;
-            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-          });
+            .then(function (test) {
+              test.securityBeacon = test.router.header.currentBeacon.$el;
+              test.setNextResponse(resSecurityImage);
+              test.form.setUsername('testuser');
+              return waitForBeaconChange(test);
+            })
+            .then(function (test) {
+              Q.stopUnhandledRejectionTracking();
+              spyOn(test.securityBeacon, 'toggleClass');
+              test.setNextResponse(resUnauthorized);
+              test.form.setPassword('pass');
+              test.form.submit();
+              return tick(test);
+            })
+            .then(function (test) {
+              var spyCalls = test.securityBeacon.toggleClass.calls;
+              expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+              expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+            });
         });
         itp('does not show beacon-loading animation when password expires', function () {
           return setup({ features: { securityImage: true }})
-          .then(function (test) {
-            test.securityBeacon = test.router.header.currentBeacon.$el;
-            test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
-          })
-          .then(function (test) {
-            Q.stopUnhandledRejectionTracking();
-            spyOn(test.securityBeacon, 'toggleClass');
-            test.setNextResponse(resPwdExpired);
-            test.form.setPassword('pass');
-            test.form.submit();
-            return tick(test);
-          })
-          .then(function (test) {
-            var spyCalls = test.securityBeacon.toggleClass.calls;
-            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-          });
+            .then(function (test) {
+              test.securityBeacon = test.router.header.currentBeacon.$el;
+              test.setNextResponse(resSecurityImage);
+              test.form.setUsername('testuser');
+              return waitForBeaconChange(test);
+            })
+            .then(function (test) {
+              Q.stopUnhandledRejectionTracking();
+              spyOn(test.securityBeacon, 'toggleClass');
+              test.setNextResponse(resPwdExpired);
+              test.form.setPassword('pass');
+              test.form.submit();
+              return tick(test);
+            })
+            .then(function (test) {
+              var spyCalls = test.securityBeacon.toggleClass.calls;
+              expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+              expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+            });
         });
         itp('does not show beacon-loading animation on CORS error', function () {
           return setup({ features: { securityImage: true }})
-          .then(function (test) {
-            test.securityBeacon = test.router.header.currentBeacon.$el;
-            test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
-          })
-          .then(function (test) {
-            Q.stopUnhandledRejectionTracking();
-            spyOn(test.securityBeacon, 'toggleClass');
-            spyOn(test.router.settings, 'callGlobalError');
-            test.setNextResponse({status: 0, response: {}});
-            test.form.setPassword('pass');
-            test.form.submit();
-            return tick(test);
-          })
-          .then(function (test) {
-            var spyCalls = test.securityBeacon.toggleClass.calls;
-            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-          });
+            .then(function (test) {
+              test.securityBeacon = test.router.header.currentBeacon.$el;
+              test.setNextResponse(resSecurityImage);
+              test.form.setUsername('testuser');
+              return waitForBeaconChange(test);
+            })
+            .then(function (test) {
+              Q.stopUnhandledRejectionTracking();
+              spyOn(test.securityBeacon, 'toggleClass');
+              spyOn(test.router.settings, 'callGlobalError');
+              test.setNextResponse({status: 0, response: {}});
+              test.form.setPassword('pass');
+              test.form.submit();
+              return tick(test);
+            })
+            .then(function (test) {
+              var spyCalls = test.securityBeacon.toggleClass.calls;
+              expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+              expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+            });
         });
         itp('shows beacon-loading animation when primaryAuth is submitted (no security image)', function () {
           return setup().then(function (test) {
@@ -1191,9 +1191,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy, test);
           })
-          .then(function(test) {
-            expect(test.beacon.isLoadingBeacon()).toBe(true);
-          });
+            .then(function(test) {
+              expect(test.beacon.isLoadingBeacon()).toBe(true);
+            });
         });
         itp('does not show beacon-loading animation when primaryAuth fails (no security image)', function () {
           return setup().then(function (test) {
@@ -1204,10 +1204,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.submit();
             return tick(test);
           })
-          .then(function (test) {
-            expect(test.beacon.isLoadingBeacon()).toBe(false);
-            expect(test.beacon.beacon().length).toBe(0);
-          });
+            .then(function (test) {
+              expect(test.beacon.isLoadingBeacon()).toBe(false);
+              expect(test.beacon.beacon().length).toBe(0);
+            });
         });
         itp('does not show beacon-loading animation when password expires (no security image)', function () {
           return setup().then(function (test) {
@@ -1218,10 +1218,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.submit();
             return tick(test);
           })
-          .then(function (test) {
-            expect(test.beacon.isLoadingBeacon()).toBe(false);
-            expect(test.beacon.beacon().length).toBe(0);
-          });
+            .then(function (test) {
+              expect(test.beacon.isLoadingBeacon()).toBe(false);
+              expect(test.beacon.beacon().length).toBe(0);
+            });
         });
         itp('does not show beacon-loading animation on CORS error (no security image)', function () {
           return setup().then(function (test) {
@@ -1232,163 +1232,163 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.submit();
             return tick(test);
           })
-          .then(function (test) {
-            expect(test.beacon.isLoadingBeacon()).toBe(false);
-            expect(test.beacon.beacon().length).toBe(0);
-          });
+            .then(function (test) {
+              expect(test.beacon.isLoadingBeacon()).toBe(false);
+              expect(test.beacon.beacon().length).toBe(0);
+            });
         });
       });
       itp('does not make securityImage requests if features.securityImage is false', function () {
         return setup()
-        .then(function (test) {
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(0);
-        });
+          .then(function (test) {
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(0);
+          });
       });
       itp('has default security image on page load and no rememberMe', function () {
         return setup({ features: { securityImage: true }})
-        .then(waitForBeaconChange)
-        .then(function (test) {
-          expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
-          expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
-          expect(test.form.securityBeacon().css('background-image')).toBe('none');
-        });
+          .then(waitForBeaconChange)
+          .then(function (test) {
+            expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
+            expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
+            expect(test.form.securityBeacon().css('background-image')).toBe('none');
+          });
       });
       itp('updates security beacon when user enters correct username', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect($.ajax.calls.count()).toBe(1);
-          expect($.ajax.calls.argsFor(0)[0]).toEqual({
-            url: 'https://foo.com/login/getimage?username=testuser',
-            dataType: 'json'
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(1);
+            expect($.ajax.calls.argsFor(0)[0]).toEqual({
+              url: 'https://foo.com/login/getimage?username=testuser',
+              dataType: 'json'
+            });
+            expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
+            expect(test.form.accessibilityText()).toBe('a single pixel');
           });
-          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
-          expect(test.form.accessibilityText()).toBe('a single pixel');
-        });
       });
       itp('waits for username field to lose focus before fetching the security image', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImage);
-          test.form.editingUsername('te');
-          test.form.editingUsername('testu');
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.editingUsername('te');
+            test.form.editingUsername('testu');
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+          });
       });
       itp('updates security beacon to show the new user image when user enters unfamiliar username', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect(test.form.securityBeacon()[0].className).toMatch('new-user');
-          expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
-          expect(test.form.securityBeacon().css('background-image')).toBe('none');
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImageFail);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect(test.form.securityBeacon()[0].className).toMatch('new-user');
+            expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
+            expect(test.form.securityBeacon().css('background-image')).toBe('none');
+          });
       });
       itp('shows an unknown user message when user enters unfamiliar username', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo.com from this browser×');
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImageFail);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo.com from this browser×');
+          });
       });
       itp('does not show anti-phishing message if security image is hidden', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.securityBeaconContainer().hide();
-          spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.form.setUsername('testuser');
-          $(window).trigger('resize');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: false}));
-          test.form.securityBeaconContainer().show();
-          $(window).trigger('resize');
-          return tick(test);
-        })
-        .then(function () {
-          expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: true}));
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImageFail);
+            test.form.securityBeaconContainer().hide();
+            spyOn($.qtip.prototype, 'toggle').and.callThrough();
+            test.form.setUsername('testuser');
+            $(window).trigger('resize');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: false}));
+            test.form.securityBeaconContainer().show();
+            $(window).trigger('resize');
+            return tick(test);
+          })
+          .then(function () {
+            expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: true}));
+          });
       });
       itp('show anti-phishing message if security image become visible', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: true}));
-          test.form.securityBeaconContainer().hide();
-          $(window).trigger('resize');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: false}));
-          test.form.securityBeaconContainer().show();
-          $(window).trigger('resize');
-          return waitForBeaconChange(test);
-        })
-        .then(function () {
-          expect($.qtip.prototype.toggle.calls.argsFor(2)).toEqual(jasmine.objectContaining({0: true}));
-        });
+          .then(function (test) {
+            spyOn($.qtip.prototype, 'toggle').and.callThrough();
+            test.setNextResponse(resSecurityImageFail);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: true}));
+            test.form.securityBeaconContainer().hide();
+            $(window).trigger('resize');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: false}));
+            test.form.securityBeaconContainer().show();
+            $(window).trigger('resize');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.qtip.prototype.toggle.calls.argsFor(2)).toEqual(jasmine.objectContaining({0: true}));
+          });
       });
       itp('guards against XSS when showing the anti-phishing message', function () {
         return setup({
           baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
           features: { securityImage: true }
         })
-        .then(function (test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo<i>xss< from this browser×');
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImageFail);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo<i>xss< from this browser×');
+          });
       });
       itp('removes anti-phishing message if help link is clicked', function () {
         return setup({
           baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
           features: { securityImage: true, selfServiceUnlock: true }
         })
-        .then(function (test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
+          .then(function (test) {
+            test.setNextResponse(resSecurityImageFail);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
           // Tooltip exists
-          expect(test.form.isSecurityImageTooltipDestroyed()).toBe(false);
-          spyOn(test.router, 'navigate');
-          test.form.helpFooter().click();
-          test.form.unlockLink().click();
-          expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
-          // Verify tooltip is gone
-          expect(test.form.isSecurityImageTooltipDestroyed()).toBe(true);
-        });
+            expect(test.form.isSecurityImageTooltipDestroyed()).toBe(false);
+            spyOn(test.router, 'navigate');
+            test.form.helpFooter().click();
+            test.form.unlockLink().click();
+            expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
+            // Verify tooltip is gone
+            expect(test.form.isSecurityImageTooltipDestroyed()).toBe(true);
+          });
       });
       itp('updates security beacon immediately if rememberMe is available', function () {
         Util.mockGetCookie('ln', 'testuser');
@@ -1399,33 +1399,33 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           }
         };
         return setup(options, [resSecurityImage])
-        .then(waitForBeaconChange)
-        .then(function (test) {
-          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
-          expect(test.form.accessibilityText()).toBe('a single pixel');
-        });
+          .then(waitForBeaconChange)
+          .then(function (test) {
+            expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
+            expect(test.form.accessibilityText()).toBe('a single pixel');
+          });
       });
       itp('calls globalErrorFn if cors is not enabled and security image request is made', function () {
         spyOn(BrowserFeatures, 'corsIsNotEnabled').and.returnValue(true);
         return setup({
           features: { securityImage: true }
         })
-        .then(function (test) {
-          test.setNextResponse({
-            responseType: 'json',
-            response: '',
-            status: 0
+          .then(function (test) {
+            test.setNextResponse({
+              responseType: 'json',
+              response: '',
+              status: 0
+            });
+            spyOn(test.router.settings, 'callGlobalError');
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
+            expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
+            expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
+            expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
           });
-          spyOn(test.router.settings, 'callGlobalError');
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
-          expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
-          expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
-          expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
-        });
       });
       itp('has username in field if rememberMe is available', function () {
         Util.mockGetCookie('ln', 'testuser');
@@ -1552,12 +1552,12 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return tick(test);
         })
-        .then(function (test) {
-          var button = test.form.submitButton();
-          var buttonClass = button.attr('class');
-          expect(buttonClass).not.toContain('link-button-disabled');
-          expect(test.form.isDisabled()).toBe(false);
-        });
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+            expect(test.form.isDisabled()).toBe(false);
+          });
       });
       /*
       This test no longer works. test.form.submit() triggers a Promise
@@ -1601,24 +1601,24 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function(test) {
-          expect(test.form.isDisabled()).toBe(true);
-          return tick();
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
-            data: {
-              username: 'testuser',
-              password: 'pass',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: false
+          .then(function(test) {
+            expect(test.form.isDisabled()).toBe(true);
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn',
+              data: {
+                username: 'testuser',
+                password: 'pass',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
-            }
+            });
           });
-        });
       });
       itp('calls authentication with stateToken if status is UNAUTHENTICATED', function () {
         return setupUnauthenticated().then(function (test) {
@@ -1629,44 +1629,44 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function (test) {
-          expect(test.form.isDisabled()).toBe(true);
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.okta.com/api/v1/authn',
-            data: {
-              username: 'testuser',
-              password: 'pass',
-              stateToken: 'aStateToken',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: false
+          .then(function (test) {
+            expect(test.form.isDisabled()).toBe(true);
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.okta.com/api/v1/authn',
+              data: {
+                username: 'testuser',
+                password: 'pass',
+                stateToken: 'aStateToken',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
-            }
+            });
           });
-        });
       });
       itp('calls processCreds function before saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCreds');
         return setup({
           processCreds: processCredsSpy
         })
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy);
-        })
-        .then(function() {
-          expect(processCredsSpy.calls.count()).toBe(1);
-          expect(processCredsSpy).toHaveBeenCalledWith({
-            username: 'testuser',
-            password: 'pass'
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function() {
+            expect(processCredsSpy.calls.count()).toBe(1);
+            expect(processCredsSpy).toHaveBeenCalledWith({
+              username: 'testuser',
+              password: 'pass'
+            });
+            expect($.ajax.calls.count()).toBe(1);
           });
-          expect($.ajax.calls.count()).toBe(1);
-        });
       });
       itp('calls async processCreds function before saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCreds');
@@ -1676,22 +1676,22 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             callback();
           }
         })
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy);
-        })
-        .then(function() {
-          expect(processCredsSpy.calls.count()).toBe(1);
-          expect(processCredsSpy).toHaveBeenCalledWith({
-            username: 'testuser',
-            password: 'pass'
-          }, jasmine.any(Function));
-          expect($.ajax.calls.count()).toBe(1);
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function() {
+            expect(processCredsSpy.calls.count()).toBe(1);
+            expect(processCredsSpy).toHaveBeenCalledWith({
+              username: 'testuser',
+              password: 'pass'
+            }, jasmine.any(Function));
+            expect($.ajax.calls.count()).toBe(1);
+          });
       });
       itp('calls async processCreds function and can prevent saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCreds');
@@ -1700,22 +1700,22 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             processCredsSpy(creds, callback);
           }
         })
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          test.form.submit();
-          return tick();
-        })
-        .then(function() {
-          expect(processCredsSpy.calls.count()).toBe(1);
-          expect(processCredsSpy).toHaveBeenCalledWith({
-            username: 'testuser',
-            password: 'pass'
-          }, jasmine.any(Function));
-          expect($.ajax.calls.count()).toBe(0);
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick();
+          })
+          .then(function() {
+            expect(processCredsSpy.calls.count()).toBe(1);
+            expect(processCredsSpy).toHaveBeenCalledWith({
+              username: 'testuser',
+              password: 'pass'
+            }, jasmine.any(Function));
+            expect($.ajax.calls.count()).toBe(0);
+          });
       });
       itp('calls authClient with multiOptionalFactorEnroll=true if feature is true', function () {
         return setup({'features.multiOptionalFactorEnroll': true}).then(function (test) {
@@ -1725,39 +1725,39 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function (test) {
-          expect(test.form.isDisabled()).toBe(true);
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
-            data: {
-              username: 'testuser',
-              password: 'pass',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: true
+          .then(function (test) {
+            expect(test.form.isDisabled()).toBe(true);
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn',
+              data: {
+                username: 'testuser',
+                password: 'pass',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: true
+                }
               }
-            }
+            });
           });
-        });
       });
       itp('sets rememberMe cookie if rememberMe is enabled and checked on submit', function () {
         var cookieSpy = Util.mockSetCookie();
         return setup({ 'features.rememberMe': true })
-        .then(function (test) {
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.form.setRememberMe(true);
-          test.setNextResponse(resSuccess);
-          test.form.submit();
-          return tick();
-        })
-        .then(function () {
-          expect(cookieSpy).toHaveBeenCalledWith('ln', 'testuser', {
-            expires: 365,
-            path: '/'
+          .then(function (test) {
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.form.setRememberMe(true);
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return tick();
+          })
+          .then(function () {
+            expect(cookieSpy).toHaveBeenCalledWith('ln', 'testuser', {
+              expires: 365,
+              path: '/'
+            });
           });
-        });
       });
       itp('removes rememberMe cookie if called with existing username and unchecked', function () {
         Util.mockGetCookie('ln', 'testuser');
@@ -1770,131 +1770,131 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return tick();
         })
-        .then(function () {
-          expect(removeCookieSpy).toHaveBeenCalledWith('ln', { path: '/' });
-        });
+          .then(function () {
+            expect(removeCookieSpy).toHaveBeenCalledWith('ln', { path: '/' });
+          });
       });
       itp('removes rememberMe cookie if Authentication failed (401)', function () {
         var removeCookieSpy = Util.mockRemoveCookie();
         return setup()
-        .then(function (test) {
-          test.form.setUsername('invalidUser');
-          test.form.setPassword('anyPwd');
-          test.form.setRememberMe(true);
-          test.setNextResponse(resUnauthorized);
-          test.form.submit();
-          return tick();
-        })
-        .then(function () {
-          expect(removeCookieSpy).toHaveBeenCalledWith('ln', { path: '/' });
-        });
+          .then(function (test) {
+            test.form.setUsername('invalidUser');
+            test.form.setPassword('anyPwd');
+            test.form.setRememberMe(true);
+            test.setNextResponse(resUnauthorized);
+            test.form.submit();
+            return tick();
+          })
+          .then(function () {
+            expect(removeCookieSpy).toHaveBeenCalledWith('ln', { path: '/' });
+          });
       });
       itp('shows an error if authClient returns with an error', function () {
         return setup()
-        .then(function (test) {
-          test.setNextResponse(resUnauthorized);
-          test.form.setUsername('testuser');
-          test.form.setPassword('invalidpass');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('Sign in failed!');
-        });
+          .then(function (test) {
+            test.setNextResponse(resUnauthorized);
+            test.form.setUsername('testuser');
+            test.form.setPassword('invalidpass');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Sign in failed!');
+          });
       });
       itp('shows the right throttle error message', function () {
         return setup()
-        .then(function (test) {
-          test.setNextResponse(resThrottle);
-          test.form.setUsername('testuser');
-          test.form.setPassword('testpass');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage())
-            .toBe('You exceeded the maximum number of requests. Try again in a while.');
-        });
+          .then(function (test) {
+            test.setNextResponse(resThrottle);
+            test.form.setUsername('testuser');
+            test.form.setPassword('testpass');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage())
+              .toBe('You exceeded the maximum number of requests. Try again in a while.');
+          });
       });
       itp('shows an error if authClient returns with an error that is plain text', function () {
         return setup()
-        .then(function (test) {
-          test.setNextResponse(resNonJson, true);
-          test.form.setUsername('testuser');
-          test.form.setPassword('invalidpass');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('Sign in failed!');
-        });
+          .then(function (test) {
+            test.setNextResponse(resNonJson, true);
+            test.form.setUsername('testuser');
+            test.form.setPassword('invalidpass');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Sign in failed!');
+          });
       });
       itp('shows an error if authClient returns with an error that is plain text and not a valid json', function () {
         return setup()
-        .then(function (test) {
-          test.form.setUsername('testuser');
-          test.form.setPassword('invalidpass');
-          test.setNextResponse(resInvalidText, true);
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('There was an unexpected internal error. Please try again.');
-        });
+          .then(function (test) {
+            test.form.setUsername('testuser');
+            test.form.setPassword('invalidpass');
+            test.setNextResponse(resInvalidText, true);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('There was an unexpected internal error. Please try again.');
+          });
       });
       itp('shows an error if authClient returns with LOCKED_OUT response and selfServiceUnlock is off', function () {
         return setup()
-        .then(function (test) {
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resLockedOut);
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage())
-            .toBe('Your account is locked. Please contact your administrator.');
-        });
+          .then(function (test) {
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resLockedOut);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage())
+              .toBe('Your account is locked. Please contact your administrator.');
+          });
       });
       itp('redirects to "unlock" if authClient returns with LOCKED_OUT response and selfServiceUnlock is on', function () {
         return setup({'features.selfServiceUnlock': true})
-        .then(function (test) {
-          spyOn(test.router, 'navigate');
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resLockedOut);
-          test.form.submit();
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
-        });
+          .then(function (test) {
+            spyOn(test.router, 'navigate');
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.setNextResponse(resLockedOut);
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
+          });
       });
       itp('calls globalErrorFn if authClient returns with a cors enabled error', function () {
         return setup()
-        .then(function (test) {
-          spyOn(test.router.settings, 'callGlobalError');
-          test.setNextResponse({
-            responseType: 'json',
-            response: '',
-            status: 0
+          .then(function (test) {
+            spyOn(test.router.settings, 'callGlobalError');
+            test.setNextResponse({
+              responseType: 'json',
+              response: '',
+              status: 0
+            });
+            test.form.setUsername('testuser');
+            test.form.setPassword('invalidpass');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
+            expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
+            expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
+            expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
           });
-          test.form.setUsername('testuser');
-          test.form.setPassword('invalidpass');
-          test.form.submit();
-          return tick(test);
-        })
-        .then(function (test) {
-          var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
-          expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
-          expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
-          expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
-        });
       });
     });
 
@@ -1912,19 +1912,19 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return Expect.waitForMfaVerify(test);
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
-            data: {
-              username: 'testuser@test.com',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: false
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn',
+              data: {
+                username: 'testuser@test.com',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
-            }
+            });
           });
-        });
       });
       itp('shows MfaVerify view after authClient.signIn returns with UNAUTHENTICATED', function () {
         return setupPasswordlessAuth().then(function (test) {
@@ -1932,9 +1932,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return Expect.waitForMfaVerify(test);
         })
-        .then(function (test) {
-          expect(test.form.el('factor-question').length).toEqual(1);
-        });
+          .then(function (test) {
+            expect(test.form.el('factor-question').length).toEqual(1);
+          });
       });
     });
 
@@ -2140,11 +2140,11 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('opens a popup with the correct url when an idp button is clicked and asking for an accessToken', function () {
         return setupSocial({ 'authParams.responseType': 'token' })
-        .then(function (test) {
-          test.form.facebookButton().click();
-          expect(window.open.calls.count()).toBe(1);
-          expect(window.open).toHaveBeenCalledWith(
-            'https://foo.com/oauth2/v1/authorize?' +
+          .then(function (test) {
+            test.form.facebookButton().click();
+            expect(window.open.calls.count()).toBe(1);
+            expect(window.open).toHaveBeenCalledWith(
+              'https://foo.com/oauth2/v1/authorize?' +
             'client_id=someClientId&' +
             'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
             'response_type=token&' +
@@ -2154,18 +2154,18 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             '&display=popup&' +
             'idp=0oaidiw9udOSceD1234&' +
             'scope=openid%20email%20profile',
-            'External Identity Provider User Authentication',
-            'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
-          );
-        });
+              'External Identity Provider User Authentication',
+              'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
+            );
+          });
       });
       itp('opens a popup with the correct url when an idp button is clicked and asking for an accessToken and idToken', function () {
         return setupSocial({ 'authParams.responseType': ['id_token', 'token']})
-        .then(function (test) {
-          test.form.facebookButton().click();
-          expect(window.open.calls.count()).toBe(1);
-          expect(window.open).toHaveBeenCalledWith(
-            'https://foo.com/oauth2/v1/authorize?' +
+          .then(function (test) {
+            test.form.facebookButton().click();
+            expect(window.open.calls.count()).toBe(1);
+            expect(window.open).toHaveBeenCalledWith(
+              'https://foo.com/oauth2/v1/authorize?' +
             'client_id=someClientId&' +
             'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
             'response_type=id_token%20token&' +
@@ -2175,163 +2175,163 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             '&display=popup&' +
             'idp=0oaidiw9udOSceD1234&' +
             'scope=openid%20email%20profile',
-            'External Identity Provider User Authentication',
-            'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
-          );
-        });
+              'External Identity Provider User Authentication',
+              'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
+            );
+          });
       });
       itp('calls the global success function with the idToken and user data when the popup sends a message with idToken', function () {
         spyOn(window, 'addEventListener');
         return setupSocial()
-        .then(function (test) {
-          test.form.facebookButton().click();
-          return tick(test);
-        })
-        .then(function(test) {
-          expect(window.addEventListener).toHaveBeenCalled();
-          var args = window.addEventListener.calls.argsFor(0);
-          var type = args[0];
-          var callback = args[1];
-          expect(type).toBe('message');
-          callback.call(null, {
-            origin: 'https://foo.com',
-            data: {
-              id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE
-            }
+          .then(function (test) {
+            test.form.facebookButton().click();
+            return tick(test);
+          })
+          .then(function(test) {
+            expect(window.addEventListener).toHaveBeenCalled();
+            var args = window.addEventListener.calls.argsFor(0);
+            var type = args[0];
+            var callback = args[1];
+            expect(type).toBe('message');
+            callback.call(null, {
+              origin: 'https://foo.com',
+              data: {
+                id_token: VALID_ID_TOKEN,
+                state: OIDC_STATE
+              }
+            });
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
+            expect(test.successSpy.calls.count()).toBe(1);
+            var data = test.successSpy.calls.argsFor(0)[0];
+            expect(data.status).toBe('SUCCESS');
+            expect(data.idToken).toBe(VALID_ID_TOKEN);
+            expect(data.claims).toEqual({
+              amr: ['pwd'],
+              aud: 'someClientId',
+              auth_time: 1451606400,
+              email: 'samljackson@gack.me',
+              email_verified: true,
+              exp: 1609459200,
+              family_name: 'Jackson',
+              given_name: 'Saml',
+              iat: 1451606400,
+              idp: '0oaidiw9udOSceDqw0g3',
+              nonce: OIDC_NONCE,
+              idp_type: 'FACEBOOK',
+              iss: 'https://foo.com',
+              login: 'samljackson@gack.me',
+              name: 'Saml Jackson',
+              profile: 'https://www.facebook.com/app_scoped_user_id/122819658076357/',
+              sub: '00uiltNQK2Wszs2RV0g3',
+              updated_at: 1451606400,
+              ver: 1
+            });
           });
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function (test) {
-          expect(test.successSpy.calls.count()).toBe(1);
-          var data = test.successSpy.calls.argsFor(0)[0];
-          expect(data.status).toBe('SUCCESS');
-          expect(data.idToken).toBe(VALID_ID_TOKEN);
-          expect(data.claims).toEqual({
-            amr: ['pwd'],
-            aud: 'someClientId',
-            auth_time: 1451606400,
-            email: 'samljackson@gack.me',
-            email_verified: true,
-            exp: 1609459200,
-            family_name: 'Jackson',
-            given_name: 'Saml',
-            iat: 1451606400,
-            idp: '0oaidiw9udOSceDqw0g3',
-            nonce: OIDC_NONCE,
-            idp_type: 'FACEBOOK',
-            iss: 'https://foo.com',
-            login: 'samljackson@gack.me',
-            name: 'Saml Jackson',
-            profile: 'https://www.facebook.com/app_scoped_user_id/122819658076357/',
-            sub: '00uiltNQK2Wszs2RV0g3',
-            updated_at: 1451606400,
-            ver: 1
-          });
-        });
       });
       itp('calls the global success function with the idToken and accessToken', function () {
         spyOn(window, 'addEventListener');
         return setupSocial({ 'authParams.responseType': ['id_token', 'token'] })
-        .then(function (test) {
-          test.form.facebookButton().click();
-          expect(window.addEventListener).toHaveBeenCalled();
-          var args = window.addEventListener.calls.argsFor(0);
-          var type = args[0];
-          var callback = args[1];
-          expect(type).toBe('message');
-          callback.call(null, {
-            origin: 'https://foo.com',
-            data: {
-              id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE,
-              access_token: VALID_ACCESS_TOKEN,
-              expires_in: 3600,
-              scope: 'openid email profile',
-              token_type: 'Bearer'
-            }
-          });
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function (test) {
-          expect(test.successSpy.calls.count()).toBe(1);
-          var data = test.successSpy.calls.argsFor(0)[0];
-          expect(data.status).toBe('SUCCESS');
-          expect(data[0].idToken).toBe(VALID_ID_TOKEN);
+          .then(function (test) {
+            test.form.facebookButton().click();
+            expect(window.addEventListener).toHaveBeenCalled();
+            var args = window.addEventListener.calls.argsFor(0);
+            var type = args[0];
+            var callback = args[1];
+            expect(type).toBe('message');
+            callback.call(null, {
+              origin: 'https://foo.com',
+              data: {
+                id_token: VALID_ID_TOKEN,
+                state: OIDC_STATE,
+                access_token: VALID_ACCESS_TOKEN,
+                expires_in: 3600,
+                scope: 'openid email profile',
+                token_type: 'Bearer'
+              }
+            });
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
+            expect(test.successSpy.calls.count()).toBe(1);
+            var data = test.successSpy.calls.argsFor(0)[0];
+            expect(data.status).toBe('SUCCESS');
+            expect(data[0].idToken).toBe(VALID_ID_TOKEN);
 
-          expect(data[1].accessToken).toBe(VALID_ACCESS_TOKEN);
-          expect(data[1].scopes).toEqual(['openid', 'email', 'profile']);
-          expect(data[1].tokenType).toBe('Bearer');
-        });
+            expect(data[1].accessToken).toBe(VALID_ACCESS_TOKEN);
+            expect(data[1].scopes).toEqual(['openid', 'email', 'profile']);
+            expect(data[1].tokenType).toBe('Bearer');
+          });
       });
       itp('calls the global error function if there is no valid id token returned', function () {
         var errorSpy = jasmine.createSpy('errorSpy');
         spyOn(window, 'addEventListener');
         return setupSocial({ globalErrorFn: errorSpy })
-        .then(function (test) {
-          test.form.facebookButton().click();
-          var args = window.addEventListener.calls.argsFor(0);
-          var callback = args[1];
-          callback.call(null, {
-            origin: 'https://foo.com',
-            data: {
-              state: OIDC_STATE,
-              error: 'OAuth Error',
-              error_description: 'Message from server'
-            }
+          .then(function (test) {
+            test.form.facebookButton().click();
+            var args = window.addEventListener.calls.argsFor(0);
+            var callback = args[1];
+            callback.call(null, {
+              origin: 'https://foo.com',
+              data: {
+                state: OIDC_STATE,
+                error: 'OAuth Error',
+                error_description: 'Message from server'
+              }
+            });
+            return tick();
+          })
+          .then(function () {
+            expect(errorSpy.calls.count()).toBe(1);
+            var err = errorSpy.calls.argsFor(0)[0];
+            expect(err instanceof Errors.OAuthError).toBe(true);
+            expect(err.name).toBe('OAUTH_ERROR');
+            expect(err.message).toEqual('Message from server');
           });
-          return tick();
-        })
-        .then(function () {
-          expect(errorSpy.calls.count()).toBe(1);
-          var err = errorSpy.calls.argsFor(0)[0];
-          expect(err instanceof Errors.OAuthError).toBe(true);
-          expect(err.name).toBe('OAUTH_ERROR');
-          expect(err.message).toEqual('Message from server');
-        });
       });
       itp('ignores messages with the wrong origin', function () {
         var successSpy = jasmine.createSpy('successSpy'),
             errorSpy = jasmine.createSpy('errorSpy');
         spyOn(window, 'addEventListener');
         return setupSocial({ globalErrorFn: errorSpy, globalSuccessFn: successSpy })
-        .then(function (test) {
-          test.form.facebookButton().click();
-          var args = window.addEventListener.calls.argsFor(0);
-          var callback = args[1];
-          callback.call(null, {
-            origin: 'https://evil.com',
-            data: {
-              id_token: VALID_ID_TOKEN
-            }
+          .then(function (test) {
+            test.form.facebookButton().click();
+            var args = window.addEventListener.calls.argsFor(0);
+            var callback = args[1];
+            callback.call(null, {
+              origin: 'https://evil.com',
+              data: {
+                id_token: VALID_ID_TOKEN
+              }
+            });
+            return tick();
+          })
+          .then(function () {
+            expect(successSpy.calls.count()).toBe(0);
+            expect(errorSpy.calls.count()).toBe(0);
           });
-          return tick();
-        })
-        .then(function () {
-          expect(successSpy.calls.count()).toBe(0);
-          expect(errorSpy.calls.count()).toBe(0);
-        });
       });
       itp('closes the popup after receiving the idToken message', function () {
         var successSpy = jasmine.createSpy('successSpy');
         spyOn(window, 'addEventListener');
         return setupSocial({ globalSuccessFn: successSpy })
-        .then(function (test) {
-          test.form.facebookButton().click();
-          var args = window.addEventListener.calls.argsFor(0);
-          var callback = args[1];
-          callback.call(null, {
-            origin: 'https://foo.com',
-            data: {
-              id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE
-            }
+          .then(function (test) {
+            test.form.facebookButton().click();
+            var args = window.addEventListener.calls.argsFor(0);
+            var callback = args[1];
+            callback.call(null, {
+              origin: 'https://foo.com',
+              data: {
+                id_token: VALID_ID_TOKEN,
+                state: OIDC_STATE
+              }
+            });
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.oidcWindow.close).toHaveBeenCalled();
           });
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.oidcWindow.close).toHaveBeenCalled();
-        });
       });
 
       // Reminder: Think about how to mock this out in the future - currently

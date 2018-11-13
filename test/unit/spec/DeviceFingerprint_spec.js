@@ -45,39 +45,39 @@ function (Expect, $sandbox, DeviceFingerprint) {
       mockIFrameMessages(true);
       bypassMessageSourceCheck();
       DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
-      .then(function (fingerprint) {
-        expect(fingerprint).toBe('thisIsTheFingerprint');
-        done();
-      })
-      .fail(function (reason) {
-        done.fail('Fingerprint promise incorrectly failed. ' + reason);
-      });
+        .then(function (fingerprint) {
+          expect(fingerprint).toBe('thisIsTheFingerprint');
+          done();
+        })
+        .fail(function (reason) {
+          done.fail('Fingerprint promise incorrectly failed. ' + reason);
+        });
     });
 
     it('fails if there is a problem with communicating with the iframe', function (done) {
       mockIFrameMessages(false, null);
       bypassMessageSourceCheck();
       DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
-      .then(function () {
-        done.fail('Fingerprint promise should have been rejected');
-      })
-      .fail(function (reason) {
-        expect(reason).not.toBeUndefined();
-        done();
-      });
+        .then(function () {
+          done.fail('Fingerprint promise should have been rejected');
+        })
+        .fail(function (reason) {
+          expect(reason).not.toBeUndefined();
+          done();
+        });
     });
 
     it('fails if there iframe sends and invalid message content', function (done) {
       mockIFrameMessages(false, { type: 'InvalidMessageType' });
       bypassMessageSourceCheck();
       DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
-      .then(function () {
-        done.fail('Fingerprint promise should have been rejected');
-      })
-      .fail(function (reason) {
-        expect(reason).not.toBeUndefined();
-        done();
-      });
+        .then(function () {
+          done.fail('Fingerprint promise should have been rejected');
+        })
+        .fail(function (reason) {
+          expect(reason).not.toBeUndefined();
+          done();
+        });
     });
 
     it('fails if user agent is not defined', function (done) {
@@ -97,13 +97,13 @@ function (Expect, $sandbox, DeviceFingerprint) {
       mockUserAgent('Windows Phone');
       mockIFrameMessages(true);
       DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
-      .then(function () {
-        done.fail('Fingerprint promise should have been rejected');
-      })
-      .fail(function (reason) {
-        expect(reason).toBe('device fingerprint is not supported on Windows phones');
-        done();
-      });
+        .then(function () {
+          done.fail('Fingerprint promise should have been rejected');
+        })
+        .fail(function (reason) {
+          expect(reason).toBe('device fingerprint is not supported on Windows phones');
+          done();
+        });
     });
 
     it('ignores if message is not from right iframe', function(done) {
