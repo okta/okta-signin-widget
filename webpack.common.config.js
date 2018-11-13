@@ -1,13 +1,14 @@
 /* global module __dirname */
 
 var path      = require('path');
+var SRC = path.resolve(__dirname, 'src');
 var TARGET_JS = path.resolve(__dirname, 'target/js/');
 var LOCAL_PACKAGES = path.resolve(__dirname, 'packages/');
 
 // Return a function so that all consumers get a new copy of the config
 module.exports = function (outputFilename) {
   return {
-    entry: ['./target/js/widget/OktaSignIn.js'],
+    entry: [`${SRC}/widget/OktaSignIn.js`],
     devtool: 'source-map',
     output: {
       path: TARGET_JS,
@@ -16,12 +17,11 @@ module.exports = function (outputFilename) {
       libraryTarget: 'umd'
     },
     resolve: {
-      root: [TARGET_JS],
-      modulesDirectories: ['node_modules', 'packages'],
+      modules: [SRC, 'packages', 'node_modules'],
       alias: {
         // General remapping
         'nls': '@okta/i18n/dist/json',
-        'okta': LOCAL_PACKAGES + '/@okta/courage-for-signin-widget.js',
+        'okta': `${LOCAL_PACKAGES}/@okta/courage-for-signin-widget.js`,
         'shared/util/Bundles': 'util/Bundles',
 
         // Vendor files from courage that are remapped in OSW to point to an npm
@@ -37,7 +37,7 @@ module.exports = function (outputFilename) {
     },
 
     module: {
-      loaders: [
+      rules: [
         // Babel
         {
           test: /\.js$/,
@@ -47,6 +47,10 @@ module.exports = function (outputFilename) {
             presets: ['env'],
             plugins: ['transform-runtime']
           }
+        },
+        {
+          test: /\.json$/,
+          loader: 'json-loader'
         },
       ]
     },

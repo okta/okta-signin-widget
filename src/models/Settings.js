@@ -18,7 +18,7 @@ define([
   'util/Util',
   'util/Logger',
   'util/OAuth2Util',
-  'json!config/config'
+  'config/config.json'
 ],
 function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
 

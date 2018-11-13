@@ -15,10 +15,10 @@ define([
   'underscore',
   'handlebars',
   'q',
-  'json!nls/login',
-  'json!nls/country',
+  'nls/login.json',
+  'nls/country.json',
   'util/Logger',
-  'json!config/config',
+  'config/config.json',
   'util/BrowserFeatures'
 ], function ($, _, Handlebars, Q, login, country, Logger, config, BrowserFeatures) {
 

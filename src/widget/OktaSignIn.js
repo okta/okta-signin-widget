@@ -3,7 +3,7 @@
 var OktaSignIn = (function () {
 
   var _        = require('underscore'),
-      config   = require('json!config/config'),
+      config   = require('config/config.json'),
       OAuth2Util = require('util/OAuth2Util');
 
   function getProperties (authClient, LoginRouter, Util, config) {

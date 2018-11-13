@@ -4,7 +4,7 @@ define([
   'helpers/mocks/Util',
   'util/Logger',
   'util/Bundles',
-  'json!config/config',
+  'config/config.json',
   'sandbox'
 ], function (Okta, Q, Util, Logger, Bundles, config, $sandbox) {
 
