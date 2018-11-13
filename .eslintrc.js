@@ -1,4 +1,4 @@
-{
+module.exports = {
   "extends": ["eslint:recommended"],
   "env": {
     "browser": true,
@@ -17,7 +17,7 @@
     "camelcase": 2,
     "comma-spacing": [2, { "before": false, "after": true }],
     "comma-style": [2, "last"],
-    "complexity": [2, 6],
+    "complexity": [2, 10],
     "curly": 2,
     "dot-notation": 0,
     "guard-for-in": 2,
@@ -44,4 +44,4 @@
     "no-plusplus": 0
   },
   "root": true
-}
+};
