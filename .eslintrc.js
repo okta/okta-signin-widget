@@ -1,4 +1,4 @@
-{
+module.exports = {
   "extends": ["eslint:recommended"],
   "env": {
     "browser": true,
@@ -15,11 +15,8 @@
   },
   "rules": {
     "camelcase": 2,
-    "comma-spacing": [2, { "before": false, "after": true }],
-    "comma-style": [2, "last"],
-    "complexity": [2, 6],
+    "complexity": [2, 10],
     "curly": 2,
-    "dot-notation": 0,
     "guard-for-in": 2,
     "indent": [2, 2, { "VariableDeclarator": 2 } ],
     "max-depth": [2, 2],
@@ -30,18 +27,11 @@
     "no-caller": 2,
     "no-eval": 2,
     "no-implied-eval": 2,
-    "no-mixed-spaces-and-tabs": 2,
-    "no-multi-str": 0,
     "no-new": 2,
-    "no-undef": 2,
     "no-unused-expressions": [2, { "allowShortCircuit": true, "allowTernary": true }],
-    "no-unused-vars": [2, { "args": "after-used","vars": "all" }],
     "no-use-before-define": [2, "nofunc"],
     "quotes": [2, "single"],
-    "semi": 2,
     "strict": 0,
-    "wrap-iife": [2, "any"],
-    "no-plusplus": 0
   },
   "root": true
-}
+};

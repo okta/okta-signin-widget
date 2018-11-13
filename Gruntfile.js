@@ -13,27 +13,10 @@ module.exports = function (grunt) {
       path        = require('path');
 
   var JS                    = 'target/js',
-      ESLINT_OUT_FILE       = 'build2/loginjs-eslint-checkstyle.xml',
       DIST                  = 'dist',
       SASS                  = 'target/sass',
-      SCSSLINT_OUT_FILE     = 'build2/loginscss-checkstyle-result.xml',
+      SCSSLINT_OUT_FILE     = 'build2/OSW-scsslint-checkstyle.xml',
       WIDGET_RC             = '.widgetrc',
-      JS_LINT_FILES         = [
-        'Gruntfile.js',
-        'src/*.js',
-        'src/**/*.js',
-        '!src/vendor/*.js',
-        '!src/util/countryCallingCodes.js',
-        'buildtools/**/*.js',
-        '!buildtools/r.js',
-        'test/unit/helpers/**/*.js',
-        'test/**/**/*.js',
-        '!test/e2e/react-app/**/*.js',
-        '!test/e2e/angular-app/**/*.js',
-        '!test/unit/helpers/xhr/*.js',
-        '!test/unit/vendor/*.js',
-        'webpack.*.js'
-      ],
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
 
@@ -48,18 +31,6 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-
-    eslint: {
-      options: (function () {
-        var conf = {};
-        if (process.argv.indexOf('--checkstyle') > -1) {
-          conf.format = 'checkstyle';
-          conf.outputFile = ESLINT_OUT_FILE;
-        }
-        return conf;
-      }()),
-      all: JS_LINT_FILES
-    },
 
     copy: {
       'app-to-target': {
@@ -509,6 +480,6 @@ module.exports = function (grunt) {
 
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
-  grunt.task.registerTask('lint', ['scss-lint', 'search:noAbsoluteUrlsInCss', 'eslint']);
+  grunt.task.registerTask('lint', ['scss-lint', 'search:noAbsoluteUrlsInCss']);
   grunt.task.registerTask('default', ['lint', 'test']);
 };
