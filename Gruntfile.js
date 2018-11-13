@@ -277,7 +277,7 @@ module.exports = function (grunt) {
           src: ['assets/sass/**/*.scss']
         },
         options: {
-          searchString: /url\([\'\"]\//g,
+          searchString: /url\(['"]\//g,
           failOnMatch: true,
           logFile: SCSSLINT_OUT_FILE,
           logFormat: 'xml',

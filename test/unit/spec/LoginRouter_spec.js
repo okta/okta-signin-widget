@@ -259,7 +259,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
               firstName: 'Add-Min',
               lastName: 'O\'Cloudy Tud',
               locale: 'en_US',
-              timeZone: 'America\/Los_Angeles'
+              timeZone: 'America/Los_Angeles'
             }
           });
           expect(res.session.token).toBe('THE_SESSION_TOKEN');

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 28],max-statements: [2, 30] */
+/* eslint complexity: [2, 29],max-statements: [2, 30] */
 define([
   'okta',
   './OAuth2Util',
