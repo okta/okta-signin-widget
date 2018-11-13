@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 8], max-depth: [2, 3] */
+/* eslint complexity: [2, 13], max-depth: [2, 3] */
 define(['okta', 'util/Logger'], function (Okta, Logger) {
 
   var Util = {};

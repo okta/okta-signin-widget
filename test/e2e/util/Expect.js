@@ -14,7 +14,7 @@ var _ = require('lodash'),
     TEXT_FOLDER = ROOT_FOLDER + 'text/';
 
 function makeFileName(url) {
-  return JUNIT_FOLDER + url.split('://').pop().replace(/[\.\:\/]/g, '-') + _.uniqueId('_') + '.xml';
+  return JUNIT_FOLDER + url.split('://').pop().replace(/[.:/]/g, '-') + _.uniqueId('_') + '.xml';
 }
 
 fs.emptyDirSync(ROOT_FOLDER);

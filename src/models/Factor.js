@@ -201,7 +201,6 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
       }
     },
 
-    /* eslint complexity: [2, 7] */
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
       // Set/Remove the remember device cookie based on the remember device input.

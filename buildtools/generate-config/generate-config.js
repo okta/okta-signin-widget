@@ -14,7 +14,7 @@ module.exports = function (grunt) {
     grunt.log.writeln('config.version: ' + config.version);
 
     // 2. Add list of supported languages
-    var re = new RegExp('/[a-z]+_([^.]+)\.json');
+    var re = new RegExp('/[a-z]+_([^.]+).json');
     var supportedLanguages = grunt.file.expand(languageGlob).map(function (file) {
       // Language codes use a hyphen instead of an underscore, i.e.
       // login_zh_TW.json -> zh-TW

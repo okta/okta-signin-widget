@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 15] */
+/* eslint complexity: [2, 16] */
 define([
   'okta',
   'util/BaseLoginController',

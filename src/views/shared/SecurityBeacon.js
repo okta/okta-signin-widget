@@ -98,7 +98,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
         hasBorder = !appState.get('isUndefinedUser'),
         hasAntiPhishing = appState.get('isNewUser'),
         radialProgressBar = $el.find('.radial-progress-bar'),
-        host = appState.get('baseUrl').match(/https?:\/\/(.[^\/]+)/)[1],
+        host = appState.get('baseUrl').match(/https?:\/\/(.[^/]+)/)[1],
         duration = 200;
     if (!animate) {
       // Do not animate the security beacon
