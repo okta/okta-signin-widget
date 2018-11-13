@@ -92,13 +92,13 @@ function (Okta, FormController, FactorUtil, Footer, TextBox) {
         });
         return factor.questions();
       })
-      .then(function(questionsRes) {
-        var questions = {};
-        _.each(questionsRes, function (question) {
-          questions[question.question] = FactorUtil.getSecurityQuestionLabel(question);
+        .then(function(questionsRes) {
+          var questions = {};
+          _.each(questionsRes, function (question) {
+            questions[question.question] = FactorUtil.getSecurityQuestionLabel(question);
+          });
+          self.model.set('securityQuestions', questions);
         });
-        self.model.set('securityQuestions', questions);
-      });
     }
 
   });

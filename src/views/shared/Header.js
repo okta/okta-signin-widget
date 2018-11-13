@@ -118,10 +118,10 @@ function (Okta, Animations, LoadingBeacon) {
       case 'remove':
         this.$el.addClass(NO_BEACON_CLS);
         return Animations.implode(container)
-        .then(function () {
-          removeBeacon(self);
-        })
-        .done();
+          .then(function () {
+            removeBeacon(self);
+          })
+          .done();
       case 'fade':
         // Other transitions are performed on the beacon container,
         // but this transition is on the content inside the beacon.
@@ -135,11 +135,11 @@ function (Okta, Animations, LoadingBeacon) {
         }
         options.animate = true;
         return this.currentBeacon.fadeOut()
-        .then(function () {
-          removeBeacon(self);
-          addBeacon(self, NextBeacon, selector, options);
-        })
-        .done();
+          .then(function () {
+            removeBeacon(self);
+            addBeacon(self, NextBeacon, selector, options);
+          })
+          .done();
       case 'swap':
         return Animations.swapBeacons({
           $el: container,
@@ -155,7 +155,7 @@ function (Okta, Animations, LoadingBeacon) {
             addBeacon(self, NextBeacon, selector, options);
           }
         })
-        .done();
+          .done();
       case 'load':
         // Show the loading beacon. Add a couple of classes
         // before triggering the add beacon code.
@@ -184,11 +184,11 @@ function (Okta, Animations, LoadingBeacon) {
           container = this.$('[data-type="beacon-container"]');
 
       return Animations.implode(container)
-      .then(function () {
-        removeBeacon(self);
-        container.removeClass(LOADING_BEACON_CLS);
-      })
-      .done();
+        .then(function () {
+          removeBeacon(self);
+          container.removeClass(LOADING_BEACON_CLS);
+        })
+        .done();
     },
 
     getTemplateData: function () {

@@ -118,16 +118,16 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       }
 
       return primaryAuthPromise
-      .fail(_.bind(function () {
-        this.trigger('error');
-        // Specific event handled by the Header for the case where the security image is not
-        // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
-        this.appState.trigger('removeLoading');
-        CookieUtil.removeUsernameCookie();
-      }, this))
-      .fin(_.bind(function () {
-        this.appState.trigger('loading', false);
-      }, this));
+        .fail(_.bind(function () {
+          this.trigger('error');
+          // Specific event handled by the Header for the case where the security image is not
+          // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
+          this.appState.trigger('removeLoading');
+          CookieUtil.removeUsernameCookie();
+        }, this))
+        .fin(_.bind(function () {
+          this.appState.trigger('loading', false);
+        }, this));
     },
 
     getSignInArgs: function (username) {
@@ -173,16 +173,16 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       }
       var self = this;
       return func(signInArgs)
-      .fin(function () {
-        if (deviceFingerprintEnabled) {
-          delete authClient.options.headers['X-Device-Fingerprint'];
-          self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once
-        }
-        if (typingPatternEnabled) {
-          delete authClient.options.headers['X-Typing-Pattern'];
-          self.appState.unset('typingPattern');
-        }
-      });
+        .fin(function () {
+          if (deviceFingerprintEnabled) {
+            delete authClient.options.headers['X-Device-Fingerprint'];
+            self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once
+          }
+          if (typingPatternEnabled) {
+            delete authClient.options.headers['X-Typing-Pattern'];
+            self.appState.unset('typingPattern');
+          }
+        });
     }
   });
 

@@ -107,21 +107,21 @@ function (Okta, Widget, Expect, Logger) {
       it('calls the authentication api with a stateToken', function (done) {
         $.ajax.calls.reset();
         signIn.getTransaction('fooToken')
-        .then(function(){/* Should never reach this */})
-        .catch(function() {
-          expect($.ajax).toHaveBeenCalledWith({
-            type: 'POST',
-            url: 'https://foo.com/api/v1/authn',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              'X-Okta-User-Agent-Extended': 'okta-signin-widget-9.9.99'
-            },
-            data: '{"stateToken":"fooToken"}',
-            xhrFields: { withCredentials: true }
+          .then(function(){/* Should never reach this */})
+          .catch(function() {
+            expect($.ajax).toHaveBeenCalledWith({
+              type: 'POST',
+              url: 'https://foo.com/api/v1/authn',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-Okta-User-Agent-Extended': 'okta-signin-widget-9.9.99'
+              },
+              data: '{"stateToken":"fooToken"}',
+              xhrFields: { withCredentials: true }
+            });
+            done();
           });
-          done();
-        });
       });
     });
   });

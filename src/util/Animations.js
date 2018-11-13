@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
- /* eslint max-statements: [2, 15] */
+/* eslint max-statements: [2, 15] */
 
 define(['q', './Enums'], function (Q, Enums) {
 
@@ -102,11 +102,11 @@ define(['q', './Enums'], function (Q, Enums) {
         ctx = options.ctx;
 
     return this.implode($el)
-    .then(function () {
-      swap.call(ctx);
-      return $el;
-    })
-    .then(this.explode);
+      .then(function () {
+        swap.call(ctx);
+        return $el;
+      })
+      .then(this.explode);
   };
 
   fn.explode = function ($el) {
@@ -123,22 +123,22 @@ define(['q', './Enums'], function (Q, Enums) {
         circles = radialProgressBar.children();
 
     return rotate(circles, 0, 180)
-    .then(function () {
-      radialProgressBar.css({'clip': 'auto'});
-    })
-    .then(function () {
-      var leftHalf = circles.eq(0);
-      swap();
-      return rotate(leftHalf, 180, 360);
-    })
-    .then(function () {
+      .then(function () {
+        radialProgressBar.css({'clip': 'auto'});
+      })
+      .then(function () {
+        var leftHalf = circles.eq(0);
+        swap();
+        return rotate(leftHalf, 180, 360);
+      })
+      .then(function () {
       //reset values to initial state
-      radialProgressBar.css({'clip': 'rect(0px, 96px, 96px, 48px)'});
-      circles.css({
-        'transform': 'rotate(0deg)',
-        'text-indent': '1px'
+        radialProgressBar.css({'clip': 'rect(0px, 96px, 96px, 48px)'});
+        circles.css({
+          'transform': 'rotate(0deg)',
+          'text-indent': '1px'
+        });
       });
-    });
   };
 
   return fn;

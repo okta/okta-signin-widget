@@ -24,7 +24,7 @@ define([
   'views/shared/FooterSignout'
 ],
 function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
-          PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
+  PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
 
   var { CheckBox } = Okta.internal.views.forms.inputs;
 

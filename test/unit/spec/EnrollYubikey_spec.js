@@ -11,7 +11,7 @@ define([
   'LoginRouter'
 ],
 function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
-          resAllFactors, resSuccess, Router) {
+  resAllFactors, resSuccess, Router) {
 
   var { $ } = Okta;
   var itp = Expect.itp;
@@ -32,21 +32,21 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
-      .then(function () {
-        setNextResponse(resAllFactors);
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollChoices();
-      })
-      .then(function () {
-        router.enrollYubikey();
-        return Expect.waitForEnrollYubikey({
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse: setNextResponse
+        .then(function () {
+          setNextResponse(resAllFactors);
+          router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices();
+        })
+        .then(function () {
+          router.enrollYubikey();
+          return Expect.waitForEnrollYubikey({
+            router: router,
+            beacon: new Beacon($sandbox),
+            form: new Form($sandbox),
+            ac: authClient,
+            setNextResponse: setNextResponse
+          });
         });
-      });
     }
 
     Expect.describe('Header & Footer', function () {
@@ -84,10 +84,10 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
-          Expect.isEnrollChoices(test.router.controller);
-          Util.stopRouter();
-        });
+          .then(function (test) {
+            Expect.isEnrollChoices(test.router.controller);
+            Util.stopRouter();
+          });
       });
       itp('does not send request and shows error if code is not entered', function () {
         return setup().then(function (test) {
@@ -105,18 +105,18 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           test.form.submit();
           return tick();
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors',
-            data: {
-              factorType: 'token:hardware',
-              provider: 'YUBICO',
-              passCode: '123456',
-              stateToken: 'testStateToken'
-            }
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors',
+              data: {
+                factorType: 'token:hardware',
+                provider: 'YUBICO',
+                passCode: '123456',
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
     });
 

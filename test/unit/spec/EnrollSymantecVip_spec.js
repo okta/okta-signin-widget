@@ -13,7 +13,7 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
-          resAllFactors, resEnrollError, Router, resSuccess) {
+  resAllFactors, resEnrollError, Router, resSuccess) {
 
   var { $ } = Okta;
   var itp = Expect.itp;
@@ -34,21 +34,21 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
-      .then(function () {
-        setNextResponse(resAllFactors);
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollChoices();
-      })
-      .then(function () {
-        router.enrollSymantecVip();
-        return Expect.waitForEnrollSymantecVip({
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse: setNextResponse
+        .then(function () {
+          setNextResponse(resAllFactors);
+          router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices();
+        })
+        .then(function () {
+          router.enrollSymantecVip();
+          return Expect.waitForEnrollSymantecVip({
+            router: router,
+            beacon: new Beacon($sandbox),
+            form: new Form($sandbox),
+            ac: authClient,
+            setNextResponse: setNextResponse
+          });
         });
-      });
     }
 
     Expect.describe('Header & Footer', function () {
@@ -73,10 +73,10 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
-          Expect.isEnrollChoices(test.router.controller);
-          Util.stopRouter();
-        });
+          .then(function (test) {
+            Expect.isEnrollChoices(test.router.controller);
+            Util.stopRouter();
+          });
       });
     });
 
@@ -108,17 +108,17 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       });
       itp('shows error in case of an error response', function () {
         return setup()
-        .then(function (test) {
-          test.setNextResponse(resEnrollError);
-          test.form.setCredentialId('Cred_Id');
-          test.form.setCode(123);
-          test.form.setSecondCode(654);
-          test.form.submit();
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-        });
+          .then(function (test) {
+            test.setNextResponse(resEnrollError);
+            test.form.setCredentialId('Cred_Id');
+            test.form.setCode(123);
+            test.form.setSecondCode(654);
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+          });
       });
       itp('calls activate with the right params', function () {
         return setup().then(function (test) {

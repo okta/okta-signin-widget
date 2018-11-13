@@ -246,36 +246,36 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         this.trigger('save');
 
         return promise
-        .then(function (trans) {
-          var options = {
-            'delay': PUSH_INTERVAL
-          };
-          setTransaction(trans);
-          // In Okta verify case we initiate poll.
-          if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
-            const deferred = Q.defer();
-            const initiatePollTimout = Util.callAfterTimeout(deferred.resolve, PUSH_INTERVAL);
-            self.listenToOnce(self.options.appState, 'factorSwitched', () => {
-              clearTimeout(initiatePollTimout);
-              deferred.reject(new Errors.AuthStopPollInitiationError());
-            });
-            return deferred.promise.then(function() {
-              // Stop listening if factor was not switched before poll.
-              self.stopListening(self.options.appState, 'factorSwitched');
-              if (self.pushFactorHasAutoPush()) {
-                options.autoPush = function () {
-                  return self.get('autoPush');
-                };
-                options.rememberDevice = function () {
-                  return self.get('rememberDevice');
-                };
-              }
-              return trans.poll(options).then(function(trans) {
-                setTransaction(trans);
+          .then(function (trans) {
+            var options = {
+              'delay': PUSH_INTERVAL
+            };
+            setTransaction(trans);
+            // In Okta verify case we initiate poll.
+            if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
+              const deferred = Q.defer();
+              const initiatePollTimout = Util.callAfterTimeout(deferred.resolve, PUSH_INTERVAL);
+              self.listenToOnce(self.options.appState, 'factorSwitched', () => {
+                clearTimeout(initiatePollTimout);
+                deferred.reject(new Errors.AuthStopPollInitiationError());
               });
-            });
-          }
-        });
+              return deferred.promise.then(function() {
+              // Stop listening if factor was not switched before poll.
+                self.stopListening(self.options.appState, 'factorSwitched');
+                if (self.pushFactorHasAutoPush()) {
+                  options.autoPush = function () {
+                    return self.get('autoPush');
+                  };
+                  options.rememberDevice = function () {
+                    return self.get('rememberDevice');
+                  };
+                }
+                return trans.poll(options).then(function(trans) {
+                  setTransaction(trans);
+                });
+              });
+            }
+          });
       });
     },
 

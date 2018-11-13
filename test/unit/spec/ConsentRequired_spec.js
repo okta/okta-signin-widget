@@ -12,7 +12,7 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
-          $sandbox, resConsentRequired, resSuccess) {
+  $sandbox, resConsentRequired, resSuccess) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -144,19 +144,19 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
           test.form.consentButton().click();
           return tick();
         })
-        .then(function() {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://example.okta.com/api/v1/authn/consent',
-            data: {
-              consent: {
-                expiresAt: '2017-07-20T00:06:25.000Z',
-                scopes: [ 'api:read', 'api:write' ]
-              },
-              stateToken: 'testStateToken'
-            }
+          .then(function() {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://example.okta.com/api/v1/authn/consent',
+              data: {
+                consent: {
+                  expiresAt: '2017-07-20T00:06:25.000Z',
+                  scopes: [ 'api:read', 'api:write' ]
+                },
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
       itp('has the cancel button', function () {
         return setup().then(function (test) {
@@ -171,16 +171,16 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
           test.form.cancelButton().click();
           return tick();
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://example.okta.com/api/v1/authn/cancel',
-            data: {
-              stateToken: 'testStateToken'
-            }
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://example.okta.com/api/v1/authn/cancel',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            expect(cancel).toHaveBeenCalled();
           });
-          expect(cancel).toHaveBeenCalled();
-        });
       });
     });
 

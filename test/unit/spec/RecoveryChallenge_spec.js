@@ -15,7 +15,7 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
-          $sandbox, resChallenge, resResendError, resVerifyError, res200, resSuccess) {
+  $sandbox, resChallenge, resResendError, resVerifyError, res200, resSuccess) {
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
@@ -50,7 +50,7 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
       ac: authClient,
       setNextResponse: setNextResponse
     })
-    .then(tick);
+      .then(tick);
   }
 
   Expect.describe('RecoveryChallenge', function () {
@@ -69,48 +69,48 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
     });
     itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
       return setup()
-      .then(function (test) {
-        $.ajax.calls.reset();
-        test.setNextResponse(res200);
-        var $link = test.form.signoutLink();
-        expect($link.length).toBe(1);
-        $link.click();
-        return Expect.waitForPrimaryAuth(test);
-      })
-      .then(function (test) {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/cancel',
-          data: {
-            stateToken: 'testStateToken'
-          }
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(res200);
+          var $link = test.form.signoutLink();
+          expect($link.length).toBe(1);
+          $link.click();
+          return Expect.waitForPrimaryAuth(test);
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/cancel',
+            data: {
+              stateToken: 'testStateToken'
+            }
+          });
+          Expect.isPrimaryAuth(test.router.controller);
         });
-        Expect.isPrimaryAuth(test.router.controller);
-      });
     });
     itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
-    function () {
-      return setup({ signOutLink: 'http://www.goodbye.com' })
-      .then(function (test) {
-        spyOn(SharedUtil, 'redirect');
-        $.ajax.calls.reset();
-        test.setNextResponse(res200);
-        var $link = test.form.signoutLink();
-        expect($link.length).toBe(1);
-        $link.click();
-        return tick();
-      })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/cancel',
-          data: {
-            stateToken: 'testStateToken'
-          }
-        });
-        expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+      function () {
+        return setup({ signOutLink: 'http://www.goodbye.com' })
+          .then(function (test) {
+            spyOn(SharedUtil, 'redirect');
+            $.ajax.calls.reset();
+            test.setNextResponse(res200);
+            var $link = test.form.signoutLink();
+            expect($link.length).toBe(1);
+            $link.click();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/cancel',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+          });
       });
-    });
     itp('has a text field to enter the recovery sms code', function () {
       return setup().then(function (test) {
         Expect.isTextField(test.form.codeField());
@@ -174,17 +174,17 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
         test.form.resendButton().click();
         return tick(test);
       })
-      .then(function (test) {
-        expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorBox().length).toBe(1);
-        test.setNextResponse(resResendError);
-        test.form.resendButton().click();
-        return tick(test);
-      })
-      .then(function (test) {
-        expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorBox().length).toBe(1);
-      });
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorBox().length).toBe(1);
+          test.setNextResponse(resResendError);
+          test.form.resendButton().click();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorBox().length).toBe(1);
+        });
     });
     itp('makes the right auth request when form is submitted', function () {
       return setup().then(function (test) {
@@ -194,16 +194,16 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
         test.form.submit();
         return tick();
       })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/recovery/factors/SMS/verify',
-          data: {
-            passCode: '1234',
-            stateToken: 'testStateToken'
-          }
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/factors/SMS/verify',
+            data: {
+              passCode: '1234',
+              stateToken: 'testStateToken'
+            }
+          });
         });
-      });
     });
     itp('validates that the code is not empty before submitting', function () {
       return setup().then(function (test) {
@@ -219,28 +219,28 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
         return delay(func, 0, args);
       });
       return setup()
-      .then(function (test) {
-        test.setNextResponse(resResendError);
-        test.form.resendButton().click();
-        return tick(test);
-      })
-      .then(function (test) {
-        expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
-      });
+        .then(function (test) {
+          test.setNextResponse(resResendError);
+          test.form.resendButton().click();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+        });
     });
     itp('shows an error msg if there is an error submitting the code', function () {
       return setup()
-      .then(function (test) {
-        test.setNextResponse(resVerifyError);
-        test.form.setCode('1234');
-        test.form.submit();
-        return tick(test);
-      })
-      .then(function (test) {
-        expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
-      });
+        .then(function (test) {
+          test.setNextResponse(resVerifyError);
+          test.form.setCode('1234');
+          test.form.submit();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+        });
     });
   });
 

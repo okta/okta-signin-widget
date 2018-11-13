@@ -38,9 +38,9 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
         var self = this;
         return this.doTransaction(function(transaction) {
           return transaction
-          .resetPassword({
-            newPassword: self.get('newPassword')
-          });
+            .resetPassword({
+              newPassword: self.get('newPassword')
+            });
         });
       }
     },
@@ -89,7 +89,7 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
           password: this.model.get('newPassword')
         };
         this.settings.processCreds(creds)
-        .then(_.bind(this.model.save, this.model));
+          .then(_.bind(this.model.save, this.model));
       });
     }
 

@@ -19,8 +19,8 @@ define([
   'LoginRouter'
 ],
 function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
-          resAllFactors, resExistingPhone, resEnrollSuccess, resEnrollError, resActivateError,
-          resEnrollInvalidPhoneError, resSuccess, Router) {
+  resAllFactors, resExistingPhone, resEnrollSuccess, resEnrollError, resActivateError,
+  resEnrollInvalidPhoneError, resSuccess, Router) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -41,21 +41,21 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
-      .then(function () {
-        setNextResponse(resp || resAllFactors);
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollChoices();
-      })
-      .then(function () {
-        router.enrollCall();
-        return Expect.waitForEnrollCall({
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse: setNextResponse
+        .then(function () {
+          setNextResponse(resp || resAllFactors);
+          router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices();
+        })
+        .then(function () {
+          router.enrollCall();
+          return Expect.waitForEnrollCall({
+            router: router,
+            beacon: new Beacon($sandbox),
+            form: new Form($sandbox),
+            ac: authClient,
+            setNextResponse: setNextResponse
+          });
         });
-      });
     }
 
     function enterPhone(test, countryCode, phoneNumber, phoneExtension) {
@@ -130,10 +130,10 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
-          Expect.isEnrollChoices(test.router.controller);
-          Util.stopRouter();
-        });
+          .then(function (test) {
+            Expect.isEnrollChoices(test.router.controller);
+            Util.stopRouter();
+          });
       });
       itp('visits previous link if phone is enrolled, but not activated', function () {
         return setupAndSendValidCode().then(function (test) {
@@ -142,16 +142,16 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           test.form.backLink().click();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/previous',
-            type: 'POST',
-            data: {
-              stateToken: 'testStateToken'
-            }
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/previous',
+              type: 'POST',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
     });
 
@@ -231,27 +231,27 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
           return sendCodeOnEnter(test, resEnrollSuccess, 'US', '4151111111');
         })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(false);
-        });
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(false);
+          });
       });
       itp('enrolls with correct info when call button is clicked', function () {
         return setupAndSendCode(resEnrollSuccess, 'AQ', '12345678900')
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(2);
-          Expect.isJsonPost($.ajax.calls.argsFor(1), {
-            url: 'https://foo.com/api/v1/authn/factors',
-            data: {
-              factorType: 'call',
-              provider: 'OKTA',
-              profile: {
-                phoneNumber: '+67212345678900',
-                phoneExtension: ''
-              },
-              stateToken: 'testStateToken'
-            }
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+              url: 'https://foo.com/api/v1/authn/factors',
+              data: {
+                factorType: 'call',
+                provider: 'OKTA',
+                profile: {
+                  phoneNumber: '+67212345678900',
+                  phoneExtension: ''
+                },
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
       itp('shows error and does not go to next step if error response', function () {
         return setupAndSendInvalidCode().then(function (test) {
@@ -276,132 +276,132 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           $.ajax.calls.reset();
           return sendCode(test, resEnrollSuccess, 'US', '6501231234');
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
-            data: {
-              factorType: 'call',
-              provider: 'OKTA',
-              profile: {
-                phoneNumber: '+16501231234',
-                phoneExtension: ''
-              },
-              stateToken: 'testStateToken'
-            }
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
+              data: {
+                factorType: 'call',
+                provider: 'OKTA',
+                profile: {
+                  phoneNumber: '+16501231234',
+                  phoneExtension: ''
+                },
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
       itp('uses send code button with validatePhone:false if user has retried with invalid phone number', function () {
         return setup()
-        .then(function (test) {
-          $.ajax.calls.reset();
-          return sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
-        })
-        .then(function (test) {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors',
-            data: {
-              factorType: 'call',
-              provider: 'OKTA',
-              profile: {
-                phoneNumber: '+68912345678',
-                phoneExtension: ''
-              },
-              stateToken: 'testStateToken'
-            }
-          });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            return sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+          })
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors',
+              data: {
+                factorType: 'call',
+                provider: 'OKTA',
+                profile: {
+                  phoneNumber: '+68912345678',
+                  phoneExtension: ''
+                },
+                stateToken: 'testStateToken'
+              }
+            });
 
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage())
-          .toEqual('The number you entered seems invalid. If the number is correct, please try again.');
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage())
+              .toEqual('The number you entered seems invalid. If the number is correct, please try again.');
 
-          $.ajax.calls.reset();
-          return sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors',
-            data: {
-              factorType: 'call',
-              provider: 'OKTA',
-              profile: {
-                phoneNumber: '+68912345678',
-                phoneExtension: '',
-                validatePhone: false
-              },
-              stateToken: 'testStateToken'
-            }
+            $.ajax.calls.reset();
+            return sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors',
+              data: {
+                factorType: 'call',
+                provider: 'OKTA',
+                profile: {
+                  phoneNumber: '+68912345678',
+                  phoneExtension: '',
+                  validatePhone: false
+                },
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
       itp('does not set validatePhone:false if the error is not a validation error (E0000098).', function () {
         return setup()
-        .then(function (test) {
-          $.ajax.calls.reset();
-          return sendCode(test, resEnrollError, 'PF', '12345678');
-        })
-        .then(function (test) {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors',
-            data: {
-              factorType: 'call',
-              provider: 'OKTA',
-              profile: {
-                phoneNumber: '+68912345678',
-                phoneExtension: ''
-              },
-              stateToken: 'testStateToken'
-            }
-          });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            return sendCode(test, resEnrollError, 'PF', '12345678');
+          })
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors',
+              data: {
+                factorType: 'call',
+                provider: 'OKTA',
+                profile: {
+                  phoneNumber: '+68912345678',
+                  phoneExtension: ''
+                },
+                stateToken: 'testStateToken'
+              }
+            });
 
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage())
-          .toEqual('Invalid Phone Number.');
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage())
+              .toEqual('Invalid Phone Number.');
 
-          $.ajax.calls.reset();
-          return sendCode(test, resEnrollError, 'PF', '12345678');
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors',
-            data: {
-              factorType: 'call',
-              provider: 'OKTA',
-              profile: {
-                phoneNumber: '+68912345678',
-                phoneExtension: ''
-              },
-              stateToken: 'testStateToken'
-            }
+            $.ajax.calls.reset();
+            return sendCode(test, resEnrollError, 'PF', '12345678');
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors',
+              data: {
+                factorType: 'call',
+                provider: 'OKTA',
+                profile: {
+                  phoneNumber: '+68912345678',
+                  phoneExtension: ''
+                },
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
       itp('uses resend and not enrollFactor when redial is clicked', function () {
         Util.speedUpDelay();
         return setupAndSendValidCode()
-        .then(function (test) {
-          $.ajax.calls.reset();
-          return tick(test);
-        })
-        .then(function (test) {
-          test.setNextResponse(resEnrollSuccess);
-          test.form.sendCodeButton().click();
-          return tick();
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g4/lifecycle/resend',
-            data: {
-              stateToken: 'testStateToken'
-            }
+          .then(function (test) {
+            $.ajax.calls.reset();
+            return tick(test);
+          })
+          .then(function (test) {
+            test.setNextResponse(resEnrollSuccess);
+            test.form.sendCodeButton().click();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g4/lifecycle/resend',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
       itp('if phone number is changed after enroll, resets the status to MFA_Enroll ' +
           'and then enrolls with updatePhone=true', function () {
@@ -415,33 +415,33 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           test.form.sendCodeButton().click();
           return tick(test);
         })
-        .then(function (test) {
-          expect($.ajax.calls.count()).toBe(2);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/previous',
-            data: { stateToken: 'testStateToken' }
-          });
-          Expect.isJsonPost($.ajax.calls.argsFor(1), {
-            url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
-            data: {
-              factorType: 'call',
-              provider: 'OKTA',
-              profile: {
-                phoneNumber: '+14151112222',
-                phoneExtension: ''
-              },
-              stateToken: 'testStateToken'
-            }
-          });
-          return tick(test);
-        })
-        .then(function (test) {
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/previous',
+              data: { stateToken: 'testStateToken' }
+            });
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+              url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
+              data: {
+                factorType: 'call',
+                provider: 'OKTA',
+                profile: {
+                  phoneNumber: '+14151112222',
+                  phoneExtension: ''
+                },
+                stateToken: 'testStateToken'
+              }
+            });
+            return tick(test);
+          })
+          .then(function (test) {
           // form wasn't rerendered
-          expect(test.form.phoneNumberField().val()).toEqual('4151112222');
-          expectCallingButton(test);
-          Expect.isVisible(test.form.codeField());
-          Expect.isVisible(test.form.submitButton());
-        });
+            expect(test.form.phoneNumberField().val()).toEqual('4151112222');
+            expectCallingButton(test);
+            Expect.isVisible(test.form.codeField());
+            Expect.isVisible(test.form.submitButton());
+          });
       });
       itp('submitting a number, then changing it, and then changing it back ' +
         'will still use the resend endpoint', function () {
@@ -455,29 +455,29 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           expectCallButton(test);
           return tick(test);
         })
-        .then(function (test) {
+          .then(function (test) {
           // change the number back to 'US'
-          enterPhone(test, 'US', '6501231234');
-          expectRedialButton(test);
-          return tick(test);
-        })
-        .then(function (test) {
+            enterPhone(test, 'US', '6501231234');
+            expectRedialButton(test);
+            return tick(test);
+          })
+          .then(function (test) {
           // resubmit the 'US' number
-          $.ajax.calls.reset();
-          test.setNextResponse(resEnrollSuccess);
-          test.form.sendCodeButton().click();
-          expectCallingButton(test);
-          return tick(test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g4/lifecycle/resend',
-            data: {
-              'stateToken': 'testStateToken'
-            }
+            $.ajax.calls.reset();
+            test.setNextResponse(resEnrollSuccess);
+            test.form.sendCodeButton().click();
+            expectCallingButton(test);
+            return tick(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g4/lifecycle/resend',
+              data: {
+                'stateToken': 'testStateToken'
+              }
+            });
           });
-        });
       });
       itp('shows divider', function () {
         return setupAndSendValidCode().then(function (test) {
@@ -505,37 +505,37 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       });
       itp('calls activate with the right params if passes validation', function () {
         return setupAndSendValidCode()
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setCode(123456);
-          test.setNextResponse(resEnrollSuccess);
-          test.form.submit();
-          return tick();
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g4/lifecycle/activate',
-            data: {
-              passCode: '123456',
-              stateToken: 'testStateToken'
-            }
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setCode(123456);
+            test.setNextResponse(resEnrollSuccess);
+            test.form.submit();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g4/lifecycle/activate',
+              data: {
+                passCode: '123456',
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
       itp('shows error if error response on verification', function () {
         return setupAndSendValidCode()
-        .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
-          test.setNextResponse(resActivateError);
-          test.form.setCode(123);
-          test.form.submit();
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('Your token doesn\'t match our records. Please try again.');
-        });
+          .then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse(resActivateError);
+            test.form.setCode(123);
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Your token doesn\'t match our records. Please try again.');
+          });
       });
     });
 

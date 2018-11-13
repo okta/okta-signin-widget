@@ -27,11 +27,11 @@ Expect.toBeA11yCompliant = function () {
   var deferred = protractor.promise.defer();
   if ('{{{CHECK_A11Y}}}' === 'true') {
     axe(browser.driver)
-    .analyze(function (result) {
-      textReporter(result, -1, textWriter);
-      junitReporter(result, makeFileName(result.url));
-      deferred.fulfill();
-    });
+      .analyze(function (result) {
+        textReporter(result, -1, textWriter);
+        junitReporter(result, makeFileName(result.url));
+        deferred.fulfill();
+      });
   } else {
     deferred.fulfill();
   }

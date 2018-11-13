@@ -56,19 +56,19 @@ define([
           creds.password = this.model.get('password');
         }
         this.settings.processCreds(creds)
-        .then(function() {
-          if (!self.settings.get('features.deviceFingerprinting')) {
-            return;
-          }
-          return DeviceFingerprint.generateDeviceFingerprint(self.settings.get('baseUrl'), self.$el)
-          .then(function (fingerprint) {
-            self.options.appState.set('deviceFingerprint', fingerprint);
+          .then(function() {
+            if (!self.settings.get('features.deviceFingerprinting')) {
+              return;
+            }
+            return DeviceFingerprint.generateDeviceFingerprint(self.settings.get('baseUrl'), self.$el)
+              .then(function (fingerprint) {
+                self.options.appState.set('deviceFingerprint', fingerprint);
+              })
+              .fail(function () {
+                // Keep going even if device fingerprint fails
+              });
           })
-          .fail(function () {
-            // Keep going even if device fingerprint fails
-          });
-        })
-        .then(_.bind(this.model.save, this.model));
+          .then(_.bind(this.model.save, this.model));
       });
 
       this.stateEnableChange();

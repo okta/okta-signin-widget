@@ -80,18 +80,18 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     // not want to redirect away from the page to convert the token.
     else if (oauthParams.sessionToken) {
       authClient.token.getWithoutPrompt(oauthParams, extraOptions)
-      .then(success)
-      .fail(error)
-      .done();
+        .then(success)
+        .fail(error)
+        .done();
     }
 
     // Default flow if logging in with an external IDP - opens a popup and
     // gets the token from a postMessage response.
     else {
       authClient.token.getWithPopup(oauthParams, extraOptions)
-      .then(success)
-      .fail(error)
-      .done();
+        .then(success)
+        .fail(error)
+        .done();
     }
   };
 

@@ -51,36 +51,36 @@ function (Okta, FormController, FormType, FooterSignout, Q, FactorUtil, FidoUtil
           });
           var self = this;
           return factor.verify()
-          .then(function (transaction) {
-            var factorData = transaction.factor;
-            var appId = factorData.profile.appId;
-            var registeredKeys = [{version: FidoUtil.getU2fVersion(), keyHandle: factorData.profile.credentialId }];
-            self.trigger('request');
+            .then(function (transaction) {
+              var factorData = transaction.factor;
+              var appId = factorData.profile.appId;
+              var registeredKeys = [{version: FidoUtil.getU2fVersion(), keyHandle: factorData.profile.credentialId }];
+              self.trigger('request');
 
-            var deferred = Q.defer();
-            u2f.sign(appId, factorData.challenge.nonce, registeredKeys, function (data) {
-              self.trigger('errors:clear');
-              if (data.errorCode && data.errorCode !== 0) {
-                var isOneFactor = self.options.appState.get('factors').length === 1;
-                deferred.reject({
-                  xhr: {
-                    responseJSON: {
-                      errorSummary: FidoUtil.getU2fVerifyErrorMessageByCode(data.errorCode, isOneFactor)
+              var deferred = Q.defer();
+              u2f.sign(appId, factorData.challenge.nonce, registeredKeys, function (data) {
+                self.trigger('errors:clear');
+                if (data.errorCode && data.errorCode !== 0) {
+                  var isOneFactor = self.options.appState.get('factors').length === 1;
+                  deferred.reject({
+                    xhr: {
+                      responseJSON: {
+                        errorSummary: FidoUtil.getU2fVerifyErrorMessageByCode(data.errorCode, isOneFactor)
+                      }
                     }
-                  }
-                });
-              } else {
-                var rememberDevice = !!self.get('rememberDevice');
-                return factor.verify({
-                  clientData: data.clientData,
-                  signatureData: data.signatureData,
-                  rememberDevice: rememberDevice
-                })
-                .then(deferred.resolve);
-              }
+                  });
+                } else {
+                  var rememberDevice = !!self.get('rememberDevice');
+                  return factor.verify({
+                    clientData: data.clientData,
+                    signatureData: data.signatureData,
+                    rememberDevice: rememberDevice
+                  })
+                    .then(deferred.resolve);
+                }
+              });
+              return deferred.promise;
             });
-            return deferred.promise;
-          });
         });
       }
     },

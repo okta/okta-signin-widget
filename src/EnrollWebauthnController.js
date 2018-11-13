@@ -152,8 +152,8 @@ function (Okta, FormType, FormController, CryptoUtil, FidoUtil, webauthn, Footer
             errorMessageKey = 'u2f.error.factorNotSupported.oneFactor';
           }
           children.push(FormType.View(
-              {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
-              {selector: '.o-form-error-container'}
+            {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
+            {selector: '.o-form-error-container'}
           ));
         }
 

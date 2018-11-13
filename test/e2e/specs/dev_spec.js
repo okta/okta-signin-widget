@@ -99,15 +99,15 @@ describe('Dev Mode flows', function() {
 
   function expectToFindLogMessage(text) {
     browser.manage().logs().get('browser')
-    .then(function(logs) {
-      var log = logs.find(function(entry) {
-        var message = text;
-        return entry.message.includes(message) === true;
+      .then(function(logs) {
+        var log = logs.find(function(entry) {
+          var message = text;
+          return entry.message.includes(message) === true;
+        });
+        expect(log).toBeDefined();
+      })
+      .catch(function(err) {
+        expect(err).toBeUndefined();
       });
-      expect(log).toBeDefined();
-    })
-    .catch(function(err) {
-      expect(err).toBeUndefined();
-    });
   }
 });

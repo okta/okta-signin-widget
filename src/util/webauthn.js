@@ -28,13 +28,13 @@ function (Okta, Q, FidoUtil) {
     });
 
     var promise = window.msCredentials.makeCredential(accountInfo, cryptoParams, challenge)
-    .then(function (cred) {
-      return Object.freeze({
-        credential: {id: cred.id},
-        publicKey: JSON.parse(cred.publicKey),
-        attestation: cred.attestation
+      .then(function (cred) {
+        return Object.freeze({
+          credential: {id: cred.id},
+          publicKey: JSON.parse(cred.publicKey),
+          attestation: cred.attestation
+        });
       });
-    });
 
     return adaptToOkta(promise);
   }
@@ -46,15 +46,15 @@ function (Okta, Q, FidoUtil) {
     var filters = {accept: accept};
 
     var promise = window.msCredentials.getAssertion(challenge, filters)
-    .then(function (attestation) {
-      var signature = attestation.signature;
-      return Object.freeze({
-        credential: {id: attestation.id},
-        clientData: signature.clientData,
-        authenticatorData: signature.authnrData,
-        signature: signature.signature
+      .then(function (attestation) {
+        var signature = attestation.signature;
+        return Object.freeze({
+          credential: {id: attestation.id},
+          clientData: signature.clientData,
+          authenticatorData: signature.authnrData,
+          signature: signature.signature
+        });
       });
-    });
 
     return adaptToOkta(promise);
   }

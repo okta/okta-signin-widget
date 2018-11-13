@@ -60,14 +60,14 @@ define([
             return transaction.activate();
           }
         })
-        .then(function (trans) {
-          var res = trans.data;
-          if (res.status === 'MFA_ENROLL_ACTIVATE' && res.factorResult === 'WAITING') {
+          .then(function (trans) {
+            var res = trans.data;
+            if (res.status === 'MFA_ENROLL_ACTIVATE' && res.factorResult === 'WAITING') {
             // defer the render here to have a lastResponse set in AppState
             // so that we get new QRcode rendered
-            _.defer(_.bind(self.render, self));
-          }
-        });
+              _.defer(_.bind(self.render, self));
+            }
+          });
       }
     },
 

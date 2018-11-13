@@ -24,8 +24,8 @@ define([
   'sandbox'
 ],
 function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
-          Router, BrowserFeatures, DeviceFingerprint, Errors, Expect, resSecurityImage,
-          resSecurityImageFail, resSuccessIWA, resSuccessSAML, resSuccessOktaIDP, resError, resPasswordlessUnauthenticated, $sandbox) {
+  Router, BrowserFeatures, DeviceFingerprint, Errors, Expect, resSecurityImage,
+  resSecurityImageFail, resSuccessIWA, resSuccessSAML, resSuccessOktaIDP, resError, resPasswordlessUnauthenticated, $sandbox) {
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
@@ -90,12 +90,12 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
 
   function setupPasswordlessAuth(requests) {
     return setup({ 'features.passwordlessAuth': true }, requests)
-    .then(function(test){
-      Util.mockRouterNavigate(test.router);
-      test.setNextWebfingerResponse(resSuccessOktaIDP);
-      test.setNextResponse(resPasswordlessUnauthenticated);
-      return tick(test);
-    });
+      .then(function(test){
+        Util.mockRouterNavigate(test.router);
+        test.setNextWebfingerResponse(resSuccessOktaIDP);
+        test.setNextResponse(resPasswordlessUnauthenticated);
+        return tick(test);
+      });
   }
 
   function setupRegistrationButton(featuresRegistration, registrationObj) {
@@ -110,16 +110,16 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
 
   function waitForBeaconChange(test) {
     return tick() //wait to read value of user input
-    .then(tick)   //wait to receive ajax response
-    .then(tick)   //wait for animation (TODO: verify if needed)
-    .then(function () { return test; });
+      .then(tick)   //wait to receive ajax response
+      .then(tick)   //wait for animation (TODO: verify if needed)
+      .then(function () { return test; });
   }
 
   function waitForWebfingerCall(test) {
     return tick() // wait for the webfinger call cycle finish (promise -> then -> final)
-    .then(function () {
-      return Expect.waitForSpyCall(test.ac.webfinger, test);
-    });
+      .then(function () {
+        return Expect.waitForSpyCall(test.ac.webfinger, test);
+      });
   }
 
   function transformUsername(name) {
@@ -421,18 +421,18 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
       });
       itp('toggles "focused-input" css class on focus in and focus out', function () {
         return setup()
-        .then(function (test) {
-          test.form.usernameField().focus();
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
-          test.form.usernameField().focusout();
-          return tick(test);
-        })
-        .then(function (test) {
-          expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
-        });
+          .then(function (test) {
+            test.form.usernameField().focus();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+            test.form.usernameField().focusout();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+          });
       });
     });
 
@@ -451,20 +451,20 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
       });
       itp('does not call transformUsername while loading security image', function () {
         return setup({ features: { securityImage: true }, transformUsername: transformUsername })
-        .then(function (test) {
-          spyOn(test.router.settings, 'transformUsername');
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect(test.router.settings.transformUsername.calls.count()).toBe(0);
-          expect($.ajax.calls.count()).toBe(1);
-          expect($.ajax.calls.argsFor(0)[0]).toEqual({
-            url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
-            dataType: 'json'
+          .then(function (test) {
+            spyOn(test.router.settings, 'transformUsername');
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect(test.router.settings.transformUsername.calls.count()).toBe(0);
+            expect($.ajax.calls.count()).toBe(1);
+            expect($.ajax.calls.argsFor(0)[0]).toEqual({
+              url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
+              dataType: 'json'
+            });
           });
-        });
       });
       itp('changs the suffix of the username', function () {
         return setupWithTransformUsername().then(function (test) {
@@ -486,12 +486,12 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           test.form.submit();
           return waitForWebfingerCall(test);
         })
-        .then(function (test) {
-          expect(test.ac.webfinger).toHaveBeenCalledWith({
-            resource: 'okta:acct:testuser@clouditude.net',
-            requestContext: undefined
+          .then(function (test) {
+            expect(test.ac.webfinger).toHaveBeenCalledWith({
+              resource: 'okta:acct:testuser@clouditude.net',
+              requestContext: undefined
+            });
           });
-        });
       });
     });
 
@@ -503,32 +503,32 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           return deferred.promise;
         });
         return setup({ features: { securityImage: true, deviceFingerprinting: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+          });
       });
       itp('does not contain fingerprint header in get security image request if feature is disabled', function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
-          var ajaxArgs = $.ajax.calls.argsFor(0);
-          expect(ajaxArgs[0].headers).toBeUndefined();
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers).toBeUndefined();
+          });
       });
     });
 
@@ -537,45 +537,45 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
       Expect.describe('beacon loading', function () {
         itp('shows beacon-loading animation when authClient webfinger is called', function () {
           return setup({ features: { securityImage: true }})
-          .then(function (test) {
-            test.securityBeacon = test.router.header.currentBeacon.$el;
-            test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser@clouditude.net');
-            return waitForBeaconChange(test);
-          })
-          .then(function (test) {
-            spyOn(test.securityBeacon, 'toggleClass');
-            test.setNextWebfingerResponse(resSuccessSAML);
-            test.form.submit();
-            return waitForWebfingerCall(test);
-          })
-          .then(function (test) {
-            var spyCalls = test.securityBeacon.toggleClass.calls;
-            expect(spyCalls.count()).toBe(2);
-            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-          });
+            .then(function (test) {
+              test.securityBeacon = test.router.header.currentBeacon.$el;
+              test.setNextResponse(resSecurityImage);
+              test.form.setUsername('testuser@clouditude.net');
+              return waitForBeaconChange(test);
+            })
+            .then(function (test) {
+              spyOn(test.securityBeacon, 'toggleClass');
+              test.setNextWebfingerResponse(resSuccessSAML);
+              test.form.submit();
+              return waitForWebfingerCall(test);
+            })
+            .then(function (test) {
+              var spyCalls = test.securityBeacon.toggleClass.calls;
+              expect(spyCalls.count()).toBe(2);
+              expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+              expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+            });
         });
         itp('does not show beacon-loading animation when authClient webfinger fails', function () {
           return setup({ features: { securityImage: true }})
-          .then(function (test) {
-            test.securityBeacon = test.router.header.currentBeacon.$el;
-            test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser@clouditude.net');
-            return waitForBeaconChange(test);
-          })
-          .then(function (test) {
-            Q.stopUnhandledRejectionTracking();
-            spyOn(test.securityBeacon, 'toggleClass');
-            test.setNextWebfingerResponse(resError, true);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
-            var spyCalls = test.securityBeacon.toggleClass.calls;
-            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-          });
+            .then(function (test) {
+              test.securityBeacon = test.router.header.currentBeacon.$el;
+              test.setNextResponse(resSecurityImage);
+              test.form.setUsername('testuser@clouditude.net');
+              return waitForBeaconChange(test);
+            })
+            .then(function (test) {
+              Q.stopUnhandledRejectionTracking();
+              spyOn(test.securityBeacon, 'toggleClass');
+              test.setNextWebfingerResponse(resError, true);
+              test.form.submit();
+              return Expect.waitForFormError(test.form, test);
+            })
+            .then(function (test) {
+              var spyCalls = test.securityBeacon.toggleClass.calls;
+              expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+              expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+            });
         });
         itp('shows beacon-loading animation when webfinger is submitted (no security image)', function () {
           return setup().then(function (test) {
@@ -584,9 +584,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
             test.form.submit();
             return waitForWebfingerCall(test);
           })
-          .then(function(test) {
-            expect(test.beacon.isLoadingBeacon()).toBe(true);
-          });
+            .then(function(test) {
+              expect(test.beacon.isLoadingBeacon()).toBe(true);
+            });
         });
         itp('does not show beacon-loading animation when webfinger fails (no security image)', function () {
           return setup().then(function (test) {
@@ -596,163 +596,163 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
-            expect(test.beacon.isLoadingBeacon()).toBe(false);
-            expect(test.beacon.beacon().length).toBe(0);
-          });
+            .then(function (test) {
+              expect(test.beacon.isLoadingBeacon()).toBe(false);
+              expect(test.beacon.beacon().length).toBe(0);
+            });
         });
       });
       itp('does not make securityImage requests if features.securityImage is false', function () {
         return setup()
-        .then(function (test) {
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(0);
-        });
+          .then(function (test) {
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(0);
+          });
       });
       itp('has default security image on page load and no rememberMe', function () {
         return setup({ features: { securityImage: true }})
-        .then(waitForBeaconChange)
-        .then(function (test) {
-          expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
-          expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
-          expect(test.form.securityBeacon().css('background-image')).toBe('none');
-        });
+          .then(waitForBeaconChange)
+          .then(function (test) {
+            expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
+            expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
+            expect(test.form.securityBeacon().css('background-image')).toBe('none');
+          });
       });
       itp('updates security beacon when user enters correct username', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect($.ajax.calls.count()).toBe(1);
-          expect($.ajax.calls.argsFor(0)[0]).toEqual({
-            url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
-            dataType: 'json'
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(1);
+            expect($.ajax.calls.argsFor(0)[0]).toEqual({
+              url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
+              dataType: 'json'
+            });
+            expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
+            expect(test.form.accessibilityText()).toBe('a single pixel');
           });
-          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
-          expect(test.form.accessibilityText()).toBe('a single pixel');
-        });
       });
       itp('waits for username field to lose focus before fetching the security image', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImage);
-          test.form.editingUsername('te');
-          test.form.editingUsername('testu');
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.editingUsername('te');
+            test.form.editingUsername('testu');
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+          });
       });
       itp('updates security beacon to show the new user image when user enters unfamiliar username', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect(test.form.securityBeacon()[0].className).toMatch('new-user');
-          expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
-          expect(test.form.securityBeacon().css('background-image')).toBe('none');
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImageFail);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect(test.form.securityBeacon()[0].className).toMatch('new-user');
+            expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
+            expect(test.form.securityBeacon().css('background-image')).toBe('none');
+          });
       });
       itp('shows an unknown user message when user enters unfamiliar username', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo.com from this browser×');
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImageFail);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo.com from this browser×');
+          });
       });
       itp('does not show anti-phishing message if security image is hidden', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.securityBeaconContainer().hide();
-          spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.form.setUsername('testuser@clouditude.net');
-          $(window).trigger('resize');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: false}));
-          test.form.securityBeaconContainer().show();
-          $(window).trigger('resize');
-          return tick(test);
-        })
-        .then(function () {
-          expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: true}));
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImageFail);
+            test.form.securityBeaconContainer().hide();
+            spyOn($.qtip.prototype, 'toggle').and.callThrough();
+            test.form.setUsername('testuser@clouditude.net');
+            $(window).trigger('resize');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: false}));
+            test.form.securityBeaconContainer().show();
+            $(window).trigger('resize');
+            return tick(test);
+          })
+          .then(function () {
+            expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: true}));
+          });
       });
       itp('show anti-phishing message if security image become visible', function () {
         return setup({ features: { securityImage: true }})
-        .then(function (test) {
-          spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: true}));
-          test.form.securityBeaconContainer().hide();
-          $(window).trigger('resize');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: false}));
-          test.form.securityBeaconContainer().show();
-          $(window).trigger('resize');
-          return waitForBeaconChange(test);
-        })
-        .then(function () {
-          expect($.qtip.prototype.toggle.calls.argsFor(2)).toEqual(jasmine.objectContaining({0: true}));
-        });
+          .then(function (test) {
+            spyOn($.qtip.prototype, 'toggle').and.callThrough();
+            test.setNextResponse(resSecurityImageFail);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: true}));
+            test.form.securityBeaconContainer().hide();
+            $(window).trigger('resize');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: false}));
+            test.form.securityBeaconContainer().show();
+            $(window).trigger('resize');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.qtip.prototype.toggle.calls.argsFor(2)).toEqual(jasmine.objectContaining({0: true}));
+          });
       });
       itp('guards against XSS when showing the anti-phishing message', function () {
         return setup({
           baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
           features: { securityImage: true }
         })
-        .then(function (test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo<i>xss< from this browser×');
-        });
+          .then(function (test) {
+            test.setNextResponse(resSecurityImageFail);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect(test.form.securityImageTooltipText()).toEqual('This is the first time you are connecting to foo<i>xss< from this browser×');
+          });
       });
       itp('removes anti-phishing message if help link is clicked', function () {
         return setup({
           baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
           features: { securityImage: true, selfServiceUnlock: true }
         })
-        .then(function (test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
+          .then(function (test) {
+            test.setNextResponse(resSecurityImageFail);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
           // Tooltip exists
-          expect(test.form.isSecurityImageTooltipDestroyed()).toBe(false);
-          spyOn(test.router, 'navigate');
-          test.form.helpFooter().click();
-          test.form.unlockLink().click();
-          expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
-          // Verify tooltip is gone
-          expect(test.form.isSecurityImageTooltipDestroyed()).toBe(true);
-        });
+            expect(test.form.isSecurityImageTooltipDestroyed()).toBe(false);
+            spyOn(test.router, 'navigate');
+            test.form.helpFooter().click();
+            test.form.unlockLink().click();
+            expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
+            // Verify tooltip is gone
+            expect(test.form.isSecurityImageTooltipDestroyed()).toBe(true);
+          });
       });
       itp('updates security beacon immediately if rememberMe is available', function () {
         Util.mockGetCookie('ln', 'testuser@clouditude.net');
@@ -763,33 +763,33 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           }
         };
         return setup(options, [resSecurityImage])
-        .then(waitForBeaconChange)
-        .then(function (test) {
-          expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
-          expect(test.form.accessibilityText()).toBe('a single pixel');
-        });
+          .then(waitForBeaconChange)
+          .then(function (test) {
+            expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
+            expect(test.form.accessibilityText()).toBe('a single pixel');
+          });
       });
       itp('calls globalErrorFn if cors is not enabled and security image request is made', function () {
         spyOn(BrowserFeatures, 'corsIsNotEnabled').and.returnValue(true);
         return setup({
           features: { securityImage: true }
         })
-        .then(function (test) {
-          test.setNextResponse({
-            responseType: 'json',
-            response: '',
-            status: 0
+          .then(function (test) {
+            test.setNextResponse({
+              responseType: 'json',
+              response: '',
+              status: 0
+            });
+            spyOn(test.router.settings, 'callGlobalError');
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
+            expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
+            expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
+            expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
           });
-          spyOn(test.router.settings, 'callGlobalError');
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function (test) {
-          var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
-          expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
-          expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
-          expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
-        });
       });
       itp('has username in field if rememberMe is available', function () {
         Util.mockGetCookie('ln', 'testuser@clouditude.net');
@@ -897,52 +897,52 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
       });
       itp('calls authClient webfinger with correct values when submitted', function () {
         return setup({'idpDiscovery.requestContext': 'http://rain.okta1.com:1802/app/UserHome'})
-        .then(function (test) {
-          test.form.setUsername(' testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccessSAML);
-          test.form.submit();
-          return waitForWebfingerCall(test);
-        })
-        .then(function (test) {
-          expect(test.form.isDisabled()).toBe(true);
-          expect(test.ac.webfinger).toHaveBeenCalledWith({
-            resource: 'okta:acct:testuser@clouditude.net',
-            requestContext: 'http://rain.okta1.com:1802/app/UserHome'
+          .then(function (test) {
+            test.form.setUsername(' testuser@clouditude.net');
+            test.setNextWebfingerResponse(resSuccessSAML);
+            test.form.submit();
+            return waitForWebfingerCall(test);
+          })
+          .then(function (test) {
+            expect(test.form.isDisabled()).toBe(true);
+            expect(test.ac.webfinger).toHaveBeenCalledWith({
+              resource: 'okta:acct:testuser@clouditude.net',
+              requestContext: 'http://rain.okta1.com:1802/app/UserHome'
+            });
           });
-        });
       });
       itp('does not call processCreds function before saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCreds');
         return setup({
           processCreds: processCredsSpy
         })
-        .then(function (test) {
-          test.form.setUsername('testuser@clouditude.net');
-          test.setNextWebfingerResponse(resSuccessSAML);
-          test.form.submit();
-          return waitForWebfingerCall(test);
-        })
-        .then(function(test) {
-          expect(processCredsSpy.calls.count()).toBe(0);
-          expect(test.ac.webfinger).toHaveBeenCalled();
-        });
+          .then(function (test) {
+            test.form.setUsername('testuser@clouditude.net');
+            test.setNextWebfingerResponse(resSuccessSAML);
+            test.form.submit();
+            return waitForWebfingerCall(test);
+          })
+          .then(function(test) {
+            expect(processCredsSpy.calls.count()).toBe(0);
+            expect(test.ac.webfinger).toHaveBeenCalled();
+          });
       });
       itp('sets rememberMe cookie if rememberMe is enabled and checked on submit', function () {
         var cookieSpy = Util.mockSetCookie();
         return setup({ 'features.rememberMe': true })
-        .then(function (test) {
-          test.form.setUsername('testuser@clouditude.net ');
-          test.form.setRememberMe(true);
-          test.setNextWebfingerResponse(resSuccessSAML);
-          test.form.submit();
-          return waitForWebfingerCall(test);
-        })
-        .then(function () {
-          expect(cookieSpy).toHaveBeenCalledWith('ln', 'testuser@clouditude.net', {
-            expires: 365,
-            path: '/'
+          .then(function (test) {
+            test.form.setUsername('testuser@clouditude.net ');
+            test.form.setRememberMe(true);
+            test.setNextWebfingerResponse(resSuccessSAML);
+            test.form.submit();
+            return waitForWebfingerCall(test);
+          })
+          .then(function () {
+            expect(cookieSpy).toHaveBeenCalledWith('ln', 'testuser@clouditude.net', {
+              expires: 365,
+              path: '/'
+            });
           });
-        });
       });
       itp('removes rememberMe cookie if called with existing username and unchecked', function () {
         Util.mockGetCookie('ln', 'testuser@clouditude.net');
@@ -954,104 +954,104 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           test.form.submit();
           return waitForWebfingerCall(test);
         })
-        .then(function () {
-          expect(removeCookieSpy).toHaveBeenCalledWith('ln', { path: '/' });
-        });
+          .then(function () {
+            expect(removeCookieSpy).toHaveBeenCalledWith('ln', { path: '/' });
+          });
       });
       itp('removes rememberMe cookie if webfinger failed (400)', function () {
         var removeCookieSpy = Util.mockRemoveCookie();
         return setup()
-        .then(function (test) {
-          test.form.setUsername('testuser@clouditude.net');
-          test.form.setRememberMe(true);
-          test.setNextWebfingerResponse(resError, true);
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function () {
-          expect(removeCookieSpy).toHaveBeenCalledWith('ln', { path: '/' });
-        });
+          .then(function (test) {
+            test.form.setUsername('testuser@clouditude.net');
+            test.form.setRememberMe(true);
+            test.setNextWebfingerResponse(resError, true);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function () {
+            expect(removeCookieSpy).toHaveBeenCalledWith('ln', { path: '/' });
+          });
       });
       itp('shows an error if authClient returns with an error', function () {
         return setup()
-        .then(function (test) {
-          test.setNextWebfingerResponse(resError, true);
-          test.form.setUsername('testuser@clouditude.net');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage())
-            .toBe('We found some errors. Please review the form and make corrections.');
-        });
+          .then(function (test) {
+            test.setNextWebfingerResponse(resError, true);
+            test.form.setUsername('testuser@clouditude.net');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage())
+              .toBe('We found some errors. Please review the form and make corrections.');
+          });
       });
     });
 
     Expect.describe('IDP Discovery', function () {
       itp('renders primary auth when idp is okta', function () {
         return setup()
-        .then(function (test) {
-          Util.mockRouterNavigate(test.router);
-          test.setNextWebfingerResponse(resSuccessOktaIDP);
-          test.form.setUsername('testuser@clouditude.net');
-          test.form.submit();
-          return Expect.waitForPrimaryAuth(test);
-        })
-        .then(function (test) {
-          expect(test.router.appState.get('disableUsername')).toBe(true);
-          expect(test.router.navigate).toHaveBeenCalledWith('signin', {trigger: true});
-        });
+          .then(function (test) {
+            Util.mockRouterNavigate(test.router);
+            test.setNextWebfingerResponse(resSuccessOktaIDP);
+            test.form.setUsername('testuser@clouditude.net');
+            test.form.submit();
+            return Expect.waitForPrimaryAuth(test);
+          })
+          .then(function (test) {
+            expect(test.router.appState.get('disableUsername')).toBe(true);
+            expect(test.router.navigate).toHaveBeenCalledWith('signin', {trigger: true});
+          });
       });
       itp('renders primary auth when idp is okta with shortname', function () {
         return setup()
-        .then(function (test) {
-          Util.mockRouterNavigate(test.router);
-          test.setNextWebfingerResponse(resSuccessOktaIDP);
-          test.form.setUsername('testuser');
-          test.form.submit();
-          return Expect.waitForPrimaryAuth(test);
-        })
-        .then(function (test) {
-          expect(test.router.appState.get('disableUsername')).toBe(true);
-          expect(test.router.navigate).toHaveBeenCalledWith('signin', {trigger: true});
-        });
+          .then(function (test) {
+            Util.mockRouterNavigate(test.router);
+            test.setNextWebfingerResponse(resSuccessOktaIDP);
+            test.form.setUsername('testuser');
+            test.form.submit();
+            return Expect.waitForPrimaryAuth(test);
+          })
+          .then(function (test) {
+            expect(test.router.appState.get('disableUsername')).toBe(true);
+            expect(test.router.navigate).toHaveBeenCalledWith('signin', {trigger: true});
+          });
       });
       itp('redirects to idp for SAML idps', function () {
         spyOn(SharedUtil, 'redirect');
         return setup()
-        .then(function (test) {
-          test.setNextWebfingerResponse(resSuccessSAML);
-          test.form.setUsername(' testuser@clouditude.net ');
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function (test) {
-          var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
-          expect(redirectToIdp).toEqual(jasmine.any(Function));
-          redirectToIdp('https://foo.com');
-          expect(SharedUtil.redirect).toHaveBeenCalledWith(
-            'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
-          );
-        });
+          .then(function (test) {
+            test.setNextWebfingerResponse(resSuccessSAML);
+            test.form.setUsername(' testuser@clouditude.net ');
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
+            var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
+            expect(redirectToIdp).toEqual(jasmine.any(Function));
+            redirectToIdp('https://foo.com');
+            expect(SharedUtil.redirect).toHaveBeenCalledWith(
+              'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
+            );
+          });
       });
       itp('redirects to idp for idps other than okta/saml', function () {
         spyOn(SharedUtil, 'redirect');
         return setup()
-        .then(function (test) {
-          test.setNextWebfingerResponse(resSuccessIWA);
-          test.form.setUsername('testuser@clouditude.net');
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function (test) {
-          var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
-          expect(redirectToIdp).toEqual(jasmine.any(Function));
-          redirectToIdp('https://foo.com');
-          expect(SharedUtil.redirect).toHaveBeenCalledWith(
-            'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com'
-          );
-        });
+          .then(function (test) {
+            test.setNextWebfingerResponse(resSuccessIWA);
+            test.form.setUsername('testuser@clouditude.net');
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
+            var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
+            expect(redirectToIdp).toEqual(jasmine.any(Function));
+            redirectToIdp('https://foo.com');
+            expect(SharedUtil.redirect).toHaveBeenCalledWith(
+              'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com'
+            );
+          });
       });
     });
 
@@ -1063,19 +1063,19 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           test.form.submit();
           return Expect.waitForMfaVerify(test);
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
-            data: {
-              username: 'testuser@test.com',
-              options: {
-                warnBeforePasswordExpired: true,
-                multiOptionalFactorEnroll: false
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn',
+              data: {
+                username: 'testuser@test.com',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
-            }
+            });
           });
-        });
       });
       itp('shows MfaVerify view after authClient.signIn returns with UNAUTHENTICATED', function () {
         return setupPasswordlessAuth().then(function (test) {
@@ -1083,9 +1083,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           test.form.submit();
           return Expect.waitForMfaVerify(test);
         })
-        .then(function (test) {
-          expect(test.form.el('factor-question').length).toEqual(1);
-        });
+          .then(function (test) {
+            expect(test.form.el('factor-question').length).toEqual(1);
+          });
       });
     });
 

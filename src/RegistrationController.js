@@ -86,9 +86,9 @@ function (
           settings: self.model.appState.settings
         });
         loginModel.loginWithActivationToken(this.model.get('activationToken'))
-        .then(function (transaction) {
-          self.model.trigger('setTransaction', transaction);
-        });
+          .then(function (transaction) {
+            self.model.trigger('setTransaction', transaction);
+          });
       } else {
         // register via activation email
         this.model.appState.set('username', this.model.get('email'));

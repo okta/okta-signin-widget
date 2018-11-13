@@ -48,16 +48,16 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
             factorType: this.get('factorType')
           });
           return factor.verify(data)
-          .then((trans) => {
-            setTransaction(trans);
-            var url = this.appState.get('verifyCustomFactorRedirectUrl');
-            if(url !== null) {
-              Util.redirect(url);
-            }
-          })
-          .fail(function (err) {
-            throw err;
-          });
+            .then((trans) => {
+              setTransaction(trans);
+              var url = this.appState.get('verifyCustomFactorRedirectUrl');
+              if(url !== null) {
+                Util.redirect(url);
+              }
+            })
+            .fail(function (err) {
+              throw err;
+            });
         });
       }
     },
