@@ -1,5 +1,4 @@
-/* global __dirname */
-/* global module */
+/* global __dirname, module */
 
 const path = require('path');
 const webpackConfig = require('./webpack.test.config.js');
