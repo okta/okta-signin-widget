@@ -1,12 +1,12 @@
 module.exports = {
-  "env": {
-    "node": true,
-    "jasmine": true
+  'env': {
+    'node': true,
+    'jasmine': true
   },
-  "rules": {
-    "max-len": 0,
-    "complexity": 0,
-    "max-params": 0,
-    "max-statements": 0
+  'rules': {
+    'max-len': 0,
+    'complexity': 0,
+    'max-params': 0,
+    'max-statements': 0
   }
 }
