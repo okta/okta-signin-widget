@@ -115,44 +115,44 @@ The widget source files and assets will be installed to `node_modules/@okta/okta
 
 ```bash
 node_modules/@okta/okta-signin-widget/dist/
-  css/
-    # Main CSS file for widget styles. Try not to override the classes in this
-    # file when creating a custom theme - the classes/elements are subject to
-    # change between releases
-    okta-sign-in.min.css
-
-    # Example theme that you can use as a template to create your own custom theme
-    okta-theme.css
-
-  # Base font and image files that are used in rendering the widget
-  font/
-
-  img/
-
-  js/
-    # CDN JS file that exports the OktaSignIn object in UMD format. This is
-    # packaged with everything needed to run the widget, including 3rd party
-    # vendor files.
-    okta-sign-in.min.js
-
-    # Main entry file that is used in the npm require(@okta/okta-signin-widget)
-    # flow. This does not package 3rd party dependencies - these are pulled
-    # down through `npm install` (which allows you to use your own version of
-    # jquery, etc).
-    okta-sign-in.entry.js
-
-    # Development version of okta-sign-in.min.js. Equipped with helpful
-    # console warning messages for common configuration errors.
-    okta-sign-in.js
-
-  # Localized strings that are used to display all text and labels in the
-  # widget. Three output formats are included - json, jsonp, and properties
-  labels/
-
-  # Sass files that are used to generate the widget css. If you are already
-  # using Sass in your project, you can include these helper files to make
-  # generating your custom theme easier
-  sass/
+├── css/
+│   │   # Main CSS file for widget styles. Try not to override the classes in this
+│   │   # file when creating a custom theme - the classes/elements are subject to
+│   │   # change between releases
+│   ├── okta-sign-in.min.css
+│   │ 
+│   │   # Example theme that you can use as a template to create your own custom theme
+│   └── okta-theme.css
+│
+│   # Base font and image files that are used in rendering the widget
+├── font/
+│
+├── img/
+│
+├── js/
+│   │   # CDN JS file that exports the OktaSignIn object in UMD format. This is
+│   │   # packaged with everything needed to run the widget, including 3rd party
+│   │   # vendor files.
+│   ├── okta-sign-in.min.js
+│   │
+│   │   # Main entry file that is used in the npm require(@okta/okta-signin-widget)
+│   │   # flow. This does not package 3rd party dependencies - these are pulled
+│   │   # down through `npm install` (which allows you to use your own version of
+│   │   # jquery, etc).
+│   ├── okta-sign-in.entry.js
+│   │ 
+│   │   # Development version of okta-sign-in.min.js. Equipped with helpful
+│   │   # console warning messages for common configuration errors.
+│   └── okta-sign-in.js
+│
+│    # Localized strings that are used to display all text and labels in the
+│    # widget. Three output formats are included - json, jsonp, and properties
+├── labels/
+│
+│   # Sass files that are used to generate the widget css. If you are already
+│   # using Sass in your project, you can include these helper files to make
+│   # generating your custom theme easier
+└── sass/
 ```
 
 After installing:
