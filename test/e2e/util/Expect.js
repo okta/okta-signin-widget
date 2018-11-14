@@ -13,7 +13,7 @@ var _ = require('lodash'),
     JUNIT_FOLDER = ROOT_FOLDER + 'junit/',
     TEXT_FOLDER = ROOT_FOLDER + 'text/';
 
-function makeFileName(url) {
+function makeFileName (url) {
   return JUNIT_FOLDER + url.split('://').pop().replace(/[.:/]/g, '-') + _.uniqueId('_') + '.xml';
 }
 

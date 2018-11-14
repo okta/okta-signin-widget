@@ -31,15 +31,15 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
     }
   };
 
-  function isCallFactor(factorType) {
+  function isCallFactor (factorType) {
     return factorType === 'call';
   }
 
-  function getClassName(factorType) {
+  function getClassName (factorType) {
     return isCallFactor(factorType) ? 'enroll-call' : 'enroll-sms';
   }
 
-  function sendCode(e) {
+  function sendCode (e) {
     if (Keys.isEnter(e)) {
       e.stopPropagation();
       e.preventDefault();
@@ -105,7 +105,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
           return;
         }
 
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           var isMfaEnroll = transaction.status === 'MFA_ENROLL';
           var profileData = {
             phoneNumber: phoneNumber,
@@ -164,12 +164,12 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
       resendCode: function () {
         this.trigger('errors:clear');
         this.limitResending();
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           return transaction.resend(this.get('factorType'));
         });
       },
       save: function () {
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           return transaction.activate({
             passCode: this.get('passCode')
           });

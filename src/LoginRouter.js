@@ -165,7 +165,7 @@ function (BaseLoginRouter,
       'unlockAccount', 'refreshAuthState', 'register', 'registerComplete'
     ],
 
-    defaultAuth: function() {
+    defaultAuth: function () {
       if(this.settings.get('features.idpDiscovery')) {
         this.idpDiscovery();
       }
@@ -464,15 +464,15 @@ function (BaseLoginRouter,
       });
     },
 
-    register: function() {
+    register: function () {
       this.render(RegistrationController);
     },
 
-    registerComplete: function() {
+    registerComplete: function () {
       this.render(RegistrationCompleteController);
     },
 
-    consentRequired: function() {
+    consentRequired: function () {
       this.render(ConsentRequiredController, { Beacon: ConsentBeacon });
     }
 

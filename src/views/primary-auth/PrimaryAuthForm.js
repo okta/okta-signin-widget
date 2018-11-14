@@ -56,7 +56,7 @@ define([
           creds.password = this.model.get('password');
         }
         this.settings.processCreds(creds)
-          .then(function() {
+          .then(function () {
             if (!self.settings.get('features.deviceFingerprinting')) {
               return;
             }
@@ -74,7 +74,7 @@ define([
       this.stateEnableChange();
     },
 
-    stateEnableChange: function() {
+    stateEnableChange: function () {
       this.listenTo(this.state, 'change:enabled', function (model, enable) {
         if (enable) {
           this.enable();
@@ -97,7 +97,7 @@ define([
       return inputs;
     },
 
-    getUsernameField: function() {
+    getUsernameField: function () {
       var userNameFieldObject = {
         label: false,
         'label-top': true,
@@ -122,7 +122,7 @@ define([
       return userNameFieldObject;
     },
 
-    getPasswordField: function() {
+    getPasswordField: function () {
       var passwordFieldObject = {
         label: false,
         'label-top': true,
@@ -146,7 +146,7 @@ define([
       return passwordFieldObject;
     },
 
-    getRemeberMeCheckbox: function() {
+    getRemeberMeCheckbox: function () {
       return {
         label: false,
         placeholder: Okta.loc('remember', 'login'),

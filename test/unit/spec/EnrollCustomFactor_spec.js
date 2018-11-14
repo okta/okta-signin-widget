@@ -36,7 +36,7 @@ function (Okta,
 
   Expect.describe('EnrollCustomFactor', function () {
 
-    function setup(isOidc) {
+    function setup (isOidc) {
       var setNextResponse = Util.mockAjax([responseMfaEnrollAll]);
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});

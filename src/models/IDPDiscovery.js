@@ -60,7 +60,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
       var authClient = this.appState.settings.authClient;
 
       authClient.webfinger(webfingerArgs)
-        .then(_.bind(function(res) {
+        .then(_.bind(function (res) {
           if(res) {
             if(res.links && res.links[0] && res.links[0].properties['okta:idp:type'] === 'OKTA') {
               this.trigger('goToPrimaryAuth');
@@ -68,7 +68,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
             else {
               var successData = {
                 idpDiscovery: {
-                  redirectToIdp: function(redirectUrl) {
+                  redirectToIdp: function (redirectUrl) {
                     if(res.links && res.links[0] && res.links[0].href) {
                       var queryParams = {fromURI: redirectUrl};
                       if (res.links[0].properties && res.links[0].properties['okta:idp:type'] === 'SAML2') {

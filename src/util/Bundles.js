@@ -52,7 +52,7 @@ define([
    *  }
    * }
    */
-  function parseOverrides(i18n) {
+  function parseOverrides (i18n) {
     if (!i18n) {
       return {};
     }
@@ -85,7 +85,7 @@ define([
   // languages are loaded on demand and cached in localStorage. These languages
   // are tied to the version of the widget - when it bumps, we reset the cache.
 
-  function getCachedLanguages() {
+  function getCachedLanguages () {
     var storage = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (!storage || storage.version !== config.version) {
       storage = {
@@ -95,7 +95,7 @@ define([
     return storage;
   }
 
-  function addLanguageToCache(language, loginJson, countryJson) {
+  function addLanguageToCache (language, loginJson, countryJson) {
     var current = getCachedLanguages();
     current[language] = {
       login: loginJson,
@@ -134,7 +134,7 @@ define([
   // Note: Most developers will not need to use these overrides - the default
   // is to use the Okta CDN and to use the same path + file structure the
   // widget module publishes by default.
-  function fetchJsonp(bundle, language, assets) {
+  function fetchJsonp (bundle, language, assets) {
     var languageCode, path;
 
     // Our bundles use _ to separate country and region, i.e:
@@ -157,7 +157,7 @@ define([
     });
   }
 
-  function getBundles(language, assets) {
+  function getBundles (language, assets) {
     // Two special cases:
     // 1. English is already bundled with the widget
     // 2. If the language is not in our config file, it means that they've

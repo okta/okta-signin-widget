@@ -19,7 +19,7 @@ function (Okta, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function setup(settings, callRecoveryLoading) {
+  function setup (settings, callRecoveryLoading) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});

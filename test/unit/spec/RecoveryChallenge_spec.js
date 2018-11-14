@@ -22,7 +22,7 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function setup(settings) {
+  function setup (settings) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});

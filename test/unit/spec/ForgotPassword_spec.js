@@ -25,7 +25,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function setup(settings, startRouter) {
+  function setup (settings, startRouter) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
@@ -54,7 +54,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
     });
   }
 
-  function transformUsername(name) {
+  function transformUsername (name) {
     var suffix = '@example.com';
     return (name.indexOf(suffix) !== -1) ? name : (name + suffix);
   }
@@ -180,7 +180,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.hasEmailButton()).toBe(true);
         });
       });
-      itp('shows error if no recovery factors are enabled', function() {
+      itp('shows error if no recovery factors are enabled', function () {
         return setupWithoutEmail().then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage())

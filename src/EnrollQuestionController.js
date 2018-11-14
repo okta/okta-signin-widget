@@ -32,7 +32,7 @@ function (Okta, FormController, FactorUtil, Footer, TextBox) {
         securityQuestions: 'object'
       },
       save: function () {
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           var factor = _.findWhere(transaction.factors, {
             factorType: 'question',
             provider: 'OKTA'
@@ -85,14 +85,14 @@ function (Okta, FormController, FactorUtil, Footer, TextBox) {
 
     fetchInitialData: function () {
       var self = this;
-      return this.model.manageTransaction(function(transaction) {
+      return this.model.manageTransaction(function (transaction) {
         var factor = _.findWhere(transaction.factors, {
           factorType: 'question',
           provider: 'OKTA'
         });
         return factor.questions();
       })
-        .then(function(questionsRes) {
+        .then(function (questionsRes) {
           var questions = {};
           _.each(questionsRes, function (question) {
             questions[question.question] = FactorUtil.getSecurityQuestionLabel(question);

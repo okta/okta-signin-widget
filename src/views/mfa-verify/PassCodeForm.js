@@ -16,7 +16,7 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
 
-  function getFormAndButtonDetails(factorType) {
+  function getFormAndButtonDetails (factorType) {
     switch(factorType) {
     case 'sms':
       return {

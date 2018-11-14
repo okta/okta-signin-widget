@@ -7,7 +7,7 @@ function (Q, Expect, webauthn) {
 
   Expect.describe('webauthn', function () {
 
-    function setupMsCredentials() {
+    function setupMsCredentials () {
       window.msCredentials = {
         makeCredential: function (/*accountInfo, cryptoParams, challenge*/) {
           var result = Q.defer();

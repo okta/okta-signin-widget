@@ -66,7 +66,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
 
   Expect.describe('LoginRouter', function () {
 
-    function setup(settings) {
+    function setup (settings) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, headers: {}});
@@ -88,7 +88,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
       });
     }
 
-    function setupOAuth2(settings) {
+    function setupOAuth2 (settings) {
       spyOn(window, 'addEventListener');
       Util.mockOIDCStateGenerator();
       return setup(_.extend({
@@ -128,7 +128,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
     }
 
     // { settings, userLanguages, supportedLanguages }
-    function setupLanguage(options) {
+    function setupLanguage (options) {
       var loadingSpy = jasmine.createSpy('loading');
       var delay = options.delay || 0;
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(options.userLanguages || []);
@@ -168,7 +168,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         });
     }
 
-    function expectPrimaryAuthRender(options = {}, path = '') {
+    function expectPrimaryAuthRender (options = {}, path = '') {
       // Reusable stub to assert that the Primary Auth for renders
       // given Widget parameters and a navigation path.
       return setup(options)
@@ -183,7 +183,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         });
     }
 
-    function expectUnexpectedFieldLog(arg1) {
+    function expectUnexpectedFieldLog (arg1) {
       // These console warnings are called from Courage's Logger class, not
       // the Widget's. We need to assert that the following is called in specific
       // environments (window.okta && window.okta.debug are defined).
@@ -673,7 +673,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
 
     Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function () {
 
-      function expectAuthorizeUrl(url, options) {
+      function expectAuthorizeUrl (url, options) {
         var authorizeUrl = options.authorizeUrl || 'https://foo.com/oauth2/v1/authorize';
         var state = options.state || OIDC_STATE;
         var nonce = options.nonce || OIDC_NONCE;
@@ -696,7 +696,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         expect(url).toBe(expectedUrl);
       }
 
-      function expectCodeRedirect(options) {
+      function expectCodeRedirect (options) {
         return function (test) {
           var spy = test.ac.token.getWithRedirect._setLocation;
           expect(spy.calls.count()).toBe(1);
@@ -907,18 +907,18 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
     });
 
     Expect.describe('Events', function () {
-      itp('triggers a pageRendered event when first controller is loaded', function() {
+      itp('triggers a pageRendered event when first controller is loaded', function () {
         return setup()
           .then(function (test) {
             test.router.primaryAuth();
             return Expect.waitForPrimaryAuth(test);
           })
-          .then(function(test){
+          .then(function (test){
             expect(test.eventSpy.calls.count()).toBe(1);
             expect(test.eventSpy).toHaveBeenCalledWith({ page: 'primary-auth'});
           });
       });
-      itp('triggers a pageRendered event when navigating to a new controller', function() {
+      itp('triggers a pageRendered event when navigating to a new controller', function () {
         return setup()
           .then(function (test) {
           // Test navigation from primary Auth to Forgot password page
@@ -1106,7 +1106,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
             language: 'ja'
           }
         })
-          .then(function(test){
+          .then(function (test){
             test.form.submit();
             expect(test.form.errorMessage()).toBe('JA: Japanese error banner title');
           });
@@ -1114,7 +1114,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
 
       itp('Strings in courage bundle are in en by default', function () {
         return setupLanguage({})
-          .then(function(test){
+          .then(function (test){
             test.form.submit();
             expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
           });
@@ -1162,7 +1162,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
 
     Expect.describe('Config: "assets"', function () {
 
-      function expectBundles(baseUrl, login, country) {
+      function expectBundles (baseUrl, login, country) {
         expect($.ajax.calls.count()).toBe(3);
         var loginCall = $.ajax.calls.argsFor(0)[0];
         var countryCall = $.ajax.calls.argsFor(1)[0];
@@ -1274,7 +1274,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
 
     Expect.describe('Config: "language"', function () {
 
-      function expectLanguage(titleText, countryText, test) {
+      function expectLanguage (titleText, countryText, test) {
         test.form.selectCountry('JP');
         expect(test.form.selectedCountry()).toBe(countryText);
         expect(test.form.titleText()).toBe(titleText);

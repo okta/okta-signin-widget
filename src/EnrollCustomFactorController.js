@@ -48,7 +48,7 @@ function (Okta, FormController, Footer) {
       }
     },
 
-    Form: function() {
+    Form: function () {
       var factors = this.options.appState.get('factors');
       var factor = factors.findWhere({
         provider: this.options.provider,

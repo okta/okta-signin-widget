@@ -34,13 +34,13 @@ function (Okta, BrowserFeatures, Settings,
 
   var { _, $, Backbone } = Okta;
 
-  function isStateLessRouteHandler(router, fn) {
+  function isStateLessRouteHandler (router, fn) {
     return _.find(router.stateLessRouteHandlers, function (routeName) {
       return fn === router[routeName];
     });
   }
 
-  function beaconIsAvailable(Beacon, settings) {
+  function beaconIsAvailable (Beacon, settings) {
     if (!Beacon) {
       return false;
     }
@@ -50,7 +50,7 @@ function (Okta, BrowserFeatures, Settings,
     return true;
   }
 
-  function loadLanguage(appState, i18n, assetBaseUrl, assetRewrite) {
+  function loadLanguage (appState, i18n, assetBaseUrl, assetRewrite) {
     var timeout = setTimeout(function () {
       // Trigger a spinner if we're waiting on a request for a new language.
       appState.trigger('loading', true);
@@ -79,7 +79,7 @@ function (Okta, BrowserFeatures, Settings,
         options.globalSuccessFn = function () {};
       }
       if (!options.globalErrorFn) {
-        options.globalErrorFn = function(err) {
+        options.globalErrorFn = function (err) {
           Logger.error(err);
         };
       }
@@ -275,7 +275,7 @@ function (Okta, BrowserFeatures, Settings,
       var pushState = false;
       // Support for browser's back button.
       if (window.addEventListener && this.settings.get('features.router')) {
-        window.addEventListener('popstate', _.bind(function(e) {
+        window.addEventListener('popstate', _.bind(function (e) {
           if (this.controller.back) {
             e.preventDefault();
             e.stopImmediatePropagation();

@@ -26,11 +26,11 @@ define(['./Form'], function (Form) {
       return this.$('.privacy-policy');
     },
 
-    consentButton: function() {
+    consentButton: function () {
       return this.$('.consent-required input[data-type="save"]');
     },
 
-    cancelButton: function() {
+    cancelButton: function () {
       return this.$('.consent-required input[data-type="cancel"]');
     }
   });

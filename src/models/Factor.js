@@ -258,7 +258,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
                 clearTimeout(initiatePollTimout);
                 deferred.reject(new Errors.AuthStopPollInitiationError());
               });
-              return deferred.promise.then(function() {
+              return deferred.promise.then(function () {
               // Stop listening if factor was not switched before poll.
                 self.stopListening(self.options.appState, 'factorSwitched');
                 if (self.pushFactorHasAutoPush()) {
@@ -269,7 +269,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
                     return self.get('rememberDevice');
                   };
                 }
-                return trans.poll(options).then(function(trans) {
+                return trans.poll(options).then(function (trans) {
                   setTransaction(trans);
                 });
               });
@@ -278,7 +278,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
       });
     },
 
-    pushFactorHasAutoPush: function() {
+    pushFactorHasAutoPush: function () {
       return this.settings.get('features.autoPush') && this.get('factorType') === 'push';
     }
   });

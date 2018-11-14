@@ -101,7 +101,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
     }
   };
 
-  function setup(settings) {
+  function setup (settings) {
     settings || (settings = {});
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
@@ -520,7 +520,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
       });
     });
 
-    var expectRegCallbackError = function(test, callback, message) {
+    var expectRegCallbackError = function (test, callback, message) {
       var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
       expect(err instanceof Errors.RegistrationError).toBe(true);
       expect(err.name).toBe('REGISTRATION_FAILED');
@@ -528,7 +528,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
       expect(err.message).toEqual(errMsg);
     };
 
-    var expectRegApiError = function(test, message) {
+    var expectRegApiError = function (test, message) {
       var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
       expect(err instanceof Errors.RegistrationError).toBe(true);
       expect(err.name).toBe('REGISTRATION_FAILED');
@@ -550,7 +550,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'parseSchema': function(resp, onSuccess, onFailure){
+            'parseSchema': function (resp, onSuccess, onFailure){
               parseSchemaSpy(resp, onSuccess, onFailure);
               onSuccess(resp);
             },
@@ -573,7 +573,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'parseSchema': function(schema, onSuccess, onFailure){
+            'parseSchema': function (schema, onSuccess, onFailure){
               parseSchemaSpy(schema, onSuccess, onFailure);
               schema.profileSchema.properties.zip = {
                 'type': 'string',
@@ -598,7 +598,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'parseSchema': function(resp, onSuccess, onFailure){
+            'parseSchema': function (resp, onSuccess, onFailure){
               parseSchemaSpy(resp, onSuccess, onFailure);
               onFailure();
             },
@@ -621,7 +621,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'parseSchema': function(resp, onSuccess, onFailure){
+            'parseSchema': function (resp, onSuccess, onFailure){
               parseSchemaSpy(resp, onSuccess, onFailure);
               var errorObject = {
                 'errorSummary': 'Custom form level parseSchema error message'
@@ -649,7 +649,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
         var setting = {
           'registration': {
-            'parseSchema': function(schema, onSuccess, onFailure){
+            'parseSchema': function (schema, onSuccess, onFailure){
               parseSchemaSpy(schema, onSuccess, onFailure);
               schema.profileSchema.properties.zip = {
                 'type': 'string',

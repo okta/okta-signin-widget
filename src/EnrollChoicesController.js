@@ -78,7 +78,7 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
             ));
             break;
           default:
-            return this.model.doTransaction(function(transaction) {
+            return this.model.doTransaction(function (transaction) {
               return transaction.skip();
             });
           }
@@ -184,7 +184,7 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
       //    (API return OktaVerify push factor as unenrolled in this case and as we always merge
       //    push and totp in UI so we redirect to skip link here).
       else {
-        this.model.doTransaction(function(transaction) {
+        this.model.doTransaction(function (transaction) {
           return transaction.skip();
         });
       }

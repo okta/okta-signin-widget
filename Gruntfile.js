@@ -244,7 +244,7 @@ module.exports = function (grunt) {
             cwd: 'test/e2e/templates/',
             src: '*.tpl',
             dest: 'target/',
-            rename: function(dest, src) {
+            rename: function (dest, src) {
               return dest + path.basename(src, '.tpl') + '.html';
             }
           }
@@ -281,7 +281,7 @@ module.exports = function (grunt) {
           failOnMatch: true,
           logFile: SCSSLINT_OUT_FILE,
           logFormat: 'xml',
-          onMatch: function(match) {
+          onMatch: function (match) {
             grunt.log.errorlns('URLs starting with \'/\' are not allowed in SCSS files. ' +
               'Fix this by replacing with a relative link.');
             grunt.log.errorlns('Found in file: ' + match.file + '. Line: ' + match.line);

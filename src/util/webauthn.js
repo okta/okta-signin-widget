@@ -18,11 +18,11 @@ define([
 ],
 function (Okta, Q, FidoUtil) {
 
-  function adaptToOkta(promise) {
+  function adaptToOkta (promise) {
     return new Q(promise);
   }
 
-  function makeCredential(accountInfo, cryptoParams, challenge) {
+  function makeCredential (accountInfo, cryptoParams, challenge) {
     cryptoParams = cryptoParams.map(function (param) {
       return {type: 'FIDO_2_0', algorithm: param.algorithm};
     });
@@ -39,7 +39,7 @@ function (Okta, Q, FidoUtil) {
     return adaptToOkta(promise);
   }
 
-  function getAssertion(challenge, allowList) {
+  function getAssertion (challenge, allowList) {
     var accept = allowList.map(function (item) {
       return {type: 'FIDO_2_0', id: item.id};
     });

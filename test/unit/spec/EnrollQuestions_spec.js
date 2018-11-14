@@ -27,7 +27,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
 
   Expect.describe('EnrollQuestions', function () {
 
-    function setup(startRouter, languagesResponse) {
+    function setup (startRouter, languagesResponse) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -61,7 +61,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
         });
     }
 
-    function setupWithLanguage(options, startRouter) {
+    function setupWithLanguage (options, startRouter) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
       return setup(startRouter, [

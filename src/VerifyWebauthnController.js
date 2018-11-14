@@ -192,7 +192,7 @@ function (Okta, FormController, FormType, CryptoUtil, FidoUtil,
       }
     },
 
-    back: function() {
+    back: function () {
       // Empty function on verify controllers to prevent users
       // from navigating back during 'verify' using the browser's
       // back button. The URL will still change, but the view will not

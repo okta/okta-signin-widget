@@ -86,7 +86,7 @@ define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Uti
         this.doSave();
       }
     },
-    postRender: function() {
+    postRender: function () {
       var factorsPolicyInfo = this.options.appState.get('factorsPolicyInfo');
       var id = this.model.get('id');
       var isAutoPushEnabled = (this.settings.get('features.autoPush') && factorsPolicyInfo &&
@@ -103,13 +103,13 @@ define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Uti
       this.clearErrors();
       this.clearWarnings();
       if (this.model.isValid()) {
-        this.listenToOnce(this.model, 'error', function() {
+        this.listenToOnce(this.model, 'error', function () {
           this.setSubmitState(true);
           this.clearWarnings();
           clearTimeout(warningTimeout);
         });
         this.trigger('save', this.model);
-        warningTimeout = Util.callAfterTimeout(_.bind(function() {
+        warningTimeout = Util.callAfterTimeout(_.bind(function () {
           this.showWarning(Okta.loc('oktaverify.warning', 'login'));
         }, this), WARNING_TIMEOUT);
       }
@@ -118,11 +118,11 @@ define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Uti
       this.clearWarnings();
       this.model.trigger('error', this.model, {responseJSON: {errorSummary: msg}});
     },
-    showWarning: function(msg) {
+    showWarning: function (msg) {
       this.clearWarnings();
       this.add(warningTemplate, '.o-form-error-container', {options: {warning: msg}});
     },
-    clearWarnings: function() {
+    clearWarnings: function () {
       this.$('.okta-form-infobox-warning').remove();
     }
   });

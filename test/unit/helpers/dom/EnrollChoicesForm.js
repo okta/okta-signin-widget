@@ -72,7 +72,7 @@ define(['okta', './Form'], function (Okta, Form) {
       return this.optionalFactorList().find('.list-title').trimmedText();
     },
 
-    getFactorList: function() {
+    getFactorList: function () {
       var factorRows = this.$('.enroll-factor-list .enroll-factor-row');
       return _.map(factorRows, function (row) {
         return $(row).attr('data-se');

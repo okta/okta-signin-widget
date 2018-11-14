@@ -22,7 +22,7 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
 
   Expect.describe('EnrollDuo', function () {
 
-    function setup(startRouter) {
+    function setup (startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
@@ -36,7 +36,7 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
       Util.mockRouterNavigate(router, startRouter);
       Util.mockDuo();
       return tick()
-        .then(function() {
+        .then(function () {
           setNextResponse(resAllFactors);
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();

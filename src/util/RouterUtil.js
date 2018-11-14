@@ -165,7 +165,7 @@ function (Okta, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       // page refresh. We need to return to MFA_REQUIRED to initialize the
       // page correctly (i.e. factors dropdown, etc)
       router.appState.get('transaction').prev()
-        .then(function(trans) {
+        .then(function (trans) {
           router.appState.set('transaction', trans);
         }).done();
       return;

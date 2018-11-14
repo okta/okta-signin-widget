@@ -32,7 +32,7 @@ function (Okta, Enums, FormController, FormType) {
     className: 'registration-complete',
     Model: function () {
     },
-    initialize: function() {
+    initialize: function () {
       this.settings.callGlobalSuccess(Enums.ACTIVATION_EMAIL_SENT, {
         username: this.options.appState.get('username')
       });

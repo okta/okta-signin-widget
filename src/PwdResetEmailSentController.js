@@ -60,7 +60,7 @@ function (Okta, Enums, FormController, FormType) {
               return this.model.doTransaction(function (transaction) {
                 return transaction.cancel();
               })
-                .then(function() {
+                .then(function () {
                   self.state.set('navigateDir', Enums.DIRECTION_BACK);
                   self.options.appState.trigger('navigate', '');
                 });

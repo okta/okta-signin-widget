@@ -35,7 +35,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
 
   var BEACON_LOADING_CLS = 'beacon-loading';
 
-  function setup(settings, requests) {
+  function setup (settings, requests) {
     settings || (settings = {});
     settings['features.idpDiscovery'] = true;
 
@@ -51,7 +51,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR, headers: {}});
     var successSpy = jasmine.createSpy('success');
 
-    var setNextWebfingerResponse = function(res, reject) {
+    var setNextWebfingerResponse = function (res, reject) {
       spyOn(authClient, 'webfinger').and.callFake(function () {
         var deferred = Q.defer();
         if(reject) {
@@ -88,9 +88,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
     });
   }
 
-  function setupPasswordlessAuth(requests) {
+  function setupPasswordlessAuth (requests) {
     return setup({ 'features.passwordlessAuth': true }, requests)
-      .then(function(test){
+      .then(function (test){
         Util.mockRouterNavigate(test.router);
         test.setNextWebfingerResponse(resSuccessOktaIDP);
         test.setNextResponse(resPasswordlessUnauthenticated);
@@ -98,7 +98,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
       });
   }
 
-  function setupRegistrationButton(featuresRegistration, registrationObj) {
+  function setupRegistrationButton (featuresRegistration, registrationObj) {
     var settings = {
       registration: registrationObj
     };
@@ -108,26 +108,26 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
     return setup(settings);
   }
 
-  function waitForBeaconChange(test) {
+  function waitForBeaconChange (test) {
     return tick() //wait to read value of user input
       .then(tick)   //wait to receive ajax response
       .then(tick)   //wait for animation (TODO: verify if needed)
       .then(function () { return test; });
   }
 
-  function waitForWebfingerCall(test) {
+  function waitForWebfingerCall (test) {
     return tick() // wait for the webfinger call cycle finish (promise -> then -> final)
       .then(function () {
         return Expect.waitForSpyCall(test.ac.webfinger, test);
       });
   }
 
-  function transformUsername(name) {
+  function transformUsername (name) {
     var nameArr = name.split('@');
     return nameArr[0] + '@example.com';
   }
 
-  function transformUsernameOnUnlock(name, operation) {
+  function transformUsernameOnUnlock (name, operation) {
     if (operation === 'UNLOCK_ACCOUNT') {
       transformUsername(name);
     }
@@ -282,7 +282,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
-        }).then(function(test) {
+        }).then(function (test) {
           test.form.helpFooter().click();
           expect(test.form.forgotPasswordLinkVisible()).not.toBe(true);
         });
@@ -302,7 +302,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
-        }).then(function(test) {
+        }).then(function (test) {
           test.form.helpFooter().click();
           test.form.forgotPasswordLink().click();
           expect(test.router.navigate).not.toHaveBeenCalledWith('signin/forgot-password', {trigger: true});
@@ -323,7 +323,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
-        }).then(function(test) {
+        }).then(function (test) {
           test.form.helpFooter().click();
           test.form.forgotPasswordLink().click();
           expect(SharedUtil.redirect).not.toHaveBeenCalledWith('https://foo.com');
@@ -355,7 +355,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
-        }).then(function(test) {
+        }).then(function (test) {
           test.form.helpFooter().click();
           test.form.unlockLink().click();
           expect(test.router.navigate).not.toHaveBeenCalledWith('signin/unlock', {trigger: true});
@@ -382,7 +382,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
-        }).then(function(test) {
+        }).then(function (test) {
           test.form.helpFooter().click();
           test.form.unlockLink().click();
           expect(SharedUtil.redirect).not.toHaveBeenCalledWith('https://foo.com');
@@ -444,7 +444,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
           return waitForWebfingerCall(test);
-        }).then(function(test) {
+        }).then(function (test) {
           expect(test.router.settings.transformUsername.calls.count()).toBe(1);
           expect(test.router.settings.transformUsername.calls.argsFor(0)).toEqual(['testuser@clouditude.net', 'IDP_DISCOVERY']);
         });
@@ -584,7 +584,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
             test.form.submit();
             return waitForWebfingerCall(test);
           })
-            .then(function(test) {
+            .then(function (test) {
               expect(test.beacon.isLoadingBeacon()).toBe(true);
             });
         });
@@ -922,7 +922,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
             test.form.submit();
             return waitForWebfingerCall(test);
           })
-          .then(function(test) {
+          .then(function (test) {
             expect(processCredsSpy.calls.count()).toBe(0);
             expect(test.ac.webfinger).toHaveBeenCalled();
           });
@@ -1055,7 +1055,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
       });
     });
 
-    Expect.describe('Passwordless Auth', function() {
+    Expect.describe('Passwordless Auth', function () {
       itp('automatically calls authClient.signIn when idp is Okta', function () {
         return setupPasswordlessAuth().then(function (test) {
           $.ajax.calls.reset();

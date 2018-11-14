@@ -28,7 +28,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
 
   Expect.describe('EnrollCall', function () {
 
-    function setup(resp, startRouter) {
+    function setup (resp, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -58,20 +58,20 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         });
     }
 
-    function enterPhone(test, countryCode, phoneNumber, phoneExtension) {
+    function enterPhone (test, countryCode, phoneNumber, phoneExtension) {
       test.form.selectCountry(countryCode);
       test.form.setPhoneNumber(phoneNumber);
       test.form.setPhoneExtension(phoneExtension);
     }
 
-    function sendCode(test, res, countryCode, phoneNumber, phoneExtension) {
+    function sendCode (test, res, countryCode, phoneNumber, phoneExtension) {
       test.setNextResponse(res);
       enterPhone(test, countryCode, phoneNumber, phoneExtension);
       test.form.sendCodeButton().click();
       return tick(test);
     }
 
-    function sendCodeOnEnter(test, res, countryCode, phoneNumber, phoneExtension) {
+    function sendCodeOnEnter (test, res, countryCode, phoneNumber, phoneExtension) {
       test.setNextResponse(res);
       enterPhone(test, countryCode, phoneNumber, phoneExtension);
       var keydown = $.Event('keydown');
@@ -83,7 +83,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       return tick(test);
     }
 
-    function setupAndSendCode(res, countryCode, phoneNumber, phoneExtension) {
+    function setupAndSendCode (res, countryCode, phoneNumber, phoneExtension) {
       return setup().then(function (test) {
         return sendCode(test, res, countryCode, phoneNumber, phoneExtension);
       });
@@ -92,20 +92,20 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
     var setupAndSendValidCode = _.partial(setupAndSendCode, resEnrollSuccess, 'US', '6501231234');
     var setupAndSendInvalidCode = _.partial(setupAndSendCode, resEnrollError, 'US', '650');
 
-    function expectRedialButton(test) {
+    function expectRedialButton (test) {
       var button = test.form.sendCodeButton();
       expect(button.trimmedText()).toEqual('Redial');
       expect(button.hasClass('button-primary')).toBe(false);
     }
 
-    function expectCallingButton(test) {
+    function expectCallingButton (test) {
       var button = test.form.sendCodeButton();
       expect(button.trimmedText()).toEqual('Calling');
       expect(button.attr('class')).not.toMatch('button-primary');
       expect(button.attr('class')).toMatch('link-button-disabled');
     }
 
-    function expectCallButton(test) {
+    function expectCallButton (test) {
       var button = test.form.sendCodeButton();
       expect(button.trimmedText()).toEqual('Call');
       expect(button.hasClass('button-primary')).toBe(true);

@@ -14,7 +14,7 @@
 var FormPage = require('./FormPage'),
     FacebookPage = require('./FacebookPage');
 
-function getSocialIdpPage(idp) {
+function getSocialIdpPage (idp) {
   switch (idp) {
   case 'facebook':
     return new FacebookPage();
@@ -25,23 +25,23 @@ function getSocialIdpPage(idp) {
 
 class PrimaryAuthPage extends FormPage {
 
-  constructor() {
+  constructor () {
     super();
     this.usernameInput = this.input('username');
     this.passwordInput = this.input('password');
   }
 
-  getFormClass() {
+  getFormClass () {
     return 'primary-auth';
   }
 
-  loginToForm(username, password) {
+  loginToForm (username, password) {
     this.usernameInput.sendKeys(username);
     this.passwordInput.sendKeys(password);
     this.submit();
   }
 
-  loginToSocialIdpPopup(idp, username, password) {
+  loginToSocialIdpPopup (idp, username, password) {
     this.socialAuthButton(idp).click();
     browser.getAllWindowHandles().then(function (handles) {
       var parent = handles[0],
@@ -52,12 +52,12 @@ class PrimaryAuthPage extends FormPage {
     });
   }
 
-  loginToSocialIdpRedirect(idp, username, password) {
+  loginToSocialIdpRedirect (idp, username, password) {
     this.socialAuthButton(idp).click();
     getSocialIdpPage(idp).login(username, password);
   }
 
-  socialAuthButton(idp) {
+  socialAuthButton (idp) {
     return this.$dataSe('social-auth-' + idp + '-button');
   }
 

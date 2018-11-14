@@ -26,10 +26,10 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
       'click a' : function (e) {
         e.preventDefault();
         var self = this;
-        this.model.doTransaction(function(transaction) {
+        this.model.doTransaction(function (transaction) {
           return transaction.cancel();
         })
-          .then(function() {
+          .then(function () {
             if (self.settings.get('signOutLink')) {
               Util.redirect(self.settings.get('signOutLink'));
             } else {

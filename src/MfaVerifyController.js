@@ -127,7 +127,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
       return false;
     },
 
-    back: function() {
+    back: function () {
       // Empty function on verify controllers to prevent users
       // from navigating back during 'verify' using the browser's
       // back button. The URL will still change, but the view will not

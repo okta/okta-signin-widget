@@ -26,11 +26,11 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function deepClone(res) {
+  function deepClone (res) {
     return JSON.parse(JSON.stringify(res));
   }
 
-  function setup(settings, res, custom) {
+  function setup (settings, res, custom) {
     settings || (settings = {});
     var successSpy = jasmine.createSpy('successSpy');
     var setNextResponse = Util.mockAjax();
@@ -63,28 +63,28 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
     return Expect.waitForPasswordExpired(settings);
   }
 
-  function setupWarn(numDays) {
+  function setupWarn (numDays) {
     resPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
     return setup(undefined, resPassWarn);
   }
 
-  function setupCustomExpiredPassword(res) {
+  function setupCustomExpiredPassword (res) {
     return setup(undefined, res || resCustomPassExpired, true);
   }
 
-  function setupCustomExpiredPasswordWarn(numDays) {
+  function setupCustomExpiredPasswordWarn (numDays) {
     resCustomPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
     return setupCustomExpiredPassword(resCustomPassWarn);
   }
 
-  function submitNewPass(test, oldPass, newPass, confirmPass) {
+  function submitNewPass (test, oldPass, newPass, confirmPass) {
     test.form.setOldPass(oldPass);
     test.form.setNewPass(newPass);
     test.form.setConfirmPass(confirmPass);
     test.form.submit();
   }
 
-  function setupExcludeAttributes(excludeAttributesArray) {
+  function setupExcludeAttributes (excludeAttributesArray) {
     var passwordExpiredResponse = deepClone(resPassExpired);
     var policyComplexity = passwordExpiredResponse.response._embedded.policy.complexity;
     policyComplexity.excludeAttributes = excludeAttributesArray;
@@ -210,7 +210,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function() {
+          .then(function () {
             expect(processCredsSpy.calls.count()).toBe(1);
             expect(processCredsSpy).toHaveBeenCalledWith({
               username: 'inca@clouditude.net',
@@ -233,7 +233,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function() {
+          .then(function () {
             expect(processCredsSpy.calls.count()).toBe(1);
             expect(processCredsSpy).toHaveBeenCalledWith({
               username: 'inca@clouditude.net',
@@ -255,7 +255,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
             return tick();
           })
-          .then(function() {
+          .then(function () {
             expect(processCredsSpy.calls.count()).toBe(1);
             expect(processCredsSpy).toHaveBeenCalledWith({
               username: 'inca@clouditude.net',
@@ -271,7 +271,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
           submitNewPass(test, 'oldpassyo', 'boopity', 'boopity');
           return Expect.waitForSpyCall(test.successSpy);
         })
-          .then(function() {
+          .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/credentials/change_password',

@@ -107,8 +107,8 @@ function (Okta, Widget, Expect, Logger) {
       it('calls the authentication api with a stateToken', function (done) {
         $.ajax.calls.reset();
         signIn.getTransaction('fooToken')
-          .then(function(){/* Should never reach this */})
-          .catch(function() {
+          .then(function (){/* Should never reach this */})
+          .catch(function () {
             expect($.ajax).toHaveBeenCalledWith({
               type: 'POST',
               url: 'https://foo.com/api/v1/authn',

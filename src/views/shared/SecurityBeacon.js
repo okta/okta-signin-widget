@@ -73,7 +73,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       hide: {event: false, fixed: true},
       show: {event: false, delay: 200},
       events: {
-        move: function(event, api) {
+        move: function (event, api) {
           if (!api.elements.target.is(':visible')) {
             // Have to hide it immediately, with no effect
             api.set('hide.effect', false);
@@ -87,12 +87,12 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
     image.qtip('toggle', image.is(':visible'));
   }
 
-  function destroyAntiPhishingMessage(image) {
+  function destroyAntiPhishingMessage (image) {
     image.qtip('destroy');
     $(window).off('resize.securityBeaconQtip');
   }
 
-  async function updateSecurityImage($el, appState, animate) {
+  async function updateSecurityImage ($el, appState, animate) {
     var image = $el.find('.auth-beacon-security'),
         border = $el.find('.js-auth-beacon-border'),
         hasBorder = !appState.get('isUndefinedUser'),
@@ -125,7 +125,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       border.removeClass('auth-beacon-border');
       await Animations.radialProgressBar({
         $el: radialProgressBar,
-        swap() {
+        swap () {
           image.fadeOut(duration, () => {
             setBackgroundImage(image, appState);
             image.fadeIn(duration);

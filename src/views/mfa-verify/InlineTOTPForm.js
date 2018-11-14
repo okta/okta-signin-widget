@@ -12,7 +12,7 @@
 
 define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
 
-  function addInlineTotp(form) {
+  function addInlineTotp (form) {
     form.addDivider();
     form.addInput({
       label: false,

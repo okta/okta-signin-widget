@@ -91,11 +91,11 @@ define(['./Form'], function (Form) {
       return this.$('.required-fields-label').text();
     },
 
-    fieldPlaceholder: function(fieldName) {
+    fieldPlaceholder: function (fieldName) {
       return this.$('.okta-form-input-field input[name="'+fieldName+'"]').attr('placeholder');
     },
 
-    getFieldByName: function(fieldName) {
+    getFieldByName: function (fieldName) {
       return this.$('.okta-form-input-field input[name="'+fieldName+'"]');
     },
 

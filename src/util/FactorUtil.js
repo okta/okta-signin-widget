@@ -219,7 +219,7 @@ function (Okta) {
   fn.getPasswordComplexityDescription = function (policy) {
     var result = [];
 
-    var getPasswordAgeRequirement = function(displayableTime) {
+    var getPasswordAgeRequirement = function (displayableTime) {
       var propertiesString;
       switch (displayableTime.unit) {
       case 'DAY':

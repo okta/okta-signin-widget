@@ -21,7 +21,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function setup(settings, startRouter) {
+  function setup (settings, startRouter) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
@@ -46,7 +46,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
     });
   }
 
-  function transformUsername(name) {
+  function transformUsername (name) {
     var suffix = '@example.com';
     return (name.indexOf(suffix) !== -1) ? name : (name + suffix);
   }
@@ -165,7 +165,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
           expect(test.form.hasEmailButton()).toBe(true);
         });
       });
-      itp('shows error if no recovery factors are enabled', function() {
+      itp('shows error if no recovery factors are enabled', function () {
         return setupWithoutEmail().then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('No unlock options available. Please contact your administrator.');

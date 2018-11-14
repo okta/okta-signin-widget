@@ -54,7 +54,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       return props;
     },
 
-    getUsernameAndRemember: function(cookieUsername) {
+    getUsernameAndRemember: function (cookieUsername) {
       var settingsUsername = this.settings && this.settings.get('username'),
           rememberMeEnabled = this.settings && this.settings.get('features.rememberMe'),
           remember = false,

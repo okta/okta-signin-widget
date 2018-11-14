@@ -19,7 +19,7 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
 
   Expect.describe('EnrollYubikey', function () {
 
-    function setup(startRouter) {
+    function setup (startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});

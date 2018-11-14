@@ -109,14 +109,14 @@ function (Okta,
     'GENERIC_OIDC': 15
   };
 
-  function clickFactorInDropdown(test, factorName) {
+  function clickFactorInDropdown (test, factorName) {
     //assumes dropdown has all factors
     test.beacon.getOptionsLinks().eq(factors[factorName]).click();
   }
 
   Expect.describe('MFA Verify', function () {
 
-    function createRouter(baseUrl, authClient, successSpy, settings) {
+    function createRouter (baseUrl, authClient, successSpy, settings) {
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -128,7 +128,7 @@ function (Okta,
       return router;
     }
 
-    function setup(res, selectedFactorProps, settings, languagesResponse) {
+    function setup (res, selectedFactorProps, settings, languagesResponse) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -192,7 +192,7 @@ function (Okta,
         });
     }
 
-    function setupWindowsHelloOnly() {
+    function setupWindowsHelloOnly () {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -201,7 +201,7 @@ function (Okta,
       setNextResponse([resRequiredWindowsHello, resChallengeWindowsHello, resSuccess]);
       router.refreshAuthState('dummy-token');
       return Expect.waitForVerifyWindowsHello()
-        .then(function() {
+        .then(function () {
           return Expect.waitForSpyCall(successSpy);
         })
         .then(function () {
@@ -211,7 +211,7 @@ function (Okta,
         });
     }
 
-    function setupWithMfaPolicy(options) {
+    function setupWithMfaPolicy (options) {
       var res = JSON.parse(JSON.stringify(resMfaAlwaysPolicy));
 
       if (options) {
@@ -249,7 +249,7 @@ function (Okta,
     var setupCustomOIDCFactor = _.partial(setup, resAllFactors,
       { factorType: 'assertion:oidc', provider: 'GENERIC_OIDC' });
     var setupAllFactorsWithRouter = _.partial(setup, resAllFactors, null, { 'features.router': true });
-    function setupSecurityQuestionLocalized(options) {
+    function setupSecurityQuestionLocalized (options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
       return setup(resAllFactors, { factorType: 'question' }, {}, [
@@ -258,7 +258,7 @@ function (Okta,
       ]);
     }
 
-    function setupU2F(options) {
+    function setupU2F (options) {
       options || (options = {});
 
       if (options.u2f) {
@@ -295,14 +295,14 @@ function (Okta,
         });
     }
 
-    function emulateNotWindows() {
+    function emulateNotWindows () {
       spyOn(webauthn, 'isAvailable').and.returnValue(false);
       spyOn(webauthn, 'makeCredential');
       spyOn(webauthn, 'getAssertion');
       return Q();
     }
 
-    function emulateWindows(errorType) {
+    function emulateWindows (errorType) {
       spyOn(webauthn, 'isAvailable').and.returnValue(true);
 
       spyOn(webauthn, 'getAssertion').and.callFake(function () {
@@ -342,7 +342,7 @@ function (Okta,
     }
 
     // Mocks the right calls for Auth SDK's transactions handled in the widget
-    function mockTransactions(controller, isTotp) {
+    function mockTransactions (controller, isTotp) {
       // Spy on backup factor model for TOTP, since TOTP is special
       var model = isTotp ? controller.model.get('backupFactor') : controller.model;
       spyOn(model, 'trigger').and.callThrough();
@@ -355,7 +355,7 @@ function (Okta,
     // 1. setTransaction on model is called with transaction
     // 2. controller sets the transaction property on the appState
     // 3. routerAfterAuthStatusChange is called with the right parameters (success response)
-    function expectSetTransaction(router, res, isTotp) {
+    function expectSetTransaction (router, res, isTotp) {
       var mockTransaction = jasmine.objectContaining({data: res.response, status: res.response.status});
       // Spy on backup factor model for TOTP, since TOTP is special
       var model = router.controller.model;
@@ -373,7 +373,7 @@ function (Okta,
     // 1. model triggers the setTransactionError event
     // 2. controller sets the transactionError property on the appState
     // 3. routerAfterAuthStatusChange is called with the right parameters (error response)
-    function expectSetTransactionError(router, res, isTotp) {
+    function expectSetTransactionError (router, res, isTotp) {
       var mockError = jasmine.objectContaining(res.response);
       // Spy on backup factor model for TOTP, since TOTP is special
       var model = router.controller.model;
@@ -387,12 +387,12 @@ function (Okta,
       expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, mockError);
     }
 
-    function setupDuo(settings) {
+    function setupDuo (settings) {
       Util.mockDuo();
       return setup(resAllFactors, { factorType: 'web', provider: 'DUO' }, settings);
     }
 
-    function setupWithFirstFactor(factorIdentifier) {
+    function setupWithFirstFactor (factorIdentifier) {
       var res = JSON.parse(JSON.stringify(resAllFactors));
       var factors = res.response._embedded.factors;
       var index = _.findIndex(factors, factorIdentifier);
@@ -401,9 +401,9 @@ function (Okta,
       return setup(res);
     }
 
-    function setupPolling(test, finalResponse) {
+    function setupPolling (test, finalResponse) {
       // This is to reduce delay before initiating polling in the tests.
-      spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+      spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
         return setTimeout(arguments[0]);
       });
       $.ajax.calls.reset();
@@ -426,38 +426,38 @@ function (Okta,
       // The next tick will trigger the final response
     }
 
-    function expectHasRightBeaconImage(test, desiredClassName) {
+    function expectHasRightBeaconImage (test, desiredClassName) {
       expect(test.beacon.isFactorBeacon()).toBe(true);
       expect(test.beacon.hasClass(desiredClassName)).toBe(true);
     }
 
-    function expectTitleToBe(test, desiredTitle) {
+    function expectTitleToBe (test, desiredTitle) {
       expect(test.form.titleText()).toBe(desiredTitle);
     }
 
-    function expectSubtitleToBe(test, desiredSubtitle) {
+    function expectSubtitleToBe (test, desiredSubtitle) {
       expect(test.form.subtitleText()).toBe(desiredSubtitle);
     }
 
-    function expectLabelToBe(test, desiredLabel, fieldName) {
+    function expectLabelToBe (test, desiredLabel, fieldName) {
       expect(test.form.labelText(fieldName)).toBe(desiredLabel);
     }
 
-    function expectHasAnswerField(test, fieldType) {
+    function expectHasAnswerField (test, fieldType) {
       fieldType || (fieldType = 'text');
       var answer = test.form.answerField();
       expect(answer.length).toBe(1);
       expect(answer.attr('type')).toEqual(fieldType);
     }
 
-    function expectHasPasswordField(test, fieldType) {
+    function expectHasPasswordField (test, fieldType) {
       fieldType || (fieldType = 'text');
       var password = test.form.passwordField();
       expect(password.length).toBe(1);
       expect(password.attr('type')).toEqual(fieldType);
     }
 
-    function expectHasRightPlaceholderText(test, placeholderText){
+    function expectHasRightPlaceholderText (test, placeholderText){
       var answer = test.form.answerField();
       expect(answer.attr('placeholder')).toEqual(placeholderText);
     }
@@ -1969,27 +1969,27 @@ function (Okta,
 
       Expect.describe('Okta Push', function () {
         // Remember device for Push form exists out of the form.
-        function getRememberDeviceForPushForm(test) {
+        function getRememberDeviceForPushForm (test) {
           var rememberDevice = test.router.controller.$('[data-se="o-form-input-rememberDevice"]');
           var checkbox = rememberDevice.find(':checkbox');
           return checkbox;
         }
-        function setRememberDeviceForPushForm(test, val) {
+        function setRememberDeviceForPushForm (test, val) {
           var checkbox = getRememberDeviceForPushForm(test);
           checkbox.prop('checked', val);
           checkbox.trigger('change');
         }
-        function getAutoPushCheckbox(test) {
+        function getAutoPushCheckbox (test) {
           var autoPush = test.router.controller.$('[data-se="o-form-input-autoPush"]');
           var checkbox = autoPush.find(':checkbox');
           return checkbox;
         }
-        function setAutoPushCheckbox(test, val) {
+        function setAutoPushCheckbox (test, val) {
           var checkbox = getAutoPushCheckbox(test);
           checkbox.prop('checked', val);
           checkbox.trigger('change');
         }
-        function getAutoPushLabel(test) {
+        function getAutoPushLabel (test) {
           var autoPush = test.router.controller.$('[data-se="o-form-input-autoPush"]');
           var autoPushLabel = autoPush.find('Label').text();
           return autoPushLabel;
@@ -2312,7 +2312,7 @@ function (Okta,
                 $.ajax.calls.reset();
                 test.setNextResponse(resChallengePush);
                 test.form[0].submit();
-                return tick(test).then(function() {
+                return tick(test).then(function () {
                   expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                 });
               });
@@ -2321,9 +2321,9 @@ function (Okta,
               var callAfterTimeoutStub;
               return setupOktaPush()
                 .then(function (test) {
-                  spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function(pullPromiseResolver) {
+                  spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function (pullPromiseResolver) {
                   // setup a deterministic callAfterTimeout stub
-                    callAfterTimeoutStub = function() {
+                    callAfterTimeoutStub = function () {
                       pullPromiseResolver();
                     };
                   });
@@ -2337,7 +2337,7 @@ function (Okta,
                   // wait for callAfterTimeout to be called at `models/Factor#save`
                   return Expect.waitForSpyCall(LoginUtil.callAfterTimeout, test);
                 })
-                .then(function(test) {
+                .then(function (test) {
                   expect(LoginUtil.callAfterTimeout.calls.argsFor(0)[1]).toBe(6000);
                   expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                   var transaction = test.router.controller.model.appState.get('transaction');
@@ -2346,21 +2346,21 @@ function (Okta,
                   callAfterTimeoutStub();
                   return Expect.waitForSpyCall(transaction.poll, transaction);
                 })
-                .then(function(transaction) {
+                .then(function (transaction) {
                   expect(transaction.poll.calls.count()).toBe(1);
                   expect(transaction.poll).toHaveBeenCalledWith({delay: 6000});
                 });
             });
             itp('does not start poll if factor was switched before 6000ms', function () {
               return setupOktaPush().then(function (test) {
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
                   // reducing the timeout to 100 so that test is fast.
                   return setTimeout(arguments[0], 100);
                 });
                 $.ajax.calls.reset();
                 test.setNextResponse([resChallengePush, resAllFactors]);
                 test.form[0].submit();
-                return tick(test).then(function() {
+                return tick(test).then(function () {
                   var deferred = Q.defer();
                   expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                   var transaction = test.router.controller.model.appState.get('transaction');
@@ -2369,7 +2369,7 @@ function (Okta,
                   clickFactorInDropdown(test, 'DUO');
                   expect(test.router.controller.model.appState.trigger).toHaveBeenCalledWith('factorSwitched');
                   setTimeout(deferred.resolve, 150);
-                  return deferred.promise.then(function() {
+                  return deferred.promise.then(function () {
                     expect(transaction.poll).not.toHaveBeenCalled();
                   });
                 });
@@ -2377,14 +2377,14 @@ function (Okta,
             });
             itp('stops listening on factorSwitched when we start polling', function () {
               return setupOktaPush().then(function (test) {
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
                   return setTimeout(arguments[0]);
                 });
                 $.ajax.calls.reset();
                 test.setNextResponse(resChallengePush);
                 test.form[0].submit();
                 spyOn(test.router.controller.model, 'stopListening').and.callThrough();
-                return tick(test).then(function() {
+                return tick(test).then(function () {
                   expect(test.router.controller.model.stopListening).toHaveBeenCalledWith(
                     test.router.controller.model.appState, 'factorSwitched');
                 });
@@ -2448,9 +2448,9 @@ function (Okta,
               });
             });
             itp('re-enables submit and displays an error when request fails', function () {
-              function setupFailurePolling(test) {
+              function setupFailurePolling (test) {
                 // This is to reduce delay before initiating polling in the tests.
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
                   return setTimeout(arguments[0]);
                 });
                 var failureResponse = {status: 0, response: {}};
@@ -2485,8 +2485,8 @@ function (Okta,
               });
             });
             itp('removes warnings and displays error when an error occurs', function () {
-              function setupFailurePolling(test) {
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+              function setupFailurePolling (test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
                   return setTimeout(arguments[0]);
                 });
                 var failureResponse = {status: 0, response: {}};

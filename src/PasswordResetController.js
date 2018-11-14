@@ -36,7 +36,7 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
       save: function () {
         this.trigger('save');
         var self = this;
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           return transaction
             .resetPassword({
               newPassword: self.get('newPassword')

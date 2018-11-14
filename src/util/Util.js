@@ -70,7 +70,7 @@ define(['okta', 'util/Logger'], function (Okta, Logger) {
   // For example:
   // en-US -> [en-US, en]
   // de-DE-bavarian -> [de-DE-bavarian, de-DE, de]
-  function expandLanguage(language) {
+  function expandLanguage (language) {
     var expanded = [language],
         parts = language.split('-');
     while (parts.pop() && parts.length > 0) {

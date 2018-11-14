@@ -14,14 +14,14 @@
 var EC = protractor.ExpectedConditions;
 
 class FacebookPage {
-  login(username, password) {
+  login (username, password) {
     $('#email').clear();
     $('#email').sendKeys(username);
     $('#pass').sendKeys(password);
     $('[name=login]').click();
   }
 
-  logout() {
+  logout () {
     const bookmarkElemId = '#bookmarks_jewel';
     browser.get('https://m.facebook.com/');
     browser.wait(EC.presenceOf($(bookmarkElemId)), 5000);

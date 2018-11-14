@@ -15,7 +15,7 @@ define([
   var WAIT_MAX_TIME = 2000;
   var WAIT_INTERVAL = 20;
 
-  function runTest(jasmineFn, desc, testFn) {
+  function runTest (jasmineFn, desc, testFn) {
     jasmineFn(desc, function (done) {
       var errListener = function (err) {
         // We've thrown an unexpected error in the test - setup a fake
@@ -41,8 +41,8 @@ define([
     });
   }
 
-  fn.describe = function(desc, fn) {
-    return describe(desc, function() {
+  fn.describe = function (desc, fn) {
+    return describe(desc, function () {
 
       beforeAll(function () {
         Util.mockSetTimeout();
@@ -159,7 +159,7 @@ define([
   };
 
   fn.wait = function (condition, resolveValue, timeout) {
-    function check(success, fail, triesLeft) {
+    function check (success, fail, triesLeft) {
       if (condition()) {
         success(resolveValue);
       }

@@ -49,7 +49,7 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
 
       getInitOptions: function () {
         var rememberDevice = !!this.get('rememberDevice');
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           var data = {
             rememberDevice: rememberDevice
           };
@@ -84,7 +84,7 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
         var rememberDevice = this.get('rememberDevice');
         return Q($.post(url, data))
           .then(function () {
-            return self.doTransaction(function(transaction) {
+            return self.doTransaction(function (transaction) {
               var data;
               if (rememberDevice) {
                 data = {rememberDevice: rememberDevice};
@@ -153,7 +153,7 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
       }
     },
 
-    back: function() {
+    back: function () {
       // Empty function on verify controllers to prevent users
       // from navigating back during 'verify' using the browser's
       // back button. The URL will still change, but the view will not

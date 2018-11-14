@@ -36,7 +36,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
 
   Expect.describe('EnrollTotp', function () {
 
-    function setup(res, selectedFactor, settings, startRouter) {
+    function setup (res, selectedFactor, settings, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -87,14 +87,14 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       factorType: 'push'
     });
 
-    function enrollFactor(test, res) {
+    function enrollFactor (test, res) {
       test.setNextResponse(res || resTotpEnrollSuccess);
       test.form.selectDeviceType('APPLE');
       test.form.submit();
       return test;
     }
 
-    function setupAndEnrollOktaTotp() {
+    function setupAndEnrollOktaTotp () {
       return setupOktaTotp()
         .then(function (test) {
           return enrollFactor(test, resTotpEnrollSuccess);
@@ -104,7 +104,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
         });
     }
 
-    function setupAndEnrollGoogleTotp() {
+    function setupAndEnrollGoogleTotp () {
       return setupGoogleTotp()
         .then(function (test) {
           return enrollFactor(test, resTotpEnrollSuccess);
@@ -114,7 +114,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
         });
     }
 
-    function setupAndEnrollOktaPush() {
+    function setupAndEnrollOktaPush () {
       return setupOktaPush()
         .then(function (test) {
           test.originalAjax = Util.stallEnrollFactorPoll(test.ac);
@@ -125,7 +125,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
         });
     }
 
-    function enrollOktaPushGoCannotScan() {
+    function enrollOktaPushGoCannotScan () {
       return setupAndEnrollOktaPush()
         .then(function (test) {
           test.scanCodeForm.clickManualSetupLink();
@@ -133,7 +133,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
         });
     }
 
-    function enrollOktaPushUseManualTotp() {
+    function enrollOktaPushUseManualTotp () {
       return enrollOktaPushGoCannotScan()
         .then(function (test) {
           test.setNextResponse([resAllFactors, resTotpEnrollSuccess]);
@@ -462,7 +462,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
     });
 
     Expect.describe('Okta Verify with Push', function () {
-      function setupPolling(test, finalResponse) {
+      function setupPolling (test, finalResponse) {
         $.ajax.calls.reset();
 
         // Mock calls to startVerifyFactorPoll to include a faster poll
@@ -502,7 +502,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
         return setupOktaPush().then(function (test) {
           return setupPolling(test, resSuccess);
         })
-          .then(function(test) {
+          .then(function (test) {
             test.scanCodeForm.clickBackLink();
             return Expect.waitForEnrollChoices(test);
           })
@@ -514,7 +514,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
         return setupOktaPush().then(function (test) {
           return setupPolling(test, resSuccess);
         })
-          .then(function(test) {
+          .then(function (test) {
             test.scanCodeForm.clickManualSetupLink();
             return Expect.waitForManualSetupPush(test);
           })
@@ -571,7 +571,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       });
       itp('shows "Refresh code" link if got network error while polling', function () {
         // Simulate polling with Auth SDK's exponential backoff (6 failed requests)
-        function setupFailurePolling(test) {
+        function setupFailurePolling (test) {
           var failureResponse = {status: 0, response: {}};
           Util.speedUpPolling(test.ac);
           test.setNextResponse([resActivatePushSms, resActivatePushSms,
@@ -645,7 +645,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
 
           return tick()       // 1: submit enrollFactor
             .then(tick)   // 2: submit enrollFactor poll
-            .then(function() {
+            .then(function () {
               return test;
             });
         })

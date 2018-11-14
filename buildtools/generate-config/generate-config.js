@@ -1,7 +1,7 @@
 /*global module */
 module.exports = function (grunt) {
 
-  function generateConfig() {
+  function generateConfig () {
 
     var options = this.options(),
         languageGlob = options.languageGlob,

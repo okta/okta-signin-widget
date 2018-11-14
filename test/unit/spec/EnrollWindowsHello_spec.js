@@ -36,7 +36,7 @@ function (Okta,
 
   Expect.describe('EnrollWindowsHello', function () {
 
-    function setup() {
+    function setup () {
       var setNextResponse = Util.mockAjax([responseMfaEnrollAll, responseMfaEnrollActivateWindowsHello]);
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -67,14 +67,14 @@ function (Okta,
         });
     }
 
-    function emulateNotWindows() {
+    function emulateNotWindows () {
       spyOn(webauthn, 'isAvailable').and.returnValue(false);
       spyOn(webauthn, 'makeCredential');
       spyOn(webauthn, 'getAssertion');
       return Q();
     }
 
-    function emulateWindows(errorType) {
+    function emulateWindows (errorType) {
       spyOn(webauthn, 'isAvailable').and.returnValue(true);
 
       spyOn(webauthn, 'makeCredential').and.callFake(function () {

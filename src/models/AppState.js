@@ -38,7 +38,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
 
   var securityImageUrlTpl = compile('{{baseUrl}}/login/getimage?username={{username}}');
 
-  function getSecurityImage(baseUrl, username, deviceFingerprint) {
+  function getSecurityImage (baseUrl, username, deviceFingerprint) {
     var url = securityImageUrlTpl({ baseUrl: baseUrl, username: username });
 
     // When the username is empty, we want to show the default image.
@@ -76,7 +76,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       });
   }
 
-  function getMinutesString(factorLifetimeInMinutes) {
+  function getMinutesString (factorLifetimeInMinutes) {
     if (factorLifetimeInMinutes > 60 && factorLifetimeInMinutes <= 1440) {
       var lifetimeInHours = (factorLifetimeInMinutes / 60);
       return Okta.loc('hours', 'login', [lifetimeInHours]);

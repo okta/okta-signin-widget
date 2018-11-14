@@ -33,7 +33,7 @@ function (Okta,
 
   Expect.describe('EnrollU2F', function () {
 
-    function setup(startRouter, onlyU2F) {
+    function setup (startRouter, onlyU2F) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
@@ -65,11 +65,11 @@ function (Okta,
         });
     }
 
-    function mockU2f(){
+    function mockU2f (){
       window.u2f = { register: function () {} };
     }
 
-    function mocku2fSuccessRegistration() {
+    function mocku2fSuccessRegistration () {
       mockU2f();
       spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
         callback({
@@ -81,7 +81,7 @@ function (Okta,
       });
     }
 
-    function setupU2fFails(errorCode) {
+    function setupU2fFails (errorCode) {
       Q.stopUnhandledRejectionTracking();
       mockU2f();
       spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
@@ -95,7 +95,7 @@ function (Okta,
       });
     }
 
-    function expectErrorHtml(test, errorMessage){
+    function expectErrorHtml (test, errorMessage){
       expect(window.u2f.register).toHaveBeenCalled();
       expect(test.form.hasErrors()).toBe(true);
       expect(test.form.errorBox()).toHaveLength(1);

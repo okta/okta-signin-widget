@@ -14,7 +14,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
   var _ = Okta._;
 
-  function goToFactorActivation(appState) {
+  function goToFactorActivation (appState) {
     var url = RouterUtil.createActivateFactorUrl(appState.get('activatedFactorProvider'),
       appState.get('activatedFactorType'));
     appState.trigger('navigate', url);
@@ -55,7 +55,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
           this.model.startTransaction(function (authClient) {
             return authClient.tx.resume();
           })
-            .then(function() {
+            .then(function () {
             // Sets to trigger on a tick after the appState has been set.
             // This is due to calling the globalSuccessFn in a callback
               setTimeout(goToFactor);
@@ -67,10 +67,10 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       var self = this;
       self.options.appState.unset('factorActivationType');
       if (self.options.appState.get('prevLink')) {
-        this.model.doTransaction(function(transaction) {
+        this.model.doTransaction(function (transaction) {
           return transaction.prev();
         })
-          .then(function() {
+          .then(function () {
           // we trap 'MFA_ENROLL' response that's why we need to trigger navigation from here
             self.options.appState.trigger('navigate', 'signin/enroll');
           });

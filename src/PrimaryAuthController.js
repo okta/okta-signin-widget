@@ -56,7 +56,7 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       this.setUsername();
     },
 
-    addFooter: function(options) {
+    addFooter: function (options) {
       this.add(new Footer(this.toJSON({appState: options.appState})));
 
       if (options.settings.get('features.registration')) {
@@ -67,7 +67,7 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       }
     },
 
-    setUsername: function() {
+    setUsername: function () {
       var username = this.model.get('username');
       if (username) {
         this.options.appState.set('username', username);

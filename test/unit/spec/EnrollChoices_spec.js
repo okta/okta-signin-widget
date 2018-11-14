@@ -23,7 +23,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
 
   Expect.describe('EnrollChoices', function () {
 
-    function setup(res, showSecurityImage) {
+    function setup (res, showSecurityImage) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({
@@ -52,11 +52,11 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
     }
 
     // Poor man's deep clone since we don't use lodash
-    function deepClone(res) {
+    function deepClone (res) {
       return JSON.parse(JSON.stringify(res));
     }
 
-    function setupWithRequiredNoneEnrolled() {
+    function setupWithRequiredNoneEnrolled () {
       var res = deepClone(resAllFactors);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
@@ -65,7 +65,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
-    function setupWithRequiredNoneEnrolledOnPrem() {
+    function setupWithRequiredNoneEnrolledOnPrem () {
       var res = deepClone(resAllFactorsOnPrem);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
@@ -75,7 +75,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
-    function setupWithRequiredSomeRequiredEnrolled() {
+    function setupWithRequiredSomeRequiredEnrolled () {
       var res = deepClone(resAllFactors);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
@@ -84,7 +84,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
-    function setupWithRequiredAllRequiredEnrolled(includeOnPrem) {
+    function setupWithRequiredAllRequiredEnrolled (includeOnPrem) {
       var response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
       var res = deepClone(response);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
@@ -94,40 +94,40 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
-    function setupWithAllOptionalNoneEnrolled() {
+    function setupWithAllOptionalNoneEnrolled () {
       // This is the default resAllFactors response. Creating this function for
       // consistency
       return setup(resAllFactors);
     }
 
-    function setupWithAllOptionalSomeEnrolled(includeOnPrem) {
+    function setupWithAllOptionalSomeEnrolled (includeOnPrem) {
       var response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
       var res = deepClone(response);
       res.response._embedded.factors[0].status = 'ACTIVE';
       return setup(res);
     }
 
-    function setupWithOktaVerifyPushWithSofttokenEnrolled() {
+    function setupWithOktaVerifyPushWithSofttokenEnrolled () {
       var res = deepClone(resPush);
       res.response._embedded.factors[0].status = 'ACTIVE';
       return setup(res);
     }
 
-    function setupWithAllEnrolledButOktaVerifyPushWithSofttokenEnrolled() {
+    function setupWithAllEnrolledButOktaVerifyPushWithSofttokenEnrolled () {
       var res = deepClone(resPush);
       res.response._embedded.factors[0].status = 'ACTIVE';
       res.response._embedded.factors[2].status = 'ACTIVE';
       return setup([res, deepClone(resSuccess)]);
     }
 
-    function setupWithOktaVerifyPushWithPushEnrolled() {
+    function setupWithOktaVerifyPushWithPushEnrolled () {
       var res = deepClone(resPush);
       res.response._embedded.factors[0].status = 'ACTIVE';
       res.response._embedded.factors[1].status = 'ACTIVE';
       return setup(res);
     }
 
-    function itHasIconAndText(factorName, iconClass, title, subtitle, res) {
+    function itHasIconAndText (factorName, iconClass, title, subtitle, res) {
       itp('has right icon', function () {
         return setup(res).then(function (test) {
           expect(test.form.factorIconClass(factorName)).toBe('factor-icon ' + iconClass);

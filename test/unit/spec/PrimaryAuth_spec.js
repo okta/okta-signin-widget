@@ -63,7 +63,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
   var typingPattern = '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
           0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
 
-  function setup(settings, requests, refreshState) {
+  function setup (settings, requests, refreshState) {
     settings || (settings = {});
 
     // To speed up the test suite, calls to debounce are
@@ -107,20 +107,20 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     });
   }
 
-  function setupUnauthenticated(settings, requests) {
+  function setupUnauthenticated (settings, requests) {
     return setup(settings, requests, true);
   }
 
-  function setupPasswordlessAuth(requests) {
+  function setupPasswordlessAuth (requests) {
     return setup({ 'features.passwordlessAuth': true }, requests)
-      .then(function(test){
+      .then(function (test){
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resPasswordlessUnauthenticated);
         return tick(test);
       });
   }
 
-  function setupSocial(settings) {
+  function setupSocial (settings) {
     Util.mockOIDCStateGenerator();
     return setup(_.extend({
       clientId: 'someClientId',
@@ -151,7 +151,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
   }
 
-  function setupSocialNoneOIDCMode(settings) {
+  function setupSocialNoneOIDCMode (settings) {
     Util.mockOIDCStateGenerator();
     return setup(_.extend({
       redirectUri: 'https://0.0.0.0:9999',
@@ -164,7 +164,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     }, settings));
   }
 
-  function setupAdditionalAuthButton() {
+  function setupAdditionalAuthButton () {
     var settings = {
       customButtons: [
         {
@@ -180,7 +180,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     return setup(settings);
   }
 
-  function setupRegistrationButton(featuresRegistration, registrationObj) {
+  function setupRegistrationButton (featuresRegistration, registrationObj) {
     var settings = {
       registration: registrationObj
     };
@@ -190,19 +190,19 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     return setup(settings);
   }
 
-  function waitForBeaconChange(test) {
+  function waitForBeaconChange (test) {
     return tick() //wait to read value of user input
       .then(tick)   //wait to receive ajax response
       .then(tick)   //wait for animation (TODO: verify if needed)
       .then(function () { return test; });
   }
 
-  function transformUsername(name) {
+  function transformUsername (name) {
     var suffix = '@example.com';
     return (name.indexOf(suffix) !== -1) ? name : (name + suffix);
   }
 
-  function transformUsernameOnUnlock(name, operation) {
+  function transformUsernameOnUnlock (name, operation) {
     if (operation === 'UNLOCK_ACCOUNT') {
       transformUsername(name);
     }
@@ -441,7 +441,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.setNextResponse(resSuccess);
           test.form.submit();
           return tick(test);
-        }).then(function(test) {
+        }).then(function (test) {
           test.form.helpFooter().click();
           expect(test.form.forgotPasswordLinkVisible()).not.toBe(true);
         });
@@ -462,7 +462,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.setNextResponse(resSuccess);
           test.form.submit();
           return tick(test);
-        }).then(function(test) {
+        }).then(function (test) {
           test.form.helpFooter().click();
           test.form.forgotPasswordLink().click();
           expect(test.router.navigate).not.toHaveBeenCalledWith('signin/forgot-password', {trigger: true});
@@ -484,7 +484,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.setNextResponse(resSuccess);
           test.form.submit();
           return tick(test);
-        }).then(function(test) {
+        }).then(function (test) {
           test.form.helpFooter().click();
           test.form.forgotPasswordLink().click();
           expect(SharedUtil.redirect).not.toHaveBeenCalledWith('https://foo.com');
@@ -517,7 +517,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.setNextResponse(resSuccess);
           test.form.submit();
           return tick(test);
-        }).then(function(test) {
+        }).then(function (test) {
           test.form.helpFooter().click();
           test.form.unlockLink().click();
           expect(test.router.navigate).not.toHaveBeenCalledWith('signin/unlock', {trigger: true});
@@ -545,7 +545,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.setNextResponse(resSuccess);
           test.form.submit();
           return tick(test);
-        }).then(function(test) {
+        }).then(function (test) {
           test.form.helpFooter().click();
           test.form.unlockLink().click();
           expect(SharedUtil.redirect).not.toHaveBeenCalledWith('https://foo.com');
@@ -685,7 +685,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function (test) {
             test.form.usernameField().focus();
             return tick(test);
-          }).then(function(test) {
+          }).then(function (test) {
             test.form.setUsername('testuser');
             return tick(test);
           }).then(function (test) {
@@ -693,10 +693,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(msg).toEqual(undefined);
             test.form.usernameField().focus();
             return tick(test);
-          }).then(function(test) {
+          }).then(function (test) {
             test.form.setUsername('');
             return tick(test);
-          }).then(function(test) {
+          }).then(function (test) {
             var msg = test.router.controller.model.validateField('username').username;
             expect(msg).toEqual('Please enter a username');
           });
@@ -723,7 +723,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function (test) {
             test.form.passwordField().focus();
             return tick(test);
-          }).then(function(test) {
+          }).then(function (test) {
             test.form.setPassword('Abcd1234');
             return tick(test);
           }).then(function (test) {
@@ -731,10 +731,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(msg).toEqual(undefined);
             test.form.passwordField().focus();
             return tick(test);
-          }).then(function(test) {
+          }).then(function (test) {
             test.form.setPassword('');
             return tick(test);
-          }).then(function(test) {
+          }).then(function (test) {
             var msg = test.router.controller.model.validateField('password').password;
             expect(msg).toEqual('Please enter a password');
           });
@@ -768,7 +768,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-          .then(function(test) {
+          .then(function (test) {
             expect(test.router.settings.transformUsername.calls.count()).toBe(1);
             expect(test.router.settings.transformUsername.calls.argsFor(0)).toEqual(['testuser', 'PRIMARY_AUTH']);
           });
@@ -1191,7 +1191,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy, test);
           })
-            .then(function(test) {
+            .then(function (test) {
               expect(test.beacon.isLoadingBeacon()).toBe(true);
             });
         });
@@ -1601,7 +1601,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-          .then(function(test) {
+          .then(function (test) {
             expect(test.form.isDisabled()).toBe(true);
             return tick();
           })
@@ -1659,7 +1659,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function() {
+          .then(function () {
             expect(processCredsSpy.calls.count()).toBe(1);
             expect(processCredsSpy).toHaveBeenCalledWith({
               username: 'testuser',
@@ -1671,7 +1671,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       itp('calls async processCreds function before saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCreds');
         return setup({
-          'processCreds': function(creds, callback) {
+          'processCreds': function (creds, callback) {
             processCredsSpy(creds, callback);
             callback();
           }
@@ -1684,7 +1684,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function() {
+          .then(function () {
             expect(processCredsSpy.calls.count()).toBe(1);
             expect(processCredsSpy).toHaveBeenCalledWith({
               username: 'testuser',
@@ -1696,7 +1696,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       itp('calls async processCreds function and can prevent saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCreds');
         return setup({
-          'processCreds': function(creds, callback) {
+          'processCreds': function (creds, callback) {
             processCredsSpy(creds, callback);
           }
         })
@@ -1708,7 +1708,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.submit();
             return tick();
           })
-          .then(function() {
+          .then(function () {
             expect(processCredsSpy.calls.count()).toBe(1);
             expect(processCredsSpy).toHaveBeenCalledWith({
               username: 'testuser',
@@ -1898,7 +1898,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
     });
 
-    Expect.describe('Passwordless Auth', function() {
+    Expect.describe('Passwordless Auth', function () {
       itp('does not have a password field', function () {
         return setupPasswordlessAuth().then(function (test) {
           var password = test.form.passwordField();
@@ -2187,7 +2187,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.facebookButton().click();
             return tick(test);
           })
-          .then(function(test) {
+          .then(function (test) {
             expect(window.addEventListener).toHaveBeenCalled();
             var args = window.addEventListener.calls.argsFor(0);
             var type = args[0];
@@ -2356,17 +2356,17 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
     });
     itp('sets text with property passed', function () {
-      return setupAdditionalAuthButton().then(function(test){
+      return setupAdditionalAuthButton().then(function (test){
         expect(test.form.additionalAuthButton().text()).toEqual('test text');
       });
     });
     itp('sets class with property passed', function () {
-      return setupAdditionalAuthButton().then(function(test){
+      return setupAdditionalAuthButton().then(function (test){
         expect(test.form.additionalAuthButton().hasClass('test-class')).toBe(true);
       });
     });
     itp('clickHandler is called when button is clicked', function () {
-      return setupAdditionalAuthButton().then(function(test){
+      return setupAdditionalAuthButton().then(function (test){
         expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(false);
         test.form.additionalAuthButton().click();
         expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(true);
@@ -2390,7 +2390,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           }
         ]
       };
-      return setup(settings).then(function(test){
+      return setup(settings).then(function (test){
         expect(test.form.authDivider().length).toBe(1);
         expect(test.form.additionalAuthButton().length).toBe(1);
         expect(test.form.facebookButton().length).toBe(1);
@@ -2406,7 +2406,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           }
         ]
       };
-      return setup(settings).then(function(test){
+      return setup(settings).then(function (test){
         expect(test.form.authDivider().length).toBe(1);
         expect(test.form.additionalAuthButton().length).toBe(0);
         expect(test.form.facebookButton().length).toBe(1);
@@ -2425,7 +2425,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         ],
         idps: undefined
       };
-      return setup(settings).then(function(test){
+      return setup(settings).then(function (test){
         expect(test.form.authDivider().length).toBe(1);
         expect(test.form.additionalAuthButton().length).toBe(1);
         expect(test.form.facebookButton().length).toBe(0);
@@ -2436,7 +2436,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         customButtons: undefined,
         idps: undefined
       };
-      return setup(settings).then(function(test){
+      return setup(settings).then(function (test){
         expect(test.form.authDivider().length).toBe(0);
         expect(test.form.additionalAuthButton().length).toBe(0);
         expect(test.form.facebookButton().length).toBe(0);

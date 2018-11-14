@@ -23,7 +23,7 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
 
   Expect.describe('EnrollOnPrem', function () {
 
-    function setup(response, includeOnPrem, startRouter) {
+    function setup (response, includeOnPrem, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
@@ -75,7 +75,7 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       return setup(res, false);
     };
 
-    var setupOnPremNoProfile = function() {
+    var setupOnPremNoProfile = function () {
       var res = getResponseNoProfile(resAllFactorsOnPrem, 'token', 'DEL_OATH');
       return setup(res, true);
     };

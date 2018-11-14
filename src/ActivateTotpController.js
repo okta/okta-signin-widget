@@ -31,7 +31,7 @@ function (Okta, FormController, EnterPasscodeForm, Footer) {
           '__provider__': ['string', false, this.options.provider]
         },
         save: function () {
-          return this.doTransaction(function(transaction) {
+          return this.doTransaction(function (transaction) {
             return transaction.activate({
               passCode: this.get('passCode')
             });

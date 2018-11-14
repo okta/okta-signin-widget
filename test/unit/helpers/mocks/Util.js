@@ -64,7 +64,7 @@ function (Okta, Q, Duo) {
       allResponses = allResponses.concat(responses);
     }
 
-    spyOn($, 'post').and.callFake(function(url, data) {
+    spyOn($, 'post').and.callFake(function (url, data) {
       return $.ajax({
         url: url,
         type: 'POST',
@@ -76,7 +76,7 @@ function (Okta, Q, Duo) {
       });
     });
 
-    spyOn($, 'ajax').and.callFake(function(req) {
+    spyOn($, 'ajax').and.callFake(function (req) {
 
       var xhr = allResponses.shift();
       if (!xhr) {
@@ -114,7 +114,7 @@ function (Okta, Q, Duo) {
       return deferred;
     });
 
-    function setNextResponse(response, responseTextOnly) {
+    function setNextResponse (response, responseTextOnly) {
       if (_.isArray(response)) {
         allResponses = response.concat(allResponses);
       } else {
@@ -130,7 +130,7 @@ function (Okta, Q, Duo) {
   // a file that does not exist in our tests)
   fn.mockJqueryCss = function () {
     var original = $.fn.css;
-    spyOn($.fn, 'css').and.callFake(function() {
+    spyOn($.fn, 'css').and.callFake(function () {
       var data = arguments[0];
 
       switch (data['background-image']) {
@@ -145,7 +145,7 @@ function (Okta, Q, Duo) {
 
   fn.speedUpPolling = function () {
     var original = Q.delay;
-    spyOn(Q, 'delay').and.callFake(function() {
+    spyOn(Q, 'delay').and.callFake(function () {
       return original.call(this, 0);
     });
   };
@@ -228,7 +228,7 @@ function (Okta, Q, Duo) {
     });
   };
 
-  function isNative(fn) {
+  function isNative (fn) {
     return fn.toString().indexOf('[native code]') > 0;
   }
 
@@ -241,10 +241,10 @@ function (Okta, Q, Duo) {
   var timeouts = [];
   var originalSetTimeout;
 
-  fn.mockSetTimeout = function() {
+  fn.mockSetTimeout = function () {
     if (isNative(setTimeout)) {
       originalSetTimeout = setTimeout;
-      setTimeout = function() {
+      setTimeout = function () {
         var id = originalSetTimeout.apply(this, arguments);
         timeouts.push(id);
         return id;
@@ -252,7 +252,7 @@ function (Okta, Q, Duo) {
     }
   };
 
-  fn.clearAllTimeouts = function() {
+  fn.clearAllTimeouts = function () {
     while (timeouts.length) {
       clearTimeout(timeouts.pop());
     }
@@ -261,10 +261,10 @@ function (Okta, Q, Duo) {
   var intervals = [];
   var originalSetInterval;
 
-  fn.mockSetInterval = function() {
+  fn.mockSetInterval = function () {
     if (isNative(setInterval)) {
       originalSetInterval = setInterval;
-      setInterval = function() {
+      setInterval = function () {
         var id = originalSetInterval.apply(this, arguments);
         timeouts.push(id);
         return id;
@@ -272,7 +272,7 @@ function (Okta, Q, Duo) {
     }
   };
 
-  fn.clearAllIntervals = function() {
+  fn.clearAllIntervals = function () {
     while (intervals.length) {
       clearTimeout(intervals.pop());
     }

@@ -23,11 +23,11 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function deepClone(res) {
+  function deepClone (res) {
     return JSON.parse(JSON.stringify(res));
   }
 
-  function setup(settings) {
+  function setup (settings) {
     settings || (settings = {});
     var successSpy = jasmine.createSpy('successSpy');
     var passwordResetResponse = resPasswordReset;
@@ -331,7 +331,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function() {
+        .then(function () {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'administrator1@clouditude.net',
@@ -344,7 +344,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     itp('calls async processCreds function before saving a model', function () {
       var processCredsSpy = jasmine.createSpy('processCredsSpy');
       return setup({
-        'processCreds': function(creds, callback) {
+        'processCreds': function (creds, callback) {
           processCredsSpy(creds, callback);
           callback();
         }
@@ -357,7 +357,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function() {
+        .then(function () {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'administrator1@clouditude.net',
@@ -370,7 +370,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     itp('calls async processCreds function and can prevent saving a model', function () {
       var processCredsSpy = jasmine.createSpy('processCredsSpy');
       return setup({
-        'processCreds': function(creds, callback) {
+        'processCreds': function (creds, callback) {
           processCredsSpy(creds, callback);
         }
       })
@@ -382,7 +382,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           test.form.submit();
           return tick();
         })
-        .then(function() {
+        .then(function () {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'administrator1@clouditude.net',

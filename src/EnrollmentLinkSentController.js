@@ -38,7 +38,7 @@ function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
         this.back();
       }
     },
-    back: function() {
+    back: function () {
       var url = RouterUtil.createActivateFactorUrl(this.options.appState.get('activatedFactorProvider'),
         this.options.appState.get('activatedFactorType'), 'manual');
       this.options.appState.trigger('navigate', url);
@@ -133,7 +133,7 @@ function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
     },
 
     pollForEnrollment: function () {
-      return this.model.doTransaction(function(transaction) {
+      return this.model.doTransaction(function (transaction) {
         return transaction.poll(PUSH_INTERVAL);
       });
     },

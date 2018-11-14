@@ -17,15 +17,15 @@ var EC = protractor.ExpectedConditions;
  * Helper functions to compose css selectors
  */
 
-function dataSe(val) {
+function dataSe (val) {
   return '[data-se="' + val + '"]';
 }
 
-function dataType(val) {
+function dataType (val) {
   return '[data-type="' + val + '"]';
 }
 
-function inputWrap(field) {
+function inputWrap (field) {
   return dataSe('o-form-input-' + field);
 }
 
@@ -38,7 +38,7 @@ class FormPage {
    * Abstract methods
    */
 
-  getFormClass() {
+  getFormClass () {
     throw new Error('Class name not defined!');
   }
 
@@ -46,15 +46,15 @@ class FormPage {
    * Concrete selectors/methods that are shared by all forms
    */
 
-  submitButton() {
+  submitButton () {
     return this.$(dataType('save'));
   }
 
-  submit() {
+  submit () {
     return this.submitButton().click();
   }
 
-  getErrorMessage() {
+  getErrorMessage () {
     var errorEl = this.$('.okta-form-infobox-error.infobox.infobox-error p');
     browser.wait(EC.presenceOf(errorEl));
     return errorEl.getText();
@@ -65,19 +65,19 @@ class FormPage {
    * methods.
    */
 
-  input(field) {
+  input (field) {
     return this.$(inputWrap(field) + ' input');
   }
 
-  inputWrap(field) {
+  inputWrap (field) {
     return this.$(inputWrap(field));
   }
 
-  $(selector) {
+  $ (selector) {
     return $('.' + this.getFormClass() + ' ' + selector);
   }
 
-  $dataSe(val) {
+  $dataSe (val) {
     return this.$(dataSe(val));
   }
 

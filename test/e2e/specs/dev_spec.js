@@ -14,10 +14,10 @@ var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OIDCAppPage     = require('../page-objects/OIDCAppPage'),
     util            = require('../util/util');
 
-describe('Dev Mode flows', function() {
+describe('Dev Mode flows', function () {
 
-  function renderWidget() {
-    function renderAndRedirect() {
+  function renderWidget () {
+    function renderAndRedirect () {
       oktaSignIn.renderEl(
         {},
         function (res) {
@@ -30,13 +30,13 @@ describe('Dev Mode flows', function() {
     browser.executeScript(renderAndRedirect);
   }
 
-  beforeEach(function() {
+  beforeEach(function () {
     browser.driver.get('about:blank');
     browser.ignoreSynchronization = true;
     util.loadTestPage('basic-dev');
   });
 
-  it('can hide, show, remove, and start a widget', function() {
+  it('can hide, show, remove, and start a widget', function () {
     renderWidget();
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
@@ -55,8 +55,8 @@ describe('Dev Mode flows', function() {
     expect(el.isPresent()).toBe(false);
 
     // Ensure a new widget can be created
-    function createWidget() {
-      oktaSignIn.renderEl({}, function() {});
+    function createWidget () {
+      oktaSignIn.renderEl({}, function () {});
     }
     browser.executeScript(createWidget);
     expect(el.isDisplayed()).toBe(true);
@@ -82,7 +82,7 @@ describe('Dev Mode flows', function() {
     expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
   });
 
-  it('log a console message when tokens are not parsed from the URL after the Widget is rendered', function() {
+  it('log a console message when tokens are not parsed from the URL after the Widget is rendered', function () {
     renderWidget();
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
@@ -97,16 +97,16 @@ describe('Dev Mode flows', function() {
     expectToFindLogMessage('Looks like there are still tokens in the URL!');
   });
 
-  function expectToFindLogMessage(text) {
+  function expectToFindLogMessage (text) {
     browser.manage().logs().get('browser')
-      .then(function(logs) {
-        var log = logs.find(function(entry) {
+      .then(function (logs) {
+        var log = logs.find(function (entry) {
           var message = text;
           return entry.message.includes(message) === true;
         });
         expect(log).toBeDefined();
       })
-      .catch(function(err) {
+      .catch(function (err) {
         expect(err).toBeUndefined();
       });
   }

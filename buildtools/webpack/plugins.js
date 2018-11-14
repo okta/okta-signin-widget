@@ -9,24 +9,24 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const UglifyJsPlugin = optimize.UglifyJsPlugin;
 
-function webpackBundleAnalyzer(reportFilename = 'okta-sign-in.analyzer') {
+function webpackBundleAnalyzer (reportFilename = 'okta-sign-in.analyzer') {
   return new BundleAnalyzerPlugin({
     openAnalyzer: false,
     reportFilename: `${reportFilename}.html`,
     analyzerMode: 'static',
   });
 }
-function emptyModule() {
+function emptyModule () {
   return new IgnorePlugin(/^\.\/locale$/, /moment$/);
 }
 
-function devMode() {
+function devMode () {
   return new DefinePlugin({
     DEBUG: true
   });
 }
 
-function uglify() {
+function uglify () {
   return new UglifyJsPlugin({
     compress: {
       warnings: false,
@@ -75,13 +75,13 @@ function uglify() {
   });
 }
 
-function banner() {
+function banner () {
   // Add a single Okta license after removing others
   const license = readFileSync(join(__dirname, '../../src/widget/copyright.txt'), 'utf8');
   return new BannerPlugin(license);
 }
 
-function plugins(options = {}) {
+function plugins (options = {}) {
   if (options.isProduction) {
     // Uglify and add license header
     return [ emptyModule(), uglify(), banner(), webpackBundleAnalyzer(options.analyzerFile) ];

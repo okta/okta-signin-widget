@@ -30,7 +30,7 @@ function (Okta, FormType, FormController, Footer, TextBox) {
         factorId: 'string'
       },
       save: function () {
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
 
           var factor = _.findWhere(transaction.factors, {
             factorType: 'token',

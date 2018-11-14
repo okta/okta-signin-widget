@@ -64,7 +64,7 @@ define(['./Form'], function (Form) {
       return this.signoutLink().click();
     },
 
-    customButton: function() {
+    customButton: function () {
       return this.el('custom-button');
     },
 
@@ -72,7 +72,7 @@ define(['./Form'], function (Form) {
       return this.el('custom-button').trimmedText();
     },
 
-    clickCustomButton: function() {
+    clickCustomButton: function () {
       this.el('custom-button').click();
     }
 

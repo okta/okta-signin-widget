@@ -40,7 +40,7 @@ function (Okta,
 
   Expect.describe('EnrollWebauthn', function () {
 
-    function setup(startRouter, onlyWebauthn) {
+    function setup (startRouter, onlyWebauthn) {
       var settings = {};
       settings['features.webauthn'] = true;
 
@@ -75,11 +75,11 @@ function (Okta,
         });
     }
 
-    function mockWebauthn(){
+    function mockWebauthn (){
       navigator.credentials = { create: function () {} };
     }
 
-    function mockWebauthnSuccessRegistration() {
+    function mockWebauthnSuccessRegistration () {
       mockWebauthn();
       spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(true);
       spyOn(navigator.credentials, 'create').and.callFake(function () {
@@ -94,7 +94,7 @@ function (Okta,
       });
     }
 
-    function mockU2fSuccessRegistration() {
+    function mockU2fSuccessRegistration () {
       window.u2f = { register: function () {} };
 
       spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
@@ -107,7 +107,7 @@ function (Okta,
       });
     }
 
-    function mockWebauthnFailureRegistration() {
+    function mockWebauthnFailureRegistration () {
       Q.stopUnhandledRejectionTracking();
       mockWebauthn();
       spyOn(navigator.credentials, 'create').and.callFake(function () {

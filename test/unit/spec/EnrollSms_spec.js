@@ -28,7 +28,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
 
   Expect.describe('EnrollSms', function () {
 
-    function setup(resp, startRouter) {
+    function setup (resp, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -59,19 +59,19 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
         });
     }
 
-    function enterCode(test, countryCode, phoneNumber) {
+    function enterCode (test, countryCode, phoneNumber) {
       test.form.selectCountry(countryCode);
       test.form.setPhoneNumber(phoneNumber);
     }
 
-    function sendCode(test, res, countryCode, phoneNumber) {
+    function sendCode (test, res, countryCode, phoneNumber) {
       test.setNextResponse(res);
       enterCode(test, countryCode, phoneNumber);
       test.form.sendCodeButton().click();
       return tick(test);
     }
 
-    function sendCodeOnEnter(test, res, countryCode, phoneNumber) {
+    function sendCodeOnEnter (test, res, countryCode, phoneNumber) {
       test.setNextResponse(res);
       enterCode(test, countryCode, phoneNumber);
       var keydown = $.Event('keydown');
@@ -83,7 +83,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       return tick(test);
     }
 
-    function setupAndSendCode(res, countryCode, phoneNumber) {
+    function setupAndSendCode (res, countryCode, phoneNumber) {
       return setup().then(function (test) {
         return sendCode(test, res, countryCode, phoneNumber);
       });
@@ -92,20 +92,20 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
     var setupAndSendValidCode = _.partial(setupAndSendCode, resEnrollSuccess, 'US', '4151234567');
     var setupAndSendInvalidCode = _.partial(setupAndSendCode, resEnrollError, 'US', '415');
 
-    function expectResendButton(test) {
+    function expectResendButton (test) {
       var button = test.form.sendCodeButton();
       expect(button.trimmedText()).toEqual('Re-send code');
       expect(button.hasClass('button-primary')).toBe(false);
     }
 
-    function expectSentButton(test) {
+    function expectSentButton (test) {
       var button = test.form.sendCodeButton();
       expect(button.trimmedText()).toEqual('Sent');
       expect(button.attr('class')).not.toMatch('button-primary');
       expect(button.attr('class')).toMatch('link-button-disabled');
     }
 
-    function expectSendButton(test) {
+    function expectSendButton (test) {
       var button = test.form.sendCodeButton();
       expect(button.trimmedText()).toEqual('Send code');
       expect(button.hasClass('button-primary')).toBe(true);

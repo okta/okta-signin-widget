@@ -32,6 +32,7 @@ module.exports = {
     'no-unused-expressions': [2, { 'allowShortCircuit': true, 'allowTernary': true }],
     'no-use-before-define': [2, 'nofunc'],
     'quotes': [2, 'single'],
+    'space-before-function-paren': 2,
     'strict': 0,
   },
   'root': true
