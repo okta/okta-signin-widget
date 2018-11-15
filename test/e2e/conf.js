@@ -51,11 +51,12 @@ if (process.env.TRAVIS) {
 // WIDGET_BASIC_USER
 // WIDGET_BASIC_PASSWORD
 else {
-  config.seleniumServerJar = '../../node_modules/webdriver-manager/selenium/selenium-server-standalone-3.8.1.jar';
+  const webdriverManegerConfig = require('webdriver-manager/selenium/update-config.json');
+
+  config.directConnect = true;
+  config.chromeDriver = webdriverManegerConfig.chrome.last;
   config.capabilities = {
-    'browserName': '{{browserName}}',
-    'phantomjs.binary.path': require('phantomjs').path,
-    'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+    browserName: 'chrome',
   };
 }
 
