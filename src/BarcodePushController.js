@@ -65,7 +65,7 @@ function (Okta, FactorUtil, FormController, FormType, RouterUtil, BarcodeView, F
     },
 
     pollForEnrollment: function () {
-      return this.model.doTransaction(function(transaction) {
+      return this.model.doTransaction(function (transaction) {
         return transaction.poll(PUSH_INTERVAL);
       });
     },

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 8], max-depth: [2, 3] */
+/* eslint complexity: [2, 13], max-depth: [2, 3] */
 define(['okta', 'util/Logger'], function (Okta, Logger) {
 
   var Util = {};
@@ -70,7 +70,7 @@ define(['okta', 'util/Logger'], function (Okta, Logger) {
   // For example:
   // en-US -> [en-US, en]
   // de-DE-bavarian -> [de-DE-bavarian, de-DE, de]
-  function expandLanguage(language) {
+  function expandLanguage (language) {
     var expanded = [language],
         parts = language.split('-');
     while (parts.pop() && parts.length > 0) {

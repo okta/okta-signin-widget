@@ -1,0 +1,14 @@
+node_modules
+build2
+dist
+target
+test-reports
+
+packages
+scripts
+assets
+vendor
+test/unit/helpers/xhr/
+test/e2e/angular-app/
+test/e2e/react-app/
+!.eslintrc.js

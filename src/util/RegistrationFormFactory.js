@@ -19,14 +19,14 @@ define([
   var _ = Okta._;
   var { SchemaFormFactory } = Okta.internal.views.forms.helpers;
 
-  var getParts = function(username) {
+  var getParts = function (username) {
     var usernameArr = username.split('');
     var minPartsLength = 3;
     var userNameParts = [];
     var delimiters = [',', '.', '-', '_', '#', '@'];
     var userNamePart = '';
 
-    _.each(usernameArr, function(part){
+    _.each(usernameArr, function (part){
       if(delimiters.indexOf(part) == -1) {
         userNamePart += part;
       } else{
@@ -42,7 +42,7 @@ define([
     return userNameParts.filter(Boolean);
   };
 
-  var passwordContainsUserName = function(username, password) {
+  var passwordContainsUserName = function (username, password) {
     if(!username) {
       return false;
     }
@@ -59,7 +59,7 @@ define([
     return false;
   };
   
-  var checkSubSchema = function(subSchema, value, model) {
+  var checkSubSchema = function (subSchema, value, model) {
     var minLength = subSchema.get('minLength');
     var maxLength = subSchema.get('maxLength');
     var regex = subSchema.get('format');
@@ -100,7 +100,7 @@ define([
       return;
     }
 
-    subSchemas.each(function(subSchema, index) {
+    subSchemas.each(function (subSchema, index) {
       var ele = Okta.$('#subschemas-' + fieldName + ' .subschema-' + index);
       //hide password complexity if no password
       if (value) {
@@ -123,7 +123,7 @@ define([
     });
   };
 
-  var fnCreateInputOptions = function(schemaProperty) {
+  var fnCreateInputOptions = function (schemaProperty) {
     var inputOptions = SchemaFormFactory.createInputOptions(schemaProperty);
     if (inputOptions.type === 'select') {
       inputOptions = _.extend(inputOptions, {

@@ -52,7 +52,7 @@ function (Okta) {
     className: 'auth-footer',
 
     initialize: function () {
-      this.listenTo(this.state, 'change:enabled', function(model, enable) {
+      this.listenTo(this.state, 'change:enabled', function (model, enable) {
         this.$(':link').toggleClass('o-form-disabled', !enable);
       });
     },

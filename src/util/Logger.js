@@ -12,7 +12,7 @@
 
 define(function () {
 
-  function log(level, args) {
+  function log (level, args) {
     // Only log statements in development mode or if
     // throwing an error through console.error
     if (DEBUG || level === 'error') {

@@ -1,7 +1,7 @@
 /* global module */
 var junitReportBuilder = require('junit-report-builder');
 
-function checkMessages(checks) {
+function checkMessages (checks) {
   return checks.reduce(function (messages, check) {
     messages += '    \u2022 ' + check.message + '\n';
     if (check.relatedNodes && check.relatedNodes.length) {

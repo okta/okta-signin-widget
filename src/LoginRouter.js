@@ -60,51 +60,51 @@ define([
   'views/consent/ConsentBeacon'
 ],
 function (BaseLoginRouter,
-          IDPDiscoveryController,
-          PrimaryAuthController,
-          VerifyDuoController,
-          MfaVerifyController,
-          VerifyWindowsHelloController,
-          VerifyU2FController,
-          VerifyWebauthnController,
-          VerifyCustomFactorController,
-          EnrollChoicesController,
-          EnrollDuoController,
-          EnrollQuestionController,
-          EnrollWindowsHelloController,
-          EnrollCallAndSmsController,
-          EnrollOnPremController,
-          EnrollSymantecVipController,
-          EnrollYubikeyController,
-          EnrollTotpController,
-          EnrollU2FController,
-          EnrollWebauthnController,
-          EnrollCustomFactorController,
-          BarcodeTotpController,
-          BarcodePushController,
-          ActivateTotpController,
-          ManualSetupTotpController,
-          ManualSetupPushController,
-          EnrollmentLinkSentController,
-          EnterPasscodePushFlowController,
-          PasswordExpiredController,
-          CustomPasswordExpiredController,
-          ForgotPasswordController,
-          RecoveryChallengeController,
-          PwdResetEmailSentController,
-          RecoveryQuestionController,
-          PasswordResetController,
-          RecoveryLoadingController,
-          UnlockAccountController,
-          AccountUnlockedController,
-          UnlockEmailSentController,
-          RefreshAuthStateController,
-          RegistrationController,
-          RegistrationCompleteController,
-          ConsentRequiredController,
-          SecurityBeacon,
-          FactorBeacon,
-          ConsentBeacon) {
+  IDPDiscoveryController,
+  PrimaryAuthController,
+  VerifyDuoController,
+  MfaVerifyController,
+  VerifyWindowsHelloController,
+  VerifyU2FController,
+  VerifyWebauthnController,
+  VerifyCustomFactorController,
+  EnrollChoicesController,
+  EnrollDuoController,
+  EnrollQuestionController,
+  EnrollWindowsHelloController,
+  EnrollCallAndSmsController,
+  EnrollOnPremController,
+  EnrollSymantecVipController,
+  EnrollYubikeyController,
+  EnrollTotpController,
+  EnrollU2FController,
+  EnrollWebauthnController,
+  EnrollCustomFactorController,
+  BarcodeTotpController,
+  BarcodePushController,
+  ActivateTotpController,
+  ManualSetupTotpController,
+  ManualSetupPushController,
+  EnrollmentLinkSentController,
+  EnterPasscodePushFlowController,
+  PasswordExpiredController,
+  CustomPasswordExpiredController,
+  ForgotPasswordController,
+  RecoveryChallengeController,
+  PwdResetEmailSentController,
+  RecoveryQuestionController,
+  PasswordResetController,
+  RecoveryLoadingController,
+  UnlockAccountController,
+  AccountUnlockedController,
+  UnlockEmailSentController,
+  RefreshAuthStateController,
+  RegistrationController,
+  RegistrationCompleteController,
+  ConsentRequiredController,
+  SecurityBeacon,
+  FactorBeacon,
+  ConsentBeacon) {
   return BaseLoginRouter.extend({
 
     routes: {
@@ -165,7 +165,7 @@ function (BaseLoginRouter,
       'unlockAccount', 'refreshAuthState', 'register', 'registerComplete'
     ],
 
-    defaultAuth: function() {
+    defaultAuth: function () {
       if(this.settings.get('features.idpDiscovery')) {
         this.idpDiscovery();
       }
@@ -464,15 +464,15 @@ function (BaseLoginRouter,
       });
     },
 
-    register: function() {
+    register: function () {
       this.render(RegistrationController);
     },
 
-    registerComplete: function() {
+    registerComplete: function () {
       this.render(RegistrationCompleteController);
     },
 
-    consentRequired: function() {
+    consentRequired: function () {
       this.render(ConsentRequiredController, { Beacon: ConsentBeacon });
     }
 

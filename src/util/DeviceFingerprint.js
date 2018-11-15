@@ -10,16 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 8] */
-
 define(['q', 'okta'], function (Q, Okta) {
 
   var $ = Okta.$;
   return {
-    getUserAgent: function() {
+    getUserAgent: function () {
       return navigator.userAgent;
     },
-    isMessageFromCorrectSource: function($iframe, event) {
+    isMessageFromCorrectSource: function ($iframe, event) {
       return event.source === $iframe[0].contentWindow;
     },
     generateDeviceFingerprint: function (oktaDomainUrl, element) {
@@ -34,22 +32,22 @@ define(['q', 'okta'], function (Q, Okta) {
       var self = this;
       var $iframe;
 
-      function isWindowsPhone(userAgent) {
+      function isWindowsPhone (userAgent) {
         return userAgent.match(/windows phone|iemobile|wpdesktop/i);
       }
 
-      function removeIframe() {
+      function removeIframe () {
         $iframe.off();
         $iframe.remove();
         window.removeEventListener('message', onMessageReceivedFromOkta, false);
       }
 
-      function handleError(reason) {
+      function handleError (reason) {
         removeIframe();
         deferred.reject(reason);
       }
 
-      function onMessageReceivedFromOkta(event) {
+      function onMessageReceivedFromOkta (event) {
         if (!self.isMessageFromCorrectSource($iframe, event)) {
           return;
         }
@@ -72,7 +70,7 @@ define(['q', 'okta'], function (Q, Okta) {
         }
       }
 
-      function sendMessageToOkta(message) {
+      function sendMessageToOkta (message) {
         var win = $iframe[0].contentWindow;
         if (win) {
           win.postMessage(JSON.stringify(message), oktaDomainUrl);

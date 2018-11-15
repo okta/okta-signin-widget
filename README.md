@@ -386,15 +386,15 @@ Returns [authentication transaction information](https://developer.okta.com/docs
 
 ```javascript
 signIn.getTransaction(stateToken)
-.then(function (transaction) {
-  console.log(transaction.status);
-  console.log(transaction.user.profile.login);
-  // PASSWORD_EXPIRED
-  // user@example.com
-})
-.catch(function (err) {
-  console.log(error.message);
-});
+  .then(function (transaction) {
+    console.log(transaction.status);
+    console.log(transaction.user.profile.login);
+    // PASSWORD_EXPIRED
+    // user@example.com
+  })
+  .catch(function (err) {
+    console.log(error.message);
+  });
 ```
 
 When the `getTransaction` method resolves, it returns a **transaction** object that encapulates the [state authentication flow](https://developer.okta.com/docs/api/resources/authn#transaction-model). The **transaction** contains metadata about the current state, and provides methods that can be used to progress into another state.
@@ -583,9 +583,9 @@ Manually refresh a token before it expires.
 // Because the refresh() method is async, you can wait for it to complete
 // by using the returned Promise:
 signIn.tokenManager.refresh('my_id_token')
-.then(function (newToken) {
-  // doSomethingWith(newToken);
-});
+  .then(function (newToken) {
+    // doSomethingWith(newToken);
+  });
 
 // Alternatively, you can subscribe to the 'refreshed' event:
 signIn.tokenManager.on('refreshed', function (key, newToken, oldToken) {

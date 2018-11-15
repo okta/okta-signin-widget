@@ -15,7 +15,7 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
-          $sandbox, resAllFactors, resAllFactorsOnPrem, resPush, resSuccess) {
+  $sandbox, resAllFactors, resAllFactorsOnPrem, resPush, resSuccess) {
 
   var { $ } = Okta;
   var itp = Expect.itp;
@@ -23,7 +23,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
 
   Expect.describe('EnrollChoices', function () {
 
-    function setup(res, showSecurityImage) {
+    function setup (res, showSecurityImage) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({
@@ -52,11 +52,11 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
     }
 
     // Poor man's deep clone since we don't use lodash
-    function deepClone(res) {
+    function deepClone (res) {
       return JSON.parse(JSON.stringify(res));
     }
 
-    function setupWithRequiredNoneEnrolled() {
+    function setupWithRequiredNoneEnrolled () {
       var res = deepClone(resAllFactors);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
@@ -65,7 +65,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
-    function setupWithRequiredNoneEnrolledOnPrem() {
+    function setupWithRequiredNoneEnrolledOnPrem () {
       var res = deepClone(resAllFactorsOnPrem);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
@@ -75,7 +75,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
-    function setupWithRequiredSomeRequiredEnrolled() {
+    function setupWithRequiredSomeRequiredEnrolled () {
       var res = deepClone(resAllFactors);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
@@ -84,7 +84,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
-    function setupWithRequiredAllRequiredEnrolled(includeOnPrem) {
+    function setupWithRequiredAllRequiredEnrolled (includeOnPrem) {
       var response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
       var res = deepClone(response);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
@@ -94,40 +94,40 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
-    function setupWithAllOptionalNoneEnrolled() {
+    function setupWithAllOptionalNoneEnrolled () {
       // This is the default resAllFactors response. Creating this function for
       // consistency
       return setup(resAllFactors);
     }
 
-    function setupWithAllOptionalSomeEnrolled(includeOnPrem) {
+    function setupWithAllOptionalSomeEnrolled (includeOnPrem) {
       var response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
       var res = deepClone(response);
       res.response._embedded.factors[0].status = 'ACTIVE';
       return setup(res);
     }
 
-    function setupWithOktaVerifyPushWithSofttokenEnrolled() {
+    function setupWithOktaVerifyPushWithSofttokenEnrolled () {
       var res = deepClone(resPush);
       res.response._embedded.factors[0].status = 'ACTIVE';
       return setup(res);
     }
 
-    function setupWithAllEnrolledButOktaVerifyPushWithSofttokenEnrolled() {
+    function setupWithAllEnrolledButOktaVerifyPushWithSofttokenEnrolled () {
       var res = deepClone(resPush);
       res.response._embedded.factors[0].status = 'ACTIVE';
       res.response._embedded.factors[2].status = 'ACTIVE';
       return setup([res, deepClone(resSuccess)]);
     }
 
-    function setupWithOktaVerifyPushWithPushEnrolled() {
+    function setupWithOktaVerifyPushWithPushEnrolled () {
       var res = deepClone(resPush);
       res.response._embedded.factors[0].status = 'ACTIVE';
       res.response._embedded.factors[1].status = 'ACTIVE';
       return setup(res);
     }
 
-    function itHasIconAndText(factorName, iconClass, title, subtitle, res) {
+    function itHasIconAndText (factorName, iconClass, title, subtitle, res) {
       itp('has right icon', function () {
         return setup(res).then(function (test) {
           expect(test.form.factorIconClass(factorName)).toBe('factor-icon ' + iconClass);
@@ -288,11 +288,11 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         });
         itp('has a list title of "Additional optional factors" for the optional list if ' +
             'there are enrolled factors',
-          function () {
-            return setupWithAllOptionalSomeEnrolled().then(function (test) {
-              expect(test.form.optionalFactorListTitle()).toBe('Additional optional factors');
-            });
-          }
+        function () {
+          return setupWithAllOptionalSomeEnrolled().then(function (test) {
+            expect(test.form.optionalFactorListTitle()).toBe('Additional optional factors');
+          });
+        }
         );
         itp('shows enrolled factors as a minimized list', function () {
           return setupWithRequiredAllRequiredEnrolled().then(function (test) {
@@ -357,7 +357,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
               expect(test.form.factorButton('GENERIC_OIDC').length).toBe(1);
               test.form.factorButton('SMS').click();
               expect(test.router.navigate)
-              .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
+                .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
             });
           });
         itp('has the button "Finish" if all required factors have been enrolled', function () {
@@ -377,23 +377,23 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             test.form.submit();
             return tick();
           })
-          .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/skip',
-              data: {
-                stateToken: 'testStateToken'
-              }
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/skip',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
             });
-          });
         });
         itp('does not show the Finish button if there are no required factors and no ' +
             'optional factors have been enrolled',
-          function () {
-            return setupWithAllOptionalNoneEnrolled().then(function (test) {
-              expect(test.form.submitButton().length).toBe(0);
-            });
+        function () {
+          return setupWithAllOptionalNoneEnrolled().then(function (test) {
+            expect(test.form.submitButton().length).toBe(0);
           });
+        });
       });
 
     });

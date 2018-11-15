@@ -17,20 +17,20 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta,
-          Q,
-          OktaAuth,
-          CryptoUtil,
-          webauthn,
-          Util,
-          Form,
-          Beacon,
-          Expect,
-          $sandbox,
-          Router,
-          resAllFactors,
-          resWebauthn,
-          resEnrollActivateWebauthn,
-          resSuccess) {
+  Q,
+  OktaAuth,
+  CryptoUtil,
+  webauthn,
+  Util,
+  Form,
+  Beacon,
+  Expect,
+  $sandbox,
+  Router,
+  resAllFactors,
+  resWebauthn,
+  resEnrollActivateWebauthn,
+  resSuccess) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -40,7 +40,7 @@ function (Okta,
 
   Expect.describe('EnrollWebauthn', function () {
 
-    function setup(startRouter, onlyWebauthn) {
+    function setup (startRouter, onlyWebauthn) {
       var settings = {};
       settings['features.webauthn'] = true;
 
@@ -57,29 +57,29 @@ function (Okta,
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
-      .then(function () {
-        setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollChoices();
-      })
-      .then(function () {
-        router.enrollWebauthn();
-        return Expect.waitForEnrollWebauthn({
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          successSpy: successSpy
+        .then(function () {
+          setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
+          router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices();
+        })
+        .then(function () {
+          router.enrollWebauthn();
+          return Expect.waitForEnrollWebauthn({
+            router: router,
+            beacon: new Beacon($sandbox),
+            form: new Form($sandbox),
+            ac: authClient,
+            setNextResponse: setNextResponse,
+            successSpy: successSpy
+          });
         });
-      });
     }
 
-    function mockWebauthn(){
+    function mockWebauthn (){
       navigator.credentials = { create: function () {} };
     }
 
-    function mockWebauthnSuccessRegistration() {
+    function mockWebauthnSuccessRegistration () {
       mockWebauthn();
       spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(true);
       spyOn(navigator.credentials, 'create').and.callFake(function () {
@@ -94,7 +94,7 @@ function (Okta,
       });
     }
 
-    function mockU2fSuccessRegistration() {
+    function mockU2fSuccessRegistration () {
       window.u2f = { register: function () {} };
 
       spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
@@ -107,7 +107,7 @@ function (Okta,
       });
     }
 
-    function mockWebauthnFailureRegistration() {
+    function mockWebauthnFailureRegistration () {
       Q.stopUnhandledRejectionTracking();
       mockWebauthn();
       spyOn(navigator.credentials, 'create').and.callFake(function () {
@@ -174,12 +174,12 @@ function (Okta,
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function (test) {
-          Expect.isVisible(test.form.enrollWaitingText());
-          Expect.isVisible(test.form.enrollDeviceImages());
-          Expect.isVisible(test.form.enrollSpinningIcon());
-          Expect.isNotVisible(test.form.submitButton());
-        });
+          .then(function (test) {
+            Expect.isVisible(test.form.enrollWaitingText());
+            Expect.isVisible(test.form.enrollDeviceImages());
+            Expect.isVisible(test.form.enrollSpinningIcon());
+            Expect.isNotVisible(test.form.submitButton());
+          });
       });
 
       itp('sends enroll request after submitting the form', function () {
@@ -190,17 +190,17 @@ function (Okta,
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(2);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/factors',
-            data: {
-              stateToken: 'testStateToken',
-              factorType: 'webauthn',
-              provider: 'FIDO'
-            }
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors',
+              data: {
+                stateToken: 'testStateToken',
+                factorType: 'webauthn',
+                provider: 'FIDO'
+              }
+            });
           });
-        });
       });
 
       itp('calls navigator.credentials.create and activates the factor', function () {
@@ -213,42 +213,42 @@ function (Okta,
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
-          expect(navigator.credentials.create).toHaveBeenCalledWith({
-            publicKey: {
-              rp: {
-                name: 'acme'
-              },
-              user: {
-                id: CryptoUtil.strToBin('00u1212qZXXap6Cts0g4'),
-                name: 'yuming.cao@okta.com',
-                displayName: 'Test User'
-              },
-              pubKeyCredParams: [{
-                type: 'public-key',
-                alg: -7
-              }],
-              challenge: CryptoUtil.strToBin('G7bIvwrJJ33WCEp6GGSH'),
-              authenticatorSelection: {
-                authenticatorAttachment: 'cross-platform',
-                requireResidentKey: false,
-                userVerification: 'preferred'
-              },
-              u2fParams: {
-                appid: 'https://test.okta.com'
+          .then(function () {
+            expect(navigator.credentials.create).toHaveBeenCalledWith({
+              publicKey: {
+                rp: {
+                  name: 'acme'
+                },
+                user: {
+                  id: CryptoUtil.strToBin('00u1212qZXXap6Cts0g4'),
+                  name: 'yuming.cao@okta.com',
+                  displayName: 'Test User'
+                },
+                pubKeyCredParams: [{
+                  type: 'public-key',
+                  alg: -7
+                }],
+                challenge: CryptoUtil.strToBin('G7bIvwrJJ33WCEp6GGSH'),
+                authenticatorSelection: {
+                  authenticatorAttachment: 'cross-platform',
+                  requireResidentKey: false,
+                  userVerification: 'preferred'
+                },
+                u2fParams: {
+                  appid: 'https://test.okta.com'
+                }
               }
-            }
+            });
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+              url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
+              data: {
+                attestation: testAttestationObject,
+                clientData: testClientData,
+                stateToken: 'testStateToken'
+              }
+            });
           });
-          expect($.ajax.calls.count()).toBe(2);
-          Expect.isJsonPost($.ajax.calls.argsFor(1), {
-            url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
-            data: {
-              attestation: testAttestationObject,
-              clientData: testClientData,
-              stateToken: 'testStateToken'
-            }
-          });
-        });
       });
 
       itp('calls u2f.register and activates the factor for non-webauthn supported browsers', function () {
@@ -262,21 +262,21 @@ function (Okta,
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
-          expect(window.u2f.register).toHaveBeenCalledWith('https://test.okta.com', [{
-            version: 'U2F_V2',
-            challenge: 'G7bIvwrJJ33WCEp6GGSH'
-          }], [], jasmine.any(Function));
-          expect($.ajax.calls.count()).toBe(2);
-          Expect.isJsonPost($.ajax.calls.argsFor(1), {
-            url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
-            data: {
-              attestation: testAttestationObject,
-              clientData: testClientData,
-              stateToken: 'testStateToken'
-            }
+          .then(function () {
+            expect(window.u2f.register).toHaveBeenCalledWith('https://test.okta.com', [{
+              version: 'U2F_V2',
+              challenge: 'G7bIvwrJJ33WCEp6GGSH'
+            }], [], jasmine.any(Function));
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+              url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
+              data: {
+                attestation: testAttestationObject,
+                clientData: testClientData,
+                stateToken: 'testStateToken'
+              }
+            });
           });
-        });
       });
 
       itp('shows error when navigator.credentials.create failed', function () {
@@ -290,12 +290,12 @@ function (Okta,
           test.form.submit();
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
-        .then(function (test) {
-          expect(navigator.credentials.create).toHaveBeenCalled();
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorBox()).toHaveLength(1);
-          expect(test.form.errorMessage()).toEqual('something went wrong');
-        });
+          .then(function (test) {
+            expect(navigator.credentials.create).toHaveBeenCalled();
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox()).toHaveLength(1);
+            expect(test.form.errorMessage()).toEqual('something went wrong');
+          });
       });
     });
   });

@@ -31,15 +31,15 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
     }
   };
 
-  function isCallFactor(factorType) {
+  function isCallFactor (factorType) {
     return factorType === 'call';
   }
 
-  function getClassName(factorType) {
+  function getClassName (factorType) {
     return isCallFactor(factorType) ? 'enroll-call' : 'enroll-sms';
   }
 
-  function sendCode(e) {
+  function sendCode (e) {
     if (Keys.isEnter(e)) {
       e.stopPropagation();
       e.preventDefault();
@@ -105,7 +105,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
           return;
         }
 
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           var isMfaEnroll = transaction.status === 'MFA_ENROLL';
           var profileData = {
             phoneNumber: phoneNumber,
@@ -127,13 +127,13 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
             return factor.enroll({
               profile: profileData
             })
-            .fail(function (error) {
-              if(error.errorCode === 'E0000098') { // E0000098: "This phone number is invalid."
-                self.set('skipPhoneValidation', true);
-                error.xhr.responseJSON.errorSummary = Okta.loc('enroll.sms.try_again', 'login');
-              }
-              throw error;
-            });
+              .fail(function (error) {
+                if(error.errorCode === 'E0000098') { // E0000098: "This phone number is invalid."
+                  self.set('skipPhoneValidation', true);
+                  error.xhr.responseJSON.errorSummary = Okta.loc('enroll.sms.try_again', 'login');
+                }
+                throw error;
+              });
           };
 
           if (isMfaEnroll) {
@@ -143,33 +143,33 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
             // We must transition to MfaEnroll before updating the phone number
             self.set('trapEnrollment', true);
             return transaction.prev()
-            .then(doEnroll)
-            .then(function (trans) {
-              self.set('trapEnrollment', false);
-              return trans;
-            });
+              .then(doEnroll)
+              .then(function (trans) {
+                self.set('trapEnrollment', false);
+                return trans;
+              });
           }
         // Rethrow errors so we can change state
         // AFTER setting the new transaction
         }, true)
-        .then(function () {
-          self.set('lastEnrolledPhoneNumber', phoneNumber);
-          self.limitResending();
-        })
-        .fail(function () {
-          self.set('ableToResend', true);
-          self.set('trapEnrollment', false);
-        });
+          .then(function () {
+            self.set('lastEnrolledPhoneNumber', phoneNumber);
+            self.limitResending();
+          })
+          .fail(function () {
+            self.set('ableToResend', true);
+            self.set('trapEnrollment', false);
+          });
       },
       resendCode: function () {
         this.trigger('errors:clear');
         this.limitResending();
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           return transaction.resend(this.get('factorType'));
         });
       },
       save: function () {
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           return transaction.activate({
             passCode: this.get('passCode')
           });

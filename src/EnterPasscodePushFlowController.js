@@ -33,7 +33,7 @@ function (Okta, FormController, RouterUtil, EnterPasscodeForm) {
     },
     back: function () {
       var url = RouterUtil.createActivateFactorUrl(this.options.appState.get('activatedFactorProvider'),
-          'push', 'manual');
+        'push', 'manual');
       this.options.appState.trigger('navigate', url);
     }
   });
@@ -51,7 +51,7 @@ function (Okta, FormController, RouterUtil, EnterPasscodeForm) {
           '__provider__': ['string', false, this.options.provider]
         },
         save: function () {
-          return this.doTransaction(function(transaction) {
+          return this.doTransaction(function (transaction) {
             return transaction.activate({
               passCode: this.get('passCode')
             });

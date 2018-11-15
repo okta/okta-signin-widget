@@ -1,6 +1,6 @@
 define(['q'], function (Q) {
 
-  function addMethodSpy(mock, methodName) {
+  function addMethodSpy (mock, methodName) {
     var spy = jasmine.createSpy(methodName + 'Spy').and.callFake(function () {
       if (!mock.__nextRes) {
         return Q.resolve({});
@@ -25,7 +25,7 @@ define(['q'], function (Q) {
     mock[methodName] = spy;
   }
 
-  function Mock() {
+  function Mock () {
     var self = this;
     this.subscribe = jasmine.createSpy('subscribeSpy').and.callFake(function (fn) {
       self.__globalSubscribeFn = fn;

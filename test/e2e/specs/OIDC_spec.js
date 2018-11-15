@@ -16,16 +16,16 @@ var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     util = require('../util/util'),
     Expect = require('../util/Expect');
 
-function setup(options) {
+function setup (options) {
   browser.executeScript('initialize(' + JSON.stringify(options) + ')');
 }
 
-describe('OIDC flows', function() {
+describe('OIDC flows', function () {
   var primaryAuth = new PrimaryAuthPage(),
       oidcApp = new OIDCAppPage(),
       facebook = new FacebookPage();
 
-  beforeEach(function() {
+  beforeEach(function () {
     browser.driver.get('about:blank');
     browser.ignoreSynchronization = true;
     util.loadTestPage('oidc');
@@ -38,7 +38,7 @@ describe('OIDC flows', function() {
 
   describe('Okta as IDP', function () {
 
-    it('can login and exchange a sessionToken for an id_token', function() {
+    it('can login and exchange a sessionToken for an id_token', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: 'rW47c465c1wc3MKzHznu',
@@ -59,7 +59,7 @@ describe('OIDC flows', function() {
       expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
     });
 
-    it('throws form error if auth client returns with OAuth error', function() {
+    it('throws form error if auth client returns with OAuth error', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: 'rW47c465c1wc3MKzHznu',

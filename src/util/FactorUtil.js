@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 19], max-statements: [2, 36] */
+/* eslint complexity: [2, 35], max-statements: [2, 36] */
 define([
   'okta'
 ],
@@ -219,7 +219,7 @@ function (Okta) {
   fn.getPasswordComplexityDescription = function (policy) {
     var result = [];
 
-    var getPasswordAgeRequirement = function(displayableTime) {
+    var getPasswordAgeRequirement = function (displayableTime) {
       var propertiesString;
       switch (displayableTime.unit) {
       case 'DAY':

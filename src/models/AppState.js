@@ -38,7 +38,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
 
   var securityImageUrlTpl = compile('{{baseUrl}}/login/getimage?username={{username}}');
 
-  function getSecurityImage(baseUrl, username, deviceFingerprint) {
+  function getSecurityImage (baseUrl, username, deviceFingerprint) {
     var url = securityImageUrlTpl({ baseUrl: baseUrl, username: username });
 
     // When the username is empty, we want to show the default image.
@@ -57,26 +57,26 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       data['headers']= { 'X-Device-Fingerprint': deviceFingerprint };
     }
     return Q($.ajax(data))
-    .then(function (res) {
-      if (res.pwdImg === USER_NOT_SEEN_ON_DEVICE) {
+      .then(function (res) {
+        if (res.pwdImg === USER_NOT_SEEN_ON_DEVICE) {
         // When we get an unknown.png security image from OKTA,
         // we want to show the unknown-device security image.
         // We are mapping the server's img url to a new one because
         // we still need to support the original login page.
+          return {
+            'securityImage': NEW_USER,
+            'securityImageDescription': NEW_USER_IMAGE_DESCRIPTION
+          };
+        }
         return {
-          'securityImage': NEW_USER,
-          'securityImageDescription': NEW_USER_IMAGE_DESCRIPTION
-        };
-      }
-      return {
-        'securityImage': res.pwdImg,
-        'securityImageDescription':
+          'securityImage': res.pwdImg,
+          'securityImageDescription':
             res.imageDescription || UNKNOWN_IMAGE_DESCRIPTION
-      };
-    });
+        };
+      });
   }
 
-  function getMinutesString(factorLifetimeInMinutes) {
+  function getMinutesString (factorLifetimeInMinutes) {
     if (factorLifetimeInMinutes > 60 && factorLifetimeInMinutes <= 1440) {
       var lifetimeInHours = (factorLifetimeInMinutes / 60);
       return Okta.loc('hours', 'login', [lifetimeInHours]);
@@ -100,23 +100,23 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         var self = this;
         this.listenTo(this, 'change:username', function (model, username) {
           getSecurityImage(this.get('baseUrl'), username, this.get('deviceFingerprint'))
-          .then(function (image) {
-            model.set('securityImage', image.securityImage);
-            model.set('securityImageDescription', image.securityImageDescription);
-            model.unset('deviceFingerprint'); //Fingerprint can only be used once
-          })
-          .fail(function (jqXhr) {
+            .then(function (image) {
+              model.set('securityImage', image.securityImage);
+              model.set('securityImageDescription', image.securityImageDescription);
+              model.unset('deviceFingerprint'); //Fingerprint can only be used once
+            })
+            .fail(function (jqXhr) {
             // Only notify the consumer on a CORS error
-            if (BrowserFeatures.corsIsNotEnabled(jqXhr)) {
-              self.settings.callGlobalError(new Errors.UnsupportedBrowserError(
-                Okta.loc('error.enabled.cors')
-              ));
-            }
-            else {
-              throw jqXhr;
-            }
-          })
-          .done();
+              if (BrowserFeatures.corsIsNotEnabled(jqXhr)) {
+                self.settings.callGlobalError(new Errors.UnsupportedBrowserError(
+                  Okta.loc('error.enabled.cors')
+                ));
+              }
+              else {
+                throw jqXhr;
+              }
+            })
+            .done();
         });
       }
     },

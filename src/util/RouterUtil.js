@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 28],max-statements: [2, 30] */
+/* eslint complexity: [2, 29],max-statements: [2, 30] */
 define([
   'okta',
   './OAuth2Util',
@@ -165,9 +165,9 @@ function (Okta, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       // page refresh. We need to return to MFA_REQUIRED to initialize the
       // page correctly (i.e. factors dropdown, etc)
       router.appState.get('transaction').prev()
-      .then(function(trans) {
-        router.appState.set('transaction', trans);
-      }).done();
+        .then(function (trans) {
+          router.appState.set('transaction', trans);
+        }).done();
       return;
     case 'MFA_ENROLL':
       router.navigate('signin/enroll', { trigger: true });

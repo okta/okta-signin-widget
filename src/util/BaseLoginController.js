@@ -13,7 +13,7 @@
 define(['okta', 'q'], function (Okta, Q) {
   var _ = Okta._;
 
-  function getForm(controller) {
+  function getForm (controller) {
     return _.find(controller.getChildren(), function (item) {
       return (item instanceof Okta.Form);
     });
@@ -49,7 +49,7 @@ define(['okta', 'q'], function (Okta, Q) {
       this.addModelListeners(this.model);
     },
 
-    addModelListeners: function(model) {
+    addModelListeners: function (model) {
       var setTransactionHandler = _.bind(function (transaction) {
         this.options.appState.set('transaction', transaction);
       }, this);
@@ -98,7 +98,7 @@ define(['okta', 'q'], function (Okta, Q) {
     },
 
 
-    postRenderAnimation: function() {
+    postRenderAnimation: function () {
       // Event triggered after a page is rendered along with the classname to identify the page
       this.trigger('pageRendered', {page: this.className});
     }

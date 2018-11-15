@@ -34,7 +34,7 @@ function (Okta, FormController, FormType, ScopeList) {
         scopes: ['array', true]
       },
       save: function () {
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           return transaction.consent({
             consent: {
               expiresAt: this.get('expiresAt'),
@@ -45,7 +45,7 @@ function (Okta, FormController, FormType, ScopeList) {
       },
       cancel: function () {
         var self = this;
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           return transaction.cancel();
         }).then(function () {
           var consentCancelFn = self.settings.get('consent.cancel');

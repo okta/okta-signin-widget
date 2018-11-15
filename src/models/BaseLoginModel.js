@@ -29,22 +29,22 @@ function (Okta, Q, Enums) {
     doTransaction: function (fn, rethrow) {
       var self = this;
       return fn.call(this, this.appState.get('transaction'))
-      .then(function(trans) {
-        self.trigger('setTransaction', trans);
-        return trans;
-      })
-      .fail(function(err) {
+        .then(function (trans) {
+          self.trigger('setTransaction', trans);
+          return trans;
+        })
+        .fail(function (err) {
         // Q may still consider AuthPollStopError to be unhandled
-        if (err.name === 'AuthPollStopError' ||
+          if (err.name === 'AuthPollStopError' ||
             err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR) {
-          return;
-        }
-        self.trigger('setTransactionError', err);
-        self.trigger('error', self, err.xhr);
-        if (rethrow || _.indexOf(KNOWN_ERRORS, err.name) === -1) {
-          throw err;
-        }
-      });
+            return;
+          }
+          self.trigger('setTransactionError', err);
+          self.trigger('error', self, err.xhr);
+          if (rethrow || _.indexOf(KNOWN_ERRORS, err.name) === -1) {
+            throw err;
+          }
+        });
     },
 
     manageTransaction: function (fn) {
@@ -53,7 +53,7 @@ function (Okta, Q, Enums) {
 
       // If it's a promise, listen for failures
       if (Q.isPromiseAlike(res)) {
-        return res.fail(function(err) {
+        return res.fail(function (err) {
           if (err.name === 'AuthPollStopError' ||
               err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR) {
             return;
@@ -72,15 +72,15 @@ function (Okta, Q, Enums) {
 
       // If it's a promise, then chain to it
       if (Q.isPromiseAlike(res)) {
-        return res.then(function(trans) {
+        return res.then(function (trans) {
           self.trigger('setTransaction', trans);
           return trans;
         })
-        .fail(function(err) {
-          self.trigger('setTransactionError', err);
-          self.trigger('error', self, err.xhr);
-          throw err;
-        });
+          .fail(function (err) {
+            self.trigger('setTransactionError', err);
+            self.trigger('error', self, err.xhr);
+            throw err;
+          });
       }
 
       return Q.resolve(res);

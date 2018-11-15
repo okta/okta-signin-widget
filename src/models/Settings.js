@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*eslint complexity:[2, 8] */
-
 define([
   'okta',
   'q',
@@ -295,7 +293,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
             buttonArray.push(socialAuthButton);
           });
           if(_.isArray(customButtons)) {
-            _.each(customButtons, function(button) {
+            _.each(customButtons, function (button) {
               var customConfiguredButton = {
                 title: button.title,
                 className: button.className + ' default-custom-button',
@@ -407,7 +405,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       var parseSchema = this.get('registration.parseSchema');
       //check for parseSchema callback
       if (_.isFunction(parseSchema)) {
-        parseSchema(schema, function(schema) {
+        parseSchema(schema, function (schema) {
           onSuccess(schema);
         }, function (error) {
           error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
@@ -420,11 +418,11 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       }
     },
 
-    preSubmit: function(postData, onSuccess, onFailure) {
+    preSubmit: function (postData, onSuccess, onFailure) {
       var preSubmit = this.get('registration.preSubmit');
       //check for preSubmit callback
       if (_.isFunction(preSubmit)) {
-        preSubmit(postData, function(postData) {
+        preSubmit(postData, function (postData) {
           onSuccess(postData);
         }, function (error) {
           error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
@@ -437,11 +435,11 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       }
     },
 
-    postSubmit: function(response, onSuccess, onFailure) {
+    postSubmit: function (response, onSuccess, onFailure) {
       var postSubmit = this.get('registration.postSubmit');
       //check for postSubmit callback
       if (_.isFunction(postSubmit)) {
-        postSubmit(response, function(response) {
+        postSubmit(response, function (response) {
           onSuccess(response);
         }, function (error) {
           error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};

@@ -21,7 +21,7 @@ define([
   'util/DeviceFingerprint'
 ],
 function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthModel,
-          Footer, BaseLoginController, DeviceFingerprint) {
+  Footer, BaseLoginController, DeviceFingerprint) {
 
   var $ = Okta.$;
 
@@ -56,7 +56,7 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       this.setUsername();
     },
 
-    addFooter: function(options) {
+    addFooter: function (options) {
       this.add(new Footer(this.toJSON({appState: options.appState})));
 
       if (options.settings.get('features.registration')) {
@@ -67,7 +67,7 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       }
     },
 
-    setUsername: function() {
+    setUsername: function () {
       var username = this.model.get('username');
       if (username) {
         this.options.appState.set('username', username);
@@ -80,14 +80,14 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
         if (this.settings.get('features.deviceFingerprinting')) {
           var self = this;
           DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
-          .then(function (fingerprint) {
-            self.options.appState.set('deviceFingerprint', fingerprint);
-            self.options.appState.set('username', self.model.get('username'));
-          })
-          .fail(function () {
+            .then(function (fingerprint) {
+              self.options.appState.set('deviceFingerprint', fingerprint);
+              self.options.appState.set('username', self.model.get('username'));
+            })
+            .fail(function () {
             // Keep going even if device fingerprint fails
-            self.options.appState.set('username', self.model.get('username'));
-          });
+              self.options.appState.set('username', self.model.get('username'));
+            });
         } else {
           this.options.appState.set('username', this.model.get('username'));
         }

@@ -15,14 +15,14 @@ define([
   'helpers/xhr/SUCCESS_unlock'
 ],
 function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
-          $sandbox, resRecovery, resError, res200, resSuccess, resSuccessUnlock) {
+  $sandbox, resRecovery, resError, res200, resSuccess, resSuccessUnlock) {
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function setup(settings, res) {
+  function setup (settings, res) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
@@ -61,48 +61,48 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     });
     itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
       return setup()
-      .then(function (test) {
-        $.ajax.calls.reset();
-        test.setNextResponse(res200);
-        var $link = test.form.signoutLink();
-        expect($link.length).toBe(1);
-        $link.click();
-        return Expect.waitForPrimaryAuth(test);
-      })
-      .then(function (test) {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/cancel',
-          data: {
-            stateToken: 'testStateToken'
-          }
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(res200);
+          var $link = test.form.signoutLink();
+          expect($link.length).toBe(1);
+          $link.click();
+          return Expect.waitForPrimaryAuth(test);
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/cancel',
+            data: {
+              stateToken: 'testStateToken'
+            }
+          });
+          Expect.isPrimaryAuth(test.router.controller);
         });
-        Expect.isPrimaryAuth(test.router.controller);
-      });
     });
     itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
-    function () {
-      return setup({ signOutLink: 'http://www.goodbye.com' })
-      .then(function (test) {
-        spyOn(SharedUtil, 'redirect');
-        $.ajax.calls.reset();
-        test.setNextResponse(res200);
-        var $link = test.form.signoutLink();
-        expect($link.length).toBe(1);
-        $link.click();
-        return tick();
-      })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/cancel',
-          data: {
-            stateToken: 'testStateToken'
-          }
-        });
-        expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+      function () {
+        return setup({ signOutLink: 'http://www.goodbye.com' })
+          .then(function (test) {
+            spyOn(SharedUtil, 'redirect');
+            $.ajax.calls.reset();
+            test.setNextResponse(res200);
+            var $link = test.form.signoutLink();
+            expect($link.length).toBe(1);
+            $link.click();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/cancel',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+          });
       });
-    });
     itp('sets the correct title for a forgotten password flow', function () {
       return setup().then(function (test) {
         expect(test.form.titleText()).toBe('Answer Forgotten Password Challenge');
@@ -161,16 +161,16 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
         test.form.submit();
         return tick();
       })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/recovery/answer',
-          data: {
-            answer: '4444',
-            stateToken: 'testStateToken'
-          }
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/answer',
+            data: {
+              answer: '4444',
+              stateToken: 'testStateToken'
+            }
+          });
         });
-      });
     });
     itp('shows unlock page when response is success with unlock recoveryType', function () {
       return setup().then(function (test) {
@@ -180,20 +180,20 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
         test.form.submit();
         return Expect.waitForAccountUnlocked(test);
       })
-      .then(function (test) {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/recovery/answer',
-          data: {
-            answer: '4444',
-            stateToken: 'testStateToken'
-          }
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/answer',
+            data: {
+              answer: '4444',
+              stateToken: 'testStateToken'
+            }
+          });
+          expect(test.form.titleText()).toBe('Account successfully unlocked!');
+          expect(test.form.backToLoginButton().length).toBe(1);
+          test.form.goBackToLogin();
+          expect(test.router.navigate).toHaveBeenCalledWith('', {trigger: true});
         });
-        expect(test.form.titleText()).toBe('Account successfully unlocked!');
-        expect(test.form.backToLoginButton().length).toBe(1);
-        test.form.goBackToLogin();
-        expect(test.router.navigate).toHaveBeenCalledWith('', {trigger: true});
-      });
     });
     itp('with OIDC configured, it shows unlock page when response is success with unlock recoveryType', function () {
       return setupOIDC().then(function (test) {
@@ -203,20 +203,20 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
         test.form.submit();
         return Expect.waitForAccountUnlocked(test);
       })
-      .then(function (test) {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/recovery/answer',
-          data: {
-            answer: '4444',
-            stateToken: 'testStateToken'
-          }
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/recovery/answer',
+            data: {
+              answer: '4444',
+              stateToken: 'testStateToken'
+            }
+          });
+          expect(test.form.titleText()).toBe('Account successfully unlocked!');
+          expect(test.form.backToLoginButton().length).toBe(1);
+          test.form.goBackToLogin();
+          expect(test.router.navigate).toHaveBeenCalledWith('', {trigger: true});
         });
-        expect(test.form.titleText()).toBe('Account successfully unlocked!');
-        expect(test.form.backToLoginButton().length).toBe(1);
-        test.form.goBackToLogin();
-        expect(test.router.navigate).toHaveBeenCalledWith('', {trigger: true});
-      });
     });
     itp('validates that the answer is not empty before submitting', function () {
       return setup().then(function (test) {
@@ -228,16 +228,16 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     });
     itp('shows an error msg if there is an error submitting the answer', function () {
       return setup()
-      .then(function (test) {
-        test.setNextResponse(resError);
-        test.form.setAnswer('4444');
-        test.form.submit();
-        return tick(test);
-      })
-      .then(function (test) {
-        expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorMessage()).toBe('The recovery question answer did not match our records.');
-      });
+        .then(function (test) {
+          test.setNextResponse(resError);
+          test.form.setAnswer('4444');
+          test.form.submit();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('The recovery question answer did not match our records.');
+        });
     });
   });
 

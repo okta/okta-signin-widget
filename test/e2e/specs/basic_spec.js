@@ -12,15 +12,15 @@
 /* global browser, element, by, oktaSignIn, options, OktaSignIn */
 var util = require('../util/util');
 
-describe('Basic flows', function() {
+describe('Basic flows', function () {
 
-  beforeEach(function() {
+  beforeEach(function () {
     browser.driver.get('about:blank');
     browser.ignoreSynchronization = true;
     util.loadTestPage('basic');
   });
 
-  it('can hide, show, remove, and start a widget', function() {
+  it('can hide, show, remove, and start a widget', function () {
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
     var signInTitle = element(by.css('[data-se="o-form-head"]'));
@@ -40,7 +40,7 @@ describe('Basic flows', function() {
     expect(el.isPresent()).toBe(false);
 
     // Ensure a new widget can be created
-    function createWidget() {
+    function createWidget () {
       options.i18n = {
         en: {
           'primaryauth.title': 'Sign In to Acme'
@@ -50,7 +50,7 @@ describe('Basic flows', function() {
       oktaSignIn = new OktaSignIn(options);
       oktaSignIn.renderEl({
         el: '#okta-login-container'
-      }, function() {});
+      }, function () {});
     }
     browser.executeScript(createWidget);
     expect(el.isDisplayed()).toBe(true);

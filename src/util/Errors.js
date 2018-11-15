@@ -12,32 +12,32 @@
 
 define(['okta', './Enums'], function (Okta, Enums) {
 
-  function ConfigError(message) {
+  function ConfigError (message) {
     this.name = Enums.CONFIG_ERROR;
     this.message = message || Okta.loc('error.config');
   }
   ConfigError.prototype = new Error();
 
-  function UnsupportedBrowserError(message) {
+  function UnsupportedBrowserError (message) {
     this.name = Enums.UNSUPPORTED_BROWSER_ERROR;
     this.message = message || Okta.loc('error.unsupported.browser');
   }
   UnsupportedBrowserError.prototype = new Error();
 
-  function OAuthError(message) {
+  function OAuthError (message) {
     this.name = Enums.OAUTH_ERROR;
     this.message = message;
   }
   OAuthError.prototype = new Error();
 
-  function RegistrationError(message) {
+  function RegistrationError (message) {
     this.name = Enums.REGISTRATION_FAILED;
     this.message = message;
   }
   RegistrationError.prototype = new Error();
 
   // Thrown when initiation of poll was cancelled.
-  function AuthStopPollInitiationError() {
+  function AuthStopPollInitiationError () {
     this.name = Enums.AUTH_STOP_POLL_INITIATION_ERROR;
   }
   AuthStopPollInitiationError.prototype = new Error();

@@ -19,7 +19,7 @@ define([
   'helpers/xhr/labels_country_ja'
 ],
 function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures, LoginUtil,
-          $sandbox, resAllFactors, resQuestions, resError, resSuccess, labelsLoginJa, labelsCountryJa) {
+  $sandbox, resAllFactors, resQuestions, resError, resSuccess, labelsLoginJa, labelsCountryJa) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -27,7 +27,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
 
   Expect.describe('EnrollQuestions', function () {
 
-    function setup(startRouter, languagesResponse) {
+    function setup (startRouter, languagesResponse) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -40,28 +40,28 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
-      .then(function () {
-        setNextResponse(resAllFactors);
-        if (languagesResponse) {
-          setNextResponse(languagesResponse);
-        }
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollChoices();
-      })
-      .then(function () {
-        setNextResponse(resQuestions);
-        router.enrollQuestion();
-        return Expect.waitForEnrollQuestion({
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse: setNextResponse
+        .then(function () {
+          setNextResponse(resAllFactors);
+          if (languagesResponse) {
+            setNextResponse(languagesResponse);
+          }
+          router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices();
+        })
+        .then(function () {
+          setNextResponse(resQuestions);
+          router.enrollQuestion();
+          return Expect.waitForEnrollQuestion({
+            router: router,
+            beacon: new Beacon($sandbox),
+            form: new Form($sandbox),
+            ac: authClient,
+            setNextResponse: setNextResponse
+          });
         });
-      });
     }
 
-    function setupWithLanguage(options, startRouter) {
+    function setupWithLanguage (options, startRouter) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
       spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
       return setup(startRouter, [
@@ -167,10 +167,10 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
         Util.triggerBrowserBackButton();
         return Expect.waitForEnrollChoices(test);
       })
-      .then(function (test) {
-        Expect.isEnrollChoices(test.router.controller);
-        Util.stopRouter();
-      });
+        .then(function (test) {
+          Expect.isEnrollChoices(test.router.controller);
+          Util.stopRouter();
+        });
     });
     itp('calls enroll with the right arguments when save is clicked', function () {
       return setup().then(function (test) {
@@ -181,21 +181,21 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
         test.form.submit();
         return tick();
       })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/factors',
-          data: {
-            factorType: 'question',
-            provider: 'OKTA',
-            profile: {
-              question: 'favorite_security_question',
-              answer: 'No question! Hah!'
-            },
-            stateToken: 'testStateToken'
-          }
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'question',
+              provider: 'OKTA',
+              profile: {
+                question: 'favorite_security_question',
+                answer: 'No question! Hah!'
+              },
+              stateToken: 'testStateToken'
+            }
+          });
         });
-      });
     });
     itp('validates answer field and errors before the request', function () {
       return setup().then(function (test) {
@@ -207,17 +207,17 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
     });
     itp('shows error if error response on enrollment', function () {
       return setup()
-      .then(function (test) {
-        Q.stopUnhandledRejectionTracking();
-        test.setNextResponse(resError);
-        test.form.setAnswer('the answer');
-        test.form.submit();
-        return tick(test);
-      })
-      .then(function (test) {
-        expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorMessage()).toBe('Invalid Profile.');
-      });
+        .then(function (test) {
+          Q.stopUnhandledRejectionTracking();
+          test.setNextResponse(resError);
+          test.form.setAnswer('the answer');
+          test.form.submit();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('Invalid Profile.');
+        });
     });
     itp('returns to factor list when back link is clicked', function () {
       return setup().then(function (test) {

@@ -6,13 +6,13 @@ var OktaSignIn = (function () {
       config   = require('json!config/config'),
       OAuth2Util = require('util/OAuth2Util');
 
-  function getProperties(authClient, LoginRouter, Util, config) {
+  function getProperties (authClient, LoginRouter, Util, config) {
 
     /**
      * Check if a session exists
      * @param callback - callback function invoked with 'true'/'false' as the argument.
      */
-    function checkSession(callback) {
+    function checkSession (callback) {
       authClient.session.exists().then(callback);
     }
 
@@ -21,11 +21,11 @@ var OktaSignIn = (function () {
      * if the operation was not successful.
      * @param callback - function to invoke after closing the session.
      */
-    function closeSession(callback) {
+    function closeSession (callback) {
       authClient.session.close().then(callback)
-      .fail(function () {
-        callback('There was a problem closing the session');
-      });
+        .fail(function () {
+          callback('There was a problem closing the session');
+        });
     }
 
     /**
@@ -33,11 +33,11 @@ var OktaSignIn = (function () {
      * the session if successful and {status: 'INACTIVE'} if it is not successful.
      * @param callback - function to invoke after refreshing the session.
      */
-    function refreshSession(callback) {
+    function refreshSession (callback) {
       authClient.session.refresh().then(callback)
-      .fail(function() {
-        callback({status: 'INACTIVE'});
-      });
+        .fail(function () {
+          callback({status: 'INACTIVE'});
+        });
     }
 
     /**
@@ -48,11 +48,11 @@ var OktaSignIn = (function () {
      *        an error message if not.
      * @param opts - OAUTH options to refresh the idToken
      */
-    function refreshIdToken(idToken, callback, opts) {
+    function refreshIdToken (idToken, callback, opts) {
       authClient.idToken.refresh(opts).then(callback)
-      .fail(function () {
-        callback('There was a problem refreshing the id_token');
-      });
+        .fail(function () {
+          callback('There was a problem refreshing the id_token');
+        });
     }
 
     /**
@@ -62,15 +62,15 @@ var OktaSignIn = (function () {
      * the widget can be rendered using renderEl().
      * @param callback - function to invoke after checking if there is an active session.
      */
-    function getSession(callback) {
+    function getSession (callback) {
       authClient.session.get()
-      .then(function(res) {
-        if (res.status === 'ACTIVE' && res.user) {
+        .then(function (res) {
+          if (res.status === 'ACTIVE' && res.user) {
           // only include the attributes that are passed into the successFn on primary auth.
-          res.user = _.pick(res.user, 'id', 'profile', 'passwordChanged');
-        }
-        callback(res);
-      });
+            res.user = _.pick(res.user, 'id', 'profile', 'passwordChanged');
+          }
+          callback(res);
+        });
     }
 
     /**
@@ -81,7 +81,7 @@ var OktaSignIn = (function () {
      * @param error - error callback function
      */
     var router;
-    function render(options, success, error) {
+    function render (options, success, error) {
       if (router) {
         throw new Error('An instance of the widget has already been rendered. Call remove() first.');
       }
@@ -108,19 +108,19 @@ var OktaSignIn = (function () {
       router.start();
     }
 
-    function hide() {
+    function hide () {
       if (router) {
         router.hide();
       }
     }
 
-    function show() {
+    function show () {
       if (router) {
         router.show();
       }
     }
 
-    function remove() {
+    function remove () {
       if (router) {
         router.remove();
         router = undefined;
@@ -131,7 +131,7 @@ var OktaSignIn = (function () {
      * Check if tokens have been passed back into the url, which happens in
      * the social auth IDP redirect flow.
      */
-    function hasTokensInUrl() {
+    function hasTokensInUrl () {
       return Util.hasTokensInHash(window.location.hash);
     }
 
@@ -140,10 +140,10 @@ var OktaSignIn = (function () {
      * @param success - success callback function (usually the same as passed to render)
      * @param error - error callback function (usually the same as passed to render)
      */
-    function parseTokensFromUrl(success, error) {
+    function parseTokensFromUrl (success, error) {
       authClient.token.parseFromUrl()
-      .then(success)
-      .fail(error);
+        .then(success)
+        .fail(error);
     }
 
     /**
@@ -151,7 +151,7 @@ var OktaSignIn = (function () {
      * redirect flow.
      * @param options - options for the signin widget
      */
-    function showSignInToGetTokens(options) {
+    function showSignInToGetTokens (options) {
       var renderOptions = OAuth2Util.transformShowSignInToGetTokensOptions(options, config);
       return render(renderOptions);
     }
@@ -162,7 +162,7 @@ var OktaSignIn = (function () {
      *                              or recovery transaction
      * @returns {Promise} - Returns a promise for an object containing the transaction information
      */
-    function getTransaction(stateToken) {
+    function getTransaction (stateToken) {
       if (!stateToken) {
         throw new Error('A state token is required.');
       }
@@ -195,7 +195,7 @@ var OktaSignIn = (function () {
     };
   }
 
-  function OktaSignIn(options) {
+  function OktaSignIn (options) {
     require('okta');
 
     var OktaAuth = require('@okta/okta-auth-js/jquery');

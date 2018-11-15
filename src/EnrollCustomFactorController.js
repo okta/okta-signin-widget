@@ -34,21 +34,21 @@ function (Okta, FormController, Footer) {
             factorType: this.get('factorType')
           });
           return factor.enroll()
-          .then((trans) => {
-            setTransaction(trans);
-            var url = this.appState.get('enrollCustomFactorRedirectUrl');
-            if(url !== null) {
-              Util.redirect(url);
-            }
-          })
-          .fail(function (err) {
-            throw err;
-          });
+            .then((trans) => {
+              setTransaction(trans);
+              var url = this.appState.get('enrollCustomFactorRedirectUrl');
+              if(url !== null) {
+                Util.redirect(url);
+              }
+            })
+            .fail(function (err) {
+              throw err;
+            });
         });
       }
     },
 
-    Form: function() {
+    Form: function () {
       var factors = this.options.appState.get('factors');
       var factor = factors.findWhere({
         provider: this.options.provider,

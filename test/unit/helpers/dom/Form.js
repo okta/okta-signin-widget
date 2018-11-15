@@ -134,7 +134,7 @@ define(['okta', './Dom'], function (Okta, Dom) {
       return this.$('.okta-form-infobox-error p').text().trim();
     },
 
-    accessibilityText: function() {
+    accessibilityText: function () {
       return this.$('.accessibility-text').text().trim();
     },
 

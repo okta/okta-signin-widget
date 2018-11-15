@@ -28,7 +28,7 @@ define(['./Form'], function (Form) {
       field.trigger('change');
     },
 
-    getCredentialId: function() {
+    getCredentialId: function () {
       var field = this.credentialIdField();
       return field.val();
     },

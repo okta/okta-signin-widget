@@ -13,8 +13,8 @@ var _ = require('lodash'),
     JUNIT_FOLDER = ROOT_FOLDER + 'junit/',
     TEXT_FOLDER = ROOT_FOLDER + 'text/';
 
-function makeFileName(url) {
-  return JUNIT_FOLDER + url.split('://').pop().replace(/[\.\:\/]/g, '-') + _.uniqueId('_') + '.xml';
+function makeFileName (url) {
+  return JUNIT_FOLDER + url.split('://').pop().replace(/[.:/]/g, '-') + _.uniqueId('_') + '.xml';
 }
 
 fs.emptyDirSync(ROOT_FOLDER);
@@ -27,11 +27,11 @@ Expect.toBeA11yCompliant = function () {
   var deferred = protractor.promise.defer();
   if ('{{{CHECK_A11Y}}}' === 'true') {
     axe(browser.driver)
-    .analyze(function (result) {
-      textReporter(result, -1, textWriter);
-      junitReporter(result, makeFileName(result.url));
-      deferred.fulfill();
-    });
+      .analyze(function (result) {
+        textReporter(result, -1, textWriter);
+        junitReporter(result, makeFileName(result.url));
+        deferred.fulfill();
+      });
   } else {
     deferred.fulfill();
   }

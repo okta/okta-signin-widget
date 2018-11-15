@@ -48,21 +48,21 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
             factorType: this.get('factorType')
           });
           return factor.verify(data)
-          .then((trans) => {
-            setTransaction(trans);
-            var url = this.appState.get('verifyCustomFactorRedirectUrl');
-            if(url !== null) {
-              Util.redirect(url);
-            }
-          })
-          .fail(function (err) {
-            throw err;
-          });
+            .then((trans) => {
+              setTransaction(trans);
+              var url = this.appState.get('verifyCustomFactorRedirectUrl');
+              if(url !== null) {
+                Util.redirect(url);
+              }
+            })
+            .fail(function (err) {
+              throw err;
+            });
         });
       }
     },
 
-    Form: function() {
+    Form: function () {
       var factors = this.options.appState.get('factors');
       var factor = factors.findWhere({
         provider: this.options.provider,
@@ -100,7 +100,7 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
       }
     },
 
-    back: function() {
+    back: function () {
       // Empty function on verify controllers to prevent users
       // from navigating back during 'verify' using the browser's
       // back button. The URL will still change, but the view will not

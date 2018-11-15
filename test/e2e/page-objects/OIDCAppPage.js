@@ -15,23 +15,23 @@ var EC = protractor.ExpectedConditions;
 
 class AppPage {
 
-  constructor() {
+  constructor () {
     this.pageEl = $('#page');
     this.idTokenUserEl = $('#idtoken_user');
     this.accessTokenTypeEl = $('#accesstoken_type');
   }
 
-  getIdTokenUser() {
+  getIdTokenUser () {
     browser.wait(EC.presenceOf(this.idTokenUserEl));
     return this.idTokenUserEl.getText();
   }
 
-  getAccessTokenType() {
+  getAccessTokenType () {
     browser.wait(EC.presenceOf(this.accessTokenTypeEl));
     return this.accessTokenTypeEl.getText();
   }
 
-  getCodeFromQuery() {
+  getCodeFromQuery () {
     browser.wait(EC.presenceOf(this.pageEl));
     return browser.getCurrentUrl().then(function (url) {
       var matches = url.match(/code=([^&]+)/i);

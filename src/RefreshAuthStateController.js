@@ -24,7 +24,7 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
     preRender: function () {
       var token = this.options.token;
       var appState = this.options.appState;
-      this.model.startTransaction(function(authClient) {
+      this.model.startTransaction(function (authClient) {
         if (token) {
           appState.trigger('loading', true);
           return authClient.tx.resume({

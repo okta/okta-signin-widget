@@ -1,0 +1,13 @@
+module.exports = {
+  'env': {
+    'browser': true,
+    'jasmine': true,
+    'node': true,
+    'protractor': true,
+    'es6': true
+  },
+
+  'parserOptions': {
+    'ecmaVersion': 6
+  }
+}

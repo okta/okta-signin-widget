@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 15] */
+/* eslint complexity: [2, 16] */
 define([
   'okta',
   'util/BaseLoginController',
@@ -24,7 +24,7 @@ define([
   'views/shared/FooterSignout'
 ],
 function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
-          PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
+  PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
 
   var { CheckBox } = Okta.internal.views.forms.inputs;
 
@@ -127,7 +127,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
       return false;
     },
 
-    back: function() {
+    back: function () {
       // Empty function on verify controllers to prevent users
       // from navigating back during 'verify' using the browser's
       // back button. The URL will still change, but the view will not

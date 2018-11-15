@@ -20,7 +20,7 @@ define([
   'util/BaseLoginController'
 ],
 function (Okta, PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDiscoveryModel,
-          Footer, BaseLoginController) {
+  Footer, BaseLoginController) {
 
   return PrimaryAuthController.extend({
     className: 'idp-discovery',

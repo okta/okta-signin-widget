@@ -36,7 +36,7 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
         // Note: This does not require a trapAuthResponse because Backbone's
         // router will not navigate if the url path is the same
         this.limitResending();
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           return transaction.resend();
         });
       },
@@ -45,7 +45,7 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
         _.delay(_.bind(this.set, this), API_RATE_LIMIT, {ableToResend: true});
       },
       save: function () {
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           return transaction.verify({
             passCode: this.get('passCode')
           });

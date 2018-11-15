@@ -63,14 +63,14 @@ function (Okta, Duo, Q, FormController, Footer) {
         // are the only two places where we actually do this.
         // NOTE - If we ever decide to change this, we should test this very carefully.
         return Q($.post(url, data))
-        .then(function () {
-          return self.doTransaction(function (transaction) {
-            return transaction.poll();
+          .then(function () {
+            return self.doTransaction(function (transaction) {
+              return transaction.poll();
+            });
+          })
+          .fail(function (err) {
+            self.trigger('error', self, err.xhr);
           });
-        })
-        .fail(function (err) {
-          self.trigger('error', self, err.xhr);
-        });
       }
     },
 
@@ -95,26 +95,26 @@ function (Okta, Duo, Q, FormController, Footer) {
     fetchInitialData: function () {
       var self = this;
       return this.model.getInitOptions(this.options.appState)
-      .then(function (trans) {
-        var res = trans.data;
-        if (!res ||
+        .then(function (trans) {
+          var res = trans.data;
+          if (!res ||
             !res._embedded ||
             !res._embedded.factor ||
             !res._embedded.factor._embedded ||
             !res._embedded.factor._embedded.activation) {
-          throw new Error('Response does not have duo activation options');
-        }
+            throw new Error('Response does not have duo activation options');
+          }
 
-        var factor = res._embedded.factor;
-        var activation = factor._embedded.activation;
-        self.model.set({
-          host: activation.host,
-          signature: activation.signature,
-          postAction: activation._links.complete.href,
-          factorId: factor.id,
-          stateToken: res.stateToken
+          var factor = res._embedded.factor;
+          var activation = factor._embedded.activation;
+          self.model.set({
+            host: activation.host,
+            signature: activation.signature,
+            postAction: activation._links.complete.href,
+            factorId: factor.id,
+            stateToken: res.stateToken
+          });
         });
-      });
     },
 
     trapAuthResponse: function () {

@@ -15,7 +15,7 @@ define([
   var WAIT_MAX_TIME = 2000;
   var WAIT_INTERVAL = 20;
 
-  function runTest(jasmineFn, desc, testFn) {
+  function runTest (jasmineFn, desc, testFn) {
     jasmineFn(desc, function (done) {
       var errListener = function (err) {
         // We've thrown an unexpected error in the test - setup a fake
@@ -24,25 +24,25 @@ define([
       };
       window.addEventListener('error', errListener);
       testFn.call(this)
-      .then(fn.tick) // Wait a tick for the tests to clean up
-      .then(function () {
-        expect(Q.getUnhandledReasons()).toEqual([]);
-        // Reset unhandled exceptions (which in the normal case come from the
-        // error tests we're running) so that this array does not get
-        // unreasonably large (and subsequently slow down our tests)
-        // Also, if a test turns off unhandled exceptions (necessary in the
-        // case of returning an api error response), this method will turn it
-        // back on.
-        Q.resetUnhandledRejections();
-        window.removeEventListener('error', errListener);
-        done();
-      })
-      .done();
+        .then(fn.tick) // Wait a tick for the tests to clean up
+        .then(function () {
+          expect(Q.getUnhandledReasons()).toEqual([]);
+          // Reset unhandled exceptions (which in the normal case come from the
+          // error tests we're running) so that this array does not get
+          // unreasonably large (and subsequently slow down our tests)
+          // Also, if a test turns off unhandled exceptions (necessary in the
+          // case of returning an api error response), this method will turn it
+          // back on.
+          Q.resetUnhandledRejections();
+          window.removeEventListener('error', errListener);
+          done();
+        })
+        .done();
     });
   }
 
-  fn.describe = function(desc, fn) {
-    return describe(desc, function() {
+  fn.describe = function (desc, fn) {
+    return describe(desc, function () {
 
       beforeAll(function () {
         Util.mockSetTimeout();
@@ -159,7 +159,7 @@ define([
   };
 
   fn.wait = function (condition, resolveValue, timeout) {
-    function check(success, fail, triesLeft) {
+    function check (success, fail, triesLeft) {
       if (condition()) {
         success(resolveValue);
       }

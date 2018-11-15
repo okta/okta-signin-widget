@@ -18,25 +18,25 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta,
-          Q,
-          OktaAuth,
-          LoginUtil,
-          CryptoUtil,
-          Util,
-          MfaVerifyForm,
-          Beacon,
-          Expect,
-          Router,
-          $sandbox,
-          webauthn,
-          resAllFactors,
-          resChallengeWebauthn,
-          resSuccess) {
+  Q,
+  OktaAuth,
+  LoginUtil,
+  CryptoUtil,
+  Util,
+  MfaVerifyForm,
+  Beacon,
+  Expect,
+  Router,
+  $sandbox,
+  webauthn,
+  resAllFactors,
+  resChallengeWebauthn,
+  resSuccess) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
 
-  function createRouter(baseUrl, authClient, successSpy, settings) {
+  function createRouter (baseUrl, authClient, successSpy, settings) {
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -48,7 +48,7 @@ function (Okta,
     return router;
   }
 
-  function setup() {
+  function setup () {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -88,14 +88,14 @@ function (Okta,
   var testCredentialId = 'vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZw';
   var testChallenge = 'kygOUtSWURMv_t_Gj71Y';
 
-  function mockWebauthn() {
+  function mockWebauthn () {
     navigator.credentials = {
       get: function () {
       }
     };
   }
 
-  function mockU2fSuccessVerify() {
+  function mockU2fSuccessVerify () {
     window.u2f = { sign: function () {} };
 
     spyOn(window.u2f, 'sign').and.callFake(function (appId, challenge, registeredKeys, callback) {
@@ -106,7 +106,7 @@ function (Okta,
     });
   }
 
-  function mockWebauthnSignFailure() {
+  function mockWebauthnSignFailure () {
     spyOn(navigator.credentials, 'get').and.callFake(function () {
       var deferred = Q.defer();
       deferred.reject({ message: 'something went wrong' });
@@ -114,7 +114,7 @@ function (Okta,
     });
   }
 
-  function mockWebauthnSignSuccess() {
+  function mockWebauthnSignSuccess () {
     spyOn(navigator.credentials, 'get').and.callFake(function () {
       var deferred = Q.defer();
       deferred.resolve({
@@ -128,11 +128,11 @@ function (Okta,
     });
   }
 
-  function mockWebauthnSignPending() {
+  function mockWebauthnSignPending () {
     spyOn(navigator.credentials, 'get').and.returnValue(Q.defer().promise);
   }
 
-  function setupWebauthnFactor(options) {
+  function setupWebauthnFactor (options) {
     options || (options = {});
 
     spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(options.u2fSupported === true);
@@ -150,12 +150,12 @@ function (Okta,
     return setup();
   }
 
-  function expectHasRightBeaconImage(test, desiredClassName) {
+  function expectHasRightBeaconImage (test, desiredClassName) {
     expect(test.beacon.isFactorBeacon()).toBe(true);
     expect(test.beacon.hasClass(desiredClassName)).toBe(true);
   }
 
-  function expectTitleToBe(test, desiredTitle) {
+  function expectTitleToBe (test, desiredTitle) {
     expect(test.form.titleText()).toBe(desiredTitle);
   }
 

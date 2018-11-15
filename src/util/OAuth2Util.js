@@ -15,7 +15,7 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
   var util = {};
   var _ = Okta._;
 
-  function hasResponseType(params, type) {
+  function hasResponseType (params, type) {
     if (_.isArray(params.responseType)) {
       return _.contains(params.responseType, type);
     }
@@ -33,11 +33,11 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
    */
   util.getTokens = function (settings, params, controller) {
 
-    function success(result) {
+    function success (result) {
       settings.callGlobalSuccess(Enums.SUCCESS, result);
     }
 
-    function error(error) {
+    function error (error) {
       // OKTA-104330- Handle error case where user is not assigned to OIDC client
       if (error.errorCode === 'access_denied') {
         controller.model.trigger('error', controller.model, {'responseJSON': error});
@@ -80,18 +80,18 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     // not want to redirect away from the page to convert the token.
     else if (oauthParams.sessionToken) {
       authClient.token.getWithoutPrompt(oauthParams, extraOptions)
-      .then(success)
-      .fail(error)
-      .done();
+        .then(success)
+        .fail(error)
+        .done();
     }
 
     // Default flow if logging in with an external IDP - opens a popup and
     // gets the token from a postMessage response.
     else {
       authClient.token.getWithPopup(oauthParams, extraOptions)
-      .then(success)
-      .fail(error)
-      .done();
+        .then(success)
+        .fail(error)
+        .done();
     }
   };
 
@@ -132,7 +132,7 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     return responseType;
   };
 
-  util.transformShowSignInToGetTokensOptions = function(options, config = {}) {
+  util.transformShowSignInToGetTokensOptions = function (options, config = {}) {
     // Override specific OAuth/OIDC values
     if (!options.clientId && !config.clientId) {
       throw new Errors.ConfigError('showSignInToGetTokens() requires a "clientId" property.');

@@ -23,11 +23,11 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
         this.options.appState.set('trapMfaRequiredResponse', true);
         return transaction.prev()
-        .then(function (trans) {
-          self.trigger('options:toggle');
-          setTransaction(trans);
-          self.options.appState.trigger('navigate', url);
-        });
+          .then(function (trans) {
+            self.trigger('options:toggle');
+            setTransaction(trans);
+            self.options.appState.trigger('navigate', url);
+          });
       } else {
         self.trigger('options:toggle');
         self.options.appState.trigger('navigate', url);

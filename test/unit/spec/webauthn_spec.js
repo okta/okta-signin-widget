@@ -7,7 +7,7 @@ function (Q, Expect, webauthn) {
 
   Expect.describe('webauthn', function () {
 
-    function setupMsCredentials() {
+    function setupMsCredentials () {
       window.msCredentials = {
         makeCredential: function (/*accountInfo, cryptoParams, challenge*/) {
           var result = Q.defer();
@@ -59,7 +59,7 @@ function (Q, Expect, webauthn) {
 
         webauthn.makeCredential({userId: 'SomeUserId'}, [{algorithm: 'RSASSA-PKCS1-v1_5'}]);
         expect(window.msCredentials.makeCredential)
-        .toHaveBeenCalledWith({userId: 'SomeUserId'}, [{type: 'FIDO_2_0', algorithm: 'RSASSA-PKCS1-v1_5'}], undefined);
+          .toHaveBeenCalledWith({userId: 'SomeUserId'}, [{type: 'FIDO_2_0', algorithm: 'RSASSA-PKCS1-v1_5'}], undefined);
       });
 
     it('msCredentials.getAssertion was called with correct parameters',
@@ -68,7 +68,7 @@ function (Q, Expect, webauthn) {
 
         webauthn.getAssertion('SomeChallenge', [{id: 'msCredentials_ID'}]);
         expect(window.msCredentials.getAssertion)
-        .toHaveBeenCalledWith('SomeChallenge', {accept: [{type: 'FIDO_2_0', id: 'msCredentials_ID'}]});
+          .toHaveBeenCalledWith('SomeChallenge', {accept: [{type: 'FIDO_2_0', id: 'msCredentials_ID'}]});
       });
   });
 });

@@ -21,7 +21,7 @@ define(function () {
   var TOOLBAR = 'TOOLBAR';
   var VIEW = 'VIEW';
 
-  function wrap(type) {
+  function wrap (type) {
     return function (viewOptions, addOptions) {
       return { type: type, viewOptions: viewOptions, addOptions: addOptions };
     };

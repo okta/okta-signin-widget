@@ -101,7 +101,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
     }
   };
 
-  function setup(settings) {
+  function setup (settings) {
     settings || (settings = {});
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
@@ -520,7 +520,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
       });
     });
 
-    var expectRegCallbackError = function(test, callback, message) {
+    var expectRegCallbackError = function (test, callback, message) {
       var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
       expect(err instanceof Errors.RegistrationError).toBe(true);
       expect(err.name).toBe('REGISTRATION_FAILED');
@@ -528,7 +528,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
       expect(err.message).toEqual(errMsg);
     };
 
-    var expectRegApiError = function(test, message) {
+    var expectRegApiError = function (test, message) {
       var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
       expect(err instanceof Errors.RegistrationError).toBe(true);
       expect(err.name).toBe('REGISTRATION_FAILED');
@@ -550,7 +550,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'parseSchema': function(resp, onSuccess, onFailure){
+            'parseSchema': function (resp, onSuccess, onFailure){
               parseSchemaSpy(resp, onSuccess, onFailure);
               onSuccess(resp);
             },
@@ -558,22 +558,22 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           }
         };
         return setup(setting)
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUserName('test@example.com');
-          test.form.setPassword('Abcd1234');
-          test.form.setFirstname('firstName');
-          test.form.submit();
-          var model = test.router.controller.model;
-          model.save();
-          expect(setting.registration.preSubmit).toHaveBeenCalled();
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUserName('test@example.com');
+            test.form.setPassword('Abcd1234');
+            test.form.setFirstname('firstName');
+            test.form.submit();
+            var model = test.router.controller.model;
+            model.save();
+            expect(setting.registration.preSubmit).toHaveBeenCalled();
+          });
       });
       itp('parseSchema updates the schema correctly and calls onSuccess', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'parseSchema': function(schema, onSuccess, onFailure){
+            'parseSchema': function (schema, onSuccess, onFailure){
               parseSchemaSpy(schema, onSuccess, onFailure);
               schema.profileSchema.properties.zip = {
                 'type': 'string',
@@ -588,17 +588,17 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           }
         };
         return setup(setting)
-        .then(function (test) {
-          $.ajax.calls.reset();
-          expect(test.form.getFieldByName('zip').length).toBe(1);
-          expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            expect(test.form.getFieldByName('zip').length).toBe(1);
+            expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
+          });
       });
       itp(' does not call preSubmit if parseSchema calls onFailure with default error', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'parseSchema': function(resp, onSuccess, onFailure){
+            'parseSchema': function (resp, onSuccess, onFailure){
               parseSchemaSpy(resp, onSuccess, onFailure);
               onFailure();
             },
@@ -606,22 +606,22 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           }
         };
         return setup(setting)
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUserName('test@example.com');
-          test.form.setPassword('Abcd1234');
-          test.form.setFirstname('firstName');
-          test.form.submit();
-          var model = test.router.controller.model;
-          model.save();
-          expectRegCallbackError(test, 'parseSchema', DEFAULT_CALLBACK_ERROR);
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUserName('test@example.com');
+            test.form.setPassword('Abcd1234');
+            test.form.setFirstname('firstName');
+            test.form.submit();
+            var model = test.router.controller.model;
+            model.save();
+            expectRegCallbackError(test, 'parseSchema', DEFAULT_CALLBACK_ERROR);
+          });
       });
       itp(' does not call preSubmit if parseSchema calls onFailure with custom form level error', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var setting = {
           'registration': {
-            'parseSchema': function(resp, onSuccess, onFailure){
+            'parseSchema': function (resp, onSuccess, onFailure){
               parseSchemaSpy(resp, onSuccess, onFailure);
               var errorObject = {
                 'errorSummary': 'Custom form level parseSchema error message'
@@ -632,24 +632,24 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           }
         };
         return setup(setting)
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUserName('test@example.com');
-          test.form.setPassword('Abcd1234');
-          test.form.setFirstname('firstName');
-          test.form.setReferrer('referrer');
-          test.form.submit();
-          var model = test.router.controller.model;
-          model.save();
-          expectRegCallbackError(test, 'parseSchema', 'Custom form level parseSchema error message');
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUserName('test@example.com');
+            test.form.setPassword('Abcd1234');
+            test.form.setFirstname('firstName');
+            test.form.setReferrer('referrer');
+            test.form.submit();
+            var model = test.router.controller.model;
+            model.save();
+            expectRegCallbackError(test, 'parseSchema', 'Custom form level parseSchema error message');
+          });
       });
       itp('preSubmit modifies postData correctly before submit', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
         var setting = {
           'registration': {
-            'parseSchema': function(schema, onSuccess, onFailure){
+            'parseSchema': function (schema, onSuccess, onFailure){
               parseSchemaSpy(schema, onSuccess, onFailure);
               schema.profileSchema.properties.zip = {
                 'type': 'string',
@@ -669,21 +669,21 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           }
         };
         return setup(setting)
-        .then(function (test) {
-          $.ajax.calls.reset();
-          expect(test.form.getFieldByName('zip').length).toBe(1);
-          expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
-          test.form.setUserName('test');
-          test.form.setPassword('Abcd1234');
-          test.form.setFirstname('firstName');
-          test.form.submit();
-          expect(test.router.controller.model.get('userName')).toBe('test');
-          var model = test.router.controller.model;
-          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
-          model.save();
-          expect(test.router.controller.model.get('userName')).toBe('test@example.com');
-          expect(setting.registration.postSubmit).toHaveBeenCalled();
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            expect(test.form.getFieldByName('zip').length).toBe(1);
+            expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
+            test.form.setUserName('test');
+            test.form.setPassword('Abcd1234');
+            test.form.setFirstname('firstName');
+            test.form.submit();
+            expect(test.router.controller.model.get('userName')).toBe('test');
+            var model = test.router.controller.model;
+            spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+            model.save();
+            expect(test.router.controller.model.get('userName')).toBe('test@example.com');
+            expect(setting.registration.postSubmit).toHaveBeenCalled();
+          });
       });
       itp('calls postSubmit when parseSchema and preSubmit call onSuccess', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
@@ -702,17 +702,17 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           }
         };
         return setup(setting)
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUserName('test@example.com');
-          test.form.setPassword('Abcd1234');
-          test.form.setFirstname('firstName');
-          test.form.submit();
-          var model = test.router.controller.model;
-          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
-          model.save();
-          expect(setting.registration.postSubmit).toHaveBeenCalled();
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUserName('test@example.com');
+            test.form.setPassword('Abcd1234');
+            test.form.setFirstname('firstName');
+            test.form.submit();
+            var model = test.router.controller.model;
+            spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+            model.save();
+            expect(setting.registration.postSubmit).toHaveBeenCalled();
+          });
       });
       itp('calls postSubmit call onSuccess assert username is same as email', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
@@ -731,22 +731,22 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           }
         };
         return setup(setting)
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUserName('test@example.com');
-          test.form.setPassword('Abcd1234');
-          test.form.setFirstname('firstName');
-          test.form.submit();
-          var model = test.router.controller.model;
-          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
-          model.save();
-          test.router.navigate('signin/register-complete', {trigger: true});
-          expect(setting.registration.postSubmit).toHaveBeenCalled();
-          expect(test.router.navigate).toHaveBeenCalledWith('signin/register-complete', {trigger: true});
-          return tick().then(function () {
-            expect( $('div.registration-complete').text().includes('Verification email sent')).toBe(true);
-          });          
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUserName('test@example.com');
+            test.form.setPassword('Abcd1234');
+            test.form.setFirstname('firstName');
+            test.form.submit();
+            var model = test.router.controller.model;
+            spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+            model.save();
+            test.router.navigate('signin/register-complete', {trigger: true});
+            expect(setting.registration.postSubmit).toHaveBeenCalled();
+            expect(test.router.navigate).toHaveBeenCalledWith('signin/register-complete', {trigger: true});
+            return tick().then(function () {
+              expect( $('div.registration-complete').text().includes('Verification email sent')).toBe(true);
+            });          
+          });
       });
       itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
@@ -765,17 +765,17 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           }
         };
         return setup(setting)
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUserName('test@example.com');
-          test.form.setPassword('Abcd1234');
-          test.form.setFirstname('firstName');
-          test.form.submit();
-          var model = test.router.controller.model;
-          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
-          model.save();
-          expectRegCallbackError(test, 'preSubmit', DEFAULT_CALLBACK_ERROR);
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUserName('test@example.com');
+            test.form.setPassword('Abcd1234');
+            test.form.setFirstname('firstName');
+            test.form.submit();
+            var model = test.router.controller.model;
+            spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+            model.save();
+            expectRegCallbackError(test, 'preSubmit', DEFAULT_CALLBACK_ERROR);
+          });
       });
       itp('calls globalError when registration API throws an error ', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
@@ -798,26 +798,26 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           }
         };
         return setup(setting)
-        .then(function (test) {
-          $.ajax.calls.reset();
-          test.form.setUserName('test');
-          test.form.setPassword('Abcd1234');
-          test.form.setFirstname('firstName');
-          test.form.submit();
-          var model = test.router.controller.model;
-          var apiResponse = {
-            'responseJSON' : {
-              'errorCauses': [
-                {
-                  'errorSummary': '\'Email address \' must be in the form of an email address'
-                }
-              ]
-            }
-          };
-          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().reject(apiResponse));
-          model.save();
-          expectRegApiError(test, '\'Email address \' must be in the form of an email address');
-        });
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setUserName('test');
+            test.form.setPassword('Abcd1234');
+            test.form.setFirstname('firstName');
+            test.form.submit();
+            var model = test.router.controller.model;
+            var apiResponse = {
+              'responseJSON' : {
+                'errorCauses': [
+                  {
+                    'errorSummary': '\'Email address \' must be in the form of an email address'
+                  }
+                ]
+              }
+            };
+            spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().reject(apiResponse));
+            model.save();
+            expectRegApiError(test, '\'Email address \' must be in the form of an email address');
+          });
       });
     });
 

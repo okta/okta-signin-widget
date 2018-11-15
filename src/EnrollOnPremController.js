@@ -21,11 +21,11 @@ function (Okta, FormType, FormController, Footer, TextBox) {
 
   var _ = Okta._;
 
-  function isRSA(provider) {
+  function isRSA (provider) {
     return provider === 'RSA';
   }
 
-  function getClassName(provider) {
+  function getClassName (provider) {
     return isRSA(provider) ? 'enroll-rsa' : 'enroll-onprem';
   }
 
@@ -46,7 +46,7 @@ function (Okta, FormType, FormController, Footer, TextBox) {
           factorId: 'string'
         },
         save: function () {
-          return this.doTransaction(function(transaction) {
+          return this.doTransaction(function (transaction) {
             var factor = _.findWhere(transaction.factors, {
               factorType: 'token',
               provider: provider
@@ -72,7 +72,7 @@ function (Okta, FormType, FormController, Footer, TextBox) {
         noButtonBar: true,
         autoSave: true,
         className: getClassName(provider),
-        initialize: function() {
+        initialize: function () {
           this.listenTo(this.model, 'error', _.bind(function (source, error) {
             if (error && error.status === 409) {
               // 409 means we are in change pin, so we should clear out answer input

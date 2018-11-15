@@ -12,7 +12,7 @@
 define(['vendor/TypingDNA'], function (TypingDNA) {
   var tdna;
   return {
-    track: function(selectorId) {
+    track: function (selectorId) {
       try {
         tdna = new TypingDNA();
         tdna.addTarget(selectorId);
@@ -21,7 +21,7 @@ define(['vendor/TypingDNA'], function (TypingDNA) {
         // Issues in typing should not stop Primary auth.
       }
     },
-    getTypingPattern: function() {
+    getTypingPattern: function () {
       try {
         return tdna.getTypingPattern({
           type: 1

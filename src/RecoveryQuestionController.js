@@ -27,7 +27,7 @@ function (Okta, FormController, FormType, FooterSignout, TextBox) {
         showAnswer: 'boolean'
       },
       save: function () {
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           return transaction.answer({ answer: this.get('answer') });
         });
       }

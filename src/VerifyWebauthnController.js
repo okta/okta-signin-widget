@@ -26,7 +26,7 @@ define([
   'views/mfa-verify/HtmlErrorMessageView'
 ],
 function (Okta, FormController, FormType, CryptoUtil, FidoUtil,
-          webauthn, FooterSignout, Q, FactorUtil, HtmlErrorMessageView) {
+  webauthn, FooterSignout, Q, FactorUtil, HtmlErrorMessageView) {
 
   var _ = Okta._;
 
@@ -151,8 +151,8 @@ function (Okta, FormController, FormType, CryptoUtil, FidoUtil,
             errorMessageKey = 'u2f.error.factorNotSupported.oneFactor';
           }
           children.push(FormType.View(
-              {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
-              {selector: '.o-form-error-container'}
+            {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
+            {selector: '.o-form-error-container'}
           ));
         }
 
@@ -192,7 +192,7 @@ function (Okta, FormController, FormType, CryptoUtil, FidoUtil,
       }
     },
 
-    back: function() {
+    back: function () {
       // Empty function on verify controllers to prevent users
       // from navigating back during 'verify' using the browser's
       // back button. The URL will still change, but the view will not

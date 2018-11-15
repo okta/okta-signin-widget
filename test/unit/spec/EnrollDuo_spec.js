@@ -14,7 +14,7 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
-          resAllFactors, resActivateDuo, resSuccess) {
+  resAllFactors, resActivateDuo, resSuccess) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -22,7 +22,7 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
 
   Expect.describe('EnrollDuo', function () {
 
-    function setup(startRouter) {
+    function setup (startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
@@ -36,22 +36,22 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
       Util.mockRouterNavigate(router, startRouter);
       Util.mockDuo();
       return tick()
-      .then(function() {
-        setNextResponse(resAllFactors);
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollChoices();
-      })
-      .then(function () {
-        setNextResponse(resActivateDuo);
-        router.enrollDuo();
-        return Expect.waitForEnrollDuo({
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse: setNextResponse
+        .then(function () {
+          setNextResponse(resAllFactors);
+          router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices();
+        })
+        .then(function () {
+          setNextResponse(resActivateDuo);
+          router.enrollDuo();
+          return Expect.waitForEnrollDuo({
+            router: router,
+            beacon: new Beacon($sandbox),
+            form: new Form($sandbox),
+            ac: authClient,
+            setNextResponse: setNextResponse
+          });
         });
-      });
     }
 
     itp('displays the correct factorBeacon', function () {
@@ -72,15 +72,15 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
         test.form.backLink().click();
         return Expect.waitForEnrollChoices();
       })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/previous',
-          data: {
-            stateToken: 'testStateToken'
-          }
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/previous',
+            data: {
+              stateToken: 'testStateToken'
+            }
+          });
         });
-      });
     });
     itp('returns to factor list when browser\'s back button is clicked', function () {
       return setup(true).then(function (test) {
@@ -88,10 +88,10 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
         Util.triggerBrowserBackButton();
         return Expect.waitForEnrollChoices(test);
       })
-      .then(function (test) {
-        Expect.isEnrollChoices(test.router.controller);
-        Util.stopRouter();
-      });
+        .then(function (test) {
+          Expect.isEnrollChoices(test.router.controller);
+          Util.stopRouter();
+        });
     });
     itp('makes the right init request', function () {
       return setup().then(function () {
@@ -117,36 +117,36 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
     });
     itp('notifies okta when duo is done, and completes enrollment', function () {
       return setup()
-      .then(function (test) {
-        $.ajax.calls.reset();
-        test.setNextResponse(resSuccess);
-        // Duo callback (returns an empty response)
-        test.setNextResponse({
-          status: 200,
-          responseType: 'json',
-          response: {}
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resSuccess);
+          // Duo callback (returns an empty response)
+          test.setNextResponse({
+            status: 200,
+            responseType: 'json',
+            response: {}
+          });
+          var postAction = Duo.init.calls.mostRecent().args[0].post_action;
+          postAction('someSignedResponse');
+          return tick();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(2);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/lifecycle/activate/response',
+            data: {
+              id: 'ost947vv5GOSPjt9C0g4',
+              stateToken: 'testStateToken',
+              sig_response: 'someSignedResponse'
+            }
+          });
+          Expect.isJsonPost($.ajax.calls.argsFor(1), {
+            url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/lifecycle/activate/poll',
+            data: {
+              stateToken: 'testStateToken'
+            }
+          });
         });
-        var postAction = Duo.init.calls.mostRecent().args[0].post_action;
-        postAction('someSignedResponse');
-        return tick();
-      })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(2);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/lifecycle/activate/response',
-          data: {
-            id: 'ost947vv5GOSPjt9C0g4',
-            stateToken: 'testStateToken',
-            sig_response: 'someSignedResponse'
-          }
-        });
-        Expect.isJsonPost($.ajax.calls.argsFor(1), {
-          url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/lifecycle/activate/poll',
-          data: {
-            stateToken: 'testStateToken'
-          }
-        });
-      });
     });
 
   });

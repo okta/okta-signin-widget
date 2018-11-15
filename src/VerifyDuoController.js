@@ -49,7 +49,7 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
 
       getInitOptions: function () {
         var rememberDevice = !!this.get('rememberDevice');
-        return this.doTransaction(function(transaction) {
+        return this.doTransaction(function (transaction) {
           var data = {
             rememberDevice: rememberDevice
           };
@@ -58,10 +58,10 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
             factorType: 'web'
           });
           return factor.verify(data)
-          .fail(function (err) {
+            .fail(function (err) {
             // Clean up the cookie on failure.
-            throw err;
-          });
+              throw err;
+            });
         });
       },
 
@@ -83,18 +83,18 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
         // NOTE - If we ever decide to change this, we should test this very carefully.
         var rememberDevice = this.get('rememberDevice');
         return Q($.post(url, data))
-        .then(function () {
-          return self.doTransaction(function(transaction) {
-            var data;
-            if (rememberDevice) {
-              data = {rememberDevice: rememberDevice};
-            }
-            return transaction.poll(data);
+          .then(function () {
+            return self.doTransaction(function (transaction) {
+              var data;
+              if (rememberDevice) {
+                data = {rememberDevice: rememberDevice};
+              }
+              return transaction.poll(data);
+            });
+          })
+          .fail(function (err) {
+            self.trigger('error', self, err.xhr);
           });
-        })
-        .fail(function (err) {
-          self.trigger('error', self, err.xhr);
-        });
       }
     },
 
@@ -130,21 +130,21 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
     fetchInitialData: function () {
       var self = this;
       return this.model.getInitOptions()
-      .then(function (trans) {
-        var res = trans.data;
-        if (!res._embedded || !res._embedded.factor || !res._embedded.factor._embedded ||
+        .then(function (trans) {
+          var res = trans.data;
+          if (!res._embedded || !res._embedded.factor || !res._embedded.factor._embedded ||
             !res._embedded.factor._embedded.verification) {
-          throw new Error('Response does not have duo verification options');
-        }
-        var verification = res._embedded.factor._embedded.verification;
-        self.model.set({
-          host: verification.host,
-          signature: verification.signature,
-          postAction: verification._links.complete.href,
-          factorId: res._embedded.factor.id,
-          stateToken: res.stateToken
+            throw new Error('Response does not have duo verification options');
+          }
+          var verification = res._embedded.factor._embedded.verification;
+          self.model.set({
+            host: verification.host,
+            signature: verification.signature,
+            postAction: verification._links.complete.href,
+            factorId: res._embedded.factor.id,
+            stateToken: res.stateToken
+          });
         });
-      });
     },
 
     trapAuthResponse: function () {
@@ -153,7 +153,7 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
       }
     },
 
-    back: function() {
+    back: function () {
       // Empty function on verify controllers to prevent users
       // from navigating back during 'verify' using the browser's
       // back button. The URL will still change, but the view will not

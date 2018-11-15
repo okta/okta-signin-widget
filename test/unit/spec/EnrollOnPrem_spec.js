@@ -15,7 +15,7 @@ define([
   'LoginRouter'
 ],
 function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
-          resAllFactors, resAllFactorsOnPrem, resEnrollError, resRSAChangePin, resSuccess, Router) {
+  resAllFactors, resAllFactorsOnPrem, resEnrollError, resRSAChangePin, resSuccess, Router) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -23,7 +23,7 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
 
   Expect.describe('EnrollOnPrem', function () {
 
-    function setup(response, includeOnPrem, startRouter) {
+    function setup (response, includeOnPrem, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
@@ -36,28 +36,28 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
-      .then(function () {
-        var res = response ? response : resAllFactors;
-        setNextResponse(res);
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollChoices();
-      })
-      .then(function () {
-        var test = {
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse: setNextResponse
-        };
-        if (includeOnPrem) {
-          router.enrollOnPrem();
-          return Expect.waitForEnrollOnPrem(test);
-        } else {
-          router.enrollRsa();
-          return Expect.waitForEnrollRsa(test);
-        }
-      });
+        .then(function () {
+          var res = response ? response : resAllFactors;
+          setNextResponse(res);
+          router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices();
+        })
+        .then(function () {
+          var test = {
+            router: router,
+            beacon: new Beacon($sandbox),
+            form: new Form($sandbox),
+            ac: authClient,
+            setNextResponse: setNextResponse
+          };
+          if (includeOnPrem) {
+            router.enrollOnPrem();
+            return Expect.waitForEnrollOnPrem(test);
+          } else {
+            router.enrollRsa();
+            return Expect.waitForEnrollRsa(test);
+          }
+        });
     }
 
     var setupOnPrem = _.partial(setup, resAllFactorsOnPrem, true);
@@ -75,7 +75,7 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       return setup(res, false);
     };
 
-    var setupOnPremNoProfile = function() {
+    var setupOnPremNoProfile = function () {
       var res = getResponseNoProfile(resAllFactorsOnPrem, 'token', 'DEL_OATH');
       return setup(res, true);
     };
@@ -112,10 +112,10 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             Util.triggerBrowserBackButton();
             return Expect.waitForEnrollChoices(test);
           })
-          .then(function (test) {
-            Expect.isEnrollChoices(test.router.controller);
-            Util.stopRouter();
-          });
+            .then(function (test) {
+              Expect.isEnrollChoices(test.router.controller);
+              Util.stopRouter();
+            });
         });
       });
 
@@ -156,33 +156,33 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         });
         itp('shows error in case of an error response', function () {
           return setup()
-          .then(function (test) {
-            test.setNextResponse(resEnrollError);
-            test.form.setCredentialId('Username');
-            test.form.setCode(123);
-            test.form.submit();
-            return tick(test);
-          })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            // Note: This will change when we get field specific error messages
-            expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
-          });
+            .then(function (test) {
+              test.setNextResponse(resEnrollError);
+              test.form.setCredentialId('Username');
+              test.form.setCode(123);
+              test.form.submit();
+              return tick(test);
+            })
+            .then(function (test) {
+              expect(test.form.hasErrors()).toBe(true);
+              // Note: This will change when we get field specific error messages
+              expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
+            });
         });
         itp('clears passcode field if error is for PIN change', function () {
           return setup()
-          .then(function (test) {
-            test.setNextResponse(resRSAChangePin);
-            test.form.setCredentialId('Username');
-            test.form.setCode(123);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
-            expect(test.form.codeField().val()).toEqual('');
-          });
+            .then(function (test) {
+              test.setNextResponse(resRSAChangePin);
+              test.form.setCredentialId('Username');
+              test.form.setCode(123);
+              test.form.submit();
+              return Expect.waitForFormError(test.form, test);
+            })
+            .then(function (test) {
+              expect(test.form.hasErrors()).toBe(true);
+              expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+              expect(test.form.codeField().val()).toEqual('');
+            });
         });
         itp('calls activate with the right params', function () {
           return setup().then(function (test) {
@@ -193,19 +193,19 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             test.form.submit();
             return tick();
           })
-          .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors',
-              data: {
-                factorType: 'token',
-                provider: 'RSA',
-                passCode: '123456',
-                profile: {credentialId: 'Username'},
-                stateToken: 'testStateToken'
-              }
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors',
+                data: {
+                  factorType: 'token',
+                  provider: 'RSA',
+                  passCode: '123456',
+                  profile: {credentialId: 'Username'},
+                  stateToken: 'testStateToken'
+                }
+              });
             });
-          });
         });
       });
     });
@@ -234,10 +234,10 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             Util.triggerBrowserBackButton();
             return Expect.waitForEnrollChoices(test);
           })
-          .then(function (test) {
-            Expect.isEnrollChoices(test.router.controller);
-            Util.stopRouter();
-          });
+            .then(function (test) {
+              Expect.isEnrollChoices(test.router.controller);
+              Util.stopRouter();
+            });
         });
       });
 
@@ -278,33 +278,33 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         });
         itp('shows error in case of an error response', function () {
           return setupOnPrem()
-          .then(function (test) {
-            test.setNextResponse(resEnrollError);
-            test.form.setCredentialId('Username');
-            test.form.setCode(123);
-            test.form.submit();
-            return tick(test);
-          })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            // Note: This will change when we get field specific error messages
-            expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
-          });
+            .then(function (test) {
+              test.setNextResponse(resEnrollError);
+              test.form.setCredentialId('Username');
+              test.form.setCode(123);
+              test.form.submit();
+              return tick(test);
+            })
+            .then(function (test) {
+              expect(test.form.hasErrors()).toBe(true);
+              // Note: This will change when we get field specific error messages
+              expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
+            });
         });
         itp('clears passcode field if error is for PIN change', function () {
           return setupOnPrem()
-          .then(function (test) {
-            test.setNextResponse(resRSAChangePin);
-            test.form.setCredentialId('Username');
-            test.form.setCode(123);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
-            expect(test.form.codeField().val()).toEqual('');
-          });
+            .then(function (test) {
+              test.setNextResponse(resRSAChangePin);
+              test.form.setCredentialId('Username');
+              test.form.setCode(123);
+              test.form.submit();
+              return Expect.waitForFormError(test.form, test);
+            })
+            .then(function (test) {
+              expect(test.form.hasErrors()).toBe(true);
+              expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+              expect(test.form.codeField().val()).toEqual('');
+            });
         });
         itp('calls activate with the right params', function () {
           return setupOnPrem().then(function (test) {
@@ -315,19 +315,19 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             test.form.submit();
             return tick();
           })
-          .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors',
-              data: {
-                factorType: 'token',
-                provider: 'DEL_OATH',
-                passCode: '123456',
-                profile: {credentialId: 'Username'},
-                stateToken: 'testStateToken'
-              }
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors',
+                data: {
+                  factorType: 'token',
+                  provider: 'DEL_OATH',
+                  passCode: '123456',
+                  profile: {credentialId: 'Username'},
+                  stateToken: 'testStateToken'
+                }
+              });
             });
-          });
         });
         itp('guards against XSS when displaying tooltip text', function () {
           return setupXssVendorName().then(function (test) {

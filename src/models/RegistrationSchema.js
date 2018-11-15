@@ -21,7 +21,7 @@ function (Okta) {
   var RegistrationSchemaPropertyCollection = SchemaProperty.Collection.extend({
     createModelProperties: function () {
       var modelProperties = SchemaProperty.Collection.prototype.createModelProperties.apply(this);
-      _.each(modelProperties, function(modelProperty, name) {
+      _.each(modelProperties, function (modelProperty, name) {
         modelProperty.required = !!this.get(name).get('required');
       }, this);
       return modelProperties;
@@ -41,7 +41,7 @@ function (Okta) {
       var parseResponseData = _.bind(function (resp) {
         var requireFields = resp.schema.required;
         if (_.isArray(requireFields)) {
-          _.each(requireFields, function(requireField) {
+          _.each(requireFields, function (requireField) {
             var field = this.properties.get(requireField);
             if (field) {
               field.set('required', true);
@@ -51,7 +51,7 @@ function (Okta) {
 
         var fieldOrderIds = resp.schema.fieldOrder;
         if (_.isArray(fieldOrderIds)) {
-          _.each(fieldOrderIds, function(fieldOrderId, sortOrder) {
+          _.each(fieldOrderIds, function (fieldOrderId, sortOrder) {
             var field = this.properties.get(fieldOrderId);
             if (field) {
               field.set('sortOrder', sortOrder);
@@ -65,14 +65,14 @@ function (Okta) {
       }, this);
 
       var self = this;
-      this.settings.parseSchema(resp, function(resp) {
+      this.settings.parseSchema(resp, function (resp) {
         if (resp.profileSchema) {
           resp.schema = resp.profileSchema;
           BaseSchema.Model.prototype.parse.apply(self, [resp]);
           resp = parseResponseData(resp);
         }
         self.trigger('parseComplete', {properties: self.properties});
-      }, function(error) {
+      }, function (error) {
         self.trigger('parseComplete', {properties: self.properties, error: error});
       });
     }

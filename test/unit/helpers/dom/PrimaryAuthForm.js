@@ -198,49 +198,49 @@ define(['okta', './Form'], function (Okta, Form) {
       return this.$('.social-auth-button');
     },
 
-    linksAppearDisabled: function() {
+    linksAppearDisabled: function () {
       return this.$('a.link.o-form-disabled').length === this.$('a.link').length;
     },
 
-    inputsDisabled: function() {
+    inputsDisabled: function () {
       return this.usernameField().is(':disabled') &&
           this.passwordField().is(':disabled') &&
           this.rememberMeCheckbox().is(':disabled');
     },
 
-    isDisabled: function() {
+    isDisabled: function () {
       return this.inputsDisabled() && this.linksAppearDisabled();
     },
 
-    additionalAuthButton: function() {
+    additionalAuthButton: function () {
       return this.$('.default-custom-button');
     },
 
-    authDivider: function() {
+    authDivider: function () {
       return this.$('.auth-divider');
     },
 
-    registrationContainer: function() {
+    registrationContainer: function () {
       return this.$('.registration-container');
     },
 
-    registrationLabel: function() {
+    registrationLabel: function () {
       return this.$('.registration-container .content-container .registration-label');
     },
 
-    registrationLink: function() {
+    registrationLink: function () {
       return this.$('.registration-container .content-container .registration-link');
     },
 
-    passwordToggleContainer: function() {
+    passwordToggleContainer: function () {
       return this.$('.password-toggle');
     },
 
-    passwordToggleShowContainer: function() {
+    passwordToggleShowContainer: function () {
       return this.$('.password-toggle span.button-show');
     },
 
-    passwordToggleHideContainer: function() {
+    passwordToggleHideContainer: function () {
       return this.$('.password-toggle span.button-hide');
     }
   });

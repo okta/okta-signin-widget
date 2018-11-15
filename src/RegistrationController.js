@@ -53,7 +53,7 @@ function (
 
   return BaseLoginController.extend({
     className: 'registration',
-    initialize: function() {
+    initialize: function () {
       // setup schema
       var Schema = RegistrationSchema.extend({
         settings: this.options.settings,
@@ -62,7 +62,7 @@ function (
       var schema = new Schema();
       this.state.set('schema', schema);
     },
-    getRegistrationApiUrl: function() {
+    getRegistrationApiUrl: function () {
       // default policyId
       var defaultPolicyId = this.settings.get('defaultPolicyId');
       // org policyId
@@ -71,7 +71,7 @@ function (
         this.getRegistrationPolicyApi(orgPolicyId);
       return apiUrl;
     },
-    getRegistrationPolicyApi: function(policyId) {
+    getRegistrationPolicyApi: function (policyId) {
       return this.options.settings.get('baseUrl') + '/api/v1/registration/' + policyId;
     },
     doPostSubmit: function () {
@@ -86,9 +86,9 @@ function (
           settings: self.model.appState.settings
         });
         loginModel.loginWithActivationToken(this.model.get('activationToken'))
-        .then(function (transaction) {
-          self.model.trigger('setTransaction', transaction);
-        });
+          .then(function (transaction) {
+            self.model.trigger('setTransaction', transaction);
+          });
       } else {
         // register via activation email
         this.model.appState.set('username', this.model.get('email'));
@@ -98,15 +98,15 @@ function (
     registerUser: function (postData) {
       var self = this;
       this.model.attributes = postData;
-      Backbone.Model.prototype.save.call(this.model).then(function() {
+      Backbone.Model.prototype.save.call(this.model).then(function () {
         var activationToken = self.model.get('activationToken');
         var postSubmitData = activationToken ? activationToken : self.model.get('email');
-        self.settings.postSubmit(postSubmitData, function() {
+        self.settings.postSubmit(postSubmitData, function () {
           self.doPostSubmit();
-        }, function(errors) {
+        }, function (errors) {
           self.showErrors(errors);
         });
-      }).fail(function(err) {
+      }).fail(function (err) {
         var responseJSON = err.responseJSON;
         if (responseJSON && responseJSON.errorCauses.length) {
           var errMsg = responseJSON.errorCauses[0].errorSummary;
@@ -124,22 +124,22 @@ function (
         local: {
           activationToken: 'string'
         },
-        toJSON: function() {
+        toJSON: function () {
           var data = Okta.Model.prototype.toJSON.apply(this, arguments);
           return {
             userProfile: data,
             relayState: this.settings.get('relayState')
           };
         },
-        parse: function(resp) {
+        parse: function (resp) {
           this.set('activationToken', resp.activationToken);
           delete resp.activationToken;
           return resp;
         },
-        save: function() {
-          this.settings.preSubmit(this.attributes, function(postData){
+        save: function () {
+          this.settings.preSubmit(this.attributes, function (postData){
             self.registerUser(postData);
-          }, function(errors) {
+          }, function (errors) {
             self.showErrors(errors);
           });
         }
@@ -168,7 +168,7 @@ function (
     fetchInitialData: function () {
       var self = this;
       // register parse complete event listener
-      self.state.get('schema').on('parseComplete', function(updatedSchema) {
+      self.state.get('schema').on('parseComplete', function (updatedSchema) {
         var modelProperties = updatedSchema.properties.createModelProperties();
         self.settings.set('defaultPolicyId', updatedSchema.properties.defaultPolicyId);
         
@@ -193,7 +193,7 @@ function (
           self.showErrors(updatedSchema.error, true);
         } else {
           // add fields
-          updatedSchema.properties.each(function(schemaProperty) {
+          updatedSchema.properties.each(function (schemaProperty) {
             var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
             var subSchemas = schemaProperty.get('subSchemas');
             var name = schemaProperty.get('name');

@@ -4,7 +4,7 @@ var path = require('path');
 module.exports = function (grunt) {
 
   // Name will be the base property file, i.e. "login" or "country"
-  function wrapperName(fileName) {
+  function wrapperName (fileName) {
     var base = path.basename(fileName, '.json');
     return base.split('_')[0];
   }
@@ -14,11 +14,11 @@ module.exports = function (grunt) {
   //
   // For example:
   // jsonp_login({ key: 'val' });
-  function wrap(name, contents) {
+  function wrap (name, contents) {
     return 'jsonp_' + name + '(' + contents + ');';
   }
 
-  function generateJsonP() {
+  function generateJsonP () {
     this.files.forEach(function (file) {
       var fileSrc = file.src[0],
           name = wrapperName(fileSrc),

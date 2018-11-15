@@ -54,7 +54,7 @@ function (Okta, FormController, FormType, Footer) {
         return [
           FormType.Button({
             title: _.partial(Okta.loc, 'password.expired.custom.submit', 'login',
-                            [this.options.appState.get('passwordExpiredWebsiteName')]),
+              [this.options.appState.get('passwordExpiredWebsiteName')]),
             className: 'button button-primary button-wide',
             attributes: {'data-se': 'custom-button'},
             click: function () {

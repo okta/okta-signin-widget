@@ -18,43 +18,43 @@ define([
 ],
 function (Okta, Q, FidoUtil) {
 
-  function adaptToOkta(promise) {
+  function adaptToOkta (promise) {
     return new Q(promise);
   }
 
-  function makeCredential(accountInfo, cryptoParams, challenge) {
+  function makeCredential (accountInfo, cryptoParams, challenge) {
     cryptoParams = cryptoParams.map(function (param) {
       return {type: 'FIDO_2_0', algorithm: param.algorithm};
     });
 
     var promise = window.msCredentials.makeCredential(accountInfo, cryptoParams, challenge)
-    .then(function (cred) {
-      return Object.freeze({
-        credential: {id: cred.id},
-        publicKey: JSON.parse(cred.publicKey),
-        attestation: cred.attestation
+      .then(function (cred) {
+        return Object.freeze({
+          credential: {id: cred.id},
+          publicKey: JSON.parse(cred.publicKey),
+          attestation: cred.attestation
+        });
       });
-    });
 
     return adaptToOkta(promise);
   }
 
-  function getAssertion(challenge, allowList) {
+  function getAssertion (challenge, allowList) {
     var accept = allowList.map(function (item) {
       return {type: 'FIDO_2_0', id: item.id};
     });
     var filters = {accept: accept};
 
     var promise = window.msCredentials.getAssertion(challenge, filters)
-    .then(function (attestation) {
-      var signature = attestation.signature;
-      return Object.freeze({
-        credential: {id: attestation.id},
-        clientData: signature.clientData,
-        authenticatorData: signature.authnrData,
-        signature: signature.signature
+      .then(function (attestation) {
+        var signature = attestation.signature;
+        return Object.freeze({
+          credential: {id: attestation.id},
+          clientData: signature.clientData,
+          authenticatorData: signature.authnrData,
+          signature: signature.signature
+        });
       });
-    });
 
     return adaptToOkta(promise);
   }

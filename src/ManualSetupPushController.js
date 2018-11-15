@@ -22,17 +22,17 @@ define([
   'views/shared/TextBox'
 ],
 function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
-          Footer, PhoneTextBox, TextBox) {
+  Footer, PhoneTextBox, TextBox) {
 
   var _ = Okta._;
 
-  function goToFactorActivation(view, step) {
+  function goToFactorActivation (view, step) {
     var url = RouterUtil.createActivateFactorUrl(view.options.appState.get('activatedFactorProvider'),
       view.options.appState.get('activatedFactorType'), step);
     view.options.appState.trigger('navigate', url);
   }
 
-  function setStateValues(view) {
+  function setStateValues (view) {
     var userPhoneNumber, userCountryCode;
     if (view.model.get('activationType') === 'SMS') {
       userCountryCode = view.model.get('countryCode');
@@ -45,56 +45,56 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
     });
   }
 
-  function enrollFactor(view, factorType) {
-    return view.model.doTransaction(function(transaction) {
+  function enrollFactor (view, factorType) {
+    return view.model.doTransaction(function (transaction) {
       return transaction.prev()
-      .then(function (trans) {
-        var factor = _.findWhere(trans.factors, {
-          factorType: factorType,
-          provider: 'OKTA'
-        });
-        return factor.enroll();
-      })
-      .then(function (trans) {
-        var textActivationLinkUrl,
-            emailActivationLinkUrl,
-            sharedSecret,
-            res = trans.data;
+        .then(function (trans) {
+          var factor = _.findWhere(trans.factors, {
+            factorType: factorType,
+            provider: 'OKTA'
+          });
+          return factor.enroll();
+        })
+        .then(function (trans) {
+          var textActivationLinkUrl,
+              emailActivationLinkUrl,
+              sharedSecret,
+              res = trans.data;
 
-        if (res &&
+          if (res &&
             res._embedded &&
             res._embedded.factor &&
             res._embedded.factor._embedded &&
             res._embedded.factor._embedded.activation) {
 
-          var factor = res._embedded.factor;
+            var factor = res._embedded.factor;
 
-          // Shared secret
-          sharedSecret = factor._embedded.activation.sharedSecret;
+            // Shared secret
+            sharedSecret = factor._embedded.activation.sharedSecret;
 
-          if (factor._embedded.activation._links &&
+            if (factor._embedded.activation._links &&
               factor._embedded.activation._links.send) {
 
-            var activationSendLinks = factor._embedded.activation._links.send;
+              var activationSendLinks = factor._embedded.activation._links.send;
 
-            // SMS activation url
-            var smsItem = _.findWhere(activationSendLinks, {name: 'sms'});
-            textActivationLinkUrl = smsItem ? smsItem.href : null;
+              // SMS activation url
+              var smsItem = _.findWhere(activationSendLinks, {name: 'sms'});
+              textActivationLinkUrl = smsItem ? smsItem.href : null;
 
-            // Email activation url
-            var emailItem = _.findWhere(activationSendLinks, {name: 'email'});
-            emailActivationLinkUrl = emailItem ? emailItem.href : null;
+              // Email activation url
+              var emailItem = _.findWhere(activationSendLinks, {name: 'email'});
+              emailActivationLinkUrl = emailItem ? emailItem.href : null;
+            }
           }
-        }
 
-        view.model.set({
-          'SMS': textActivationLinkUrl,
-          'EMAIL': emailActivationLinkUrl,
-          'sharedSecret': sharedSecret
+          view.model.set({
+            'SMS': textActivationLinkUrl,
+            'EMAIL': emailActivationLinkUrl,
+            'sharedSecret': sharedSecret
+          });
+
+          return trans;
         });
-
-        return trans;
-      });
     });
   }
 
@@ -224,7 +224,7 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
       // Move this logic to a model when AuthClient supports sending email and sms
       this.listenTo(this.form, 'save', function () {
         var self = this;
-        this.model.doTransaction(function(transaction) {
+        this.model.doTransaction(function (transaction) {
           var activationType = this.get('activationType').toLowerCase(),
               opts = {};
 
@@ -233,16 +233,16 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
           }
 
           return transaction.factor.activation.send(activationType, opts)
-          .then(function(trans) {
-            setStateValues(self);
-            // Note: Need to defer because OktaAuth calls our router success
-            // handler on the next tick - if we immediately called, appState would
-            // still be populated with the last response
-            _.defer(function () {
-              goToFactorActivation(self, 'sent');
+            .then(function (trans) {
+              setStateValues(self);
+              // Note: Need to defer because OktaAuth calls our router success
+              // handler on the next tick - if we immediately called, appState would
+              // still be populated with the last response
+              _.defer(function () {
+                goToFactorActivation(self, 'sent');
+              });
+              return trans;
             });
-            return trans;
-          });
         });
       });
 

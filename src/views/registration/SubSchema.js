@@ -17,7 +17,7 @@ define(['okta'], function (Okta) {
     class: function () {
       return ;
     },
-    className: function() {
+    className: function () {
       return 'subschema-unsatisfied subschema-' + this.index;
     },
     template: '\
@@ -37,7 +37,7 @@ define(['okta'], function (Okta) {
     className: 'subschema',
 
     children: function () {
-      return this.subSchemas.map(function(subSchema, index) {
+      return this.subSchemas.map(function (subSchema, index) {
         var description = subSchema.get('description');
         // TODO API should send translated strings instead of i18n code inside description
         // or send param with i18n code

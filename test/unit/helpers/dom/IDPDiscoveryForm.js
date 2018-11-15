@@ -17,7 +17,7 @@ define(['./PrimaryAuthForm'], function (PrimaryAuthForm) {
       return this.$(NEXT_BUTTON);
     },
 
-    inputsDisabled: function() {
+    inputsDisabled: function () {
       return this.usernameField().is(':disabled') &&
         this.rememberMeCheckbox().is(':disabled');
     }

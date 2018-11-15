@@ -1,4 +1,3 @@
-/* eslint max-params: [2, 25], max-statements: [2, 36], complexity:[2, 10], max-len: [2, 125] */
 define([
   'q',
   'okta',
@@ -17,18 +16,18 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect, Router,
-          $sandbox, resPasswordReset, resPasswordResetWithComplexity, resError, res200, resSuccess) {
+  $sandbox, resPasswordReset, resPasswordResetWithComplexity, resError, res200, resSuccess) {
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function deepClone(res) {
+  function deepClone (res) {
     return JSON.parse(JSON.stringify(res));
   }
 
-  function setup(settings) {
+  function setup (settings) {
     settings || (settings = {});
     var successSpy = jasmine.createSpy('successSpy');
     var passwordResetResponse = resPasswordReset;
@@ -123,49 +122,49 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
 
     itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
       return setup()
-      .then(function (test) {
-        $.ajax.calls.reset();
-        test.setNextResponse(res200);
-        var $link = test.form.signoutLink();
-        expect($link.length).toBe(1);
-        $link.click();
-        return Expect.waitForPrimaryAuth(test);
-      })
-      .then(function (test) {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/cancel',
-          data: {
-            stateToken: 'testStateToken'
-          }
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(res200);
+          var $link = test.form.signoutLink();
+          expect($link.length).toBe(1);
+          $link.click();
+          return Expect.waitForPrimaryAuth(test);
+        })
+        .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/cancel',
+            data: {
+              stateToken: 'testStateToken'
+            }
+          });
+          Expect.isPrimaryAuth(test.router.controller);
         });
-        Expect.isPrimaryAuth(test.router.controller);
-      });
     });
 
     itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
-    function () {
-      return setup({ signOutLink: 'http://www.goodbye.com' })
-      .then(function (test) {
-        spyOn(SharedUtil, 'redirect');
-        $.ajax.calls.reset();
-        test.setNextResponse(res200);
-        var $link = test.form.signoutLink();
-        expect($link.length).toBe(1);
-        $link.click();
-        return tick();
-      })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/cancel',
-          data: {
-            stateToken: 'testStateToken'
-          }
-        });
-        expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+      function () {
+        return setup({ signOutLink: 'http://www.goodbye.com' })
+          .then(function (test) {
+            spyOn(SharedUtil, 'redirect');
+            $.ajax.calls.reset();
+            test.setNextResponse(res200);
+            var $link = test.form.signoutLink();
+            expect($link.length).toBe(1);
+            $link.click();
+            return tick();
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/cancel',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+          });
       });
-    });
 
     itp('has a valid subtitle if NO password complexity defined', function () {
       return setup().then(function (test) {
@@ -291,7 +290,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       function () {
         return setup({policyComplexity: 'all', policyAge: 'historyCount'}).then(function (test) {
           expect(test.form.subtitleText())
-          .toEqual('Password requirements: at least 8 characters, a lowercase letter,' +
+            .toEqual('Password requirements: at least 8 characters, a lowercase letter,' +
             ' an uppercase letter, a number, a symbol, no parts of your username,' +
             ' does not include your first name, does not include your last name.' +
             ' Your password cannot be any of your last 7 passwords.');
@@ -301,7 +300,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     itp('has a valid subtitle if password age and complexity are defined with all options', function () {
       return setup({policyComplexity: 'all', policyAge: 'all'}).then(function (test) {
         expect(test.form.subtitleText())
-        .toEqual('Password requirements: at least 8 characters, a lowercase letter,' +
+          .toEqual('Password requirements: at least 8 characters, a lowercase letter,' +
           ' an uppercase letter, a number, a symbol, no parts of your username,' +
           ' does not include your first name, does not include your last name.' +
           ' Your password cannot be any of your last 7 passwords.' +
@@ -324,129 +323,129 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     itp('calls processCreds function before saving a model', function () {
       var processCredsSpy = jasmine.createSpy('processCredsSpy');
       return setup({ processCreds: processCredsSpy })
-      .then(function (test) {
-        $.ajax.calls.reset();
-        test.setNextResponse(resSuccess);
-        test.form.setNewPassword('newpwd');
-        test.form.setConfirmPassword('newpwd');
-        test.form.submit();
-        return Expect.waitForSpyCall(test.successSpy);
-      })
-      .then(function() {
-        expect(processCredsSpy.calls.count()).toBe(1);
-        expect(processCredsSpy).toHaveBeenCalledWith({
-          username: 'administrator1@clouditude.net',
-          password: 'newpwd'
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resSuccess);
+          test.form.setNewPassword('newpwd');
+          test.form.setConfirmPassword('newpwd');
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+        .then(function () {
+          expect(processCredsSpy.calls.count()).toBe(1);
+          expect(processCredsSpy).toHaveBeenCalledWith({
+            username: 'administrator1@clouditude.net',
+            password: 'newpwd'
+          });
+          expect($.ajax.calls.count()).toBe(1);
         });
-        expect($.ajax.calls.count()).toBe(1);
-      });
     });
 
     itp('calls async processCreds function before saving a model', function () {
       var processCredsSpy = jasmine.createSpy('processCredsSpy');
       return setup({
-        'processCreds': function(creds, callback) {
+        'processCreds': function (creds, callback) {
           processCredsSpy(creds, callback);
           callback();
         }
       })
-      .then(function (test) {
-        $.ajax.calls.reset();
-        test.setNextResponse(resSuccess);
-        test.form.setNewPassword('newpwd');
-        test.form.setConfirmPassword('newpwd');
-        test.form.submit();
-        return Expect.waitForSpyCall(test.successSpy);
-      })
-      .then(function() {
-        expect(processCredsSpy.calls.count()).toBe(1);
-        expect(processCredsSpy).toHaveBeenCalledWith({
-          username: 'administrator1@clouditude.net',
-          password: 'newpwd'
-        }, jasmine.any(Function));
-        expect($.ajax.calls.count()).toBe(1);
-      });
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resSuccess);
+          test.form.setNewPassword('newpwd');
+          test.form.setConfirmPassword('newpwd');
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+        .then(function () {
+          expect(processCredsSpy.calls.count()).toBe(1);
+          expect(processCredsSpy).toHaveBeenCalledWith({
+            username: 'administrator1@clouditude.net',
+            password: 'newpwd'
+          }, jasmine.any(Function));
+          expect($.ajax.calls.count()).toBe(1);
+        });
     });
 
     itp('calls async processCreds function and can prevent saving a model', function () {
       var processCredsSpy = jasmine.createSpy('processCredsSpy');
       return setup({
-        'processCreds': function(creds, callback) {
+        'processCreds': function (creds, callback) {
           processCredsSpy(creds, callback);
         }
       })
-      .then(function (test) {
-        $.ajax.calls.reset();
-        test.setNextResponse(resSuccess);
-        test.form.setNewPassword('newpwd');
-        test.form.setConfirmPassword('newpwd');
-        test.form.submit();
-        return tick();
-      })
-      .then(function() {
-        expect(processCredsSpy.calls.count()).toBe(1);
-        expect(processCredsSpy).toHaveBeenCalledWith({
-          username: 'administrator1@clouditude.net',
-          password: 'newpwd'
-        }, jasmine.any(Function));
-        expect($.ajax.calls.count()).toBe(0);
-      });
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resSuccess);
+          test.form.setNewPassword('newpwd');
+          test.form.setConfirmPassword('newpwd');
+          test.form.submit();
+          return tick();
+        })
+        .then(function () {
+          expect(processCredsSpy.calls.count()).toBe(1);
+          expect(processCredsSpy).toHaveBeenCalledWith({
+            username: 'administrator1@clouditude.net',
+            password: 'newpwd'
+          }, jasmine.any(Function));
+          expect($.ajax.calls.count()).toBe(0);
+        });
     });
 
     itp('makes the right auth request when form is submitted', function () {
       return setup()
-      .then(function (test) {
-        $.ajax.calls.reset();
-        test.form.setNewPassword('imsorrymsjackson');
-        test.form.setConfirmPassword('imsorrymsjackson');
-        test.setNextResponse(resSuccess);
-        test.form.submit();
-        return Expect.waitForSpyCall(test.successSpy);
-      })
-      .then(function () {
-        expect($.ajax.calls.count()).toBe(1);
-        Expect.isJsonPost($.ajax.calls.argsFor(0), {
-          url: 'https://foo.com/api/v1/authn/credentials/reset_password',
-          data: {
-            newPassword: 'imsorrymsjackson',
-            stateToken: 'testStateToken'
-          }
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setNewPassword('imsorrymsjackson');
+          test.form.setConfirmPassword('imsorrymsjackson');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/credentials/reset_password',
+            data: {
+              newPassword: 'imsorrymsjackson',
+              stateToken: 'testStateToken'
+            }
+          });
         });
-      });
     });
 
     itp('makes submit button disable when form is submitted', function () {
       return setup()
-      .then(function (test) {
-        $.ajax.calls.reset();
-        test.form.setNewPassword('pwd');
-        test.form.setConfirmPassword('pwd');
-        test.setNextResponse(resSuccess);
-        test.form.submit();
-        return tick(test);
-      })
-      .then(function (test) {
-        var button = test.form.submitButton();
-        var buttonClass = button.attr('class');
-        expect(buttonClass).toContain('link-button-disabled');
-      });
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setNewPassword('pwd');
+          test.form.setConfirmPassword('pwd');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return tick(test);
+        })
+        .then(function (test) {
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).toContain('link-button-disabled');
+        });
     });
 
     itp('makes submit button enabled after error response', function () {
       return setup()
-      .then(function (test) {
-        $.ajax.calls.reset();
-        test.form.setNewPassword('pwd');
-        test.form.setConfirmPassword('pwd');
-        test.setNextResponse(resError);
-        test.form.submit();
-        return Expect.waitForFormError(test.form, test);
-      })
-      .then(function (test) {
-        var button = test.form.submitButton();
-        var buttonClass = button.attr('class');
-        expect(buttonClass).not.toContain('link-button-disabled');
-      });
+        .then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setNewPassword('pwd');
+          test.form.setConfirmPassword('pwd');
+          test.setNextResponse(resError);
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function (test) {
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).not.toContain('link-button-disabled');
+        });
     });
 
     itp('validates that the fields are not empty before submitting', function () {
@@ -473,22 +472,22 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
 
     itp('shows an error msg if there is an error submitting', function () {
       return setup()
-      .then(function (test) {
-        Q.stopUnhandledRejectionTracking();
-        test.setNextResponse(resError);
-        test.form.setNewPassword('a');
-        test.form.setConfirmPassword('a');
-        test.form.submit();
-        return tick(test);
-      })
-      .then(function (test) {
-        expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorMessage()).toBe(
-          'Password requirements were not met. Password requirements: at least 8 characters,' +
+        .then(function (test) {
+          Q.stopUnhandledRejectionTracking();
+          test.setNextResponse(resError);
+          test.form.setNewPassword('a');
+          test.form.setConfirmPassword('a');
+          test.form.submit();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe(
+            'Password requirements were not met. Password requirements: at least 8 characters,' +
           ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
           ' does not include your first name, does not include your last name.'
-        );
-      });
+          );
+        });
     });
   });
 
