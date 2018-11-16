@@ -113,7 +113,7 @@ describe('OIDC flows', function () {
   });
 
   // https://oktainc.atlassian.net/browse/OKTA-197861
-  xdescribe('Social IDP', function () {
+  describe('Social IDP', function () {
 
     afterEach(function () {
       facebook.logout();
