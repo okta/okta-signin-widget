@@ -1,14 +1,14 @@
 // social icons //
 // TODO: Remove this disable line!!
-// scss-lint:disable all
-@function unicode($str){
+/* stylelint-disable */
+@function unicode($str) {
   @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
 }
 
 $facebook:                 unicode("e005");
 $google:                   unicode("e004");
 $windows:                  unicode("e003");
-// scss-lint:enable all
+/* stylelint-enable */
 
 .social-icon {
   position: relative;
