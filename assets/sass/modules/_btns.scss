@@ -112,7 +112,7 @@
   &:focus,
   &:hover {
     background: $bg-image no-repeat 10px,
-    linear-gradient(90deg, lighten($icon-bg-color, 3%) 50px, lighten($label-bg-color, 3%) 50px);
+      linear-gradient(90deg, lighten($icon-bg-color, 3%) 50px, lighten($label-bg-color, 3%) 50px);
   }
 }
 
@@ -129,22 +129,22 @@
 
 .social-auth-facebook-button {
   @include social-auth-button-template(url('../img/icons/login/facebook_logo.png'),
-          $facebook-icon-bg-color, $facebook-label-bg-color, $facebook-border-color);
+  $facebook-icon-bg-color, $facebook-label-bg-color, $facebook-border-color);
 }
 
 .social-auth-google-button {
   @include social-auth-button-template(url('../img/icons/login/google_logo.png'),
-          $google-icon-bg-color, $google-label-bg-color, $google-border-color);
+  $google-icon-bg-color, $google-label-bg-color, $google-border-color);
 }
 
 .social-auth-linkedin-button {
   @include social-auth-button-template(url('../img/icons/login/linkedin_logo.png'),
-          $linkedin-icon-bg-color, $linkedin-label-bg-color, $linkedin-border-color);
+  $linkedin-icon-bg-color, $linkedin-label-bg-color, $linkedin-border-color);
 }
 
 .social-auth-microsoft-button {
   @include social-auth-button-template(url('../img/icons/login/microsoft_logo.png'),
-          $microsoft-icon-bg-color, $microsoft-label-bg-color, $microsoft-border-color);
+  $microsoft-icon-bg-color, $microsoft-label-bg-color, $microsoft-border-color);
 }
 
 .default-custom-button {

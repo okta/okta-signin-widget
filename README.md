@@ -1348,20 +1348,13 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
     cd okta-signin-widget
     ```
 
-2. [Install Bundler](http://bundler.io/) if you don't already have it, and then install our Ruby dependencies.
-
-    ```bash
-    gem install bundler
-    bundle install
-    ```
-
-3. Install our Node dependencies.
+2. Install our Node dependencies.
 
     ```bash
     yarn install
     ```
 
-4. Create a `.widgetrc` file in the `okta-signin-widget` directory with an entry for `baseUrl`.
+3. Create a `.widgetrc` file in the `okta-signin-widget` directory with an entry for `baseUrl`.
 
     ```javascript
     {
@@ -1371,13 +1364,13 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
     }
     ```
 
-5. Build the widget, start a local connect server that hosts it, and launch a browser window with the widget running.
+4. Build the widget, start a local connect server that hosts it, and launch a browser window with the widget running.
 
     ```bash
     yarn start
     ```
 
-6. Finally, enable CORS support for our new server by [following these instructions](http://developer.okta.com/docs/guides/okta_sign-in_widget.html#configuring-cors-support-on-your-okta-organization). You can now authenticate to Okta using your very own, customizable widget!
+5. Finally, enable CORS support for our new server by [following these instructions](http://developer.okta.com/docs/guides/okta_sign-in_widget.html#configuring-cors-support-on-your-okta-organization). You can now authenticate to Okta using your very own, customizable widget!
 
 ### The `.widgetrc` config file
 

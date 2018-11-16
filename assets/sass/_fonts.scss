@@ -14,9 +14,9 @@
   font-family: 'montserrat';
   src: url('../font/montserrat-light-webfont.eot');
   src: url('../font/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
-  url('../font/montserrat-light-webfont.woff') format('woff'),
-  url('../font/montserrat-light-webfont.ttf') format('truetype'),
-  url('../font/montserrat-light-webfont.svg#Montserrat-Light') format('svg');
+    url('../font/montserrat-light-webfont.woff') format('woff'),
+    url('../font/montserrat-light-webfont.ttf') format('truetype'),
+    url('../font/montserrat-light-webfont.svg#Montserrat-Light') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,9 +25,9 @@
   font-family: 'montserrat';
   src: url('../font/montserrat-regular-webfont.eot');
   src: url('../font/montserrat-regular-webfont.eot?#iefix') format('embedded-opentype'),
-  url('../font/montserrat-regular-webfont.woff') format('woff'),
-  url('../font/montserrat-regular-webfont.ttf') format('truetype'),
-  url('../font/montserrat-regular-webfont.svg#Montserrat-SemiBold') format('svg');
+    url('../font/montserrat-regular-webfont.woff') format('woff'),
+    url('../font/montserrat-regular-webfont.ttf') format('truetype'),
+    url('../font/montserrat-regular-webfont.svg#Montserrat-SemiBold') format('svg');
   font-weight: bold;
   font-style: normal;
 }
@@ -36,9 +36,9 @@
   font-family: 'okticon';
   src: url('../font/okticon.eot');
   src: url('../font/okticon.eot?#iefix') format('embedded-opentype'),
-  url('../font/okticon.woff') format('woff'),
-  url('../font/okticon.ttf') format('truetype'),
-  url('../font/okticon.svg#okticon') format('svg');
+    url('../font/okticon.woff') format('woff'),
+    url('../font/okticon.ttf') format('truetype'),
+    url('../font/okticon.svg#okticon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -48,10 +48,11 @@
   visibility: hidden;
 
   // Fix for dashboard
-  // scss-lint:disable ImportantRule
+  /* stylelint-disable declaration-no-important */
   .ajax-include-feedback-content {
     visibility: hidden !important;
   }
+  /* stylelint-enable declaration-no-important */
 }
 
 .wf-active {

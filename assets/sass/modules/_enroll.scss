@@ -354,10 +354,8 @@
     -moz-transition: all 0.5s;
     -o-transition: all 0.5s;
     -webkit-transition: all 0.5s;
-    // scss-lint:disable DuplicateProperty
     background-color: transparent;
     background-color: rgba(255, 255, 255, 0.6);
-    // scss-lint:enable DuplicateProperty
   }
 
   .refresh-qrcode {
@@ -467,8 +465,8 @@
 
 // 2x override because factor OS icons do not support retina and have different background image sprites
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (min-device-pixel-ratio: 2),
-only screen and (min-resolution: 2dppx) {
+  only screen and (min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 2dppx) {
 
   .device-type-input .custom-radio label {
     background-size: auto;

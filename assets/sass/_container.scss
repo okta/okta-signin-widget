@@ -1,7 +1,5 @@
-// scss-lint:disable IdSelector
+/* stylelint-disable selector-max-id */
 #okta-sign-in {
-// scss-lint:enable IdSelector
-
   // Html and body styles in _base.scss that were moved here
   font-family: $fonts;
   font-size: $font-size;
@@ -35,14 +33,10 @@
   }
 }
 
-// scss-lint:disable IdSelector
 #okta-sign-in.no-beacon .auth-content {
-// scss-lint:enable IdSelector
   padding-top: 20px;
 }
 
-// scss-lint:disable IdSelector
 #okta-sign-in.no-beacon .auth-header {
-// scss-lint:enable IdSelector
   padding-bottom: 30px;
 }

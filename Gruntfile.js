@@ -15,12 +15,10 @@ module.exports = function (grunt) {
   var JS                    = 'target/js',
       DIST                  = 'dist',
       SASS                  = 'target/sass',
-      SCSSLINT_OUT_FILE     = 'build2/OSW-scsslint-checkstyle.xml',
+      SEARCH_OUT_FILE       = 'build2/OSW-search-checkstyle.xml',
       WIDGET_RC             = '.widgetrc',
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
-
-  var hasCheckStyle =  grunt.option('checkstyle');
 
   // .widgetrc is a json file that can be used by a dev to override
   // things like the widget options in the test server, the server port, etc
@@ -252,25 +250,6 @@ module.exports = function (grunt) {
       }
     },
 
-    'scss-lint': {
-      all: {
-        options: (function () {
-          if (hasCheckStyle) {
-            return {
-              force: true,
-              reporter: 'checkstyle',
-              reporterOutput: SCSSLINT_OUT_FILE
-            };
-          }
-          else {
-            return {
-              force: false
-            };
-          }
-        }())
-      }
-    },
-
     search: {
       noAbsoluteUrlsInCss: {
         files: {
@@ -279,13 +258,13 @@ module.exports = function (grunt) {
         options: {
           searchString: /url\(['"]\//g,
           failOnMatch: true,
-          logFile: SCSSLINT_OUT_FILE,
+          logFile: SEARCH_OUT_FILE,
           logFormat: 'xml',
           onMatch: function (match) {
             grunt.log.errorlns('URLs starting with \'/\' are not allowed in SCSS files. ' +
               'Fix this by replacing with a relative link.');
             grunt.log.errorlns('Found in file: ' + match.file + '. Line: ' + match.line);
-            grunt.log.errorlns('Error log also written to: ' + SCSSLINT_OUT_FILE);
+            grunt.log.errorlns('Error log also written to: ' + SEARCH_OUT_FILE);
             grunt.log.errorlns('');
           }
         }
@@ -419,7 +398,6 @@ module.exports = function (grunt) {
   });
 
   grunt.loadTasks('buildtools/phonecodes');
-  grunt.loadTasks('buildtools/scsslint');
   grunt.loadTasks('buildtools/generate-config');
   grunt.loadTasks('buildtools/generate-jsonp');
 
@@ -480,6 +458,6 @@ module.exports = function (grunt) {
 
   grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
   grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
-  grunt.task.registerTask('lint', ['scss-lint', 'search:noAbsoluteUrlsInCss']);
+  grunt.task.registerTask('lint', ['search:noAbsoluteUrlsInCss']);
   grunt.task.registerTask('default', ['lint', 'test']);
 };
