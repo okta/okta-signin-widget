@@ -2889,10 +2889,16 @@ function (Okta,
               test.form.submit();
               expect(test.form.subtitleText()).toBe('Please wait while Windows Hello is loading...');
               expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
+
+              spyOn(test.router.controller.model, 'trigger').and.callThrough();
               return Expect.waitForSpyCall(webauthn.getAssertion, test);
             })
             .then(function (test) {
-              return tick(test);
+              return Expect.wait(() => {
+                const allArgs = test.router.controller.model.trigger.calls.allArgs();
+                const flattedArgs = Array.prototype.concat.apply([], allArgs);
+                return  flattedArgs.includes('sync') && flattedArgs.includes('signIn');
+              }, test);
             })
             .then(function (test) {
               expect(test.form.subtitleText()).toBe('Signing in to Okta...');
