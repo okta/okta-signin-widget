@@ -164,7 +164,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     }, settings));
   }
 
-  function setupAdditionalAuthButton () {
+  function setupWithCustomButtons () {
     var settings = {
       customButtons: [
         {
@@ -2350,23 +2350,23 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
     });
     itp('show the divider and buttons if settings.customButtons is not empty', function () {
-      return setupAdditionalAuthButton().then(function (test) {
+      return setupWithCustomButtons().then(function (test) {
         expect(test.form.authDivider().length).toBe(1);
         expect(test.form.additionalAuthButton().length).toBe(1);
       });
     });
     itp('sets text with property passed', function () {
-      return setupAdditionalAuthButton().then(function (test){
+      return setupWithCustomButtons().then(function (test){
         expect(test.form.additionalAuthButton().text()).toEqual('test text');
       });
     });
     itp('sets class with property passed', function () {
-      return setupAdditionalAuthButton().then(function (test){
+      return setupWithCustomButtons().then(function (test){
         expect(test.form.additionalAuthButton().hasClass('test-class')).toBe(true);
       });
     });
     itp('clickHandler is called when button is clicked', function () {
-      return setupAdditionalAuthButton().then(function (test){
+      return setupWithCustomButtons().then(function (test){
         expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(false);
         test.form.additionalAuthButton().click();
         expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(true);
@@ -2396,7 +2396,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         expect(test.form.facebookButton().length).toBe(1);
       });
     });
-    itp('does not display custom auth when it is undefined', function () {
+    itp('does not display custom buttons when it is undefined', function () {
       var settings = {
         customButtons: undefined,
         idps: [
