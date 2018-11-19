@@ -3,9 +3,9 @@
 const path = require('path');
 const fs = require('fs');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const TARGET = path.resolve(__dirname, 'target');
 const SAMPLE_SERVER = path.resolve(__dirname, 'buildtools/sample-server');
-
 const DEFAULT_SERVER_PORT = 3000;
 const WIDGET_RC = '.widgetrc';
 
@@ -63,6 +63,7 @@ module.exports = {
     index: 'sample-server.html',
     compress: true,
     port: PORT,
+    open: true,
   },
 
   // Webpack attempts to add a polyfill for process
