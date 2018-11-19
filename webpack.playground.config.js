@@ -2,7 +2,6 @@
 
 const path = require('path');
 const fs = require('fs');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const TARGET = path.resolve(__dirname, 'target');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
@@ -11,7 +10,7 @@ const WIDGET_RC = '.widgetrc';
 
 let widgetRc = {
   widgetOptions: {
-    baseUrl: 'http://your-org.okta.com:1802',
+    baseUrl: 'https://your-org.okta.com',
     logo: '/img/logo_widgico.png',
     logoText: 'Windico',
     features: {
@@ -36,12 +35,13 @@ if (!fs.existsSync(WIDGET_RC)) {
 const PORT = widgetRc.serverPort || DEFAULT_SERVER_PORT;
 
 module.exports = {
+  target: 'web',
   entry: {
     'playground.js': [`${PLAYGROUND}/main.js`]
   },
   output: {
-    path: `${TARGET}`,
-    filename: 'playground-bundle.js',
+    path: `${PLAYGROUND}`,
+    filename: 'playground.bundle.js',
   },
   devtool: 'source-map',
 
@@ -62,29 +62,11 @@ module.exports = {
     ]
   },
 
-  plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: `${PLAYGROUND}/index.html`,
-        to: `${TARGET}/playground.html`
-      }
-    ]),
-  ],
-
   devServer: {
-    contentBase: TARGET,
-    index: 'playground.html',
+    contentBase: [PLAYGROUND, TARGET],
     compress: true,
     port: PORT,
     open: true,
   },
-
-  // Webpack attempts to add a polyfill for process
-  // and setImmediate, because q uses process to see
-  // if it's in a Node.js environment
-  node: {
-    process: false,
-    setImmediate: false
-  }
 
 };

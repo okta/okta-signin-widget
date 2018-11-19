@@ -54,7 +54,6 @@
     "babel-plugin-istanbul": "^5.0.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
-    "copy-webpack-plugin": "^4.6.0",
     "cssnano": "3.10.0",
     "eslint": "^5.9.0",
     "fs-extra": "1.0.0",
