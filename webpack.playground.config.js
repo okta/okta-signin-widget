@@ -5,12 +5,25 @@ const fs = require('fs');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const TARGET = path.resolve(__dirname, 'target');
-const SAMPLE_SERVER = path.resolve(__dirname, 'buildtools/sample-server');
+const PLAYGROUND = path.resolve(__dirname, 'playground');
 const DEFAULT_SERVER_PORT = 3000;
 const WIDGET_RC = '.widgetrc';
 
 let widgetRc = {
-  widgetOptions: {}
+  widgetOptions: {
+    baseUrl: 'http://your-org.okta.com:1802',
+    logo: '/img/logo_widgico.png',
+    logoText: 'Windico',
+    features: {
+      router: true,
+      rememberMe: true,
+      multiOptionalFactorEnroll: true
+    },
+    // Host the assets (i.e. jsonp files) locally
+    assets: {
+      baseUrl: '/'
+    }
+  }
 };
 
 if (!fs.existsSync(WIDGET_RC)) {
@@ -24,11 +37,11 @@ const PORT = widgetRc.serverPort || DEFAULT_SERVER_PORT;
 
 module.exports = {
   entry: {
-    'sample-server.js': [`${SAMPLE_SERVER}/main.js`]
+    'playground.js': [`${PLAYGROUND}/main.js`]
   },
   output: {
     path: `${TARGET}`,
-    filename: 'sample-server-bundle.js',
+    filename: 'playground-bundle.js',
   },
   devtool: 'source-map',
 
@@ -52,15 +65,15 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: `${SAMPLE_SERVER}/index.html`,
-        to: `${TARGET}/sample-server.html`
+        from: `${PLAYGROUND}/index.html`,
+        to: `${TARGET}/playground.html`
       }
     ]),
   ],
 
   devServer: {
     contentBase: TARGET,
-    index: 'sample-server.html',
+    index: 'playground.html',
     compress: true,
     port: PORT,
     open: true,

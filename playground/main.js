@@ -1,25 +1,9 @@
 /* global OktaSignIn */
 /* eslint no-console: 0 */
 
-import widgetRc from '../../.widgetrc';
+import { widgetOptions as signinWidgetOptions} from '../.widgetrc';
 
-const defaultOptions = {
-  baseUrl: 'http://rain.okta1.com:1802',
-  logo: '/img/logo_widgico.png',
-  logoText: 'Windico',
-  features: {
-    router: true,
-    rememberMe: true,
-    multiOptionalFactorEnroll: true
-  },
-  // Host the assets (i.e. jsonp files) locally
-  assets: {
-    baseUrl: '/'
-  }
-};
-
-const options = Object.assign({}, defaultOptions, widgetRc.widgetOptions);
-const signIn = new OktaSignIn(options);
+const signIn = new OktaSignIn(signinWidgetOptions);
 
 signIn.renderEl(
   { el: '#okta-login-container' },
@@ -40,7 +24,7 @@ signIn.renderEl(
     //IDP Discovery
     if (res.status == 'IDP_DISCOVERY') {
       console.log('idp discovery');
-      res.idpDiscovery.redirectToIdp(options.baseUrl + '/app/UserHome');
+      res.idpDiscovery.redirectToIdp(signinWidgetOptions.baseUrl + '/app/UserHome');
       return;
     }
 
@@ -50,7 +34,7 @@ signIn.renderEl(
     //    that needs to be exchanged for an okta session
     if (res.session) {
       console.log(res.user);
-      res.session.setCookieAndRedirect(options.baseUrl + '/app/UserHome');
+      res.session.setCookieAndRedirect(signinWidgetOptions.baseUrl + '/app/UserHome');
       return;
     }
 
