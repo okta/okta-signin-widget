@@ -1,0 +1,38 @@
+const { resolve } = require('path');
+const { writeFileSync, mkdirpSync } = require('fs-extra');
+const glob = require('glob');
+
+const ROOT_DIR = resolve(__dirname, '../../');
+const packageJson = require(ROOT_DIR + '/package.json');
+const languageGlob = ROOT_DIR + '/packages/@okta/i18n/dist/json/login_*.json';
+const OUTPUT_DIR = resolve(ROOT_DIR, 'src/config');
+const OUTPUT_FILE = resolve(OUTPUT_DIR, 'config.json');
+
+exports.command = 'generate-language-config';
+exports.describe = 'generate-language-config';
+exports.handler = () => {
+  mkdirpSync(OUTPUT_DIR);
+
+  const config = {};
+
+  // 1. Add current widget version number
+  config.version = packageJson.version;
+  console.log('config.version: ' + config.version);
+
+  // 2. Add list of supported languages
+  const re = new RegExp('/[a-z]+_([^.]+).json');
+  const supportedLanguages = glob.sync(languageGlob).map(function (file) {
+    // Language codes use a hyphen instead of an underscore, i.e.
+    // login_zh_TW.json -> zh-TW
+    return re.exec(file)[1].replace('_', '-');
+  });
+  // English is special - it is just login.json, and is ignored in our glob.
+  supportedLanguages.unshift('en');
+  config.supportedLanguages = supportedLanguages;
+  console.log('config.supportedLanguages:');
+  console.log(config.supportedLanguages.join(','))
+
+  writeFileSync(OUTPUT_FILE, JSON.stringify(config, null, 2));
+  console.log('Wrote config to ' + OUTPUT_FILE);
+
+};
