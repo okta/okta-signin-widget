@@ -148,7 +148,7 @@ function (
     },
     showErrors: function (error, hideRegisterButton) {
       //for parseSchema error hide form and show error at form level
-      if(error.callback == 'parseSchema' && error.errorCauses) {
+      if(error.callback === 'parseSchema' && error.errorCauses) {
         error.errorSummary = _.clone(error.errorCauses[0].errorSummary);
         delete error.errorCauses;
       }
@@ -171,7 +171,7 @@ function (
       self.state.get('schema').on('parseComplete', function (updatedSchema) {
         var modelProperties = updatedSchema.properties.createModelProperties();
         self.settings.set('defaultPolicyId', updatedSchema.properties.defaultPolicyId);
-        
+
         // create model
         self.model = self.createRegistrationModel(modelProperties);
         // create form

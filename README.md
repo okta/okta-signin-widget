@@ -120,7 +120,7 @@ node_modules/@okta/okta-signin-widget/dist/
 │   │   # file when creating a custom theme - the classes/elements are subject to
 │   │   # change between releases
 │   ├── okta-sign-in.min.css
-│   │ 
+│   │
 │   │   # Example theme that you can use as a template to create your own custom theme
 │   └── okta-theme.css
 │
@@ -140,7 +140,7 @@ node_modules/@okta/okta-signin-widget/dist/
 │   │   # down through `npm install` (which allows you to use your own version of
 │   │   # jquery, etc).
 │   ├── okta-sign-in.entry.js
-│   │ 
+│   │
 │   │   # Development version of okta-sign-in.min.js. Equipped with helpful
 │   │   # console warning messages for common configuration errors.
 │   └── okta-sign-in.js
@@ -1396,6 +1396,7 @@ The `.widgetrc` file is a configuration file that saves your local widget settin
 | `yarn build:dev`     | Build an unminified version of the widget                                                                                                              |
 | `yarn build:release` | Build a minified, uglified version of the widget (`okta-sign-in.min.js`) and a non-minified **development** version of the widget (`okta-sign-in.js`). |
 | `yarn test`          | Run unit tests                                                                                                                                         |
+| `yarn test --test OAuth2Util_spec`  | Run a single unit test                                                                                                                  |
 | `yarn lint`          | Run jshint and scss linting tests                                                                                                                      |
 
 ## Browser support

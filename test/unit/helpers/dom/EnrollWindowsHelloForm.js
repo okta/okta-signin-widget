@@ -3,7 +3,7 @@ define(['./Form'], function (Form) {
   return Form.extend({
 
     hasErrorHtml: function () {
-      return this.el('o-form-error-html').length == 1;
+      return this.el('o-form-error-html').length === 1;
     },
 
     spinner: function () {

@@ -1,8 +1,6 @@
-# If a change is made in here, add it to .npmignore as well unless you
-# explicitly want to include it in the published artifact
 node_modules
 npm-debug.log
-test/unit/SpecRunner.html
+yarn-error.log
 target
 build2
 .grunt
@@ -12,9 +10,7 @@ build2
 .DS_Store
 *.iml
 .idea
-
-# These paths should be included in the published artifact, but not the repo
-/dist
+src/config/config.json
 packages/@okta/courage-for-signin-widget.html
 packages/@okta/courage-for-signin-widget.js.map
-yarn-error.log
+/dist

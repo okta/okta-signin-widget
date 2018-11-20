@@ -18,6 +18,7 @@ module.exports = {
     'camelcase': 2,
     'complexity': [2, 10],
     'curly': 2,
+    'eqeqeq': 2,
     'guard-for-in': 2,
     'indent': [2, 2, { 'VariableDeclarator': 2 } ],
     'max-depth': [2, 2],

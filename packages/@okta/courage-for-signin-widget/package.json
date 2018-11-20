@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@okta/courage": "4.4.0",
-    "webpack": "1.13.1",
+    "webpack": "^3.5.4",
     "webpack-bundle-analyzer": "^3.0.2"
   }
 }

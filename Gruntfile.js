@@ -6,7 +6,6 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   var Handlebars  = require('handlebars'),
-      _           = require('underscore'),
       postcssAutoprefixer = require('autoprefixer')({remove: false}),
       cssnano     = require('cssnano')({safe: true}),
       nodesass = require('node-sass'),
@@ -35,9 +34,6 @@ module.exports = function (grunt) {
     copy: {
       'app-to-target': {
         files: [
-          // Source Files
-          {expand: true, cwd: 'src/', src: ['**'], dest: JS + '/'},
-
           // i18n files
           {
             expand: true,
@@ -98,66 +94,6 @@ module.exports = function (grunt) {
           }
         ]
       },
-
-      server: {
-        options: {
-          process: function (content) {
-            var template = Handlebars.compile(content),
-                options = _.extend({
-                  baseUrl: 'http://rain.okta1.com:1802',
-                  logo: '/img/logo_widgico.png',
-                  logoText: 'Windico',
-                  features: {
-                    router: true,
-                    rememberMe: true,
-                    multiOptionalFactorEnroll: true
-                  },
-                  // Host the assets (i.e. jsonp files) locally
-                  assets: {
-                    baseUrl: '/'
-                  }
-                }, widgetRc.widgetOptions);
-
-            return template({ options: JSON.stringify(options) });
-          }
-        },
-        files: [
-          {
-            expand: true,
-            cwd: 'buildtools/templates/',
-            src: 'index.tpl',
-            dest: 'target/',
-            rename: function () {
-              return 'target/index.html';
-            }
-          }
-        ]
-      },
-
-      test: (function () {
-        var src = ['assets/**/*', 'helpers/**/*', 'vendor/**/*', 'main.js'],
-            spec = grunt.option('spec');
-
-        if (spec) {
-          // To run only one spec file, pass in the --spec option, i.e.
-          // "grunt test --spec CryptoUtil_spec.js"
-          src.push('spec/' + spec);
-        }
-        else {
-          src.push('spec/**/*');
-        }
-
-        return {
-          files: [
-            {
-              expand: true,
-              cwd: 'test/unit/',
-              src: src,
-              dest: JS + '/test/unit/'
-            }
-          ]
-        };
-      }()),
 
       'e2e': {
         options: {
@@ -344,13 +280,6 @@ module.exports = function (grunt) {
       }
     },
 
-    watch: {
-      sass: {
-        files: 'assets/sass/**/*.scss',
-        tasks: ['copy:app-to-target', 'sass', 'postcss:build', 'postcss:buildtheme']
-      }
-    },
-
     connect: {
       options: {
         port: (function () {
@@ -364,16 +293,6 @@ module.exports = function (grunt) {
         },
         keepalive: true
       },
-      server: {
-        options: {
-          open: false
-        }
-      },
-      open: {
-        options: {
-          open: true
-        }
-      },
       e2e: {
         options: {
           open: false,
@@ -385,7 +304,7 @@ module.exports = function (grunt) {
     'generate-config': {
       options: {
         languageGlob: 'packages/@okta/i18n/dist/json/login_*.json',
-        out: JS + '/config/config.json'
+        out: 'src/config/config.json'
       }
     },
 
@@ -478,8 +397,5 @@ module.exports = function (grunt) {
     ));
   });
 
-  grunt.task.registerTask('start-server', ['copy:server', 'connect:server']);
-  grunt.task.registerTask('start-server-open', ['copy:server', 'connect:open']);
   grunt.task.registerTask('lint', ['scss-lint', 'search:noAbsoluteUrlsInCss']);
-  grunt.task.registerTask('default', ['lint', 'test']);
 };

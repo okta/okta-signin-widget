@@ -27,7 +27,7 @@ define([
     var userNamePart = '';
 
     _.each(usernameArr, function (part){
-      if(delimiters.indexOf(part) == -1) {
+      if(delimiters.indexOf(part) === -1) {
         userNamePart += part;
       } else{
         if (userNamePart.length >= minPartsLength) {
@@ -58,24 +58,24 @@ define([
     }
     return false;
   };
-  
+
   var checkSubSchema = function (subSchema, value, model) {
     var minLength = subSchema.get('minLength');
     var maxLength = subSchema.get('maxLength');
     var regex = subSchema.get('format');
-    
+
     if (_.isNumber(minLength)) {
       if (value.length < minLength) {
         return false;
       }
     }
-    
+
     if (_.isNumber(maxLength)) {
       if (value.length > maxLength) {
         return false;
       }
     }
-    
+
     if (_.isString(regex)) {
       if (regex === '^[#/userName]') {
         // with email as login enabled, we only have email populated
@@ -89,11 +89,11 @@ define([
         }
       }
     }
-    
+
     return true;
   };
-  
-  
+
+
   var checkSubSchemas = function (fieldName, model, subSchemas, showError) {
     var value = model.get(fieldName);
     if (!_.isString(value)) {
@@ -171,7 +171,7 @@ define([
         }
       };
     }
-    
+
     return inputOptions;
   };
 
