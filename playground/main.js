@@ -22,7 +22,7 @@ signIn.renderEl(
     }
 
     //IDP Discovery
-    if (res.status == 'IDP_DISCOVERY') {
+    if (res.status === 'IDP_DISCOVERY') {
       console.log('idp discovery');
       res.idpDiscovery.redirectToIdp(signinWidgetOptions.baseUrl + '/app/UserHome');
       return;

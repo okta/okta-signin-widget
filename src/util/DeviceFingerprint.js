@@ -51,7 +51,7 @@ define(['q', 'okta'], function (Q, Okta) {
         if (!self.isMessageFromCorrectSource($iframe, event)) {
           return;
         }
-        if (!event || !event.data || event.origin != oktaDomainUrl) {
+        if (!event || !event.data || event.origin !== oktaDomainUrl) {
           handleError('no data');
           return;
         }

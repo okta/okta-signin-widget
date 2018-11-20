@@ -10,7 +10,7 @@ const WIDGET_RC = '.widgetrc';
 
 let widgetRc = {
   widgetOptions: {
-    baseUrl: 'https://your-org.okta.com',
+    baseUrl: 'https://{yourOktaDomain}',
     logo: '/img/logo_widgico.png',
     logoText: 'Windico',
     features: {
