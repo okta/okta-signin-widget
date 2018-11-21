@@ -71,7 +71,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, headers: {}});
       var eventSpy = jasmine.createSpy('eventSpy');
-      var renderSpy = jasmine.createSpy('renderSpy');
+      var afterRenderHandler = jasmine.createSpy('afterRenderHandler');
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -79,7 +79,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
       }, settings));
       Util.registerRouter(router);
       router.on('pageRendered', eventSpy);
-      router.on('afterRender', renderSpy);
+      router.on('afterRender', afterRenderHandler);
       spyOn(authClient.token, 'getWithoutPrompt').and.callThrough();
       spyOn(authClient.token.getWithRedirect, '_setLocation');
       return tick({
@@ -87,7 +87,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         ac: authClient,
         setNextResponse: setNextResponse,
         eventSpy: eventSpy,
-        renderSpy: renderSpy
+        afterRenderHandler: afterRenderHandler
       });
     }
 
@@ -552,9 +552,9 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         })
         .then(function (test) {
           expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
-          expect(test.renderSpy).toHaveBeenCalledTimes(2);
-          expect(test.renderSpy.calls.allArgs()[0]).toEqual([{ controller: 'refresh-auth-state' }]);
-          expect(test.renderSpy.calls.allArgs()[1]).toEqual([{ controller: 'primary-auth' }]);
+          expect(test.afterRenderHandler).toHaveBeenCalledTimes(2);
+          expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([{ controller: 'refresh-auth-state' }]);
+          expect(test.afterRenderHandler.calls.allArgs()[1]).toEqual([{ controller: 'primary-auth' }]);
         });
     });
     itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {
@@ -943,8 +943,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
             return Expect.waitForPrimaryAuth(test);
           })
           .then(function (test){
-            expect(test.renderSpy).toHaveBeenCalledTimes(1);
-            expect(test.renderSpy).toHaveBeenCalledWith({ controller: 'primary-auth' });
+            expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterRenderHandler).toHaveBeenCalledWith({ controller: 'primary-auth' });
           });
       });
       itp('triggers both pageRendered and afterRender events when first controller is loaded', function () {
@@ -956,8 +956,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           .then(function (test){
             expect(test.eventSpy).toHaveBeenCalledTimes(1);
             expect(test.eventSpy).toHaveBeenCalledWith({ page: 'primary-auth'});
-            expect(test.renderSpy).toHaveBeenCalledTimes(1);
-            expect(test.renderSpy).toHaveBeenCalledWith({ controller: 'primary-auth' });
+            expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterRenderHandler).toHaveBeenCalledWith({ controller: 'primary-auth' });
           });
       });
       itp('triggers a pageRendered event when navigating to a new controller', function () {
@@ -985,8 +985,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
             return Expect.waitForPrimaryAuth(test);
           })
           .then(function (test) {
-            expect(test.renderSpy).toHaveBeenCalledTimes(1);
-            expect(test.renderSpy.calls.allArgs()[0]).toEqual([{ controller: 'primary-auth' }]);
+            expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([{ controller: 'primary-auth' }]);
             Util.mockRouterNavigate(test.router);
             test.router.navigate('signin/forgot-password');
             return Expect.waitForForgotPassword(test);
@@ -994,8 +994,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           .then(function (test) {
             // since the event is triggered from the success function of the animation
             // as well as after render, we expect two calls
-            expect(test.renderSpy).toHaveBeenCalledTimes(2);
-            expect(test.renderSpy.calls.allArgs()[1]).toEqual([{ controller: 'forgot-password' }]);
+            expect(test.afterRenderHandler).toHaveBeenCalledTimes(2);
+            expect(test.afterRenderHandler.calls.allArgs()[1]).toEqual([{ controller: 'forgot-password' }]);
           });
       });
     });

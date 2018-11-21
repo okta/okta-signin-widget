@@ -145,6 +145,28 @@ function (Okta, Widget, Expect, Logger, $sandbox) {
         });
         signIn.renderEl({ el: $sandbox });
       });
+      it('triggers a ready event when the Widget is loaded with a recoveryToken', function (done) {
+        signIn = new Widget({
+          baseUrl: url,
+          recoveryToken: 'foo'
+        });
+        signIn.on('ready', function (context) {
+          expect(context).toEqual({ controller: 'recovery-loading' });
+          done();
+        });
+        signIn.renderEl({ el: $sandbox });
+      });
+      it('triggers a ready event when the Widget is loaded with using idpDiscovery', function (done) {
+        signIn = new Widget({
+          baseUrl: url,
+          features: { idpDiscovery: true }
+        });
+        signIn.on('ready', function (context) {
+          expect(context).toEqual({ controller: 'idp-discovery' });
+          done();
+        });
+        signIn.renderEl({ el: $sandbox });
+      });
       it('does not trigger a ready event twice', function (done) {
         signIn.on('ready', function (context) {
           expect(context).toEqual({ controller: 'primary-auth' });
