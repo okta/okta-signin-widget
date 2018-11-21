@@ -1,3 +1,4 @@
+/* stylelint-disable selector-max-id */
 @import 'variables';
 @import 'helpers';
 
@@ -8,7 +9,7 @@
   &:focus,
   &:active,
   &:focus {
-  /* -- Buttons' Colors -- */
+    /* -- Buttons' Colors -- */
     box-shadow: none;
   }
 }
@@ -20,7 +21,7 @@
   &:focus,
   &:active,
   &:focus {
-  /* -- Buttons' Colors -- */
+    /* -- Buttons' Colors -- */
     box-shadow: none;
   }
 }
@@ -42,7 +43,7 @@
   &:focus,
   &:active,
   &:focus {
-  /* -- Buttons' Colors -- */
+    /* -- Buttons' Colors -- */
     $hover-bg-color: lighten($bg-color, 3%);
     background-color: $hover-bg-color;
     background: -o-linear-gradient(top, $hover-bg-color 0%, darken($hover-bg-color, $gradient-factor) 100%); /* Opera 11.10+ */
@@ -55,57 +56,54 @@
   }
 }
 
-
-// scss-lint:disable IdSelector
 #okta-sign-in.auth-container {
-// scss-lint:enable IdSelector
 
   &.main-container {
-  /* -- Fonts and Text Colors -- */
+    /* -- Fonts and Text Colors -- */
     font-family: $fonts;
     color: $medium-text-color;
   }
 
   h2,
   h3 {
-  /* -- Fonts and Text Colors -- */
+    /* -- Fonts and Text Colors -- */
     font-weight: $font-weight-header;
     color: $header-text-color;
   }
 
   .okta-sign-in-header {
-  /* -- Fonts and Text Colors -- */
+    /* -- Fonts and Text Colors -- */
     color: $header-text-color;
   }
 
   .okta-form-subtitle,
   .okta-form-label {
-  /* -- Fonts and Text Colors -- */
+    /* -- Fonts and Text Colors -- */
     color: $medium-text-color;
   }
 
   .link {
-  /* -- Fonts and Text Colors: links -- */
+    /* -- Fonts and Text Colors: links -- */
     color: $medium-text-color;
 
     &:link,
     &:visited,
     &:hover,
     &:active {
-    /* -- Fonts and Text Colors: links -- */
+      /* -- Fonts and Text Colors: links -- */
       color: $medium-text-color;
     }
   }
 
   .inline-link {
-  /* -- Fonts and Text Colors: links -- */
+    /* -- Fonts and Text Colors: links -- */
     color: $link-text-color;
 
     &:link,
     &:visited,
     &:hover,
     &:active {
-    /* -- Fonts and Text Colors: links -- */
+      /* -- Fonts and Text Colors: links -- */
       color: $link-text-color;
     }
   }
@@ -118,7 +116,7 @@
 
 
   &.main-container {
-  /* -- Main Background and Border Colors -- */
+    /* -- Main Background and Border Colors -- */
     background-color: $primary-bg-color;
     border-color: #ddd #ddd #d8d8d8;
     box-shadow: 0 2px 0 rgba(175, 175, 175, 0.12);
@@ -129,8 +127,8 @@
     }
 
     .bg-helper {
-    /* -- Main Background and Border Colors -- */
-    /* set the helper's color value to the same color as the main-container's background */
+      /* -- Main Background and Border Colors -- */
+      /* set the helper's color value to the same color as the main-container's background */
       color: $primary-bg-color;
     }
 
@@ -165,23 +163,23 @@
   }
 
   .okta-sign-in-header {
-  /* -- Main Background and Border Colors -- */
+    /* -- Main Background and Border Colors -- */
     border-bottom-color: $header-divider-color;
   }
 
   .okta-sign-in-beacon-border {
-  /* -- Main Background and Border Colors -- */
+    /* -- Main Background and Border Colors -- */
     border-color: #a7a7a7;
   }
 
   .okta-form-divider {
-  /* -- Main Background and Border Colors -- */
+    /* -- Main Background and Border Colors -- */
     border-bottom-color: $form-divider-color;
   }
 
   .factor-icon,
   .qrcode-image {
-  /* -- Main Background and Border Colors -- */
+    /* -- Main Background and Border Colors -- */
     border-color: #ccc;
   }
 
@@ -192,8 +190,8 @@
     background-image: url('../img/icons/mfa/oktaVerify_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Okta Verify -- */
       background-image: url('../img/icons/mfa/oktaVerify_ico@2x.png');
     }
@@ -204,8 +202,8 @@
     background-image: url('../img/icons/mfa/oktaVerify_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Okta Verify -- */
       background-image: url('../img/icons/mfa/oktaVerify@2x.png');
     }
@@ -217,8 +215,8 @@
     background-image: url('../img/icons/mfa/googleAuth_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Google Authenticator -- */
       background-image: url('../img/icons/mfa/googleAuth_ico@2x.png');
     }
@@ -229,8 +227,8 @@
     background-image: url('../img/icons/mfa/googleAuth_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Google Authenticator  -- */
       background-image: url('../img/icons/mfa/googleAuth@2x.png');
     }
@@ -242,8 +240,8 @@
     background-image: url('../img/icons/mfa/symantec_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Symantec VIP -- */
       background-image: url('../img/icons/mfa/symantec_ico@2x.png');
     }
@@ -254,8 +252,8 @@
     background-image: url('../img/icons/mfa/symantec_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Symantec VIP -- */
       background-image: url('../img/icons/mfa/symantec@2x.png');
     }
@@ -267,8 +265,8 @@
     background-image: url('../img/icons/mfa/rsa_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): RSA SecurID -- */
       background-image: url('../img/icons/mfa/rsa_ico@2x.png');
     }
@@ -279,8 +277,8 @@
     background-image: url('../img/icons/mfa/rsa_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): RSA SecurID -- */
       background-image: url('../img/icons/mfa/rsa@2x.png');
     }
@@ -292,8 +290,8 @@
     background-image: url('../img/icons/mfa/onprem_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): OnPrem -- */
       background-image: url('../img/icons/mfa/onprem_ico@2x.png');
     }
@@ -304,8 +302,8 @@
     background-image: url('../img/icons/mfa/onprem_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): OnPrem -- */
       background-image: url('../img/icons/mfa/onprem@2x.png');
     }
@@ -317,8 +315,8 @@
     background-image: url('../img/icons/mfa/duo_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): DUO -- */
       background-image: url('../img/icons/mfa/duo_ico@2x.png');
     }
@@ -329,8 +327,8 @@
     background-image: url('../img/icons/mfa/duo_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): DUO -- */
       background-image: url('../img/icons/mfa/duo@2x.png');
     }
@@ -342,8 +340,8 @@
     background-image: url('../img/icons/mfa/yubico_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Yubikey -- */
       background-image: url('../img/icons/mfa/yubico_ico@2x.png');
     }
@@ -354,8 +352,8 @@
     background-image: url('../img/icons/mfa/yubico_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Yubikey -- */
       background-image: url('../img/icons/mfa/yubico@2x.png');
     }
@@ -367,8 +365,8 @@
     background-image: url('../img/icons/mfa/sms_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): SMS -- */
       background-image: url('../img/icons/mfa/sms_ico@2x.png');
     }
@@ -379,8 +377,8 @@
     background-image: url('../img/icons/mfa/sms_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): SMS -- */
       background-image: url('../img/icons/mfa/sms@2x.png');
     }
@@ -392,8 +390,8 @@
     background-image: url('../img/icons/mfa/voicecall_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): CALL -- */
       background-image: url('../img/icons/mfa/voicecall_ico@2x.png');
     }
@@ -404,8 +402,8 @@
     background-image: url('../img/icons/mfa/voicecall_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): CALL -- */
       background-image: url('../img/icons/mfa/voicecall@2x.png');
     }
@@ -417,8 +415,8 @@
     background-image: url('../img/icons/mfa/email_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): EMAIL -- */
       background-image: url('../img/icons/mfa/email_ico@2x.png');
     }
@@ -429,8 +427,8 @@
     background-image: url('../img/icons/mfa/email_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): EMAIL -- */
       background-image: url('../img/icons/mfa/email@2x.png');
     }
@@ -442,8 +440,8 @@
     background-image: url('../img/icons/mfa/question_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Security Question -- */
       background-image: url('../img/icons/mfa/question_ico@2x.png');
     }
@@ -454,8 +452,8 @@
     background-image: url('../img/icons/mfa/question_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Security Question -- */
       background-image: url('../img/icons/mfa/question@2x.png');
     }
@@ -466,8 +464,8 @@
     background-image: url('../img/icons/mfa/password_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Password -- */
       background-image: url('../img/icons/mfa/password_ico@2x.png');
     }
@@ -479,8 +477,8 @@
     background-image: url('../img/icons/mfa/windowsHello_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Windows Hello -- */
       background-image: url('../img/icons/mfa/windowsHello_ico@2x.png');
     }
@@ -491,8 +489,8 @@
     background-image: url('../img/icons/mfa/windowsHello_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Windows Hello -- */
       background-image: url('../img/icons/mfa/windowsHello@2x.png');
     }
@@ -504,8 +502,8 @@
     background-image: url('../img/icons/mfa/u2f_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): U2F -- */
       background-image: url('../img/icons/mfa/u2f_ico@2x.png');
     }
@@ -516,8 +514,8 @@
     background-image: url('../img/icons/mfa/u2f_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): U2F -- */
       background-image: url('../img/icons/mfa/u2f@2x.png');
     }
@@ -528,8 +526,8 @@
     background-image: url('../img/icons/mfa/password_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Password -- */
       background-image: url('../img/icons/mfa/password@2x.png');
     }
@@ -541,8 +539,8 @@
     background-image: url('../img/icons/mfa/customFactor_38x38.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Custom Factor -- */
       background-image: url('../img/icons/mfa/customFactor_ico@2x.png');
     }
@@ -553,15 +551,15 @@
     background-image: url('../img/icons/mfa/customFactor_70x70.png');
 
     @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Custom Factor -- */
       background-image: url('../img/icons/mfa/customFactor@2x.png');
     }
   }
 
   .button {
-  /* -- Buttons' Colors -- */
+    /* -- Buttons' Colors -- */
     @include light-button-template($button-bg-color);
 
     &:focus {
@@ -575,12 +573,12 @@
   }
 
   .button-primary {
-  /* -- Buttons' Colors -- */
+    /* -- Buttons' Colors -- */
     @include dark-button-template($primary-button-bg-color);
   }
 
   .button-success {
-  /* -- Buttons' Colors -- */
+    /* -- Buttons' Colors -- */
     @include dark-button-template($success-button-bg-color);
   }
 
@@ -592,7 +590,7 @@
     &:focus,
     &:active,
     &:focus {
-    /* -- Buttons' Colors -- */
+      /* -- Buttons' Colors -- */
       cursor: default;
       background-image: none;
     }
@@ -610,66 +608,64 @@
     &:focus,
     &:active,
     &:focus {
-    /* -- Buttons' Colors -- */
+      /* -- Buttons' Colors -- */
       cursor: default;
       background-image: none;
     }
   }
 
   .icon-button {
-  /* -- Buttons' Colors -- */
+    /* -- Buttons' Colors -- */
     @include button-template($icon-button-bg-color, 0%, $dark-text-color, 23%, 26%);
   }
 
 
   .okta-dropdown-list {
-  /* -- Dropdown Colors -- */
+    /* -- Dropdown Colors -- */
     /* background: #fff; */
     border-color: $input-border-color-hover;
   }
 
   .factors-dropdown-wrap .okta-dropdown-list {
-  /* -- Dropdown Colors -- */
-    // scss-lint:disable DuplicateProperty
+    /* -- Dropdown Colors -- */
     border-color: #ccc;
     border-color: rgba(0, 0, 0, 0.2);
-    // scss-lint:disable DuplicateProperty
   }
 
   .okta-dropdown-option {
-  /* -- Dropdown Colors -- */
+    /* -- Dropdown Colors -- */
     /* background: transparent; */
     /* border-bottom-color: #fff; */
 
     &:hover {
-    /* -- Dropdown Colors -- */
+      /* -- Dropdown Colors -- */
       /* background: #f9f9f9; */
     }
 
     &.dropdown-list-title:hover {
-    /* -- Dropdown Colors -- */
+      /* -- Dropdown Colors -- */
       background: transparent;
     }
 
     a {
-    /* -- Dropdown Colors -- */
+      /* -- Dropdown Colors -- */
       color: $dark-text-color;
     }
   }
 
 
   .okta-infobox-error {
-  /* -- Error Infobox Colors -- */
+    /* -- Error Infobox Colors -- */
     /* background-color: #fff; */
     /* border: 1px solid #ddd; */
 
     &:before {
-    /* -- Error Infobox Colors -- */
+      /* -- Error Infobox Colors -- */
       /* background-color: #e34843; */
     }
 
     .error-16:before {
-    /* -- Error Infobox Colors: error icon -- */
+      /* -- Error Infobox Colors: error icon -- */
       /* color: #fff; */
 
       /* Use the rules below to replace an error icon in error infoboxes */
@@ -692,12 +688,12 @@
   }
 
   .okta-form-input-field {
-  /* -- Input Fields -- */
+    /* -- Input Fields -- */
     background-color: $input-bg-color;
     border-color: $input-border-color;
 
     &:hover {
-    /* -- Input Fields -- */
+      /* -- Input Fields -- */
       border-color: $input-border-color-hover;
     }
 
@@ -706,37 +702,37 @@
     }
 
     input {
-    /* -- Input Fields -- */
+      /* -- Input Fields -- */
       font-family: $fonts;
       color: $dark-text-color;
 
       &::-webkit-input-placeholder {
-      /* -- Input Fields: placeholder -- */
+        /* -- Input Fields: placeholder -- */
         font-family: $fonts;
         color: $placeholder-text-color;
       }
 
       &::-moz-placeholder {
-      /* -- Input Fields: placeholder -- */
+        /* -- Input Fields: placeholder -- */
         font-family: $fonts;
         color: $placeholder-text-color;
       }
 
       &:-ms-input-placeholder {
-      /* -- Input Fields: placeholder -- */
+        /* -- Input Fields: placeholder -- */
         font-family: $fonts;
         color: $placeholder-text-color;
       }
 
       &[disabled] {
-      /* -- Input Fields: disabled input field -- */
+        /* -- Input Fields: disabled input field -- */
         color: $medium-text-color;
         -webkit-text-fill-color: $medium-text-color;
         /* background: #f4f4f4; */
       }
 
       &[type="password"] {
-      /* -- Input Fields: password input field -- */
+        /* -- Input Fields: password input field -- */
         font-family: Verdana, sans-serif;
 
         &:placeholder-shown {
@@ -747,7 +743,7 @@
     }
 
     placeholder {
-    /* -- Input Fields: placeholder -- */
+      /* -- Input Fields: placeholder -- */
       font-family: $fonts;
       color: $placeholder-text-color;
     }
@@ -755,23 +751,23 @@
 
   .input-icon:before,
   .input-tooltip:before {
-  /* -- Input Fields: icons -- */
+    /* -- Input Fields: icons -- */
     color: $input-icons-color;
   }
 
   .okta-form-label-inline {
-  /* -- Input Fields -- */
+    /* -- Input Fields -- */
     /* background-color: #f2f2f2; */
     /* border-color: #c8c8c8; */
     /* color: #999; */
   }
 
   .okta-form-input-error {
-  /* -- Input Fields: error highlight -- */
+    /* -- Input Fields: error highlight -- */
     /* color: #d93934; */
 
     .error-16-small:before {
-    /* -- Input Fields: error icon -- */
+      /* -- Input Fields: error icon -- */
       /* color: #e34843; */
 
       /* Use the rules below to replace input fields error icon */
@@ -784,17 +780,17 @@
 
 
   .chzn-single {
-  /* -- Input Fields: Select Input -- */
+    /* -- Input Fields: Select Input -- */
     background-color: $input-bg-color;
     border-color: $input-border-color;
 
     span {
-    /* -- Input Fields: Select Input -- */
+      /* -- Input Fields: Select Input -- */
       color: $medium-text-color;
     }
 
     &:hover {
-    /* -- Input Fields: Select Input -- */
+      /* -- Input Fields: Select Input -- */
       border-color: $input-border-color-hover;
     }
   }
@@ -802,7 +798,7 @@
   .chzn-with-drop {
     .chzn-single,
     .chzn-drop {
-    /* -- Input Fields: Select Input -- */
+      /* -- Input Fields: Select Input -- */
       background-color: $input-bg-color;
       border-color: $input-border-color-hover;
     }
@@ -810,12 +806,12 @@
     .chzn-results {
 
       li {
-      /* -- Input Fields: Select Input -- */
+        /* -- Input Fields: Select Input -- */
         /* border-color: #fff; */
       }
 
       .highlighted {
-      /* -- Input Fields: Select Input -- */
+        /* -- Input Fields: Select Input -- */
         /* background-color: #f9f9f9; */
       }
     }
@@ -863,18 +859,18 @@
 
 
 .okta-tooltip.qtip-custom {
-/* -- Tooltips -- */
+  /* -- Tooltips -- */
   font-family: $fonts;
   /* background-color: #4d4d4d; */
   /* border-color: #303030; */
 
   .qtip-content {
-  /* -- Tooltips -- */
+    /* -- Tooltips -- */
     /* color: #f3f3f3; */
   }
 
   .qtip-titlebar {
-  /* -- Tooltips -- */
+    /* -- Tooltips -- */
     /* background-color: #404040 */
   }
 }
@@ -893,15 +889,15 @@
 
 /*  Remove the background image and borders on a smaller window size */
 @include max-width-mq(600px) {
-  // scss-lint:disable ImportantRule
+  /* stylelint-disable declaration-no-important */
   .login-bg-image {
     background-image: none !important;
     background-color: #fff !important;
     filter: unset !important;
   }
+  /* stylelint-enable declaration-no-important */
 
   /* Using the same selector as line 59 to override styles at small screen sizes. */
-  // scss-lint:disable IdSelector
   #okta-sign-in.auth-container {
 
     width: auto;

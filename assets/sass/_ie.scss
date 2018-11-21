@@ -32,7 +32,7 @@
   // The copyright includes a link to www.okta.com
   // Our home page does not render in IE8 and below.
   // So we remove the link for older browsers.
-  // scss-lint:disable IdSelector
+  /* stylelint-disable selector-max-id */
   #copyright a {
     text-decoration: none;
 
@@ -41,7 +41,7 @@
       color: #f00;
     }
   }
-  // scss-lint:enable IdSelector
+  /* stylelint-enable selector-max-id */
 
   .beacon-blank {
     display: none;

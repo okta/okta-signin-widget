@@ -16,9 +16,9 @@
     .link-button {
       height: 22px;
       // overrides padding in mega-drop-down.css
-      // scss-lint:disable ImportantRule
+      /* stylelint-disable declaration-no-important */
       padding: 0 !important;
-      // scss-lint:enable ImportantRule
+      /* stylelint-enable declaration-no-important */
     }
 
     span.icon-dm {

@@ -27,9 +27,8 @@
   @import 'modules/app-login-banner';
 }
 
-// scss-lint:disable IdSelector
+/* stylelint-disable selector-max-id */
 #okta-sign-in {
-// scss-lint:enable IdSelector
   @import 'common/admin/icons/all';
 
   @import 'common/enduser/reset';
@@ -75,6 +74,7 @@
   }
 
 }
+/* stylelint-enable selector-max-id */
 
 @import 'modules/qtip';
 @import 'widgets/chosen';
