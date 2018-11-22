@@ -54,6 +54,7 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [Feature flags](#feature-flags)
 - [Events](#events)
   - [ready](#ready)
+  - [afterError](#aftererror)
   - [afterRender](#afterrender)
   - [pageRendered](#pagerendered)
   - [passwordRevealed](#passwordrevealed)
@@ -1332,6 +1333,35 @@ signIn.on('ready', function (context) {
   if (context.controller === 'primary-auth') {
     // The primary authentication form is ready for user input
   }
+});
+```
+
+### afterError
+
+Triggered after the widget encounters an error during an authentication or authorization flow, and page animations have finished. Returns `error` and `context` objects containing the following properties:
+
+- `error`:
+  - **name** - Name of the error triggered
+  - **message** - Error message
+  - **statusCode** - HTTP status code  (if available)
+  - **xhr** - HTTP response (if available)
+- `context`:
+  - **controller** - Current controller name
+
+```javascript
+signIn.on('afterError', function (error, context) {
+    console.log(error.name);
+    // AuthApiError
+
+    console.log(error.message);
+    // The password does meet the complexity requirements
+    // of the current password policy.
+
+    console.log(error.statusCode);
+    // 403
+
+    console.log(context.controller);
+    // reset-password
 });
 ```
 

@@ -14,6 +14,7 @@
 
 define([
   'okta',
+  'util/Errors',
   'util/FormType',
   'util/FormController',
   'util/FidoUtil',
@@ -22,7 +23,7 @@ define([
   'views/mfa-verify/HtmlErrorMessageView',
   'u2f-api-polyfill'
 ],
-function (Okta, FormType, FormController, FidoUtil, Footer, Q, HtmlErrorMessageView) {
+function (Okta, Errors, FormType, FormController, FidoUtil, Footer, Q, HtmlErrorMessageView) {
 
   var _ = Okta._;
 
@@ -65,13 +66,15 @@ function (Okta, FormType, FormController, FidoUtil, Footer, Q, HtmlErrorMessageV
           u2f.register(appId, registerRequests, [], function (data) {
             self.trigger('errors:clear');
             if (data.errorCode && data.errorCode !== 0) {
-              deferred.reject({
-                xhr: {
-                  responseJSON: {
-                    errorSummary: FidoUtil.getU2fEnrollErrorMessageByCode(data.errorCode)
+              deferred.reject(
+                new Errors.U2FError({
+                  xhr: {
+                    responseJSON: {
+                      errorSummary: FidoUtil.getU2fEnrollErrorMessageByCode(data.errorCode)
+                    }
                   }
-                }
-              });
+                })
+              );
             } else {
               deferred.resolve(transaction.activate({
                 registrationData: data.registrationData,

@@ -14,6 +14,7 @@
 
 define([
   'okta',
+  'util/Errors',
   'util/FormController',
   'util/FormType',
   'views/shared/FooterSignout',
@@ -23,7 +24,7 @@ define([
   'views/mfa-verify/HtmlErrorMessageView',
   'u2f-api-polyfill'
 ],
-function (Okta, FormController, FormType, FooterSignout, Q, FactorUtil, FidoUtil, HtmlErrorMessageView) {
+function (Okta, Errors, FormController, FormType, FooterSignout, Q, FactorUtil, FidoUtil, HtmlErrorMessageView) {
 
   var _ = Okta._;
 
@@ -62,13 +63,15 @@ function (Okta, FormController, FormType, FooterSignout, Q, FactorUtil, FidoUtil
                 self.trigger('errors:clear');
                 if (data.errorCode && data.errorCode !== 0) {
                   var isOneFactor = self.options.appState.get('factors').length === 1;
-                  deferred.reject({
-                    xhr: {
-                      responseJSON: {
-                        errorSummary: FidoUtil.getU2fVerifyErrorMessageByCode(data.errorCode, isOneFactor)
+                  deferred.reject(
+                    new Errors.U2FError({
+                      xhr: {
+                        responseJSON: {
+                          errorSummary: FidoUtil.getU2fVerifyErrorMessageByCode(data.errorCode, isOneFactor)
+                        }
                       }
-                    }
-                  });
+                    })
+                  );
                 } else {
                   var rememberDevice = !!self.get('rememberDevice');
                   return factor.verify({

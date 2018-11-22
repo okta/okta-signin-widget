@@ -42,12 +42,30 @@ define(['okta', './Enums'], function (Okta, Enums) {
   }
   AuthStopPollInitiationError.prototype = new Error();
 
+  function U2FError (err) {
+    this.name = Enums.U2F_ERROR;
+    this.message = err.xhr.responseJSON.errorSummary;
+    this.errorSummary = err.xhr.responseJSON.errorSummary;
+    this.xhr = err.xhr;
+  }
+  U2FError.prototype = new Error();
+
+  function WebAuthnError (err) {
+    this.name = Enums.WEB_AUTHN_ERROR;
+    this.message = err.xhr.responseJSON.errorSummary;
+    this.errorSummary = err.xhr.responseJSON.errorSummary;
+    this.xhr = err.xhr;
+  }
+  WebAuthnError.prototype = new Error();
+
   return {
     ConfigError: ConfigError,
     UnsupportedBrowserError: UnsupportedBrowserError,
     OAuthError: OAuthError,
     RegistrationError: RegistrationError,
-    AuthStopPollInitiationError: AuthStopPollInitiationError
+    AuthStopPollInitiationError: AuthStopPollInitiationError,
+    U2FError: U2FError,
+    WebAuthnError: WebAuthnError
   };
 
 });

@@ -14,6 +14,7 @@
 
 define([
   'okta',
+  'util/Errors',
   'util/FormType',
   'util/FormController',
   'util/CryptoUtil',
@@ -23,7 +24,7 @@ define([
   'q',
   'views/mfa-verify/HtmlErrorMessageView'
 ],
-function (Okta, FormType, FormController, CryptoUtil, FidoUtil, webauthn, Footer, Q, HtmlErrorMessageView) {
+function (Okta, Errors, FormType, FormController, CryptoUtil, FidoUtil, webauthn, Footer, Q, HtmlErrorMessageView) {
 
   var _ = Okta._;
 
@@ -74,9 +75,9 @@ function (Okta, FormType, FormController, CryptoUtil, FidoUtil, webauthn, Footer
                 });
               })
               .fail(function (error) {
-                throw {
+                throw new Errors.WebAuthnError({
                   xhr: {responseJSON: {errorSummary: error.message}}
-                };
+                });
               });
           } else {
             // verify via legacy u2f js for non webauthn supported browser
@@ -89,13 +90,15 @@ function (Okta, FormType, FormController, CryptoUtil, FidoUtil, webauthn, Footer
             u2f.register(activation.u2fParams.appid, registerRequests, [], function (data) {
               self.trigger('errors:clear');
               if (data.errorCode && data.errorCode !== 0) {
-                deferred.reject({
-                  xhr: {
-                    responseJSON: {
-                      errorSummary: FidoUtil.getU2fEnrollErrorMessageByCode(data.errorCode)
+                deferred.reject(
+                  new Errors.U2FError({
+                    xhr: {
+                      responseJSON: {
+                        errorSummary: FidoUtil.getU2fEnrollErrorMessageByCode(data.errorCode)
+                      }
                     }
-                  }
-                });
+                  })
+                );
               } else {
                 deferred.resolve(transaction.activate({
                   attestation: data.registrationData,

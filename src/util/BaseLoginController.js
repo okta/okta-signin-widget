@@ -55,6 +55,7 @@ define(['okta', 'q'], function (Okta, Q) {
       }, this);
       var transactionErrorHandler = _.bind(function (err) {
         this.options.appState.set('transactionError', err);
+        this.trigger('transactionError', err);
       }, this);
 
       // Events to set the transaction attributes on the app state.
@@ -104,6 +105,16 @@ define(['okta', 'q'], function (Okta, Q) {
       this.trigger('pageRendered', {page: this.className});
 
       this.trigger('afterRender', { controller: this.className });
+
+      this.listenTo(this, 'transactionError', function (err) {
+        if (!err.statusCode) {
+          // Bring the statusCode to the top-level of the Error
+          err.statusCode = err.xhr && err.xhr.status;
+        }
+        // Some controllers return the className as a function - process it here:
+        var className = typeof this.className === 'function' ? this.className() : this.className;
+        this.trigger('afterError', { error: err }, { controller: className });
+      });
     }
   });
 
