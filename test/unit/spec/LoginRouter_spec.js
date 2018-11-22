@@ -72,6 +72,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
       var authClient = new OktaAuth({url: baseUrl, headers: {}});
       var eventSpy = jasmine.createSpy('eventSpy');
       var afterRenderHandler = jasmine.createSpy('afterRenderHandler');
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -80,6 +81,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
       Util.registerRouter(router);
       router.on('pageRendered', eventSpy);
       router.on('afterRender', afterRenderHandler);
+      router.on('afterError', afterErrorHandler);
       spyOn(authClient.token, 'getWithoutPrompt').and.callThrough();
       spyOn(authClient.token.getWithRedirect, '_setLocation');
       return tick({
@@ -87,7 +89,8 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         ac: authClient,
         setNextResponse: setNextResponse,
         eventSpy: eventSpy,
-        afterRenderHandler: afterRenderHandler
+        afterRenderHandler: afterRenderHandler,
+        afterErrorHandler: afterErrorHandler
       });
     }
 
@@ -470,6 +473,19 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           return Expect.waitForPrimaryAuth(test);
         })
         .then(function (test) {
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              error: jasmine.objectContaining({
+                name: 'AuthApiError',
+                message: 'Invalid token provided',
+                statusCode: 401
+              })
+            },
+            {
+              controller: 'recovery-question'
+            }
+          ]);
           var form = new PrimaryAuthForm($sandbox);
           expect(form.isPrimaryAuth()).toBe(true);
           expect(form.hasErrors()).toBe(true);

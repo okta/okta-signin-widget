@@ -31,12 +31,14 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
       });
+      router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
@@ -56,7 +58,8 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
             beacon: new Beacon($sandbox),
             form: new Form($sandbox),
             ac: authClient,
-            setNextResponse: setNextResponse
+            setNextResponse: setNextResponse,
+            afterErrorHandler: afterErrorHandler
           });
         });
     }
@@ -217,6 +220,31 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Profile.');
+        });
+    });
+    itp('triggers an afterError event if error response on enrollment', function () {
+      return setup()
+        .then(function (test) {
+          Q.stopUnhandledRejectionTracking();
+          test.setNextResponse(resError);
+          test.form.setAnswer('the answer');
+          test.form.submit();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              error: jasmine.objectContaining({
+                name: 'AuthApiError',
+                message: 'Api validation failed: factorEnrollRequest',
+                statusCode: 400
+              })
+            },
+            {
+              controller: 'enroll-question'
+            }
+          ]);
         });
     });
     itp('returns to factor list when back link is clicked', function () {

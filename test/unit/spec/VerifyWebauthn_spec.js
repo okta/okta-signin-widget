@@ -53,7 +53,9 @@ function (Okta,
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
     var successSpy = jasmine.createSpy('success');
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });
+    router.on('afterError', afterErrorHandler);
     setNextResponse(resAllFactors);
     router.refreshAuthState('dummy-token');
     return Expect.waitForMfaVerify()
@@ -77,7 +79,8 @@ function (Okta,
           beacon: beacon,
           ac: authClient,
           setNextResponse: setNextResponse,
-          successSpy: successSpy
+          successSpy: successSpy,
+          afterErrorHandler: afterErrorHandler
         };
       });
   }
@@ -241,6 +244,30 @@ function (Okta,
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox()).toHaveLength(1);
         expect(test.form.errorMessage()).toEqual('something went wrong');
+      });
+    });
+
+    itp('triggers an afterError event if navigator.credentials.get fails', function () {
+      Q.stopUnhandledRejectionTracking();
+      return setupWebauthnFactor({
+        webauthnSupported: true,
+        u2fSupported: true,
+        signStatus: 'fail'
+      }).then(function (test) {
+        return Expect.waitForFormError(test.form, test);
+      }).then(function (test) {
+        expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+        expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+          {
+            error: jasmine.objectContaining({
+              name: 'WEB_AUTHN_ERROR',
+              message: 'something went wrong'
+            })
+          },
+          {
+            controller: 'mfa-verify verify-webauthn'
+          }
+        ]);
       });
     });
 

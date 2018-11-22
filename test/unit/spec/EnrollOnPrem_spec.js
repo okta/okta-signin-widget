@@ -27,12 +27,14 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
       });
+      router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
@@ -48,7 +50,8 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             beacon: new Beacon($sandbox),
             form: new Form($sandbox),
             ac: authClient,
-            setNextResponse: setNextResponse
+            setNextResponse: setNextResponse,
+            afterErrorHandler: afterErrorHandler
           };
           if (includeOnPrem) {
             router.enrollOnPrem();
@@ -167,6 +170,31 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
               expect(test.form.hasErrors()).toBe(true);
               // Note: This will change when we get field specific error messages
               expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
+            });
+        });
+        itp('triggers an afterError event in the case of an error response', function () {
+          return setup()
+            .then(function (test) {
+              test.setNextResponse(resEnrollError);
+              test.form.setCredentialId('Username');
+              test.form.setCode(123);
+              test.form.submit();
+              return tick(test);
+            })
+            .then(function (test) {
+              expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+              expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+                {
+                  error: jasmine.objectContaining({
+                    name: 'AuthApiError',
+                    message: 'Api validation failed: factorEnrollRequest',
+                    statusCode: 400
+                  })
+                },
+                {
+                  controller: 'enroll-rsa'
+                }
+              ]);
             });
         });
         itp('clears passcode field if error is for PIN change', function () {
@@ -289,6 +317,31 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
               expect(test.form.hasErrors()).toBe(true);
               // Note: This will change when we get field specific error messages
               expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
+            });
+        });
+        itp('triggers an afterError event in the case of an error response', function () {
+          return setupOnPrem()
+            .then(function (test) {
+              test.setNextResponse(resEnrollError);
+              test.form.setCredentialId('Username');
+              test.form.setCode(123);
+              test.form.submit();
+              return tick(test);
+            })
+            .then(function (test) {
+              expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+              expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+                {
+                  error: jasmine.objectContaining({
+                    name: 'AuthApiError',
+                    message: 'Api validation failed: factorEnrollRequest',
+                    statusCode: 400
+                  })
+                },
+                {
+                  controller: 'enroll-onprem'
+                }
+              ]);
             });
         });
         itp('clears passcode field if error is for PIN change', function () {

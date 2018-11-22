@@ -38,12 +38,14 @@ function (Okta,
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
       var successSpy = jasmine.createSpy('success');
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        globalSuccessFn: successSpy
+        globalSuccessFn: successSpy,
       });
+      router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
@@ -60,7 +62,8 @@ function (Okta,
             form: new Form($sandbox),
             ac: authClient,
             setNextResponse: setNextResponse,
-            successSpy: successSpy
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
           });
         });
     }
@@ -100,6 +103,21 @@ function (Okta,
       expect(test.form.hasErrors()).toBe(true);
       expect(test.form.errorBox()).toHaveLength(1);
       expect(test.form.errorMessage()).toEqual(errorMessage);
+    }
+
+    function expectErrorEvent (test, message){
+      expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+      expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        {
+          error: jasmine.objectContaining({
+            name: 'U2F_ERROR',
+            message: message
+          })
+        },
+        {
+          controller: 'enroll-u2f'
+        }
+      ]);
     }
 
     Expect.describe('Header & Footer', function () {
@@ -221,10 +239,24 @@ function (Okta,
           });
       });
 
+      itp('triggers error event if u2f.register fails with code 1', function () {
+        return setupU2fFails(1)
+          .then(function (test) {
+            expectErrorEvent(test, 'An unknown error has occured. Try again or select another factor.');
+          });
+      });
+
       itp('shows proper error if u2f.register fails with code 2', function () {
         return setupU2fFails(2)
           .then(function (test) {
             expectErrorHtml(test, 'There was an error with the U2F request. Try again or select another factor.');
+          });
+      });
+
+      itp('triggers error event if u2f.register fails with code 2', function () {
+        return setupU2fFails(2)
+          .then(function (test) {
+            expectErrorEvent(test, 'There was an error with the U2F request. Try again or select another factor.');
           });
       });
 
@@ -235,6 +267,13 @@ function (Okta,
           });
       });
 
+      itp('triggers error event if u2f.register fails with code 3', function () {
+        return setupU2fFails(3)
+          .then(function (test) {
+            expectErrorEvent(test, 'There was an error with the U2F request. Try again or select another factor.');
+          });
+      });
+
       itp('shows proper error if u2f.register fails with code 4', function () {
         return setupU2fFails(4)
           .then(function (test) {
@@ -242,10 +281,24 @@ function (Okta,
           });
       });
 
+      itp('triggers error event if u2f.register fails with code 4', function () {
+        return setupU2fFails(4)
+          .then(function (test) {
+            expectErrorEvent(test, 'The security key is unsupported. Select another factor.');
+          });
+      });
+
       itp('shows proper error if u2f.register fails with code 5', function () {
         return setupU2fFails(5)
           .then(function (test) {
             expectErrorHtml(test, 'You have timed out of the authentication period. Please try again.');
+          });
+      });
+
+      itp('triggers error event if u2f.register fails with code 5', function () {
+        return setupU2fFails(5)
+          .then(function (test) {
+            expectErrorEvent(test, 'You have timed out of the authentication period. Please try again.');
           });
       });
     });

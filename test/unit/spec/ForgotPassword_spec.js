@@ -30,6 +30,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
     var successSpy = jasmine.createSpy('success');
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -40,6 +41,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
     var form = new AccountRecoveryForm($sandbox);
     var loginForm = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
+    router.on('afterError', afterErrorHandler);
     Util.registerRouter(router);
     Util.mockRouterNavigate(router, startRouter);
     router.forgotPassword();
@@ -50,7 +52,8 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       beacon: beacon,
       ac: authClient,
       setNextResponse: setNextResponse,
-      successSpy: successSpy
+      successSpy: successSpy,
+      afterErrorHandler: afterErrorHandler
     });
   }
 
@@ -513,6 +516,30 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
           });
       });
+      itp('triggers an afterError event if sending sms results in an error', function () {
+        return setupWithSms()
+          .then(function (test) {
+            test.setNextResponse(resError);
+            test.form.setUsername('foo');
+            test.form.sendSms();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                error: jasmine.objectContaining({
+                  name: 'AuthApiError',
+                  message: 'You do not have permission to perform the requested action',
+                  statusCode: 403
+                })
+              },
+              {
+                controller: 'forgot-password'
+              }
+            ]);
+          });
+      });
       itp('does not have a problem with sending email after sending sms', function () {
         return setupWithSms()
           .then(function (test) {
@@ -649,6 +676,30 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+          });
+      });
+      itp('triggers an afterError event if making a Voice Call results in an error', function () {
+        return setupWithCall()
+          .then(function (test) {
+            test.setNextResponse(resError);
+            test.form.setUsername('foo');
+            test.form.makeCall();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                error: jasmine.objectContaining({
+                  name: 'AuthApiError',
+                  message: 'You do not have permission to perform the requested action',
+                  statusCode: 403
+                })
+              },
+              {
+                controller: 'forgot-password'
+              }
+            ]);
           });
       });
       itp('does not have a problem with sending email after making a Voice Call', function () {
@@ -952,6 +1003,37 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
               expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
             });
         });
+      itp('triggers an afterError event if sending "Reset via email" results in an error, after making a Voice Call',
+        function () {
+          return setupWithCall().then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse(resChallengeCall);
+            test.form.setUsername('foo');
+            test.form.makeCall();
+            return Expect.waitForRecoveryChallenge(test);
+          })
+            .then(function (test) {
+              test.setNextResponse(resError);
+              test.form.clickSendEmailLink();
+              return Expect.waitForFormError(test.form, test);
+            })
+            .then(function (test) {
+              expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+              expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+                {
+                  error: jasmine.objectContaining({
+                    name: 'AuthApiError',
+                    message: 'You do not have permission to perform the requested action',
+                    statusCode: 403
+                  })
+                },
+                {
+                  controller: 'recovery-challenge'
+                }
+              ]);
+            });
+        }
+      );
     });
 
   });

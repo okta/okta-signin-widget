@@ -26,12 +26,14 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
       features: { securityImage: true },
       authClient: authClient
     }, settings));
+    router.on('afterError', afterErrorHandler);
     var form = new RecoveryChallengeForm($sandbox);
     var beacon = new Beacon($sandbox);
     Util.registerRouter(router);
@@ -48,7 +50,8 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
       form: form,
       beacon: beacon,
       ac: authClient,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
+      afterErrorHandler: afterErrorHandler
     })
       .then(tick);
   }
@@ -229,6 +232,33 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
           expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
         });
     });
+    itp('triggers an afterError event if there is an error re-sending the code', function () {
+      var delay = this.originalDelay;
+      _.delay.and.callFake(function (func, wait, args) {
+        return delay(func, 0, args);
+      });
+      return setup()
+        .then(function (test) {
+          test.setNextResponse(resResendError);
+          test.form.resendButton().click();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              error: jasmine.objectContaining({
+                name: 'AuthApiError',
+                message: 'You do not have permission to perform the requested action',
+                statusCode: 403
+              })
+            },
+            {
+              controller: 'recovery-challenge'
+            }
+          ]);
+        });
+    });
     itp('shows an error msg if there is an error submitting the code', function () {
       return setup()
         .then(function (test) {
@@ -240,6 +270,30 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+        });
+    });
+    itp('triggers an afterError event if there is an error submitting the code', function () {
+      return setup()
+        .then(function (test) {
+          test.setNextResponse(resVerifyError);
+          test.form.setCode('1234');
+          test.form.submit();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              error: jasmine.objectContaining({
+                name: 'AuthApiError',
+                message: 'You do not have permission to perform the requested action',
+                statusCode: 403
+              })
+            },
+            {
+              controller: 'recovery-challenge'
+            }
+          ]);
         });
     });
   });

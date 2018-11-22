@@ -133,7 +133,9 @@ function (Okta,
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var successSpy = jasmine.createSpy('success');
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = createRouter(baseUrl, authClient, successSpy, settings);
+      router.on('afterError', afterErrorHandler);
       setNextResponse(res);
       if (languagesResponse) {
         setNextResponse(languagesResponse);
@@ -187,7 +189,8 @@ function (Okta,
             beacon: beacon,
             ac: authClient,
             setNextResponse: setNextResponse,
-            successSpy: successSpy
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
           };
         });
     }
@@ -460,6 +463,22 @@ function (Okta,
     function expectHasRightPlaceholderText (test, placeholderText){
       var answer = test.form.answerField();
       expect(answer.attr('placeholder')).toEqual(placeholderText);
+    }
+
+    function expectErrorEvent (test, code, message, controller) {
+      expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+      expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        {
+          error: jasmine.objectContaining({
+            name: 'AuthApiError',
+            message: message,
+            statusCode: code
+          })
+        },
+        {
+          controller: controller || 'mfa-verify'
+        }
+      ]);
     }
 
     Expect.describe('General', function () {
@@ -912,6 +931,18 @@ function (Okta,
               expect(test.form.errorMessage()).toBe('Invalid Passcode/Answer');
             });
         });
+        itp('triggers an afterError event if error response from authClient', function () {
+          return setupGoogleTOTP()
+            .then(function (test) {
+              test.setNextResponse(resInvalidTotp);
+              test.form.setAnswer('wrong');
+              test.form.submit();
+              return Expect.waitForFormError(test.form, test);
+            })
+            .then(function (test) {
+              expectErrorEvent(test, 403, 'Invalid Passcode/Answer');
+            });
+        });
         itp('shows errors if verify button is clicked and answer is empty', function () {
           return setupGoogleTOTP()
             .then(function (test) {
@@ -977,6 +1008,18 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
               expect(test.form.answerField().val()).toEqual('');
+            });
+        });
+        itp('triggers an afterError event if error is for PIN change (On-Prem)', function () {
+          return setupOnPremTOTP()
+            .then(function (test) {
+              test.setNextResponse(resRSAChangePin);
+              test.form.setAnswer('correct');
+              test.form.submit();
+              return Expect.waitForFormError(test.form, test);
+            })
+            .then(function (test) {
+              expectErrorEvent(test, 409, 'Enter a new PIN having from 4 to 8 digits:');
             });
         });
       });
@@ -1378,6 +1421,17 @@ function (Okta,
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
             });
         });
+        itp('triggers an afterError event after too many failed MFA attempts.', function () {
+          return setupSMS().then(function (test) {
+            test.setNextResponse(resMfaLocked);
+            test.form.setAnswer('12345');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+            .then(function (test) {
+              expectErrorEvent(test, 403, 'User Locked');
+            });
+        });
         itp('hides error messages after clicking on send sms', function () {
           return setupSMS().then(function (test) {
             test.form.setAnswer('');
@@ -1634,6 +1688,17 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+            });
+        });
+        itp('triggers an afterError event after too many failed MFA attempts.', function () {
+          return setupCall().then(function (test) {
+            test.setNextResponse(resMfaLocked);
+            test.form.setAnswer('12345');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+            .then(function (test) {
+              expectErrorEvent(test, 403, 'User Locked');
             });
         });
         itp('hides error messages after clicking on call', function () {
@@ -1917,6 +1982,17 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+            });
+        });
+        itp('triggers an afterError event after too many failed MFA attempts.', function () {
+          return setupEmail().then(function (test) {
+            test.setNextResponse(resMfaLocked);
+            test.form.setAnswer('12345');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+            .then(function (test) {
+              expectErrorEvent(test, 403, 'User Locked');
             });
         });
         itp('hides error messages after clicking on send email', function () {
@@ -3052,6 +3128,35 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
             });
         });
+
+        itp('triggers an afterError event an error if u2f.sign fails', function () {
+          Q.stopUnhandledRejectionTracking();
+          var signStub = function (appId, nonce, registeredKeys, callback) {
+            callback({ errorCode: 2 });
+          };
+          return setupU2F({u2f: true, signStub: signStub})
+            .then(function (test) {
+              return Expect.waitForSpyCall(window.u2f.sign, test);
+            })
+            .then(function (test) {
+              window.u2f.tap();
+              return Expect.waitForFormError(test.form, test);
+            })
+            .then(function (test) {
+              expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+              expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+                {
+                  error: jasmine.objectContaining({
+                    name: 'U2F_ERROR',
+                    message: 'There was an error with the U2F request. Try again or select another factor.'
+                  })
+                },
+                {
+                  controller: 'mfa-verify verify-u2f'
+                }
+              ]);
+            });
+        });
       });
 
       Expect.describe('Custom SAML Factor', function () {
@@ -3102,6 +3207,21 @@ function (Okta,
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+            });
+        });
+        itp('triggers an afterError event when error response received', function () {
+          return setupCustomSAMLFactor().then(function (test) {
+            test.setNextResponse(resNoPermissionError);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+            .then(function (test) {
+              expectErrorEvent(
+                test,
+                403,
+                'You do not have permission to perform the requested action',
+                'verify-custom-factor custom-factor-form'
+              );
             });
         });
         itp('calls authClient verifyFactor with rememberDevice URL param', function () {
@@ -3171,6 +3291,21 @@ function (Okta,
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+            });
+        });
+        itp('triggers an afterError event when error response received', function () {
+          return setupCustomOIDCFactor().then(function (test) {
+            test.setNextResponse(resNoPermissionError);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+            .then(function (test) {
+              expectErrorEvent(
+                test,
+                403,
+                'You do not have permission to perform the requested action',
+                'verify-custom-factor custom-factor-form'
+              );
             });
         });
         itp('calls authClient verifyFactor with rememberDevice URL param', function () {
@@ -3286,6 +3421,18 @@ function (Okta,
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('Password is incorrect');
+            });
+        });
+        itp('shows an error if error response from authClient', function () {
+          return setupPassword()
+            .then(function (test) {
+              test.setNextResponse(resInvalidPassword);
+              test.form.setPassword('wrong');
+              test.form.submit();
+              return Expect.waitForFormError(test.form, test);
+            })
+            .then(function (test) {
+              expectErrorEvent(test, 403, 'Invalid Passcode/Answer');
             });
         });
         itp('shows errors if verify button is clicked and password is empty', function () {

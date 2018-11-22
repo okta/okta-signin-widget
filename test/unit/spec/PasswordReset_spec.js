@@ -30,6 +30,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
   function setup (settings) {
     settings || (settings = {});
     var successSpy = jasmine.createSpy('successSpy');
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var passwordResetResponse = resPasswordReset;
     var policyComplexityDefaults = {
       minLength: 8,
@@ -94,6 +95,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     }, settings));
     var form = new PasswordResetForm($sandbox);
     var beacon = new Beacon($sandbox);
+    router.on('afterError', afterErrorHandler);
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
@@ -105,7 +107,8 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       form: form,
       beacon: beacon,
       ac: authClient,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
+      afterErrorHandler: afterErrorHandler
     });
   }
 
@@ -487,6 +490,33 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
           ' does not include your first name, does not include your last name.'
           );
+        });
+    });
+
+    itp('triggers an afterError event if there is an error submitting', function () {
+      return setup()
+        .then(function (test) {
+          Q.stopUnhandledRejectionTracking();
+          test.setNextResponse(resError);
+          test.form.setNewPassword('a');
+          test.form.setConfirmPassword('a');
+          test.form.submit();
+          return tick(test);
+        })
+        .then(function (test) {
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              error: jasmine.objectContaining({
+                name: 'AuthApiError',
+                message: 'The password does not meet the complexity requirements of the current password policy.',
+                statusCode: 403
+              })
+            },
+            {
+              controller: 'password-reset'
+            }
+          ]);
         });
     });
   });

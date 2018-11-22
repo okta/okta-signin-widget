@@ -15,12 +15,11 @@ define([
   'helpers/xhr/MFA_ENROLL_ACTIVATE_error',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_errorActivate',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_invalid_phone',
-  'helpers/xhr/SUCCESS',
   'LoginRouter'
 ],
 function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
   resAllFactors, resExistingPhone, resEnrollSuccess, resEnrollError, resActivateError,
-  resEnrollInvalidPhoneError, resSuccess, Router) {
+  resEnrollInvalidPhoneError, Router) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -32,12 +31,14 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var afterRenderHandler = jasmine.createSpy('afterRenderHandler');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
       });
+      router.on('afterError', afterRenderHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
@@ -53,7 +54,8 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             beacon: new Beacon($sandbox),
             form: new Form($sandbox),
             ac: authClient,
-            setNextResponse: setNextResponse
+            setNextResponse: setNextResponse,
+            afterRenderHandler: afterRenderHandler
           });
         });
     }
@@ -261,6 +263,24 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           Expect.isNotVisible(test.form.submitButton());
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
+        });
+      });
+      itp('triggers an afterError event and does not go to next step if error response', function () {
+        return setupAndSendInvalidCode().then(function (test) {
+          expectCallButton(test);
+          expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([
+            {
+              error: jasmine.objectContaining({
+                name: 'AuthApiError',
+                message: 'Api validation failed: factorEnrollRequest',
+                statusCode: 400
+              })
+            },
+            {
+              controller: 'enroll-call'
+            }
+          ]);
         });
       });
     });
@@ -535,6 +555,31 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Your token doesn\'t match our records. Please try again.');
+          });
+      });
+      itp('triggers an afterError event if error response on verification', function () {
+        return setupAndSendValidCode()
+          .then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse(resActivateError);
+            test.form.setCode(123);
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([
+              {
+                error: jasmine.objectContaining({
+                  name: 'AuthApiError',
+                  message: 'Invalid Passcode/Answer',
+                  statusCode: 403
+                })
+              },
+              {
+                controller: 'enroll-call'
+              }
+            ]);
           });
       });
     });

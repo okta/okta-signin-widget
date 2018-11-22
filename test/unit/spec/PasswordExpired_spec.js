@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 19], max-statements: [2, 22] */
+/* eslint max-params: [2, 19], max-statements: [2, 24] */
 define([
   'okta',
   '@okta/okta-auth-js/jquery',
@@ -33,6 +33,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
   function setup (settings, res, custom) {
     settings || (settings = {});
     var successSpy = jasmine.createSpy('successSpy');
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -44,6 +45,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       globalSuccessFn: successSpy,
       processCreds: settings.processCreds
     }, settings));
+    router.on('afterError', afterErrorHandler);
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
@@ -55,7 +57,8 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       beacon: new Beacon($sandbox),
       form: new PasswordExpiredForm($sandbox),
       ac: authClient,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
+      afterErrorHandler: afterErrorHandler
     };
     if(custom) {
       return Expect.waitForCustomPasswordExpired(settings);
@@ -297,6 +300,29 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             );
           });
       });
+      itp('triggers an afterError event if the server returns a wrong old pass error', function () {
+        return setup()
+          .then(function (test) {
+            test.setNextResponse(resErrorOldPass);
+            submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                error: jasmine.objectContaining({
+                  name: 'AuthApiError',
+                  message: 'Update of credentials failed',
+                  statusCode: 400
+                })
+              },
+              {
+                controller: 'password-expired'
+              }
+            ]);
+          });
+      });
       itp('shows an error if the server returns a complexity error', function () {
         return setup()
           .then(function (test) {
@@ -311,6 +337,30 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
             ' does not include your first name, does not include your last name.'
             );
+          });
+      });
+      itp('triggers an afterError event if the server returns a complexity error', function () {
+        return setup()
+          .then(function (test) {
+            test.setNextResponse(resErrorComplexity);
+            submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                error: jasmine.objectContaining({
+                  name: 'AuthApiError',
+                  message: 'Update of credentials failed',
+                  statusCode: 403
+                })
+              },
+              {
+                controller: 'password-expired'
+              }
+            ]);
           });
       });
       itp('validates that fields are not empty', function () {
