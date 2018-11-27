@@ -14,7 +14,7 @@ module.exports = function (grunt) {
   var JS                    = 'target/js',
       DIST                  = 'dist',
       SASS                  = 'target/sass',
-      SEARCH_OUT_FILE       = 'build2/OSW-search-checkstyle.xml',
+      SEARCH_OUT_FILE       = 'build2/OSW-search-checkstyle-result.xml',
       WIDGET_RC             = '.widgetrc',
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
