@@ -9,4 +9,4 @@ module.exports = {
     'max-params': 0,
     'max-statements': 0
   }
-}
+};

@@ -21,7 +21,7 @@ exports.handler = () => {
 
   // 2. Add list of supported languages
   const re = new RegExp('/[a-z]+_([^.]+).json');
-  const supportedLanguages = glob.sync(languageGlob).map(function (file) {
+  const supportedLanguages = glob.sync(languageGlob).map((file) => {
     // Language codes use a hyphen instead of an underscore, i.e.
     // login_zh_TW.json -> zh-TW
     return re.exec(file)[1].replace('_', '-');
@@ -30,7 +30,7 @@ exports.handler = () => {
   supportedLanguages.unshift('en');
   config.supportedLanguages = supportedLanguages;
   console.log('config.supportedLanguages:');
-  console.log(config.supportedLanguages.join(','))
+  console.log(config.supportedLanguages.join(','));
 
   writeFileSync(OUTPUT_FILE, JSON.stringify(config, null, 2));
   console.log('Wrote config to ' + OUTPUT_FILE);
