@@ -13,6 +13,12 @@
 /* global module, browser */
 var util = module.exports = {};
 
+var EC = protractor.ExpectedConditions;
+
 util.loadTestPage = function (pageName) {
   browser.get('http://localhost:3000/' + pageName + '.html');
 };
+
+util.waitForElement = function (el) {
+  browser.wait(EC.presenceOf(el), 1000);
+}

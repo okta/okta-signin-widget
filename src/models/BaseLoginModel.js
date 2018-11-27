@@ -41,6 +41,8 @@ function (Okta, Q, Enums) {
           }
           self.trigger('setTransactionError', err);
           self.trigger('error', self, err.xhr);
+          // Trigger an event once the previous 'error' event is handled
+          self.trigger('afterError', err);
           if (rethrow || _.indexOf(KNOWN_ERRORS, err.name) === -1) {
             throw err;
           }
@@ -60,6 +62,8 @@ function (Okta, Q, Enums) {
           }
           self.trigger('setTransactionError', err);
           self.trigger('error', self, err.xhr);
+          // Trigger an event once the previous 'error' event is handled
+          self.trigger('afterError', err);
         });
       }
 
@@ -79,6 +83,8 @@ function (Okta, Q, Enums) {
           .fail(function (err) {
             self.trigger('setTransactionError', err);
             self.trigger('error', self, err.xhr);
+            // Trigger an event once the previous 'error' event is handled
+            self.trigger('afterError', err);
             throw err;
           });
       }
