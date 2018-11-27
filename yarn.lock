@@ -546,7 +546,7 @@ async-limiter@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.0.tgz#78faed8c3d074ab81f22b4e985d79e8738f720f8"
 
-async@1.x, async@^1.4.0, async@^1.5.2, async@~1.5.2, async@~1.5.x:
+async@1.x, async@^1.4.0, async@^1.5.2, async@~1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
@@ -1906,7 +1906,7 @@ color@^3.0.0:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
-colors@^1.1.0:
+colors@^1.1.0, colors@^1.1.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.3.2.tgz#2df8ff573dfbf255af562f8ce7181d6b971a359b"
 
@@ -1944,7 +1944,7 @@ combined-stream@~0.0.4, combined-stream@~0.0.5:
 
 commander@2.5.x:
   version "2.5.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.5.1.tgz#23c61f6e47be143cc02e7ad4bb1c47f5cd5a2883"
+  resolved "http://registry.npmjs.org/commander/-/commander-2.5.1.tgz#23c61f6e47be143cc02e7ad4bb1c47f5cd5a2883"
 
 commander@^2.18.0:
   version "2.18.0"
@@ -3912,14 +3912,6 @@ grunt-postcss@^0.9.0:
     diff "^3.0.0"
     postcss "^6.0.11"
 
-grunt-retire@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/grunt-retire/-/grunt-retire-1.0.7.tgz#42e1ddbbf12d0efb6753685630cc89e42406f6e8"
-  dependencies:
-    async "~1.5.x"
-    request "2.x.x"
-    retire "~1.2.x"
-
 grunt-sass@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/grunt-sass/-/grunt-sass-3.0.2.tgz#b4f01567ce3df4460fcc788e9e5e4c65263425ed"
@@ -4983,10 +4975,6 @@ jsesc@~0.5.0:
 json-loader@^0.5.4:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.7.tgz#dca14a70235ff82f0ac9a3abeb60d337a365185d"
-
-json-parse-better-errors@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/json-parse-better-errors/-/json-parse-better-errors-1.0.1.tgz#50183cd1b2d25275de069e9e71b467ac9eab973a"
 
 json-parse-better-errors@^1.0.1:
   version "1.0.2"
@@ -7323,11 +7311,11 @@ read-installed@^4.0.3:
     graceful-fs "^4.1.2"
 
 read-package-json@^2.0.0:
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/read-package-json/-/read-package-json-2.0.12.tgz#68ea45f98b3741cb6e10ae3bbd42a605026a6951"
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/read-package-json/-/read-package-json-2.0.13.tgz#2e82ebd9f613baa6d2ebe3aa72cefe3f68e41f4a"
   dependencies:
     glob "^7.1.1"
-    json-parse-better-errors "^1.0.0"
+    json-parse-better-errors "^1.0.1"
     normalize-package-data "^2.0.0"
     slash "^1.0.0"
   optionalDependencies:
@@ -7653,7 +7641,7 @@ request-replay@~0.2.0:
   dependencies:
     retry "~0.6.0"
 
-request@2.x.x, request@^2.40.0, request@^2.81.0, request@^2.87.0, request@^2.88.0:
+request@^2.40.0, request@^2.81.0, request@^2.87.0, request@^2.88.0, request@~2.x.x:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   dependencies:
@@ -7678,7 +7666,7 @@ request@2.x.x, request@^2.40.0, request@^2.81.0, request@^2.87.0, request@^2.88.
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
 
-request@^2.78.0, request@~2.x.x:
+request@^2.78.0:
   version "2.81.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.81.0.tgz#c6928946a0e06c5f8d6f8a9333469ffda46298a0"
   dependencies:
@@ -7830,10 +7818,11 @@ ret@~0.1.10:
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
 
-retire@~1.2.x:
-  version "1.2.13"
-  resolved "https://registry.yarnpkg.com/retire/-/retire-1.2.13.tgz#dd84e1418c3f5264b66ae9f9856a2db73743ee0b"
+retire@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/retire/-/retire-2.0.1.tgz#e75aa72597c64ab4e3cdc220e5990c4f71d3ec20"
   dependencies:
+    colors "^1.1.2"
     commander "2.5.x"
     read-installed "^4.0.3"
     request "~2.x.x"
