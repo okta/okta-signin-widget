@@ -229,18 +229,16 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
           test.setNextResponse(resError);
           test.form.setAnswer('the answer');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-            {
-              error: jasmine.objectContaining({
-                name: 'AuthApiError',
-                message: 'Api validation failed: factorEnrollRequest',
-                statusCode: 400
-              })
-            },
+            jasmine.objectContaining({
+              name: 'AuthApiError',
+              message: 'Api validation failed: factorEnrollRequest',
+              statusCode: 400
+            }),
             {
               controller: 'enroll-question'
             }

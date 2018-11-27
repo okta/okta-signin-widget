@@ -45,7 +45,6 @@ define(['okta', './Enums'], function (Okta, Enums) {
   function U2FError (err) {
     this.name = Enums.U2F_ERROR;
     this.message = err.xhr.responseJSON.errorSummary;
-    this.errorSummary = err.xhr.responseJSON.errorSummary;
     this.xhr = err.xhr;
   }
   U2FError.prototype = new Error();
@@ -53,7 +52,6 @@ define(['okta', './Enums'], function (Okta, Enums) {
   function WebAuthnError (err) {
     this.name = Enums.WEB_AUTHN_ERROR;
     this.message = err.xhr.responseJSON.errorSummary;
-    this.errorSummary = err.xhr.responseJSON.errorSummary;
     this.xhr = err.xhr;
   }
   WebAuthnError.prototype = new Error();

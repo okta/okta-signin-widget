@@ -305,18 +305,16 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
           .then(function (test) {
             test.setNextResponse(resErrorOldPass);
             submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-              {
-                error: jasmine.objectContaining({
-                  name: 'AuthApiError',
-                  message: 'Update of credentials failed',
-                  statusCode: 400
-                })
-              },
+              jasmine.objectContaining({
+                name: 'AuthApiError',
+                message: 'Update of credentials failed',
+                statusCode: 400
+              }),
               {
                 controller: 'password-expired'
               }
@@ -344,19 +342,17 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
           .then(function (test) {
             test.setNextResponse(resErrorComplexity);
             submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-              {
-                error: jasmine.objectContaining({
-                  name: 'AuthApiError',
-                  message: 'Update of credentials failed',
-                  statusCode: 403
-                })
-              },
+              jasmine.objectContaining({
+                name: 'AuthApiError',
+                message: 'Update of credentials failed',
+                statusCode: 403
+              }),
               {
                 controller: 'password-expired'
               }

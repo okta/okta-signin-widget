@@ -258,12 +258,10 @@ function (Okta,
       }).then(function (test) {
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
         expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-          {
-            error: jasmine.objectContaining({
-              name: 'WEB_AUTHN_ERROR',
-              message: 'something went wrong'
-            })
-          },
+          jasmine.objectContaining({
+            name: 'WEB_AUTHN_ERROR',
+            message: 'something went wrong'
+          }),
           {
             controller: 'mfa-verify verify-webauthn'
           }

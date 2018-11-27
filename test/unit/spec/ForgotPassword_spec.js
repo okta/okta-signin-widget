@@ -527,13 +527,11 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           .then(function (test) {
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-              {
-                error: jasmine.objectContaining({
-                  name: 'AuthApiError',
-                  message: 'You do not have permission to perform the requested action',
-                  statusCode: 403
-                })
-              },
+              jasmine.objectContaining({
+                name: 'AuthApiError',
+                message: 'You do not have permission to perform the requested action',
+                statusCode: 403
+              }),
               {
                 controller: 'forgot-password'
               }
@@ -689,13 +687,11 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           .then(function (test) {
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-              {
-                error: jasmine.objectContaining({
-                  name: 'AuthApiError',
-                  message: 'You do not have permission to perform the requested action',
-                  statusCode: 403
-                })
-              },
+              jasmine.objectContaining({
+                name: 'AuthApiError',
+                message: 'You do not have permission to perform the requested action',
+                statusCode: 403
+              }),
               {
                 controller: 'forgot-password'
               }
@@ -1020,13 +1016,11 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-                {
-                  error: jasmine.objectContaining({
-                    name: 'AuthApiError',
-                    message: 'You do not have permission to perform the requested action',
-                    statusCode: 403
-                  })
-                },
+                jasmine.objectContaining({
+                  name: 'AuthApiError',
+                  message: 'You do not have permission to perform the requested action',
+                  statusCode: 403
+                }),
                 {
                   controller: 'recovery-challenge'
                 }

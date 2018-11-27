@@ -468,13 +468,11 @@ function (Okta,
     function expectErrorEvent (test, code, message, controller) {
       expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
       expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-        {
-          error: jasmine.objectContaining({
-            name: 'AuthApiError',
-            message: message,
-            statusCode: code
-          })
-        },
+        jasmine.objectContaining({
+          name: 'AuthApiError',
+          message: message,
+          statusCode: code
+        }),
         {
           controller: controller || 'mfa-verify'
         }
@@ -3145,12 +3143,10 @@ function (Okta,
             .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-                {
-                  error: jasmine.objectContaining({
-                    name: 'U2F_ERROR',
-                    message: 'There was an error with the U2F request. Try again or select another factor.'
-                  })
-                },
+                jasmine.objectContaining({
+                  name: 'U2F_ERROR',
+                  message: 'There was an error with the U2F request. Try again or select another factor.'
+                }),
                 {
                   controller: 'mfa-verify verify-u2f'
                 }

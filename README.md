@@ -1354,7 +1354,7 @@ signIn.on('afterError', function (error, context) {
     // AuthApiError
 
     console.log(error.message);
-    // The password does meet the complexity requirements
+    // The password does not meet the complexity requirements
     // of the current password policy.
 
     console.log(error.statusCode);

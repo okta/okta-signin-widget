@@ -215,13 +215,11 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
   function expectErrorEvent (test, code, err) {
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
     expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-      {
-        error: jasmine.objectContaining({
-          name: 'AuthApiError',
-          message: err,
-          statusCode: code
-        })
-      },
+      jasmine.objectContaining({
+        name: 'AuthApiError',
+        message: err,
+        statusCode: code
+      }),
       {
         controller: 'primary-auth'
       }

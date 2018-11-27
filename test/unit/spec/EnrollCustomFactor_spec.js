@@ -145,13 +145,11 @@ function (Okta,
             .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-                {
-                  error: jasmine.objectContaining({
-                    name: 'AuthApiError',
-                    message: 'You do not have permission to perform the requested action',
-                    statusCode: 403
-                  })
-                },
+                jasmine.objectContaining({
+                  name: 'AuthApiError',
+                  message: 'You do not have permission to perform the requested action',
+                  statusCode: 403
+                }),
                 {
                   controller: 'enroll-custom-factor'
                 }

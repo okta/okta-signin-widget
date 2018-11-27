@@ -113,7 +113,7 @@ define(['okta', 'q'], function (Okta, Q) {
         }
         // Some controllers return the className as a function - process it here:
         var className = typeof this.className === 'function' ? this.className() : this.className;
-        this.trigger('afterError', { error: err }, { controller: className });
+        this.trigger('afterError', err, { controller: className });
       });
     }
   });

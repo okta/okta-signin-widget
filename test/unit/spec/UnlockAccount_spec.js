@@ -57,13 +57,11 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
   function expectErrorEvent (test, controller) {
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
     expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-      {
-        error: jasmine.objectContaining({
-          name: 'AuthApiError',
-          message: 'You do not have permission to perform the requested action',
-          statusCode: 403
-        })
-      },
+      jasmine.objectContaining({
+        name: 'AuthApiError',
+        message: 'You do not have permission to perform the requested action',
+        statusCode: 403
+      }),
       {
         controller: controller || 'account-unlock'
       }
@@ -361,7 +359,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             test.setNextResponse(resError);
             test.form.setUsername('foo');
             test.form.sendEmail();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expectErrorEvent(test);
@@ -486,7 +484,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             test.setNextResponse(resError);
             test.form.setUsername('foo');
             test.form.sendSms();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expectErrorEvent(test);
@@ -765,7 +763,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             .then(function (test) {
               test.setNextResponse(resError);
               test.form.clickSendEmailLink();
-              return tick(test);
+              return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
               expectErrorEvent(test, 'recovery-challenge');

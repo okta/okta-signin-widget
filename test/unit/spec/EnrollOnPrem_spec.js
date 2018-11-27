@@ -179,18 +179,16 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
               test.form.setCredentialId('Username');
               test.form.setCode(123);
               test.form.submit();
-              return tick(test);
+              return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-                {
-                  error: jasmine.objectContaining({
-                    name: 'AuthApiError',
-                    message: 'Api validation failed: factorEnrollRequest',
-                    statusCode: 400
-                  })
-                },
+                jasmine.objectContaining({
+                  name: 'AuthApiError',
+                  message: 'Api validation failed: factorEnrollRequest',
+                  statusCode: 400
+                }),
                 {
                   controller: 'enroll-rsa'
                 }
@@ -326,18 +324,16 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
               test.form.setCredentialId('Username');
               test.form.setCode(123);
               test.form.submit();
-              return tick(test);
+              return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-                {
-                  error: jasmine.objectContaining({
-                    name: 'AuthApiError',
-                    message: 'Api validation failed: factorEnrollRequest',
-                    statusCode: 400
-                  })
-                },
+                jasmine.objectContaining({
+                  name: 'AuthApiError',
+                  message: 'Api validation failed: factorEnrollRequest',
+                  statusCode: 400
+                }),
                 {
                   controller: 'enroll-onprem'
                 }
