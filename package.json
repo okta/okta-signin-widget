@@ -24,7 +24,7 @@
     "generate-phone-codes": "node buildtools generate-phone-codes",
     "generate-config": "node buildtools generate-language-config",
     "generate-jsonp": "node buildtools generate-language-jsonp",
-    "retirejs": "retire --jspath src -p",
+    "retirejs": "retire --jspath src --package",
     "lint:eslint": "eslint .",
     "lint:eslint:report": "eslint -f checkstyle -o build2/OSW-eslint-checkstyle-result.xml .",
     "lint:stylelint": "stylelint assets/sass/",
