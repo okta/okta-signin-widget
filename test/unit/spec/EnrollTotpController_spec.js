@@ -432,14 +432,14 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+                {
+                  controller: 'activate-totp'
+                },
                 jasmine.objectContaining({
                   name: 'AuthApiError',
                   message: 'Api validation failed: factorEnrollRequest',
                   statusCode: 400
-                }),
-                {
-                  controller: 'activate-totp'
-                }
+                })
               ]);
             });
         });

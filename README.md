@@ -1338,18 +1338,21 @@ signIn.on('ready', function (context) {
 
 ### afterError
 
-Triggered after the widget encounters an error during an authentication or authorization flow, and page animations have finished. Returns `error` and `context` objects containing the following properties:
+Triggered after the widget encounters an error during an authentication or authorization flow, and page animations have finished. Returns `context` and `error` objects containing the following properties:
 
+- `context`:
+  - **controller** - Current controller name
 - `error`:
   - **name** - Name of the error triggered
   - **message** - Error message
   - **statusCode** - HTTP status code  (if available)
   - **xhr** - HTTP response (if available)
-- `context`:
-  - **controller** - Current controller name
 
 ```javascript
-signIn.on('afterError', function (error, context) {
+signIn.on('afterError', function (context, error) {
+    console.log(context.controller);
+    // reset-password
+
     console.log(error.name);
     // AuthApiError
 
@@ -1359,9 +1362,6 @@ signIn.on('afterError', function (error, context) {
 
     console.log(error.statusCode);
     // 403
-
-    console.log(context.controller);
-    // reset-password
 });
 ```
 

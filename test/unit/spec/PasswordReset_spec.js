@@ -506,14 +506,14 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
         .then(function (test) {
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'password-reset'
+            },
             jasmine.objectContaining({
               name: 'AuthApiError',
               message: 'The password does not meet the complexity requirements of the current password policy.',
               statusCode: 403
-            }),
-            {
-              controller: 'password-reset'
-            }
+            })
           ]);
         });
     });

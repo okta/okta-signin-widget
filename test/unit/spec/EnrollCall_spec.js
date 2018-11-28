@@ -270,14 +270,14 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           expectCallButton(test);
           expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
           expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'enroll-call'
+            },
             jasmine.objectContaining({
               name: 'AuthApiError',
               message: 'Api validation failed: factorEnrollRequest',
               statusCode: 400
-            }),
-            {
-              controller: 'enroll-call'
-            }
+            })
           ]);
         });
       });
@@ -567,14 +567,14 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           .then(function (test) {
             expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
             expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'enroll-call'
+              },
               jasmine.objectContaining({
                 name: 'AuthApiError',
                 message: 'Invalid Passcode/Answer',
                 statusCode: 403
-              }),
-              {
-                controller: 'enroll-call'
-              }
+              })
             ]);
           });
       });

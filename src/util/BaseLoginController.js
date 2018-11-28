@@ -63,7 +63,7 @@ define(['okta', 'q'], function (Okta, Q) {
         }
         // Some controllers return the className as a function - process it here:
         var className = typeof this.className === 'function' ? this.className() : this.className;
-        this.trigger('afterError', err, { controller: className });
+        this.trigger('afterError', { controller: className }, err);
       }, this);
 
       // Events to set the transaction attributes on the app state.

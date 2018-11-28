@@ -246,14 +246,14 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
         .then(function (test) {
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'recovery-challenge'
+            },
             jasmine.objectContaining({
               name: 'AuthApiError',
               message: 'You do not have permission to perform the requested action',
               statusCode: 403
-            }),
-            {
-              controller: 'recovery-challenge'
-            }
+            })
           ]);
         });
     });
@@ -281,14 +281,14 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
         .then(function (test) {
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'recovery-challenge'
+            },
             jasmine.objectContaining({
               name: 'AuthApiError',
               message: 'You do not have permission to perform the requested action',
               statusCode: 403
-            }),
-            {
-              controller: 'recovery-challenge'
-            }
+            })
           ]);
         });
     });

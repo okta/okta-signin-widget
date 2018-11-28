@@ -136,14 +136,14 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           .then(function (test) {
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'enroll-symantec'
+              },
               jasmine.objectContaining({
                 name: 'AuthApiError',
                 message: 'Api validation failed: factorEnrollRequest',
                 statusCode: 400
-              }),
-              {
-                controller: 'enroll-symantec'
-              }
+              })
             ]);
           });
       });

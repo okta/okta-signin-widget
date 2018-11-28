@@ -108,13 +108,13 @@ function (Okta,
     function expectErrorEvent (test, message){
       expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
       expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        {
+          controller: 'enroll-u2f'
+        },
         jasmine.objectContaining({
           name: 'U2F_ERROR',
           message: message
-        }),
-        {
-          controller: 'enroll-u2f'
-        }
+        })
       ]);
     }
 

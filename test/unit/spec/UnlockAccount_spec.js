@@ -57,14 +57,14 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
   function expectErrorEvent (test, controller) {
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
     expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+      {
+        controller: controller || 'account-unlock'
+      },
       jasmine.objectContaining({
         name: 'AuthApiError',
         message: 'You do not have permission to perform the requested action',
         statusCode: 403
-      }),
-      {
-        controller: controller || 'account-unlock'
-      }
+      })
     ]);
   }
 
