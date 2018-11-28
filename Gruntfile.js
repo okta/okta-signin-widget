@@ -14,7 +14,7 @@ module.exports = function (grunt) {
   var JS                    = 'target/js',
       DIST                  = 'dist',
       SASS                  = 'target/sass',
-      SEARCH_OUT_FILE       = 'build2/OSW-search-checkstyle.xml',
+      SEARCH_OUT_FILE       = 'build2/OSW-search-checkstyle-result.xml',
       WIDGET_RC             = '.widgetrc',
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
@@ -209,9 +209,12 @@ module.exports = function (grunt) {
 
     exec: {
       'clean': 'yarn clean',
+      'retirejs': 'yarn retirejs',
       'build-dev': 'yarn build:webpack-dev',
       'build-release': 'yarn build:webpack-release',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
+      'generate-config': 'yarn generate-config',
+      'generate-jsonp': 'yarn generate-jsonp',
       'run-protractor': 'yarn protractor'
     },
 
@@ -280,45 +283,7 @@ module.exports = function (grunt) {
       }
     },
 
-    'generate-config': {
-      options: {
-        languageGlob: 'packages/@okta/i18n/dist/json/login_*.json',
-        out: 'src/config/config.json'
-      }
-    },
-
-    'generate-latest-phone-codes': {
-      options: {
-        out: 'src/util/countryCallingCodes.js'
-      }
-    },
-
-    'generate-jsonp': {
-      target: {
-        files: [
-          {
-            expand: true,
-            cwd: 'target/labels/',
-            src: 'json/{login,country}*.json',
-            dest: 'target/labels'
-          }
-        ]
-      }
-    },
-
-    retire: {
-      js: ['src/**/*.js'],
-      node: ['node_modules', 'packages'],
-      options: {
-        packageOnly: false
-      }
-    }
-
   });
-
-  grunt.loadTasks('buildtools/phonecodes');
-  grunt.loadTasks('buildtools/generate-config');
-  grunt.loadTasks('buildtools/generate-jsonp');
 
   grunt.task.registerTask(
     'test-e2e',
@@ -344,35 +309,28 @@ module.exports = function (grunt) {
   );
 
   grunt.task.registerTask('build', function (target) {
-    var preBuildTasks = [],
-        buildTasks = [],
-        postBuildTasks = [];
-    switch (target) {
-    case 'release':
-      preBuildTasks.push('retire');
-      buildTasks.push('sass:build', 'postcss:minify', 'exec:build-release');
+    const prodBuild = target === 'release';
+    const buildTasks = [];
+    const postBuildTasks = [];
+
+    if (prodBuild) {
+      buildTasks.push('postcss:minify', 'exec:build-release');
       postBuildTasks.push('copy:target-to-dist');
-      break;
-    case 'dev':
-      buildTasks.push('sass:build', 'postcss:build', 'exec:build-dev');
-      break;
-    default:
-      grunt.fail.fatal('Unknown target: ' + target);
-      break;
+    } else {
+      buildTasks.push('postcss:build', 'exec:build-dev');
     }
-    grunt.task.run([].concat(
-      preBuildTasks,
-      [
-        'exec:clean',
-        'copy:app-to-target',
-        'generate-config',
-        'generate-jsonp:target',
-        'sass:buildtheme',
-        'postcss:buildtheme'
-      ],
-      buildTasks,
-      postBuildTasks
-    ));
+    grunt.task.run([
+      'exec:clean',
+      'exec:retirejs',
+      'exec:generate-config',
+      'copy:app-to-target',
+      'exec:generate-jsonp',
+      'sass:buildtheme',
+      'postcss:buildtheme',
+      'sass:build',
+      ...buildTasks,
+      ...postBuildTasks,
+    ]);
   });
 
   grunt.task.registerTask('lint', ['search:noAbsoluteUrlsInCss']);
