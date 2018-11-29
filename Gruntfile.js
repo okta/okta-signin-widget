@@ -75,7 +75,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: JS,
-            src: ['okta-sign-in*'],
+            src: ['okta-sign-in*', '!*.html'],
             dest: DIST + '/js'
           },
           {
