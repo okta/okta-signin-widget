@@ -63,7 +63,7 @@ module.exports = (config) => {
 
   // instrument code for coverage report
   if (config.reporters.includes('coverage')) {
-    const rules = options.webpack.module.loaders;
+    const rules = options.webpack.module.rules;
     const babelRule = rules.find(rule => rule.loader === 'babel-loader');
     babelRule.query.plugins = babelRule.query.plugins.concat(['babel-plugin-istanbul']);
   }
