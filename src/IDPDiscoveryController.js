@@ -17,10 +17,11 @@ define([
   'views/idp-discovery/IDPDiscoveryForm',
   'models/IDPDiscovery',
   'views/shared/Footer',
-  'util/BaseLoginController'
+  'util/BaseLoginController',
+  'views/primary-auth/CustomButtons'
 ],
 function (Okta, PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDiscoveryModel,
-  Footer, BaseLoginController) {
+  Footer, BaseLoginController, CustomButtons) {
 
   return PrimaryAuthController.extend({
     className: 'idp-discovery',
@@ -39,6 +40,12 @@ function (Okta, PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDi
       BaseLoginController.apply(this, arguments);
 
       this.addListeners();
+
+      // If social auth is configured, 'socialAuthPositionTop' will determine
+      // the order in which the social auth and primary auth are shown on the screen.
+      if (options.settings.get('hasConfiguredButtons')) {
+        this.add(CustomButtons, {prepend: options.settings.get('socialAuthPositionTop')});
+      }
 
       this.addFooter(options);
 
