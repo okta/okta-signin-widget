@@ -39,14 +39,6 @@ entryConfig.externals = {
   'u2f-api-polyfill': true,
   'underscore': true
 };
-// Add transform-runtime
-entryConfig.module.loaders = entryConfig.module.loaders || [];
-const loader = entryConfig.module.loaders.find(item =>
-  item.loader === 'babel-loader');
-if (loader) {
-  loader.query.plugins = loader.query.plugins || [];
-  loader.query.plugins.push('transform-runtime');
-}
 entryConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in.entry.analyzer' });
 
 // 2. cdnConfig
