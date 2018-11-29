@@ -17,7 +17,6 @@
 define([
   'okta',
   'util/BrowserFeatures',
-  'qtip'
 ],
 function (Okta, BrowserFeatures) {
 

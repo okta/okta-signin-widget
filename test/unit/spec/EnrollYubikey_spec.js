@@ -1,6 +1,6 @@
 define([
   'okta',
-  '@okta/okta-auth-js/jquery',
+  'widget/OktaAuth',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTokenFactorForm',
   'helpers/dom/Beacon',

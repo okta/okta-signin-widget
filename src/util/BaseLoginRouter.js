@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 12], max-statements: [2, 18] */
+/* eslint max-params: [2, 13], max-statements: [2, 18] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
@@ -26,11 +26,12 @@ define([
   './Animations',
   './Errors',
   'util/Bundles',
-  'util/Logger'
+  'util/Logger',
+  'util/LanguageUtil'
 ],
 function (Okta, BrowserFeatures, Settings,
   Header, SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations,
-  Errors, Bundles, Logger) {
+  Errors, Bundles, Logger, LanguageUtil) {
 
   var { _, $, Backbone } = Okta;
 
@@ -55,14 +56,15 @@ function (Okta, BrowserFeatures, Settings,
       // Trigger a spinner if we're waiting on a request for a new language.
       appState.trigger('loading', true);
     }, 200);
-    return Bundles.loadLanguage(
-      appState.get('languageCode'),
-      i18n,
-      {
-        baseUrl: assetBaseUrl,
-        rewrite: assetRewrite
-      }
-    )
+    var languageCode = appState.get('languageCode');
+    var languageAssets = {
+      baseUrl: assetBaseUrl,
+      rewrite: assetRewrite
+    };
+    return LanguageUtil.getBundles(languageCode, languageAssets)
+      .then(function (bundles) {
+        Bundles.setLanguage(languageCode, LanguageUtil.parseOverrides(i18n), bundles);
+      })
       .then(function () {
         clearTimeout(timeout);
         appState.trigger('loading', false);

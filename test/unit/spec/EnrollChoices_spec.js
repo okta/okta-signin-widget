@@ -2,7 +2,7 @@
 /*global JSON */
 define([
   'okta',
-  '@okta/okta-auth-js/jquery',
+  'widget/OktaAuth',
   'helpers/mocks/Util',
   'helpers/dom/EnrollChoicesForm',
   'helpers/dom/Beacon',

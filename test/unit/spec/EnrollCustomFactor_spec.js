@@ -1,7 +1,7 @@
 /* eslint max-params:[2, 14] */
 define([
   'okta',
-  '@okta/okta-auth-js/jquery',
+  'widget/OktaAuth',
   'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/EnrollCustomFactorForm',
@@ -29,7 +29,7 @@ function (Okta,
   responseMfaEnrollActivateCustomOidc,
   resNoPermissionError,
   responseSuccess) {
-  
+
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;

@@ -3,14 +3,12 @@ const path = require('path');
 const packageJson = require('./package.json');
 const EMPTY = path.resolve(__dirname, 'src/empty');
 const SHARED_JS = path.resolve(__dirname, 'node_modules/@okta/courage/src');
+const PACKAGES = path.resolve(__dirname, '../');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { BannerPlugin } = require('webpack');
 const DIST_FILE_NAME = 'courage-for-signin-widget';
 
 const EXTERNAL_PATHS = [
-  'jquery',
-  'qtip',
-  'backbone',
   'underscore',
   'handlebars',
   'moment',
@@ -31,7 +29,6 @@ const webpackConfig = {
   externals: EXTERNAL_PATHS,
   resolve: {
     alias: {
-
       'okta/jquery': SHARED_JS + '/util/jquery-wrapper',
       'okta/underscore': SHARED_JS + '/util/underscore-wrapper',
       'okta/handlebars': SHARED_JS + '/util/handlebars-wrapper',
@@ -44,8 +41,11 @@ const webpackConfig = {
       //   BaseRouter -> ConfirmationDialog -> BaseFormDialog -> BaseModalDialog -> simplemodal
       'vendor/plugins/jquery.simplemodal': EMPTY,
 
-      'shared': SHARED_JS,
-      'vendor': SHARED_JS + '/vendor',
+      qtip: `${PACKAGES}/qtip2`,
+      jquery: `${SHARED_JS}/vendor/lib/jquery-1.12.4`,
+
+      shared: SHARED_JS,
+      vendor: `${SHARED_JS}/vendor`,
     }
   },
 
@@ -53,7 +53,10 @@ const webpackConfig = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: function(filePath) {
+          return filePath.indexOf('node_modules') > 0 && filePath.indexOf('@okta/courage') === -1 ||
+            filePath.indexOf('@okta/courage/src/vendor') > 0;
+        },
         loader: 'babel-loader',
         query: {
           presets: ['env'],
@@ -63,7 +66,7 @@ const webpackConfig = {
   },
 
   plugins: [
-    new BannerPlugin(`THIS FILE IS GENERATED FROM PACKAGE @okta/courage@${packageJson.dependencies['@okta/courage']}`),
+    new BannerPlugin(`THIS FILE IS GENERATED FROM PACKAGE @okta/courage@${packageJson.devDependencies['@okta/courage']}`),
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
       reportFilename: `${DIST_FILE_NAME}.html`,

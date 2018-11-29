@@ -1,6 +1,6 @@
 /* global module __dirname */
 
-var path      = require('path');
+var path = require('path');
 var SRC = path.resolve(__dirname, 'src');
 var TARGET_JS = path.resolve(__dirname, 'target/js/');
 var LOCAL_PACKAGES = path.resolve(__dirname, 'packages/');
@@ -27,7 +27,6 @@ module.exports = function (outputFilename) {
         // Vendor files from courage that are remapped in OSW to point to an npm
         // module in our package.json dependencies
         'handlebars': 'handlebars/dist/handlebars',
-        'qtip': '@okta/qtip2',
 
         // Duo has an npm module, but the latest version does not expose the
         // v2 version. Continue to use the vendor file that is checked into

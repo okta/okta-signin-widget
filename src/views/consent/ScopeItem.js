@@ -12,7 +12,6 @@
 
 define([
   'okta',
-  'qtip'
 ], function (Okta) {
 
   return Okta.View.extend({

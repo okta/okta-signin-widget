@@ -102,6 +102,7 @@
     "stylelint-checkstyle-formatter": "^0.1.2",
     "stylelint-scss": "^3.4.0",
     "time-grunt": "^2.0.0",
+    "underscore": "1.8.3",
     "wait-on": "2.0.2",
     "webdriver-manager": "12.0.6",
     "webpack": "^3.5.4",
@@ -112,13 +113,9 @@
     "@okta/okta-auth-js": "1.17.0",
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.26.0",
-    "backbone": "1.2.1",
-    "clipboard": "1.6.1",
     "handlebars": "4.0.11",
-    "jquery": "1.12.1",
     "q": "1.4.1",
-    "u2f-api-polyfill": "0.4.1",
-    "underscore": "1.8.3"
+    "u2f-api-polyfill": "0.4.1"
   },
   "optionalDependencies": {
     "fsevents": "*"

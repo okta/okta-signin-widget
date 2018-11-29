@@ -3,7 +3,7 @@ define([
   'okta',
   'q',
   'duo',
-  '@okta/okta-auth-js/jquery',
+  'widget/OktaAuth',
   'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/MfaVerifyForm',

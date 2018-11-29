@@ -2,7 +2,7 @@
 define([
   'okta',
   'duo',
-  '@okta/okta-auth-js/jquery',
+  'widget/OktaAuth',
   'helpers/mocks/Util',
   'helpers/dom/Beacon',
   'helpers/util/Expect',

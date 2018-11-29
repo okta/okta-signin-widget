@@ -2,7 +2,7 @@
 define([
   'q',
   'okta',
-  '@okta/okta-auth-js/jquery',
+  'widget/OktaAuth',
   'helpers/mocks/Util',
   'helpers/dom/AccountRecoveryForm',
   'helpers/dom/PrimaryAuthForm',

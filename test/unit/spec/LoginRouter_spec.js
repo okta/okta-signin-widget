@@ -3,7 +3,7 @@ define([
   'okta',
   'q',
   'util/Logger',
-  '@okta/okta-auth-js/jquery',
+  'widget/OktaAuth',
   'helpers/mocks/Util',
   'helpers/util/Expect',
   'LoginRouter',

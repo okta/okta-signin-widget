@@ -2,7 +2,7 @@
 define([
   'okta',
   'q',
-  '@okta/okta-auth-js/jquery',
+  'widget/OktaAuth',
   'util/CryptoUtil',
   'util/webauthn',
   'helpers/mocks/Util',

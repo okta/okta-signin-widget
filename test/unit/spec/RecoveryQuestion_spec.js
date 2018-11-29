@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 16] */
 define([
   'okta',
-  '@okta/okta-auth-js/jquery',
+  'widget/OktaAuth',
   'helpers/mocks/Util',
   'helpers/dom/RecoveryQuestionForm',
   'helpers/dom/Beacon',

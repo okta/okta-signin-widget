@@ -2,9 +2,12 @@
 
 var OktaSignIn = (function () {
 
-  var _        = require('underscore'),
-      config   = require('config/config.json'),
-      OAuth2Util = require('util/OAuth2Util');
+  var { _ } = require('okta');
+  var config = require('config/config.json');
+  var OAuth2Util = require('util/OAuth2Util');
+  var OktaAuth = require('./OktaAuth');
+  var Util = require('util/Util');
+  var LoginRouter = require('LoginRouter');
 
   function getProperties (authClient, LoginRouter, Util, config) {
 
@@ -196,11 +199,6 @@ var OktaSignIn = (function () {
   }
 
   function OktaSignIn (options) {
-    require('okta');
-
-    var OktaAuth = require('@okta/okta-auth-js/jquery');
-    var Util = require('util/Util');
-    var LoginRouter = require('LoginRouter');
 
     Util.debugMessage(
       `
