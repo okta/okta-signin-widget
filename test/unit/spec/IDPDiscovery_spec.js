@@ -134,6 +134,64 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
     return name;
   }
 
+  function setupWithCustomButtons () {
+    var settings = {
+      customButtons: [
+        {
+          title: 'test text',
+          className: 'test-class',
+          click: function (e) {
+            $(e.target).addClass('new-class');
+          },
+          dataAttr: 'test-data'
+        }
+      ]
+    };
+    return setup(settings);
+  }
+
+  function setupWithCustomButtonsWithIdp () {
+    var settings = {
+      customButtons: [
+        {
+          title: 'test text',
+          className: 'test-class',
+          click: function (e) {
+            $(e.target).addClass('new-class');
+          }
+        }
+      ],
+      idps: [
+        {
+          type: 'FACEBOOK',
+          id: '0oaidiw9udOSceD1234'
+        }
+      ]
+    };
+    return setup(settings);
+  }
+
+  function setupWithoutCustomButtonsAndWithIdp () {
+    var settings = {
+      customButtons: undefined,
+      idps: [
+        {
+          type: 'FACEBOOK',
+          id: '0oaidiw9udOSceD1234'
+        }
+      ]
+    };
+    return setup(settings);
+  }
+
+  function setupWithoutCustomButtonsWithoutIdp () {
+    var settings = {
+      customButtons: undefined,
+      idps: undefined
+    };
+    return setup(settings);
+  }
+
   var setupWithTransformUsername = _.partial(setup, {username: 'foobar', transformUsername: transformUsername});
   var setupWithTransformUsernameOnUnlock = _.partial(setup, {transformUsername: transformUsernameOnUnlock});
 
@@ -1133,6 +1191,65 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
         });
       });
     });
-
+    Expect.describe('Additional Auth Button', function () {
+      itp('does not show the divider and buttons if settings.customButtons is not set', function () {
+        return setup().then(function (test) {
+          expect(test.form.authDivider().length).toBe(0);
+          expect(test.form.additionalAuthButton().length).toBe(0);
+        });
+      });
+      itp('show the divider and buttons if settings.customButtons is not empty', function () {
+        return setupWithCustomButtons().then(function (test) {
+          expect(test.form.authDivider().length).toBe(1);
+          expect(test.form.additionalAuthButton().length).toBe(1);
+        });
+      });
+      itp('sets text with property passed', function () {
+        return setupWithCustomButtons().then(function (test){
+          expect(test.form.additionalAuthButton().text()).toEqual('test text');
+        });
+      });
+      itp('sets class with property passed', function () {
+        return setupWithCustomButtons().then(function (test){
+          expect(test.form.additionalAuthButton().hasClass('test-class')).toBe(true);
+        });
+      });
+      itp('clickHandler is called when button is clicked', function () {
+        return setupWithCustomButtons().then(function (test){
+          expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(false);
+          test.form.additionalAuthButton().click();
+          expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(true);
+        });
+      });
+      itp('displays social auth and custom buttons', function () {
+        return setupWithCustomButtonsWithIdp().then(function (test){
+          expect(test.form.authDivider().length).toBe(1);
+          expect(test.form.additionalAuthButton().length).toBe(1);
+          expect(test.form.facebookButton().length).toBe(1);
+          expect(test.form.forgotPasswordLinkVisible()).toBe(false);
+        });
+      });
+      itp('does not display custom buttons when it is undefined', function () {
+        return setupWithoutCustomButtonsAndWithIdp().then(function (test){
+          expect(test.form.authDivider().length).toBe(1);
+          expect(test.form.additionalAuthButton().length).toBe(0);
+          expect(test.form.facebookButton().length).toBe(1);
+        });
+      });
+      itp('does not display social auth when idps is undefined', function () {
+        return setupWithCustomButtons().then(function (test){
+          expect(test.form.authDivider().length).toBe(1);
+          expect(test.form.additionalAuthButton().length).toBe(1);
+          expect(test.form.facebookButton().length).toBe(0);
+        });
+      });
+      itp('does not display any additional buttons when social auth and customButtons are undefined', function () {
+        return setupWithoutCustomButtonsWithoutIdp().then(function (test){
+          expect(test.form.authDivider().length).toBe(0);
+          expect(test.form.additionalAuthButton().length).toBe(0);
+          expect(test.form.facebookButton().length).toBe(0);
+        });
+      });
+    });
   });
 });
