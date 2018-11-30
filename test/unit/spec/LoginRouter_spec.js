@@ -476,7 +476,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()).toEqual([
             [
-              { controller: 'recovery-question' },
+              { controller: 'primary-auth' },
               jasmine.objectContaining({
                 name: 'AuthApiError',
                 message: 'Invalid token provided',

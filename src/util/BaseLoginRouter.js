@@ -246,10 +246,15 @@ function (Okta, BrowserFeatures, Settings,
               if (flashError) {
                 model.trigger('error', model, {
                   responseJSON: {
-                    errorSummary: flashError
+                    errorSummary: Okta.loc('error.expired.session')
                   }
                 });
                 this.appState.unset('flashError');
+                // Some controllers return the className as a function - process it here:
+                var className = typeof this.controller.className === 'function'
+                  ? this.controller.className()
+                  : this.controller.className;
+                this.trigger('afterError', { controller: className }, flashError);
               }
             }
           });
