@@ -79,6 +79,18 @@ function (Okta, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       return;
     }
 
+    if (err) {
+      if (!err.statusCode) {
+        // Bring the statusCode to the top-level of the Error
+        err.statusCode = err.xhr && err.xhr.status;
+      }
+      // Some controllers return the className as a function - process it here:
+      var className = typeof router.controller.className === 'function'
+        ? router.controller.className()
+        : router.controller.className;
+      router.controller.trigger('afterError', { controller: className }, err)
+    }
+
     // Token has expired - no longer valid. Navigate back to primary auth.
     if (err && err.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
       router.appState.set('flashError', Okta.loc('error.expired.session'));

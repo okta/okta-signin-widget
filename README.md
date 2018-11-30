@@ -287,7 +287,7 @@ signIn.renderEl(
 
   function error(err) {
     // This function is invoked with errors the widget cannot recover from:
-    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR, OAUTH_ERROR
+    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR, OAUTH_ERROR, REGISTRATION_FAILED
   }
 );
 ```
