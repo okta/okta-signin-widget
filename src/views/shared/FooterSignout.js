@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/Enums'], function (Okta, Enums) {
+define(['okta', 'util/Enums', 'util/RedirectUtil'], function (Okta, Enums, RedirectUtil) {
 
-  var { Util } = Okta.internal.util;
   var _ = Okta._;
 
   return Okta.View.extend({
@@ -31,7 +30,7 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
         })
           .then(function () {
             if (self.settings.get('signOutLink')) {
-              Util.redirect(self.settings.get('signOutLink'));
+              RedirectUtil.setWindowLocationTo(self.settings.get('signOutLink'));
             } else {
               self.state.set('navigateDir', Enums.DIRECTION_BACK);
               self.options.appState.trigger('navigate', '');

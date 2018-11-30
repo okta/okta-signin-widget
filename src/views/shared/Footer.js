@@ -11,11 +11,11 @@
  */
 
 define([
-  'okta'
+  'okta',
+  'util/RedirectUtil'
 ],
-function (Okta) {
+function (Okta, RedirectUtil) {
 
-  var { Util } = Okta.internal.util;
   var compile = Okta.Handlebars.compile;
   var _ = Okta._;
 
@@ -91,7 +91,7 @@ function (Okta) {
 
         var customResetPasswordPage = this.settings.get('helpLinks.forgotPassword');
         if (customResetPasswordPage) {
-          Util.redirect(customResetPasswordPage);
+          RedirectUtil.setWindowLocationTo(customResetPasswordPage);
         }
         else {
           this.options.appState.trigger('navigate', 'signin/forgot-password');
@@ -105,7 +105,7 @@ function (Okta) {
 
         var customUnlockPage = this.settings.get('helpLinks.unlock');
         if (customUnlockPage) {
-          Util.redirect(customUnlockPage);
+          RedirectUtil.setWindowLocationTo(customUnlockPage);
         }
         else {
           this.options.appState.trigger('navigate', 'signin/unlock');

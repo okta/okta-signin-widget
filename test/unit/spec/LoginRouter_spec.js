@@ -3,6 +3,7 @@ define([
   'okta',
   'q',
   'util/Logger',
+  'util/RedirectUtil',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/util/Expect',
@@ -29,13 +30,12 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
+function (Okta, Q, Logger, RedirectUtil, OktaAuth, Util, Expect, Router,
   $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm,
   resSuccess, resRecovery, resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
   resMfaChallengePush, resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp,
   Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
 
-  var SharedUtil = Okta.internal.util.Util;
   var CourageLogger = Okta.internal.util.Logger;
   var {_, $, Backbone} = Okta;
 
@@ -273,7 +273,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         });
     });
     itp('has a success callback which correctly implements the setCookieAndRedirect function', function () {
-      spyOn(SharedUtil, 'redirect');
+      spyOn(RedirectUtil, 'redirectTo');
       var successSpy = jasmine.createSpy('successSpy');
       return setup({ globalSuccessFn: successSpy })
         .then(function (test) {
@@ -284,14 +284,14 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
         .then(function () {
           var setCookieAndRedirect = successSpy.calls.mostRecent().args[0].session.setCookieAndRedirect;
           setCookieAndRedirect('http://baz.com/foo');
-          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+          expect(RedirectUtil.redirectTo).toHaveBeenCalledWith(
             'https://foo.com/login/sessionCookieRedirect?checkAccountSetupComplete=true' +
           '&token=THE_SESSION_TOKEN&redirectUrl=http%3A%2F%2Fbaz.com%2Ffoo'
           );
         });
     });
     itp('for SESSION_STEP_UP type, success callback data contains the target resource url and a finish function', function () {
-      spyOn(SharedUtil, 'redirect');
+      spyOn(RedirectUtil, 'redirectTo');
       var successSpy = jasmine.createSpy('successSpy');
       return setup({ stateToken: 'aStateToken', globalSuccessFn: successSpy })
         .then(function (test) {
@@ -305,7 +305,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           var finish = successSpy.calls.mostRecent().args[0].stepUp.finish;
           expect(finish).toEqual(jasmine.any(Function));
           finish();
-          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+          expect(RedirectUtil.redirectTo).toHaveBeenCalledWith(
             'http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken'
           );
         });

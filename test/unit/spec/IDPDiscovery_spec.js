@@ -3,6 +3,7 @@ define([
   'q',
   '@okta/okta-auth-js/jquery',
   'util/Util',
+  'util/RedirectUtil',
   'okta',
   'helpers/mocks/Util',
   'helpers/dom/AuthContainer',
@@ -23,12 +24,11 @@ define([
   'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED',
   'sandbox'
 ],
-function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
+function (Q, OktaAuth, LoginUtil, RedirectUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
   Router, BrowserFeatures, DeviceFingerprint, Errors, Expect, resSecurityImage,
   resSecurityImageFail, resSuccessIWA, resSuccessSAML, resSuccessOktaIDP, resError, resPasswordlessUnauthenticated, $sandbox) {
 
   var { _, $ } = Okta;
-  var SharedUtil = Okta.internal.util.Util;
 
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -308,13 +308,13 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
       });
       itp('has the correct help link url', function () {
         return setup().then(function (test) {
-          spyOn(SharedUtil, 'redirect');
+          spyOn(RedirectUtil, 'setWindowLocationTo');
           expect(test.form.helpLinkHref()).toBe('https://foo.com/help/login');
         });
       });
       itp('has a custom help link url when available', function () {
         return setup({ 'helpLinks.help': 'https://bar.com' }).then(function (test) {
-          spyOn(SharedUtil, 'redirect');
+          spyOn(RedirectUtil, 'setWindowLocationTo');
           expect(test.form.helpLinkHref()).toBe('https://bar.com');
         });
       });
@@ -368,15 +368,15 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
       });
       itp('navigates to custom forgot password page when available', function () {
         return setup({ 'helpLinks.forgotPassword': 'https://foo.com' }).then(function (test) {
-          spyOn(SharedUtil, 'redirect');
+          spyOn(RedirectUtil, 'setWindowLocationTo');
           test.form.helpFooter().click();
           test.form.forgotPasswordLink().click();
-          expect(SharedUtil.redirect).toHaveBeenCalledWith('https://foo.com');
+          expect(RedirectUtil.setWindowLocationTo).toHaveBeenCalledWith('https://foo.com');
         });
       });
       itp('does not navigate to custom forgot password page when link disabled and clicked', function () {
         return setup({ 'helpLinks.forgotPassword': 'https://foo.com' }).then(function (test) {
-          spyOn(SharedUtil, 'redirect');
+          spyOn(RedirectUtil, 'setWindowLocationTo');
           test.form.setUsername('testuser@clouditude.net');
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
@@ -384,7 +384,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
         }).then(function (test) {
           test.form.helpFooter().click();
           test.form.forgotPasswordLink().click();
-          expect(SharedUtil.redirect).not.toHaveBeenCalledWith('https://foo.com');
+          expect(RedirectUtil.setWindowLocationTo).not.toHaveBeenCalledWith('https://foo.com');
         });
       });
       itp('unlock link is hidden on load', function () {
@@ -424,10 +424,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           'helpLinks.unlock': 'https://foo.com',
           'features.selfServiceUnlock': true
         }).then(function (test) {
-          spyOn(SharedUtil, 'redirect');
+          spyOn(RedirectUtil, 'setWindowLocationTo');
           test.form.helpFooter().click();
           test.form.unlockLink().click();
-          expect(SharedUtil.redirect).toHaveBeenCalledWith('https://foo.com');
+          expect(RedirectUtil.setWindowLocationTo).toHaveBeenCalledWith('https://foo.com');
         });
       });
       itp('does not navigate to custom unlock page when link disabled and clicked', function () {
@@ -435,7 +435,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           'helpLinks.unlock': 'https://foo.com',
           'features.selfServiceUnlock': true
         }).then(function (test) {
-          spyOn(SharedUtil, 'redirect');
+          spyOn(RedirectUtil, 'setWindowLocationTo');
           test.form.setUsername('testuser@clouditude.net');
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
@@ -443,7 +443,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
         }).then(function (test) {
           test.form.helpFooter().click();
           test.form.unlockLink().click();
-          expect(SharedUtil.redirect).not.toHaveBeenCalledWith('https://foo.com');
+          expect(RedirectUtil.setWindowLocationTo).not.toHaveBeenCalledWith('https://foo.com');
         });
       });
       itp('does not show unlock link if feature is off', function () {
@@ -1076,7 +1076,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
           });
       });
       itp('redirects to idp for SAML idps', function () {
-        spyOn(SharedUtil, 'redirect');
+        spyOn(RedirectUtil, 'redirectTo');
         return setup()
           .then(function (test) {
             test.setNextWebfingerResponse(resSuccessSAML);
@@ -1088,13 +1088,13 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
             var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
             expect(redirectToIdp).toEqual(jasmine.any(Function));
             redirectToIdp('https://foo.com');
-            expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            expect(RedirectUtil.redirectTo).toHaveBeenCalledWith(
               'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
             );
           });
       });
       itp('redirects to idp for idps other than okta/saml', function () {
-        spyOn(SharedUtil, 'redirect');
+        spyOn(RedirectUtil, 'redirectTo');
         return setup()
           .then(function (test) {
             test.setNextWebfingerResponse(resSuccessIWA);
@@ -1106,7 +1106,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
             var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
             expect(redirectToIdp).toEqual(jasmine.any(Function));
             redirectToIdp('https://foo.com');
-            expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            expect(RedirectUtil.redirectTo).toHaveBeenCalledWith(
               'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com'
             );
           });

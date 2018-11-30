@@ -18,11 +18,10 @@ define([
   'util/Util',
   'util/Logger',
   'util/OAuth2Util',
+  'util/RedirectUtil',
   'config/config.json'
 ],
-function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
-
-  var SharedUtil = Okta.internal.util.Util;
+function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, RedirectUtil, config) {
 
   var DEFAULT_LANGUAGE = 'en';
 
@@ -286,7 +285,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
                     fromURI: self.get('relayState'),
                   });
                   const targetUri = `${baseUrl}/sso/idps/${idp.id}?${params}`;
-                  SharedUtil.redirect(targetUri);
+                  RedirectUtil.setWindowLocationTo(targetUri);
                 }
               }
             };

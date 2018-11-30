@@ -3,6 +3,7 @@ define([
   'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
+  'util/RedirectUtil',
   'helpers/mocks/Util',
   'helpers/dom/PasswordExpiredForm',
   'helpers/dom/Beacon',
@@ -17,12 +18,11 @@ define([
   'helpers/xhr/CUSTOM_PASSWORD_EXPIRED',
   'helpers/xhr/SUCCESS'
 ],
-function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
+function (Okta, OktaAuth, LoginUtil, RedirectUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
   $sandbox, resPassWarn, resPassExpired, resErrorComplexity,
   resErrorOldPass, resCustomPassWarn, resCustomPassExpired, resSuccess) {
 
   var { _, $ } = Okta;
-  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -167,7 +167,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       });
       itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
         return setup().then(function (test) {
-          spyOn(SharedUtil, 'redirect');
+          spyOn(RedirectUtil, 'setWindowLocationTo');
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           test.form.signout();
@@ -187,7 +187,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
         function () {
           return setup({ signOutLink: 'http://www.goodbye.com' }).then(function (test) {
-            spyOn(SharedUtil, 'redirect');
+            spyOn(RedirectUtil, 'setWindowLocationTo');
             $.ajax.calls.reset();
             test.setNextResponse(resSuccess);
             test.form.signout();
@@ -201,7 +201,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
                   stateToken: 'testStateToken'
                 }
               });
-              expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+              expect(RedirectUtil.setWindowLocationTo).toHaveBeenCalledWith('http://www.goodbye.com');
             });
         });
       itp('calls processCreds function before saving a model', function () {
@@ -430,10 +430,10 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
         });
       });
       itp('redirect is called with the correct arg on custom button click', function () {
-        spyOn(SharedUtil, 'redirect');
+        spyOn(RedirectUtil, 'setWindowLocationTo');
         return setupCustomExpiredPassword().then(function (test) {
           test.form.clickCustomButton();
-          expect(SharedUtil.redirect).toHaveBeenCalledWith('https://www.twitter.com');
+          expect(RedirectUtil.setWindowLocationTo).toHaveBeenCalledWith('https://www.twitter.com');
         });
       });
 
@@ -564,10 +564,10 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
         });
       });
       itp('redirect is called with the correct arg on custom button click', function () {
-        spyOn(SharedUtil, 'redirect');
+        spyOn(RedirectUtil, 'setWindowLocationTo');
         return setupCustomExpiredPasswordWarn(4).then(function (test) {
           test.form.clickCustomButton();
-          expect(SharedUtil.redirect).toHaveBeenCalledWith('https://www.google.com');
+          expect(RedirectUtil.setWindowLocationTo).toHaveBeenCalledWith('https://www.google.com');
         });
       });
 

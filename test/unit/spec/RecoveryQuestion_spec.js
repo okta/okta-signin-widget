@@ -2,6 +2,7 @@
 define([
   'okta',
   '@okta/okta-auth-js/jquery',
+  'util/RedirectUtil',
   'helpers/mocks/Util',
   'helpers/dom/RecoveryQuestionForm',
   'helpers/dom/Beacon',
@@ -14,11 +15,10 @@ define([
   'helpers/xhr/SUCCESS',
   'helpers/xhr/SUCCESS_unlock'
 ],
-function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
+function (Okta, OktaAuth, RedirectUtil, Util, RecoveryQuestionForm, Beacon, Expect, Router,
   $sandbox, resRecovery, resError, res200, resSuccess, resSuccessUnlock) {
 
   var { _, $ } = Okta;
-  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -87,7 +87,7 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
       function () {
         return setup({ signOutLink: 'http://www.goodbye.com' })
           .then(function (test) {
-            spyOn(SharedUtil, 'redirect');
+            spyOn(RedirectUtil, 'setWindowLocationTo');
             $.ajax.calls.reset();
             test.setNextResponse(res200);
             var $link = test.form.signoutLink();
@@ -103,7 +103,7 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
                 stateToken: 'testStateToken'
               }
             });
-            expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+            expect(RedirectUtil.setWindowLocationTo).toHaveBeenCalledWith('http://www.goodbye.com');
           });
       });
     itp('sets the correct title for a forgotten password flow', function () {

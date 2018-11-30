@@ -2,6 +2,7 @@
 define([
   'okta',
   '@okta/okta-auth-js/jquery',
+  'util/RedirectUtil',
   'helpers/mocks/Util',
   'helpers/dom/RecoveryChallengeForm',
   'helpers/dom/Beacon',
@@ -14,11 +15,10 @@ define([
   'helpers/xhr/200',
   'helpers/xhr/SUCCESS'
 ],
-function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
+function (Okta, OktaAuth, RedirectUtil, Util, RecoveryChallengeForm, Beacon, Expect, Router,
   $sandbox, resChallenge, resResendError, resVerifyError, res200, resSuccess) {
 
   var { _, $ } = Okta;
-  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -95,7 +95,7 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
       function () {
         return setup({ signOutLink: 'http://www.goodbye.com' })
           .then(function (test) {
-            spyOn(SharedUtil, 'redirect');
+            spyOn(RedirectUtil, 'setWindowLocationTo');
             $.ajax.calls.reset();
             test.setNextResponse(res200);
             var $link = test.form.signoutLink();
@@ -111,7 +111,7 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
                 stateToken: 'testStateToken'
               }
             });
-            expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+            expect(RedirectUtil.setWindowLocationTo).toHaveBeenCalledWith('http://www.goodbye.com');
           });
       });
     itp('has a text field to enter the recovery sms code', function () {

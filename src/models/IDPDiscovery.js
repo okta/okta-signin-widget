@@ -14,9 +14,10 @@ define([
   'okta',
   'models/PrimaryAuth',
   'util/CookieUtil',
-  'util/Enums'
+  'util/Enums',
+  'util/RedirectUtil'
 ],
-function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
+function (Okta, PrimaryAuthModel, CookieUtil, Enums, RedirectUtil) {
 
   var { Util } = Okta.internal.util;
   var _ = Okta._;
@@ -75,7 +76,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
                         queryParams['login_hint'] = username;
                       }
                       var url = res.links[0].href + Util.getUrlQueryString(queryParams);
-                      Util.redirect(url);
+                      RedirectUtil.redirectTo(url);
                     }
                   }
                 }

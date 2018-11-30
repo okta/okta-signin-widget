@@ -3,6 +3,7 @@ define([
   'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
+  'util/RedirectUtil',
   'helpers/mocks/Util',
   'helpers/dom/PasswordResetForm',
   'helpers/dom/Beacon',
@@ -15,11 +16,10 @@ define([
   'helpers/xhr/200',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect, Router,
+function (Q, Okta, OktaAuth, LoginUtil, RedirectUtil, Util, PasswordResetForm, Beacon, Expect, Router,
   $sandbox, resPasswordReset, resPasswordResetWithComplexity, resError, res200, resSuccess) {
 
   var { _, $ } = Okta;
-  var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -149,7 +149,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       function () {
         return setup({ signOutLink: 'http://www.goodbye.com' })
           .then(function (test) {
-            spyOn(SharedUtil, 'redirect');
+            spyOn(RedirectUtil, 'setWindowLocationTo');
             $.ajax.calls.reset();
             test.setNextResponse(res200);
             var $link = test.form.signoutLink();
@@ -165,7 +165,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
                 stateToken: 'testStateToken'
               }
             });
-            expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
+            expect(RedirectUtil.setWindowLocationTo).toHaveBeenCalledWith('http://www.goodbye.com');
           });
       });
 
