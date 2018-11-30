@@ -286,12 +286,8 @@ signIn.renderEl(
   },
 
   function error(err) {
-    // The widget will handle most types of errors - for example, if the user
-    // enters an invalid password or there are issues authenticating.
-    //
     // This function is invoked with errors the widget cannot recover from:
-    // 1. Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR, OAUTH_ERROR
-    // 2. Uncaught exceptions
+    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR, OAUTH_ERROR
   }
 );
 ```
@@ -1338,14 +1334,14 @@ signIn.on('ready', function (context) {
 
 ### afterError
 
-Triggered after the widget encounters an error during an authentication or authorization flow, and page animations have finished. Returns `context` and `error` objects containing the following properties:
+The widget will handle most types of errors - for example, if the user enters an invalid password or there are issues authenticating. To capture authentication errors after they have been handled and rendered by the Widget, listen to the `afterError` event. Returns `context` and `error` objects containing the following properties:
 
 - `context`:
   - **controller** - Current controller name
 - `error`:
   - **name** - Name of the error triggered
   - **message** - Error message
-  - **statusCode** - HTTP status code  (if available)
+  - **statusCode** - HTTP status code (if available)
   - **xhr** - HTTP response (if available)
 
 ```javascript

@@ -473,16 +473,21 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           return Expect.waitForPrimaryAuth(test);
         })
         .then(function (test) {
-          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-            {
-              controller: 'recovery-question'
-            },
-            jasmine.objectContaining({
-              name: 'AuthApiError',
-              message: 'Invalid token provided',
-              statusCode: 401
-            })
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(2);
+          var error = jasmine.objectContaining({
+            name: 'AuthApiError',
+            message: 'Invalid token provided',
+            statusCode: 401
+          });
+          expect(test.afterErrorHandler.calls.allArgs()).toEqual([
+            [
+              { controller: 'recovery-question' },
+              error
+            ],
+            [
+              { controller: 'primary-auth' },
+              error
+            ]
           ]);
           var form = new PrimaryAuthForm($sandbox);
           expect(form.isPrimaryAuth()).toBe(true);

@@ -55,8 +55,6 @@ define(['okta', 'q'], function (Okta, Q) {
       }, this);
       var transactionErrorHandler = _.bind(function (err) {
         this.options.appState.set('transactionError', err);
-      }, this);
-      var afterErrorHandler = _.bind(function (err) {
         if (!err.statusCode) {
           // Bring the statusCode to the top-level of the Error
           err.statusCode = err.xhr && err.xhr.status;
@@ -69,7 +67,6 @@ define(['okta', 'q'], function (Okta, Q) {
       // Events to set the transaction attributes on the app state.
       this.listenTo(model, 'setTransaction', setTransactionHandler);
       this.listenTo(model, 'setTransactionError', transactionErrorHandler);
-      this.listenTo(model, 'afterError', afterErrorHandler);
 
       // For TOTP factor model
       // TOTP model is special, its model will not be attached to a controller, but will

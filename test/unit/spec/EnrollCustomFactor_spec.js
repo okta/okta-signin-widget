@@ -136,7 +136,7 @@ function (Okta,
             });
         });
 
-        itp('triggers an afterError event error when error response received', function () {
+        itp('triggers an afterError event when an error response is received', function () {
           return setup().then(function (test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();

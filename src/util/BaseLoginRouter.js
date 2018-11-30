@@ -250,6 +250,11 @@ function (Okta, BrowserFeatures, Settings,
                   }
                 });
                 this.appState.unset('flashError');
+                this.controller.trigger(
+                  'afterError',
+                  { controller: this.controller.className },
+                  this.appState.get('transactionError')
+                );
               }
             }
           });
