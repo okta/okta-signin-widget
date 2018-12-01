@@ -1,4 +1,4 @@
-/* eslint max-params:[2, 30], max-statements:[2, 44], camelcase:0, max-len:[2, 180] */
+/* eslint max-params:[2, 30], max-statements:[2, 45], camelcase:0, max-len:[2, 180] */
 define([
   'q',
   '@okta/okta-auth-js/jquery',

@@ -352,6 +352,7 @@ function (Okta,
       spyOn(model, 'setTransaction').and.callThrough();
       spyOn(controller.options.appState, 'set').and.callThrough();
       spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
+      spyOn(RouterUtil, 'routeAfterAuthStatusChangeError').and.callThrough();
     }
 
     // Expect -
@@ -369,7 +370,7 @@ function (Okta,
       expect(model.setTransaction).toHaveBeenCalledWith(mockTransaction);
       // Make sure that the controller catches the model's event and sets the transaction property on appState
       expect(router.controller.options.appState.set).toHaveBeenCalledWith('transaction', mockTransaction);
-      expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, null, res.response);
+      expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, res.response);
     }
 
     // Expect -
@@ -387,7 +388,7 @@ function (Okta,
       expect(model.trigger).toHaveBeenCalledWith('setTransactionError', mockError);
       // Make sure that the controller catches the model's event and sets the transactionError property on appState
       expect(router.controller.options.appState.set).toHaveBeenCalledWith('transactionError', mockError);
-      expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, mockError);
+      expect(RouterUtil.routeAfterAuthStatusChangeError).toHaveBeenCalledWith(router, mockError);
     }
 
     function setupDuo (settings) {

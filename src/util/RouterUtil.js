@@ -14,14 +14,14 @@
 define([
   'okta',
   './OAuth2Util',
+  './Util',
   './Enums',
   './BrowserFeatures',
   './Errors',
   './ErrorCodes'
 ],
-function (Okta, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
-
-  var { Util } = Okta.internal.util;
+function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
+  var { Util: CourageUtil } = Okta.internal.util;
   var fn = {};
 
   var verifyUrlTpl = Okta.tpl('signin/verify/{{provider}}/{{factorType}}');
@@ -69,38 +69,36 @@ function (Okta, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
     return refreshUrlTpl({ token: token });
   };
 
-  fn.routeAfterAuthStatusChange = function (router, err, res) {
+  fn.routeAfterAuthStatusChangeError = function (router, err) {
+    if (!err) {
+      return;
+    }
 
     // Global error handling for CORS enabled errors
-    if (err && err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
+    if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
       router.settings.callGlobalError(new Errors.UnsupportedBrowserError(
         Okta.loc('error.enabled.cors')
       ));
       return;
     }
 
-    if (err && !err.statusCode) {
+    if (!err.statusCode) {
       // Bring the statusCode to the top-level of the Error
       err.statusCode = err.xhr && err.xhr.status;
     }
 
     // Token has expired - no longer valid. Navigate back to primary auth.
-    if (err && err.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
+    if (err.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
       router.appState.set('flashError', err);
       router.controller.state.set('navigateDir', Enums.DIRECTION_BACK);
       router.navigate('', { trigger: true });
       return;
     }
 
-    if (err) {
-      // Some controllers return the className as a function - process it here:
-      var className = typeof router.controller.className === 'function'
-        ? router.controller.className()
-        : router.controller.className;
-      router.controller.trigger('afterError', { controller: className }, err)
-      return;
-    }
+    Util.triggerAfterError(router.controller, err);
+  };
 
+  fn.routeAfterAuthStatusChange = function (router, res) {
     // Other errors are handled by the function making the authClient request
     if (!res || !res.status) {
       return;
@@ -112,7 +110,7 @@ function (Okta, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       return;
     }
 
-    fn.handleResponseStatus(router, err, res);
+    fn.handleResponseStatus(router, null, res);
   };
 
   fn.handleResponseStatus = function (router, err, res) {
@@ -144,7 +142,7 @@ function (Okta, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
         successData.stepUp = {
           url: targetUrl,
           finish: function () {
-            Util.redirect(targetUrl);
+            CourageUtil.redirect(targetUrl);
           }
         };
       } else {
@@ -153,7 +151,7 @@ function (Okta, OAuth2Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
         successData.session = {
           token: res.sessionToken,
           setCookieAndRedirect: function (redirectUrl) {
-            Util.redirect(sessionCookieRedirectTpl({
+            CourageUtil.redirect(sessionCookieRedirectTpl({
               baseUrl: router.settings.get('baseUrl'),
               token: encodeURIComponent(res.sessionToken),
               redirectUrl: encodeURIComponent(redirectUrl)

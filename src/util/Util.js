@@ -101,6 +101,13 @@ define(['okta', 'util/Logger'], function (Okta, Logger) {
     Logger.warn(`\n${message.replace(/^(\s)+/gm, '')}`);
   };
 
+  // Trigger an afterError event
+  Util.triggerAfterError = function (controller, err) {
+    // Some controllers return the className as a function - process it here:
+    var className = _.isFunction(controller.className) ? controller.className() : controller.className;
+    controller.trigger('afterError', { controller: className }, err);
+  };
+
   return Util;
 
 });
