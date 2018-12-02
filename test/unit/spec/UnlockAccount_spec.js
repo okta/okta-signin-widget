@@ -54,7 +54,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
     return (name.indexOf(suffix) !== -1) ? name : (name + suffix);
   }
 
-  function expectErrorEvent (test, controller) {
+  function expectError (test, controller) {
+    var message = 'You do not have permission to perform the requested action';
+    expect(test.form.hasErrors()).toBe(true);
+    expect(test.form.errorMessage()).toBe(message);
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
     expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
       {
@@ -62,7 +65,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
       },
       jasmine.objectContaining({
         name: 'AuthApiError',
-        message: 'You do not have permission to perform the requested action',
+        message: message,
         statusCode: 403
       })
     ]);
@@ -346,23 +349,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             test.setNextResponse(resError);
             test.form.setUsername('foo');
             test.form.sendEmail();
-            return tick(test);
-          })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
-          });
-      });
-      itp('triggers an afterError event if sending email results in an error', function () {
-        return setup()
-          .then(function (test) {
-            test.setNextResponse(resError);
-            test.form.setUsername('foo');
-            test.form.sendEmail();
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
-            expectErrorEvent(test);
+            expectError(test);
           });
       });
       itp('shows an error if username is empty and request sms', function () {
@@ -471,23 +461,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             test.setNextResponse(resError);
             test.form.setUsername('foo');
             test.form.sendSms();
-            return tick(test);
-          })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
-          });
-      });
-      itp('triggers an afterError event if sending sms results in an error', function () {
-        return setupWithSms()
-          .then(function (test) {
-            test.setNextResponse(resError);
-            test.form.setUsername('foo');
-            test.form.sendSms();
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
-            expectErrorEvent(test);
+            expectError(test);
           });
       });
       itp('does not have a problem with sending email after sending sms', function () {
@@ -624,20 +601,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
-          });
-      });
-      itp('triggers an afterError event if making a Voice Call results in an error', function () {
-        return setupWithCall()
-          .then(function (test) {
-            test.setNextResponse(resError);
-            test.form.setUsername('foo');
-            test.form.makeCall();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
-            expectErrorEvent(test);
+            expectError(test);
           });
       });
       itp('goes back', function () {
@@ -744,29 +708,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             .then(function (test) {
               test.setNextResponse(resError);
               test.form.clickSendEmailLink();
-              return tick(test);
-            })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
-            });
-        });
-      itp('triggers an afterError event if sending email via "Unlock via email" link results in an error, after sending sms',
-        function () {
-          return setupWithSms().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
-            test.setNextResponse(resChallengeSms);
-            test.form.setUsername('foo');
-            test.form.sendSms();
-            return Expect.waitForRecoveryChallenge(test);
-          })
-            .then(function (test) {
-              test.setNextResponse(resError);
-              test.form.clickSendEmailLink();
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expectErrorEvent(test, 'recovery-challenge');
+              expectError(test, 'recovery-challenge');
             });
         });
       itp('shows the "Unlock via email" link after making a Voice Call', function () {
@@ -851,31 +796,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+              expectError(test, 'recovery-challenge');
             });
         }
       );
-      itp('triggers an afterError event if "Unlock via email" results in an error, after making a Voice Call',
-        function () {
-          return setupWithCall().then(function (test) {
-            Q.stopUnhandledRejectionTracking();
-            test.setNextResponse(resChallengeCall);
-            test.form.setUsername('foo');
-            test.form.makeCall();
-            return Expect.waitForRecoveryChallenge(test);
-          })
-            .then(function (test) {
-              test.setNextResponse(resError);
-              test.form.clickSendEmailLink();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expectErrorEvent(test, 'recovery-challenge');
-            });
-        }
-      );
-
     });
 
   });

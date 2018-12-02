@@ -117,23 +117,11 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             test.form.setCode(123);
             test.form.setSecondCode(654);
             test.form.submit();
-            return tick(test);
-          })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-          });
-      });
-      itp('triggers error event in the case of an error response', function () {
-        return setup()
-          .then(function (test) {
-            test.setNextResponse(resEnrollError);
-            test.form.setCredentialId('Cred_Id');
-            test.form.setCode(123);
-            test.form.setSecondCode(654);
-            test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {

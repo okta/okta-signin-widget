@@ -59,7 +59,7 @@ describe('Basic flows', function () {
     expect(signInTitle.getText()).toBe('Sign In to Acme');
   });
 
-  it('modifies the errorbox using an afterError event', function () {
+  it('modifies the error banner using an afterError event', function () {
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
     expect(el.isDisplayed()).toBe(true);

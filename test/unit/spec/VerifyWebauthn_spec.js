@@ -244,18 +244,6 @@ function (Okta,
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox()).toHaveLength(1);
         expect(test.form.errorMessage()).toEqual('something went wrong');
-      });
-    });
-
-    itp('triggers an afterError event if navigator.credentials.get fails', function () {
-      Q.stopUnhandledRejectionTracking();
-      return setupWebauthnFactor({
-        webauthnSupported: true,
-        u2fSupported: true,
-        signStatus: 'fail'
-      }).then(function (test) {
-        return Expect.waitForFormError(test.form, test);
-      }).then(function (test) {
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
         expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
           {

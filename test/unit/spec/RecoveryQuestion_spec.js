@@ -235,22 +235,11 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
           test.setNextResponse(resError);
           test.form.setAnswer('4444');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('The recovery question answer did not match our records.');
-        });
-    });
-    itp('triggers an afterError event if there is an error submitting the answer', function () {
-      return setup()
-        .then(function (test) {
-          test.setNextResponse(resError);
-          test.form.setAnswer('4444');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {

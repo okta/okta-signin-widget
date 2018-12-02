@@ -215,23 +215,11 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
           test.setNextResponse(resError);
           test.form.setAnswer('the answer');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Profile.');
-        });
-    });
-    itp('triggers an afterError event if error response on enrollment', function () {
-      return setup()
-        .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
-          test.setNextResponse(resError);
-          test.form.setAnswer('the answer');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {

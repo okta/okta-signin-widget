@@ -164,24 +164,12 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
               test.form.setCredentialId('Username');
               test.form.setCode(123);
               test.form.submit();
-              return tick(test);
+              return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               // Note: This will change when we get field specific error messages
               expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
-            });
-        });
-        itp('triggers an afterError event in the case of an error response', function () {
-          return setup()
-            .then(function (test) {
-              test.setNextResponse(resEnrollError);
-              test.form.setCredentialId('Username');
-              test.form.setCode(123);
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {
@@ -309,24 +297,12 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
               test.form.setCredentialId('Username');
               test.form.setCode(123);
               test.form.submit();
-              return tick(test);
+              return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               // Note: This will change when we get field specific error messages
               expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
-            });
-        });
-        itp('triggers an afterError event in the case of an error response', function () {
-          return setupOnPrem()
-            .then(function (test) {
-              test.setNextResponse(resEnrollError);
-              test.form.setCredentialId('Username');
-              test.form.setCode(123);
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {

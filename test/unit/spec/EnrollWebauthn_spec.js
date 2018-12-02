@@ -298,22 +298,6 @@ function (Okta,
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorBox()).toHaveLength(1);
             expect(test.form.errorMessage()).toEqual('something went wrong');
-          });
-      });
-
-      itp('triggers an afterError event when navigator.credentials.create failed', function () {
-        spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(true);
-        spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-
-        mockWebauthnFailureRegistration();
-        return setup()
-          .then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
-            test.form.submit();
-            return Expect.waitForSpyCall(navigator.credentials.create, test);
-          })
-          .then(function (test) {
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {

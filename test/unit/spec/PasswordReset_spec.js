@@ -481,7 +481,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           test.form.setNewPassword('a');
           test.form.setConfirmPassword('a');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -490,20 +490,6 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
           ' does not include your first name, does not include your last name.'
           );
-        });
-    });
-
-    itp('triggers an afterError event if there is an error submitting', function () {
-      return setup()
-        .then(function (test) {
-          Q.stopUnhandledRejectionTracking();
-          test.setNextResponse(resError);
-          test.form.setNewPassword('a');
-          test.form.setConfirmPassword('a');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {

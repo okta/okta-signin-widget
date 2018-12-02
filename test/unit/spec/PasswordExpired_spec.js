@@ -291,23 +291,13 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
           .then(function (test) {
             test.setNextResponse(resErrorOldPass);
             submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe(
               'Old password is not correct'
             );
-          });
-      });
-      itp('triggers an afterError event if the server returns a wrong old pass error', function () {
-        return setup()
-          .then(function (test) {
-            test.setNextResponse(resErrorOldPass);
-            submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
@@ -326,7 +316,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
           .then(function (test) {
             test.setNextResponse(resErrorComplexity);
             submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
@@ -335,17 +325,6 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
             ' does not include your first name, does not include your last name.'
             );
-          });
-      });
-      itp('triggers an afterError event if the server returns a complexity error', function () {
-        return setup()
-          .then(function (test) {
-            test.setNextResponse(resErrorComplexity);
-            submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {

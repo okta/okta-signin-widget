@@ -225,25 +225,11 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
         .then(function (test) {
           test.setNextResponse(resResendError);
           test.form.resendButton().click();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
-        });
-    });
-    itp('triggers an afterError event if there is an error re-sending the code', function () {
-      var delay = this.originalDelay;
-      _.delay.and.callFake(function (func, wait, args) {
-        return delay(func, 0, args);
-      });
-      return setup()
-        .then(function (test) {
-          test.setNextResponse(resResendError);
-          test.form.resendButton().click();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {
@@ -263,22 +249,11 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
           test.setNextResponse(resVerifyError);
           test.form.setCode('1234');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
-        });
-    });
-    itp('triggers an afterError event if there is an error submitting the code', function () {
-      return setup()
-        .then(function (test) {
-          test.setNextResponse(resVerifyError);
-          test.form.setCode('1234');
-          test.form.submit();
-          return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {

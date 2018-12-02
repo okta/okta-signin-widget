@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 45], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 46], camelcase: 0 */
 define([
   'okta',
   'q',
@@ -466,6 +466,12 @@ function (Okta,
       expect(answer.attr('placeholder')).toEqual(placeholderText);
     }
 
+    function expectError (test, code, message, controller) {
+      expect(test.form.hasErrors()).toBe(true);
+      expect(test.form.errorMessage()).toBe(message);
+      expectErrorEvent(test, code, message, controller);
+    }
+
     function expectErrorEvent (test, code, message, controller) {
       expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
       expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
@@ -926,20 +932,7 @@ function (Okta,
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('Invalid Passcode/Answer');
-            });
-        });
-        itp('triggers an afterError event if error response from authClient', function () {
-          return setupGoogleTOTP()
-            .then(function (test) {
-              test.setNextResponse(resInvalidTotp);
-              test.form.setAnswer('wrong');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expectErrorEvent(test, 403, 'Invalid Passcode/Answer');
+              expectError(test, 403, 'Invalid Passcode/Answer');
             });
         });
         itp('shows errors if verify button is clicked and answer is empty', function () {
@@ -1004,21 +997,8 @@ function (Okta,
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+              expectError(test, 409, 'Enter a new PIN having from 4 to 8 digits:');
               expect(test.form.answerField().val()).toEqual('');
-            });
-        });
-        itp('triggers an afterError event if error is for PIN change (On-Prem)', function () {
-          return setupOnPremTOTP()
-            .then(function (test) {
-              test.setNextResponse(resRSAChangePin);
-              test.form.setAnswer('correct');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expectErrorEvent(test, 409, 'Enter a new PIN having from 4 to 8 digits:');
             });
         });
       });
@@ -1418,16 +1398,6 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-            });
-        });
-        itp('triggers an afterError event after too many failed MFA attempts.', function () {
-          return setupSMS().then(function (test) {
-            test.setNextResponse(resMfaLocked);
-            test.form.setAnswer('12345');
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
               expectErrorEvent(test, 403, 'User Locked');
             });
         });
@@ -1687,16 +1657,6 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-            });
-        });
-        itp('triggers an afterError event after too many failed MFA attempts.', function () {
-          return setupCall().then(function (test) {
-            test.setNextResponse(resMfaLocked);
-            test.form.setAnswer('12345');
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
               expectErrorEvent(test, 403, 'User Locked');
             });
         });
@@ -1981,16 +1941,6 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-            });
-        });
-        itp('triggers an afterError event after too many failed MFA attempts.', function () {
-          return setupEmail().then(function (test) {
-            test.setNextResponse(resMfaLocked);
-            test.form.setAnswer('12345');
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
               expectErrorEvent(test, 403, 'User Locked');
             });
         });
@@ -3125,23 +3075,6 @@ function (Okta,
             .then(function (test) {
               expect(window.u2f.sign).toHaveBeenCalled();
               expect(test.form.hasErrors()).toBe(true);
-            });
-        });
-
-        itp('triggers an afterError event an error if u2f.sign fails', function () {
-          Q.stopUnhandledRejectionTracking();
-          var signStub = function (appId, nonce, registeredKeys, callback) {
-            callback({ errorCode: 2 });
-          };
-          return setupU2F({u2f: true, signStub: signStub})
-            .then(function (test) {
-              return Expect.waitForSpyCall(window.u2f.sign, test);
-            })
-            .then(function (test) {
-              window.u2f.tap();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {
@@ -3202,18 +3135,7 @@ function (Okta,
             return Expect.waitForFormError(test.form, test);
           })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
-            });
-        });
-        itp('triggers an afterError event when error response received', function () {
-          return setupCustomSAMLFactor().then(function (test) {
-            test.setNextResponse(resNoPermissionError);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
-              expectErrorEvent(
+              expectError(
                 test,
                 403,
                 'You do not have permission to perform the requested action',
@@ -3286,18 +3208,7 @@ function (Okta,
             return Expect.waitForFormError(test.form, test);
           })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
-            });
-        });
-        itp('triggers an afterError event when error response received', function () {
-          return setupCustomOIDCFactor().then(function (test) {
-            test.setNextResponse(resNoPermissionError);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
-              expectErrorEvent(
+              expectError(
                 test,
                 403,
                 'You do not have permission to perform the requested action',
@@ -3418,17 +3329,6 @@ function (Okta,
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('Password is incorrect');
-            });
-        });
-        itp('shows an error if error response from authClient', function () {
-          return setupPassword()
-            .then(function (test) {
-              test.setNextResponse(resInvalidPassword);
-              test.form.setPassword('wrong');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
               expectErrorEvent(test, 403, 'Invalid Passcode/Answer');
             });
         });

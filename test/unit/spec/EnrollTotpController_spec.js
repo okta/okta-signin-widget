@@ -410,26 +410,11 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
               test.setNextResponse(resActivateError);
               test.passCodeForm.setCode(123);
               test.passCodeForm.submit();
-              return tick(test);
+              return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
               expect(test.passCodeForm.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
-            });
-        });
-        itp('triggers an afterError event in case of an error response', function () {
-          return setupAndEnrollOktaTotp().then(function (test) {
-            test.scanCodeForm.submit();
-            return Expect.waitForActivateTotp(test);
-          })
-            .then(function (test) {
-              Expect.isVisible(test.passCodeForm.form());
-              test.setNextResponse(resActivateError);
-              test.passCodeForm.setCode(123);
-              test.passCodeForm.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {

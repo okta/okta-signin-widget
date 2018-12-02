@@ -82,11 +82,6 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       return;
     }
 
-    if (!err.statusCode) {
-      // Bring the statusCode to the top-level of the Error
-      err.statusCode = err.xhr && err.xhr.status;
-    }
-
     // Token has expired - no longer valid. Navigate back to primary auth.
     if (err.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
       router.appState.set('flashError', err);
@@ -110,10 +105,10 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       return;
     }
 
-    fn.handleResponseStatus(router, null, res);
+    fn.handleResponseStatus(router, res);
   };
 
-  fn.handleResponseStatus = function (router, err, res) {
+  fn.handleResponseStatus = function (router, res) {
     switch (res.status) {
     case 'SUCCESS':
       if(res.recoveryType === Enums.RECOVERY_TYPE_UNLOCK) {

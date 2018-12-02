@@ -263,11 +263,6 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           Expect.isNotVisible(test.form.submitButton());
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
-        });
-      });
-      itp('triggers an afterError event and does not go to next step if error response', function () {
-        return setupAndSendInvalidCode().then(function (test) {
-          expectCallButton(test);
           expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
           expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([
             {
@@ -548,23 +543,11 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             test.setNextResponse(resActivateError);
             test.form.setCode(123);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Your token doesn\'t match our records. Please try again.');
-          });
-      });
-      itp('triggers an afterError event if error response on verification', function () {
-        return setupAndSendValidCode()
-          .then(function (test) {
-            Q.stopUnhandledRejectionTracking();
-            test.setNextResponse(resActivateError);
-            test.form.setCode(123);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
             expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
             expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([
               {

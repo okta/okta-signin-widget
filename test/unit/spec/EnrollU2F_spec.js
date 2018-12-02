@@ -98,14 +98,11 @@ function (Okta,
       });
     }
 
-    function expectErrorHtml (test, errorMessage){
+    function expectError (test, errorMessage){
       expect(window.u2f.register).toHaveBeenCalled();
       expect(test.form.hasErrors()).toBe(true);
       expect(test.form.errorBox()).toHaveLength(1);
       expect(test.form.errorMessage()).toEqual(errorMessage);
-    }
-
-    function expectErrorEvent (test, message){
       expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
       expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
         {
@@ -113,7 +110,7 @@ function (Okta,
         },
         jasmine.objectContaining({
           name: 'U2F_ERROR',
-          message: message
+          message: errorMessage
         })
       ]);
     }
@@ -233,70 +230,35 @@ function (Okta,
       itp('shows proper error if u2f.register fails with code 1', function () {
         return setupU2fFails(1)
           .then(function (test) {
-            expectErrorHtml(test, 'An unknown error has occured. Try again or select another factor.');
-          });
-      });
-
-      itp('triggers error event if u2f.register fails with code 1', function () {
-        return setupU2fFails(1)
-          .then(function (test) {
-            expectErrorEvent(test, 'An unknown error has occured. Try again or select another factor.');
+            expectError(test, 'An unknown error has occured. Try again or select another factor.');
           });
       });
 
       itp('shows proper error if u2f.register fails with code 2', function () {
         return setupU2fFails(2)
           .then(function (test) {
-            expectErrorHtml(test, 'There was an error with the U2F request. Try again or select another factor.');
-          });
-      });
-
-      itp('triggers error event if u2f.register fails with code 2', function () {
-        return setupU2fFails(2)
-          .then(function (test) {
-            expectErrorEvent(test, 'There was an error with the U2F request. Try again or select another factor.');
+            expectError(test, 'There was an error with the U2F request. Try again or select another factor.');
           });
       });
 
       itp('shows proper error if u2f.register fails with code 3', function () {
         return setupU2fFails(3)
           .then(function (test) {
-            expectErrorHtml(test, 'There was an error with the U2F request. Try again or select another factor.');
-          });
-      });
-
-      itp('triggers error event if u2f.register fails with code 3', function () {
-        return setupU2fFails(3)
-          .then(function (test) {
-            expectErrorEvent(test, 'There was an error with the U2F request. Try again or select another factor.');
+            expectError(test, 'There was an error with the U2F request. Try again or select another factor.');
           });
       });
 
       itp('shows proper error if u2f.register fails with code 4', function () {
         return setupU2fFails(4)
           .then(function (test) {
-            expectErrorHtml(test, 'The security key is unsupported. Select another factor.');
-          });
-      });
-
-      itp('triggers error event if u2f.register fails with code 4', function () {
-        return setupU2fFails(4)
-          .then(function (test) {
-            expectErrorEvent(test, 'The security key is unsupported. Select another factor.');
+            expectError(test, 'The security key is unsupported. Select another factor.');
           });
       });
 
       itp('shows proper error if u2f.register fails with code 5', function () {
         return setupU2fFails(5)
           .then(function (test) {
-            expectErrorHtml(test, 'You have timed out of the authentication period. Please try again.');
-          });
-      });
-
-      itp('triggers error event if u2f.register fails with code 5', function () {
-        return setupU2fFails(5)
-          .then(function (test) {
-            expectErrorEvent(test, 'You have timed out of the authentication period. Please try again.');
+            expectError(test, 'You have timed out of the authentication period. Please try again.');
           });
       });
     });

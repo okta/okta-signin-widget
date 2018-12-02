@@ -1833,18 +1833,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage())
               .toBe('You exceeded the maximum number of requests. Try again in a while.');
-          });
-      });
-      itp('triggers an afterError event error event when receiving a throttle error message', function () {
-        return setup()
-          .then(function (test) {
-            test.setNextResponse(resThrottle);
-            test.form.setUsername('testuser');
-            test.form.setPassword('testpass');
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
             expectErrorEvent(test, 429, 'API call exceeded rate limit due to too many requests.');
           });
       });
@@ -1860,18 +1848,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Sign in failed!');
-          });
-      });
-      itp('triggers an afterError event error if authClient returns with an error that is plain text', function () {
-        return setup()
-          .then(function (test) {
-            test.setNextResponse(resNonJson, true);
-            test.form.setUsername('testuser');
-            test.form.setPassword('invalidpass');
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
             expectErrorEvent(test, 401, 'Authentication failed');
           });
       });
@@ -1887,18 +1863,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('There was an unexpected internal error. Please try again.');
-          });
-      });
-      itp('triggers an afterError event error if authClient returns with an error that is plain text and not a valid json', function () {
-        return setup()
-          .then(function (test) {
-            test.form.setUsername('testuser');
-            test.form.setPassword('invalidpass');
-            test.setNextResponse(resInvalidText, true);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
             expectErrorEvent(test, 401, 'Unknown error');
           });
       });

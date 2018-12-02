@@ -133,16 +133,6 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage())
                 .toBe('You do not have permission to perform the requested action');
-            });
-        });
-
-        itp('triggers an afterError event when an error response is received', function () {
-          return setup().then(function (test) {
-            test.setNextResponse(resNoPermissionError);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {
