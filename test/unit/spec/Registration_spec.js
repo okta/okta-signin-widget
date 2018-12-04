@@ -12,7 +12,7 @@ define([
   'util/Errors',
   'helpers/xhr/SUCCESS',
 ],
-function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema, 
+function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
   Router, $sandbox, Errors, resSuccess) {
 
   var { _, $, Backbone } = Okta;
@@ -745,7 +745,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
             expect(test.router.navigate).toHaveBeenCalledWith('signin/register-complete', {trigger: true});
             return tick().then(function () {
               expect( $('div.registration-complete').text().includes('Verification email sent')).toBe(true);
-            });          
+            });
           });
       });
       itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function () {

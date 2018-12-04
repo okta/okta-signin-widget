@@ -11,10 +11,11 @@
  */
 
 /* global u2f */
-/* eslint complexity:[2, 10] */
+/* eslint complexity:[2, 10], max-params: [2, 11] */
 
 define([
   'okta',
+  'util/Errors',
   'util/FormController',
   'util/FormType',
   'util/CryptoUtil',
@@ -25,7 +26,7 @@ define([
   'util/FactorUtil',
   'views/mfa-verify/HtmlErrorMessageView'
 ],
-function (Okta, FormController, FormType, CryptoUtil, FidoUtil,
+function (Okta, Errors, FormController, FormType, CryptoUtil, FidoUtil,
   webauthn, FooterSignout, Q, FactorUtil, HtmlErrorMessageView) {
 
   var _ = Okta._;
@@ -78,9 +79,9 @@ function (Okta, FormController, FormType, CryptoUtil, FidoUtil,
                 })
                 .fail(function (error) {
                   self.trigger('errors:clear');
-                  throw {
+                  throw new Errors.WebAuthnError({
                     xhr: {responseJSON: {errorSummary: error.message}}
-                  };
+                  });
                 });
             } else {
               // verify via legacy u2f js for non webauhtn supported browser
@@ -94,13 +95,15 @@ function (Okta, FormController, FormType, CryptoUtil, FidoUtil,
                 self.trigger('errors:clear');
                 if (data.errorCode && data.errorCode !== 0) {
                   var isOneFactor = self.options.appState.get('factors').length === 1;
-                  deferred.reject({
-                    xhr: {
-                      responseJSON: {
-                        errorSummary: FidoUtil.getU2fVerifyErrorMessageByCode(data.errorCode, isOneFactor)
+                  deferred.reject(
+                    new Errors.U2FError({
+                      xhr: {
+                        responseJSON: {
+                          errorSummary: FidoUtil.getU2fVerifyErrorMessageByCode(data.errorCode, isOneFactor)
+                        }
                       }
-                    }
-                  });
+                    })
+                  );
                 } else {
                   var rememberDevice = !!self.get('rememberDevice');
                   return factor.verify({

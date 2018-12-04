@@ -54,6 +54,7 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [Feature flags](#feature-flags)
 - [Events](#events)
   - [ready](#ready)
+  - [afterError](#aftererror)
   - [afterRender](#afterrender)
   - [pageRendered](#pagerendered)
   - [passwordRevealed](#passwordrevealed)
@@ -285,12 +286,8 @@ signIn.renderEl(
   },
 
   function error(err) {
-    // The widget will handle most types of errors - for example, if the user
-    // enters an invalid password or there are issues authenticating.
-    //
     // This function is invoked with errors the widget cannot recover from:
-    // 1. Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR, OAUTH_ERROR
-    // 2. Uncaught exceptions
+    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR, OAUTH_ERROR, REGISTRATION_FAILED
   }
 );
 ```
@@ -1332,6 +1329,35 @@ signIn.on('ready', function (context) {
   if (context.controller === 'primary-auth') {
     // The primary authentication form is ready for user input
   }
+});
+```
+
+### afterError
+
+The widget will handle most types of errors - for example, if the user enters an invalid password or there are issues authenticating. To capture an authentication state change error after it is handled and rendered by the Widget, listen to the `afterError` event. Returns `context` and `error` objects containing the following properties:
+
+- `context`:
+  - **controller** - Current controller name
+- `error`:
+  - **name** - Name of the error triggered
+  - **message** - Error message
+  - **statusCode** - HTTP status code (if available)
+  - **xhr** - HTTP response (if available)
+
+```javascript
+signIn.on('afterError', function (context, error) {
+    console.log(context.controller);
+    // reset-password
+
+    console.log(error.name);
+    // AuthApiError
+
+    console.log(error.message);
+    // The password does not meet the complexity requirements
+    // of the current password policy.
+
+    console.log(error.statusCode);
+    // 403
 });
 ```
 

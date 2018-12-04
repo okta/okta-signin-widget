@@ -2,6 +2,7 @@
 define([
   'okta',
   '@okta/okta-auth-js/jquery',
+  'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTokenFactorForm',
   'helpers/dom/Beacon',
@@ -12,7 +13,7 @@ define([
   'LoginRouter',
   'helpers/xhr/SUCCESS'
 ],
-function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
+function (Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
   resAllFactors, resEnrollError, Router, resSuccess) {
 
   var { $ } = Okta;
@@ -24,13 +25,15 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
     function setup (startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({url: baseUrl});
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
       });
+      router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
@@ -46,7 +49,8 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             beacon: new Beacon($sandbox),
             form: new Form($sandbox),
             ac: authClient,
-            setNextResponse: setNextResponse
+            setNextResponse: setNextResponse,
+            afterErrorHandler: afterErrorHandler
           });
         });
     }
@@ -114,10 +118,36 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
             test.form.setCode(123);
             test.form.setSecondCode(654);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'enroll-symantec'
+              },
+              {
+                name: 'AuthApiError',
+                message: 'Api validation failed: factorEnrollRequest',
+                statusCode: 400,
+                xhr: {
+                  status: 400,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[{"errorSummary":"Invalid Phone Number."}]}',
+                  responseJSON: {
+                    'errorCode': 'E0000001',
+                    'errorSummary': 'Invalid Phone Number.',
+                    'errorLink': 'E0000001',
+                    'errorId': 'oaepmWRr7i5TZa2AQv8sNmu6w',
+                    'errorCauses': [{
+                      'errorSummary': 'Invalid Phone Number.'
+                    }]
+                  }
+                }
+              }
+            ]);
           });
       });
       itp('calls activate with the right params', function () {

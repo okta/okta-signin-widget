@@ -39,8 +39,8 @@ function (Okta, Q, Enums) {
             err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR) {
             return;
           }
-          self.trigger('setTransactionError', err);
           self.trigger('error', self, err.xhr);
+          self.trigger('setTransactionError', err);
           if (rethrow || _.indexOf(KNOWN_ERRORS, err.name) === -1) {
             throw err;
           }
@@ -58,8 +58,8 @@ function (Okta, Q, Enums) {
               err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR) {
             return;
           }
-          self.trigger('setTransactionError', err);
           self.trigger('error', self, err.xhr);
+          self.trigger('setTransactionError', err);
         });
       }
 
@@ -77,8 +77,8 @@ function (Okta, Q, Enums) {
           return trans;
         })
           .fail(function (err) {
-            self.trigger('setTransactionError', err);
             self.trigger('error', self, err.xhr);
+            self.trigger('setTransactionError', err);
             throw err;
           });
       }
