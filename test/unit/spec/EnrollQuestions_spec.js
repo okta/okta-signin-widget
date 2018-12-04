@@ -229,7 +229,20 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
               name: 'AuthApiError',
               message: 'Api validation failed: factorEnrollRequest',
               statusCode: 400,
-              xhr: Util.transformMockXHR(resError)
+              xhr: {
+                status: 400,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaeaHotRD81TUCq9ADltRSjVA","errorCauses":[{"errorSummary":"Invalid Profile."}]}',
+                responseJSON: {
+                  errorCode: 'E0000001',
+                  errorSummary: 'Invalid Profile.',
+                  errorLink: 'E0000001',
+                  errorId: 'oaeaHotRD81TUCq9ADltRSjVA',
+                  errorCauses: [{
+                    errorSummary: 'Invalid Profile.'
+                  }]
+                }
+              }
             }
           ]);
         });

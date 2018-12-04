@@ -142,7 +142,18 @@ function (Okta,
                   name: 'AuthApiError',
                   message: 'You do not have permission to perform the requested action',
                   statusCode: 403,
-                  xhr: Util.transformMockXHR(resNoPermissionError)
+                  xhr: {
+                    status: 403,
+                    responseType: 'json',
+                    responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                    responseJSON: {
+                      errorCode: 'E0000006',
+                      errorSummary: 'You do not have permission to perform the requested action',
+                      errorLink: 'E0000006',
+                      errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                      errorCauses: []
+                    }
+                  }
                 }
               ]);
             });

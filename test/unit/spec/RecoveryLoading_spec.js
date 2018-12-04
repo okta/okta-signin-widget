@@ -112,7 +112,18 @@ function (Okta, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView,
               name: 'AuthApiError',
               message: 'You have accessed an account recovery link that has expired or been previously used.',
               statusCode: 403,
-              xhr: Util.transformMockXHR(resError)
+              xhr: {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000105","errorSummary":"You have accessed an account recovery link that has expired or been previously used.","errorLink":"E0000105","errorId":"oaeJFD_L3CcQoC9Am9y7tpfrQ","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000105',
+                  errorSummary: 'You have accessed an account recovery link that has expired or been previously used.',
+                  errorLink: 'E0000105',
+                  errorId: 'oaeJFD_L3CcQoC9Am9y7tpfrQ',
+                  errorCauses: []
+                }
+              }
             }
           ]);
         });

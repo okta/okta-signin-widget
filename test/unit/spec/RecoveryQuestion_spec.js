@@ -249,7 +249,18 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
               name: 'AuthApiError',
               message: 'The recovery question answer did not match our records.',
               statusCode: 400,
-              xhr: Util.transformMockXHR(resError)
+              xhr: {
+                status: 400,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000087","errorSummary":"The recovery question answer did not match our records.","errorLink":"E0000087","errorId":"oaelYrw2A4AThiuqrb4UhGdUg","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000087',
+                  errorSummary: 'The recovery question answer did not match our records.',
+                  errorLink: 'E0000087',
+                  errorId: 'oaelYrw2A4AThiuqrb4UhGdUg',
+                  errorCauses: []
+                }
+              }
             }
           ]);
         });

@@ -481,7 +481,18 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
                 name: 'AuthApiError',
                 message: 'Invalid token provided',
                 statusCode: 401,
-                xhr: Util.transformMockXHR(errorInvalidToken)
+                xhr: {
+                  status: 401,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000011","errorSummary":"Invalid token provided","errorLink":"E0000011","errorId":"oaeuiUWCPr6TUSkOclgVGlWqw","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000011',
+                    errorSummary: 'Invalid token provided',
+                    errorLink: 'E0000011',
+                    errorId: 'oaeuiUWCPr6TUSkOclgVGlWqw',
+                    errorCauses: []
+                  }
+                }
               }
             ]
           ]);

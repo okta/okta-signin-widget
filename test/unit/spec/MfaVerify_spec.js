@@ -482,7 +482,7 @@ function (Okta,
           name: 'AuthApiError',
           message: message,
           statusCode: code,
-          xhr: Util.transformMockXHR(resError)
+          xhr: resError
         }
       ]);
     }
@@ -933,7 +933,24 @@ function (Okta,
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expectError(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', resInvalidTotp);
+              expectError(
+                test,
+                403,
+                'Invalid Passcode/Answer',
+                'mfa-verify',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000068',
+                    errorSummary: 'Invalid Passcode/Answer',
+                    errorLink: 'E0000068',
+                    errorId: 'oael69itLSMTbioahsUZ-7xiQ',
+                    errorCauses: []
+                  }
+                }
+              );
             });
         });
         itp('shows errors if verify button is clicked and answer is empty', function () {
@@ -998,7 +1015,24 @@ function (Okta,
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expectError(test, 409, 'Enter a new PIN having from 4 to 8 digits:', 'mfa-verify', resRSAChangePin);
+              expectError(
+                test,
+                409,
+                'Enter a new PIN having from 4 to 8 digits:',
+                'mfa-verify',
+                {
+                  status: 409,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000113","errorSummary":"Enter a new PIN having from 4 to 8 digits:","errorLink":"E0000113","errorId":"errorId","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000113',
+                    errorSummary: 'Enter a new PIN having from 4 to 8 digits:',
+                    errorLink: 'E0000113',
+                    errorId: 'errorId',
+                    errorCauses: []
+                  }
+                }
+              );
               expect(test.form.answerField().val()).toEqual('');
             });
         });
@@ -1399,7 +1433,24 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-              expectErrorEvent(test, 403, 'User Locked', 'mfa-verify', resMfaLocked);
+              expectErrorEvent(
+                test,
+                403,
+                'User Locked',
+                'mfa-verify',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000069',
+                    errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                    errorLink: 'E0000069',
+                    errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
+                    errorCauses: []
+                  }
+                }
+              );
             });
         });
         itp('hides error messages after clicking on send sms', function () {
@@ -1658,7 +1709,24 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-              expectErrorEvent(test, 403, 'User Locked', 'mfa-verify', resMfaLocked);
+              expectErrorEvent(
+                test,
+                403,
+                'User Locked',
+                'mfa-verify',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000069',
+                    errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                    errorLink: 'E0000069',
+                    errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
+                    errorCauses: []
+                  }
+                }
+              );
             });
         });
         itp('hides error messages after clicking on call', function () {
@@ -1942,7 +2010,24 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-              expectErrorEvent(test, 403, 'User Locked', 'mfa-verify', resMfaLocked);
+              expectErrorEvent(
+                test,
+                403,
+                'User Locked',
+                'mfa-verify',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000069',
+                    errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                    errorLink: 'E0000069',
+                    errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
+                    errorCauses: []
+                  }
+                }
+              );
             });
         });
         itp('hides error messages after clicking on send email', function () {
@@ -3146,7 +3231,18 @@ function (Okta,
                 403,
                 'You do not have permission to perform the requested action',
                 'verify-custom-factor custom-factor-form',
-                resNoPermissionError
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000006',
+                    errorSummary: 'You do not have permission to perform the requested action',
+                    errorLink: 'E0000006',
+                    errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                    errorCauses: []
+                  }
+                }
               );
             });
         });
@@ -3220,7 +3316,18 @@ function (Okta,
                 403,
                 'You do not have permission to perform the requested action',
                 'verify-custom-factor custom-factor-form',
-                resNoPermissionError
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000006',
+                    errorSummary: 'You do not have permission to perform the requested action',
+                    errorLink: 'E0000006',
+                    errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                    errorCauses: []
+                  }
+                }
               );
             });
         });
@@ -3337,7 +3444,28 @@ function (Okta,
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('Password is incorrect');
-              expectErrorEvent(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', resInvalidPassword);
+              expectErrorEvent(
+                test,
+                403,
+                'Invalid Passcode/Answer',
+                'mfa-verify',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[{"errorSummary":"Password is incorrect"}]}',
+                  responseJSON: {
+                    errorCode: 'E0000068',
+                    errorSummary: 'Password is incorrect',
+                    errorLink: 'E0000068',
+                    errorId: 'oael69itLSMTbioahsUZ-7xiQ',
+                    errorCauses: [
+                      {
+                        errorSummary: 'Password is incorrect'
+                      }
+                    ]
+                  }
+                }
+              );
             });
         });
         itp('shows errors if verify button is clicked and password is empty', function () {

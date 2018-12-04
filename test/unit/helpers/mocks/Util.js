@@ -2,10 +2,9 @@
 define([
   'okta',
   'q',
-  'duo',
-  'util/Util'
+  'duo'
 ],
-function (Okta, Q, Duo, LoginUtil) {
+function (Okta, Q, Duo) {
 
   var { _, $, Backbone } = Okta;
   var { Cookie } = Okta.internal.util;
@@ -105,8 +104,9 @@ function (Okta, Q, Duo, LoginUtil) {
             // $.ajax send (jqXHR, textStatus, errorThrown) on failure
             if (!textOnly) {
               xhr.responseJSON = xhr.response;
+              xhr = _.omit(xhr, 'response');
             }
-            deferred.reject(xhr, null, xhr.response);
+            deferred.reject(xhr, null, xhr.responseJSON);
           }
         }, xhr.delay || 0);
       })(textOnly);
@@ -313,12 +313,6 @@ function (Okta, Q, Duo, LoginUtil) {
     policy['factorsPolicyInfo'][factorId]['autoPushEnabled'] = autoPushVal;
     return responseCopy;
   };
-
-  fn.transformMockXHR = function (xhr) {
-    // The xhr needs to be transformed without modifying the existing response
-    var xhrClone = JSON.parse(JSON.stringify(xhr));
-    return LoginUtil.transformErrorXHR(xhrClone);
-  }
 
   return fn;
 

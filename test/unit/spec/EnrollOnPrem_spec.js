@@ -179,7 +179,18 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
                   name: 'AuthApiError',
                   message: 'Api validation failed: factorEnrollRequest',
                   statusCode: 400,
-                  xhr: Util.transformMockXHR(resEnrollError)
+                  xhr: {
+                    status: 400,
+                    responseType: 'json',
+                    responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[]}',
+                    responseJSON: {
+                      errorCode: 'E0000001',
+                      errorSummary: 'Api validation failed: factorEnrollRequest',
+                      errorLink: 'E0000001',
+                      errorId: 'oaepmWRr7i5TZa2AQv8sNmu6w',
+                      errorCauses: []
+                    }
+                  }
                 }
               ]);
             });
@@ -313,7 +324,18 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
                   name: 'AuthApiError',
                   message: 'Api validation failed: factorEnrollRequest',
                   statusCode: 400,
-                  xhr: Util.transformMockXHR(resEnrollError)
+                  xhr: {
+                    status: 400,
+                    responseType: 'json',
+                    responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[]}',
+                    responseJSON: {
+                      errorCode: 'E0000001',
+                      errorSummary: 'Api validation failed: factorEnrollRequest',
+                      errorLink: 'E0000001',
+                      errorId: 'oaepmWRr7i5TZa2AQv8sNmu6w',
+                      errorCauses: []
+                    }
+                  }
                 }
               ]);
             });

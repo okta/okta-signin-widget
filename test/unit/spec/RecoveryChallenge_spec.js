@@ -239,7 +239,18 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
               name: 'AuthApiError',
               message: 'You do not have permission to perform the requested action',
               statusCode: 403,
-              xhr: Util.transformMockXHR(resResendError)
+              xhr: {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae-vceygQ0R2KIGrs9IRcVfw","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000006',
+                  errorSummary: 'You do not have permission to perform the requested action',
+                  errorLink: 'E0000006',
+                  errorId: 'oae-vceygQ0R2KIGrs9IRcVfw',
+                  errorCauses: []
+                }
+              }
             }
           ]);
         });
@@ -264,7 +275,18 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
               name: 'AuthApiError',
               message: 'You do not have permission to perform the requested action',
               statusCode: 403,
-              xhr: Util.transformMockXHR(resVerifyError)
+              xhr: {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000006',
+                  errorSummary: 'You do not have permission to perform the requested action',
+                  errorLink: 'E0000006',
+                  errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                  errorCauses: []
+                }
+              }
             }
           ]);
         });

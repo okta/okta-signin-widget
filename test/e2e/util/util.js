@@ -20,5 +20,5 @@ util.loadTestPage = function (pageName) {
 };
 
 util.waitForElement = function (el) {
-  browser.wait(EC.presenceOf(el), 1000);
+  browser.wait(EC.presenceOf(el));
 }

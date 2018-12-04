@@ -67,7 +67,18 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
         name: 'AuthApiError',
         message: message,
         statusCode: 403,
-        xhr: Util.transformMockXHR(resError)
+        xhr: {
+          status: 403,
+          responseType: 'json',
+          responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oaeJFD_L3CcQoC9Am9y7tpfrQ","errorCauses":[]}',
+          responseJSON: {
+            errorCode: 'E0000006',
+            errorSummary: message,
+            errorLink: 'E0000006',
+            errorId: 'oaeJFD_L3CcQoC9Am9y7tpfrQ',
+            errorCauses: []
+          }
+        }
       }
     ]);
   }

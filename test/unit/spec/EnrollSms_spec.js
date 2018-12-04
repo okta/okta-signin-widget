@@ -298,7 +298,20 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
               name: 'AuthApiError',
               message: 'Api validation failed: factorEnrollRequest',
               statusCode: 400,
-              xhr: Util.transformMockXHR(resEnrollError)
+              xhr: {
+                status: 400,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[{"errorSummary":"Invalid Phone Number."}]}',
+                responseJSON: {
+                  'errorCode': 'E0000001',
+                  'errorSummary': 'Invalid Phone Number.',
+                  'errorLink': 'E0000001',
+                  'errorId': 'oaepmWRr7i5TZa2AQv8sNmu6w',
+                  'errorCauses': [{
+                    'errorSummary': 'Invalid Phone Number.'
+                  }]
+                }
+              }
             }
           ]);
         });
@@ -577,7 +590,20 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
                 name: 'AuthApiError',
                 message: 'Invalid Passcode/Answer',
                 statusCode: 403,
-                xhr: Util.transformMockXHR(resActivateError)
+                xhr: {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oaeW52tAk_9T0Obvns7jwww6g","errorCauses":[{"errorSummary":"Your token doesn\'t match our records. Please try again."}]}',
+                  responseJSON: {
+                    errorCode: 'E0000068',
+                    errorSummary: 'Your token doesn\'t match our records. Please try again.',
+                    errorLink: 'E0000068',
+                    errorId: 'oaeW52tAk_9T0Obvns7jwww6g',
+                    errorCauses: [{
+                      errorSummary: 'Your token doesn\'t match our records. Please try again.'
+                    }]
+                  }
+                }
               },
             ]);
           });

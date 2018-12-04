@@ -307,7 +307,20 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
                 name: 'AuthApiError',
                 message: 'Update of credentials failed',
                 statusCode: 400,
-                xhr: Util.transformMockXHR(resErrorOldPass)
+                xhr: {
+                  status: 400,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000014","errorSummary":"Update of credentials failed","errorLink":"E0000014","errorId":"oaecIzifuYzTV-5h3Ea46oxiw","errorCauses":[{"errorSummary":"Old password is not correct"}]}',
+                  responseJSON: {
+                    errorCode: 'E0000014',
+                    errorSummary: 'Old password is not correct',
+                    errorLink: 'E0000014',
+                    errorId: 'oaecIzifuYzTV-5h3Ea46oxiw',
+                    errorCauses: [{
+                      errorSummary: 'Old password is not correct'
+                    }]
+                  }
+                }
               }
             ]);
           });
@@ -335,7 +348,20 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
                 name: 'AuthApiError',
                 message: 'Update of credentials failed',
                 statusCode: 403,
-                xhr: Util.transformMockXHR(resErrorComplexity)
+                xhr: {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000014","errorSummary":"Update of credentials failed","errorLink":"E0000014","errorId":"oaeRXeoXe24RWqjj0R-pL03ZA","errorCauses":[{"errorSummary":"Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name."}]}',
+                  responseJSON: {
+                    errorCode: 'E0000014',
+                    errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name.',
+                    errorLink: 'E0000014',
+                    errorId: 'oaeRXeoXe24RWqjj0R-pL03ZA',
+                    errorCauses: [{
+                      errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name.'
+                    }]
+                  }
+                }
               }
             ]);
           });
