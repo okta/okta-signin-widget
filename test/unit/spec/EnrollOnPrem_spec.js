@@ -175,11 +175,12 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
                 {
                   controller: 'enroll-rsa'
                 },
-                jasmine.objectContaining({
+                {
                   name: 'AuthApiError',
                   message: 'Api validation failed: factorEnrollRequest',
-                  statusCode: 400
-                })
+                  statusCode: 400,
+                  xhr: Util.transformMockXHR(resEnrollError)
+                }
               ]);
             });
         });
@@ -308,11 +309,12 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
                 {
                   controller: 'enroll-onprem'
                 },
-                jasmine.objectContaining({
+                {
                   name: 'AuthApiError',
                   message: 'Api validation failed: factorEnrollRequest',
-                  statusCode: 400
-                })
+                  statusCode: 400,
+                  xhr: Util.transformMockXHR(resEnrollError)
+                }
               ]);
             });
         });

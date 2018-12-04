@@ -303,10 +303,15 @@ function (Okta,
               {
                 controller: 'enroll-webauthn'
               },
-              jasmine.objectContaining({
+              {
                 name: 'WEB_AUTHN_ERROR',
-                message: 'something went wrong'
-              })
+                message: 'something went wrong',
+                xhr: {
+                  responseJSON: {
+                    errorSummary: 'something went wrong'
+                  }
+                }
+              }
             ]);
           });
       });

@@ -519,11 +519,12 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
               {
                 controller: 'forgot-password'
               },
-              jasmine.objectContaining({
+              {
                 name: 'AuthApiError',
                 message: 'You do not have permission to perform the requested action',
-                statusCode: 403
-              })
+                statusCode: 403,
+                xhr: Util.transformMockXHR(resError)
+              }
             ]);
           });
       });
@@ -668,11 +669,12 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
               {
                 controller: 'forgot-password'
               },
-              jasmine.objectContaining({
+              {
                 name: 'AuthApiError',
                 message: 'You do not have permission to perform the requested action',
-                statusCode: 403
-              })
+                statusCode: 403,
+                xhr: Util.transformMockXHR(resError)
+              }
             ]);
           });
       });
@@ -980,11 +982,12 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
                 {
                   controller: 'recovery-challenge'
                 },
-                jasmine.objectContaining({
+                {
                   name: 'AuthApiError',
                   message: 'You do not have permission to perform the requested action',
-                  statusCode: 403
-                })
+                  statusCode: 403,
+                  xhr: Util.transformMockXHR(resError)
+                }
               ]);
             });
         });

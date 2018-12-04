@@ -108,10 +108,15 @@ function (Okta,
         {
           controller: 'enroll-u2f'
         },
-        jasmine.objectContaining({
+        {
           name: 'U2F_ERROR',
-          message: errorMessage
-        })
+          message: errorMessage,
+          xhr: {
+            responseJSON: {
+              errorSummary: errorMessage
+            }
+          }
+        }
       ]);
     }
 

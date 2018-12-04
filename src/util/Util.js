@@ -103,13 +103,14 @@ define(['okta', 'util/Logger'], function (Okta, Logger) {
 
   // Trigger an afterError event
   Util.triggerAfterError = function (controller, err) {
-    if (!err.statusCode) {
+    if (err.xhr && err.xhr.status) {
       // Bring the statusCode to the top-level of the Error
       err.statusCode = err.xhr && err.xhr.status;
     }
     // Some controllers return the className as a function - process it here:
     var className = _.isFunction(controller.className) ? controller.className() : controller.className;
-    controller.trigger('afterError', { controller: className }, err);
+    var error = _.pick(err, 'name', 'message', 'statusCode', 'xhr');
+    controller.trigger('afterError', { controller: className }, error);
   };
 
   return Util;

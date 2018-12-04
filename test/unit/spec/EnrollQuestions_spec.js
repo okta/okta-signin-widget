@@ -225,11 +225,12 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
             {
               controller: 'enroll-question'
             },
-            jasmine.objectContaining({
+            {
               name: 'AuthApiError',
               message: 'Api validation failed: factorEnrollRequest',
-              statusCode: 400
-            })
+              statusCode: 400,
+              xhr: Util.transformMockXHR(resError)
+            }
           ]);
         });
     });

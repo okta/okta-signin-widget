@@ -108,11 +108,12 @@ function (Okta, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView,
             {
               controller: 'recovery-loading'
             },
-            jasmine.objectContaining({
+            {
               name: 'AuthApiError',
               message: 'You have accessed an account recovery link that has expired or been previously used.',
-              statusCode: 403
-            })
+              statusCode: 403,
+              xhr: Util.transformMockXHR(resError)
+            }
           ]);
         });
     });

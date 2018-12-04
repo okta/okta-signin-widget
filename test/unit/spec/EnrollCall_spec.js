@@ -268,11 +268,12 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             {
               controller: 'enroll-call'
             },
-            jasmine.objectContaining({
+            {
               name: 'AuthApiError',
               message: 'Api validation failed: factorEnrollRequest',
-              statusCode: 400
-            })
+              statusCode: 400,
+              xhr: Util.transformMockXHR(resEnrollError)
+            }
           ]);
         });
       });
@@ -553,11 +554,12 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
               {
                 controller: 'enroll-call'
               },
-              jasmine.objectContaining({
+              {
                 name: 'AuthApiError',
                 message: 'Invalid Passcode/Answer',
-                statusCode: 403
-              })
+                statusCode: 403,
+                xhr: Util.transformMockXHR(resActivateError)
+              }
             ]);
           });
       });

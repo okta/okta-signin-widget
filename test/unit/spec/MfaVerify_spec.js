@@ -466,23 +466,24 @@ function (Okta,
       expect(answer.attr('placeholder')).toEqual(placeholderText);
     }
 
-    function expectError (test, code, message, controller) {
+    function expectError (test, code, message, controller, resError) {
       expect(test.form.hasErrors()).toBe(true);
       expect(test.form.errorMessage()).toBe(message);
-      expectErrorEvent(test, code, message, controller);
+      expectErrorEvent(test, code, message, controller, resError);
     }
 
-    function expectErrorEvent (test, code, message, controller) {
+    function expectErrorEvent (test, code, message, controller, resError) {
       expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
       expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
         {
-          controller: controller || 'mfa-verify'
+          controller: controller
         },
-        jasmine.objectContaining({
+        {
           name: 'AuthApiError',
           message: message,
-          statusCode: code
-        })
+          statusCode: code,
+          xhr: Util.transformMockXHR(resError)
+        }
       ]);
     }
 
@@ -932,7 +933,7 @@ function (Okta,
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expectError(test, 403, 'Invalid Passcode/Answer');
+              expectError(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', resInvalidTotp);
             });
         });
         itp('shows errors if verify button is clicked and answer is empty', function () {
@@ -997,7 +998,7 @@ function (Okta,
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expectError(test, 409, 'Enter a new PIN having from 4 to 8 digits:');
+              expectError(test, 409, 'Enter a new PIN having from 4 to 8 digits:', 'mfa-verify', resRSAChangePin);
               expect(test.form.answerField().val()).toEqual('');
             });
         });
@@ -1398,7 +1399,7 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-              expectErrorEvent(test, 403, 'User Locked');
+              expectErrorEvent(test, 403, 'User Locked', 'mfa-verify', resMfaLocked);
             });
         });
         itp('hides error messages after clicking on send sms', function () {
@@ -1657,7 +1658,7 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-              expectErrorEvent(test, 403, 'User Locked');
+              expectErrorEvent(test, 403, 'User Locked', 'mfa-verify', resMfaLocked);
             });
         });
         itp('hides error messages after clicking on call', function () {
@@ -1941,7 +1942,7 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-              expectErrorEvent(test, 403, 'User Locked');
+              expectErrorEvent(test, 403, 'User Locked', 'mfa-verify', resMfaLocked);
             });
         });
         itp('hides error messages after clicking on send email', function () {
@@ -3080,10 +3081,15 @@ function (Okta,
                 {
                   controller: 'mfa-verify verify-u2f'
                 },
-                jasmine.objectContaining({
+                {
                   name: 'U2F_ERROR',
-                  message: 'There was an error with the U2F request. Try again or select another factor.'
-                })
+                  message: 'There was an error with the U2F request. Try again or select another factor.',
+                  xhr: {
+                    responseJSON: {
+                      errorSummary: 'There was an error with the U2F request. Try again or select another factor.'
+                    }
+                  }
+                }
               ]);
             });
         });
@@ -3139,7 +3145,8 @@ function (Okta,
                 test,
                 403,
                 'You do not have permission to perform the requested action',
-                'verify-custom-factor custom-factor-form'
+                'verify-custom-factor custom-factor-form',
+                resNoPermissionError
               );
             });
         });
@@ -3212,7 +3219,8 @@ function (Okta,
                 test,
                 403,
                 'You do not have permission to perform the requested action',
-                'verify-custom-factor custom-factor-form'
+                'verify-custom-factor custom-factor-form',
+                resNoPermissionError
               );
             });
         });
@@ -3329,7 +3337,7 @@ function (Okta,
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('Password is incorrect');
-              expectErrorEvent(test, 403, 'Invalid Passcode/Answer');
+              expectErrorEvent(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', resInvalidPassword);
             });
         });
         itp('shows errors if verify button is clicked and password is empty', function () {

@@ -477,11 +477,12 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           expect(test.afterErrorHandler.calls.allArgs()).toEqual([
             [
               { controller: 'primary-auth' },
-              jasmine.objectContaining({
+              {
                 name: 'AuthApiError',
                 message: 'Invalid token provided',
-                statusCode: 401
-              })
+                statusCode: 401,
+                xhr: Util.transformMockXHR(errorInvalidToken)
+              }
             ]
           ]);
           var form = new PrimaryAuthForm($sandbox);

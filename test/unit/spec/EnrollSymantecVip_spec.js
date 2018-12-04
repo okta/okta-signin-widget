@@ -2,6 +2,7 @@
 define([
   'okta',
   '@okta/okta-auth-js/jquery',
+  'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTokenFactorForm',
   'helpers/dom/Beacon',
@@ -12,7 +13,7 @@ define([
   'LoginRouter',
   'helpers/xhr/SUCCESS'
 ],
-function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
+function (Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
   resAllFactors, resEnrollError, Router, resSuccess) {
 
   var { $ } = Okta;
@@ -24,7 +25,7 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
     function setup (startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({url: baseUrl});
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router({
         el: $sandbox,
@@ -127,11 +128,12 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
               {
                 controller: 'enroll-symantec'
               },
-              jasmine.objectContaining({
+              {
                 name: 'AuthApiError',
                 message: 'Api validation failed: factorEnrollRequest',
-                statusCode: 400
-              })
+                statusCode: 400,
+                xhr: Util.transformMockXHR(resEnrollError)
+              }
             ]);
           });
       });

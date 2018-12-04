@@ -294,11 +294,12 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             {
               controller: 'enroll-sms'
             },
-            jasmine.objectContaining({
+            {
               name: 'AuthApiError',
               message: 'Api validation failed: factorEnrollRequest',
-              statusCode: 400
-            })
+              statusCode: 400,
+              xhr: Util.transformMockXHR(resEnrollError)
+            }
           ]);
         });
       });
@@ -562,32 +563,22 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             test.setNextResponse(resActivateError);
             test.form.setCode(123);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Your token doesn\'t match our records. Please try again.');
-          });
-      });
-      itp('shows error if error response on verification', function () {
-        return setupAndSendValidCode()
-          .then(function (test) {
-            test.setNextResponse(resActivateError);
-            test.form.setCode(123);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
                 controller: 'enroll-sms'
               },
-              jasmine.objectContaining({
+              {
                 name: 'AuthApiError',
                 message: 'Invalid Passcode/Answer',
-                statusCode: 403
-              }),
+                statusCode: 403,
+                xhr: Util.transformMockXHR(resActivateError)
+              },
             ]);
           });
       });

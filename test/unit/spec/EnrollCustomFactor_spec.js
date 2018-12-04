@@ -138,11 +138,12 @@ function (Okta,
                 {
                   controller: 'enroll-custom-factor'
                 },
-                jasmine.objectContaining({
+                {
                   name: 'AuthApiError',
                   message: 'You do not have permission to perform the requested action',
-                  statusCode: 403
-                })
+                  statusCode: 403,
+                  xhr: Util.transformMockXHR(resNoPermissionError)
+                }
               ]);
             });
         });

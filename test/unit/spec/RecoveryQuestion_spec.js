@@ -245,11 +245,12 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
             {
               controller: 'recovery-question'
             },
-            jasmine.objectContaining({
+            {
               name: 'AuthApiError',
               message: 'The recovery question answer did not match our records.',
-              statusCode: 400
-            })
+              statusCode: 400,
+              xhr: Util.transformMockXHR(resError)
+            }
           ]);
         });
     });

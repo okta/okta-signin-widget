@@ -63,11 +63,12 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
       {
         controller: controller || 'account-unlock'
       },
-      jasmine.objectContaining({
+      {
         name: 'AuthApiError',
         message: message,
-        statusCode: 403
-      })
+        statusCode: 403,
+        xhr: Util.transformMockXHR(resError)
+      }
     ]);
   }
 

@@ -303,11 +303,12 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
               {
                 controller: 'password-expired'
               },
-              jasmine.objectContaining({
+              {
                 name: 'AuthApiError',
                 message: 'Update of credentials failed',
-                statusCode: 400
-              })
+                statusCode: 400,
+                xhr: Util.transformMockXHR(resErrorOldPass)
+              }
             ]);
           });
       });
@@ -330,11 +331,12 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
               {
                 controller: 'password-expired'
               },
-              jasmine.objectContaining({
+              {
                 name: 'AuthApiError',
                 message: 'Update of credentials failed',
-                statusCode: 403
-              })
+                statusCode: 403,
+                xhr: Util.transformMockXHR(resErrorComplexity)
+              }
             ]);
           });
       });

@@ -495,11 +495,12 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
             {
               controller: 'password-reset'
             },
-            jasmine.objectContaining({
+            {
               name: 'AuthApiError',
               message: 'The password does not meet the complexity requirements of the current password policy.',
-              statusCode: 403
-            })
+              statusCode: 403,
+              xhr: Util.transformMockXHR(resError)
+            }
           ]);
         });
     });
