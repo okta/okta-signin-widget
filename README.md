@@ -53,8 +53,6 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   - [Feature flags](#feature-flags)
 - [Events](#events)
-  - [ready](#ready)
-  - [afterRender](#afterrender)
   - [pageRendered](#pagerendered)
   - [passwordRevealed](#passwordrevealed)
 - [Building the Widget](#building-the-widget)
@@ -285,12 +283,8 @@ signIn.renderEl(
   },
 
   function error(err) {
-    // The widget will handle most types of errors - for example, if the user
-    // enters an invalid password or there are issues authenticating.
-    //
     // This function is invoked with errors the widget cannot recover from:
-    // 1. Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR, OAUTH_ERROR
-    // 2. Uncaught exceptions
+    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR, OAUTH_ERROR, REGISTRATION_FAILED
   }
 );
 ```
@@ -1321,44 +1315,7 @@ features: {
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
 
-### ready
-
-Triggered when the widget is ready to accept user input for the first time. Returns a `context` object containing the following properties:
-
-- **controller** - Current controller name
-
-```javascript
-signIn.on('ready', function (context) {
-  if (context.controller === 'primary-auth') {
-    // The primary authentication form is ready for user input
-  }
-});
-```
-
-### afterRender
-
-Triggered when the widget transitions to a new page and animations have finished. Returns a `context` object containing the following properties:
-
-- **controller** - Current controller name
-
-```javascript
-// Overriding the "Back to Sign In" click action on the Forgot Password page
-signIn.on('afterRender', function (context) {
-  if (context.controller !== 'forgot-password') {
-    return;
-  }
-  var backLink = document.getElementsByClassName('js-back')[0];
-  backLink.addEventListener('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    // Custom link behavior
-  });
-});
-```
-
 ### pageRendered
-
-:warning: This event has been *deprecated*, please use [**afterRender**](#afterrender) instead.
 
 Triggered when the widget transitions to a new page and animations have finished.
 

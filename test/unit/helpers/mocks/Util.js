@@ -104,8 +104,9 @@ function (Okta, Q, Duo) {
             // $.ajax send (jqXHR, textStatus, errorThrown) on failure
             if (!textOnly) {
               xhr.responseJSON = xhr.response;
+              xhr = _.omit(xhr, 'response');
             }
-            deferred.reject(xhr, null, xhr.response);
+            deferred.reject(xhr, null, xhr.responseJSON);
           }
         }, xhr.delay || 0);
       })(textOnly);

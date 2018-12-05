@@ -15,12 +15,11 @@ define([
   'helpers/xhr/MFA_ENROLL_ACTIVATE_error',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_errorActivate',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_invalid_phone',
-  'helpers/xhr/SUCCESS',
   'LoginRouter'
 ],
 function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
   resAllFactors, resExistingPhone, resEnrollSuccess, resEnrollError, resActivateError,
-  resEnrollInvalidPhoneError, resSuccess, Router) {
+  resEnrollInvalidPhoneError, Router) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -32,12 +31,14 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var afterRenderHandler = jasmine.createSpy('afterRenderHandler');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
       });
+      router.on('afterError', afterRenderHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
@@ -53,7 +54,8 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             beacon: new Beacon($sandbox),
             form: new Form($sandbox),
             ac: authClient,
-            setNextResponse: setNextResponse
+            setNextResponse: setNextResponse,
+            afterRenderHandler: afterRenderHandler
           });
         });
     }
@@ -261,6 +263,31 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           Expect.isNotVisible(test.form.submitButton());
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
+          expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'enroll-call'
+            },
+            {
+              name: 'AuthApiError',
+              message: 'Api validation failed: factorEnrollRequest',
+              statusCode: 400,
+              xhr: {
+                status: 400,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[{"errorSummary":"Invalid Phone Number."}]}',
+                responseJSON: {
+                  'errorCode': 'E0000001',
+                  'errorSummary': 'Invalid Phone Number.',
+                  'errorLink': 'E0000001',
+                  'errorId': 'oaepmWRr7i5TZa2AQv8sNmu6w',
+                  'errorCauses': [{
+                    'errorSummary': 'Invalid Phone Number.'
+                  }]
+                }
+              }
+            }
+          ]);
         });
       });
     });
@@ -530,11 +557,36 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             test.setNextResponse(resActivateError);
             test.form.setCode(123);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Your token doesn\'t match our records. Please try again.');
+            expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'enroll-call'
+              },
+              {
+                name: 'AuthApiError',
+                message: 'Invalid Passcode/Answer',
+                statusCode: 403,
+                xhr: {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oaeW52tAk_9T0Obvns7jwww6g","errorCauses":[{"errorSummary":"Your token doesn\'t match our records. Please try again."}]}',
+                  responseJSON: {
+                    errorCode: 'E0000068',
+                    errorSummary: 'Your token doesn\'t match our records. Please try again.',
+                    errorLink: 'E0000068',
+                    errorId: 'oaeW52tAk_9T0Obvns7jwww6g',
+                    errorCauses: [{
+                      errorSummary: 'Your token doesn\'t match our records. Please try again.'
+                    }]
+                  }
+                }
+              }
+            ]);
           });
       });
     });

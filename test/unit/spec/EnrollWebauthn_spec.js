@@ -48,12 +48,14 @@ function (Okta,
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
       var successSpy = jasmine.createSpy('success');
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         globalSuccessFn: successSpy
       }, settings));
+      router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
@@ -70,7 +72,8 @@ function (Okta,
             form: new Form($sandbox),
             ac: authClient,
             setNextResponse: setNextResponse,
-            successSpy: successSpy
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
           });
         });
     }
@@ -295,6 +298,21 @@ function (Okta,
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorBox()).toHaveLength(1);
             expect(test.form.errorMessage()).toEqual('something went wrong');
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'enroll-webauthn'
+              },
+              {
+                name: 'WEB_AUTHN_ERROR',
+                message: 'something went wrong',
+                xhr: {
+                  responseJSON: {
+                    errorSummary: 'something went wrong'
+                  }
+                }
+              }
+            ]);
           });
       });
     });

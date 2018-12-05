@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 19], max-statements: [2, 22] */
+/* eslint max-params: [2, 19], max-statements: [2, 24] */
 define([
   'okta',
   '@okta/okta-auth-js/jquery',
@@ -33,6 +33,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
   function setup (settings, res, custom) {
     settings || (settings = {});
     var successSpy = jasmine.createSpy('successSpy');
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -44,6 +45,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       globalSuccessFn: successSpy,
       processCreds: settings.processCreds
     }, settings));
+    router.on('afterError', afterErrorHandler);
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
@@ -55,7 +57,8 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       beacon: new Beacon($sandbox),
       form: new PasswordExpiredForm($sandbox),
       ac: authClient,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
+      afterErrorHandler: afterErrorHandler
     };
     if(custom) {
       return Expect.waitForCustomPasswordExpired(settings);
@@ -288,13 +291,38 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
           .then(function (test) {
             test.setNextResponse(resErrorOldPass);
             submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe(
               'Old password is not correct'
             );
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'password-expired'
+              },
+              {
+                name: 'AuthApiError',
+                message: 'Update of credentials failed',
+                statusCode: 400,
+                xhr: {
+                  status: 400,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000014","errorSummary":"Update of credentials failed","errorLink":"E0000014","errorId":"oaecIzifuYzTV-5h3Ea46oxiw","errorCauses":[{"errorSummary":"Old password is not correct"}]}',
+                  responseJSON: {
+                    errorCode: 'E0000014',
+                    errorSummary: 'Old password is not correct',
+                    errorLink: 'E0000014',
+                    errorId: 'oaecIzifuYzTV-5h3Ea46oxiw',
+                    errorCauses: [{
+                      errorSummary: 'Old password is not correct'
+                    }]
+                  }
+                }
+              }
+            ]);
           });
       });
       itp('shows an error if the server returns a complexity error', function () {
@@ -302,7 +330,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
           .then(function (test) {
             test.setNextResponse(resErrorComplexity);
             submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
@@ -311,6 +339,31 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
             ' does not include your first name, does not include your last name.'
             );
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'password-expired'
+              },
+              {
+                name: 'AuthApiError',
+                message: 'Update of credentials failed',
+                statusCode: 403,
+                xhr: {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000014","errorSummary":"Update of credentials failed","errorLink":"E0000014","errorId":"oaeRXeoXe24RWqjj0R-pL03ZA","errorCauses":[{"errorSummary":"Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name."}]}',
+                  responseJSON: {
+                    errorCode: 'E0000014',
+                    errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name.',
+                    errorLink: 'E0000014',
+                    errorId: 'oaeRXeoXe24RWqjj0R-pL03ZA',
+                    errorCauses: [{
+                      errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name.'
+                    }]
+                  }
+                }
+              }
+            ]);
           });
       });
       itp('validates that fields are not empty', function () {

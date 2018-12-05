@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 45], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 46], camelcase: 0 */
 define([
   'okta',
   'q',
@@ -133,7 +133,9 @@ function (Okta,
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var successSpy = jasmine.createSpy('success');
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = createRouter(baseUrl, authClient, successSpy, settings);
+      router.on('afterError', afterErrorHandler);
       setNextResponse(res);
       if (languagesResponse) {
         setNextResponse(languagesResponse);
@@ -187,7 +189,8 @@ function (Okta,
             beacon: beacon,
             ac: authClient,
             setNextResponse: setNextResponse,
-            successSpy: successSpy
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
           };
         });
     }
@@ -349,6 +352,7 @@ function (Okta,
       spyOn(model, 'setTransaction').and.callThrough();
       spyOn(controller.options.appState, 'set').and.callThrough();
       spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
+      spyOn(RouterUtil, 'routeAfterAuthStatusChangeError').and.callThrough();
     }
 
     // Expect -
@@ -366,7 +370,7 @@ function (Okta,
       expect(model.setTransaction).toHaveBeenCalledWith(mockTransaction);
       // Make sure that the controller catches the model's event and sets the transaction property on appState
       expect(router.controller.options.appState.set).toHaveBeenCalledWith('transaction', mockTransaction);
-      expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, null, res.response);
+      expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, res.response);
     }
 
     // Expect -
@@ -384,7 +388,7 @@ function (Okta,
       expect(model.trigger).toHaveBeenCalledWith('setTransactionError', mockError);
       // Make sure that the controller catches the model's event and sets the transactionError property on appState
       expect(router.controller.options.appState.set).toHaveBeenCalledWith('transactionError', mockError);
-      expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, mockError);
+      expect(RouterUtil.routeAfterAuthStatusChangeError).toHaveBeenCalledWith(router, mockError);
     }
 
     function setupDuo (settings) {
@@ -460,6 +464,27 @@ function (Okta,
     function expectHasRightPlaceholderText (test, placeholderText){
       var answer = test.form.answerField();
       expect(answer.attr('placeholder')).toEqual(placeholderText);
+    }
+
+    function expectError (test, code, message, controller, resError) {
+      expect(test.form.hasErrors()).toBe(true);
+      expect(test.form.errorMessage()).toBe(message);
+      expectErrorEvent(test, code, message, controller, resError);
+    }
+
+    function expectErrorEvent (test, code, message, controller, resError) {
+      expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+      expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        {
+          controller: controller
+        },
+        {
+          name: 'AuthApiError',
+          message: message,
+          statusCode: code,
+          xhr: resError
+        }
+      ]);
     }
 
     Expect.describe('General', function () {
@@ -908,8 +933,24 @@ function (Okta,
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('Invalid Passcode/Answer');
+              expectError(
+                test,
+                403,
+                'Invalid Passcode/Answer',
+                'mfa-verify',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000068',
+                    errorSummary: 'Invalid Passcode/Answer',
+                    errorLink: 'E0000068',
+                    errorId: 'oael69itLSMTbioahsUZ-7xiQ',
+                    errorCauses: []
+                  }
+                }
+              );
             });
         });
         itp('shows errors if verify button is clicked and answer is empty', function () {
@@ -974,8 +1015,24 @@ function (Okta,
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
+              expectError(
+                test,
+                409,
+                'Enter a new PIN having from 4 to 8 digits:',
+                'mfa-verify',
+                {
+                  status: 409,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000113","errorSummary":"Enter a new PIN having from 4 to 8 digits:","errorLink":"E0000113","errorId":"errorId","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000113',
+                    errorSummary: 'Enter a new PIN having from 4 to 8 digits:',
+                    errorLink: 'E0000113',
+                    errorId: 'errorId',
+                    errorCauses: []
+                  }
+                }
+              );
               expect(test.form.answerField().val()).toEqual('');
             });
         });
@@ -1376,6 +1433,24 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+              expectErrorEvent(
+                test,
+                403,
+                'User Locked',
+                'mfa-verify',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000069',
+                    errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                    errorLink: 'E0000069',
+                    errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
+                    errorCauses: []
+                  }
+                }
+              );
             });
         });
         itp('hides error messages after clicking on send sms', function () {
@@ -1634,6 +1709,24 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+              expectErrorEvent(
+                test,
+                403,
+                'User Locked',
+                'mfa-verify',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000069',
+                    errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                    errorLink: 'E0000069',
+                    errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
+                    errorCauses: []
+                  }
+                }
+              );
             });
         });
         itp('hides error messages after clicking on call', function () {
@@ -1917,6 +2010,24 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+              expectErrorEvent(
+                test,
+                403,
+                'User Locked',
+                'mfa-verify',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000069',
+                    errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                    errorLink: 'E0000069',
+                    errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
+                    errorCauses: []
+                  }
+                }
+              );
             });
         });
         itp('hides error messages after clicking on send email', function () {
@@ -3050,6 +3161,21 @@ function (Okta,
             .then(function (test) {
               expect(window.u2f.sign).toHaveBeenCalled();
               expect(test.form.hasErrors()).toBe(true);
+              expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+              expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+                {
+                  controller: 'mfa-verify verify-u2f'
+                },
+                {
+                  name: 'U2F_ERROR',
+                  message: 'There was an error with the U2F request. Try again or select another factor.',
+                  xhr: {
+                    responseJSON: {
+                      errorSummary: 'There was an error with the U2F request. Try again or select another factor.'
+                    }
+                  }
+                }
+              ]);
             });
         });
       });
@@ -3100,8 +3226,24 @@ function (Okta,
             return Expect.waitForFormError(test.form, test);
           })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+              expectError(
+                test,
+                403,
+                'You do not have permission to perform the requested action',
+                'verify-custom-factor custom-factor-form',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000006',
+                    errorSummary: 'You do not have permission to perform the requested action',
+                    errorLink: 'E0000006',
+                    errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                    errorCauses: []
+                  }
+                }
+              );
             });
         });
         itp('calls authClient verifyFactor with rememberDevice URL param', function () {
@@ -3169,8 +3311,24 @@ function (Okta,
             return Expect.waitForFormError(test.form, test);
           })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+              expectError(
+                test,
+                403,
+                'You do not have permission to perform the requested action',
+                'verify-custom-factor custom-factor-form',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000006',
+                    errorSummary: 'You do not have permission to perform the requested action',
+                    errorLink: 'E0000006',
+                    errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                    errorCauses: []
+                  }
+                }
+              );
             });
         });
         itp('calls authClient verifyFactor with rememberDevice URL param', function () {
@@ -3286,6 +3444,28 @@ function (Okta,
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('Password is incorrect');
+              expectErrorEvent(
+                test,
+                403,
+                'Invalid Passcode/Answer',
+                'mfa-verify',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[{"errorSummary":"Password is incorrect"}]}',
+                  responseJSON: {
+                    errorCode: 'E0000068',
+                    errorSummary: 'Password is incorrect',
+                    errorLink: 'E0000068',
+                    errorId: 'oael69itLSMTbioahsUZ-7xiQ',
+                    errorCauses: [
+                      {
+                        errorSummary: 'Password is incorrect'
+                      }
+                    ]
+                  }
+                }
+              );
             });
         });
         itp('shows errors if verify button is clicked and password is empty', function () {

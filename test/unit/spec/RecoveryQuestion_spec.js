@@ -26,12 +26,14 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
       features: { securityImage: true },
       authClient: authClient
     }, settings));
+    router.on('afterError', afterErrorHandler);
     var form = new RecoveryQuestionForm($sandbox);
     var beacon = new Beacon($sandbox);
     Util.registerRouter(router);
@@ -47,7 +49,8 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
       form: form,
       beacon: beacon,
       ac: authClient,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
+      afterErrorHandler: afterErrorHandler
     });
   }
 
@@ -232,11 +235,34 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
           test.setNextResponse(resError);
           test.form.setAnswer('4444');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('The recovery question answer did not match our records.');
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'recovery-question'
+            },
+            {
+              name: 'AuthApiError',
+              message: 'The recovery question answer did not match our records.',
+              statusCode: 400,
+              xhr: {
+                status: 400,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000087","errorSummary":"The recovery question answer did not match our records.","errorLink":"E0000087","errorId":"oaelYrw2A4AThiuqrb4UhGdUg","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000087',
+                  errorSummary: 'The recovery question answer did not match our records.',
+                  errorLink: 'E0000087',
+                  errorId: 'oaelYrw2A4AThiuqrb4UhGdUg',
+                  errorCauses: []
+                }
+              }
+            }
+          ]);
         });
     });
   });

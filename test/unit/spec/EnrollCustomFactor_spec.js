@@ -29,7 +29,7 @@ function (Okta,
   responseMfaEnrollActivateCustomOidc,
   resNoPermissionError,
   responseSuccess) {
-  
+
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;
@@ -41,12 +41,14 @@ function (Okta,
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var successSpy = jasmine.createSpy('success');
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         globalSuccessFn: successSpy
       });
+      router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
       return tick()
@@ -66,7 +68,8 @@ function (Okta,
             form: new Form($sandbox),
             ac: authClient,
             setNextResponse: setNextResponse,
-            successSpy: successSpy
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
           });
         });
     }
@@ -130,6 +133,29 @@ function (Okta,
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage())
                 .toBe('You do not have permission to perform the requested action');
+              expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+              expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+                {
+                  controller: 'enroll-custom-factor'
+                },
+                {
+                  name: 'AuthApiError',
+                  message: 'You do not have permission to perform the requested action',
+                  statusCode: 403,
+                  xhr: {
+                    status: 403,
+                    responseType: 'json',
+                    responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                    responseJSON: {
+                      errorCode: 'E0000006',
+                      errorSummary: 'You do not have permission to perform the requested action',
+                      errorLink: 'E0000006',
+                      errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                      errorCauses: []
+                    }
+                  }
+                }
+              ]);
             });
         });
       });

@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 16], max-statements: [2, 39] */
+/* eslint max-params: [2, 16], max-statements: [2, 44] */
 define([
   'q',
   'okta',
@@ -26,12 +26,14 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
     var successSpy = jasmine.createSpy('success');
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
       'features.router': startRouter
     }, settings));
+    router.on('afterError', afterErrorHandler);
     var form = new AccountRecoveryForm($sandbox);
     var beacon = new Beacon($sandbox);
     Util.registerRouter(router);
@@ -42,13 +44,43 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
       form: form,
       beacon: beacon,
       setNextResponse: setNextResponse,
-      successSpy: successSpy
+      successSpy: successSpy,
+      afterErrorHandler: afterErrorHandler
     });
   }
 
   function transformUsername (name) {
     var suffix = '@example.com';
     return (name.indexOf(suffix) !== -1) ? name : (name + suffix);
+  }
+
+  function expectError (test, controller) {
+    var message = 'You do not have permission to perform the requested action';
+    expect(test.form.hasErrors()).toBe(true);
+    expect(test.form.errorMessage()).toBe(message);
+    expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+    expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+      {
+        controller: controller || 'account-unlock'
+      },
+      {
+        name: 'AuthApiError',
+        message: message,
+        statusCode: 403,
+        xhr: {
+          status: 403,
+          responseType: 'json',
+          responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oaeJFD_L3CcQoC9Am9y7tpfrQ","errorCauses":[]}',
+          responseJSON: {
+            errorCode: 'E0000006',
+            errorSummary: message,
+            errorLink: 'E0000006',
+            errorId: 'oaeJFD_L3CcQoC9Am9y7tpfrQ',
+            errorCauses: []
+          }
+        }
+      }
+    ]);
   }
 
   var setupWithSms = _.partial(setup, { 'features.smsRecovery': true });
@@ -329,11 +361,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             test.setNextResponse(resError);
             test.form.setUsername('foo');
             test.form.sendEmail();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+            expectError(test);
           });
       });
       itp('shows an error if username is empty and request sms', function () {
@@ -442,11 +473,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             test.setNextResponse(resError);
             test.form.setUsername('foo');
             test.form.sendSms();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+            expectError(test);
           });
       });
       itp('does not have a problem with sending email after sending sms', function () {
@@ -583,8 +613,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+            expectError(test);
           });
       });
       itp('goes back', function () {
@@ -691,11 +720,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
             .then(function (test) {
               test.setNextResponse(resError);
               test.form.clickSendEmailLink();
-              return tick(test);
+              return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+              expectError(test, 'recovery-challenge');
             });
         });
       itp('shows the "Unlock via email" link after making a Voice Call', function () {
@@ -780,11 +808,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
               return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+              expectError(test, 'recovery-challenge');
             });
-        });
-
+        }
+      );
     });
 
   });

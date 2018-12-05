@@ -40,13 +40,14 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
-
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
       }, settings));
+      router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
 
@@ -67,7 +68,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             passCodeForm: new PassCodeForm($sandbox),
             linkSentConfirmation: new LinkSentConfirmation($sandbox),
             ac: authClient,
-            setNextResponse: setNextResponse
+            setNextResponse: setNextResponse,
+            afterErrorHandler: afterErrorHandler
           });
         });
     }
@@ -408,11 +410,34 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
               test.setNextResponse(resActivateError);
               test.passCodeForm.setCode(123);
               test.passCodeForm.submit();
-              return tick(test);
+              return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
               expect(test.passCodeForm.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
+              expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+              expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+                {
+                  controller: 'activate-totp'
+                },
+                {
+                  name: 'AuthApiError',
+                  message: 'Api validation failed: factorEnrollRequest',
+                  statusCode: 400,
+                  xhr: {
+                    status: 400,
+                    responseType: 'json',
+                    responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[]}',
+                    responseJSON: {
+                      errorCode: 'E0000001',
+                      errorSummary: 'Api validation failed: factorEnrollRequest',
+                      errorLink: 'E0000001',
+                      errorId: 'oaepmWRr7i5TZa2AQv8sNmu6w',
+                      errorCauses: []
+                    }
+                  }
+                }
+              ]);
             });
         });
         itp('calls activate with the right params', function () {

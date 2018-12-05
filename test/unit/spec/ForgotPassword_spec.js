@@ -30,6 +30,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
     var successSpy = jasmine.createSpy('success');
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -40,6 +41,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
     var form = new AccountRecoveryForm($sandbox);
     var loginForm = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
+    router.on('afterError', afterErrorHandler);
     Util.registerRouter(router);
     Util.mockRouterNavigate(router, startRouter);
     router.forgotPassword();
@@ -50,7 +52,8 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       beacon: beacon,
       ac: authClient,
       setNextResponse: setNextResponse,
-      successSpy: successSpy
+      successSpy: successSpy,
+      afterErrorHandler: afterErrorHandler
     });
   }
 
@@ -511,6 +514,29 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'forgot-password'
+              },
+              {
+                name: 'AuthApiError',
+                message: 'You do not have permission to perform the requested action',
+                statusCode: 403,
+                xhr: {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oaeJFD_L3CcQoC9Am9y7tpfrQ","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000006',
+                    errorSummary: 'You do not have permission to perform the requested action',
+                    errorLink: 'E0000006',
+                    errorId: 'oaeJFD_L3CcQoC9Am9y7tpfrQ',
+                    errorCauses: []
+                  }
+                }
+              }
+            ]);
           });
       });
       itp('does not have a problem with sending email after sending sms', function () {
@@ -649,6 +675,29 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'forgot-password'
+              },
+              {
+                name: 'AuthApiError',
+                message: 'You do not have permission to perform the requested action',
+                statusCode: 403,
+                xhr: {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oaeJFD_L3CcQoC9Am9y7tpfrQ","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000006',
+                    errorSummary: 'You do not have permission to perform the requested action',
+                    errorLink: 'E0000006',
+                    errorId: 'oaeJFD_L3CcQoC9Am9y7tpfrQ',
+                    errorCauses: []
+                  }
+                }
+              }
+            ]);
           });
       });
       itp('does not have a problem with sending email after making a Voice Call', function () {
@@ -950,6 +999,29 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+              expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+              expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+                {
+                  controller: 'recovery-challenge'
+                },
+                {
+                  name: 'AuthApiError',
+                  message: 'You do not have permission to perform the requested action',
+                  statusCode: 403,
+                  xhr: {
+                    status: 403,
+                    responseType: 'json',
+                    responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oaeJFD_L3CcQoC9Am9y7tpfrQ","errorCauses":[]}',
+                    responseJSON: {
+                      errorCode: 'E0000006',
+                      errorSummary: 'You do not have permission to perform the requested action',
+                      errorLink: 'E0000006',
+                      errorId: 'oaeJFD_L3CcQoC9Am9y7tpfrQ',
+                      errorCauses: []
+                    }
+                  }
+                }
+              ]);
             });
         });
     });

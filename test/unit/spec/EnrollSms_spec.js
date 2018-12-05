@@ -32,12 +32,14 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
       });
+      router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       return tick()
@@ -54,7 +56,8 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             beacon: new Beacon($sandbox),
             form: new Form($sandbox),
             ac: authClient,
-            setNextResponse: setNextResponse
+            setNextResponse: setNextResponse,
+            afterErrorHandler: afterErrorHandler
           });
         });
     }
@@ -286,6 +289,31 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
           Expect.isNotVisible(test.form.submitButton());
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'enroll-sms'
+            },
+            {
+              name: 'AuthApiError',
+              message: 'Api validation failed: factorEnrollRequest',
+              statusCode: 400,
+              xhr: {
+                status: 400,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[{"errorSummary":"Invalid Phone Number."}]}',
+                responseJSON: {
+                  'errorCode': 'E0000001',
+                  'errorSummary': 'Invalid Phone Number.',
+                  'errorLink': 'E0000001',
+                  'errorId': 'oaepmWRr7i5TZa2AQv8sNmu6w',
+                  'errorCauses': [{
+                    'errorSummary': 'Invalid Phone Number.'
+                  }]
+                }
+              }
+            }
+          ]);
         });
       });
     });
@@ -548,11 +576,36 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             test.setNextResponse(resActivateError);
             test.form.setCode(123);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Your token doesn\'t match our records. Please try again.');
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'enroll-sms'
+              },
+              {
+                name: 'AuthApiError',
+                message: 'Invalid Passcode/Answer',
+                statusCode: 403,
+                xhr: {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oaeW52tAk_9T0Obvns7jwww6g","errorCauses":[{"errorSummary":"Your token doesn\'t match our records. Please try again."}]}',
+                  responseJSON: {
+                    errorCode: 'E0000068',
+                    errorSummary: 'Your token doesn\'t match our records. Please try again.',
+                    errorLink: 'E0000068',
+                    errorId: 'oaeW52tAk_9T0Obvns7jwww6g',
+                    errorCauses: [{
+                      errorSummary: 'Your token doesn\'t match our records. Please try again.'
+                    }]
+                  }
+                }
+              },
+            ]);
           });
       });
     });

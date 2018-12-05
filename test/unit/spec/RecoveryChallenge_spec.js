@@ -26,12 +26,14 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
       features: { securityImage: true },
       authClient: authClient
     }, settings));
+    router.on('afterError', afterErrorHandler);
     var form = new RecoveryChallengeForm($sandbox);
     var beacon = new Beacon($sandbox);
     Util.registerRouter(router);
@@ -48,7 +50,8 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
       form: form,
       beacon: beacon,
       ac: authClient,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
+      afterErrorHandler: afterErrorHandler
     })
       .then(tick);
   }
@@ -222,11 +225,34 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
         .then(function (test) {
           test.setNextResponse(resResendError);
           test.form.resendButton().click();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'recovery-challenge'
+            },
+            {
+              name: 'AuthApiError',
+              message: 'You do not have permission to perform the requested action',
+              statusCode: 403,
+              xhr: {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae-vceygQ0R2KIGrs9IRcVfw","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000006',
+                  errorSummary: 'You do not have permission to perform the requested action',
+                  errorLink: 'E0000006',
+                  errorId: 'oae-vceygQ0R2KIGrs9IRcVfw',
+                  errorCauses: []
+                }
+              }
+            }
+          ]);
         });
     });
     itp('shows an error msg if there is an error submitting the code', function () {
@@ -235,11 +261,34 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
           test.setNextResponse(resVerifyError);
           test.form.setCode('1234');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'recovery-challenge'
+            },
+            {
+              name: 'AuthApiError',
+              message: 'You do not have permission to perform the requested action',
+              statusCode: 403,
+              xhr: {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000006',
+                  errorSummary: 'You do not have permission to perform the requested action',
+                  errorLink: 'E0000006',
+                  errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                  errorCauses: []
+                }
+              }
+            }
+          ]);
         });
     });
   });
