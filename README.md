@@ -1334,7 +1334,9 @@ signIn.on('ready', function (context) {
 
 ### afterError
 
-The widget will handle most types of errors - for example, if the user enters an invalid password or there are issues authenticating. To capture an authentication state change error after it is handled and rendered by the Widget, listen to the `afterError` event. Returns `context` and `error` objects containing the following properties:
+The widget will handle most types of errors - for example, if the user enters an invalid password or there are issues authenticating. To capture an authentication state change error after it is handled and rendered by the Widget, listen to the `afterError` event. For other errors types, it is encouraged to handle them using the [`renderEl` error handler](#renderel).
+
+Returns `context` and `error` objects containing the following properties:
 
 - `context`:
   - **controller** - Current controller name
