@@ -53,6 +53,9 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   - [Feature flags](#feature-flags)
 - [Events](#events)
+  - [ready](#ready)
+  - [afterError](#aftererror)
+  - [afterRender](#afterrender)
   - [pageRendered](#pagerendered)
   - [passwordRevealed](#passwordrevealed)
 - [Building the Widget](#building-the-widget)
@@ -1315,7 +1318,75 @@ features: {
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
 
+### ready
+
+Triggered when the widget is ready to accept user input for the first time. Returns a `context` object containing the following properties:
+
+- **controller** - Current controller name
+
+```javascript
+signIn.on('ready', function (context) {
+  if (context.controller === 'primary-auth') {
+    // The primary authentication form is ready for user input
+  }
+});
+```
+
+### afterError
+
+The widget will handle most types of errors - for example, if the user enters an invalid password or there are issues authenticating. To capture an authentication state change error after it is handled and rendered by the Widget, listen to the `afterError` event. For other errors types, it is encouraged to handle them using the [`renderEl` error handler](#renderel).
+
+Returns `context` and `error` objects containing the following properties:
+
+- `context`:
+  - **controller** - Current controller name
+- `error`:
+  - **name** - Name of the error triggered
+  - **message** - Error message
+  - **statusCode** - HTTP status code (if available)
+  - **xhr** - HTTP response (if available)
+
+```javascript
+signIn.on('afterError', function (context, error) {
+    console.log(context.controller);
+    // reset-password
+
+    console.log(error.name);
+    // AuthApiError
+
+    console.log(error.message);
+    // The password does not meet the complexity requirements
+    // of the current password policy.
+
+    console.log(error.statusCode);
+    // 403
+});
+```
+
+### afterRender
+
+Triggered when the widget transitions to a new page and animations have finished. Returns a `context` object containing the following properties:
+
+- **controller** - Current controller name
+
+```javascript
+// Overriding the "Back to Sign In" click action on the Forgot Password page
+signIn.on('afterRender', function (context) {
+  if (context.controller !== 'forgot-password') {
+    return;
+  }
+  var backLink = document.getElementsByClassName('js-back')[0];
+  backLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // Custom link behavior
+  });
+});
+```
+
 ### pageRendered
+
+:warning: This event has been *deprecated*, please use [**afterRender**](#afterrender) instead.
 
 Triggered when the widget transitions to a new page and animations have finished.
 
