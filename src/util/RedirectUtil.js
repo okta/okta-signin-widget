@@ -30,14 +30,13 @@ define(function () {
   };
 
   fn.buildDynamicForm = function (url) {
-    var form = document.createElement('form');
-    form.method = 'get';
-    form.setAttribute('style', 'display: none;');
-
     var chunks = (url || '').split('?');
     var targetUrl = chunks[0];
     var query = chunks[1];
-
+    
+    var form = document.createElement('form');
+    form.method = 'get';
+    form.setAttribute('style', 'display: none;');
     form.action = targetUrl;
 
     if (query && query.length) {
