@@ -35,7 +35,7 @@ function (RedirectUtil) {
         return frame;
       }
 
-      var wait = 25;
+      var wait = 200; // ms
 
       it('should redirect to a path', function (done) {
         var url = window.location.origin + '/path';
@@ -93,6 +93,22 @@ function (RedirectUtil) {
         setTimeout(() => {
           expect(frame.contentWindow.location.pathname).toBe('/path/too');
           expect(frame.contentWindow.location.search).toBe('?foo=bar&baz=1&foo=two');
+          done();
+        }, 1000);
+      });
+
+      it('should redirect to a path and preserve a fragment', function (done) {
+        var url = window.location.origin + '/path?foo=bar#baz';
+
+        var form = RedirectUtil.buildDynamicForm(url);
+        var frame = createTestIframe();
+        frame.contentDocument.body.appendChild(form);
+        form.submit();
+    
+        setTimeout(() => {
+          expect(frame.contentWindow.location.pathname).toBe('/path');
+          expect(frame.contentWindow.location.hash).toBe('#baz');
+          expect(frame.contentWindow.location.search).toBe('?foo=bar');
           done();
         }, wait);
       });

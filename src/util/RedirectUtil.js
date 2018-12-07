@@ -30,9 +30,16 @@ define(function () {
   };
 
   fn.buildDynamicForm = function (url) {
-    var chunks = (url || '').split('?');
-    var targetUrl = chunks[0];
-    var query = chunks[1];
+    var splitOnFragment = (url || '').split('#');
+    var fragment = splitOnFragment[1];
+    
+    var splitOnQuery = (splitOnFragment[0] || '').split('?');
+    var query = splitOnQuery[1];
+
+    var targetUrl = splitOnQuery[0];
+    if (fragment) {
+      targetUrl += '#' + fragment;
+    }
     
     var form = document.createElement('form');
     form.method = 'get';
@@ -43,17 +50,21 @@ define(function () {
       var queryParts = query.split('&');
 
       for (var i = 0; i < queryParts.length; i++) {
-        var input = document.createElement('input');
         var parameterParts = queryParts[i].split('=');
-
-        input.name = parameterParts[0];
-        input.value = decodeURIComponent(parameterParts[1]);
-        input.type = 'hidden';
-        form.appendChild(input);    
+        var input = this.buildInputForParameter(parameterParts[0], parameterParts[1]);
+        form.appendChild(input);
       }
     }
 
     return form;
+  };
+
+  fn.buildInputForParameter = function (name, value) {
+    var input = document.createElement('input');
+    input.name = name;
+    input.value = decodeURIComponent(value);
+    input.type = 'hidden';
+    return input;
   };
 
   return fn;
