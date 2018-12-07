@@ -12,6 +12,9 @@
 
 define({
 
+  WIDGET_CONTAINER_ID: 'okta-sign-in',
+  WIDGET_CONFIG_COLORS_ID: 'okta-sign-in-config-colors',
+
   DIRECTION_BACK: 'DIRECTION_BACK',
 
   RECOVERY_TYPE_PASSWORD: 'PASSWORD',

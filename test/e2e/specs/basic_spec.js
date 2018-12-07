@@ -69,4 +69,24 @@ describe('Basic flows', function () {
     util.waitForElement(errorBox);
     expect(errorBox.getText()).toBe('Custom Error!');
   });
+
+  it('has the style from config.colors', function () {
+    // Create new widget with colors.brand
+    browser.executeScript('oktaSignIn.remove()');
+    function createWidget () {
+      options.colors = {
+        brand: '#008000'
+      };
+      // eslint-disable-next-line no-global-assign
+      oktaSignIn = new OktaSignIn(options);
+      oktaSignIn.renderEl({
+        el: '#okta-login-container'
+      }, function () {});
+    }
+    browser.executeScript(createWidget);
+
+    // Check that the color has been applied
+    var primaryButton = element(by.css('#okta-signin-submit'));
+    expect(primaryButton.getCssValue('background')).toContain(('rgb(0, 128, 0)')); // #008000 in rgb
+  });
 });

@@ -1,28 +1,28 @@
 {
-  "_from": "@okta/i18n@47.3.0",
-  "_id": "@okta/i18n@47.3.0",
+  "_from": "@okta/i18n@47.4.0",
+  "_id": "@okta/i18n@47.4.0",
   "_inBundle": false,
-  "_integrity": "sha1-rhQM6fwNLS1yv6RSLkggDMHFeYQ=",
+  "_integrity": "sha1-Q0GryAX0DytWbQlGS+MSucFy/bM=",
   "_location": "/@okta/i18n",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@okta/i18n@47.3.0",
+    "raw": "@okta/i18n@47.4.0",
     "name": "@okta/i18n",
     "escapedName": "@okta%2fi18n",
     "scope": "@okta",
-    "rawSpec": "47.3.0",
+    "rawSpec": "47.4.0",
     "saveSpec": null,
-    "fetchSpec": "47.3.0"
+    "fetchSpec": "47.4.0"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-47.3.0.tgz",
-  "_shasum": "ae140ce9fc0d2d2d72bfa4522e48200cc1c57984",
-  "_spec": "@okta/i18n@47.3.0",
-  "_where": "/home/vagrant/okta/my-okta-signin-widget",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-47.4.0.tgz",
+  "_shasum": "4341abc805f40f2b566d09464be312b9c172fdb3",
+  "_spec": "@okta/i18n@47.4.0",
+  "_where": "/Users/manuel.tanzi/okta/okta-signin-widget",
   "bundleDependencies": false,
   "deprecated": false,
   "description": "Okta Localization",
@@ -56,9 +56,9 @@
   "license": "Apache-2.0",
   "name": "@okta/i18n",
   "okta": {
-    "commitSha": "13efed3ecec14fc64fd3e949c597dac4d6511843",
-    "fullVersion": "47.3.0-20181229021308-13efed3",
-    "testedSha": "904b7eca265311d6bdd47656dfa954a306a3a5bf"
+    "commitSha": "2b1f42de7cccbc93a465e27d4d07d9c183022112",
+    "fullVersion": "47.4.0-20190104010313-2b1f42d",
+    "testedSha": "95b290492de0f2c07afac4164ed52df6b6bb0f01"
   },
   "repository": {
     "type": "git",
@@ -79,5 +79,5 @@
     "test:unit": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R spec tasks/i18ndiff/test",
     "test:unit-report": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R mocha-junit-reporter -O mochaFile=./build2/reports/unit/mocha-junit-result.xml tasks/i18ndiff/test"
   },
-  "version": "47.3.0"
+  "version": "47.4.0"
 }
