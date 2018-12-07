@@ -35,21 +35,20 @@ function (RedirectUtil) {
         return frame;
       }
 
-      var wait = 200; // ms
-
       it('should redirect to a path', function (done) {
         var url = window.location.origin + '/path';
 
         var form = RedirectUtil.buildDynamicForm(url);
         var frame = createTestIframe();
         frame.contentDocument.body.appendChild(form);
-        form.submit();
     
-        setTimeout(() => {
+        frame.addEventListener('load', function () {
           expect(frame.contentWindow.location.pathname).toBe('/path');
           expect(frame.contentWindow.location.search).toBe('');
           done();
-        }, wait);
+        });
+
+        form.submit();
       });
 
       it('should redirect to a path and query', function (done) {
@@ -58,13 +57,14 @@ function (RedirectUtil) {
         var form = RedirectUtil.buildDynamicForm(url);
         var frame = createTestIframe();
         frame.contentDocument.body.appendChild(form);
-        form.submit();
     
-        setTimeout(() => {
+        frame.addEventListener('load', function () {
           expect(frame.contentWindow.location.pathname).toBe('/path/too');
           expect(frame.contentWindow.location.search).toBe('?foo=bar&baz=1');
           done();
-        }, wait);
+        });
+
+        form.submit();
       });
 
       it('should redirect to a URL containing an escaped URL', function (done) {
@@ -73,13 +73,14 @@ function (RedirectUtil) {
         var form = RedirectUtil.buildDynamicForm(url);
         var frame = createTestIframe();
         frame.contentDocument.body.appendChild(form);
-        form.submit();
     
-        setTimeout(() => {
+        frame.addEventListener('load', function () {
           expect(frame.contentWindow.location.pathname).toBe('/redirect');
           expect(frame.contentWindow.location.search).toBe('?dest=https%3A%2F%2Fexample.com&foo=bar');
           done();
-        }, wait);
+        });
+
+        form.submit();
       });
 
       it('should redirect to a path with a query containing multiple same-named parameters', function (done) {
@@ -88,13 +89,14 @@ function (RedirectUtil) {
         var form = RedirectUtil.buildDynamicForm(url);
         var frame = createTestIframe();
         frame.contentDocument.body.appendChild(form);
-        form.submit();
     
-        setTimeout(() => {
+        frame.addEventListener('load', function () {
           expect(frame.contentWindow.location.pathname).toBe('/path/too');
           expect(frame.contentWindow.location.search).toBe('?foo=bar&baz=1&foo=two');
           done();
-        }, 1000);
+        });
+
+        form.submit();
       });
 
       it('should redirect to a path and preserve a fragment', function (done) {
@@ -103,14 +105,15 @@ function (RedirectUtil) {
         var form = RedirectUtil.buildDynamicForm(url);
         var frame = createTestIframe();
         frame.contentDocument.body.appendChild(form);
-        form.submit();
-    
-        setTimeout(() => {
+
+        frame.addEventListener('load', function () {
           expect(frame.contentWindow.location.pathname).toBe('/path');
           expect(frame.contentWindow.location.hash).toBe('#baz');
           expect(frame.contentWindow.location.search).toBe('?foo=bar');
           done();
-        }, wait);
+        });
+
+        form.submit();
       });
     });
   });
