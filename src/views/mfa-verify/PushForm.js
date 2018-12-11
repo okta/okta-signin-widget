@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Util) {
+define(['okta', 'util/CookieUtil', 'util/Enums', 'util/Util'], function (Okta, CookieUtil, Enums, Util) {
 
   var _ = Okta._;
   // deviceName is escaped on BaseForm (see BaseForm's template)
@@ -117,6 +117,8 @@ define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Uti
     showError: function (msg) {
       this.clearWarnings();
       this.model.trigger('error', this.model, {responseJSON: {errorSummary: msg}});
+      // Trigger a known "errors:verify" event to avoid parsing the generic "error" event.
+      this.model.trigger('errors:verify', this.model, { name: Enums.MFA_VERIFY_ERROR, message: msg });
     },
     showWarning: function (msg) {
       this.clearWarnings();

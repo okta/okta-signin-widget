@@ -110,6 +110,11 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
         this.listenTo(this.model, 'change:rememberDevice', function (model, rememberDevice) {
           model.get('backupFactor').set('rememberDevice', rememberDevice);
         });
+
+        // Listen to specific errors and bubble them up
+        this.listenTo(this.model, 'errors:verify', function (model, err) {
+          this.trigger('afterError', { controller: this.className }, err);
+        });
       }
 
       if (!this.settings.get('features.hideSignOutLinkInMFA')) {
