@@ -10,10 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 16], max-params: [2, 11] */
+/* eslint complexity: [2, 16], max-params: [2, 13] */
 define([
   'okta',
   'util/BaseLoginController',
+  'util/Enums',
+  'util/Errors',
   'util/Util',
   'views/mfa-verify/TOTPForm',
   'views/mfa-verify/YubikeyForm',
@@ -24,8 +26,8 @@ define([
   'views/mfa-verify/InlineTOTPForm',
   'views/shared/FooterSignout'
 ],
-function (Okta, BaseLoginController, Util, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
-  PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
+function (Okta, BaseLoginController, Enums, Errors, Util, TOTPForm, YubikeyForm, SecurityQuestionForm,
+  PassCodeForm, PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
 
   var { CheckBox } = Okta.internal.views.forms.inputs;
 
@@ -113,8 +115,10 @@ function (Okta, BaseLoginController, Util, TOTPForm, YubikeyForm, SecurityQuesti
         });
 
         // Listen to specific errors and bubble them up
-        this.listenTo(this.model, 'errors:verify', function (model, err) {
-          Util.triggerAfterError(this, err);
+        this.listenTo(this.model, 'error', function (model, err) {
+          if (err && err.name === Enums.MFA_VERIFY_ERROR) {
+            Util.triggerAfterError(this, new Errors.MFAVerifyError(err));
+          }
         });
       }
 

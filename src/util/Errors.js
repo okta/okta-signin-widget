@@ -42,6 +42,12 @@ define(['okta', './Enums'], function (Okta, Enums) {
   }
   AuthStopPollInitiationError.prototype = new Error();
 
+  function MFAVerifyError (err) {
+    this.name = Enums.MFA_VERIFY_ERROR;
+    this.message = err.responseJSON.errorSummary;
+  }
+  MFAVerifyError.prototype = new Error();
+
   function U2FError (err) {
     this.name = Enums.U2F_ERROR;
     this.message = err.xhr.responseJSON.errorSummary;
@@ -62,6 +68,7 @@ define(['okta', './Enums'], function (Okta, Enums) {
     OAuthError: OAuthError,
     RegistrationError: RegistrationError,
     AuthStopPollInitiationError: AuthStopPollInitiationError,
+    MFAVerifyError: MFAVerifyError,
     U2FError: U2FError,
     WebAuthnError: WebAuthnError
   };

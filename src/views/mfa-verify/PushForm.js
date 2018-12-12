@@ -116,9 +116,12 @@ define(['okta', 'util/CookieUtil', 'util/Enums', 'util/Util'], function (Okta, C
     },
     showError: function (msg) {
       this.clearWarnings();
-      this.model.trigger('error', this.model, {responseJSON: {errorSummary: msg}});
-      // Trigger a known "errors:verify" event to avoid parsing the generic "error" event.
-      this.model.trigger('errors:verify', this.model, { name: Enums.MFA_VERIFY_ERROR, message: msg });
+      this.model.trigger('error', this.model, {
+        name: Enums.MFA_VERIFY_ERROR,
+        responseJSON: {
+          errorSummary: msg
+        }
+      });
     },
     showWarning: function (msg) {
       this.clearWarnings();
