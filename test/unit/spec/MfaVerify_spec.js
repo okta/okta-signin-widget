@@ -2508,17 +2508,6 @@ function (Okta,
                   .then(function (test) {
                     expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
                     expect(test.form.submitButton().prop('disabled')).toBe(false);
-
-                    expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-                    expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-                      {
-                        controller: 'mfa-verify'
-                      },
-                      {
-                        name: 'MFA_VERIFY_ERROR',
-                        message: 'You have chosen to reject this login.'
-                      }
-                    ]);
                     // Setup responses
                     $.ajax.calls.reset();
                     test.setNextResponse([resChallengePush, resChallengePush, resSuccess]);
@@ -2706,16 +2695,6 @@ function (Okta,
               })
               .then(function (res) {
                 expect(res.test.form.errorMessage()).toBe('You have chosen to reject this login.');
-                expect(res.test.afterErrorHandler).toHaveBeenCalledTimes(1);
-                expect(res.test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-                  {
-                    controller: 'mfa-verify'
-                  },
-                  {
-                    name: 'MFA_VERIFY_ERROR',
-                    message: 'You have chosen to reject this login.'
-                  }
-                ]);
                 res.inlineForm.inlineTOTPAdd().click();
                 res.inlineForm.setAnswer('654321');
                 res.test.setNextResponse([resAllFactors, resSuccess]);

@@ -39,7 +39,11 @@ define(['okta', 'util/CookieUtil', 'util/Enums', 'util/Util'], function (Okta, C
         function (state, isMfaRejectedByUser) {
           this.setSubmitState(isMfaRejectedByUser);
           if (isMfaRejectedByUser) {
-            this.showError(Okta.loc('oktaverify.rejected', 'login'));
+            this.showError({
+              responseJSON: {
+                errorSummary: Okta.loc('oktaverify.rejected', 'login')
+              }
+            });
           }
         }
       );
@@ -47,7 +51,12 @@ define(['okta', 'util/CookieUtil', 'util/Enums', 'util/Util'], function (Okta, C
         function (state, isMfaTimeout) {
           this.setSubmitState(isMfaTimeout);
           if (isMfaTimeout) {
-            this.showError(Okta.loc('oktaverify.timeout', 'login'));
+            this.showError({
+              name: Enums.MFA_VERIFY_ERROR,
+              responseJSON: {
+                errorSummary: Okta.loc('oktaverify.timeout', 'login')
+              }
+            });
           }
         }
       );
@@ -114,14 +123,9 @@ define(['okta', 'util/CookieUtil', 'util/Enums', 'util/Util'], function (Okta, C
         }, this), WARNING_TIMEOUT);
       }
     },
-    showError: function (msg) {
+    showError: function (error) {
       this.clearWarnings();
-      this.model.trigger('error', this.model, {
-        name: Enums.MFA_VERIFY_ERROR,
-        responseJSON: {
-          errorSummary: msg
-        }
-      });
+      this.model.trigger('error', this.model, error);
     },
     showWarning: function (msg) {
       this.clearWarnings();
