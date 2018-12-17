@@ -1,5 +1,12 @@
 /* eslint max-len: [2, 140] */
-define(['util/Util', 'util/Logger'], function (Util, Logger) {
+define([
+  'okta',
+  'sandbox',
+  'util/Util',
+  'util/Logger'
+], function (Okta, $sandbox, Util, Logger) {
+
+  var { $ } = Okta;
 
   describe('util/Util', function () {
 
@@ -121,16 +128,96 @@ define(['util/Util', 'util/Logger'], function (Util, Logger) {
 
     describe('debugMessage', function () {
       it('formats template literal strings into a consistent format', function () {
+        spyOn(Logger, 'warn');
         var debugMessage = `
           Multi-line
           String
           Message
         `;
-        // Remove all prior tracking of Spy
-        Logger.warn.calls.reset();
         Util.debugMessage(debugMessage);
         expect(Logger.warn).toHaveBeenCalledWith('\nMulti-line\nString\nMessage\n');
       });
+    });
+
+    describe('redirectWithFormGet', function () {
+
+      beforeEach(function () {
+        spyOn(Logger, 'error');
+        spyOn(HTMLFormElement.prototype, 'submit');
+        $sandbox.append('<div id="okta-sign-in"></div>');
+      });
+      afterEach(function () {
+        $sandbox.empty();
+      });
+
+      it('shall submit a plain URL', function () {
+        Util.redirectWithFormGet('http://example.com/idp/123');
+
+        expect($('#okta-sign-in form')[0].submit.calls.count()).toBe(1);
+        expect($('#okta-sign-in').html()).toBe(
+          '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
+          '</form>'
+        );
+      });
+      it('shall submit URL that has query pamaters', function () {
+        Util.redirectWithFormGet('http://example.com/idp/123?foo=aaa&bar=bbb');
+
+        expect($('#okta-sign-in form')[0].submit.calls.count()).toBe(1);
+        expect($('#okta-sign-in').html()).toBe(
+          '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
+          '<input name="foo" type="hidden" value="aaa">' +
+          '<input name="bar" type="hidden" value="bbb">' +
+          '</form>'
+        );
+      });
+      it('shall submit URL that has query pamaters and fragement', function () {
+        Util.redirectWithFormGet('http://example.com/idp/123?redirectURI=https%3A%2F%2Ffoo.com#hello=okta');
+
+        expect($('#okta-sign-in form')[0].submit.calls.count()).toBe(1);
+        expect($('#okta-sign-in').html()).toBe(
+          '<form method="get" style="display: none;" action="http://example.com/idp/123#hello=okta">' +
+          '<input name="redirectURI" type="hidden" value="https://foo.com">' +
+          '</form>'
+        );
+      });
+      it('shall submit URL that encoded XSS value', function () {
+        Util.redirectWithFormGet('http://example.com/idp/123?foo=a%22%2F%3E%3Cimg%20error%3D%22alert(11)%22%20src%3D%22xx%22%2F%3E');
+
+        expect($('#okta-sign-in form')[0].submit.calls.count()).toBe(1);
+        expect($('#okta-sign-in').html()).toBe(
+          '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
+          '<input name="foo" type="hidden" value="a&quot;/><img error=&quot;alert(11)&quot; src=&quot;xx&quot;/>">' +
+          '</form>'
+        );
+      });
+      it('shall submit URL that XSS value', function () {
+        Util.redirectWithFormGet('http://example.com/idp/123?foo=%22/><img error="alert(2)" src="yy"/>');
+
+        expect($('#okta-sign-in form')[0].submit.calls.count()).toBe(1);
+        expect($('#okta-sign-in').html()).toBe(
+          '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
+          '<input name="foo" type="hidden" value="&quot;/><img error">' +
+          '</form>'
+        );
+      });
+      it('shall not submit anything if the okta-sign-in container doesnot exists', function () {
+        $('#okta-sign-in').remove();
+        Util.redirectWithFormGet('http://example.com/idp/123');
+        expect($('#okta-sign-in form').length).toBe(0);
+        expect(Logger.error.calls.count()).toBe(1);
+        expect(Logger.error).toHaveBeenCalledWith(
+          'Cannot find okta-sign-in container append to which a form'
+        );
+      });
+      it('shall not submit an empty URL', function () {
+        Util.redirectWithFormGet('');
+        expect($('#okta-sign-in form').length).toBe(0);
+        expect(Logger.error.calls.count()).toBe(1);
+        expect(Logger.error).toHaveBeenCalledWith(
+          'Cannot redirect to empty URL: ()'
+        );
+      });
+
     });
 
   });

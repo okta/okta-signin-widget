@@ -88,6 +88,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'features.passwordlessAuth': ['boolean', false, false],
       'features.showPasswordToggleOnSignInPage': ['boolean', false, false],
       'features.trackTypingPattern': ['boolean', false, false],
+      'features.redirectByFormSubmit': ['boolean', false, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function

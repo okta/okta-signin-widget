@@ -53,9 +53,6 @@ define([
         this._origDeprecate = Logger.deprecate;
         Logger.deprecate = jasmine.createSpy('deprecate');
 
-        this._origError = Logger.error;
-        Logger.error = jasmine.createSpy('error');
-
         this._origVersion = config.version;
         config.version = '9.9.99';
 
@@ -65,7 +62,6 @@ define([
 
       afterEach(function () {
         Logger.deprecate = this._origDeprecate;
-        Logger.error = this._origError;
         config.version = this._origVersion;
         Util.clearAllTimeouts();
         Util.clearAllIntervals();

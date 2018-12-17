@@ -7,29 +7,29 @@ define([
   'sandbox'
 ],
 function (Okta, Widget, Expect, Logger, $sandbox) {
-  var signIn;
   var url = 'https://foo.com';
   var { $ } = Okta;
 
-  beforeEach(function () {
-    spyOn(Logger, 'warn');
-    signIn = new Widget({
-      baseUrl: url
-    });
-  });
-
-  Expect.describe('Debug Mode', function () {
-    it('logs a warning message on page load', function () {
-      var debugMessage = '\n' +
-        'The Okta Sign-In Widget is running in development mode.\n' +
-        'When you are ready to publish your app, embed the minified version to turn on production mode.\n' +
-        'See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn\n';
-
-      expect(Logger.warn).toHaveBeenCalledWith(debugMessage);
-    });
-  });
-
   Expect.describe('OktaSignIn initialization', function () {
+    var signIn;
+    beforeEach(function () {
+      spyOn(Logger, 'warn');
+      signIn = new Widget({
+        baseUrl: url
+      });
+    });
+
+    Expect.describe('Debug Mode', function () {
+      it('logs a warning message on page load', function () {
+        var debugMessage = '\n' +
+          'The Okta Sign-In Widget is running in development mode.\n' +
+          'When you are ready to publish your app, embed the minified version to turn on production mode.\n' +
+          'See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn\n';
+
+        expect(Logger.warn).toHaveBeenCalledWith(debugMessage);
+      });
+    });
+
     Expect.describe('At the root level', function () {
       it('has a renderEl method', function () {
         expect(signIn.renderEl).toBeDefined();

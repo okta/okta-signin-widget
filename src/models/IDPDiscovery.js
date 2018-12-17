@@ -14,11 +14,12 @@ define([
   'okta',
   'models/PrimaryAuth',
   'util/CookieUtil',
-  'util/Enums'
+  'util/Enums',
+  'util/Util'
 ],
-function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
+function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
 
-  var { Util } = Okta.internal.util;
+  var { Util: CourageUtil } = Okta.internal.util;
   var _ = Okta._;
 
   return PrimaryAuthModel.extend({
@@ -66,14 +67,18 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
               this.trigger('goToPrimaryAuth');
             }
             else {
+              var redirectFn = this.settings.get('features.redirectByFormSubmit')
+                ? Util.redirectWithFormGet.bind(Util)
+                : CourageUtil.redirect.bind(CourageUtil);
+
               var successData = {
                 idpDiscovery: {
                   redirectToIdp: function (redirectUrl) {
                     if(res.links && res.links[0] && res.links[0].href) {
                       var queryParams = {fromURI: redirectUrl};
                       queryParams['login_hint'] = username;
-                      var url = res.links[0].href + Util.getUrlQueryString(queryParams);
-                      Util.redirect(url);
+                      var url = res.links[0].href + CourageUtil.getUrlQueryString(queryParams);
+                      redirectFn(url);
                     }
                   }
                 }

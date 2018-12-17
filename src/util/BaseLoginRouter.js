@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 14], max-statements: [2, 18] */
+/* eslint max-params: [2, 15], max-statements: [2, 18] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
@@ -27,12 +27,13 @@ define([
   './Animations',
   './Errors',
   './Util',
+  './Enums',
   'util/Bundles',
   'util/Logger'
 ],
 function (Okta, BrowserFeatures, Settings,
   Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, RouterUtil, Animations,
-  Errors, Util, Bundles, Logger) {
+  Errors, Util, Enums, Bundles, Logger) {
 
   var { _, $, Backbone } = Okta;
 
@@ -109,7 +110,7 @@ function (Okta, BrowserFeatures, Settings,
 
       var wrapper = new AuthContainer({appState: this.appState});
       Okta.$(options.el).append(wrapper.render().$el);
-      this.el = '#okta-sign-in';
+      this.el = `#${Enums.WIDGET_CONTAINER_ID}`;
 
       this.header = new Header({
         el: this.el,

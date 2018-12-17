@@ -23,7 +23,7 @@ define([
   'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED',
   'sandbox'
 ],
-function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
+function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
   Router, BrowserFeatures, DeviceFingerprint, Errors, Expect, resSecurityImage,
   resSecurityImageFail, resSuccessIWA, resSuccessSAML, resSuccessOktaIDP, resError, resPasswordlessUnauthenticated, $sandbox) {
 
@@ -48,7 +48,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
 
     var setNextResponse = Util.mockAjax(requests);
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR, headers: {}});
+    var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: WidgetUtil.transformErrorXHR, headers: {}});
     var successSpy = jasmine.createSpy('success');
 
     var setNextWebfingerResponse = function (res, reject) {
@@ -1093,6 +1093,24 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
             );
           });
       });
+      itp('redirects using form Get to idp for SAML idps when features.redirectByFormSubmit is on', function () {
+        spyOn(WidgetUtil, 'redirectWithFormGet');
+        return setup({ 'features.redirectByFormSubmit': true })
+          .then(function (test) {
+            test.setNextWebfingerResponse(resSuccessSAML);
+            test.form.setUsername(' testuser@clouditude.net ');
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
+            var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
+            expect(redirectToIdp).toEqual(jasmine.any(Function));
+            redirectToIdp('https://foo.com');
+            expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
+              'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
+            );
+          });
+      });
       itp('redirects to idp for idps other than okta/saml', function () {
         spyOn(SharedUtil, 'redirect');
         return setup()
@@ -1107,6 +1125,24 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
             expect(redirectToIdp).toEqual(jasmine.any(Function));
             redirectToIdp('https://foo.com');
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
+              'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
+            );
+          });
+      });
+      itp('redirects using form GET to idp for idps other than okta/saml when features.redirectByFormSubmit is on', function () {
+        spyOn(WidgetUtil, 'redirectWithFormGet');
+        return setup({ 'features.redirectByFormSubmit': true })
+          .then(function (test) {
+            test.setNextWebfingerResponse(resSuccessIWA);
+            test.form.setUsername('testuser@clouditude.net');
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
+            var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
+            expect(redirectToIdp).toEqual(jasmine.any(Function));
+            redirectToIdp('https://foo.com');
+            expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
               'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
             );
           });

@@ -11,13 +11,14 @@
  */
 
 define([
-  'okta'
+  'okta',
+  'util/Enums'
 ],
-function (Okta) {
+function (Okta, Enums) {
   var CAN_REMOVE_BEACON_CLS = 'can-remove-beacon';
   return Okta.View.extend({
     className: 'auth-container main-container',
-    id: 'okta-sign-in',
+    id: Enums.WIDGET_CONTAINER_ID,
     attributes: { 'data-se': 'auth-container' },
     initialize: function (options) {
       this.listenTo(options.appState, 'change:beaconType', function (model, type) {
