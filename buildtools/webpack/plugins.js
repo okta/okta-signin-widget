@@ -4,7 +4,6 @@
 const { readFileSync } = require('fs');
 const { join } = require('path');
 const { DefinePlugin, BannerPlugin, IgnorePlugin, optimize } = require('webpack');
-const { some } = require('underscore');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const UglifyJsPlugin = optimize.UglifyJsPlugin;
@@ -66,7 +65,7 @@ function uglify () {
         'Underscore.js 1.8.3'
       ];
 
-      const isException = some(exceptions, (exception) => {
+      const isException = exceptions.some(exception => {
         return comment.value.indexOf(exception) !== -1;
       });
 

@@ -11,6 +11,6 @@ build2
 *.iml
 .idea
 src/config/config.json
-packages/@okta/courage-for-signin-widget.html
-packages/@okta/courage-for-signin-widget.js.map
+packages/@okta/courage-dist/*.html
+packages/@okta/courage-dist/*.map
 /dist

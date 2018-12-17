@@ -21,7 +21,7 @@ module.exports = function (outputFilename) {
       alias: {
         // General remapping
         'nls': '@okta/i18n/dist/json',
-        'okta': `${LOCAL_PACKAGES}/@okta/courage-for-signin-widget.js`,
+        'okta': `${LOCAL_PACKAGES}/@okta/courage-dist/okta.js`,
         'shared/util/Bundles': 'util/Bundles',
 
         // Vendor files from courage that are remapped in OSW to point to an npm

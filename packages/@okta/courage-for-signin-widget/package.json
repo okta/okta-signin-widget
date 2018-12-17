@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack"
   },
-  "dependencies": {
+  "devDependencies": {
     "@okta/courage": "4.4.0",
     "webpack": "^3.5.4",
     "webpack-bundle-analyzer": "^3.0.2"
