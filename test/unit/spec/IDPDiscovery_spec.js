@@ -1107,7 +1107,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
             expect(redirectToIdp).toEqual(jasmine.any(Function));
             redirectToIdp('https://foo.com');
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
-              'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com'
+              'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
             );
           });
       });

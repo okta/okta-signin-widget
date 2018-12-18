@@ -71,9 +71,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
                   redirectToIdp: function (redirectUrl) {
                     if(res.links && res.links[0] && res.links[0].href) {
                       var queryParams = {fromURI: redirectUrl};
-                      if (res.links[0].properties && res.links[0].properties['okta:idp:type'] === 'SAML2') {
-                        queryParams['login_hint'] = username;
-                      }
+                      queryParams['login_hint'] = username;
                       var url = res.links[0].href + Util.getUrlQueryString(queryParams);
                       Util.redirect(url);
                     }
