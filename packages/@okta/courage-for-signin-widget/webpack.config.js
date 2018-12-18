@@ -1,10 +1,11 @@
 /* global module __dirname */
 const { resolve } = require('path');
-const PACKAGE_JSON = require('./package.json');
-const EMPTY = resolve(__dirname, 'src/empty');
-const SHARED_JS = resolve(__dirname, 'node_modules/@okta/courage/src');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { BannerPlugin } = require('webpack');
+const PACKAGE_JSON = require('./package.json');
+
+const EMPTY = resolve(__dirname, 'src/empty');
+const SHARED_JS = resolve(__dirname, 'node_modules/@okta/courage/src');
 const PUBLISH_DIR = resolve(__dirname, '../courage-dist');
 const DIST_FILE_NAME = 'okta';
 
