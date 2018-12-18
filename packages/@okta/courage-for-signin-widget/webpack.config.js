@@ -1,11 +1,13 @@
 /* global module __dirname */
-const path = require('path');
-const packageJson = require('./package.json');
-const EMPTY = path.resolve(__dirname, 'src/empty');
-const SHARED_JS = path.resolve(__dirname, 'node_modules/@okta/courage/src');
+const { resolve } = require('path');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { BannerPlugin } = require('webpack');
-const DIST_FILE_NAME = 'courage-for-signin-widget';
+const PACKAGE_JSON = require('./package.json');
+
+const EMPTY = resolve(__dirname, 'src/empty');
+const SHARED_JS = resolve(__dirname, 'node_modules/@okta/courage/src');
+const PUBLISH_DIR = resolve(__dirname, '../courage-dist');
+const DIST_FILE_NAME = 'okta';
 
 const EXTERNAL_PATHS = [
   'jquery',
@@ -24,7 +26,7 @@ const webpackConfig = {
     // why the destination is outside current directory?
     // turns out node_modules in current directory will hoist
     // node_modules at root directory.
-    path: path.resolve(__dirname, '../'),
+    path: PUBLISH_DIR,
     filename: `${DIST_FILE_NAME}.js`,
     libraryTarget: 'commonjs2'
   },
@@ -63,7 +65,7 @@ const webpackConfig = {
   },
 
   plugins: [
-    new BannerPlugin(`THIS FILE IS GENERATED FROM PACKAGE @okta/courage@${packageJson.dependencies['@okta/courage']}`),
+    new BannerPlugin(`THIS FILE IS GENERATED FROM PACKAGE @okta/courage@${PACKAGE_JSON.devDependencies['@okta/courage']}`),
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
       reportFilename: `${DIST_FILE_NAME}.html`,

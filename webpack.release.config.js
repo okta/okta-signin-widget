@@ -49,7 +49,7 @@ cdnConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.mi
 // 3. noJqueryConfig
 var noJqueryConfig = config('okta-sign-in-no-jquery.js');
 noJqueryConfig.entry = cdnConfig.entry;
-noJqueryConfig.plugins = cdnConfig.plugins;
+noJqueryConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in-no-jquery.analyzer' });
 noJqueryConfig.externals = {
   'jquery': {
     'commonjs': 'jquery',
