@@ -61,7 +61,7 @@ noJqueryConfig.externals = {
 
 // 4. devConfig
 var devConfig = config('okta-sign-in.js');
-devConfig.entry.unshift('babel-polyfill');
+devConfig.entry.unshift('idempotent-babel-polyfill');
 devConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in.analyzer' });
 
 module.exports = [entryConfig, cdnConfig, noJqueryConfig, devConfig];
