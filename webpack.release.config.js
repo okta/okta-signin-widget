@@ -43,7 +43,7 @@ entryConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in
 
 // 2. cdnConfig
 var cdnConfig = config('okta-sign-in.min.js');
-cdnConfig.entry.unshift('babel-polyfill');
+cdnConfig.entry.unshift('idempotent-babel-polyfill');
 cdnConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.min.analyzer' });
 
 // 3. noJqueryConfig
