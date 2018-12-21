@@ -16,7 +16,7 @@ const EXTERNAL_PATHS = [
   'underscore',
   'handlebars',
   'moment',
-  'shared/util/Bundles'
+  'okta-i18n-bundles'
 ];
 
 const webpackConfig = {
