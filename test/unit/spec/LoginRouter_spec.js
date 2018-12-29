@@ -1478,7 +1478,7 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
               expect(supported).toEqual([
                 'en', 'cs', 'da', 'de', 'el', 'es', 'fi', 'fr', 'hu', 'id', 'in',
                 'it', 'ja', 'ko', 'ms', 'nb', 'nl-NL', 'pl', 'pt-BR', 'ro', 'ru',
-                'sv', 'th', 'tr', 'uk', 'zh-CN', 'zh-TW'
+                'sv', 'th', 'tr', 'uk', 'vi', 'zh-CN', 'zh-TW'
               ]);
             });
         });
