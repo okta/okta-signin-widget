@@ -122,7 +122,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_backbone__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__framework_View__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__framework_View__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(3);
 
 
@@ -315,7 +315,7 @@ const proto = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
 /* eslint-disable @okta/okta/enforce-requirejs-names, @okta/okta/no-specific-modules */
 
@@ -379,7 +379,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-throw new Error("Cannot find module \"okta-i18n-bundles\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_okta_i18n_bundles__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_okta_i18n_bundles___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_okta_i18n_bundles__);
 
 
 
@@ -750,7 +751,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Keys__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Logger__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_ViewUtil__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_ViewUtil__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseView__ = __webpack_require__(1);
 /* eslint max-params: [2, 6] */
 
@@ -1126,10 +1127,10 @@ function generateInputOptions(options, form, createFn) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_ButtonFactory__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_ButtonFactory__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Callout__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Callout__ = __webpack_require__(73);
 /* eslint-env es6 */
 /* eslint max-statements: [2, 17], max-len: [2, 160], max-params: [2, 6] */
 
@@ -1602,18 +1603,12 @@ function generateInputOptions(options, form, createFn) {
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports) {
-
-module.exports = require("jquery");
-
-/***/ }),
-/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__framework_Model__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__framework_Model__ = __webpack_require__(37);
 
 
 
@@ -1650,6 +1645,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   }
 ));
 
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+module.exports = require("jquery");
 
 /***/ }),
 /* 13 */
@@ -1872,7 +1873,44 @@ const SchemaUtils = {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Model__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__framework_Collection__ = __webpack_require__(36);
+
+
+
+/**
+ * Wrapper around the more generic {@link src/framework/Collection} that
+ * contains Okta-specific logic.
+ * @class module:Okta.Collection
+ * @extends src/framework/Collection
+ */
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_1__framework_Collection__["a" /* default */].extend(
+  /** @lends module:Okta.Collection.prototype */ {
+    /**
+     * Is the end point using the legacy "secureJSON" format
+     * @type {Function|Boolean}
+     */
+    secureJSON: false,
+
+    constructor: function () {
+      if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'secureJSON')) {
+        this.sync = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].wrap(this.sync, function (sync, method, collection, options) {
+          return sync.call(this, method, collection, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({ dataType: 'secureJSON' }, options));
+        });
+      }
+      __WEBPACK_IMPORTED_MODULE_1__framework_Collection__["a" /* default */].apply(this, arguments);
+    }
+  }
+));
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Model__ = __webpack_require__(11);
 
 
 
@@ -2098,43 +2136,6 @@ const BaseModelBaseModel = __WEBPACK_IMPORTED_MODULE_1__Model__["default"].exten
 
 
 /***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__framework_Collection__ = __webpack_require__(44);
-
-
-
-/**
- * Wrapper around the more generic {@link src/framework/Collection} that
- * contains Okta-specific logic.
- * @class module:Okta.Collection
- * @extends src/framework/Collection
- */
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_1__framework_Collection__["a" /* default */].extend(
-  /** @lends module:Okta.Collection.prototype */ {
-    /**
-     * Is the end point using the legacy "secureJSON" format
-     * @type {Function|Boolean}
-     */
-    secureJSON: false,
-
-    constructor: function () {
-      if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'secureJSON')) {
-        this.sync = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].wrap(this.sync, function (sync, method, collection, options) {
-          return sync.call(this, method, collection, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({ dataType: 'secureJSON' }, options));
-        });
-      }
-      __WEBPACK_IMPORTED_MODULE_1__framework_Collection__["a" /* default */].apply(this, arguments);
-    }
-  }
-));
-
-
-/***/ }),
 /* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2189,24 +2190,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports) {
-
-module.exports = require("moment");
-
-/***/ }),
-/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseCollection__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseModel__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseCollection__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseModel__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_Logger__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__util_StringUtil__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_forms_helpers_EnumTypeHelper__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_forms_helpers_EnumTypeHelper__ = __webpack_require__(18);
 /* eslint max-statements: [2, 16], complexity: [2, 8], max-params: [2, 8] */
 
 
@@ -2932,7 +2927,7 @@ const SchemaPropertySchemaProperties = __WEBPACK_IMPORTED_MODULE_2__BaseCollecti
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3149,117 +3144,247 @@ function isConstraintValueMatchType(value, type) {
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_backbone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Logger__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SettingsModel__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_components_ConfirmationDialog__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_components_Notification__ = __webpack_require__(52);
+/* eslint max-len: [2, 150], max-params: [2, 7] */
 
 
 
-/**
- * A factory method wrapper for {@link BaseButtonLink} creation
- * @class module:Okta.internal.util.ButtonFactory
- */
 
-function normalizeEvents(options) {
-  const events = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options.click ? { click: options.click } : {}, options.events || {});
 
-  const target = {};
 
-  __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].each(events, function (fn, eventName) {
-    target[eventName] = function (e) {
-      if (!options.href) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      fn.apply(this, arguments);
-    };
-  });
-  return target;
+
+
+function getRoute(router, route) {
+  const root = __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].result(router, 'root') || '';
+
+  if (root && __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].isString(route)) {
+    return [root, route].join('/').replace(/\/{2,}/g, '/');
+  }
+  return route;
 }
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-  /**
-   * Creates a {@link module:Okta.internal.views.components.BaseButtonLink|BaseButtonLink}.
-   * @param  {Object} options Options hash
-   * @param  {String} [options.title] The button text
-   * @param  {String} [options.icon]
-   * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
-   * @param {String} [options.href] The button link
-   * @param {Function} [options.click] On click callback
-   * @param {Object} [options.events] a [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
-   * @returns {module:Okta.internal.views.components.BaseButtonLink} BaseButtonLink prototype ("class")
-   */
-  create: function (options) {
-    options = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].clone(options);
-    options.attrs = options.attributes;
-    delete options.attributes;
+/**
+ * BaseRouter is a standard [Backbone.Router](http://backbonejs.org/#Router)
+ * with a few additions:
+ * - Explicit mapping between routes and controllers
+ * - Support for rendering notification and confirmation dialogs
+ *
+ * Checkout the [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World)
+ * for a step-by-step guide to using this.
+ *
+ * @class module:Okta.Router
+ * @extends external:Backbone.Router
+ * @param {Object} options options hash
+ * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
+ */
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Router.extend(
+  /** @lends module:Okta.Router.prototype */ {
+    /**
+     * The root URL for the router. When setting {@link http://backbonejs.org/#Router-routes|routes},
+     * it will be prepended to each route.
+     * @type {String|Function}
+     */
+    root: '',
 
-    return __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__["a" /* default */].extend(
-      __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options, {
-        events: normalizeEvents(options)
-      })
-    );
+    listen: __WEBPACK_IMPORTED_MODULE_6__views_components_Notification__["a" /* default */].prototype.listen,
+
+    constructor: function (options) {
+      options || (options = {});
+      this.el = options.el;
+      this.settings = new __WEBPACK_IMPORTED_MODULE_4__SettingsModel__["a" /* default */](__WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].omit(options, 'el'));
+      if (options.root) {
+        this.root = options.root;
+      }
+
+      __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Router.apply(this, arguments);
+
+      this.listen('notification', this._notify);
+      this.listen('confirmation', this._confirm);
+    },
+
+    /**
+     * Fires up a confirmation dialog
+     *
+     * @param  {Object} options Options Hash
+     * @param  {String} options.title The title
+     * @param  {String} options.subtitle The explain text
+     * @param  {String} options.save The text for the save button
+     * @param  {Function} options.ok The callback function to run when hitting "OK"
+     * @param  {String} options.cancel The text for the cancel button
+     * @param  {Function} options.cancelFn The callback function to run when hitting "Cancel"
+     * @param  {Boolean} options.noCancelButton Don't render the cancel button (useful for alert dialogs)
+     *
+     * @private
+     *
+     * @return {Okta.View} the dialog view
+     */
+    _confirm: function (options) {
+      options || (options = {});
+      const Dialog = __WEBPACK_IMPORTED_MODULE_5__views_components_ConfirmationDialog__["a" /* default */].extend(
+        __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'content', 'danger')
+      );
+      const dialog = new Dialog({ model: this.settings });
+      // The model is here because itsa part of the BaseForm paradigm.
+      // It will be ignored in the context of a confirmation dialog.
+
+      dialog.render();
+      return dialog; // test hook
+    },
+
+    /**
+     * Fires up a notification banner
+     *
+     * @param  {Object} options Options Hash
+     * @return {Okta.View} the notification view
+     * @private
+     */
+    _notify: function (options) {
+      const notification = new __WEBPACK_IMPORTED_MODULE_6__views_components_Notification__["a" /* default */](options);
+
+      Object(__WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__["default"])('#content').prepend(notification.render().el);
+      return notification; // test hook
+    },
+
+    /**
+     * Renders a Controller
+     * This will initialize new instance of a controller and call render on it
+     *
+     * @param  {Okta.Controller} Controller The controller Class we which to render
+     * @param  {Object} [options] Extra options to the controller constructor
+     */
+    render: function (Controller, options) {
+      this.unload();
+      options = __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].extend(__WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].pick(this, 'settings', 'el'), options || {});
+      this.controller = new Controller(options);
+      this.controller.render();
+    },
+
+    /**
+     * Starts the backbone history object
+     *
+     * Waits for the dom to be ready before calling `Backbone.history.start()` (IE issue).
+     *
+     * See [Backbone History](http://backbonejs.org/#History) for more information.
+     */
+    start: function () {
+      const args = arguments;
+
+      Object(__WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__["default"])(function () {
+        if (__WEBPACK_IMPORTED_MODULE_0_backbone___default.a.History.started) {
+          __WEBPACK_IMPORTED_MODULE_3__Logger__["default"].error('History has already been started');
+          return;
+        }
+        __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.history.start.apply(__WEBPACK_IMPORTED_MODULE_0_backbone___default.a.history, args);
+      });
+    },
+
+    /**
+     * Removes active controller and frees up event listeners
+     */
+    unload: function () {
+      if (this.controller) {
+        this.stopListening(this.controller);
+        this.stopListening(this.controller.state);
+        this.controller.remove();
+      }
+    },
+
+    route: function (route, name, callback) {
+      return __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Router.prototype.route.call(this, getRoute(this, route), name, callback);
+    },
+
+    navigate: function (fragment, options) {
+      return __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Router.prototype.navigate.call(this, getRoute(this, fragment), options);
+    }
   }
-});
+));
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Model__ = __webpack_require__(11);
 
 
-function changeEventString(doWhen) {
-  return 'change:' + __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].keys(doWhen).join(' change:');
-}
 
-function calcDoWhen(value, key) {
-  const modelValue = this.model.get(key);
+/**
+ * @class SettingsModel
+ * @extends {Okta.Model}
+ * @private
+ */
 
-  if (__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isFunction(value)) {
-    return value.call(this, modelValue);
-  } else {
-    return value === modelValue;
-  }
-}
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_1__models_Model__["default"].extend({
+  local: function () {
+    const settings = (window.okta && window.okta.settings) || {};
 
-function _doWhen(view, doWhen, fn) {
-  const toggle = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].bind(fn, view, view, doWhen);
+    return {
+      orgId: ['string', false, settings.orgId],
+      orgName: ['string', false, settings.orgName],
+      serverStatus: ['string', false, settings.serverStatus],
+      persona: ['string', false, settings.persona],
+      isDeveloperConsole: ['boolean', false, settings.isDeveloperConsole],
+      isPreview: ['boolean', false, settings.isPreview],
+      permissions: ['array', true, settings.permissions || []]
+    };
+  },
 
-  view.render = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].wrap(view.render, function (render) {
-    const val = render.call(view);
+  extraProperties: true,
 
-    toggle({ animate: false });
-    return val;
-  });
+  constructor: function () {
+    this.features = window._features || [];
+    this.possibleFeatures = window._possibleFeatures || [];
+    __WEBPACK_IMPORTED_MODULE_1__models_Model__["default"].apply(this, arguments);
+  },
 
-  view.listenTo(view.model, changeEventString(doWhen), function () {
-    toggle({ animate: true });
-  });
-}
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  applyDoWhen: function (view, doWhen, fn) {
-    if (!(view.model && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isObject(doWhen) && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].size(doWhen) && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isFunction(fn))) {
-      return;
+  /**
+   * Checks if the user have a feature flag enabled (Based of the org level feature flag)
+   * @param  {String}  feature Feature name
+   * @return {Boolean}
+   */
+  hasFeature: function (feature) {
+    if (!__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].contains(this.possibleFeatures, feature) && window.okta && window.okta.logHasFeatureError) {
+      window.okta.logHasFeatureError(feature);
     }
-    _doWhen(view, doWhen, function (view, doWhen, options) {
-      const result = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].every(__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].map(doWhen, calcDoWhen, view));
+    return __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].contains(this.features, feature);
+  },
 
-      fn.call(view, result, options);
-    });
+  /**
+   * Checks if any of the given feature flags are enabled (Based of the org level feature flags)
+   * @param  {Array}  featureArray Features names
+   * @return {Boolean} true if any of the give features are enabled. False otherwise
+   */
+  hasAnyFeature: function (featureArray) {
+    return __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].some(featureArray, this.hasFeature, this);
+  },
+
+  /**
+   * Checks if the user have a specific permission (based on data passed from JSP)
+   * @param  {String}  permission Permission name
+   * @return {Boolean}
+   */
+  hasPermission: function (permission) {
+    return __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].contains(this.get('permissions'), permission);
   }
-});
+}));
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4013,247 +4138,7 @@ __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(methods, 
 
 
 /***/ }),
-/* 23 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_backbone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Logger__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SettingsModel__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_components_ConfirmationDialog__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_components_Notification__ = __webpack_require__(58);
-/* eslint max-len: [2, 150], max-params: [2, 7] */
-
-
-
-
-
-
-
-
-function getRoute(router, route) {
-  const root = __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].result(router, 'root') || '';
-
-  if (root && __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].isString(route)) {
-    return [root, route].join('/').replace(/\/{2,}/g, '/');
-  }
-  return route;
-}
-
-/**
- * BaseRouter is a standard [Backbone.Router](http://backbonejs.org/#Router)
- * with a few additions:
- * - Explicit mapping between routes and controllers
- * - Support for rendering notification and confirmation dialogs
- *
- * Checkout the [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World)
- * for a step-by-step guide to using this.
- *
- * @class module:Okta.Router
- * @extends external:Backbone.Router
- * @param {Object} options options hash
- * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
- */
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Router.extend(
-  /** @lends module:Okta.Router.prototype */ {
-    /**
-     * The root URL for the router. When setting {@link http://backbonejs.org/#Router-routes|routes},
-     * it will be prepended to each route.
-     * @type {String|Function}
-     */
-    root: '',
-
-    listen: __WEBPACK_IMPORTED_MODULE_6__views_components_Notification__["a" /* default */].prototype.listen,
-
-    constructor: function (options) {
-      options || (options = {});
-      this.el = options.el;
-      this.settings = new __WEBPACK_IMPORTED_MODULE_4__SettingsModel__["a" /* default */](__WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].omit(options, 'el'));
-      if (options.root) {
-        this.root = options.root;
-      }
-
-      __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Router.apply(this, arguments);
-
-      this.listen('notification', this._notify);
-      this.listen('confirmation', this._confirm);
-    },
-
-    /**
-     * Fires up a confirmation dialog
-     *
-     * @param  {Object} options Options Hash
-     * @param  {String} options.title The title
-     * @param  {String} options.subtitle The explain text
-     * @param  {String} options.save The text for the save button
-     * @param  {Function} options.ok The callback function to run when hitting "OK"
-     * @param  {String} options.cancel The text for the cancel button
-     * @param  {Function} options.cancelFn The callback function to run when hitting "Cancel"
-     * @param  {Boolean} options.noCancelButton Don't render the cancel button (useful for alert dialogs)
-     *
-     * @private
-     *
-     * @return {Okta.View} the dialog view
-     */
-    _confirm: function (options) {
-      options || (options = {});
-      const Dialog = __WEBPACK_IMPORTED_MODULE_5__views_components_ConfirmationDialog__["a" /* default */].extend(
-        __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'content', 'danger')
-      );
-      const dialog = new Dialog({ model: this.settings });
-      // The model is here because itsa part of the BaseForm paradigm.
-      // It will be ignored in the context of a confirmation dialog.
-
-      dialog.render();
-      return dialog; // test hook
-    },
-
-    /**
-     * Fires up a notification banner
-     *
-     * @param  {Object} options Options Hash
-     * @return {Okta.View} the notification view
-     * @private
-     */
-    _notify: function (options) {
-      const notification = new __WEBPACK_IMPORTED_MODULE_6__views_components_Notification__["a" /* default */](options);
-
-      Object(__WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__["default"])('#content').prepend(notification.render().el);
-      return notification; // test hook
-    },
-
-    /**
-     * Renders a Controller
-     * This will initialize new instance of a controller and call render on it
-     *
-     * @param  {Okta.Controller} Controller The controller Class we which to render
-     * @param  {Object} [options] Extra options to the controller constructor
-     */
-    render: function (Controller, options) {
-      this.unload();
-      options = __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].extend(__WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].pick(this, 'settings', 'el'), options || {});
-      this.controller = new Controller(options);
-      this.controller.render();
-    },
-
-    /**
-     * Starts the backbone history object
-     *
-     * Waits for the dom to be ready before calling `Backbone.history.start()` (IE issue).
-     *
-     * See [Backbone History](http://backbonejs.org/#History) for more information.
-     */
-    start: function () {
-      const args = arguments;
-
-      Object(__WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__["default"])(function () {
-        if (__WEBPACK_IMPORTED_MODULE_0_backbone___default.a.History.started) {
-          __WEBPACK_IMPORTED_MODULE_3__Logger__["default"].error('History has already been started');
-          return;
-        }
-        __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.history.start.apply(__WEBPACK_IMPORTED_MODULE_0_backbone___default.a.history, args);
-      });
-    },
-
-    /**
-     * Removes active controller and frees up event listeners
-     */
-    unload: function () {
-      if (this.controller) {
-        this.stopListening(this.controller);
-        this.stopListening(this.controller.state);
-        this.controller.remove();
-      }
-    },
-
-    route: function (route, name, callback) {
-      return __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Router.prototype.route.call(this, getRoute(this, route), name, callback);
-    },
-
-    navigate: function (fragment, options) {
-      return __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Router.prototype.navigate.call(this, getRoute(this, fragment), options);
-    }
-  }
-));
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Model__ = __webpack_require__(12);
-
-
-
-/**
- * @class SettingsModel
- * @extends {Okta.Model}
- * @private
- */
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_1__models_Model__["default"].extend({
-  local: function () {
-    const settings = (window.okta && window.okta.settings) || {};
-
-    return {
-      orgId: ['string', false, settings.orgId],
-      orgName: ['string', false, settings.orgName],
-      serverStatus: ['string', false, settings.serverStatus],
-      persona: ['string', false, settings.persona],
-      isDeveloperConsole: ['boolean', false, settings.isDeveloperConsole],
-      isPreview: ['boolean', false, settings.isPreview],
-      permissions: ['array', true, settings.permissions || []]
-    };
-  },
-
-  extraProperties: true,
-
-  constructor: function () {
-    this.features = window._features || [];
-    this.possibleFeatures = window._possibleFeatures || [];
-    __WEBPACK_IMPORTED_MODULE_1__models_Model__["default"].apply(this, arguments);
-  },
-
-  /**
-   * Checks if the user have a feature flag enabled (Based of the org level feature flag)
-   * @param  {String}  feature Feature name
-   * @return {Boolean}
-   */
-  hasFeature: function (feature) {
-    if (!__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].contains(this.possibleFeatures, feature) && window.okta && window.okta.logHasFeatureError) {
-      window.okta.logHasFeatureError(feature);
-    }
-    return __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].contains(this.features, feature);
-  },
-
-  /**
-   * Checks if any of the given feature flags are enabled (Based of the org level feature flags)
-   * @param  {Array}  featureArray Features names
-   * @return {Boolean} true if any of the give features are enabled. False otherwise
-   */
-  hasAnyFeature: function (featureArray) {
-    return __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].some(featureArray, this.hasFeature, this);
-  },
-
-  /**
-   * Checks if the user have a specific permission (based on data passed from JSP)
-   * @param  {String}  permission Permission name
-   * @return {Boolean}
-   */
-  hasPermission: function (permission) {
-    return __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].contains(this.get('permissions'), permission);
-  }
-}));
-
-
-/***/ }),
-/* 25 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4263,15 +4148,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_StringUtil__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_ReadModeBar__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Toolbar__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helpers_ErrorBanner__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__helpers_ErrorParser__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_ReadModeBar__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Toolbar__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helpers_ErrorBanner__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__helpers_ErrorParser__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__helpers_FormUtil__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__helpers_InputContainer__ = __webpack_require__(54);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__helpers_InputFactory__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__helpers_InputLabel__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__helpers_InputWrapper__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__helpers_InputContainer__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__helpers_InputFactory__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__helpers_InputLabel__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__helpers_InputWrapper__ = __webpack_require__(51);
 /* eslint max-statements: [2, 11] */
 
 
@@ -5299,7 +5184,58 @@ const convertSavingState = function (rawSavingStateEvent, defaultEvent) {
 
 
 /***/ }),
-/* 26 */
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
+
+
+function changeEventString(doWhen) {
+  return 'change:' + __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].keys(doWhen).join(' change:');
+}
+
+function calcDoWhen(value, key) {
+  const modelValue = this.model.get(key);
+
+  if (__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isFunction(value)) {
+    return value.call(this, modelValue);
+  } else {
+    return value === modelValue;
+  }
+}
+
+function _doWhen(view, doWhen, fn) {
+  const toggle = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].bind(fn, view, view, doWhen);
+
+  view.render = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].wrap(view.render, function (render) {
+    const val = render.call(view);
+
+    toggle({ animate: false });
+    return val;
+  });
+
+  view.listenTo(view.model, changeEventString(doWhen), function () {
+    toggle({ animate: true });
+  });
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  applyDoWhen: function (view, doWhen, fn) {
+    if (!(view.model && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isObject(doWhen) && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].size(doWhen) && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isFunction(fn))) {
+      return;
+    }
+    _doWhen(view, doWhen, function (view, doWhen, options) {
+      const result = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].every(__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].map(doWhen, calcDoWhen, view));
+
+      fn.call(view, result, options);
+    });
+  }
+});
+
+
+/***/ }),
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5342,7 +5278,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 27 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5397,10 +5333,75 @@ function isBaseInput(input) {
 
 
 /***/ }),
-/* 28 */
+/* 26 */
 /***/ (function(module, exports) {
 
 module.exports = require("qtip");
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__ = __webpack_require__(54);
+
+
+
+/**
+ * A factory method wrapper for {@link BaseButtonLink} creation
+ * @class module:Okta.internal.util.ButtonFactory
+ */
+
+function normalizeEvents(options) {
+  const events = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options.click ? { click: options.click } : {}, options.events || {});
+
+  const target = {};
+
+  __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].each(events, function (fn, eventName) {
+    target[eventName] = function (e) {
+      if (!options.href) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      fn.apply(this, arguments);
+    };
+  });
+  return target;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  /**
+   * Creates a {@link module:Okta.internal.views.components.BaseButtonLink|BaseButtonLink}.
+   * @param  {Object} options Options hash
+   * @param  {String} [options.title] The button text
+   * @param  {String} [options.icon]
+   * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
+   * @param {String} [options.href] The button link
+   * @param {Function} [options.click] On click callback
+   * @param {Object} [options.events] a [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
+   * @returns {module:Okta.internal.views.components.BaseButtonLink} BaseButtonLink prototype ("class")
+   */
+  create: function (options) {
+    options = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].clone(options);
+    options.attrs = options.attributes;
+    delete options.attributes;
+
+    return __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__["a" /* default */].extend(
+      __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options, {
+        events: normalizeEvents(options)
+      })
+    );
+  }
+});
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports) {
+
+module.exports = require("moment");
 
 /***/ }),
 /* 29 */
@@ -5412,7 +5413,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(10);
 
@@ -5709,16 +5710,74 @@ function fixChosenModal($select) {
 
 /***/ }),
 /* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * There are following local modifications:
+ * - Author: Uzi Kilon ukilon@okta.com
+ *   Bug: OKTA-20830 - solves the conflict when there are multiple labels
+ */
+/**
+ * --------------------------------------------------------------------
+ * jQuery customInput plugin
+ * Author: Maggie Costello Wachs maggie@filamentgroup.com, Scott Jehl, scott@filamentgroup.com
+ * Copyright (c) 2009 Filament Group
+ * licensed under MIT (filamentgroup.com/examples/mit-license.txt)
+ * --------------------------------------------------------------------
+*/
+!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(12)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (jQuery) {
+  var $ = jQuery;
+  jQuery.fn.customInput = function(){
+    return $(this).each(function(){
+      if($(this).is('[type=checkbox],[type=radio]')){
+        var input = $(this);
+
+        // get the associated label using the input's id
+        var label = input.siblings('label[for="'+input.attr('id')+'"]:first');
+        if (!label.length) {
+          label = input.closest('label[for="'+input.attr('id')+'"]:first');
+        }
+        // wrap the input + label in a div
+        input.add(label).wrapAll('<div class="custom-'+ input.attr('type') +'"></div>');
+
+        // necessary for browsers that don't support the :hover pseudo class on labels
+        label.hover(
+          function(){ $(this).addClass('hover'); },
+          function(){ $(this).removeClass('hover'); }
+        );
+
+        //bind custom event, trigger it, bind click,focus,blur events
+        input.bind('updateState', function(){
+          input.is(':checked') ? label.addClass('checked') : label.removeClass('checked checkedHover checkedFocus');
+        })
+        .trigger('updateState')
+        .click(function(){
+          $('input[name="'+ $(this).attr('name') +'"]').trigger('updateState');
+        })
+        .focus(function(){
+          label.addClass('focus');
+          if(input.is(':checked')){  $(this).addClass('checkedFocus'); }
+        })
+        .blur(function(){ label.removeClass('focus checkedFocus'); });
+      }
+    });
+  };
+
+}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ }),
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qtip__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(10);
 
@@ -5862,64 +5921,6 @@ function createQtipContent(options) {
 
 
 /***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
- * There are following local modifications:
- * - Author: Uzi Kilon ukilon@okta.com
- *   Bug: OKTA-20830 - solves the conflict when there are multiple labels
- */
-/**
- * --------------------------------------------------------------------
- * jQuery customInput plugin
- * Author: Maggie Costello Wachs maggie@filamentgroup.com, Scott Jehl, scott@filamentgroup.com
- * Copyright (c) 2009 Filament Group
- * licensed under MIT (filamentgroup.com/examples/mit-license.txt)
- * --------------------------------------------------------------------
-*/
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (jQuery) {
-  var $ = jQuery;
-  jQuery.fn.customInput = function(){
-    return $(this).each(function(){
-      if($(this).is('[type=checkbox],[type=radio]')){
-        var input = $(this);
-
-        // get the associated label using the input's id
-        var label = input.siblings('label[for="'+input.attr('id')+'"]:first');
-        if (!label.length) {
-          label = input.closest('label[for="'+input.attr('id')+'"]:first');
-        }
-        // wrap the input + label in a div
-        input.add(label).wrapAll('<div class="custom-'+ input.attr('type') +'"></div>');
-
-        // necessary for browsers that don't support the :hover pseudo class on labels
-        label.hover(
-          function(){ $(this).addClass('hover'); },
-          function(){ $(this).removeClass('hover'); }
-        );
-
-        //bind custom event, trigger it, bind click,focus,blur events
-        input.bind('updateState', function(){
-          input.is(':checked') ? label.addClass('checked') : label.removeClass('checked checkedHover checkedFocus');
-        })
-        .trigger('updateState')
-        .click(function(){
-          $('input[name="'+ $(this).attr('name') +'"]').trigger('updateState');
-        })
-        .focus(function(){
-          label.addClass('focus');
-          if(input.is(':checked')){  $(this).addClass('checkedFocus'); }
-        })
-        .blur(function(){ label.removeClass('focus checkedFocus'); });
-      }
-    });
-  };
-
-}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ }),
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5931,98 +5932,224 @@ module.exports = __webpack_require__(34);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 
-/* eslint max-params: 0 */
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(2), __webpack_require__(0), __webpack_require__(36), __webpack_require__(12), __webpack_require__(14), __webpack_require__(15), __webpack_require__(18), __webpack_require__(45), __webpack_require__(4), __webpack_require__(3), __webpack_require__(20), __webpack_require__(23), __webpack_require__(59), __webpack_require__(16), __webpack_require__(61), __webpack_require__(7), __webpack_require__(63), __webpack_require__(8), __webpack_require__(64), __webpack_require__(1), __webpack_require__(66), __webpack_require__(68), __webpack_require__(25), __webpack_require__(27), __webpack_require__(9), __webpack_require__(69), __webpack_require__(26), __webpack_require__(31), __webpack_require__(76), __webpack_require__(77), __webpack_require__(78), __webpack_require__(29)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (Backbone, $, _, Handlebars, Model, BaseModel, BaseCollection, SchemaProperty, BaseSchema, StringUtil, TemplateUtil, ButtonFactory, BaseRouter, BaseController, Util, Cookie, Logger, Class, Keys, TimeUtil, BaseView, ListView, BaseDropDown, BaseForm, InputRegistry, FormUtil, SchemaFormFactory, Toolbar, TextBox, PasswordBox, CheckBox, Radio, Select) {
 
-  var Okta = {
+var _BaseCollection = __webpack_require__(14);
 
-    Backbone: Backbone,
+var _BaseCollection2 = _interopRequireDefault(_BaseCollection);
 
-    $: $,
+var _BaseModel = __webpack_require__(15);
 
-    _: _,
+var _BaseModel2 = _interopRequireDefault(_BaseModel);
 
-    Handlebars: Handlebars,
+var _BaseSchema = __webpack_require__(38);
 
-    loc: StringUtil.localize,
+var _BaseSchema2 = _interopRequireDefault(_BaseSchema);
 
-    createButton: ButtonFactory.create,
+var _Model = __webpack_require__(11);
 
-    registerInput: InputRegistry.register,
+var _Model2 = _interopRequireDefault(_Model);
 
-    tpl: TemplateUtil.tpl,
+var _SchemaProperty = __webpack_require__(17);
 
-    Model: Model,
+var _SchemaProperty2 = _interopRequireDefault(_SchemaProperty);
 
-    BaseModel: BaseModel,
+var _BaseController = __webpack_require__(40);
 
-    Collection: BaseCollection,
+var _BaseController2 = _interopRequireDefault(_BaseController);
 
-    View: BaseView,
+var _BaseRouter = __webpack_require__(19);
 
-    ListView: ListView,
+var _BaseRouter2 = _interopRequireDefault(_BaseRouter);
 
-    Router: BaseRouter,
+var _ButtonFactory = __webpack_require__(27);
 
-    Controller: BaseController,
+var _ButtonFactory2 = _interopRequireDefault(_ButtonFactory);
 
-    Form: BaseForm,
+var _Class = __webpack_require__(55);
 
-    internal: {
+var _Class2 = _interopRequireDefault(_Class);
 
-      util: {
-        Util: Util,
-        Cookie: Cookie,
-        Logger: Logger,
-        Class: Class,
-        Keys: Keys,
-        TimeUtil: TimeUtil
+var _Cookie = __webpack_require__(56);
+
+var _Cookie2 = _interopRequireDefault(_Cookie);
+
+var _Keys = __webpack_require__(8);
+
+var _Keys2 = _interopRequireDefault(_Keys);
+
+var _Logger = __webpack_require__(7);
+
+var _Logger2 = _interopRequireDefault(_Logger);
+
+var _StringUtil = __webpack_require__(4);
+
+var _StringUtil2 = _interopRequireDefault(_StringUtil);
+
+var _TemplateUtil = __webpack_require__(3);
+
+var _TemplateUtil2 = _interopRequireDefault(_TemplateUtil);
+
+var _TimeUtil = __webpack_require__(58);
+
+var _TimeUtil2 = _interopRequireDefault(_TimeUtil);
+
+var _Util = __webpack_require__(16);
+
+var _Util2 = _interopRequireDefault(_Util);
+
+var _handlebarsWrapper = __webpack_require__(60);
+
+var _handlebarsWrapper2 = _interopRequireDefault(_handlebarsWrapper);
+
+var _jqueryWrapper = __webpack_require__(2);
+
+var _jqueryWrapper2 = _interopRequireDefault(_jqueryWrapper);
+
+var _underscoreWrapper = __webpack_require__(0);
+
+var _underscoreWrapper2 = _interopRequireDefault(_underscoreWrapper);
+
+var _Backbone = __webpack_require__(67);
+
+var _Backbone2 = _interopRequireDefault(_Backbone);
+
+var _BaseView = __webpack_require__(1);
+
+var _BaseView2 = _interopRequireDefault(_BaseView);
+
+var _BaseDropDown = __webpack_require__(69);
+
+var _BaseDropDown2 = _interopRequireDefault(_BaseDropDown);
+
+var _BaseForm = __webpack_require__(22);
+
+var _BaseForm2 = _interopRequireDefault(_BaseForm);
+
+var _Toolbar = __webpack_require__(24);
+
+var _Toolbar2 = _interopRequireDefault(_Toolbar);
+
+var _FormUtil = __webpack_require__(9);
+
+var _FormUtil2 = _interopRequireDefault(_FormUtil);
+
+var _InputRegistry = __webpack_require__(25);
+
+var _InputRegistry2 = _interopRequireDefault(_InputRegistry);
+
+var _SchemaFormFactory = __webpack_require__(70);
+
+var _SchemaFormFactory2 = _interopRequireDefault(_SchemaFormFactory);
+
+var _CheckBox = __webpack_require__(76);
+
+var _CheckBox2 = _interopRequireDefault(_CheckBox);
+
+var _PasswordBox = __webpack_require__(77);
+
+var _PasswordBox2 = _interopRequireDefault(_PasswordBox);
+
+var _Radio = __webpack_require__(79);
+
+var _Radio2 = _interopRequireDefault(_Radio);
+
+var _Select = __webpack_require__(29);
+
+var _Select2 = _interopRequireDefault(_Select);
+
+var _TextBox = __webpack_require__(32);
+
+var _TextBox2 = _interopRequireDefault(_TextBox);
+
+var _backbone = __webpack_require__(6);
+
+var _backbone2 = _interopRequireDefault(_backbone);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Okta = {
+  Backbone: _backbone2.default,
+
+  $: _jqueryWrapper2.default,
+
+  _: _underscoreWrapper2.default,
+
+  Handlebars: _handlebarsWrapper2.default,
+
+  loc: _StringUtil2.default.localize,
+
+  createButton: _ButtonFactory2.default.create,
+
+  registerInput: _InputRegistry2.default.register,
+
+  tpl: _TemplateUtil2.default.tpl,
+
+  Model: _Model2.default,
+
+  BaseModel: _BaseModel2.default,
+
+  Collection: _BaseCollection2.default,
+
+  View: _BaseView2.default,
+
+  ListView: _Backbone2.default,
+
+  Router: _BaseRouter2.default,
+
+  Controller: _BaseController2.default,
+
+  Form: _BaseForm2.default,
+
+  internal: {
+    util: {
+      Util: _Util2.default,
+      Cookie: _Cookie2.default,
+      Logger: _Logger2.default,
+      Class: _Class2.default,
+      Keys: _Keys2.default,
+      TimeUtil: _TimeUtil2.default
+    },
+
+    views: {
+      components: {
+        BaseDropDown: _BaseDropDown2.default
       },
 
-      views: {
-        components: {
-          BaseDropDown: BaseDropDown
+      forms: {
+        helpers: {
+          FormUtil: _FormUtil2.default,
+          SchemaFormFactory: _SchemaFormFactory2.default
         },
 
-        forms: {
-          helpers: {
-            FormUtil: FormUtil,
-            SchemaFormFactory: SchemaFormFactory
-          },
+        components: {
+          Toolbar: _Toolbar2.default
+        },
 
-          components: {
-            Toolbar: Toolbar
-          },
-
-          inputs: {
-            TextBox: TextBox,
-            PasswordBox: PasswordBox,
-            CheckBox: CheckBox,
-            Radio: Radio,
-            Select: Select
-          }
+        inputs: {
+          TextBox: _TextBox2.default,
+          PasswordBox: _PasswordBox2.default,
+          CheckBox: _CheckBox2.default,
+          Radio: _Radio2.default,
+          Select: _Select2.default
         }
-      },
-
-      models: {
-        BaseSchema: BaseSchema,
-        SchemaProperty: SchemaProperty
       }
+    },
 
+    models: {
+      BaseSchema: _BaseSchema2.default,
+      SchemaProperty: _SchemaProperty2.default
     }
-  };
+  }
+};
 
-  Okta.registerInput('text', TextBox);
-  Okta.registerInput('password', PasswordBox);
-  Okta.registerInput('checkbox', CheckBox);
-  Okta.registerInput('radio', Radio);
-  Okta.registerInput('select', Select);
+Okta.registerInput('text', _TextBox2.default);
+Okta.registerInput('password', _PasswordBox2.default);
+Okta.registerInput('checkbox', _CheckBox2.default);
+Okta.registerInput('radio', _Radio2.default);
+Okta.registerInput('select', _Select2.default);
 
-  return Okta;
-}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+module.exports = Okta;
 
 /***/ }),
 /* 35 */
@@ -6035,231 +6162,300 @@ module.exports = require("underscore");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handlebars_helper_date__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__handlebars_helper_i18n__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__handlebars_helper_img__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__handlebars_helper_markdown__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__handlebars_helper_xsrfTokenInput__ = __webpack_require__(42);
-/* eslint @okta/okta/no-specific-modules: 0 */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_backbone__);
 
 
 
 
+var STATE = '__STATE__',
+    FETCH_DATA = 'FETCH_DATA',
+    PAGINATION_DATA = 'PAGINATION_DATA',
+    DEFAULT_PARAMS = 'DEFAULT_PARAMS',
+    LINK_BY_HEADER = 'LINK_BY_HEADER',
+    XHR = 'XHR';
 
+/*
+ * Sets the next page URL on the collection from link headers
+ * See: http://www.rfc-editor.org/rfc/rfc5988.txt
+ *
+ * This method is looking for a link header with `rel="next"`
+ * An set's it as the next page's URL.
+ *
+ * If it doesn't find a next page, and current page is set by a link header
+ * it assumes we are at the last page and deletes the current `next`
+ */
+function setLinkHeadersPagination(collection, xhr) {
+  try {
+    var links = parseLinkHeader(xhr.getResponseHeader('link'));
+    collection[STATE].set(LINK_BY_HEADER, true);
+    collection.setPagination(links['next'].href);
+  }
+  catch (e) {
+    if (collection[STATE].get(LINK_BY_HEADER)) {
+      collection.setPagination(null);
+    }
+  }
+}
 
+function parseQuery(url) {
+  var params = {},
+      rawQueryStr = url && url.split('?')[1],
+      queryString = rawQueryStr && decodeURIComponent(rawQueryStr.split('#')[0]).replace(/\+/g, ' '),
+      props = queryString ? queryString.split('&') : [];
+  for (var i = 0; i < props.length; i++) {
+    var parts = props[i].split('=');
+    params[parts.shift()] = parts.join('=');
+  }
+  return params;
+}
 
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+// ################################################
+// # Source: https://gist.github.com/deiu/9335803
+// ################################################
+
+// unquote string (utility)
+function unquote(value) {
+  if (value.charAt(0) == '"' && value.charAt(value.length - 1) == '"') {
+    return value.substring(1, value.length - 1);
+  }
+  return value;
+}
+/*
+parse a Link header
+Link:<https://example.org/.meta>; rel=meta
+var r = parseLinkHeader(xhr.getResponseHeader('Link');
+r['meta']['href'] outputs https://example.org/.meta
+*/
+function parseLinkHeader(header) {
+  /* eslint max-statements: 0 */
+  var linkexp = /<[^>]*>\s*(\s*;\s*[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*")))*(,|$)/g,
+      paramexp = /[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*"))/g;
+
+  var matches = header.match(linkexp);
+  var rels = {};
+  for (var i = 0; i < matches.length; i++) {
+    var split = matches[i].split('>');
+    var href = split[0].substring(1);
+    var link = {};
+    link.href = href;
+    var s = split[1].match(paramexp);
+    for (var j = 0; j < s.length; j++) {
+      var paramsplit = s[j].split('=');
+      var name = paramsplit[0];
+      link[name] = unquote(paramsplit[1]);
+    }
+
+    if (link.rel !== undefined) {
+      rels[link.rel] = link;
+    }
+  }
+
+  return rels;
+}
+
+// ################################################
+// # /Source
+// ################################################
+//
+
+/**
+ *
+ * Archer.Collection is a standard [Backbone.Collection](http://backbonejs.org/#Collection) with pre-set `data`
+ * parameters and built in pagination - works with [http link headers](https://tools.ietf.org/html/rfc5988)
+ * out of the box:
+ *
+ * @class src/framework/Collection
+ * @extends external:Backbone.Collection
+ * @example
+ * var Users = Archer.Collection.extend({
+ *   url: '/api/v1/users'
+ *   params: {expand: true}
+ * });
+ * var users = new Users(null, {params: {type: 'new'}}),
+ *     $button = this.$('a.fetch-more');
+ *
+ * $button.click(function () {
+ *   users.fetchMore();
+ * });
+ *
+ * this.listenTo(users, 'sync', function () {
+ *   $button.toggle(users.hasMore());
+ * });
+ *
+ * collection.fetch(); //=> '/api/v1/users?expand=true&type=new'
+ */
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.extend(/** @lends src/framework/Collection.prototype */ {
+
+  /**
+   * Default fetch parameters
+   * @type {Object}
+   */
+  params: {},
+
+  constructor: function (models, options) {
+    var state = this[STATE] = new __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model();
+    state.set(DEFAULT_PARAMS, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(options && options.params || {}, this.params || {}));
+    __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.apply(this, arguments);
+  },
+
+  /**
+   * See [Backbone Collection.sync](http://backbonejs.org/#Collection-sync).
+   */
+  sync: function (method, collection, options) {
+    var self = this,
+        success = options.success;
+    options.success = function (resp, status, xhr) {
+      // its important to set the pagination data *before* we call the success callback
+      // because we want the pagination data to be ready when the collection triggers the `sync` event
+      setLinkHeadersPagination(self, xhr);
+      success.apply(null, arguments);
+    };
+    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.sync.call(this, method, collection, options);
+  },
+
+  /**
+   * See [Backbone Collection.fetch](http://backbonejs.org/#Collection-fetch).
+   */
+  fetch: function (options) {
+    options || (options = {});
+    var state = this[STATE],
+        xhr = state.get(XHR);
+
+    options.data = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, state.get(DEFAULT_PARAMS), options.data || {});
+    options.fromFetch = true;
+
+    state.set(FETCH_DATA, options.data);
+    if (xhr && xhr.abort && options.abort !== false) {
+      xhr.abort();
+    }
+    xhr = __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.fetch.call(this, options);
+    state.set(XHR, xhr);
+    return xhr;
+  },
+
+  /**
+   * Set pagination data to get to the next page
+   * @param {Mixed} params
+   * @param {Object} [options]
+   * @param {Boolean} [options.fromFetch] should we include data from the previous fetch call in this object
+   * @example
+   * collection.setPagination({q: 'foo', page: '2'}); //=> {q: 'foo', page: '2'}
+   *
+   * collection.setPagination('/path/to/resource?q=baz&page=4'); //=> {q: 'baz', page: '4'}
+   *
+   * collection.setPagination('/path/to/resource'); //=> {}
+   *
+   * collection.fetch({data: {q: 'foo'}});
+   * collection.setPagination({page: 2}, {fromFetch: true}); //=> {q: 'foo', page: 2}
+   *
+   * any "falsy" value resets pagination
+   * collection.setPagination(); //=> {}
+   * collection.setPagination(null); //=> {}
+   * collection.setPagination(false); //=> {}
+   * collection.setPagination(''); //=> {}
+   * collection.setPagination(0); //=> {}
+   * @protected
+   */
+  setPagination: function (params, options) {
+    /* eslint complexity: [2, 8] */
+    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isString(params) && params) {
+      params = parseQuery(params);
+    }
+    if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isObject(params) || __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(params) || !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(params)) {
+      params = null;
+    }
+    else if (options && options.fromFetch) {
+      params = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, this.getFetchData(), params);
+    }
+    this[STATE].set(PAGINATION_DATA, params);
+  },
+
+  /**
+   * Returns the `data` parameters applied in th most recent `fetch` call
+   * It will include parameters set by {@link #params} and optios.params passed to the constructor
+   * @return {Object}
+   * @protected
+   */
+  getFetchData: function () {
+    return this[STATE].get(FETCH_DATA) || {};
+  },
+
+  /**
+   * Data object for constructing a request to fetch the next page
+   * @return {Object}
+   * @protected
+   */
+  getPaginationData: function () {
+    return this[STATE].get(PAGINATION_DATA) || {};
+  },
+
+  /**
+   * Does this collection have more data on the server (e.g is there a next "page")
+   * @return {Boolean}
+   */
+  hasMore: function () {
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(this.getPaginationData()) > 0;
+  },
+
+  /**
+   * Get the next page from the server
+   * @return {Object} xhr returned by {@link #fetch}
+   */
+  fetchMore: function () {
+    if (!this.hasMore()) {
+      throw new Error('Invalid Request');
+    }
+    return this.fetch({ data: this.getPaginationData(), add: true, remove: false, update: true });
+  },
+
+  /**
+   * See [Backbone Collection.reset](http://backbonejs.org/#Collection-reset).
+   */
+  reset: function (models, options) {
+    options || (options = {});
+    // only reset the pagination when reset is being called explicitly.
+    // this is to avoid link headers pagination being overriden and reset when
+    // fetching the collection using `collection.fetch({reset: true})`
+    if (!options.fromFetch) {
+      this.setPagination(null);
+    }
+    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.reset.apply(this, arguments);
+  },
+
+  // we want "where" to be able to search through derived properties as well
+  where: function (attrs, first) {
+    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isEmpty(attrs)) {
+      return first ? void 0 : [];
+    }
+    return this[first ? 'find' : 'filter'](function (model) {
+      for (var key in attrs) {
+        if (attrs[key] !== model.get(key)) {
+          return false;
+        }
+      }
+      return true;
+    });
+  },
+
+  /**
+   * See [Backbone Collection.create](http://backbonejs.org/#Collection-create).
+   */
+  create: function (model, options) {
+    options || (options = {});
+    if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(model, 'urlRoot')) {
+      options.url = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'url');
+    }
+    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.create.call(this, model, options);
+  }
+
+}));
 
 
 /***/ }),
 /* 37 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__ = __webpack_require__(0);
-/* eslint @okta/okta/enforce-requirejs-names: 0, @okta/okta/no-specific-modules: 0, max-params: 0, max-statements: 0 */
-
-
-
-
-function formatDate(format, dateInISOString) {
-  return __WEBPACK_IMPORTED_MODULE_1_moment___default.a
-    .utc(dateInISOString)
-    .utcOffset('-07:00')
-    .format(format);
-}
-
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('shortDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMM Do'));
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('mediumDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMMM DD, YYYY'));
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('longDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMMM DD, YYYY, h:mma'));
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('formatDate', formatDate);
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
-/* 38 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StringUtil__ = __webpack_require__(4);
-/* eslint @okta/okta/no-specific-modules: 0 */
-
-
-
-
-function trim(str) {
-  return str && str.replace(/^\s+|\s+$/g, '');
-}
-
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('i18n', function (options) {
-  let params;
-  const key = trim(options.hash.code);
-  const bundle = trim(options.hash.bundle);
-  const args = trim(options.hash['arguments']);
-
-  if (args) {
-    params = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].map(
-      trim(args).split(';'),
-      function (param) {
-        param = trim(param);
-        let val;
-        const data = this;
-
-        /*
-       * the context(data) may be a deep object, ex {user: {name: 'John', gender: 'M'}}
-       * arguments may be 'user.name'
-       * return data['user']['name']
-       */
-        __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].each(param.split('.'), function (p) {
-          val = val ? val[p] : data[p];
-        });
-        return val;
-      },
-      this
-    );
-  }
-
-  return __WEBPACK_IMPORTED_MODULE_2__StringUtil__["default"].localize(key, bundle, params);
-});
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
-/* 39 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-/* eslint @okta/okta/no-specific-modules: 0 */
-
-
-const CACHE_BUST_URL_PREFIX = '/assets';
-
-function prependCachebustPrefix(path) {
-  if (path.indexOf(CACHE_BUST_URL_PREFIX) === 0) {
-    return path;
-  }
-  return CACHE_BUST_URL_PREFIX + path;
-}
-
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('img', function (options) {
-  const cdn = (typeof okta !== 'undefined' && okta.cdnUrlHostname) || '';
-  /*global okta */
-
-  const hash = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].pick(options.hash, ['src', 'alt', 'width', 'height', 'class', 'title']);
-
-  hash.src = '' + cdn + prependCachebustPrefix(hash.src);
-
-  const attrs = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].map(hash, function (value, attr) {
-    return attr + '="' + __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.Utils.escapeExpression(value) + '"';
-  });
-
-  return new __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.SafeString('<img ' + attrs.join(' ') + '/>');
-});
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
-/* 40 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__markdownToHtml__ = __webpack_require__(41);
-/* eslint @okta/okta/no-specific-modules: 0 */
-
-
-
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('markdown', function (mdText) {
-  return Object(__WEBPACK_IMPORTED_MODULE_1__markdownToHtml__["a" /* default */])(__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a, mdText);
-});
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
-/* 41 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = mdToHtml;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-// Simple "markdown parser" - just handles markdown formatted links. If we
-// find that we need more extensive markdown support, we should include
-// a fully formulated markdown library like:
-// https://github.com/evilstreak/markdown-js
-
-const RE_LINK = /\[[^\]]*\]\([^)]*\)/gi;
-const RE_LINK_HREF = /\]\(([^)]*)\)/i;
-const RE_LINK_TEXT = /\[([^\]]*)\]/i;
-const RE_LINK_JS = /javascript:/gi;
-
-// Converts links
-// FROM:
-// [some link text](http://the/link/url)
-// TO:
-// <a href="http://the/link/url">some link text</a>
-function mdToHtml(Handlebars, markdownText) {
-  const linkTemplate = Handlebars.compile('<a href="{{href}}">{{text}}</a>');
-  /* eslint  @okta/okta/no-specific-methods: 0*/
-
-  let res;
-
-  if (!__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isString(markdownText)) {
-    res = '';
-  } else {
-    res = Handlebars.Utils.escapeExpression(markdownText)
-      .replace(RE_LINK_JS, '')
-      .replace(RE_LINK, function (mdLink) {
-        return linkTemplate({
-          href: mdLink.match(RE_LINK_HREF)[1],
-          text: mdLink.match(RE_LINK_TEXT)[1]
-        });
-      });
-  }
-  return new Handlebars.SafeString(res);
-}
-
-
-/***/ }),
-/* 42 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__ = __webpack_require__(2);
-/* eslint @okta/okta/no-specific-modules: 0 */
-
-
-
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('xsrfTokenInput', function () {
-  return new __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.SafeString(
-    '<input type="hidden" class="hide" name="_xsrfToken" ' + 'value="' + Object(__WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__["default"])('#_xsrfToken').text() + '">'
-  );
-});
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
-/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6891,312 +7087,15 @@ Model = __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.extend(/** @lends
 
 
 /***/ }),
-/* 44 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_backbone__);
-
-
-
-
-var STATE = '__STATE__',
-    FETCH_DATA = 'FETCH_DATA',
-    PAGINATION_DATA = 'PAGINATION_DATA',
-    DEFAULT_PARAMS = 'DEFAULT_PARAMS',
-    LINK_BY_HEADER = 'LINK_BY_HEADER',
-    XHR = 'XHR';
-
-/*
- * Sets the next page URL on the collection from link headers
- * See: http://www.rfc-editor.org/rfc/rfc5988.txt
- *
- * This method is looking for a link header with `rel="next"`
- * An set's it as the next page's URL.
- *
- * If it doesn't find a next page, and current page is set by a link header
- * it assumes we are at the last page and deletes the current `next`
- */
-function setLinkHeadersPagination(collection, xhr) {
-  try {
-    var links = parseLinkHeader(xhr.getResponseHeader('link'));
-    collection[STATE].set(LINK_BY_HEADER, true);
-    collection.setPagination(links['next'].href);
-  }
-  catch (e) {
-    if (collection[STATE].get(LINK_BY_HEADER)) {
-      collection.setPagination(null);
-    }
-  }
-}
-
-function parseQuery(url) {
-  var params = {},
-      rawQueryStr = url && url.split('?')[1],
-      queryString = rawQueryStr && decodeURIComponent(rawQueryStr.split('#')[0]).replace(/\+/g, ' '),
-      props = queryString ? queryString.split('&') : [];
-  for (var i = 0; i < props.length; i++) {
-    var parts = props[i].split('=');
-    params[parts.shift()] = parts.join('=');
-  }
-  return params;
-}
-
-// ################################################
-// # Source: https://gist.github.com/deiu/9335803
-// ################################################
-
-// unquote string (utility)
-function unquote(value) {
-  if (value.charAt(0) == '"' && value.charAt(value.length - 1) == '"') {
-    return value.substring(1, value.length - 1);
-  }
-  return value;
-}
-/*
-parse a Link header
-Link:<https://example.org/.meta>; rel=meta
-var r = parseLinkHeader(xhr.getResponseHeader('Link');
-r['meta']['href'] outputs https://example.org/.meta
-*/
-function parseLinkHeader(header) {
-  /* eslint max-statements: 0 */
-  var linkexp = /<[^>]*>\s*(\s*;\s*[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*")))*(,|$)/g,
-      paramexp = /[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*"))/g;
-
-  var matches = header.match(linkexp);
-  var rels = {};
-  for (var i = 0; i < matches.length; i++) {
-    var split = matches[i].split('>');
-    var href = split[0].substring(1);
-    var link = {};
-    link.href = href;
-    var s = split[1].match(paramexp);
-    for (var j = 0; j < s.length; j++) {
-      var paramsplit = s[j].split('=');
-      var name = paramsplit[0];
-      link[name] = unquote(paramsplit[1]);
-    }
-
-    if (link.rel !== undefined) {
-      rels[link.rel] = link;
-    }
-  }
-
-  return rels;
-}
-
-// ################################################
-// # /Source
-// ################################################
-//
-
-/**
- *
- * Archer.Collection is a standard [Backbone.Collection](http://backbonejs.org/#Collection) with pre-set `data`
- * parameters and built in pagination - works with [http link headers](https://tools.ietf.org/html/rfc5988)
- * out of the box:
- *
- * @class src/framework/Collection
- * @extends external:Backbone.Collection
- * @example
- * var Users = Archer.Collection.extend({
- *   url: '/api/v1/users'
- *   params: {expand: true}
- * });
- * var users = new Users(null, {params: {type: 'new'}}),
- *     $button = this.$('a.fetch-more');
- *
- * $button.click(function () {
- *   users.fetchMore();
- * });
- *
- * this.listenTo(users, 'sync', function () {
- *   $button.toggle(users.hasMore());
- * });
- *
- * collection.fetch(); //=> '/api/v1/users?expand=true&type=new'
- */
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.extend(/** @lends src/framework/Collection.prototype */ {
-
-  /**
-   * Default fetch parameters
-   * @type {Object}
-   */
-  params: {},
-
-  constructor: function (models, options) {
-    var state = this[STATE] = new __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model();
-    state.set(DEFAULT_PARAMS, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(options && options.params || {}, this.params || {}));
-    __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.apply(this, arguments);
-  },
-
-  /**
-   * See [Backbone Collection.sync](http://backbonejs.org/#Collection-sync).
-   */
-  sync: function (method, collection, options) {
-    var self = this,
-        success = options.success;
-    options.success = function (resp, status, xhr) {
-      // its important to set the pagination data *before* we call the success callback
-      // because we want the pagination data to be ready when the collection triggers the `sync` event
-      setLinkHeadersPagination(self, xhr);
-      success.apply(null, arguments);
-    };
-    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.sync.call(this, method, collection, options);
-  },
-
-  /**
-   * See [Backbone Collection.fetch](http://backbonejs.org/#Collection-fetch).
-   */
-  fetch: function (options) {
-    options || (options = {});
-    var state = this[STATE],
-        xhr = state.get(XHR);
-
-    options.data = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, state.get(DEFAULT_PARAMS), options.data || {});
-    options.fromFetch = true;
-
-    state.set(FETCH_DATA, options.data);
-    if (xhr && xhr.abort && options.abort !== false) {
-      xhr.abort();
-    }
-    xhr = __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.fetch.call(this, options);
-    state.set(XHR, xhr);
-    return xhr;
-  },
-
-  /**
-   * Set pagination data to get to the next page
-   * @param {Mixed} params
-   * @param {Object} [options]
-   * @param {Boolean} [options.fromFetch] should we include data from the previous fetch call in this object
-   * @example
-   * collection.setPagination({q: 'foo', page: '2'}); //=> {q: 'foo', page: '2'}
-   *
-   * collection.setPagination('/path/to/resource?q=baz&page=4'); //=> {q: 'baz', page: '4'}
-   *
-   * collection.setPagination('/path/to/resource'); //=> {}
-   *
-   * collection.fetch({data: {q: 'foo'}});
-   * collection.setPagination({page: 2}, {fromFetch: true}); //=> {q: 'foo', page: 2}
-   *
-   * any "falsy" value resets pagination
-   * collection.setPagination(); //=> {}
-   * collection.setPagination(null); //=> {}
-   * collection.setPagination(false); //=> {}
-   * collection.setPagination(''); //=> {}
-   * collection.setPagination(0); //=> {}
-   * @protected
-   */
-  setPagination: function (params, options) {
-    /* eslint complexity: [2, 8] */
-    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isString(params) && params) {
-      params = parseQuery(params);
-    }
-    if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isObject(params) || __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(params) || !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(params)) {
-      params = null;
-    }
-    else if (options && options.fromFetch) {
-      params = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, this.getFetchData(), params);
-    }
-    this[STATE].set(PAGINATION_DATA, params);
-  },
-
-  /**
-   * Returns the `data` parameters applied in th most recent `fetch` call
-   * It will include parameters set by {@link #params} and optios.params passed to the constructor
-   * @return {Object}
-   * @protected
-   */
-  getFetchData: function () {
-    return this[STATE].get(FETCH_DATA) || {};
-  },
-
-  /**
-   * Data object for constructing a request to fetch the next page
-   * @return {Object}
-   * @protected
-   */
-  getPaginationData: function () {
-    return this[STATE].get(PAGINATION_DATA) || {};
-  },
-
-  /**
-   * Does this collection have more data on the server (e.g is there a next "page")
-   * @return {Boolean}
-   */
-  hasMore: function () {
-    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(this.getPaginationData()) > 0;
-  },
-
-  /**
-   * Get the next page from the server
-   * @return {Object} xhr returned by {@link #fetch}
-   */
-  fetchMore: function () {
-    if (!this.hasMore()) {
-      throw new Error('Invalid Request');
-    }
-    return this.fetch({ data: this.getPaginationData(), add: true, remove: false, update: true });
-  },
-
-  /**
-   * See [Backbone Collection.reset](http://backbonejs.org/#Collection-reset).
-   */
-  reset: function (models, options) {
-    options || (options = {});
-    // only reset the pagination when reset is being called explicitly.
-    // this is to avoid link headers pagination being overriden and reset when
-    // fetching the collection using `collection.fetch({reset: true})`
-    if (!options.fromFetch) {
-      this.setPagination(null);
-    }
-    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.reset.apply(this, arguments);
-  },
-
-  // we want "where" to be able to search through derived properties as well
-  where: function (attrs, first) {
-    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isEmpty(attrs)) {
-      return first ? void 0 : [];
-    }
-    return this[first ? 'find' : 'filter'](function (model) {
-      for (var key in attrs) {
-        if (attrs[key] !== model.get(key)) {
-          return false;
-        }
-      }
-      return true;
-    });
-  },
-
-  /**
-   * See [Backbone Collection.create](http://backbonejs.org/#Collection-create).
-   */
-  create: function (model, options) {
-    options || (options = {});
-    if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(model, 'urlRoot')) {
-      options.url = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'url');
-    }
-    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.create.call(this, model, options);
-  }
-
-}));
-
-
-/***/ }),
-/* 45 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseCollection__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseModel__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SchemaProperty__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseCollection__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseModel__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SchemaProperty__ = __webpack_require__(17);
 
 
 
@@ -7283,210 +7182,159 @@ const BaseSchemaSchemas = __WEBPACK_IMPORTED_MODULE_1__BaseCollection__["default
 
 
 /***/ }),
-/* 46 */
+/* 39 */
+/***/ (function(module, exports) {
+
+module.exports = require("okta-i18n-bundles");
+
+/***/ }),
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseView__ = __webpack_require__(1);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseRouter__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SettingsModel__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StateMachine__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_BaseView__ = __webpack_require__(1);
+/* eslint max-len: [2, 150] */
 
 
 
-const disabledEvents = {
-  click: function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-};
+
+
+
+
+function clean(obj) {
+  const res = {};
+
+  __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].each(obj, function (value, key) {
+    if (!__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].isNull(value)) {
+      res[key] = value;
+    }
+  });
+  return res;
+}
 
 /**
- * A configurable button.
- * @class module:Okta.internal.views.components.BaseButtonLink
- * @extends module:Okta.View
- * @example
- * var View = BaseButtonLink.extend({
- *   title: 'Click Me',
- *   icon: 'help-text'
- * })
+ * A Controller is our application control flow component.
+ *
+ * Typically it will:
+ * - Initialize the models, controller and main views
+ * - Listen to events
+ * - Create, read, update and delete models
+ * - Create modal dialogs, confirmation dialogs and alert dialogs
+ * - Control the application flow
+ *
+ * The constructor is responsible for:
+ * - Create the application state object
+ * - Assign or creates the application settings object
+ * - Create an instance of the main view with the relevant parameters
+ *
+ * See:
+ * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
+ * [Jasmine Spec](https://github.com/okta/okta-core/blob/master/WebContent/js/test/unit/spec/shared/util/BaseController_spec.js)
+ *
+ * @class module:Okta.Controller
+ * @param {Object} options Options Hash
+ * @param {SettingsModel} [options.settings] Application Settings Model
+ * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
  */
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend(
-  /** @lends module:Okta.internal.views.components.BaseButtonLink.prototype */ {
-    attributes() {
-      const defaultAttrs = {
-        'data-se': 'button'
-      };
-      const additionalAttr = this.__getAttribute('attrs');
-      return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(defaultAttrs, additionalAttr);
-    },
-    /**
-     * The main text for the button
-     * @name title
-     * @memberof module:Okta.internal.views.components.BaseButtonLink
-     * @type {(String|Function)}
-     * @instance
-     */
-
-    /**
-     * The link for the button
-     * @name href
-     * @memberof module:Okta.internal.views.components.BaseButtonLink
-     * @type {(String|Function)}
-     * @instance
-     */
-
-    /**
-     * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
-     * @name icon
-     * @memberof module:Okta.internal.views.components.BaseButtonLink
-     * @type {(String|Function)}
-     * @instance
-     */
-
-    /**
-     * A [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
-     * @name events
-     * @memberof module:Okta.internal.views.components.BaseButtonLink
-     * @type {Object}
-     * @instance
-     */
-
-    tagName: 'a',
-
-    template: '{{#if icon}}<span class="icon {{icon}}"></span>{{/if}}{{#if title}}{{title}}{{/if}}',
-
-    /**
-     * Make this button visible, default to true.
-     * @type {(Boolean|Function)}
-     * @default true
-     */
-    visible: true,
-
-    /**
-     * Make this button enabled, default to true.
-     * @type {(Boolean|Function)}
-     * @default true
-     */
-    enabled: true,
-
-    /**
-     * The setting to determine when the button is enabled, default to {} and
-     * enabled takes a higher priority.
-     * @type {(Object|Function)}
-     * @default {}
-     */
-    enableWhen: {},
-
-    /**
-     * The setting to determine when the button is visible, default to {} and
-     * visible takes a higher priority.
-     * @type {(Object|Function)}
-     * @default {}
-     */
-    showWhen: {},
-
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].extend(
+  /** @lends module:Okta.Controller.prototype */ {
     constructor: function (options) {
-      this.options = options || {};
-      const data = this.getTemplateData();
+      /* eslint max-statements: [2, 13], complexity: [2, 7]*/
+      options || (options = {});
 
-      this.disabled = false;
+      const stateData = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].defaults(clean(options.state), this.state || {});
 
-      __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].apply(this, arguments);
+      this.state = new __WEBPACK_IMPORTED_MODULE_4__StateMachine__["a" /* default */](stateData);
+      delete options.state;
 
-      this.$el.addClass('link-button');
-      if (data.icon) {
-        this.$el.addClass('link-button-icon');
-        if (!data.title) {
-          this.$el.addClass('icon-only');
+      if (options.settings) {
+        this.settings = options.settings;
+      } else {
+        // allow the controller to live without a router
+        this.settings = options.settings = new __WEBPACK_IMPORTED_MODULE_3__SettingsModel__["a" /* default */](__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].omit(options || {}, 'el'));
+        this.listen('notification', __WEBPACK_IMPORTED_MODULE_2__BaseRouter__["default"].prototype._notify);
+        this.listen('confirmation', __WEBPACK_IMPORTED_MODULE_2__BaseRouter__["default"].prototype._confirm);
+      }
+
+      __WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].call(this, options);
+
+      this.listenTo(this.state, '__invoke__', function () {
+        const args = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].toArray(arguments);
+
+        const method = args.shift();
+
+        if (__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].isFunction(this[method])) {
+          this[method].apply(this, args);
         }
+      });
+
+      if (this.View) {
+        this.add(new this.View(this.toJSON()));
       }
     },
 
-    getTemplateData: function () {
-      return {
-        href: this.__getAttribute('href'),
-        title: this.__getAttribute('title'),
-        icon: this.__getAttribute('icon')
-      };
-    },
+    /**
+     * The default values of our application state
+     * @type {Object}
+     * @default {}
+     */
+    state: {},
 
-    initialize: function () {
-      __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__["a" /* default */].applyDoWhen(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this, 'enableWhen', this), this.toggle);
-      __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__["a" /* default */].applyDoWhen(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this, 'showWhen', this), this.toggleVisible);
-    },
+    /**
+     * The main view this controller operate on
+     * @type {module:Okta.View}
+     * @default null
+     */
+    View: null,
 
+    /**
+     * Renders the {@link module:Okta.Controller#View|main view} after the DOM is ready
+     * in case the controller is the root component of the page (e.g there's no router)
+     */
     render: function () {
-      __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].prototype.render.apply(this, arguments);
+      const args = arguments;
+      const self = this;
 
-      if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'enabled')) {
-        this.toggle(false);
-      }
-
-      if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'visible')) {
-        this.toggleVisible(false);
-      }
-
-      const data = this.getTemplateData();
-
-      this.$el.attr('href', data.href || '#');
-
+      Object(__WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__["default"])(function () {
+        __WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].prototype.render.apply(self, args);
+      });
       return this;
     },
 
-    __getAttribute: function (name, defaultValue) {
-      let value = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this.options, name, this);
-
-      if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value)) {
-        value = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, name);
-      }
-      return !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value) ? value : defaultValue;
+    /**
+     * Creates the view constructor options
+     * @param {Object} [options] Extra options
+     * @return {Object} The view constructor options
+     */
+    toJSON: function (options) {
+      return __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].extend(__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].pick(this, 'state', 'settings', 'collection', 'model'), options || {});
     },
 
-    enable: function () {
-      this.toggle(true);
-    },
-
-    disable: function () {
-      this.toggle(false);
-    },
-
-    show: function () {
-      this.toggleVisible(true);
-    },
-
-    hide: function () {
-      this.toggleVisible(false);
-    },
-
-    toggle: function (enable) {
-      const bool = !!enable && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'enabled');
-      //this is to toggle the enability
-
-      this.disabled = !bool;
-      this.$el.toggleClass('link-button-disabled btn-disabled disabled', this.disabled);
-
-      // delegateEvents asynchronously in case the button is not yet added to the DOM
-      // in these cases the alternate events won't work
-      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defer(() => {
-        this.delegateEvents(this.disabled ? disabledEvents : null);
-      });
-    },
-
-    toggleVisible: function (visible) {
-      const hidden = !visible || !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'visible');
-
-      this.$el.toggleClass('hide', hidden);
+    /**
+     * Removes the child views, empty the DOM element and stop listening to events
+     */
+    remove: function () {
+      this.removeChildren();
+      this.stopListening();
+      this.$el.empty();
+      return this;
     }
   }
 ));
 
 
 /***/ }),
-/* 47 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BaseFormDialog__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BaseFormDialog__ = __webpack_require__(42);
 
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__BaseFormDialog__["a" /* default */].extend({
   save: 'OK',
@@ -7521,15 +7369,15 @@ const disabledEvents = {
 
 
 /***/ }),
-/* 48 */
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseModalDialog__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__forms_BaseForm__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseModalDialog__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__forms_BaseForm__ = __webpack_require__(22);
 
 
 
@@ -7739,7 +7587,7 @@ const SIMPLE_MODAL_PARAMS = {
 
 
 /***/ }),
-/* 49 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7747,7 +7595,7 @@ const SIMPLE_MODAL_PARAMS = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_simplemodal__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_simplemodal__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_simplemodal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_simplemodal__);
 
 
@@ -7850,7 +7698,7 @@ const tpl = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl;
 
 
 /***/ }),
-/* 50 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7863,7 +7711,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 51 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7905,7 +7753,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;
 
 
 /***/ }),
-/* 52 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7931,7 +7779,7 @@ const template =
 
 
 /***/ }),
-/* 53 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8047,7 +7895,7 @@ const FIELD_REGEX = /^([\S]+): (.+)$/;
 
 
 /***/ }),
-/* 54 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8252,12 +8100,12 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
 
 
 /***/ }),
-/* 55 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__InputRegistry__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__InputRegistry__ = __webpack_require__(25);
 /* eslint complexity: 0, max-statements: 0 */
 
 
@@ -8294,12 +8142,12 @@ function supports(options) {
 
 
 /***/ }),
-/* 56 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qtip__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseView__ = __webpack_require__(1);
@@ -8409,7 +8257,7 @@ function supports(options) {
 
 
 /***/ }),
-/* 57 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8549,7 +8397,7 @@ function runIf(fn, ctx) {
 
 
 /***/ }),
-/* 58 */
+/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8620,154 +8468,12 @@ const defaults = {
 
 
 /***/ }),
-/* 59 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseRouter__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SettingsModel__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StateMachine__ = __webpack_require__(60);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_BaseView__ = __webpack_require__(1);
-/* eslint max-len: [2, 150] */
-
-
-
-
-
-
-
-function clean(obj) {
-  const res = {};
-
-  __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].each(obj, function (value, key) {
-    if (!__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].isNull(value)) {
-      res[key] = value;
-    }
-  });
-  return res;
-}
-
-/**
- * A Controller is our application control flow component.
- *
- * Typically it will:
- * - Initialize the models, controller and main views
- * - Listen to events
- * - Create, read, update and delete models
- * - Create modal dialogs, confirmation dialogs and alert dialogs
- * - Control the application flow
- *
- * The constructor is responsible for:
- * - Create the application state object
- * - Assign or creates the application settings object
- * - Create an instance of the main view with the relevant parameters
- *
- * See:
- * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
- * [Jasmine Spec](https://github.com/okta/okta-core/blob/master/WebContent/js/test/unit/spec/shared/util/BaseController_spec.js)
- *
- * @class module:Okta.Controller
- * @param {Object} options Options Hash
- * @param {SettingsModel} [options.settings] Application Settings Model
- * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
- */
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].extend(
-  /** @lends module:Okta.Controller.prototype */ {
-    constructor: function (options) {
-      /* eslint max-statements: [2, 13], complexity: [2, 7]*/
-      options || (options = {});
-
-      const stateData = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].defaults(clean(options.state), this.state || {});
-
-      this.state = new __WEBPACK_IMPORTED_MODULE_4__StateMachine__["a" /* default */](stateData);
-      delete options.state;
-
-      if (options.settings) {
-        this.settings = options.settings;
-      } else {
-        // allow the controller to live without a router
-        this.settings = options.settings = new __WEBPACK_IMPORTED_MODULE_3__SettingsModel__["a" /* default */](__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].omit(options || {}, 'el'));
-        this.listen('notification', __WEBPACK_IMPORTED_MODULE_2__BaseRouter__["default"].prototype._notify);
-        this.listen('confirmation', __WEBPACK_IMPORTED_MODULE_2__BaseRouter__["default"].prototype._confirm);
-      }
-
-      __WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].call(this, options);
-
-      this.listenTo(this.state, '__invoke__', function () {
-        const args = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].toArray(arguments);
-
-        const method = args.shift();
-
-        if (__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].isFunction(this[method])) {
-          this[method].apply(this, args);
-        }
-      });
-
-      if (this.View) {
-        this.add(new this.View(this.toJSON()));
-      }
-    },
-
-    /**
-     * The default values of our application state
-     * @type {Object}
-     * @default {}
-     */
-    state: {},
-
-    /**
-     * The main view this controller operate on
-     * @type {module:Okta.View}
-     * @default null
-     */
-    View: null,
-
-    /**
-     * Renders the {@link module:Okta.Controller#View|main view} after the DOM is ready
-     * in case the controller is the root component of the page (e.g there's no router)
-     */
-    render: function () {
-      const args = arguments;
-      const self = this;
-
-      Object(__WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__["default"])(function () {
-        __WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].prototype.render.apply(self, args);
-      });
-      return this;
-    },
-
-    /**
-     * Creates the view constructor options
-     * @param {Object} [options] Extra options
-     * @return {Object} The view constructor options
-     */
-    toJSON: function (options) {
-      return __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].extend(__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].pick(this, 'state', 'settings', 'collection', 'model'), options || {});
-    },
-
-    /**
-     * Removes the child views, empty the DOM element and stop listening to events
-     */
-    remove: function () {
-      this.removeChildren();
-      this.stopListening();
-      this.$el.empty();
-      return this;
-    }
-  }
-));
-
-
-/***/ }),
-/* 60 */
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Model__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Model__ = __webpack_require__(11);
 
 
 
@@ -8801,13 +8507,239 @@ function clean(obj) {
 
 
 /***/ }),
-/* 61 */
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseView__ = __webpack_require__(1);
+
+
+
+const disabledEvents = {
+  click: function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+};
+
+/**
+ * A configurable button.
+ * @class module:Okta.internal.views.components.BaseButtonLink
+ * @extends module:Okta.View
+ * @example
+ * var View = BaseButtonLink.extend({
+ *   title: 'Click Me',
+ *   icon: 'help-text'
+ * })
+ */
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend(
+  /** @lends module:Okta.internal.views.components.BaseButtonLink.prototype */ {
+    attributes() {
+      const defaultAttrs = {
+        'data-se': 'button'
+      };
+      const additionalAttr = this.__getAttribute('attrs');
+      return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(defaultAttrs, additionalAttr);
+    },
+    /**
+     * The main text for the button
+     * @name title
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {(String|Function)}
+     * @instance
+     */
+
+    /**
+     * The link for the button
+     * @name href
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {(String|Function)}
+     * @instance
+     */
+
+    /**
+     * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
+     * @name icon
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {(String|Function)}
+     * @instance
+     */
+
+    /**
+     * A [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
+     * @name events
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {Object}
+     * @instance
+     */
+
+    tagName: 'a',
+
+    template: '{{#if icon}}<span class="icon {{icon}}"></span>{{/if}}{{#if title}}{{title}}{{/if}}',
+
+    /**
+     * Make this button visible, default to true.
+     * @type {(Boolean|Function)}
+     * @default true
+     */
+    visible: true,
+
+    /**
+     * Make this button enabled, default to true.
+     * @type {(Boolean|Function)}
+     * @default true
+     */
+    enabled: true,
+
+    /**
+     * The setting to determine when the button is enabled, default to {} and
+     * enabled takes a higher priority.
+     * @type {(Object|Function)}
+     * @default {}
+     */
+    enableWhen: {},
+
+    /**
+     * The setting to determine when the button is visible, default to {} and
+     * visible takes a higher priority.
+     * @type {(Object|Function)}
+     * @default {}
+     */
+    showWhen: {},
+
+    constructor: function (options) {
+      this.options = options || {};
+      const data = this.getTemplateData();
+
+      this.disabled = false;
+
+      __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].apply(this, arguments);
+
+      this.$el.addClass('link-button');
+      if (data.icon) {
+        this.$el.addClass('link-button-icon');
+        if (!data.title) {
+          this.$el.addClass('icon-only');
+        }
+      }
+    },
+
+    getTemplateData: function () {
+      return {
+        href: this.__getAttribute('href'),
+        title: this.__getAttribute('title'),
+        icon: this.__getAttribute('icon')
+      };
+    },
+
+    initialize: function () {
+      __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__["a" /* default */].applyDoWhen(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this, 'enableWhen', this), this.toggle);
+      __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__["a" /* default */].applyDoWhen(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this, 'showWhen', this), this.toggleVisible);
+    },
+
+    render: function () {
+      __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].prototype.render.apply(this, arguments);
+
+      if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'enabled')) {
+        this.toggle(false);
+      }
+
+      if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'visible')) {
+        this.toggleVisible(false);
+      }
+
+      const data = this.getTemplateData();
+
+      this.$el.attr('href', data.href || '#');
+
+      return this;
+    },
+
+    __getAttribute: function (name, defaultValue) {
+      let value = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this.options, name, this);
+
+      if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value)) {
+        value = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, name);
+      }
+      return !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value) ? value : defaultValue;
+    },
+
+    enable: function () {
+      this.toggle(true);
+    },
+
+    disable: function () {
+      this.toggle(false);
+    },
+
+    show: function () {
+      this.toggleVisible(true);
+    },
+
+    hide: function () {
+      this.toggleVisible(false);
+    },
+
+    toggle: function (enable) {
+      const bool = !!enable && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'enabled');
+      //this is to toggle the enability
+
+      this.disabled = !bool;
+      this.$el.toggleClass('link-button-disabled btn-disabled disabled', this.disabled);
+
+      // delegateEvents asynchronously in case the button is not yet added to the DOM
+      // in these cases the alternate events won't work
+      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defer(() => {
+        this.delegateEvents(this.disabled ? disabledEvents : null);
+      });
+    },
+
+    toggleVisible: function (visible) {
+      const hidden = !visible || !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'visible');
+
+      this.$el.toggleClass('hide', hidden);
+    }
+  }
+));
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_backbone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
+
+
+
+function Class(options) {
+  this.options = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].clone(options || {});
+  this.cid = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].uniqueId('class');
+  this.initialize.apply(this, arguments);
+}
+
+__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].extend(Class.prototype, __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Events, {
+  initialize: function () {}
+});
+
+Class.extend = __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Model.extend;
+
+/* harmony default export */ __webpack_exports__["default"] = (Class);
+
+
+/***/ }),
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie__);
 
 
@@ -8835,7 +8767,7 @@ const SECURED_COOKIE = /^https/.test(window.location.href);
 
 
 /***/ }),
-/* 62 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -8990,39 +8922,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 /***/ }),
-/* 63 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_backbone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-
-
-
-function Class(options) {
-  this.options = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].clone(options || {});
-  this.cid = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].uniqueId('class');
-  this.initialize.apply(this, arguments);
-}
-
-__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].extend(Class.prototype, __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Events, {
-  initialize: function () {}
-});
-
-Class.extend = __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Model.extend;
-
-/* harmony default export */ __webpack_exports__["default"] = (Class);
-
-
-/***/ }),
-/* 64 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__moment_wrapper__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__moment_wrapper__ = __webpack_require__(59);
 
 const MOMENT_UNIT = {
   MILLISECOND: 'milliseconds',
@@ -9149,11 +9054,11 @@ const MOMENT_UNIT = {
 
 
 /***/ }),
-/* 65 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* global okta */
 /* eslint @okta/okta/no-specific-modules: 0 */
@@ -9166,12 +9071,240 @@ if (typeof okta !== 'undefined' && (okta.locale || 'en')) {
 
 
 /***/ }),
-/* 66 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__framework_ListView__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handlebars_helper_date__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__handlebars_helper_i18n__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__handlebars_helper_img__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__handlebars_helper_markdown__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__handlebars_helper_xsrfTokenInput__ = __webpack_require__(66);
+/* eslint @okta/okta/no-specific-modules: 0 */
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__ = __webpack_require__(0);
+/* eslint @okta/okta/enforce-requirejs-names: 0, @okta/okta/no-specific-modules: 0, max-params: 0, max-statements: 0 */
+
+
+
+
+function formatDate(format, dateInISOString) {
+  return __WEBPACK_IMPORTED_MODULE_1_moment___default.a
+    .utc(dateInISOString)
+    .utcOffset('-07:00')
+    .format(format);
+}
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('shortDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMM Do'));
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('mediumDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMMM DD, YYYY'));
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('longDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMMM DD, YYYY, h:mma'));
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('formatDate', formatDate);
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StringUtil__ = __webpack_require__(4);
+/* eslint @okta/okta/no-specific-modules: 0 */
+
+
+
+
+function trim(str) {
+  return str && str.replace(/^\s+|\s+$/g, '');
+}
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('i18n', function (options) {
+  let params;
+  const key = trim(options.hash.code);
+  const bundle = trim(options.hash.bundle);
+  const args = trim(options.hash['arguments']);
+
+  if (args) {
+    params = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].map(
+      trim(args).split(';'),
+      function (param) {
+        param = trim(param);
+        let val;
+        const data = this;
+
+        /*
+       * the context(data) may be a deep object, ex {user: {name: 'John', gender: 'M'}}
+       * arguments may be 'user.name'
+       * return data['user']['name']
+       */
+        __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].each(param.split('.'), function (p) {
+          val = val ? val[p] : data[p];
+        });
+        return val;
+      },
+      this
+    );
+  }
+
+  return __WEBPACK_IMPORTED_MODULE_2__StringUtil__["default"].localize(key, bundle, params);
+});
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
+/* eslint @okta/okta/no-specific-modules: 0 */
+
+
+const CACHE_BUST_URL_PREFIX = '/assets';
+
+function prependCachebustPrefix(path) {
+  if (path.indexOf(CACHE_BUST_URL_PREFIX) === 0) {
+    return path;
+  }
+  return CACHE_BUST_URL_PREFIX + path;
+}
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('img', function (options) {
+  const cdn = (typeof okta !== 'undefined' && okta.cdnUrlHostname) || '';
+  /*global okta */
+
+  const hash = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].pick(options.hash, ['src', 'alt', 'width', 'height', 'class', 'title']);
+
+  hash.src = '' + cdn + prependCachebustPrefix(hash.src);
+
+  const attrs = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].map(hash, function (value, attr) {
+    return attr + '="' + __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.Utils.escapeExpression(value) + '"';
+  });
+
+  return new __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.SafeString('<img ' + attrs.join(' ') + '/>');
+});
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__markdownToHtml__ = __webpack_require__(65);
+/* eslint @okta/okta/no-specific-modules: 0 */
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('markdown', function (mdText) {
+  return Object(__WEBPACK_IMPORTED_MODULE_1__markdownToHtml__["a" /* default */])(__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a, mdText);
+});
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = mdToHtml;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
+// Simple "markdown parser" - just handles markdown formatted links. If we
+// find that we need more extensive markdown support, we should include
+// a fully formulated markdown library like:
+// https://github.com/evilstreak/markdown-js
+
+const RE_LINK = /\[[^\]]*\]\([^)]*\)/gi;
+const RE_LINK_HREF = /\]\(([^)]*)\)/i;
+const RE_LINK_TEXT = /\[([^\]]*)\]/i;
+const RE_LINK_JS = /javascript:/gi;
+
+// Converts links
+// FROM:
+// [some link text](http://the/link/url)
+// TO:
+// <a href="http://the/link/url">some link text</a>
+function mdToHtml(Handlebars, markdownText) {
+  const linkTemplate = Handlebars.compile('<a href="{{href}}">{{text}}</a>');
+  /* eslint  @okta/okta/no-specific-methods: 0*/
+
+  let res;
+
+  if (!__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isString(markdownText)) {
+    res = '';
+  } else {
+    res = Handlebars.Utils.escapeExpression(markdownText)
+      .replace(RE_LINK_JS, '')
+      .replace(RE_LINK, function (mdLink) {
+        return linkTemplate({
+          href: mdLink.match(RE_LINK_HREF)[1],
+          text: mdLink.match(RE_LINK_TEXT)[1]
+        });
+      });
+  }
+  return new Handlebars.SafeString(res);
+}
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__ = __webpack_require__(2);
+/* eslint @okta/okta/no-specific-modules: 0 */
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('xsrfTokenInput', function () {
+  return new __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.SafeString(
+    '<input type="hidden" class="hide" name="_xsrfToken" ' + 'value="' + Object(__WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__["default"])('#_xsrfToken').text() + '">'
+  );
+});
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__framework_ListView__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseView__ = __webpack_require__(1);
 
 
@@ -9186,11 +9319,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__View__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__View__ = __webpack_require__(21);
 
 
 /**
@@ -9281,7 +9414,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9408,16 +9541,16 @@ const BaseDropDownDropDownOption = __WEBPACK_IMPORTED_MODULE_3__BaseView__["defa
 
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_StringUtil__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__inputs_BooleanSelect__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__inputs_TextBoxSet__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EnumTypeHelper__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__inputs_BooleanSelect__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__inputs_TextBoxSet__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EnumTypeHelper__ = __webpack_require__(18);
 /* eslint max-statements: 0, max-params: 0 */
 
 
@@ -9708,7 +9841,7 @@ function isValidSchemaProp(schemaProp, values) {
 
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9753,7 +9886,7 @@ const to = function (val) {
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Select Box Enhancer for jQuery and Prototype
@@ -9766,7 +9899,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
 // MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 // This file is generated by `grunt build`, do not edit it by hand.
 
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (jQuery) {
+!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(12)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (jQuery) {
   (function() {
     var SelectParser;
 
@@ -10894,7 +11027,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11086,14 +11219,14 @@ const CalloutCallout = __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend
 
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_SchemaUtil__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseInput__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DeletableBox__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DeletableBox__ = __webpack_require__(75);
 
 
 
@@ -11216,7 +11349,7 @@ const CalloutCallout = __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend
 
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11360,11 +11493,173 @@ const updateArrayEvent = 'updateArray';
 
 
 /***/ }),
-/* 75 */
+/* 76 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Keys__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseInput__ = __webpack_require__(10);
+
+
+
+
+
+const template = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl(
+  '\
+    <input type="checkbox" name="{{name}}" id="{{inputId}}"/>\
+    <label for="{{inputId}}" data-se-for-name="{{name}}">{{placeholder}}</label>\
+  '
+);
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_4__BaseInput__["a" /* default */].extend({
+  template: template,
+  /**
+   * @Override
+   */
+  events: {
+    'change :checkbox': 'update',
+    keyup: function (e) {
+      if (__WEBPACK_IMPORTED_MODULE_1__util_Keys__["default"].isSpaceBar(e)) {
+        this.$(':checkbox').click();
+      } else if (__WEBPACK_IMPORTED_MODULE_1__util_Keys__["default"].isEnter(e)) {
+        this.model.trigger('form:save');
+      }
+    }
+  },
+
+  /**
+   * @Override
+   */
+  editMode: function () {
+    let placeholder = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this.options, 'placeholder', this);
+
+    if (placeholder === '') {
+      placeholder = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this.options, 'label', this);
+    } else if (placeholder === false) {
+      placeholder = '';
+    }
+
+    this.$el.html(this.template(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].omit(this.options, 'placeholder'), { placeholder: placeholder })));
+    const $input = this.$(':checkbox');
+
+    $input.prop('checked', this.getModelValue() || false);
+
+    this.$('input').customInput();
+    this.model.trigger('form:resize');
+
+    return this;
+  },
+
+  /**
+   * @Override
+   */
+  readMode: function () {
+    this.editMode();
+    this.$(':checkbox').prop('disabled', true);
+    return this;
+  },
+
+  /**
+   * @Override
+   */
+  val: function () {
+    return this.$(':checkbox').prop('checked');
+  },
+
+  /**
+   * @Override
+   */
+  focus: function () {
+    return this.$(':checkbox').focus();
+  }
+}));
+
+
+/***/ }),
+/* 77 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_TemplateUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TextBox__ = __webpack_require__(32);
+/*!
+ * Copyright (c) 2015-2018, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
+
+
+
+
+const toggleTemplate = __WEBPACK_IMPORTED_MODULE_1__util_TemplateUtil__["default"].tpl(
+  '\
+      <span class="password-toggle">\
+        <span class="eyeicon visibility-16 button-show"></span>\
+        <span class="eyeicon visibility-off-16 button-hide"></span>\
+      </span>\
+  '
+);
+const toggleTimeout = 30000;
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_2__TextBox__["default"].extend({
+  initialize: function () {
+    if (this.__showPasswordToggle()) {
+      this.events['click .password-toggle .button-show'] = '__showPassword';
+      this.events['click .password-toggle .button-hide'] = '__hidePassword';
+    }
+    this.delegateEvents();
+  },
+
+  postRender: function () {
+    if (this.isEditMode() && this.__showPasswordToggle()) {
+      this.$el.append(toggleTemplate);
+      this.$el.find('input[type="password"]').addClass('password-with-toggle');
+    }
+    __WEBPACK_IMPORTED_MODULE_2__TextBox__["default"].prototype.postRender.apply(this, arguments);
+  },
+
+  __showPasswordToggle: function () {
+    return this.options.params && this.options.params.showPasswordToggle;
+  },
+
+  __showPassword: function () {
+    __WEBPACK_IMPORTED_MODULE_2__TextBox__["default"].prototype.changeType.apply(this, ['text']);
+    this.$('.password-toggle .button-show').hide();
+    this.$('.password-toggle .button-hide').show();
+    this.passwordToggleTimer = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].delay(() => {
+      this.__hidePassword();
+    }, toggleTimeout);
+  },
+
+  __hidePassword: function () {
+    __WEBPACK_IMPORTED_MODULE_2__TextBox__["default"].prototype.changeType.apply(this, ['password']);
+    this.$('.password-toggle .button-show').show();
+    this.$('.password-toggle .button-hide').hide();
+    // clear timeout
+    if (this.passwordToggleTimer) {
+      clearTimeout(this.passwordToggleTimer);
+    }
+  }
+}));
+
+
+/***/ }),
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! http://mths.be/placeholder v2.0.7 by @mathias */
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_RESULT__ = (function($){
+!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(12)], __WEBPACK_AMD_DEFINE_RESULT__ = (function($){
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
 	    isTextareaSupported = 'placeholder' in document.createElement('textarea'),
@@ -11522,169 +11817,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! http://mths.
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 76 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TextBox__ = __webpack_require__(31);
-/*!
- * Copyright (c) 2015-2018, Okta, Inc. and/or its affiliates. All rights reserved.
- * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
- *
- * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *
- * See the License for the specific language governing permissions and limitations under the License.
- */
-
-
-
-
-const toggleTemplate = __WEBPACK_IMPORTED_MODULE_1__util_TemplateUtil__["default"].tpl(
-  '\
-      <span class="password-toggle">\
-        <span class="eyeicon visibility-16 button-show"></span>\
-        <span class="eyeicon visibility-off-16 button-hide"></span>\
-      </span>\
-  '
-);
-const toggleTimeout = 30000;
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_2__TextBox__["default"].extend({
-  initialize: function () {
-    if (this.__showPasswordToggle()) {
-      this.events['click .password-toggle .button-show'] = '__showPassword';
-      this.events['click .password-toggle .button-hide'] = '__hidePassword';
-    }
-    this.delegateEvents();
-  },
-
-  postRender: function () {
-    if (this.isEditMode() && this.__showPasswordToggle()) {
-      this.$el.append(toggleTemplate);
-      this.$el.find('input[type="password"]').addClass('password-with-toggle');
-    }
-    __WEBPACK_IMPORTED_MODULE_2__TextBox__["default"].prototype.postRender.apply(this, arguments);
-  },
-
-  __showPasswordToggle: function () {
-    return this.options.params && this.options.params.showPasswordToggle;
-  },
-
-  __showPassword: function () {
-    __WEBPACK_IMPORTED_MODULE_2__TextBox__["default"].prototype.changeType.apply(this, ['text']);
-    this.$('.password-toggle .button-show').hide();
-    this.$('.password-toggle .button-hide').show();
-    this.passwordToggleTimer = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].delay(() => {
-      this.__hidePassword();
-    }, toggleTimeout);
-  },
-
-  __hidePassword: function () {
-    __WEBPACK_IMPORTED_MODULE_2__TextBox__["default"].prototype.changeType.apply(this, ['password']);
-    this.$('.password-toggle .button-show').show();
-    this.$('.password-toggle .button-hide').hide();
-    // clear timeout
-    if (this.passwordToggleTimer) {
-      clearTimeout(this.passwordToggleTimer);
-    }
-  }
-}));
-
-
-/***/ }),
-/* 77 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Keys__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseInput__ = __webpack_require__(10);
-
-
-
-
-
-const template = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl(
-  '\
-    <input type="checkbox" name="{{name}}" id="{{inputId}}"/>\
-    <label for="{{inputId}}" data-se-for-name="{{name}}">{{placeholder}}</label>\
-  '
-);
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_4__BaseInput__["a" /* default */].extend({
-  template: template,
-  /**
-   * @Override
-   */
-  events: {
-    'change :checkbox': 'update',
-    keyup: function (e) {
-      if (__WEBPACK_IMPORTED_MODULE_1__util_Keys__["default"].isSpaceBar(e)) {
-        this.$(':checkbox').click();
-      } else if (__WEBPACK_IMPORTED_MODULE_1__util_Keys__["default"].isEnter(e)) {
-        this.model.trigger('form:save');
-      }
-    }
-  },
-
-  /**
-   * @Override
-   */
-  editMode: function () {
-    let placeholder = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this.options, 'placeholder', this);
-
-    if (placeholder === '') {
-      placeholder = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this.options, 'label', this);
-    } else if (placeholder === false) {
-      placeholder = '';
-    }
-
-    this.$el.html(this.template(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].omit(this.options, 'placeholder'), { placeholder: placeholder })));
-    const $input = this.$(':checkbox');
-
-    $input.prop('checked', this.getModelValue() || false);
-
-    this.$('input').customInput();
-    this.model.trigger('form:resize');
-
-    return this;
-  },
-
-  /**
-   * @Override
-   */
-  readMode: function () {
-    this.editMode();
-    this.$(':checkbox').prop('disabled', true);
-    return this;
-  },
-
-  /**
-   * @Override
-   */
-  val: function () {
-    return this.$(':checkbox').prop('checked');
-  },
-
-  /**
-   * @Override
-   */
-  focus: function () {
-    return this.$(':checkbox').focus();
-  }
-}));
-
-
-/***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11694,7 +11827,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_Util__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BaseInput__ = __webpack_require__(10);
 /* eslint max-statements: [2, 12], max-params: [2, 6] */

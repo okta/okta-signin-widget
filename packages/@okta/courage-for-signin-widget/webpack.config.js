@@ -34,11 +34,6 @@ const webpackConfig = {
   resolve: {
     alias: {
 
-      'okta/jquery': SHARED_JS + '/util/jquery-wrapper',
-      'okta/underscore': SHARED_JS + '/util/underscore-wrapper',
-      'okta/handlebars': SHARED_JS + '/util/handlebars-wrapper',
-      'okta/moment': SHARED_JS + '/util/moment-wrapper',
-
       // jsons is from StringUtil
       'vendor/lib/json2': EMPTY,
 
@@ -46,7 +41,6 @@ const webpackConfig = {
       //   BaseRouter -> ConfirmationDialog -> BaseFormDialog -> BaseModalDialog -> simplemodal
       'vendor/plugins/jquery.simplemodal': EMPTY,
 
-      'shared': SHARED_JS,
       'vendor': SHARED_JS + '/vendor',
     }
   },
