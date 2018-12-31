@@ -2,6 +2,7 @@
 
 ### Features
 
+- [#606](https://github.com/okta/okta-signin-widget/pull/606) - Adds `colors.brand` to config.
 - [#577](https://github.com/okta/okta-signin-widget/pull/577) - Adds `ready` and `afterRender` events. Deprecates `pageRendered` event in favor of `afterRender`.
 - [#591](https://github.com/okta/okta-signin-widget/pull/591) - Adds custom button support for IdP discovery flows.
 - [#603](https://github.com/okta/okta-signin-widget/pull/603) - Adds `afterError` event for authentication state change errors.

@@ -863,6 +863,19 @@ var signIn = new OktaSignIn(config);
     }
     ```
 
+### Colors
+
+You can control the main style of the widget by setting the following config options. The colors need to be in `6-digit hex` format.
+
+- **colors.brand:** Set the brand color of the widget. This will affect the color of all the primary buttons of the widget.
+
+  ```javascript
+  // The color need to be in 6-digit hex format:
+  colors: {
+    brand: '#008000'
+  }
+  ```
+
 ### Links
 
 You can override a link URL by setting the following config options. If you'd like to change the link text, use the `i18n` config option.
