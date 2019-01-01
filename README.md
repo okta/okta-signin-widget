@@ -865,12 +865,13 @@ var signIn = new OktaSignIn(config);
 
 ### Colors
 
-You can control the main style of the widget by setting the following config options. The colors need to be in `6-digit hex` format.
+These options let you customize the appearance of the Sign-in Widget.
 
-- **colors.brand:** Set the brand color of the widget. This will affect the color of all the primary buttons of the widget.
+If you want even more customization, you can modify the [Sass source files](https://github.com/okta/okta-signin-widget/tree/master/assets/sass) and [build the Widget](https://github.com/okta/okta-signin-widget#building-the-widget).
+
+- **colors.brand:** Sets the brand (primary) color. Colors must be in hex format, like `#008000`.
 
   ```javascript
-  // The color need to be in 6-digit hex format:
   colors: {
     brand: '#008000'
   }
