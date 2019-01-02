@@ -21,7 +21,6 @@ define([
   './ErrorCodes'
 ],
 function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
-  var { Util: CourageUtil } = Okta.internal.util;
   var fn = {};
 
   var verifyUrlTpl = Okta.tpl('signin/verify/{{provider}}/{{factorType}}');
@@ -132,9 +131,7 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
         successData.relayState = res.relayState;
       }
 
-      var redirectFn = router.settings.get('features.redirectByFormSubmit')
-        ? Util.redirectWithFormGet.bind(Util)
-        : CourageUtil.redirect.bind(CourageUtil);
+      var redirectFn = router.settings.get('redirectUtilFn');
 
       if (res.type === Enums.SESSION_STEP_UP) {
         var targetUrl = res._links && res._links.next && res._links.next.href;

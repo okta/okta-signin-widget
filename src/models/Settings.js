@@ -164,6 +164,15 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
     },
 
     derived: {
+      redirectUtilFn: {
+        deps: ['features.redirectByFormSubmit'],
+        fn: function (redirectByFormSubmit) {
+          return redirectByFormSubmit
+            ? Util.redirectWithFormGet.bind(Util)
+            : SharedUtil.redirect.bind(SharedUtil);
+        },
+        cache: true
+      },
       supportedLanguages: {
         deps: ['i18n'],
         fn: function (i18n) {
