@@ -11,6 +11,7 @@
  */
 /* global browser, element, by, oktaSignIn, options, OktaSignIn */
 var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
+    OktaHomePage = require('../page-objects/OktaHomePage'),
     util = require('../util/util');
 
 describe('Basic flows', function () {
@@ -89,4 +90,30 @@ describe('Basic flows', function () {
     var primaryButton = element(by.css('#okta-signin-submit'));
     expect(primaryButton.getCssValue('background')).toContain(('rgb(0, 128, 0)')); // #008000 in rgb
   });
+
+  it('redircts to successful page when features.redirectByFormSubmit is on', function () {
+    browser.executeScript('oktaSignIn.remove()');
+    function createWidget () {
+      options.features = {
+        redirectByFormSubmit: true,
+      };
+      // eslint-disable-next-line no-global-assign
+      oktaSignIn = new OktaSignIn(options);
+      oktaSignIn.renderEl({
+        el: '#okta-login-container'
+      }, function (res) {
+        if (res.status === 'SUCCESS') {
+          res.session.setCookieAndRedirect(options.baseUrl + '/app/UserHome');
+        }
+      });
+    }
+    browser.executeScript(createWidget);
+
+    var primaryAuth = new PrimaryAuthPage();
+    var oktaHome = new OktaHomePage();
+
+    primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
+    oktaHome.waitForPageLoad();
+  });
+
 });
