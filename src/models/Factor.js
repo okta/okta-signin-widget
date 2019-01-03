@@ -194,7 +194,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
 
     validate: function () {
       if (this.get('isAnswerRequired') && !this.get('answer')) {
-        return {'answer': Okta.loc('model.validation.field.blank')};
+        return {'answer': Okta.loc('model.validation.this.field.blank')};
       }
       else if(this.get('factorType') === 'password' && !this.get('password')) {
         return {'password': Okta.loc('error.password.required')};

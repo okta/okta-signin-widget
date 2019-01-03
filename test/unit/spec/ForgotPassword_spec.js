@@ -228,7 +228,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.form.sendEmail();
           expect($.ajax.calls.count()).toBe(0);
           expect(test.form.usernameErrorField().length).toBe(1);
-          expect(test.form.usernameErrorField().text()).toBe('The field cannot be left blank');
+          expect(test.form.usernameErrorField().text()).toBe('This field cannot be left blank');
         });
       });
       itp('sends email', function () {

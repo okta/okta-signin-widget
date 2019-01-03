@@ -200,7 +200,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, B
     Expect.describe('IDPDiscoveryModel', function () {
       it('returns validation error when email is blank', function () {
         var model = new IDPDiscovery({username: ''});
-        expect(model.validate().username).toEqual('model.validation.field.blank');
+        expect(model.validate().username).toEqual('model.validation.this.field.blank');
       });
     });
 

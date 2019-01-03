@@ -101,7 +101,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         self.trigger('errors:clear');
 
         if(!phoneNumber.length) {
-          self.trigger('invalid', self, {'phoneNumber': 'model.validation.field.blank'});
+          self.trigger('invalid', self, {'phoneNumber': 'model.validation.this.field.blank'});
           return;
         }
 
