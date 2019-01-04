@@ -30,18 +30,26 @@ define(['parse-ms', '@sindresorhus/to-milliseconds'], function (parseMs, toMilli
      * Will return a number in the units of the highest relevant time unit.
      * Only checks milliseconds, seconds, minutes, hours, and days.
      * E.g.
-     *   15 minutes -> 15 minutes
-     *   60 minutes ->  1 hours
-     *   90 minutes -> 90 minutes
-     *   24 hours   ->  1 days
+     *   15 MINUTE  -> 15 MINUTE
+     *   15 minutes -> 15 MINUTE
+     *   60 minutes ->  1 HOUR
+     *   90 minutes -> 90 MINUTE
+     *   24 HOUR    ->  1 DAY
+     *   24 hours   ->  1 DAY
+     *   30 DAY     -> 30 DAY
      *
-     * @typedef TimeWithUnit
+     * @typedef { "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY" } TimeUnit
+     *
+     * @typedef { "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY" |
+     *            "milliseconds" | "seconds" | "minutes" | "hours" | "days"
+     *          } FlexibleTimeUnit
+     *
+     * @typedef TimeAndUnit
      * @property {number} time the consolidated time
-     * @property {string} unit the unit of the time
-
-     * @param {Number} val  The amount of time
-     * @param {String} unit The time unit
-     * @return {TimeWithUnit} An object containing the amount of time and the unit
+     * @property {TimeUnit} unit the unit of the time
+     *
+     * @param {FlexibleTimeUnit} unit The time unit
+     * @return {TimeAndUnit} An object containing the amount of time and the unit
      */
     getTimeInHighestRelevantUnit: function (val, unit) {
       const defaultTimeObj = {
