@@ -156,7 +156,10 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       'consent.cancel': 'function',
 
       //IDP Discovery
-      'idpDiscovery.requestContext': 'string'
+      'idpDiscovery.requestContext': 'string',
+
+      //Colors
+      'colors.brand': 'string'
     },
 
     derived: {
@@ -319,6 +322,9 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
     initialize: function (options) {
       if (!options.baseUrl) {
         this.callGlobalError(new ConfigError(Okta.loc('error.required.baseUrl')));
+      }
+      else if (options.colors && _.isString(options.colors.brand) && !options.colors.brand.match(/^#[0-9A-Fa-f]{6}$/)) {
+        this.callGlobalError(new ConfigError(Okta.loc('error.invalid.colors.brand')));
       }
       else if (BrowserFeatures.corsIsNotSupported()) {
         this.callGlobalError(new UnsupportedBrowserError(Okta.loc('error.unsupported.cors')));

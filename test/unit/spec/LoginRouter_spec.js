@@ -328,6 +328,37 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
       expect(err.name).toBe('CONFIG_ERROR');
       expect(err.message).toEqual('"baseUrl" is a required widget parameter');
     });
+    it('calls globalErrorFn if colors.brand is in rgb format', function () {
+      var errorSpy = jasmine.createSpy('errorSpy');
+      var colors = {
+        brand: 'rgb(255,0,0)'
+      };
+      var fn = function () { setup({ globalErrorFn: errorSpy, colors }); };
+      expect(fn).not.toThrow();
+      var err = errorSpy.calls.mostRecent().args[0];
+      expect(err.name).toBe('CONFIG_ERROR');
+      expect(err.message).toEqual('"colors.brand" must be in six-digit hex format');
+    });
+    it('calls globalErrorFn if colors.brand is in color name format', function () {
+      var errorSpy = jasmine.createSpy('errorSpy');
+      var colors = {
+        brand: 'red'
+      };
+      var fn = function () { setup({ globalErrorFn: errorSpy, colors }); };
+      expect(fn).not.toThrow();
+      var err = errorSpy.calls.mostRecent().args[0];
+      expect(err.name).toBe('CONFIG_ERROR');
+      expect(err.message).toEqual('"colors.brand" must be in six-digit hex format');
+    });
+    it('does not call globalErrorFn if colors.brand is in 6 digits Hex format', function () {
+      var errorSpy = jasmine.createSpy('errorSpy');
+      var colors = {
+        brand: '#FF0000'
+      };
+      var fn = function () { setup({ globalErrorFn: errorSpy, colors: colors }); };
+      expect(fn).not.toThrow();
+      expect(errorSpy).not.toHaveBeenCalled();
+    });
     it('calls globalErrorFn if cors is not supported by the browser', function () {
       var errorSpy = jasmine.createSpy('errorSpy');
       spyOn(BrowserFeatures, 'corsIsNotSupported').and.returnValue(true);

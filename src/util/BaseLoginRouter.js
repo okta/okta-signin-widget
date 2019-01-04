@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 13], max-statements: [2, 18] */
+/* eslint max-params: [2, 14], max-statements: [2, 18] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
@@ -22,6 +22,7 @@ define([
   'views/shared/SecurityBeacon',
   'views/shared/AuthContainer',
   'models/AppState',
+  './ColorsUtil',
   './RouterUtil',
   './Animations',
   './Errors',
@@ -30,7 +31,7 @@ define([
   'util/Logger'
 ],
 function (Okta, BrowserFeatures, Settings,
-  Header, SecurityBeacon, AuthContainer, AppState, RouterUtil, Animations,
+  Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, RouterUtil, Animations,
   Errors, Util, Bundles, Logger) {
 
   var { _, $, Backbone } = Okta;
@@ -204,6 +205,14 @@ function (Okta, BrowserFeatures, Settings,
         )
           .then(_.bind(this.render, this, Controller, options))
           .done();
+      }
+
+      // Load the custom colors only on the first render
+      if (this.settings.get('colors.brand') && !ColorsUtil.isLoaded()) {
+        var colors = {
+          brand: this.settings.get('colors.brand')
+        };
+        ColorsUtil.addStyle(colors);
       }
 
       var oldController = this.controller;
