@@ -11,10 +11,44 @@
  */
 
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
-define(['okta', 'util/Logger'], function (Okta, Logger) {
+define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
 
   var Util = {};
   var _ = Okta._;
+
+  var buildInputForParameter = function (name, value) {
+    var input = document.createElement('input');
+    input.name = name;
+    input.value = decodeURIComponent(value);
+    input.type = 'hidden';
+    return input;
+  };
+
+  var buildDynamicForm = function (url = '') {
+    var splitOnFragment = url.split('#');
+    var fragment = splitOnFragment[1];
+
+    var splitOnQuery = (splitOnFragment[0] || '').split('?');
+    var query = splitOnQuery[1];
+    var targetUrl = splitOnQuery[0];
+    if (fragment) {
+      targetUrl += '#' + fragment;
+    }
+
+    var form = document.createElement('form');
+    form.method = 'get';
+    form.setAttribute('style', 'display: none;');
+    form.action = targetUrl;
+    if (query && query.length) {
+      var queryParts = query.split('&');
+      queryParts.forEach(queryPart => {
+        var parameterParts = queryPart.split('=');
+        var input = buildInputForParameter(parameterParts[0], parameterParts[1]);
+        form.appendChild(input);
+      });
+    }
+    return form;
+  };
 
   Util.hasTokensInHash = function (hash) {
     return /((id|access)_token=)/i.test(hash);
@@ -111,6 +145,36 @@ define(['okta', 'util/Logger'], function (Okta, Logger) {
     var className = _.isFunction(controller.className) ? controller.className() : controller.className;
     var error = _.pick(err, 'name', 'message', 'statusCode', 'xhr');
     controller.trigger('afterError', { controller: className }, error);
+  };
+
+  /**
+   * Why redirect via Form get rather using `window.location.href`?
+   * At the time of writing, Chrome (<72) in Android would block window location change
+   * at following case
+   * 1. An AJAX is trigger because of user action.
+   * 2. 5+ seconds passed without any further user interaction.
+   * 3. User takes an action results in window location change.
+   *
+   * Luckily we discovered that uses Form submit would work around this problem
+   * even though it changed window location.
+   *
+   * Check the commit history for more details.
+   */
+  Util.redirectWithFormGet = function (url) {
+    if (!url) {
+      Logger.error(`Cannot redirect to empty URL: (${url})`);
+      return;
+    }
+
+    var mainContainer = document.getElementById(Enums.WIDGET_CONTAINER_ID);
+    if (!mainContainer) {
+      Logger.error('Cannot find okta-sign-in container append to which a form');
+      return;
+    }
+
+    var form = buildDynamicForm(url);
+    mainContainer.appendChild(form);
+    form.submit();
   };
 
   return Util;

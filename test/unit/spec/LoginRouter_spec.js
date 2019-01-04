@@ -3,6 +3,9 @@ define([
   'okta',
   'q',
   'util/Logger',
+  'util/Errors',
+  'util/BrowserFeatures',
+  'util/Util',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/util/Expect',
@@ -24,19 +27,17 @@ define([
   'helpers/xhr/ERROR_invalid_token',
   'helpers/xhr/UNAUTHENTICATED',
   'helpers/xhr/SUCCESS_session_step_up',
-  'util/Errors',
-  'util/BrowserFeatures',
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
+function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
+  OktaAuth, Util, Expect, Router,
   $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm,
   resSuccess, resRecovery, resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
   resMfaChallengePush, resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp,
-  Errors, BrowserFeatures, labelsLoginJa, labelsCountryJa) {
+  labelsLoginJa, labelsCountryJa) {
 
-  var SharedUtil = Okta.internal.util.Util;
-  var CourageLogger = Okta.internal.util.Logger;
+  var { Util: SharedUtil, Logger: CourageLogger } = Okta.internal.util;
   var {_, $, Backbone} = Okta;
 
   var itp = Expect.itp,
@@ -209,11 +210,13 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
       expectUnexpectedFieldLog('foo');
     });
     it('logs a ConfigError error if el is not passed as a widget param', function () {
+      spyOn(Logger, 'error');
       var fn = function () { setup({ el: undefined }); };
       expect(fn).not.toThrow();
       expect(Logger.error).toHaveBeenCalled();
     });
     it('has the correct error message if el is not passed as a widget param', function () {
+      spyOn(Logger, 'error');
       var fn = function () { setup({ el: undefined }); };
       expect(fn).not.toThrow();
       var err = Logger.error.calls.mostRecent().args[0];
@@ -290,6 +293,24 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           );
         });
     });
+    itp('has a success callback which correctly implements the setCookieAndRedirect function when features.redirectByFormSubmit is on', function () {
+      spyOn(WidgetUtil, 'redirectWithFormGet');
+      var successSpy = jasmine.createSpy('successSpy');
+      return setup({ globalSuccessFn: successSpy, 'features.redirectByFormSubmit': true })
+        .then(function (test) {
+          test.setNextResponse(resSuccess);
+          test.router.refreshAuthState('dummy-token');
+          return Expect.waitForSpyCall(successSpy);
+        })
+        .then(function () {
+          var setCookieAndRedirect = successSpy.calls.mostRecent().args[0].session.setCookieAndRedirect;
+          setCookieAndRedirect('http://baz.com/foo');
+          expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
+            'https://foo.com/login/sessionCookieRedirect?checkAccountSetupComplete=true' +
+          '&token=THE_SESSION_TOKEN&redirectUrl=http%3A%2F%2Fbaz.com%2Ffoo'
+          );
+        });
+    });
     itp('for SESSION_STEP_UP type, success callback data contains the target resource url and a finish function', function () {
       spyOn(SharedUtil, 'redirect');
       var successSpy = jasmine.createSpy('successSpy');
@@ -306,6 +327,31 @@ function (Okta, Q, Logger, OktaAuth, Util, Expect, Router,
           expect(finish).toEqual(jasmine.any(Function));
           finish();
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            'http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken'
+          );
+        });
+    });
+    itp('for SESSION_STEP_UP type, success callback data contains the target resource url and a finish function when features.redirectByFormSubmit is on', function () {
+      spyOn(WidgetUtil, 'redirectWithFormGet');
+      var successSpy = jasmine.createSpy('successSpy');
+      var opt = {
+        'features.redirectByFormSubmit': true,
+        stateToken: 'aStateToken',
+        globalSuccessFn: successSpy
+      };
+      return setup(opt)
+        .then(function (test) {
+          test.setNextResponse(resSuccessStepUp);
+          test.router.refreshAuthState('dummy-token');
+          return Expect.waitForSpyCall(successSpy);
+        })
+        .then(function () {
+          var targetUrl = successSpy.calls.mostRecent().args[0].stepUp.url;
+          expect(targetUrl).toBe('http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken');
+          var finish = successSpy.calls.mostRecent().args[0].stepUp.finish;
+          expect(finish).toEqual(jasmine.any(Function));
+          finish();
+          expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
             'http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken'
           );
         });
