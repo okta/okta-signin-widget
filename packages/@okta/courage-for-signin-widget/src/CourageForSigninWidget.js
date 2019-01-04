@@ -19,7 +19,6 @@ define([
   '@okta/courage/src/util/Logger',
   '@okta/courage/src/util/Class',
   '@okta/courage/src/util/Keys',
-  '@okta/courage/src/util/TimeUtil',
   '@okta/courage/src/views/BaseView',
   '@okta/courage/src/views/Backbone.ListView',
   '@okta/courage/src/views/components/BaseDropDown',
@@ -34,10 +33,10 @@ define([
   '@okta/courage/src/views/forms/inputs/Radio',
   '@okta/courage/src/views/forms/inputs/Select',
 ],
-  function (Backbone, $, _, Handlebars, 
+  function (Backbone, $, _, Handlebars,
     Model, BaseModel, BaseCollection, SchemaProperty, BaseSchema,
-    StringUtil, TemplateUtil, ButtonFactory, BaseRouter, BaseController, 
-    Util, Cookie, Logger, Class, Keys, TimeUtil,
+    StringUtil, TemplateUtil, ButtonFactory, BaseRouter, BaseController,
+    Util, Cookie, Logger, Class, Keys,
     BaseView, ListView, BaseDropDown,
     BaseForm, InputRegistry, FormUtil, SchemaFormFactory, Toolbar,
     TextBox, PasswordBox, CheckBox, Radio, Select) {
@@ -84,7 +83,6 @@ define([
           Logger,
           Class,
           Keys,
-          TimeUtil,
         },
 
         views: {
