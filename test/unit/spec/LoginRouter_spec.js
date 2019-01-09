@@ -321,9 +321,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
           return Expect.waitForSpyCall(successSpy);
         })
         .then(function () {
-          var targetUrl = successSpy.calls.mostRecent().args[0].stepUp.url;
-          expect(targetUrl).toBe('http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken');
-          var finish = successSpy.calls.mostRecent().args[0].stepUp.finish;
+          var finish = successSpy.calls.mostRecent().args[0].next;
           expect(finish).toEqual(jasmine.any(Function));
           finish();
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
@@ -346,9 +344,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
           return Expect.waitForSpyCall(successSpy);
         })
         .then(function () {
-          var targetUrl = successSpy.calls.mostRecent().args[0].stepUp.url;
-          expect(targetUrl).toBe('http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken');
-          var finish = successSpy.calls.mostRecent().args[0].stepUp.finish;
+          var finish = successSpy.calls.mostRecent().args[0].next;
           expect(finish).toEqual(jasmine.any(Function));
           finish();
           expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(

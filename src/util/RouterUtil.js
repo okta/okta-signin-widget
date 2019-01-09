@@ -124,7 +124,7 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
 
       var successData = {
         user: res._embedded.user,
-        type: res.type
+        type: res.type || Enums.SESSION_SSO
       };
 
       if (res.relayState) {
@@ -133,17 +133,12 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
 
       var redirectFn = router.settings.get('redirectUtilFn');
 
-      if (res.type === Enums.SESSION_STEP_UP) {
-        var targetUrl = res._links && res._links.next && res._links.next.href;
-        successData.stepUp = {
-          url: targetUrl,
-          finish: function () {
-            redirectFn(targetUrl);
-          }
+      var nextUrl = res._links && res._links.next && res._links.next.href;
+      if (nextUrl) {
+        successData.next = function () {
+          redirectFn(nextUrl);
         };
       } else {
-        // Add the type for now until the API returns it.
-        successData.type = Enums.SESSION_SSO;
         successData.session = {
           token: res.sessionToken,
           setCookieAndRedirect: function (redirectUrl) {
