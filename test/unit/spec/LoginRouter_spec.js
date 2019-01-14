@@ -27,6 +27,8 @@ define([
   'helpers/xhr/ERROR_invalid_token',
   'helpers/xhr/UNAUTHENTICATED',
   'helpers/xhr/SUCCESS_session_step_up',
+  'helpers/xhr/SUCCESS_original',
+  'helpers/xhr/SUCCESS_next',
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
@@ -35,7 +37,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
   $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm,
   resSuccess, resRecovery, resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
   resMfaChallengePush, resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp,
-  labelsLoginJa, labelsCountryJa) {
+  resSuccessOriginal, resSuccessNext, labelsLoginJa, labelsCountryJa) {
 
   var { Util: SharedUtil, Logger: CourageLogger } = Okta.internal.util;
   var {_, $, Backbone} = Okta;
@@ -321,7 +323,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
           return Expect.waitForSpyCall(successSpy);
         })
         .then(function () {
-          var finish = successSpy.calls.mostRecent().args[0].next;
+          var targetUrl = successSpy.calls.mostRecent().args[0].stepUp.url;
+          expect(targetUrl).toBe('http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken');
+          var finish = successSpy.calls.mostRecent().args[0].stepUp.finish;
           expect(finish).toEqual(jasmine.any(Function));
           finish();
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
@@ -344,11 +348,95 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
           return Expect.waitForSpyCall(successSpy);
         })
         .then(function () {
-          var finish = successSpy.calls.mostRecent().args[0].next;
+          var targetUrl = successSpy.calls.mostRecent().args[0].stepUp.url;
+          expect(targetUrl).toBe('http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken');
+          var finish = successSpy.calls.mostRecent().args[0].stepUp.finish;
           expect(finish).toEqual(jasmine.any(Function));
           finish();
           expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
             'http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken'
+          );
+        });
+    });
+    itp('for success with an original link, success callback data contains a next function that redirects to original.href', function () {
+      spyOn(SharedUtil, 'redirect');
+      var successSpy = jasmine.createSpy('successSpy');
+      return setup({ stateToken: 'aStateToken', globalSuccessFn: successSpy })
+        .then(function (test) {
+          test.setNextResponse(resSuccessOriginal);
+          test.router.refreshAuthState('dummy-token');
+          return Expect.waitForSpyCall(successSpy);
+        })
+        .then(function () {
+          var next = successSpy.calls.mostRecent().args[0].next;
+          expect(next).toEqual(jasmine.any(Function));
+          next();
+          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            'http://foo.okta.com/original/redirect?stateToken=aStateToken'
+          );
+        });
+    });
+    itp('for success with an original link, success callback data contains a next function that redirects to original.href when features.redirectByFormSubmit is on', function () {
+      spyOn(WidgetUtil, 'redirectWithFormGet');
+      var successSpy = jasmine.createSpy('successSpy');
+      var opt = {
+        'features.redirectByFormSubmit': true,
+        stateToken: 'aStateToken',
+        globalSuccessFn: successSpy
+      };
+      return setup(opt)
+        .then(function (test) {
+          test.setNextResponse(resSuccessOriginal);
+          test.router.refreshAuthState('dummy-token');
+          return Expect.waitForSpyCall(successSpy);
+        })
+        .then(function () {
+          var next = successSpy.calls.mostRecent().args[0].next;
+          expect(next).toEqual(jasmine.any(Function));
+          next();
+          expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
+            'http://foo.okta.com/original/redirect?stateToken=aStateToken'
+          );
+        });
+    });
+    itp('for success with a next link, success callback data contains a next function that redirects to next.href', function () {
+      spyOn(SharedUtil, 'redirect');
+      var successSpy = jasmine.createSpy('successSpy');
+      return setup({ stateToken: 'aStateToken', globalSuccessFn: successSpy })
+        .then(function (test) {
+          test.setNextResponse(resSuccessNext);
+          test.router.refreshAuthState('dummy-token');
+          return Expect.waitForSpyCall(successSpy);
+        })
+        .then(function () {
+          var next = successSpy.calls.mostRecent().args[0].next;
+          expect(next).toEqual(jasmine.any(Function));
+          next();
+          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            'http://foo.okta.com/next/redirect?stateToken=aStateToken'
+          );
+        });
+    });
+    itp('for success with a next link, success callback data contains a next function that redirects to next.href when features.redirectByFormSubmit is on', function () {
+      spyOn(WidgetUtil, 'redirectWithFormGet');
+      var successSpy = jasmine.createSpy('successSpy');
+      var opt = {
+        'features.redirectByFormSubmit': true,
+        stateToken: 'aStateToken',
+        globalSuccessFn: successSpy
+      };
+      return setup(opt)
+        .then(function (test) {
+          test.setNextResponse(resSuccessNext);
+          test.router.refreshAuthState('dummy-token');
+          return Expect.waitForSpyCall(successSpy);
+        })
+        .then(function () {
+          var next = successSpy.calls.mostRecent().args[0].next;
+          expect(next).toEqual(jasmine.any(Function));
+          next();
+          expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
+            'http://foo.okta.com/next/redirect?stateToken=aStateToken'
           );
         });
     });

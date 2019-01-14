@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 30],max-statements: [2, 30] */
+/* eslint complexity: [2, 35], max-statements: [2, 30] */
 define([
   'okta',
   './OAuth2Util',
@@ -133,12 +133,23 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
 
       var redirectFn = router.settings.get('redirectUtilFn');
 
-      var nextUrl = res._links && res._links.next && res._links.next.href;
-      if (nextUrl) {
+      var nextUrl = res._links &&
+                    ((res._links.original && res._links.original.href) || (res._links.next && res._links.next.href));
+      if (res.type === Enums.SESSION_STEP_UP) {
+        var targetUrl = res._links && res._links.next && res._links.next.href;
+        successData.stepUp = {
+          url: targetUrl,
+          finish: function () {
+            redirectFn(targetUrl);
+          }
+        };
+      } else if (nextUrl) {
         successData.next = function () {
           redirectFn(nextUrl);
         };
       } else {
+        // Add the type for now until the API returns it.
+        successData.type = Enums.SESSION_SSO;
         successData.session = {
           token: res.sessionToken,
           setCookieAndRedirect: function (redirectUrl) {
