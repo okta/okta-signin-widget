@@ -4,6 +4,7 @@ define({
   "response": {
     "expiresAt": "2015-08-05T14:10:54.000Z",
     "status": "SUCCESS",
+    "type": "NEW_TYPE",
     "sessionToken": "THE_SESSION_TOKEN",
     "_embedded": {
       "user": {
