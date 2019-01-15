@@ -189,7 +189,7 @@ define([
 
   fn.isEmptyFieldError = function ($errorField) {
     expect($errorField.length).toBe(1);
-    expect($errorField.text()).toBe('The field cannot be left blank');
+    expect($errorField.text()).toBe('This field cannot be left blank');
   };
 
   fn.isNotVisible = function ($input) {

@@ -759,7 +759,7 @@ function (Okta,
             .then(function (test) {
               expect($.ajax).not.toHaveBeenCalled();
               expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
               expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
             });
         });
@@ -964,7 +964,7 @@ function (Okta,
             .then(function (test) {
               expect($.ajax).not.toHaveBeenCalled();
               expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
               expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
             });
         });
@@ -1311,7 +1311,7 @@ function (Okta,
             .then(function (test) {
               expect($.ajax).not.toHaveBeenCalled();
               expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
               expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
             });
         });
@@ -1351,7 +1351,7 @@ function (Okta,
             .then(function (test) {
               expect($.ajax).not.toHaveBeenCalled();
               expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
               expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
             });
         });
@@ -1587,7 +1587,7 @@ function (Okta,
             .then(function (test) {
               expect($.ajax).not.toHaveBeenCalled();
               expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
               expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
             });
         });
@@ -1653,7 +1653,7 @@ function (Okta,
             .then(function (test) {
               expect($.ajax).not.toHaveBeenCalled();
               expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
               expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
             });
         });
@@ -1903,7 +1903,7 @@ function (Okta,
             .then(function (test) {
               expect($.ajax).not.toHaveBeenCalled();
               expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
               expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
             });
         });
@@ -2745,7 +2745,7 @@ function (Okta,
               .then(function (form) {
                 expect($.ajax).not.toHaveBeenCalled();
                 expect(form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
-                expect(form.passCodeErrorField().text()).toBe('The field cannot be left blank');
+                expect(form.passCodeErrorField().text()).toBe('This field cannot be left blank');
               });
           });
           itp('sets the transaction on the appState on success response', function () {
