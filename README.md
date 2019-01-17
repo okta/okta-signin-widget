@@ -45,6 +45,7 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [Basic config options](#basic-config-options)
   - [Username and password](#username-and-password)
   - [Language and text](#language-and-text)
+  - [Colors](#colors)
   - [Links](#links)
   - [Buttons](#buttons)
   - [Registration](#registration)
@@ -1340,9 +1341,7 @@ Triggered when the widget is ready to accept user input for the first time. Retu
 
 ```javascript
 signIn.on('ready', function (context) {
-  if (context.controller === 'primary-auth') {
-    // The primary authentication form is ready for user input
-  }
+  // The Widget is ready for user input
 });
 ```
 
