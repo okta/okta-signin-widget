@@ -108,7 +108,7 @@ function (Okta, TimeUtil) {
     },
     'PASSWORD': {
       label: 'factor.password',
-      description: '',
+      description: 'factor.password.description',
       iconClassName: 'mfa-okta-password',
       sortOrder: 14
     },

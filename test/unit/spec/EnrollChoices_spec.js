@@ -567,14 +567,14 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         return setup(resAllFactors).then(function (test) {
           var factorList = test.form.getFactorList();
           expect(factorList).toEqual(['OKTA_VERIFY', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH',
-            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'RSA_SECURID', 'GENERIC_SAML', 'GENERIC_OIDC']);
+            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'RSA_SECURID', 'PASSWORD', 'GENERIC_SAML', 'GENERIC_OIDC']);
         });
       });
       itp('with push and onPrem is in correct order', function () {
         return setup(resAllFactorsOnPrem).then(function (test) {
           var factorList = test.form.getFactorList();
           expect(factorList).toEqual(['OKTA_VERIFY_PUSH', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH',
-            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'ON_PREM', 'GENERIC_SAML', 'GENERIC_OIDC']);
+            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'ON_PREM', 'PASSWORD', 'GENERIC_SAML', 'GENERIC_OIDC']);
         });
       });
     });
