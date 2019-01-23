@@ -22,7 +22,7 @@ module.exports = function (outputFilename) {
         // General remapping
         'nls': '@okta/i18n/dist/json',
         'okta': `${LOCAL_PACKAGES}/@okta/courage-dist/okta.js`,
-        'shared/util/Bundles': 'util/Bundles',
+        'okta-i18n-bundles': 'util/Bundles',
 
         // Vendor files from courage that are remapped in OSW to point to an npm
         // module in our package.json dependencies

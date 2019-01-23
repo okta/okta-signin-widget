@@ -7,7 +7,7 @@
     "build": "webpack"
   },
   "devDependencies": {
-    "@okta/courage": "4.4.0",
+    "@okta/courage": "4.6.0-beta.2098.gc581fa3",
     "webpack": "^3.5.4",
     "webpack-bundle-analyzer": "^3.0.2"
   }

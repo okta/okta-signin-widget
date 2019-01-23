@@ -1,128 +1,114 @@
-/* eslint max-params: 0 */
-define([
-  'backbone',
-  '@okta/courage/src/util/jquery-wrapper',
-  '@okta/courage/src/util/underscore-wrapper',
-  '@okta/courage/src/util/handlebars-wrapper',
-  '@okta/courage/src/models/Model',
-  '@okta/courage/src/models/BaseModel',
-  '@okta/courage/src/models/BaseCollection',
-  '@okta/courage/src/models/SchemaProperty',
-  '@okta/courage/src/models/BaseSchema',
-  '@okta/courage/src/util/StringUtil',
-  '@okta/courage/src/util/TemplateUtil',
-  '@okta/courage/src/util/ButtonFactory',
-  '@okta/courage/src/util/BaseRouter',
-  '@okta/courage/src/util/BaseController',
-  '@okta/courage/src/util/Util',
-  '@okta/courage/src/util/Cookie',
-  '@okta/courage/src/util/Logger',
-  '@okta/courage/src/util/Class',
-  '@okta/courage/src/util/Keys',
-  '@okta/courage/src/views/BaseView',
-  '@okta/courage/src/views/Backbone.ListView',
-  '@okta/courage/src/views/components/BaseDropDown',
-  '@okta/courage/src/views/forms/BaseForm',
-  '@okta/courage/src/views/forms/helpers/InputRegistry',
-  '@okta/courage/src/views/forms/helpers/FormUtil',
-  '@okta/courage/src/views/forms/helpers/SchemaFormFactory',
-  '@okta/courage/src/views/forms/components/Toolbar',
-  '@okta/courage/src/views/forms/inputs/TextBox',
-  '@okta/courage/src/views/forms/inputs/PasswordBox',
-  '@okta/courage/src/views/forms/inputs/CheckBox',
-  '@okta/courage/src/views/forms/inputs/Radio',
-  '@okta/courage/src/views/forms/inputs/Select',
-],
-  function (Backbone, $, _, Handlebars,
-    Model, BaseModel, BaseCollection, SchemaProperty, BaseSchema,
-    StringUtil, TemplateUtil, ButtonFactory, BaseRouter, BaseController,
-    Util, Cookie, Logger, Class, Keys,
-    BaseView, ListView, BaseDropDown,
-    BaseForm, InputRegistry, FormUtil, SchemaFormFactory, Toolbar,
-    TextBox, PasswordBox, CheckBox, Radio, Select) {
+import BaseCollection from '@okta/courage/src/models/BaseCollection';
+import BaseModel from '@okta/courage/src/models/BaseModel';
+import BaseSchema from '@okta/courage/src/models/BaseSchema';
+import Model from '@okta/courage/src/models/Model';
+import SchemaProperty from '@okta/courage/src/models/SchemaProperty';
+import BaseController from '@okta/courage/src/util/BaseController';
+import BaseRouter from '@okta/courage/src/util/BaseRouter';
+import ButtonFactory from '@okta/courage/src/util/ButtonFactory';
+import Class from '@okta/courage/src/util/Class';
+import Cookie from '@okta/courage/src/util/Cookie';
+import Keys from '@okta/courage/src/util/Keys';
+import Logger from '@okta/courage/src/util/Logger';
+import StringUtil from '@okta/courage/src/util/StringUtil';
+import TemplateUtil from '@okta/courage/src/util/TemplateUtil';
+import Util from '@okta/courage/src/util/Util';
+import Handlebars from '@okta/courage/src/util/handlebars-wrapper';
+import $ from '@okta/courage/src/util/jquery-wrapper';
+import _ from '@okta/courage/src/util/underscore-wrapper';
+import ListView from '@okta/courage/src/views/Backbone.ListView';
+import BaseView from '@okta/courage/src/views/BaseView';
+import BaseDropDown from '@okta/courage/src/views/components/BaseDropDown';
+import BaseForm from '@okta/courage/src/views/forms/BaseForm';
+import Toolbar from '@okta/courage/src/views/forms/components/Toolbar';
+import FormUtil from '@okta/courage/src/views/forms/helpers/FormUtil';
+import InputRegistry from '@okta/courage/src/views/forms/helpers/InputRegistry';
+import SchemaFormFactory from '@okta/courage/src/views/forms/helpers/SchemaFormFactory';
+import CheckBox from '@okta/courage/src/views/forms/inputs/CheckBox';
+import PasswordBox from '@okta/courage/src/views/forms/inputs/PasswordBox';
+import Radio from '@okta/courage/src/views/forms/inputs/Radio';
+import Select from '@okta/courage/src/views/forms/inputs/Select';
+import TextBox from '@okta/courage/src/views/forms/inputs/TextBox';
+import Backbone from 'backbone';
 
-    var Okta = {
+const Okta = {
+  Backbone: Backbone,
 
-      Backbone: Backbone,
+  $: $,
 
-      $: $,
+  _: _,
 
-      _: _,
+  Handlebars: Handlebars,
 
-      Handlebars: Handlebars,
+  loc: StringUtil.localize,
 
-      loc: StringUtil.localize,
+  createButton: ButtonFactory.create,
 
-      createButton: ButtonFactory.create,
+  registerInput: InputRegistry.register,
 
-      registerInput: InputRegistry.register,
+  tpl: TemplateUtil.tpl,
 
-      tpl: TemplateUtil.tpl,
+  Model: Model,
 
-      Model: Model,
+  BaseModel: BaseModel,
 
-      BaseModel: BaseModel,
+  Collection: BaseCollection,
 
-      Collection: BaseCollection,
+  View: BaseView,
 
-      View: BaseView,
+  ListView: ListView,
 
-      ListView: ListView,
+  Router: BaseRouter,
 
-      Router: BaseRouter,
+  Controller: BaseController,
 
-      Controller: BaseController,
+  Form: BaseForm,
 
-      Form: BaseForm,
+  internal: {
+    util: {
+      Util,
+      Cookie,
+      Logger,
+      Class,
+      Keys,
+    },
 
-      internal: {
+    views: {
+      components: {
+        BaseDropDown,
+      },
 
-        util: {
-          Util,
-          Cookie,
-          Logger,
-          Class,
-          Keys,
+      forms: {
+        helpers: {
+          FormUtil,
+          SchemaFormFactory,
         },
 
-        views: {
-          components: {
-            BaseDropDown,
-          },
-
-          forms: {
-            helpers: {
-              FormUtil,
-              SchemaFormFactory
-            },
-
-            components: {
-              Toolbar,
-            },
-
-            inputs: {
-              TextBox,
-              PasswordBox,
-              CheckBox,
-              Radio,
-              Select
-            }
-          }
+        components: {
+          Toolbar,
         },
 
-        models: {
-          BaseSchema,
-          SchemaProperty
+        inputs: {
+          TextBox,
+          PasswordBox,
+          CheckBox,
+          Radio,
+          Select,
         },
+      },
+    },
 
-      }
-    };
+    models: {
+      BaseSchema,
+      SchemaProperty,
+    },
+  },
+};
 
-    Okta.registerInput('text', TextBox);
-    Okta.registerInput('password', PasswordBox);
-    Okta.registerInput('checkbox', CheckBox);
-    Okta.registerInput('radio', Radio);
-    Okta.registerInput('select', Select);
+Okta.registerInput('text', TextBox);
+Okta.registerInput('password', PasswordBox);
+Okta.registerInput('checkbox', CheckBox);
+Okta.registerInput('radio', Radio);
+Okta.registerInput('select', Select);
 
-    return Okta;
-  });
+module.exports = Okta;
