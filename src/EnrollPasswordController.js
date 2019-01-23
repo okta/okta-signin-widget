@@ -30,7 +30,7 @@ function (Okta, FormController, ValidationUtil, FactorUtil, Footer, TextBox) {
         confirmPassword: ['string', true]
       },
       validate: function () {
-        return ValidationUtil.validateFieldsMatch(this, 'password', 'confirmPassword', 
+        return ValidationUtil.validateFieldsMatch(this, 'password', 'confirmPassword',
           Okta.loc('password.enroll.error.match', 'login'));
       },
       save: function () {
@@ -50,7 +50,7 @@ function (Okta, FormController, ValidationUtil, FactorUtil, Footer, TextBox) {
 
     Form: {
       autoSave: true,
-      title: 'enroll.password.setup',
+      title: Okta.loc('enroll.password.setup', 'login'),
       inputs: function () {
         return [
           {
