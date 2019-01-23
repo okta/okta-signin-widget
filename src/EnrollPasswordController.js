@@ -50,7 +50,7 @@ function (Okta, FormController, ValidationUtil, FactorUtil, Footer, TextBox) {
 
     Form: {
       autoSave: true,
-      title: Okta.loc('enroll.password.setup', 'login'),
+      title: _.partial(Okta.loc, 'enroll.password.setup', 'login'),
       inputs: function () {
         return [
           {
