@@ -69,6 +69,13 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           'description': 'How did you hear about us?',
           'maxLength': 1024
         },
+        'countryCode': {
+          'type': 'country-code',
+          'format': 'country-code'
+        },
+        'preferredLanguage': {
+          'type': 'language_code',
+        },
         'password' : {
           'type' : 'string',
           'description' : 'Password',
@@ -97,7 +104,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         }
       },
       'required': ['firstName', 'lastName', 'userName', 'password', 'referrer'],
-      'fieldOrder': ['userName', 'password', 'firstName', 'lastName', 'accountLevel', 'referrer']
+      'fieldOrder': ['userName', 'password', 'firstName', 'lastName', 'accountLevel', 'referrer', 'preferredLanguage', 'countryCode']
     }
   };
 
@@ -244,6 +251,20 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           var userName = test.form.userNameField();
           expect(userName.length).toBe(1);
           expect(userName.attr('type')).toEqual('text');
+        });
+      });
+      itp('has a preferredLanguage field', function () {
+        return setup().then(function (test) {
+          var preferredLanguage = test.form.input('preferredLanguage');
+          expect(preferredLanguage.length).toBe(1);
+          expect(preferredLanguage.attr('type')).toEqual('text');
+        });
+      });
+      itp('has a countryCode field', function () {
+        return setup().then(function (test) {
+          var countryCode = test.form.input('countryCode');
+          expect(countryCode.length).toBe(1);
+          expect(countryCode.attr('type')).toEqual('text');
         });
       });
       itp('has a password field', function () {
@@ -658,6 +679,14 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
                 'default': 'Enter your zip code',
                 'maxLength': 255
               };
+              schema.profileSchema.properties.preferredLanguage = {
+                'type': 'language_code',
+                'title': 'Preferred language',
+              };
+              schema.profileSchema.properties.countryCode = {
+                'type': 'country_code',
+                'title': 'Country code',
+              };
               onSuccess(schema);
             },
             'preSubmit': function (postData, onSuccess, onFailure) {
@@ -673,15 +702,25 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
             $.ajax.calls.reset();
             expect(test.form.getFieldByName('zip').length).toBe(1);
             expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
+            expect(test.form.getFieldByName('countryCode').length).toBe(1);
+            expect(test.form.fieldPlaceholder('countryCode')).toBe('Country code');
+            expect(test.form.getFieldByName('preferredLanguage').length).toBe(1);
+            expect(test.form.fieldPlaceholder('preferredLanguage')).toBe('Preferred language');
             test.form.setUserName('test');
             test.form.setPassword('Abcd1234');
             test.form.setFirstname('firstName');
+            test.form.input('preferredLanguage').val('en');
+            test.form.input('preferredLanguage').trigger('change');
+            test.form.input('countryCode').val('us');
+            test.form.input('countryCode').trigger('change');
             test.form.submit();
             expect(test.router.controller.model.get('userName')).toBe('test');
             var model = test.router.controller.model;
             spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
             model.save();
             expect(test.router.controller.model.get('userName')).toBe('test@example.com');
+            expect(test.router.controller.model.get('preferredLanguage')).toBe('en');
+            expect(test.router.controller.model.get('countryCode')).toBe('us');
             expect(setting.registration.postSubmit).toHaveBeenCalled();
           });
       });
