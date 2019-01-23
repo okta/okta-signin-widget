@@ -124,8 +124,8 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
         expect(test.form.hasPasswordFieldErrors()).toBe(true);
         expect(test.form.hasConfirmPasswordFieldErrors()).toBe(true);
         expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
-        expect(test.form.passwordFieldErrorMessage()).toBe('The field cannot be left blank');
-        expect(test.form.confirmPasswordFieldErrorMessage()).toBe('The field cannot be left blank');
+        expect(test.form.passwordFieldErrorMessage()).toBe('This field cannot be left blank');
+        expect(test.form.confirmPasswordFieldErrorMessage()).toBe('This field cannot be left blank');
         expect($.ajax).not.toHaveBeenCalled();
       });
     });
