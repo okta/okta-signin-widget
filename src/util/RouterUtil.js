@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 35], max-statements: [2, 30] */
+/* eslint complexity: [2, 39], max-statements: [2, 30] */
 define([
   'okta',
   './OAuth2Util',
@@ -177,6 +177,10 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
         router.navigate('signin/consent', {trigger: true});
       }
       return;
+    // We want the same view for FACTOR_REQUIRED & FACTOR_CHALLENGE
+    // In the new idx pipeline FACTOR_CHALLENGE API response does not contain a prev link
+    case 'FACTOR_REQUIRED':
+    case 'FACTOR_CHALLENGE':
     case 'MFA_REQUIRED':
       var factor = router.appState.get('factors').getDefaultFactor();
       var url = fn.createVerifyUrl(factor.get('provider'), factor.get('factorType'));
@@ -239,6 +243,10 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
           }
         });
       }
+      return;
+    case 'PROFILE_REQUIRED':
+      router.appState.setProfileSchema(res);
+      router.navigate('signin/enrollUser', { trigger: true });
       return;
     case 'UNAUTHENTICATED':
       // Either we have factors and we are in passwordlessAuth mode

@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
+/* eslint complexity: [2, 13] */
 define([
   'okta',
   'q',
@@ -235,10 +235,18 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         if (this.pushFactorHasAutoPush()) {
           data.autoPush = this.get('autoPush');
         }
-
+        // for FACTOR_REQUIRED with email magic link we dont need to show otp code input field,
+        // hence we dont need to post the otp code to the server
+        if (this.options.appState.get('isFactorRequired') && this.get('factorType') === 'email') {
+          delete data.passCode;
+        }
         var promise;
         // MFA_REQUIRED or UNAUTHENTICATED with factors (passwordlessAuth)
-        if (transaction.status === 'MFA_REQUIRED' || this.appState.get('promptForFactorInUnauthenticated')) {
+        // When widget enters flow directly in FACTOR_CHALLENGE state
+        if (transaction.status === 'MFA_REQUIRED' ||
+          transaction.status === 'FACTOR_REQUIRED' ||
+          transaction.status === 'FACTOR_CHALLENGE' ||
+          this.appState.get('promptForFactorInUnauthenticated')) {
           var factor = _.findWhere(transaction.factors, {
             id: this.get('id')
           });
@@ -263,7 +271,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
             };
             setTransaction(trans);
             // In Okta verify case we initiate poll.
-            if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
+            if ((trans.status === 'MFA_CHALLENGE') && trans.poll) {
               const deferred = Q.defer();
               const initiatePollTimout = Util.callAfterTimeout(deferred.resolve, PUSH_INTERVAL);
               self.listenToOnce(self.options.appState, 'factorSwitched', () => {

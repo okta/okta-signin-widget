@@ -143,6 +143,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
     local: {
       baseUrl: 'string',
       lastAuthResponse: ['object', true, {}],
+      profileSchema: ['object', true, {}],
       transaction: 'object',
       transactionError: 'object',
       username: 'string',
@@ -193,6 +194,10 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       this.set('lastAuthResponse', res);
     },
 
+    setProfileSchema: function (res) {
+      this.set('profileSchema', res);
+    },
+
     derived: {
       'isSuccessResponse': {
         deps: ['lastAuthResponse'],
@@ -204,6 +209,19 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         deps: ['lastAuthResponse'],
         fn: function (res) {
           return res.status === 'MFA_REQUIRED';
+        }
+      },
+      'isFactorRequired': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          // We want the same view for FACTOR_REQUIRED & FACTOR_CHALLENGE
+          return res.status === 'FACTOR_REQUIRED' || res.status === 'FACTOR_CHALLENGE';
+        }
+      },
+      'isProfileRequired': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          return res.status === 'PROFILE_REQUIRED';
         }
       },
       'isMfaEnroll': {
@@ -279,6 +297,15 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return res._embedded.user.id;
         }
       },
+      'isIdxStateToken': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res.stateToken) {
+            return false;
+          }
+          return res.stateToken.startsWith('01');
+        }
+      },
       'isPwdExpiringSoon': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
@@ -319,6 +346,16 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
             return null;
           }
           return res._links.next.href;
+        }
+      },
+      'profileSchemaAttributes': {
+        deps: ['profileSchema'],
+        fn: function (res) {
+          if (!res._embedded || !res._embedded.policy ||
+            !res._embedded.policy.registration || !res._embedded.policy.registration.profile) {
+            return null;
+          }
+          return res._embedded.policy.registration.profile;
         }
       },
       'recoveryType': {
