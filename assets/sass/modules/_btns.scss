@@ -147,6 +147,15 @@
   $microsoft-icon-bg-color, $microsoft-label-bg-color, $microsoft-border-color);
 }
 
+.social-auth-general-idp-button {
+  @include social-auth-button-template(url('../img/icons/login/default_logo.png'),
+  darken($button-bg-color, 5%), $button-bg-color, darken($button-bg-color, 22%));
+  color: $dark-text-color;
+}
+.social-auth-general-idp-button.link-button {
+  color: $dark-text-color;
+}
+
 .default-custom-button {
   @include default-custom-button-template($default-custom-button-background-color, $default-custom-button-border-color);
 }

@@ -254,12 +254,15 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
           });
         }
       },
-      // filters the idps passed into the widget to include only the ones we support.
+      // Adjusts the idps passed into the widget based on if they get explicit support
       configuredSocialIdps: {
         deps: ['idps'],
         fn: function (idps) {
-          return _.filter(idps, function (idp) {
-            return _.contains(supportedIdps, idp.type.toLowerCase());
+          return _.map(idps, function (idp) { 
+            if( ! ( idp.type && _.contains(supportedIdps, idp.type.toLowerCase()) )) {
+              idp.type = 'general-idp';
+            }
+            return idp;
           });
         },
         cache: true
@@ -287,7 +290,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
               dataAttr: dataAttr,
               className: 'social-auth-button ' + dataAttr,
               title: function () {
-                return Okta.loc('socialauth.' + type + '.label');
+                return idp.text || Okta.loc('socialauth.' + type + '.label');
               },
               click: function (e) {
                 e.preventDefault();

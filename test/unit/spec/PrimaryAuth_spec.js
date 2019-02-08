@@ -1985,40 +1985,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(test.form.googleButton().length).toBe(1);
         });
       });
-      itp('does not show idps that are not supported', function () {
-        var settings = {
-          idps: [
-            {
-              type: 'FACEBOOK',
-              id: '0oaidiw9udOSceD1234'
-            },
-            {
-              type: 'GOOGLE',
-              id: '0oaidiw9udOSceD5678'
-            },
-            {
-              type: 'LINKEDIN',
-              id: '0oaidiw9udOSceD1111'
-            },
-            {
-              type: 'MICROSOFT',
-              id: '0oaidiw9udOSceD3333'
-            },
-            {
-              type: 'TWEETER',
-              id: '0oaidiw9udOSceD2222'
-            }
-          ]
-        };
-        return setup(settings).then(function (test) {
-          expect(test.form.hasSocialAuthDivider()).toBe(true);
-          expect(test.form.socialAuthButtons().length).toBe(4);
-          expect(test.form.facebookButton().length).toBe(1);
-          expect(test.form.googleButton().length).toBe(1);
-          expect(test.form.microsoftButton().length).toBe(1);
-          expect(test.form.linkedInButton().length).toBe(1);
-        });
-      });
       itp('shows idps in the order specified', function () {
         var settings = {
           idps: [
@@ -2046,6 +2012,54 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(buttons.eq(1).hasClass('social-auth-facebook-button')).toBe(true);
           expect(buttons.eq(2).hasClass('social-auth-google-button')).toBe(true);
           expect(buttons.eq(3).hasClass('social-auth-microsoft-button')).toBe(true);
+        });
+      });
+      itp('displays generic idp buttons', function () {
+        var settings = {
+          idps: [
+            {
+              type: 'Tweeter',
+              id: '0oaidiw9udOSceD1111'
+            }
+          ]
+        };
+        return setup(settings).then(function (test){
+          var buttons = test.form.socialAuthButtons();
+          expect(buttons.size()).toBe(1);
+          expect(buttons.eq(0).hasClass('social-auth-linkedin-button')).toBe(false);
+          expect(buttons.eq(0).hasClass('social-auth-facebook-button')).toBe(false);
+          expect(buttons.eq(0).hasClass('social-auth-google-button')).toBe(false);
+          expect(buttons.eq(0).hasClass('social-auth-microsoft-button')).toBe(false);
+          expect(buttons.eq(0).hasClass('social-auth-general-idp-button')).toBe(true);
+        });
+      });
+      itp('sets the text for generic idp buttons', function () {
+        var settings = {
+          idps: [
+            {
+              type: 'Tweeter',
+              id: '0oaidiw9udOSceD1111',
+              text: 'Not default text'
+            }
+          ]
+        };
+        return setup(settings).then(function (test){
+          var buttons = test.form.socialAuthButtons();
+          expect(buttons.eq(0).text()).toBe('Not default text');
+        });
+      });
+      itp('gives a L10N error if no text provided for generic idp buttons', function () {
+        var settings = {
+          idps: [
+            {
+              type: 'Tweeter',
+              id: '0oaidiw9udOSceD1111'
+            }
+          ]
+        };
+        return setup(settings).then(function (test){
+          var buttons = test.form.socialAuthButtons();
+          expect(buttons.eq(0).text()).toBe('L10N_ERROR[socialauth.general-idp.label]');
         });
       });
       itp('shows the buttons below the primary auth form by default', function () {
