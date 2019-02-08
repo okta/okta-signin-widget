@@ -254,6 +254,15 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return res._embedded.user.id;
         }
       },
+      'isIdxStateToken': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (!res.stateToken) {
+            return null;
+          }
+          return res.stateToken.startsWith('01');
+        }
+      },
       'isPwdExpiringSoon': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
