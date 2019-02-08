@@ -19,6 +19,8 @@ define([
   'helpers/xhr/security_image_fail',
   'helpers/xhr/SUCCESS',
   'helpers/xhr/UNAUTHENTICATED',
+  'helpers/xhr/UNAUTHENTICATED_IDX',
+  'helpers/xhr/FACTOR_REQUIRED',
   'helpers/xhr/ACCOUNT_LOCKED_OUT',
   'helpers/xhr/PASSWORD_EXPIRED',
   'helpers/xhr/UNAUTHORIZED_ERROR',
@@ -30,7 +32,7 @@ define([
 ],
 function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth,
   Router, BrowserFeatures, Errors, DeviceFingerprint, TypingUtil, Expect, resSecurityImage,
-  resSecurityImageFail, resSuccess, resUnauthenticated, resLockedOut, resPwdExpired, resUnauthorized,
+  resSecurityImageFail, resSuccess, resUnauthenticated, resUnauthenticatedIdx, resFactorRequired, resLockedOut, resPwdExpired, resUnauthorized,
   resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
 
   var { _, $ } = Okta;
@@ -63,7 +65,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
   var typingPattern = '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
           0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
 
-  function setup (settings, requests, refreshState) {
+  function setup (settings, requests, refreshState, isIdxStateToken) {
     settings || (settings = {});
 
     // To speed up the test suite, calls to debounce are
@@ -91,9 +93,15 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     var beacon = new Beacon($sandbox);
     router.on('afterError', afterErrorHandler);
     if (refreshState) {
+      var stateToken = 'aStateToken';
       Util.mockRouterNavigate(router);
-      setNextResponse(resUnauthenticated);
-      router.refreshAuthState('aStateToken');
+      if (isIdxStateToken) {
+        stateToken = '01StateToken';
+        setNextResponse(resUnauthenticatedIdx);
+      } else {
+        setNextResponse(resUnauthenticated);
+      }
+      router.refreshAuthState(stateToken);
     } else {
       router.primaryAuth();
     }
@@ -114,11 +122,17 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     return setup(settings, requests, true);
   }
 
-  function setupPasswordlessAuth (requests) {
-    return setup({ 'features.passwordlessAuth': true }, requests)
+  function setupPasswordlessAuth (requests, refreshState, isIdxToken) {
+    return setup({ 'features.passwordlessAuth': true }, requests, refreshState, isIdxToken)
       .then(function (test){
-        Util.mockRouterNavigate(test.router);
-        test.setNextResponse(resPasswordlessUnauthenticated);
+        if (!refreshState) {
+          Util.mockRouterNavigate(test.router);
+        }
+        if (!isIdxToken) {
+          test.setNextResponse(resPasswordlessUnauthenticated);
+        } else {
+          test.setNextResponse(resFactorRequired);
+        }
         return tick(test);
       });
   }
@@ -1954,6 +1968,46 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         })
           .then(function (test) {
             expect(test.form.el('factor-question').length).toEqual(1);
+          });
+      });
+      itp('calls transaction.authenticate with username, options and stateToken', function () {
+        return setupPasswordlessAuth(null, true, false).then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser@test.com');
+          test.form.submit();
+          return tick(test);
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.okta.com/api/v1/authn',
+              data: {
+                username: 'testuser@test.com',
+                stateToken: 'aStateToken',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
+              }
+            });
+          });
+      });
+      itp('calls transaction.login with identifier and idxstateToken', function () {
+        return setupPasswordlessAuth(null, true, true).then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setUsername('testuser@test.com');
+          test.form.submit();
+          return tick(test);
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.okta.com/api/v1/authn/login',
+              data: {
+                identifier: 'testuser@test.com',
+                stateToken: '01StateToken'
+              }
+            });
           });
       });
     });

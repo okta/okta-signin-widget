@@ -106,21 +106,19 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
       var primaryAuthPromise;
 
-      var authClient = this.appState.settings.authClient;
-
       if (this.appState.get('isUnauthenticated')) {
+        var authClient = this.appState.settings.authClient;
         // bootstrapped with stateToken
         if (!this.settings.get('features.passwordlessAuth')) {
           primaryAuthPromise = this.doTransaction(function (transaction) {
-            var authClient = this.appState.settings.authClient;
             return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
           });
         } else {
-          primaryAuthPromise = this.performTransaction(authClient, signInArgs);
+          primaryAuthPromise = this.doPrimaryAuthForPasswordless(authClient, signInArgs);
         }
       }
       else {
-        //normal username/password flow
+        //normal username/password flow without stateToken
         primaryAuthPromise = this.startTransaction(function (authClient) {
           return this.doPrimaryAuth(authClient, signInArgs, _.bind(authClient.signIn, authClient));
         });
@@ -138,9 +136,9 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         }, this));
     },
 
-    performTransaction: function (authClient, signInArgs) {
-      this.doTransaction(function (transaction) {
-        // if its the newStateToken we need to post to login endpoint with key as identifier
+    doPrimaryAuthForPasswordless: function (authClient, signInArgs) {
+      return this.doTransaction(function (transaction) {
+        // if isIdxStateToken we need to post to login endpoint with key as identifier
         if (this.appState.get('isIdxStateToken') && this.settings.get('features.passwordlessAuth')) {
           return this.doPrimaryAuth(authClient, signInArgs, transaction.login);
         } else {
@@ -151,22 +149,22 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
     getSignInArgs: function (username) {
       var multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
-      var signInArgs = {
-        username: username,
-        options: {
-          warnBeforePasswordExpired: true,
-          multiOptionalFactorEnroll: multiOptionalFactorEnroll
-        }
-      };
+      var signInArgs = {};
+
       if (!this.settings.get('features.passwordlessAuth')) {
         signInArgs.password = this.get('password');
       }
 
       // if its an idx stateToken, we send the parameter as identifier to login API
       if (this.appState.get('isIdxStateToken')) {
-        signInArgs.identifier = signInArgs.username;
-        delete signInArgs.username;
-        delete signInArgs.options;
+        signInArgs.identifier = username;
+      } else {
+        //only post options param for non-idx flows
+        signInArgs.username  = username;
+        signInArgs.options = {
+          warnBeforePasswordExpired: true,
+          multiOptionalFactorEnroll: multiOptionalFactorEnroll
+        };
       }
       return signInArgs;
     },

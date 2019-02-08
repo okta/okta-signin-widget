@@ -258,7 +258,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         deps: ['lastAuthResponse'],
         fn: function (res) {
           if (!res.stateToken) {
-            return null;
+            return false;
           }
           return res.stateToken.startsWith('01');
         }
