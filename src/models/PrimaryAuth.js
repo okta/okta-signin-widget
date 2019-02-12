@@ -138,33 +138,20 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
     doPrimaryAuthForPasswordless: function (authClient, signInArgs) {
       return this.doTransaction(function (transaction) {
-        // if isIdxStateToken we need to post to login endpoint with key as identifier
-        if (this.appState.get('isIdxStateToken') && this.settings.get('features.passwordlessAuth')) {
-          return this.doPrimaryAuth(authClient, signInArgs, transaction.login);
-        } else {
-          return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
-        }
+        return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
       });
     },
 
     getSignInArgs: function (username) {
       var multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
       var signInArgs = {};
-
+      signInArgs.username = username;
+      signInArgs.options = {
+        warnBeforePasswordExpired: true,
+        multiOptionalFactorEnroll: multiOptionalFactorEnroll
+      };
       if (!this.settings.get('features.passwordlessAuth')) {
         signInArgs.password = this.get('password');
-      }
-
-      // if its an idx stateToken, we send the parameter as identifier to login API
-      if (this.appState.get('isIdxStateToken')) {
-        signInArgs.identifier = username;
-      } else {
-        //only post options param for non-idx flows
-        signInArgs.username  = username;
-        signInArgs.options = {
-          warnBeforePasswordExpired: true,
-          multiOptionalFactorEnroll: multiOptionalFactorEnroll
-        };
       }
       return signInArgs;
     },
