@@ -109,13 +109,10 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       if (this.appState.get('isUnauthenticated')) {
         var authClient = this.appState.settings.authClient;
         // bootstrapped with stateToken
-        if (!this.settings.get('features.passwordlessAuth')) {
-          primaryAuthPromise = this.doTransaction(function (transaction) {
-            return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
-          });
-        } else {
-          primaryAuthPromise = this.doPrimaryAuthForPasswordless(authClient, signInArgs);
-        }
+        // with or without passwordless auth we want to call transaction.authenticate
+        primaryAuthPromise = this.doTransaction(function (transaction) {
+          return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
+        });
       }
       else {
         //normal username/password flow without stateToken
@@ -136,19 +133,14 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         }, this));
     },
 
-    doPrimaryAuthForPasswordless: function (authClient, signInArgs) {
-      return this.doTransaction(function (transaction) {
-        return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
-      });
-    },
-
     getSignInArgs: function (username) {
       var multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
-      var signInArgs = {};
-      signInArgs.username = username;
-      signInArgs.options = {
-        warnBeforePasswordExpired: true,
-        multiOptionalFactorEnroll: multiOptionalFactorEnroll
+      var signInArgs = {
+        username: username,
+        options: {
+          warnBeforePasswordExpired: true,
+          multiOptionalFactorEnroll: multiOptionalFactorEnroll
+        }
       };
       if (!this.settings.get('features.passwordlessAuth')) {
         signInArgs.password = this.get('password');

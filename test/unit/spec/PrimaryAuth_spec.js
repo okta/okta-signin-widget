@@ -115,8 +115,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     return setup(settings, requests, true);
   }
 
-  function setupPasswordlessAuth (requests, refreshState, isIdxToken) {
-    return setup({ 'features.passwordlessAuth': true }, requests, refreshState, isIdxToken)
+  function setupPasswordlessAuth (requests, refreshState) {
+    return setup({ 'features.passwordlessAuth': true }, requests, refreshState)
       .then(function (test){
         if (!refreshState) {
           Util.mockRouterNavigate(test.router);
@@ -1964,7 +1964,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           $.ajax.calls.reset();
           test.form.setUsername('testuser@test.com');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForMfaVerify(test);
         })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
