@@ -91,10 +91,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     var beacon = new Beacon($sandbox);
     router.on('afterError', afterErrorHandler);
     if (refreshState) {
-      var stateToken = 'aStateToken';
       Util.mockRouterNavigate(router);
       setNextResponse(resUnauthenticated);
-      router.refreshAuthState(stateToken);
+      router.refreshAuthState('aStateToken');
     } else {
       router.primaryAuth();
     }
@@ -1959,8 +1958,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(test.form.el('factor-question').length).toEqual(1);
           });
       });
-      itp('calls transaction.authenticate with username, options and stateToken', function () {
-        return setupPasswordlessAuth(null, true, false).then(function (test) {
+      itp('calls transaction.authenticate with the same stateToken that the widget was bootstrapped with, in the config object', function () {
+        return setupPasswordlessAuth(null, true).then(function (test) {
           $.ajax.calls.reset();
           test.form.setUsername('testuser@test.com');
           test.form.submit();

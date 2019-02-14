@@ -113,8 +113,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
         primaryAuthPromise = this.doTransaction(function (transaction) {
           return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
         });
-      }
-      else {
+      } else {
         //normal username/password flow without stateToken
         primaryAuthPromise = this.startTransaction(function (authClient) {
           return this.doPrimaryAuth(authClient, signInArgs, _.bind(authClient.signIn, authClient));
