@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 46], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 47], camelcase: 0 */
 define([
   'okta',
   'q',
@@ -17,6 +17,7 @@ define([
   'helpers/xhr/MFA_REQUIRED_allFactors',
   'helpers/xhr/MFA_REQUIRED_allFactors_OnPrem',
   'helpers/xhr/MFA_REQUIRED_oktaVerifyTotpOnly',
+  'helpers/xhr/MFA_REQUIRED_oktaVerifyPushOnly',
   'helpers/xhr/MFA_REQUIRED_windows_hello',
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
   'helpers/xhr/MFA_REQUIRED_U2F',
@@ -60,6 +61,7 @@ function (Okta,
   resAllFactors,
   resAllFactorsOnPrem,
   resVerifyTOTPOnly,
+  resVerifyPushOnly,
   resRequiredWindowsHello,
   resPassword,
   resU2F,
@@ -242,8 +244,9 @@ function (Okta,
     var setupSMS = _.partial(setup, resAllFactors, { factorType: 'sms' });
     var setupCall = _.partial(setup, resAllFactors, { factorType: 'call' });
     var setupEmail = _.partial(setup, resAllFactors, { factorType: 'email' });
-    var setupOktaPush = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
+    var setupOktaPushWithTOTP = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
+    var setupOktaPush = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
     var setupWindowsHello = _.partial(
       setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false });
     var setupPassword = _.partial(setup, resPassword, { factorType: 'password' });
@@ -420,9 +423,11 @@ function (Okta,
       // 3: Set for verifyFactor poll finish
       test.setNextResponse([resChallengePush, resChallengePush, finalResponse]);
 
-      // Okta Push contains 2 forms, push and verify.
+      // View contains 2 forms when push and totp are avaiable
       // For polling we are only interested in the push form.
-      test.form = test.form[0];
+      if (test.form.length > 0) {
+        test.form = test.form[0];
+      }
       test.form.submit();
 
       return tick(test)    // First tick - submit verifyFactor
@@ -2105,8 +2110,13 @@ function (Okta,
           var autoPushLabel = autoPush.find('Label').text();
           return autoPushLabel;
         }
-        itp('has push and an inline totp form', function () {
+        itp('has push without totp when totp is not in the factors list', function () {
           return setupOktaPush().then(function (test) {
+            expect(test.form.isPush()).toBe(true);
+          });
+        });
+        itp('has push and an inline totp form when totp is available', function () {
+          return setupOktaPushWithTOTP().then(function (test) {
             expect(test.form[0].isPush()).toBe(true);
             expect(test.form[1].isInlineTOTP()).toBe(true);
           });
@@ -2143,8 +2153,7 @@ function (Okta,
         Expect.describe('Push', function () {
           itp('shows a title that includes the device name', function () {
             return setupOktaPush().then(function (test) {
-              expect(test.form[0].titleText()).toBe('Okta Verify (Reman\'s iPhone)');
-              expect(test.form[1].titleText()).toBe('');
+              expect(test.form.titleText()).toBe('Okta Verify (Test iPhone)');
             });
           });
           itp('calls authClient verifyFactor with correct args when submitted', function () {
@@ -2152,7 +2161,7 @@ function (Okta,
               $.ajax.calls.reset();
               setRememberDeviceForPushForm(test, true);
               test.setNextResponse(resSuccess);
-              test.form[0].submit();
+              test.form.submit();
               return tick();
             })
               .then(function () {
@@ -2170,7 +2179,7 @@ function (Okta,
               $.ajax.calls.reset();
               setAutoPushCheckbox(test, true);
               test.setNextResponse(resSuccess);
-              test.form[0].submit();
+              test.form.submit();
               return tick();
             })
               .then(function () {
@@ -2189,7 +2198,7 @@ function (Okta,
               $.ajax.calls.reset();
               setAutoPushCheckbox(test, false);
               test.setNextResponse(resSuccess);
-              test.form[0].submit();
+              test.form.submit();
               return tick();
             })
               .then(function () {
@@ -2422,7 +2431,7 @@ function (Okta,
               return setupOktaPush().then(function (test) {
                 $.ajax.calls.reset();
                 test.setNextResponse(resChallengePush);
-                test.form[0].submit();
+                test.form.submit();
                 return tick(test).then(function () {
                   expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                 });
@@ -2441,7 +2450,7 @@ function (Okta,
 
                   $.ajax.calls.reset();
                   test.setNextResponse(resChallengePush);
-                  test.form[0].submit();
+                  test.form.submit();
 
                   // clear up the showWarning timer which isn't the concern of this test.
                   LoginUtil.callAfterTimeout.calls.reset();
@@ -2463,7 +2472,7 @@ function (Okta,
                 });
             });
             itp('does not start poll if factor was switched before 6000ms', function () {
-              return setupOktaPush().then(function (test) {
+              return setupOktaPushWithTOTP().then(function (test) {
                 spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
                   // reducing the timeout to 100 so that test is fast.
                   return setTimeout(arguments[0], 100);
@@ -2493,7 +2502,7 @@ function (Okta,
                 });
                 $.ajax.calls.reset();
                 test.setNextResponse(resChallengePush);
-                test.form[0].submit();
+                test.form.submit();
                 spyOn(test.router.controller.model, 'stopListening').and.callThrough();
                 return tick(test).then(function () {
                   expect(test.router.controller.model.stopListening).toHaveBeenCalledWith(
@@ -2569,7 +2578,6 @@ function (Okta,
                 Util.speedUpPolling(test.ac);
                 test.setNextResponse([resChallengePush, resChallengePush, failureResponse, failureResponse,
                   failureResponse, failureResponse, failureResponse, failureResponse]);
-                test.form = test.form[0];
                 test.form.submit();
                 return Expect.waitForFormError(test.form, test);
               }
@@ -2605,7 +2613,6 @@ function (Okta,
                 Util.speedUpPolling(test.ac);
                 test.setNextResponse([resChallengePush, resChallengePush, failureResponse, failureResponse,
                   failureResponse, failureResponse, failureResponse, failureResponse]);
-                test.form = test.form[0];
                 test.form.submit();
                 return tick(test);
               }
@@ -2635,13 +2642,13 @@ function (Okta,
         });
         Expect.describe('TOTP', function () {
           itp('has a link to enter code', function () {
-            return setupOktaPush().then(function (test) {
+            return setupOktaPushWithTOTP().then(function (test) {
               Expect.isLink(test.form[1].inlineTOTPAdd());
               expect(test.form[1].inlineTOTPAddText()).toEqual('Or enter code');
             });
           });
           itp('removes link when clicking it and replaces with totp form', function () {
-            return setupOktaPush().then(function (test) {
+            return setupOktaPushWithTOTP().then(function (test) {
               var form = test.form[1];
               form.inlineTOTPAdd().click();
               expect(form.inlineTOTPAdd().length).toBe(0);
@@ -2651,7 +2658,7 @@ function (Okta,
             });
           });
           itp('calls authClient verifyFactor with correct args when submitted', function () {
-            return setupOktaPush().then(function (test) {
+            return setupOktaPushWithTOTP().then(function (test) {
               $.ajax.calls.reset();
               test.form[1].inlineTOTPAdd().click();
               test.form[1].setAnswer('654321');
@@ -2671,7 +2678,7 @@ function (Okta,
               });
           });
           itp('clears any errors from push when submitting inline totp', function () {
-            return setupOktaPush()
+            return setupOktaPushWithTOTP()
               .then(function (test) {
                 var pushForm = test.form[0],
                     inlineForm = test.form[1];
@@ -2697,7 +2704,7 @@ function (Okta,
               });
           });
           itp('calls authClient verifyFactor with rememberDevice URL param', function () {
-            return setupOktaPush().then(function (test) {
+            return setupOktaPushWithTOTP().then(function (test) {
               $.ajax.calls.reset();
               test.form[1].inlineTOTPAdd().click();
               test.form[1].setAnswer('654321');
@@ -2718,7 +2725,7 @@ function (Okta,
               });
           });
           itp('shows an error if error response from authClient', function () {
-            return setupOktaPush()
+            return setupOktaPushWithTOTP()
               .then(function (test) {
                 var form = test.form[1];
                 form.inlineTOTPAdd().click();
@@ -2734,7 +2741,7 @@ function (Okta,
               });
           });
           itp('shows errors if verify button is clicked and answer is empty', function () {
-            return setupOktaPush()
+            return setupOktaPushWithTOTP()
               .then(function (test) {
                 var form = test.form[1];
                 $.ajax.calls.reset();
@@ -2749,7 +2756,7 @@ function (Okta,
               });
           });
           itp('sets the transaction on the appState on success response', function () {
-            return setupOktaPush().then(function (test) {
+            return setupOktaPushWithTOTP().then(function (test) {
               mockTransactions(test.router.controller, true);
               test.form[1].inlineTOTPAdd().click();
               test.form[1].setAnswer('654321');
@@ -2762,7 +2769,7 @@ function (Okta,
               });
           });
           itp('sets the transaction error on the appState on error response', function () {
-            return setupOktaPush().then(function (test) {
+            return setupOktaPushWithTOTP().then(function (test) {
               mockTransactions(test.router.controller, true);
               Q.stopUnhandledRejectionTracking();
               test.setNextResponse(resInvalidTotp);
@@ -3647,7 +3654,7 @@ function (Okta,
           });
       });
       itp('Verify Google TOTP after switching from Push MFA_CHALLENGE', function () {
-        return setupOktaPush()
+        return setupOktaPushWithTOTP()
           .then(function (test) {
             test.beacon.dropDownButton().click();
             clickFactorInDropdown(test, 'GOOGLE_AUTH');
@@ -3675,7 +3682,7 @@ function (Okta,
           });
       });
       itp('Verify Okta TOTP on active Push MFA_CHALLENGE', function () {
-        return setupOktaPush().then(function (test) {
+        return setupOktaPushWithTOTP().then(function (test) {
           // using resTimeoutPush here for the test. This needs to be resTimeoutPush
           // or resRejectedPush, to set the transaction to MFA_CHALLENGE state and
           // mimic an active poll (Note: The transaction state is not set to MFA_CHALLENGE
@@ -3704,7 +3711,7 @@ function (Okta,
         });
       });
       itp('Verify Okta TOTP success on Push MFA_REJECTED', function () {
-        return setupOktaPush().then(function (test) {
+        return setupOktaPushWithTOTP().then(function (test) {
           return setupPolling(test, resRejectedPush)
             .then(function () { return tick(test); }) // Final response - REJECTED
             .then(function (test) {
@@ -3737,7 +3744,7 @@ function (Okta,
         });
       });
       itp('Verify Okta TOTP success (after Push MFA_REJECTED) sets the transaction on the appState', function () {
-        return setupOktaPush().then(function (test) {
+        return setupOktaPushWithTOTP().then(function (test) {
           return setupPolling(test, resRejectedPush)
             .then(function () { return tick(test); }) // Final response - REJECTED
             .then(function (test) {
@@ -3908,7 +3915,7 @@ function (Okta,
           });
       });
       itp('is TRAPPED during verify of inline totp with Okta Verify Push', function () {
-        return setupOktaPush().then(function (test) {
+        return setupOktaPushWithTOTP().then(function (test) {
           return setupPolling(test, resRejectedPush)
             .then(function () { return tick(test); }) // Final response - REJECTED
             .then(function (test) {

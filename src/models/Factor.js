@@ -288,20 +288,21 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
     model: Factor,
     comparator: 'sortOrder',
 
-    // One override necessary here - Okta Verify with Push is treated like
-    // one factor. In the beacon menu, there's only one option - only in the
-    // view can you choose to enable the other factor (which will be exposed
-    // by the backupFactor property)
+    // One override necessary here - When Okta Verify OTP and Push are in the list,
+    // they are presented in the view as one factor - in the beacon menu,
+    // there's only one option (Okta Verify), and we show a form with Push
+    // with an inline totp option. What we need to do is to add totp
+    // as a "backupFactor" for push
     parse: function (factors) {
       // Keep a track of the last used factor, since
       // we need it to determine the default factor.
       this.lastUsedFactor = factors[0];
 
       var oktaPushFactor = _.findWhere(factors, { provider: 'OKTA', factorType: 'push' });
-      if (!oktaPushFactor) {
+      var totpFactor = _.findWhere(factors, { provider: 'OKTA', factorType: 'token:software:totp' });
+      if (!oktaPushFactor || !totpFactor) {
         return factors;
       }
-      var totpFactor = _.findWhere(factors, { provider: 'OKTA', factorType: 'token:software:totp' });
 
       var isTotpFirst = (totpFactor === factors[0]);
 
