@@ -259,9 +259,14 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
         deps: ['idps'],
         fn: function (idps) {
           return _.map(idps, function (idp) { 
-            if( ! ( idp.type && _.contains(supportedIdps, idp.type.toLowerCase()) )) {
-              idp.type = 'general-idp';
+            var type = idp.type && idp.type.toLowerCase();
+            if ( !( type && _.contains(supportedIdps, type) ) ) {
+              type = 'general-idp';
+              idp.text = idp.text || '{ Please provide a text value }';
             }
+            idp.className = 'social-auth-' + type + '-button';              
+            idp.dataAttr = 'social-auth-' + type + '-button';
+            idp.i18nKey = 'socialauth.' + type + '.label';
             return idp;
           });
         },
@@ -282,15 +287,12 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
           var self = this;
           var buttonArray = [];
           _.each(configuredSocialIdps, function (idp) {
-            var type = idp.type.toLowerCase();
-            var dataAttr = 'social-auth-' + type + '-button';
             var socialAuthButton = {
               id: idp.id,
-              type: idp.type,
-              dataAttr: dataAttr,
-              className: 'social-auth-button ' + dataAttr,
+              dataAttr: idp.dataAttr,
+              className: 'social-auth-button ' + idp.className,
               title: function () {
-                return idp.text || Okta.loc('socialauth.' + type + '.label');
+                return idp.text || Okta.loc(idp.i18nKey);
               },
               click: function (e) {
                 e.preventDefault();
