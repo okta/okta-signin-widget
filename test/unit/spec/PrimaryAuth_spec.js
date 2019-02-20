@@ -2014,6 +2014,43 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(buttons.eq(3).hasClass('social-auth-microsoft-button')).toBe(true);
         });
       });
+      itp('optionally adds a class for idp buttons', function () {
+        var settings = {
+          idps: [
+            {
+              type: 'GOOGLE',
+              id: '0oaidiw9udOSceD5678',
+              className: 'example-class'
+            },
+            {
+              type: 'FACEBOOK',
+              id: '0oaidiw9udOSceD1234',
+            },
+            {
+              id: '0oaidiw9udOSceD1111',
+              text: 'Not default text',
+              className: 'other-class'
+            }
+          ]
+        };
+        return setup(settings).then(function (test){
+          var buttons = test.form.socialAuthButtons();
+          expect(buttons.eq(0).hasClass('social-auth-google-button')).toBe(true);
+          expect(buttons.eq(0).hasClass('social-auth-facebook-button')).toBe(false);
+          expect(buttons.eq(0).hasClass('example-class')).toBe(true);
+          expect(buttons.eq(0).hasClass('other-class')).toBe(false);
+
+          expect(buttons.eq(1).hasClass('social-auth-google-button')).toBe(false);
+          expect(buttons.eq(1).hasClass('social-auth-facebook-button')).toBe(true);
+          expect(buttons.eq(1).hasClass('example-class')).toBe(false);
+          expect(buttons.eq(1).hasClass('other-class')).toBe(false);
+
+          expect(buttons.eq(2).hasClass('social-auth-google-button')).toBe(false);
+          expect(buttons.eq(2).hasClass('social-auth-facebook-button')).toBe(false);
+          expect(buttons.eq(2).hasClass('example-class')).toBe(false);
+          expect(buttons.eq(2).hasClass('other-class')).toBe(true);
+        });
+      });
       itp('displays generic idp buttons', function () {
         var settings = {
           idps: [
@@ -2065,7 +2102,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(buttons.eq(0).text()).toBe('Not default text');
         });
       });
-      itp('gives a L10N error if no text provided for generic idp buttons', function () {
+      itp('gives default text if no text provided for generic idp buttons', function () {
         var settings = {
           idps: [
             {

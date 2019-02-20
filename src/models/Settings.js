@@ -264,7 +264,8 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
               type = 'general-idp';
               idp.text = idp.text || '{ Please provide a text value }';
             }
-            idp.className = 'social-auth-' + type + '-button';              
+            var className = type ? 'social-auth-' + type + '-button ' : '';
+            idp.className = idp.className ? idp.className + ' ' + className : className;
             idp.dataAttr = 'social-auth-' + type + '-button';
             idp.i18nKey = 'socialauth.' + type + '.label';
             return idp;
