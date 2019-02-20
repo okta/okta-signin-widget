@@ -2051,7 +2051,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(buttons.eq(2).hasClass('other-class')).toBe(true);
         });
       });
-      itp('displays generic idp buttons', function () {
+      itp('displays generic idp buttons for unknown types', function () {
         var settings = {
           idps: [
             {

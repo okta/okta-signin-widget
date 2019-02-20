@@ -264,8 +264,12 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
               type = 'general-idp';
               idp.text = idp.text || '{ Please provide a text value }';
             }
-            var className = type ? 'social-auth-' + type + '-button ' : '';
-            idp.className = idp.className ? idp.className + ' ' + className : className;
+
+            idp.className = [
+              'social-auth-button',
+              type ? 'social-auth-' + type + '-button ' : '',
+              idp.className ? idp.className : ''
+            ].join(' ');
             idp.dataAttr = 'social-auth-' + type + '-button';
             idp.i18nKey = 'socialauth.' + type + '.label';
             return idp;
@@ -291,7 +295,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
             var socialAuthButton = {
               id: idp.id,
               dataAttr: idp.dataAttr,
-              className: 'social-auth-button ' + idp.className,
+              className: idp.className,
               title: function () {
                 return idp.text || Okta.loc(idp.i18nKey);
               },
