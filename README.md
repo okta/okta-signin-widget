@@ -1158,7 +1158,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     redirectUri: 'https://acme.com/oauth2/callback/home'
     ```
 
-- **idps:** External Identity Providers to use in OIDC authentication. Supported IDPs ( `GOOGLE`, `FACEBOOK`, and `LINKEDIN` ) are declared with a `type` and will get distinct styling and default i18n text, while any other entry will receive a general styling and require text to be provided.  Each IDP can have addtional CSS classes added via an optional `className` property.
+- **idps:** External Identity Providers to use in OIDC authentication. Supported IDPs ( `GOOGLE`, `FACEBOOK`, and `LINKEDIN` ) are declared with a `type` and will get distinct styling and default i18n text, while any other entry will receive a general styling and require text to be provided.  Each IDP can have additional CSS classes added via an optional `className` property.
 
     ```javascript
     idps: [

@@ -1314,45 +1314,46 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
       itp('displays generic idp buttons', function () {
         return setupWith({ genericIdp: true }).then(function (test){
-          expect(test.form.authDivider().length).toBe(1);
-          expect(test.form.additionalAuthButton().length).toBe(0);
-          expect(test.form.facebookButton().length).toBe(0);
-          expect(test.form.socialAuthButton('general-idp').length).toBe(1);
+          expect(test.form.authDivider()).toHaveLength(1);
+          expect(test.form.additionalAuthButton()).toHaveLength(0);
+          expect(test.form.facebookButton()).toHaveLength(0);
+          expect(test.form.socialAuthButton('general-idp')).toHaveLength(1);
           expect(test.form.forgotPasswordLinkVisible()).toBe(false);
         });
       });
       itp('displays generic idp and custom buttons', function () {
         return setupWith({ genericIdp: true, customButtons: true }).then(function (test){
-          expect(test.form.authDivider().length).toBe(1);
-          expect(test.form.additionalAuthButton().length).toBe(1);
-          expect(test.form.facebookButton().length).toBe(0);
-          expect(test.form.socialAuthButton('general-idp').length).toBe(1);
+          expect(test.form.authDivider()).toHaveLength(1);
+          expect(test.form.additionalAuthButton()).toHaveLength(1);
+          expect(test.form.facebookButton()).toHaveLength(0);
+          expect(test.form.socialAuthButton('general-idp')).toHaveLength(1);
           expect(test.form.forgotPasswordLinkVisible()).toBe(false);
         });
       });
       itp('displays generic idp and social auth buttons', function () {
         return setupWith({ genericIdp: true, socialAuth: true }).then(function (test){
-          expect(test.form.authDivider().length).toBe(1);
-          expect(test.form.additionalAuthButton().length).toBe(0);
-          expect(test.form.facebookButton().length).toBe(1);
-          expect(test.form.socialAuthButton('general-idp').length).toBe(1);
+          expect(test.form.authDivider()).toHaveLength(1);
+          expect(test.form.additionalAuthButton()).toHaveLength(0);
+          expect(test.form.facebookButton()).toHaveLength(1);
+          expect(test.form.socialAuthButton('general-idp')).toHaveLength(1);
           expect(test.form.forgotPasswordLinkVisible()).toBe(false);
         });
       });
       itp('displays generic idp, custom buttons, and social auth buttons', function () {
         return setupWith({ genericIdp: true, customButtons: true, socialAuth: true }).then(function (test){
-          expect(test.form.authDivider().length).toBe(1);
-          expect(test.form.additionalAuthButton().length).toBe(1);
-          expect(test.form.facebookButton().length).toBe(1);
-          expect(test.form.socialAuthButton('general-idp').length).toBe(1);
+          expect(test.form.authDivider()).toHaveLength(1);
+          expect(test.form.additionalAuthButton()).toHaveLength(1);
+          expect(test.form.facebookButton()).toHaveLength(1);
+          expect(test.form.socialAuthButton('general-idp')).toHaveLength(1);
           expect(test.form.forgotPasswordLinkVisible()).toBe(false);
         });
       });
       itp('displays social auth and custom buttons', function () {
         return setupWithCustomButtonsWithIdp().then(function (test){
-          expect(test.form.authDivider().length).toBe(1);
-          expect(test.form.additionalAuthButton().length).toBe(1);
-          expect(test.form.facebookButton().length).toBe(1);
+          expect(test.form.authDivider()).toHaveLength(1);
+          expect(test.form.additionalAuthButton()).toHaveLength(1);
+          expect(test.form.facebookButton()).toHaveLength(1);
+          expect(test.form.socialAuthButton('general-idp')).toHaveLength(0);
           expect(test.form.forgotPasswordLinkVisible()).toBe(false);
         });
       });

@@ -267,7 +267,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
 
             idp.className = [
               'social-auth-button',
-              type ? 'social-auth-' + type + '-button ' : '',
+              'social-auth-' + type + '-button ',
               idp.className ? idp.className : ''
             ].join(' ');
             idp.dataAttr = 'social-auth-' + type + '-button';
