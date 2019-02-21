@@ -15,6 +15,7 @@ define(['okta', 'q', 'views/mfa-verify/PassCodeForm'], function (Okta, Q, PassCo
   var subtitleTpl = Okta.Handlebars.compile('({{subtitle}})');
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
+
   return PassCodeForm.extend({
     className: 'factor-verify-passcode',
     initialize: function () {

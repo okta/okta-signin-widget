@@ -38,16 +38,26 @@ function (Okta, ProfileSchema, BaseLoginModel) {
     },
     save: function () {
       var data = Okta.Model.prototype.toJSON.apply(this, arguments);
-      var postData =  {
-        'registration': {
-          'profile': _.omit(data, ['appState', 'settings'])
-        }
-      };
-      return this.manageTransaction(function (transaction, setTransaction) {
-        transaction.enroll(postData).then(function (trans) {
-          setTransaction(trans);
+      data = _.omit(data, ['appState', 'settings']);
+      if (_.isEmpty(data)) {
+        var error = {
+          'errorSummary': Okta.loc('oform.errorbanner.title', 'login')
+        };
+        this.trigger('error', this, {
+          responseJSON: error
         });
-      });
+      } else {
+        var postData = {
+          'registration': {
+            'profile': data
+          }
+        };
+        return this.manageTransaction(function (transaction, setTransaction) {
+          transaction.enroll(postData).then(function (trans) {
+            setTransaction(trans);
+          });
+        });
+      }
     }
   });
 });

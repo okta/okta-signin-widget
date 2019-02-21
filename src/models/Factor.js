@@ -271,7 +271,8 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
             };
             setTransaction(trans);
             // In Okta verify case we initiate poll.
-            if ((trans.status === 'MFA_CHALLENGE') && trans.poll) {
+            if ((trans.status === 'MFA_CHALLENGE' && trans.poll) ||
+              (trans.status === 'FACTOR_CHALLENGE' && trans.poll)) {
               const deferred = Q.defer();
               const initiatePollTimout = Util.callAfterTimeout(deferred.resolve, PUSH_INTERVAL);
               self.listenToOnce(self.options.appState, 'factorSwitched', () => {
