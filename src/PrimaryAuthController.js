@@ -59,7 +59,7 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
     addFooter: function (options) {
       this.add(new Footer(this.toJSON({appState: options.appState})));
 
-      if (options.settings.get('features.registration')) {
+      if (options.settings.get('features.registration') || options.appState.get('isIdxStateToken')) {
         this.add(new FooterRegistration({
           settings: this.settings,
           appState: options.appState

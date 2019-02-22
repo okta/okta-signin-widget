@@ -20,12 +20,23 @@ function (Okta, ProfileSchema, BaseLoginModel) {
 
   return BaseLoginModel.extend({
     props: this.properties,
-    local: {
-      activationToken: 'string'
-    },
     initialize: function (options) {
       this.options = options || {};
       this.appState = this.options.appState;
+    },
+    constructPostData: function (profileAttributes) {
+      var postData = {
+        'registration': {
+          'profile': profileAttributes
+        }
+      };
+      // send createNewAccount flag for new user creation
+      if (this.createNewAccount) {
+        postData.registration['createNewAccount'] = true;
+      }
+      return postData;
+    },
+    setUpSchema: function () {
       // setup schema
       var Schema = ProfileSchema.extend({
         settings: this.options.settings,
@@ -35,6 +46,12 @@ function (Okta, ProfileSchema, BaseLoginModel) {
       // schema used in enrollUserForm
       this.options.appState.set('schema', this.schema);
       this.properties = this.schema.properties.createModelProperties();
+      this.createNewAccount = this.appState.get('profileSchema')._embedded.policy.registration.createNewAccount;
+    },
+    getEnrollFormData: function () {
+      return this.manageTransaction(function (transaction) {
+        return transaction.enroll();
+      });
     },
     save: function () {
       var data = Okta.Model.prototype.toJSON.apply(this, arguments);
@@ -47,13 +64,8 @@ function (Okta, ProfileSchema, BaseLoginModel) {
           responseJSON: error
         });
       } else {
-        var postData = {
-          'registration': {
-            'profile': data
-          }
-        };
         return this.manageTransaction(function (transaction, setTransaction) {
-          transaction.enroll(postData).then(function (trans) {
+          transaction.enroll(this.constructPostData(data)).then(function (trans) {
             setTransaction(trans);
           });
         });

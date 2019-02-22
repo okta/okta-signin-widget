@@ -8,16 +8,18 @@ define([
   'helpers/util/Expect',
   'LoginRouter',
   'sandbox',
-  'helpers/xhr/PROFILE_REQUIRED',
-  'helpers/xhr/SUCCESS'
+  'helpers/xhr/PROFILE_REQUIRED_UPDATE',
+  'helpers/xhr/PROFILE_REQUIRED_NEW',
+  'helpers/xhr/SUCCESS',
+  'helpers/xhr/UNAUTHENTICATED_IDX'
 ],
 function (Okta, OktaAuth, LoginUtil, Util, EnrollUserForm, Expect, Router,
-  $sandbox, resProfileRequired, resSuccess) {
+  $sandbox, resProfileRequiredUpdate, resProfileRequiredNew, resSuccess, resUnauthenticatedIdx) {
 
   var { _, $, Backbone } = Okta;
   var itp = Expect.itp;
 
-  function setup (settings, res) {
+  function setup (settings, resUnauthenticatedIdx) {
     settings || (settings = {});
     var successSpy = jasmine.createSpy('successSpy');
     var setNextResponse = Util.mockAjax();
@@ -35,7 +37,7 @@ function (Okta, OktaAuth, LoginUtil, Util, EnrollUserForm, Expect, Router,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
-    setNextResponse(res || resProfileRequired);
+
     router.refreshAuthState('dummy-token');
     settings = {
       router: router,
@@ -44,7 +46,13 @@ function (Okta, OktaAuth, LoginUtil, Util, EnrollUserForm, Expect, Router,
       ac: authClient,
       setNextResponse: setNextResponse
     };
-    return Expect.waitForEnrollUser(settings);
+    if (resUnauthenticatedIdx) {
+      setNextResponse(resUnauthenticatedIdx);
+      return Expect.waitForPrimaryAuth(settings);
+    } else {
+      setNextResponse(resProfileRequiredUpdate);
+      return Expect.waitForEnrollUser(settings);
+    }
   }
 
   Expect.describe('Enroll User', function () {
@@ -75,6 +83,48 @@ function (Okta, OktaAuth, LoginUtil, Util, EnrollUserForm, Expect, Router,
           expect(test.form.formInputs('employeeId').hasClass('okta-form-input-field input-fix')).toBe(true);
         });
       });
+
+      itp('makes call to enroll if isEnrollWithLoginIntent is true and then renders the right fields based on API response', function () {
+        return setup(null, resUnauthenticatedIdx).then(function (test) {
+          test.setNextResponse(resProfileRequiredNew);
+          test.form.$('.registration-link').click();
+          return Expect.waitForEnrollUser(test);
+        })
+          .then(function (test) {
+            expect(test.form.formInputs('streetAddress').length).toEqual(1);
+            expect(test.form.formInputs('streetAddress').hasClass('okta-form-input-field input-fix')).toBe(true);
+            expect(test.form.formInputs('employeeId').length).toEqual(1);
+            expect(test.form.formInputs('employeeId').hasClass('okta-form-input-field input-fix')).toBe(true);
+            return Expect.waitForEnrollUser(test);
+          })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            var model = test.router.controller.model;
+            model.set('streetAddress', 'street address');
+            model.set('employeeId', '1234');
+            spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+            model.save();
+            return Expect.waitForEnrollUser(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.okta.com/api/v1/authn/enroll',
+              data: {
+                'registration': {
+                  'createNewAccount': true,
+                  'profile': {
+                    'streetAddress': 'street address',
+                    'employeeId': '1234'
+                  }
+                },
+                'stateToken': '01StateToken'
+              }
+            });
+          });
+      });
+
       itp('enroll user form submit makes the correct post call', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
@@ -89,7 +139,7 @@ function (Okta, OktaAuth, LoginUtil, Util, EnrollUserForm, Expect, Router,
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'http://rain.okta1.com:1802/api/v1/authn/enroll',
+              url: 'http://foo.okta.com:1802/api/v1/authn/enroll',
               data: {
                 'registration': {
                   'profile': {

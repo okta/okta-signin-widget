@@ -23,14 +23,30 @@ function (
   EnrollUserForm,
   Footer,
 ) {
-
+  var _ = Okta._;
   return BaseLoginController.extend({
     className: 'enroll-user',
     initialize: function (options) {
+      // If user is unauthenticated and starts enroll flow make a post call to transition state to PROFILE_REQUIRED
+      this.isEnrollWithLoginIntent = !!(this.options.appState.get('lastAuthResponse').status === 'UNAUTHENTICATED');
       this.options = options || {};
       // create model
       this.model = new EnrollUser(this.options);
-      
+      if (this.isEnrollWithLoginIntent) {
+        this.model.getEnrollFormData()
+          .then(_.bind(function (response) {
+            if (response && response.data) {
+              this.options.appState.set('profileSchema', response.data);
+              this.renderForm();
+            }
+          },this));
+      } else {
+        this.renderForm();
+      }
+    },
+    renderForm: function () {
+      // setup schema
+      this.model.setUpSchema();
       // create form
       var form = new EnrollUserForm(this.toJSON());
       // add form
