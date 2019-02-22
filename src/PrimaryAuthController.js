@@ -18,7 +18,7 @@ define([
   'models/PrimaryAuth',
   'views/shared/Footer',
   'util/BaseLoginController',
-  'util/DeviceFingerprint'
+  'util/DeviceFingerprint',
 ],
 function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthModel,
   Footer, BaseLoginController, DeviceFingerprint) {
@@ -76,8 +76,8 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
 
     events: {
       'focusout input[name=username]': function () {
-        // Get DeviceFingerprint so we can use it for security image and for primary auth
-        if (this.settings.get('features.deviceFingerprinting')) {
+        if (this.settings.get('features.deviceFingerprinting') &&
+            this.settings.get('features.useDeviceFingerprintForSecurityImage')) {
           var self = this;
           DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
             .then(function (fingerprint) {

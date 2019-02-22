@@ -588,7 +588,8 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
     });
 
     Expect.describe('Device Fingerprint', function () {
-      itp('contains fingerprint header in get security image request if feature is enabled', function () {
+      itp(`contains fingerprint header in get security image request if deviceFingerprinting
+        is true (useDeviceFingerprintForSecurityImage defaults to true)`, function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
           var deferred = Q.defer();
           deferred.resolve('thisIsTheDeviceFingerprint');
@@ -605,6 +606,60 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
             var ajaxArgs = $.ajax.calls.argsFor(0);
             expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+          });
+      });
+      itp(`contains fingerprint header in get security image request if both features(
+        deviceFingerprinting and useDeviceFingerprintForSecurityImage) are enabled`, function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
+          var deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        return setup({ features: { securityImage: true, deviceFingerprinting: true,
+          useDeviceFingerprintForSecurityImage: true}})
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+          });
+      });
+      itp(`does not contain fingerprint header in get security image request if deviceFingerprinting
+          is enabled but useDeviceFingerprintForSecurityImage is disabled`, function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
+        return setup({ features: { securityImage: true, deviceFingerprinting: true,
+          useDeviceFingerprintForSecurityImage: false}})
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers).toBeUndefined();
+          });
+      });
+      itp(`does not contain fingerprint header in get security image request if deviceFingerprinting
+        is disabled and useDeviceFingerprintForSecurityImage is enabled`, function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
+        return setup({ features: { securityImage: true, useDeviceFingerprintForSecurityImage: true }})
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers).toBeUndefined();
           });
       });
       itp('does not contain fingerprint header in get security image request if feature is disabled', function () {
