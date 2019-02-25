@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 16] */
+/* eslint complexity: [2, 18], max-statements: [2, 21] */
 define([
   'okta',
   'util/BaseLoginController',
@@ -73,12 +73,15 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
       this.addListeners();
       this.add(new View(this.toJSON()));
 
-      // Okta Push is different from the other factors - it has a backup
-      // totp factor that can be chosen with the InlineTOTPForm
+      // If Okta Verify Push and Okta Verify totp are both enabled,
+      // then we show Push first, and totp is the "backup" factor,
+      // which is rendered in an additional InlineTOTPForm
       if (factorType === 'push' && this.model.get('isOktaFactor')) {
-        this.add(InlineTOTPForm, {
-          options: { model: this.model.get('backupFactor') }
-        });
+        if (this.model.get('backupFactor')) {
+          this.add(InlineTOTPForm, {
+            options: { model: this.model.get('backupFactor') }
+          });
+        }
 
         if (this.settings.get('features.autoPush')) {
           this.add(CheckBox, {
@@ -106,10 +109,12 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
             }
           });
         }
-        // Set the rememberDevice on the TOTP factor since it is stored as backupFactor.
-        this.listenTo(this.model, 'change:rememberDevice', function (model, rememberDevice) {
-          model.get('backupFactor').set('rememberDevice', rememberDevice);
-        });
+        // Set rememberDevice on the backup factor (totp) if available
+        if (this.model.get('backupFactor')) {
+          this.listenTo(this.model, 'change:rememberDevice', function (model, rememberDevice) {
+            model.get('backupFactor').set('rememberDevice', rememberDevice);
+          });
+        }
       }
 
       if (!this.settings.get('features.hideSignOutLinkInMFA')) {
