@@ -36,6 +36,10 @@ define([
         placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
         disabled: false,
         params: {
+          innerTooltip: {
+            title: Okta.loc('primaryauth.username.placeholder', 'login'),
+            text: Okta.loc('primaryauth.username.tooltip', 'login')
+          },
           icon: 'person-16-gray'
         }
       };

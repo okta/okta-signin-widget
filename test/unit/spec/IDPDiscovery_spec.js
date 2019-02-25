@@ -330,6 +330,12 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           expect(cb.length).toBe(0);
         });
       });
+      itp('uses default for username tooltip', function () {
+        return setup().then(function (test) {
+          var tip = test.form.usernameTooltipText();
+          expect(tip).toEqual('Username');
+        });
+      });
       itp('has "Need help?" link', function () {
         return setup().then(function (test) {
           expect(test.form.helpFooterLabel().trim()).toBe('Need help signing in?');
