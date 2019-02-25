@@ -245,8 +245,8 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       }
       return;
     case 'PROFILE_REQUIRED':
-      router.appState.setProfileSchema(res);
-      router.navigate('signin/enrollUser', { trigger: true });
+      router.appState.set('profileSchema', res);
+      router.navigate('signin/enroll-user', { trigger: true });
       return;
     case 'UNAUTHENTICATED':
       // Either we have factors and we are in passwordlessAuth mode

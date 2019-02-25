@@ -158,7 +158,7 @@ function (BaseLoginRouter,
       'signin/register': 'register',
       'signin/register-complete': 'registerComplete',
       'signin/consent': 'consentRequired',
-      'signin/enrollUser': 'enrollUser',
+      'signin/enroll-user': 'enrollUser',
       '*wildcard': 'defaultAuth'
     },
 

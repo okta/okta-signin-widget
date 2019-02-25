@@ -194,10 +194,6 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       this.set('lastAuthResponse', res);
     },
 
-    setProfileSchema: function (res) {
-      this.set('profileSchema', res);
-    },
-
     derived: {
       'isSuccessResponse': {
         deps: ['lastAuthResponse'],
@@ -300,10 +296,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       'isIdxStateToken': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
-          if (!res.stateToken) {
-            return false;
-          }
-          return res.stateToken.startsWith('01');
+          return res && _.isString(res.stateToken) && res.stateToken.startsWith('01');
         }
       },
       'isPwdExpiringSoon': {

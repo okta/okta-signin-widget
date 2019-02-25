@@ -12,14 +12,12 @@
 
 define([
   'okta',
-  'models/ProfileSchema',
   './BaseLoginModel'
 ],
-function (Okta, ProfileSchema, BaseLoginModel) {
+function (Okta, BaseLoginModel) {
   var {_} = Okta;
 
   return BaseLoginModel.extend({
-    props: this.properties,
     initialize: function (options) {
       this.options = options || {};
       this.appState = this.options.appState;
@@ -30,23 +28,12 @@ function (Okta, ProfileSchema, BaseLoginModel) {
           'profile': profileAttributes
         }
       };
+      this.createNewAccount = !!(this.appState.get('profileSchema')._embedded.policy.registration.createNewAccount);
       // send createNewAccount flag for new user creation
       if (this.createNewAccount) {
         postData.registration['createNewAccount'] = true;
       }
       return postData;
-    },
-    setUpSchema: function () {
-      // setup schema
-      var Schema = ProfileSchema.extend({
-        settings: this.options.settings,
-        appState: this.options.appState
-      });
-      this.schema = new Schema();
-      // schema used in enrollUserForm
-      this.options.appState.set('schema', this.schema);
-      this.properties = this.schema.properties.createModelProperties();
-      this.createNewAccount = this.appState.get('profileSchema')._embedded.policy.registration.createNewAccount;
     },
     getEnrollFormData: function () {
       return this.manageTransaction(function (transaction) {

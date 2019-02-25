@@ -45,8 +45,6 @@ function (
       }
     },
     renderForm: function () {
-      // setup schema
-      this.model.setUpSchema();
       // create form
       var form = new EnrollUserForm(this.toJSON());
       // add form

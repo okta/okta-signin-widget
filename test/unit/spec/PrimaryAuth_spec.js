@@ -35,7 +35,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
   resSecurityImageFail, resSuccess, resUnauthenticated, resUnauthenticatedIdx, resFactorRequired, resLockedOut, resPwdExpired, resUnauthorized,
   resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
 
-  var { _, $} = Okta;
+  var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
   var tick = Expect.tick;

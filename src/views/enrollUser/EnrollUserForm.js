@@ -12,8 +12,9 @@
 
 define([
   'okta',
-  'util/RegistrationFormFactory'
-], function (Okta, RegistrationFormFactory) {
+  'util/RegistrationFormFactory',
+  'models/ProfileSchema',
+], function (Okta, RegistrationFormFactory, ProfileSchema) {
   return Okta.Form.extend({
     layout: 'o-form-theme',
     autoSave: true,
@@ -22,9 +23,14 @@ define([
     save: Okta.loc('registration.form.submit', 'login'),
     initialize: function (options) {
       this.options = options || {};
-      var schema = this.options.appState.get('schema');
+      // setup schema
+      var Schema = ProfileSchema.extend({
+        appState: this.options.appState
+      });
+      this.schema = new Schema();
+      this.schema.properties.createModelProperties();
       // add fields
-      schema.properties.each((schemaProperty) => {
+      this.schema.properties.each((schemaProperty) => {
         var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
         this.addInput(inputOptions);
       });

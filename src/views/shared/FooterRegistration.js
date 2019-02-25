@@ -34,7 +34,7 @@ define([
         clickHandler();
       }
       else if (this.options.appState.get('isIdxStateToken')) {
-        this.options.appState.trigger('navigate', 'signin/enrollUser');
+        this.options.appState.trigger('navigate', 'signin/enroll-user');
       } else {
         this.options.appState.trigger('navigate', 'signin/register');
       }
