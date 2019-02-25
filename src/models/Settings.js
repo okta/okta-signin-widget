@@ -255,12 +255,25 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
           });
         }
       },
-      // filters the idps passed into the widget to include only the ones we support.
+      // Adjusts the idps passed into the widget based on if they get explicit support
       configuredSocialIdps: {
         deps: ['idps'],
         fn: function (idps) {
-          return _.filter(idps, function (idp) {
-            return _.contains(supportedIdps, idp.type.toLowerCase());
+          return _.map(idps, function (idp) { 
+            var type = idp.type && idp.type.toLowerCase();
+            if ( !( type && _.contains(supportedIdps, type) ) ) {
+              type = 'general-idp';
+              idp.text = idp.text || '{ Please provide a text value }';
+            }
+
+            idp.className = [
+              'social-auth-button',
+              'social-auth-' + type + '-button ',
+              idp.className ? idp.className : ''
+            ].join(' ');
+            idp.dataAttr = 'social-auth-' + type + '-button';
+            idp.i18nKey = 'socialauth.' + type + '.label';
+            return idp;
           });
         },
         cache: true
@@ -280,15 +293,12 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
           var self = this;
           var buttonArray = [];
           _.each(configuredSocialIdps, function (idp) {
-            var type = idp.type.toLowerCase();
-            var dataAttr = 'social-auth-' + type + '-button';
             var socialAuthButton = {
               id: idp.id,
-              type: idp.type,
-              dataAttr: dataAttr,
-              className: 'social-auth-button ' + dataAttr,
+              dataAttr: idp.dataAttr,
+              className: idp.className,
               title: function () {
-                return Okta.loc('socialauth.' + type + '.label');
+                return idp.text || Okta.loc(idp.i18nKey);
               },
               click: function (e) {
                 e.preventDefault();
