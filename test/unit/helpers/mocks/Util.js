@@ -31,7 +31,7 @@ function (Okta, Q, Duo) {
   fn.mockSDKCookie = function (authClient, key, value) {
     key = key || 'oktaStateToken';
     value = value || 'testStateToken';
-    spyOn(authClient.tx.exists, '_getCookie').and.returnValue(value);
+    spyOn(authClient.tx.exists, '_get').and.returnValue(value);
   };
 
   fn.mockRemoveCookie = function () {
