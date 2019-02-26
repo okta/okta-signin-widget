@@ -61,8 +61,8 @@ function (Okta, Widget, Expect, Logger, $sandbox) {
       it('has an idToken method', function () {
         expect(signIn.idToken).toBeDefined();
       });
-      it('has an idToken.refresh method', function () {
-        expect(signIn.idToken.refresh).toBeDefined();
+      it('has an idToken.renew method', function () {
+        expect(signIn.idToken.renew).toBeDefined();
       });
     });
 
