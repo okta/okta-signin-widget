@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 19] max-statements: [2, 23] max-params: [2, 12]*/
+/* eslint complexity: [2, 20] max-statements: [2, 23] max-params: [2, 12]*/
 define([
   'okta',
   'util/BaseLoginController',
@@ -45,7 +45,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
       case 'sms':
       case 'call':
       case 'email':
-        if (this.options.appState.get('isFactorRequired')){
+        if (this.options.appState.get('isFactorRequired') && factorType === 'email'){
           View = EmailMagicLinkForm;
         } else {
           View = PassCodeForm;
