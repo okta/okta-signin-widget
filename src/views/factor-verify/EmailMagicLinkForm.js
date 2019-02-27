@@ -22,7 +22,7 @@ define(['okta', 'q', 'views/mfa-verify/PassCodeForm'], function (Okta, Q, PassCo
       // for FACTOR_REQUIRED with email magic link we dont need to show otp code input field and verify button
       var form = this;
       this.title = this.model.get('factorLabel');
-      //TODO: Temp fix for demo. FACTOR_REQUIRED after sign up is missing the profile object in API response
+      //TODO: OKTA-211618 Temp fix for demo. FACTOR_REQUIRED after sign up is missing the profile object in API response
       var email = this.model.get('email') || this.options.appState.get('lastAuthResponse')._embedded.user.profile.login;
       this.subtitle = subtitleTpl({ subtitle: email});
       this.add(Okta.createButton({
