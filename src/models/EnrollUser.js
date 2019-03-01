@@ -40,7 +40,7 @@ function (Okta, BaseLoginModel) {
       });
     },
     save: function () {
-      var data = Okta.Model.prototype.toJSON.apply(this, arguments);
+      var data = BaseLoginModel.prototype.toJSON.apply(this, arguments);
       data = _.omit(data, ['appState', 'settings', 'createNewAccount']);
       if (_.isEmpty(data)) {
         var error = {

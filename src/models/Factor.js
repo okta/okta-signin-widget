@@ -212,7 +212,11 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         return {'password': Okta.loc('error.password.required')};
       }
     },
-
+    addPasscode: function () {
+      // for new idx pipeline with email magic link we dont need to show otp code input field,
+      // hence we dont need to post the otp code to the server
+      return !(this.options.appState.get('isIdxStateToken') && this.get('factorType') === 'email');
+    },
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
       // Set/Remove the remember device cookie based on the remember device input.
@@ -228,18 +232,14 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         else if (this.get('factorType') === 'password') {
           data.password = this.get('password');
         }
-        else {
+        else if (this.addPasscode()){
           data.passCode = this.get('answer');
         }
 
         if (this.pushFactorHasAutoPush()) {
           data.autoPush = this.get('autoPush');
         }
-        // for FACTOR_REQUIRED with email magic link we dont need to show otp code input field,
-        // hence we dont need to post the otp code to the server
-        if (this.options.appState.get('isFactorRequired') && this.get('factorType') === 'email') {
-          delete data.passCode;
-        }
+
         var promise;
         // MFA_REQUIRED or UNAUTHENTICATED with factors (passwordlessAuth)
         // When widget enters flow directly in FACTOR_CHALLENGE state

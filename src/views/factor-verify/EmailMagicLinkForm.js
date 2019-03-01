@@ -10,21 +10,22 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* eslint complexity: [2, 7] */
-define(['okta', 'q', 'views/mfa-verify/PassCodeForm'], function (Okta, Q, PassCodeForm) {
-
-  var subtitleTpl = Okta.Handlebars.compile('({{subtitle}})');
+define(['okta', 'q'], function (Okta, Q) {
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
 
-  return PassCodeForm.extend({
+  return Okta.Form.extend({
+    layout: 'o-form-theme',
     className: 'factor-verify-form',
+    autoSave: true,
+    noCancelButton: true,
     initialize: function () {
       // for FACTOR_REQUIRED with email magic link we dont need to show otp code input field and verify button
       var form = this;
       this.title = this.model.get('factorLabel');
       //TODO: OKTA-211618 Temp fix for demo. FACTOR_REQUIRED after sign up is missing the profile object in API response
       var email = this.model.get('email') || this.options.appState.get('lastAuthResponse')._embedded.user.profile.login;
-      this.subtitle = subtitleTpl({ subtitle: email});
+      this.subtitle = '('+email+')';
       this.add(Okta.createButton({
         attributes: { 'data-se': 'email-send-code' },
         className: 'button email-request-button',

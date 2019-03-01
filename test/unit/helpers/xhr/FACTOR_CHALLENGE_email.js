@@ -2,42 +2,51 @@ define({
   "status": 200,
   "responseType": "json",
   "response": {
-    "stateToken": "01MMFqbYA4dwgGi0t5I78wIhcvHS1pOxKJE_B6jiUk",
-    "expiresAt": "2015-09-27T01:14:24.573Z",
+    "stateToken": "01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ",
+    "type": "LOGIN", "expiresAt": "2019-03-01T23:05:43.000Z",
     "status": "FACTOR_CHALLENGE",
     "_embedded": {
+      "request": {
+        "ip": "127.0.0.1",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36"
+      },
       "user": {
-        "id": "00ui5n6MuauCZVNbX0g3",
-        "passwordChanged": "2015-09-26T22:29:11.000Z",
+        "id": "00uwd7cBE4Zzg7nVj0g3",
+        "passwordChanged": "2019-02-02T00:15:12.000Z",
         "profile": {
-          "login": "administrator1@clouditude.net",
-          "firstName": "Add-Min",
-          "lastName": "O'Cloudy Tud",
-          "locale": "en_US",
+          "login": "evra@rain.com",
+          "firstName": "pat",
+          "lastName": "evra",
+          "locale": "en",
           "timeZone": "America/Los_Angeles"
         }
       },
-      "factor": {
-        "id": "emailhp9NXcoXu8z2wN0g3",
-        "factorType": "email",
-        "provider": "OKTA",
-        "profile": {
-          "email": "a...1@clouditude.net"
-        },
-        "_embedded": {
-          "verification": null
+      "factors": [{
+        "id": "emfwddDdbM4o7sowA0g3", "factorType": "email", "provider": "OKTA", "vendorName": "OKTA", "profile": { "email": "e...a@rain.com" },
+        "_links": {
+          "verify": {
+            "href": "http://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify",
+            "hints": { "allow": ["POST"] }
+          }
         }
+      }],
+      "authentication": {
+        "protocol": "OAUTH2.0",
+        "request": {
+          "scope": "openid profile",
+          "response_type": "id_token",
+          "redirect_uri": "http://foo.okta.com",
+          "nonce": "81bdjqvg",
+          "response_mode": "fragment"
+        },
+        "issuer": {
+          "name": "Rain-Cloud59",
+          "uri": "http://foo.okta.com"
+        },
+        "client": { "id": "0oat59f8prmWrik500g3", "name": "IDX", "_links": {} }
       }
     },
-    "_links": {
-      "cancel": {
-        "href": "https://foo.com/api/v1/authn/cancel",
-        "hints": {
-          "allow": [
-            "POST"
-          ]
-        }
-      }
-    }
+    "_links": { "cancel": { "href": "http://foo.okta.com/api/v1/authn/cancel", "hints": { "allow": ["POST"] } } }
   }
+
 });

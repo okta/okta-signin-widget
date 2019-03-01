@@ -120,7 +120,7 @@ function (Okta,
     'GENERIC_SAML': 14,
     'GENERIC_OIDC': 15
   };
-  /* eslint max-statements: [2, 48]*/
+  /* eslint max-statements: [2, 50]*/
   function clickFactorInDropdown (test, factorName) {
     //assumes dropdown has all factors
     test.beacon.getOptionsLinks().eq(factors[factorName]).click();
@@ -2157,7 +2157,7 @@ function (Okta,
       });
 
       Expect.describe('Email Magic link', function () {
-        itp('posts to email link if send email button is clicked', function () {
+        itp('posts email link if send email button is clicked once and changes button text', function () {
           return setupEmailMagicLink().then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse(resFactorChallengeEmail);
@@ -2169,11 +2169,39 @@ function (Okta,
           })
             .then(function (test) {
               expect(test.form.emailSendCode().text()).toEqual('Sent');
-              expect(test.form.submitButton().prop('disabled')).toBe(false);
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                data: { stateToken: '01MMFqbYA4dwgGi0t5I78wIhcvHS1pOxKJE_B6jiUk' },
-                url: 'http://rain.okta1.com:1802/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify?rememberDevice=false'
+                data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
+                url: 'http://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify?rememberDevice=false'
+              });
+            });
+        });
+        itp('posts email link, changes button text and posts to verify if button is clicked for the second time', function () {
+          Util.speedUpPolling();
+          return setupEmailMagicLink().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resFactorChallengeEmail);
+            expect(test.form.answerField().length).toEqual(0);
+            expect(test.form.button().length).toEqual(0);
+            expect(test.form.emailSendCode().text()).toEqual('Send email');
+            test.form.emailSendCode().click();
+            return Expect.wait(() => {
+              return $('[data-se="email-send-code"]').text() === 'Re-send email';
+            }, test);
+          })
+            .then(function (test) {
+              $.ajax.calls.reset();
+              test.setNextResponse(resFactorChallengeEmail);
+              test.form.emailSendCode().click();
+              return Expect.wait(() => {
+                return $('[data-se="email-send-code"]').text() === 'Re-send email';
+              }, test);
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
+                url: 'http://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify?rememberDevice=false'
               });
             });
         });

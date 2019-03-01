@@ -2,7 +2,7 @@ define({
     "status": 200,
     "responseType": "json",
     "response": {
-        "stateToken": "01MMFqbYA4dwgGi0t5I78wIhcvHS1pOxKJE_B6jiUk",
+        "stateToken": "01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ",
         "type": "LOGIN",
         "expiresAt": "2019-02-09T22:21:49.000Z",
         "status": "FACTOR_REQUIRED",
@@ -29,7 +29,7 @@ define({
                 "profile": { "email": "e...a@rain.com" },
                 "_links": {
                     "verify": {
-                        "href": "http://rain.okta1.com:1802/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify",
+                        "href": "http://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify",
                         "hints": { "allow": ["POST"] }
                     }
                 }
@@ -39,7 +39,7 @@ define({
                 "request": {
                     "scope": "openid profile",
                     "response_type": "id_token",
-                    "redirect_uri": "http://rain.okta1.com:1802",
+                    "redirect_uri": "http://foo.okta.com",
                     "nonce": "l9i73clt", "response_mode": "fragment"
                 },
                 "issuer": { "name": "Rain-Cloud59", "uri": "http://nikhil.sigmanetcorp.us:1802" },
@@ -48,7 +48,7 @@ define({
         },
         "_links": {
             "cancel": {
-                "href": "http://rain.okta1.com:1802/api/v1/authn/cancel",
+                "href": "http://foo.okta.com/api/v1/authn/cancel",
                 "hints": { "allow": ["POST"] }
             }
         }

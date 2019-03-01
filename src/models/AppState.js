@@ -204,14 +204,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       'isMfaRequired': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
-          return res.status === 'MFA_REQUIRED';
-        }
-      },
-      'isFactorRequired': {
-        deps: ['lastAuthResponse'],
-        fn: function (res) {
-          // We want the same view for FACTOR_REQUIRED & FACTOR_CHALLENGE
-          return res.status === 'FACTOR_REQUIRED' || res.status === 'FACTOR_CHALLENGE';
+          return res.status === 'MFA_REQUIRED' || res.status === 'FACTOR_REQUIRED';
         }
       },
       'isProfileRequired': {
@@ -229,7 +222,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       'isMfaChallenge': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
-          return res.status === 'MFA_CHALLENGE';
+          return res.status === 'MFA_CHALLENGE' || res.status === 'FACTOR_CHALLENGE';
         }
       },
       'isUnauthenticated': {
