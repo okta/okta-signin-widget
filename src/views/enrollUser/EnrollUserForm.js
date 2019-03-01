@@ -23,13 +23,8 @@ define([
     save: Okta.loc('registration.form.submit', 'login'),
     initialize: function (options) {
       this.options = options || {};
-      // setup schema
-      var Schema = ProfileSchema.extend({
-        appState: this.options.appState
-      });
-      this.schema = new Schema();
-      this.schema.properties.createModelProperties();
-      // add fields
+      this.schema =
+      new ProfileSchema({ profileSchemaAttributes: this.options.appState.get('profileSchemaAttributes').profile });
       this.schema.properties.each((schemaProperty) => {
         var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
         this.addInput(inputOptions);

@@ -17,7 +17,7 @@ define(['okta', 'q', 'views/mfa-verify/PassCodeForm'], function (Okta, Q, PassCo
   var API_RATE_LIMIT = 30000; //milliseconds
 
   return PassCodeForm.extend({
-    className: 'factor-verify-passcode',
+    className: 'factor-verify-form',
     initialize: function () {
       // for FACTOR_REQUIRED with email magic link we dont need to show otp code input field and verify button
       var form = this;
@@ -27,7 +27,7 @@ define(['okta', 'q', 'views/mfa-verify/PassCodeForm'], function (Okta, Q, PassCo
       this.subtitle = subtitleTpl({ subtitle: email});
       this.add(Okta.createButton({
         attributes: { 'data-se': 'email-send-code' },
-        className: 'button ' + 'email-request-button',
+        className: 'button email-request-button',
         title: Okta.loc('mfa.sendEmail', 'login'),
         click: function () {
           form.clearErrors();

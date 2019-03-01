@@ -15,26 +15,22 @@ define([
 ],
 function (Okta) {
   var _ = Okta._;
-  var { BaseSchema, SchemaProperty } = Okta.internal.models;
-
-  var ProfileSchemaPropertyCollection = SchemaProperty.Collection.extend({
-    createModelProperties: function () {
-      var modelProperties = SchemaProperty.Collection.prototype.createModelProperties.apply(this);
-      _.each(modelProperties, function (modelProperty, name) {
-        this.get(name).attributes.title = this.get(name).get('label');
-      }, this);
-      return modelProperties;
-    }
-  });
+  var { BaseSchema } = Okta.internal.models;
 
   return BaseSchema.Model.extend({
     expand: ['schema'],
     constructor: function () {
-      this.properties = new ProfileSchemaPropertyCollection();
-      Okta.BaseModel.apply(this, arguments);
-    }, 
-    initialize: function () {      
-      var profileAttributes = this.appState.get('profileSchemaAttributes');
+      BaseSchema.Model.apply(this, arguments);
+    },
+    setFieldPlaceholder: function (formFields) {
+      _.each(formFields, function (formField) {
+        formField.title = formField.label;
+      });
+      return formFields;
+    },
+    initialize: function (options) {
+      var profileAttributes = options.profileSchemaAttributes;
+      profileAttributes = this.setFieldPlaceholder(profileAttributes);
       if (profileAttributes) {
         var userProfileSchema = {
           'properties': {}
@@ -43,7 +39,7 @@ function (Okta) {
           var profileAttributeObject = profileAttributes[i];
           userProfileSchema.properties[profileAttributeObject.name] = profileAttributeObject;
         }
-        BaseSchema.Model.prototype.parse.apply(this, [{ 'schema': userProfileSchema }]);
+        this.parse.apply(this, [{ 'schema': userProfileSchema }]);
       }
     }
   });

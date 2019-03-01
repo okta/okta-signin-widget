@@ -344,11 +344,10 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       'profileSchemaAttributes': {
         deps: ['profileSchema'],
         fn: function (res) {
-          if (!res._embedded || !res._embedded.policy ||
-            !res._embedded.policy.registration || !res._embedded.policy.registration.profile) {
+          if (!res._embedded || !res._embedded.policy || !res._embedded.policy.registration) {
             return null;
           }
-          return res._embedded.policy.registration.profile;
+          return res._embedded.policy.registration;
         }
       },
       'recoveryType': {

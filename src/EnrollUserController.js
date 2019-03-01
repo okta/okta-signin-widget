@@ -37,6 +37,8 @@ function (
           .then(_.bind(function (response) {
             if (response && response.data) {
               this.options.appState.set('profileSchema', response.data);
+              this.model.set('createNewAccount',
+                !!this.options.appState.get('profileSchemaAttributes').createNewAccount);
               this.renderForm();
             }
           },this));

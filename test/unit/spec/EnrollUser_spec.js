@@ -55,78 +55,49 @@ function (Okta, OktaAuth, LoginUtil, Util, EnrollUserForm, Expect, Router,
     }
   }
 
-  Expect.describe('Enroll User', function () {
-    Expect.describe('Enroll User Form', function () {
-      itp('has the correct title on the enroll form', function () {
-        return setup().then(function (test) {
-          expect(test.form.formTitle().text()).toContain('Create Account');
-        });
+  Expect.describe('Enroll User Form', function () {
+    itp('has the correct title on the enroll form', function () {
+      return setup().then(function (test) {
+        expect(test.form.formTitle().text()).toContain('Create Account');
       });
-      itp('has the correct title on the register button', function () {
-        return setup().then(function (test) {
-          expect(test.form.formButton()[0].value).toEqual('Register');
-        });
+    });
+    itp('has the correct title on the register button', function () {
+      return setup().then(function (test) {
+        expect(test.form.formButton()[0].value).toEqual('Register');
       });
-      itp('does not allow empty form submit', function () {
-        return setup().then(function (test) {
-          test.form.formButton().click();
-          expect(test.form.errorMessage()).toEqual('We found some errors. Please review the form and make corrections.');
-          
-        });
+    });
+    itp('does not allow empty form submit', function () {
+      return setup().then(function (test) {
+        test.form.formButton().click();
+        expect(test.form.errorMessage()).toEqual('We found some errors. Please review the form and make corrections.');
       });
-      itp('renders the right fields based on API response', function () {
-        return setup().then(function (test) {
+    });
+    itp('renders the right fields based on API response', function () {
+      return setup().then(function (test) {
+        expect(test.form.formInputs('streetAddress').length).toEqual(1);
+        expect(test.form.formInputs('streetAddress').find('input').attr('placeholder')).toEqual('enter streetAddress *'); 
+        expect(test.form.formInputs('streetAddress').hasClass('okta-form-input-field input-fix')).toBe(true);
+
+        expect(test.form.formInputs('employeeId').length).toEqual(1);
+        expect(test.form.formInputs('employeeId').find('input').attr('placeholder')).toEqual('enter employeeId *'); 
+        expect(test.form.formInputs('employeeId').hasClass('okta-form-input-field input-fix')).toBe(true);
+      });
+    });
+
+    itp('makes call to enroll if isEnrollWithLoginIntent is true and then renders the right fields based on API response', function () {
+      return setup(null, resUnauthenticatedIdx).then(function (test) {
+        test.setNextResponse(resProfileRequiredNew);
+        test.form.$('.registration-link').click();
+        return Expect.waitForEnrollUser(test);
+      })
+        .then(function (test) {
           expect(test.form.formInputs('streetAddress').length).toEqual(1);
           expect(test.form.formInputs('streetAddress').hasClass('okta-form-input-field input-fix')).toBe(true);
-
           expect(test.form.formInputs('employeeId').length).toEqual(1);
           expect(test.form.formInputs('employeeId').hasClass('okta-form-input-field input-fix')).toBe(true);
-        });
-      });
-
-      itp('makes call to enroll if isEnrollWithLoginIntent is true and then renders the right fields based on API response', function () {
-        return setup(null, resUnauthenticatedIdx).then(function (test) {
-          test.setNextResponse(resProfileRequiredNew);
-          test.form.$('.registration-link').click();
           return Expect.waitForEnrollUser(test);
         })
-          .then(function (test) {
-            expect(test.form.formInputs('streetAddress').length).toEqual(1);
-            expect(test.form.formInputs('streetAddress').hasClass('okta-form-input-field input-fix')).toBe(true);
-            expect(test.form.formInputs('employeeId').length).toEqual(1);
-            expect(test.form.formInputs('employeeId').hasClass('okta-form-input-field input-fix')).toBe(true);
-            return Expect.waitForEnrollUser(test);
-          })
-          .then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resSuccess);
-            var model = test.router.controller.model;
-            model.set('streetAddress', 'street address');
-            model.set('employeeId', '1234');
-            spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
-            model.save();
-            return Expect.waitForEnrollUser(test);
-          })
-          .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.okta.com/api/v1/authn/enroll',
-              data: {
-                'registration': {
-                  'createNewAccount': true,
-                  'profile': {
-                    'streetAddress': 'street address',
-                    'employeeId': '1234'
-                  }
-                },
-                'stateToken': '01StateToken'
-              }
-            });
-          });
-      });
-
-      itp('enroll user form submit makes the correct post call', function () {
-        return setup().then(function (test) {
+        .then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           var model = test.router.controller.model;
@@ -136,22 +107,50 @@ function (Okta, OktaAuth, LoginUtil, Util, EnrollUserForm, Expect, Router,
           model.save();
           return Expect.waitForEnrollUser(test);
         })
-          .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'http://foo.okta.com:1802/api/v1/authn/enroll',
-              data: {
-                'registration': {
-                  'profile': {
-                    'streetAddress': 'street address',
-                    'employeeId': '1234'
-                  }
-                },
-                'stateToken': '01nDL4wRHu-dLvUHUj1QCA9r5P1n5dw6WJ_voGPFWB'
-              }
-            });
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.okta.com/api/v1/authn/enroll',
+            data: {
+              'registration': {
+                'createNewAccount': true,
+                'profile': {
+                  'streetAddress': 'street address',
+                  'employeeId': '1234'
+                }
+              },
+              'stateToken': '01StateToken'
+            }
           });
-      });
+        });
+    });
+
+    itp('enroll user form submit makes the correct post call', function () {
+      return setup().then(function (test) {
+        $.ajax.calls.reset();
+        test.setNextResponse(resSuccess);
+        var model = test.router.controller.model;
+        model.set('streetAddress', 'street address');
+        model.set('employeeId', '1234');
+        spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+        model.save();
+        return Expect.waitForEnrollUser(test);
+      })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'http://foo.okta.com:1802/api/v1/authn/enroll',
+            data: {
+              'registration': {
+                'profile': {
+                  'streetAddress': 'street address',
+                  'employeeId': '1234'
+                }
+              },
+              'stateToken': '01nDL4wRHu-dLvUHUj1QCA9r5P1n5dw6WJ_voGPFWB'
+            }
+          });
+        });
     });
   });
 

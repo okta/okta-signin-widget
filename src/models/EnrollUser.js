@@ -28,9 +28,8 @@ function (Okta, BaseLoginModel) {
           'profile': profileAttributes
         }
       };
-      this.createNewAccount = !!(this.appState.get('profileSchema')._embedded.policy.registration.createNewAccount);
       // send createNewAccount flag for new user creation
-      if (this.createNewAccount) {
+      if (this.get('createNewAccount')) {
         postData.registration['createNewAccount'] = true;
       }
       return postData;
@@ -42,7 +41,7 @@ function (Okta, BaseLoginModel) {
     },
     save: function () {
       var data = Okta.Model.prototype.toJSON.apply(this, arguments);
-      data = _.omit(data, ['appState', 'settings']);
+      data = _.omit(data, ['appState', 'settings', 'createNewAccount']);
       if (_.isEmpty(data)) {
         var error = {
           'errorSummary': Okta.loc('oform.errorbanner.title', 'login')
