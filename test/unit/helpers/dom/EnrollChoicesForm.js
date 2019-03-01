@@ -26,16 +26,40 @@ define(['okta', './Form'], function (Okta, Form) {
       return this.factorDescription(factorName).find('p').trimmedText();
     },
 
-    factorButton: function (factorName) {
-      return this.factorRow(factorName).find('.button');
+    factorButton: function (factorName, factorsRow) {
+      if (factorName) {
+        return this.factorRow(factorName).find('.button');
+      } else {
+        return $(factorsRow).find('.button');
+      }
+    },
+
+    factorButtonText: function (factorName, factorsRow) {
+      if (factorName) {
+        return this.factorButton(factorName).trimmedText();
+      } else {
+        return this.factorButton(null, factorsRow).trimmedText();
+      }
+    },
+
+    factorCardinalityText: function (factorName, factorsRow) {
+      if (factorName) {
+        return this.factorRow(factorName).find('.factor-cardinality').trimmedText();
+      } else {
+        return $(factorsRow).find('.factor-cardinality').trimmedText();
+      }
     },
 
     isFactorMinimized: function (factorName) {
       return this.factorRow(factorName).hasClass('enroll-factor-row-min');
     },
 
-    factorHasSuccessCheck: function (factorName) {
-      return this.factorRow(factorName).find('.success-16-green').length > 0;
+    factorHasSuccessCheck: function (factorName, factorsRow) {
+      if (factorName) {
+        return this.factorRow(factorName).find('.success-16-green').length > 0;
+      } else {
+        return $(factorsRow).find('.success-16-green').length > 0;
+      }
     },
 
     factorHasPendingCheck: function (factorName) {
@@ -48,10 +72,6 @@ define(['okta', './Form'], function (Okta, Form) {
 
     requiredFactorListTitle: function () {
       return this.requiredFactorList().find('.list-title').trimmedText();
-    },
-
-    requiredFactorListSubtitle: function () {
-      return this.requiredFactorList().find('.list-subtitle').trimmedText();
     },
 
     enrolledFactorList: function () {

@@ -77,7 +77,8 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         ]
       },
       profile: ['object'],
-      vendorName: 'string'
+      vendorName: 'string',
+      policy: ['object']
     },
 
     local: {
@@ -161,6 +162,17 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         deps: ['status'],
         fn: function (status) {
           return status === 'ACTIVE';
+        }
+      },
+      additionalEnrollment : {
+        deps: ['policy'],
+        fn: function (policy) {
+          if (!policy || !policy.enrollment) {
+            return false;
+          }
+          else {
+            return policy.enrollment.enrolled !== 0 && policy.enrollment.enrolled < policy.enrollment.maximum;
+          }
         }
       },
       required: {

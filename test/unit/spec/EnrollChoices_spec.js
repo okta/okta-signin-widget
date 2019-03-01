@@ -12,10 +12,11 @@ define([
   'helpers/xhr/MFA_ENROLL_allFactors',
   'helpers/xhr/MFA_ENROLL_allFactors_OnPrem',
   'helpers/xhr/MFA_ENROLL_push',
+  'helpers/xhr/MFA_ENROLL_multipleU2F',
   'helpers/xhr/SUCCESS'
 ],
 function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
-  $sandbox, resAllFactors, resAllFactorsOnPrem, resPush, resSuccess) {
+  $sandbox, resAllFactors, resAllFactorsOnPrem, resPush, resMultipleU2F, resSuccess) {
 
   var { $ } = Okta;
   var itp = Expect.itp;
@@ -127,6 +128,37 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
+    function setupMultipleU2FEnrollments (status, enrollment, policyEnrollment, onlyU2F) {
+      var res = onlyU2F ? deepClone(resMultipleU2F) : deepClone(resAllFactors);
+      var index = onlyU2F ? 0 : 10;
+      res.response._embedded.factors[index].status = status;
+      res.response._embedded.factors[index].enrollment = enrollment;
+      res.response._embedded.factors[index].policy.enrollment = policyEnrollment;
+      return setup(res);
+    }
+
+    function setupMultipleU2FWithActiveStatusAndOptionalEnrollment (policyEnrollment, onlyU2F) {
+      return setupMultipleU2FEnrollments('ACTIVE', 'OPTIONAL', policyEnrollment, onlyU2F);
+    }
+
+    function setupMultipleU2FWithNotSetupStatusAndRequiredEnrollment (policyEnrollment, onlyU2F) {
+      return setupMultipleU2FEnrollments('NOT_SETUP', 'REQUIRED', policyEnrollment, onlyU2F);
+    }
+
+    function setupMultipleU2FWithActiveStatusAndRequiredEnrollment (policyEnrollment, onlyU2F) {
+      return setupMultipleU2FEnrollments('ACTIVE', 'REQUIRED', policyEnrollment, onlyU2F);
+    }
+
+    function setupMultipleU2FEnrollmentsWithRequiredEnrolledAndQuestionRequired (policyEnrollment) {
+      var res = deepClone(resAllFactors);
+      // setting question to required to test success check for u2f
+      res.response._embedded.factors[0].enrollment = 'REQUIRED';
+      res.response._embedded.factors[10].status = 'ACTIVE';
+      res.response._embedded.factors[10].enrollment = 'REQUIRED';
+      res.response._embedded.factors[10].policy.enrollment = policyEnrollment;
+      return setup(res);
+    }
+
     function itHasIconAndText (factorName, iconClass, title, subtitle, res) {
       itp('has right icon', function () {
         return setup(res).then(function (test) {
@@ -172,11 +204,6 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         itp('has the correct list title of "Setup required"', function () {
           return setupWithRequiredNoneEnrolled().then(function (test) {
             expect(test.form.requiredFactorListTitle()).toBe('Setup required');
-          });
-        });
-        itp('has the correct list subtitle of "x of y"', function () {
-          return setupWithRequiredNoneEnrolled().then(function (test) {
-            expect(test.form.requiredFactorListSubtitle()).toBe('1 of 4');
           });
         });
         itp('chooses the first unenrolled required factor as the current factor', function () {
@@ -575,6 +602,190 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           var factorList = test.form.getFactorList();
           expect(factorList).toEqual(['OKTA_VERIFY_PUSH', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH',
             'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'ON_PREM', 'GENERIC_SAML', 'GENERIC_OIDC']);
+        });
+      });
+    });
+
+    Expect.describe('Multiple Enrollments', function () {
+      Expect.describe('U2F', function () {
+        itp('does not display cardinality text for optional u2f', function () {
+          return setup(resAllFactors).then(function (test) {
+            expect(test.form.factorButtonText('U2F')).toBe('Setup');
+            expect(test.form.factorCardinalityText('U2F')).toBe('');
+          });
+        });
+        itp('displays correct button and cardinality text when enrolled=1 optional=2', function () {
+          return setupMultipleU2FWithActiveStatusAndOptionalEnrollment({'enrolled': 1, 'minimum': 0, 'maximum': 3})
+            .then(function (test) {
+              var factorRows = test.form.factorRow('U2F');
+              //displays one u2f row for enrolled, one for optional
+              expect(factorRows.length).toBe(2);
+
+              var enrolledFactorRow = factorRows[0],
+                  optionalFactorRow = factorRows[1];
+              //enrolled factor row should have success check and no cardinality text
+              expect(test.form.factorHasSuccessCheck(null, enrolledFactorRow)).toBe(true);
+              expect(test.form.factorCardinalityText(null, enrolledFactorRow)).toBe('');
+              //optional factor should have button and no cardinality text
+              expect(test.form.factorButtonText(null, optionalFactorRow)).toBe('Set up another');
+              expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
+            });
+        });
+        itp('displays correct button and cardinality text when enrolled=2 optional=1', function () {
+          return setupMultipleU2FWithActiveStatusAndOptionalEnrollment({'enrolled': 2, 'minimum': 0, 'maximum': 3})
+            .then(function (test) {
+              var factorRows = test.form.factorRow('U2F');
+              //displays one u2f row for enrolled, one for optional
+              expect(factorRows.length).toBe(2);
+
+              var enrolledFactorRow = factorRows[0],
+                  optionalFactorRow = factorRows[1];
+              //enrolled factor row should have success check and cardinality text
+              expect(test.form.factorHasSuccessCheck(null, enrolledFactorRow)).toBe(true);
+              expect(test.form.factorCardinalityText(null, enrolledFactorRow)).toBe('(2 set up)');
+              //optional factor should have button and no cardinality text
+              expect(test.form.factorButtonText(null, optionalFactorRow)).toBe('Set up another');
+              expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
+            });
+        });
+        itp('displays correct button and cardinality text when enrolled=3 optional=0', function () {
+          return setupMultipleU2FWithActiveStatusAndOptionalEnrollment({'enrolled': 3, 'minimum': 0, 'maximum': 3})
+            .then(function (test) {
+              var factorRows = test.form.factorRow('U2F');
+              //displays only one u2f row for enrolled, none for optional
+              expect(factorRows.length).toBe(1);
+              //enrolled factor row should have success check and cardinality text
+              expect(test.form.factorHasSuccessCheck('U2F')).toBe(true);
+              expect(test.form.factorCardinalityText('U2F')).toBe('(3 set up)');
+            });
+        });
+        itp('displays correct cardinality text when enrolled=0 required=2', function () {
+          return setupMultipleU2FWithNotSetupStatusAndRequiredEnrollment({'enrolled': 0, 'minimum': 2, 'maximum': 3})
+            .then(function (test) {
+              //enrolled factor row should have pending check and cardinality text
+              expect(test.form.factorHasPendingCheck('U2F')).toBe(true);
+              expect(test.form.factorCardinalityText('U2F')).toBe('(0 of 2 set up)');
+            });
+        });
+        itp('displays correct cardinality text when enrolled=1 required=1', function () {
+          return setupMultipleU2FWithNotSetupStatusAndRequiredEnrollment({'enrolled': 1, 'minimum': 2, 'maximum': 3})
+            .then(function (test) {
+              //enrolled factor row should have pending check and cardinality text
+              expect(test.form.factorHasPendingCheck('U2F')).toBe(true);
+              expect(test.form.factorCardinalityText('U2F')).toBe('(1 of 2 set up)');
+            });
+        });
+        itp('displays correct cardinality text when enrolled=2 required=0 and question required', function () {
+          return setupMultipleU2FEnrollmentsWithRequiredEnrolledAndQuestionRequired(
+            {'enrolled': 2, 'minimum': 2, 'maximum': 3}
+          ).then(function (test) {
+            //enrolled factor row should have success check and cardinality text
+            expect(test.form.factorHasSuccessCheck('U2F')).toBe(true);
+            expect(test.form.factorCardinalityText('U2F')).toBe('(2 set up)');
+          });
+        });
+        itp('displays correct cardinality text when enrolled=2 required=0 optional=1', function () {
+          return setupMultipleU2FWithActiveStatusAndRequiredEnrollment({'enrolled': 2, 'minimum': 2, 'maximum': 3})
+            .then(function (test) {
+              var factorRows = test.form.factorRow('U2F');
+              //displays one u2f row for enrolled, one for optional
+              expect(factorRows.length).toBe(2);
+
+              var enrolledFactorRow = factorRows[0],
+                  optionalFactorRow = factorRows[1];
+              //enrolled factor row should have success check and cardinality text
+              expect(test.form.factorHasSuccessCheck(null, enrolledFactorRow)).toBe(true);
+              expect(test.form.factorCardinalityText(null, enrolledFactorRow)).toBe('(2 set up)');
+              //optional factor should have button and no cardinality text
+              expect(test.form.factorButtonText(null, optionalFactorRow)).toBe('Set up another');
+              expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
+            });
+        });
+        itp('displays correct cardinality text when enrolled=3 required=0 optional=0', function () {
+          return setupMultipleU2FWithActiveStatusAndRequiredEnrollment({'enrolled': 3, 'minimum': 2, 'maximum': 3})
+            .then(function (test) {
+              var factorRows = test.form.factorRow('U2F');
+              //displays only one u2f row for enrolled, none for optional
+              expect(factorRows.length).toBe(1);
+              //enrolled factor row should have success check and cardinality text
+              expect(test.form.factorHasSuccessCheck('U2F')).toBe(true);
+              expect(test.form.factorCardinalityText('U2F')).toBe('(3 set up)');
+            });
+        });
+      });
+      Expect.describe('with only U2F configured', function () {
+        itp('does not display cardinality text for optional u2f', function () {
+          return setup(resMultipleU2F).then(function (test) {
+            expect(test.form.factorButtonText('U2F')).toBe('Setup');
+            expect(test.form.factorCardinalityText('U2F')).toBe('');
+          });
+        });
+        itp('displays correct button and cardinality text when enrolled=1 optional=2', function () {
+          return setupMultipleU2FWithActiveStatusAndOptionalEnrollment({'enrolled': 1, 'minimum': 0, 'maximum': 3}, true)
+            .then(function (test) {
+              var factorRows = test.form.factorRow('U2F');
+              //displays one u2f row for enrolled, one for optional
+              expect(factorRows.length).toBe(2);
+
+              var enrolledFactorRow = factorRows[0],
+                  optionalFactorRow = factorRows[1];
+              //enrolled factor row should have success check and no cardinality text
+              expect(test.form.factorHasSuccessCheck(null, enrolledFactorRow)).toBe(true);
+              expect(test.form.factorCardinalityText(null, enrolledFactorRow)).toBe('');
+              //optional factor should have button and no cardinality text
+              expect(test.form.factorButtonText(null, optionalFactorRow)).toBe('Set up another');
+              expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
+            });
+        });
+        itp('displays correct button and cardinality text when enrolled=2 optional=1', function () {
+          return setupMultipleU2FWithActiveStatusAndOptionalEnrollment({'enrolled': 2, 'minimum': 0, 'maximum': 3}, true)
+            .then(function (test) {
+              var factorRows = test.form.factorRow('U2F');
+              //displays one u2f row for enrolled, one for optional
+              expect(factorRows.length).toBe(2);
+
+              var enrolledFactorRow = factorRows[0],
+                  optionalFactorRow = factorRows[1];
+              //enrolled factor row should have success check and cardinality text
+              expect(test.form.factorHasSuccessCheck(null, enrolledFactorRow)).toBe(true);
+              expect(test.form.factorCardinalityText(null, enrolledFactorRow)).toBe('(2 set up)');
+              //optional factor should have button and no cardinality text
+              expect(test.form.factorButtonText(null, optionalFactorRow)).toBe('Set up another');
+              expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
+            });
+        });
+        itp('displays correct cardinality text when enrolled=0 required=2', function () {
+          return setupMultipleU2FWithNotSetupStatusAndRequiredEnrollment({'enrolled': 0, 'minimum': 2, 'maximum': 3}, true)
+            .then(function (test) {
+              //enrolled factor row should have pending check and cardinality text
+              expect(test.form.factorHasPendingCheck('U2F')).toBe(true);
+              expect(test.form.factorCardinalityText('U2F')).toBe('(0 of 2 set up)');
+            });
+        });
+        itp('displays correct cardinality text when enrolled=1 required=1', function () {
+          return setupMultipleU2FWithNotSetupStatusAndRequiredEnrollment({'enrolled': 1, 'minimum': 2, 'maximum': 3}, true)
+            .then(function (test) {
+              //enrolled factor row should have pending check and cardinality text
+              expect(test.form.factorHasPendingCheck('U2F')).toBe(true);
+              expect(test.form.factorCardinalityText('U2F')).toBe('(1 of 2 set up)');
+            });
+        });
+        itp('displays correct cardinality text when enrolled=2 required=0 optional=1', function () {
+          return setupMultipleU2FWithActiveStatusAndRequiredEnrollment({'enrolled': 2, 'minimum': 2, 'maximum': 3}, true)
+            .then(function (test) {
+              var factorRows = test.form.factorRow('U2F');
+              //displays one u2f row for enrolled, one for optional
+              expect(factorRows.length).toBe(2);
+
+              var enrolledFactorRow = factorRows[0],
+                  optionalFactorRow = factorRows[1];
+              //enrolled factor row should have success check and cardinality text
+              expect(test.form.factorHasSuccessCheck(null, enrolledFactorRow)).toBe(true);
+              expect(test.form.factorCardinalityText(null, enrolledFactorRow)).toBe('(2 set up)');
+              //optional factor should have button and no cardinality text
+              expect(test.form.factorButtonText(null, optionalFactorRow)).toBe('Set up another');
+              expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
+            });
         });
       });
     });

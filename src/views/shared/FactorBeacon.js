@@ -51,6 +51,10 @@ function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
           factor, className;
       if (factors) {
         factor = factors.findWhere(_.pick(this.options, 'provider', 'factorType'));
+        if (factor === undefined) {
+          //for factors that support cardinality and only have factorType
+          factor = factors.findWhere(_.pick(this.options, 'factorType'));
+        }
       } else  {
         factor = new Factor.Model(this.options.appState.get('factor'), this.toJSON());
       }
