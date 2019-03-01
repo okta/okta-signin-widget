@@ -16,7 +16,7 @@ define(['okta', 'q'], function (Okta, Q) {
 
   return Okta.Form.extend({
     layout: 'o-form-theme',
-    className: 'factor-verify-form',
+    className: 'factor-verify-magiclink',
     autoSave: true,
     noCancelButton: true,
     initialize: function () {
