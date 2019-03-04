@@ -41,21 +41,6 @@ var OktaSignIn = (function () {
     }
 
     /**
-     * Refresh the idToken
-     * @param idToken - idToken generated from the OAUTH call
-     * @param callback - function to invoke after refreshing the idToken.
-     *        The callback will be passed a new idToken if successful and
-     *        an error message if not.
-     * @param opts - OAUTH options to refresh the idToken
-     */
-    function refreshIdToken (idToken, callback, opts) {
-      authClient.idToken.refresh(opts).then(callback)
-        .fail(function () {
-          callback('There was a problem refreshing the id_token');
-        });
-    }
-
-    /**
      * Check if there is an active session. If there is one, the callback is invoked with
      * the session and user information (similar to calling the global success callback)
      * and if not, the callback is invoked with {status: 'INACTIVE'}, at which point,
@@ -174,9 +159,6 @@ var OktaSignIn = (function () {
       renderEl: render,
       showSignInToGetTokens: showSignInToGetTokens,
       signOut: closeSession,
-      idToken: {
-        refresh: refreshIdToken
-      },
       session: {
         close: closeSession,
         exists: checkSession,
