@@ -212,9 +212,8 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         return {'password': Okta.loc('error.password.required')};
       }
     },
-    addPasscode: function () {
-      // for new idx pipeline with email magic link we dont need to show otp code input field,
-      // hence we dont need to post the otp code to the server
+    needsPasscode: function () {
+      // we don't need passcode for email with magic link flow
       return !(this.options.appState.get('isIdxStateToken') && this.get('factorType') === 'email');
     },
     save: function () {
@@ -232,7 +231,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         else if (this.get('factorType') === 'password') {
           data.password = this.get('password');
         }
-        else if (this.addPasscode()){
+        else if (this.needsPasscode()){
           data.passCode = this.get('answer');
         }
 
