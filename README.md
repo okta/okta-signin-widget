@@ -38,7 +38,7 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [tokenManager.get](#tokenmanagerget)
   - [tokenManager.remove](#tokenmanagerremove)
   - [tokenManager.clear](#tokenmanagerclear)
-  - [tokenManager.refresh](#tokenmanagerrefresh)
+  - [tokenManager.renew](#tokenmanagerrenew)
   - [tokenManager.on](#tokenmanageron)
   - [tokenManager.off](#tokenmanageroff)
 - [Configuration](#configuration)
@@ -523,9 +523,9 @@ else {
 
 ### tokenManager.add
 
-After receiving an `access_token` or `id_token`, add it to the `tokenManager` to manage token expiration and refresh operations. When a token is added to the `tokenManager`, it is automatically refreshed when it expires.
+After receiving an `access_token` or `id_token`, add it to the `tokenManager` to manage token expiration and renew operations. When a token is added to the `tokenManager`, it is automatically renewed when it expires.
 
-- `key` - Unique key to store the token in the `tokenManager`. This is used later when you want to get, delete, or refresh the token.
+- `key` - Unique key to store the token in the `tokenManager`. This is used later when you want to get, delete, or renew the token.
 - `token` - Token object that will be added
 
 ```javascript
@@ -547,12 +547,24 @@ signIn.renderEl({
 
 ### tokenManager.get
 
-Get a token that you have previously added to the `tokenManager` with the given `key`.
+Get a token that you have previously added to the `tokenManager` with the given `key`. The token object will be returned if it has not expired.
 
 - `key` - Key for the token you want to get
 
 ```javascript
-var token = signIn.tokenManager.get('my_id_token');
+signIn.tokenManager.get('my_id_token')
+  .then(function(token) {
+    if (token) {
+      // Token is valid
+      console.log(token);
+    } else {
+      // Token has expired
+    }
+  })
+  .catch(function(err) {
+    // OAuth Error
+    console.error(err);
+  });
 ```
 
 ### tokenManager.remove
@@ -573,32 +585,32 @@ Remove all tokens from the `tokenManager`.
 signIn.tokenManager.clear();
 ```
 
-### tokenManager.refresh
+### tokenManager.renew
 
-Manually refresh a token before it expires.
+Manually renew a token before it expires.
 
-- `key` - Key for the token you want to refresh
+- `key` - Key for the token you want to renew
 
 ```javascript
-// Because the refresh() method is async, you can wait for it to complete
+// Because the renew() method is async, you can wait for it to complete
 // by using the returned Promise:
-signIn.tokenManager.refresh('my_id_token')
+signIn.tokenManager.renew('my_id_token')
   .then(function (newToken) {
     // doSomethingWith(newToken);
   });
 
-// Alternatively, you can subscribe to the 'refreshed' event:
-signIn.tokenManager.on('refreshed', function (key, newToken, oldToken) {
+// Alternatively, you can subscribe to the 'renewed' event:
+signIn.tokenManager.on('renewed', function (key, newToken, oldToken) {
   // doSomethingWith(newToken);
 });
-signIn.tokenManager.refresh('my_id_token');
+signIn.tokenManager.renew('my_id_token');
 ```
 
 ### tokenManager.on
 
 Subscribe to an event published by the `tokenManager`.
 
-- `event` - Event to subscribe to. Possible events are `expired`, `error`, and `refreshed`.
+- `event` - Event to subscribe to. Possible events are `expired`, `error`, and `renewed`.
 - `callback` - Function to call when the event is triggered
 - `context` - Optional context to bind the callback to
 
@@ -613,8 +625,8 @@ signIn.tokenManager.on('error', function (err) {
   console.log('TokenManager error:', err);
 });
 
-signIn.tokenManager.on('refreshed', function (key, newToken, oldToken) {
-  console.log('Token with key', key, 'has been refreshed');
+signIn.tokenManager.on('renewed', function (key, newToken, oldToken) {
+  console.log('Token with key', key, 'has been renewed');
   console.log('Old token:', oldToken);
   console.log('New token:', newToken);
 });
@@ -628,8 +640,8 @@ Unsubscribe from `tokenManager` events. If no callback is provided, unsubscribes
 - `callback` - Optional callback that was used to subscribe to the event
 
 ```javascript
-signIn.tokenManager.off('refreshed');
-signIn.tokenManager.off('refreshed', myRefreshedCallback);
+signIn.tokenManager.off('renewed');
+signIn.tokenManager.off('renewed', myRenewedCallback);
 ```
 
 ## Configuration
