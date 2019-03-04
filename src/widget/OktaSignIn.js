@@ -41,17 +41,16 @@ var OktaSignIn = (function () {
     }
 
     /**
-     * Refresh the idToken
-     * @param idToken - idToken generated from the OAUTH call
-     * @param callback - function to invoke after refreshing the idToken.
-     *        The callback will be passed a new idToken if successful and
+     * Renew the passed token
+     * @param token - token to renew
+     * @param callback - function to invoke after renewing the token.
+     *        The callback will be passed a new token if successful and
      *        an error message if not.
-     * @param opts - OAUTH options to refresh the idToken
      */
-    function refreshIdToken (idToken, callback, opts) {
-      authClient.idToken.refresh(opts).then(callback)
+    function renewToken (token, callback) {
+      authClient.token.renew(token).then(callback)
         .fail(function () {
-          callback('There was a problem refreshing the id_token');
+          callback('There was a problem renewing the token');
         });
     }
 
@@ -174,9 +173,6 @@ var OktaSignIn = (function () {
       renderEl: render,
       showSignInToGetTokens: showSignInToGetTokens,
       signOut: closeSession,
-      idToken: {
-        refresh: refreshIdToken
-      },
       session: {
         close: closeSession,
         exists: checkSession,
@@ -185,7 +181,8 @@ var OktaSignIn = (function () {
       },
       token: {
         hasTokensInUrl: hasTokensInUrl,
-        parseTokensFromUrl: parseTokensFromUrl
+        parseTokensFromUrl: parseTokensFromUrl,
+        renew: renewToken
       },
       tokenManager: authClient.tokenManager,
       getTransaction: getTransaction,

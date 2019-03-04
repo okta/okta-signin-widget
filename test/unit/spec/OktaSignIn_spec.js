@@ -57,15 +57,6 @@ function (Okta, Widget, Expect, Logger, $sandbox) {
       });
     });
 
-    Expect.describe('IdToken', function () {
-      it('has an idToken method', function () {
-        expect(signIn.idToken).toBeDefined();
-      });
-      it('has an idToken.refresh method', function () {
-        expect(signIn.idToken.refresh).toBeDefined();
-      });
-    });
-
     Expect.describe('Session', function () {
       it('has a session method', function () {
         expect(signIn.session).toBeDefined();
@@ -93,6 +84,9 @@ function (Okta, Widget, Expect, Logger, $sandbox) {
       });
       it('has a token.parseTokensFromUrl method', function () {
         expect(signIn.token.parseTokensFromUrl).toBeDefined();
+      });
+      it('has a token.renew method', function () {
+        expect(signIn.token.renew).toBeDefined();
       });
     });
 
