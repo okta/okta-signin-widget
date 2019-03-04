@@ -2,9 +2,12 @@
 define([
   'okta',
   'q',
-  'duo'
+  'duo',
+  '../xhr/keys',
+  '../xhr/well-known',
+  '../xhr/well-known-shared-resource'
 ],
-function (Okta, Q, Duo) {
+function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
 
   var { _, $, Backbone } = Okta;
   var { Cookie } = Okta.internal.util;
@@ -31,7 +34,7 @@ function (Okta, Q, Duo) {
   fn.mockSDKCookie = function (authClient, key, value) {
     key = key || 'oktaStateToken';
     value = value || 'testStateToken';
-    spyOn(authClient.tx.exists, '_getCookie').and.returnValue(value);
+    spyOn(authClient.tx.exists, '_get').and.returnValue(value);
   };
 
   fn.mockRemoveCookie = function () {
@@ -171,13 +174,37 @@ function (Okta, Q, Duo) {
     spyOn(Math, 'random').and.returnValue(0.1);
   };
 
+  fn.loadWellKnownAndKeysCache = function () {
+    // add /.well-known/openid-configuration and /oauth2/v1/keys to cache
+    // so we don't make unnecessary requests
+    var expirationTime = 2449786329;
+    localStorage.setItem('okta-cache-storage', JSON.stringify({
+      'https://foo.com/.well-known/openid-configuration': {
+        expiresAt: expirationTime,
+        response: wellKnown.response
+      },
+      'https://foo.com/oauth2/v1/keys': {
+        expiresAt: expirationTime,
+        response: keys.response
+      },
+      'https://foo.com/oauth2/aus8aus76q8iphupD0h7/.well-known/openid-configuration': {
+        expiresAt: expirationTime,
+        response: wellKnownSharedResource.response
+      },
+      'https://foo.com/oauth2/aus8aus76q8iphupD0h7/v1/keys': {
+        expiresAt: expirationTime,
+        response: keys.response
+      }
+    }));
+  };
+
   fn.stallEnrollFactorPoll = function (authClient, originalAjax) {
     // Needed in order to reset the mock. Jasmine spies don't have restore()
-    if (authClient.options.ajaxRequest.calls) {
-      authClient.options.ajaxRequest = originalAjax;
+    if (authClient.options.httpRequestClient.calls) {
+      authClient.options.httpRequestClient = originalAjax;
     }
-    originalAjax = authClient.options.ajaxRequest;
-    spyOn(authClient.options, 'ajaxRequest').and.callFake(function (method, uri) {
+    originalAjax = authClient.options.httpRequestClient;
+    spyOn(authClient.options, 'httpRequestClient').and.callFake(function (method, uri) {
       var isPollFn = uri.indexOf('/lifecycle/activate') !== -1;
       if (isPollFn) {
         // return waiting xhr
@@ -197,17 +224,17 @@ function (Okta, Q, Duo) {
   };
 
   fn.resumeEnrollFactorPoll = function (authClient, originalAjax, response) {
-    if (authClient.options.ajaxRequest.calls) {
-      authClient.options.ajaxRequest = originalAjax;
+    if (authClient.options.httpRequestClient.calls) {
+      authClient.options.httpRequestClient = originalAjax;
     }
     if (response.response && !response.responseText) {
       response.responseText = JSON.stringify(response.response);
     }
-    originalAjax = authClient.options.ajaxRequest;
-    spyOn(authClient.options, 'ajaxRequest').and.callFake(function (method, uri) {
+    originalAjax = authClient.options.httpRequestClient;
+    spyOn(authClient.options, 'httpRequestClient').and.callFake(function (method, uri) {
       var isPollFn = uri.indexOf('/activate') !== -1;
       if (isPollFn) {
-        authClient.options.ajaxRequest = originalAjax;
+        authClient.options.httpRequestClient = originalAjax;
         return Q.resolve(response);
       }
       return originalAjax.apply(this, arguments);
