@@ -174,24 +174,25 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
     spyOn(Math, 'random').and.returnValue(0.1);
   };
 
-  fn.loadWellKnownAndKeysCache = function() {
+  fn.loadWellKnownAndKeysCache = function () {
     // add /.well-known/openid-configuration and /oauth2/v1/keys to cache
     // so we don't make unnecessary requests
+    var expirationTime = 2449786329;
     localStorage.setItem('okta-cache-storage', JSON.stringify({
       'https://foo.com/.well-known/openid-configuration': {
-        expiresAt: 2449786329, // mock time accordingly
+        expiresAt: expirationTime,
         response: wellKnown.response
       },
       'https://foo.com/oauth2/v1/keys': {
-        expiresAt: 2449786329,
+        expiresAt: expirationTime,
         response: keys.response
       },
       'https://foo.com/oauth2/aus8aus76q8iphupD0h7/.well-known/openid-configuration': {
-        expiresAt: 2449786329,
+        expiresAt: expirationTime,
         response: wellKnownSharedResource.response
       },
       'https://foo.com/oauth2/aus8aus76q8iphupD0h7/v1/keys': {
-        expiresAt: 2449786329,
+        expiresAt: expirationTime,
         response: keys.response
       }
     }));
