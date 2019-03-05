@@ -41,20 +41,6 @@ var OktaSignIn = (function () {
     }
 
     /**
-     * Renew the passed token
-     * @param token - token to renew
-     * @param callback - function to invoke after renewing the token.
-     *        The callback will be passed a new token if successful and
-     *        an error message if not.
-     */
-    function renewToken (token, callback) {
-      authClient.token.renew(token).then(callback)
-        .fail(function () {
-          callback('There was a problem renewing the token');
-        });
-    }
-
-    /**
      * Check if there is an active session. If there is one, the callback is invoked with
      * the session and user information (similar to calling the global success callback)
      * and if not, the callback is invoked with {status: 'INACTIVE'}, at which point,
@@ -181,8 +167,7 @@ var OktaSignIn = (function () {
       },
       token: {
         hasTokensInUrl: hasTokensInUrl,
-        parseTokensFromUrl: parseTokensFromUrl,
-        renew: renewToken
+        parseTokensFromUrl: parseTokensFromUrl
       },
       tokenManager: authClient.tokenManager,
       getTransaction: getTransaction,

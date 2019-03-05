@@ -553,18 +553,18 @@ Get a token that you have previously added to the `tokenManager` with the given 
 
 ```javascript
 signIn.tokenManager.get('my_id_token')
-.then(function(token) {
-  if (token) {
-    // Token is valid
-    console.log(token);
-  } else {
-    // Token has expired
-  }
-})
-.catch(function(err) {
-  // OAuth Error
-  console.error(err);
-});
+  .then(function(token) {
+    if (token) {
+      // Token is valid
+      console.log(token);
+    } else {
+      // Token has expired
+    }
+  })
+  .catch(function(err) {
+    // OAuth Error
+    console.error(err);
+  });
 ```
 
 ### tokenManager.remove

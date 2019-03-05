@@ -85,9 +85,6 @@ function (Okta, Widget, Expect, Logger, $sandbox) {
       it('has a token.parseTokensFromUrl method', function () {
         expect(signIn.token.parseTokensFromUrl).toBeDefined();
       });
-      it('has a token.renew method', function () {
-        expect(signIn.token.renew).toBeDefined();
-      });
     });
 
     Expect.describe('getTransaction', function () {
