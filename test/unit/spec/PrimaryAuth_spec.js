@@ -2048,7 +2048,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               url: 'https://foo.okta.com/api/v1/authn/login',
               data: {
                 identifier: 'testuser@test.com',
-                stateToken: '01StateToken'
+                stateToken: '01nDL4wRHu-dLvUHUj1QCA9r5P1n5dw6WJ_voGPFWB'
               }
             });
           });
