@@ -12,10 +12,12 @@
 
 define([
   'okta',
-  'util/RouterUtil'
-], function (Okta, RouterUtil) {
+  'util/RouterUtil',
+  'util/FactorUtil'
+], function (Okta, RouterUtil, FactorUtil) {
 
-  var _ = Okta._;
+  var _ = Okta._,
+      cardinalityTextTpl = Okta.tpl('<span class="factor-cardinality">{{cardinalityText}}</span>');
 
   var FactorRow = Okta.View.extend({
     className: 'enroll-factor-row clearfix',
@@ -39,23 +41,35 @@ define([
     },
 
     children: function () {
-      if (this.model.get('enrolled')) {
-        return [['<span class="icon success-16-green"></span>', '.enroll-factor-label']];
+      var children = [],
+          enrolled = this.model.get('enrolled'),
+          required = this.model.get('required'),
+          policy = this.model.get('policy');
+
+      if (this.options.showInlineSetupButton) {
+        return [[Okta.createButton({
+          className: 'button',
+          title: this.getSetupButtonText(),
+          click: function () {
+            this.options.appState.trigger('navigate', RouterUtil.createEnrollFactorUrl(
+              this.model.get('provider'),
+              this.model.get('factorType')
+            ));
+          }
+        }), '.enroll-factor-button']];
       }
-      else if (this.model.get('enrollment') === 'REQUIRED') {
-        return [['<span class="icon success-16-gray"></span>', '.enroll-factor-label']];
+      else if (enrolled) {
+        children.push(['<span class="icon success-16-green"></span>', '.enroll-factor-label']);
+      }
+      else if (required) {
+        children.push(['<span class="icon success-16-gray"></span>', '.enroll-factor-label']);
       }
 
-      return [[Okta.createButton({
-        className: 'button',
-        title: Okta.loc('enroll.choices.setup', 'login'),
-        click: function () {
-          this.options.appState.trigger('navigate', RouterUtil.createEnrollFactorUrl(
-            this.model.get('provider'),
-            this.model.get('factorType')
-          ));
-        }
-      }), '.enroll-factor-button']];
+      var cardinalityText = FactorUtil.getCardinalityText(enrolled, required, policy);
+      if (cardinalityText) {
+        children.push([cardinalityTextTpl({cardinalityText: cardinalityText}), '.enroll-factor-description']);
+      }
+      return children;
     },
 
     minimize: function () {
@@ -64,6 +78,11 @@ define([
 
     maximize: function () {
       this.$el.removeClass('enroll-factor-row-min');
+    },
+
+    getSetupButtonText: function () {
+      return this.model.get('additionalEnrollment') ? Okta.loc('enroll.choices.setup.another', 'login')
+        : Okta.loc('enroll.choices.setup', 'login');
     }
   });
 
@@ -76,9 +95,6 @@ define([
     itemSelector: '.list-content',
 
     template: '\
-      {{#if listSubtitle}}\
-        <div class="list-subtitle">{{listSubtitle}}</div>\
-      {{/if}}\
       {{#if listTitle}}\
         <div class="list-title">{{listTitle}}</div>\
       {{/if}}\

@@ -102,6 +102,9 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
           var enrolled = factors.where({ enrolled: true }),
               notEnrolled = factors.where({ enrolled: false }),
               notEnrolledListTitle;
+          // add factors  to 'notEnrolled' that support cardinality and are actually 'enrolled'
+          // but may still have additional 'optional' instances
+          notEnrolled = notEnrolled.concat(factors.where({ additionalEnrollment: true }));
           if (enrolled.length > 0) {
             notEnrolledListTitle = Okta.loc('enroll.choices.list.optional', 'login');
             this.add(new FactorList({
@@ -114,7 +117,8 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
           this.add(new FactorList({
             listTitle: notEnrolledListTitle,
             collection: new Okta.Collection(notEnrolled),
-            appState: this.options.appState
+            appState: this.options.appState,
+            showInlineSetupButton: true
           }));
           break;
         }
@@ -132,7 +136,8 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
 
       options.appState.get('factors').each(function (factor) {
         var required = factor.get('required'),
-            enrolled = factor.get('enrolled');
+            enrolled = factor.get('enrolled'),
+            additionalEnrollment = factor.get('additionalEnrollment');
         if (required && enrolled) {
           numRequiredEnrolled++;
         }
@@ -143,6 +148,11 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
           numOptionalEnrolled++;
         }
         else if (!required && !enrolled) {
+          numOptionalNotEnrolled++;
+        }
+        // If a factor has multiple instances and
+        // additional optional enrollments
+        if (enrolled && additionalEnrollment) {
           numOptionalNotEnrolled++;
         }
       });
