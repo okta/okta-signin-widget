@@ -240,8 +240,8 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         }
 
         var promise;
-        // MFA_REQUIRED or UNAUTHENTICATED with factors (passwordlessAuth)
-        // When widget enters flow directly in FACTOR_CHALLENGE state
+        // MFA_REQUIRED, FACTOR_REQUIRED or UNAUTHENTICATED with factors (passwordlessAuth)
+        // Also FACTOR_CHALLENGE since it behaves similar to FACTOR_REQUIRED
         if (transaction.status === 'MFA_REQUIRED' ||
           transaction.status === 'FACTOR_REQUIRED' ||
           transaction.status === 'FACTOR_CHALLENGE' ||

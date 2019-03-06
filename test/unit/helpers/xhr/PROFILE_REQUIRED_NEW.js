@@ -48,7 +48,7 @@ define({
                 "request": {
                     "scope": "openid profile",
                     "response_type": "id_token",
-                    "redirect_uri": "http://foo.okta.com:1802",
+                    "redirect_uri": "https://foo.okta.com",
                     "nonce": "cgvt79zr",
                     "response_mode": "fragment"
                 },
@@ -65,7 +65,7 @@ define({
         },
         "_links": {
             "cancel": {
-                "href": "http://foo.okta.com:1802/api/v1/authn/cancel",
+                "href": "https://foo.okta.com/api/v1/authn/cancel",
                 "hints": {
                     "allow": [
                         "POST"
@@ -73,7 +73,7 @@ define({
                 }
             },
             "recoverLogin": {
-                "href": "http://foo.okta.com:1802/api/v1/authn/recoverLogin",
+                "href": "https://foo.okta.com/api/v1/authn/recoverLogin",
                 "hints": {
                     "allow": [
                         "POST"
@@ -81,7 +81,7 @@ define({
                 }
             },
             "enroll": {
-                "href": "http://foo.okta.com:1802/api/v1/authn/enroll",
+                "href": "https://foo.okta.com/api/v1/authn/enroll",
                 "hints": {
                     "allow": [
                         "POST"
@@ -89,7 +89,7 @@ define({
                 }
             },
             "login": {
-                "href": "http://foo.okta.com:1802/api/v1/authn/login",
+                "href": "https://foo.okta.com/api/v1/authn/login",
                 "hints": {
                     "allow": [
                         "POST"

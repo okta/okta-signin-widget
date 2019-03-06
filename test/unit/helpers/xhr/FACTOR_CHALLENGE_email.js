@@ -48,5 +48,4 @@ define({
     },
     "_links": { "cancel": { "href": "http://foo.okta.com/api/v1/authn/cancel", "hints": { "allow": ["POST"] } } }
   }
-
 });

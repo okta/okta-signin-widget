@@ -2,7 +2,7 @@ define({
     "status": 200,
     "responseType": "json",
     "response": {
-        "stateToken": "01StateToken",
+        "stateToken": "01nDL4wRHu-dLvUHUj1QCA9r5P1n5dw6WJ_voGPFWB",
         "status": "UNAUTHENTICATED",
         "type": "LOGIN",
         "_embedded": {},

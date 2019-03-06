@@ -11,5 +11,4 @@ define(['./Form'], function (Form) {
       return this.inputWrap(field);
     }
   });
-
 });
