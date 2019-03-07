@@ -35,9 +35,10 @@ function (
         this.model.getEnrollFormData()
           .then(_.bind(function (response) {
             if (response && response.data) {
-              this.options.appState.set('profileSchema', response.data);
+              this.options.appState.setAuthResponse(response.data);
+              //this.options.appState.set('lastAuthResponse', response.data);
               this.model.set('createNewAccount',
-                !!this.options.appState.get('profileSchemaAttributes').createNewAccount);
+                !!this.options.appState.get('policy').registration.createNewAccount);
               this.renderForm();
             }
           },this));

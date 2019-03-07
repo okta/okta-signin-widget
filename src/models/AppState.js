@@ -143,7 +143,6 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
     local: {
       baseUrl: 'string',
       lastAuthResponse: ['object', true, {}],
-      profileSchema: ['object', true, {}],
       transaction: 'object',
       transactionError: 'object',
       username: 'string',
@@ -262,7 +261,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         deps: ['lastAuthResponse', 'factors'],
         fn: function (res, factors) {
           if (res.status !== 'MFA_REQUIRED' && res.status !== 'MFA_CHALLENGE'
-              && res.status !== 'UNAUTHENTICATED') {
+            && res.status !== 'UNAUTHENTICATED') {
             return false;
           }
           return factors && factors.length > 1;
@@ -332,15 +331,6 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
             return null;
           }
           return res._links.next.href;
-        }
-      },
-      'profileSchemaAttributes': {
-        deps: ['profileSchema'],
-        fn: function (res) {
-          if (!res._embedded || !res._embedded.policy || !res._embedded.policy.registration) {
-            return null;
-          }
-          return res._embedded.policy.registration;
         }
       },
       'recoveryType': {

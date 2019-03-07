@@ -24,7 +24,7 @@ define([
     initialize: function (options) {
       this.options = options || {};
       this.schema =
-      new ProfileSchema({ profileSchemaAttributes: this.options.appState.get('profileSchemaAttributes').profile });
+      new ProfileSchema({ profileSchemaAttributes: this.options.appState.get('policy').registration.profile });
       this.schema.properties.each((schemaProperty) => {
         var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
         this.addInput(inputOptions);

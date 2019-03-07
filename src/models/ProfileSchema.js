@@ -19,9 +19,6 @@ function (Okta) {
 
   return BaseSchema.Model.extend({
     expand: ['schema'],
-    constructor: function () {
-      BaseSchema.Model.apply(this, arguments);
-    },
     setFieldPlaceholder: function (formFields) {
       _.each(formFields, function (formField) {
         formField.title = formField.label;
