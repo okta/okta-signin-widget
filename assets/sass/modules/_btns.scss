@@ -135,6 +135,18 @@
 .social-auth-google-button {
   @include social-auth-button-template(url('../img/icons/login/google_logo.png'),
   $google-icon-bg-color, $google-label-bg-color, $google-border-color);
+
+  background-position: 15px 50%, 0% 0%;
+
+  &:active,
+  &:focus,
+  &:hover {
+    background-position: 15px 50%, 0% 0%;
+  }
+}
+
+.social-auth-google-button.link-button {
+  color: $dark-text-color;
 }
 
 .social-auth-linkedin-button {
