@@ -120,7 +120,6 @@ function (Okta,
     'GENERIC_SAML': 14,
     'GENERIC_OIDC': 15
   };
-  /* eslint max-statements: [2, 50]*/
   function clickFactorInDropdown (test, factorName) {
     //assumes dropdown has all factors
     test.beacon.getOptionsLinks().eq(factors[factorName]).click();
@@ -2201,7 +2200,7 @@ function (Okta,
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
                 data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
-                url: 'http://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify?rememberDevice=false'
+                url: 'https://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify/resend'
               });
             });
         });

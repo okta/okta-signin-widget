@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
+/* eslint max-len: [2, 130] */
 define([
   'okta',
   'util/RegistrationFormFactory',
@@ -23,8 +23,7 @@ define([
     save: Okta.loc('registration.form.submit', 'login'),
     initialize: function (options) {
       this.options = options || {};
-      this.schema =
-      new ProfileSchema({ profileSchemaAttributes: this.options.appState.get('policy').registration.profile });
+      this.schema = new ProfileSchema({ profileSchemaAttributes: this.options.appState.get('policy').registration.profile });
       this.schema.properties.each((schemaProperty) => {
         var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
         this.addInput(inputOptions);

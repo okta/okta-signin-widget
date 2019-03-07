@@ -241,10 +241,8 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
 
         var promise;
         // MFA_REQUIRED, FACTOR_REQUIRED or UNAUTHENTICATED with factors (passwordlessAuth)
-        // FACTOR_CHALLENGE behaves similar to FACTOR_REQUIRED
         if (transaction.status === 'MFA_REQUIRED' ||
           transaction.status === 'FACTOR_REQUIRED' ||
-          transaction.status === 'FACTOR_CHALLENGE' ||
           this.appState.get('promptForFactorInUnauthenticated')) {
           var factor = _.findWhere(transaction.factors, {
             id: this.get('id')
@@ -252,7 +250,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
           promise = factor.verify(data);
         }
 
-        // MFA_CHALLENGE
+        // MFA_CHALLENGE/ FACTOR_CHALLENGE
         else if (this.get('canUseResend') && !this.get('answer') && transaction.resend) {
           var firstLink = transaction.data._links.resend[0];
           promise = transaction.resend(firstLink.name);

@@ -30,21 +30,13 @@ function (
       this.options = options || {};
       // create model
       this.model = new EnrollUser(this.options);
+    },
+    fetchInitialData: function () {
       // If user is unauthenticated and starts enroll flow make a post call to transition state to PROFILE_REQUIRED
-      if (this.options.appState.get('isUnauthenticated')) {
-        this.model.getEnrollFormData()
-          .then(_.bind(function (response) {
-            if (response && response.data) {
-              this.options.appState.setAuthResponse(response.data);
-              //this.options.appState.set('lastAuthResponse', response.data);
-              this.model.set('createNewAccount',
-                !!this.options.appState.get('policy').registration.createNewAccount);
-              this.renderForm();
-            }
-          },this));
-      } else {
-        this.renderForm();
-      }
+      return this.model.getEnrollFormData()
+        .then(_.bind(function () {
+          this.renderForm();
+        }, this));
     },
     renderForm: function () {
       var form = new EnrollUserForm(this.toJSON());

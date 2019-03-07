@@ -46,6 +46,35 @@ define({
         "client": { "id": "0oat59f8prmWrik500g3", "name": "IDX", "_links": {} }
       }
     },
-    "_links": { "cancel": { "href": "http://foo.okta.com/api/v1/authn/cancel", "hints": { "allow": ["POST"] } } }
+    "_links": {
+      "next": {
+        "name": "verify",
+        "href": "https://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify",
+        "hints": {
+          "allow": [
+            "POST"
+          ]
+        }
+      },
+      "cancel": {
+        "href": "https://foo.okta.com/api/v1/authn/cancel",
+        "hints": {
+          "allow": [
+            "POST"
+          ]
+        }
+      },
+      "resend": [
+        {
+          "name": "email",
+          "href": "https://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify/resend",
+          "hints": {
+            "allow": [
+              "POST"
+            ]
+          }
+        }
+      ]
+    }
   }
 });

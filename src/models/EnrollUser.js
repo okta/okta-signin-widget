@@ -12,9 +12,10 @@
 
 define([
   'okta',
-  './BaseLoginModel'
+  './BaseLoginModel',
+  'q'
 ],
-function (Okta, BaseLoginModel) {
+function (Okta, BaseLoginModel, Q) {
   var {_} = Okta;
 
   return BaseLoginModel.extend({
@@ -29,15 +30,23 @@ function (Okta, BaseLoginModel) {
         }
       };
       // send createNewAccount flag for new user creation
-      if (this.get('createNewAccount')) {
+      if (this.appState.get('policy').registration.createNewAccount) {
         postData.registration['createNewAccount'] = true;
       }
       return postData;
     },
     getEnrollFormData: function () {
-      return this.manageTransaction(function (transaction) {
-        return transaction.enroll();
-      });
+      if (this.options.appState.get('isUnauthenticated')) {
+        return this.manageTransaction(function (transaction, setTransaction) {
+          return transaction.enroll().then(function (trans) {
+            setTransaction(trans);
+          });
+        });
+      } else {
+        var deferred = Q.defer();
+        deferred.resolve(this.appState.get('lastAuthResponse'));
+        return deferred.promise;
+      }
     },
     save: function () {
       var data = BaseLoginModel.prototype.toJSON.apply(this, arguments);
