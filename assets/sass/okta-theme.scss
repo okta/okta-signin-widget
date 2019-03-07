@@ -558,6 +558,31 @@
     }
   }
 
+  .mfa-webauthn-30,
+  .enroll-factor-row .mfa-webauthn {
+    /* -- Factor Icons (small): Webauthn -- */
+    background-image: url('../img/icons/mfa/webauthn_38x38.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Webauthn -- */
+      background-image: url('../img/icons/mfa/webauthn_ico@2x.png');
+    }
+  }
+
+  .mfa-webauthn {
+    /* -- Factor Icons (large): Webauthn -- */
+    background-image: url('../img/icons/mfa/webauthn_70x70.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Webauthn -- */
+      background-image: url('../img/icons/mfa/webauthn@2x.png');
+    }
+  }
+
   .button {
     /* -- Buttons' Colors -- */
     @include light-button-template($button-bg-color);

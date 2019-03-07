@@ -53,6 +53,10 @@ define(function () {
     return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
   };
 
+  fn.isEdge = function () {
+    return navigator.userAgent.toLowerCase().indexOf('edge') > -1;
+  };
+
   // Returns a list of languages the user has configured for their browser, in
   // order of preference.
   fn.getUserLanguages = function () {

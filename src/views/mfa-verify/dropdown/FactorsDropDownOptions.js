@@ -200,6 +200,16 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       }
     },
 
+    'WEBAUTHN': {
+      icon: 'factor-icon mfa-webauthn-30',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    },
+
     'EMAIL': {
       icon: 'factor-icon mfa-email-30',
       title: function () {

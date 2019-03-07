@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 35], max-statements: [2, 36] */
+/* eslint complexity: [2, 38], max-statements: [2, 38] */
 define([
   'okta',
   './TimeUtil'
@@ -38,6 +38,12 @@ function (Okta, TimeUtil) {
       label: 'factor.u2f',
       description: 'factor.u2f.description',
       iconClassName: 'mfa-u2f',
+      sortOrder: 2
+    },
+    'WEBAUTHN': {
+      label: 'factor.webauthn',
+      description: 'factor.webauthn.description',
+      iconClassName: 'mfa-webauthn',
       sortOrder: 2
     },
     'WINDOWS_HELLO': {
@@ -162,8 +168,8 @@ function (Okta, TimeUtil) {
     }
     if (provider === 'FIDO' && factorType === 'webauthn') {
       if (this.settings.get('features.webauthn')) {
-        return 'U2F';
-      } else {
+        return 'WEBAUTHN';
+      }else {
         return 'WINDOWS_HELLO';
       }
     }

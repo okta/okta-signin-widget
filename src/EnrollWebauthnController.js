@@ -10,21 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* global u2f */
-
 define([
   'okta',
   'util/Errors',
   'util/FormType',
   'util/FormController',
   'util/CryptoUtil',
-  'util/FidoUtil',
   'util/webauthn',
   'views/enroll-factors/Footer',
   'q',
-  'views/mfa-verify/HtmlErrorMessageView'
+  'views/mfa-verify/HtmlErrorMessageView',
+  'util/BrowserFeatures'
 ],
-function (Okta, Errors, FormType, FormController, CryptoUtil, FidoUtil, webauthn, Footer, Q, HtmlErrorMessageView) {
+function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, Q,
+  HtmlErrorMessageView, BrowserFeatures) {
 
   var _ = Okta._;
 
@@ -58,6 +57,7 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, FidoUtil, webauthn
         return this.doTransaction(function (transaction) {
           // enroll via browser webauthn js
           var activation = transaction.factor.activation;
+          var self = this;
           if (webauthn.isNewApiAvailable()) {
             var options = _.extend({}, activation, {
               challenge: CryptoUtil.strToBin(activation.challenge),
@@ -75,52 +75,25 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, FidoUtil, webauthn
                 });
               })
               .fail(function (error) {
+                self.trigger('errors:clear');
                 throw new Errors.WebAuthnError({
                   xhr: {responseJSON: {errorSummary: error.message}}
                 });
               });
-          } else {
-            // verify via legacy u2f js for non webauthn supported browser
-            var registerRequests = [{
-              version: FidoUtil.getU2fVersion(),
-              challenge: activation.challenge
-            }];
-            var self = this;
-            var deferred = Q.defer();
-            u2f.register(activation.u2fParams.appid, registerRequests, [], function (data) {
-              self.trigger('errors:clear');
-              if (data.errorCode && data.errorCode !== 0) {
-                deferred.reject(
-                  new Errors.U2FError({
-                    xhr: {
-                      responseJSON: {
-                        errorSummary: FidoUtil.getU2fEnrollErrorMessageByCode(data.errorCode)
-                      }
-                    }
-                  })
-                );
-              } else {
-                deferred.resolve(transaction.activate({
-                  attestation: data.registrationData,
-                  clientData: data.clientData
-                }));
-              }
-            });
-            return deferred.promise;
           }
         });
       }
     },
 
     Form: {
-      title: _.partial(Okta.loc, 'enroll.u2f.title', 'login'),
-      save: _.partial(Okta.loc, 'enroll.u2f.save', 'login'),
+      title: _.partial(Okta.loc, 'enroll.webauthn.title', 'login'),
+      save: _.partial(Okta.loc, 'enroll.webauthn.save', 'login'),
       noCancelButton: true,
       hasSavingState: false,
       autoSave: true,
       className: 'enroll-webauthn-form',
       noButtonBar: function () {
-        return !webauthn.isWebauthnOrU2fAvailable();
+        return !webauthn.isNewApiAvailable();
       },
       modelEvents: {
         'request': '_startEnrollment',
@@ -129,30 +102,33 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, FidoUtil, webauthn
       formChildren: function () {
         var children = [];
 
-        if (webauthn.isWebauthnOrU2fAvailable()) {
-          //There is html in enroll.u2f.general2 in our properties file, reason why is unescaped
+        if (webauthn.isNewApiAvailable()) {
+          //enroll.webauthn.instructions.edge is unescaped because it contains html
           children.push(FormType.View({
-            View:
-              '<div class="u2f-instructions">\
-                 <ol>\
-                   <li>{{{i18n code="enroll.u2f.general2" bundle="login"}}}</li>\
-                   <li>{{i18n code="enroll.u2f.general3" bundle="login"}}</li>\
-                 </ol>\
-               </div>\
-               <div class="u2f-enroll-text hide">\
-                 <p>{{i18n code="enroll.u2f.instructions" bundle="login"}}</p>\
-                 <p>{{i18n code="enroll.u2f.instructionsBluetooth" bundle="login"}}</p>\
-                 <div data-se="u2f-devices" class="u2f-devices-images">\
-                   <div class="u2f-usb"></div>\
-                   <div class="u2f-bluetooth"></div>\
-                 </div>\
-                 <div data-se="u2f-waiting" class="okta-waiting-spinner"></div>\
-               </div>'
+            View: Okta.View.extend({
+              className: 'webauthn-enroll-text',
+              template: '\
+                <div class="webauthn-enroll-instructions">\
+                  <p>{{i18n code="enroll.webauthn.instructions" bundle="login"}}</p>\
+                </div>\
+                {{#if isEdge}}\
+                  <div class="webauthn-edge-text">\
+                     <p>{{{i18n code="enroll.webauthn.instructions.edge" bundle="login"}}}</p>\
+                  </div>\
+                {{/if}}\
+                <div data-se="webauthn-waiting" class="okta-waiting-spinner hide"></div>\
+              ',
+              getTemplateData: function () {
+                return {
+                  isEdge: BrowserFeatures.isEdge
+                };
+              }
+            })
           }));
         } else {
-          var errorMessageKey = 'u2f.error.factorNotSupported';
+          var errorMessageKey = 'webauthn.error.factorNotSupported';
           if (this.options.appState.get('factors').length === 1) {
-            errorMessageKey = 'u2f.error.factorNotSupported.oneFactor';
+            errorMessageKey = 'webauthn.error.factorNotSupported.oneFactor';
           }
           children.push(FormType.View(
             {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
@@ -164,14 +140,12 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, FidoUtil, webauthn
       },
 
       _startEnrollment: function () {
-        this.$('.u2f-instructions').hide();
-        this.$('.u2f-enroll-text').show();
+        this.$('.okta-waiting-spinner').show();
         this.$('.o-form-button-bar').hide();
       },
 
       _stopEnrollment: function () {
-        this.$('.u2f-instructions').show();
-        this.$('.u2f-enroll-text').hide();
+        this.$('.okta-waiting-spinner').hide();
         this.$('.o-form-button-bar').show();
       }
     },

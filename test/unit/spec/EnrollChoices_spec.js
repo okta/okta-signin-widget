@@ -24,7 +24,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
 
   Expect.describe('EnrollChoices', function () {
 
-    function setup (res, showSecurityImage) {
+    function setup (res, showSecurityImage, webauthnEnabled) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({
@@ -34,7 +34,8 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         el: $sandbox,
         baseUrl: baseUrl,
         features: {
-          securityImage: showSecurityImage
+          securityImage: showSecurityImage,
+          webauthn: webauthnEnabled
         },
         authClient: authClient
       });
@@ -159,19 +160,19 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
       return setup(res);
     }
 
-    function itHasIconAndText (factorName, iconClass, title, subtitle, res) {
+    function itHasIconAndText (factorName, iconClass, title, subtitle, res, webauthnEnabled) {
       itp('has right icon', function () {
-        return setup(res).then(function (test) {
+        return setup(res, false, webauthnEnabled).then(function (test) {
           expect(test.form.factorIconClass(factorName)).toBe('factor-icon ' + iconClass);
         });
       });
       itp('has right title', function () {
-        return setup(res).then(function (test) {
+        return setup(res, false, webauthnEnabled).then(function (test) {
           expect(test.form.factorTitle(factorName)).toBe(title);
         });
       });
       itp('has right subtitle', function () {
-        return setup(res).then(function (test) {
+        return setup(res, false, webauthnEnabled).then(function (test) {
           expect(test.form.factorSubtitle(factorName)).toBe(subtitle);
         });
       });
@@ -558,6 +559,16 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
           'Security Key (U2F)',
           'Use a Universal 2nd Factor (U2F) security key to sign on to Okta.',
           resAllFactors
+        );
+      });
+      Expect.describe('WEBAUTHN', function () {
+        itHasIconAndText(
+          'WEBAUTHN',
+          'mfa-webauthn',
+          'Security Key or Device Authenticator',
+          'Use a security key (USB or bluetooth) or a built-in device authenticator (Windows Hello, macOS TouchID, etc.)',
+          resAllFactors,
+          true
         );
       });
       Expect.describe('QUESTION', function () {

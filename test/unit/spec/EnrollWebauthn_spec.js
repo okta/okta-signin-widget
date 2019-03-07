@@ -5,8 +5,9 @@ define([
   '@okta/okta-auth-js/jquery',
   'util/CryptoUtil',
   'util/webauthn',
+  'util/BrowserFeatures',
   'helpers/mocks/Util',
-  'helpers/dom/EnrollU2FForm',
+  'helpers/dom/EnrollWebauthnForm',
   'helpers/dom/Beacon',
   'helpers/util/Expect',
   'sandbox',
@@ -21,6 +22,7 @@ function (Okta,
   OktaAuth,
   CryptoUtil,
   webauthn,
+  BrowserFeatures,
   Util,
   Form,
   Beacon,
@@ -84,7 +86,7 @@ function (Okta,
 
     function mockWebauthnSuccessRegistration () {
       mockWebauthn();
-      spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(true);
+      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
       spyOn(navigator.credentials, 'create').and.callFake(function () {
         var deferred = Q.defer();
         deferred.resolve({
@@ -94,19 +96,6 @@ function (Okta,
           }
         });
         return deferred.promise;
-      });
-    }
-
-    function mockU2fSuccessRegistration () {
-      window.u2f = { register: function () {} };
-
-      spyOn(window.u2f, 'register').and.callFake(function (appId, registerRequests, registeredKeys, callback) {
-        callback({
-          registrationData: testAttestationObject,
-          version: 'U2F_V2',
-          challenge: 'G7bIvwrJJ33WCEp6GGSH',
-          clientData: testClientData
-        });
       });
     }
 
@@ -124,7 +113,7 @@ function (Okta,
       itp('displays the correct factorBeacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
-          expect(test.beacon.hasClass('mfa-u2f')).toBe(true);
+          expect(test.beacon.hasClass('mfa-webauthn')).toBe(true);
         });
       });
       itp('has a "back" link in the footer', function () {
@@ -136,41 +125,53 @@ function (Okta,
 
     Expect.describe('Enroll factor', function () {
       itp('shows error if browser does not support webauthn', function () {
-        spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(false);
+        spyOn(webauthn, 'isNewApiAvailable').and.returnValue(false);
 
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
-          expect(test.form.errorHtml().html()).toEqual('Security Key (U2F) is not supported on this browser.' +
+          expect(test.form.errorHtml().html()).toEqual('Security key or built-in authenticator is not supported on this browser.' +
             ' Select another factor or contact your admin for assistance.');
         });
       });
 
       itp('shows error if browser does not support webauthn and only one factor', function () {
-        spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(false);
+        spyOn(webauthn, 'isNewApiAvailable').and.returnValue(false);
 
         return setup(false, true).then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
-          expect(test.form.errorHtml().html()).toEqual('Security Key (U2F) is not supported on this browser.' +
+          expect(test.form.errorHtml().html()).toEqual('Security key or built-in authenticator is not supported on this browser.' +
             ' Contact your admin for assistance.');
         });
       });
 
       itp('does not show error if browser supports webauthn', function () {
-        spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(true);
+        spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(0);
         });
       });
 
       itp('shows instructions and a register button', function () {
-        spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(true);
+        spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
         return setup().then(function (test) {
           Expect.isVisible(test.form.enrollInstructions());
           Expect.isVisible(test.form.submitButton());
         });
       });
 
-      itp('shows a waiting spinner and devices images after submitting the form', function () {
+      itp('shows correct instructions for Edge browser', function () {
+        spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
+        spyOn(BrowserFeatures, 'isEdge').and.returnValue(true);
+        return setup().then(function (test) {
+          Expect.isVisible(test.form.enrollInstructions());
+          Expect.isVisible(test.form.enrollEdgeInstructions());
+          expect(test.form.enrollEdgeInstructions().text()).toEqual('Note: If you are enrolling a security key and' +
+          ' Windows Hello or PIN is enabled, you will need to select \'Cancel\' before continuing.');
+          Expect.isVisible(test.form.submitButton());
+        });
+      });
+
+      itp('shows a waiting spinner after submitting the form', function () {
         mockWebauthnSuccessRegistration();
         return setup().then(function (test) {
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
@@ -178,8 +179,7 @@ function (Okta,
           return Expect.waitForSpyCall(test.successSpy, test);
         })
           .then(function (test) {
-            Expect.isVisible(test.form.enrollWaitingText());
-            Expect.isVisible(test.form.enrollDeviceImages());
+            Expect.isVisible(test.form.enrollInstructions());
             Expect.isVisible(test.form.enrollSpinningIcon());
             Expect.isNotVisible(test.form.submitButton());
           });
@@ -207,8 +207,6 @@ function (Okta,
       });
 
       itp('calls navigator.credentials.create and activates the factor', function () {
-        spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-
         mockWebauthnSuccessRegistration();
         return setup().then(function (test) {
           $.ajax.calls.reset();
@@ -254,36 +252,7 @@ function (Okta,
           });
       });
 
-      itp('calls u2f.register and activates the factor for non-webauthn supported browsers', function () {
-        spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(true);
-        spyOn(webauthn, 'isNewApiAvailable').and.returnValue(false);
-
-        mockU2fSuccessRegistration();
-        return setup().then(function (test) {
-          $.ajax.calls.reset();
-          test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy);
-        })
-          .then(function () {
-            expect(window.u2f.register).toHaveBeenCalledWith('https://test.okta.com', [{
-              version: 'U2F_V2',
-              challenge: 'G7bIvwrJJ33WCEp6GGSH'
-            }], [], jasmine.any(Function));
-            expect($.ajax.calls.count()).toBe(2);
-            Expect.isJsonPost($.ajax.calls.argsFor(1), {
-              url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
-              data: {
-                attestation: testAttestationObject,
-                clientData: testClientData,
-                stateToken: 'testStateToken'
-              }
-            });
-          });
-      });
-
       itp('shows error when navigator.credentials.create failed', function () {
-        spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(true);
         spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
 
         mockWebauthnFailureRegistration();

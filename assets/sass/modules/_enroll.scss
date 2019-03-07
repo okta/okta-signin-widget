@@ -212,6 +212,15 @@
 
 }
 
+// Webauthn Enrollment
+.enroll-webauthn {
+
+  .webauthn-edge-text p b {
+    font-weight: bold;
+  }
+
+}
+
 /* TOTP Factor Enrollment */
 .device-type-input {
 
