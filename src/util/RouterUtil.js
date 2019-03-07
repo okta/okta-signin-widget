@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 39], max-statements: [2, 30] */
+/* eslint complexity: [2, 40], max-statements: [2, 30] */
 define([
   'okta',
   './OAuth2Util',
@@ -204,9 +204,11 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
         }).done();
       return;
     case 'MFA_ENROLL':
+    case 'FACTOR_ENROLL':
       router.navigate('signin/enroll', { trigger: true });
       return;
     case 'MFA_ENROLL_ACTIVATE':
+    case 'FACTOR_ENROLL_ACTIVATE':
       var activateUrl = fn.createActivateFactorUrl(router.appState.get('activatedFactorProvider'),
         router.appState.get('activatedFactorType'));
       router.navigate(activateUrl, { trigger: true });

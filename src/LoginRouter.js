@@ -24,6 +24,7 @@ define([
   'EnrollChoicesController',
   'EnrollDuoController',
   'EnrollQuestionController',
+  'EnrollPasswordController',
   'EnrollWindowsHelloController',
   'EnrollCallAndSmsController',
   'EnrollOnPremController',
@@ -72,6 +73,7 @@ function (BaseLoginRouter,
   EnrollChoicesController,
   EnrollDuoController,
   EnrollQuestionController,
+  EnrollPasswordController,
   EnrollWindowsHelloController,
   EnrollCallAndSmsController,
   EnrollOnPremController,
@@ -123,6 +125,7 @@ function (BaseLoginRouter,
       'signin/enroll': 'enrollChoices',
       'signin/enroll/duo/web': 'enrollDuo',
       'signin/enroll/okta/question': 'enrollQuestion',
+      'signin/enroll/okta/password': 'enrollPassword',
       'signin/enroll/okta/sms': 'enrollSms',
       'signin/enroll/okta/call': 'enrollCall',
       'signin/enroll-activate/okta/sms': 'enrollSms',
@@ -271,6 +274,14 @@ function (BaseLoginRouter,
       });
     },
 
+    enrollPassword: function () {
+      this.render(EnrollPasswordController, {
+        provider: 'OKTA',
+        factorType: 'password',
+        Beacon: FactorBeacon
+      });
+    },
+    
     enrollSms: function () {
       this.render(EnrollCallAndSmsController, {
         provider: 'OKTA',

@@ -106,7 +106,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         }
 
         return this.doTransaction(function (transaction) {
-          var isMfaEnroll = transaction.status === 'MFA_ENROLL';
+          var isMfaEnroll = transaction.status === 'MFA_ENROLL' || transaction.status === 'FACTOR_ENROLL';
           var profileData = {
             phoneNumber: phoneNumber,
             updatePhone: isMfaEnroll ? self.get('hasExistingPhones') : true
@@ -136,7 +136,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
               });
           };
 
-          if (isMfaEnroll) {
+          if (isMfaEnroll || !transaction.prev) {
             return doEnroll(transaction);
           }
           else {

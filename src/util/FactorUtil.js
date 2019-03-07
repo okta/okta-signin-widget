@@ -24,19 +24,19 @@ function (Okta, TimeUtil) {
   var factorData = {
     'OKTA_VERIFY': {
       label: 'factor.totpSoft.oktaVerify',
-      description: 'factor.totpSoft.description',
+      description: Okta.loc('factor.totpSoft.description', 'login'),
       iconClassName: 'mfa-okta-verify',
       sortOrder: 1
     },
     'OKTA_VERIFY_PUSH': {
       label: 'factor.oktaVerifyPush',
-      description: 'factor.push.description',
+      description: Okta.loc('factor.push.description', 'login'),
       iconClassName: 'mfa-okta-verify',
       sortOrder: 1
     },
     'U2F': {
       label: 'factor.u2f',
-      description: 'factor.u2f.description',
+      description: Okta.loc('factor.u2f.description', 'login'),
       iconClassName: 'mfa-u2f',
       sortOrder: 2
     },
@@ -48,31 +48,31 @@ function (Okta, TimeUtil) {
     },
     'WINDOWS_HELLO': {
       label: 'factor.windowsHello',
-      description: 'factor.windowsHello.signin.description',
+      description: Okta.loc('factor.windowsHello.signin.description', 'login'),
       iconClassName: 'mfa-windows-hello',
       sortOrder: 3
     },
     'YUBIKEY': {
       label: 'factor.totpHard.yubikey',
-      description: 'factor.totpHard.yubikey.description',
+      description: Okta.loc('factor.totpHard.yubikey.description', 'login'),
       iconClassName: 'mfa-yubikey',
       sortOrder: 4
     },
     'GOOGLE_AUTH': {
       label: 'factor.totpSoft.googleAuthenticator',
-      description: 'factor.totpSoft.description',
+      description: Okta.loc('factor.totpSoft.description', 'login'),
       iconClassName: 'mfa-google-auth',
       sortOrder: 5
     },
     'SMS': {
       label: 'factor.sms',
-      description: 'factor.sms.description',
+      description: Okta.loc('factor.sms.description', 'login'),
       iconClassName: 'mfa-okta-sms',
       sortOrder: 6
     },
     'CALL': {
       label: 'factor.call',
-      description: 'factor.call.description',
+      description: Okta.loc('factor.call.description', 'login'),
       iconClassName: 'mfa-okta-call',
       sortOrder: 7
     },
@@ -84,31 +84,31 @@ function (Okta, TimeUtil) {
     },
     'QUESTION': {
       label: 'factor.securityQuestion',
-      description: 'factor.securityQuestion.description',
+      description: Okta.loc('factor.securityQuestion.description', 'login'),
       iconClassName: 'mfa-okta-security-question',
       sortOrder: 9
     },
     'DUO': {
       label: 'factor.duo',
-      description: 'factor.duo.description',
+      description: Okta.loc('factor.duo.description', 'login'),
       iconClassName: 'mfa-duo',
       sortOrder: 10
     },
     'SYMANTEC_VIP': {
       label: 'factor.totpHard.symantecVip',
-      description: 'factor.totpHard.description',
+      description: Okta.loc('factor.totpHard.description', 'login'),
       iconClassName: 'mfa-symantec',
       sortOrder: 11
     },
     'RSA_SECURID': {
       label: 'factor.totpHard.rsaSecurId',
-      description: 'factor.totpHard.description',
+      description: Okta.loc('factor.totpHard.description', 'login'),
       iconClassName: 'mfa-rsa',
       sortOrder: 12
     },
     'ON_PREM': {
       label: '',
-      description: 'factor.totpHard.description',
+      description: Okta.loc('factor.totpHard.description', 'login'),
       iconClassName: 'mfa-onprem',
       sortOrder: 13
     },
@@ -120,13 +120,13 @@ function (Okta, TimeUtil) {
     },
     'GENERIC_SAML': {
       label: '',
-      description: 'factor.customFactor.description',
+      description: Okta.loc('factor.customFactor.description', 'login'),
       iconClassName: 'mfa-custom-factor',
       sortOrder: 15
     },
     'GENERIC_OIDC': {
       label: '',
-      description: 'factor.customFactor.description',
+      description: Okta.loc('factor.customFactor.description', 'login'),
       iconClassName: 'mfa-custom-factor',
       sortOrder: 16
     }
@@ -207,8 +207,7 @@ function (Okta, TimeUtil) {
   };
 
   fn.getFactorDescription = function (provider, factorType) {
-    var key = factorData[fn.getFactorName.apply(this, [provider, factorType])].description;
-    return Okta.loc(key, 'login');
+    return factorData[fn.getFactorName.apply(this, [provider, factorType])].description;
   };
 
   fn.getFactorIconClassName = function (provider, factorType) {

@@ -246,6 +246,7 @@ define([
     EnrollmentLinkSent: 'enroll-activation-link-sent',
     EnrollOnPrem: 'enroll-onprem',
     EnrollQuestion: 'enroll-question',
+    EnrollPassword: 'enroll-password',
     EnrollRsa: 'enroll-rsa',
     EnrollSms: 'enroll-sms',
     EnrollSymantecVip: 'enroll-symantec',
