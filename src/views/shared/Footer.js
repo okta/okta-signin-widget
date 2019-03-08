@@ -16,7 +16,6 @@ define([
 function (Okta) {
 
   var { Util } = Okta.internal.util;
-  var compile = Okta.Handlebars.compile;
   var _ = Okta._;
 
   return Okta.View.extend({
@@ -66,7 +65,7 @@ function (Okta) {
       if (customHelpPage) {
         helpLinkUrl = customHelpPage;
       } else {
-        helpLinkUrl = compile('{{baseUrl}}/help/login')({baseUrl: this.settings.get('baseUrl')});
+        helpLinkUrl = Okta.tpl('{{baseUrl}}/help/login')({baseUrl: this.settings.get('baseUrl')});
       }
       return _.extend(this.settings.toJSON({verbose: true}), {helpLinkUrl: helpLinkUrl});
     },

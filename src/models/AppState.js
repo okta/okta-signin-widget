@@ -26,7 +26,6 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
 
   var _ = Okta._;
   var $ = Okta.$;
-  var compile = Okta.Handlebars.compile;
 
   var DEFAULT_APP_LOGO = '/img/logos/default.png';
   var USER_NOT_SEEN_ON_DEVICE = '/img/security/unknown.png';
@@ -36,7 +35,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
   var UNDEFINED_USER_IMAGE_DESCRIPTION = '';
   var UNKNOWN_IMAGE_DESCRIPTION = '';
 
-  var securityImageUrlTpl = compile('{{baseUrl}}/login/getimage?username={{username}}');
+  var securityImageUrlTpl = Okta.tpl('{{baseUrl}}/login/getimage?username={{username}}');
 
   function getSecurityImage (baseUrl, username, deviceFingerprint) {
     // When the username is empty, we want to show the default image.
