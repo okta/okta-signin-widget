@@ -12,10 +12,9 @@
 
 define([
   'okta',
-  './BaseLoginModel',
-  'q'
+  './BaseLoginModel'
 ],
-function (Okta, BaseLoginModel, Q) {
+function (Okta, BaseLoginModel) {
   var {_} = Okta;
 
   return BaseLoginModel.extend({
@@ -36,17 +35,11 @@ function (Okta, BaseLoginModel, Q) {
       return postData;
     },
     getEnrollFormData: function () {
-      if (this.options.appState.get('isUnauthenticated')) {
-        return this.manageTransaction(function (transaction, setTransaction) {
-          return transaction.enroll().then(function (trans) {
-            setTransaction(trans);
-          });
+      return this.manageTransaction(function (transaction, setTransaction) {
+        return transaction.enroll().then(function (trans) {
+          setTransaction(trans);
         });
-      } else {
-        var deferred = Q.defer();
-        deferred.resolve(this.appState.get('lastAuthResponse'));
-        return deferred.promise;
-      }
+      });
     },
     save: function () {
       var data = BaseLoginModel.prototype.toJSON.apply(this, arguments);
