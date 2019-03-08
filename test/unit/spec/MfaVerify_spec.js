@@ -2496,7 +2496,7 @@ function (Okta,
                 });
               });
             });
-            itp('starts poll after a delay of 6000ms', function () {
+            itp('starts poll after a delay of 4000ms', function () {
               var callAfterTimeoutStub;
               return setupOktaPush()
                 .then(function (test) {
@@ -2517,7 +2517,7 @@ function (Okta,
                   return Expect.waitForSpyCall(LoginUtil.callAfterTimeout, test);
                 })
                 .then(function (test) {
-                  expect(LoginUtil.callAfterTimeout.calls.argsFor(0)[1]).toBe(6000);
+                  expect(LoginUtil.callAfterTimeout.calls.argsFor(0)[1]).toBe(4000);
                   expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                   var transaction = test.router.controller.model.appState.get('transaction');
                   spyOn(transaction, 'poll');
@@ -2527,10 +2527,10 @@ function (Okta,
                 })
                 .then(function (transaction) {
                   expect(transaction.poll.calls.count()).toBe(1);
-                  expect(transaction.poll).toHaveBeenCalledWith({delay: 6000});
+                  expect(transaction.poll).toHaveBeenCalledWith({delay: 4000});
                 });
             });
-            itp('does not start poll if factor was switched before 6000ms', function () {
+            itp('does not start polling if factor was switched before the initial poll delay', function () {
               return setupOktaPushWithTOTP().then(function (test) {
                 spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
                   // reducing the timeout to 100 so that test is fast.

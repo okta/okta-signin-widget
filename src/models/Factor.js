@@ -21,9 +21,9 @@ define([
 function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
   var _ = Okta._;
 
-  // Note: Keep-alive is set to 5 seconds - using 5 seconds here will result
-  // in network connection lost errors in Safari and IE.
-  var PUSH_INTERVAL = 6000;
+  // Avoid setting interval to same value as keep-alive time (5 seconds) because it
+  // caused an occasional issue with network connection lost errors in Safari and IE
+  var PUSH_INTERVAL = 4000;
 
   var Factor = BaseLoginModel.extend({
     extraProperties: true,
