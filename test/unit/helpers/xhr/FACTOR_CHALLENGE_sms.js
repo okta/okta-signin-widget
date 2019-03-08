@@ -4,16 +4,25 @@ define({
   "response": {
     "stateToken": "01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ",
     "type": "LOGIN",
-    "expiresAt": "2019-03-01T23:05:43.000Z",
+    "expiresAt": "2019-03-13T21:59:11.000Z",
     "status": "FACTOR_CHALLENGE",
     "_embedded": {
       "request": {
         "ip": "127.0.0.1",
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36"
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36"
+      },
+      "factor": {
+        "id": "smshp9NXcoXu8z2wN0g3",
+        "factorType": "sms",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "profile": {
+          "phoneNumber": "+1 XXX-XXX-9999"
+        }
       },
       "user": {
-        "id": "00uwd7cBE4Zzg7nVj0g3",
-        "passwordChanged": "2019-02-02T00:15:12.000Z",
+        "id": "00usj67FGNVmLa7GQ0g3",
+        "passwordChanged": "2019-03-13T18:46:49.000Z",
         "profile": {
           "login": "evra@rain.com",
           "firstName": "pat",
@@ -22,41 +31,32 @@ define({
           "timeZone": "America/Los_Angeles"
         }
       },
-      "factors": [{
-        "id": "emailhp9NXcoXu8z2wN0g3s",
-        "factorType": "email",
-        "provider": "OKTA",
-        "vendorName": "OKTA",
-        "profile": {
-          "email": "e...a@rain.com"
-        },
-        "_links": {
-          "verify": {
-            "href": "http://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3s/verify",
-            "hints": { "allow": ["POST"] }
-          }
-        }
-      }],
       "authentication": {
         "protocol": "OAUTH2.0",
         "request": {
           "scope": "openid profile",
           "response_type": "id_token",
-          "redirect_uri": "http://foo.com",
-          "nonce": "81bdjqvg",
+          "redirect_uri": "https://foo.com",
+          "nonce": "ys7cu4qt",
           "response_mode": "fragment"
         },
         "issuer": {
           "name": "Rain-Cloud59",
-          "uri": "http://foo.com"
+          "uri": "https://foo.com"
         },
-        "client": { "id": "0oat59f8prmWrik500g3", "name": "IDX", "_links": {} }
+        "client": {
+          "id": "0oarygXgXKauBFLWo0g3",
+          "name": "IDX",
+          "_links": {
+
+          }
+        }
       }
     },
     "_links": {
       "next": {
         "name": "verify",
-        "href": "https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3s/verify",
+        "href": "https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify",
         "hints": {
           "allow": [
             "POST"
@@ -73,8 +73,8 @@ define({
       },
       "resend": [
         {
-          "name": "email",
-          "href": "https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3s/verify/resend",
+          "name": "sms",
+          "href": "https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify/resend",
           "hints": {
             "allow": [
               "POST"
