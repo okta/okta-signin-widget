@@ -14,18 +14,15 @@ define([
   'models/EnrollUser',
   'util/BaseLoginController',
   'views/enrollUser/EnrollUserForm',
-  'views/shared/FooterWithBackLink',
-  'q'
+  'views/shared/FooterWithBackLink'
 ],
 function (
   Okta,
   EnrollUser,
   BaseLoginController,
   EnrollUserForm,
-  FooterWithBackLink,
-  Q
+  FooterWithBackLink
 ) {
-  var _ = Okta._;
   return BaseLoginController.extend({
     className: 'enroll-user',
     initialize: function (options) {
@@ -36,18 +33,17 @@ function (
     fetchInitialData: function () {
       // If user is unauthenticated and starts enroll flow make a post call to transition state to PROFILE_REQUIRED
       if (this.options.appState.get('isUnauthenticated')) {
-        return this.model.getEnrollFormData()
-          .then(_.bind(function () {
-            this.renderForm();
-          }, this));
+        return this.model.getEnrollFormData();
       } else {
-        var deferred = Q.defer();
-        deferred.resolve(this.options.appState.get('lastAuthResponse'));
-        this.renderForm();
-        return deferred.promise;
+        return BaseLoginController.prototype.fetchInitialData.call();
       }
     },
-    renderForm: function () {
+    trapAuthResponse: function () {
+      if (this.options.appState.get('isProfileRequired')) {
+        return true;
+      }
+    },
+    postRender: function () {
       var form = new EnrollUserForm(this.toJSON());
       this.add(form);
       this.add(new FooterWithBackLink(this.toJSON()));

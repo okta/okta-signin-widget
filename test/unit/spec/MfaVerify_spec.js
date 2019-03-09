@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 50], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 51], camelcase: 0 */
 define([
   'okta',
   'q',
