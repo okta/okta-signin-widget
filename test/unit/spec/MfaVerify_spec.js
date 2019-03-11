@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 50], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 51], camelcase: 0 */
 define([
   'okta',
   'q',
@@ -20,6 +20,7 @@ define([
   'helpers/xhr/MFA_REQUIRED_oktaVerifyPushOnly',
   'helpers/xhr/MFA_REQUIRED_windows_hello',
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
+  'helpers/xhr/FACTOR_REQUIRED',
   'helpers/xhr/MFA_REQUIRED_U2F',
   'helpers/xhr/MFA_REQUIRED_multipleU2F',
   'helpers/xhr/MFA_REQUIRED_multipleFactors',
@@ -27,6 +28,7 @@ define([
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
   'helpers/xhr/MFA_CHALLENGE_email',
+  'helpers/xhr/FACTOR_CHALLENGE_email',
   'helpers/xhr/MFA_CHALLENGE_windows_hello',
   'helpers/xhr/MFA_CHALLENGE_u2f',
   'helpers/xhr/MFA_CHALLENGE_multipleU2F',
@@ -67,6 +69,7 @@ function (Okta,
   resVerifyPushOnly,
   resRequiredWindowsHello,
   resPassword,
+  resAllFactorsFactorRequired,
   resU2F,
   resMultipleU2F,
   resMultipleFactors,
@@ -74,6 +77,7 @@ function (Okta,
   resChallengeSms,
   resChallengeCall,
   resChallengeEmail,
+  resFactorChallengeEmail,
   resChallengeWindowsHello,
   resChallengeU2F,
   resChallengeMultipleU2F,
@@ -116,7 +120,6 @@ function (Okta,
     'GENERIC_SAML': 14,
     'GENERIC_OIDC': 15
   };
-
   function clickFactorInDropdown (test, factorName) {
     //assumes dropdown has all factors
     test.beacon.getOptionsLinks().eq(factors[factorName]).click();
@@ -251,6 +254,7 @@ function (Okta,
     var setupCall = _.partial(setup, resAllFactors, { factorType: 'call' });
     var setupEmail = _.partial(setup, resAllFactors, { factorType: 'email' });
     var setupOktaPushWithTOTP = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
+    var setupEmailMagicLink = _.partial(setup, resAllFactorsFactorRequired, { factorType: 'email' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupOktaPush = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
     var setupWindowsHello = _.partial(
@@ -2146,6 +2150,57 @@ function (Okta,
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
                 data: {stateToken: 'testStateToken'},
                 url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify/resend'
+              });
+            });
+        });
+      });
+
+      Expect.describe('Email Magic link', function () {
+        itp('posts email link if send email button is clicked once and changes button text', function () {
+          return setupEmailMagicLink().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resFactorChallengeEmail);
+            expect(test.form.answerField().length).toEqual(0);
+            expect(test.form.button().length).toEqual(0);
+            expect(test.form.emailSendCode().text()).toEqual('Send email');
+            test.form.emailSendCode().click();
+            return Expect.waitForMfaVerify(test);
+          })
+            .then(function (test) {
+              expect(test.form.emailSendCode().text()).toEqual('Sent');
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
+                url: 'http://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify?rememberDevice=false'
+              });
+            });
+        });
+        itp('posts email link, changes button text and posts to verify if button is clicked for the second time', function () {
+          Util.speedUpPolling();
+          return setupEmailMagicLink().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resFactorChallengeEmail);
+            expect(test.form.answerField().length).toEqual(0);
+            expect(test.form.button().length).toEqual(0);
+            expect(test.form.emailSendCode().text()).toEqual('Send email');
+            test.form.emailSendCode().click();
+            return Expect.wait(() => {
+              return $('[data-se="email-send-code"]').text() === 'Re-send email';
+            }, test);
+          })
+            .then(function (test) {
+              $.ajax.calls.reset();
+              test.setNextResponse(resFactorChallengeEmail);
+              test.form.emailSendCode().click();
+              return Expect.wait(() => {
+                return $('[data-se="email-send-code"]').text() === 'Re-send email';
+              }, test);
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
+                url: 'https://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify/resend'
               });
             });
         });

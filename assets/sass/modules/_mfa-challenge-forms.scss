@@ -61,3 +61,13 @@
   height: 400px;
   width: 100%;
 }
+
+//email magic link form
+.factor-verify-magiclink {
+  .o-form-button-bar {
+    display: none;
+  }
+  .email-request-button {
+    width: 100%;
+  }
+}

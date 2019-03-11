@@ -106,12 +106,21 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
       var primaryAuthPromise;
 
-      if (this.appState.get('isUnauthenticated') && !this.settings.get('features.passwordlessAuth')) {
-        primaryAuthPromise = this.doTransaction(function (transaction) {
-          var authClient = this.appState.settings.authClient;
-          return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
-        });
+      if (this.appState.get('isUnauthenticated')) {
+        var authClient = this.appState.settings.authClient;
+        // bootstrapped with stateToken
+        if (this.appState.get('isIdxStateToken')) {
+          // if its an idx stateToken, we send the parameter as identifier to login API
+          primaryAuthPromise = this.doTransaction(function (transaction) {
+            return this.doPrimaryAuth(authClient, signInArgs, transaction.login);
+          });
+        } else {
+          primaryAuthPromise = this.doTransaction(function (transaction) {
+            return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
+          });
+        }
       } else {
+        //normal username/password flow without stateToken
         primaryAuthPromise = this.startTransaction(function (authClient) {
           return this.doPrimaryAuth(authClient, signInArgs, _.bind(authClient.signIn, authClient));
         });
@@ -131,15 +140,22 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
 
     getSignInArgs: function (username) {
       var multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
-      var signInArgs = {
-        username: username,
-        options: {
-          warnBeforePasswordExpired: true,
-          multiOptionalFactorEnroll: multiOptionalFactorEnroll
-        }
-      };
+      var signInArgs = {};
+
       if (!this.settings.get('features.passwordlessAuth')) {
         signInArgs.password = this.get('password');
+      }
+
+      // if its an idx stateToken, we send the parameter as identifier to login API
+      if (this.appState.get('isIdxStateToken')) {
+        signInArgs.identifier = username;
+      } else {
+        //only post options param for non-idx flows
+        signInArgs.username  = username;
+        signInArgs.options = {
+          warnBeforePasswordExpired: true,
+          multiOptionalFactorEnroll: multiOptionalFactorEnroll
+        };
       }
       return signInArgs;
     },

@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
+/* eslint complexity: [2, 13] */
 define([
   'okta',
   'q',
@@ -212,7 +212,10 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         return {'password': Okta.loc('error.password.required')};
       }
     },
-
+    needsPasscode: function () {
+      // we don't need passcode for email with magic link flow
+      return !(this.options.appState.get('isIdxStateToken') && this.get('factorType') === 'email');
+    },
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
       // Set/Remove the remember device cookie based on the remember device input.
@@ -228,7 +231,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         else if (this.get('factorType') === 'password') {
           data.password = this.get('password');
         }
-        else {
+        else if (this.needsPasscode()){
           data.passCode = this.get('answer');
         }
 
@@ -237,15 +240,17 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         }
 
         var promise;
-        // MFA_REQUIRED or UNAUTHENTICATED with factors (passwordlessAuth)
-        if (transaction.status === 'MFA_REQUIRED' || this.appState.get('promptForFactorInUnauthenticated')) {
+        // MFA_REQUIRED, FACTOR_REQUIRED or UNAUTHENTICATED with factors (passwordlessAuth)
+        if (transaction.status === 'MFA_REQUIRED' ||
+          transaction.status === 'FACTOR_REQUIRED' ||
+          this.appState.get('promptForFactorInUnauthenticated')) {
           var factor = _.findWhere(transaction.factors, {
             id: this.get('id')
           });
           promise = factor.verify(data);
         }
 
-        // MFA_CHALLENGE
+        // MFA_CHALLENGE/ FACTOR_CHALLENGE
         else if (this.get('canUseResend') && !this.get('answer') && transaction.resend) {
           var firstLink = transaction.data._links.resend[0];
           promise = transaction.resend(firstLink.name);
@@ -263,7 +268,8 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
             };
             setTransaction(trans);
             // In Okta verify case we initiate poll.
-            if (trans.status === 'MFA_CHALLENGE' && trans.poll) {
+            if ((trans.status === 'MFA_CHALLENGE' && trans.poll) ||
+              (trans.status === 'FACTOR_CHALLENGE' && trans.poll)) {
               const deferred = Q.defer();
               const initiatePollTimout = Util.callAfterTimeout(deferred.resolve, PUSH_INTERVAL);
               self.listenToOnce(self.options.appState, 'factorSwitched', () => {

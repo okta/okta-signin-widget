@@ -278,7 +278,8 @@ define([
     VerifyU2F: 'verify-u2f',
     VerifyWebauthn: 'verify-webauthn',
     VerifyWindowsHello: 'verify-windows-hello',
-    VerifyCustomFactor: 'verify-custom-factor'
+    VerifyCustomFactor: 'verify-custom-factor',
+    EnrollUser: 'enroll-user',
   };
 
   _.each(controllerClasses, function (className, controller) {

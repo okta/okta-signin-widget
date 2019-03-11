@@ -203,7 +203,13 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       'isMfaRequired': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
-          return res.status === 'MFA_REQUIRED';
+          return res.status === 'MFA_REQUIRED' || res.status === 'FACTOR_REQUIRED';
+        }
+      },
+      'isProfileRequired': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          return res.status === 'PROFILE_REQUIRED';
         }
       },
       'isMfaEnroll': {
@@ -215,7 +221,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       'isMfaChallenge': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
-          return res.status === 'MFA_CHALLENGE';
+          return res.status === 'MFA_CHALLENGE' || res.status === 'FACTOR_CHALLENGE';
         }
       },
       'isUnauthenticated': {
@@ -255,7 +261,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         deps: ['lastAuthResponse', 'factors'],
         fn: function (res, factors) {
           if (res.status !== 'MFA_REQUIRED' && res.status !== 'MFA_CHALLENGE'
-              && res.status !== 'UNAUTHENTICATED') {
+            && res.status !== 'UNAUTHENTICATED') {
             return false;
           }
           return factors && factors.length > 1;
@@ -277,6 +283,12 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
             return null;
           }
           return res._embedded.user.id;
+        }
+      },
+      'isIdxStateToken': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          return res && _.isString(res.stateToken) && res.stateToken.startsWith('01');
         }
       },
       'isPwdExpiringSoon': {
