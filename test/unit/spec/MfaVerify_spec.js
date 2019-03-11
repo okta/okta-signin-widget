@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 49], camelcase: 0 */
+/* eslint max-params: [2, 50], max-statements: [2, 50], camelcase: 0 */
 define([
   'okta',
   'q',
@@ -22,6 +22,7 @@ define([
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
   'helpers/xhr/MFA_REQUIRED_U2F',
   'helpers/xhr/MFA_REQUIRED_multipleU2F',
+  'helpers/xhr/MFA_REQUIRED_multipleFactors',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
@@ -68,6 +69,7 @@ function (Okta,
   resPassword,
   resU2F,
   resMultipleU2F,
+  resMultipleFactors,
   resChallengeDuo,
   resChallengeSms,
   resChallengeCall,
@@ -288,9 +290,9 @@ function (Okta,
         delete window.u2f;
       }
 
-      return setup(options.oneFactor ? resU2F : resAllFactors)
+      return setup(options.nextResponse ? options.nextResponse : resAllFactors)
         .then(function (test) {
-          var responses = [resChallengeU2F];
+          var responses = options.multipleU2F ? [resChallengeMultipleU2F] : [resChallengeU2F];
           if (options && options.res) {
             responses.push(options.res);
           }
@@ -303,6 +305,13 @@ function (Okta,
             form: new MfaVerifyForm($sandbox.find('.o-form'))
           });
         });
+    }
+
+    function setupMultipleU2F (options) {
+      options || (options = {});
+      options.nextResponse = resMultipleFactors;
+      options.multipleU2F = true;
+      return setupU2F(options);
     }
 
     function setupMultipleU2FOnly (options) {
@@ -3120,7 +3129,7 @@ function (Okta,
         });
 
         itp('shows error if browser does not support u2f and only one factor', function () {
-          return setupU2F({u2f: false, oneFactor: true}).then(function (test) {
+          return setupU2F({u2f: false, nextResponse: resU2F}).then(function (test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html())
               .toEqual('Security Key (U2F) is not supported on this browser. Contact your admin for assistance.');
@@ -3997,7 +4006,15 @@ function (Okta,
 
     Expect.describe('Multiple Factors of the same type', function () {
 
-      Expect.describe('Security Key (U2F)', function () {
+      Expect.describe('General', function () {
+        itp('Defaults to the last used factor', function () {
+          return setup(resMultipleFactors).then(function (test) {
+            expect(test.form.isSecurityQuestion()).toBe(true);
+          });
+        });
+      });
+
+      Expect.describe('Only multiple Security Keys (U2F) are setup', function () {
         itp('shows the right beacon for Security Key (U2F)', function () {
           return setupMultipleU2FOnly({u2f: true}).then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-u2f');
@@ -4144,6 +4161,152 @@ function (Okta,
         });
       });
 
+      Expect.describe('Multiple Security Keys (U2F) and one more factor are setup', function () {
+        itp('shows the right beacon for Security Key (U2F)', function () {
+          return setupMultipleU2F({u2f: true}).then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-u2f');
+            return Expect.waitForSpyCall(window.u2f.sign);
+          });
+        });
+
+        itp('shows the right title', function () {
+          return setupMultipleU2F({u2f: true}).then(function (test) {
+            expectTitleToBe(test, 'Security Key (U2F)');
+            return Expect.waitForSpyCall(window.u2f.sign);
+          });
+        });
+
+        itp('shows error if browser does not support u2f', function () {
+          return setupMultipleU2F({u2f: false}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').find('strong').html())
+              .toEqual('Security Key (U2F) is not supported on this browser. ' +
+               'Select another factor or contact your admin for assistance.');
+          });
+        });
+
+        itp('does not show error if browser supports u2f', function () {
+          return setupMultipleU2F({u2f: true}).then(function (test) {
+            expect(test.form.el('o-form-error-html')).toHaveLength(0);
+          });
+        });
+
+        itp('shows a spinner while waiting for u2f challenge', function () {
+          return setupMultipleU2F({u2f: true}).then(function (test) {
+            expect(test.form.el('u2f-waiting').length).toBe(1);
+            return Expect.waitForSpyCall(window.u2f.sign);
+          });
+        });
+
+        itp('has remember device checkbox', function () {
+          return setupMultipleU2F({u2f: true}).then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
+
+        itp('calls u2f.sign and verifies factor', function () {
+          var signStub = function (appId, nonce, registeredKeys, callback) {
+            callback({
+              keyHandle: 'someKeyHandle',
+              clientData: 'someClientData',
+              signatureData: 'someSignature'
+            });
+          };
+          return setupMultipleU2F({u2f: true, signStub: signStub, res: resSuccess})
+            .then(function () {
+              return Expect.waitForSpyCall(window.u2f.sign);
+            })
+            .then(function () {
+              window.u2f.tap();
+              expect(window.u2f.sign).toHaveBeenCalledWith(
+                'http://rain.okta1.com:1802',
+                'someNonce',
+                [ { version: 'U2F_V2', keyHandle: 'someCredentialId' },
+                  { version: 'U2F_V2', keyHandle: 'someCredentialId2' },
+                  { version: 'U2F_V2', keyHandle: 'someCredentialId3' }],
+                jasmine.any(Function)
+              );
+              expect($.ajax.calls.count()).toBe(3);
+              Expect.isJsonPost($.ajax.calls.argsFor(2), {
+                url: 'https://foo.com/api/v1/authn/factors/u2f/verify?rememberDevice=false',
+                data: {
+                  clientData: 'someClientData',
+                  signatureData: 'someSignature',
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
+
+        itp('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
+          var signStub = function (appId, nonce, registeredKeys, callback) {
+            callback({
+              keyHandle: 'someKeyHandle',
+              clientData: 'someClientData',
+              signatureData: 'someSignature'
+            });
+          };
+          return setupMultipleU2F({u2f: true, signStub: signStub, res: resSuccess})
+            .then(function (test) {
+              test.form.setRememberDevice(true);
+              return Expect.waitForSpyCall(window.u2f.sign, test);
+            })
+            .then(function () {
+              window.u2f.tap();
+              expect(window.u2f.sign).toHaveBeenCalledWith(
+                'http://rain.okta1.com:1802',
+                'someNonce',
+                [ { version: 'U2F_V2', keyHandle: 'someCredentialId' },
+                  { version: 'U2F_V2', keyHandle: 'someCredentialId2' },
+                  { version: 'U2F_V2', keyHandle: 'someCredentialId3' }],
+                jasmine.any(Function)
+              );
+              expect($.ajax.calls.count()).toBe(3);
+              Expect.isJsonPost($.ajax.calls.argsFor(2), {
+                url: 'https://foo.com/api/v1/authn/factors/u2f/verify?rememberDevice=true',
+                data: {
+                  clientData: 'someClientData',
+                  signatureData: 'someSignature',
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
+
+        itp('shows an error if u2f.sign fails', function () {
+          Q.stopUnhandledRejectionTracking();
+          var signStub = function (appId, nonce, registeredKeys, callback) {
+            callback({ errorCode: 2 });
+          };
+          return setupMultipleU2F({u2f: true, signStub: signStub})
+            .then(function (test) {
+              return Expect.waitForSpyCall(window.u2f.sign, test);
+            })
+            .then(function (test) {
+              window.u2f.tap();
+              return Expect.waitForFormError(test.form, test);
+            })
+            .then(function (test) {
+              expect(window.u2f.sign).toHaveBeenCalled();
+              expect(test.form.hasErrors()).toBe(true);
+              expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+              expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+                {
+                  controller: 'mfa-verify verify-u2f'
+                },
+                {
+                  name: 'U2F_ERROR',
+                  message: 'There was an error with the U2F request. Try again or select another factor.',
+                  xhr: {
+                    responseJSON: {
+                      errorSummary: 'There was an error with the U2F request. Try again or select another factor.'
+                    }
+                  }
+                }
+              ]);
+            });
+        });
+      });
     });
 
   });
