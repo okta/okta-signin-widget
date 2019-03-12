@@ -1104,9 +1104,6 @@ Then, in the widget configuration, set `features.idpDiscovery` to `true` and add
 var signIn = new OktaSignIn({
   baseUrl: 'https://{yourOktaDomain}',
   ... ...
-  idpDiscovery: {
-    requestContext: '/a/app/request/context',
-  },
   features: {
     idpDiscovery: true
   }
@@ -1135,12 +1132,10 @@ For the identifier first flow,
 
 #### Additional configuration
 
-- **idpDiscovery.requestContext**: a context of that which the user is trying to access, such as the path of an app
-
 ##### Additions in the success callback
 
 - `response.status` is `IDP_DISCOVERY` when the authentication needs to be done agaist 3rd party IdP.
-- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the 3rd party IdP. This function takes one parameter which is the **idpDiscovery.requestContext**.
+- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the 3rd party IdP.
 
 ### OpenID Connect
 
