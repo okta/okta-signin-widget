@@ -11,10 +11,13 @@
  */
 
 define([
-  'okta'
-], function (Okta) {
+  'okta',
+  'util/OAuth2Util'
+], function (Okta, OAuth2Util) {
 
-  var _ = Okta._;
+  var _ = Okta._,
+      $ = Okta.$,
+      SharedUtil = Okta.internal.util.Util;
 
   var dividerTpl = Okta.tpl(
     '<div class="auth-divider">\
@@ -30,11 +33,16 @@ define([
 
     children: function () {
       var children = [],
-          buttons = this.settings.get('configuredButtons'),
+          socialIdpButtons = this.settings.get('configuredSocialIdps'),
+          customButtons = this.settings.get('customButtons'),
           divider = dividerTpl({text: Okta.loc('socialauth.divider.text', 'login')});
 
-      _.each(buttons, function (button) {
-        children.push(this._createButton(button));
+      _.each(socialIdpButtons, function (button) {
+        children.push(this._createSocialIdpButton(button));
+      }, this);
+
+      _.each(customButtons, function (button) {
+        children.push(this._createCustomButton(button));
       }, this);
 
       // If the social auth buttons have to be above the Okta form, the title moves from
@@ -53,12 +61,37 @@ define([
       return children;
     },
 
-    _createButton: function (options) {
+    _createSocialIdpButton: function (options) {
       return Okta.createButton({
         attributes: {
           'data-se': options.dataAttr
         },
         className: options.className,
+        title: function () {
+          return options.text || Okta.loc(options.i18nKey);
+        },
+        click: function (e) {
+          e.preventDefault();
+          if (this.settings.get('oauth2Enabled')) {
+            OAuth2Util.getTokens(this.settings, {idp: options.id});
+          } else {
+            const baseUrl = this.settings.get('baseUrl');
+            const params = $.param({
+              fromURI: this.settings.get('relayState')
+            });
+            const targetUri = `${baseUrl}/sso/idps/${options.id}?${params}`;
+            SharedUtil.redirect(targetUri);
+          }
+        }
+      });
+    },
+
+    _createCustomButton: function (options) {
+      return Okta.createButton({
+        attributes: {
+          'data-se': options.dataAttr
+        },
+        className: options.className  + ' default-custom-button',
         title: options.title,
         click: options.click
       });
