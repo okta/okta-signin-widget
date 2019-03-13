@@ -90,12 +90,6 @@ To use the CDN, include links to the JS and CSS files in your HTML:
   href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.14.0/css/okta-sign-in.min.css"
   type="text/css"
   rel="stylesheet"/>
-
-<!-- Theme file: Customize or replace this file if you want to override our default styles -->
-<link
-  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.14.0/css/okta-theme.css"
-  type="text/css"
-  rel="stylesheet"/>
 ```
 
 ### Using the npm module
@@ -125,10 +119,7 @@ node_modules/@okta/okta-signin-widget/dist/
 │   │   # Main CSS file for widget styles. Try not to override the classes in this
 │   │   # file when creating a custom theme - the classes/elements are subject to
 │   │   # change between releases
-│   ├── okta-sign-in.min.css
-│   │
-│   │   # Example theme that you can use as a template to create your own custom theme
-│   └── okta-theme.css
+│   └── okta-sign-in.min.css
 │
 │   # Base font and image files that are used in rendering the widget
 ├── font/

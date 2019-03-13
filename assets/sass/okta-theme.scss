@@ -1,6 +1,4 @@
 /* stylelint-disable selector-max-id */
-@import 'variables';
-@import 'helpers';
 
 @mixin light-button-template($bg-color) {
   @include button-template($bg-color, 1%, $dark-text-color, 22%, 25%);
