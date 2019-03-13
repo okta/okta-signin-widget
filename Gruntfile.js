@@ -235,11 +235,6 @@ module.exports = function (grunt) {
         files: {
           'target/css/okta-sign-in.css': SASS + '/okta-sign-in.scss'
         }
-      },
-      buildtheme: {
-        files: {
-          'target/css/okta-theme.css': SASS + '/okta-theme.scss'
-        }
       }
     },
     postcss: {
@@ -253,9 +248,6 @@ module.exports = function (grunt) {
       },
       build: {
         src: 'target/css/okta-sign-in.css'
-      },
-      buildtheme: {
-        src: 'target/css/okta-theme.css'
       },
       minify: {
         options: {
@@ -331,8 +323,6 @@ module.exports = function (grunt) {
       'exec:generate-config',
       'copy:app-to-target',
       'exec:generate-jsonp',
-      'sass:buildtheme',
-      'postcss:buildtheme',
       'sass:build',
       ...buildTasks,
       ...postBuildTasks,
