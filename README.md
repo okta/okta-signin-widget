@@ -125,10 +125,7 @@ node_modules/@okta/okta-signin-widget/dist/
 │   │   # Main CSS file for widget styles. Try not to override the classes in this
 │   │   # file when creating a custom theme - the classes/elements are subject to
 │   │   # change between releases
-│   ├── okta-sign-in.min.css
-│   │
-│   │   # Example theme that you can use as a template to create your own custom theme
-│   └── okta-theme.css
+│   └── okta-sign-in.min.css
 │
 │   # Base font and image files that are used in rendering the widget
 ├── font/

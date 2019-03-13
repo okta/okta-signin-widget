@@ -20,8 +20,7 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "../node_modules/@okta/okta-signin-widget/dist/css/okta-sign-in.min.css",
-        "../node_modules/@okta/okta-signin-widget/dist/css/okta-theme.css"
+        "../node_modules/@okta/okta-signin-widget/dist/css/okta-sign-in.min.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
