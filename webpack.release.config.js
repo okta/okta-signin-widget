@@ -21,14 +21,6 @@ var plugins = require('./buildtools/webpack/plugins');
 var entryConfig = config('okta-sign-in.entry.js');
 entryConfig.output.filename = 'okta-sign-in.entry.js';
 entryConfig.externals = {
-  '@okta/okta-auth-js/jquery': true,
-  'backbone': true,
-  'jquery': {
-    'commonjs': 'jquery',
-    'commonjs2': 'jquery',
-    'amd': 'jquery',
-    'root': 'jQuery'
-  },
   'handlebars': {
     'commonjs': 'handlebars/dist/handlebars',
     'commonjs2': 'handlebars/dist/handlebars',
