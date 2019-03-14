@@ -44,11 +44,16 @@ function (Okta, FactorsDropDownOptions) {
     },
     initialize: function () {
       this.addOption(FactorsDropDownOptions.getDropdownOption('TITLE'));
-      this.options.appState.get('factors').each(function (factor) {
-        this.addOption(FactorsDropDownOptions.getDropdownOption(factor.get('factorName')), {model: factor});
-        this.listenTo(this.last(), 'options:toggle', function () {
-          this.$('.options').hide();
-        });
+      var factorsList = this.options.appState.get('factors');
+      var multiplePushFactors = factorsList.hasMultipleFactorsOfSameType('push');
+      factorsList.each(function (factor) {
+        // Do not add okta totp if there are multiple okta push (each push will have an inline totp)
+        if (!(factor.get('factorType') === 'token:software:totp' && multiplePushFactors)) {
+          this.addOption(FactorsDropDownOptions.getDropdownOption(factor.get('factorName')), {model: factor});
+          this.listenTo(this.last(), 'options:toggle', function () {
+            this.$('.options').hide();
+          });
+        }
       }, this);
     }
   });

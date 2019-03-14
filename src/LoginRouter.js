@@ -118,7 +118,8 @@ function (BaseLoginRouter,
       'signin/verify/u2f': 'verifyU2F',
       'signin/verify/generic_saml/assertion:saml2': 'verifySAMLFactor',
       'signin/verify/generic_oidc/assertion:oidc': 'verifyOIDCFactor',
-      'signin/verify/:provider/:factorType': 'verify',
+      'signin/verify/:factorType': 'verifyNoProvider',
+      'signin/verify/:provider/:factorType(/:factorIndex)': 'verify',
       'signin/enroll': 'enrollChoices',
       'signin/enroll/duo/web': 'enrollDuo',
       'signin/enroll/okta/question': 'enrollQuestion',
@@ -234,9 +235,17 @@ function (BaseLoginRouter,
       });
     },
 
-    verify: function (provider, factorType) {
+    verify: function (provider, factorType, factorIndex) {
       this.render(MfaVerifyController, {
         provider: provider.toUpperCase(),
+        factorType: factorType,
+        factorIndex: factorIndex,
+        Beacon: FactorBeacon
+      });
+    },
+
+    verifyNoProvider: function (factorType) {
+      this.render(MfaVerifyController, {
         factorType: factorType,
         Beacon: FactorBeacon
       });

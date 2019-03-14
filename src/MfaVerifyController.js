@@ -33,9 +33,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
     className: 'mfa-verify',
 
     initialize: function (options) {
-      var factors = options.appState.get('factors');
       var factorType = options.factorType;
-      var provider = options.provider;
 
       var View;
       switch (factorType) {
@@ -70,7 +68,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
         throw new Error('Unrecognized factor type');
       }
 
-      this.model = factors.findWhere({ provider: provider, factorType: factorType });
+      this.model = this.findModel(factorType, options);
       if (!this.model) {
         // TODO: recover from this more gracefully - probably to redirect
         // to default factor
@@ -126,6 +124,20 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
 
       if (!this.settings.get('features.hideSignOutLinkInMFA')) {
         this.add(new FooterSignout(this.toJSON()));
+      }
+    },
+
+    findModel: function (factorType, options) {
+      var factors = options.appState.get('factors');
+      var provider = options.provider;
+      var factorIndex = options.factorIndex;
+
+      if (!provider) {
+        return factors.findWhere({ factorType: factorType, isCombinedFactor: true });
+      } else if (factors.hasMultipleFactorsOfSameType(factorType) && factorIndex) {
+        return factors.getFactorByTypeAndIndex(factorType, factorIndex);
+      } else {
+        return factors.findWhere({ provider: provider, factorType: factorType });
       }
     },
 

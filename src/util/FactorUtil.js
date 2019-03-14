@@ -173,9 +173,6 @@ function (Okta, TimeUtil) {
         return 'WINDOWS_HELLO';
       }
     }
-    if (factorType === 'u2f') {
-      return 'U2F';
-    }
     if (provider === 'OKTA' && factorType === 'email') {
       return 'EMAIL';
     }
@@ -187,6 +184,16 @@ function (Okta, TimeUtil) {
     }
     if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
       return 'GENERIC_OIDC';
+    }
+    return fn.getFactorNameForFactorType(factorType);
+  };
+
+  fn.getFactorNameForFactorType = function (factorType) {
+    if (factorType === 'u2f') {
+      return 'U2F';
+    }
+    if (factorType === 'token:software:totp') {
+      return 'OKTA_VERIFY';
     }
   };
 

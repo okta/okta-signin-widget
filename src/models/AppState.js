@@ -147,7 +147,6 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       transactionError: 'object',
       username: 'string',
       factors: 'object',
-      factorTypes: 'object',
       policy: 'object',
       securityImage: ['string', true, UNDEFINED_USER],
       securityImageDescription:

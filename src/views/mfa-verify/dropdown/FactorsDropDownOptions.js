@@ -15,9 +15,19 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
   var _ = Okta._;
 
+  // deviceName is escaped on BaseForm (see BaseForm's template)
+  var pushTitleTpl = Okta.Handlebars.compile('{{factorName}} ({{{deviceName}}})');
   var action = function (model) {
-    var url = RouterUtil.createVerifyUrl(model.get('provider'), model.get('factorType')),
-        self = this;
+
+    var factorIndex;
+    var factorType = model.get('factorType');
+    var factorsList = this.options.appState.get('factors');
+    if (factorsList.hasMultipleFactorsOfSameType(factorType)) {
+      factorIndex = factorsList.getFactorIndex(factorType, model.get('id'));
+    }
+    var url = RouterUtil.createVerifyUrl(model.get('provider'), factorType, factorIndex);
+    var self = this;
+
     this.options.appState.trigger('factorSwitched');
     this.model.manageTransaction(function (transaction, setTransaction) {
       // FACTOR_CHALLENGE does not have a prev link
@@ -58,7 +68,10 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
     'OKTA_VERIFY_PUSH': {
       icon: 'factor-icon mfa-okta-verify-30',
       title: function () {
-        return this.model.get('factorLabel');
+        return pushTitleTpl({
+          factorName: this.model.get('factorLabel'),
+          deviceName: this.model.get('deviceName')
+        });
       },
       action: function () {
         action.call(this, this.model);
