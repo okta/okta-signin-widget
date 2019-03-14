@@ -2,6 +2,7 @@
 const { resolve } = require('path');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { BannerPlugin } = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const PACKAGE_JSON = require('./package.json');
 
 const EMPTY = resolve(__dirname, 'src/empty');
@@ -70,7 +71,14 @@ const webpackConfig = {
       openAnalyzer: false,
       reportFilename: `${DIST_FILE_NAME}.html`,
       analyzerMode: 'static',
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: `${SHARED_JS}/vendor/lib/jquery-1.12.4.js`,
+        to: `${PUBLISH_DIR}/jquery.js`,
+        toType: 'file'
+      }
+    ]),
   ]
 
 };
