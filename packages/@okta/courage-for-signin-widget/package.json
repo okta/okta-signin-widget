@@ -8,7 +8,8 @@
   },
   "devDependencies": {
     "@okta/courage": "4.6.0-beta.2098.gc581fa3",
-    "webpack": "^3.5.4",
-    "webpack-bundle-analyzer": "^3.0.2"
+    "webpack": "3.12.0",
+    "webpack-bundle-analyzer": "3.0.2",
+    "copy-webpack-plugin": "4.6.0"
   }
 }

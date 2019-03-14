@@ -107,16 +107,14 @@
     "webdriver-manager": "12.0.6",
     "webpack": "^3.5.4",
     "webpack-bundle-analyzer": "^3.0.2",
+    "@okta/okta-auth-js": "~2.3.1",
+    "backbone": "1.2.1",
     "webpack-dev-server": "2.11.3"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "~2.3.1",
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.26.0",
-    "backbone": "1.2.1",
-    "clipboard": "1.6.1",
     "handlebars": "4.0.14",
-    "jquery": "1.12.1",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.1",
     "underscore": "1.8.3"
