@@ -23,11 +23,12 @@ module.exports = function (outputFilename) {
         'nls': '@okta/i18n/dist/json',
         'okta': `${LOCAL_PACKAGES}/@okta/courage-dist/okta.js`,
         'okta-i18n-bundles': 'util/Bundles',
+        'jquery': `${LOCAL_PACKAGES}/@okta/courage-dist/jquery.js`,
 
         // Vendor files from courage that are remapped in OSW to point to an npm
         // module in our package.json dependencies
         'handlebars': 'handlebars/dist/handlebars',
-        'qtip': '@okta/qtip2',
+        'qtip': '@okta/qtip2/dist/jquery.qtip.min.js',
 
         // Duo has an npm module, but the latest version does not expose the
         // v2 version. Continue to use the vendor file that is checked into
@@ -42,12 +43,18 @@ module.exports = function (outputFilename) {
         {
           test: /\.js$/,
           exclude: function (filePath) {
+            const filePathContains = (f) => filePath.indexOf(f) > 0;
             const npmRequiresTransform = [
               '/node_modules/parse-ms',
               '/node_modules/@sindresorhus/to-milliseconds'
-            ].some(f => filePath.indexOf(f) > 0);
+            ].some(filePathContains);
+            const shallBeExcluded = [
+              '/node_modules/',
+              'packages/@okta/courage-dist/jquery.js',
+              'packages/@okta/qtip2'
+            ].some(filePathContains);
 
-            return filePath.indexOf('/node_modules/') > 0 && !npmRequiresTransform;
+            return shallBeExcluded && !npmRequiresTransform;
 
           },
           loader: 'babel-loader',
