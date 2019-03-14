@@ -30,9 +30,11 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, Util, ContactSu
 
   var Footer = Okta.View.extend({
     template: '\
-      <a href="#" class="link help js-back" data-se="back-link">\
-        {{i18n code="goback" bundle="login"}}\
-      </a>\
+      {{#unless hideBackToSignInForReset}}\
+        <a href="#" class="link help js-back" data-se="back-link">\
+          {{i18n code="goback" bundle="login"}}\
+        </a>\
+      {{/unless}}\
       {{#if helpSupportNumber}}\
       <a href="#" class="link goto js-contact-support">\
         {{i18n code="mfa.noAccessToEmail" bundle="login"}}\
@@ -52,7 +54,10 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, Util, ContactSu
       }
     },
     getTemplateData: function () {
-      return this.settings.pick('helpSupportNumber');
+      return {
+        hideBackToSignInForReset: this.settings.get('features.hideBackToSignInForReset'),
+        helpSupportNumber: this.settings.get('helpSupportNumber')
+      };
     },
     back: function () {
       this.state.set('navigateDir', Enums.DIRECTION_BACK);

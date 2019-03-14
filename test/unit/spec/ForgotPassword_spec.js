@@ -73,6 +73,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
   var setupWithoutEmail = _.partial(setup, { 'features.emailRecovery': false });
   var setupWithSmsWithoutEmail = _.partial(setup, { 'features.smsRecovery': true, 'features.emailRecovery': false });
   var setupWithCallWithoutEmail = _.partial(setup, { 'features.callRecovery': true, 'features.emailRecovery': false });
+  var setupWithHideBackLink = _.partial(setup, { 'features.hideBackToSignInForReset': true });
 
   Expect.describe('ForgotPassword', function () {
 
@@ -183,6 +184,12 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.hasEmailButton()).toBe(true);
         });
       });
+      itp('does not show back link if hideBackToSignInForReset is true ',
+        function () {
+          return setupWithHideBackLink().then(function (test) {
+            expect(test.form.backToLoginButton().length).toBe(0);
+          });
+        });
       itp('shows error if no recovery factors are enabled', function () {
         return setupWithoutEmail().then(function (test) {
           expect(test.form.hasErrors()).toBe(true);

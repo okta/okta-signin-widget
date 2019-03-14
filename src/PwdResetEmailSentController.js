@@ -39,7 +39,7 @@ function (Okta, Enums, FormController, FormType) {
       noButtonBar: true,
       attributes: { 'data-se': 'pwd-reset-email-sent' },
       formChildren: function () {
-        return [
+        let children = [
           FormType.View({
             View: Okta.View.extend({
               template: '\
@@ -49,9 +49,11 @@ function (Okta, Enums, FormController, FormType) {
                 return { 'alert': Okta.loc('password.forgot.emailSent.title', 'login') };
               }
             })
-          }),
+          })
+        ];
 
-          FormType.Button({
+        if (!this.settings.get('features.hideBackToSignInForReset')) {
+          children.push(FormType.Button({
             title: Okta.loc('goback', 'login'),
             className: 'button button-primary button-wide',
             attributes: {'data-se': 'back-button'},
@@ -65,8 +67,10 @@ function (Okta, Enums, FormController, FormType) {
                   self.options.appState.trigger('navigate', '');
                 });
             }
-          })
-        ];
+          }));
+        }
+
+        return children;
       }
     },
 
@@ -74,8 +78,7 @@ function (Okta, Enums, FormController, FormType) {
       this.settings.callGlobalSuccess(Enums.FORGOT_PASSWORD_EMAIL_SENT, {
         username: options.appState.get('username')
       });
-    }
-
+    },
   });
 
 });

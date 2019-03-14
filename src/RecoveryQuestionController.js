@@ -80,7 +80,11 @@ function (Okta, FormController, FormType, FooterSignout, TextBox) {
         ];
       }
     },
-    Footer: FooterSignout
+    initialize: function () {
+      if (!this.settings.get('features.hideBackToSignInForReset')) {
+        this.addFooter(FooterSignout, {linkText: Okta.loc('goback', 'login'), linkClassName: ''});
+      }
+    }
 
   });
 

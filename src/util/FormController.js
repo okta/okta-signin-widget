@@ -83,12 +83,16 @@ function (Okta, FormType, BaseLoginController, BaseLoginModel) {
       }
 
       if (this.Footer) {
-        this.footer = new this.Footer(this.toJSON());
-        this.add(this.footer);
+        this.addFooter(this.Footer);
       }
 
       this.addListeners();
       initialize.apply(this, arguments);
+    },
+
+    addFooter: function (Footer, args) {
+      this.footer = new Footer(_.extend(this.toJSON(), args || {}));
+      this.add(this.footer);
     },
 
     toJSON: function () {

@@ -80,7 +80,6 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
         ];
       }
     },
-    Footer: FooterSignout,
 
     initialize: function () {
       this.listenTo(this.form, 'save', function () {
@@ -91,6 +90,10 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
         this.settings.processCreds(creds)
           .then(_.bind(this.model.save, this.model));
       });
+
+      if (!this.settings.get('features.hideBackToSignInForReset')) {
+        this.addFooter(FooterSignout);
+      }
     }
 
   });
