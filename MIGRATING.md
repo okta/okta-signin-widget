@@ -1,20 +1,17 @@
-# Okta Signin Widget migration guide
+# Okta Sign-in Widget Migration guide
 
 This library uses semantic versioning and follows Okta's [library version policy](https://developer.okta.com/code/library-versions/). In short, we don't make breaking changes unless the major version changes!
 
-## Migrating from 2.x to 3.x
+## Migrating From 2.x to 3.x
 
-### Consolidated css files to single one
+### Consolidated CSS Files
 
-In version 2.x we had two separate css files to import: `okta-sign-in.min.css` and `okta-theme.css`. We moved to have one single css file which is still called `okta-sign-in.min.css`.
+In version 2.x there were two CSS files to import,`okta-sign-in.min.css` and `okta-theme.css`. In version 3.x, there is a single file named `okta-sign-in.min.css`.
 
-Depending on your configuration, this is what you should change:
+- If you were using CDN links for the CSS, you will need to update the version path for `okta-sign-in.min.css` and remove the `okta-theme.css` link.
 
-- If you were using CDN links for the css, you will need to change the `okta-sign-in.min.css` link and remove the `okta-theme.css` link.
-
-Example:
+Version 2.x configuration:
 ```html
-<!-- BEFORE -->
 <link
   href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.14.0/css/okta-sign-in.min.css"
   type="text/css"
@@ -23,25 +20,24 @@ Example:
   href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.14.0/css/okta-theme.css"
   type="text/css"
   rel="stylesheet"/>
-
-<!-- AFTER -->
+```
+Version 3.x configuration:
+```html
   <link
   href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/3.0.0/css/okta-sign-in.min.css"
   type="text/css"
   rel="stylesheet"/>
 ```
 
-- If you were building your css files through `sass`, you will need to build it again and this time it will generate only `okta-sign-in.min.css` instead of the two files.
+- If you were building your CSS files through `sass`, you will need to build them again.  The build will produce a single `okta-sign-in.min.css` instead of the previous two files.
 
-### Renamed functions
+### Renamed Functions
 
 `tokenManager.refresh` has been renamed to `tokenManager.renew`, so you should update it in your code.
 
-### Token retrieval is now asyncronous to account for automatic token renewal
+### Token Retrieval Is Now Asynchronous
 
-`signIn.tokenManager.get('accessToken')` moved to be synchronous in 2.x to asynchronous in 3.x
-
-You should change your code to handle the `signIn.tokenManager.get('accessToken')` function as a promise:
+Starting in version 3.0, `tokenManager.get` is an asynchronous function. It returns an object you can handle as a promise:
 
 ```javascript
 // ES2016+
@@ -54,13 +50,9 @@ signIn.tokenManager.get('accessToken')
 });
 ```
 
-### Moved dependencies to devDependency
+### New `afterError` Events
 
-This should probably not affect your project, but we moved `okta-auth-js` and `backbone` from `dependecies` to `devDependency`.
-
-### New afterError events
-
-We replaced the global error handler for `OAUTH_ERROR` and `REGISTRATION_FAILED` in favor of `afterError` events. So, for these 2 types of errors, instead of passing a `error` handler to `signIn.renderEl`, you should add a listener on `afterError` to your application and act accordingly.
+We've replaced the global error handler for `OAUTH_ERROR` and `REGISTRATION_FAILED` in favor of `afterError` events. For these two types of errors, instead of passing a `error` handler to `signIn.renderEl`, you should add a listener on `afterError` to your application and act accordingly.
 
 Example:
 ```javascript
@@ -77,7 +69,7 @@ signIn.on('afterError', function (context, error) {
 ```
 
 
-## Getting help
+## Getting Help
 
 If you have questions about this library or about the Okta APIs, post a question on our [Developer Forum](https://devforum.okta.com).
 
