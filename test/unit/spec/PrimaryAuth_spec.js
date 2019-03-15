@@ -2454,9 +2454,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           });
       });
       itp('calls the global error function if there is no valid id token returned', function () {
-        var errorSpy = jasmine.createSpy('errorSpy');
         spyOn(window, 'addEventListener');
-        return setupSocial({ globalErrorFn: errorSpy })
+        return setupSocial()
           .then(function (test) {
             test.form.facebookButton().click();
             var args = window.addEventListener.calls.argsFor(0);
@@ -2469,14 +2468,19 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
                 error_description: 'Message from server'
               }
             });
-            return tick();
+            return tick(test);
           })
-          .then(function () {
-            expect(errorSpy.calls.count()).toBe(1);
-            var err = errorSpy.calls.argsFor(0)[0];
-            expect(err instanceof Errors.OAuthError).toBe(true);
-            expect(err.name).toBe('OAUTH_ERROR');
-            expect(err.message).toEqual('Message from server');
+          .then(function (test) {
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'primary-auth'
+              },
+              {
+                name: 'OAUTH_ERROR',
+                message: 'Message from server'
+              }
+            ]);
           });
       });
       itp('ignores messages with the wrong origin', function () {

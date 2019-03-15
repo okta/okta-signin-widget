@@ -160,7 +160,7 @@ function (
       });
 
       //throw registration error
-      var errMsg = error.callback? error.callback+':'+ error.errorSummary: error.errorSummary;
+      var errMsg = error.callback ? error.callback + ':' + error.errorSummary : error.errorSummary;
       Util.triggerAfterError(this, new Errors.RegistrationError(errMsg));
 
       if (hideRegisterButton) {
