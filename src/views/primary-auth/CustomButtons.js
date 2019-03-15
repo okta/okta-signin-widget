@@ -73,7 +73,7 @@ define([
         click: function (e) {
           e.preventDefault();
           if (this.settings.get('oauth2Enabled')) {
-            OAuth2Util.getTokens(this.settings, {idp: options.id});
+            OAuth2Util.getTokens(this.settings, {idp: options.id}, this.options.currentController);
           } else {
             const baseUrl = this.settings.get('baseUrl');
             const params = $.param({

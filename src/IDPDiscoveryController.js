@@ -44,7 +44,11 @@ function (Okta, PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDi
       // If social auth is configured, 'socialAuthPositionTop' will determine
       // the order in which the social auth and primary auth are shown on the screen.
       if (options.settings.get('hasConfiguredButtons')) {
-        this.add(CustomButtons, {prepend: options.settings.get('socialAuthPositionTop')});
+        // CustomButtons needs current controller as parameter
+        this.add(CustomButtons, {
+          prepend: options.settings.get('socialAuthPositionTop'),
+          options: { currentController: this }
+        });
       }
 
       this.addFooter(options);
