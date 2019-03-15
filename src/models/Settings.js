@@ -17,10 +17,9 @@ define([
   'util/BrowserFeatures',
   'util/Util',
   'util/Logger',
-  'util/OAuth2Util',
   'config/config.json'
 ],
-function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
+function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
 
   var SharedUtil = Okta.internal.util.Util;
 
@@ -31,7 +30,6 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
       oauthRedirectTpl = Okta.tpl('{{origin}}');
 
   var _ = Okta._,
-      $ = Okta.$,
       ConfigError = Errors.ConfigError,
       UnsupportedBrowserError = Errors.UnsupportedBrowserError;
 
@@ -286,55 +284,10 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, OAuth2Util, config) {
         },
         cache: true
       },
-      // merges social auth and custom buttons into one array
-      configuredButtons: {
+      hasConfiguredButtons: {
         deps: ['configuredSocialIdps', 'customButtons'],
         fn: function (configuredSocialIdps, customButtons) {
-          var self = this;
-          var buttonArray = [];
-          _.each(configuredSocialIdps, function (idp) {
-            var socialAuthButton = {
-              id: idp.id,
-              dataAttr: idp.dataAttr,
-              className: idp.className,
-              title: function () {
-                return idp.text || Okta.loc(idp.i18nKey);
-              },
-              click: function (e) {
-                e.preventDefault();
-                if (self.get('oauth2Enabled')) {
-                  OAuth2Util.getTokens(self, {idp: idp.id});
-                } else {
-                  const baseUrl = self.get('baseUrl');
-                  const params = $.param({
-                    fromURI: self.get('relayState'),
-                  });
-                  const targetUri = `${baseUrl}/sso/idps/${idp.id}?${params}`;
-                  SharedUtil.redirect(targetUri);
-                }
-              }
-            };
-            buttonArray.push(socialAuthButton);
-          });
-          if(_.isArray(customButtons)) {
-            _.each(customButtons, function (button) {
-              var customConfiguredButton = {
-                title: button.title,
-                className: button.className + ' default-custom-button',
-                click: button.click
-              };
-              buttonArray.push(customConfiguredButton);
-            });
-          }
-          return buttonArray;
-        },
-        cache: true
-      },
-      //checks if there are any configured buttons
-      hasConfiguredButtons: {
-        deps: ['configuredButtons'],
-        fn: function (configuredButtons) {
-          return !_.isEmpty(configuredButtons);
+          return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons);
         },
         cache: true
       }
