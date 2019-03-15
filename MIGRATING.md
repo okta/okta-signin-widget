@@ -56,7 +56,7 @@ signIn.tokenManager.get('accessToken')
 
 ### Moved dependencies to devDependency
 
-This should probably not affect your project, but we moved `okta-auth-js/jquery` and `backbone` from `dependecies` to `devDependency`.
+This should probably not affect your project, but we moved `okta-auth-js` and `backbone` from `dependecies` to `devDependency`.
 
 ### New afterError events
 
@@ -81,4 +81,4 @@ signIn.on('afterError', function (context, error) {
 
 If you have questions about this library or about the Okta APIs, post a question on our [Developer Forum](https://devforum.okta.com).
 
-If you find a bug or have a feature request for this library specifically, [post an issue](https://github.com/okta/okta-sdk-dotnet/issues) here on GitHub.
+If you find a bug or have a feature request for this library specifically, [post an issue](https://github.com/okta/okta-signin-widget/issues) here on GitHub.
