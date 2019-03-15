@@ -2453,7 +2453,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(data[1].tokenType).toBe('Bearer');
           });
       });
-      itp('calls the global error function if there is no valid id token returned', function () {
+      itp('triggers the afterError event if there is no valid id token returned', function () {
         spyOn(window, 'addEventListener');
         return setupSocial()
           .then(function (test) {

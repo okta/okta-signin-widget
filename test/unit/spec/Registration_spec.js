@@ -831,7 +831,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
             expectRegCallbackError(test, 'preSubmit', DEFAULT_CALLBACK_ERROR);
           });
       });
-      itp('calls globalError when registration API throws an error ', function () {
+      itp('triggers the afterError event when registration API throws an error', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
         var postSubmitSpy = jasmine.createSpy('postSubmitSpy');

@@ -146,7 +146,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     var error = _.pick(err, 'name', 'message', 'statusCode', 'xhr');
     controller.trigger('afterError', { controller: className }, error);
     // Logs to console only in dev mode
-    Logger.info('controller: ' + className + ', error: ' + error);
+    Logger.warn('controller: ' + className + ', error: ' + error);
   };
 
   /**

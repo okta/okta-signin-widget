@@ -1127,7 +1127,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
             });
           });
       });
-      itp('calls the global error function if an idToken is not returned', function () {
+      itp('triggers the afterError event if an idToken is not returned', function () {
         return setupOAuth2()
           .then(function (test) {
             var args = window.addEventListener.calls.argsFor(0);

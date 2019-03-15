@@ -51,7 +51,10 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
         // CustomButtons needs current controller as parameter
         this.add(CustomButtons, {
           prepend: options.settings.get('socialAuthPositionTop'),
-          options: { currentController: this }
+          options: {
+            // To trigger an afterError event, we require the current controller
+            currentController: this
+          }
         });
       }
 
