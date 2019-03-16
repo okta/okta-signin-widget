@@ -6,7 +6,7 @@ This library uses semantic versioning and follows Okta's [library version policy
 
 ### Consolidated CSS Files
 
-In version 2.x there were two CSS files to import,`okta-sign-in.min.css` and `okta-theme.css`. In version 3.x, there is a single file named `okta-sign-in.min.css`.
+In version 2.x there were two CSS files to import, `okta-sign-in.min.css` and `okta-theme.css`. In version 3.x, there is a single file named `okta-sign-in.min.css`.
 
 - If you were using CDN links for the CSS, you will need to update the version path for `okta-sign-in.min.css` and remove the `okta-theme.css` link.
 
