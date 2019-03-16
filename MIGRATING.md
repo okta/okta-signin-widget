@@ -1,0 +1,76 @@
+# Okta Sign-in Widget Migration guide
+
+This library uses semantic versioning and follows Okta's [library version policy](https://developer.okta.com/code/library-versions/). In short, we don't make breaking changes unless the major version changes!
+
+## Migrating From 2.x to 3.x
+
+### Consolidated CSS Files
+
+In version 2.x there were two CSS files to import, `okta-sign-in.min.css` and `okta-theme.css`. In version 3.x, there is a single file named `okta-sign-in.min.css`.
+
+- If you were using CDN links for the CSS, you will need to update the version path for `okta-sign-in.min.css` and remove the `okta-theme.css` link.
+
+Version 2.x configuration:
+```html
+<link
+  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.14.0/css/okta-sign-in.min.css"
+  type="text/css"
+  rel="stylesheet"/>
+<link
+  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.14.0/css/okta-theme.css"
+  type="text/css"
+  rel="stylesheet"/>
+```
+Version 3.x configuration:
+```html
+  <link
+  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/3.0.0/css/okta-sign-in.min.css"
+  type="text/css"
+  rel="stylesheet"/>
+```
+
+- If you were building your CSS files through `sass`, you will need to build them again.  The build will produce a single `okta-sign-in.min.css` instead of the previous two files.
+
+### Renamed Functions
+
+`tokenManager.refresh` has been renamed to `tokenManager.renew`, so you should update it in your code.
+
+### Token Retrieval Is Now Asynchronous
+
+Starting in version 3.0, `tokenManager.get` is an asynchronous function. It returns an object you can handle as a promise:
+
+```javascript
+// ES2016+
+const accessToken = await signIn.tokenManager.get('accessToken');
+
+// Handle as a promise
+signIn.tokenManager.get('accessToken')
+.then(function(accessToken) {
+  console.log(accessToken);
+});
+```
+
+### New `afterError` Events
+
+We've replaced the global error handler for `OAUTH_ERROR` and `REGISTRATION_FAILED` in favor of `afterError` events. For these two types of errors, instead of passing a `error` handler to `signIn.renderEl`, you should add a listener on `afterError` to your application and act accordingly.
+
+Example:
+```javascript
+signIn.on('afterError', function (context, error) {
+  console.log(context.controller);
+  // primary-auth
+
+  console.log(error.name);
+  // OAUTH_ERROR
+
+  console.log(error.message);
+  // Invalid value for client_id parameter.
+});
+```
+
+
+## Getting Help
+
+If you have questions about this library or about the Okta APIs, post a question on our [Developer Forum](https://devforum.okta.com).
+
+If you find a bug or have a feature request for this library specifically, [post an issue](https://github.com/okta/okta-signin-widget/issues) here on GitHub.
