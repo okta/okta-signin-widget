@@ -1127,10 +1127,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
             });
           });
       });
-      itp('calls the global error function if an idToken is not returned', function () {
-        var errorSpy = jasmine.createSpy('errorSpy');
-        return setupOAuth2({ globalErrorFn: errorSpy })
-          .then(function () {
+      itp('triggers the afterError event if an idToken is not returned', function () {
+        return setupOAuth2()
+          .then(function (test) {
             var args = window.addEventListener.calls.argsFor(0);
             var callback = args[1];
             callback.call(null, {
@@ -1141,14 +1140,19 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
                 error_description: 'Invalid value for client_id parameter.'
               }
             });
-            return tick();
+            return Expect.waitForSpyCall(test.afterErrorHandler, test);
           })
-          .then(function () {
-            expect(errorSpy.calls.count()).toBe(1);
-            var err = errorSpy.calls.argsFor(0)[0];
-            expect(err instanceof Errors.OAuthError).toBe(true);
-            expect(err.name).toBe('OAUTH_ERROR');
-            expect(err.message).toBe('Invalid value for client_id parameter.');
+          .then(function (test) {
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'mfa-verify'
+              },
+              {
+                name: 'OAUTH_ERROR',
+                message: 'Invalid value for client_id parameter.'
+              }
+            ]);
           });
       });
     });
