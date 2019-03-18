@@ -1140,7 +1140,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
                 error_description: 'Invalid value for client_id parameter.'
               }
             });
-            return tick(test);
+            return Expect.waitForSpyCall(test.afterErrorHandler, test);
           })
           .then(function (test) {
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);

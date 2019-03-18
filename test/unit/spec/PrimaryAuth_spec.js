@@ -165,7 +165,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.oidcWindow = {closed: false, close: jasmine.createSpy()};
           return test.oidcWindow;
         });
-        return tick(test);
+        return test;
       });
   }
 
@@ -2468,7 +2468,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
                 error_description: 'Message from server'
               }
             });
-            return tick(test);
+            return Expect.waitForSpyCall(test.afterErrorHandler, test);
           })
           .then(function (test) {
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
