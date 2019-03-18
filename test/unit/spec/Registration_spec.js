@@ -114,6 +114,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
     var successSpy = jasmine.createSpy('success');
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -124,6 +125,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
     var form = new RegForm($sandbox);
     var beacon = new Beacon($sandbox);
     Util.registerRouter(router);
+    router.on('afterError', afterErrorHandler);
     spyOn(RegSchema.prototype, 'fetch').and.callFake(function () {
       this.set(this.parse(testData));
       return $.Deferred().resolve();
@@ -135,7 +137,8 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
       form: form,
       beacon: beacon,
       ac: authClient,
-      setNextResponse: setNextResponse
+      setNextResponse: setNextResponse,
+      afterErrorHandler: afterErrorHandler
     });
   }
 
@@ -542,18 +545,30 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
     });
 
     var expectRegCallbackError = function (test, callback, message) {
-      var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
-      expect(err instanceof Errors.RegistrationError).toBe(true);
-      expect(err.name).toBe('REGISTRATION_FAILED');
       var errMsg = callback+':'+ message;
-      expect(err.message).toEqual(errMsg);
+      expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+      expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        {
+          controller: 'registration'
+        },
+        {
+          name: 'REGISTRATION_FAILED',
+          message: errMsg
+        }
+      ]);
     };
 
     var expectRegApiError = function (test, message) {
-      var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
-      expect(err instanceof Errors.RegistrationError).toBe(true);
-      expect(err.name).toBe('REGISTRATION_FAILED');
-      expect(err.message).toEqual(message);
+      expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+      expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        {
+          controller: 'registration'
+        },
+        {
+          name: 'REGISTRATION_FAILED',
+          message: message
+        }
+      ]);
     };
     Expect.describe('Registration callback hooks', function () {
       var DEFAULT_CALLBACK_ERROR = 'We could not process your registration at this time. Please try again later.';
@@ -816,7 +831,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
             expectRegCallbackError(test, 'preSubmit', DEFAULT_CALLBACK_ERROR);
           });
       });
-      itp('calls globalError when registration API throws an error ', function () {
+      itp('triggers the afterError event when registration API throws an error', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
         var postSubmitSpy = jasmine.createSpy('postSubmitSpy');
