@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
+define(['okta', './Enums', './Errors', './Util'], function (Okta, Enums, Errors, Util) {
 
   var util = {};
   var _ = Okta._;
@@ -42,9 +42,8 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
       if (error.errorCode === 'access_denied') {
         controller.model.trigger('error', controller.model, {'responseJSON': error});
         controller.model.appState.trigger('removeLoading');
-      } else {
-        settings.callGlobalError(new Errors.OAuthError(error.message));
       }
+      Util.triggerAfterError(controller, new Errors.OAuthError(error.message), settings);
     }
 
     var authClient = settings.getAuthClient(),
