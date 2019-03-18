@@ -74,7 +74,7 @@ function (Okta,
   resRequiredWindowsHello,
   resPassword,
   resFactorRequiredPassword,
-  resAllFactorsFactorRequired,
+  resFactorRequiredAllFactors,
   resFactorRequiredQuestion,
   resU2F,
   resMultipleU2F,
@@ -251,26 +251,26 @@ function (Okta,
     }
 
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
-    var setupSecurityQuestionWithIdx = _.partial(setup, resAllFactorsFactorRequired, { factorType: 'question' });
+    var setupSecurityQuestionWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'question' });
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
-    var setupGoogleTOTPWithIdx = _.partial(setup, resAllFactorsFactorRequired, { factorType: 'token:software:totp', provider: 'GOOGLE' });
+    var setupGoogleTOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupGoogleTOTPAutoPushTrue = _.partial(setup, Util.getAutoPushResponse(resAllFactors, true),
       { factorType: 'token:software:totp', provider: 'GOOGLE' });
-    var setupGoogleTOTPAutoPushTrueWithIdx = _.partial(setup, Util.getAutoPushResponse(resAllFactorsFactorRequired, true),
+    var setupGoogleTOTPAutoPushTrueWithIdx = _.partial(setup, Util.getAutoPushResponse(resFactorRequiredAllFactors, true),
       { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupRsaTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'RSA' });
     var setupOnPremTOTP = _.partial(setup, resAllFactorsOnPrem, { factorType: 'token', provider: 'DEL_OATH' });
     var setupSymantecTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'SYMANTEC' });
     var setupYubikey = _.partial(setup, resAllFactors, { factorType: 'token:hardware', provider: 'YUBICO' });
     var setupSMS = _.partial(setup, resAllFactors, { factorType: 'sms' });
-    var setupSMSWithIdx = _.partial(setup, resAllFactorsFactorRequired, { factorType: 'sms' });
+    var setupSMSWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'sms' });
     var setupCall = _.partial(setup, resAllFactors, { factorType: 'call' });
-    var setupCallWithIdx = _.partial(setup, resAllFactorsFactorRequired, { factorType: 'call' });
+    var setupCallWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'call' });
     var setupEmail = _.partial(setup, resAllFactors, { factorType: 'email' });
-    var setupEmailWithIdx = _.partial(setup, resAllFactorsFactorRequired, { factorType: 'email' });
+    var setupEmailWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'email' });
     var setupOktaPushWithTOTP = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
-    var setupOktaPushWithTOTPWithIdx = _.partial(setup, resAllFactorsFactorRequired, { factorType: 'push', provider: 'OKTA' });
-    var setupEmailMagicLink = _.partial(setup, resAllFactorsFactorRequired, { factorType: 'email' });
+    var setupOktaPushWithTOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'push', provider: 'OKTA' });
+    var setupEmailMagicLink = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'email' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupOktaPush = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
     var setupWindowsHello = _.partial(
@@ -3870,7 +3870,7 @@ function (Okta,
     });
 
     Expect.describe('Beacon with Idx pipeline', function () {
-      beaconTest(resAllFactorsFactorRequired, resFactorRequiredQuestion, resAllFactorsOnPrem);
+      beaconTest(resFactorRequiredAllFactors, resFactorRequiredQuestion, resAllFactorsOnPrem);
     });
 
 
@@ -3977,7 +3977,7 @@ function (Okta,
     });
 
     Expect.describe('Switch between different factors and verify a factor on Idx pipeline', function () {
-      switchFactorTest(setupEmailWithIdx, setupOktaPushWithTOTPWithIdx, setupGoogleTOTPAutoPushTrueWithIdx, resAllFactorsFactorRequired, resSuccess, resFactorChallengeEmail, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
+      switchFactorTest(setupEmailWithIdx, setupOktaPushWithTOTPWithIdx, setupGoogleTOTPAutoPushTrueWithIdx, resFactorRequiredAllFactors, resSuccess, resFactorChallengeEmail, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
     });
 
     Expect.describe('Browser back button does not change view', function () {

@@ -15,7 +15,7 @@ define({
                 "id": "00uwd7cBE4Zzg7nVj0g3",
                 "passwordChanged": "2019-02-02T00:15:12.000Z",
                 "profile": {
-                    "login": "evra@rain.com",
+                    "login": "administrator1@clouditude.net",
                     "firstName": "pat",
                     "lastName": "evra",
                     "locale": "en", "timeZone": "America/Los_Angeles"
@@ -191,7 +191,7 @@ define({
                 "provider": "RSA",
                 "vendorName": "RSA",
                 "profile": {
-                    "credentialId": "nadiia.dmytrenko"
+                    "credentialId": "administrator1@clouditude.net"
                 },
                 "_links": {
                     "verify": {
@@ -245,7 +245,7 @@ define({
                 "provider": "DUO",
                 "vendorName": "DUO",
                 "profile": {
-                    "credentialId": "new@mail.com"
+                    "credentialId": "administrator1@clouditude.net"
                 },
                 "_links": {
                     "verify": {
