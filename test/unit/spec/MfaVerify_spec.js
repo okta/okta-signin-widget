@@ -2015,7 +2015,7 @@ function (Okta,
         testSecurityQuestion(setupSecurityQuestion, setupSecurityQuestionLocalized, 'testStateToken');
       });
 
-      Expect.describe('Security Question with Idx Pipeline', function () {
+      Expect.describe('Security Question on Idx Pipeline', function () {
         testSecurityQuestion(setupSecurityQuestionWithIdx, setupSecurityQuestionLocalized, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
@@ -2103,7 +2103,7 @@ function (Okta,
         });
       });
 
-      Expect.describe('TOTP with idx pipeline', function () {
+      Expect.describe('TOTP on Idx Pipeline', function () {
         testGoogleTOTP(setupGoogleTOTPWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
@@ -2226,7 +2226,7 @@ function (Okta,
         testSms(setupSMS, resChallengeSms, resSuccess, 'testStateToken');
       });
 
-      Expect.describe('SMS on Idx pipeline', function () {
+      Expect.describe('SMS on Idx Pipeline', function () {
         testSms(setupSMSWithIdx, resFactorChallengeSMS, resSuccess, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
@@ -2234,7 +2234,7 @@ function (Okta,
         testCall(setupCall, resChallengeCall, resSuccess, 'testStateToken');
       });
 
-      Expect.describe('Call on Idx pipeline', function () {
+      Expect.describe('Call on Idx Pipeline', function () {
         testCall(setupCallWithIdx, resFactorChallengeCall, resSuccess, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
@@ -2531,7 +2531,7 @@ function (Okta,
         });
       });
 
-      Expect.describe('Email Magic link', function () {
+      Expect.describe('Email on Idx Pipeline', function () {
         itp('posts email link if send email button is clicked once and changes button text', function () {
           return setupEmailMagicLink().then(function (test) {
             $.ajax.calls.reset();
@@ -3869,7 +3869,7 @@ function (Okta,
       beaconTest(resAllFactors, resVerifyTOTPOnly, resAllFactorsOnPrem);
     });
 
-    Expect.describe('Beacon with Idx pipeline', function () {
+    Expect.describe('Beacon on Idx Pipeline', function () {
       beaconTest(resFactorRequiredAllFactors, resFactorRequiredQuestion, resAllFactorsOnPrem);
     });
 
@@ -3976,7 +3976,7 @@ function (Okta,
       });
     });
 
-    Expect.describe('Switch between different factors and verify a factor on Idx pipeline', function () {
+    Expect.describe('Switch between different factors and verify a factor on Idx Pipeline', function () {
       switchFactorTest(setupEmailWithIdx, setupOktaPushWithTOTPWithIdx, setupGoogleTOTPAutoPushTrueWithIdx, resFactorRequiredAllFactors, resSuccess, resFactorChallengeEmail, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
     });
 
