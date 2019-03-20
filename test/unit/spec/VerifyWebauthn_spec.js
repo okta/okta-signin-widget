@@ -98,17 +98,6 @@ function (Okta,
     };
   }
 
-  function mockU2fSuccessVerify () {
-    window.u2f = { sign: function () {} };
-
-    spyOn(window.u2f, 'sign').and.callFake(function (appId, challenge, registeredKeys, callback) {
-      callback({
-        signatureData: testSignature,
-        clientData: testClientData
-      });
-    });
-  }
-
   function mockWebauthnSignFailure () {
     spyOn(navigator.credentials, 'get').and.callFake(function () {
       var deferred = Q.defer();
@@ -137,8 +126,6 @@ function (Okta,
 
   function setupWebauthnFactor (options) {
     options || (options = {});
-
-    spyOn(webauthn, 'isWebauthnOrU2fAvailable').and.returnValue(options.u2fSupported === true);
     spyOn(webauthn, 'isNewApiAvailable').and.returnValue(options.webauthnSupported === true);
 
     mockWebauthn();
@@ -164,35 +151,35 @@ function (Okta,
 
   Expect.describe('Webauthn Factor', function () {
     itp('shows the right beacon and title for webauthn', function () {
-      return setupWebauthnFactor({webauthnSupported: true, u2fSupported: true}).then(function (test) {
-        expectHasRightBeaconImage(test, 'mfa-u2f');
-        expectTitleToBe(test, 'Security Key (U2F)');
+      return setupWebauthnFactor({webauthnSupported: true}).then(function (test) {
+        expectHasRightBeaconImage(test, 'mfa-webauthn');
+        expectTitleToBe(test, 'Security Key or Device Authenticator');
       });
     });
 
     itp('shows error if browser does not support webauthn', function () {
-      return setupWebauthnFactor({webauthnSupported: false, u2fSupported: false}).then(function (test) {
+      return setupWebauthnFactor({webauthnSupported: false}).then(function (test) {
         expect(test.form.el('o-form-error-html')).toHaveLength(1);
         expect(test.form.el('o-form-error-html').find('strong').html())
-          .toEqual('Security Key (U2F) is not supported on this browser. ' +
+          .toEqual('Security key or built-in authenticator is not supported on this browser. ' +
           'Select another factor or contact your admin for assistance.');
       });
     });
 
     itp('does not show error if browser supports webauthn', function () {
-      return setupWebauthnFactor({webauthnSupported: true, u2fSupported: true}).then(function (test) {
+      return setupWebauthnFactor({webauthnSupported: true}).then(function (test) {
         expect(test.form.el('o-form-error-html')).toHaveLength(0);
       });
     });
 
     itp('shows a spinner while waiting for webauthn challenge', function () {
-      return setupWebauthnFactor({webauthnSupported: true, u2fSupported: true}).then(function (test) {
-        expect(test.form.el('u2f-waiting').length).toBe(1);
+      return setupWebauthnFactor({webauthnSupported: true}).then(function (test) {
+        expect(test.form.el('webauthn-waiting').length).toBe(1);
       });
     });
 
     itp('has remember device checkbox', function () {
-      return setupWebauthnFactor({webauthnSupported: true, u2fSupported: true}).then(function (test) {
+      return setupWebauthnFactor({webauthnSupported: true}).then(function (test) {
         Expect.isVisible(test.form.rememberDeviceCheckbox());
       });
     });
@@ -200,7 +187,6 @@ function (Okta,
     itp('calls navigator.credentials.get and verifies factor', function () {
       return setupWebauthnFactor({
         webauthnSupported: true,
-        u2fSupported: true,
         signStatus: 'success'
       }).then(function (test) {
         test.setNextResponse(resSuccess);
@@ -235,7 +221,6 @@ function (Okta,
       Q.stopUnhandledRejectionTracking();
       return setupWebauthnFactor({
         webauthnSupported: true,
-        u2fSupported: true,
         signStatus: 'fail'
       }).then(function (test) {
         return Expect.waitForFormError(test.form, test);
@@ -259,30 +244,6 @@ function (Okta,
             }
           }
         ]);
-      });
-    });
-
-    itp('calls u2f.verify and verifies factor for non-webauthn supported browsers', function () {
-      mockU2fSuccessVerify();
-      return setupWebauthnFactor({ webauthnSupported: false, u2fSupported: true }).then(function (test) {
-        test.setNextResponse(resSuccess);
-        return Expect.waitForSpyCall(test.successSpy);
-      }).then(function () {
-        expect(window.u2f.sign).toHaveBeenCalledWith(
-          'https://foo.com',
-          testChallenge,
-          [{version: 'U2F_V2', keyHandle: testCredentialId}],
-          jasmine.any(Function)
-        );
-        expect($.ajax.calls.count()).toBe(3);
-        Expect.isJsonPost($.ajax.calls.argsFor(2), {
-          url: 'https://foo.com/api/v1/authn/factors/webauthnFactorId/verify?rememberDevice=false',
-          data: {
-            clientData: testClientData,
-            signatureData: testSignature,
-            stateToken: 'testStateToken'
-          }
-        });
       });
     });
   });

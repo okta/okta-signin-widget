@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* global u2f */
 /* eslint complexity:[2, 10], max-params: [2, 11] */
 
 define([
@@ -19,15 +18,14 @@ define([
   'util/FormController',
   'util/FormType',
   'util/CryptoUtil',
-  'util/FidoUtil',
   'util/webauthn',
   'views/shared/FooterSignout',
   'q',
   'util/FactorUtil',
   'views/mfa-verify/HtmlErrorMessageView'
 ],
-function (Okta, Errors, FormController, FormType, CryptoUtil, FidoUtil,
-  webauthn, FooterSignout, Q, FactorUtil, HtmlErrorMessageView) {
+function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSignout, Q,
+  FactorUtil, HtmlErrorMessageView) {
 
   var _ = Okta._;
 
@@ -57,64 +55,31 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, FidoUtil,
           var self = this;
           return factor.verify().then(function (transaction) {
             self.trigger('request');
-            if (webauthn.isNewApiAvailable()) {
-              // verify via browser webauthn js
-              var options = _.extend({}, transaction.factor.challenge, {
-                allowCredentials: [{
-                  type: 'public-key',
-                  id: CryptoUtil.strToBin(transaction.factor.profile.credentialId)
-                }],
-                challenge: CryptoUtil.strToBin(transaction.factor.challenge.challenge)
-              });
+            // verify via browser webauthn js
+            var options = _.extend({}, transaction.factor.challenge, {
+              allowCredentials: [{
+                type: 'public-key',
+                id: CryptoUtil.strToBin(transaction.factor.profile.credentialId)
+              }],
+              challenge: CryptoUtil.strToBin(transaction.factor.challenge.challenge)
+            });
 
-              return new Q(navigator.credentials.get({publicKey: options}))
-                .then(function (assertion) {
-                  var rememberDevice = !!self.get('rememberDevice');
-                  return factor.verify({
-                    clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
-                    authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
-                    signatureData: CryptoUtil.binToStr(assertion.response.signature),
-                    rememberDevice: rememberDevice
-                  });
-                })
-                .fail(function (error) {
-                  self.trigger('errors:clear');
-                  throw new Errors.WebAuthnError({
-                    xhr: {responseJSON: {errorSummary: error.message}}
-                  });
+            return new Q(navigator.credentials.get({publicKey: options}))
+              .then(function (assertion) {
+                var rememberDevice = !!self.get('rememberDevice');
+                return factor.verify({
+                  clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
+                  authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
+                  signatureData: CryptoUtil.binToStr(assertion.response.signature),
+                  rememberDevice: rememberDevice
                 });
-            } else {
-              // verify via legacy u2f js for non webauhtn supported browser
-              var factorData = transaction.factor;
-              var appId = factorData.challenge.extensions.appid;
-              var registeredKeys = [{version: FidoUtil.getU2fVersion(), keyHandle: factorData.profile.credentialId}];
-              self.trigger('request');
-
-              var deferred = Q.defer();
-              u2f.sign(appId, factorData.challenge.challenge, registeredKeys, function (data) {
+              })
+              .fail(function (error) {
                 self.trigger('errors:clear');
-                if (data.errorCode && data.errorCode !== 0) {
-                  var isOneFactor = self.options.appState.get('factors').length === 1;
-                  deferred.reject(
-                    new Errors.U2FError({
-                      xhr: {
-                        responseJSON: {
-                          errorSummary: FidoUtil.getU2fVerifyErrorMessageByCode(data.errorCode, isOneFactor)
-                        }
-                      }
-                    })
-                  );
-                } else {
-                  var rememberDevice = !!self.get('rememberDevice');
-                  return factor.verify({
-                    clientData: data.clientData,
-                    signatureData: data.signatureData,
-                    rememberDevice: rememberDevice
-                  }).then(deferred.resolve);
-                }
+                throw new Errors.WebAuthnError({
+                  xhr: {responseJSON: {errorSummary: error.message}}
+                });
               });
-              return deferred.promise;
-            }
           });
         });
       }
@@ -123,12 +88,12 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, FidoUtil,
     Form: {
       autoSave: true,
       hasSavingState: false,
-      title: _.partial(Okta.loc, 'factor.u2f', 'login'),
+      title: _.partial(Okta.loc, 'factor.webauthn', 'login'),
       className: 'verify-webauthn-form',
       noCancelButton: true,
       save: _.partial(Okta.loc, 'verify.u2f.retry', 'login'),
       noButtonBar: function () {
-        return !webauthn.isWebauthnOrU2fAvailable();
+        return !webauthn.isNewApiAvailable();
       },
       modelEvents: {
         'request': '_startEnrollment',
@@ -138,20 +103,19 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, FidoUtil,
       formChildren: function () {
         var children = [];
 
-        if (webauthn.isWebauthnOrU2fAvailable()) {
+        if (webauthn.isNewApiAvailable()) {
           children.push(FormType.View({
-            View: '\
-            <div class="u2f-verify-text">\
-              <p>{{i18n code="verify.u2f.instructions" bundle="login"}}</p>\
-              <p>{{i18n code="verify.u2f.instructionsBluetooth" bundle="login"}}</p>\
-              <div data-se="u2f-waiting" class="okta-waiting-spinner"></div>\
-            </div>'
+            View:
+               '<div class="webauthn-verify-text">\
+                 <p>{{i18n code="verify.webauthn.instructions" bundle="login"}}</p>\
+                 <div data-se="webauthn-waiting" class="okta-waiting-spinner"></div>\
+               </div>'
           }));
         }
         else {
-          var errorMessageKey = 'u2f.error.factorNotSupported';
+          var errorMessageKey = 'webauthn.error.factorNotSupported';
           if (this.options.appState.get('factors').length === 1) {
-            errorMessageKey = 'u2f.error.factorNotSupported.oneFactor';
+            errorMessageKey = 'webauthn.error.factorNotSupported.oneFactor';
           }
           children.push(FormType.View(
             {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
@@ -175,11 +139,11 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, FidoUtil,
 
       postRender: function () {
         _.defer(_.bind(function () {
-          if (webauthn.isWebauthnOrU2fAvailable()) {
+          if (webauthn.isNewApiAvailable()) {
             this.model.save();
           }
           else {
-            this.$('[data-se="u2f-waiting"]').hide();
+            this.$('[data-se="webauthn-waiting"]').hide();
           }
         }, this));
       },
