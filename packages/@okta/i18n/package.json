@@ -1,28 +1,28 @@
 {
-  "_from": "@okta/i18n@51.1.0-beta.ge853c3f",
-  "_id": "@okta/i18n@51.1.0-beta.ge853c3f",
+  "_from": "@okta/i18n@51.1.0-beta.g3a2c3f9",
+  "_id": "@okta/i18n@51.1.0-beta.g3a2c3f9",
   "_inBundle": false,
-  "_integrity": "sha1-iBT8cTdv5LKKQqlhee/9wg4aWzs=",
+  "_integrity": "sha1-ayG3IUlDiuvBNBibAlTf3FveZk0=",
   "_location": "/@okta/i18n",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@okta/i18n@51.1.0-beta.ge853c3f",
+    "raw": "@okta/i18n@51.1.0-beta.g3a2c3f9",
     "name": "@okta/i18n",
     "escapedName": "@okta%2fi18n",
     "scope": "@okta",
-    "rawSpec": "51.1.0-beta.ge853c3f",
+    "rawSpec": "51.1.0-beta.g3a2c3f9",
     "saveSpec": null,
-    "fetchSpec": "51.1.0-beta.ge853c3f"
+    "fetchSpec": "51.1.0-beta.g3a2c3f9"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-51.1.0-beta.ge853c3f.tgz",
-  "_shasum": "8814fc71376fe4b28a42a96179effdc20e1a5b3b",
-  "_spec": "@okta/i18n@51.1.0-beta.ge853c3f",
-  "_where": "/Users/gowthamidommety/okta/okta-signin-widget",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-51.1.0-beta.g3a2c3f9.tgz",
+  "_shasum": "6b21b72149438aebc134189b0254dfdc5bde664d",
+  "_spec": "@okta/i18n@51.1.0-beta.g3a2c3f9",
+  "_where": "/Users/mauricio.castillosilva/okta/okta-signin-widget",
   "bundleDependencies": false,
   "deprecated": false,
   "description": "Okta Localization",
@@ -56,9 +56,9 @@
   "license": "Apache-2.0",
   "name": "@okta/i18n",
   "okta": {
-    "commitSha": "e853c3f77f5b76d5b75ad49f6adbf45330108f23",
-    "fullVersion": "51.1.0-beta.ge853c3f-20190319235529-e853c3f",
-    "testedSha": "417fc8bd19196ebc5cb2f0b25b9cf0b8fb1b41f9"
+    "commitSha": "3a2c3f9d012fa1cf391bac1d6b4c4d40856006d7",
+    "fullVersion": "51.1.0-beta.g3a2c3f9-20190322174013-3a2c3f9",
+    "testedSha": "3b6ad4f7d395ed192eb12fec3c3ede8c019e92ac"
   },
   "repository": {
     "type": "git",
@@ -79,5 +79,5 @@
     "test:unit": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R spec tasks/i18ndiff/test",
     "test:unit-report": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R mocha-junit-reporter -O mochaFile=./build2/reports/unit/mocha-junit-result.xml tasks/i18ndiff/test"
   },
-  "version": "51.1.0-beta.ge853c3f"
+  "version": "51.1.0-beta.g3a2c3f9"
 }
