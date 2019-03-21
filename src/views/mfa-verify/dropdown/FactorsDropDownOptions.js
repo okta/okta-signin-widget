@@ -20,6 +20,10 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
         self = this;
     this.options.appState.trigger('factorSwitched');
     this.model.manageTransaction(function (transaction, setTransaction) {
+      // FACTOR_CHALLENGE does not have a prev link
+      if (transaction.status === 'FACTOR_CHALLENGE') {
+        this.options.appState.set('trapMfaRequiredResponse', true);
+      }
       if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
         this.options.appState.set('trapMfaRequiredResponse', true);
         return transaction.prev()

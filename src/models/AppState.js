@@ -258,10 +258,9 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         }
       },
       'hasMultipleFactorsAvailable': {
-        deps: ['lastAuthResponse', 'factors'],
-        fn: function (res, factors) {
-          if (res.status !== 'MFA_REQUIRED' && res.status !== 'MFA_CHALLENGE'
-            && res.status !== 'UNAUTHENTICATED') {
+        deps: ['factors', 'isMfaRequired', 'isMfaChallenge', 'isUnauthenticated'],
+        fn: function (factors, isMfaRequired, isMfaChallenge, isUnauthenticated) {
+          if (!isMfaRequired && !isMfaChallenge && !isUnauthenticated) {
             return false;
           }
           return factors && factors.length > 1;

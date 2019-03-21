@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 50], max-statements: [2, 51], camelcase: 0 */
+/* eslint max-params: [2, 52], max-statements: [2, 68], camelcase: 0 */
 define([
   'okta',
   'q',
@@ -20,13 +20,17 @@ define([
   'helpers/xhr/MFA_REQUIRED_oktaVerifyPushOnly',
   'helpers/xhr/MFA_REQUIRED_windows_hello',
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
+  'helpers/xhr/FACTOR_REQUIRED_oktaPassword',
   'helpers/xhr/FACTOR_REQUIRED',
+  'helpers/xhr/FACTOR_REQUIRED_question',
   'helpers/xhr/MFA_REQUIRED_U2F',
   'helpers/xhr/MFA_REQUIRED_multipleU2F',
   'helpers/xhr/MFA_REQUIRED_multipleFactors',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
+  'helpers/xhr/FACTOR_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
+  'helpers/xhr/FACTOR_CHALLENGE_call',
   'helpers/xhr/MFA_CHALLENGE_email',
   'helpers/xhr/FACTOR_CHALLENGE_email',
   'helpers/xhr/MFA_CHALLENGE_windows_hello',
@@ -69,13 +73,17 @@ function (Okta,
   resVerifyPushOnly,
   resRequiredWindowsHello,
   resPassword,
-  resAllFactorsFactorRequired,
+  resFactorRequiredPassword,
+  resFactorRequiredAllFactors,
+  resFactorRequiredQuestion,
   resU2F,
   resMultipleU2F,
   resMultipleFactors,
   resChallengeDuo,
   resChallengeSms,
+  resFactorChallengeSMS,
   resChallengeCall,
+  resFactorChallengeCall,
   resChallengeEmail,
   resFactorChallengeEmail,
   resChallengeWindowsHello,
@@ -243,23 +251,32 @@ function (Okta,
     }
 
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
+    var setupSecurityQuestionWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'question' });
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
+    var setupGoogleTOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupGoogleTOTPAutoPushTrue = _.partial(setup, Util.getAutoPushResponse(resAllFactors, true),
+      { factorType: 'token:software:totp', provider: 'GOOGLE' });
+    var setupGoogleTOTPAutoPushTrueWithIdx = _.partial(setup, Util.getAutoPushResponse(resFactorRequiredAllFactors, true),
       { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupRsaTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'RSA' });
     var setupOnPremTOTP = _.partial(setup, resAllFactorsOnPrem, { factorType: 'token', provider: 'DEL_OATH' });
     var setupSymantecTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'SYMANTEC' });
     var setupYubikey = _.partial(setup, resAllFactors, { factorType: 'token:hardware', provider: 'YUBICO' });
     var setupSMS = _.partial(setup, resAllFactors, { factorType: 'sms' });
+    var setupSMSWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'sms' });
     var setupCall = _.partial(setup, resAllFactors, { factorType: 'call' });
+    var setupCallWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'call' });
     var setupEmail = _.partial(setup, resAllFactors, { factorType: 'email' });
+    var setupEmailWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'email' });
     var setupOktaPushWithTOTP = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
-    var setupEmailMagicLink = _.partial(setup, resAllFactorsFactorRequired, { factorType: 'email' });
+    var setupOktaPushWithTOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'push', provider: 'OKTA' });
+    var setupEmailMagicLink = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'email' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
     var setupOktaPush = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
     var setupWindowsHello = _.partial(
       setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false });
     var setupPassword = _.partial(setup, resPassword, { factorType: 'password' });
+    var setupPasswordWithIdx = _.partial(setup, resFactorRequiredPassword, { factorType: 'password' });
     var setupCustomSAMLFactor = _.partial(setup, resAllFactors,
       { factorType: 'assertion:saml2', provider: 'GENERIC_SAML' });
     var setupCustomOIDCFactor = _.partial(setup, resAllFactors,
@@ -564,6 +581,1290 @@ function (Okta,
       ]);
     }
 
+    function beaconTest (allFactorsRes, singleFactorRes, allFactorOnPremRes) {
+      itp('has no dropdown if there is only one factor', function () {
+        return setup(singleFactorRes).then(function (test) {
+          var options = test.beacon.getOptionsLinks();
+          expect(options.length).toBe(0);
+        });
+      });
+      itp('has a dropdown if there is more than one factor', function () {
+        return setup(allFactorsRes).then(function (test) {
+          var options = test.beacon.getOptionsLinks();
+          expect(options.length).toBe(15);
+        });
+      });
+      itp('shows the right options in the dropdown, removes okta totp if ' +
+        'okta push exists, and orders factors by security', function () {
+        return setup(allFactorsRes).then(function (test) {
+          var options = test.beacon.getOptionsLinksText();
+          expect(options).toEqual([
+            'Okta Verify', 'Security Key (U2F)', 'Windows Hello', 'Yubikey', 'Google Authenticator',
+            'SMS Authentication', 'Voice Call Authentication', 'Email Authentication', 'Security Question',
+            'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password', 'SAML Factor', 'OIDC Factor'
+          ]);
+        });
+      });
+      itp('shows the right options in the dropdown, removes okta totp if ' +
+        'okta push exists, and orders factors by security (On-Prem, no Password)', function () {
+        return setup(allFactorOnPremRes).then(function (test) {
+          var options = test.beacon.getOptionsLinksText();
+          expect(options).toEqual([
+            'Okta Verify', 'Yubikey', 'Google Authenticator', 'SMS Authentication', 'Security Question',
+            'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'SAML Factor', 'OIDC Factor'
+          ]);
+        });
+      });
+      itp('opens dropDown options when dropDown link is clicked', function () {
+        return setup(allFactorsRes).then(function (test) {
+          expect(test.beacon.getOptionsList().is(':visible')).toBe(false);
+          test.beacon.dropDownButton().click();
+          expect(test.beacon.getOptionsList().is(':visible')).toBe(true);
+        });
+      });
+      itp('updates beacon image when different factor is selected', function () {
+        return setup(allFactorsRes)
+          .then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+            test.beacon.dropDownButton().click();
+            clickFactorInDropdown(test, 'GOOGLE_AUTH');
+            return tick(test);
+          })
+          .then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-google-auth');
+          });
+      });
+      itp('changes selectedFactor if option is chosen', function () {
+        return setup(allFactorsRes).then(function (test) {
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'GOOGLE_AUTH');
+          expect(test.router.navigate)
+            .toHaveBeenCalledWith('signin/verify/google/token%3Asoftware%3Atotp', { trigger: true });
+        });
+      });
+      itp('is able to switch between factors even when the auth status is MF_CHALLENGE', function () {
+        spyOn(Duo, 'init');
+        return setup(allFactorsRes).then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(resChallengeDuo);
+          test.beacon.dropDownButton().click();
+          clickFactorInDropdown(test, 'DUO');
+          return tick(test);
+        })
+          .then(function (test) {
+            test.setNextResponse(allFactorsRes);
+            test.beacon.dropDownButton().click();
+            clickFactorInDropdown(test, 'GOOGLE_AUTH');
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.router.navigate)
+              .toHaveBeenCalledWith('signin/verify/google/token%3Asoftware%3Atotp', { trigger: true });
+          });
+      });
+    }
+
+    function switchFactorTest (setupSmsFn, setupOktaPushWithTOTPFn, setupGoogleTOTPAutoPushTrueFn,  allFactorsRes, successRes, challengeRes, expectedStateToken) {
+      itp('Verify Security Question after switching from SMS MFA/FACTOR_CHALLENGE', function () {
+        return setupSmsFn().then(function (test) {
+          test.setNextResponse(challengeRes);
+          test.form.smsSendCode().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            test.setNextResponse(allFactorsRes);
+            test.beacon.dropDownButton().click();
+            clickFactorInDropdown(test, 'QUESTION');
+            return Expect.waitForVerifyQuestion(test);
+          })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(successRes);
+            // We cannot use test.form here since refers to SMS form,
+            // so query for the security question form.
+            test.questionForm = new MfaVerifyForm($sandbox.find('.o-form'));
+            test.questionForm.setAnswer('food');
+            test.questionForm.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=false',
+              data: {
+                answer: 'food',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('Verify Push after switching from Google TOTP', function () {
+        return setupGoogleTOTPAutoPushTrueFn({ 'features.autoPush': true })
+          .then(function (test) {
+            test.setNextResponse(resChallengePush);
+            test.beacon.dropDownButton().click();
+            clickFactorInDropdown(test, 'OKTA_VERIFY_PUSH');
+            return Expect.waitForVerifyPush(test);
+          })
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(true);
+          });
+      });
+      itp('Verify Google TOTP after switching from Push MFA/FACTOR_CHALLENGE', function () {
+        return setupOktaPushWithTOTPFn()
+          .then(function (test) {
+            test.beacon.dropDownButton().click();
+            clickFactorInDropdown(test, 'GOOGLE_AUTH');
+            return tick(test);
+          })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(successRes);
+            // We cannot use test.form here since refers to SMS form,
+            // so query for the google TOTP form.
+            test.googleTOTPForm = new MfaVerifyForm($sandbox.find('.o-form'));
+            test.googleTOTPForm.setAnswer('123456');
+            test.googleTOTPForm.submit();
+            return tick(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=false',
+              data: {
+                passCode: '123456',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+    }
+
+    function testSecurityQuestion (setupFn, setupFnLocalized, expectedStateToken) {
+      itp('is security question', function () {
+        return setupFn().then(function (test) {
+          expect(test.form.isSecurityQuestion()).toBe(true);
+        });
+      });
+      itp('shows the right beacon', function () {
+        return setupFn().then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+        });
+      });
+      itp('shows the right title', function () {
+        return setupFn().then(function (test) {
+          expectTitleToBe(test, 'Security Question');
+        });
+      });
+      itp('sets the label to the user\'s security question', function () {
+        return setupFn().then(function (test) {
+          expectLabelToBe(test, 'What is the food you least liked as a child?', 'answer');
+        });
+      });
+      itp('sets the label to the user\'s security question (localized)', function () {
+        return setupFnLocalized({ localStorageIsNotSupported: false }).then(function (test) {
+          expectLabelToBe(test, 'JA: What is the food you least liked as a child?', 'answer');
+        });
+      });
+      itp('sets the label to the user\'s security question (localized + no local storage)', function () {
+        return setupFnLocalized({ localStorageIsNotSupported: true }).then(function (test) {
+          expectLabelToBe(test, 'JA: What is the food you least liked as a child?', 'answer');
+        });
+      });
+      itp('has an answer field', function () {
+        return setupFn().then(function (test) {
+          expectHasAnswerField(test, 'password');
+        });
+      });
+      itp('has remember device checkbox', function () {
+        return setupFn().then(function (test) {
+          Expect.isVisible(test.form.rememberDeviceCheckbox());
+        });
+      });
+      itp('no auto push checkbox', function () {
+        return setupFn({ 'features.autoPush': true }).then(function (test) {
+          expect(test.form.autoPushCheckbox().length).toBe(0);
+        });
+      });
+      itp('an answer field type is "password" initially and can be switched between "text" and "password" \
+          by clicking on "show"/"hide" buttons', function () {
+        return setupFn().then(function (test) {
+          var answer = test.form.answerField();
+          expect(answer.attr('type')).toEqual('password');
+
+          test.form.showAnswerButton().click();
+          expect(test.form.answerField().attr('type')).toEqual('text');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+
+          test.form.hideAnswerButton().click();
+          expect(test.form.answerField().attr('type')).toEqual('password');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
+        });
+      });
+      itp('calls authClient verifyFactor with correct args when submitted', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setAnswer('food');
+          test.form.setRememberDevice(true);
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=true',
+              data: {
+                answer: 'food',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('disables the "verify button" when clicked', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setAnswer('who cares');
+          test.setNextResponse(resInvalid);
+          test.form.submit();
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).toContain('link-button-disabled');
+          expect(button.prop('disabled')).toBe(true);
+          return Expect.waitForFormError(test.form, test);
+        })
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
+          });
+      });
+      itp('shows an error if error response from authClient', function () {
+        return setupFn()
+          .then(function (test) {
+            test.setNextResponse(resInvalid);
+            test.form.setAnswer('wrong');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Your answer doesn\'t match our records. Please try again.');
+          });
+      });
+      itp('shows errors if verify button is clicked and answer is empty', function () {
+        return setupFn()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+      });
+      itp('sets the transaction on the appState on success response', function () {
+        return setupFn()
+          .then(function (test) {
+            mockTransactions(test.router.controller);
+            $.ajax.calls.reset();
+            test.form.setAnswer('food');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
+            expectSetTransaction(test.router, resSuccess);
+          });
+      });
+      itp('sets the transaction error on the appState on error response', function () {
+        return setupFn()
+          .then(function (test) {
+            mockTransactions(test.router.controller);
+            $.ajax.calls.reset();
+            test.form.setAnswer('food');
+            test.setNextResponse(resInvalid);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expectSetTransactionError(test.router, resInvalid);
+          });
+      });
+    }
+
+    function testSms (setupFn, challengeSmsRes, successRes, expectedStateToken) {
+      beforeEach(function () {
+        var throttle = _.throttle;
+        spyOn(_, 'throttle').and.callFake(function (fn) {
+          return throttle(fn, 0);
+        });
+      });
+
+      itp('is sms', function () {
+        return setupFn().then(function (test) {
+          expect(test.form.isSMS()).toBe(true);
+        });
+      });
+      itp('shows the right beacon', function () {
+        return setupFn().then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-okta-sms');
+        });
+      });
+      itp('does not autocomplete', function () {
+        return setupFn().then(function (test) {
+          expect(test.form.getAutocomplete()).toBe('off');
+        });
+      });
+      itp('shows the phone number in the title', function () {
+        return setupFn().then(function (test) {
+          expectTitleToBe(test, 'SMS Authentication');
+          expectSubtitleToBe(test, '(+1 XXX-XXX-6688)');
+        });
+      });
+      itp('has a button to send the code', function () {
+        return setupFn().then(function (test) {
+          var button = test.form.smsSendCode();
+          expect(button.length).toBe(1);
+          expect(button.is('a')).toBe(true);
+        });
+      });
+      itp('has a passCode field', function () {
+        return setupFn().then(function (test) {
+          expectHasAnswerField(test, 'tel');
+        });
+      });
+      itp('has remember device checkbox', function () {
+        return setupFn().then(function (test) {
+          Expect.isVisible(test.form.rememberDeviceCheckbox());
+        });
+      });
+      itp('clears the passcode text field on clicking the "Send code" button', function () {
+        return setupFn()
+          .then(function (test) {
+            test.setNextResponse(challengeSmsRes);
+
+            expect(test.form.smsSendCode().trimmedText()).toEqual('Send code');
+            test.form.setAnswer('123456');
+            expect(test.form.answerField().val()).toEqual('123456');
+            test.form.smsSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.smsSendCode().trimmedText()).toEqual('Sent');
+            expect(test.form.answerField().val()).toEqual('');
+
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
+            return test;
+          });
+      });
+      itp('calls verifyFactor with empty code if send code button is clicked', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(challengeSmsRes);
+          test.form.smsSendCode().click();
+          return tick();
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
+              data: {
+                passCode: '',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+
+      it('posts resend if send code button is clicked second time', function () {
+        Util.speedUpPolling();
+        return setupFn().then(function (test) {
+          test.setNextResponse(challengeSmsRes);
+          expect(test.form.smsSendCode().text()).toBe('Send code');
+          test.form.smsSendCode().click();
+          return Expect.wait(function () {
+            return test.form.smsSendCode().text() === 'Re-send code';
+          }, test);
+        })
+          .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
+            $.ajax.calls.reset();
+            test.setNextResponse(challengeSmsRes);
+            test.form.smsSendCode().click();
+            return Expect.wait(function () {
+              return test.form.smsSendCode().text() === 'Sent';
+            }, test);
+          })
+          .then(function (test) {
+            return Expect.wait(function () {
+              return test.form.smsSendCode().text() === 'Re-send code';
+            }, test);
+          })
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(1);
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify/resend',
+              data: {
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('calls verifyFactor with rememberDevice URL param', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setRememberDevice(true);
+          test.setNextResponse(challengeSmsRes);
+          test.form.smsSendCode().click();
+          return tick();
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
+              data: {
+                passCode: '',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('calls verifyFactor with empty code if verify button is clicked', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(challengeSmsRes);
+          test.form.smsSendCode().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.setAnswer('');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+      });
+      itp('calls verifyFactor with given code if verify button is clicked', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(challengeSmsRes);
+          test.form.smsSendCode().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.setAnswer('123456');
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
+              data: {
+                passCode: '123456',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('shows errors if verify button is clicked and answer is empty', function () {
+        return setupFn()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+      });
+      itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setRememberDevice(true);
+          test.setNextResponse(challengeSmsRes);
+          test.form.smsSendCode().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.setAnswer('123456');
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
+              data: {
+                passCode: '123456',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('temporarily disables the send code button before displaying re-send \
+              to avoid exceeding the rate limit', function () {
+        var deferred = Util.mockRateLimiting();
+
+        return setupFn().then(function (test) {
+          test.button = test.form.smsSendCode();
+          expect(test.button.trimmedText()).toEqual('Send code');
+          test.setNextResponse(challengeSmsRes);
+          test.form.smsSendCode().click();
+          return tick(test);
+        }).then(function (test) {
+          expect(test.button.trimmedText()).toEqual('Sent');
+          deferred.resolve();
+          return test;
+        }).then(function (test) {
+          return tick().then(function () {
+            expect(test.button.length).toBe(1);
+            expect(test.button.trimmedText()).toEqual('Re-send code');
+          });
+        });
+      });
+      itp('displays only one error block if got an error resp on "Send code"', function () {
+        var deferred = Util.mockRateLimiting();
+        return setupFn().then(function (test) {
+          test.setNextResponse(resResendError);
+          test.form.smsSendCode().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+            deferred.resolve();
+            test.setNextResponse(resResendError);
+            test.form.smsSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+          });
+      });
+      itp('shows proper account locked error after too many failed MFA attempts.', function () {
+        return setupFn().then(function (test) {
+          test.setNextResponse(resMfaLocked);
+          test.form.setAnswer('12345');
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+            expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+            expectErrorEvent(
+              test,
+              403,
+              'User Locked',
+              'mfa-verify',
+              {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000069',
+                  errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                  errorLink: 'E0000069',
+                  errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
+                  errorCauses: []
+                }
+              }
+            );
+          });
+      });
+      itp('hides error messages after clicking on send sms', function () {
+        return setupFn().then(function (test) {
+          test.form.setAnswer('');
+          test.form.submit();
+          return tick(test);
+        })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+            test.setNextResponse(challengeSmsRes);
+            test.form.smsSendCode().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(false);
+            expect(test.form.errorBox().length).toBe(0);
+          });
+      });
+    }
+
+    function testCall (setupFn, challengeCallRes, successRes, expectedStateToken) {
+      beforeEach(function () {
+        var throttle = _.throttle;
+        spyOn(_, 'throttle').and.callFake(function (fn) {
+          return throttle(fn, 0);
+        });
+      });
+
+      itp('is call', function () {
+        return setupFn().then(function (test) {
+          expect(test.form.isCall()).toBe(true);
+        });
+      });
+      itp('shows the right beacon', function () {
+        return setupFn().then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-okta-call');
+        });
+      });
+      itp('does not autocomplete', function () {
+        return setupFn().then(function (test) {
+          expect(test.form.getAutocomplete()).toBe('off');
+        });
+      });
+      itp('shows the phone number in the title', function () {
+        return setupFn().then(function (test) {
+          expectTitleToBe(test, 'Voice Call Authentication');
+          expectSubtitleToBe(test, '(+1 XXX-XXX-7799)');
+        });
+      });
+      itp('has a button to make a call', function () {
+        return setupFn().then(function (test) {
+          var button = test.form.makeCall();
+          expect(button.length).toBe(1);
+          expect(button.is('a')).toBe(true);
+        });
+      });
+      itp('has a passCode field', function () {
+        return setupFn().then(function (test) {
+          expectHasAnswerField(test, 'tel');
+        });
+      });
+      itp('clears the passcode text field on clicking the "Call" button', function () {
+        return setupFn().then(function (test) {
+          test.button = test.form.makeCall();
+          test.form.setAnswer('123456');
+          test.setNextResponse(challengeCallRes);
+          expect(test.button.trimmedText()).toEqual('Call');
+          expect(test.form.answerField().val()).toEqual('123456');
+          test.form.makeCall().click();
+          return tick().then(function () {
+            expect(test.button.trimmedText()).toEqual('Calling');
+            expect(test.form.answerField().val()).toEqual('');
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
+            return test;
+          });
+        });
+      });
+      itp('calls verifyFactor with empty code if call button is clicked', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(challengeCallRes);
+          test.form.makeCall().click();
+          return tick();
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=false',
+              data: {
+                passCode: '',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('calls verifyFactor with rememberDevice URL param', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setRememberDevice(true);
+          test.setNextResponse(challengeCallRes);
+          test.form.makeCall().click();
+          return tick();
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=true',
+              data: {
+                passCode: '',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('calls verifyFactor with empty code if verify button is clicked', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(challengeCallRes);
+          test.form.makeCall().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(successRes);
+            test.form.setAnswer('');
+            test.form.submit();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+      });
+      itp('calls verifyFactor with given code if verify button is clicked', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse(challengeCallRes);
+          test.form.makeCall().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(successRes);
+            test.form.setAnswer('123456');
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=false',
+              data: {
+                passCode: '123456',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setRememberDevice(true);
+          test.setNextResponse(challengeCallRes);
+          test.form.makeCall().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(successRes);
+            test.form.setAnswer('123456');
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=true',
+              data: {
+                passCode: '123456',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('shows errors if verify button is clicked and answer is empty', function () {
+        return setupFn()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+      });
+      itp('temporarily disables the call button before displaying redial \
+              to avoid exceeding the rate limit', function () {
+        var deferred = Util.mockRateLimiting();
+
+        return setupFn().then(function (test) {
+          test.button = test.form.makeCall();
+          expect(test.button.trimmedText()).toEqual('Call');
+          test.setNextResponse(challengeCallRes);
+          test.form.makeCall().click();
+          return tick().then(function () {
+            expect(test.button.trimmedText()).toEqual('Calling');
+            deferred.resolve();
+            return test;
+          });
+        }).then(function (test) {
+          return tick().then(function () {
+            expect(test.button.length).toBe(1);
+            expect(test.button.trimmedText()).toEqual('Redial');
+          });
+        });
+      });
+      itp('displays only one error block if got an error resp on "Call"', function () {
+        var deferred = Util.mockRateLimiting();
+        return setupFn().then(function (test) {
+          test.setNextResponse(resResendError);
+          test.form.makeCall().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+            deferred.resolve();
+            test.setNextResponse(resResendError);
+            test.form.makeCall().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+          });
+      });
+      itp('shows proper account locked error after too many failed MFA attempts.', function () {
+        return setupFn().then(function (test) {
+          test.setNextResponse(resMfaLocked);
+          test.form.setAnswer('12345');
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+            expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+            expectErrorEvent(
+              test,
+              403,
+              'User Locked',
+              'mfa-verify',
+              {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000069',
+                  errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                  errorLink: 'E0000069',
+                  errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
+                  errorCauses: []
+                }
+              }
+            );
+          });
+      });
+      itp('hides error messages after clicking on call', function () {
+        return setupFn().then(function (test) {
+          test.form.setAnswer('');
+          test.form.submit();
+          return tick(test);
+        })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorBox().length).toBe(1);
+            return tick(test);
+          })
+          .then(function (test) {
+            test.setNextResponse(challengeCallRes);
+            test.form.makeCall().click();
+            return tick(test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(false);
+            expect(test.form.errorBox().length).toBe(0);
+          });
+      });
+      itp('posts to resend link if call button is clicked for the second time', function () {
+        Util.speedUpPolling();
+        return setupCall().then(function (test) {
+          test.setNextResponse(challengeCallRes);
+          expect(test.form.makeCall().text()).toBe('Call');
+          test.form.makeCall().click();
+          return Expect.wait(function () {
+            return test.form.makeCall().text() === 'Redial';
+          }, test);
+        })
+          .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
+            $.ajax.calls.reset();
+            test.setNextResponse(challengeCallRes);
+            test.form.makeCall().click();
+            return Expect.wait(function () {
+              return test.form.makeCall().text() === 'Calling';
+            }, test);
+          })
+          .then(function (test) {
+            return Expect.wait(function () {
+              return test.form.makeCall().text() === 'Redial';
+            }, test);
+          })
+          .then(function (test) {
+            expect(test.form.submitButton().prop('disabled')).toBe(false);
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              data: { stateToken: expectedStateToken },
+              url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify/resend'
+            });
+          });
+      });
+    }
+
+    function testGoogleTOTP (setupFn, expectedStateToken) {
+      itp('is totp', function () {
+        return setupFn().then(function (test) {
+          expect(test.form.isTOTP()).toBe(true);
+        });
+      });
+      itp('shows the right beacon for google TOTP', function () {
+        return setupFn().then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-google-auth');
+        });
+
+      });
+      itp('does not autocomplete', function () {
+        return setupFn().then(function (test) {
+          expect(test.form.getAutocomplete()).toBe('off');
+        });
+      });
+
+      itp('references factorName in title', function () {
+        return setupFn().then(function (test) {
+          expectTitleToBe(test, 'Google Authenticator');
+        });
+      });
+      itp('shows the right subtitle with factorName', function () {
+        return setupFn().then(function (test) {
+          expectSubtitleToBe(test, 'Enter your Google Authenticator passcode');
+        });
+      });
+      itp('has a passCode field', function () {
+        return setupFn().then(function (test) {
+          expectHasAnswerField(test, 'tel');
+        });
+      });
+      itp('has remember device checkbox', function () {
+        return setupFn().then(function (test) {
+          Expect.isVisible(test.form.rememberDeviceCheckbox());
+        });
+      });
+      itp('calls authClient verifyFactor with correct args when submitted', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setAnswer('123456');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=false',
+              data: {
+                passCode: '123456',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setAnswer('123456');
+          test.form.setRememberDevice(true);
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=true',
+              data: {
+                passCode: '123456',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('disables the "verify button" when clicked', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setAnswer('who cares');
+          test.setNextResponse(resInvalid);
+          test.form.submit();
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).toContain('link-button-disabled');
+          expect(button.prop('disabled')).toBe(true);
+          return Expect.waitForFormError(test.form, test);
+        })
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect($.ajax.calls.count()).toBe(1);
+            expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
+          });
+      });
+      itp('shows an error if error response from authClient', function () {
+        return setupFn()
+          .then(function (test) {
+            test.setNextResponse(resInvalidTotp);
+            test.form.setAnswer('wrong');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expectError(
+              test,
+              403,
+              'Invalid Passcode/Answer',
+              'mfa-verify',
+              {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000068',
+                  errorSummary: 'Invalid Passcode/Answer',
+                  errorLink: 'E0000068',
+                  errorId: 'oael69itLSMTbioahsUZ-7xiQ',
+                  errorCauses: []
+                }
+              }
+            );
+          });
+      });
+      itp('shows errors if verify button is clicked and answer is empty', function () {
+        return setupFn()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passCodeErrorField().length).toBe(1);
+            expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+      });
+      itp('sets the transaction on the appState on success response', function () {
+        return setupFn().then(function (test) {
+          mockTransactions(test.router.controller);
+          test.form.setAnswer('123456');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+          .then(function (test) {
+            expectSetTransaction(test.router, resSuccess);
+          });
+      });
+      itp('sets the transaction error on the appState on error response', function () {
+        return setupFn().then(function (test) {
+          mockTransactions(test.router.controller);
+          test.setNextResponse(resInvalidTotp);
+          test.form.setAnswer('wrong');
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+          .then(function (test) {
+            expectSetTransactionError(test.router, resInvalidTotp);
+          });
+      });
+    }
+
+    function testPassword (setupFn, expectedStateToken) {
+      itp('is password', function () {
+        return setupFn().then(function (test) {
+          expect(test.form.isPassword()).toBe(true);
+        });
+      });
+      itp('shows the right beacon', function () {
+        return setupFn().then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-okta-password');
+        });
+      });
+      itp('shows the right title', function () {
+        return setupFn().then(function (test) {
+          expectTitleToBe(test, 'Password');
+        });
+      });
+      itp('has a password field', function () {
+        return setupFn().then(function (test) {
+          expectHasPasswordField(test, 'password');
+        });
+      });
+      itp('has remember device checkbox', function () {
+        return setupFn().then(function (test) {
+          Expect.isVisible(test.form.rememberDeviceCheckbox());
+        });
+      });
+      itp('no auto push checkbox', function () {
+        return setupFn({ 'features.autoPush': true }).then(function (test) {
+          expect(test.form.autoPushCheckbox().length).toBe(0);
+        });
+      });
+      itp('a password field type is "password" initially and can be switched between "text" and "password" \
+          by clicking on "show"/"hide" buttons', function () {
+        return setupFn().then(function (test) {
+          var answer = test.form.passwordField();
+          expect(answer.attr('type')).toEqual('password');
+
+          test.form.showPasswordButton().click();
+          expect(test.form.passwordField().attr('type')).toEqual('text');
+
+          test.form.hidePasswordButton().click();
+          expect(test.form.passwordField().attr('type')).toEqual('password');
+        });
+      });
+      itp('calls authClient verifyFactor with correct args when submitted', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setPassword('Abcd1234');
+          test.form.setRememberDevice(true);
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'http://rain.okta1.com:1802/api/v1/authn/factors/password/verify?rememberDevice=true',
+              data: {
+                password: 'Abcd1234',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+      itp('disables the "verify button" when clicked', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setPassword('Abcd');
+          test.setNextResponse(resInvalidPassword);
+          test.form.submit();
+          var button = test.form.submitButton();
+          var buttonClass = button.attr('class');
+          expect(buttonClass).toContain('link-button-disabled');
+          expect(button.prop('disabled')).toBe(true);
+          return Expect.waitForFormError(test.form, test);
+        })
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+            expect(button.prop('disabled')).toBe(false);
+          });
+      });
+      itp('shows an error if error response from authClient', function () {
+        return setupFn()
+          .then(function (test) {
+            test.setNextResponse(resInvalidPassword);
+            test.form.setPassword('wrong');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Password is incorrect');
+            expectErrorEvent(
+              test,
+              403,
+              'Invalid Passcode/Answer',
+              'mfa-verify',
+              {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[{"errorSummary":"Password is incorrect"}]}',
+                responseJSON: {
+                  errorCode: 'E0000068',
+                  errorSummary: 'Password is incorrect',
+                  errorLink: 'E0000068',
+                  errorId: 'oael69itLSMTbioahsUZ-7xiQ',
+                  errorCauses: [
+                    {
+                      errorSummary: 'Password is incorrect'
+                    }
+                  ]
+                }
+              }
+            );
+          });
+      });
+      itp('shows errors if verify button is clicked and password is empty', function () {
+        return setupFn()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setPassword('');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect($.ajax).not.toHaveBeenCalled();
+            expect(test.form.passwordErrorField().length).toBe(1);
+            expect(test.form.passwordErrorField().text()).toBe('Please enter a password');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          });
+      });
+      itp('sets the transaction on the appState on success response', function () {
+        return setupFn()
+          .then(function (test) {
+            mockTransactions(test.router.controller);
+            $.ajax.calls.reset();
+            test.form.setPassword('Abcd1234');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
+            expectSetTransaction(test.router, resSuccess);
+          });
+      });
+      itp('sets the transaction error on the appState on error response', function () {
+        return setupFn()
+          .then(function (test) {
+            mockTransactions(test.router.controller);
+            $.ajax.calls.reset();
+            test.form.setPassword('Abcd1234');
+            test.setNextResponse(resInvalidPassword);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expectSetTransactionError(test.router, resInvalidPassword);
+          });
+      });
+    }
+
     Expect.describe('General', function () {
       Expect.describe('Defaults to the last used factor', function () {
         itp('Security Question', function () {
@@ -711,220 +2012,23 @@ function (Okta,
     Expect.describe('Factor types', function () {
 
       Expect.describe('Security Question', function () {
-        itp('is security question', function () {
-          return setupSecurityQuestion().then(function (test) {
-            expect(test.form.isSecurityQuestion()).toBe(true);
-          });
-        });
-        itp('shows the right beacon', function () {
-          return setupSecurityQuestion().then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-okta-security-question');
-          });
-        });
-        itp('shows the right title', function () {
-          return setupSecurityQuestion().then(function (test) {
-            expectTitleToBe(test, 'Security Question');
-          });
-        });
-        itp('sets the label to the user\'s security question', function () {
-          return setupSecurityQuestion().then(function (test) {
-            expectLabelToBe(test, 'What is the food you least liked as a child?', 'answer');
-          });
-        });
-        itp('sets the label to the user\'s security question (localized)', function () {
-          return setupSecurityQuestionLocalized({localStorageIsNotSupported : false}).then(function (test) {
-            expectLabelToBe(test, 'JA: What is the food you least liked as a child?', 'answer');
-          });
-        });
-        itp('sets the label to the user\'s security question (localized + no local storage)', function () {
-          return setupSecurityQuestionLocalized({localStorageIsNotSupported : true}).then(function (test) {
-            expectLabelToBe(test, 'JA: What is the food you least liked as a child?', 'answer');
-          });
-        });
-        itp('has an answer field', function () {
-          return setupSecurityQuestion().then(function (test) {
-            expectHasAnswerField(test, 'password');
-          });
-        });
-        itp('has remember device checkbox', function () {
-          return setupSecurityQuestion().then(function (test) {
-            Expect.isVisible(test.form.rememberDeviceCheckbox());
-          });
-        });
-        itp('no auto push checkbox', function () {
-          return setupSecurityQuestion({'features.autoPush': true}).then(function (test) {
-            expect(test.form.autoPushCheckbox().length).toBe(0);
-          });
-        });
-        itp('an answer field type is "password" initially and can be switched between "text" and "password" \
-          by clicking on "show"/"hide" buttons', function () {
-          return setupSecurityQuestion().then(function (test) {
-            var answer = test.form.answerField();
-            expect(answer.attr('type')).toEqual('password');
+        testSecurityQuestion(setupSecurityQuestion, setupSecurityQuestionLocalized, 'testStateToken');
+      });
 
-            test.form.showAnswerButton().click();
-            expect(test.form.answerField().attr('type')).toEqual('text');
-            expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
-            expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
-
-            test.form.hideAnswerButton().click();
-            expect(test.form.answerField().attr('type')).toEqual('password');
-            expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
-            expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
-          });
-        });
-        itp('calls authClient verifyFactor with correct args when submitted', function () {
-          return setupSecurityQuestion().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setAnswer('food');
-            test.form.setRememberDevice(true);
-            test.setNextResponse(resSuccess);
-            test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy);
-          })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=true',
-                data: {
-                  answer: 'food',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('disables the "verify button" when clicked', function () {
-          return setupSecurityQuestion().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setAnswer('who cares');
-            test.setNextResponse(resInvalid);
-            test.form.submit();
-            var button = test.form.submitButton();
-            var buttonClass = button.attr('class');
-            expect(buttonClass).toContain('link-button-disabled');
-            expect(button.prop('disabled')).toBe(true);
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
-              var button = test.form.submitButton();
-              var buttonClass = button.attr('class');
-              expect(buttonClass).not.toContain('link-button-disabled');
-              expect(button.prop('disabled')).toBe(false);
-            });
-        });
-        itp('shows an error if error response from authClient', function () {
-          return setupSecurityQuestion()
-            .then(function (test) {
-              test.setNextResponse(resInvalid);
-              test.form.setAnswer('wrong');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('Your answer doesn\'t match our records. Please try again.');
-            });
-        });
-        itp('shows errors if verify button is clicked and answer is empty', function () {
-          return setupSecurityQuestion()
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.form.setAnswer('');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expect($.ajax).not.toHaveBeenCalled();
-              expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
-              expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
-            });
-        });
-        itp('sets the transaction on the appState on success response', function () {
-          return setupSecurityQuestion()
-            .then(function (test) {
-              mockTransactions(test.router.controller);
-              $.ajax.calls.reset();
-              test.form.setAnswer('food');
-              test.setNextResponse(resSuccess);
-              test.form.submit();
-              return Expect.waitForSpyCall(test.successSpy, test);
-            })
-            .then(function (test) {
-              expectSetTransaction(test.router, resSuccess);
-            });
-        });
-        itp('sets the transaction error on the appState on error response', function () {
-          return setupSecurityQuestion()
-            .then(function (test) {
-              mockTransactions(test.router.controller);
-              $.ajax.calls.reset();
-              test.form.setAnswer('food');
-              test.setNextResponse(resInvalid);
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expectSetTransactionError(test.router, resInvalid);
-            });
-        });
+      Expect.describe('Security Question on Idx Pipeline', function () {
+        testSecurityQuestion(setupSecurityQuestionWithIdx, setupSecurityQuestionLocalized, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
       Expect.describe('TOTP', function () {
-        itp('is totp', function () {
-          return setupGoogleTOTP().then(function (test) {
-            expect(test.form.isTOTP()).toBe(true);
-          });
-        });
-        itp('shows the right beacon for google TOTP', function () {
-          return setupGoogleTOTP().then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-google-auth');
-          });
-
-        });
-        itp('does not autocomplete', function () {
-          return setupGoogleTOTP().then(function (test) {
-            expect(test.form.getAutocomplete()).toBe('off');
-          });
-        });
-        itp('shows the right beacon for RSA TOTP', function () {
-          return setupRsaTOTP().then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-rsa');
-          });
-        });
-        itp('shows the right beacon for On Prem TOTP', function () {
-          return setupOnPremTOTP().then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-onprem');
-          });
-        });
+        testGoogleTOTP(setupGoogleTOTP, 'testStateToken');
         itp('shows the right beacon for Okta TOTP', function () {
           return setupOktaTOTP().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-okta-verify');
           });
         });
         itp('no auto push checkbox for Okta TOTP', function () {
-          return setupOktaTOTP({'features.autoPush': true}).then(function (test) {
+          return setupOktaTOTP({ 'features.autoPush': true }).then(function (test) {
             expect(test.form.autoPushCheckbox().length).toBe(0);
-          });
-        });
-        itp('shows the right beacon for Symantec TOTP', function () {
-          return setupSymantecTOTP().then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-symantec');
-          });
-        });
-        itp('references factorName in title', function () {
-          return setupGoogleTOTP().then(function (test) {
-            expectTitleToBe(test, 'Google Authenticator');
-          });
-        });
-        itp('shows the right subtitle with factorName', function () {
-          return setupGoogleTOTP().then(function (test) {
-            expectSubtitleToBe(test, 'Enter your Google Authenticator passcode');
-          });
-        });
-        itp('has a passCode field', function () {
-          return setupGoogleTOTP().then(function (test) {
-            expectHasAnswerField(test, 'tel');
           });
         });
         itp('has a masked passCode field for RSA', function () {
@@ -937,137 +2041,21 @@ function (Okta,
             expectHasAnswerField(test, 'password');
           });
         });
-        itp('has remember device checkbox', function () {
-          return setupGoogleTOTP().then(function (test) {
-            Expect.isVisible(test.form.rememberDeviceCheckbox());
+        itp('shows the right beacon for RSA TOTP', function () {
+          return setupRsaTOTP().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-rsa');
           });
         });
-        itp('calls authClient verifyFactor with correct args when submitted', function () {
-          return setupGoogleTOTP().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setAnswer('123456');
-            test.setNextResponse(resSuccess);
-            test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy);
-          })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=false',
-                data: {
-                  passCode: '123456',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
+        itp('shows the right beacon for On Prem TOTP', function () {
+          return setupOnPremTOTP().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-onprem');
+          });
         });
-        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
-          return setupGoogleTOTP().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setAnswer('123456');
-            test.form.setRememberDevice(true);
-            test.setNextResponse(resSuccess);
-            test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy);
-          })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=true',
-                data: {
-                  passCode: '123456',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('disables the "verify button" when clicked', function () {
-          return setupGoogleTOTP().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setAnswer('who cares');
-            test.setNextResponse(resInvalid);
-            test.form.submit();
-            var button = test.form.submitButton();
-            var buttonClass = button.attr('class');
-            expect(buttonClass).toContain('link-button-disabled');
-            expect(button.prop('disabled')).toBe(true);
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
-              var button = test.form.submitButton();
-              var buttonClass = button.attr('class');
-              expect($.ajax.calls.count()).toBe(1);
-              expect(buttonClass).not.toContain('link-button-disabled');
-              expect(button.prop('disabled')).toBe(false);
-            });
-        });
-        itp('shows an error if error response from authClient', function () {
-          return setupGoogleTOTP()
-            .then(function (test) {
-              test.setNextResponse(resInvalidTotp);
-              test.form.setAnswer('wrong');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expectError(
-                test,
-                403,
-                'Invalid Passcode/Answer',
-                'mfa-verify',
-                {
-                  status: 403,
-                  responseType: 'json',
-                  responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[]}',
-                  responseJSON: {
-                    errorCode: 'E0000068',
-                    errorSummary: 'Invalid Passcode/Answer',
-                    errorLink: 'E0000068',
-                    errorId: 'oael69itLSMTbioahsUZ-7xiQ',
-                    errorCauses: []
-                  }
-                }
-              );
-            });
-        });
-        itp('shows errors if verify button is clicked and answer is empty', function () {
-          return setupGoogleTOTP()
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.form.setAnswer('');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expect($.ajax).not.toHaveBeenCalled();
-              expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
-              expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
-            });
-        });
-        itp('sets the transaction on the appState on success response', function () {
-          return setupGoogleTOTP().then(function (test) {
-            mockTransactions(test.router.controller);
-            test.form.setAnswer('123456');
-            test.setNextResponse(resSuccess);
-            test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy, test);
-          })
-            .then(function (test) {
-              expectSetTransaction(test.router, resSuccess);
-            });
-        });
-        itp('sets the transaction error on the appState on error response', function () {
-          return setupGoogleTOTP().then(function (test) {
-            mockTransactions(test.router.controller);
-            test.setNextResponse(resInvalidTotp);
-            test.form.setAnswer('wrong');
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
-              expectSetTransactionError(test.router, resInvalidTotp);
-            });
+
+        itp('shows the right beacon for Symantec TOTP', function () {
+          return setupSymantecTOTP().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-symantec');
+          });
         });
         itp('clears input field value if error is for PIN change (RSA)', function () {
           return setupRsaTOTP()
@@ -1113,6 +2101,10 @@ function (Okta,
               expect(test.form.answerField().val()).toEqual('');
             });
         });
+      });
+
+      Expect.describe('TOTP on Idx Pipeline', function () {
+        testGoogleTOTP(setupGoogleTOTPWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
       Expect.describe('Yubikey', function () {
@@ -1231,635 +2223,19 @@ function (Okta,
       });
 
       Expect.describe('SMS', function () {
-        beforeEach(function () {
-          var  throttle = _.throttle;
-          spyOn(_, 'throttle').and.callFake(function (fn) {
-            return throttle(fn, 0);
-          });
-        });
+        testSms(setupSMS, resChallengeSms, resSuccess, 'testStateToken');
+      });
 
-        itp('is sms', function () {
-          return setupSMS().then(function (test) {
-            expect(test.form.isSMS()).toBe(true);
-          });
-        });
-        itp('shows the right beacon', function () {
-          return setupSMS().then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-okta-sms');
-          });
-        });
-        itp('does not autocomplete', function () {
-          return setupSMS().then(function (test) {
-            expect(test.form.getAutocomplete()).toBe('off');
-          });
-        });
-        itp('shows the phone number in the title', function () {
-          return setupSMS().then(function (test) {
-            expectTitleToBe(test, 'SMS Authentication');
-            expectSubtitleToBe(test, '(+1 XXX-XXX-6688)');
-          });
-        });
-        itp('has a button to send the code', function () {
-          return setupSMS().then(function (test) {
-            var button = test.form.smsSendCode();
-            expect(button.length).toBe(1);
-            expect(button.is('a')).toBe(true);
-          });
-        });
-        itp('has a passCode field', function () {
-          return setupSMS().then(function (test) {
-            expectHasAnswerField(test, 'tel');
-          });
-        });
-        itp('has remember device checkbox', function () {
-          return setupSMS().then(function (test) {
-            Expect.isVisible(test.form.rememberDeviceCheckbox());
-          });
-        });
-        itp('clears the passcode text field on clicking the "Send code" button', function () {
-          return setupSMS()
-            .then(function (test) {
-              test.setNextResponse(resChallengeSms);
-
-              expect(test.form.smsSendCode().trimmedText()).toEqual('Send code');
-              test.form.setAnswer('123456');
-              expect(test.form.answerField().val()).toEqual('123456');
-              test.form.smsSendCode().click();
-              return tick(test);
-            })
-            .then(function (test) {
-              expect(test.form.smsSendCode().trimmedText()).toEqual('Sent');
-              expect(test.form.answerField().val()).toEqual('');
-
-              var button = test.form.submitButton();
-              var buttonClass = button.attr('class');
-              expect(buttonClass).not.toContain('link-button-disabled');
-              expect(button.prop('disabled')).toBe(false);
-              return test;
-            });
-        });
-        itp('calls verifyFactor with empty code if send code button is clicked', function () {
-          return setupSMS().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resChallengeSms);
-            test.form.smsSendCode().click();
-            return tick();
-          })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
-                data: {
-                  passCode: '',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-
-        it('posts resend if send code button is clicked second time', function () {
-          Util.speedUpPolling();
-          return setupSMS().then(function (test) {
-            test.setNextResponse(resChallengeSms);
-            expect(test.form.smsSendCode().text()).toBe('Send code');
-            test.form.smsSendCode().click();
-            return Expect.wait(function () {
-              return test.form.smsSendCode().text() === 'Re-send code';
-            }, test);
-          })
-            .then(function (test) {
-              expect(test.form.submitButton().prop('disabled')).toBe(false);
-              $.ajax.calls.reset();
-              test.setNextResponse(resChallengeSms);
-              test.form.smsSendCode().click();
-              return Expect.wait(function () {
-                return test.form.smsSendCode().text() === 'Sent';
-              }, test);
-            })
-            .then(function (test) {
-              return Expect.wait(function () {
-                return test.form.smsSendCode().text() === 'Re-send code';
-              }, test);
-            })
-            .then(function (test) {
-              expect($.ajax.calls.count()).toBe(1);
-              expect(test.form.submitButton().prop('disabled')).toBe(false);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify/resend',
-                data: {
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('calls verifyFactor with rememberDevice URL param', function () {
-          return setupSMS().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setRememberDevice(true);
-            test.setNextResponse(resChallengeSms);
-            test.form.smsSendCode().click();
-            return tick();
-          })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
-                data: {
-                  passCode: '',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('calls verifyFactor with empty code if verify button is clicked', function () {
-          return setupSMS().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resChallengeSms);
-            test.form.smsSendCode().click();
-            return tick(test);
-          })
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.setNextResponse(resSuccess);
-              test.form.setAnswer('');
-              test.form.submit();
-              return tick(test);
-            })
-            .then(function (test) {
-              expect($.ajax).not.toHaveBeenCalled();
-              expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
-              expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
-            });
-        });
-        itp('calls verifyFactor with given code if verify button is clicked', function () {
-          return setupSMS().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resChallengeSms);
-            test.form.smsSendCode().click();
-            return tick(test);
-          })
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.setNextResponse(resSuccess);
-              test.form.setAnswer('123456');
-              test.form.submit();
-              return Expect.waitForSpyCall(test.successSpy);
-            })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
-                data: {
-                  passCode: '123456',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('shows errors if verify button is clicked and answer is empty', function () {
-          return setupSMS()
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.form.setAnswer('');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expect($.ajax).not.toHaveBeenCalled();
-              expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
-              expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
-            });
-        });
-        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
-          return setupSMS().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setRememberDevice(true);
-            test.setNextResponse(resChallengeSms);
-            test.form.smsSendCode().click();
-            return tick(test);
-          })
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.setNextResponse(resSuccess);
-              test.form.setAnswer('123456');
-              test.form.submit();
-              return Expect.waitForSpyCall(test.successSpy);
-            })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
-                data: {
-                  passCode: '123456',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('temporarily disables the send code button before displaying re-send \
-              to avoid exceeding the rate limit', function () {
-          var deferred = Util.mockRateLimiting();
-
-          return setupSMS().then(function (test) {
-            test.button = test.form.smsSendCode();
-            expect(test.button.trimmedText()).toEqual('Send code');
-            test.setNextResponse(resChallengeSms);
-            test.form.smsSendCode().click();
-            return tick(test);
-          }).then(function (test) {
-            expect(test.button.trimmedText()).toEqual('Sent');
-            deferred.resolve();
-            return test;
-          }).then(function (test) {
-            return tick().then(function () {
-              expect(test.button.length).toBe(1);
-              expect(test.button.trimmedText()).toEqual('Re-send code');
-            });
-          });
-        });
-        itp('displays only one error block if got an error resp on "Send code"', function () {
-          var deferred = Util.mockRateLimiting();
-          return setupSMS().then(function (test) {
-            test.setNextResponse(resResendError);
-            test.form.smsSendCode().click();
-            return tick(test);
-          })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorBox().length).toBe(1);
-              deferred.resolve();
-              test.setNextResponse(resResendError);
-              test.form.smsSendCode().click();
-              return tick(test);
-            })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorBox().length).toBe(1);
-            });
-        });
-        itp('shows proper account locked error after too many failed MFA attempts.', function () {
-          return setupSMS().then(function (test) {
-            test.setNextResponse(resMfaLocked);
-            test.form.setAnswer('12345');
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorBox().length).toBe(1);
-              expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-              expectErrorEvent(
-                test,
-                403,
-                'User Locked',
-                'mfa-verify',
-                {
-                  status: 403,
-                  responseType: 'json',
-                  responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
-                  responseJSON: {
-                    errorCode: 'E0000069',
-                    errorSummary: 'Your account was locked due to excessive MFA attempts.',
-                    errorLink: 'E0000069',
-                    errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
-                    errorCauses: []
-                  }
-                }
-              );
-            });
-        });
-        itp('hides error messages after clicking on send sms', function () {
-          return setupSMS().then(function (test) {
-            test.form.setAnswer('');
-            test.form.submit();
-            return tick(test);
-          })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorBox().length).toBe(1);
-              test.setNextResponse(resChallengeSms);
-              test.form.smsSendCode().click();
-              return tick(test);
-            })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(false);
-              expect(test.form.errorBox().length).toBe(0);
-            });
-        });
+      Expect.describe('SMS on Idx Pipeline', function () {
+        testSms(setupSMSWithIdx, resFactorChallengeSMS, resSuccess, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
       Expect.describe('Call', function () {
-        beforeEach(function () {
-          var  throttle = _.throttle;
-          spyOn(_, 'throttle').and.callFake(function (fn) {
-            return throttle(fn, 0);
-          });
-        });
+        testCall(setupCall, resChallengeCall, resSuccess, 'testStateToken');
+      });
 
-        itp('is call', function () {
-          return setupCall().then(function (test) {
-            expect(test.form.isCall()).toBe(true);
-          });
-        });
-        itp('shows the right beacon', function () {
-          return setupCall().then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-okta-call');
-          });
-        });
-        itp('does not autocomplete', function () {
-          return setupCall().then(function (test) {
-            expect(test.form.getAutocomplete()).toBe('off');
-          });
-        });
-        itp('shows the phone number in the title', function () {
-          return setupCall().then(function (test) {
-            expectTitleToBe(test, 'Voice Call Authentication');
-            expectSubtitleToBe(test, '(+1 XXX-XXX-7799)');
-          });
-        });
-        itp('has a button to make a call', function () {
-          return setupCall().then(function (test) {
-            var button = test.form.makeCall();
-            expect(button.length).toBe(1);
-            expect(button.is('a')).toBe(true);
-          });
-        });
-        itp('has a passCode field', function () {
-          return setupCall().then(function (test) {
-            expectHasAnswerField(test, 'tel');
-          });
-        });
-        itp('clears the passcode text field on clicking the "Call" button', function () {
-          return setupCall().then(function (test) {
-            test.button = test.form.makeCall();
-            test.form.setAnswer('123456');
-            test.setNextResponse(resChallengeCall);
-            expect(test.button.trimmedText()).toEqual('Call');
-            expect(test.form.answerField().val()).toEqual('123456');
-            test.form.makeCall().click();
-            return tick().then(function () {
-              expect(test.button.trimmedText()).toEqual('Calling');
-              expect(test.form.answerField().val()).toEqual('');
-              var button = test.form.submitButton();
-              var buttonClass = button.attr('class');
-              expect(buttonClass).not.toContain('link-button-disabled');
-              expect(button.prop('disabled')).toBe(false);
-              return test;
-            });
-          });
-        });
-        itp('calls verifyFactor with empty code if call button is clicked', function () {
-          return setupCall().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resChallengeCall);
-            test.form.makeCall().click();
-            return tick();
-          })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=false',
-                data: {
-                  passCode: '',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('calls verifyFactor with rememberDevice URL param', function () {
-          return setupCall().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setRememberDevice(true);
-            test.setNextResponse(resChallengeCall);
-            test.form.makeCall().click();
-            return tick();
-          })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=true',
-                data: {
-                  passCode: '',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('calls verifyFactor with empty code if verify button is clicked', function () {
-          return setupCall().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resChallengeCall);
-            test.form.makeCall().click();
-            return tick(test);
-          })
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.setNextResponse(resSuccess);
-              test.form.setAnswer('');
-              test.form.submit();
-              return tick(test);
-            })
-            .then(function (test) {
-              expect($.ajax).not.toHaveBeenCalled();
-              expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
-              expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
-            });
-        });
-        itp('calls verifyFactor with given code if verify button is clicked', function () {
-          return setupCall().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resChallengeCall);
-            test.form.makeCall().click();
-            return tick(test);
-          })
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.setNextResponse(resSuccess);
-              test.form.setAnswer('123456');
-              test.form.submit();
-              return Expect.waitForSpyCall(test.successSpy, test);
-            })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=false',
-                data: {
-                  passCode: '123456',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
-          return setupCall().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setRememberDevice(true);
-            test.setNextResponse(resChallengeCall);
-            test.form.makeCall().click();
-            return tick(test);
-          })
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.setNextResponse(resSuccess);
-              test.form.setAnswer('123456');
-              test.form.submit();
-              return Expect.waitForSpyCall(test.successSpy, test);
-            })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=true',
-                data: {
-                  passCode: '123456',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('shows errors if verify button is clicked and answer is empty', function () {
-          return setupCall()
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.form.setAnswer('');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expect($.ajax).not.toHaveBeenCalled();
-              expect(test.form.passCodeErrorField().length).toBe(1);
-              expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
-              expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
-            });
-        });
-        itp('temporarily disables the call button before displaying redial \
-              to avoid exceeding the rate limit', function () {
-          var deferred = Util.mockRateLimiting();
-
-          return setupCall().then(function (test) {
-            test.button = test.form.makeCall();
-            expect(test.button.trimmedText()).toEqual('Call');
-            test.setNextResponse(resChallengeCall);
-            test.form.makeCall().click();
-            return tick().then(function () {
-              expect(test.button.trimmedText()).toEqual('Calling');
-              deferred.resolve();
-              return test;
-            });
-          }).then(function (test) {
-            return tick().then(function () {
-              expect(test.button.length).toBe(1);
-              expect(test.button.trimmedText()).toEqual('Redial');
-            });
-          });
-        });
-        itp('displays only one error block if got an error resp on "Call"', function () {
-          var deferred = Util.mockRateLimiting();
-          return setupCall().then(function (test) {
-            test.setNextResponse(resResendError);
-            test.form.makeCall().click();
-            return tick(test);
-          })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorBox().length).toBe(1);
-              deferred.resolve();
-              test.setNextResponse(resResendError);
-              test.form.makeCall().click();
-              return tick(test);
-            })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorBox().length).toBe(1);
-            });
-        });
-        itp('shows proper account locked error after too many failed MFA attempts.', function () {
-          return setupCall().then(function (test) {
-            test.setNextResponse(resMfaLocked);
-            test.form.setAnswer('12345');
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorBox().length).toBe(1);
-              expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
-              expectErrorEvent(
-                test,
-                403,
-                'User Locked',
-                'mfa-verify',
-                {
-                  status: 403,
-                  responseType: 'json',
-                  responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
-                  responseJSON: {
-                    errorCode: 'E0000069',
-                    errorSummary: 'Your account was locked due to excessive MFA attempts.',
-                    errorLink: 'E0000069',
-                    errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
-                    errorCauses: []
-                  }
-                }
-              );
-            });
-        });
-        itp('hides error messages after clicking on call', function () {
-          return setupCall().then(function (test) {
-            test.form.setAnswer('');
-            test.form.submit();
-            return tick(test);
-          })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorBox().length).toBe(1);
-              return tick(test);
-            })
-            .then(function (test) {
-              test.setNextResponse(resChallengeCall);
-              test.form.makeCall().click();
-              return tick(test);
-            })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(false);
-              expect(test.form.errorBox().length).toBe(0);
-            });
-        });
-        itp('posts to resend link if call button is clicked for the second time', function () {
-          Util.speedUpPolling();
-          return setupCall().then(function (test) {
-            test.setNextResponse(resChallengeCall);
-            expect(test.form.makeCall().text()).toBe('Call');
-            test.form.makeCall().click();
-            return Expect.wait(function () {
-              return test.form.makeCall().text() === 'Redial';
-            }, test);
-          })
-            .then(function (test) {
-              expect(test.form.submitButton().prop('disabled')).toBe(false);
-              $.ajax.calls.reset();
-              test.setNextResponse(resChallengeCall);
-              test.form.makeCall().click();
-              return Expect.wait(function () {
-                return test.form.makeCall().text() === 'Calling';
-              }, test);
-            })
-            .then(function (test) {
-              return Expect.wait(function () {
-                return test.form.makeCall().text() === 'Redial';
-              }, test);
-            })
-            .then(function (test) {
-              expect(test.form.submitButton().prop('disabled')).toBe(false);
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                data: {stateToken: 'testStateToken'},
-                url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify/resend'
-              });
-            });
-        });
+      Expect.describe('Call on Idx Pipeline', function () {
+        testCall(setupCallWithIdx, resFactorChallengeCall, resSuccess, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
       Expect.describe('Email', function () {
@@ -2155,7 +2531,7 @@ function (Okta,
         });
       });
 
-      Expect.describe('Email Magic link', function () {
+      Expect.describe('Email on Idx Pipeline', function () {
         itp('posts email link if send email button is clicked once and changes button text', function () {
           return setupEmailMagicLink().then(function (test) {
             $.ajax.calls.reset();
@@ -2171,7 +2547,7 @@ function (Okta,
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
                 data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
-                url: 'http://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify?rememberDevice=false'
+                url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=false'
               });
             });
         });
@@ -2200,7 +2576,7 @@ function (Okta,
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
                 data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
-                url: 'https://foo.okta.com/api/v1/authn/factors/emfwddDdbM4o7sowA0g3/verify/resend'
+                url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3s/verify/resend'
               });
             });
         });
@@ -3481,357 +3857,41 @@ function (Okta,
         });
       });
       Expect.describe('Password', function () {
-        itp('is password', function () {
-          return setupPassword().then(function (test) {
-            expect(test.form.isPassword()).toBe(true);
-          });
-        });
-        itp('shows the right beacon', function () {
-          return setupPassword().then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-okta-password');
-          });
-        });
-        itp('shows the right title', function () {
-          return setupPassword().then(function (test) {
-            expectTitleToBe(test, 'Password');
-          });
-        });
-        itp('has a password field', function () {
-          return setupPassword().then(function (test) {
-            expectHasPasswordField(test, 'password');
-          });
-        });
-        itp('has remember device checkbox', function () {
-          return setupPassword().then(function (test) {
-            Expect.isVisible(test.form.rememberDeviceCheckbox());
-          });
-        });
-        itp('no auto push checkbox', function () {
-          return setupPassword({'features.autoPush': true}).then(function (test) {
-            expect(test.form.autoPushCheckbox().length).toBe(0);
-          });
-        });
-        itp('a password field type is "password" initially and can be switched between "text" and "password" \
-          by clicking on "show"/"hide" buttons', function () {
-          return setupPassword().then(function (test) {
-            var answer = test.form.passwordField();
-            expect(answer.attr('type')).toEqual('password');
-
-            test.form.showPasswordButton().click();
-            expect(test.form.passwordField().attr('type')).toEqual('text');
-
-            test.form.hidePasswordButton().click();
-            expect(test.form.passwordField().attr('type')).toEqual('password');
-          });
-        });
-        itp('calls authClient verifyFactor with correct args when submitted', function () {
-          return setupPassword().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setPassword('Abcd1234');
-            test.form.setRememberDevice(true);
-            test.setNextResponse(resSuccess);
-            test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy);
-          })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                url: 'http://rain.okta1.com:1802/api/v1/authn/factors/password/verify?rememberDevice=true',
-                data: {
-                  password: 'Abcd1234',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
-        itp('disables the "verify button" when clicked', function () {
-          return setupPassword().then(function (test) {
-            $.ajax.calls.reset();
-            test.form.setPassword('Abcd');
-            test.setNextResponse(resInvalidPassword);
-            test.form.submit();
-            var button = test.form.submitButton();
-            var buttonClass = button.attr('class');
-            expect(buttonClass).toContain('link-button-disabled');
-            expect(button.prop('disabled')).toBe(true);
-            return Expect.waitForFormError(test.form, test);
-          })
-            .then(function (test) {
-              var button = test.form.submitButton();
-              var buttonClass = button.attr('class');
-              expect(buttonClass).not.toContain('link-button-disabled');
-              expect(button.prop('disabled')).toBe(false);
-            });
-        });
-        itp('shows an error if error response from authClient', function () {
-          return setupPassword()
-            .then(function (test) {
-              test.setNextResponse(resInvalidPassword);
-              test.form.setPassword('wrong');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expect(test.form.hasErrors()).toBe(true);
-              expect(test.form.errorMessage()).toBe('Password is incorrect');
-              expectErrorEvent(
-                test,
-                403,
-                'Invalid Passcode/Answer',
-                'mfa-verify',
-                {
-                  status: 403,
-                  responseType: 'json',
-                  responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[{"errorSummary":"Password is incorrect"}]}',
-                  responseJSON: {
-                    errorCode: 'E0000068',
-                    errorSummary: 'Password is incorrect',
-                    errorLink: 'E0000068',
-                    errorId: 'oael69itLSMTbioahsUZ-7xiQ',
-                    errorCauses: [
-                      {
-                        errorSummary: 'Password is incorrect'
-                      }
-                    ]
-                  }
-                }
-              );
-            });
-        });
-        itp('shows errors if verify button is clicked and password is empty', function () {
-          return setupPassword()
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.form.setPassword('');
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expect($.ajax).not.toHaveBeenCalled();
-              expect(test.form.passwordErrorField().length).toBe(1);
-              expect(test.form.passwordErrorField().text()).toBe('Please enter a password');
-              expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
-            });
-        });
-        itp('sets the transaction on the appState on success response', function () {
-          return setupPassword()
-            .then(function (test) {
-              mockTransactions(test.router.controller);
-              $.ajax.calls.reset();
-              test.form.setPassword('Abcd1234');
-              test.setNextResponse(resSuccess);
-              test.form.submit();
-              return Expect.waitForSpyCall(test.successSpy, test);
-            })
-            .then(function (test) {
-              expectSetTransaction(test.router, resSuccess);
-            });
-        });
-        itp('sets the transaction error on the appState on error response', function () {
-          return setupPassword()
-            .then(function (test) {
-              mockTransactions(test.router.controller);
-              $.ajax.calls.reset();
-              test.form.setPassword('Abcd1234');
-              test.setNextResponse(resInvalidPassword);
-              test.form.submit();
-              return Expect.waitForFormError(test.form, test);
-            })
-            .then(function (test) {
-              expectSetTransactionError(test.router, resInvalidPassword);
-            });
-        });
+        testPassword(setupPassword, 'testStateToken');
+      });
+      Expect.describe('Password on Idx Pipeline', function () {
+        testPassword(setupPasswordWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
     });
+    
 
     Expect.describe('Beacon', function () {
-      itp('has no dropdown if there is only one factor', function () {
-        return setup(resVerifyTOTPOnly).then(function (test) {
-          var options = test.beacon.getOptionsLinks();
-          expect(options.length).toBe(0);
-        });
-      });
-      itp('has a dropdown if there is more than one factor', function () {
-        return setup(resAllFactors).then(function (test) {
-          var options = test.beacon.getOptionsLinks();
-          expect(options.length).toBe(15);
-        });
-      });
-      itp('shows the right options in the dropdown, removes okta totp if ' +
-         'okta push exists, and orders factors by security', function () {
-        return setup(resAllFactors).then(function (test) {
-          var options = test.beacon.getOptionsLinksText();
-          expect(options).toEqual([
-            'Okta Verify', 'Security Key (U2F)', 'Windows Hello', 'Yubikey', 'Google Authenticator',
-            'SMS Authentication', 'Voice Call Authentication', 'Email Authentication', 'Security Question',
-            'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password', 'SAML Factor', 'OIDC Factor'
-          ]);
-        });
-      });
-      itp('shows the right options in the dropdown, removes okta totp if ' +
-          'okta push exists, and orders factors by security (On-Prem, no Password)', function () {
-        return setup(resAllFactorsOnPrem).then(function (test) {
-          var options = test.beacon.getOptionsLinksText();
-          expect(options).toEqual([
-            'Okta Verify', 'Yubikey', 'Google Authenticator', 'SMS Authentication', 'Security Question',
-            'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'SAML Factor', 'OIDC Factor'
-          ]);
-        });
-      });
-      itp('opens dropDown options when dropDown link is clicked', function () {
-        return setup(resAllFactors).then(function (test) {
-          expect(test.beacon.getOptionsList().is(':visible')).toBe(false);
-          test.beacon.dropDownButton().click();
-          expect(test.beacon.getOptionsList().is(':visible')).toBe(true);
-        });
-      });
-      itp('updates beacon image when different factor is selected', function () {
-        return setup(resAllFactors)
-          .then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-okta-security-question');
-            test.beacon.dropDownButton().click();
-            clickFactorInDropdown(test, 'GOOGLE_AUTH');
-            return tick(test);
-          })
-          .then(function (test) {
-            expectHasRightBeaconImage(test, 'mfa-google-auth');
-          });
-      });
-      itp('changes selectedFactor if option is chosen', function () {
-        return setup(resAllFactors).then(function (test) {
-          test.beacon.dropDownButton().click();
-          clickFactorInDropdown(test, 'GOOGLE_AUTH');
-          expect(test.router.navigate)
-            .toHaveBeenCalledWith('signin/verify/google/token%3Asoftware%3Atotp', { trigger: true });
-        });
-      });
-      itp('is able to switch between factors even when the auth status is MFA_CHALLENGE', function () {
-        spyOn(Duo, 'init');
-        return setup(resAllFactors).then(function (test) {
-          $.ajax.calls.reset();
-          test.setNextResponse(resChallengeDuo);
-          test.beacon.dropDownButton().click();
-          clickFactorInDropdown(test, 'DUO');
-          return tick(test);
-        })
-          .then(function (test) {
-            test.setNextResponse(resAllFactors);
-            test.beacon.dropDownButton().click();
-            clickFactorInDropdown(test, 'GOOGLE_AUTH');
-            return tick(test);
-          })
-          .then(function (test) {
-            expect(test.router.navigate)
-              .toHaveBeenCalledWith('signin/verify/google/token%3Asoftware%3Atotp', { trigger: true });
-          });
-      });
+      beaconTest(resAllFactors, resVerifyTOTPOnly, resAllFactorsOnPrem);
     });
 
+    Expect.describe('Beacon on Idx Pipeline', function () {
+      beaconTest(resFactorRequiredAllFactors, resFactorRequiredQuestion, resAllFactorsOnPrem);
+    });
+
+
     Expect.describe('Switch between different factors and verify a factor', function () {
-      itp('Verify Security Question after switching from SMS MFA_CHALLENGE', function () {
+      switchFactorTest(setupSMS, setupOktaPushWithTOTP, setupGoogleTOTPAutoPushTrue, resAllFactors, resSuccess, resChallengeSms, 'testStateToken');
+      itp('Verify DUO after switching from SMS MFA_CHALLENGE', function () {
         return setupSMS().then(function (test) {
           test.setNextResponse(resChallengeSms);
           test.form.smsSendCode().click();
           return tick(test);
         })
           .then(function (test) {
-            test.setNextResponse(resAllFactors);
+            spyOn(Duo, 'init');
+            test.setNextResponse([resAllFactors, resChallengeDuo]);
             test.beacon.dropDownButton().click();
-            clickFactorInDropdown(test, 'QUESTION');
-            return Expect.waitForVerifyQuestion(test);
-          })
-          .then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resSuccess);
-            // We cannot use test.form here since refers to SMS form,
-            // so query for the security question form.
-            test.questionForm = new MfaVerifyForm($sandbox.find('.o-form'));
-            test.questionForm.setAnswer('food');
-            test.questionForm.submit();
-            return Expect.waitForSpyCall(test.successSpy);
+            clickFactorInDropdown(test, 'DUO');
+            return Expect.waitForVerifyDuo(test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=false',
-              data: {
-                answer: 'food',
-                stateToken: 'testStateToken'
-              }
-            });
+            expect(Duo.init).toHaveBeenCalled();
           });
-      });
-      itp('Verify Push after switching from Google TOTP', function () {
-        return setupGoogleTOTPAutoPushTrue({'features.autoPush': true})
-          .then(function (test) {
-            test.setNextResponse(resChallengePush);
-            test.beacon.dropDownButton().click();
-            clickFactorInDropdown(test, 'OKTA_VERIFY_PUSH');
-            return Expect.waitForVerifyPush(test);
-          })
-          .then(function (test) {
-            var button = test.form.submitButton();
-            var buttonClass = button.attr('class');
-            expect(buttonClass).toContain('link-button-disabled');
-            expect(button.prop('disabled')).toBe(true);
-          });
-      });
-      itp('Verify Google TOTP after switching from Push MFA_CHALLENGE', function () {
-        return setupOktaPushWithTOTP()
-          .then(function (test) {
-            test.beacon.dropDownButton().click();
-            clickFactorInDropdown(test, 'GOOGLE_AUTH');
-            return tick(test);
-          })
-          .then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resSuccess);
-            // We cannot use test.form here since refers to SMS form,
-            // so query for the google TOTP form.
-            test.googleTOTPForm = new MfaVerifyForm($sandbox.find('.o-form'));
-            test.googleTOTPForm.setAnswer('123456');
-            test.googleTOTPForm.submit();
-            return tick(test);
-          })
-          .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=false',
-              data: {
-                passCode: '123456',
-                stateToken: 'testStateToken'
-              }
-            });
-          });
-      });
-      itp('Verify Okta TOTP on active Push MFA_CHALLENGE', function () {
-        return setupOktaPushWithTOTP().then(function (test) {
-          // using resTimeoutPush here for the test. This needs to be resTimeoutPush
-          // or resRejectedPush, to set the transaction to MFA_CHALLENGE state and
-          // mimic an active poll (Note: The transaction state is not set to MFA_CHALLENGE
-          // during polling).
-          return setupPolling(test, resTimeoutPush)
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.setNextResponse([resAllFactors, resSuccess]);
-              test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
-              // click or enter code in the the Totp form
-              test.totpForm.inlineTOTPAdd().click();
-              test.totpForm.setAnswer('654321');
-              test.totpForm.inlineTOTPVerify().click();
-              return tick(test);
-            })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(2);
-              Expect.isJsonPost($.ajax.calls.argsFor(1), {
-                url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify?rememberDevice=false',
-                data: {
-                  passCode: '654321',
-                  stateToken: 'testStateToken'
-                }
-              });
-            });
-        });
       });
       itp('Verify Okta TOTP success on Push MFA_REJECTED', function () {
         return setupOktaPushWithTOTP().then(function (test) {
@@ -3885,23 +3945,39 @@ function (Okta,
             });
         });
       });
-      itp('Verify DUO after switching from SMS MFA_CHALLENGE', function () {
-        return setupSMS().then(function (test) {
-          test.setNextResponse(resChallengeSms);
-          test.form.smsSendCode().click();
-          return tick(test);
-        })
-          .then(function (test) {
-            spyOn(Duo, 'init');
-            test.setNextResponse([resAllFactors, resChallengeDuo]);
-            test.beacon.dropDownButton().click();
-            clickFactorInDropdown(test, 'DUO');
-            return Expect.waitForVerifyDuo(test);
-          })
-          .then(function () {
-            expect(Duo.init).toHaveBeenCalled();
-          });
+      itp('Verify Okta TOTP on active Push MFA_CHALLENGE', function () {
+        return setupOktaPushWithTOTP().then(function (test) {
+          // using resTimeoutPush here for the test. This needs to be resTimeoutPush
+          // or resRejectedPush, to set the transaction to MFA_CHALLENGE state and
+          // mimic an active poll (Note: The transaction state is not set to MFA_CHALLENGE
+          // during polling).
+          return setupPolling(test, resTimeoutPush)
+            .then(function (test) {
+              $.ajax.calls.reset();
+              test.setNextResponse([resAllFactors, resSuccess]);
+              test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
+              // click or enter code in the the Totp form
+              test.totpForm.inlineTOTPAdd().click();
+              test.totpForm.setAnswer('654321');
+              test.totpForm.inlineTOTPVerify().click();
+              return tick(test);
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(2);
+              Expect.isJsonPost($.ajax.calls.argsFor(1), {
+                url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify?rememberDevice=false',
+                data: {
+                  passCode: '654321',
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
       });
+    });
+
+    Expect.describe('Switch between different factors and verify a factor on Idx Pipeline', function () {
+      switchFactorTest(setupEmailWithIdx, setupOktaPushWithTOTPWithIdx, setupGoogleTOTPAutoPushTrueWithIdx, resFactorRequiredAllFactors, resSuccess, resFactorChallengeEmail, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
     });
 
     Expect.describe('Browser back button does not change view', function () {
