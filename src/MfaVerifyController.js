@@ -133,7 +133,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
       var factorIndex = options.factorIndex;
 
       if (!provider) {
-        return factors.findWhere({ factorType: factorType, isCombinedFactor: true });
+        return factors.findWhere({ factorType: factorType, isFactorTypeVerification: true });
       } else if (factors.hasMultipleFactorsOfSameType(factorType) && factorIndex) {
         return factors.getFactorByTypeAndIndex(factorType, factorIndex);
       } else {

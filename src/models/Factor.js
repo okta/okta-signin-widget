@@ -194,7 +194,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
           return _.contains(['sms', 'call', 'email', 'token', 'token:software:totp', 'question'], factorType);
         }
       },
-      isCombinedFactor: {
+      isFactorTypeVerification: {
         deps: ['provider', 'id'],
         fn: function (provider, id) {
           return provider === undefined && id === undefined;
