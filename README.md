@@ -84,16 +84,16 @@ To use the CDN, include links to the JS and CSS files in your HTML:
 ```html
 <!-- Latest CDN production Javascript and CSS: 2.14.0 -->
 <script
-  src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.14.0/js/okta-sign-in.min.js"
+  src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.16.0/js/okta-sign-in.min.js"
   type="text/javascript"></script>
 <link
-  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.14.0/css/okta-sign-in.min.css"
+  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.16.0/css/okta-sign-in.min.css"
   type="text/css"
   rel="stylesheet"/>
 
 <!-- Theme file: Customize or replace this file if you want to override our default styles -->
 <link
-  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.14.0/css/okta-theme.css"
+  href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.16.0/css/okta-theme.css"
   type="text/css"
   rel="stylesheet"/>
 ```
