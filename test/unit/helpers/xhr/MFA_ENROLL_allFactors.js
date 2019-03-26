@@ -62,6 +62,13 @@ define({
         "factorType": "token:software:totp",
         "provider": "OKTA",
         "vendorName": "OKTA",
+        "policy": {
+          "enrollment": {
+            "enrolled": 0,
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
         "_links": {
           "enroll": {
             "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
@@ -214,17 +221,17 @@ define({
         "factorType":"assertion:saml2",
         "provider":"GENERIC_SAML",
         "vendorName":"Third Party Factor",
-        "_links":{  
-           "enroll":{  
+        "_links":{
+           "enroll":{
               "href":"http://rain.okta1.com:1802/api/v1/authn/factors",
-              "hints":{  
-                 "allow":[  
+              "hints":{
+                 "allow":[
                     "POST"
                  ]
               }
            }
         },
-        "profile":{  
+        "profile":{
            "user":"inca@clouditude.net"
         }
      }, {

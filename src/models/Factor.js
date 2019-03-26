@@ -193,6 +193,12 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         fn: function (factorType) {
           return _.contains(['sms', 'call', 'email', 'token', 'token:software:totp', 'question'], factorType);
         }
+      },
+      isFactorTypeVerification: {
+        deps: ['provider', 'id'],
+        fn: function (provider, id) {
+          return provider === undefined && id === undefined;
+        }
       }
     },
 
@@ -244,9 +250,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         if (transaction.status === 'MFA_REQUIRED' ||
           transaction.status === 'FACTOR_REQUIRED' ||
           this.appState.get('promptForFactorInUnauthenticated')) {
-          var factor = _.findWhere(transaction.factors, {
-            id: this.get('id')
-          });
+          var factor = this._findFactor(transaction);
           promise = factor.verify(data);
         }
 
@@ -296,6 +300,21 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
       });
     },
 
+    _findFactor: function (transaction) {
+      var factor;
+      if (transaction.factorTypes) {
+        factor = _.findWhere(transaction.factorTypes, {
+          factorType: this.get('factorType')
+        });
+      }
+      if (!factor) {
+        factor = _.findWhere(transaction.factors, {
+          id: this.get('id')
+        });
+      }
+      return factor;
+    },
+
     pushFactorHasAutoPush: function () {
       return this.settings.get('features.autoPush') && this.get('factorType') === 'push';
     }
@@ -317,7 +336,12 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
       this.lastUsedFactor = factors[0];
 
       var oktaPushFactor = _.findWhere(factors, { provider: 'OKTA', factorType: 'push' });
-      var totpFactor = _.findWhere(factors, { provider: 'OKTA', factorType: 'token:software:totp' });
+      var totpFactor;
+      if (_.where(factors, { factorType: 'push' }).length > 1) {
+        totpFactor = _.findWhere(factors, { factorType: 'token:software:totp' });
+      } else {
+        totpFactor = _.findWhere(factors, { provider: 'OKTA', factorType: 'token:software:totp' });
+      }
       if (!oktaPushFactor || !totpFactor) {
         return factors;
       }
@@ -365,6 +389,24 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
 
     getFirstUnenrolledRequiredFactor: function () {
       return this.findWhere({ required: true, enrolled: false });
+    },
+
+    _getFactorsOfType: function (factorType) {
+      return this.where({ factorType: factorType });
+    },
+
+    getFactorIndex: function (factorType, factorId) {
+      return this._getFactorsOfType(factorType).findIndex(function (factor) {
+        return factor.get('id') === factorId;
+      });
+    },
+
+    hasMultipleFactorsOfSameType: function (factorType) {
+      return this._getFactorsOfType(factorType).length > 1;
+    },
+
+    getFactorByTypeAndIndex: function (factorType, factorIndex) {
+      return this._getFactorsOfType(factorType)[factorIndex];
     }
 
   });

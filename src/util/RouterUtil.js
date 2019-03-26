@@ -24,6 +24,7 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
   var fn = {};
 
   var verifyUrlTpl = Okta.tpl('signin/verify/{{provider}}/{{factorType}}');
+  var verifyUrlMultipleTpl = Okta.tpl('signin/verify/{{provider}}/{{factorType}}/{{factorIndex}}');
   var verifyUrlNoProviderTpl = Okta.tpl('signin/verify/{{factorType}}');
   var enrollFactorUrlTpl = Okta.tpl('signin/enroll/{{provider}}/{{factorType}}');
   var activateFactorUrlTpl = Okta.tpl(
@@ -36,8 +37,15 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
     '&token={{{token}}}&redirectUrl={{{redirectUrl}}}'
   );
 
-  fn.createVerifyUrl = function (provider, factorType) {
-    if (provider) {
+  fn.createVerifyUrl = function (provider, factorType, factorIndex) {
+    if (provider && factorIndex) {
+      return verifyUrlMultipleTpl({
+        provider: encodeURIComponent(provider.toLowerCase()),
+        factorType: encodeURIComponent(factorType),
+        factorIndex: encodeURIComponent(factorIndex)
+      });
+    }
+    else if (provider) {
       return verifyUrlTpl({
         provider: encodeURIComponent(provider.toLowerCase()),
         factorType: encodeURIComponent(factorType)

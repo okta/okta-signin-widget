@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 52], max-statements: [2, 68], camelcase: 0 */
+/* eslint camelcase: 0 */
 define([
   'okta',
   'q',
@@ -18,6 +18,7 @@ define([
   'helpers/xhr/MFA_REQUIRED_allFactors_OnPrem',
   'helpers/xhr/MFA_REQUIRED_oktaVerifyTotpOnly',
   'helpers/xhr/MFA_REQUIRED_oktaVerifyPushOnly',
+  'helpers/xhr/MFA_REQUIRED_multipleOktaVerify',
   'helpers/xhr/MFA_REQUIRED_windows_hello',
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
   'helpers/xhr/FACTOR_REQUIRED_oktaPassword',
@@ -71,6 +72,7 @@ function (Okta,
   resAllFactorsOnPrem,
   resVerifyTOTPOnly,
   resVerifyPushOnly,
+  resVerifyMultiple,
   resRequiredWindowsHello,
   resPassword,
   resFactorRequiredPassword,
@@ -133,6 +135,10 @@ function (Okta,
     test.beacon.getOptionsLinks().eq(factors[factorName]).click();
   }
 
+  function deepClone (res) {
+    return JSON.parse(JSON.stringify(res));
+  }
+
   Expect.describe('MFA Verify', function () {
 
     function createRouter (baseUrl, authClient, successSpy, settings) {
@@ -191,6 +197,47 @@ function (Okta,
               router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
               return Expect.waitForMfaVerify();
             }
+          }
+        })
+        .then(function () {
+          var $forms = $sandbox.find('.o-form');
+          var forms = _.map($forms, function (form) {
+            return new MfaVerifyForm($(form));
+          });
+          if (forms.length === 1) {
+            forms = forms[0];
+          }
+          var beacon = new Beacon($sandbox);
+          return {
+            router: router,
+            form: forms,
+            beacon: beacon,
+            ac: authClient,
+            setNextResponse: setNextResponse,
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
+          };
+        });
+    }
+
+    function setupNoProvider (res, selectedFactorProps, settings) {
+      var setNextResponse = Util.mockAjax();
+      var baseUrl = 'https://foo.com';
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var successSpy = jasmine.createSpy('success');
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+      var router = createRouter(baseUrl, authClient, successSpy, settings);
+      router.on('afterError', afterErrorHandler);
+      setNextResponse(res);
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForMfaVerify()
+        .then(function () {
+          if (selectedFactorProps) {
+            var factors = router.appState.get('factors');
+            var selectedFactor = factors.findWhere(selectedFactorProps),
+                factorType = selectedFactor.get('factorType');
+            router.verifyNoProvider(factorType);
+            return Expect.waitForMfaVerify();
           }
         })
         .then(function () {
@@ -289,6 +336,21 @@ function (Okta,
         _.extend({ delay: 0 }, labelsLoginJa),
         _.extend({ delay: 0 }, labelsCountryJa)
       ]);
+    }
+
+    var setupMultipleOktaVerify = _.partial(setup, resVerifyMultiple, { factorType: 'push' });
+
+    function setupMultipleOktaTOTP (settings) {
+      var totpOnly = deepClone(resVerifyMultiple);
+      totpOnly.response._embedded.factors = _.where(totpOnly.response._embedded.factors, { factorType: 'token:software:totp'});
+      return setupNoProvider(totpOnly, { factorType: 'token:software:totp' }, settings);
+    }
+
+    function setupMultipleOktaPush (settings) {
+      var pushOnly = deepClone(resVerifyMultiple);
+      pushOnly.response._embedded.factors = _.where(pushOnly.response._embedded.factors, { factorType: 'push'});
+      delete pushOnly.response._embedded.factorTypes;
+      return setup(pushOnly, { factorType: 'push' }, settings);
     }
 
     function setupU2F (options) {
@@ -599,7 +661,7 @@ function (Okta,
         return setup(allFactorsRes).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify', 'Security Key (U2F)', 'Windows Hello', 'Yubikey', 'Google Authenticator',
+            'Okta Verify (Test Device)', 'Security Key (U2F)', 'Windows Hello', 'Yubikey', 'Google Authenticator',
             'SMS Authentication', 'Voice Call Authentication', 'Email Authentication', 'Security Question',
             'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password', 'SAML Factor', 'OIDC Factor'
           ]);
@@ -610,7 +672,7 @@ function (Okta,
         return setup(allFactorOnPremRes).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify', 'Yubikey', 'Google Authenticator', 'SMS Authentication', 'Security Question',
+            'Okta Verify (Test Device)', 'Yubikey', 'Google Authenticator', 'SMS Authentication', 'Security Question',
             'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'SAML Factor', 'OIDC Factor'
           ]);
         });
@@ -1558,7 +1620,7 @@ function (Okta,
           expectTitleToBe(test, 'Google Authenticator');
         });
       });
-      itp('shows the right subtitle with factorName', function () {
+      itp('shows the right subtitle for Google Auth', function () {
         return setupFn().then(function (test) {
           expectSubtitleToBe(test, 'Enter your Google Authenticator passcode');
         });
@@ -2024,6 +2086,11 @@ function (Okta,
         itp('shows the right beacon for Okta TOTP', function () {
           return setupOktaTOTP().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-okta-verify');
+          });
+        });
+        itp('shows the right subtitle for Okta TOTP', function () {
+          return setupOktaTOTP().then(function (test) {
+            expectSubtitleToBe(test, 'Enter your Okta Verify passcode');
           });
         });
         itp('no auto push checkbox for Okta TOTP', function () {
@@ -3863,7 +3930,7 @@ function (Okta,
         testPassword(setupPasswordWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
     });
-    
+
 
     Expect.describe('Beacon', function () {
       beaconTest(resAllFactors, resVerifyTOTPOnly, resAllFactorsOnPrem);
@@ -4136,6 +4203,16 @@ function (Okta,
     });
 
     Expect.describe('Multiple Factors of the same type', function () {
+      function getPageForm () {
+        var $forms = $sandbox.find('.o-form');
+        var forms = _.map($forms, function (form) {
+          return new MfaVerifyForm($(form));
+        });
+        if (forms.length === 1) {
+          forms = forms[0];
+        }
+        return forms;
+      }
 
       Expect.describe('General', function () {
         itp('Defaults to the last used factor', function () {
@@ -4435,6 +4512,271 @@ function (Okta,
                   }
                 }
               ]);
+            });
+        });
+      });
+
+      Expect.describe('Okta Verify TOTP', function () {
+        itp('shows the right beacon', function () {
+          return setupMultipleOktaTOTP().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-okta-verify');
+          });
+        });
+
+        itp('shows the right title', function () {
+          return setupMultipleOktaTOTP().then(function (test) {
+            expectTitleToBe(test, 'Okta Verify');
+          });
+        });
+
+        itp('shows the right subtitle', function () {
+          return setupMultipleOktaTOTP().then(function (test) {
+            expectSubtitleToBe(test, 'Enter code from any registered Okta Verify device.');
+          });
+        });
+
+        itp('has a passCode field', function () {
+          return setupMultipleOktaTOTP().then(function (test) {
+            expectHasAnswerField(test, 'tel');
+          });
+        });
+
+        itp('has remember device checkbox', function () {
+          return setupMultipleOktaTOTP().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
+
+        itp('calls factorType-url with correct args', function () {
+          return setupMultipleOktaTOTP().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('123456');
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/token:software:totp/verify?rememberDevice=false',
+                data: {
+                  passCode: '123456',
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
+
+        itp('calls factorType-url with correct args and rememberDevice URL param', function () {
+          return setupMultipleOktaTOTP().then(function (test) {
+            $.ajax.calls.reset();
+            test.form.setAnswer('123456');
+            test.form.setRememberDevice(true);
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/token:software:totp/verify?rememberDevice=true',
+                data: {
+                  passCode: '123456',
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
+      });
+
+      Expect.describe('Okta Verify Push', function () {
+        itp('shows an Okta Push form', function () {
+          return setupMultipleOktaPush().then(function (test) {
+            expect(test.form.isPush()).toBe(true);
+          });
+        });
+
+        itp('shows the right beacon', function () {
+          return setupMultipleOktaPush().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-okta-verify');
+          });
+        });
+
+        itp('shows the right title (with device name)', function () {
+          return setupMultipleOktaPush().then(function (test) {
+            expectTitleToBe(test, 'Okta Verify (Test Device 1)');
+          });
+        });
+
+        itp('shows one item in the factors dropdown for each enrolled device', function () {
+          return setupMultipleOktaPush().then(function (test) {
+            expect(test.beacon.getOptionsLinks().length).toBe(3);
+            expect(test.beacon.getOptionsLinksText()).toEqual([
+              'Okta Verify (Test Device 1)', 'Okta Verify (Test Device 2)', 'Okta Verify (Test Device 3)'
+            ]);
+          });
+        });
+
+        itp('updates title when different push factor is selected', function () {
+          return setupMultipleOktaPush().then(function (test) {
+            expectTitleToBe(test, 'Okta Verify (Test Device 1)');
+            test.beacon.dropDownButton().click();
+            test.beacon.getOptionsLinks().eq('1').click();
+            return tick(test);
+          })
+            .then(function (test) {
+              test.form = getPageForm();
+              expectTitleToBe(test, 'Okta Verify (Test Device 2)');
+            });
+        });
+
+        itp('calls verifyFactor with correct args for 1st push on the list', function () {
+          return setupMultipleOktaPush().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/oktaVerifyPush1/verify?rememberDevice=false',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
+
+        itp('calls verifyFactor with correct args for 2nd push on the list', function () {
+          return setupMultipleOktaPush().then(function (test) {
+            test.beacon.dropDownButton().click();
+            test.beacon.getOptionsLinks().eq('1').click();
+            return tick(test);
+          })
+            .then(function (test) {
+              test.form = getPageForm();
+              $.ajax.calls.reset();
+              test.setNextResponse(resSuccess);
+              test.form.submit();
+              return Expect.waitForSpyCall(test.successSpy);
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/oktaVerifyPush2/verify?rememberDevice=false',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
+      });
+
+      Expect.describe('Okta Verify Push with TOTP', function () {
+        itp('shows an Okta Push form', function () {
+          return setupMultipleOktaVerify().then(function (test) {
+            expect(test.form[0].isPush()).toBe(true);
+            expect(test.form[1].isInlineTOTP()).toBe(true);
+          });
+        });
+
+        itp('shows one item in the factors dropdown for each enrolled push factor', function () {
+          return setupMultipleOktaPush().then(function (test) {
+            expect(test.beacon.getOptionsLinks().length).toBe(3);
+            expect(test.beacon.getOptionsLinksText()).toEqual([
+              'Okta Verify (Test Device 1)', 'Okta Verify (Test Device 2)', 'Okta Verify (Test Device 3)'
+            ]);
+          });
+        });
+
+        itp('calls factorType-url with correct args for 1st TOTP on the list', function () {
+          return setupMultipleOktaVerify().then(function (test) {
+            $.ajax.calls.reset();
+            test.form[1].inlineTOTPAdd().click();
+            test.form[1].setAnswer('654321');
+            test.setNextResponse(resSuccess);
+            test.form[1].inlineTOTPVerify().click();
+            return tick();
+          })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/token:software:totp/verify?rememberDevice=false',
+                data: {
+                  passCode: '654321',
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
+
+        itp('calls verifyFactor with correct args for 1st push on the list', function () {
+          return setupMultipleOktaVerify().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form[0].submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/oktaVerifyPush1/verify?rememberDevice=false',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
+
+        itp('calls factorType-url with correct args for 2nd TOTP on the list', function () {
+          return setupMultipleOktaVerify().then(function (test) {
+            test.beacon.dropDownButton().click();
+            test.beacon.getOptionsLinks().eq('1').click();
+            return tick(test);
+          })
+            .then(function (test) {
+              $.ajax.calls.reset();
+              test.form = getPageForm();
+              test.form[1].inlineTOTPAdd().click();
+              test.form[1].setAnswer('654321');
+              test.setNextResponse(resSuccess);
+              test.form[1].inlineTOTPVerify().click();
+              return tick();
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/token:software:totp/verify?rememberDevice=false',
+                data: {
+                  passCode: '654321',
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
+
+        itp('calls verifyFactor with correct args for 2nd push on the list', function () {
+          return setupMultipleOktaVerify().then(function (test) {
+            test.beacon.dropDownButton().click();
+            test.beacon.getOptionsLinks().eq('1').click();
+            return tick(test);
+          })
+            .then(function (test) {
+              test.form = getPageForm();
+              $.ajax.calls.reset();
+              test.setNextResponse(resSuccess);
+              test.form[0].submit();
+              return Expect.waitForSpyCall(test.successSpy);
+            })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/factors/oktaVerifyPush2/verify?rememberDevice=false',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
             });
         });
       });

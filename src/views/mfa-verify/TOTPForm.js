@@ -28,7 +28,11 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
       var maskPasswordField = this.model.get('provider') === 'RSA' || this.model.get('provider') === 'DEL_OATH';
 
       this.title = factorName;
-      this.subtitle = Okta.loc('mfa.challenge.title', 'login', [factorName]);
+      if (this.model.get('isFactorTypeVerification')) {
+        this.subtitle = Okta.loc('mfa.challenge.totp.subtitle.multiple', 'login', [factorName]);
+      } else {
+        this.subtitle = Okta.loc('mfa.challenge.title', 'login', [factorName]);
+      }
 
       this.addInput({
         label: false,
