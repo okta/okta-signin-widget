@@ -42,7 +42,7 @@ function (Okta, TimeUtil) {
     },
     'WEBAUTHN': {
       label: 'factor.webauthn',
-      description: 'factor.webauthn.description',
+      description: Okta.loc('factor.webauthn.description', 'login'),
       iconClassName: 'mfa-webauthn',
       sortOrder: 2
     },

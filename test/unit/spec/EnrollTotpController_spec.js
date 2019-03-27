@@ -883,7 +883,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       });
     }
 
-    function testScanQRCodeManualSetup (setupAndEnrollOktaTotpFn, setupOktaTotpFn, totpEnrollSuccessRes, expectedStateToken) {
+    function testScanQRCodeManualSetup (setupAndEnrollOktaTotpFn, setupOktaTotpFn, totpEnrollSuccessRes) {
       itp('is rendered on "Can\'t scan" link click', function () {
         return setupAndEnrollOktaTotpFn()
           .then(function (test) {
