@@ -3780,14 +3780,14 @@ function (Okta,
           });
         });
         itp('redirects to third party when Verify button is clicked', function () {
-          spyOn(SharedUtil, 'redirect');
+          spyOn(LoginUtil, 'redirectTopFrame');
           return setupCustomSAMLFactor().then(function (test) {
             test.setNextResponse([resChallengeCustomSAMLFactor, resSuccess]);
             test.form.submit();
-            return Expect.waitForSpyCall(SharedUtil.redirect);
+            return Expect.waitForSpyCall(LoginUtil.redirectTopFrame);
           })
             .then(function () {
-              expect(SharedUtil.redirect).toHaveBeenCalledWith(
+              expect(LoginUtil.redirectTopFrame).toHaveBeenCalledWith(
                 'http://rain.okta1.com:1802/policy/mfa-saml-idp-redirect?okta_key=mfa.redirect.id'
               );
             });
@@ -3865,14 +3865,14 @@ function (Okta,
           });
         });
         itp('redirects to third party when Verify button is clicked', function () {
-          spyOn(SharedUtil, 'redirect');
+          spyOn(LoginUtil, 'redirectTopFrame');
           return setupCustomOIDCFactor().then(function (test) {
             test.setNextResponse([resChallengeCustomOIDCFactor, resSuccess]);
             test.form.submit();
-            return Expect.waitForSpyCall(SharedUtil.redirect);
+            return Expect.waitForSpyCall(LoginUtil.redirectTopFrame);
           })
             .then(function () {
-              expect(SharedUtil.redirect).toHaveBeenCalledWith(
+              expect(LoginUtil.redirectTopFrame).toHaveBeenCalledWith(
                 'http://rain.okta1.com:1802/policy/mfa-oidc-idp-redirect?okta_key=mfa.redirect.id'
               );
             });

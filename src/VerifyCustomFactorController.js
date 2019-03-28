@@ -14,12 +14,12 @@ define([
   'okta',
   'util/FormController',
   'views/shared/FooterSignout',
-  'util/FactorUtil'
+  'util/FactorUtil',
+  'util/Util'
 ],
-function (Okta, FormController, FooterSignout, FactorUtil) {
+function (Okta, FormController, FooterSignout, FactorUtil, Util) {
 
   var _ = Okta._;
-  var { Util } = Okta.internal.util;
 
   return FormController.extend({
 
@@ -51,8 +51,8 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
             .then((trans) => {
               setTransaction(trans);
               var url = this.appState.get('verifyCustomFactorRedirectUrl');
-              if(url !== null) {
-                Util.redirect(url);
+              if (url !== null) {
+                Util.redirectTopFrame(url);
               }
             })
             .fail(function (err) {

@@ -177,6 +177,10 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     form.submit();
   };
 
+  Util.redirectTopFrame = function (url) {
+    window.top.location = url;
+  };
+
   return Util;
 
 });
