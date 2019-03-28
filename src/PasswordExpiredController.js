@@ -37,10 +37,15 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
       },
       save: function () {
         return this.doTransaction(function (transaction) {
-          return transaction.changePassword({
+          this.trigger('save');
+          this.appState.trigger('loading', true);
+          var result = transaction.changePassword({
             oldPassword: this.get('oldPassword'),
             newPassword: this.get('newPassword')
           });
+          this.appState.trigger('loading', false);
+          this.appState.trigger('removeLoading');
+          return result;
         });
       }
     },
