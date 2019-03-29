@@ -557,7 +557,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       testEnrollPhoneNumber(setup, resEnrollSuccess);
     });
 
-    Expect.describe('Enroll phone number with new pipeline', function () {
+    Expect.describe('Enroll phone number on Idx Pipeline', function () {
       testEnrollPhoneNumber(setupWithFactorEnroll, resFactorEnrollActivateCall);
     });
 
@@ -626,7 +626,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           });
       });
     });
-    Expect.describe('Verify phone number with new pipeline', function () {
+    Expect.describe('Verify phone number on Idx Pipeline', function () {
       testVerifyPhoneNumber(setupWithFactorEnroll, setupAndSendValidCodeWithFactorEnroll, resFactorEnrollActivateCall, resFactorEnrollExistingPhone, '01testStateToken');
     });
 

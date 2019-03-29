@@ -14,11 +14,10 @@ define([
   'okta',
   'util/FormController',
   'util/ValidationUtil',
-  'util/FactorUtil',
   'views/enroll-factors/Footer',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, ValidationUtil, FactorUtil, Footer, TextBox) {
+function (Okta, FormController, ValidationUtil, Footer, TextBox) {
 
   var _ = Okta._;
 

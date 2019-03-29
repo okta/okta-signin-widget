@@ -28,11 +28,13 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({ url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+      var successSpy = jasmine.createSpy('success');
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
-        'features.router': startRouter
+        'features.router': startRouter,
+        globalSuccessFn: successSpy,
       });
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
@@ -51,6 +53,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
             form: new Form($sandbox),
             ac: authClient,
             setNextResponse: setNextResponse,
+            successSpy: successSpy,
             afterErrorHandler: afterErrorHandler
           });
         });
@@ -99,7 +102,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
         test.form.setConfirmPassword('somepassword');
         test.setNextResponse(resSuccess);
         test.form.submit();
-        return tick();
+        return Expect.waitForSpyCall(test.successSpy, test);
       })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);

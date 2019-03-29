@@ -260,7 +260,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
     testEnrollQuestion(resAllFactors, 'testStateToken');
   });
 
-  Expect.describe('EnrollQuestions with Idx pipeline', function () {
+  Expect.describe('EnrollQuestions on Idx Pipeline', function () {
     testEnrollQuestion(resFactorEnrollAllFactors, '01testStateToken');
   });
 

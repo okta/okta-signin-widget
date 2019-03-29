@@ -624,7 +624,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       testHeaderAndFooter(resAllFactors, setupAndSendValidCode, 'testStateToken');
     });
 
-    Expect.describe('Header & Footer with idx pipeline', function () {
+    Expect.describe('Header & Footer on Idx Pipeline', function () {
       testHeaderAndFooter(resAllFactorsIdx, setupAndSendValidCodeIdx, '01testStateToken');
     });
 
@@ -632,7 +632,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       testEnrollPhoneNumber(resAllFactors, resEnrollSuccess, setupAndSendCode, 'testStateToken');
     });
 
-    Expect.describe('Enroll phone number with idx pipeline', function () {
+    Expect.describe('Enroll phone number on Idx Pipeline', function () {
       testEnrollPhoneNumber(resAllFactorsIdx, resFactorEnrollActivateSms, setupAndSendCodeIdx, '01testStateToken');
     });
 
@@ -640,7 +640,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       testVerifyPhoneNumber(resAllFactors, resSuccess ,setupAndSendValidCode, resExistingPhone, 'testStateToken');
     });
 
-    Expect.describe('Verify phone number with idx pipeline', function () {
+    Expect.describe('Verify phone number on Idx Pipeline', function () {
       testVerifyPhoneNumber(resAllFactorsIdx, resFactorEnrollActivateSms ,setupAndSendValidCodeIdx, resFactorEnrollExistingPhone, '01testStateToken');
     });
 

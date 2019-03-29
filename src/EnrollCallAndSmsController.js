@@ -136,7 +136,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
               });
           };
 
-          if (isMfaEnroll || !transaction.prev) {
+          if (isMfaEnroll) {
             return doEnroll(transaction);
           }
           else {
