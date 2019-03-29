@@ -17,7 +17,7 @@ define({
         }
       },
       "factor": {
-        "id": "mbli45IDbggtwb4j40g4",
+        "id": "mbli45IDbggtwb4j40g3",
         "factorType": "call",
         "provider": "OKTA",
         "profile": {
@@ -28,7 +28,7 @@ define({
     "_links": {
       "next": {
         "name": "activate",
-        "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/mbli45IDbggtwb4j40g4\/lifecycle\/activate",
+        "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/mbli45IDbggtwb4j40g3\/lifecycle\/activate",
         "hints": {
           "allow": [
             "POST"
@@ -53,7 +53,7 @@ define({
       },
       "resend": [{
         "name": "call",
-        "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/mbli45IDbggtwb4j40g4\/lifecycle\/resend",
+        "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/mbli45IDbggtwb4j40g3\/lifecycle\/resend",
         "hints": {
           "allow": [
             "POST"

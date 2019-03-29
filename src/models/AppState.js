@@ -214,7 +214,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       'isMfaEnroll': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
-          return res.status === 'MFA_ENROLL';
+          return res.status === 'MFA_ENROLL' || res.status === 'FACTOR_ENROLL';
         }
       },
       'isMfaChallenge': {
@@ -247,7 +247,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       'isMfaEnrollActivate': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
-          return res.status === 'MFA_ENROLL_ACTIVATE';
+          return res.status === 'MFA_ENROLL_ACTIVATE' || res.status === 'FACTOR_ENROLL_ACTIVATE';
         }
       },
       'isWaitingForActivation': {

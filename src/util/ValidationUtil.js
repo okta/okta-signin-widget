@@ -24,13 +24,18 @@ define(['okta'], function (Okta) {
     }
   };
 
+  // Validate that the field1 and field2 fields on the model are a match.
+  fn.validateFieldsMatch = function (model, field1, field2, message) {
+    if (model.get(field1) !== model.get(field2)) {
+      var ret = {};
+      ret[field2] = message;
+      return ret;
+    }
+  };
+
   // Validate that the 'newPassword' and 'confirmPassword' fields on the model are a match.
   fn.validatePasswordMatch = function (model) {
-    if (model.get('newPassword') !== model.get('confirmPassword')) {
-      return {
-        confirmPassword: Okta.loc('password.error.match', 'login')
-      };
-    }
+    return fn.validateFieldsMatch(model, 'newPassword', 'confirmPassword', Okta.loc('password.error.match', 'login'));
   };
 
   return fn;
