@@ -24,9 +24,8 @@ define([
   'helpers/xhr/FACTOR_ENROLL_push_success_newqr',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_totp_error',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_push_email',
-  'helpers/xhr/FACTOR_ENROLL_ACTIVATE_push_sms',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_push_sms',
-  'helpers/xhr/FACTOR_ENROLL_ACTIVATE_push_sms',
+  'helpers/xhr/FACTOR_ENROLL_ACTIVATE_push',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_push_timeout',
   'helpers/xhr/FACTOR_ENROLL_ACTIVATE_push_timeout',
   'helpers/xhr/SUCCESS',
@@ -36,7 +35,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
   ManualSetupForm, PassCodeForm, LinkSentConfirmation,  Beacon, Expect,
   $sandbox, resAllFactors, resFactorEnrollAllFactors, resFactorsWithPush, resFactorEnrollWithPush, resTotpEnrollSuccess,
   resFactorEnrollTotpEnrollSuccess, resPushEnrollSuccess, resFactorEnrollPushEnrollSuccess, resPushEnrollSuccessNewQR, resFactorEnrollPushEnrollSuccessNewQR, resActivateError, resActivatePushEmail,
-  resFactorActivatePushEmail, resActivatePushSms, resFactorActivatePushSms, resActivatePushTimeout, resFactorEnrollActivatePushTimeout, resSuccess, Router) {
+  resActivatePushSms, resFactorActivatePushSms, resActivatePushTimeout, resFactorEnrollActivatePushTimeout, resSuccess, Router) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -1088,20 +1087,21 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
 
     Expect.describe('Scan qrcode', function () {
       testScanQRCode(setupAndEnrollOktaTotp, setupOktaTotp, resTotpEnrollSuccess, resAllFactors);
-      Expect.describe('Scan qrcode on Idx Pipeline', function () {
-        testScanQRCode(setupAndEnrollOktaTotpWithIdxPipeline, setupOktaTotpWithIdxPipeline, resFactorEnrollTotpEnrollSuccess, resFactorEnrollAllFactors);
-      });
 
       Expect.describe('Manual setup', function () {
         testScanQRCodeManualSetup(setupAndEnrollOktaTotp, setupOktaTotp, resTotpEnrollSuccess, 'testStateToken');
       });
 
-      Expect.describe('Manual setup on Idx Pipeline', function () {
-        testScanQRCodeManualSetup(setupAndEnrollOktaTotpWithIdxPipeline, setupOktaTotpWithIdxPipeline, resFactorEnrollTotpEnrollSuccess, '01testStateToken');
-      });
-
       Expect.describe('Pass code form', function () {
         testScanQRCodePassCodeForm(setupAndEnrollOktaTotp, setupOktaTotp, resTotpEnrollSuccess, 'testStateToken');
+      });
+    });
+
+    Expect.describe('Scan qrcode on Idx Pipeline', function () {
+      testScanQRCode(setupAndEnrollOktaTotpWithIdxPipeline, setupOktaTotpWithIdxPipeline, resFactorEnrollTotpEnrollSuccess, resFactorEnrollAllFactors);
+
+      Expect.describe('Manual setup on Idx Pipeline', function () {
+        testScanQRCodeManualSetup(setupAndEnrollOktaTotpWithIdxPipeline, setupOktaTotpWithIdxPipeline, resFactorEnrollTotpEnrollSuccess, '01testStateToken');
       });
 
       Expect.describe('Pass code form on Idx Pipeline', function () {
@@ -1113,10 +1113,9 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       testOktaVerify(setupAndEnrollOktaPush, setupOktaPush, resActivatePushSms, resActivatePushTimeout, 'testStateToken');
     });
 
-    Expect.describe('Okta Verify with Push on  Idx Pipeline', function () {
+    Expect.describe('Okta Verify with Push on Idx Pipeline', function () {
       testOktaVerify(setupAndEnrollOktaPushWithIdxPipeline, setupOktaPushWithIdxPipeline, resFactorActivatePushSms, resFactorEnrollActivatePushTimeout, '01testStateToken');
     });
-
 
     Expect.describe('Manual setup', function () {
       testManualSetup(enrollOktaPushGoCannotScan, setupAndEnrollOktaPush, enrollOktaPushUseManualTotp, setupOktaPush, resFactorsWithPush, resPushEnrollSuccess, resPushEnrollSuccessNewQR , 'testStateToken');
