@@ -153,7 +153,7 @@ function (Okta,
     itp('shows the right beacon and title for webauthn', function () {
       return setupWebauthnFactor({webauthnSupported: true}).then(function (test) {
         expectHasRightBeaconImage(test, 'mfa-webauthn');
-        expectTitleToBe(test, 'Security Key or Device Authenticator');
+        expectTitleToBe(test, 'Security Key or Built-in Authenticator');
       });
     });
 

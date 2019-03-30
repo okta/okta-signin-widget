@@ -571,7 +571,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
         itHasIconAndText(
           'WEBAUTHN',
           'mfa-webauthn',
-          'Security Key or Device Authenticator',
+          'Security Key or Built-in Authenticator',
           'Use a security key (USB or bluetooth) or a built-in device authenticator (Windows Hello, macOS TouchID, etc.)',
           resAllFactors,
           true
