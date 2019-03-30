@@ -79,6 +79,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
       'features.deviceFingerprinting': ['boolean', false, false],
       'features.hideSignOutLinkInMFA' : ['boolean', false, false],
+      'features.hideBackToSignInForReset' : ['boolean', false, false],
       'features.customExpiredPassword': ['boolean', true, false],
       'features.registration': ['boolean', false, false],
       'features.consent': ['boolean', false, false],

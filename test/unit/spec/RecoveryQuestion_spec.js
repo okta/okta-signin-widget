@@ -106,6 +106,13 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
             expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
           });
       });
+    itp('does not show back link if hideBackToSignInForReset is true', function () {
+      return setup({ 'features.hideBackToSignInForReset': true })
+        .then(function (test) {
+          var $link = test.form.signoutLink();
+          expect($link.length).toBe(0);
+        });
+    });
     itp('sets the correct title for a forgotten password flow', function () {
       return setup().then(function (test) {
         expect(test.form.titleText()).toBe('Answer Forgotten Password Challenge');

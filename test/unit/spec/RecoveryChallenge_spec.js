@@ -91,6 +91,15 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
           Expect.isPrimaryAuth(test.router.controller);
         });
     });
+
+    itp('does not show back link if hideBackToSignInForReset is true', function () {
+      return setup({ 'features.hideBackToSignInForReset': true })
+        .then(function (test) {
+          var $link = test.form.signoutLink();
+          expect($link.length).toBe(0);
+        });
+    });
+
     itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
       function () {
         return setup({ signOutLink: 'http://www.goodbye.com' })

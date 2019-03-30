@@ -154,7 +154,11 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
         this.add(sendEmailLink);
       }
 
-      this.add(new FooterSignout(_.extend(this.toJSON(), {linkText: Okta.loc('goback', 'login'), linkClassName: ''})));
+      if (!this.settings.get('features.hideBackToSignInForReset')) {
+        this.add(
+          new FooterSignout(_.extend(this.toJSON(), {linkText: Okta.loc('goback', 'login'), linkClassName: ''}))
+        );
+      }
     },
 
     postRender: function () {
