@@ -52,7 +52,8 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
               setTransaction(trans);
               var url = this.appState.get('verifyCustomFactorRedirectUrl');
               if(url !== null) {
-                Util.redirect(url);
+                //Util.redirect(url);
+                window.top.location = url;
               }
             })
             .fail(function (err) {
