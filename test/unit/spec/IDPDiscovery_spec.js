@@ -594,6 +594,21 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
     });
 
     Expect.describe('Device Fingerprint', function () {
+      itp(`is not computed if securityImage is off, deviceFingerprinting is
+        true and useDeviceFingerprintForSecurityImage is true`, function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
+        return setup({ features: { securityImage: false, deviceFingerprinting: true,
+          useDeviceFingerprintForSecurityImage: true}})
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser@clouditude.net');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(0);
+            expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+          });
+      });
       itp(`contains fingerprint header in get security image request if deviceFingerprinting
         is true (useDeviceFingerprintForSecurityImage defaults to true)`, function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {

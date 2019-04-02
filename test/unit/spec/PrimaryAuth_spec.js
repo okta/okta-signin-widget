@@ -985,6 +985,21 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     });
 
     Expect.describe('Device Fingerprint', function () {
+      itp(`is not computed if securityImage is off, deviceFingerprinting is true
+        and useDeviceFingerprintForSecurityImage is true`, function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
+        return setup({ features: { securityImage: false, deviceFingerprinting: true,
+          useDeviceFingerprintForSecurityImage: true }})
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(0);
+            expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+          });
+      });
       itp(`contains fingerprint header in get security image request if deviceFingerprinting
         is true (useDeviceFingerprintForSecurityImage defaults to true)`, function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
@@ -992,8 +1007,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           deferred.resolve('thisIsTheDeviceFingerprint');
           return deferred.promise;
         });
-        return setup({ features: { securityImage: true, deviceFingerprinting: true,
-          useDeviceFingerprintForSecurityImage: true }})
+        return setup({ features: { securityImage: true, deviceFingerprinting: true }})
           .then(function (test) {
             test.setNextResponse(resSecurityImage);
             test.form.setUsername('testuser');
@@ -1006,7 +1020,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
           });
       });
-      itp(`contains fingerprint header in get security image request if both features(
+      itp(`contains fingerprint header in get security image request if both features
         deviceFingerprinting and useDeviceFingerprintForSecurityImage) are enabled`, function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
           var deferred = Q.defer();
