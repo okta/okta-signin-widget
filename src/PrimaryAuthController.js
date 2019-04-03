@@ -80,8 +80,7 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
 
     events: {
       'focusout input[name=username]': function () {
-        if (this.settings.get('features.deviceFingerprinting') &&
-            this.settings.get('features.useDeviceFingerprintForSecurityImage')) {
+        if (this.shouldComputeDeviceFingerprint()) {
           var self = this;
           DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
             .then(function (fingerprint) {
@@ -124,6 +123,12 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       this.listenTo(this.model, 'error', function () {
         this.state.set('enabled', true);
       });
+    },
+
+    shouldComputeDeviceFingerprint: function () {
+      return this.settings.get('features.securityImage') &&
+          this.settings.get('features.deviceFingerprinting') &&
+          this.settings.get('features.useDeviceFingerprintForSecurityImage');
     }
   });
 
