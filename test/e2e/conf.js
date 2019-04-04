@@ -21,6 +21,11 @@ var config = {
 if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+  // ====================
+  // Appium Configuration
+  // ====================
+  // Default port for Appium
+  config.port = 4723;
 
   // Mobile devices
   if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
@@ -32,6 +37,21 @@ if (process.env.TRAVIS) {
       'platformVersion': process.env.SAUCE_PLATFORM_VERSION,
       'platformName': process.env.SAUCE_PLATFORM_NAME
     };
+  }
+
+  if (process.env.MOBILE_BROWSER) {
+    console.log('Testing on mobile browser...');
+    config.capabilities = {
+      // The defaults you need to have in your config
+      deviceName: 'iPhone X Simulator',
+      platformName: 'iOS',
+      platformVersion: '12.0',
+      orientation: 'PORTRAIT',
+      maxInstances: 1,
+      browserName: 'safari',
+      newCommandTimeout: 240,
+      appiumVersion: '1.9.1',
+    }
   }
 
   // Desktop browsers
@@ -57,6 +77,12 @@ else {
   config.chromeDriver = webdriverManegerConfig.chrome.last;
   config.capabilities = {
     browserName: 'chrome',
+    version: '*',
+    chromeOptions: {
+        mobileEmulation: {
+            deviceName: 'iPhone 6 Plus'
+        }
+    }
   };
 }
 
