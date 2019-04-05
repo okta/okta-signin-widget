@@ -40,17 +40,18 @@ if (process.env.TRAVIS) {
   }
 
   if (process.env.MOBILE_BROWSER) {
-    console.log('Testing on mobile browser...');
     config.capabilities = {
       // The defaults you need to have in your config
-      deviceName: 'iPhone X Simulator',
-      platformName: 'iOS',
-      platformVersion: '12.0',
-      orientation: 'PORTRAIT',
-      maxInstances: 1,
-      browserName: 'safari',
-      newCommandTimeout: 240,
-      appiumVersion: '1.9.1',
+      'deviceName': 'iPhone X Simulator',
+      'platformName': 'iOS',
+      'platformVersion': '12.0',
+      'orientation': 'PORTRAIT',
+      'maxInstances': 1,
+      'browserName': 'safari',
+      'newCommandTimeout': 240,
+      'appiumVersion': '1.9.1',
+      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+      'build': process.env.TRAVIS_BUILD_NUMBER
     }
   }
 
@@ -77,12 +78,6 @@ else {
   config.chromeDriver = webdriverManegerConfig.chrome.last;
   config.capabilities = {
     browserName: 'chrome',
-    version: '*',
-    chromeOptions: {
-        mobileEmulation: {
-            deviceName: 'iPhone 6 Plus'
-        }
-    }
   };
 }
 
