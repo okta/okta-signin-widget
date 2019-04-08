@@ -40,7 +40,7 @@ if (process.env.TRAVIS) {
   }
 
   if (process.env.MOBILE_BROWSER) {
-    config.capabilities = {
+    config.multiCapabilities = [{
       // The defaults you need to have in your config
       'deviceName': 'iPhone X Simulator',
       'platformName': 'iOS',
@@ -52,7 +52,17 @@ if (process.env.TRAVIS) {
       'appiumVersion': '1.9.1',
       'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
       'build': process.env.TRAVIS_BUILD_NUMBER
-    }
+    }, {
+      // The defaults you need to have in your config
+      'deviceName': 'Android Emulator',
+      'platformName': 'Android',
+      'platformVersion': '8.0',
+      'deviceOrientation': 'portrait',
+      'browserName': 'Chrome',
+      'appiumVersion': '1.9.1',
+      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+      'build': process.env.TRAVIS_BUILD_NUMBER
+    }];
   }
 
   // Desktop browsers
