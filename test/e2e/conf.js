@@ -28,35 +28,20 @@ if (process.env.TRAVIS) {
   config.port = 4723;
 
   // Mobile devices
-  if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
-    config.capabilities = {
-      'browserName': process.env.SAUCE_BROWSER_NAME,
-      'appiumVersion': process.env.SAUCE_APPIUM_VERSION,
-      'deviceName': process.env.SAUCE_DEVICE_NAME,
-      'deviceOrientation': process.env.SAUCE_DEVICE_ORIENTATION,
-      'platformVersion': process.env.SAUCE_PLATFORM_VERSION,
-      'platformName': process.env.SAUCE_PLATFORM_NAME
-    };
-  }
-
   if (process.env.MOBILE_BROWSER) {
     config.multiCapabilities = [{
-      // The defaults you need to have in your config
-      'deviceName': 'iPhone X Simulator',
+      'deviceName': 'iPhone XS Simulator',
       'platformName': 'iOS',
       'platformVersion': '12.0',
-      'orientation': 'PORTRAIT',
-      'maxInstances': 1,
-      'browserName': 'safari',
-      'newCommandTimeout': 240,
+      'deviceOrientation': 'portrait',
+      'browserName': 'Safari',
       'appiumVersion': '1.9.1',
       'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
       'build': process.env.TRAVIS_BUILD_NUMBER
     }, {
-      // The defaults you need to have in your config
-      'deviceName': 'Android Emulator',
+      'deviceName': 'Samsung Galaxy S9 WQHD GoogleAPI Emulator',
       'platformName': 'Android',
-      'platformVersion': '8.0',
+      'platformVersion': '8.1',
       'deviceOrientation': 'portrait',
       'browserName': 'Chrome',
       'appiumVersion': '1.9.1',
