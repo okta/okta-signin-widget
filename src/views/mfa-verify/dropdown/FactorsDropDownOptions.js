@@ -52,11 +52,13 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
   var dropdownOptions = {
     'TITLE': {
       title: _.partial(Okta.loc, 'mfa.factors.dropdown.title', 'login'),
-      className: 'dropdown-list-title'
+      className: 'dropdown-list-title',
+      disabled: true
     },
 
     'OKTA_VERIFY': {
       icon: 'factor-icon mfa-okta-verify-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -67,6 +69,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'OKTA_VERIFY_PUSH': {
       icon: 'factor-icon mfa-okta-verify-30',
+      className: 'factor-option',
       title: function () {
         return pushTitleTpl({
           factorName: this.model.get('factorLabel'),
@@ -80,6 +83,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'GOOGLE_AUTH': {
       icon: 'factor-icon mfa-google-auth-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -90,6 +94,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'SYMANTEC_VIP': {
       icon: 'factor-icon mfa-symantec-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -100,6 +105,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'RSA_SECURID': {
       icon: 'factor-icon mfa-rsa-30',
+      className: 'factor-option',
       title: _.partial(Okta.loc, 'factor.totpHard.rsaSecurId', 'login'),
       action: function () {
         action.call(this, this.model);
@@ -108,6 +114,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'ON_PREM': {
       icon: 'factor-icon mfa-onprem-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -118,6 +125,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'DUO': {
       icon: 'factor-icon mfa-duo-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -128,27 +136,28 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'DUO_PUSH': {
       icon: 'duo-push-16',
-      className: 'suboption',
+      className: 'suboption factor-option',
       // TODO: add phone number here
       title: _.partial(Okta.loc, 'mfa.duoSecurity.push', 'login', ['XXX-XXX-7890'])
     },
 
     'DUO_SMS': {
       icon: 'duo-sms-16',
-      className: 'suboption',
+      className: 'suboption factor-option',
       // TODO: add phone number here
       title: _.partial(Okta.loc, 'mfa.duoSecurity.sms', 'login', ['XXX-XXX-7890'])
     },
 
     'DUO_CALL': {
       icon: 'duo-call-16',
-      className: 'suboption',
+      className: 'suboption factor-option',
       // TODO: add phone number here
       title: _.partial(Okta.loc, 'mfa.duoSecurity.call', 'login', ['XXX-XXX-7890'])
     },
 
     'YUBIKEY': {
       icon: 'factor-icon mfa-yubikey-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -159,6 +168,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'SMS': {
       icon: 'factor-icon mfa-sms-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -169,6 +179,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'CALL': {
       icon: 'factor-icon mfa-call-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -179,6 +190,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'QUESTION': {
       icon: 'factor-icon mfa-question-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -189,6 +201,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'PASSWORD': {
       icon: 'factor-icon mfa-password-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -199,6 +212,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'WINDOWS_HELLO': {
       icon: 'factor-icon mfa-windows-hello-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -209,6 +223,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'U2F': {
       icon: 'factor-icon mfa-u2f-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -219,6 +234,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'WEBAUTHN': {
       icon: 'factor-icon mfa-webauthn-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -229,6 +245,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'EMAIL': {
       icon: 'factor-icon mfa-email-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -239,6 +256,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'GENERIC_SAML': {
       icon: 'factor-icon mfa-custom-factor-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
@@ -249,6 +267,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
     'GENERIC_OIDC': {
       icon: 'factor-icon mfa-custom-factor-30',
+      className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
       },
