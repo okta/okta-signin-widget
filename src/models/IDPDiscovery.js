@@ -41,8 +41,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
       var username = this.settings.transformUsername(this.get('username'), Enums.IDP_DISCOVERY),
           remember = this.get('remember'),
           lastUsername = this.get('lastUsername'),
-          resource = 'okta:acct:' + username,
-          requestContext = this.get('requestContext');
+          resource = 'okta:acct:' + username;
 
       this.setUsernameCookie(username, remember, lastUsername);
 
@@ -53,8 +52,7 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
       this.appState.trigger('loading', true);
 
       var webfingerArgs = {
-        resource: resource,
-        requestContext: requestContext
+        resource: resource
       };
 
       var authClient = this.appState.settings.authClient;

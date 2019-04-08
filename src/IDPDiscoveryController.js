@@ -32,7 +32,6 @@ function (Okta, PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDi
       options.appState.unset('username');
 
       this.model = new IDPDiscoveryModel({
-        requestContext: options.settings.get('idpDiscovery.requestContext'),
         settings: options.settings,
         appState: options.appState
       }, { parse: true });

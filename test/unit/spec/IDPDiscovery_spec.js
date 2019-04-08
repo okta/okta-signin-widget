@@ -608,8 +608,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           return waitForWebfingerCall(test);
         }).then(function (test) {
           expect(test.ac.webfinger).toHaveBeenCalledWith({
-            resource: 'okta:acct:testuser@example.com',
-            requestContext: undefined
+            resource: 'okta:acct:testuser@example.com'
           });
         });
       });
@@ -622,8 +621,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         })
           .then(function (test) {
             expect(test.ac.webfinger).toHaveBeenCalledWith({
-              resource: 'okta:acct:testuser@clouditude.net',
-              requestContext: undefined
+              resource: 'okta:acct:testuser@clouditude.net'
             });
           });
       });
@@ -1100,7 +1098,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('calls authClient webfinger with correct values when submitted', function () {
-        return setup({'idpDiscovery.requestContext': 'http://rain.okta1.com:1802/app/UserHome'})
+        return setup()
           .then(function (test) {
             test.form.setUsername(' testuser@clouditude.net');
             test.setNextWebfingerResponse(resSuccessSAML);
@@ -1110,8 +1108,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           .then(function (test) {
             expect(test.form.isDisabled()).toBe(true);
             expect(test.ac.webfinger).toHaveBeenCalledWith({
-              resource: 'okta:acct:testuser@clouditude.net',
-              requestContext: 'http://rain.okta1.com:1802/app/UserHome'
+              resource: 'okta:acct:testuser@clouditude.net'
             });
           });
       });
