@@ -1347,13 +1347,14 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setup({ features: { securityImage: true }})
           .then(function (test) {
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
+            test.form.setUsername('test+user');
             return waitForBeaconChange(test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
             expect($.ajax.calls.argsFor(0)[0]).toEqual({
-              url: 'https://foo.com/login/getimage?username=testuser',
+              // reserved characters in the username (like "+") should be escaped, since it's in the query
+              url: 'https://foo.com/login/getimage?username=test%2Buser',
               dataType: 'json'
             });
             expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');

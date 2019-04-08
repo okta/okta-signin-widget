@@ -559,7 +559,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             expect(test.router.settings.transformUsername.calls.count()).toBe(0);
             expect($.ajax.calls.count()).toBe(1);
             expect($.ajax.calls.argsFor(0)[0]).toEqual({
-              url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
+              url: 'https://foo.com/login/getimage?username=testuser%40clouditude.net',
               dataType: 'json'
             });
           });
@@ -799,7 +799,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
             expect($.ajax.calls.argsFor(0)[0]).toEqual({
-              url: 'https://foo.com/login/getimage?username=testuser@clouditude.net',
+              url: 'https://foo.com/login/getimage?username=testuser%40clouditude.net',
               dataType: 'json'
             });
             expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
