@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2098.gc581fa3 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2360.g478adf3 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -62,7 +62,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 33);
+/******/ 	return __webpack_require__(__webpack_require__.s = 32);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,7 +73,7 @@ module.exports =
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_underscore__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_underscore__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_underscore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_underscore__);
 /* eslint @okta/okta/enforce-requirejs-names: 0, @okta/okta/no-specific-methods: 0, @okta/okta/no-specific-modules: 0 */
 
@@ -122,8 +122,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_backbone__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__framework_View__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__framework_View__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
 
 
 
@@ -347,39 +347,9 @@ window.jQueryCourage = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-/* eslint @okta/okta/no-specific-methods: 0 */
-
-
-
-/**
- * @class module:Okta.internal.util.TemplateUtil
- * @hideconstructor
- */
-/* harmony default export */ __webpack_exports__["default"] = ({
-  /**
-   * Compiles a Handlebars template
-   * @static
-   * @method
-   */
-  tpl: __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].memoize(function (tpl) {
-    /* eslint okta/no-specific-methods: 0 */
-    return __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.compile(tpl);
-  })
-});
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_okta_i18n_bundles__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_okta_i18n_bundles__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_okta_i18n_bundles___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_okta_i18n_bundles__);
 
 
@@ -599,6 +569,36 @@ const StringUtil = /** @lends module:Okta.internal.util.StringUtil */ {
 
 
 /***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
+/* eslint @okta/okta/no-specific-methods: 0 */
+
+
+
+/**
+ * @class module:Okta.internal.util.TemplateUtil
+ * @hideconstructor
+ */
+/* harmony default export */ __webpack_exports__["default"] = ({
+  /**
+   * Compiles a Handlebars template
+   * @static
+   * @method
+   */
+  tpl: __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].memoize(function (tpl) {
+    /* eslint okta/no-specific-methods: 0 */
+    return __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.compile(tpl);
+  })
+});
+
+
+/***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
@@ -750,7 +750,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Keys__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Logger__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_ViewUtil__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseView__ = __webpack_require__(1);
 /* eslint max-params: [2, 6] */
@@ -1127,10 +1127,10 @@ function generateInputOptions(options, form, createFn) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_ButtonFactory__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_ButtonFactory__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Callout__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Callout__ = __webpack_require__(67);
 /* eslint-env es6 */
 /* eslint max-statements: [2, 17], max-len: [2, 160], max-params: [2, 6] */
 
@@ -1608,7 +1608,7 @@ function generateInputOptions(options, form, createFn) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__framework_Model__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__framework_Model__ = __webpack_require__(36);
 
 
 
@@ -1658,7 +1658,7 @@ module.exports = require("jquery");
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StringUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StringUtil__ = __webpack_require__(3);
 
 
 const loc = __WEBPACK_IMPORTED_MODULE_1__StringUtil__["default"].localize;
@@ -1873,7 +1873,7 @@ const SchemaUtils = {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__framework_Collection__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__framework_Collection__ = __webpack_require__(35);
 
 
 
@@ -2200,7 +2200,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseModel__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_Logger__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__util_StringUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__util_StringUtil__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_forms_helpers_EnumTypeHelper__ = __webpack_require__(18);
 /* eslint max-statements: [2, 16], complexity: [2, 8], max-params: [2, 8] */
 
@@ -2289,8 +2289,12 @@ const SchemaPropertySchemaProperty = __WEBPACK_IMPORTED_MODULE_3__BaseModel__["d
     union: undefined,
     subSchemas: undefined,
     settings: { permissions: { SELF: __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__["a" /* default */].PERMISSION.READ_ONLY } },
+    __metadata__: undefined,
     __isSensitive__: __WEBPACK_IMPORTED_MODULE_3__BaseModel__["default"].ComputedProperty(['settings'], function (settings) {
       return !!(settings && settings.sensitive);
+    }),
+    __canBeSensitive__: __WEBPACK_IMPORTED_MODULE_3__BaseModel__["default"].ComputedProperty(['__metadata__'], function (metadata) {
+      return !!(metadata && metadata.sensitivizable);
     }),
     __userPermission__: __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__["a" /* default */].PERMISSION.READ_ONLY,
     __displayType__: undefined,
@@ -2369,7 +2373,11 @@ const SchemaPropertySchemaProperty = __WEBPACK_IMPORTED_MODULE_3__BaseModel__["d
       name
     ) {
       return isFromBaseSchema && name === 'login';
-    })
+    }),
+    __isLoginFormatRestrictionToEmail__: __WEBPACK_IMPORTED_MODULE_3__BaseModel__["default"].ComputedProperty(['__loginFormatRestriction__'], 
+      function (loginFormatRestriction) {
+        return loginFormatRestriction === __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__["a" /* default */].LOGINPATTERNFORMAT.EMAIL;
+      })
   },
 
   initialize: function () {
@@ -2934,7 +2942,7 @@ const SchemaPropertySchemaProperties = __WEBPACK_IMPORTED_MODULE_2__BaseCollecti
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_SchemaUtil__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(3);
 /* eslint max-statements: 0 */
 
 
@@ -3155,8 +3163,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Logger__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SettingsModel__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_components_ConfirmationDialog__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_components_Notification__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ConfirmationDialog__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ConfirmationDialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ConfirmationDialog__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_components_Notification__ = __webpack_require__(40);
 /* eslint max-len: [2, 150], max-params: [2, 7] */
 
 
@@ -3232,8 +3241,8 @@ function getRoute(router, route) {
      */
     _confirm: function (options) {
       options || (options = {});
-      const Dialog = __WEBPACK_IMPORTED_MODULE_5__views_components_ConfirmationDialog__["a" /* default */].extend(
-        __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'content', 'danger')
+      const Dialog = __WEBPACK_IMPORTED_MODULE_5_ConfirmationDialog___default.a.extend(
+        __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'content', 'danger', 'type', 'closeOnOverlayClick')
       );
       const dialog = new Dialog({ model: this.settings });
       // The model is here because itsa part of the BaseForm paradigm.
@@ -3387,6 +3396,19 @@ function getRoute(router, route) {
 
 /***/ }),
 /* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var __WEBPACK_AMD_DEFINE_RESULT__;
+
+// TODO: maybe replaced by
+// https://github.com/Calvein/empty-module
+// https://github.com/crimx/empty-module-loader
+!(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {}).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ }),
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4140,38 +4162,3169 @@ __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(methods, 
 
 
 /***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var __WEBPACK_AMD_DEFINE_RESULT__;
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__ = __webpack_require__(42);
 
-// TODO: maybe replaced by
-// https://github.com/Calvein/empty-module
-// https://github.com/crimx/empty-module-loader
-!(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {}).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/**
+ * A factory method wrapper for {@link BaseButtonLink} creation
+ * @class module:Okta.internal.util.ButtonFactory
+ */
+
+function normalizeEvents(options) {
+  const events = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options.click ? { click: options.click } : {}, options.events || {});
+
+  const target = {};
+
+  __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].each(events, function (fn, eventName) {
+    target[eventName] = function (e) {
+      if (!options.href) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      fn.apply(this, arguments);
+    };
+  });
+  return target;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  /**
+   * Creates a {@link module:Okta.internal.views.components.BaseButtonLink|BaseButtonLink}.
+   * @param  {Object} options Options hash
+   * @param  {String} [options.title] The button text
+   * @param  {String} [options.icon]
+   * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
+   * @param {String} [options.href] The button link
+   * @param {Function} [options.click] On click callback
+   * @param {Object} [options.events] a [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
+   * @returns {module:Okta.internal.views.components.BaseButtonLink} BaseButtonLink prototype ("class")
+   */
+  create: function (options) {
+    options = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].clone(options);
+    options.attrs = options.attributes;
+    delete options.attributes;
+
+    return __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__["a" /* default */].extend(
+      __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options, {
+        events: normalizeEvents(options)
+      })
+    );
+  }
+});
+
 
 /***/ }),
-/* 23 */
+/* 24 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
+
+
+function changeEventString(doWhen) {
+  return 'change:' + __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].keys(doWhen).join(' change:');
+}
+
+function calcDoWhen(value, key) {
+  const modelValue = this.model.get(key);
+
+  if (__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isFunction(value)) {
+    return value.call(this, modelValue);
+  } else {
+    return value === modelValue;
+  }
+}
+
+function _doWhen(view, doWhen, fn) {
+  const toggle = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].bind(fn, view, view, doWhen);
+
+  view.render = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].wrap(view.render, function (render) {
+    const val = render.call(view);
+
+    toggle({ animate: false });
+    return val;
+  });
+
+  view.listenTo(view.model, changeEventString(doWhen), function () {
+    toggle({ animate: true });
+  });
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  applyDoWhen: function (view, doWhen, fn) {
+    if (!(view.model && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isObject(doWhen) && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].size(doWhen) && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isFunction(fn))) {
+      return;
+    }
+    _doWhen(view, doWhen, function (view, doWhen, options) {
+      const result = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].every(__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].map(doWhen, calcDoWhen, view));
+
+      fn.call(view, result, options);
+    });
+  }
+});
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseView__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_FormUtil__ = __webpack_require__(9);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_1__BaseView__["default"].extend({
+  className: 'o-form-button-bar',
+
+  initialize: function (options) {
+    this.addButton({
+      type: 'save',
+      text: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'save', this),
+      id: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'saveId', this),
+      className: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'saveClassName', this)
+    });
+
+    if (!options.noCancelButton) {
+      this.addButton({ type: 'cancel', text: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'cancel', this) });
+    }
+
+    if (options.hasPrevStep) {
+      this.addButton({ type: 'previous' }, { prepend: true });
+    }
+  },
+
+  /**
+   * Adds a buttomn to the toolbar
+   * @param {Object} params button parameters
+   * @param {Object} options {@link Okta.View#add} options
+   */
+  addButton: function (params, options) {
+    return this.add(__WEBPACK_IMPORTED_MODULE_2__helpers_FormUtil__["default"].createButton(params), options);
+  }
+}));
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+
+const registry = {};
+
+function isBaseInput(input) {
+  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(input)) {
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(input.prototype.editMode) && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(input.prototype.readMode);
+  } else {
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isObject(input) && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(input.editMode) && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(input.readMode);
+  }
+}
+
+/**
+ * @class module:Okta.internal.views.forms.helpers.InputRegistry
+ */
+/* harmony default export */ __webpack_exports__["default"] = ({
+  isBaseInput: isBaseInput,
+
+  /**
+   * Register a form input
+   * @param {String} type string identifier for the input
+   * @param {BaseInput} input the input to register
+   */
+  register: function (type, input) {
+    registry[type] = input;
+  },
+
+  /**
+   * Get a form input by type
+   * @param {Object} options input definition
+   * @param {String} options.type string identifier for the input
+   * @return {BaseInput} a matching input
+   */
+  get: function (options) {
+    const input = registry[options.type];
+
+    return input && (isBaseInput(input) ? input : input(options));
+  },
+
+  /**
+   * Unregister an input type
+   * @param {String} type
+   */
+  unregister: function (type) {
+    delete registry[type];
+  }
+});
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports) {
+
+module.exports = require("qtip");
+
+/***/ }),
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_StringUtil__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(10);
+
+
+
+
+
+
+const template = __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__["default"].tpl('<select id="{{inputId}}" name="{{name}}"></select>');
+const option = __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__["default"].tpl('<option value="{{key}}">{{value}}</option>');
+const CHOSEN_WINDOW_MARGIN = 20;
+
+// Chosen has known problems when it's at the bottom of a container that has
+// overflow:hidden set. Because it attaches to the parent container, its
+// dropdown will be cut off in the UI. Any modal with a chosen select element
+// at the bottom will manifest this behavior.
+//
+// The fix (aside from replacing Chosen) is to change Chosen's behavior -
+// use the existing styles, but attach it to 'body' and position it correctly
+// so that it is not affected by a parent overflow.
+//
+// More details can be found in OKTA-46489, OKTA-83570
+
+const CHOSEN_MAX_HEIGHT = 240;
+const CHOSEN_Z_INDEX = 50000;
+
+function defer(fn) {
+  if (this.params.autoWidth) {
+    return fn.call(this);
+  } else {
+    return __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].defer(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(fn, this));
+  }
+}
+
+function findSelectWidth(self) {
+  self.$select.hide();
+  const select = Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(self.$select[0]).hide();
+
+  Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])('body').append(select);
+  const width = (self.params.width = select.width() * 1.2 + 'px');
+
+  self.$el.append(select.show());
+  return width;
+}
+
+function recalculateChosen($chosen, $results, $clone) {
+  const offset = $clone.offset();
+
+  $chosen.css({
+    left: offset.left,
+    top: offset.top
+  });
+  // Update the max-height to fit within the constraints of the window. This
+  // is especially important for modals because page scrolling is disabled.
+  const $win = Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(window);
+  const rHeight = $results.outerHeight();
+  const rBottom = rHeight + $results.offset().top - $win.scrollTop();
+  const wHeight = $win.height() - CHOSEN_WINDOW_MARGIN;
+  const maxHeight = Math.min(rHeight + wHeight - rBottom, CHOSEN_MAX_HEIGHT);
+
+  $results.css('max-height', maxHeight);
+}
+
+function fixChosenModal($select) {
+  const $chosen = $select.next('.chzn-container');
+  const $clone = $chosen.clone();
+  const $results = $chosen.find('.chzn-results');
+
+  // Use a hidden clone to maintain layout and calculate offset. This is
+  // necessary for more complex layouts (like adding a group rule) where
+  // the chosen element is floated.
+  $clone.css('visibility', 'hidden');
+  $clone.removeAttr('id');
+  $clone.find('li').removeAttr('id');
+
+  // Save the original styles - we'll revert to them when the select closes
+  const baseStyles = {
+    left: $chosen.css('left'),
+    top: $chosen.css('top'),
+    position: $chosen.css('position'),
+    float: $chosen.css('float'),
+    'z-index': $chosen.css('z-index')
+  };
+
+  $results.hide();
+
+  // Handler for any resize events that happen when the results list is open
+
+  const resizeHandler = __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].debounce(function () {
+    recalculateChosen($chosen, $results, $clone);
+  }, 10);
+
+  // When the dropdown opens, attach it to body, with the correct absolute
+  // position coordinates
+  $select.off('.fixChosen'); // Remove events we could have added before
+  $select.on('liszt:showing_dropdown.fixChosen', function () {
+    $chosen.width($chosen.width());
+    $select.after($clone);
+    // .chzn-container can trigger the vertical scrollbar if it causes scrollHeight > window height after append to
+    // the body. Force top -999999 to avoid the scrollbar so $chosen can find the right offset for relocation.
+    $chosen.css({
+      position: 'absolute',
+      float: 'none',
+      'z-index': CHOSEN_Z_INDEX,
+      top: -999999
+    });
+    Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])('body').append($chosen);
+    $results.show();
+    recalculateChosen($chosen, $results, $clone);
+    // Capture scroll events:
+    // - for forms that use fixed positioning (like editing attributes in
+    //   Profile Editor) - window scroll
+    // - for forms that are too long for the modal - o-form-content scroll
+    $select.parents().scroll(resizeHandler);
+    Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(window).on('resize scroll', resizeHandler);
+  });
+
+  // When the dropdown closes or the element is removed, revert to the
+  // original styles and reattach it to its original placement in the dom.
+  $select.on('liszt:hiding_dropdown.fixChosen remove.fixChosen', function () {
+    $select.parents().off('scroll', resizeHandler);
+    Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(window).off('resize scroll', resizeHandler);
+    $chosen.css(baseStyles);
+    $results.hide();
+    $results.css('max-height', CHOSEN_MAX_HEIGHT);
+    $clone.remove();
+    $select.after($chosen);
+  });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].extend({
+  className: 'o-form-select',
+
+  /**
+   * @Override
+   */
+  events: {
+    'change select': 'update',
+    'keyup .chzn-search > :text': function (e) {
+      if (__WEBPACK_IMPORTED_MODULE_2__util_Keys__["default"].isEsc(e)) {
+        this.$('.chzn-search > :text').val('');
+        e.stopPropagation();
+      }
+    }
+  },
+
+  constructor: function () {
+    this.template = template;
+    this.option = option;
+    __WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].apply(this, arguments);
+    this.params = this.options.params || {};
+  },
+
+  /**
+   * @Override
+   */
+  editMode: function () {
+    /* eslint max-statements: [2, 13] */
+
+    this.$el.html(template(this.options));
+    this.$select = this.$('select');
+
+    const options = this.getOptions();
+
+    __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].each(
+      options,
+      function (value, key) {
+        this.$select.append(option({ key: key, value: value }));
+      },
+      this
+    );
+
+    // Fix a regression in jQuery 1.x on Firefox
+    // jQuery.val(value) prepends an empty option to the dropdown
+    // if value doesnt exist in the dropdown.
+    // http://bugs.jquery.com/ticket/13514
+    const value = this.getModelValue();
+
+    if (value) {
+      this.$select.val(value);
+    } else {
+      this.$('option:first-child').prop('selected', true);
+    }
+    this.$el.addClass('o-form-control');
+
+    if (this.params.chosen !== false) {
+      this.__applyChosen();
+    }
+    return this;
+  },
+
+  __applyChosen: function (update) {
+    let width = this.options.wide ? '100%' : this.params.width || '62%';
+
+    if (this.params.autoWidth) {
+      width = findSelectWidth(this);
+    }
+
+    defer.call(this, function () {
+      const searchThreshold = this.getParam('searchThreshold', 10);
+
+      if (!__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this.options, 'autoRender') && update !== false) {
+        this.update();
+      }
+      this.$select.chosen({
+        width: width,
+        disable_search_threshold: searchThreshold, //eslint-disable-line camelcase
+        placeholder_text: this.options['placeholder'] //eslint-disable-line camelcase
+      });
+      fixChosenModal(this.$select);
+
+      if (this.params.autoWidth) {
+        // fix a chosen css bug
+        this.$el.width(0);
+      }
+
+      this.model.trigger('form:resize');
+    });
+  },
+
+  /**
+   * @Override
+   */
+  val: function () {
+    return this.$select && this.$select.val();
+  },
+
+  /**
+   * @Override
+   */
+  focus: function () {
+    if (this.$select) {
+      return this.$select.focus();
+    }
+  },
+
+  /**
+   * @Override
+   */
+  toStringValue: function () {
+    const selectedOption = this.getModelValue();
+    let displayString = selectedOption;
+    const options = this.getOptions();
+
+    if (!__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].isEmpty(options)) {
+      displayString = options[selectedOption];
+    }
+    if (__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].isUndefined(displayString)) {
+      displayString = this.defaultValue();
+    }
+    return displayString || '';
+  },
+
+  /**
+   * Convert options to an object
+   * support input options that is a
+   * 1. a static object such as {key1: val1, key2: val2...}
+   * 2. a function to be called to return a static object
+   * will return an object with key-value pairs or with empty content
+   * @return {Object} The value
+   */
+  getOptions: function () {
+    let options = this.options.options;
+
+    if (__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].isFunction(options)) {
+      options = options.call(this);
+    }
+
+    return __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].isObject(options) ? options : {};
+  },
+
+  remove: function () {
+    if (this.$select) {
+      this.$select.trigger('remove');
+    }
+    return __WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].prototype.remove.apply(this, arguments);
+  }
+}));
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  DEBOUNCE_DELAY: 200,
+  LOADING_FADE: 400,
+  UNLOADING_FADE: 400,
+  ROW_EXPANDER_TRANSITION: 150,
+  HIDE_ADD_MAPPING_FORM: 300
+});
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * There are following local modifications:
+ * - Author: Uzi Kilon ukilon@okta.com
+ *   Bug: OKTA-20830 - solves the conflict when there are multiple labels
+ */
+/**
+ * --------------------------------------------------------------------
+ * jQuery customInput plugin
+ * Author: Maggie Costello Wachs maggie@filamentgroup.com, Scott Jehl, scott@filamentgroup.com
+ * Copyright (c) 2009 Filament Group
+ * licensed under MIT (filamentgroup.com/examples/mit-license.txt)
+ * --------------------------------------------------------------------
+*/
+!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(12)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (jQuery) {
+  var $ = jQuery;
+  jQuery.fn.customInput = function(){
+    return $(this).each(function(){
+      if($(this).is('[type=checkbox],[type=radio]')){
+        var input = $(this);
+
+        // get the associated label using the input's id
+        var label = input.siblings('label[for="'+input.attr('id')+'"]:first');
+        if (!label.length) {
+          label = input.closest('label[for="'+input.attr('id')+'"]:first');
+        }
+        // wrap the input + label in a div
+        input.add(label).wrapAll('<div class="custom-'+ input.attr('type') +'"></div>');
+
+        // necessary for browsers that don't support the :hover pseudo class on labels
+        label.hover(
+          function(){ $(this).addClass('hover'); },
+          function(){ $(this).removeClass('hover'); }
+        );
+
+        //bind custom event, trigger it, bind click,focus,blur events
+        input.bind('updateState', function(){
+          input.is(':checked') ? label.addClass('checked') : label.removeClass('checked checkedHover checkedFocus');
+        })
+        .trigger('updateState')
+        .click(function(){
+          $('input[name="'+ $(this).attr('name') +'"]').trigger('updateState');
+        })
+        .focus(function(){
+          label.addClass('focus');
+          if(input.is(':checked')){  $(this).addClass('checkedFocus'); }
+        })
+        .blur(function(){ label.removeClass('focus checkedFocus'); });
+      }
+    });
+  };
+
+}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ }),
+/* 31 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qtip__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(10);
+
+
+
+
+
+
+const className = 'okta-form-input-field input-fix';
+
+function hasTitleAndText(options) {
+  const title = options.title;
+  const text = options.text;
+
+  return title && text && title !== text;
+}
+
+// options may be a string or an object.
+function createQtipContent(options) {
+  if (hasTitleAndText(options)) {
+    return options;
+  }
+  return { text: options.text || options };
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].extend({
+  template: __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__["default"].tpl(
+    '\
+      {{#if params.innerTooltip}}\
+        <span class="input-tooltip icon form-help-16"></span>\
+      {{/if}}\
+      {{#if params.icon}}\
+        <span class="icon input-icon {{params.icon}}"></span>\
+      {{/if}}\
+      <input type="{{type}}" placeholder="{{placeholder}}" name="{{name}}" id="{{inputId}}"\
+       value="{{value}}" aria-label="{{placeholder}}" autocomplete="off"/>\
+      {{#if params.iconDivider}}\
+        <span class="input-icon-divider"></span>\
+      {{/if}}\
+      '
+  ),
+  /**
+   * @Override
+   */
+  events: {
+    'input input': 'update',
+    'change input': 'update',
+    'keydown input': 'update',
+    'keyup input': function (e) {
+      if (__WEBPACK_IMPORTED_MODULE_2__util_Keys__["default"].isEnter(e)) {
+        this.model.trigger('form:save');
+      } else if (__WEBPACK_IMPORTED_MODULE_2__util_Keys__["default"].isEsc(e)) {
+        this.model.trigger('form:cancel');
+      }
+    }
+  },
+
+  constructor: function () {
+    __WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].apply(this, arguments);
+    this.$el.addClass('o-form-control');
+  },
+
+  /**
+   * @Override
+   */
+  editMode: function () {
+    this.$el.addClass(className);
+    __WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].prototype.editMode.apply(this, arguments);
+    this.$('input').placeholder();
+  },
+
+  /**
+   * @Override
+   */
+  readMode: function () {
+    __WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].prototype.readMode.apply(this, arguments);
+    if (this.options.type === 'password') {
+      this.$el.text('********');
+    }
+    this.$el.removeClass(className);
+  },
+
+  /**
+   * @Override
+   */
+  val: function () {
+    let inputValue = this.$('input[type="' + this.options.type + '"]').val();
+    //IE will only read clear text pw if type="password" is explicitly in selector
+
+    if (this.options.type !== 'password') {
+      inputValue = __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"].trim(inputValue);
+    }
+    return inputValue;
+  },
+
+  /**
+   * @Override
+   */
+  focus: function () {
+    return this.$('input').focus();
+  },
+
+  postRender: function () {
+    const params = this.options.params;
+    let content;
+
+    if (params && params.innerTooltip) {
+      content = createQtipContent(params.innerTooltip);
+      this.$('.input-tooltip').qtip({
+        content: content,
+        style: { classes: 'okta-tooltip qtip-custom qtip-shadow' },
+        position: {
+          my: 'bottom left',
+          // Note: qTip2 has a known issue calculating the tooltip offset when:
+          // 1. A container element has both:
+          //    a) position: relative/absolute
+          //    b) overlay: value other than 'visible'
+          // 2. The page is scrolled
+          //
+          // We set position:relative and overlay:auto on the body element,
+          // where both are required for:
+          // - Positioning the footer correctly
+          // - Displaying long pages in embedded browsers
+          //
+          // The original design called for a fixed position relative to the
+          // tooltip icon - this has been switched to "relative to mouse, and
+          // update position when mouse moves" because of this constraint.
+          target: 'mouse',
+          adjust: {
+            method: 'flip',
+            mouse: true,
+            y: -5,
+            x: 5
+          },
+          viewport: Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])('body')
+        }
+      });
+    }
+  }
+}));
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(33);
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _BaseCollection = __webpack_require__(14);
+
+var _BaseCollection2 = _interopRequireDefault(_BaseCollection);
+
+var _BaseModel = __webpack_require__(15);
+
+var _BaseModel2 = _interopRequireDefault(_BaseModel);
+
+var _BaseSchema = __webpack_require__(37);
+
+var _BaseSchema2 = _interopRequireDefault(_BaseSchema);
+
+var _Model = __webpack_require__(11);
+
+var _Model2 = _interopRequireDefault(_Model);
+
+var _SchemaProperty = __webpack_require__(17);
+
+var _SchemaProperty2 = _interopRequireDefault(_SchemaProperty);
+
+var _BaseController = __webpack_require__(39);
+
+var _BaseController2 = _interopRequireDefault(_BaseController);
+
+var _BaseRouter = __webpack_require__(19);
+
+var _BaseRouter2 = _interopRequireDefault(_BaseRouter);
+
+var _ButtonFactory = __webpack_require__(23);
+
+var _ButtonFactory2 = _interopRequireDefault(_ButtonFactory);
+
+var _Class = __webpack_require__(43);
+
+var _Class2 = _interopRequireDefault(_Class);
+
+var _Cookie = __webpack_require__(44);
+
+var _Cookie2 = _interopRequireDefault(_Cookie);
+
+var _Keys = __webpack_require__(8);
+
+var _Keys2 = _interopRequireDefault(_Keys);
+
+var _Logger = __webpack_require__(7);
+
+var _Logger2 = _interopRequireDefault(_Logger);
+
+var _StringUtil = __webpack_require__(3);
+
+var _StringUtil2 = _interopRequireDefault(_StringUtil);
+
+var _TemplateUtil = __webpack_require__(4);
+
+var _TemplateUtil2 = _interopRequireDefault(_TemplateUtil);
+
+var _Util = __webpack_require__(16);
+
+var _Util2 = _interopRequireDefault(_Util);
+
+var _handlebarsWrapper = __webpack_require__(46);
+
+var _handlebarsWrapper2 = _interopRequireDefault(_handlebarsWrapper);
+
+var _jqueryWrapper = __webpack_require__(2);
+
+var _jqueryWrapper2 = _interopRequireDefault(_jqueryWrapper);
+
+var _underscoreWrapper = __webpack_require__(0);
+
+var _underscoreWrapper2 = _interopRequireDefault(_underscoreWrapper);
+
+var _Backbone = __webpack_require__(53);
+
+var _Backbone2 = _interopRequireDefault(_Backbone);
+
+var _BaseView = __webpack_require__(1);
+
+var _BaseView2 = _interopRequireDefault(_BaseView);
+
+var _BaseDropDown = __webpack_require__(55);
+
+var _BaseDropDown2 = _interopRequireDefault(_BaseDropDown);
+
+var _BaseForm = __webpack_require__(56);
+
+var _BaseForm2 = _interopRequireDefault(_BaseForm);
+
+var _Toolbar = __webpack_require__(25);
+
+var _Toolbar2 = _interopRequireDefault(_Toolbar);
+
+var _FormUtil = __webpack_require__(9);
+
+var _FormUtil2 = _interopRequireDefault(_FormUtil);
+
+var _InputRegistry = __webpack_require__(26);
+
+var _InputRegistry2 = _interopRequireDefault(_InputRegistry);
+
+var _SchemaFormFactory = __webpack_require__(64);
+
+var _SchemaFormFactory2 = _interopRequireDefault(_SchemaFormFactory);
+
+var _CheckBox = __webpack_require__(70);
+
+var _CheckBox2 = _interopRequireDefault(_CheckBox);
+
+var _PasswordBox = __webpack_require__(71);
+
+var _PasswordBox2 = _interopRequireDefault(_PasswordBox);
+
+var _Radio = __webpack_require__(73);
+
+var _Radio2 = _interopRequireDefault(_Radio);
+
+var _Select = __webpack_require__(28);
+
+var _Select2 = _interopRequireDefault(_Select);
+
+var _TextBox = __webpack_require__(31);
+
+var _TextBox2 = _interopRequireDefault(_TextBox);
+
+var _backbone = __webpack_require__(6);
+
+var _backbone2 = _interopRequireDefault(_backbone);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Okta = {
+  Backbone: _backbone2.default,
+
+  $: _jqueryWrapper2.default,
+
+  _: _underscoreWrapper2.default,
+
+  Handlebars: _handlebarsWrapper2.default,
+
+  loc: _StringUtil2.default.localize,
+
+  createButton: _ButtonFactory2.default.create,
+
+  registerInput: _InputRegistry2.default.register,
+
+  tpl: _TemplateUtil2.default.tpl,
+
+  Model: _Model2.default,
+
+  BaseModel: _BaseModel2.default,
+
+  Collection: _BaseCollection2.default,
+
+  View: _BaseView2.default,
+
+  ListView: _Backbone2.default,
+
+  Router: _BaseRouter2.default,
+
+  Controller: _BaseController2.default,
+
+  Form: _BaseForm2.default,
+
+  internal: {
+    util: {
+      Util: _Util2.default,
+      Cookie: _Cookie2.default,
+      Logger: _Logger2.default,
+      Class: _Class2.default,
+      Keys: _Keys2.default
+    },
+
+    views: {
+      components: {
+        BaseDropDown: _BaseDropDown2.default
+      },
+
+      forms: {
+        helpers: {
+          FormUtil: _FormUtil2.default,
+          SchemaFormFactory: _SchemaFormFactory2.default
+        },
+
+        components: {
+          Toolbar: _Toolbar2.default
+        },
+
+        inputs: {
+          TextBox: _TextBox2.default,
+          PasswordBox: _PasswordBox2.default,
+          CheckBox: _CheckBox2.default,
+          Radio: _Radio2.default,
+          Select: _Select2.default
+        }
+      }
+    },
+
+    models: {
+      BaseSchema: _BaseSchema2.default,
+      SchemaProperty: _SchemaProperty2.default
+    }
+  }
+};
+
+Okta.registerInput('text', _TextBox2.default);
+Okta.registerInput('password', _PasswordBox2.default);
+Okta.registerInput('checkbox', _CheckBox2.default);
+Okta.registerInput('radio', _Radio2.default);
+Okta.registerInput('select', _Select2.default);
+
+module.exports = Okta;
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports) {
+
+module.exports = require("underscore");
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_backbone__);
+
+
+
+
+var STATE = '__STATE__',
+    FETCH_DATA = 'FETCH_DATA',
+    PAGINATION_DATA = 'PAGINATION_DATA',
+    DEFAULT_PARAMS = 'DEFAULT_PARAMS',
+    LINK_BY_HEADER = 'LINK_BY_HEADER',
+    XHR = 'XHR';
+
+/*
+ * Sets the next page URL on the collection from link headers
+ * See: http://www.rfc-editor.org/rfc/rfc5988.txt
+ *
+ * This method is looking for a link header with `rel="next"`
+ * An set's it as the next page's URL.
+ *
+ * If it doesn't find a next page, and current page is set by a link header
+ * it assumes we are at the last page and deletes the current `next`
+ */
+function setLinkHeadersPagination(collection, xhr) {
+  try {
+    var links = parseLinkHeader(xhr.getResponseHeader('link'));
+    collection[STATE].set(LINK_BY_HEADER, true);
+    collection.setPagination(links['next'].href);
+  }
+  catch (e) {
+    if (collection[STATE].get(LINK_BY_HEADER)) {
+      collection.setPagination(null);
+    }
+  }
+}
+
+function parseQuery(url) {
+  var params = {},
+      rawQueryStr = url && url.split('?')[1],
+      queryString = rawQueryStr && decodeURIComponent(rawQueryStr.split('#')[0]).replace(/\+/g, ' '),
+      props = queryString ? queryString.split('&') : [];
+  for (var i = 0; i < props.length; i++) {
+    var parts = props[i].split('=');
+    params[parts.shift()] = parts.join('=');
+  }
+  return params;
+}
+
+// ################################################
+// # Source: https://gist.github.com/deiu/9335803
+// ################################################
+
+// unquote string (utility)
+function unquote(value) {
+  if (value.charAt(0) == '"' && value.charAt(value.length - 1) == '"') {
+    return value.substring(1, value.length - 1);
+  }
+  return value;
+}
+/*
+parse a Link header
+Link:<https://example.org/.meta>; rel=meta
+var r = parseLinkHeader(xhr.getResponseHeader('Link');
+r['meta']['href'] outputs https://example.org/.meta
+*/
+function parseLinkHeader(header) {
+  /* eslint max-statements: 0 */
+  var linkexp = /<[^>]*>\s*(\s*;\s*[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*")))*(,|$)/g,
+      paramexp = /[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*"))/g;
+
+  var matches = header.match(linkexp);
+  var rels = {};
+  for (var i = 0; i < matches.length; i++) {
+    var split = matches[i].split('>');
+    var href = split[0].substring(1);
+    var link = {};
+    link.href = href;
+    var s = split[1].match(paramexp);
+    for (var j = 0; j < s.length; j++) {
+      var paramsplit = s[j].split('=');
+      var name = paramsplit[0];
+      link[name] = unquote(paramsplit[1]);
+    }
+
+    if (link.rel !== undefined) {
+      rels[link.rel] = link;
+    }
+  }
+
+  return rels;
+}
+
+// ################################################
+// # /Source
+// ################################################
+//
+
+/**
+ *
+ * Archer.Collection is a standard [Backbone.Collection](http://backbonejs.org/#Collection) with pre-set `data`
+ * parameters and built in pagination - works with [http link headers](https://tools.ietf.org/html/rfc5988)
+ * out of the box:
+ *
+ * @class src/framework/Collection
+ * @extends external:Backbone.Collection
+ * @example
+ * var Users = Archer.Collection.extend({
+ *   url: '/api/v1/users'
+ *   params: {expand: true}
+ * });
+ * var users = new Users(null, {params: {type: 'new'}}),
+ *     $button = this.$('a.fetch-more');
+ *
+ * $button.click(function () {
+ *   users.fetchMore();
+ * });
+ *
+ * this.listenTo(users, 'sync', function () {
+ *   $button.toggle(users.hasMore());
+ * });
+ *
+ * collection.fetch(); //=> '/api/v1/users?expand=true&type=new'
+ */
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.extend(/** @lends src/framework/Collection.prototype */ {
+
+  /**
+   * Default fetch parameters
+   * @type {Object}
+   */
+  params: {},
+
+  constructor: function (models, options) {
+    var state = this[STATE] = new __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model();
+    state.set(DEFAULT_PARAMS, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(options && options.params || {}, this.params || {}));
+    __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.apply(this, arguments);
+  },
+
+  /**
+   * See [Backbone Collection.sync](http://backbonejs.org/#Collection-sync).
+   */
+  sync: function (method, collection, options) {
+    var self = this,
+        success = options.success;
+    options.success = function (resp, status, xhr) {
+      // its important to set the pagination data *before* we call the success callback
+      // because we want the pagination data to be ready when the collection triggers the `sync` event
+      setLinkHeadersPagination(self, xhr);
+      success.apply(null, arguments);
+    };
+    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.sync.call(this, method, collection, options);
+  },
+
+  /**
+   * See [Backbone Collection.fetch](http://backbonejs.org/#Collection-fetch).
+   */
+  fetch: function (options) {
+    options || (options = {});
+    var state = this[STATE],
+        xhr = state.get(XHR);
+
+    options.data = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, state.get(DEFAULT_PARAMS), options.data || {});
+    options.fromFetch = true;
+
+    state.set(FETCH_DATA, options.data);
+    if (xhr && xhr.abort && options.abort !== false) {
+      xhr.abort();
+    }
+    xhr = __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.fetch.call(this, options);
+    state.set(XHR, xhr);
+    return xhr;
+  },
+
+  /**
+   * Set pagination data to get to the next page
+   * @param {Mixed} params
+   * @param {Object} [options]
+   * @param {Boolean} [options.fromFetch] should we include data from the previous fetch call in this object
+   * @example
+   * collection.setPagination({q: 'foo', page: '2'}); //=> {q: 'foo', page: '2'}
+   *
+   * collection.setPagination('/path/to/resource?q=baz&page=4'); //=> {q: 'baz', page: '4'}
+   *
+   * collection.setPagination('/path/to/resource'); //=> {}
+   *
+   * collection.fetch({data: {q: 'foo'}});
+   * collection.setPagination({page: 2}, {fromFetch: true}); //=> {q: 'foo', page: 2}
+   *
+   * any "falsy" value resets pagination
+   * collection.setPagination(); //=> {}
+   * collection.setPagination(null); //=> {}
+   * collection.setPagination(false); //=> {}
+   * collection.setPagination(''); //=> {}
+   * collection.setPagination(0); //=> {}
+   * @protected
+   */
+  setPagination: function (params, options) {
+    /* eslint complexity: [2, 8] */
+    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isString(params) && params) {
+      params = parseQuery(params);
+    }
+    if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isObject(params) || __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(params) || !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(params)) {
+      params = null;
+    }
+    else if (options && options.fromFetch) {
+      params = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, this.getFetchData(), params);
+    }
+    this[STATE].set(PAGINATION_DATA, params);
+  },
+
+  /**
+   * Returns the `data` parameters applied in th most recent `fetch` call
+   * It will include parameters set by {@link #params} and optios.params passed to the constructor
+   * @return {Object}
+   * @protected
+   */
+  getFetchData: function () {
+    return this[STATE].get(FETCH_DATA) || {};
+  },
+
+  /**
+   * Data object for constructing a request to fetch the next page
+   * @return {Object}
+   * @protected
+   */
+  getPaginationData: function () {
+    return this[STATE].get(PAGINATION_DATA) || {};
+  },
+
+  /**
+   * Does this collection have more data on the server (e.g is there a next "page")
+   * @return {Boolean}
+   */
+  hasMore: function () {
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(this.getPaginationData()) > 0;
+  },
+
+  /**
+   * Get the next page from the server
+   * @return {Object} xhr returned by {@link #fetch}
+   */
+  fetchMore: function () {
+    if (!this.hasMore()) {
+      throw new Error('Invalid Request');
+    }
+    return this.fetch({ data: this.getPaginationData(), add: true, remove: false, update: true });
+  },
+
+  /**
+   * See [Backbone Collection.reset](http://backbonejs.org/#Collection-reset).
+   */
+  reset: function (models, options) {
+    options || (options = {});
+    // only reset the pagination when reset is being called explicitly.
+    // this is to avoid link headers pagination being overriden and reset when
+    // fetching the collection using `collection.fetch({reset: true})`
+    if (!options.fromFetch) {
+      this.setPagination(null);
+    }
+    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.reset.apply(this, arguments);
+  },
+
+  // we want "where" to be able to search through derived properties as well
+  where: function (attrs, first) {
+    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isEmpty(attrs)) {
+      return first ? void 0 : [];
+    }
+    return this[first ? 'find' : 'filter'](function (model) {
+      for (var key in attrs) {
+        if (attrs[key] !== model.get(key)) {
+          return false;
+        }
+      }
+      return true;
+    });
+  },
+
+  /**
+   * See [Backbone Collection.create](http://backbonejs.org/#Collection-create).
+   */
+  create: function (model, options) {
+    options || (options = {});
+    if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(model, 'urlRoot')) {
+      options.url = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'url');
+    }
+    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.create.call(this, model, options);
+  }
+
+}));
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_backbone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Logger__ = __webpack_require__(7);
+
+
+
+
+
+
+/**
+   * Archer.Model is a standard [Backbone.Model](http://backbonejs.org/#Model) with a few additions:
+   *
+   * - {@link src/framework/Model#derived Derived properties}
+   * - {@link src/framework/Model#props Built in schema validation}
+   * - {@link src/framework/Model#local Private properties (with schema validation)}
+   * - {@link src/framework/Model#flat Flattening of nested objects}
+   *
+   * Both derived and private properties are filtered out when sending the data to the server.
+   *
+   * See [Backbone.Model](http://backbonejs.org/#Model-constructor).
+   *
+   * @class src/framework/Model
+   * @extends external:Backbone.Model
+   * @param {Object} [attributes] - Initial model attributes (data)
+   * @param {Object} [options] - Options hash
+   * @example
+   * var Person = Archer.Model.extend({
+   *   props: {
+   *     'fname': 'string',
+   *     'lname': 'string'
+   *   },
+   *   local: {
+   *     isLoggedIn: 'boolean'
+   *   },
+   *   derived: {
+   *     name: {
+   *       deps: ['fname', 'lname'],
+   *       fn: function (fname, lname) {
+   *         return fname + ' ' + lname;
+   *       }
+   *     }
+   *   }
+   * });
+   * var model = new Person({fname: 'Joe', lname: 'Doe'});
+   * model.get('name'); //=> "Joe Doe"
+   * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
+   *
+   * model.set('isLoggedIn', true);
+   * model.get('isLoggedIn'); //=> true
+   * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
+   */
+var Model;
+
+function flatten(value, objectTypeFields, key, target) {
+  var filter = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].contains(objectTypeFields, key);
+  target || (target = {});
+  if (!filter && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isObject(value) && !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(value) && !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(value)) {
+    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(value, function (val, i) {
+      flatten(val, objectTypeFields, key ? (key + '.' + i) : i, target);
+    });
+  }
+  // Case where target is an empty object. Guard against returning {undefined: undefined}.
+  else if (key !== undefined) {
+    target[key] = value;
+  }
+  return target;
+}
+
+function unflatten(data) {
+  __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(data, function (value, key, data) {
+    if (key.indexOf('.') == -1) {
+      return;
+    }
+    var part,
+        ref = data,
+        parts = key.split('.');
+    while ((part = parts.shift()) !== undefined) {
+      if (!ref[part]) {
+        ref[part] = parts.length ? {} : value;
+      }
+      ref = ref[part];
+    }
+    delete data[key];
+  });
+  return data;
+}
+
+function createMessage(field, msg) {
+  var obj = {};
+  obj[field.name] = msg;
+  return obj;
+}
+
+function normalizeSchemaDef(field, name) {
+  var target;
+  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isString(field)) {
+    target = {
+      type: field
+    };
+  }
+  else if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(field)) {
+    target = {
+      type: field[0],
+      required: field[1],
+      value: field[2]
+    };
+  }
+  else {
+    target = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(field);
+  }
+  __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(target, {required: false, name: name});
+  return target;
+}
+
+function capitalize(string) {
+  return string.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+    return letter.toUpperCase();
+  });
+}
+
+function _validateRegex(value, pattern, error) {
+  if (!pattern.test(value)) {
+    return error;
+  }
+}
+
+var StringFormatValidators = {
+  /*eslint max-len: 0 */
+  email: function (value) {
+    // Taken from  http://emailregex.com/ on 2017-03-06.
+    var pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return _validateRegex(value, pattern, Model.ERROR_INVALID_FORMAT_EMAIL);
+  },
+  uri: function (value) {
+    // source: https://mathiasbynens.be/demo/url-regex
+    var pattern = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+    return _validateRegex(value, pattern, Model.ERROR_INVALID_FORMAT_URI);
+  },
+  ipv4: function (value) {
+    // source: https://www.safaribooksonline.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html
+    var pattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    return _validateRegex(value, pattern, Model.ERROR_INVALID_FORMAT_IPV4);
+  },
+  hostname: function (value) {
+    // source: http://www.regextester.com/23
+    var pattern = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$/;
+    return _validateRegex(value, pattern, Model.ERROR_INVALID_FORMAT_HOSTNAME);
+  }
+};
+
+function validateStringFormat(field, value) {
+  var validator = StringFormatValidators[field.format];
+  if (field.format && !validator) {
+    throw new TypeError(field.format + ' is not a supported string format');
+  }
+  return validator && validator(value);
+}
+
+function validateString(field, value) {
+  var createMessageWith = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].partial(createMessage, field),
+      invalidFormat = validateStringFormat(field, value);
+  if (invalidFormat) {
+    return createMessageWith(invalidFormat);
+  }
+  if (value && field.minLength && value.length < field.minLength) {
+    return createMessageWith(Model.ERROR_STRING_STRING_MIN_LENGTH, value.length);
+  }
+  if (value && field.maxLength && value.length > field.maxLength) {
+    return createMessageWith(Model.ERROR_STRING_STRING_MAX_LENGTH, value.length);
+  }
+}
+
+function validateField(field, value) {
+  /* eslint complexity: [2, 23], max-statements: [2, 19] */
+  var createMessageWith = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].partial(createMessage, field),
+      isDefined = !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value) && !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isNull(value),
+      checkType,
+      errorMessage;
+
+  // check required fields
+  if (field.required && (!isDefined || __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isNull(value) || value === '')) {
+    return createMessageWith(Model.ERROR_BLANK);
+  }
+  // check type
+  checkType = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"]['is' + capitalize(field.type)];
+  if (isDefined && field.type != 'any' && (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(checkType) || !checkType(value))) {
+    return createMessageWith(Model.ERROR_WRONG_TYPE);
+  }
+  // validate string format
+  if (value && field.type == 'string') {
+    var error = validateString(field, value);
+    if (error) {
+      return error;
+    }
+  }
+  // check pre set values (enum)
+  if (isDefined && field.values && !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].contains(field.values, value)) {
+    return createMessageWith(Model.ERROR_NOT_ALLOWED);
+  }
+  // check validate method
+  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(field.validate)) {
+    var result = field.validate(value);
+    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isString(result) && result) {
+      return createMessageWith(result);
+    }
+    else if (result === false) {
+      return createMessageWith(Model.ERROR_INVALID);
+    }
+  }
+  // check array items
+  if (isDefined && field.type == 'array' && (errorMessage = validateArrayField(field, value))) {
+    return createMessageWith(errorMessage);
+  }
+}
+
+function validateArrayField(field, arr) {
+  if (field.minItems && arr.length < field.minItems) {
+    return 'model.validation.field.array.minItems';
+  }
+  else if (field.maxItems && arr.length > field.maxItems) {
+    return 'model.validation.field.array.maxItems';
+  }
+  else if (field.uniqueItems && arr.length > __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].uniq(arr).length) {
+    return Model.ERROR_IARRAY_UNIQUE;
+  }
+  else if (field.items) {
+    /* eslint max-depth: [2, 3] */
+    var arrayField = normalizeSchemaDef(field.items, 'placeholder');
+    for (var i = 0; i < arr.length; i++) {
+      var value = arr[i];
+      var error = validateField(arrayField, value);
+      if (error) {
+        return error['placeholder'];
+      }
+    }
+  }
+}
+
+Model = __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.extend(/** @lends src/framework/Model.prototype */ {
+
+  /**
+     * Pass props as an object to extend, describing the observable properties of your model. The props
+     * properties should not be set on an instance, as this won't define new properties, they should only be passed to
+     * extend.
+     * Properties can be defined in three different ways:
+     *
+     * - As a string with the expected dataType. One of string, number, boolean, array, object, date, or any.
+     * Eg: `name: 'string'`.
+     * - An array of `[dataType, required, default]`
+     * - An object `{type: 'string', format: '', required: true, value: '', values: [], validate: function() {}`
+     *   - `value` will be the value that the property will be set to if it is undefined, either by not being set during
+     *   initialization, or by being explicitly set to undefined.
+     *   - `format` is a json-schame derived string format. Supported formats are: `email`, `uri`, `hostname` and `ipv4`.
+     *   - If `required` is true, one of two things will happen. If a default is set for the property, the property will
+     *   start with that value. If a default is not set for the property, validation will fail
+     *   - If `values` array is passed, then you'll be able to change a property to one of those values only.
+     *   - If `validate` is defined, it should return false or a custom message string when the validation fails.
+     *   - If the type is defined as `array`, the array elements could be defined by `minItems` (Number),
+     *   `uniqueItems` (Boolean) and `items` (a field definition such as this one that will validate each array member)
+     *   To the `validate` method
+     *   - Trying to set a property to an invalid type will raise an exception.
+     *
+     * @type {Mixed}
+     * @example
+     * var Person = Model.extend({
+     *   props: {
+     *     name: 'string',
+     *     age: 'number',
+     *     paying: ['boolean', true, false], //required attribute, defaulted to false
+     *     type: {
+     *       type: 'string',
+     *       values: ['regular-hero', 'super-hero', 'mega-hero']
+     *     },
+     *     likes: {
+     *       type: 'string',
+     *       validate: function (value) {
+     *         return /^[\w]+ing$/.test(value)
+     *       }
+     *     }
+     *   }
+     * });
+     */
+  props: {},
+
+  /**
+     * Derived properties (also known as computed properties) are properties of the model that depend on the
+     * other (props, local or even derived properties to determine their value. Best demonstrated with an example:
+     *
+     * Each derived property, is defined as an object with the current properties:
+     *
+     * - `deps` {Array} - An array of property names which the derived property depends on.
+     * - `fn` {Function} - A function which returns the value of the computed property. It is called in the context of
+     * the current object, so that this is set correctly.
+     * - `cache` {Boolean} -  - Whether to cache the property. Uncached properties are computed every time they are
+     * accessed. Useful if it depends on the current time for example. Defaults to `true`.
+     *
+     * Derived properties are retrieved and fire change events just like any other property. They cannot be set
+     * directly.
+     * @type {Object}
+     * @example
+     * var Person = Model.extend({
+     *   props: {
+     *     firstName: 'string',
+     *     lastName: 'string'
+     *   },
+     *   derived: {
+     *     fullName: {
+     *       deps: ['firstName', 'lastName'],
+     *       fn: function (firstName, lastName) {
+     *         return firstName + ' ' + lastName;
+     *       }
+     *     }
+     *   }
+     * });
+     *
+     * var person = new Person({ firstName: 'Phil', lastName: 'Roberts' })
+     * console.log(person.get('fullName')) //=> "Phil Roberts"
+     *
+     * person.set('firstName', 'Bob');
+     * console.log(person.get('fullName')) //=> "Bob Roberts"
+     */
+  derived: {},
+
+  /**
+     * local properties are defined and work in exactly the same way as {@link src/framework/Model#props|props}, but generally only exist for
+     * the lifetime of the page.
+     * They would not typically be persisted to the server, and are not returned by calls to {@link src/framework/Model#toJSON|toJSON}.
+     *
+     * @type {Object}
+     * @example
+     * var Person = Model.extend({
+     *   props: {
+     *     name: 'string',
+     *   },
+     *   local: {
+     *     isLoggedIn: 'boolean'
+     *   }
+     * );
+     */
+  local: {},
+
+  /**
+     * Flatten the payload into dot notation string keys:
+     *
+     * @type {Boolean}
+     * @example
+     * var Person = Model.extend({
+     *   props: {
+     *     'profile.fname': 'string',
+     *     'profile.lname': 'string',
+     *     'profile.languages': 'object'
+     *   },
+     *   flat: true
+     * });
+     * var person = new Person({'profile': {
+     *                            'fname': 'John',
+     *                            'lname': 'Doe',
+     *                            'languages': {name: "English", value: "EN"}
+     *                         }}, {parse: true});
+     * person.get('profile'); //=> undefined
+     * person.get('profile.fname'); //=> 'John'
+     * person.get('profile.lname'); //=> 'Doe'
+     * person.get('profile.languages'); //=> {name: "English", value: "EN"}
+     * person.get('profile.languages.name'); //=> undefined
+     * person.toJSON(); //=> {'profile': {'fname': 'John'} }
+     */
+  flat: true,
+
+  /**
+     * @deprecated
+     * @alias Backbone.Model#defaults
+     */
+  defaults: {},
+
+  constructor: function (options) {
+    this.options = options || {};
+
+    var schema = this['__schema__'] = {},
+        objectTypeFields = [];
+
+    schema.computedProperties = {};
+
+    schema.props = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'props') || {});
+    schema.derived = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'derived') || {});
+    schema.local = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'local') || {});
+
+    var defaults = {};
+    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, schema.props, schema.local), function (options, name) {
+      var schemaDef = normalizeSchemaDef(options, name);
+      if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(schemaDef.value)) {
+        defaults[name] = schemaDef.value;
+      }
+      if (schemaDef.type === 'object') {
+        objectTypeFields.push(name);
+      }
+    }, this);
+    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(defaults)) {
+      var localDefaults = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'defaults');
+      this.defaults = function () {
+        return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults({}, defaults, localDefaults);
+      };
+    }
+
+    // override `validate`
+    this.validate = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].wrap(this.validate, function (validate) {
+      var args = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].rest(arguments),
+          res = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(this._validateSchema.apply(this, args), validate.apply(this, args));
+      return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(res) && res || undefined;
+    });
+
+    // override `parse`
+    this.parse = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].wrap(this.parse, function (parse) {
+      var target = parse.apply(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].rest(arguments));
+      if (this.flat) {
+        target = flatten(target, objectTypeFields);
+      }
+      return target;
+    });
+
+    __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.apply(this, arguments);
+
+    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(schema.derived, function (options, name) {
+      schema.computedProperties[name] = this.__getDerivedValue(name); // set initial value;
+      var deps = options.deps || [];
+      if (deps.length) {
+        this.on('cache:clear change:' + deps.join(' change:'), function () {
+          var value = this.__getDerivedValue(name);
+          if (value !== schema.computedProperties[name]) {
+            schema.computedProperties[name] = value;
+            this.trigger('change:' + name, this, value);
+          }
+        }, this);
+      }
+    }, this);
+
+    this.on('sync', function () {
+      this.__syncedData = this.toJSON();
+    }, this);
+  },
+
+  validate: function () {},
+
+  /**
+     * Check if the schema settings allow this field to exist in the model
+     * @param  {String} key
+     * @return {Boolean}
+     */
+  allows: function (key) {
+    var schema = this['__schema__'],
+        all = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, schema.props, schema.local);
+    if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].has(all, key)) {
+      __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('Field not defined in schema', key);
+    }
+    return true;
+  },
+
+  /**
+     * Returns the schema for the specific property
+     *
+     * @param propName - The name of the property
+     * @returns {*} | null
+     */
+  getPropertySchema: function (propName) {
+    var schema = this['__schema__'];
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].reduce([schema.props, schema.local], function (result, options) {
+      return result || normalizeSchemaDef(options[propName], propName);
+    }, null);
+  },
+
+  set: function (key, val) {
+    var attrs;
+    if (typeof key === 'object') {
+      attrs = key;
+    } else {
+      (attrs = {})[key] = val;
+    }
+
+    // Don't override a computed properties
+    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(attrs, function (value, key) {
+      if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].has(this['__schema__'].derived, key)) {
+        throw 'overriding derived properties is not supported: ' + key;
+      }
+    }, this);
+
+    // Schema validation
+    var errorFields = [];
+    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(attrs, function (value, key) {
+      this.allows(key) || errorFields.push(key);
+    }, this);
+    if (errorFields.length) {
+      throw 'field not allowed: ' + errorFields.join(', ');
+    }
+
+    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.prototype.set.apply(this, arguments);
+  },
+
+  get: function (attr) {
+    var schema = this['__schema__'];
+    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].has(schema.derived, attr)) {
+      if (schema.derived[attr].cache !== false) {
+        return schema.computedProperties[attr];
+      }
+      else {
+        return this.__getDerivedValue(attr);
+      }
+    }
+    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.prototype.get.apply(this, arguments);
+  },
+
+  /**
+     * Return a shallow copy of the model's attributes for JSON stringification.
+     * This can be used for persistence, serialization, or for augmentation before being sent to the server.
+     * The name of this method is a bit confusing, as it doesn't actually return a JSON string —
+     * but I'm afraid that it's the way that the JavaScript API for JSON.stringify works.
+     *
+     * See [Backbone.Model.toJSON](http://backbonejs.org/#Model-toJSON)
+     *
+     * @param  {Object} options
+     * @return {Object}
+     * @example
+     * var artist = new Model({
+     *   firstName: 'Wassily',
+     *   lastName: 'Kandinsky'
+     * });
+     *
+     * artist.set({birthday: 'December 16, 1866'});
+     * JSON.stringify(artist); //=> {'firstName':'Wassily','lastName':'Kandinsky','birthday':'December 16, 1866'}
+     */
+  toJSON: function (options) {
+    options || (options = {});
+    var res = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(__WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.prototype.toJSON.apply(this, arguments)),
+        schema = this['__schema__'];
+
+    // cleanup local properties
+    if (!options.verbose) {
+      res = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].omit(res, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].keys(schema.local));
+    }
+    else { // add derived properties
+      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(schema.derived, function (options, name) {
+        res[name] = this.get(name);
+      }, this);
+    }
+
+    if (this.flat) {
+      res = unflatten(res);
+    }
+
+    return res;
+  },
+
+  /**
+     * Removes all attributes from the model, including the id attribute.
+     * Fires a `"change"` event unless `silent` is passed as an option.
+     * Sets the default values to the model
+     * @param {Object} [options]
+     */
+  reset: function (options) {
+    this.clear(options);
+    this.set(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'defaults'), options);
+  },
+
+  /**
+     * Is the data on the model has local modifications since the last sync event?
+     * @return {Boolean} is the model in sync with the server
+     */
+  isSynced: function () {
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isEqual(this.__syncedData, this.toJSON());
+  },
+
+  /**
+     * validate a specific field in the model.
+     * @param  {String} key
+     * @return {Object} returns `{fieldName: errorMessage}` if invalid, otherwise undefined.
+     * @readonly
+     */
+  validateField: function (key) {
+    var schema = key && this.getPropertySchema(key);
+    return schema && validateField(schema, this.get(key));
+  },
+
+  /**
+     * Runs local schema validation. Invoked internally by {@link src/framework/Model#validate|validate}.
+     * @return {Object}
+     * @protected
+     */
+  _validateSchema: function () {
+    var schema = this['__schema__'];
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].reduce(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, schema.props, schema.local), function (memo, options, name) {
+      return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(memo, this.validateField(name) || {});
+    }, {}, this);
+  },
+
+  __getDerivedValue: function (name) {
+    var options = this['__schema__'].derived[name];
+    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isString(options)) {
+      var key = options;
+      options = {
+        deps: [key],
+        fn: function () {
+          return this.get(key);
+        }
+      };
+    }
+    var deps = options.deps || [];
+    return options.fn.apply(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].map(deps, this.get, this));
+  }
+
+},
+{
+  ERROR_BLANK: 'model.validation.field.blank',
+  ERROR_WRONG_TYPE: 'model.validation.field.wrong.type',
+  ERROR_NOT_ALLOWED: 'model.validation.field.value.not.allowed',
+  ERROR_INVALID: 'model.validation.field.invalid',
+  ERROR_IARRAY_UNIQUE: 'model.validation.field.array.unique',
+  ERROR_INVALID_FORMAT_EMAIL: 'model.validation.field.invalid.format.email',
+  ERROR_INVALID_FORMAT_URI: 'model.validation.field.invalid.format.uri',
+  ERROR_INVALID_FORMAT_IPV4: 'model.validation.field.invalid.format.ipv4',
+  ERROR_INVALID_FORMAT_HOSTNAME: 'model.validation.field.invalid.format.hostname',
+  ERROR_STRING_STRING_MIN_LENGTH: 'model.validation.field.string.minLength',
+  ERROR_STRING_STRING_MAX_LENGTH: 'model.validation.field.string.maxLength'
+}
+);
+
+/* harmony default export */ __webpack_exports__["a"] = (Model);
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseCollection__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseModel__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SchemaProperty__ = __webpack_require__(17);
+
+
+
+
+
+const parseProperties = function (resp) {
+  const schemaMeta = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].pick(resp, 'id', 'name', 'displayName');
+
+  const properties = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].map(resp.schema.properties, function (property, name) {
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({ name }, property);
+  });
+
+  __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(properties, function (property) {
+    property['__schemaMeta__'] = schemaMeta;
+
+    if (property.__metadata) {
+      property['__metadata__'] = property.__metadata;
+      delete property.__metadata;
+    }
+  });
+  return properties;
+};
+
+const BaseSchemaSchema = __WEBPACK_IMPORTED_MODULE_2__BaseModel__["default"].extend({
+  defaults: {
+    id: undefined,
+    displayName: undefined,
+    name: undefined
+  },
+
+  constructor: function () {
+    this.properties = new __WEBPACK_IMPORTED_MODULE_3__SchemaProperty__["default"].Collection();
+    __WEBPACK_IMPORTED_MODULE_2__BaseModel__["default"].apply(this, arguments);
+  },
+
+  getProperties: function () {
+    return this.properties;
+  },
+
+  clone: function () {
+    const model = __WEBPACK_IMPORTED_MODULE_2__BaseModel__["default"].prototype.clone.apply(this, arguments);
+
+    model.getProperties().set(this.getProperties().toJSON({ verbose: true }));
+    return model;
+  },
+
+  parse: function (resp) {
+    const properties = parseProperties(resp);
+
+    this.properties.set(properties, { parse: true });
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].omit(resp, 'schema');
+  },
+
+  trimProperty: function (property) {
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].omit(property, 'name');
+  },
+
+  toJSON: function () {
+    const json = __WEBPACK_IMPORTED_MODULE_2__BaseModel__["default"].prototype.toJSON.apply(this, arguments);
+
+    json.schema = { properties: {} };
+    this.getProperties().each(function (model) {
+      const property = model.toJSON();
+
+      json.schema.properties[property.name] = this.trimProperty(property);
+    }, this);
+    return json;
+  },
+
+  save: function () {
+    this.getProperties().each(function (model) {
+      model.cleanup();
+    });
+    return __WEBPACK_IMPORTED_MODULE_2__BaseModel__["default"].prototype.save.apply(this, arguments);
+  }
+});
+const BaseSchemaSchemas = __WEBPACK_IMPORTED_MODULE_1__BaseCollection__["default"].extend({
+  model: BaseSchemaSchema
+});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  parseProperties: parseProperties,
+  Model: BaseSchemaSchema,
+  Collection: BaseSchemaSchemas
+});
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports) {
+
+module.exports = require("okta-i18n-bundles");
+
+/***/ }),
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseRouter__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SettingsModel__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StateMachine__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_BaseView__ = __webpack_require__(1);
+/* eslint max-len: [2, 150] */
+
+
+
+
+
+
+
+function clean(obj) {
+  const res = {};
+
+  __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].each(obj, function (value, key) {
+    if (!__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].isNull(value)) {
+      res[key] = value;
+    }
+  });
+  return res;
+}
+
+/**
+ * A Controller is our application control flow component.
+ *
+ * Typically it will:
+ * - Initialize the models, controller and main views
+ * - Listen to events
+ * - Create, read, update and delete models
+ * - Create modal dialogs, confirmation dialogs and alert dialogs
+ * - Control the application flow
+ *
+ * The constructor is responsible for:
+ * - Create the application state object
+ * - Assign or creates the application settings object
+ * - Create an instance of the main view with the relevant parameters
+ *
+ * See:
+ * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
+ * [Jasmine Spec](https://github.com/okta/okta-core/blob/master/WebContent/js/test/unit/spec/shared/util/BaseController_spec.js)
+ *
+ * @class module:Okta.Controller
+ * @param {Object} options Options Hash
+ * @param {SettingsModel} [options.settings] Application Settings Model
+ * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
+ */
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].extend(
+  /** @lends module:Okta.Controller.prototype */ {
+    constructor: function (options) {
+      /* eslint max-statements: [2, 13], complexity: [2, 7]*/
+      options || (options = {});
+
+      const stateData = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].defaults(clean(options.state), this.state || {});
+
+      this.state = new __WEBPACK_IMPORTED_MODULE_4__StateMachine__["a" /* default */](stateData);
+      delete options.state;
+
+      if (options.settings) {
+        this.settings = options.settings;
+      } else {
+        // allow the controller to live without a router
+        this.settings = options.settings = new __WEBPACK_IMPORTED_MODULE_3__SettingsModel__["a" /* default */](__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].omit(options || {}, 'el'));
+        this.listen('notification', __WEBPACK_IMPORTED_MODULE_2__BaseRouter__["default"].prototype._notify);
+        this.listen('confirmation', __WEBPACK_IMPORTED_MODULE_2__BaseRouter__["default"].prototype._confirm);
+      }
+
+      __WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].call(this, options);
+
+      this.listenTo(this.state, '__invoke__', function () {
+        const args = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].toArray(arguments);
+
+        const method = args.shift();
+
+        if (__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].isFunction(this[method])) {
+          this[method].apply(this, args);
+        }
+      });
+
+      if (this.View) {
+        this.add(new this.View(this.toJSON()));
+      }
+    },
+
+    /**
+     * The default values of our application state
+     * @type {Object}
+     * @default {}
+     */
+    state: {},
+
+    /**
+     * The main view this controller operate on
+     * @type {module:Okta.View}
+     * @default null
+     */
+    View: null,
+
+    /**
+     * Renders the {@link module:Okta.Controller#View|main view} after the DOM is ready
+     * in case the controller is the root component of the page (e.g there's no router)
+     */
+    render: function () {
+      const args = arguments;
+      const self = this;
+
+      Object(__WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__["default"])(function () {
+        __WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].prototype.render.apply(self, args);
+      });
+      return this;
+    },
+
+    /**
+     * Creates the view constructor options
+     * @param {Object} [options] Extra options
+     * @return {Object} The view constructor options
+     */
+    toJSON: function (options) {
+      return __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].extend(__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].pick(this, 'state', 'settings', 'collection', 'model'), options || {});
+    },
+
+    /**
+     * Removes the child views, empty the DOM element and stop listening to events
+     */
+    remove: function () {
+      this.removeChildren();
+      this.stopListening();
+      this.$el.empty();
+      return this;
+    }
+  }
+));
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseView__ = __webpack_require__(1);
+
+
+
+const defaults = {
+  level: 'success',
+  message: 'Great Success!',
+  hide: true,
+  fade: 400,
+  delay: 3000,
+  width: 0,
+  dismissable: false
+};
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend({
+  className: 'infobox infobox-confirm infobox-confirm-fixed',
+
+  events: {
+    'click .infobox-dismiss-link': function (e) {
+      e.preventDefault();
+      this.fadeOut();
+    }
+  },
+
+  template:
+    '\
+      {{#if dismissable}}\
+      <a class="infobox-dismiss-link" title="Dismiss" href="#">\
+        <span class="dismiss-icon"></span>\
+      </a>\
+      {{/if}}\
+      <span class="icon {{level}}-16"></span>\
+      {{#if title}}<h3>{{title}}</h3>{{/if}}\
+      <p>{{message}}</p>\
+    ',
+
+  initialize: function () {
+    this.options = __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].defaults({}, this.options, defaults);
+    this.$el.addClass('infobox-' + this.options.level);
+    if (this.options.width) {
+      this.$el.width(this.options.width).css({
+        'margin-left': '0px',
+        left: Math.round((Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(window).width() - this.options.width) / 2)
+      });
+    }
+  },
+
+  getTemplateData: function () {
+    return __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].extend(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].pick(this.options, 'level', 'message', 'title'), {
+      dismissable: this.options.hide === false || this.options.dismissable === true
+    });
+  },
+
+  postRender: function () {
+    if (this.options.hide) {
+      __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].delay(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(this.fadeOut, this), this.options.delay);
+    }
+  },
+
+  fadeOut: function () {
+    this.$el.fadeOut(this.options.fade, __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(this.remove, this));
+  }
+}));
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Model__ = __webpack_require__(11);
+
+
+
+/**
+ * @class StateMachine
+ * @extends Okta.Model
+ * @private
+ *
+ * A state object that holds the applciation state
+ */
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_1__models_Model__["default"].extend({
+  extraProperties: true,
+  /**
+   * Invokes a method on the applicable {@link Okta.Controller}
+   *
+   * ```javascript
+   * state.invoke('methodName', 'param1', 'param2')
+   * // Will call
+   * contoller.methodName('param1', 'param2')
+   * ```
+   * @param {String} methodName the name of the controller method to invoke on the controller
+   */
+  invoke: function () {
+    const args = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].toArray(arguments);
+
+    args.unshift('__invoke__');
+    this.trigger.apply(this, args);
+  }
+}));
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseView__ = __webpack_require__(1);
+
+
+
+const disabledEvents = {
+  click: function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+};
+
+/**
+ * A configurable button.
+ * @class module:Okta.internal.views.components.BaseButtonLink
+ * @extends module:Okta.View
+ * @example
+ * var View = BaseButtonLink.extend({
+ *   title: 'Click Me',
+ *   icon: 'help-text'
+ * })
+ */
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend(
+  /** @lends module:Okta.internal.views.components.BaseButtonLink.prototype */ {
+    attributes() {
+      const defaultAttrs = {
+        'data-se': 'button'
+      };
+      const additionalAttr = this.__getAttribute('attrs');
+      return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(defaultAttrs, additionalAttr);
+    },
+    /**
+     * The main text for the button
+     * @name title
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {(String|Function)}
+     * @instance
+     */
+
+    /**
+     * The link for the button
+     * @name href
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {(String|Function)}
+     * @instance
+     */
+
+    /**
+     * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
+     * @name icon
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {(String|Function)}
+     * @instance
+     */
+
+    /**
+     * A [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
+     * @name events
+     * @memberof module:Okta.internal.views.components.BaseButtonLink
+     * @type {Object}
+     * @instance
+     */
+
+    tagName: 'a',
+
+    template: '{{#if icon}}<span class="icon {{icon}}"></span>{{/if}}{{#if title}}{{title}}{{/if}}',
+
+    /**
+     * Make this button visible, default to true.
+     * @type {(Boolean|Function)}
+     * @default true
+     */
+    visible: true,
+
+    /**
+     * Make this button enabled, default to true.
+     * @type {(Boolean|Function)}
+     * @default true
+     */
+    enabled: true,
+
+    /**
+     * The setting to determine when the button is enabled, default to {} and
+     * enabled takes a higher priority.
+     * @type {(Object|Function)}
+     * @default {}
+     */
+    enableWhen: {},
+
+    /**
+     * The setting to determine when the button is visible, default to {} and
+     * visible takes a higher priority.
+     * @type {(Object|Function)}
+     * @default {}
+     */
+    showWhen: {},
+
+    constructor: function (options) {
+      this.options = options || {};
+      const data = this.getTemplateData();
+
+      this.disabled = false;
+
+      __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].apply(this, arguments);
+
+      this.$el.addClass('link-button');
+      if (data.icon) {
+        this.$el.addClass('link-button-icon');
+        if (!data.title) {
+          this.$el.addClass('icon-only');
+        }
+      }
+    },
+
+    getTemplateData: function () {
+      return {
+        href: this.__getAttribute('href'),
+        title: this.__getAttribute('title'),
+        icon: this.__getAttribute('icon')
+      };
+    },
+
+    initialize: function () {
+      __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__["a" /* default */].applyDoWhen(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this, 'enableWhen', this), this.toggle);
+      __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__["a" /* default */].applyDoWhen(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this, 'showWhen', this), this.toggleVisible);
+    },
+
+    render: function () {
+      __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].prototype.render.apply(this, arguments);
+
+      if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'enabled')) {
+        this.toggle(false);
+      }
+
+      if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'visible')) {
+        this.toggleVisible(false);
+      }
+
+      const data = this.getTemplateData();
+
+      this.$el.attr('href', data.href || '#');
+
+      return this;
+    },
+
+    __getAttribute: function (name, defaultValue) {
+      let value = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this.options, name, this);
+
+      if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value)) {
+        value = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, name);
+      }
+      return !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value) ? value : defaultValue;
+    },
+
+    enable: function () {
+      this.toggle(true);
+    },
+
+    disable: function () {
+      this.toggle(false);
+    },
+
+    show: function () {
+      this.toggleVisible(true);
+    },
+
+    hide: function () {
+      this.toggleVisible(false);
+    },
+
+    toggle: function (enable) {
+      const bool = !!enable && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'enabled');
+      //this is to toggle the enability
+
+      this.disabled = !bool;
+      this.$el.toggleClass('link-button-disabled btn-disabled disabled', this.disabled);
+
+      // delegateEvents asynchronously in case the button is not yet added to the DOM
+      // in these cases the alternate events won't work
+      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defer(() => {
+        this.delegateEvents(this.disabled ? disabledEvents : null);
+      });
+    },
+
+    toggleVisible: function (visible) {
+      const hidden = !visible || !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'visible');
+
+      this.$el.toggleClass('hide', hidden);
+    }
+  }
+));
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_backbone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
+
+
+
+function Class(options) {
+  this.options = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].clone(options || {});
+  this.cid = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].uniqueId('class');
+  this.initialize.apply(this, arguments);
+}
+
+__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].extend(Class.prototype, __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Events, {
+  initialize: function () {}
+});
+
+Class.extend = __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Model.extend;
+
+/* harmony default export */ __webpack_exports__["default"] = (Class);
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie__);
+
+
+const SECURED_COOKIE = /^https/.test(window.location.href);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  setCookie: function (name, value, options) {
+    __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default.a.set(
+      name,
+      value,
+      __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].defaults(options || {}, {
+        secure: SECURED_COOKIE,
+        path: '/'
+      })
+    );
+  },
+
+  getCookie: function () {
+    return __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default.a.get.apply(__WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default.a, arguments);
+  },
+
+  removeCookie: function () {
+    return __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default.a.remove.apply(__WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default.a, arguments);
+  }
+});
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * JavaScript Cookie v2.1.0
+ * https://github.com/js-cookie/js-cookie
+ *
+ * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+ * Released under the MIT license
+ */
+(function (factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports === 'object') {
+		module.exports = factory();
+	} else {
+		var _OldCookies = window.Cookies;
+		var api = window.Cookies = factory();
+		api.noConflict = function () {
+			window.Cookies = _OldCookies;
+			return api;
+		};
+	}
+}(function () {
+	function extend () {
+		var i = 0;
+		var result = {};
+		for (; i < arguments.length; i++) {
+			var attributes = arguments[ i ];
+			for (var key in attributes) {
+				result[key] = attributes[key];
+			}
+		}
+		return result;
+	}
+
+	function init (converter) {
+		function api (key, value, attributes) {
+			var result;
+
+			// Write
+
+			if (arguments.length > 1) {
+				attributes = extend({
+					path: '/'
+				}, api.defaults, attributes);
+
+				if (typeof attributes.expires === 'number') {
+					var expires = new Date();
+					expires.setMilliseconds(expires.getMilliseconds() + attributes.expires * 864e+5);
+					attributes.expires = expires;
+				}
+
+				try {
+					result = JSON.stringify(value);
+					if (/^[\{\[]/.test(result)) {
+						value = result;
+					}
+				} catch (e) {}
+
+				if (!converter.write) {
+					value = encodeURIComponent(String(value))
+						.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
+				} else {
+					value = converter.write(value, key);
+				}
+
+				key = encodeURIComponent(String(key));
+				key = key.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent);
+				key = key.replace(/[\(\)]/g, escape);
+
+				return (document.cookie = [
+					key, '=', value,
+					attributes.expires && '; expires=' + attributes.expires.toUTCString(), // use expires attribute, max-age is not supported by IE
+					attributes.path    && '; path=' + attributes.path,
+					attributes.domain  && '; domain=' + attributes.domain,
+					attributes.secure ? '; secure' : ''
+				].join(''));
+			}
+
+			// Read
+
+			if (!key) {
+				result = {};
+			}
+
+			// To prevent the for loop in the first place assign an empty array
+			// in case there are no cookies at all. Also prevents odd result when
+			// calling "get()"
+			var cookies = document.cookie ? document.cookie.split('; ') : [];
+			var rdecode = /(%[0-9A-Z]{2})+/g;
+			var i = 0;
+
+			for (; i < cookies.length; i++) {
+				var parts = cookies[i].split('=');
+				var name = parts[0].replace(rdecode, decodeURIComponent);
+				var cookie = parts.slice(1).join('=');
+
+				if (cookie.charAt(0) === '"') {
+					cookie = cookie.slice(1, -1);
+				}
+
+				try {
+					cookie = converter.read ?
+						converter.read(cookie, name) : converter(cookie, name) ||
+						cookie.replace(rdecode, decodeURIComponent);
+
+					if (this.json) {
+						try {
+							cookie = JSON.parse(cookie);
+						} catch (e) {}
+					}
+
+					if (key === name) {
+						result = cookie;
+						break;
+					}
+
+					if (!key) {
+						result[name] = cookie;
+					}
+				} catch (e) {}
+			}
+
+			return result;
+		}
+
+		api.get = api.set = api;
+		api.getJSON = function () {
+			return api.apply({
+				json: true
+			}, [].slice.call(arguments));
+		};
+		api.defaults = {};
+
+		api.remove = function (key, attributes) {
+			api(key, '', extend(attributes, {
+				expires: -1
+			}));
+		};
+
+		api.withConverter = init;
+
+		return api;
+	}
+
+	return init(function () {});
+}));
+
+
+/***/ }),
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handlebars_helper_date__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__handlebars_helper_i18n__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__handlebars_helper_img__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__handlebars_helper_markdown__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__handlebars_helper_xsrfTokenInput__ = __webpack_require__(52);
+/* eslint @okta/okta/no-specific-modules: 0 */
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__ = __webpack_require__(0);
+/* eslint @okta/okta/enforce-requirejs-names: 0, @okta/okta/no-specific-modules: 0, max-params: 0, max-statements: 0 */
+
+
+
+
+function formatDate(format, dateInISOString) {
+  return __WEBPACK_IMPORTED_MODULE_1_moment___default.a
+    .utc(dateInISOString)
+    .utcOffset('-07:00')
+    .format(format);
+}
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('shortDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMM Do'));
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('mediumDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMMM DD, YYYY'));
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('longDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMMM DD, YYYY, h:mma'));
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('formatDate', formatDate);
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StringUtil__ = __webpack_require__(3);
+/* eslint @okta/okta/no-specific-modules: 0 */
+
+
+
+
+function trim(str) {
+  return str && str.replace(/^\s+|\s+$/g, '');
+}
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('i18n', function (options) {
+  let params;
+  const key = trim(options.hash.code);
+  const bundle = trim(options.hash.bundle);
+  const args = trim(options.hash['arguments']);
+
+  if (args) {
+    params = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].map(
+      trim(args).split(';'),
+      function (param) {
+        param = trim(param);
+        let val;
+        const data = this;
+
+        /*
+       * the context(data) may be a deep object, ex {user: {name: 'John', gender: 'M'}}
+       * arguments may be 'user.name'
+       * return data['user']['name']
+       */
+        __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].each(param.split('.'), function (p) {
+          val = val ? val[p] : data[p];
+        });
+        return val;
+      },
+      this
+    );
+  }
+
+  return __WEBPACK_IMPORTED_MODULE_2__StringUtil__["default"].localize(key, bundle, params);
+});
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
+/* eslint @okta/okta/no-specific-modules: 0 */
+
+
+const CACHE_BUST_URL_PREFIX = '/assets';
+
+function prependCachebustPrefix(path) {
+  if (path.indexOf(CACHE_BUST_URL_PREFIX) === 0) {
+    return path;
+  }
+  return CACHE_BUST_URL_PREFIX + path;
+}
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('img', function (options) {
+  const cdn = (typeof okta !== 'undefined' && okta.cdnUrlHostname) || '';
+  /*global okta */
+
+  const hash = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].pick(options.hash, ['src', 'alt', 'width', 'height', 'class', 'title']);
+
+  hash.src = '' + cdn + prependCachebustPrefix(hash.src);
+
+  const attrs = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].map(hash, function (value, attr) {
+    return attr + '="' + __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.Utils.escapeExpression(value) + '"';
+  });
+
+  return new __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.SafeString('<img ' + attrs.join(' ') + '/>');
+});
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__markdownToHtml__ = __webpack_require__(51);
+/* eslint @okta/okta/no-specific-modules: 0 */
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('markdown', function (mdText) {
+  return Object(__WEBPACK_IMPORTED_MODULE_1__markdownToHtml__["a" /* default */])(__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a, mdText);
+});
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = mdToHtml;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
+// Simple "markdown parser" - just handles markdown formatted links. If we
+// find that we need more extensive markdown support, we should include
+// a fully formulated markdown library like:
+// https://github.com/evilstreak/markdown-js
+
+const RE_LINK = /\[[^\]]*\]\([^)]*\)/gi;
+const RE_LINK_HREF = /\]\(([^)]*)\)/i;
+const RE_LINK_TEXT = /\[([^\]]*)\]/i;
+const RE_LINK_JS = /javascript:/gi;
+
+// Converts links
+// FROM:
+// [some link text](http://the/link/url)
+// TO:
+// <a href="http://the/link/url">some link text</a>
+function mdToHtml(Handlebars, markdownText) {
+  const linkTemplate = Handlebars.compile('<a href="{{href}}">{{text}}</a>');
+  /* eslint  @okta/okta/no-specific-methods: 0*/
+
+  let res;
+
+  if (!__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isString(markdownText)) {
+    res = '';
+  } else {
+    res = Handlebars.Utils.escapeExpression(markdownText)
+      .replace(RE_LINK_JS, '')
+      .replace(RE_LINK, function (mdLink) {
+        return linkTemplate({
+          href: mdLink.match(RE_LINK_HREF)[1],
+          text: mdLink.match(RE_LINK_TEXT)[1]
+        });
+      });
+  }
+  return new Handlebars.SafeString(res);
+}
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__ = __webpack_require__(2);
+/* eslint @okta/okta/no-specific-modules: 0 */
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('xsrfTokenInput', function () {
+  return new __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.SafeString(
+    '<input type="hidden" class="hide" name="_xsrfToken" ' + 'value="' + Object(__WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__["default"])('#_xsrfToken').text() + '">'
+  );
+});
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__framework_ListView__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseView__ = __webpack_require__(1);
+
+
+
+/**
+ * See {@link src/framework/ListView} for more detail and examples from the base class.
+ * @class module:Okta.ListView
+ * @extends src/framework/ListView
+ * @mixes module:Okta.View
+ */
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_1__BaseView__["default"].decorate(__WEBPACK_IMPORTED_MODULE_0__framework_ListView__["a" /* default */]));
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__View__ = __webpack_require__(22);
+
+
+/**
+   * Archer.ListView is a {@link src/framework/View} that operates on a
+   * collection and builds a list of "things" of the same type.
+   *
+   * Automagically adds, removes and sorts upon standard collection events.
+   *
+   * Listen to collection events so the ListView will do the right thing when
+   * a model is added or the collection is reset or sorted.
+   *
+   * @class src/framework/ListView
+   * @extends src/framework/View
+   * @param {Object} options options hash
+   * @param {Object} options.collection The collection which this view operates on
+   * @example
+   * var UserList = Archer.ListView.extend({
+   *   tagName: 'ul',
+   *   item: '<li>{{fname}} {{lname}}</li>'
+   * });
+   *
+   * var users = new Archer.Collection([
+   *   {fname: 'John', lname: 'Doe'},
+   *   {fname: 'Jane', lname: 'Doe'}
+   * ]);
+   *
+   * var userList = new UserList({collection: users}).render();
+   * userList.el; //=> "<ul><li>John Doe</li><li>Jane Doe</li></ul>"
+   *
+   * users.push({fname: 'Jim', lname: 'Doe'});
+   * userList.el; //=> "<ul><li>John Doe</li><li>Jane Doe</li><li>Jim Doe</li></ul>"
+   *
+   * users.first().destroy();
+   * userList.el; //=> "<ul><li>Jane Doe</li><li>Jim Doe</li></ul>"
+   */
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__View__["a" /* default */].extend(/** @lends src/framework/ListView.prototype */ {
+
+  constructor: function () {
+    __WEBPACK_IMPORTED_MODULE_0__View__["a" /* default */].apply(this, arguments);
+    if (!this.collection) {
+      throw new Error('Missing collection');
+    }
+    this.listenTo(this.collection, 'reset sort', this.reset);
+    this.listenTo(this.collection, 'add', this.addItem);
+    this.collection.each(this.addItem, this);
+  },
+
+  /**
+     * The view/template we will use to render each model in the collection.
+     * @type {String|module:Okta.View}
+     */
+  item: null,
+
+  /**
+     * A selector in the local template where to append each item
+     * @type {String}
+     */
+  itemSelector: null,
+
+
+  /**
+     * Empty the list and re-add everything from the collection.
+     * Usefull for handling `collection.reset()` or for handling the initial load
+     * @protected
+     */
+  reset: function () {
+    this.removeChildren();
+    this.collection.each(this.addItem, this);
+    return this;
+  },
+
+  /**
+     * Add an item view to the list that will represent one model from the collection
+     *
+     * Listen to the model so when it is destoyed or removed from the collection
+     * this item will remove itself from the list
+     *
+     * @param {Backbone.Model} model The model this row operates on
+     * @protected
+     */
+  addItem: function (model) {
+    var view = this.add(this.item, this.itemSelector, {options: {model: model}}).last();
+    view.listenTo(model, 'destroy remove', view.remove);
+    return this;
+  }
+
+}));
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseView__ = __webpack_require__(1);
+
+
+
+
+const optionsTemplate = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl(
+  '\
+    <a href="" class="icon-16 {{className}}" data-se="{{seleniumId}}">\
+      {{#if icon}}\
+      <span class="icon {{icon}}"></span>\
+      {{/if}}\
+      {{#if title}}\
+      {{title}}\
+      {{/if}}\
+      {{#if subtitle}}\
+        <p class="option-subtitle">{{subtitle}}</p>\
+      {{/if}}\
+   </a>\
+   '
+);
+const BaseDropDownDropDownOption = __WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].extend({
+  tagName: 'li',
+
+  events: {
+    click: function (e) {
+      e.preventDefault();
+      this.action && this.action.call(this);
+    }
+  },
+
+  constructor: function () {
+    __WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].apply(this, arguments);
+    this.$el.addClass('okta-dropdown-option option');
+  },
+
+  render: function () {
+    this.$el.html(
+      optionsTemplate({
+        icon: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'icon'),
+        className: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'className') || '',
+        title: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'title'),
+        subtitle: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'subtitle'),
+        seleniumId: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'seleniumId')
+      })
+    );
+    if (__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'disabled')) {
+      this.disable();
+    }
+    return this;
+  },
+
+  disable: function () {
+    this.$el.addClass('option-disabled');
+    this.$el.find('a').attr('tabindex', '-1');
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].extend({
+  events: {
+    'click a.option-selected': function (e) {
+      e.preventDefault();
+      if (__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'disabled')) {
+        e.stopPropagation();
+      }
+    },
+    'click .dropdown-disabled': function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  },
+
+  items: [],
+
+  constructor: function () {
+    const className = this.className;
+
+    // In this very specific case we want to NOT append className to $el
+    // but to the <a> tag in the template
+    // so we want to disable backbone default functionality.
+
+    this.className = null;
+
+    __WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].apply(this, arguments);
+
+    this.className = className;
+
+    this.$el.addClass('dropdown more-actions float-l');
+
+    __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].each(
+      __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'items'),
+      function (option) {
+        this.addOption(option, this.options);
+      },
+      this
+    );
+  },
+
+  template:
+    '\
+      <a href="#" class="link-button {{className}} link-button-icon option-selected center"\
+        aria-expanded="false" aria-controls="okta-dropdown-options">\
+        {{#if icon}}\
+        <span class="icon {{icon}}"></span>\
+        {{/if}}\
+        {{#if screenReaderText}}\
+        <span class="off-screen">{{screenReaderText}}</span>\
+        {{/if}}\
+        <span class="option-selected-text">{{title}}</span>\
+        <span class="icon-dm"></span>\
+      </a>\
+      <div id="okta-dropdown-options" class="options clearfix" style="display: none;">\
+      <ul class="okta-dropdown-list options-wrap clearfix"></ul>\
+      </div>\
+    ',
+
+  getTemplateData: function () {
+    const className = [__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'className') || '', __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'disabled') ? 'dropdown-disabled' : ''];
+
+    return {
+      icon: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'icon'),
+      className: __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"].trim(className.join(' ')),
+      title: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'title'),
+      screenReaderText: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'screenReaderText')
+    };
+  },
+
+  addOption: function (proto, options) {
+    this.add(BaseDropDownDropDownOption.extend(proto), 'ul.options-wrap', { options: options || {} });
+  }
+}));
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_StringUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_ReadModeBar__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_ReadModeBar__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Toolbar__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helpers_ErrorBanner__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__helpers_ErrorParser__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helpers_ErrorBanner__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__helpers_ErrorParser__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__helpers_FormUtil__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__helpers_InputContainer__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__helpers_InputFactory__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__helpers_InputLabel__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__helpers_InputWrapper__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__helpers_InputContainer__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__helpers_InputFactory__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__helpers_InputLabel__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__helpers_InputWrapper__ = __webpack_require__(63);
 /* eslint max-statements: [2, 11] */
 
 
@@ -4246,7 +7399,8 @@ const attributes = function (model) {
   return {
     method: 'POST',
     action: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(model, 'urlRoot') || __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(collection, 'url') || window.location.pathname,
-    'data-se': 'o-form'
+    'data-se': 'o-form',
+    slot: 'content'
   };
 };
 
@@ -5124,7 +8278,7 @@ const convertSavingState = function (rawSavingStateEvent, defaultEvent) {
      * @private
      */
     __saveModelState: function (model) {
-      this.__originalModel = model.clone().attributes;
+      this.__originalModel = __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"].extend(true, {}, model.attributes);
     },
 
     /**
@@ -5199,2510 +8353,7 @@ const convertSavingState = function (rawSavingStateEvent, defaultEvent) {
 
 
 /***/ }),
-/* 24 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-
-
-function changeEventString(doWhen) {
-  return 'change:' + __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].keys(doWhen).join(' change:');
-}
-
-function calcDoWhen(value, key) {
-  const modelValue = this.model.get(key);
-
-  if (__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isFunction(value)) {
-    return value.call(this, modelValue);
-  } else {
-    return value === modelValue;
-  }
-}
-
-function _doWhen(view, doWhen, fn) {
-  const toggle = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].bind(fn, view, view, doWhen);
-
-  view.render = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].wrap(view.render, function (render) {
-    const val = render.call(view);
-
-    toggle({ animate: false });
-    return val;
-  });
-
-  view.listenTo(view.model, changeEventString(doWhen), function () {
-    toggle({ animate: true });
-  });
-}
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  applyDoWhen: function (view, doWhen, fn) {
-    if (!(view.model && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isObject(doWhen) && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].size(doWhen) && __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isFunction(fn))) {
-      return;
-    }
-    _doWhen(view, doWhen, function (view, doWhen, options) {
-      const result = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].every(__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].map(doWhen, calcDoWhen, view));
-
-      fn.call(view, result, options);
-    });
-  }
-});
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_FormUtil__ = __webpack_require__(9);
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_1__BaseView__["default"].extend({
-  className: 'o-form-button-bar',
-
-  initialize: function (options) {
-    this.addButton({
-      type: 'save',
-      text: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'save', this),
-      id: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'saveId', this),
-      className: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'saveClassName', this)
-    });
-
-    if (!options.noCancelButton) {
-      this.addButton({ type: 'cancel', text: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'cancel', this) });
-    }
-
-    if (options.hasPrevStep) {
-      this.addButton({ type: 'previous' }, { prepend: true });
-    }
-  },
-
-  /**
-   * Adds a buttomn to the toolbar
-   * @param {Object} params button parameters
-   * @param {Object} options {@link Okta.View#add} options
-   */
-  addButton: function (params, options) {
-    return this.add(__WEBPACK_IMPORTED_MODULE_2__helpers_FormUtil__["default"].createButton(params), options);
-  }
-}));
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-
-const registry = {};
-
-function isBaseInput(input) {
-  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(input)) {
-    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(input.prototype.editMode) && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(input.prototype.readMode);
-  } else {
-    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isObject(input) && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(input.editMode) && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(input.readMode);
-  }
-}
-
-/**
- * @class module:Okta.internal.views.forms.helpers.InputRegistry
- */
-/* harmony default export */ __webpack_exports__["default"] = ({
-  isBaseInput: isBaseInput,
-
-  /**
-   * Register a form input
-   * @param {String} type string identifier for the input
-   * @param {BaseInput} input the input to register
-   */
-  register: function (type, input) {
-    registry[type] = input;
-  },
-
-  /**
-   * Get a form input by type
-   * @param {Object} options input definition
-   * @param {String} options.type string identifier for the input
-   * @return {BaseInput} a matching input
-   */
-  get: function (options) {
-    const input = registry[options.type];
-
-    return input && (isBaseInput(input) ? input : input(options));
-  },
-
-  /**
-   * Unregister an input type
-   * @param {String} type
-   */
-  unregister: function (type) {
-    delete registry[type];
-  }
-});
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-module.exports = require("qtip");
-
-/***/ }),
-/* 28 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__ = __webpack_require__(53);
-
-
-
-/**
- * A factory method wrapper for {@link BaseButtonLink} creation
- * @class module:Okta.internal.util.ButtonFactory
- */
-
-function normalizeEvents(options) {
-  const events = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options.click ? { click: options.click } : {}, options.events || {});
-
-  const target = {};
-
-  __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].each(events, function (fn, eventName) {
-    target[eventName] = function (e) {
-      if (!options.href) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      fn.apply(this, arguments);
-    };
-  });
-  return target;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  /**
-   * Creates a {@link module:Okta.internal.views.components.BaseButtonLink|BaseButtonLink}.
-   * @param  {Object} options Options hash
-   * @param  {String} [options.title] The button text
-   * @param  {String} [options.icon]
-   * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
-   * @param {String} [options.href] The button link
-   * @param {Function} [options.click] On click callback
-   * @param {Object} [options.events] a [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
-   * @returns {module:Okta.internal.views.components.BaseButtonLink} BaseButtonLink prototype ("class")
-   */
-  create: function (options) {
-    options = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].clone(options);
-    options.attrs = options.attributes;
-    delete options.attributes;
-
-    return __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__["a" /* default */].extend(
-      __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options, {
-        events: normalizeEvents(options)
-      })
-    );
-  }
-});
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__ = __webpack_require__(69);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(10);
-
-
-
-
-
-
-const template = __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__["default"].tpl('<select id="{{inputId}}" name="{{name}}"></select>');
-const option = __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__["default"].tpl('<option value="{{key}}">{{value}}</option>');
-const CHOSEN_WINDOW_MARGIN = 20;
-
-// Chosen has known problems when it's at the bottom of a container that has
-// overflow:hidden set. Because it attaches to the parent container, its
-// dropdown will be cut off in the UI. Any modal with a chosen select element
-// at the bottom will manifest this behavior.
-//
-// The fix (aside from replacing Chosen) is to change Chosen's behavior -
-// use the existing styles, but attach it to 'body' and position it correctly
-// so that it is not affected by a parent overflow.
-//
-// More details can be found in OKTA-46489, OKTA-83570
-
-const CHOSEN_MAX_HEIGHT = 240;
-const CHOSEN_Z_INDEX = 50000;
-
-function defer(fn) {
-  if (this.params.autoWidth) {
-    return fn.call(this);
-  } else {
-    return __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].defer(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(fn, this));
-  }
-}
-
-function findSelectWidth(self) {
-  self.$select.hide();
-  const select = Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(self.$select[0]).hide();
-
-  Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])('body').append(select);
-  const width = (self.params.width = select.width() * 1.2 + 'px');
-
-  self.$el.append(select.show());
-  return width;
-}
-
-function recalculateChosen($chosen, $results, $clone) {
-  const offset = $clone.offset();
-
-  $chosen.css({
-    left: offset.left,
-    top: offset.top
-  });
-  // Update the max-height to fit within the constraints of the window. This
-  // is especially important for modals because page scrolling is disabled.
-  const $win = Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(window);
-  const rHeight = $results.outerHeight();
-  const rBottom = rHeight + $results.offset().top - $win.scrollTop();
-  const wHeight = $win.height() - CHOSEN_WINDOW_MARGIN;
-  const maxHeight = Math.min(rHeight + wHeight - rBottom, CHOSEN_MAX_HEIGHT);
-
-  $results.css('max-height', maxHeight);
-}
-
-function fixChosenModal($select) {
-  const $chosen = $select.next('.chzn-container');
-  const $clone = $chosen.clone();
-  const $results = $chosen.find('.chzn-results');
-
-  // Use a hidden clone to maintain layout and calculate offset. This is
-  // necessary for more complex layouts (like adding a group rule) where
-  // the chosen element is floated.
-  $clone.css('visibility', 'hidden');
-  $clone.removeAttr('id');
-  $clone.find('li').removeAttr('id');
-
-  // Save the original styles - we'll revert to them when the select closes
-  const baseStyles = {
-    left: $chosen.css('left'),
-    top: $chosen.css('top'),
-    position: $chosen.css('position'),
-    float: $chosen.css('float'),
-    'z-index': $chosen.css('z-index')
-  };
-
-  $results.hide();
-
-  // Handler for any resize events that happen when the results list is open
-
-  const resizeHandler = __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].debounce(function () {
-    recalculateChosen($chosen, $results, $clone);
-  }, 10);
-
-  // When the dropdown opens, attach it to body, with the correct absolute
-  // position coordinates
-  $select.off('.fixChosen'); // Remove events we could have added before
-  $select.on('liszt:showing_dropdown.fixChosen', function () {
-    $chosen.width($chosen.width());
-    $select.after($clone);
-    // .chzn-container can trigger the vertical scrollbar if it causes scrollHeight > window height after append to
-    // the body. Force top -999999 to avoid the scrollbar so $chosen can find the right offset for relocation.
-    $chosen.css({
-      position: 'absolute',
-      float: 'none',
-      'z-index': CHOSEN_Z_INDEX,
-      top: -999999
-    });
-    Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])('body').append($chosen);
-    $results.show();
-    recalculateChosen($chosen, $results, $clone);
-    // Capture scroll events:
-    // - for forms that use fixed positioning (like editing attributes in
-    //   Profile Editor) - window scroll
-    // - for forms that are too long for the modal - o-form-content scroll
-    $select.parents().scroll(resizeHandler);
-    Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(window).on('resize scroll', resizeHandler);
-  });
-
-  // When the dropdown closes or the element is removed, revert to the
-  // original styles and reattach it to its original placement in the dom.
-  $select.on('liszt:hiding_dropdown.fixChosen remove.fixChosen', function () {
-    $select.parents().off('scroll', resizeHandler);
-    Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(window).off('resize scroll', resizeHandler);
-    $chosen.css(baseStyles);
-    $results.hide();
-    $results.css('max-height', CHOSEN_MAX_HEIGHT);
-    $clone.remove();
-    $select.after($chosen);
-  });
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].extend({
-  className: 'o-form-select',
-
-  /**
-   * @Override
-   */
-  events: {
-    'change select': 'update',
-    'keyup .chzn-search > :text': function (e) {
-      if (__WEBPACK_IMPORTED_MODULE_2__util_Keys__["default"].isEsc(e)) {
-        this.$('.chzn-search > :text').val('');
-        e.stopPropagation();
-      }
-    }
-  },
-
-  constructor: function () {
-    this.template = template;
-    this.option = option;
-    __WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].apply(this, arguments);
-    this.params = this.options.params || {};
-  },
-
-  /**
-   * @Override
-   */
-  editMode: function () {
-    /* eslint max-statements: [2, 13] */
-
-    this.$el.html(template(this.options));
-    this.$select = this.$('select');
-
-    const options = this.getOptions();
-
-    __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].each(
-      options,
-      function (value, key) {
-        this.$select.append(option({ key: key, value: value }));
-      },
-      this
-    );
-
-    // Fix a regression in jQuery 1.x on Firefox
-    // jQuery.val(value) prepends an empty option to the dropdown
-    // if value doesnt exist in the dropdown.
-    // http://bugs.jquery.com/ticket/13514
-    const value = this.getModelValue();
-
-    if (value) {
-      this.$select.val(value);
-    } else {
-      this.$('option:first-child').prop('selected', true);
-    }
-    this.$el.addClass('o-form-control');
-
-    if (this.params.chosen !== false) {
-      this.__applyChosen();
-    }
-    return this;
-  },
-
-  __applyChosen: function (update) {
-    let width = this.options.wide ? '100%' : this.params.width || '62%';
-
-    if (this.params.autoWidth) {
-      width = findSelectWidth(this);
-    }
-
-    defer.call(this, function () {
-      const searchThreshold = this.getParam('searchThreshold', 10);
-
-      if (!__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this.options, 'autoRender') && update !== false) {
-        this.update();
-      }
-      this.$select.chosen({
-        width: width,
-        disable_search_threshold: searchThreshold, //eslint-disable-line camelcase
-        placeholder_text: this.options['placeholder'] //eslint-disable-line camelcase
-      });
-      fixChosenModal(this.$select);
-
-      if (this.params.autoWidth) {
-        // fix a chosen css bug
-        this.$el.width(0);
-      }
-
-      this.model.trigger('form:resize');
-    });
-  },
-
-  /**
-   * @Override
-   */
-  val: function () {
-    return this.$select && this.$select.val();
-  },
-
-  /**
-   * @Override
-   */
-  focus: function () {
-    if (this.$select) {
-      return this.$select.focus();
-    }
-  },
-
-  /**
-   * @Override
-   */
-  toStringValue: function () {
-    const selectedOption = this.getModelValue();
-    let displayString = selectedOption;
-    const options = this.getOptions();
-
-    if (!__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].isEmpty(options)) {
-      displayString = options[selectedOption];
-    }
-    if (__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].isUndefined(displayString)) {
-      displayString = this.defaultValue();
-    }
-    return displayString || '';
-  },
-
-  /**
-   * Convert options to an object
-   * support input options that is a
-   * 1. a static object such as {key1: val1, key2: val2...}
-   * 2. a function to be called to return a static object
-   * will return an object with key-value pairs or with empty content
-   * @return {Object} The value
-   */
-  getOptions: function () {
-    let options = this.options.options;
-
-    if (__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].isFunction(options)) {
-      options = options.call(this);
-    }
-
-    return __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].isObject(options) ? options : {};
-  },
-
-  remove: function () {
-    if (this.$select) {
-      this.$select.trigger('remove');
-    }
-    return __WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].prototype.remove.apply(this, arguments);
-  }
-}));
-
-
-/***/ }),
-/* 30 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-  DEBOUNCE_DELAY: 200,
-  LOADING_FADE: 400,
-  UNLOADING_FADE: 400,
-  ROW_EXPANDER_TRANSITION: 150,
-  HIDE_ADD_MAPPING_FORM: 300
-});
-
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
- * There are following local modifications:
- * - Author: Uzi Kilon ukilon@okta.com
- *   Bug: OKTA-20830 - solves the conflict when there are multiple labels
- */
-/**
- * --------------------------------------------------------------------
- * jQuery customInput plugin
- * Author: Maggie Costello Wachs maggie@filamentgroup.com, Scott Jehl, scott@filamentgroup.com
- * Copyright (c) 2009 Filament Group
- * licensed under MIT (filamentgroup.com/examples/mit-license.txt)
- * --------------------------------------------------------------------
-*/
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(12)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (jQuery) {
-  var $ = jQuery;
-  jQuery.fn.customInput = function(){
-    return $(this).each(function(){
-      if($(this).is('[type=checkbox],[type=radio]')){
-        var input = $(this);
-
-        // get the associated label using the input's id
-        var label = input.siblings('label[for="'+input.attr('id')+'"]:first');
-        if (!label.length) {
-          label = input.closest('label[for="'+input.attr('id')+'"]:first');
-        }
-        // wrap the input + label in a div
-        input.add(label).wrapAll('<div class="custom-'+ input.attr('type') +'"></div>');
-
-        // necessary for browsers that don't support the :hover pseudo class on labels
-        label.hover(
-          function(){ $(this).addClass('hover'); },
-          function(){ $(this).removeClass('hover'); }
-        );
-
-        //bind custom event, trigger it, bind click,focus,blur events
-        input.bind('updateState', function(){
-          input.is(':checked') ? label.addClass('checked') : label.removeClass('checked checkedHover checkedFocus');
-        })
-        .trigger('updateState')
-        .click(function(){
-          $('input[name="'+ $(this).attr('name') +'"]').trigger('updateState');
-        })
-        .focus(function(){
-          label.addClass('focus');
-          if(input.is(':checked')){  $(this).addClass('checkedFocus'); }
-        })
-        .blur(function(){ label.removeClass('focus checkedFocus'); });
-      }
-    });
-  };
-
-}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ }),
-/* 32 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qtip__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__ = __webpack_require__(75);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(10);
-
-
-
-
-
-
-const className = 'okta-form-input-field input-fix';
-
-function hasTitleAndText(options) {
-  const title = options.title;
-  const text = options.text;
-
-  return title && text && title !== text;
-}
-
-// options may be a string or an object.
-function createQtipContent(options) {
-  if (hasTitleAndText(options)) {
-    return options;
-  }
-  return { text: options.text || options };
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].extend({
-  template: __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__["default"].tpl(
-    '\
-      {{#if params.innerTooltip}}\
-        <span class="input-tooltip icon form-help-16"></span>\
-      {{/if}}\
-      {{#if params.icon}}\
-        <span class="icon input-icon {{params.icon}}"></span>\
-      {{/if}}\
-      <input type="{{type}}" placeholder="{{placeholder}}" name="{{name}}" id="{{inputId}}"\
-       value="{{value}}" aria-label="{{placeholder}}" autocomplete="off"/>\
-      {{#if params.iconDivider}}\
-        <span class="input-icon-divider"></span>\
-      {{/if}}\
-      '
-  ),
-  /**
-   * @Override
-   */
-  events: {
-    'input input': 'update',
-    'change input': 'update',
-    'keydown input': 'update',
-    'keyup input': function (e) {
-      if (__WEBPACK_IMPORTED_MODULE_2__util_Keys__["default"].isEnter(e)) {
-        this.model.trigger('form:save');
-      } else if (__WEBPACK_IMPORTED_MODULE_2__util_Keys__["default"].isEsc(e)) {
-        this.model.trigger('form:cancel');
-      }
-    }
-  },
-
-  constructor: function () {
-    __WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].apply(this, arguments);
-    this.$el.addClass('o-form-control');
-  },
-
-  /**
-   * @Override
-   */
-  editMode: function () {
-    this.$el.addClass(className);
-    __WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].prototype.editMode.apply(this, arguments);
-    this.$('input').placeholder();
-  },
-
-  /**
-   * @Override
-   */
-  readMode: function () {
-    __WEBPACK_IMPORTED_MODULE_5__BaseInput__["a" /* default */].prototype.readMode.apply(this, arguments);
-    if (this.options.type === 'password') {
-      this.$el.text('********');
-    }
-    this.$el.removeClass(className);
-  },
-
-  /**
-   * @Override
-   */
-  val: function () {
-    let inputValue = this.$('input[type="' + this.options.type + '"]').val();
-    //IE will only read clear text pw if type="password" is explicitly in selector
-
-    if (this.options.type !== 'password') {
-      inputValue = __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"].trim(inputValue);
-    }
-    return inputValue;
-  },
-
-  /**
-   * @Override
-   */
-  focus: function () {
-    return this.$('input').focus();
-  },
-
-  postRender: function () {
-    const params = this.options.params;
-    let content;
-
-    if (params && params.innerTooltip) {
-      content = createQtipContent(params.innerTooltip);
-      this.$('.input-tooltip').qtip({
-        content: content,
-        style: { classes: 'okta-tooltip qtip-custom qtip-shadow' },
-        position: {
-          my: 'bottom left',
-          // Note: qTip2 has a known issue calculating the tooltip offset when:
-          // 1. A container element has both:
-          //    a) position: relative/absolute
-          //    b) overlay: value other than 'visible'
-          // 2. The page is scrolled
-          //
-          // We set position:relative and overlay:auto on the body element,
-          // where both are required for:
-          // - Positioning the footer correctly
-          // - Displaying long pages in embedded browsers
-          //
-          // The original design called for a fixed position relative to the
-          // tooltip icon - this has been switched to "relative to mouse, and
-          // update position when mouse moves" because of this constraint.
-          target: 'mouse',
-          adjust: {
-            method: 'flip',
-            mouse: true,
-            y: -5,
-            x: 5
-          },
-          viewport: Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])('body')
-        }
-      });
-    }
-  }
-}));
-
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(34);
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _BaseCollection = __webpack_require__(14);
-
-var _BaseCollection2 = _interopRequireDefault(_BaseCollection);
-
-var _BaseModel = __webpack_require__(15);
-
-var _BaseModel2 = _interopRequireDefault(_BaseModel);
-
-var _BaseSchema = __webpack_require__(38);
-
-var _BaseSchema2 = _interopRequireDefault(_BaseSchema);
-
-var _Model = __webpack_require__(11);
-
-var _Model2 = _interopRequireDefault(_Model);
-
-var _SchemaProperty = __webpack_require__(17);
-
-var _SchemaProperty2 = _interopRequireDefault(_SchemaProperty);
-
-var _BaseController = __webpack_require__(40);
-
-var _BaseController2 = _interopRequireDefault(_BaseController);
-
-var _BaseRouter = __webpack_require__(19);
-
-var _BaseRouter2 = _interopRequireDefault(_BaseRouter);
-
-var _ButtonFactory = __webpack_require__(28);
-
-var _ButtonFactory2 = _interopRequireDefault(_ButtonFactory);
-
-var _Class = __webpack_require__(54);
-
-var _Class2 = _interopRequireDefault(_Class);
-
-var _Cookie = __webpack_require__(55);
-
-var _Cookie2 = _interopRequireDefault(_Cookie);
-
-var _Keys = __webpack_require__(8);
-
-var _Keys2 = _interopRequireDefault(_Keys);
-
-var _Logger = __webpack_require__(7);
-
-var _Logger2 = _interopRequireDefault(_Logger);
-
-var _StringUtil = __webpack_require__(4);
-
-var _StringUtil2 = _interopRequireDefault(_StringUtil);
-
-var _TemplateUtil = __webpack_require__(3);
-
-var _TemplateUtil2 = _interopRequireDefault(_TemplateUtil);
-
-var _Util = __webpack_require__(16);
-
-var _Util2 = _interopRequireDefault(_Util);
-
-var _handlebarsWrapper = __webpack_require__(57);
-
-var _handlebarsWrapper2 = _interopRequireDefault(_handlebarsWrapper);
-
-var _jqueryWrapper = __webpack_require__(2);
-
-var _jqueryWrapper2 = _interopRequireDefault(_jqueryWrapper);
-
-var _underscoreWrapper = __webpack_require__(0);
-
-var _underscoreWrapper2 = _interopRequireDefault(_underscoreWrapper);
-
-var _Backbone = __webpack_require__(64);
-
-var _Backbone2 = _interopRequireDefault(_Backbone);
-
-var _BaseView = __webpack_require__(1);
-
-var _BaseView2 = _interopRequireDefault(_BaseView);
-
-var _BaseDropDown = __webpack_require__(66);
-
-var _BaseDropDown2 = _interopRequireDefault(_BaseDropDown);
-
-var _BaseForm = __webpack_require__(23);
-
-var _BaseForm2 = _interopRequireDefault(_BaseForm);
-
-var _Toolbar = __webpack_require__(25);
-
-var _Toolbar2 = _interopRequireDefault(_Toolbar);
-
-var _FormUtil = __webpack_require__(9);
-
-var _FormUtil2 = _interopRequireDefault(_FormUtil);
-
-var _InputRegistry = __webpack_require__(26);
-
-var _InputRegistry2 = _interopRequireDefault(_InputRegistry);
-
-var _SchemaFormFactory = __webpack_require__(67);
-
-var _SchemaFormFactory2 = _interopRequireDefault(_SchemaFormFactory);
-
-var _CheckBox = __webpack_require__(73);
-
-var _CheckBox2 = _interopRequireDefault(_CheckBox);
-
-var _PasswordBox = __webpack_require__(74);
-
-var _PasswordBox2 = _interopRequireDefault(_PasswordBox);
-
-var _Radio = __webpack_require__(76);
-
-var _Radio2 = _interopRequireDefault(_Radio);
-
-var _Select = __webpack_require__(29);
-
-var _Select2 = _interopRequireDefault(_Select);
-
-var _TextBox = __webpack_require__(32);
-
-var _TextBox2 = _interopRequireDefault(_TextBox);
-
-var _backbone = __webpack_require__(6);
-
-var _backbone2 = _interopRequireDefault(_backbone);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Okta = {
-  Backbone: _backbone2.default,
-
-  $: _jqueryWrapper2.default,
-
-  _: _underscoreWrapper2.default,
-
-  Handlebars: _handlebarsWrapper2.default,
-
-  loc: _StringUtil2.default.localize,
-
-  createButton: _ButtonFactory2.default.create,
-
-  registerInput: _InputRegistry2.default.register,
-
-  tpl: _TemplateUtil2.default.tpl,
-
-  Model: _Model2.default,
-
-  BaseModel: _BaseModel2.default,
-
-  Collection: _BaseCollection2.default,
-
-  View: _BaseView2.default,
-
-  ListView: _Backbone2.default,
-
-  Router: _BaseRouter2.default,
-
-  Controller: _BaseController2.default,
-
-  Form: _BaseForm2.default,
-
-  internal: {
-    util: {
-      Util: _Util2.default,
-      Cookie: _Cookie2.default,
-      Logger: _Logger2.default,
-      Class: _Class2.default,
-      Keys: _Keys2.default
-    },
-
-    views: {
-      components: {
-        BaseDropDown: _BaseDropDown2.default
-      },
-
-      forms: {
-        helpers: {
-          FormUtil: _FormUtil2.default,
-          SchemaFormFactory: _SchemaFormFactory2.default
-        },
-
-        components: {
-          Toolbar: _Toolbar2.default
-        },
-
-        inputs: {
-          TextBox: _TextBox2.default,
-          PasswordBox: _PasswordBox2.default,
-          CheckBox: _CheckBox2.default,
-          Radio: _Radio2.default,
-          Select: _Select2.default
-        }
-      }
-    },
-
-    models: {
-      BaseSchema: _BaseSchema2.default,
-      SchemaProperty: _SchemaProperty2.default
-    }
-  }
-};
-
-Okta.registerInput('text', _TextBox2.default);
-Okta.registerInput('password', _PasswordBox2.default);
-Okta.registerInput('checkbox', _CheckBox2.default);
-Okta.registerInput('radio', _Radio2.default);
-Okta.registerInput('select', _Select2.default);
-
-module.exports = Okta;
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
-module.exports = require("underscore");
-
-/***/ }),
-/* 36 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_backbone__);
-
-
-
-
-var STATE = '__STATE__',
-    FETCH_DATA = 'FETCH_DATA',
-    PAGINATION_DATA = 'PAGINATION_DATA',
-    DEFAULT_PARAMS = 'DEFAULT_PARAMS',
-    LINK_BY_HEADER = 'LINK_BY_HEADER',
-    XHR = 'XHR';
-
-/*
- * Sets the next page URL on the collection from link headers
- * See: http://www.rfc-editor.org/rfc/rfc5988.txt
- *
- * This method is looking for a link header with `rel="next"`
- * An set's it as the next page's URL.
- *
- * If it doesn't find a next page, and current page is set by a link header
- * it assumes we are at the last page and deletes the current `next`
- */
-function setLinkHeadersPagination(collection, xhr) {
-  try {
-    var links = parseLinkHeader(xhr.getResponseHeader('link'));
-    collection[STATE].set(LINK_BY_HEADER, true);
-    collection.setPagination(links['next'].href);
-  }
-  catch (e) {
-    if (collection[STATE].get(LINK_BY_HEADER)) {
-      collection.setPagination(null);
-    }
-  }
-}
-
-function parseQuery(url) {
-  var params = {},
-      rawQueryStr = url && url.split('?')[1],
-      queryString = rawQueryStr && decodeURIComponent(rawQueryStr.split('#')[0]).replace(/\+/g, ' '),
-      props = queryString ? queryString.split('&') : [];
-  for (var i = 0; i < props.length; i++) {
-    var parts = props[i].split('=');
-    params[parts.shift()] = parts.join('=');
-  }
-  return params;
-}
-
-// ################################################
-// # Source: https://gist.github.com/deiu/9335803
-// ################################################
-
-// unquote string (utility)
-function unquote(value) {
-  if (value.charAt(0) == '"' && value.charAt(value.length - 1) == '"') {
-    return value.substring(1, value.length - 1);
-  }
-  return value;
-}
-/*
-parse a Link header
-Link:<https://example.org/.meta>; rel=meta
-var r = parseLinkHeader(xhr.getResponseHeader('Link');
-r['meta']['href'] outputs https://example.org/.meta
-*/
-function parseLinkHeader(header) {
-  /* eslint max-statements: 0 */
-  var linkexp = /<[^>]*>\s*(\s*;\s*[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*")))*(,|$)/g,
-      paramexp = /[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*"))/g;
-
-  var matches = header.match(linkexp);
-  var rels = {};
-  for (var i = 0; i < matches.length; i++) {
-    var split = matches[i].split('>');
-    var href = split[0].substring(1);
-    var link = {};
-    link.href = href;
-    var s = split[1].match(paramexp);
-    for (var j = 0; j < s.length; j++) {
-      var paramsplit = s[j].split('=');
-      var name = paramsplit[0];
-      link[name] = unquote(paramsplit[1]);
-    }
-
-    if (link.rel !== undefined) {
-      rels[link.rel] = link;
-    }
-  }
-
-  return rels;
-}
-
-// ################################################
-// # /Source
-// ################################################
-//
-
-/**
- *
- * Archer.Collection is a standard [Backbone.Collection](http://backbonejs.org/#Collection) with pre-set `data`
- * parameters and built in pagination - works with [http link headers](https://tools.ietf.org/html/rfc5988)
- * out of the box:
- *
- * @class src/framework/Collection
- * @extends external:Backbone.Collection
- * @example
- * var Users = Archer.Collection.extend({
- *   url: '/api/v1/users'
- *   params: {expand: true}
- * });
- * var users = new Users(null, {params: {type: 'new'}}),
- *     $button = this.$('a.fetch-more');
- *
- * $button.click(function () {
- *   users.fetchMore();
- * });
- *
- * this.listenTo(users, 'sync', function () {
- *   $button.toggle(users.hasMore());
- * });
- *
- * collection.fetch(); //=> '/api/v1/users?expand=true&type=new'
- */
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.extend(/** @lends src/framework/Collection.prototype */ {
-
-  /**
-   * Default fetch parameters
-   * @type {Object}
-   */
-  params: {},
-
-  constructor: function (models, options) {
-    var state = this[STATE] = new __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model();
-    state.set(DEFAULT_PARAMS, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(options && options.params || {}, this.params || {}));
-    __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.apply(this, arguments);
-  },
-
-  /**
-   * See [Backbone Collection.sync](http://backbonejs.org/#Collection-sync).
-   */
-  sync: function (method, collection, options) {
-    var self = this,
-        success = options.success;
-    options.success = function (resp, status, xhr) {
-      // its important to set the pagination data *before* we call the success callback
-      // because we want the pagination data to be ready when the collection triggers the `sync` event
-      setLinkHeadersPagination(self, xhr);
-      success.apply(null, arguments);
-    };
-    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.sync.call(this, method, collection, options);
-  },
-
-  /**
-   * See [Backbone Collection.fetch](http://backbonejs.org/#Collection-fetch).
-   */
-  fetch: function (options) {
-    options || (options = {});
-    var state = this[STATE],
-        xhr = state.get(XHR);
-
-    options.data = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, state.get(DEFAULT_PARAMS), options.data || {});
-    options.fromFetch = true;
-
-    state.set(FETCH_DATA, options.data);
-    if (xhr && xhr.abort && options.abort !== false) {
-      xhr.abort();
-    }
-    xhr = __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.fetch.call(this, options);
-    state.set(XHR, xhr);
-    return xhr;
-  },
-
-  /**
-   * Set pagination data to get to the next page
-   * @param {Mixed} params
-   * @param {Object} [options]
-   * @param {Boolean} [options.fromFetch] should we include data from the previous fetch call in this object
-   * @example
-   * collection.setPagination({q: 'foo', page: '2'}); //=> {q: 'foo', page: '2'}
-   *
-   * collection.setPagination('/path/to/resource?q=baz&page=4'); //=> {q: 'baz', page: '4'}
-   *
-   * collection.setPagination('/path/to/resource'); //=> {}
-   *
-   * collection.fetch({data: {q: 'foo'}});
-   * collection.setPagination({page: 2}, {fromFetch: true}); //=> {q: 'foo', page: 2}
-   *
-   * any "falsy" value resets pagination
-   * collection.setPagination(); //=> {}
-   * collection.setPagination(null); //=> {}
-   * collection.setPagination(false); //=> {}
-   * collection.setPagination(''); //=> {}
-   * collection.setPagination(0); //=> {}
-   * @protected
-   */
-  setPagination: function (params, options) {
-    /* eslint complexity: [2, 8] */
-    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isString(params) && params) {
-      params = parseQuery(params);
-    }
-    if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isObject(params) || __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(params) || !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(params)) {
-      params = null;
-    }
-    else if (options && options.fromFetch) {
-      params = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, this.getFetchData(), params);
-    }
-    this[STATE].set(PAGINATION_DATA, params);
-  },
-
-  /**
-   * Returns the `data` parameters applied in th most recent `fetch` call
-   * It will include parameters set by {@link #params} and optios.params passed to the constructor
-   * @return {Object}
-   * @protected
-   */
-  getFetchData: function () {
-    return this[STATE].get(FETCH_DATA) || {};
-  },
-
-  /**
-   * Data object for constructing a request to fetch the next page
-   * @return {Object}
-   * @protected
-   */
-  getPaginationData: function () {
-    return this[STATE].get(PAGINATION_DATA) || {};
-  },
-
-  /**
-   * Does this collection have more data on the server (e.g is there a next "page")
-   * @return {Boolean}
-   */
-  hasMore: function () {
-    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(this.getPaginationData()) > 0;
-  },
-
-  /**
-   * Get the next page from the server
-   * @return {Object} xhr returned by {@link #fetch}
-   */
-  fetchMore: function () {
-    if (!this.hasMore()) {
-      throw new Error('Invalid Request');
-    }
-    return this.fetch({ data: this.getPaginationData(), add: true, remove: false, update: true });
-  },
-
-  /**
-   * See [Backbone Collection.reset](http://backbonejs.org/#Collection-reset).
-   */
-  reset: function (models, options) {
-    options || (options = {});
-    // only reset the pagination when reset is being called explicitly.
-    // this is to avoid link headers pagination being overriden and reset when
-    // fetching the collection using `collection.fetch({reset: true})`
-    if (!options.fromFetch) {
-      this.setPagination(null);
-    }
-    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.reset.apply(this, arguments);
-  },
-
-  // we want "where" to be able to search through derived properties as well
-  where: function (attrs, first) {
-    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isEmpty(attrs)) {
-      return first ? void 0 : [];
-    }
-    return this[first ? 'find' : 'filter'](function (model) {
-      for (var key in attrs) {
-        if (attrs[key] !== model.get(key)) {
-          return false;
-        }
-      }
-      return true;
-    });
-  },
-
-  /**
-   * See [Backbone Collection.create](http://backbonejs.org/#Collection-create).
-   */
-  create: function (model, options) {
-    options || (options = {});
-    if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(model, 'urlRoot')) {
-      options.url = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'url');
-    }
-    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Collection.prototype.create.call(this, model, options);
-  }
-
-}));
-
-
-/***/ }),
-/* 37 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_backbone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Logger__ = __webpack_require__(7);
-
-
-
-
-
-
-/**
-   * Archer.Model is a standard [Backbone.Model](http://backbonejs.org/#Model) with a few additions:
-   *
-   * - {@link src/framework/Model#derived Derived properties}
-   * - {@link src/framework/Model#props Built in schema validation}
-   * - {@link src/framework/Model#local Private properties (with schema validation)}
-   * - {@link src/framework/Model#flat Flattening of nested objects}
-   *
-   * Both derived and private properties are filtered out when sending the data to the server.
-   *
-   * See [Backbone.Model](http://backbonejs.org/#Model-constructor).
-   *
-   * @class src/framework/Model
-   * @extends external:Backbone.Model
-   * @param {Object} [attributes] - Initial model attributes (data)
-   * @param {Object} [options] - Options hash
-   * @example
-   * var Person = Archer.Model.extend({
-   *   props: {
-   *     'fname': 'string',
-   *     'lname': 'string'
-   *   },
-   *   local: {
-   *     isLoggedIn: 'boolean'
-   *   },
-   *   derived: {
-   *     name: {
-   *       deps: ['fname', 'lname'],
-   *       fn: function (fname, lname) {
-   *         return fname + ' ' + lname;
-   *       }
-   *     }
-   *   }
-   * });
-   * var model = new Person({fname: 'Joe', lname: 'Doe'});
-   * model.get('name'); //=> "Joe Doe"
-   * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
-   *
-   * model.set('isLoggedIn', true);
-   * model.get('isLoggedIn'); //=> true
-   * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
-   */
-var Model;
-
-function flatten(value, objectTypeFields, key, target) {
-  var filter = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].contains(objectTypeFields, key);
-  target || (target = {});
-  if (!filter && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isObject(value) && !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(value) && !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(value)) {
-    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(value, function (val, i) {
-      flatten(val, objectTypeFields, key ? (key + '.' + i) : i, target);
-    });
-  }
-  // Case where target is an empty object. Guard against returning {undefined: undefined}.
-  else if (key !== undefined) {
-    target[key] = value;
-  }
-  return target;
-}
-
-function unflatten(data) {
-  __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(data, function (value, key, data) {
-    if (key.indexOf('.') == -1) {
-      return;
-    }
-    var part,
-        ref = data,
-        parts = key.split('.');
-    while ((part = parts.shift()) !== undefined) {
-      if (!ref[part]) {
-        ref[part] = parts.length ? {} : value;
-      }
-      ref = ref[part];
-    }
-    delete data[key];
-  });
-  return data;
-}
-
-function createMessage(field, msg) {
-  var obj = {};
-  obj[field.name] = msg;
-  return obj;
-}
-
-function normalizeSchemaDef(field, name) {
-  var target;
-  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isString(field)) {
-    target = {
-      type: field
-    };
-  }
-  else if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(field)) {
-    target = {
-      type: field[0],
-      required: field[1],
-      value: field[2]
-    };
-  }
-  else {
-    target = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(field);
-  }
-  __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(target, {required: false, name: name});
-  return target;
-}
-
-function capitalize(string) {
-  return string.toLowerCase().replace(/\b[a-z]/g, function (letter) {
-    return letter.toUpperCase();
-  });
-}
-
-function _validateRegex(value, pattern, error) {
-  if (!pattern.test(value)) {
-    return error;
-  }
-}
-
-var StringFormatValidators = {
-  /*eslint max-len: 0 */
-  email: function (value) {
-    // Taken from  http://emailregex.com/ on 2017-03-06.
-    var pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return _validateRegex(value, pattern, Model.ERROR_INVALID_FORMAT_EMAIL);
-  },
-  uri: function (value) {
-    // source: https://mathiasbynens.be/demo/url-regex
-    var pattern = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
-    return _validateRegex(value, pattern, Model.ERROR_INVALID_FORMAT_URI);
-  },
-  ipv4: function (value) {
-    // source: https://www.safaribooksonline.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html
-    var pattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-    return _validateRegex(value, pattern, Model.ERROR_INVALID_FORMAT_IPV4);
-  },
-  hostname: function (value) {
-    // source: http://www.regextester.com/23
-    var pattern = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$/;
-    return _validateRegex(value, pattern, Model.ERROR_INVALID_FORMAT_HOSTNAME);
-  }
-};
-
-function validateStringFormat(field, value) {
-  var validator = StringFormatValidators[field.format];
-  if (field.format && !validator) {
-    throw new TypeError(field.format + ' is not a supported string format');
-  }
-  return validator && validator(value);
-}
-
-function validateString(field, value) {
-  var createMessageWith = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].partial(createMessage, field),
-      invalidFormat = validateStringFormat(field, value);
-  if (invalidFormat) {
-    return createMessageWith(invalidFormat);
-  }
-  if (value && field.minLength && value.length < field.minLength) {
-    return createMessageWith(Model.ERROR_STRING_STRING_MIN_LENGTH, value.length);
-  }
-  if (value && field.maxLength && value.length > field.maxLength) {
-    return createMessageWith(Model.ERROR_STRING_STRING_MAX_LENGTH, value.length);
-  }
-}
-
-function validateField(field, value) {
-  /* eslint complexity: [2, 23], max-statements: [2, 19] */
-  var createMessageWith = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].partial(createMessage, field),
-      isDefined = !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value) && !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isNull(value),
-      checkType,
-      errorMessage;
-
-  // check required fields
-  if (field.required && (!isDefined || __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isNull(value) || value === '')) {
-    return createMessageWith(Model.ERROR_BLANK);
-  }
-  // check type
-  checkType = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"]['is' + capitalize(field.type)];
-  if (isDefined && field.type != 'any' && (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(checkType) || !checkType(value))) {
-    return createMessageWith(Model.ERROR_WRONG_TYPE);
-  }
-  // validate string format
-  if (value && field.type == 'string') {
-    var error = validateString(field, value);
-    if (error) {
-      return error;
-    }
-  }
-  // check pre set values (enum)
-  if (isDefined && field.values && !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].contains(field.values, value)) {
-    return createMessageWith(Model.ERROR_NOT_ALLOWED);
-  }
-  // check validate method
-  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isFunction(field.validate)) {
-    var result = field.validate(value);
-    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isString(result) && result) {
-      return createMessageWith(result);
-    }
-    else if (result === false) {
-      return createMessageWith(Model.ERROR_INVALID);
-    }
-  }
-  // check array items
-  if (isDefined && field.type == 'array' && (errorMessage = validateArrayField(field, value))) {
-    return createMessageWith(errorMessage);
-  }
-}
-
-function validateArrayField(field, arr) {
-  if (field.minItems && arr.length < field.minItems) {
-    return 'model.validation.field.array.minItems';
-  }
-  else if (field.maxItems && arr.length > field.maxItems) {
-    return 'model.validation.field.array.maxItems';
-  }
-  else if (field.uniqueItems && arr.length > __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].uniq(arr).length) {
-    return Model.ERROR_IARRAY_UNIQUE;
-  }
-  else if (field.items) {
-    /* eslint max-depth: [2, 3] */
-    var arrayField = normalizeSchemaDef(field.items, 'placeholder');
-    for (var i = 0; i < arr.length; i++) {
-      var value = arr[i];
-      var error = validateField(arrayField, value);
-      if (error) {
-        return error['placeholder'];
-      }
-    }
-  }
-}
-
-Model = __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.extend(/** @lends src/framework/Model.prototype */ {
-
-  /**
-     * Pass props as an object to extend, describing the observable properties of your model. The props
-     * properties should not be set on an instance, as this won't define new properties, they should only be passed to
-     * extend.
-     * Properties can be defined in three different ways:
-     *
-     * - As a string with the expected dataType. One of string, number, boolean, array, object, date, or any.
-     * Eg: `name: 'string'`.
-     * - An array of `[dataType, required, default]`
-     * - An object `{type: 'string', format: '', required: true, value: '', values: [], validate: function() {}`
-     *   - `value` will be the value that the property will be set to if it is undefined, either by not being set during
-     *   initialization, or by being explicitly set to undefined.
-     *   - `format` is a json-schame derived string format. Supported formats are: `email`, `uri`, `hostname` and `ipv4`.
-     *   - If `required` is true, one of two things will happen. If a default is set for the property, the property will
-     *   start with that value. If a default is not set for the property, validation will fail
-     *   - If `values` array is passed, then you'll be able to change a property to one of those values only.
-     *   - If `validate` is defined, it should return false or a custom message string when the validation fails.
-     *   - If the type is defined as `array`, the array elements could be defined by `minItems` (Number),
-     *   `uniqueItems` (Boolean) and `items` (a field definition such as this one that will validate each array member)
-     *   To the `validate` method
-     *   - Trying to set a property to an invalid type will raise an exception.
-     *
-     * @type {Mixed}
-     * @example
-     * var Person = Model.extend({
-     *   props: {
-     *     name: 'string',
-     *     age: 'number',
-     *     paying: ['boolean', true, false], //required attribute, defaulted to false
-     *     type: {
-     *       type: 'string',
-     *       values: ['regular-hero', 'super-hero', 'mega-hero']
-     *     },
-     *     likes: {
-     *       type: 'string',
-     *       validate: function (value) {
-     *         return /^[\w]+ing$/.test(value)
-     *       }
-     *     }
-     *   }
-     * });
-     */
-  props: {},
-
-  /**
-     * Derived properties (also known as computed properties) are properties of the model that depend on the
-     * other (props, local or even derived properties to determine their value. Best demonstrated with an example:
-     *
-     * Each derived property, is defined as an object with the current properties:
-     *
-     * - `deps` {Array} - An array of property names which the derived property depends on.
-     * - `fn` {Function} - A function which returns the value of the computed property. It is called in the context of
-     * the current object, so that this is set correctly.
-     * - `cache` {Boolean} -  - Whether to cache the property. Uncached properties are computed every time they are
-     * accessed. Useful if it depends on the current time for example. Defaults to `true`.
-     *
-     * Derived properties are retrieved and fire change events just like any other property. They cannot be set
-     * directly.
-     * @type {Object}
-     * @example
-     * var Person = Model.extend({
-     *   props: {
-     *     firstName: 'string',
-     *     lastName: 'string'
-     *   },
-     *   derived: {
-     *     fullName: {
-     *       deps: ['firstName', 'lastName'],
-     *       fn: function (firstName, lastName) {
-     *         return firstName + ' ' + lastName;
-     *       }
-     *     }
-     *   }
-     * });
-     *
-     * var person = new Person({ firstName: 'Phil', lastName: 'Roberts' })
-     * console.log(person.get('fullName')) //=> "Phil Roberts"
-     *
-     * person.set('firstName', 'Bob');
-     * console.log(person.get('fullName')) //=> "Bob Roberts"
-     */
-  derived: {},
-
-  /**
-     * local properties are defined and work in exactly the same way as {@link src/framework/Model#props|props}, but generally only exist for
-     * the lifetime of the page.
-     * They would not typically be persisted to the server, and are not returned by calls to {@link src/framework/Model#toJSON|toJSON}.
-     *
-     * @type {Object}
-     * @example
-     * var Person = Model.extend({
-     *   props: {
-     *     name: 'string',
-     *   },
-     *   local: {
-     *     isLoggedIn: 'boolean'
-     *   }
-     * );
-     */
-  local: {},
-
-  /**
-     * Flatten the payload into dot notation string keys:
-     *
-     * @type {Boolean}
-     * @example
-     * var Person = Model.extend({
-     *   props: {
-     *     'profile.fname': 'string',
-     *     'profile.lname': 'string',
-     *     'profile.languages': 'object'
-     *   },
-     *   flat: true
-     * });
-     * var person = new Person({'profile': {
-     *                            'fname': 'John',
-     *                            'lname': 'Doe',
-     *                            'languages': {name: "English", value: "EN"}
-     *                         }}, {parse: true});
-     * person.get('profile'); //=> undefined
-     * person.get('profile.fname'); //=> 'John'
-     * person.get('profile.lname'); //=> 'Doe'
-     * person.get('profile.languages'); //=> {name: "English", value: "EN"}
-     * person.get('profile.languages.name'); //=> undefined
-     * person.toJSON(); //=> {'profile': {'fname': 'John'} }
-     */
-  flat: true,
-
-  /**
-     * @deprecated
-     * @alias Backbone.Model#defaults
-     */
-  defaults: {},
-
-  constructor: function (options) {
-    this.options = options || {};
-
-    var schema = this['__schema__'] = {},
-        objectTypeFields = [];
-
-    schema.computedProperties = {};
-
-    schema.props = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'props') || {});
-    schema.derived = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'derived') || {});
-    schema.local = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'local') || {});
-
-    var defaults = {};
-    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, schema.props, schema.local), function (options, name) {
-      var schemaDef = normalizeSchemaDef(options, name);
-      if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(schemaDef.value)) {
-        defaults[name] = schemaDef.value;
-      }
-      if (schemaDef.type === 'object') {
-        objectTypeFields.push(name);
-      }
-    }, this);
-    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(defaults)) {
-      var localDefaults = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'defaults');
-      this.defaults = function () {
-        return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults({}, defaults, localDefaults);
-      };
-    }
-
-    // override `validate`
-    this.validate = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].wrap(this.validate, function (validate) {
-      var args = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].rest(arguments),
-          res = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(this._validateSchema.apply(this, args), validate.apply(this, args));
-      return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(res) && res || undefined;
-    });
-
-    // override `parse`
-    this.parse = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].wrap(this.parse, function (parse) {
-      var target = parse.apply(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].rest(arguments));
-      if (this.flat) {
-        target = flatten(target, objectTypeFields);
-      }
-      return target;
-    });
-
-    __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.apply(this, arguments);
-
-    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(schema.derived, function (options, name) {
-      schema.computedProperties[name] = this.__getDerivedValue(name); // set initial value;
-      var deps = options.deps || [];
-      if (deps.length) {
-        this.on('cache:clear change:' + deps.join(' change:'), function () {
-          var value = this.__getDerivedValue(name);
-          if (value !== schema.computedProperties[name]) {
-            schema.computedProperties[name] = value;
-            this.trigger('change:' + name, this, value);
-          }
-        }, this);
-      }
-    }, this);
-
-    this.on('sync', function () {
-      this.__syncedData = this.toJSON();
-    }, this);
-  },
-
-  validate: function () {},
-
-  /**
-     * Check if the schema settings allow this field to exist in the model
-     * @param  {String} key
-     * @return {Boolean}
-     */
-  allows: function (key) {
-    var schema = this['__schema__'],
-        all = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, schema.props, schema.local);
-    if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].has(all, key)) {
-      __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('Field not defined in schema', key);
-    }
-    return true;
-  },
-
-  /**
-     * Returns the schema for the specific property
-     *
-     * @param propName - The name of the property
-     * @returns {*} | null
-     */
-  getPropertySchema: function (propName) {
-    var schema = this['__schema__'];
-    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].reduce([schema.props, schema.local], function (result, options) {
-      return result || normalizeSchemaDef(options[propName], propName);
-    }, null);
-  },
-
-  set: function (key, val) {
-    var attrs;
-    if (typeof key === 'object') {
-      attrs = key;
-    } else {
-      (attrs = {})[key] = val;
-    }
-
-    // Don't override a computed properties
-    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(attrs, function (value, key) {
-      if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].has(this['__schema__'].derived, key)) {
-        throw 'overriding derived properties is not supported: ' + key;
-      }
-    }, this);
-
-    // Schema validation
-    var errorFields = [];
-    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(attrs, function (value, key) {
-      this.allows(key) || errorFields.push(key);
-    }, this);
-    if (errorFields.length) {
-      throw 'field not allowed: ' + errorFields.join(', ');
-    }
-
-    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.prototype.set.apply(this, arguments);
-  },
-
-  get: function (attr) {
-    var schema = this['__schema__'];
-    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].has(schema.derived, attr)) {
-      if (schema.derived[attr].cache !== false) {
-        return schema.computedProperties[attr];
-      }
-      else {
-        return this.__getDerivedValue(attr);
-      }
-    }
-    return __WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.prototype.get.apply(this, arguments);
-  },
-
-  /**
-     * Return a shallow copy of the model's attributes for JSON stringification.
-     * This can be used for persistence, serialization, or for augmentation before being sent to the server.
-     * The name of this method is a bit confusing, as it doesn't actually return a JSON string —
-     * but I'm afraid that it's the way that the JavaScript API for JSON.stringify works.
-     *
-     * See [Backbone.Model.toJSON](http://backbonejs.org/#Model-toJSON)
-     *
-     * @param  {Object} options
-     * @return {Object}
-     * @example
-     * var artist = new Model({
-     *   firstName: 'Wassily',
-     *   lastName: 'Kandinsky'
-     * });
-     *
-     * artist.set({birthday: 'December 16, 1866'});
-     * JSON.stringify(artist); //=> {'firstName':'Wassily','lastName':'Kandinsky','birthday':'December 16, 1866'}
-     */
-  toJSON: function (options) {
-    options || (options = {});
-    var res = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(__WEBPACK_IMPORTED_MODULE_1_backbone___default.a.Model.prototype.toJSON.apply(this, arguments)),
-        schema = this['__schema__'];
-
-    // cleanup local properties
-    if (!options.verbose) {
-      res = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].omit(res, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].keys(schema.local));
-    }
-    else { // add derived properties
-      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(schema.derived, function (options, name) {
-        res[name] = this.get(name);
-      }, this);
-    }
-
-    if (this.flat) {
-      res = unflatten(res);
-    }
-
-    return res;
-  },
-
-  /**
-     * Removes all attributes from the model, including the id attribute.
-     * Fires a `"change"` event unless `silent` is passed as an option.
-     * Sets the default values to the model
-     * @param {Object} [options]
-     */
-  reset: function (options) {
-    this.clear(options);
-    this.set(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'defaults'), options);
-  },
-
-  /**
-     * Is the data on the model has local modifications since the last sync event?
-     * @return {Boolean} is the model in sync with the server
-     */
-  isSynced: function () {
-    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isEqual(this.__syncedData, this.toJSON());
-  },
-
-  /**
-     * validate a specific field in the model.
-     * @param  {String} key
-     * @return {Object} returns `{fieldName: errorMessage}` if invalid, otherwise undefined.
-     * @readonly
-     */
-  validateField: function (key) {
-    var schema = key && this.getPropertySchema(key);
-    return schema && validateField(schema, this.get(key));
-  },
-
-  /**
-     * Runs local schema validation. Invoked internally by {@link src/framework/Model#validate|validate}.
-     * @return {Object}
-     * @protected
-     */
-  _validateSchema: function () {
-    var schema = this['__schema__'];
-    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].reduce(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({}, schema.props, schema.local), function (memo, options, name) {
-      return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(memo, this.validateField(name) || {});
-    }, {}, this);
-  },
-
-  __getDerivedValue: function (name) {
-    var options = this['__schema__'].derived[name];
-    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isString(options)) {
-      var key = options;
-      options = {
-        deps: [key],
-        fn: function () {
-          return this.get(key);
-        }
-      };
-    }
-    var deps = options.deps || [];
-    return options.fn.apply(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].map(deps, this.get, this));
-  }
-
-},
-{
-  ERROR_BLANK: 'model.validation.field.blank',
-  ERROR_WRONG_TYPE: 'model.validation.field.wrong.type',
-  ERROR_NOT_ALLOWED: 'model.validation.field.value.not.allowed',
-  ERROR_INVALID: 'model.validation.field.invalid',
-  ERROR_IARRAY_UNIQUE: 'model.validation.field.array.unique',
-  ERROR_INVALID_FORMAT_EMAIL: 'model.validation.field.invalid.format.email',
-  ERROR_INVALID_FORMAT_URI: 'model.validation.field.invalid.format.uri',
-  ERROR_INVALID_FORMAT_IPV4: 'model.validation.field.invalid.format.ipv4',
-  ERROR_INVALID_FORMAT_HOSTNAME: 'model.validation.field.invalid.format.hostname',
-  ERROR_STRING_STRING_MIN_LENGTH: 'model.validation.field.string.minLength',
-  ERROR_STRING_STRING_MAX_LENGTH: 'model.validation.field.string.maxLength'
-}
-);
-
-/* harmony default export */ __webpack_exports__["a"] = (Model);
-
-
-/***/ }),
-/* 38 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseCollection__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseModel__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SchemaProperty__ = __webpack_require__(17);
-
-
-
-
-
-const parseProperties = function (resp) {
-  const schemaMeta = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].pick(resp, 'id', 'name', 'displayName');
-
-  const properties = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].map(resp.schema.properties, function (property, name) {
-    return Object(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"])({ name: name })
-      .chain()
-      .extend(property)
-      .omit('__metadata')
-      .value();
-  });
-
-  __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(properties, function (property) {
-    property['__schemaMeta__'] = schemaMeta;
-  });
-  return properties;
-};
-
-const BaseSchemaSchema = __WEBPACK_IMPORTED_MODULE_2__BaseModel__["default"].extend({
-  defaults: {
-    id: undefined,
-    displayName: undefined,
-    name: undefined
-  },
-
-  constructor: function () {
-    this.properties = new __WEBPACK_IMPORTED_MODULE_3__SchemaProperty__["default"].Collection();
-    __WEBPACK_IMPORTED_MODULE_2__BaseModel__["default"].apply(this, arguments);
-  },
-
-  getProperties: function () {
-    return this.properties;
-  },
-
-  clone: function () {
-    const model = __WEBPACK_IMPORTED_MODULE_2__BaseModel__["default"].prototype.clone.apply(this, arguments);
-
-    model.getProperties().set(this.getProperties().toJSON({ verbose: true }));
-    return model;
-  },
-
-  parse: function (resp) {
-    const properties = parseProperties(resp);
-
-    this.properties.set(properties, { parse: true });
-    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].omit(resp, 'schema');
-  },
-
-  trimProperty: function (property) {
-    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].omit(property, 'name');
-  },
-
-  toJSON: function () {
-    const json = __WEBPACK_IMPORTED_MODULE_2__BaseModel__["default"].prototype.toJSON.apply(this, arguments);
-
-    json.schema = { properties: {} };
-    this.getProperties().each(function (model) {
-      const property = model.toJSON();
-
-      json.schema.properties[property.name] = this.trimProperty(property);
-    }, this);
-    return json;
-  },
-
-  save: function () {
-    this.getProperties().each(function (model) {
-      model.cleanup();
-    });
-    return __WEBPACK_IMPORTED_MODULE_2__BaseModel__["default"].prototype.save.apply(this, arguments);
-  }
-});
-const BaseSchemaSchemas = __WEBPACK_IMPORTED_MODULE_1__BaseCollection__["default"].extend({
-  model: BaseSchemaSchema
-});
-/* harmony default export */ __webpack_exports__["default"] = ({
-  parseProperties: parseProperties,
-  Model: BaseSchemaSchema,
-  Collection: BaseSchemaSchemas
-});
-
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports) {
-
-module.exports = require("okta-i18n-bundles");
-
-/***/ }),
-/* 40 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseRouter__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SettingsModel__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StateMachine__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_BaseView__ = __webpack_require__(1);
-/* eslint max-len: [2, 150] */
-
-
-
-
-
-
-
-function clean(obj) {
-  const res = {};
-
-  __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].each(obj, function (value, key) {
-    if (!__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].isNull(value)) {
-      res[key] = value;
-    }
-  });
-  return res;
-}
-
-/**
- * A Controller is our application control flow component.
- *
- * Typically it will:
- * - Initialize the models, controller and main views
- * - Listen to events
- * - Create, read, update and delete models
- * - Create modal dialogs, confirmation dialogs and alert dialogs
- * - Control the application flow
- *
- * The constructor is responsible for:
- * - Create the application state object
- * - Assign or creates the application settings object
- * - Create an instance of the main view with the relevant parameters
- *
- * See:
- * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
- * [Jasmine Spec](https://github.com/okta/okta-core/blob/master/WebContent/js/test/unit/spec/shared/util/BaseController_spec.js)
- *
- * @class module:Okta.Controller
- * @param {Object} options Options Hash
- * @param {SettingsModel} [options.settings] Application Settings Model
- * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
- */
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].extend(
-  /** @lends module:Okta.Controller.prototype */ {
-    constructor: function (options) {
-      /* eslint max-statements: [2, 13], complexity: [2, 7]*/
-      options || (options = {});
-
-      const stateData = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].defaults(clean(options.state), this.state || {});
-
-      this.state = new __WEBPACK_IMPORTED_MODULE_4__StateMachine__["a" /* default */](stateData);
-      delete options.state;
-
-      if (options.settings) {
-        this.settings = options.settings;
-      } else {
-        // allow the controller to live without a router
-        this.settings = options.settings = new __WEBPACK_IMPORTED_MODULE_3__SettingsModel__["a" /* default */](__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].omit(options || {}, 'el'));
-        this.listen('notification', __WEBPACK_IMPORTED_MODULE_2__BaseRouter__["default"].prototype._notify);
-        this.listen('confirmation', __WEBPACK_IMPORTED_MODULE_2__BaseRouter__["default"].prototype._confirm);
-      }
-
-      __WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].call(this, options);
-
-      this.listenTo(this.state, '__invoke__', function () {
-        const args = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].toArray(arguments);
-
-        const method = args.shift();
-
-        if (__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].isFunction(this[method])) {
-          this[method].apply(this, args);
-        }
-      });
-
-      if (this.View) {
-        this.add(new this.View(this.toJSON()));
-      }
-    },
-
-    /**
-     * The default values of our application state
-     * @type {Object}
-     * @default {}
-     */
-    state: {},
-
-    /**
-     * The main view this controller operate on
-     * @type {module:Okta.View}
-     * @default null
-     */
-    View: null,
-
-    /**
-     * Renders the {@link module:Okta.Controller#View|main view} after the DOM is ready
-     * in case the controller is the root component of the page (e.g there's no router)
-     */
-    render: function () {
-      const args = arguments;
-      const self = this;
-
-      Object(__WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__["default"])(function () {
-        __WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].prototype.render.apply(self, args);
-      });
-      return this;
-    },
-
-    /**
-     * Creates the view constructor options
-     * @param {Object} [options] Extra options
-     * @return {Object} The view constructor options
-     */
-    toJSON: function (options) {
-      return __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].extend(__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].pick(this, 'state', 'settings', 'collection', 'model'), options || {});
-    },
-
-    /**
-     * Removes the child views, empty the DOM element and stop listening to events
-     */
-    remove: function () {
-      this.removeChildren();
-      this.stopListening();
-      this.$el.empty();
-      return this;
-    }
-  }
-));
-
-
-/***/ }),
-/* 41 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BaseFormDialog__ = __webpack_require__(42);
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__BaseFormDialog__["a" /* default */].extend({
-  save: 'OK',
-
-  params: {
-    minWidth: 500,
-    maxWidth: 700,
-    close: true
-  },
-
-  constructor: function () {
-    __WEBPACK_IMPORTED_MODULE_0__BaseFormDialog__["a" /* default */].apply(this, arguments);
-
-    if (this.content) {
-      this.add(this.content);
-    }
-
-    this.listenTo(this, 'save', function () {
-      const callback = this.ok || this.options.ok;
-
-      callback && callback();
-      this.remove();
-    });
-
-    this.listenTo(this, 'cancel', function () {
-      const callback = this.cancelFn || this.options.cancelFn;
-
-      callback && callback();
-    });
-  }
-}));
-
-
-/***/ }),
-/* 42 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseModalDialog__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__forms_BaseForm__ = __webpack_require__(23);
-
-
-
-
-
-const FORM_FIELDS = [
-  'save',
-  'noCancelButton',
-  'inputs',
-  'subtitle',
-  'autoSave',
-  'focus',
-  'cancel',
-  'danger',
-  'hasSavingState',
-  'customSavingState',
-  'parseErrorMessage',
-];
-const FORM_DEFAULTS = {
-  layout: 'o-form-wrap',
-  scrollOnError: false
-};
-const SIMPLE_MODAL_PARAMS = {
-  minWidth: 600,
-  maxWidth: 950,
-  focus: false,
-  close: false,
-  autoResize: false, // (use the resizeModal method, so that the scrolling goes to content, not the whole modal)
-  autoPosition: true
-};
-
-// jquery.simplemodoal options
-
-/**
- * Okta.FormDialog is a facade layer for a form that lives in a modal dialog.
- *
- * The API is proxying the {@link module:Okta.Form|Form} API for the most part.
- * It also triggers all the form events
- * It takes care of repositioning, resizing, closing the dialog on cancel, and so on.
- *
- * @class module:Okta.FormDialog
- * @extends module:Okta.View
- * @borrows module:Okta.Form#event:save as save
- * @borrows module:Okta.Form#event:saved as saved
- * @borrows module:Okta.Form#event:resize as resize
- * @borrows module:Okta.Form#event:cancel as cancel
- * @borrows module:Okta.Form#title as #title
- * @borrows module:Okta.Form#subtitle as #subtitle
- * @borrows module:Okta.Form#save as #save
- * @borrows module:Okta.Form#inputs as #inputs
- * @borrows module:Okta.Form#noCancelButton as #noCancelButton
- * @borrows module:Okta.Form#autoSave as #autoSave
- * @borrows module:Okta.ModalDialog#params as #params
- * @borrows module:Okta.Form#addInput as #addInput
- * @borrows module:Okta.Form#addButton as #addButton
- * @borrows module:Okta.Form#addDivider as #addDivider
- * @borrows module:Okta.Form#addSectionTitle as #addSectionTitle
- * @borrows module:Okta.Form#clearErrors as #clearErrors
- * @example
- * var AddUserDialog = Okta.FormDialog({
- *   autoSave: true,
- *   title: 'Add a User',
- *   inputs: [
- *     {
- *       type: 'text',
- *       name: 'fname',
- *       label: 'First Name'
- *     },
- *     {
- *       type: 'text',
- *       name: 'lname',
- *       label: 'Last Name'
- *     }
- *   ]
- * });
- *
- * // renders the modal dialog on the page
- * var dialog = new AddUserDialog({model: new MyModel()}).render();
- * this.listenTo(dialog, 'saved', function (model) {
- *   // the model is now saved
- * });
- */
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend(
-  /** @lends module:Okta.FormDialog.prototype */ {
-    constructor: function (options) {
-      const Form = __WEBPACK_IMPORTED_MODULE_4__forms_BaseForm__["default"].extend(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].extend({}, FORM_DEFAULTS, __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].pick(this, FORM_FIELDS)));
-      /* eslint max-statements: [2, 13] */
-
-      this.form = new Form(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].omit(options, 'title', 'subtitle'));
-
-      this.listenTo(this.form, 'resize', __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].debounce(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(this.resizeModal, this), 100));
-
-      // trigger all form events
-
-      const removeFn = __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(this.remove, this);
-
-      this.listenTo(this.form, 'all', function () {
-        this.trigger.apply(this, arguments);
-        if (arguments[0] === 'cancel') {
-          removeFn();
-        }
-      });
-
-      Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(window).resize(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].debounce(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(this.resizeModal, this), 100));
-
-      const BaseFormDialogDialog = __WEBPACK_IMPORTED_MODULE_3__BaseModalDialog__["a" /* default */].extend({
-        title: this.title,
-        className: this.className,
-        params: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].extend({}, SIMPLE_MODAL_PARAMS, this.params)
-      });
-
-      this.dialog = new BaseFormDialogDialog(options);
-      this.dialog.add(this.form);
-      this.el = this.dialog.el;
-
-      __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].apply(this, arguments);
-
-      if (this.form.getAttribute('autoSave')) {
-        this.listenTo(this, 'saved', this.remove);
-      }
-    },
-
-    /**
-     * The form instance generated by the constructor.
-     * Should **not** be referenced locally, exposed externally for test purposes.
-     * @type {Okta.Form}
-     * @private
-     * @readonly
-     */
-    form: undefined,
-
-    /**
-     * The dialog instance generated by the constructor.
-     * Should **not** be referenced locally, exposed externally for test purposes.
-     * @type {Okta.ModalDialog}
-     * @private
-     * @readonly
-     */
-    dialog: undefined,
-
-    addInput: function () {
-      return this.form.addInput.apply(this.form, arguments);
-    },
-
-    addButton: function () {
-      return this.form.addButton.apply(this.form, arguments);
-    },
-
-    addDivider: function () {
-      return this.form.addDivider.apply(this.form, arguments);
-    },
-
-    addSectionTitle: function () {
-      return this.form.addSectionTitle.apply(this.form, arguments);
-    },
-
-    add: function () {
-      return this.form.add.apply(this.form, arguments);
-    },
-
-    render: function () {
-      this.preRender();
-      this.dialog.render.apply(this.dialog, arguments);
-      __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].defer(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(this.resizeModal, this));
-      this.postRender();
-      return this;
-    },
-
-    remove: function () {
-      this.dialog.remove.apply(this.dialog, arguments);
-      return __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].prototype.remove.apply(this, arguments);
-    },
-
-    /**
-     * Resize modal to fit window height
-     * the whole modal will be within the viewport, only the form content is scrollable
-     * there's no good solution to totally fix the width issue yet for tiny window,
-     * leave it for jquery simplemodal autoResize to do its best
-     */
-    resizeModal: function () {
-      const modal = Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])('.simplemodal-wrap');
-      const form = this.form;
-      const modalHeight = modal.height();
-      const modalMinHeight = __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].isNumber(this.dialog.params.minHeight) ? this.dialog.params.minHeight : 0;
-      const windowHeight = Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(window).height();
-
-      if (modalMinHeight <= modalHeight) {
-        if (modalHeight >= windowHeight) {
-          form.contentHeight(
-            windowHeight -
-              this.dialog.$('h2').outerHeight() -
-              form.$('.o-form-button-bar').outerHeight() -
-              (modal.outerHeight(true) - form.$el.outerHeight(true))
-          );
-        } else {
-          form.contentHeight(form.contentHeight() + (windowHeight - modal.outerHeight()));
-        }
-        this.dialog.resize.apply(this.dialog, arguments);
-      }
-    },
-
-    clearErrors: function () {
-      return this.form.clearErrors.apply(this.form, arguments);
-    }
-  }
-));
-
-
-/***/ }),
-/* 43 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_simplemodal__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_simplemodal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_simplemodal__);
-
-
-
-
-
-const tpl = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl;
-
-/**
- * A view that renders as a modal dialog.
- * The template of the view will render inside a dialog.
- *
- * It uses [SimpleModal](http://www.ericmmartin.com/projects/simplemodal) as the base modal widget.
- *
- * In the context of a {@link module:Okta.View|View}, do not `add` this view to the container - simply call render
- * A modal dialog is a special view in terms of - it has an overlay and takes over the screen, so conceptually
- * it is not a part of any other view.
- *
- * @class module:Okta.ModalDialog
- * @extends module:Okta.View
- */
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].extend(
-  /** @lends module:Okta.ModalDialog.prototype */ {
-    /**
-     * Parameters to pass to the simplemodal plugin.
-     * See [Available Options](http://www.ericmmartin.com/projects/simplemodal/#options).
-     * @type {Object}
-     * @property {Object} [params]
-     */
-    params: {},
-
-    constructor: function () {
-      __WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].apply(this, arguments);
-      this.$el.addClass('simplemodal-wrap');
-
-      // garbage collection - remove the view when modal is closed
-      this.params = __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].extend(
-        {
-          onClose: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].throttle(this.remove, 64), this)
-        },
-        this.params || {}
-      );
-    },
-
-    render: function () {
-      /* eslint max-statements: [2, 16] */
-
-      this.delegateEvents(); // modal may be rendered multiple times
-      __WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].prototype.render.apply(this, arguments);
-
-      const options = __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].extend({}, __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].pick(this, 'title', 'subtitle'), __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].pick(this.options, 'title', 'subtitle'));
-
-      if (options.subtitle) {
-        const subtitle = __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].resultCtx(options, 'subtitle', this);
-
-        this.$el.prepend(
-          tpl('<p class="modal-subtitle text-light \
-          padding-20 margin-btm-0">{{subtitle}}</p>')({
-            subtitle: subtitle
-          })
-        );
-      }
-
-      if (options.title) {
-        const title = __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].resultCtx(options, 'title', this);
-
-        this.$el.prepend(tpl('<h2 class="block modal-title">{{title}}</h2>')({ title: title }));
-      }
-
-      // running deferred fixes a rendering issue with simplemodal
-      __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].defer(() => {
-        this.$el.modal(this.params);
-        this.resize();
-      });
-
-      // make sure scrolling on the body is disabled;
-      Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])('body').css('overflow', 'hidden');
-
-      return this;
-    },
-
-    remove: function () {
-      __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"].modal.close();
-      // re-enable document scroll; blank property value removes property altogether
-      Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])('body').css('overflow', '');
-      __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].defer(function () {
-        __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"].modal.close();
-      });
-      return __WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].prototype.remove.apply(this, arguments);
-    },
-
-    /**
-     * Adjusts the modal content size based on the current content
-     */
-    resize: function () {
-      __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"].modal.update(this.$el.outerHeight());
-    }
-  }
-));
-
-
-/***/ }),
-/* 44 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7744,7 +8395,7 @@ const tpl = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl;
 
 
 /***/ }),
-/* 45 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7770,12 +8421,12 @@ const template =
 
 
 /***/ }),
-/* 46 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_StringUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_StringUtil__ = __webpack_require__(3);
 
 
 const FIELD_REGEX = /^([\S]+): (.+)$/;
@@ -7886,13 +8537,13 @@ const FIELD_REGEX = /^([\S]+): (.+)$/;
 
 
 /***/ }),
-/* 47 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Logger__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_Util__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
 
@@ -8091,7 +8742,7 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
 
 
 /***/ }),
-/* 48 */
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8133,14 +8784,14 @@ function supports(options) {
 
 
 /***/ }),
-/* 49 */
+/* 62 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qtip__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseView__ = __webpack_require__(1);
 
 
@@ -8248,7 +8899,7 @@ function supports(options) {
 
 
 /***/ }),
-/* 50 */
+/* 63 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8388,1010 +9039,15 @@ function runIf(fn, ctx) {
 
 
 /***/ }),
-/* 51 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseView__ = __webpack_require__(1);
-
-
-
-const defaults = {
-  level: 'success',
-  message: 'Great Success!',
-  hide: true,
-  fade: 400,
-  delay: 3000,
-  width: 0,
-  dismissable: false
-};
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend({
-  className: 'infobox infobox-confirm infobox-confirm-fixed',
-
-  events: {
-    'click .infobox-dismiss-link': function (e) {
-      e.preventDefault();
-      this.fadeOut();
-    }
-  },
-
-  template:
-    '\
-      {{#if dismissable}}\
-      <a class="infobox-dismiss-link" title="Dismiss" href="#">\
-        <span class="dismiss-icon"></span>\
-      </a>\
-      {{/if}}\
-      <span class="icon {{level}}-16"></span>\
-      {{#if title}}<h3>{{title}}</h3>{{/if}}\
-      <p>{{message}}</p>\
-    ',
-
-  initialize: function () {
-    this.options = __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].defaults({}, this.options, defaults);
-    this.$el.addClass('infobox-' + this.options.level);
-    if (this.options.width) {
-      this.$el.width(this.options.width).css({
-        'margin-left': '0px',
-        left: Math.round((Object(__WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"])(window).width() - this.options.width) / 2)
-      });
-    }
-  },
-
-  getTemplateData: function () {
-    return __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].extend(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].pick(this.options, 'level', 'message', 'title'), {
-      dismissable: this.options.hide === false || this.options.dismissable === true
-    });
-  },
-
-  postRender: function () {
-    if (this.options.hide) {
-      __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].delay(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(this.fadeOut, this), this.options.delay);
-    }
-  },
-
-  fadeOut: function () {
-    this.$el.fadeOut(this.options.fade, __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].bind(this.remove, this));
-  }
-}));
-
-
-/***/ }),
-/* 52 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Model__ = __webpack_require__(11);
-
-
-
-/**
- * @class StateMachine
- * @extends Okta.Model
- * @private
- *
- * A state object that holds the applciation state
- */
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_1__models_Model__["default"].extend({
-  extraProperties: true,
-  /**
-   * Invokes a method on the applicable {@link Okta.Controller}
-   *
-   * ```javascript
-   * state.invoke('methodName', 'param1', 'param2')
-   * // Will call
-   * contoller.methodName('param1', 'param2')
-   * ```
-   * @param {String} methodName the name of the controller method to invoke on the controller
-   */
-  invoke: function () {
-    const args = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].toArray(arguments);
-
-    args.unshift('__invoke__');
-    this.trigger.apply(this, args);
-  }
-}));
-
-
-/***/ }),
-/* 53 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseView__ = __webpack_require__(1);
-
-
-
-const disabledEvents = {
-  click: function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-};
-
-/**
- * A configurable button.
- * @class module:Okta.internal.views.components.BaseButtonLink
- * @extends module:Okta.View
- * @example
- * var View = BaseButtonLink.extend({
- *   title: 'Click Me',
- *   icon: 'help-text'
- * })
- */
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend(
-  /** @lends module:Okta.internal.views.components.BaseButtonLink.prototype */ {
-    attributes() {
-      const defaultAttrs = {
-        'data-se': 'button'
-      };
-      const additionalAttr = this.__getAttribute('attrs');
-      return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(defaultAttrs, additionalAttr);
-    },
-    /**
-     * The main text for the button
-     * @name title
-     * @memberof module:Okta.internal.views.components.BaseButtonLink
-     * @type {(String|Function)}
-     * @instance
-     */
-
-    /**
-     * The link for the button
-     * @name href
-     * @memberof module:Okta.internal.views.components.BaseButtonLink
-     * @type {(String|Function)}
-     * @instance
-     */
-
-    /**
-     * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
-     * @name icon
-     * @memberof module:Okta.internal.views.components.BaseButtonLink
-     * @type {(String|Function)}
-     * @instance
-     */
-
-    /**
-     * A [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
-     * @name events
-     * @memberof module:Okta.internal.views.components.BaseButtonLink
-     * @type {Object}
-     * @instance
-     */
-
-    tagName: 'a',
-
-    template: '{{#if icon}}<span class="icon {{icon}}"></span>{{/if}}{{#if title}}{{title}}{{/if}}',
-
-    /**
-     * Make this button visible, default to true.
-     * @type {(Boolean|Function)}
-     * @default true
-     */
-    visible: true,
-
-    /**
-     * Make this button enabled, default to true.
-     * @type {(Boolean|Function)}
-     * @default true
-     */
-    enabled: true,
-
-    /**
-     * The setting to determine when the button is enabled, default to {} and
-     * enabled takes a higher priority.
-     * @type {(Object|Function)}
-     * @default {}
-     */
-    enableWhen: {},
-
-    /**
-     * The setting to determine when the button is visible, default to {} and
-     * visible takes a higher priority.
-     * @type {(Object|Function)}
-     * @default {}
-     */
-    showWhen: {},
-
-    constructor: function (options) {
-      this.options = options || {};
-      const data = this.getTemplateData();
-
-      this.disabled = false;
-
-      __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].apply(this, arguments);
-
-      this.$el.addClass('link-button');
-      if (data.icon) {
-        this.$el.addClass('link-button-icon');
-        if (!data.title) {
-          this.$el.addClass('icon-only');
-        }
-      }
-    },
-
-    getTemplateData: function () {
-      return {
-        href: this.__getAttribute('href'),
-        title: this.__getAttribute('title'),
-        icon: this.__getAttribute('icon')
-      };
-    },
-
-    initialize: function () {
-      __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__["a" /* default */].applyDoWhen(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this, 'enableWhen', this), this.toggle);
-      __WEBPACK_IMPORTED_MODULE_1__util_ViewUtil__["a" /* default */].applyDoWhen(this, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this, 'showWhen', this), this.toggleVisible);
-    },
-
-    render: function () {
-      __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].prototype.render.apply(this, arguments);
-
-      if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'enabled')) {
-        this.toggle(false);
-      }
-
-      if (!__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'visible')) {
-        this.toggleVisible(false);
-      }
-
-      const data = this.getTemplateData();
-
-      this.$el.attr('href', data.href || '#');
-
-      return this;
-    },
-
-    __getAttribute: function (name, defaultValue) {
-      let value = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(this.options, name, this);
-
-      if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value)) {
-        value = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, name);
-      }
-      return !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value) ? value : defaultValue;
-    },
-
-    enable: function () {
-      this.toggle(true);
-    },
-
-    disable: function () {
-      this.toggle(false);
-    },
-
-    show: function () {
-      this.toggleVisible(true);
-    },
-
-    hide: function () {
-      this.toggleVisible(false);
-    },
-
-    toggle: function (enable) {
-      const bool = !!enable && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'enabled');
-      //this is to toggle the enability
-
-      this.disabled = !bool;
-      this.$el.toggleClass('link-button-disabled btn-disabled disabled', this.disabled);
-
-      // delegateEvents asynchronously in case the button is not yet added to the DOM
-      // in these cases the alternate events won't work
-      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defer(() => {
-        this.delegateEvents(this.disabled ? disabledEvents : null);
-      });
-    },
-
-    toggleVisible: function (visible) {
-      const hidden = !visible || !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].result(this, 'visible');
-
-      this.$el.toggleClass('hide', hidden);
-    }
-  }
-));
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_backbone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-
-
-
-function Class(options) {
-  this.options = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].clone(options || {});
-  this.cid = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].uniqueId('class');
-  this.initialize.apply(this, arguments);
-}
-
-__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].extend(Class.prototype, __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Events, {
-  initialize: function () {}
-});
-
-Class.extend = __WEBPACK_IMPORTED_MODULE_0_backbone___default.a.Model.extend;
-
-/* harmony default export */ __webpack_exports__["default"] = (Class);
-
-
-/***/ }),
-/* 55 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie__);
-
-
-const SECURED_COOKIE = /^https/.test(window.location.href);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  setCookie: function (name, value, options) {
-    __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default.a.set(
-      name,
-      value,
-      __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].defaults(options || {}, {
-        secure: SECURED_COOKIE,
-        path: '/'
-      })
-    );
-  },
-
-  getCookie: function () {
-    return __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default.a.get.apply(__WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default.a, arguments);
-  },
-
-  removeCookie: function () {
-    return __WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default.a.remove.apply(__WEBPACK_IMPORTED_MODULE_1_vendor_lib_js_cookie___default.a, arguments);
-  }
-});
-
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * JavaScript Cookie v2.1.0
- * https://github.com/js-cookie/js-cookie
- *
- * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
- * Released under the MIT license
- */
-(function (factory) {
-	if (true) {
-		!(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else if (typeof exports === 'object') {
-		module.exports = factory();
-	} else {
-		var _OldCookies = window.Cookies;
-		var api = window.Cookies = factory();
-		api.noConflict = function () {
-			window.Cookies = _OldCookies;
-			return api;
-		};
-	}
-}(function () {
-	function extend () {
-		var i = 0;
-		var result = {};
-		for (; i < arguments.length; i++) {
-			var attributes = arguments[ i ];
-			for (var key in attributes) {
-				result[key] = attributes[key];
-			}
-		}
-		return result;
-	}
-
-	function init (converter) {
-		function api (key, value, attributes) {
-			var result;
-
-			// Write
-
-			if (arguments.length > 1) {
-				attributes = extend({
-					path: '/'
-				}, api.defaults, attributes);
-
-				if (typeof attributes.expires === 'number') {
-					var expires = new Date();
-					expires.setMilliseconds(expires.getMilliseconds() + attributes.expires * 864e+5);
-					attributes.expires = expires;
-				}
-
-				try {
-					result = JSON.stringify(value);
-					if (/^[\{\[]/.test(result)) {
-						value = result;
-					}
-				} catch (e) {}
-
-				if (!converter.write) {
-					value = encodeURIComponent(String(value))
-						.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
-				} else {
-					value = converter.write(value, key);
-				}
-
-				key = encodeURIComponent(String(key));
-				key = key.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent);
-				key = key.replace(/[\(\)]/g, escape);
-
-				return (document.cookie = [
-					key, '=', value,
-					attributes.expires && '; expires=' + attributes.expires.toUTCString(), // use expires attribute, max-age is not supported by IE
-					attributes.path    && '; path=' + attributes.path,
-					attributes.domain  && '; domain=' + attributes.domain,
-					attributes.secure ? '; secure' : ''
-				].join(''));
-			}
-
-			// Read
-
-			if (!key) {
-				result = {};
-			}
-
-			// To prevent the for loop in the first place assign an empty array
-			// in case there are no cookies at all. Also prevents odd result when
-			// calling "get()"
-			var cookies = document.cookie ? document.cookie.split('; ') : [];
-			var rdecode = /(%[0-9A-Z]{2})+/g;
-			var i = 0;
-
-			for (; i < cookies.length; i++) {
-				var parts = cookies[i].split('=');
-				var name = parts[0].replace(rdecode, decodeURIComponent);
-				var cookie = parts.slice(1).join('=');
-
-				if (cookie.charAt(0) === '"') {
-					cookie = cookie.slice(1, -1);
-				}
-
-				try {
-					cookie = converter.read ?
-						converter.read(cookie, name) : converter(cookie, name) ||
-						cookie.replace(rdecode, decodeURIComponent);
-
-					if (this.json) {
-						try {
-							cookie = JSON.parse(cookie);
-						} catch (e) {}
-					}
-
-					if (key === name) {
-						result = cookie;
-						break;
-					}
-
-					if (!key) {
-						result[name] = cookie;
-					}
-				} catch (e) {}
-			}
-
-			return result;
-		}
-
-		api.get = api.set = api;
-		api.getJSON = function () {
-			return api.apply({
-				json: true
-			}, [].slice.call(arguments));
-		};
-		api.defaults = {};
-
-		api.remove = function (key, attributes) {
-			api(key, '', extend(attributes, {
-				expires: -1
-			}));
-		};
-
-		api.withConverter = init;
-
-		return api;
-	}
-
-	return init(function () {});
-}));
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handlebars_helper_date__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__handlebars_helper_i18n__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__handlebars_helper_img__ = __webpack_require__(60);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__handlebars_helper_markdown__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__handlebars_helper_xsrfTokenInput__ = __webpack_require__(63);
-/* eslint @okta/okta/no-specific-modules: 0 */
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
-/* 58 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__ = __webpack_require__(0);
-/* eslint @okta/okta/enforce-requirejs-names: 0, @okta/okta/no-specific-modules: 0, max-params: 0, max-statements: 0 */
-
-
-
-
-function formatDate(format, dateInISOString) {
-  return __WEBPACK_IMPORTED_MODULE_1_moment___default.a
-    .utc(dateInISOString)
-    .utcOffset('-07:00')
-    .format(format);
-}
-
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('shortDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMM Do'));
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('mediumDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMMM DD, YYYY'));
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('longDate', __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].partial(formatDate, 'MMMM DD, YYYY, h:mma'));
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('formatDate', formatDate);
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
-/* 59 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StringUtil__ = __webpack_require__(4);
-/* eslint @okta/okta/no-specific-modules: 0 */
-
-
-
-
-function trim(str) {
-  return str && str.replace(/^\s+|\s+$/g, '');
-}
-
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('i18n', function (options) {
-  let params;
-  const key = trim(options.hash.code);
-  const bundle = trim(options.hash.bundle);
-  const args = trim(options.hash['arguments']);
-
-  if (args) {
-    params = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].map(
-      trim(args).split(';'),
-      function (param) {
-        param = trim(param);
-        let val;
-        const data = this;
-
-        /*
-       * the context(data) may be a deep object, ex {user: {name: 'John', gender: 'M'}}
-       * arguments may be 'user.name'
-       * return data['user']['name']
-       */
-        __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].each(param.split('.'), function (p) {
-          val = val ? val[p] : data[p];
-        });
-        return val;
-      },
-      this
-    );
-  }
-
-  return __WEBPACK_IMPORTED_MODULE_2__StringUtil__["default"].localize(key, bundle, params);
-});
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
-/* 60 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-/* eslint @okta/okta/no-specific-modules: 0 */
-
-
-const CACHE_BUST_URL_PREFIX = '/assets';
-
-function prependCachebustPrefix(path) {
-  if (path.indexOf(CACHE_BUST_URL_PREFIX) === 0) {
-    return path;
-  }
-  return CACHE_BUST_URL_PREFIX + path;
-}
-
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('img', function (options) {
-  const cdn = (typeof okta !== 'undefined' && okta.cdnUrlHostname) || '';
-  /*global okta */
-
-  const hash = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].pick(options.hash, ['src', 'alt', 'width', 'height', 'class', 'title']);
-
-  hash.src = '' + cdn + prependCachebustPrefix(hash.src);
-
-  const attrs = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].map(hash, function (value, attr) {
-    return attr + '="' + __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.Utils.escapeExpression(value) + '"';
-  });
-
-  return new __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.SafeString('<img ' + attrs.join(' ') + '/>');
-});
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
-/* 61 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__markdownToHtml__ = __webpack_require__(62);
-/* eslint @okta/okta/no-specific-modules: 0 */
-
-
-
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('markdown', function (mdText) {
-  return Object(__WEBPACK_IMPORTED_MODULE_1__markdownToHtml__["a" /* default */])(__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a, mdText);
-});
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
-/* 62 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = mdToHtml;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-// Simple "markdown parser" - just handles markdown formatted links. If we
-// find that we need more extensive markdown support, we should include
-// a fully formulated markdown library like:
-// https://github.com/evilstreak/markdown-js
-
-const RE_LINK = /\[[^\]]*\]\([^)]*\)/gi;
-const RE_LINK_HREF = /\]\(([^)]*)\)/i;
-const RE_LINK_TEXT = /\[([^\]]*)\]/i;
-const RE_LINK_JS = /javascript:/gi;
-
-// Converts links
-// FROM:
-// [some link text](http://the/link/url)
-// TO:
-// <a href="http://the/link/url">some link text</a>
-function mdToHtml(Handlebars, markdownText) {
-  const linkTemplate = Handlebars.compile('<a href="{{href}}">{{text}}</a>');
-  /* eslint  @okta/okta/no-specific-methods: 0*/
-
-  let res;
-
-  if (!__WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].isString(markdownText)) {
-    res = '';
-  } else {
-    res = Handlebars.Utils.escapeExpression(markdownText)
-      .replace(RE_LINK_JS, '')
-      .replace(RE_LINK, function (mdLink) {
-        return linkTemplate({
-          href: mdLink.match(RE_LINK_HREF)[1],
-          text: mdLink.match(RE_LINK_TEXT)[1]
-        });
-      });
-  }
-  return new Handlebars.SafeString(res);
-}
-
-
-/***/ }),
-/* 63 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__ = __webpack_require__(2);
-/* eslint @okta/okta/no-specific-modules: 0 */
-
-
-
-__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('xsrfTokenInput', function () {
-  return new __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.SafeString(
-    '<input type="hidden" class="hide" name="_xsrfToken" ' + 'value="' + Object(__WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__["default"])('#_xsrfToken').text() + '">'
-  );
-});
-
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
-
-
-/***/ }),
 /* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__framework_ListView__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseView__ = __webpack_require__(1);
-
-
-
-/**
- * See {@link src/framework/ListView} for more detail and examples from the base class.
- * @class module:Okta.ListView
- * @extends src/framework/ListView
- * @mixes module:Okta.View
- */
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_1__BaseView__["default"].decorate(__WEBPACK_IMPORTED_MODULE_0__framework_ListView__["a" /* default */]));
-
-
-/***/ }),
-/* 65 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__View__ = __webpack_require__(21);
-
-
-/**
-   * Archer.ListView is a {@link src/framework/View} that operates on a
-   * collection and builds a list of "things" of the same type.
-   *
-   * Automagically adds, removes and sorts upon standard collection events.
-   *
-   * Listen to collection events so the ListView will do the right thing when
-   * a model is added or the collection is reset or sorted.
-   *
-   * @class src/framework/ListView
-   * @extends src/framework/View
-   * @param {Object} options options hash
-   * @param {Object} options.collection The collection which this view operates on
-   * @example
-   * var UserList = Archer.ListView.extend({
-   *   tagName: 'ul',
-   *   item: '<li>{{fname}} {{lname}}</li>'
-   * });
-   *
-   * var users = new Archer.Collection([
-   *   {fname: 'John', lname: 'Doe'},
-   *   {fname: 'Jane', lname: 'Doe'}
-   * ]);
-   *
-   * var userList = new UserList({collection: users}).render();
-   * userList.el; //=> "<ul><li>John Doe</li><li>Jane Doe</li></ul>"
-   *
-   * users.push({fname: 'Jim', lname: 'Doe'});
-   * userList.el; //=> "<ul><li>John Doe</li><li>Jane Doe</li><li>Jim Doe</li></ul>"
-   *
-   * users.first().destroy();
-   * userList.el; //=> "<ul><li>Jane Doe</li><li>Jim Doe</li></ul>"
-   */
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__View__["a" /* default */].extend(/** @lends src/framework/ListView.prototype */ {
-
-  constructor: function () {
-    __WEBPACK_IMPORTED_MODULE_0__View__["a" /* default */].apply(this, arguments);
-    if (!this.collection) {
-      throw new Error('Missing collection');
-    }
-    this.listenTo(this.collection, 'reset sort', this.reset);
-    this.listenTo(this.collection, 'add', this.addItem);
-    this.collection.each(this.addItem, this);
-  },
-
-  /**
-     * The view/template we will use to render each model in the collection.
-     * @type {String|module:Okta.View}
-     */
-  item: null,
-
-  /**
-     * A selector in the local template where to append each item
-     * @type {String}
-     */
-  itemSelector: null,
-
-
-  /**
-     * Empty the list and re-add everything from the collection.
-     * Usefull for handling `collection.reset()` or for handling the initial load
-     * @protected
-     */
-  reset: function () {
-    this.removeChildren();
-    this.collection.each(this.addItem, this);
-    return this;
-  },
-
-  /**
-     * Add an item view to the list that will represent one model from the collection
-     *
-     * Listen to the model so when it is destoyed or removed from the collection
-     * this item will remove itself from the list
-     *
-     * @param {Backbone.Model} model The model this row operates on
-     * @protected
-     */
-  addItem: function (model) {
-    var view = this.add(this.item, this.itemSelector, {options: {model: model}}).last();
-    view.listenTo(model, 'destroy remove', view.remove);
-    return this;
-  }
-
-}));
-
-
-/***/ }),
-/* 66 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseView__ = __webpack_require__(1);
-
-
-
-
-const optionsTemplate = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl(
-  '\
-    <a class="icon-16 {{className}}" data-se="{{seleniumId}}">\
-      {{#if icon}}\
-      <span class="icon {{icon}}"></span>\
-      {{/if}}\
-      {{#if title}}\
-      {{title}}\
-      {{/if}}\
-      {{#if subtitle}}\
-        <p class="option-subtitle">{{subtitle}}</p>\
-      {{/if}}\
-   </a>\
-   '
-);
-const BaseDropDownDropDownOption = __WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].extend({
-  tagName: 'li',
-
-  events: {
-    click: function (e) {
-      e.preventDefault();
-      this.action && this.action.call(this);
-    }
-  },
-
-  constructor: function () {
-    __WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].apply(this, arguments);
-    this.$el.addClass('okta-dropdown-option option');
-  },
-
-  render: function () {
-    this.$el.html(
-      optionsTemplate({
-        icon: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'icon'),
-        className: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'className') || '',
-        title: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'title'),
-        subtitle: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'subtitle'),
-        seleniumId: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'seleniumId')
-      })
-    );
-    return this;
-  }
-});
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].extend({
-  events: {
-    'click a.option-selected': function (e) {
-      e.preventDefault();
-      if (__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'disabled')) {
-        e.stopPropagation();
-      }
-    },
-    'click .dropdown-disabled': function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  },
-
-  items: [],
-
-  constructor: function () {
-    const className = this.className;
-
-    // In this very specific case we want to NOT append className to $el
-    // but to the <a> tag in the template
-    // so we want to disable backbone default functionality.
-
-    this.className = null;
-
-    __WEBPACK_IMPORTED_MODULE_3__BaseView__["default"].apply(this, arguments);
-
-    this.className = className;
-
-    this.$el.addClass('dropdown more-actions float-l');
-
-    __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].each(
-      __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'items'),
-      function (option) {
-        this.addOption(option, this.options);
-      },
-      this
-    );
-  },
-
-  template:
-    '\
-      <a href="#" class="link-button {{className}} link-button-icon option-selected center">\
-        {{#if icon}}\
-        <span class="icon {{icon}}"></span>\
-        {{/if}}\
-        <span class="option-selected-text">{{title}}</span>\
-        <span class="icon-dm"></span>\
-      </a>\
-      <div class="options clearfix" style="display: none;">\
-      <ul class="okta-dropdown-list options-wrap clearfix"></ul>\
-      </div>\
-    ',
-
-  getTemplateData: function () {
-    const className = [__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'className') || '', __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'disabled') ? 'dropdown-disabled' : ''];
-
-    return {
-      icon: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'icon'),
-      className: __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__["default"].trim(className.join(' ')),
-      title: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].result(this, 'title')
-    };
-  },
-
-  addOption: function (proto, options) {
-    this.add(BaseDropDownDropDownOption.extend(proto), 'ul.options-wrap', { options: options || {} });
-  }
-}));
-
-
-/***/ }),
-/* 67 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_StringUtil__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__inputs_BooleanSelect__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__inputs_TextBoxSet__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_StringUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__inputs_BooleanSelect__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__inputs_TextBoxSet__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EnumTypeHelper__ = __webpack_require__(18);
 /* eslint max-statements: 0, max-params: 0 */
 
@@ -9685,11 +9341,11 @@ function isValidSchemaProp(schemaProp, values) {
 
 
 /***/ }),
-/* 68 */
+/* 65 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Select__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Select__ = __webpack_require__(28);
 
 const options = {
   undefined: 'undefined',
@@ -9730,7 +9386,7 @@ const to = function (val) {
 
 
 /***/ }),
-/* 69 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Select Box Enhancer for jQuery and Prototype
@@ -10871,12 +10527,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 70 */
+/* 67 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Time__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Time__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseView__ = __webpack_require__(1);
 
 
@@ -11063,14 +10719,14 @@ const CalloutCallout = __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend
 
 
 /***/ }),
-/* 71 */
+/* 68 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_SchemaUtil__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseInput__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DeletableBox__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DeletableBox__ = __webpack_require__(69);
 
 
 
@@ -11193,15 +10849,15 @@ const CalloutCallout = __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend
 
 
 /***/ }),
-/* 72 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_SchemaUtil__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_StringUtil__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_Time__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_StringUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_Time__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseView__ = __webpack_require__(1);
 
 
@@ -11337,15 +10993,15 @@ const updateArrayEvent = 'updateArray';
 
 
 /***/ }),
-/* 73 */
+/* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Keys__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseInput__ = __webpack_require__(10);
 
@@ -11424,14 +11080,14 @@ const template = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl
 
 
 /***/ }),
-/* 74 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_TemplateUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TextBox__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_TemplateUtil__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TextBox__ = __webpack_require__(31);
 /*!
  * Copyright (c) 2015-2018, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -11499,7 +11155,7 @@ const toggleTimeout = 30000;
 
 
 /***/ }),
-/* 75 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! http://mths.be/placeholder v2.0.7 by @mathias */
@@ -11661,7 +11317,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! http://mths.
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 76 */
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11671,7 +11327,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_Util__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BaseInput__ = __webpack_require__(10);
 /* eslint max-statements: [2, 12], max-params: [2, 6] */
