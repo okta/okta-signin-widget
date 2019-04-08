@@ -39,6 +39,8 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
   var securityImageUrlTpl = compile('{{baseUrl}}/login/getimage?username={{username}}');
 
   function getSecurityImage (baseUrl, username, deviceFingerprint) {
+    // Reserved characters in the username must be escaped before the query can be safely executed
+    username = encodeURIComponent(username);
     var url = securityImageUrlTpl({ baseUrl: baseUrl, username: username });
 
     // When the username is empty, we want to show the default image.
