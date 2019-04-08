@@ -36,7 +36,12 @@ describe('OIDC flows', function () {
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_3}}}', '{{{WIDGET_BASIC_PASSWORD_3}}}');
     oktaHome.waitForPageLoad();
     Expect.toBeA11yCompliant();
-    expect(oktaHome.getLoggedInUser()).toEqual('Test');
+
+    // userName element is not visible in mobile browsers (have to click a dropdown, not a bug)
+    if (process.env.MOBILE_BROWSER) {
+      return;
+    }
+    expect(oktaHome.getLoggedInUser()).toEqual('Test'); // will fail on mobile browsers
   });
 
 });

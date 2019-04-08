@@ -83,6 +83,11 @@ describe('Dev Mode flows', function () {
   });
 
   it('log a console message when tokens are not parsed from the URL after the Widget is rendered', function () {
+    // Browsers on iOS & Android emulators don't support device logs
+    if (process.env.MOBILE_BROWSER) {
+      return;
+    }
+
     renderWidget();
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
