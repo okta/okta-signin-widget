@@ -61,12 +61,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
       return xhr;
     }
     if (!xhr.responseJSON) {
-      try {
-        xhr.responseJSON = JSON.parse(xhr.responseText);
-      } catch (parseException) {
-        xhr.responseJSON = { errorSummary: Okta.loc('oform.error.unexpected', 'login') };
-        return xhr;
-      }
+      xhr.responseJSON = xhr.responseText;
     }
     // Temporary solution to display field errors
     // Assuming there is only one field error in a response

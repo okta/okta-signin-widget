@@ -1,14 +1,12 @@
 /* eslint max-params:[0, 2] */
 define([
-  'okta',
   'widget/OktaSignIn',
   'helpers/util/Expect',
   'util/Logger',
   'sandbox'
 ],
-function (Okta, Widget, Expect, Logger, $sandbox) {
+function (Widget, Expect, Logger, $sandbox) {
   var url = 'https://foo.com';
-  var { $ } = Okta;
 
   Expect.describe('OktaSignIn initialization', function () {
     var signIn;
@@ -88,32 +86,11 @@ function (Okta, Widget, Expect, Logger, $sandbox) {
     });
 
     Expect.describe('getTransaction', function () {
-      beforeEach(function () {
-        spyOn($, 'ajax').and.callThrough();
-      });
+      // TODO
       it('throws an error if a state token is not provided', function () {
         expect(function () {
           signIn.getTransaction();
         }).toThrow(new Error('A state token is required.'));
-      });
-      it('calls the authentication api with a stateToken', function (done) {
-        $.ajax.calls.reset();
-        signIn.getTransaction('fooToken')
-          .then(function (){/* Should never reach this */})
-          .catch(function () {
-            expect($.ajax).toHaveBeenCalledWith({
-              type: 'POST',
-              url: 'https://foo.com/api/v1/authn',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'X-Okta-User-Agent-Extended': 'okta-signin-widget-9.9.99'
-              },
-              data: '{"stateToken":"fooToken"}',
-              xhrFields: { withCredentials: true }
-            });
-            done();
-          });
       });
     });
 
