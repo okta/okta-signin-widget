@@ -39,7 +39,7 @@ if (process.env.TRAVIS) {
       'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
       'build': process.env.TRAVIS_BUILD_NUMBER
     }, {
-      'deviceName': 'Samsung Galaxy S9 WQHD GoogleAPI Emulator',
+      'deviceName': 'Samsung Galaxy Tab A 10 GoogleAPI Emulator',
       'platformName': 'Android',
       'platformVersion': '8.1',
       'deviceOrientation': 'portrait',
