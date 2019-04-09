@@ -1107,7 +1107,7 @@ Optional configuration:
 IdP Discovery enables you to route users to different 3rd Party IdPs that are connected to your Okta Org. Users can federate back into the primary org after authenticating at the IdP.
 
 To use IdP Discovery in your application, first ensure that the `IDP_DISCOVERY` feature flag is enabled for your Org and configure an identity provider routing policy in the Okta admin panel.
-Then, in the widget configuration, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
+Then, in the widget configuration, set `features.idpDiscovery` to `true`.
 
 ```javascript
 var signIn = new OktaSignIn({
@@ -1117,15 +1117,6 @@ var signIn = new OktaSignIn({
     idpDiscovery: true
   }
 });
-signIn.renderEl(
-  {...},
-  function (res) {
-    if (res.status === 'IDP_DISCOVERY') {
-      res.idpDiscovery.redirectToIdp('/a/app/request/context');
-      return;
-    }
-  }
-);
 ```
 
 The IdP Discovery authentication flow in widget will be
@@ -1137,14 +1128,9 @@ For the identifier first flow,
 
 1. The widget will display an identifier first page for the user to enter an Okta userName to determine the IdP to be used for authentication.
 2. If the IdP is your Okta org, the widget will transition to the primary authentication flow.
-3. If the IdP is a 3rd party IdP or a different Okta org, the widget will invoke the [success callback](#rendereloptions-success-error) with `response.status` as `IDP_DISCOVERY`.
+3. If the IdP is a 3rd party IdP or a different Okta org, the widget will automatically redirect to path of the 3rd party IdP.
 
 #### Additional configuration
-
-##### Additions in the success callback
-
-- `response.status` is `IDP_DISCOVERY` when the authentication needs to be done agaist 3rd party IdP.
-- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the 3rd party IdP.
 
 ### OpenID Connect
 
