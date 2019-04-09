@@ -358,6 +358,19 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           expect(test.form.helpLinkHref()).toBe('https://bar.com');
         });
       });
+      itp('has helpFooter with right aria-attributes and default values', function () {
+        return setup().then(function (test) {
+          expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
+          expect(test.form.helpFooter().attr('aria-controls')).toBe('help-links-container');
+        });
+      });
+      itp('sets aria-expanded attribute correctly when clicking help', function () {
+        return setup().then(function (test) {
+          expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
+          test.form.helpFooter().click();
+          expect(test.form.helpFooter().attr('aria-expanded')).toBe('true');
+        });
+      });
       itp('has a forgot password link', function () {
         return setup().then(function (test) {
           expect(test.form.forgotPasswordLabel().trim()).toBe('Forgot password?');
