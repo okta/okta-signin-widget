@@ -38,7 +38,7 @@ describe('OIDC flows', function () {
     Expect.toBeA11yCompliant();
 
     // userName element is not visible in mobile browsers (have to click a dropdown, not a bug)
-    if (process.env.MOBILE_BROWSER) {
+    if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
       return;
     }
     expect(oktaHome.getLoggedInUser()).toEqual('Test'); // will fail on mobile browsers
