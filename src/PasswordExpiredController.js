@@ -36,10 +36,18 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
         return ValidationUtil.validatePasswordMatch(this);
       },
       save: function () {
+        // We trigger save so the button get disabled.
+        this.trigger('save');
+        this.appState.trigger('loading', true);
         return this.doTransaction(function (transaction) {
           return transaction.changePassword({
             oldPassword: this.get('oldPassword'),
             newPassword: this.get('newPassword')
+          }).fail((err) => {
+            this.appState.trigger('removeLoading');
+            throw err;
+          }).fin(() => {
+            this.appState.trigger('loading', false);
           });
         });
       }
