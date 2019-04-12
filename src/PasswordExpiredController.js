@@ -36,6 +36,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
         return ValidationUtil.validatePasswordMatch(this);
       },
       save: function () {
+        this.trigger('save');
         return this.doTransaction(function (transaction) {
           return transaction.changePassword({
             oldPassword: this.get('oldPassword'),

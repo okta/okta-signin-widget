@@ -286,6 +286,35 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             });
           });
       });
+      itp('makes submit button disable when form is submitted', function () {
+        return setup()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            submitNewPass(test, 'oldpass', 'newpass', 'newpass');
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).toContain('link-button-disabled');
+          });
+      });
+      itp('makes submit button enabled after error response', function () {
+        return setup()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resErrorOldPass);
+            submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            var button = test.form.submitButton();
+            var buttonClass = button.attr('class');
+            expect(buttonClass).not.toContain('link-button-disabled');
+          });
+      });
       itp('shows an error if the server returns a wrong old pass error', function () {
         return setup()
           .then(function (test) {
