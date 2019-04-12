@@ -9,8 +9,6 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
-/* global module, process */
 var config = {
   framework: 'jasmine2',
   specs: ['specs/*.js'],
@@ -24,39 +22,9 @@ if (process.env.TRAVIS) {
 
   // Mobile devices
   if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
-    // ====================
-    // Appium Configuration
-    // ====================
-    // Default port for Appium
-    config.port = 4723;
-    config.multiCapabilities = [{
-      'deviceName': 'iPhone XS Simulator',
-      'platformName': 'iOS',
-      'platformVersion': '12.0',
-      'deviceOrientation': 'portrait',
-      'browserName': 'Safari',
-      'appiumVersion': '1.9.1',
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'build': process.env.TRAVIS_BUILD_NUMBER
-    }, {
-      'deviceName': 'iPhone X Simulator',
-      'platformName': 'iOS',
-      'platformVersion': '11.3',
-      'deviceOrientation': 'portrait',
-      'browserName': 'Safari',
-      'appiumVersion': '1.9.1',
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'build': process.env.TRAVIS_BUILD_NUMBER
-    }, {
-      'deviceName': 'iPhone SE Simulator',
-      'platformName': 'iOS',
-      'platformVersion': '10.3',
-      'deviceOrientation': 'portrait',
-      'browserName': 'Safari',
-      'appiumVersion': '1.9.1',
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'build': process.env.TRAVIS_BUILD_NUMBER
-    }];
+    var appium = require('./ios-conf');
+    config.port = appium.port;
+    config.multiCapabilities = appium.iosCapabilities;
   }
 
   // Desktop browsers
