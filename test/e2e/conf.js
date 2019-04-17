@@ -22,7 +22,7 @@ if (process.env.TRAVIS) {
 
   // Mobile devices
   if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
-    var appium = require('./ios-conf');
+    var appium = require('./appium/ios-conf.js');
     config.port = appium.port;
     config.multiCapabilities = appium.iosCapabilities;
   }

@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2018-2019, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -16,6 +16,7 @@ module.exports = {
   // Default port for Appium
   port: 4723,
   // Check this link for configurations - https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/
+  // Check this for capabilities - http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
   iosCapabilities: [{
     'deviceName': 'iPhone XS Simulator',
     'platformName': 'iOS',
