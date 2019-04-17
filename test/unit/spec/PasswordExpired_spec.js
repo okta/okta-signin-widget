@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 19], max-statements: [2, 24] */
+/* eslint max-params: [2, 19], max-statements: [2, 25] */
 define([
   'okta',
   '@okta/okta-auth-js/jquery',
@@ -66,18 +66,18 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
     return Expect.waitForPasswordExpired(settings);
   }
 
-  function setupWarn (numDays) {
+  function setupWarn (settings, numDays) {
     resPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
-    return setup(undefined, resPassWarn);
+    return setup(settings, resPassWarn);
   }
 
-  function setupCustomExpiredPassword (res) {
-    return setup(undefined, res || resCustomPassExpired, true);
+  function setupCustomExpiredPassword (settings, res) {
+    return setup(settings, res || resCustomPassExpired, true);
   }
 
-  function setupCustomExpiredPasswordWarn (numDays) {
+  function setupCustomExpiredPasswordWarn (settings, numDays) {
     resCustomPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
-    return setupCustomExpiredPassword(resCustomPassWarn);
+    return setupCustomExpiredPassword(settings, resCustomPassWarn);
   }
 
   function submitNewPass (test, oldPass, newPass, confirmPass) {
@@ -105,7 +105,12 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       });
       itp('has the correct title', function () {
         return setup().then(function (test) {
-          expect(test.form.titleText()).toBe('Your Okta password has expired');
+          expect(test.form.titleText()).toBe('Your password has expired');
+        });
+      });
+      itp('has the correct title if config has a brandName', function () {
+        return setup({ brandName: 'Spaghetti Inc.' }).then(function (test) {
+          expect(test.form.titleText()).toBe('Your Spaghetti Inc. password has expired');
         });
       });
       itp('has a valid subtitle', function () {
@@ -429,7 +434,12 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       });
       itp('has the correct title', function () {
         return setupCustomExpiredPassword().then(function (test) {
-          expect(test.form.titleText()).toBe('Your Okta password has expired');
+          expect(test.form.titleText()).toBe('Your password has expired');
+        });
+      });
+      itp('has the correct title if config has a brandName', function () {
+        return setupCustomExpiredPassword({ brandName: 'Spaghetti Inc.' }).then(function (test) {
+          expect(test.form.titleText()).toBe('Your Spaghetti Inc. password has expired');
         });
       });
       itp('has a valid subtitle', function () {
@@ -471,43 +481,47 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
     Expect.describe('PasswordAboutToExpire', function () {
 
       itp('has the correct title if expiring in > 0 days', function () {
-        return setupWarn(4).then(function (test) {
+        return setupWarn(undefined, 4).then(function (test) {
           expect(test.form.titleText()).toBe('Your password will expire in 4 days');
         });
       });
       itp('has the correct title if expiring in 0 days', function () {
-        return setupWarn(0).then(function (test) {
+        return setupWarn(undefined, 0).then(function (test) {
           expect(test.form.titleText()).toBe('Your password will expire later today');
         });
       });
       itp('has the correct title if numDays is null', function () {
-        return setupWarn(null).then(function (test) {
+        return setupWarn(undefined, null).then(function (test) {
           expect(test.form.titleText()).toBe('Your password is expiring soon');
         });
       });
       itp('has the correct title if numDays is undefined', function () {
-        return setupWarn(undefined).then(function (test) {
+        return setupWarn(undefined, undefined).then(function (test) {
           expect(test.form.titleText()).toBe('Your password is expiring soon');
         });
       });
       itp('has the correct subtitle', function () {
-        return setupWarn(4).then(function (test) {
-          expect(test.form.subtitleText()).toBe('When password expires you may be ' +
-            'locked out of Okta Mobile, mobile email, and other services.');
+        return setupWarn(undefined, 4).then(function (test) {
+          expect(test.form.subtitleText()).toBe('When password expires you will be locked out of your account.');
+        });
+      });
+      itp('has the correct subtitle if config has a brandName', function () {
+        return setupWarn({ brandName: 'Spaghetti Inc.' }, 4).then(function (test) {
+          expect(test.form.subtitleText()).toBe('When password expires you will be locked out of your Spaghetti Inc. account.');
         });
       });
       itp('has a sign out link', function () {
-        return setupWarn(4).then(function (test) {
+        return setupWarn(undefined, 4).then(function (test) {
           Expect.isVisible(test.form.signoutLink());
         });
       });
       itp('has a skip link', function () {
-        return setupWarn(4).then(function (test) {
+        return setupWarn(undefined, 4).then(function (test) {
           Expect.isVisible(test.form.skipLink());
         });
       });
       itp('goToLink is called with the correct args on skip', function () {
-        return setupWarn(4).then(function (test) {
+        return setupWarn(undefined, 4).then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           test.form.skip();
@@ -521,7 +535,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
         });
       });
       itp('goToLink is called with the correct args on sign out', function () {
-        return setupWarn(4).then(function (test) {
+        return setupWarn(undefined, 4).then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           test.form.signout();
@@ -540,61 +554,67 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
     Expect.describe('CustomPasswordAboutToExpire', function () {
 
       itp('shows security beacon', function () {
-        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+        return setupCustomExpiredPasswordWarn(undefined, 4).then(function (test) {
           expect(test.beacon.isSecurityBeacon()).toBe(true);
         });
       });
       itp('has the correct title if expiring in > 0 days', function () {
-        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+        return setupCustomExpiredPasswordWarn(undefined, 4).then(function (test) {
           expect(test.form.titleText()).toBe('Your password will expire in 4 days');
         });
       });
       itp('has the correct title if expiring in 0 days', function () {
-        return setupCustomExpiredPasswordWarn(0).then(function (test) {
+        return setupCustomExpiredPasswordWarn(undefined, 0).then(function (test) {
           expect(test.form.titleText()).toBe('Your password will expire later today');
         });
       });
       itp('has the correct title if numDays is null', function () {
-        return setupCustomExpiredPasswordWarn(null).then(function (test) {
+        return setupCustomExpiredPasswordWarn(undefined, null).then(function (test) {
           expect(test.form.titleText()).toBe('Your password is expiring soon');
         });
       });
       itp('has the correct title if numDays is undefined', function () {
-        return setupCustomExpiredPasswordWarn(undefined).then(function (test) {
+        return setupCustomExpiredPasswordWarn(undefined, undefined).then(function (test) {
           expect(test.form.titleText()).toBe('Your password is expiring soon');
         });
       });
       itp('has a valid subtitle', function () {
-        return setupCustomExpiredPasswordWarn(4).then(function (test) {
-          expect(test.form.subtitleText()).toEqual('When password expires you may be locked out of ' +
-              'Okta Mobile, mobile email, and other services. ' +
+        return setupCustomExpiredPasswordWarn(undefined, 4).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('When password expires you will be locked out of your account. ' +
+              'This password is set on another website. ' +
+              'Click the button below to go there and set a new password.');
+        });
+      });
+      itp('has a valid subtitle if config has a brandName', function () {
+        return setupCustomExpiredPasswordWarn({ brandName: 'Spaghetti Inc.' }, 4).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('When password expires you will be locked out of your Spaghetti Inc. account. ' +
               'This password is set on another website. ' +
               'Click the button below to go there and set a new password.');
         });
       });
       itp('has a custom change password button', function () {
-        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+        return setupCustomExpiredPasswordWarn(undefined, 4).then(function (test) {
           expect(test.form.customButton().length).toBe(1);
         });
       });
       itp('has a valid custom button text', function () {
-        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+        return setupCustomExpiredPasswordWarn(undefined, 4).then(function (test) {
           expect(test.form.customButtonText()).toEqual('Go to Google');
         });
       });
       itp('has a sign out link', function () {
-        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+        return setupCustomExpiredPasswordWarn(undefined, 4).then(function (test) {
           Expect.isVisible(test.form.signoutLink());
         });
       });
       itp('has a skip link', function () {
-        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+        return setupCustomExpiredPasswordWarn(undefined, 4).then(function (test) {
           Expect.isVisible(test.form.skipLink());
         });
       });
       itp('redirect is called with the correct arg on custom button click', function () {
         spyOn(SharedUtil, 'redirect');
-        return setupCustomExpiredPasswordWarn(4).then(function (test) {
+        return setupCustomExpiredPasswordWarn(undefined, 4).then(function (test) {
           test.form.clickCustomButton();
           expect(SharedUtil.redirect).toHaveBeenCalledWith('https://www.google.com');
         });

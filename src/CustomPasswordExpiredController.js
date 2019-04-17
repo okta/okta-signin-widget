@@ -39,13 +39,18 @@ function (Okta, FormController, FormType, Footer) {
           return Okta.loc('password.expiring.soon', 'login');
         }
         else {
-          return Okta.loc('password.expired.title', 'login');
+          var title = this.settings.get('brandName') ?
+            Okta.loc('password.expired.title.brand', 'login', [this.settings.get('brandName')]) :
+            Okta.loc('password.expired.title.generic', 'login');
+          return title;
         }
       },
       subtitle: function () {
         if (this.options.appState.get('isPwdExpiringSoon')) {
-          return Okta.loc('password.expiring.subtitle', 'login') + ' ' +
-                 Okta.loc('password.expired.custom.subtitle', 'login');
+          var subtitle = this.settings.get('brandName') ?
+            Okta.loc('password.expiring.subtitle.brand', 'login', [this.settings.get('brandName')]) :
+            Okta.loc('password.expiring.subtitle.generic', 'login');
+          return subtitle + ' ' + Okta.loc('password.expired.custom.subtitle', 'login');
         }
 
         return Okta.loc('password.expired.custom.subtitle', 'login');

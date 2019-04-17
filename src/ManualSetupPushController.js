@@ -139,6 +139,9 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
       attributes: { 'data-se': 'step-manual-setup' },
 
       formChildren: function () {
+        var instructions = this.settings.get('brandName') ?
+          Okta.loc('enroll.totp.sharedSecretInstructions.brand', 'login', [this.settings.get('brandName')]) :
+          Okta.loc('enroll.totp.sharedSecretInstructions.generic', 'login');
         var children = [
           FormType.Input({
             name: 'activationType',
@@ -169,11 +172,18 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
           }),
 
           FormType.View({
-            View: '\
-              <p class="okta-form-subtitle o-form-explain text-align-c">\
-                {{i18n code="enroll.totp.sharedSecretInstructions" bundle="login"}}\
-              </p>\
-            ',
+            View: Okta.View.extend({
+              template: '\
+                <p class="okta-form-subtitle o-form-explain text-align-c">\
+                  {{instructions}}\
+                </p>\
+              ',
+              getTemplateData: function () {
+                return {
+                  instructions: instructions
+                };
+              }
+            }),
             showWhen: {activationType: 'MANUAL'}
           }),
 
