@@ -21,10 +21,11 @@ function (Okta) {
 
   return Okta.View.extend({
     template: '\
-      <a href="#" data-se="needhelp" class="link help js-help">\
+      <a href="#" data-se="needhelp" aria-expanded="false" \
+        aria-controls="help-links-container" class="link help js-help">\
       {{i18n code="needhelp" bundle="login"}}\
       </a>\
-      <ul class="help-links js-help-links">\
+      <ul class="help-links js-help-links" id="help-links-container">\
         <li>\
         <a href="#" data-se="forgot-password" class="link js-forgot-password">\
         {{i18n code="forgotpassword" bundle="login"}}\
@@ -72,7 +73,10 @@ function (Okta) {
     },
     toggleLinks: function (e) {
       e.preventDefault();
-      this.$('.js-help-links').slideToggle(200);
+
+      this.$('.js-help-links').slideToggle(200, _.bind(function () {
+        this.$('.js-help').attr('aria-expanded', this.$('.js-help-links').is(':visible'));
+      }, this));
     },
     events: {
       'click .js-help': function (e) {

@@ -427,6 +427,19 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(cb.length).toBe(0);
         });
       });
+      itp('has helpFooter with right aria-attributes and default values', function () {
+        return setup().then(function (test) {
+          expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
+          expect(test.form.helpFooter().attr('aria-controls')).toBe('help-links-container');
+        });
+      });
+      itp('sets aria-expanded attribute correctly when clicking help', function () {
+        return setup().then(function (test) {
+          expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
+          test.form.helpFooter().click();
+          expect(test.form.helpFooter().attr('aria-expanded')).toBe('true');
+        });
+      });
       itp('has "Need help?" link', function () {
         return setup().then(function (test) {
           expect(test.form.helpFooterLabel().trim()).toBe('Need help signing in?');
