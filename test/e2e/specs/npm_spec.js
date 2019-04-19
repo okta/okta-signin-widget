@@ -36,6 +36,11 @@ describe('OIDC flows', function () {
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_3}}}', '{{{WIDGET_BASIC_PASSWORD_3}}}');
     oktaHome.waitForPageLoad();
     Expect.toBeA11yCompliant();
+
+    if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
+      return;
+    }
+    // This assertion will always fail because mobile browsers don't display username text (expected behavior)
     expect(oktaHome.getLoggedInUser()).toEqual('Test');
   });
 

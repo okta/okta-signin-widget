@@ -9,8 +9,6 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
-/* global module, process */
 var config = {
   framework: 'jasmine2',
   specs: ['specs/*.js'],
@@ -24,14 +22,9 @@ if (process.env.TRAVIS) {
 
   // Mobile devices
   if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
-    config.capabilities = {
-      'browserName': process.env.SAUCE_BROWSER_NAME,
-      'appiumVersion': process.env.SAUCE_APPIUM_VERSION,
-      'deviceName': process.env.SAUCE_DEVICE_NAME,
-      'deviceOrientation': process.env.SAUCE_DEVICE_ORIENTATION,
-      'platformVersion': process.env.SAUCE_PLATFORM_VERSION,
-      'platformName': process.env.SAUCE_PLATFORM_NAME
-    };
+    var appium = require('./appium/ios-conf.js');
+    config.port = appium.port;
+    config.multiCapabilities = appium.iosCapabilities;
   }
 
   // Desktop browsers

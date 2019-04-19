@@ -4,10 +4,7 @@ node_js:
 install:
 - TMPDIR=/tmp yarn install
 script:
-- yarn build:release
-- yarn lint
-- yarn test
-- yarn test:e2e
+- "./scripts/travis.sh"
 cache: false
 addons:
   chrome: stable
