@@ -46,7 +46,7 @@ function (Okta, FactorUtil, FormController, FormType, RouterUtil, ManualSetupFoo
 
       formChildren: function () {
         var instructions = this.settings.get('brandName') ?
-          Okta.loc('enroll.totp.manualSetupInstructions.brand', 'login', [this.settings.get('brandName')]) :
+          Okta.loc('enroll.totp.manualSetupInstructions.specific', 'login', [this.settings.get('brandName')]) :
           Okta.loc('enroll.totp.manualSetupInstructions.generic', 'login');
         return [
           FormType.View({

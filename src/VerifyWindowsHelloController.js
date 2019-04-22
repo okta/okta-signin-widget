@@ -181,7 +181,7 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Html
 
       _successEnrollment: function () {
         this.subtitle = this.settings.get('brandName') ?
-          Okta.loc('verify.windowsHello.subtitle.signingIn.brand', 'login', [this.settings.get('brandName')]) :
+          Okta.loc('verify.windowsHello.subtitle.signingIn.specific', 'login', [this.settings.get('brandName')]) :
           Okta.loc('verify.windowsHello.subtitle.signingIn.generic', 'login');
         this.render();
         this.$('.o-form-button-bar').addClass('hide');

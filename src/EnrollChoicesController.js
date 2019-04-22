@@ -48,7 +48,7 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
           return Okta.loc('enroll.choices.optional', 'login');
         default:
           return this.settings.get('brandName') ?
-            Okta.loc('enroll.choices.description.brand', 'login', [this.settings.get('brandName')]) :
+            Okta.loc('enroll.choices.description.specific', 'login', [this.settings.get('brandName')]) :
             Okta.loc('enroll.choices.description.generic', 'login');
         }
       },

@@ -140,7 +140,7 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
 
       formChildren: function () {
         var instructions = this.settings.get('brandName') ?
-          Okta.loc('enroll.totp.sharedSecretInstructions.brand', 'login', [this.settings.get('brandName')]) :
+          Okta.loc('enroll.totp.sharedSecretInstructions.specific', 'login', [this.settings.get('brandName')]) :
           Okta.loc('enroll.totp.sharedSecretInstructions.generic', 'login');
         var children = [
           FormType.Input({

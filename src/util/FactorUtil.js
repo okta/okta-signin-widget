@@ -38,7 +38,7 @@ function (Okta, TimeUtil) {
       label: 'factor.u2f',
       description: (brandName) => {
         return brandName ?
-          Okta.loc('factor.u2f.description.brand', 'login', [brandName]) :
+          Okta.loc('factor.u2f.description.specific', 'login', [brandName]) :
           Okta.loc('factor.u2f.description.generic', 'login');
       },
       iconClassName: 'mfa-u2f',
@@ -54,7 +54,7 @@ function (Okta, TimeUtil) {
       label: 'factor.windowsHello',
       description: (brandName) => {
         return brandName ?
-          Okta.loc('factor.windowsHello.signin.description.brand', 'login', [brandName]) :
+          Okta.loc('factor.windowsHello.signin.description.specific', 'login', [brandName]) :
           Okta.loc('factor.windowsHello.signin.description.generic', 'login');
       },
       iconClassName: 'mfa-windows-hello',
@@ -130,7 +130,7 @@ function (Okta, TimeUtil) {
       label: '',
       description: (brandName) => {
         return brandName ?
-          Okta.loc('factor.customFactor.description.brand', 'login', [brandName]) :
+          Okta.loc('factor.customFactor.description.specific', 'login', [brandName]) :
           Okta.loc('factor.customFactor.description.generic', 'login');
       },
       iconClassName: 'mfa-custom-factor',
@@ -140,7 +140,7 @@ function (Okta, TimeUtil) {
       label: '',
       description: (brandName) => {
         return brandName ?
-          Okta.loc('factor.customFactor.description.brand', 'login', [brandName]) :
+          Okta.loc('factor.customFactor.description.specific', 'login', [brandName]) :
           Okta.loc('factor.customFactor.description.generic', 'login');
       },
       iconClassName: 'mfa-custom-factor',
