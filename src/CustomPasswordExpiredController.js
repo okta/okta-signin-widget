@@ -39,10 +39,9 @@ function (Okta, FormController, FormType, Footer) {
           return Okta.loc('password.expiring.soon', 'login');
         }
         else {
-          var title = this.settings.get('brandName') ?
+          return this.settings.get('brandName') ?
             Okta.loc('password.expired.title.brand', 'login', [this.settings.get('brandName')]) :
             Okta.loc('password.expired.title.generic', 'login');
-          return title;
         }
       },
       subtitle: function () {

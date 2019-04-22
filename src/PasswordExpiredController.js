@@ -60,18 +60,16 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
           return Okta.loc('password.expiring.soon', 'login');
         }
         else {
-          var title = this.settings.get('brandName') ?
+          return this.settings.get('brandName') ?
             Okta.loc('password.expired.title.brand', 'login', [this.settings.get('brandName')]) :
             Okta.loc('password.expired.title.generic', 'login');
-          return title;
         }
       },
       subtitle: function () {
         if (this.options.appState.get('isPwdExpiringSoon')) {
-          var subtitle = this.settings.get('brandName') ?
+          return this.settings.get('brandName') ?
             Okta.loc('password.expiring.subtitle.brand', 'login', [this.settings.get('brandName')]) :
             Okta.loc('password.expiring.subtitle.generic', 'login');
-          return subtitle;
         }
 
         var policy = this.options.appState.get('policy');

@@ -37,10 +37,9 @@ function (Okta, TimeUtil) {
     'U2F': {
       label: 'factor.u2f',
       description: (brandName) => {
-        var description = brandName ?
+        return brandName ?
           Okta.loc('factor.u2f.description.brand', 'login', [brandName]) :
           Okta.loc('factor.u2f.description.generic', 'login');
-        return description;
       },
       iconClassName: 'mfa-u2f',
       sortOrder: 2
@@ -54,10 +53,9 @@ function (Okta, TimeUtil) {
     'WINDOWS_HELLO': {
       label: 'factor.windowsHello',
       description: (brandName) => {
-        var description = brandName ?
+        return brandName ?
           Okta.loc('factor.windowsHello.signin.description.brand', 'login', [brandName]) :
           Okta.loc('factor.windowsHello.signin.description.generic', 'login');
-        return description;
       },
       iconClassName: 'mfa-windows-hello',
       sortOrder: 3
@@ -131,10 +129,9 @@ function (Okta, TimeUtil) {
     'GENERIC_SAML': {
       label: '',
       description: (brandName) => {
-        var description = brandName ?
+        return brandName ?
           Okta.loc('factor.customFactor.description.brand', 'login', [brandName]) :
           Okta.loc('factor.customFactor.description.generic', 'login');
-        return description;
       },
       iconClassName: 'mfa-custom-factor',
       sortOrder: 15
@@ -142,10 +139,9 @@ function (Okta, TimeUtil) {
     'GENERIC_OIDC': {
       label: '',
       description: (brandName) => {
-        var description = brandName ?
+        return brandName ?
           Okta.loc('factor.customFactor.description.brand', 'login', [brandName]) :
           Okta.loc('factor.customFactor.description.generic', 'login');
-        return description;
       },
       iconClassName: 'mfa-custom-factor',
       sortOrder: 16
