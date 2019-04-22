@@ -694,7 +694,7 @@ var signIn = new OktaSignIn(config);
     helpSupportNumber: '(123) 456-7890'
     ```
 
-- **brandName:** The brand name that is displayed in the various descriptions of the Sign In Widget (example: "Signing in to {`brandName`}..."). If no `brandName` is provided, no brand name is shown to the user (example: "Signing in...").
+- **brandName:** The brand name that is displayed in the text elements of the Sign In Widget (example: "Signing in to {`brandName`}..."). If no `brandName` is provided, no brand name is shown to the user (example: "Signing in...").
 
     ```javascript
     brandName: 'Spaghetti Inc.'
