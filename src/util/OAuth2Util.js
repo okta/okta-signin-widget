@@ -96,7 +96,7 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
   };
 
   // Parse through the OAuth 'authParams' object to ensure the 'openid' scope is
-  // included (if required)
+  // included
   util.addOrRemoveOpenIdScope = function (authParams) {
     if (!authParams.responseType) {
       return;
@@ -105,13 +105,8 @@ define(['okta', './Enums', './Errors'], function (Okta, Enums, Errors) {
     //  Convert scope into an Array
     var scope = Array.isArray(authParams.scopes) ? authParams.scopes : authParams.scopes.split(' ');
 
-    // Remove the 'openid' scope, as it is only required if an 'id_token' is requested
-    if (scope.includes('openid')) {
-      scope.splice(scope.indexOf('openid'), 1);
-    }
-
-    // Add the 'openid' scope
-    if (authParams.responseType.includes('id_token')) {
+    // Add the 'openid' scope, as it is required
+    if (!scope.includes('openid')) {
       scope.push('openid');
     }
 
