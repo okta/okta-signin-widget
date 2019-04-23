@@ -47,6 +47,9 @@ const webpackConfig = {
       //   BaseRouter -> ConfirmationDialog -> BaseFormDialog -> BaseModalDialog -> simplemodal
       'vendor/plugins/jquery.simplemodal': EMPTY,
 
+      // util/BaseRouter -> ConfirmationDialog
+      'ConfirmationDialog': EMPTY,
+
       'vendor': SHARED_JS + '/vendor',
     }
   },

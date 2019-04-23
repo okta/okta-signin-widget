@@ -12,9 +12,11 @@
 
 define([
   'okta',
+  'util/FactorUtil',
+  '../../../models/Factor',
   './FactorsDropDownOptions'
 ],
-function (Okta, FactorsDropDownOptions) {
+function (Okta, FactorUtil, Factor, FactorsDropDownOptions) {
   var { _, $ } = Okta;
   var { BaseDropDown } = Okta.internal.views.components;
 
@@ -23,18 +25,35 @@ function (Okta, FactorsDropDownOptions) {
     var isDropdown = $target.closest('.option-selected').length > 0 && $target.closest('.dropdown').length > 0;
     if (!isDropdown) {
       $('.dropdown .options').hide();
+      $('.dropdown a.option-selected').attr('aria-expanded', false);
     }
   });
 
   return BaseDropDown.extend({
     className: 'bg-helper icon-button',
+    screenReaderText: function () {
+      var factors = this.options.appState.get('factors'),
+          factor, factorLabel;
+      if (factors) {
+        factor = FactorUtil.findFactorInFactorsArray(factors, this.options.provider,
+          this.options.factorType);
+      } else  {
+        factor = new Factor.Model(this.options.appState.get('factor'), this.toJSON());
+      }
+      factorLabel = factor.get('factorLabel');
+      return Okta.loc('mfa.factors.dropdown.sr.text', 'login', [factorLabel]);
+    },
     events: {
       'click a.option-selected': function (e) {
         e.preventDefault();
         if (_.result(this, 'disabled')) {
           e.stopPropagation();
         } else {
-          this.$('.options').toggle();
+          var expanded = this.$('.options').toggle().is(':visible');
+          this.$('a.option-selected').attr('aria-expanded', expanded);
+          if (expanded) {
+            this.$('#okta-dropdown-options').find('li.factor-option:first a').focus();
+          }
         }
       },
       'click .dropdown-disabled': function (e) {
@@ -52,6 +71,7 @@ function (Okta, FactorsDropDownOptions) {
           this.addOption(FactorsDropDownOptions.getDropdownOption(factor.get('factorName')), {model: factor});
           this.listenTo(this.last(), 'options:toggle', function () {
             this.$('.options').hide();
+            this.$('a.option-selected').attr('aria-expanded', false);
           });
         }
       }, this);
