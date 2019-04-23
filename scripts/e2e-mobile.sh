@@ -5,6 +5,7 @@ export SAUCE_PLATFORM_NAME="iOS";
 export TRAVIS=true # work-around to run tests on saucelabs instead of chrome
 export TRAVIS_JOB_NUMBER=${TEST_SUITE_ID}
 export TRAVIS_BUILD_NUMBER=${TEST_SUITE_RESULT_ID}
+
 aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/test_credentials ./test_credentials.yaml
 
 pip install yq
