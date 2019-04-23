@@ -25,6 +25,7 @@ function (Okta, FactorUtil, Factor, FactorsDropDownOptions) {
     var isDropdown = $target.closest('.option-selected').length > 0 && $target.closest('.dropdown').length > 0;
     if (!isDropdown) {
       $('.dropdown .options').hide();
+      $('.dropdown a.option-selected').attr('aria-expanded', false);
     }
   });
 

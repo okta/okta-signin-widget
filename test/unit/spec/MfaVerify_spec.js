@@ -698,6 +698,15 @@ function (Okta,
           expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
         });
       });
+      itp('sets aria-expanded to false when document is clicked', function () {
+        return setup(allFactorsRes).then(function (test) {
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
+          test.beacon.factorBeacon().click();
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
+          $(document).click();
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
+        });
+      });
       itp('updates beacon image when different factor is selected', function () {
         return setup(allFactorsRes)
           .then(function (test) {
