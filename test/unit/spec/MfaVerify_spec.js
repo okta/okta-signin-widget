@@ -661,7 +661,7 @@ function (Okta,
         return setup(allFactorsRes).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify (Test Device)', 'Security Key (U2F)', 'Windows Hello', 'Yubikey', 'Google Authenticator',
+            'Okta Verify (Test Device)', 'Security Key (U2F)', 'Windows Hello', 'YubiKey', 'Google Authenticator',
             'SMS Authentication', 'Voice Call Authentication', 'Email Authentication', 'Security Question',
             'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password', 'SAML Factor', 'OIDC Factor'
           ]);
@@ -672,7 +672,7 @@ function (Okta,
         return setup(allFactorOnPremRes).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify (Test Device)', 'Yubikey', 'Google Authenticator', 'SMS Authentication', 'Security Question',
+            'Okta Verify (Test Device)', 'YubiKey', 'Google Authenticator', 'SMS Authentication', 'Security Question',
             'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'SAML Factor', 'OIDC Factor'
           ]);
         });
@@ -682,6 +682,29 @@ function (Okta,
           expect(test.beacon.getOptionsList().is(':visible')).toBe(false);
           test.beacon.dropDownButton().click();
           expect(test.beacon.getOptionsList().is(':visible')).toBe(true);
+        });
+      });
+      itp('sets aria-expanded when dropDown link is clicked', function () {
+        return setup(allFactorsRes).then(function (test) {
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
+          test.beacon.dropDownButton().click();
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
+        });
+      });
+      itp('sets aria-expanded when beacon is clicked', function () {
+        return setup(allFactorsRes).then(function (test) {
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
+          test.beacon.factorBeacon().click();
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
+        });
+      });
+      itp('sets aria-expanded to false when anywhere outside of the dropdown is clicked', function () {
+        return setup(allFactorsRes).then(function (test) {
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
+          test.beacon.factorBeacon().click();
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
+          $(document).click();
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
         });
       });
       itp('updates beacon image when different factor is selected', function () {
@@ -2187,7 +2210,7 @@ function (Okta,
         });
         itp('has right placeholder text in answer field', function () {
           return setupYubikey().then(function (test) {
-            expectHasRightPlaceholderText(test, 'Click here, then tap your Yubikey');
+            expectHasRightPlaceholderText(test, 'Click here, then tap your YubiKey');
           });
         });
         itp('does not autocomplete', function () {
@@ -2197,7 +2220,7 @@ function (Okta,
         });
         itp('shows the right title', function () {
           return setupYubikey().then(function (test) {
-            expectTitleToBe(test, 'Yubikey');
+            expectTitleToBe(test, 'YubiKey');
           });
         });
         itp('has remember device checkbox', function () {
