@@ -1,14 +1,12 @@
 #!/bin/bash
+export SAUCE_USERNAME=okta-qa
+export SAUCE_ACCESS_KEY="$(aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/saucelabs/saucelabs_access_key /dev/stdout)"
 export SAUCE_PLATFORM_NAME="iOS";
 export TRAVIS=true # work-around to run tests on saucelabs instead of chrome
-export TRAVIS_JOB_NUMBER=${TEST_SUITE_ID}
-export TRAVIS_BUILD_NUMBER=${TEST_SUITE_RESULT_ID}
 aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/test_credentials ./test_credentials.yaml
 
 pip install yq
 
-export SAUCE_USERNAME=$(cat ./test_credentials.yaml | yq .SAUCE_USERNAME | tr -d '"')
-export SAUCE_ACCESS_KEY=$(cat ./test_credentials.yaml | yq .SAUCE_ACCESS_KEY | tr -d '"')
 export WIDGET_TEST_SERVER=$(cat ./test_credentials.yaml | yq .WIDGET_TEST_SERVER | tr -d '"')
 export WIDGET_BASIC_USER=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_USER | tr -d '"')
 export WIDGET_BASIC_PASSWORD=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_PASSWORD | tr -d '"')

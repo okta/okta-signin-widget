@@ -6,6 +6,8 @@ if [ "${TRAVIS_EVENT_TYPE}" = "cron" ] ; then
     yarn build:release
     yarn test:e2e
 else
+    echo ${SAUCE_USERNAME}
+    echo ${SAUCE_ACCESS_KEY}
     yarn build:release
     yarn lint
     yarn test
