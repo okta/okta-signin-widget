@@ -698,7 +698,7 @@ function (Okta,
           expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
         });
       });
-      itp('sets aria-expanded to false when document is clicked', function () {
+      itp('sets aria-expanded to false when anywhere outside of the dropdown is clicked', function () {
         return setup(allFactorsRes).then(function (test) {
           expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
           test.beacon.factorBeacon().click();
