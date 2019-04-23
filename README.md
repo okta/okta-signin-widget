@@ -368,9 +368,9 @@ signIn.off('ready', onReady);
 
 ### authClient
 
-Returns the underlying `@okta/okta-auth-js` object used by the widget
+Returns the underlying [`@okta/okta-auth-js`](https://github.com/okta/okta-auth-js) object used by the widget.
 
-Before version 3.0, the Sign-in Widget exposed `session` and `tokenManager` objects, and methods like `tokenManager.get`. These methods have been moved into the [AuthJS](https://github.com/okta/okta-auth-js#api) base library and are documented there.
+Before version 3.0, the Sign-in Widget exposed `session` and `tokenManager` objects, and methods like `tokenManager.get`. These were just proxy method to the relative methods in the [AuthJS](https://github.com/okta/okta-auth-js#api) base library. These proxy methods have been removed in favor to direct access to the authClient object which allows you to call any of these methods. All the methods are documented in the [AuthJS](https://github.com/okta/okta-auth-js#api) base library.
 
 ```javascript
 // Check for an existing authClient transaction
