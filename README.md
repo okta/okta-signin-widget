@@ -694,6 +694,12 @@ var signIn = new OktaSignIn(config);
     helpSupportNumber: '(123) 456-7890'
     ```
 
+- **brandName:** The brand or company name that is displayed in messages rendered by the Sign-in Widget (for example, "Reset your {`brandName`} password"). If no `brandName` is provided, a generic message is rendered instead (for example, "Reset your password"). You can further customize the text that is displayed with [language and text settings](https://github.com/okta/okta-signin-widget#language-and-text).
+
+    ```javascript
+    brandName: 'Spaghetti Inc.'
+    ```
+
 ### Username and password
 
 - **username:** Prefills the username input with the provided username
