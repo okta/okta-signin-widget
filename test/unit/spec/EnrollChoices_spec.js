@@ -300,7 +300,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             );
           });
         });
-        itp('displays the general subtitle if there are only optional factors and none are enrolled if config has a brandName', function () {
+        itp('displays the specific subtitle if there are only optional factors and none are enrolled if config has a brandName', function () {
           return setupWithAllOptionalNoneEnrolled('Spaghetti Inc.').then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
