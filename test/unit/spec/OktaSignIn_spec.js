@@ -38,7 +38,7 @@ function (Widget, Expect, Logger, $sandbox) {
       it('has a showSignInToGetTokens method', function () {
         expect(signIn.showSignInToGetTokens).toBeDefined();
       });
-      it('has a token.hasTokensInUrl method', function () {
+      it('has a hasTokensInUrl method', function () {
         expect(signIn.hasTokensInUrl).toBeDefined();
       });
       it('has a hide method', function () {
