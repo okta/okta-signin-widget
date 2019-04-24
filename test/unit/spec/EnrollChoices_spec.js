@@ -82,7 +82,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
 
   Expect.describe('EnrollChoices', function () {
 
-    function setup (res, showSecurityImage, webauthnEnabled) {
+    function setup (res, showSecurityImage, webauthnEnabled, brandName) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({
@@ -95,7 +95,8 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           securityImage: showSecurityImage,
           webauthn: webauthnEnabled
         },
-        authClient: authClient
+        authClient: authClient,
+        brandName: brandName
       });
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
@@ -116,13 +117,13 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       return JSON.parse(JSON.stringify(res));
     }
 
-    function setupWithRequiredNoneEnrolled () {
+    function setupWithRequiredNoneEnrolled (brandName) {
       var res = deepClone(resAllFactors);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
       res.response._embedded.factors[2].enrollment = 'REQUIRED';
       res.response._embedded.factors[3].enrollment = 'REQUIRED';
-      return setup(res);
+      return setup(res, false, false, brandName);
     }
 
     function setupWithRequiredNoneEnrolledOnPrem () {
@@ -154,10 +155,10 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       return setup(res);
     }
 
-    function setupWithAllOptionalNoneEnrolled () {
+    function setupWithAllOptionalNoneEnrolled (brandName) {
       // This is the default resAllFactors response. Creating this function for
       // consistency
-      return setup(resAllFactors);
+      return setup(resAllFactors, false, false, brandName);
     }
 
     function setupWithAllOptionalSomeEnrolled (includeOnPrem) {
@@ -207,19 +208,19 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       return setup(res);
     }
 
-    function itHasIconAndText (factorName, iconClass, title, subtitle, res, webauthnEnabled) {
+    function itHasIconAndText (factorName, iconClass, title, subtitle, res, webauthnEnabled, brandName) {
       itp('has right icon', function () {
-        return setup(res, false, webauthnEnabled).then(function (test) {
+        return setup(res, false, webauthnEnabled, brandName).then(function (test) {
           expect(test.form.factorIconClass(factorName)).toBe('factor-icon ' + iconClass);
         });
       });
       itp('has right title', function () {
-        return setup(res, false, webauthnEnabled).then(function (test) {
+        return setup(res, false, webauthnEnabled, brandName).then(function (test) {
           expect(test.form.factorTitle(factorName)).toBe(title);
         });
       });
       itp('has right subtitle', function () {
-        return setup(res, false, webauthnEnabled).then(function (test) {
+        return setup(res, false, webauthnEnabled, brandName).then(function (test) {
           expect(test.form.factorSubtitle(factorName)).toBe(subtitle);
         });
       });
@@ -245,7 +246,15 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           return setupWithRequiredNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
-              'additional layer of security when signing in to your Okta account'
+              'additional layer of security when signing in to your account'
+            );
+          });
+        });
+        itp('has the correct subtitle text if config has a brandName', function () {
+          return setupWithRequiredNoneEnrolled('Spaghett Inc.').then(function (test) {
+            expect(test.form.subtitleText()).toBe(
+              'Your company requires multifactor authentication to add an ' +
+              'additional layer of security when signing in to your Spaghett Inc. account'
             );
           });
         });
@@ -338,7 +347,15 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           return setupWithAllOptionalNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
-              'additional layer of security when signing in to your Okta account'
+              'additional layer of security when signing in to your account'
+            );
+          });
+        });
+        itp('displays the specific subtitle if there are only optional factors and none are enrolled if config has a brandName', function () {
+          return setupWithAllOptionalNoneEnrolled('Spaghetti Inc.').then(function (test) {
+            expect(test.form.subtitleText()).toBe(
+              'Your company requires multifactor authentication to add an ' +
+              'additional layer of security when signing in to your Spaghetti Inc. account'
             );
           });
         });
@@ -629,8 +646,19 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           'U2F',
           'mfa-u2f',
           'Security Key (U2F)',
-          'Use a Universal 2nd Factor (U2F) security key to sign on to Okta.',
+          'Use a Universal 2nd Factor (U2F) security key to sign in.',
           resAllFactors
+        );
+      });
+      Expect.describe('U2F WITH BRANDNAME', function () {
+        itHasIconAndText(
+          'U2F',
+          'mfa-u2f',
+          'Security Key (U2F)',
+          'Use a Universal 2nd Factor (U2F) security key to sign in to Spaghetti Inc..',
+          resAllFactors,
+          false,
+          'Spaghetti Inc.'
         );
       });
       Expect.describe('WEBAUTHN', function () {
@@ -673,8 +701,19 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           'GENERIC_SAML',
           'mfa-custom-factor',
           'Third Party Factor',
-          'Redirect to a third party MFA provider to sign in to Okta.',
+          'Redirect to a third party MFA provider to sign in.',
           resAllFactors
+        );
+      });
+      Expect.describe('CUSTOM SAML FACTOR WITH BRANDNAME', function () {
+        itHasIconAndText(
+          'GENERIC_SAML',
+          'mfa-custom-factor',
+          'Third Party Factor',
+          'Redirect to a third party MFA provider to sign in to Spaghetti Inc..',
+          resAllFactors,
+          false,
+          'Spaghetti Inc.'
         );
       });
       Expect.describe('CUSTOM OIDC FACTOR', function () {
@@ -682,8 +721,19 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           'GENERIC_OIDC',
           'mfa-custom-factor',
           'OIDC Factor',
-          'Redirect to a third party MFA provider to sign in to Okta.',
+          'Redirect to a third party MFA provider to sign in.',
           resAllFactors
+        );
+      });
+      Expect.describe('CUSTOM OIDC FACTOR WITH BRANDNAME', function () {
+        itHasIconAndText(
+          'GENERIC_OIDC',
+          'mfa-custom-factor',
+          'OIDC Factor',
+          'Redirect to a third party MFA provider to sign in to Spaghetti Inc..',
+          resAllFactors,
+          false,
+          'Spaghetti Inc.'
         );
       });
     });
