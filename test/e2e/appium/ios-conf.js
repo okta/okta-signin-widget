@@ -33,7 +33,7 @@ module.exports = {
     'deviceOrientation': 'portrait',
     'browserName': 'Safari',
     'appiumVersion': '1.9.1',
-    'tunnel-identifier': tunnelIdentifier
+    'tunnel-identifier': process.env.HOSTNAME
   }, {
     'deviceName': 'iPhone X Simulator',
     'platformName': 'iOS',
@@ -41,7 +41,7 @@ module.exports = {
     'deviceOrientation': 'portrait',
     'browserName': 'Safari',
     'appiumVersion': '1.9.1',
-    'tunnel-identifier': tunnelIdentifier
+    'tunnel-identifier': process.env.HOSTNAME
   }, {
     'deviceName': 'iPhone SE Simulator',
     'platformName': 'iOS',
@@ -49,6 +49,6 @@ module.exports = {
     'deviceOrientation': 'portrait',
     'browserName': 'Safari',
     'appiumVersion': '1.9.1',
-    'tunnel-identifier': tunnelIdentifier
+    'tunnel-identifier': process.env.HOSTNAME
   }]
 };

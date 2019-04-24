@@ -17,8 +17,8 @@ var config = {
 
 // Travis sauceLabs tests
 if (process.env.TRAVIS || process.env.BACON) {
-  config.sauceUser = process.env.SAUCELABS_USERNAME;
-  config.sauceKey = process.env.SAUCELABS_ACCESS_KEY;
+  config.sauceUser = process.env.SAUCE_USERNAME;
+  config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 
   if (process.env.BACON) {
     config.capabilities = {
