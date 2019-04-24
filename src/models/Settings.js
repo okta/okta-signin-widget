@@ -157,7 +157,10 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'consent.cancel': 'function',
 
       //Colors
-      'colors.brand': 'string'
+      'colors.brand': 'string',
+
+      //Descriptions
+      'brandName': 'string'
     },
 
     derived: {
