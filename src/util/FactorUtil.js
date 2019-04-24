@@ -36,7 +36,11 @@ function (Okta, TimeUtil) {
     },
     'U2F': {
       label: 'factor.u2f',
-      description: Okta.loc('factor.u2f.description', 'login'),
+      description: (brandName) => {
+        return brandName ?
+          Okta.loc('factor.u2f.description.specific', 'login', [brandName]) :
+          Okta.loc('factor.u2f.description.generic', 'login');
+      },
       iconClassName: 'mfa-u2f',
       sortOrder: 2
     },
@@ -48,7 +52,11 @@ function (Okta, TimeUtil) {
     },
     'WINDOWS_HELLO': {
       label: 'factor.windowsHello',
-      description: Okta.loc('factor.windowsHello.signin.description', 'login'),
+      description: (brandName) => {
+        return brandName ?
+          Okta.loc('factor.windowsHello.signin.description.specific', 'login', [brandName]) :
+          Okta.loc('factor.windowsHello.signin.description.generic', 'login');
+      },
       iconClassName: 'mfa-windows-hello',
       sortOrder: 3
     },
@@ -120,13 +128,21 @@ function (Okta, TimeUtil) {
     },
     'GENERIC_SAML': {
       label: '',
-      description: Okta.loc('factor.customFactor.description', 'login'),
+      description: (brandName) => {
+        return brandName ?
+          Okta.loc('factor.customFactor.description.specific', 'login', [brandName]) :
+          Okta.loc('factor.customFactor.description.generic', 'login');
+      },
       iconClassName: 'mfa-custom-factor',
       sortOrder: 15
     },
     'GENERIC_OIDC': {
       label: '',
-      description: Okta.loc('factor.customFactor.description', 'login'),
+      description: (brandName) => {
+        return brandName ?
+          Okta.loc('factor.customFactor.description.specific', 'login', [brandName]) :
+          Okta.loc('factor.customFactor.description.generic', 'login');
+      },
       iconClassName: 'mfa-custom-factor',
       sortOrder: 16
     }
@@ -207,7 +223,11 @@ function (Okta, TimeUtil) {
   };
 
   fn.getFactorDescription = function (provider, factorType) {
-    return factorData[fn.getFactorName.apply(this, [provider, factorType])].description;
+    var description = factorData[fn.getFactorName.apply(this, [provider, factorType])].description;
+    if (_.isFunction(description)) {
+      return description(this.settings.get('brandName'));
+    }
+    return description;
   };
 
   fn.getFactorIconClassName = function (provider, factorType) {
