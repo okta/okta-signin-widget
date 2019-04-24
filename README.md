@@ -28,19 +28,8 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [remove](#remove)
   - [on](#on)
   - [off](#off)
-  - [getTransaction](#gettransaction)
-  - [session.get](#sessionget)
-  - [session.refresh](#sessionrefresh)
-  - [session.close](#sessionclose)
-  - [token.hasTokensInUrl](#tokenhastokensinurl)
-  - [token.parseTokensFromUrl](#tokenparsetokensfromurl)
-  - [tokenManager.add](#tokenmanageradd)
-  - [tokenManager.get](#tokenmanagerget)
-  - [tokenManager.remove](#tokenmanagerremove)
-  - [tokenManager.clear](#tokenmanagerclear)
-  - [tokenManager.renew](#tokenmanagerrenew)
-  - [tokenManager.on](#tokenmanageron)
-  - [tokenManager.off](#tokenmanageroff)
+  - [authClient](#authclient)
+  - [hasTokensInUrl](#hastokensinurl)
 - [Configuration](#configuration)
   - [Basic config options](#basic-config-options)
   - [Username and password](#username-and-password)
@@ -377,268 +366,33 @@ signIn.off('ready');
 signIn.off('ready', onReady);
 ```
 
-### getTransaction
+### authClient
 
-Returns [authentication transaction information](https://developer.okta.com/docs/api/resources/authn#transaction-model) given a `stateToken`.
+Returns the underlying [`@okta/okta-auth-js`](https://github.com/okta/okta-auth-js) object used by the Sign-in Widget.
 
-```javascript
-signIn.getTransaction(stateToken)
-  .then(function (transaction) {
-    console.log(transaction.status);
-    console.log(transaction.user.profile.login);
-    // PASSWORD_EXPIRED
-    // user@example.com
-  })
-  .catch(function (err) {
-    console.log(error.message);
-  });
-```
-
-When the `getTransaction` method resolves, it returns a **transaction** object that encapulates the [state authentication flow](https://developer.okta.com/docs/api/resources/authn#transaction-model). The **transaction** contains metadata about the current state, and provides methods that can be used to progress into another state.
-
-> For a list of examples, see the [`transaction`](https://github.com/okta/okta-auth-js/#locked_out) documentation.
-
-### session.get
-
-Gets the active session, or returns `{status:inactive}` on error or no active session.
-
-- `callback` - Function that is called with the session once the request has completed.
+Before version 3.0, the Sign-in Widget contained `session` and `tokenManager` properties, and methods like `tokenManager.get`. These were just proxies to identical objects and methods in the [AuthJS](https://github.com/okta/okta-auth-js#api-reference) base library. These proxies have been removed in favor of direct access to the authClient object which allows you to call any of these methods. All the methods are documented in the [AuthJS](https://github.com/okta/okta-auth-js#api-reference) base library.
 
 ```javascript
-signIn.session.get(function (res) {
-  // Session exists, show logged in state.
-  if (res.status === 'ACTIVE') {
-    // showApp()
-  }
-  // No session, or error retrieving the session. Render the Sign-In Widget.
-  else if (res.status === 'INACTIVE') {
-    signIn.renderEl({
-        el: '#osw-container'
-      },
-      function success(res) {
-        // showApp() if res.status === 'SUCCESS'
-      },
-      function error(err) {
-        // handleError(err)
-      }
-    );
-  }
-});
+// Check for an existing authClient transaction
+signIn.authClient.tx.exists();
+if (exists) {
+  console.log('A session exists!');
+} else {
+  console.log('A session does not exist.');
+};
 ```
 
-### session.refresh
-
-Refresh the current session by extending its lifetime. This can be used as a keep-alive operation.
-
-- `callback` - Function that is called after the refresh request has completed.
-
-```javascript
-signIn.session.refresh(function (res) {
-  if (res.status === 'ACTIVE') {
-    // The session now has an extended lifetime
-  }
-  else if (res.status === 'INACTIVE') {
-    // There is no current session, render the Sign-In Widget
-  }
-});
-```
-
-### session.close
-
-Signs the user out of their current Okta session.
-
-- `callback` - Function that is called once the session has been closed. If there is an error, it will be passed to the callback function.
-
-```javascript
-signIn.session.close(function (err) {
-  if (err) {
-    // The user has not been logged out, perform some error handling here.
-    return;
-  }
-  // The user is now logged out. Render the Sign-In Widget.
-});
-```
-
-### token.hasTokensInUrl
+### hasTokensInUrl
 
 Synchronous method to check for access or ID Tokens in the url. This is used when `authParams.display = 'page'`. Returns `true` if there are tokens, and `false` if the redirect flow has not taken place yet.
 
 ```javascript
-// For an extended example, look at token.parseTokensFromUrl
-if (signIn.token.hasTokensInUrl()) {
+if (signIn.hasTokensInUrl()) {
   // The user has just successfully completed a redirect
 }
 else {
   // There are no tokens in the URL, render the Sign-In Widget.
 }
-```
-
-### token.parseTokensFromUrl
-
-Parses the access or ID Tokens from the url after a successful authentication redirect. This is used when `authParams.display = 'page'`.
-
-- `success` - Function that is called after the tokens have been parsed and validated
-- `error` - Function that is called if an error occurs while trying to parse or validate the tokens
-
-```javascript
-var signIn = new OktaSignIn({
-  baseUrl: 'https://{yourOktaDomain}',
-  clientId: '{{myClientId}}',
-  redirectUri: '{{redirectUri configured in OIDC app}}',
-  authParams: {
-    responseType: 'id_token',
-    // `display: page` will initiate the OAuth2 page redirect flow
-    display: 'page'
-  },
-  idps: [
-    {
-      type: 'FACEBOOK',
-      id: '{{facebook appId}}'
-    }
-  ]
-});
-
-// The user has just landed on our login form, and has not yet authenticated
-// with a Social Auth IDP.
-if (!signIn.token.hasTokensInUrl()) {
-  signIn.renderEl({el: '#osw-container'});
-}
-
-// The user has redirected back after authenticating and has their access or
-// ID Token in the URL.
-else {
-  signIn.token.parseTokensFromUrl(
-    function success(res) {
-      signIn.tokenManager.add('my_id_token', res);
-    },
-    function error(err) {
-      // handleError(err);
-    }
-  );
-}
-```
-
-### tokenManager.add
-
-After receiving an `access_token` or `id_token`, add it to the `tokenManager` to manage token expiration and renew operations. When a token is added to the `tokenManager`, it is automatically renewed when it expires.
-
-- `key` - Unique key to store the token in the `tokenManager`. This is used later when you want to get, delete, or renew the token.
-- `token` - Token object that will be added
-
-```javascript
-// Example showing a success callback when authParams.responseType = 'id_token'
-signIn.renderEl({
-    el: '#osw-container'
-  },
-  function (res) {
-    if (res.status !== 'SUCCESS') {
-      return;
-    }
-
-    // When specifying authParams.responseType as 'id_token' or 'token', the
-    // response is the token itself
-    signIn.tokenManager.add('my_id_token', res);
-  }
-);
-```
-
-### tokenManager.get
-
-Get a token that you have previously added to the `tokenManager` with the given `key`. The token object will be returned if it has not expired.
-
-- `key` - Key for the token you want to get
-
-```javascript
-signIn.tokenManager.get('my_id_token')
-  .then(function(token) {
-    if (token) {
-      // Token is valid
-      console.log(token);
-    } else {
-      // Token has expired
-    }
-  })
-  .catch(function(err) {
-    // OAuth Error
-    console.error(err);
-  });
-```
-
-### tokenManager.remove
-
-Remove a token from the `tokenManager` with the given `key`.
-
-- `key` - Key for the token you want to remove
-
-```javascript
-signIn.tokenManager.remove('my_id_token');
-```
-
-### tokenManager.clear
-
-Remove all tokens from the `tokenManager`.
-
-```javascript
-signIn.tokenManager.clear();
-```
-
-### tokenManager.renew
-
-Manually renew a token before it expires.
-
-- `key` - Key for the token you want to renew
-
-```javascript
-// Because the renew() method is async, you can wait for it to complete
-// by using the returned Promise:
-signIn.tokenManager.renew('my_id_token')
-  .then(function (newToken) {
-    // doSomethingWith(newToken);
-  });
-
-// Alternatively, you can subscribe to the 'renewed' event:
-signIn.tokenManager.on('renewed', function (key, newToken, oldToken) {
-  // doSomethingWith(newToken);
-});
-signIn.tokenManager.renew('my_id_token');
-```
-
-### tokenManager.on
-
-Subscribe to an event published by the `tokenManager`.
-
-- `event` - Event to subscribe to. Possible events are `expired`, `error`, and `renewed`.
-- `callback` - Function to call when the event is triggered
-- `context` - Optional context to bind the callback to
-
-```javascript
-
-signIn.tokenManager.on('expired', function (key, expiredToken) {
-  console.log('Token with key', key, ' has expired:');
-  console.log(expiredToken);
-});
-
-signIn.tokenManager.on('error', function (err) {
-  console.log('TokenManager error:', err);
-});
-
-signIn.tokenManager.on('renewed', function (key, newToken, oldToken) {
-  console.log('Token with key', key, 'has been renewed');
-  console.log('Old token:', oldToken);
-  console.log('New token:', newToken);
-});
-```
-
-### tokenManager.off
-
-Unsubscribe from `tokenManager` events. If no callback is provided, unsubscribes all listeners from the event.
-
-- `event` - Event to unsubscribe from
-- `callback` - Optional callback that was used to subscribe to the event
-
-```javascript
-signIn.tokenManager.off('renewed');
-signIn.tokenManager.off('renewed', myRenewedCallback);
 ```
 
 ## Configuration
