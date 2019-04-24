@@ -16,9 +16,20 @@ var config = {
 };
 
 // Travis sauceLabs tests
-if (process.env.TRAVIS) {
-  config.sauceUser = process.env.SAUCE_USERNAME;
-  config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+if (process.env.TRAVIS || process.env.BACON) {
+  config.sauceUser = process.env.SAUCELABS_USERNAME;
+  config.sauceKey = process.env.SAUCELABS_ACCESS_KEY;
+
+  if (process.env.BACON) {
+    config.capabilities = {
+      'tunnel-identifier': process.env.HOSTNAME,
+    };
+  } else {
+    config.capabilities = {
+      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+      'build': process.env.TRAVIS_BUILD_NUMBER
+    };
+  }
 
   // Mobile devices
   if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
@@ -32,9 +43,7 @@ if (process.env.TRAVIS) {
     config.capabilities = {
       'browserName': process.env.SAUCE_BROWSER_NAME,
       'version': process.env.SAUCE_BROWSER_VERSION,
-      'platform': process.env.SAUCE_PLATFORM,
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'build': process.env.TRAVIS_BUILD_NUMBER
+      'platform': process.env.SAUCE_PLATFORM
     };
   }
 }

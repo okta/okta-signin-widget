@@ -9,6 +9,15 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+
+let tunnelIdentifier;
+
+if (process.env.BACON) {
+  tunnelIdentifier = process.env.HOSTNAME;
+} else {
+  tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+}
+
 module.exports = {
   // ====================
   // Appium Configuration
@@ -24,8 +33,7 @@ module.exports = {
     'deviceOrientation': 'portrait',
     'browserName': 'Safari',
     'appiumVersion': '1.9.1',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_BUILD_NUMBER
+    'tunnel-identifier': tunnelIdentifier
   }, {
     'deviceName': 'iPhone X Simulator',
     'platformName': 'iOS',
@@ -33,8 +41,7 @@ module.exports = {
     'deviceOrientation': 'portrait',
     'browserName': 'Safari',
     'appiumVersion': '1.9.1',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_BUILD_NUMBER
+    'tunnel-identifier': tunnelIdentifier
   }, {
     'deviceName': 'iPhone SE Simulator',
     'platformName': 'iOS',
@@ -42,7 +49,6 @@ module.exports = {
     'deviceOrientation': 'portrait',
     'browserName': 'Safari',
     'appiumVersion': '1.9.1',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_BUILD_NUMBER
+    'tunnel-identifier': tunnelIdentifier
   }]
 };
