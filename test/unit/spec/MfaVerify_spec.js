@@ -325,6 +325,8 @@ function (Okta,
     var setupOktaPush = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
     var setupWindowsHello = _.partial(
       setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false });
+    var setupWindowsHelloWithBrandName = _.partial(
+      setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false, brandName: 'Spaghetti Inc.' });
     var setupPassword = _.partial(setup, resPassword, { factorType: 'password' });
     var setupPasswordWithIdx = _.partial(setup, resFactorRequiredPassword, { factorType: 'password' });
     var setupCustomSAMLFactor = _.partial(setup, resAllFactors,
@@ -3672,7 +3674,35 @@ function (Okta,
               }, test);
             })
             .then(function (test) {
-              expect(test.form.subtitleText()).toBe('Signing in to Okta...');
+              expect(test.form.subtitleText()).toBe('Signing in...');
+              expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
+            });  
+        });
+
+        itp('subtitle changes after submitting the form to correct subtitle if config has a brandName', function () {
+          return emulateWindows()
+            .then(setupWindowsHelloWithBrandName)
+            .then(function (test) {
+              test.setNextResponse([resChallengeWindowsHello, resSuccess]);
+              expect(test.form.subtitleText()).toBe('Verify your identity with Windows Hello');
+              expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(false);
+
+              test.form.submit();
+              expect(test.form.subtitleText()).toBe('Please wait while Windows Hello is loading...');
+              expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
+
+              spyOn(test.router.controller.model, 'trigger').and.callThrough();
+              return Expect.waitForSpyCall(webauthn.getAssertion, test);
+            })
+            .then(function (test) {
+              return Expect.wait(() => {
+                const allArgs = test.router.controller.model.trigger.calls.allArgs();
+                const flattedArgs = Array.prototype.concat.apply([], allArgs);
+                return  flattedArgs.includes('sync') && flattedArgs.includes('signIn');
+              }, test);
+            })
+            .then(function (test) {
+              expect(test.form.subtitleText()).toBe('Signing in to Spaghetti Inc....');
               expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
             });
         });

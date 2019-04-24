@@ -46,7 +46,11 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
     },
     Form: {
       save: _.partial(Okta.loc, 'password.reset', 'login'),
-      title: _.partial(Okta.loc, 'password.reset.title', 'login'),
+      title: function () {
+        return this.settings.get('brandName') ?
+          Okta.loc('password.reset.title.specific', 'login', [this.settings.get('brandName')]) :
+          Okta.loc('password.reset.title.generic', 'login');
+      },
       subtitle: function () {
         var policy = this.options.appState.get('policy');
         if (!policy) {

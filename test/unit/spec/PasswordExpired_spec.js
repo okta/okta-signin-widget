@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 19], max-statements: [2, 24] */
+/* eslint max-params: [2, 19], max-statements: [2, 25] */
 define([
   'okta',
   '@okta/okta-auth-js/jquery',
@@ -66,18 +66,18 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
     return Expect.waitForPasswordExpired(settings);
   }
 
-  function setupWarn (numDays) {
+  function setupWarn (numDays, settings) {
     resPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
-    return setup(undefined, resPassWarn);
+    return setup(settings, resPassWarn);
   }
 
-  function setupCustomExpiredPassword (res) {
-    return setup(undefined, res || resCustomPassExpired, true);
+  function setupCustomExpiredPassword (settings, res) {
+    return setup(settings, res || resCustomPassExpired, true);
   }
 
-  function setupCustomExpiredPasswordWarn (numDays) {
+  function setupCustomExpiredPasswordWarn (numDays, settings) {
     resCustomPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
-    return setupCustomExpiredPassword(resCustomPassWarn);
+    return setupCustomExpiredPassword(settings, resCustomPassWarn);
   }
 
   function submitNewPass (test, oldPass, newPass, confirmPass) {
@@ -105,7 +105,12 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       });
       itp('has the correct title', function () {
         return setup().then(function (test) {
-          expect(test.form.titleText()).toBe('Your Okta password has expired');
+          expect(test.form.titleText()).toBe('Your password has expired');
+        });
+      });
+      itp('has the correct title if config has a brandName', function () {
+        return setup({ brandName: 'Spaghetti Inc.' }).then(function (test) {
+          expect(test.form.titleText()).toBe('Your Spaghetti Inc. password has expired');
         });
       });
       itp('has a valid subtitle', function () {
@@ -429,7 +434,12 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       });
       itp('has the correct title', function () {
         return setupCustomExpiredPassword().then(function (test) {
-          expect(test.form.titleText()).toBe('Your Okta password has expired');
+          expect(test.form.titleText()).toBe('Your password has expired');
+        });
+      });
+      itp('has the correct title if config has a brandName', function () {
+        return setupCustomExpiredPassword({ brandName: 'Spaghetti Inc.' }).then(function (test) {
+          expect(test.form.titleText()).toBe('Your Spaghetti Inc. password has expired');
         });
       });
       itp('has a valid subtitle', function () {
@@ -492,8 +502,12 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       });
       itp('has the correct subtitle', function () {
         return setupWarn(4).then(function (test) {
-          expect(test.form.subtitleText()).toBe('When password expires you may be ' +
-            'locked out of Okta Mobile, mobile email, and other services.');
+          expect(test.form.subtitleText()).toBe('When password expires you will be locked out of your account.');
+        });
+      });
+      itp('has the correct subtitle if config has a brandName', function () {
+        return setupWarn(4, { brandName: 'Spaghetti Inc.' }).then(function (test) {
+          expect(test.form.subtitleText()).toBe('When password expires you will be locked out of your Spaghetti Inc. account.');
         });
       });
       itp('has a sign out link', function () {
@@ -566,8 +580,14 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       });
       itp('has a valid subtitle', function () {
         return setupCustomExpiredPasswordWarn(4).then(function (test) {
-          expect(test.form.subtitleText()).toEqual('When password expires you may be locked out of ' +
-              'Okta Mobile, mobile email, and other services. ' +
+          expect(test.form.subtitleText()).toEqual('When password expires you will be locked out of your account. ' +
+              'This password is set on another website. ' +
+              'Click the button below to go there and set a new password.');
+        });
+      });
+      itp('has a valid subtitle if config has a brandName', function () {
+        return setupCustomExpiredPasswordWarn(4, { brandName: 'Spaghetti Inc.' }).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('When password expires you will be locked out of your Spaghetti Inc. account. ' +
               'This password is set on another website. ' +
               'Click the button below to go there and set a new password.');
         });
