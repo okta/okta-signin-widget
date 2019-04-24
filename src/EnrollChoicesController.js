@@ -48,7 +48,9 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
         case Enums.HAS_REQUIRED_ALL_REQUIRED_ENROLLED:
           return Okta.loc('enroll.choices.optional', 'login');
         default:
-          return Okta.loc('enroll.choices.description', 'login');
+          return this.settings.get('brandName') ?
+            Okta.loc('enroll.choices.description.specific', 'login', [this.settings.get('brandName')]) :
+            Okta.loc('enroll.choices.description.generic', 'login');
         }
       },
 

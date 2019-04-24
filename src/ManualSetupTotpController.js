@@ -45,12 +45,24 @@ function (Okta, FactorUtil, FormController, FormType, RouterUtil, ManualSetupFoo
       attributes: { 'data-se': 'step-manual-setup' },
 
       formChildren: function () {
+        var instructions = this.settings.get('brandName') ?
+          Okta.loc('enroll.totp.manualSetupInstructions.specific', 'login', [this.settings.get('brandName')]) :
+          Okta.loc('enroll.totp.manualSetupInstructions.generic', 'login');
         return [
-          FormType.View({View: '\
-            <p class="okta-form-subtitle o-form-explain text-align-c">\
-              {{i18n code="enroll.totp.manualSetupInstructions" bundle="login"}}\
-            </p>\
-          '}),
+          FormType.View({
+            View: Okta.View.extend({
+              template: '\
+                <p class="okta-form-subtitle o-form-explain text-align-c">\
+                  {{instructions}}\
+                </p>\
+              ',
+              getTemplateData: function () {
+                return {
+                  instructions: instructions
+                };
+              }
+            })
+          }),
 
           FormType.Input({
             name: 'sharedSecret',
