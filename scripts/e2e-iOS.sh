@@ -4,7 +4,14 @@ export SAUCE_ACCESS_KEY="$(aws s3 --quiet --region us-east-1 cp s3://ci-secret-s
 export SAUCE_PLATFORM_NAME="iOS";
 export TRAVIS=true # work-around to run tests on saucelabs instead of chrome
 export TRAVIS_JOB_NUMBER=${TEST_SUITE_ID}
-# export TRAVIS_BUILD_NUMBER=${TEST_SUITE_RESULT_ID}
+export TRAVIS_BUILD_NUMBER=${TEST_SUITE_RESULT_ID}
+
+cd ${OKTA_HOME}/${REPO}
+
+# Download and start sauce connect
+curl -o ${OKTA_HOME}/${REPO}/sc-4.5.3-linux.tar.gz https://saucelabs.com/downloads/sc-4.5.3-linux.tar.gz
+tar -xzf ${OKTA_HOME}/${REPO}/sc-4.5.3-linux.tar.gz
+${OKTA_HOME}/${REPO}/sc-4.5.3-linux/bin/sc -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} -i ${TRAVIS_JOB_NUMBER} &
 
 aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/test_credentials ./test_credentials.yaml
 
@@ -21,8 +28,6 @@ export WIDGET_BASIC_USER_4=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_USER
 export WIDGET_BASIC_PASSWORD_4=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_PASSWORD_4 | tr -d '"')
 export WIDGET_BASIC_USER_5=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_USER_5 | tr -d '"')
 export WIDGET_BASIC_PASSWORD_5=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_PASSWORD_5 | tr -d '"')
-
-cd ${OKTA_HOME}/${REPO}
 
 setup_service grunt
 
