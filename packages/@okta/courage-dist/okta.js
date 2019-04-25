@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2360.g478adf3 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2389.g0e42080 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -1796,6 +1796,11 @@ const SchemaUtils = {
     CUSTOM: 'CUSTOM',
     NONE: 'NONE'
   },
+  UNIQUENESS: {
+    NOT_UNIQUE: 'NOT_UNIQUE',
+    PENDING_UNIQUENESS: 'PENDING_UNIQUENESS',
+    UNIQUE_VALIDATED: 'UNIQUE_VALIDATED'
+  },
 
   /*
    * Get a display string for a schema attribute type.
@@ -2289,10 +2294,22 @@ const SchemaPropertySchemaProperty = __WEBPACK_IMPORTED_MODULE_3__BaseModel__["d
     union: undefined,
     subSchemas: undefined,
     settings: { permissions: { SELF: __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__["a" /* default */].PERMISSION.READ_ONLY } },
+    unique: undefined,
     __metadata__: undefined,
     __isSensitive__: __WEBPACK_IMPORTED_MODULE_3__BaseModel__["default"].ComputedProperty(['settings'], function (settings) {
       return !!(settings && settings.sensitive);
     }),
+    __unique__: false,
+    __isUniqueValidated__: __WEBPACK_IMPORTED_MODULE_3__BaseModel__["default"].ComputedProperty(['unique'], function (unique) {
+      return unique === __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__["a" /* default */].UNIQUENESS.UNIQUE_VALIDATED;
+    }),
+    __isPendingUniqueness__: __WEBPACK_IMPORTED_MODULE_3__BaseModel__["default"].ComputedProperty(['unique'], function (unique) {
+      return unique === __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__["a" /* default */].UNIQUENESS.PENDING_UNIQUENESS;
+    }),
+    __isUniqueness__: __WEBPACK_IMPORTED_MODULE_3__BaseModel__["default"].ComputedProperty(['__isUniqueValidated__', '__isPendingUniqueness__'], 
+      function (isValidated, isPending) {
+        return isValidated || isPending;
+      }),
     __canBeSensitive__: __WEBPACK_IMPORTED_MODULE_3__BaseModel__["default"].ComputedProperty(['__metadata__'], function (metadata) {
       return !!(metadata && metadata.sensitivizable);
     }),
@@ -2411,6 +2428,7 @@ const SchemaPropertySchemaProperty = __WEBPACK_IMPORTED_MODULE_3__BaseModel__["d
     }
     this._setMasterOverride(resp);
     this._setSubSchemas(resp);
+    this._setUniqueness(resp);
     return resp;
   },
 
@@ -2568,6 +2586,12 @@ const SchemaPropertySchemaProperty = __WEBPACK_IMPORTED_MODULE_3__BaseModel__["d
     }
   },
 
+  _setUniqueness: function (resp) {
+    const unique = resp && resp.unique;
+    resp['__unique__'] = !!(unique && 
+      (unique === __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__["a" /* default */].UNIQUENESS.UNIQUE_VALIDATED || unique === __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__["a" /* default */].UNIQUENESS.PENDING_UNIQUENESS));
+  },
+
   _setLoginPattern: function () {
     if (!this.get('__isLoginOfBaseSchema__')) {
       return;
@@ -2648,6 +2672,7 @@ const SchemaPropertySchemaProperty = __WEBPACK_IMPORTED_MODULE_3__BaseModel__["d
     json = this._attributeOverrideToJson(json);
     json = this._normalizeUnionValue(json);
     json = this._patternAssignment(json);
+    json = this._uniquenessAssignment(json);
     return json;
   },
 
@@ -2726,6 +2751,16 @@ const SchemaPropertySchemaProperty = __WEBPACK_IMPORTED_MODULE_3__BaseModel__["d
     case __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__["a" /* default */].LOGINPATTERNFORMAT.NONE:
       json.pattern = loginFormatNonePattern;
       break;
+    }
+
+    return json;
+  },
+
+  _uniquenessAssignment: function (json) {
+    if (!this.get('__unique__')) {
+      delete json.unique;
+    } else if (!this.get('__isUniqueness__')) {
+      json.unique = __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__["a" /* default */].UNIQUENESS.UNIQUE_VALIDATED;
     }
 
     return json;
@@ -2873,6 +2908,10 @@ const SchemaPropertySchemaProperty = __WEBPACK_IMPORTED_MODULE_3__BaseModel__["d
       } else {
         this.unset('scope');
       }
+    }
+
+    if (!this.get('__unique__')) {
+      this.unset('unique');
     }
   },
 
@@ -8545,7 +8584,9 @@ const FIELD_REGEX = /^([\S]+): (.+)$/;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Logger__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_Util__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_StringUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseView__ = __webpack_require__(1);
+
 
 
 
@@ -8560,7 +8601,7 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
  * Attention: Please change with caution since this is used in other places
  */
 
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_4__BaseView__["default"].extend({
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_5__BaseView__["default"].extend({
   attributes: function () {
     return {
       'data-se': 'o-form-input-container'
@@ -8610,7 +8651,7 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
 
   constructor: function () {
     /* eslint max-statements: [2, 18] */
-    __WEBPACK_IMPORTED_MODULE_4__BaseView__["default"].apply(this, arguments);
+    __WEBPACK_IMPORTED_MODULE_5__BaseView__["default"].apply(this, arguments);
 
     // we want to append the input *before* the explain text
     if (this.options.input) {
@@ -8696,13 +8737,21 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
     this.__errorState = true;
     this.$el.addClass('o-form-has-errors');
 
+    const errorId = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].uniqueId('input-container-error');
     const tmpl = [
-      '<p class="okta-form-input-error o-form-input-error o-form-explain" role="alert">',
-      '<span class="icon icon-16 error-16-small"></span>',
+      '<p id="{{errorId}}" class="okta-form-input-error o-form-input-error o-form-explain" role="alert">',
+      '<span class="icon icon-16 error-16-small" role="img" aria-label="{{iconLabel}}"></span>',
       '{{text}}',
       '</p>',
     ].join('');
-    const html = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl(tmpl)({ text: errors.join(', ') });
+
+    const iconLabel = __WEBPACK_IMPORTED_MODULE_4__util_StringUtil__["default"].localize('datalist.error_title', 'courage'); // 'Error'
+    const html = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl(tmpl)({
+      errorId: errorId,
+      iconLabel: iconLabel,
+      text: errors.join(', ')
+    });
+
     const $elExplain = this.$('.o-form-explain')
       .not('.o-form-input-error')
       .first();
@@ -8712,6 +8761,8 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
     } else {
       this.$el.append(html);
     }
+
+    this.$el.attr('aria-describedby', errorId);
   },
 
   /**
@@ -8721,6 +8772,7 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
   __clearError: function () {
     if (this.__errorState) {
       this.$('.o-form-input-error').remove();
+      this.$el.attr('aria-describedby', null);
       this.$el.removeClass('o-form-has-errors');
       this.__errorState = false;
       __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defer(() => {

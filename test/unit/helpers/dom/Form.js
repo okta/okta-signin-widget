@@ -56,10 +56,64 @@ define(['okta', './Dom'], function (Okta, Dom) {
     },
 
     error: function (field) {
-      var $error = this.inputWrap(field).next();
-      if (!$error.is('.o-form-input-error')) {
-        throw new Error('No error for field: ' + field);
+      // container holds input and error description
+      var $container = this.inputWrap(field).parent();
+      var errorId = $container.attr('aria-describedby');
+      if (!errorId) {
+        throw new Error('Expected "aria-describedby" attribute for the error container on field: ' + field);
       }
+      var $error = $container.find('.o-form-explain');
+      if ($error.length !== 1) {
+        throw new Error('"o-form-explain": Expected 1, got ' + $error.length + ' for field: ' + field);
+      }    
+
+      if ($error.attr('id') !== errorId) {
+        throw new Error('"o-form-explain" element should have an ID matching the "aria-describedby" attribute of the container. For field: ' + field);
+      }
+
+      if (!$error.is('.o-form-input-error')) {
+        throw new Error('Expected class "o-form-input-error" on the "o-form-explain" element for field: ' + field);
+      }
+
+      // Validate accessibility on error
+      if (!$error.attr('role')) {
+        throw new Error('No "role" attribute for error on field: ' + field);
+      }
+      if ($error.attr('role') !== 'alert') {
+        throw new Error(`"role" should be "alert" (not  "${$error.attr('role')}" for error on field: ${field}`);
+      }
+
+      var $icon = $error.children().first();
+      if (!$icon.is('.icon')) {
+        throw new Error(`First child of error element for field "${field}" should be an icon.`);
+      }
+
+      // Validate accessibility on icon
+      if (!$icon.attr('role')) {
+        throw new Error('No "role" attribute for error icon on field: ' + field);
+      }
+  
+      if ($icon.attr('role') !== 'img') {
+        throw new Error(`"role" should be "img" (not  "${$icon.attr('role')}" for error icon on field: ${field}`);
+      }
+
+      if (!$icon.attr('aria-label')) {
+        throw new Error('No "aria-label" attribute for error icon on field: ' + field);
+      }
+
+      // Check for missing i18n value 
+      if ($icon.attr('aria-label').indexOf('L10N') >= 0) {
+        /* eslint-disable no-console */
+        // TODO: THROW EXCEPTION
+        // Label is set here: https://github.com/okta/okta-ui/blob/master/packages/courage/src/views/forms/helpers/InputContainer.js#L160
+        // Need to either:
+        // - add "datalist.error_title" to "login.properties" - or
+        // - make a new property ("oform.error_icon")? and update courage again
+        // - provide a way to customize this label (in courage) so we can override it in the SIW
+        console.error(`Missing i18n property for error icon on field: ${field}: "${$icon.attr('aria-label')}"`);
+      }
+
+
       return $error;
     },
 
