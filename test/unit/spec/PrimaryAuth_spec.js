@@ -1920,36 +1920,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expectErrorEvent(test, 429, 'API call exceeded rate limit due to too many requests.');
           });
       });
-      itp('shows an error if authClient returns with an error that is plain text', function () {
-        return setup()
-          .then(function (test) {
-            test.setNextResponse(resNonJson, true);
-            test.form.setUsername('testuser');
-            test.form.setPassword('invalidpass');
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('Sign in failed!');
-            expectErrorEvent(test, 401, 'Authentication failed');
-          });
-      });
-      itp('shows an error if authClient returns with an error that is plain text and not a valid json', function () {
-        return setup()
-          .then(function (test) {
-            test.form.setUsername('testuser');
-            test.form.setPassword('invalidpass');
-            test.setNextResponse(resInvalidText, true);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function (test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('There was an unexpected internal error. Please try again.');
-            expectErrorEvent(test, 401, 'Unknown error');
-          });
-      });
       itp('shows an error if authClient returns with LOCKED_OUT response and selfServiceUnlock is off', function () {
         return setup()
           .then(function (test) {

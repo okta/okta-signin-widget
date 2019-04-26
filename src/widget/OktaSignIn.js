@@ -95,7 +95,7 @@ var OktaSignIn = (function () {
   function OktaSignIn (options) {
     require('okta');
 
-    var OktaAuth = require('@okta/okta-auth-js/jquery');
+    var OktaAuth = require('@okta/okta-auth-js');
     var Util = require('util/Util');
     var LoginRouter = require('LoginRouter');
 
