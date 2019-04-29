@@ -5,38 +5,35 @@ export SAUCE_PLATFORM_NAME="iOS";
 export TRAVIS=true # work-around to run tests on saucelabs instead of chrome
 export TRAVIS_JOB_NUMBER=${TEST_SUITE_ID}
 export TRAVIS_BUILD_NUMBER=${TEST_SUITE_RESULT_ID}
+export SAUCE_CONNECT_VERSION=sc-4.5.3-linux
+export SAUCE_CONNECT_BINARY=${SAUCE_CONNECT_VERSION}.tar.gz
 
 cd ${OKTA_HOME}/${REPO}
 
 # Download and start sauce connect
-curl -o ${OKTA_HOME}/${REPO}/sc-4.5.3-linux.tar.gz https://saucelabs.com/downloads/sc-4.5.3-linux.tar.gz
-tar -xzf ${OKTA_HOME}/${REPO}/sc-4.5.3-linux.tar.gz
-${OKTA_HOME}/${REPO}/sc-4.5.3-linux/bin/sc -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} -i ${TRAVIS_JOB_NUMBER} &
+curl -o ${OKTA_HOME}/${REPO}/${SAUCE_CONNECT_BINARY} https://saucelabs.com/downloads/${SAUCE_CONNECT_BINARY}
+tar -xzf ${OKTA_HOME}/${REPO}/${SAUCE_CONNECT_BINARY}
+${OKTA_HOME}/${REPO}/${SAUCE_CONNECT_VERSION}/bin/sc -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} -i ${TRAVIS_JOB_NUMBER} &
 
 aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/test_credentials ./test_credentials.yaml
 
 pip install yq
 
-export WIDGET_TEST_SERVER=$(cat ./test_credentials.yaml | yq .WIDGET_TEST_SERVER | tr -d '"')
-export WIDGET_BASIC_USER=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_USER | tr -d '"')
-export WIDGET_BASIC_PASSWORD=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_PASSWORD | tr -d '"')
-export WIDGET_BASIC_USER_2=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_USER_2 | tr -d '"')
-export WIDGET_BASIC_PASSWORD_2=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_PASSWORD_2 | tr -d '"')
-export WIDGET_BASIC_USER_3=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_USER_3 | tr -d '"')
-export WIDGET_BASIC_PASSWORD_3=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_PASSWORD_3 | tr -d '"')
-export WIDGET_BASIC_USER_4=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_USER_4 | tr -d '"')
-export WIDGET_BASIC_PASSWORD_4=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_PASSWORD_4 | tr -d '"')
-export WIDGET_BASIC_USER_5=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_USER_5 | tr -d '"')
-export WIDGET_BASIC_PASSWORD_5=$(cat ./test_credentials.yaml | yq .WIDGET_BASIC_PASSWORD_5 | tr -d '"')
+WIDGET_ENV_VARS=(WIDGET_TEST_SERVER WIDGET_BASIC_USER WIDGET_BASIC_PASSWORD WIDGET_BASIC_USER_2 WIDGET_BASIC_PASSWORD_2 WIDGET_BASIC_USER_3 WIDGET_BASIC_PASSWORD_3 WIDGET_BASIC_USER_4 WIDGET_BASIC_PASSWORD_4 WIDGET_BASIC_USER_5 WIDGET_BASIC_PASSWORD_5)
+
+for WIDGET_ENV_VAR in "${WIDGET_ENV_VARS[@]}"
+do
+   export $WIDGET_ENV_VAR=$(cat ./test_credentials.yaml | yq .${WIDGET_ENV_VAR} | tr -d '"')
+done
 
 setup_service grunt
 
 # Install required dependencies
-npm install -g @okta/ci-update-package
-npm install -g @okta/ci-pkginfo
+yarn install -g @okta/ci-update-package
+yarn install -g @okta/ci-pkginfo
 
 if ! npm install --no-optional --unsafe-perm; then
-  echo "npm install failed! Exiting..."
+  echo "yarn install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
