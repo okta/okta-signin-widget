@@ -24,6 +24,7 @@ define([
   'helpers/xhr/ACCOUNT_LOCKED_OUT',
   'helpers/xhr/PASSWORD_EXPIRED',
   'helpers/xhr/UNAUTHORIZED_ERROR',
+  'helpers/xhr/ERROR_VALID_RESPONSE',
   'helpers/xhr/ERROR_NON_JSON_RESPONSE',
   'helpers/xhr/ERROR_INVALID_TEXT_RESPONSE',
   'helpers/xhr/ERROR_throttle',
@@ -33,7 +34,7 @@ define([
 function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth,
   Router, BrowserFeatures, Errors, DeviceFingerprint, TypingUtil, Expect, resSecurityImage,
   resSecurityImageFail, resSuccess, resUnauthenticated, resUnauthenticatedIdx, resFactorRequired, resLockedOut, resPwdExpired, resUnauthorized,
-  resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
+  resErrorValid, resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
@@ -1920,10 +1921,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expectErrorEvent(test, 429, 'API call exceeded rate limit due to too many requests.');
           });
       });
-      itp('shows an error if authClient returns with an error that is plain text', function () {
+      itp('shows the correct error if authClient returns with a correct error object', function () {
         return setup()
           .then(function (test) {
-            test.setNextResponse(resNonJson, true);
+            test.setNextResponse(resErrorValid, true);
             test.form.setUsername('testuser');
             test.form.setPassword('invalidpass');
             test.form.submit();
@@ -1935,7 +1936,22 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expectErrorEvent(test, 401, 'Authentication failed');
           });
       });
-      itp('shows an error if authClient returns with an error that is plain text and not a valid json', function () {
+      itp('shows a form error if authClient returns with an error that is plain text', function () {
+        return setup()
+          .then(function (test) {
+            test.setNextResponse(resNonJson, true);
+            test.form.setUsername('testuser');
+            test.form.setPassword('invalidpass');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+            expectErrorEvent(test, 401, 'Authentication failed');
+          });
+      });
+      itp('shows a form error if authClient returns with an error that is plain text and not a valid json', function () {
         return setup()
           .then(function (test) {
             test.form.setUsername('testuser');
@@ -1946,7 +1962,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('There was an unexpected internal error. Please try again.');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
             expectErrorEvent(test, 401, 'Unknown error');
           });
       });

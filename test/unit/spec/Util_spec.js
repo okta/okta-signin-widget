@@ -26,7 +26,7 @@ define([
         expect(xhr.responseJSON.errorSummary).toEqual('There was an unexpected internal error. Please try again.');
       });
       it('errorSummary is set from responseText when there is no responseJSON', function () {
-        var responseText = '{"errorSummary": "errorSummary from responseText"}';
+        var responseText = { errorSummary: 'errorSummary from responseText' };
         var xhr = {
           'status': 400,
           'responseText': responseText
