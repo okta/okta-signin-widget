@@ -103,14 +103,7 @@ define(['okta', './Dom'], function (Okta, Dom) {
 
       // Check for missing i18n value 
       if ($icon.attr('aria-label').indexOf('L10N') >= 0) {
-        /* eslint-disable no-console */
-        // TODO: THROW EXCEPTION
-        // Label is set here: https://github.com/okta/okta-ui/blob/master/packages/courage/src/views/forms/helpers/InputContainer.js#L160
-        // Need to either:
-        // - add "datalist.error_title" to "login.properties" - or
-        // - make a new property ("oform.error_icon")? and update courage again
-        // - provide a way to customize this label (in courage) so we can override it in the SIW
-        console.error(`Missing i18n property for error icon on field: ${field}: "${$icon.attr('aria-label')}"`);
+        throw new Error(`Missing i18n property for error icon on field: ${field}: "${$icon.attr('aria-label')}"`);
       }
 
 
