@@ -44,7 +44,7 @@
     "start:angular": "yarn --cwd test/e2e/angular-app start & wait-on http-get://localhost:4200",
     "pretest:e2e": "yarn install:react && yarn install:angular",
     "test:e2e": "yarn build:release && yarn start:react && yarn start:angular && grunt test-e2e",
-    "protractor": "webdriver-manager update && protractor target/e2e/conf.js",
+    "protractor": "webdriver-manager update --versions.standalone=3.141.59 --gecko false && protractor target/e2e/conf.js",
     "build:dev": "grunt build:dev",
     "build:release": "grunt build:release",
     "build:webpack-dev": "webpack --config webpack.dev.config.js",
@@ -104,7 +104,7 @@
     "stylelint-scss": "^3.4.0",
     "time-grunt": "^2.0.0",
     "wait-on": "2.0.2",
-    "webdriver-manager": "12.0.6",
+    "webdriver-manager": "^12.0.6",
     "webpack": "^3.5.4",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-dev-server": "2.11.3"
