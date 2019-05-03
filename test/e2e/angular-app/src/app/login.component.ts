@@ -7,8 +7,13 @@ import { OktaAuthService } from '@okta/okta-angular';
 import * as OktaSignIn from '@okta/okta-signin-widget';
 
 // See extra-webpack.config.js
-/* global process */
-const { WIDGET_TEST_SERVER } = process.env;
+const { WIDGET_TEST_SERVER, WIDGET_CLIENT_ID } = process.env;
+
+const config = {
+  baseUrl: `${WIDGET_TEST_SERVER}`,
+  redirectUri: 'http://localhost:4200/implicit/callback',
+  clientId: `${WIDGET_CLIENT_ID}`
+};
 
 @Component({
   selector: 'app-secure',
@@ -20,9 +25,7 @@ const { WIDGET_TEST_SERVER } = process.env;
 export class LoginComponent {
   signIn;
 
-  widget = new OktaSignIn({
-    baseUrl: WIDGET_TEST_SERVER
-  });
+  widget = new OktaSignIn(config);
 
   constructor(oktaAuth: OktaAuthService, router: Router) {
     this.signIn = oktaAuth;

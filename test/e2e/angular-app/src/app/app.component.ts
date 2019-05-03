@@ -12,10 +12,15 @@ import { OktaAuthService } from '@okta/okta-angular';
 export class AppComponent {
   signIn;
   router;
+  isAuthenticated: boolean;
 
   constructor(public oktaAuth: OktaAuthService, router: Router) {
     this.signIn = oktaAuth;
     this.router = router;
+  }
+
+  async ngOnInit() {
+    this.isAuthenticated = await this.signIn.isAuthenticated();
   }
 
   async logout() {
