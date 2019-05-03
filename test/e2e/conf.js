@@ -17,24 +17,23 @@ var config = {
 
 // Travis sauceLabs tests
 if (process.env.TRAVIS) {
-  config.sauceUser = process.env.SAUCE_USERNAME;
-  config.sauceKey = process.env.SAUCE_ACCESS_KEY;
-
   // Mobile devices
   if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
     var appium = require('./appium/ios-conf.js');
+    config.sauceUser = process.env.SAUCE_USERNAME;
+    config.sauceKey = process.env.SAUCE_ACCESS_KEY;
     config.port = appium.port;
     config.multiCapabilities = appium.iosCapabilities;
   }
 
   // Desktop browsers
   else {
+    console.log('-- Using Chrome Headless --');
     config.capabilities = {
-      'browserName': process.env.SAUCE_BROWSER_NAME,
-      'version': process.env.SAUCE_BROWSER_VERSION,
-      'platform': process.env.SAUCE_PLATFORM,
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'build': process.env.TRAVIS_BUILD_NUMBER
+      'browserName': 'chrome',
+      'chromeOptions': {
+        'args': ['--headless','--disable-gpu','--window-size=1600x1200','--no-sandbox']
+      }
     };
   }
 }
@@ -44,10 +43,10 @@ if (process.env.TRAVIS) {
 // WIDGET_BASIC_USER
 // WIDGET_BASIC_PASSWORD
 else {
-  const webdriverManegerConfig = require('webdriver-manager/selenium/update-config.json');
+  const webdriverManagerConfig = require('webdriver-manager/selenium/update-config.json');
 
   config.directConnect = true;
-  config.chromeDriver = webdriverManegerConfig.chrome.last;
+  config.chromeDriver = webdriverManagerConfig.chrome.last;
   config.capabilities = {
     browserName: 'chrome',
   };
