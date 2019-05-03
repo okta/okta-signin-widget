@@ -28,7 +28,6 @@ if (process.env.TRAVIS) {
 
   // Desktop browsers
   else {
-    console.log('-- Using Chrome Headless --');
     config.capabilities = {
       'browserName': 'chrome',
       'chromeOptions': {
