@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@okta/courage@4.6.0-beta.2389.g0e42080":
-  version "4.6.0-beta.2389.g0e42080"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.6.0-beta.2389+0e42080.tgz#d188bf6f90932c8ce5a56a3a4fc265d5b29a228d"
+"@okta/courage@4.6.0-beta.2416.g73309fe":
+  version "4.6.0-beta.2416.g73309fe"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.6.0-beta.2416+73309fe.tgz#2766c8bccb371d37f10a31bff38028866b8db3fb"
   dependencies:
     "@okta/jquery.simplemodal" "1.4.18"
     "@okta/moment" "1.0.5"

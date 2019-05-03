@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2389.g0e42080 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2416.g73309fe */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -4208,6 +4208,7 @@ __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(methods, 
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__ = __webpack_require__(42);
+/* eslint '@okta/okta-ui/no-deprecated-methods': [0, [{ name: 'BaseButtonLink.extend', use: 'Okta.createButton'}, ]] */
 
 
 
@@ -8745,7 +8746,7 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
       '</p>',
     ].join('');
 
-    const iconLabel = __WEBPACK_IMPORTED_MODULE_4__util_StringUtil__["default"].localize('datalist.error_title', 'courage'); // 'Error'
+    const iconLabel = __WEBPACK_IMPORTED_MODULE_4__util_StringUtil__["default"].localize('oform.error.icon.ariaLabel', 'courage'); // 'Error'
     const html = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl(tmpl)({
       errorId: errorId,
       iconLabel: iconLabel,
