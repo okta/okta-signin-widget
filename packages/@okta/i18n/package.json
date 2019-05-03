@@ -1,33 +1,31 @@
 {
-  "_from": "@okta/i18n@54.0.0-beta.g5d8e734",
-  "_id": "@okta/i18n@54.0.0-beta.g5d8e734",
-  "_inBundle": false,
-  "_integrity": "sha1-IDjwQ+T6owSpcG4Fn65xBRflbo4=",
-  "_location": "/@okta/i18n",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "@okta/i18n@54.0.0-beta.g5d8e734",
-    "name": "@okta/i18n",
-    "escapedName": "@okta%2fi18n",
-    "scope": "@okta",
-    "rawSpec": "54.0.0-beta.g5d8e734",
-    "saveSpec": null,
-    "fetchSpec": "54.0.0-beta.g5d8e734"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-54.0.0-beta.g5d8e734.tgz",
-  "_shasum": "2038f043e4faa304a9706e059fae710517e56e8e",
-  "_spec": "@okta/i18n@54.0.0-beta.g5d8e734",
-  "_where": "/Users/ipetrov/okta/okta-signin-widget",
-  "bundleDependencies": false,
-  "deprecated": false,
+  "name": "@okta/i18n",
+  "version": "54.1.0",
   "description": "Okta Localization",
+  "repository": "https://github.com/okta/npm/tree/master/i18n",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "lint:report": "grunt lint --checkstyle --force",
+    "lint": "grunt lint",
+    "test:coverage": "exit 0;",
+    "test:unit": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R spec tasks/i18ndiff/test",
+    "test:unit-report": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R mocha-junit-reporter -O mochaFile=./build2/reports/unit/mocha-junit-result.xml tasks/i18ndiff/test",
+    "test:report": "npm run test:unit-report ; exit 0",
+    "test": "npm run test:unit",
+    "prepublish": "grunt package",
+    "diff": "grunt i18n-generate-diff",
+    "diff-all": "grunt i18n-generate-diff --all",
+    "import": "grunt i18n-import-diff",
+    "link": "grunt link",
+    "unlink": "yarn i18n unlink",
+    "i18n": "./bin/i18n.js"
+  },
+  "license": "Apache-2.0",
   "devDependencies": {
     "chai": "3.5.0",
+    "chokidar": "^2.1.5",
     "csv-stringify": "1.0.2",
     "deep-diff": "0.3.3",
     "grunt": "1.0.1",
@@ -48,35 +46,5 @@
     "semver": "5.1.0",
     "yargs": "^8.0.2"
   },
-  "files": [
-    "dist"
-  ],
-  "homepage": "https://github.com/okta/npm/tree/master/i18n",
-  "license": "Apache-2.0",
-  "name": "@okta/i18n",
-  "okta": {
-    "commitSha": "5d8e734f03dd4afd9096ec551464075569883e9b",
-    "fullVersion": "54.0.0-beta.g5d8e734-20190422182615-5d8e734",
-    "testedSha": "83f4cfe670fac06fa85f5d93dfde59ffc64b2f4b"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/okta/npm/tree/master/i18n"
-  },
-  "scripts": {
-    "diff": "grunt i18n-generate-diff",
-    "diff-all": "grunt i18n-generate-diff --all",
-    "i18n": "./bin/i18n.js",
-    "import": "grunt i18n-import-diff",
-    "link": "grunt link",
-    "lint": "grunt lint",
-    "lint:report": "grunt lint --checkstyle --force",
-    "prepublish": "grunt package",
-    "test": "npm run test:unit",
-    "test:coverage": "exit 0;",
-    "test:report": "npm run test:unit-report ; exit 0",
-    "test:unit": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R spec tasks/i18ndiff/test",
-    "test:unit-report": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R mocha-junit-reporter -O mochaFile=./build2/reports/unit/mocha-junit-result.xml tasks/i18ndiff/test"
-  },
-  "version": "54.0.0-beta.g5d8e734"
+  "homepage": "https://github.com/okta/npm/tree/master/i18n"
 }
