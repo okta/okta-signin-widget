@@ -15,10 +15,13 @@ import { AppComponent } from './app.component';
 import { ProtectedComponent } from './protected.component';
 import { LoginComponent } from './login.component';
 
+// See extra-webpack.config.js
+const { WIDGET_TEST_SERVER, WIDGET_CLIENT_ID } = process.env;
+
 const config = {
-  issuer: `${environment.WIDGET_TEST_SERVER}/oauth2/default`,
+  issuer: `${WIDGET_TEST_SERVER}/oauth2/default`,
   redirectUri: 'http://localhost:4200/implicit/callback',
-  clientId: 'rW47c465c1wc3MKzHznu'
+  clientId: `${WIDGET_CLIENT_ID}`
 }
 
 export function onAuthRequired({ oktaAuth, router }) {

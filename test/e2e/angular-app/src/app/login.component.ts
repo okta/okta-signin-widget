@@ -5,7 +5,10 @@ import { Router, NavigationStart} from '@angular/router';
 
 import { OktaAuthService } from '@okta/okta-angular';
 import * as OktaSignIn from '@okta/okta-signin-widget';
-import { environment } from '../environments/environment';
+
+// See extra-webpack.config.js
+/* global process */
+const { WIDGET_TEST_SERVER } = process.env;
 
 @Component({
   selector: 'app-secure',
@@ -18,7 +21,7 @@ export class LoginComponent {
   signIn;
 
   widget = new OktaSignIn({
-    baseUrl: environment.WIDGET_TEST_SERVER
+    baseUrl: WIDGET_TEST_SERVER
   });
 
   constructor(oktaAuth: OktaAuthService, router: Router) {
