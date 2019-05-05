@@ -4,15 +4,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart} from '@angular/router';
 
 import { OktaAuthService } from '@okta/okta-angular';
+
 import * as OktaSignIn from '@okta/okta-signin-widget';
 
 // See extra-webpack.config.js
-const { WIDGET_TEST_SERVER, WIDGET_CLIENT_ID } = process.env;
+let { WIDGET_TEST_SERVER } = process.env;
 
 const config = {
-  baseUrl: `${WIDGET_TEST_SERVER}`,
-  redirectUri: 'http://localhost:4200/implicit/callback',
-  clientId: `${WIDGET_CLIENT_ID}`
+  baseUrl: `${WIDGET_TEST_SERVER}`
 };
 
 @Component({
@@ -50,7 +49,7 @@ export class LoginComponent {
     this.widget.renderEl(
       { el: '#okta-signin-container'}, res => {
         if (res.status === 'SUCCESS') {
-          this.signIn.loginRedirect({ sessionToken: res.session.token });
+          this.signIn.loginRedirect(null, { sessionToken: res.session.token });
           // Hide the widget
           this.widget.hide();
         }

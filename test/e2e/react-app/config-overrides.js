@@ -1,4 +1,7 @@
 /* global __dirname */
+require('../env').config();
+
+const webpack = require('webpack');
 const path = require('path');
 const ROOT_DIR = path.resolve(__dirname, '..', '..', '..');
 const PACKAGE_JSON = require(path.join(ROOT_DIR, 'package.json'));
@@ -8,6 +11,15 @@ const fs = require('fs');
 if (!fs.existsSync(MAIN_ENTRY)) {
   throw new Error(`The main project must be built before building the test app. File not found: ${MAIN_ENTRY}`);
 }
+
+// List of environment variables made available to the app
+const env = {};
+[
+  'WIDGET_TEST_SERVER',
+  'WIDGET_CLIENT_ID'
+].forEach(function (key) {
+  env[key] = JSON.stringify(process.env[key]);
+});
 
 module.exports = {
   webpack: function (config /*, env */) {
@@ -20,6 +32,10 @@ module.exports = {
     // Remove the 'ModuleScopePlugin' which keeps us from requiring outside the src/ dir
     config.resolve.plugins = [];
 
+    // Define global vars from env vars (process.env has already been defined)
+    config.plugins = config.plugins.concat([
+      new webpack.DefinePlugin(env)
+    ]);
     return config;
   }
 };

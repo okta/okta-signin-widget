@@ -1,21 +1,21 @@
-const webpack = require('webpack');
+require('../env').config();
 
-// List of environment variabls made available to the app
-const vars = [
+const webpack = require('webpack');
+const env = {};
+
+// List of environment variables made available to the app
+[
   'WIDGET_TEST_SERVER',
   'WIDGET_CLIENT_ID'
-];
-
-const obj = {};
-vars.forEach(function (key) {
-  obj[key] = JSON.stringify(process.env[key]);
+].forEach(function (key) {
+  env[key] = JSON.stringify(process.env[key]);
 });
 
 // Added to angular's webpack config by @angular-builders/custom-webpack
 module.exports = {
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': obj
+      'process.env': env
     })
   ]
 };
