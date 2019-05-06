@@ -15,6 +15,7 @@ if (!fs.existsSync(MAIN_ENTRY)) {
 // List of environment variables made available to the app
 const env = {};
 [
+  'PORT',
   'WIDGET_TEST_SERVER',
   'WIDGET_CLIENT_ID'
 ].forEach(function (key) {

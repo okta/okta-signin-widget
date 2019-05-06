@@ -5,6 +5,7 @@ const env = {};
 
 // List of environment variables made available to the app
 [
+  'PORT',
   'WIDGET_TEST_SERVER',
   'WIDGET_CLIENT_ID'
 ].forEach(function (key) {
