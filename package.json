@@ -42,7 +42,7 @@
     "install:angular": "yarn --cwd test/e2e/angular-app install",
     "prestart:angular": "kill -9 $(lsof -t -i:4200 -sTCP:LISTEN) || true",
     "start:angular": "yarn --cwd test/e2e/angular-app start & wait-on http-get://localhost:4200",
-    "pretest:e2e": "yarn install:react && yarn install:angular && node pretest.js",
+    "pretest:e2e": "yarn install:react && yarn install:angular",
     "test:e2e": "yarn build:release && yarn start:react && yarn start:angular && grunt test-e2e",
     "protractor": "webdriver-manager update --versions.standalone=3.141.59 --gecko false && protractor target/e2e/conf.js",
     "build:dev": "grunt build:dev",
