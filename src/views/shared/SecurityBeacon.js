@@ -148,7 +148,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
         <div class="circle right"></div>\
       </div>\
     </div>\
-    <div aria-live="polite" role="image" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon">\
+    <div aria-live="polite" role="img" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon">\
       <span class="accessibility-text"></span>\
       <div class="okta-sign-in-beacon-border auth-beacon-border js-auth-beacon-border">\
       </div>\
