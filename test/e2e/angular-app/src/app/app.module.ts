@@ -15,11 +15,15 @@ import { AppComponent } from './app.component';
 import { ProtectedComponent } from './protected.component';
 import { LoginComponent } from './login.component';
 
+// See extra-webpack.config.js
+let { WIDGET_TEST_SERVER, WIDGET_CLIENT_ID, PORT } = process.env;
+PORT = PORT || '4200';
+
 const config = {
-  issuer: `${environment.WIDGET_TEST_SERVER}/oauth2/default`,
-  redirectUri: 'http://localhost:4200/implicit/callback',
-  clientId: 'rW47c465c1wc3MKzHznu'
-}
+  issuer: `${WIDGET_TEST_SERVER}/oauth2/default`,
+  redirectUri: `http://localhost:${PORT}/implicit/callback`,
+  clientId: `${WIDGET_CLIENT_ID}`
+};
 
 export function onAuthRequired({ oktaAuth, router }) {
   // Redirect the user to your custom login page

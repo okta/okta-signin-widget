@@ -9,6 +9,10 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+
+/* eslint no-console: 0 */
+require('./env').config();
+
 var config = {
   framework: 'jasmine2',
   specs: ['specs/*.js'],

@@ -11,7 +11,7 @@ function addMessageToPage(id, msg) {
 
 var oktaSignIn = new OktaSignIn({
   'baseUrl': '{{{WIDGET_TEST_SERVER}}}',
-  'clientId': 'rW47c465c1wc3MKzHznu'
+  'clientId': '{{{WIDGET_CLIENT_ID}}}'
 });
 addMessageToPage('page', 'oidc_app');
 
