@@ -301,6 +301,8 @@ module.exports = function (grunt) {
         return;
       }
 
+      grunt.log.writeln('Testing against: ' + process.env.WIDGET_TEST_SERVER);
+  
       grunt.task.run([
         'copy:e2e',
         'copy:e2e-pages',
