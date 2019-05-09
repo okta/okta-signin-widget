@@ -99,9 +99,9 @@ define([
 
     getUsernameField: function () {
       var userNameFieldObject = {
-        label: false,
+        className: 'margin-btm-5',
+        label: Okta.loc('primaryauth.username.placeholder', 'login'),
         'label-top': true,
-        placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
         name: 'username',
         input: TextBox,
         inputId: 'okta-signin-username',
@@ -111,8 +111,7 @@ define([
           innerTooltip: {
             title: Okta.loc('primaryauth.username.placeholder', 'login'),
             text: Okta.loc('primaryauth.username.tooltip', 'login')
-          },
-          icon: 'person-16-gray'
+          }
         }
       };
 
@@ -124,9 +123,9 @@ define([
 
     getPasswordField: function () {
       var passwordFieldObject = {
-        label: false,
+        className: 'margin-btm-30',
+        label: Okta.loc('primaryauth.password.placeholder', 'login'),
         'label-top': true,
-        placeholder: Okta.loc('primaryauth.password.placeholder', 'login'),
         name: 'password',
         inputId: 'okta-signin-password',
         validateOnlyIfDirty: true,
@@ -135,8 +134,7 @@ define([
           innerTooltip: {
             title: Okta.loc('primaryauth.password.placeholder', 'login'),
             text: Okta.loc('primaryauth.password.tooltip', 'login')
-          },
-          icon: 'remote-lock-16'
+          }
         }
       };
       if (this.settings.get('features.showPasswordToggleOnSignInPage')) {

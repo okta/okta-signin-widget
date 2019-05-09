@@ -266,10 +266,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(test.form.titleText()).toEqual('Sign In');
         });
       });
-      itp('uses default for username placeholder', function () {
+      itp('uses default for username label', function () {
         return setup().then(function (test) {
-          var $username = test.form.usernameField();
-          expect($username.attr('placeholder')).toEqual('Username');
+          var $usernameLabel = test.form.usernameLabel();
+          expect($usernameLabel.text().trim()).toEqual('Username');
         });
       });
       itp('prevents autocomplete on username', function () {
@@ -282,10 +282,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(test.form.getPasswordFieldAutocomplete()).toBe('off');
         });
       });
-      itp('uses default for password placeholder', function () {
+      itp('uses default for password label', function () {
         return setup().then(function (test) {
-          var $password = test.form.passwordField();
-          expect($password.attr('placeholder')).toEqual('Password');
+          var $passwordLabel = test.form.passwordLabel();
+          expect($passwordLabel.text().trim()).toEqual('Password');
         });
       });
       itp('uses default for rememberMe', function () {

@@ -62,7 +62,8 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
       formChildren: function () {
         return [
           FormType.Input({
-            placeholder: Okta.loc('password.newPassword.placeholder', 'login'),
+            label: Okta.loc('password.newPassword.placeholder', 'login'),
+            'label-top': true,
             name: 'newPassword',
             input: TextBox,
             type: 'password',
@@ -72,7 +73,8 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
             }
           }),
           FormType.Input({
-            placeholder: Okta.loc('password.confirmPassword.placeholder', 'login'),
+            label: Okta.loc('password.confirmPassword.placeholder', 'login'),
+            'label-top': true,
             name: 'confirmPassword',
             input: TextBox,
             type: 'password',

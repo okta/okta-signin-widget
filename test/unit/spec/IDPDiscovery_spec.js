@@ -280,10 +280,10 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           expect(test.form.titleText()).toEqual('Sign In');
         });
       });
-      itp('uses default for username placeholder', function () {
+      itp('uses default for username label', function () {
         return setup().then(function (test) {
-          var $username = test.form.usernameField();
-          expect($username.attr('placeholder')).toEqual('Username');
+          var $usernameLabel = test.form.idpDiscoveryUsernameLabel();
+          expect($usernameLabel.text().trim()).toEqual('Username');
         });
       });
       itp('prevents autocomplete on username', function () {

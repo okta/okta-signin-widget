@@ -83,8 +83,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
         return [
           FormType.Input({
             'label-top': true,
-            label: false,
-            placeholder: Okta.loc('password.oldPassword.placeholder', 'login'),
+            label: Okta.loc('password.oldPassword.placeholder', 'login'),
             name: 'oldPassword',
             input: TextBox,
             type: 'password',
@@ -96,8 +95,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
           FormType.Divider(),
           FormType.Input({
             'label-top': true,
-            label: false,
-            placeholder: Okta.loc('password.newPassword.placeholder', 'login'),
+            label: Okta.loc('password.newPassword.placeholder', 'login'),
             name: 'newPassword',
             input: TextBox,
             type: 'password',
@@ -108,8 +106,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
           }),
           FormType.Input({
             'label-top': true,
-            label: false,
-            placeholder: Okta.loc('password.confirmPassword.placeholder', 'login'),
+            label: Okta.loc('password.confirmPassword.placeholder', 'login'),
             name: 'confirmPassword',
             input: TextBox,
             type: 'password',

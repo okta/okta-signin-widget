@@ -84,19 +84,21 @@ function (Okta, FormType, FormController, Footer, TextBox) {
         },
         formChildren: [
           FormType.Input({
+            label: Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName]),
+            'label-top': true,
             name: 'credentialId',
             input: TextBox,
             type: 'text',
-            placeholder: Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName]),
             params: {
               innerTooltip: Okta.loc('enroll.onprem.username.tooltip', 'login', [_.escape(vendorName)])
             }
           }),
           FormType.Input({
+            label: Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
+            'label-top': true,
             name: 'passCode',
             input: TextBox,
             type: 'password',
-            placeholder: Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
             params: {
               innerTooltip: Okta.loc('enroll.onprem.passcode.tooltip', 'login', [_.escape(vendorName)])
             }
