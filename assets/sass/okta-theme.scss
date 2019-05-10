@@ -74,10 +74,15 @@
     color: $header-text-color;
   }
 
-  .okta-form-subtitle,
-  .okta-form-label {
+  .okta-form-subtitle {
     /* -- Fonts and Text Colors -- */
     color: $medium-text-color;
+  }
+
+  .okta-form-label {
+    /* -- Fonts and Text Colors -- */
+    font-weight: $font-weight-labels;
+    color: $dark-text-color;
   }
 
   .link {
