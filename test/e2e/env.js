@@ -15,11 +15,14 @@ function config () {
       process.env[key] = DEFAULTS[key];
     }
     VALUES[key] = process.env[key];
+  });
+}
 
+function checkValues () {
+  Object.keys(DEFAULTS).forEach(function (key) {
     if (!VALUES[key]) {
       console.error('ERROR: no value set for environment variable: ' + key);
     }
-
   });
 }
 
@@ -35,6 +38,7 @@ function getValues () {
 
 module.exports = {
   config: config,
+  checkValues: checkValues,
   printValues: printValues,
   getValues: getValues
 };

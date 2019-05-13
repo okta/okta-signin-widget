@@ -292,6 +292,9 @@ module.exports = function (grunt) {
     'Runs end to end webdriver tests. Pass in `--browserName {{browser}}` to ' +
     'override default phantomjs browser',
     function () {
+      // Print warnings for missing environment variables
+      ENV.checkValues();
+
       // We will only run webdriver tests in these two environments:
       // 1. Travis, non pull request builds
       // 2. Local, developer has set up an org to test against and has their
