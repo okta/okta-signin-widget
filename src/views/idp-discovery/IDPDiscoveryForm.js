@@ -32,6 +32,7 @@ define([
     inputs: function () {
       var inputs = [];
       var usernameProps = {
+        className: 'margin-btm-30',
         label: Okta.loc('primaryauth.username.placeholder', 'login'),
         'label-top': true,
         inputId: 'idp-discovery-username',

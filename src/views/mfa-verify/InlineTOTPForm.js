@@ -24,7 +24,7 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
     });
     form.add(Okta.createButton({
       attributes: { 'data-se': 'inline-totp-verify' },
-      className: 'button inline-totp-verify',
+      className: 'button inline-totp-verify margin-top-30',
       title: Okta.loc('mfa.challenge.verify', 'login'),
       click: function () {
         if (!form.isValid()) {

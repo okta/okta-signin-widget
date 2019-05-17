@@ -225,7 +225,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         FormType.Button({
           title: formSubmit,
           attributes: { 'data-se': buttonClassName },
-          className: 'button button-primary js-enroll-phone ' + buttonClassName,
+          className: 'button button-primary js-enroll-phone margin-top-30 ' + buttonClassName,
           click: function () {
             this.model.sendCode();
           }
@@ -233,7 +233,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         FormType.Button({
           title: formRetry,
           attributes: { 'data-se': buttonClassName },
-          className: 'button js-enroll-phone ' + buttonClassName,
+          className: 'button js-enroll-phone margin-top-30 ' + buttonClassName,
           click: function () {
             this.model.resendCode();
           },

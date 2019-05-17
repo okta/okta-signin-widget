@@ -62,14 +62,14 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
       formChildren: function () {
         return [
           FormType.Input({
+            className: 'margin-btm-5',
             label: Okta.loc('password.newPassword.placeholder', 'login'),
             'label-top': true,
             name: 'newPassword',
             input: TextBox,
             type: 'password',
             params: {
-              innerTooltip: Okta.loc('password.newPassword.tooltip', 'login'),
-              icon: 'credentials-16'
+              innerTooltip: Okta.loc('password.newPassword.tooltip', 'login')
             }
           }),
           FormType.Input({
@@ -79,8 +79,7 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
             input: TextBox,
             type: 'password',
             params: {
-              innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login'),
-              icon: 'credentials-16'
+              innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login')
             }
           })
         ];

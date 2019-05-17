@@ -88,20 +88,19 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
             input: TextBox,
             type: 'password',
             params: {
-              innerTooltip: Okta.loc('password.oldPassword.tooltip', 'login'),
-              icon: 'credentials-16'
+              innerTooltip: Okta.loc('password.oldPassword.tooltip', 'login')
             }
           }),
           FormType.Divider(),
           FormType.Input({
+            className: 'margin-btm-5',
             'label-top': true,
             label: Okta.loc('password.newPassword.placeholder', 'login'),
             name: 'newPassword',
             input: TextBox,
             type: 'password',
             params: {
-              innerTooltip: Okta.loc('password.newPassword.tooltip', 'login'),
-              icon: 'credentials-16'
+              innerTooltip: Okta.loc('password.newPassword.tooltip', 'login')
             }
           }),
           FormType.Input({
@@ -111,8 +110,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
             input: TextBox,
             type: 'password',
             params: {
-              innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login'),
-              icon: 'credentials-16'
+              innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login')
             }
           })
         ];
