@@ -200,7 +200,8 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
           options: CountryUtil.getCountries()
         }),
         FormType.Input({
-          placeholder: Okta.loc('mfa.phoneNumber.placeholder', 'login'),
+          label: Okta.loc('mfa.phoneNumber.placeholder', 'login'),
+          'label-top': true,
           className: numberFieldClassName,
           name: 'phoneNumber',
           input: PhoneTextBox,
@@ -215,7 +216,8 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
       ];
       if (isCall) {
         formChildren.push(FormType.Input({
-          placeholder: Okta.loc('mfa.phoneNumber.ext.placeholder', 'login'),
+          label: Okta.loc('mfa.phoneNumber.ext.placeholder', 'login'),
+          'label-top': true,
           className: 'enroll-call-extension',
           name: 'phoneExtension',
           input: TextBox,
@@ -226,7 +228,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         FormType.Button({
           title: formSubmit,
           attributes: { 'data-se': buttonClassName },
-          className: 'button button-primary js-enroll-phone ' + buttonClassName,
+          className: 'button button-primary js-enroll-phone margin-top-30 ' + buttonClassName,
           click: function () {
             this.model.sendCode();
           }
@@ -234,7 +236,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         FormType.Button({
           title: formRetry,
           attributes: { 'data-se': buttonClassName },
-          className: 'button js-enroll-phone ' + buttonClassName,
+          className: 'button js-enroll-phone margin-top-30 ' + buttonClassName,
           click: function () {
             this.model.resendCode();
           },
@@ -256,7 +258,8 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
           showWhen: factorIdIsDefined
         }),
         FormType.Input({
-          placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
+          label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
+          'label-top': true,
           name: 'passCode',
           input: TextBox,
           type: 'tel',

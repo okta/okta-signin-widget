@@ -2,7 +2,9 @@ define(['okta', './Form'], function (Okta, Form) {
 
   var { _, $ } = Okta;
   var USERNAME_FIELD = 'username';
+  var USERNAME_LABEL = 'label[for="okta-signin-username"]';
   var PASSWORD_FIELD = 'password';
+  var PASSWORD_LABEL = 'label[for="okta-signin-password"]';
   var REMEMBER_ME_FIELD = 'remember';
   var REMEMBER_ME_LABEL = 'label[data-se-for-name="remember"]';
   var SECURITY_BEACON = 'security-beacon';
@@ -23,6 +25,10 @@ define(['okta', './Form'], function (Okta, Form) {
       return this.input(USERNAME_FIELD);
     },
 
+    usernameLabel: function () {
+      return this.$(USERNAME_LABEL);
+    },
+
     usernameErrorField: function () {
       return this.error(USERNAME_FIELD);
     },
@@ -33,6 +39,10 @@ define(['okta', './Form'], function (Okta, Form) {
 
     passwordField: function () {
       return this.input(PASSWORD_FIELD);
+    },
+
+    passwordLabel: function () {
+      return this.$(PASSWORD_LABEL);
     },
 
     passwordErrorField: function () {

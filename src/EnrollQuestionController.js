@@ -66,9 +66,8 @@ function (Okta, FormController, FactorUtil, Footer, TextBox) {
             }
           },
           {
-            label: false,
+            label: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
             'label-top': true,
-            placeholder: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
             className: 'o-form-fieldset o-form-label-top auth-passcode',
             name: 'answer',
             input: TextBox,

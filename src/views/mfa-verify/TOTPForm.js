@@ -35,9 +35,8 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
       }
 
       this.addInput({
-        label: false,
+        label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
         'label-top': true,
-        placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
         className: 'o-form-fieldset o-form-label-top auth-passcode',
         name: 'answer',
         input: TextBox,
