@@ -163,7 +163,8 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
           }),
 
           FormType.Input({
-            placeholder: Okta.loc('mfa.phoneNumber.placeholder', 'login'),
+            label: Okta.loc('mfa.phoneNumber.placeholder', 'login'),
+            'label-top': true,
             className: 'enroll-sms-phone',
             name: 'phoneNumber',
             input: PhoneTextBox,

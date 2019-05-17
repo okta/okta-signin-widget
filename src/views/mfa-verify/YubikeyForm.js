@@ -30,13 +30,13 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
       this.subtitle = Okta.loc('factor.totpHard.yubikey.description', 'login');
 
       this.addInput({
-        label: false,
+        label: Okta.loc('factor.totpHard.yubikey.placeholder', 'login'),
         'label-top': true,
         className: 'o-form-fieldset o-form-label-top auth-passcode',
         name: 'answer',
         input: TextBox,
-        type: 'password',
-        placeholder: Okta.loc('factor.totpHard.yubikey.placeholder', 'login')
+        inputId: 'mfa-answer',
+        type: 'password'
       });
 
       if (this.options.appState.get('allowRememberDevice')) {
