@@ -92,7 +92,8 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
             }
           }),
           FormType.Input({
-            placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
+            label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
+            'label-top': true,
             className: 'enroll-sms-phone',
             name: 'passCode',
             input: TextBox,

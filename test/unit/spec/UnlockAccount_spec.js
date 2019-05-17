@@ -99,10 +99,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
           expect(test.form.titleText()).toEqual('Unlock account');
         });
       });
-      itp('has correct username placeholder', function () {
+      itp('has correct username label', function () {
         return setup().then(function (test) {
-          var $username = test.form.usernameField();
-          expect($username.attr('placeholder')).toEqual('Email or username');
+          var $usernameLabel = test.form.usernameLabel();
+          expect($usernameLabel.text().trim()).toEqual('Email or username');
         });
       });
       itp('does not allow autocomplete', function () {
