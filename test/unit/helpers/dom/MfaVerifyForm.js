@@ -1,6 +1,7 @@
 define(['./Form'], function (Form) {
 
   var ANSWER_FIELD = 'answer';
+  var ANSWER_LABEL = 'label[for="mfa-answer"]';
   var PASSWORD_FIELD = 'password';
   var SHOW_ANSWER_FIELD = 'showAnswer';
   var REMEMBER_DEVICE = 'rememberDevice';
@@ -50,6 +51,10 @@ define(['./Form'], function (Form) {
 
     answerField: function () {
       return this.input(ANSWER_FIELD);
+    },
+
+    answerLabel: function () {
+      return this.$(ANSWER_LABEL);
     },
 
     setAnswer: function (val) {

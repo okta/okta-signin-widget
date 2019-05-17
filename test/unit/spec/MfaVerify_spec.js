@@ -622,11 +622,6 @@ function (Okta,
       expect(password.attr('type')).toEqual(fieldType);
     }
 
-    function expectHasRightPlaceholderText (test, placeholderText){
-      var answer = test.form.answerField();
-      expect(answer.attr('placeholder')).toEqual(placeholderText);
-    }
-
     function expectError (test, code, message, controller, resError) {
       expect(test.form.hasErrors()).toBe(true);
       expect(test.form.errorMessage()).toBe(message);
@@ -2274,9 +2269,10 @@ function (Okta,
             expectHasAnswerField(test, 'password');
           });
         });
-        itp('has right placeholder text in answer field', function () {
+        itp('has right label for answer field', function () {
           return setupYubikey().then(function (test) {
-            expectHasRightPlaceholderText(test, 'Click here, then tap your YubiKey');
+            var $answerLabel = test.form.answerLabel();
+            expect($answerLabel.text().trim()).toEqual('Click here, then tap your YubiKey');
           });
         });
         itp('does not autocomplete', function () {

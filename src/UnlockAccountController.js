@@ -99,14 +99,15 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
         }
         else {
           formChildren.push(FormType.Input({
-            placeholder: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
+            label: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
+            'label-top': true,
             name: 'username',
             input: TextBox,
+            inputId: 'account-recovery-username',
             type: 'text',
             inlineValidation: false,
             params: {
-              innerTooltip: Okta.loc('account.unlock.email.or.username.tooltip', 'login'),
-              icon: 'person-16-gray'
+              innerTooltip: Okta.loc('account.unlock.email.or.username.tooltip', 'login')
             }
           }));
 

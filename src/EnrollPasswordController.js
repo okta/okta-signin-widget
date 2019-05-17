@@ -53,18 +53,16 @@ function (Okta, FormController, ValidationUtil, Footer, TextBox) {
       inputs: function () {
         return [
           {
-            label: false,
+            label: Okta.loc('mfa.challenge.password.placeholder', 'login'),
             'label-top': true,
-            placeholder: Okta.loc('mfa.challenge.password.placeholder', 'login'),
             className: 'o-form-fieldset o-form-label-top auth-passcode',
             name: 'password',
             input: TextBox,
             type: 'password'
           },
           {
-            label: false,
+            label: Okta.loc('password.confirmPassword.placeholder', 'login'),
             'label-top': true,
-            placeholder: Okta.loc('password.confirmPassword.placeholder', 'login'),
             className: 'o-form-fieldset o-form-label-top auth-passcode',
             name: 'confirmPassword',
             input: TextBox,
