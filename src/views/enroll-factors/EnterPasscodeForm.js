@@ -32,10 +32,11 @@ define([
     formChildren: function () {
       return [
         FormType.Input({
+          label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
+          'label-top': true,
           name: 'passCode',
           input: TextBox,
           type: 'tel',
-          placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
           params: {
             innerTooltip: Okta.loc('mfa.challenge.enterCode.tooltip', 'login')
           }

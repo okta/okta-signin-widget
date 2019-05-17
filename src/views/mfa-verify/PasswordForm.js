@@ -27,9 +27,8 @@ define(['okta'], function (Okta) {
       this.title = this.model.get('factorLabel');
 
       this.addInput({
-        label: false,
+        label: Okta.loc('mfa.challenge.password.placeholder', 'login'),
         'label-top': true,
-        placeholder: Okta.loc('mfa.challenge.password.placeholder', 'login'),
         className: 'auth-passcode',
         name: 'password',
         type: 'password',

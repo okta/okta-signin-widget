@@ -54,28 +54,31 @@ function (Okta, FormType, FormController, Footer, TextBox) {
       formChildren: function () {
         return [
           FormType.Input({
+            label: Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login'),
+            'label-top': true,
             name: 'credentialId',
             input: TextBox,
             type: 'text',
-            placeholder: Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login'),
             params: {
               innerTooltip: Okta.loc('enroll.symantecVip.credentialId.tooltip', 'login')
             }
           }),
           FormType.Input({
+            label: Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login'),
+            'label-top': true,
             name: 'passCode',
             input: TextBox,
             type: 'text',
-            placeholder: Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login'),
             params: {
               innerTooltip: Okta.loc('enroll.symantecVip.passcode1.tooltip', 'login')
             }
           }),
           FormType.Input({
+            label: Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login'),
+            'label-top': true,
             name: 'nextPassCode',
             input: TextBox,
             type: 'text',
-            placeholder: Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login'),
             params: {
               innerTooltip: Okta.loc('enroll.symantecVip.passcode2.tooltip', 'login')
             }

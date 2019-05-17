@@ -32,15 +32,16 @@ define([
     inputs: function () {
       var inputs = [];
       var usernameProps = {
+        className: 'margin-btm-30',
+        label: Okta.loc('primaryauth.username.placeholder', 'login'),
+        'label-top': true,
         inputId: 'idp-discovery-username',
-        placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
         disabled: false,
         params: {
           innerTooltip: {
             title: Okta.loc('primaryauth.username.placeholder', 'login'),
             text: Okta.loc('primaryauth.username.tooltip', 'login')
-          },
-          icon: 'person-16-gray'
+          }
         }
       };
       inputs.push(_.extend(this.getUsernameField(), usernameProps));

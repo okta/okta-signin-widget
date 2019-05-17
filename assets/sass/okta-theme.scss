@@ -74,10 +74,15 @@
     color: $header-text-color;
   }
 
-  .okta-form-subtitle,
-  .okta-form-label {
+  .okta-form-subtitle {
     /* -- Fonts and Text Colors -- */
     color: $medium-text-color;
+  }
+
+  .okta-form-label {
+    /* -- Fonts and Text Colors -- */
+    font-weight: $font-weight-labels;
+    color: $dark-text-color;
   }
 
   .link {
@@ -157,6 +162,18 @@
           border-right: 1px solid $input-border-color-focus;
         }
       }
+    }
+
+    .margin-btm-5 {
+      margin-bottom: 5px;
+    }
+
+    .margin-btm-30 {
+      margin-bottom: 30px;
+    }
+
+    .margin-top-30 {
+      margin-top: 30px;
     }
   }
 
