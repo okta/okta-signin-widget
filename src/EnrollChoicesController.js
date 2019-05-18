@@ -10,17 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 11] */
+/* eslint complexity: [2, 13] */
 define([
   'okta',
   './util/FormController',
   './util/Enums',
   './util/RouterUtil',
   'views/enroll-choices/FactorList',
-  'views/enroll-choices/RequiredFactorList'
+  'views/enroll-choices/RequiredFactorList',
+  'views/enroll-choices/Footer'
 ],
 function (Okta, FormController, Enums, RouterUtil, FactorList,
-  RequiredFactorList) {
+  RequiredFactorList, Footer) {
 
   var _ = Okta._;
 
@@ -200,6 +201,10 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
       }
 
       this.state.set('pageType', pageType);
+
+      if (this.options.appState.get('skipLink') && pageType === Enums.HAS_REQUIRED_SOME_REQUIRED_ENROLLED) {
+        this.add(new Footer(this.toJSON()));
+      }
     }
   });
 
