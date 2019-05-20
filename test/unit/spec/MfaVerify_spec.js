@@ -2621,57 +2621,6 @@ function (Okta,
         });
       });
 
-      Expect.describe('Email on Idx Pipeline', function () {
-        itp('posts email link if send email button is clicked once and changes button text', function () {
-          return setupEmailMagicLink().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resFactorChallengeEmail);
-            expect(test.form.answerField().length).toEqual(0);
-            expect(test.form.button().length).toEqual(0);
-            expect(test.form.emailSendCode().text()).toEqual('Send email');
-            test.form.emailSendCode().click();
-            return Expect.waitForMfaVerify(test);
-          })
-            .then(function (test) {
-              expect(test.form.emailSendCode().text()).toEqual('Sent');
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
-                url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=false'
-              });
-            });
-        });
-        itp('posts email link, changes button text and posts to verify if button is clicked for the second time', function () {
-          Util.speedUpPolling();
-          return setupEmailMagicLink().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resFactorChallengeEmail);
-            expect(test.form.answerField().length).toEqual(0);
-            expect(test.form.button().length).toEqual(0);
-            expect(test.form.emailSendCode().text()).toEqual('Send email');
-            test.form.emailSendCode().click();
-            return Expect.wait(() => {
-              return $('[data-se="email-send-code"]').text() === 'Re-send email';
-            }, test);
-          })
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.setNextResponse(resFactorChallengeEmail);
-              test.form.emailSendCode().click();
-              return Expect.wait(() => {
-                return $('[data-se="email-send-code"]').text() === 'Re-send email';
-              }, test);
-            })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
-                url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3s/verify/resend'
-              });
-            });
-        });
-      });
-
       Expect.describe('Okta Push', function () {
         // Remember device for Push form exists out of the form.
         function getRememberDeviceForPushForm (test) {
