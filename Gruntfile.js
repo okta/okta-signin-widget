@@ -316,26 +316,41 @@ module.exports = function (grunt) {
     }
   );
 
+  grunt.task.registerTask('css', function (target) {
+    const prodBuild = target === 'release';
+    const buildTasks = [
+      'copy:app-to-target',
+      'sass:buildtheme',
+      'postcss:buildtheme',
+      'sass:build',
+    ];
+
+    if (prodBuild) {
+      buildTasks.push('postcss:minify');
+    } else {
+      buildTasks.push('postcss:build');
+    }
+
+    grunt.task.run(buildTasks);
+  });
+
   grunt.task.registerTask('build', function (target) {
     const prodBuild = target === 'release';
     const buildTasks = [];
     const postBuildTasks = [];
 
     if (prodBuild) {
-      buildTasks.push('postcss:minify', 'exec:build-release');
+      buildTasks.push('exec:build-release');
       postBuildTasks.push('copy:target-to-dist');
     } else {
-      buildTasks.push('postcss:build', 'exec:build-dev');
+      buildTasks.push('exec:build-dev');
     }
     grunt.task.run([
       'exec:clean',
       'exec:retirejs',
       'exec:generate-config',
-      'copy:app-to-target',
       'exec:generate-jsonp',
-      'sass:buildtheme',
-      'postcss:buildtheme',
-      'sass:build',
+      `css:${target}`,
       ...buildTasks,
       ...postBuildTasks,
     ]);
