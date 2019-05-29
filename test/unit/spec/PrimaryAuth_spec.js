@@ -1353,7 +1353,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function (test) {
             expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
             expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
-            expect(test.form.securityBeacon().css('background-image')).toBe(`url("${window.location.origin}/base/target/img/security/default@2x.png")`);
+            expect(test.form.securityBeacon().css('background-image')).toMatch(/\/base\/target\/img\/security\/default.*\.png/);
           });
       });
       itp('updates security beacon when user enters correct username', function () {
@@ -1397,7 +1397,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function (test) {
             expect(test.form.securityBeacon()[0].className).toMatch('new-user');
             expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
-            expect(test.form.securityBeacon().css('background-image')).toBe(`url("${window.location.origin}/base/target/img/security/unknown-device@2x.png")`);
+            expect(test.form.securityBeacon().css('background-image')).toMatch(/\/base\/target\/img\/security\/unknown-device.*\.png/);
           });
       });
       itp('shows an unknown user message when user enters unfamiliar username', function () {
