@@ -316,10 +316,12 @@ module.exports = function (grunt) {
     }
   );
 
-  grunt.task.registerTask('css', function (target) {
+  grunt.task.registerTask('assets', function (target) {
     const prodBuild = target === 'release';
     const buildTasks = [
+      'exec:generate-config', // populates src/config.json with supported languages
       'copy:app-to-target',
+      'exec:generate-jsonp', // generates jsonp wrappers for json files in target dir
       'sass:buildtheme',
       'postcss:buildtheme',
       'sass:build',
@@ -348,9 +350,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'exec:clean',
       'exec:retirejs',
-      'exec:generate-config',
-      'exec:generate-jsonp',
-      `css:${target}`,
+      `assets:${target}`,
       ...buildTasks,
       ...postBuildTasks,
     ]);

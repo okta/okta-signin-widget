@@ -33,7 +33,7 @@
     "lint:grunt:report": "grunt lint --checkstyle",
     "lint": "mkdir -p build2 && run-p -c lint:eslint lint:grunt lint:stylelint",
     "lint:report": "mkdir -p build2 && run-p -c lint:eslint:report lint:grunt:report lint:stylelint:report",
-    "test:dev": "grunt css && yarn generate-config && karma start",
+    "test:dev": "grunt assets && karma start",
     "test:coverage": "yarn test --reporters=progress,coverage",
     "test": "yarn test:dev --single-run",
     "start:basic": "PORT=3000 node test/e2e/basic/server.js & wait-on http-get://localhost:3000",
