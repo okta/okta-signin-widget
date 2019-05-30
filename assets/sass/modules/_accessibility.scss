@@ -8,3 +8,13 @@
   height: 0;
   overflow: hidden;
 }
+
+.focused-input,
+.link.help:focus {
+  box-shadow: 0 0 8px rgba(81, 203, 238, 1);
+}
+
+.o-form-button-bar.focused-input {
+  margin-bottom: 25px;
+  padding-bottom: 0;
+}
