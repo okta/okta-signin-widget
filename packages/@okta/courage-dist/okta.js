@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2416.g73309fe */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2499.g49ab643 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -761,7 +761,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 const LABEL_OPTIONS = ['model', 'id', 'inputId', 'type', 'label', 'sublabel', 'tooltip', 'name'];
-const CONTAINER_OPTIONS = ['wide', 'multi', 'input', 'explain', 'customExplain', 'model', 'name', 'type', 'autoRender'];
+const CONTAINER_OPTIONS = [
+  'wide',
+  'multi',
+  'input',
+  'label-top',
+  'explain',
+  'explain-top',
+  'customExplain',
+  'model',
+  'name',
+  'type',
+  'autoRender'
+];
 const WRAPPER_OPTIONS = [
   'model',
   'name',
@@ -7116,6 +7128,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__View__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
+/* eslint-disable max-statements */
+
 
 
 /**
@@ -7160,7 +7175,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
     this.listenTo(this.collection, 'reset sort', this.reset);
     this.listenTo(this.collection, 'add', this.addItem);
-    this.collection.each(this.addItem, this);
+
+    if (this.fetchCollection) {
+      this.collection.fetch();
+    } else {
+      this.collection.each(this.addItem, this);
+    }
   },
 
   /**
@@ -7175,7 +7195,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      */
   itemSelector: null,
 
-
   /**
      * Empty the list and re-add everything from the collection.
      * Usefull for handling `collection.reset()` or for handling the initial load
@@ -7183,7 +7202,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      */
   reset: function () {
     this.removeChildren();
-    this.collection.each(this.addItem, this);
+    this.collection.each((model, index) => {
+      this.addItem(model, index);
+    });
     return this;
   },
 
@@ -7200,7 +7221,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var view = this.add(this.item, this.itemSelector, {options: {model: model}}).last();
     view.listenTo(model, 'destroy remove', view.remove);
     return this;
-  }
+  },
+
+  addShowMore: __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].noop
 
 }));
 
@@ -7455,6 +7478,15 @@ const convertSavingState = function (rawSavingStateEvent, defaultEvent) {
   return savingStateEvent.join(' ');
 };
 
+const getErrorSummary = function (responseJSON = {}) {
+  if (Array.isArray(responseJSON.errorCauses) && responseJSON.errorCauses.length > 0) {
+    //set errorSummary from first errorCause which is not field specific error
+    return responseJSON.errorCauses[0].errorSummary;
+  } else {
+    //set errorSummary from top level errorSummary
+    return responseJSON.errorSummary;
+  }
+};
 /**
  * A Form utility framework
  *
@@ -8021,8 +8053,20 @@ const convertSavingState = function (rawSavingStateEvent, defaultEvent) {
     },
 
     /**
-     * Function can be overridden to alter error summary
+     * Function can be overridden to alter top level error summary.
      * @param {Object} responseJSON
+     *
+     * @example
+     * // responseJSON object
+     * {
+     *  errorCauses: [{errorSummary: "At least one of Proxy Status, Location, or ASN should be configured."}]
+     *  errorSummary: "At least one of Proxy Status, Location, or ASN should be configured."
+     *  errorCode: "E0000001"
+     *  errorId: "oaepsrTCHrhT-eIi8XTm6KWWg"
+     *  errorLink: "E0000001"
+     *  errorSummary: "Api validation failed: networkZone"
+     * }
+     *
      * @method
      * @default _.identity
      */
@@ -8044,7 +8088,6 @@ const convertSavingState = function (rawSavingStateEvent, defaultEvent) {
         const validationErrors = __WEBPACK_IMPORTED_MODULE_8__helpers_ErrorParser__["a" /* default */].parseFieldErrors(resp);
 
         // trigger events for field validation errors
-
         if (__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].size(validationErrors)) {
           __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].each(
             validationErrors,
@@ -8059,13 +8102,9 @@ const convertSavingState = function (rawSavingStateEvent, defaultEvent) {
             },
             this
           );
-        } else if (responseJSON && Array.isArray(responseJSON.errorCauses) && responseJSON.errorCauses.length > 0) {
-          //set errorSummary from first errorCause which is not field specific error
-          errorSummary = responseJSON.errorCauses[0].errorSummary;
         } else {
-          //set errorSummary from top level errorSummary
           responseJSON = this.parseErrorMessage(responseJSON);
-          errorSummary = responseJSON && responseJSON.errorSummary;
+          errorSummary = getErrorSummary(responseJSON);
         }
 
         // show the error message
@@ -8177,6 +8216,7 @@ const convertSavingState = function (rawSavingStateEvent, defaultEvent) {
      * @param {Boolean} [options.disabled=false] Make this input disabled
      * @param {Boolean} [options.wide=false] Use a wide input layout
      * @param {Boolean} [options.label-top=false] position label on top of an input
+     * @param {Boolean} [options.explain-top=false] position explain on top of an input (requires label-top=true)
      * @param {Number} [options.multi] have multiple in-line inputs. useful when `input` is passed as an array of inputs
      * @param {String} [options.errorField] The API error field here that maps to this input
      * @param {Boolean} [options.inlineValidation=true] Validate input on focusout
@@ -8654,18 +8694,18 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
     /* eslint max-statements: [2, 18] */
     __WEBPACK_IMPORTED_MODULE_5__BaseView__["default"].apply(this, arguments);
 
-    // we want to append the input *before* the explain text
+    const explainTop = this.options['explain-top'] && this.options['label-top'];
     if (this.options.input) {
       if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(this.options.input)) {
         __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(
           this.options.input,
           function (inputItem) {
-            this.add(inputItem, { prepend: true });
+            this.add(inputItem, { prepend: !explainTop });
           },
           this
         );
       } else {
-        this.add(this.options.input, { prepend: true });
+        this.add(this.options.input, { prepend: !explainTop });
       }
     }
 
@@ -8675,7 +8715,7 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
 
     this.listenTo(this.model, 'form:field-error', function (name, errors) {
       if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].contains(names, name)) {
-        this.__setError(errors);
+        this.__setError(errors, explainTop);
       }
     });
 
@@ -8734,7 +8774,7 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
    * Adds an explaination message of the error
    * @private
    */
-  __setError: function (errors) {
+  __setError: function (errors, explainTop) {
     this.__errorState = true;
     this.$el.addClass('o-form-has-errors');
 
@@ -8757,7 +8797,7 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
       .not('.o-form-input-error')
       .first();
 
-    if ($elExplain.length) {
+    if ($elExplain.length && !explainTop) {
       $elExplain.before(html);
     } else {
       this.$el.append(html);
