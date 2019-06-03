@@ -101,6 +101,7 @@ describe('OIDC flows', function () {
         clientId: '{{{WIDGET_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
+          grantType: 'authorization_code',
           responseType: 'code',
           scope: ['openid', 'email', 'profile', 'address', 'phone']
         }

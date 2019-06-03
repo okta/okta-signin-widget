@@ -2324,6 +2324,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       itp('opens a popup with the correct url when an idp button is clicked', function () {
         return setupSocial().then(function (test) {
           test.form.facebookButton().click();
+          return Expect.waitForSpyCall(window.open);
+        }).then(function () {
           expect(window.open.calls.count()).toBe(1);
           expect(window.open).toHaveBeenCalledWith(
             'https://foo.com/oauth2/v1/authorize?' +
@@ -2360,6 +2362,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setupSocial({ 'authParams.responseType': 'token' })
           .then(function (test) {
             test.form.facebookButton().click();
+            return Expect.waitForSpyCall(window.open);
+          }).then(function () {
             expect(window.open.calls.count()).toBe(1);
             expect(window.open).toHaveBeenCalledWith(
               'https://foo.com/oauth2/v1/authorize?' +
@@ -2381,6 +2385,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setupSocial({ 'authParams.responseType': ['id_token', 'token']})
           .then(function (test) {
             test.form.facebookButton().click();
+            return Expect.waitForSpyCall(window.open);
+          }).then(function () {
             expect(window.open.calls.count()).toBe(1);
             expect(window.open).toHaveBeenCalledWith(
               'https://foo.com/oauth2/v1/authorize?' +
@@ -2455,7 +2461,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setupSocial({ 'authParams.responseType': ['id_token', 'token'] })
           .then(function (test) {
             test.form.facebookButton().click();
-            expect(window.addEventListener).toHaveBeenCalled();
+            return Expect.waitForSpyCall(window.addEventListener, test);
+          }).then(function (test) {
             var args = window.addEventListener.calls.argsFor(0);
             var type = args[0];
             var callback = args[1];
@@ -2489,6 +2496,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setupSocial()
           .then(function (test) {
             test.form.facebookButton().click();
+            return Expect.waitForSpyCall(window.addEventListener, test);
+          }).then(function (test) {
             var args = window.addEventListener.calls.argsFor(0);
             var callback = args[1];
             callback.call(null, {
@@ -2521,6 +2530,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setupSocial({ globalErrorFn: errorSpy, globalSuccessFn: successSpy })
           .then(function (test) {
             test.form.facebookButton().click();
+            return Expect.waitForSpyCall(window.addEventListener, test);
+          }).then(function () {
             var args = window.addEventListener.calls.argsFor(0);
             var callback = args[1];
             callback.call(null, {
@@ -2542,6 +2553,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setupSocial({ globalSuccessFn: successSpy })
           .then(function (test) {
             test.form.facebookButton().click();
+            return Expect.waitForSpyCall(window.addEventListener, test);
+          }).then(function (test) {
             var args = window.addEventListener.calls.argsFor(0);
             var callback = args[1];
             callback.call(null, {

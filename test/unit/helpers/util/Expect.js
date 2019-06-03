@@ -41,8 +41,8 @@ define([
     });
   }
 
-  fn.describe = function (desc, fn) {
-    return describe(desc, function () {
+  function wrapDescribe (_describe, desc, fn) {
+    return _describe(desc, function () {
 
       beforeAll(function () {
         Util.mockSetTimeout();
@@ -74,7 +74,10 @@ define([
 
       fn();
     });
-  };
+  }
+
+  fn.describe = wrapDescribe.bind(null, describe);
+  fn.fdescribe = wrapDescribe.bind(null, fdescribe);
 
   // Helper function to work with promises - when the return promise is
   // resolved, done is called
