@@ -1485,6 +1485,8 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         return setupSocial()
           .then(function (test) {
             test.form.facebookButton().click();
+            return Expect.waitForSpyCall(window.addEventListener, test);
+          }).then(function (test) {
             var args = window.addEventListener.calls.argsFor(0);
             var callback = args[1];
             callback.call(null, {

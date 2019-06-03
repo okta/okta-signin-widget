@@ -30,14 +30,15 @@ define([
   'helpers/xhr/SUCCESS_original',
   'helpers/xhr/SUCCESS_next',
   'helpers/xhr/labels_login_ja',
-  'helpers/xhr/labels_country_ja'
+  'helpers/xhr/labels_country_ja',
+  'helpers/xhr/well-known-shared-resource'
 ],
 function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
   OktaAuth, Util, Expect, Router,
   $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm,
   resSuccess, resRecovery, resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
   resMfaChallengePush, resMfaEnroll, errorInvalidToken, resUnauthenticated, resSuccessStepUp,
-  resSuccessOriginal, resSuccessNext, labelsLoginJa, labelsCountryJa) {
+  resSuccessOriginal, resSuccessNext, labelsLoginJa, labelsCountryJa, resWellKnownSR) {
 
   var { Util: SharedUtil, Logger: CourageLogger } = Okta.internal.util;
   var {_, $, Backbone} = Okta;
@@ -130,7 +131,13 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
           });
 
           var form = new MfaVerifyForm($sandbox);
-          test.setNextResponse(resSuccess);
+          var next = [resSuccess];
+
+          // mock .well-known for PKCE flow
+          if (settings && settings['authParams.grantType'] === 'authorization_code') {
+            next.push(resWellKnownSR);
+          }
+          test.setNextResponse(next);
           form.setAnswer('wrong');
           form.submit();
           return tick(test);
@@ -920,33 +927,51 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
     Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function () {
 
       function expectAuthorizeUrl (url, options) {
+        var parsed = new URL(url);
+        var params = parsed.searchParams;
         var authorizeUrl = options.authorizeUrl || 'https://foo.com/oauth2/v1/authorize';
         var state = options.state || OIDC_STATE;
         var nonce = options.nonce || OIDC_NONCE;
-        var expectedUrl = authorizeUrl + '?' +
-          'client_id=someClientId&' +
-          'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-          'response_type=' + options.responseType + '&' +
-          'response_mode=' + options.responseMode + '&' +
-          'state=' + state + '&' +
-          'nonce=' + nonce + '&';
+        var clientId = 'someClientId';
+        var redirectUri = 'https://0.0.0.0:9999';
+        var sessionToken = 'THE_SESSION_TOKEN';
+        var scope = 'openid email';
+        var responseType = options.responseType;
+        var responseMode = options.responseMode;
+
+        expect(parsed.origin + parsed.pathname).toBe(authorizeUrl);
+        expect(params.get('state')).toBe(state);
+        expect(params.get('nonce')).toBe(nonce);
+        expect(params.get('client_id')).toBe(clientId);
+        expect(params.get('redirect_uri')).toBe(redirectUri);
+        expect(params.get('response_type')).toBe(responseType);
+        expect(params.get('response_mode')).toBe(responseMode);
+        expect(params.get('sessionToken')).toBe(sessionToken);
+        expect(params.get('scope')).toBe(scope);
+
         if (options.display) {
-          expectedUrl += 'display=' + options.display + '&';
+          expect(params.get('display')).toBe(options.display);
         }
+
         if (options.prompt) {
-          expectedUrl += 'prompt=' + options.prompt + '&';
+          expect(params.get('prompt')).toBe(options.prompt);
         }
-        expectedUrl += '' +
-          'sessionToken=THE_SESSION_TOKEN&' +
-          'scope=openid%20email';
-        expect(url).toBe(expectedUrl);
+
+        if (responseType === 'code') {
+          expect(params.get('code_challenge')).toBeTruthy();
+          expect(params.get('code_challenge_method')).toBe('S256');
+        }
+
       }
 
       function expectCodeRedirect (options) {
         return function (test) {
           var spy = test.ac.token.getWithRedirect._setLocation;
-          expect(spy.calls.count()).toBe(1);
-          expectAuthorizeUrl(spy.calls.argsFor(0)[0], options);
+          return Expect.waitForSpyCall(spy)
+            .then(function () {
+              expect(spy.calls.count()).toBe(1);
+              expectAuthorizeUrl(spy.calls.argsFor(0)[0], options);
+            });
         };
       }
 
@@ -965,67 +990,76 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
           });
       });
       itp('redirects instead of using an iframe if the responseType is "code"', function () {
-        return setupOAuth2({'authParams.responseType': 'code'})
-          .then(expectCodeRedirect({responseMode: 'query', responseType:'code'}));
+        return setupOAuth2({
+          'authParams.responseType': 'code', 
+          'authParams.grantType': 'authorization_code'
+        })
+          .then(expectCodeRedirect({responseMode: 'fragment', responseType:'code'}));
       });
       itp('redirects to alternate authorizeUrl if the responseType is "code"', function () {
         return setupOAuth2({
+          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.authorizeUrl': 'https://altfoo.com/oauth2/v1/authorize'
         })
           .then(expectCodeRedirect({
             authorizeUrl: 'https://altfoo.com/oauth2/v1/authorize',
-            responseMode: 'query',
+            responseMode: 'fragment',
             responseType:'code'
           }));
       });
       itp('redirects to alternate authorizeUrl if an alternate issuer is provided', function () {
         return setupOAuth2({
+          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.issuer': 'https://altfoo.com'
         })
           .then(expectCodeRedirect({
             authorizeUrl: 'https://altfoo.com/oauth2/v1/authorize',
-            responseMode: 'query',
+            responseMode: 'fragment',
             responseType:'code'
           }));
       });
       itp('redirects to alternate authorizeUrl if an alternate issuer and alternate authorizeUrl is provided', function () {
         return setupOAuth2({
+          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.issuer': 'https://altfoo.com',
           'authParams.authorizeUrl': 'https://reallyaltfoo.com/oauth2/v1/authorize'
         })
           .then(expectCodeRedirect({
             authorizeUrl: 'https://reallyaltfoo.com/oauth2/v1/authorize',
-            responseMode: 'query',
+            responseMode: 'fragment',
             responseType:'code'
           }));
       });
       itp('redirects with alternate state provided', function () {
         return setupOAuth2({
+          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.state': 'myalternatestate'
         })
           .then(expectCodeRedirect({
             state: 'myalternatestate',
-            responseMode: 'query',
+            responseMode: 'fragment',
             responseType:'code'
           }));
       });
       itp('redirects with alternate nonce provided', function () {
         return setupOAuth2({
+          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.nonce': 'myalternatenonce'
         })
           .then(expectCodeRedirect({
             nonce: 'myalternatenonce',
-            responseMode: 'query',
+            responseMode: 'fragment',
             responseType:'code'
           }));
       });
       itp('redirects with alternate state and nonce provided', function () {
         return setupOAuth2({
+          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.state': 'myalternatestate',
           'authParams.nonce': 'myalternatenonce'
@@ -1033,14 +1067,17 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
           .then(expectCodeRedirect({
             state: 'myalternatestate',
             nonce: 'myalternatenonce',
-            responseMode: 'query',
+            responseMode: 'fragment',
             responseType:'code'
           }));
       });
-      itp('redirects if there are multiple responseTypes, and one is "code"', function () {
+
+      // TODO: "hybrid" flows like these are explicitly disallowed. Rewrite or trash this test?
+      xit('redirects if there are multiple responseTypes, and one is "code"', function () {
         return setupOAuth2({'authParams.responseType': ['id_token', 'code']})
           .then(expectCodeRedirect({responseMode: 'fragment', 'responseType': 'id_token%20code'}));
       });
+
       itp('redirects instead of using an iframe if display is "page"', function () {
         return setupOAuth2({'authParams.display': 'page'})
           .then(expectCodeRedirect({
