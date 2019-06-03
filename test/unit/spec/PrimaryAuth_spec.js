@@ -2378,7 +2378,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return Expect.waitForSpyCall(window.open);
           }).then(function () {
             expect(window.open.calls.count()).toBe(1);
-            expect(window.open.calls.count()).toBe(1);
             expect(window.open).toHaveBeenCalledWith(
               'https://foo.com/oauth2/v1/authorize?' +
             'client_id=someClientId&' +
@@ -2401,7 +2400,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.facebookButton().click();
             return Expect.waitForSpyCall(window.open);
           }).then(function () {
-            expect(window.open.calls.count()).toBe(1);
             expect(window.open.calls.count()).toBe(1);
             expect(window.open).toHaveBeenCalledWith(
               'https://foo.com/oauth2/v1/authorize?' +
