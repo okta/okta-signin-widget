@@ -54,7 +54,7 @@ define(['okta', './Enums', './Errors', './Util'], function (Okta, Enums, Errors,
     _.extend(
       oauthParams,
       _.pick(options, 'clientId', 'redirectUri'),
-      _.pick(options.authParams, 'responseType', 'responseMode', 'display', 'scopes', 'state', 'nonce'),
+      _.pick(options.authParams, 'grantType', 'responseType', 'responseMode', 'display', 'scopes', 'state', 'nonce'),
       params
     );
 
@@ -71,7 +71,8 @@ define(['okta', './Enums', './Errors', './Util'], function (Okta, Enums, Errors,
     // converting the Okta sessionToken to an access_token, id_token, and/or
     // authorization code. Note: The authorization code flow will always redirect.
     if (oauthParams.display === 'page' || hasResponseType(oauthParams, 'code')) {
-      authClient.token.getWithRedirect(oauthParams, extraOptions);
+      authClient.token.getWithRedirect(oauthParams, extraOptions)
+        .fail(error);
     }
 
     // Default flow if logging in with Okta as the IDP - convert sessionToken to
