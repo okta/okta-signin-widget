@@ -101,14 +101,19 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
           formChildren.push(FormType.Input({
             label: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
             'label-top': true,
+            explain: function () {
+              var explain = Okta.loc('account.unlock.email.or.username.tooltip', 'login');
+              if (explain === Okta.loc('account.unlock.email.or.username.placeholder', 'login')) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'username',
             input: TextBox,
             inputId: 'account-recovery-username',
             type: 'text',
-            inlineValidation: false,
-            params: {
-              innerTooltip: Okta.loc('account.unlock.email.or.username.tooltip', 'login')
-            }
+            inlineValidation: false
           }));
 
           if (smsEnabled || callEnabled) {

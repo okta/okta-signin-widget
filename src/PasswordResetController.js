@@ -65,22 +65,32 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
             className: 'margin-btm-5',
             label: Okta.loc('password.newPassword.placeholder', 'login'),
             'label-top': true,
+            explain: function () {
+              var explain = Okta.loc('password.newPassword.tooltip', 'login');
+              if (explain === Okta.loc('password.newPassword.placeholder', 'login')) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'newPassword',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('password.newPassword.tooltip', 'login')
-            }
+            type: 'password'
           }),
           FormType.Input({
             label: Okta.loc('password.confirmPassword.placeholder', 'login'),
             'label-top': true,
+            explain: function () {
+              var explain = Okta.loc('password.confirmPassword.tooltip', 'login');
+              if (explain === Okta.loc('password.confirmPassword.placeholder', 'login')) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'confirmPassword',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login')
-            }
+            type: 'password'
           })
         ];
       }

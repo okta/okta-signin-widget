@@ -35,14 +35,16 @@ define([
         className: 'margin-btm-30',
         label: Okta.loc('primaryauth.username.placeholder', 'login'),
         'label-top': true,
-        inputId: 'idp-discovery-username',
-        disabled: false,
-        params: {
-          innerTooltip: {
-            title: Okta.loc('primaryauth.username.placeholder', 'login'),
-            text: Okta.loc('primaryauth.username.tooltip', 'login')
+        explain: function () {
+          var explain = Okta.loc('primaryauth.username.tooltip', 'login');
+          if (explain === Okta.loc('primaryauth.username.placeholder', 'login')) {
+            return false;
           }
-        }
+          return explain;
+        },
+        'explain-top': true,
+        inputId: 'idp-discovery-username',
+        disabled: false
       };
       inputs.push(_.extend(this.getUsernameField(), usernameProps));
       if (this.settings.get('features.rememberMe')) {

@@ -366,10 +366,23 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           expect(cb.length).toBe(0);
         });
       });
-      itp('uses default for username tooltip', function () {
+      itp('username field does not have explain by default', function () {
         return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toEqual('Username');
+          var explain = test.form.usernameExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
+      itp('username field does have explain when is customized', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'primaryauth.username.tooltip': 'Custom Username Explain'
+            }
+          } 
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.usernameExplain();
+          expect(explain.text()).toEqual('Custom Username Explain');
         });
       });
       itp('has "Need help?" link', function () {

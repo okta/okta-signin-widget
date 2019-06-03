@@ -86,22 +86,32 @@ function (Okta, FormType, FormController, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName]),
             'label-top': true,
+            explain: function () {
+              var explain = Okta.loc('enroll.onprem.username.tooltip', 'login', [vendorName]);
+              if (explain === Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName])) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'credentialId',
             input: TextBox,
-            type: 'text',
-            params: {
-              innerTooltip: Okta.loc('enroll.onprem.username.tooltip', 'login', [_.escape(vendorName)])
-            }
+            type: 'text'
           }),
           FormType.Input({
             label: Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
             'label-top': true,
+            explain: function () {
+              var explain = Okta.loc('enroll.onprem.passcode.tooltip', 'login', [vendorName]);
+              if (explain === Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName])) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'passCode',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('enroll.onprem.passcode.tooltip', 'login', [_.escape(vendorName)])
-            }
+            type: 'password'
           }),
           FormType.Toolbar({
             noCancelButton: true,

@@ -55,6 +55,12 @@ define(['okta', './Dom'], function (Okta, Dom) {
       $select.trigger('change');
     },
 
+    explain: function (field) {
+      var $container = this.inputWrap(field).parent();
+      var $explain = $container.find('.o-form-explain');
+      return $explain;
+    },
+
     error: function (field) {
       // container holds input and error description
       var $container = this.inputWrap(field).parent();
@@ -62,17 +68,13 @@ define(['okta', './Dom'], function (Okta, Dom) {
       if (!errorId) {
         throw new Error('Expected "aria-describedby" attribute for the error container on field: ' + field);
       }
-      var $error = $container.find('.o-form-explain');
+      var $error = $container.find('.o-form-input-error');
       if ($error.length !== 1) {
-        throw new Error('"o-form-explain": Expected 1, got ' + $error.length + ' for field: ' + field);
+        throw new Error('"o-form-input-error": Expected 1, got ' + $error.length + ' for field: ' + field);
       }    
 
       if ($error.attr('id') !== errorId) {
-        throw new Error('"o-form-explain" element should have an ID matching the "aria-describedby" attribute of the container. For field: ' + field);
-      }
-
-      if (!$error.is('.o-form-input-error')) {
-        throw new Error('Expected class "o-form-input-error" on the "o-form-explain" element for field: ' + field);
+        throw new Error('"o-form-input-error" element should have an ID matching the "aria-describedby" attribute of the container. For field: ' + field);
       }
 
       // Validate accessibility on error

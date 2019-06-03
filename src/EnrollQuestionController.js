@@ -68,13 +68,18 @@ function (Okta, FormController, FactorUtil, Footer, TextBox) {
           {
             label: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
             'label-top': true,
+            explain: function () {
+              var explain = Okta.loc('mfa.challenge.answer.tooltip', 'login');
+              if (explain === Okta.loc('mfa.challenge.answer.placeholder', 'login')) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             className: 'o-form-fieldset o-form-label-top auth-passcode',
             name: 'answer',
             input: TextBox,
-            type: 'text',
-            params: {
-              innerTooltip: Okta.loc('mfa.challenge.answer.tooltip', 'login')
-            }
+            type: 'text'
           }
         ];
       }

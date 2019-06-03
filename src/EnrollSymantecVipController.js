@@ -56,32 +56,47 @@ function (Okta, FormType, FormController, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login'),
             'label-top': true,
+            explain: function () {
+              var explain = Okta.loc('enroll.symantecVip.credentialId.tooltip', 'login');
+              if (explain === Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login')) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'credentialId',
             input: TextBox,
-            type: 'text',
-            params: {
-              innerTooltip: Okta.loc('enroll.symantecVip.credentialId.tooltip', 'login')
-            }
+            type: 'text'
           }),
           FormType.Input({
             label: Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login'),
             'label-top': true,
+            explain: function () {
+              var explain = Okta.loc('enroll.symantecVip.passcode1.tooltip', 'login');
+              if (explain === Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login')) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'passCode',
             input: TextBox,
-            type: 'text',
-            params: {
-              innerTooltip: Okta.loc('enroll.symantecVip.passcode1.tooltip', 'login')
-            }
+            type: 'text'
           }),
           FormType.Input({
             label: Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login'),
             'label-top': true,
+            explain: function () {
+              var explain = Okta.loc('enroll.symantecVip.passcode2.tooltip', 'login');
+              if (explain === Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login')) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'nextPassCode',
             input: TextBox,
-            type: 'text',
-            params: {
-              innerTooltip: Okta.loc('enroll.symantecVip.passcode2.tooltip', 'login')
-            }
+            type: 'text'
           }),
           FormType.Toolbar({
             noCancelButton: true,

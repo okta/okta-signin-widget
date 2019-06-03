@@ -34,12 +34,17 @@ define([
         FormType.Input({
           label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
           'label-top': true,
+          explain: function () {
+            var explain = Okta.loc('mfa.challenge.enterCode.tooltip', 'login');
+            if (explain === Okta.loc('mfa.challenge.enterCode.placeholder', 'login')) {
+              return false;
+            }
+            return explain;
+          },
+          'explain-top': true,
           name: 'passCode',
           input: TextBox,
-          type: 'tel',
-          params: {
-            innerTooltip: Okta.loc('mfa.challenge.enterCode.tooltip', 'login')
-          }
+          type: 'tel'
         }),
 
         FormType.Toolbar({

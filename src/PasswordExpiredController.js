@@ -84,34 +84,49 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
           FormType.Input({
             'label-top': true,
             label: Okta.loc('password.oldPassword.placeholder', 'login'),
+            explain: function () {
+              var explain = Okta.loc('password.oldPassword.tooltip', 'login');
+              if (explain === Okta.loc('password.oldPassword.placeholder', 'login')) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'oldPassword',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('password.oldPassword.tooltip', 'login')
-            }
+            type: 'password'
           }),
           FormType.Divider(),
           FormType.Input({
             className: 'margin-btm-5',
             'label-top': true,
             label: Okta.loc('password.newPassword.placeholder', 'login'),
+            explain: function () {
+              var explain = Okta.loc('password.newPassword.tooltip', 'login');
+              if (explain === Okta.loc('password.newPassword.placeholder', 'login')) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'newPassword',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('password.newPassword.tooltip', 'login')
-            }
+            type: 'password'
           }),
           FormType.Input({
             'label-top': true,
             label: Okta.loc('password.confirmPassword.placeholder', 'login'),
+            explain: function () {
+              var explain = Okta.loc('password.confirmPassword.tooltip', 'login');
+              if (explain === Okta.loc('password.confirmPassword.placeholder', 'login')) {
+                return false;
+              }
+              return explain;
+            },
+            'explain-top': true,
             name: 'confirmPassword',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login')
-            }
+            type: 'password'
           })
         ];
       }

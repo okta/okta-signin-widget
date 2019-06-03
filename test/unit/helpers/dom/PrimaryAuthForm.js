@@ -29,6 +29,10 @@ define(['okta', './Form'], function (Okta, Form) {
       return this.$(USERNAME_LABEL);
     },
 
+    usernameExplain: function () {
+      return this.explain(USERNAME_FIELD);
+    },
+
     usernameErrorField: function () {
       return this.error(USERNAME_FIELD);
     },
@@ -43,6 +47,10 @@ define(['okta', './Form'], function (Okta, Form) {
 
     passwordLabel: function () {
       return this.$(PASSWORD_LABEL);
+    },
+
+    passwordExplain: function () {
+      return this.explain(PASSWORD_FIELD);
     },
 
     passwordErrorField: function () {

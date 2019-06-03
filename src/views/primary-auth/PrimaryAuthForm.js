@@ -102,22 +102,21 @@ define([
         className: 'margin-btm-5',
         label: Okta.loc('primaryauth.username.placeholder', 'login'),
         'label-top': true,
+        explain: function () {
+          var explain = Okta.loc('primaryauth.username.tooltip', 'login');
+          if (explain === Okta.loc('primaryauth.username.placeholder', 'login')) {
+            return false;
+          }
+          return explain;
+        },
+        'explain-top': true,
         name: 'username',
         input: TextBox,
         inputId: 'okta-signin-username',
         type: 'text',
-        disabled: this.options.appState.get('disableUsername'),
-        params: {
-          innerTooltip: {
-            title: Okta.loc('primaryauth.username.placeholder', 'login'),
-            text: Okta.loc('primaryauth.username.tooltip', 'login')
-          }
-        }
+        disabled: this.options.appState.get('disableUsername')
       };
 
-      if (this.settings.get('features.showPasswordToggleOnSignInPage')) {
-        userNameFieldObject.params.iconDivider = true;
-      }
       return userNameFieldObject;
     },
 
@@ -126,19 +125,21 @@ define([
         className: 'margin-btm-30',
         label: Okta.loc('primaryauth.password.placeholder', 'login'),
         'label-top': true,
+        explain: function () {
+          var explain = Okta.loc('primaryauth.password.tooltip', 'login');
+          if (explain === Okta.loc('primaryauth.password.placeholder', 'login')) {
+            return false;
+          }
+          return explain;
+        },
+        'explain-top': true,
         name: 'password',
         inputId: 'okta-signin-password',
         validateOnlyIfDirty: true,
-        type: 'password',
-        params: {
-          innerTooltip: {
-            title: Okta.loc('primaryauth.password.placeholder', 'login'),
-            text: Okta.loc('primaryauth.password.tooltip', 'login')
-          }
-        }
+        type: 'password'
       };
       if (this.settings.get('features.showPasswordToggleOnSignInPage')) {
-        passwordFieldObject.params.iconDivider = true;
+        passwordFieldObject.params = {};
         passwordFieldObject.params.showPasswordToggle = true;
       }
       return passwordFieldObject;

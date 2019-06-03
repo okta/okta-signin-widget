@@ -85,6 +85,10 @@
     color: $dark-text-color;
   }
 
+  .o-form-explain {
+    padding-top: 0;
+  }
+
   .link {
     /* -- Fonts and Text Colors: links -- */
     color: $medium-text-color;
@@ -139,12 +143,6 @@
       // adjust password toggle on login page to accomodate for Tooltips
       .password-with-toggle {
         padding-right: 65px;
-      }
-
-      .password-toggle {
-        .eyeicon {
-          right: 38px;
-        }
       }
     }
     // add divider to username/password on login when password toggle on
