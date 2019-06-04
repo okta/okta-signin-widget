@@ -57,9 +57,10 @@ function (Okta, FormType, FormController, Util, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login'),
             'label-top': true,
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'enroll.symantecVip.credentialId.tooltip',
-              'enroll.symantecVip.credentialId.placeholder'),
+              'enroll.symantecVip.credentialId.placeholder',
+              'login'),
             'explain-top': true,
             name: 'credentialId',
             input: TextBox,
@@ -68,9 +69,10 @@ function (Okta, FormType, FormController, Util, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login'),
             'label-top': true,
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'enroll.symantecVip.passcode1.tooltip',
-              'enroll.symantecVip.passcode1.placeholder'),
+              'enroll.symantecVip.passcode1.placeholder',
+              'login'),
             'explain-top': true,
             name: 'passCode',
             input: TextBox,
@@ -79,9 +81,10 @@ function (Okta, FormType, FormController, Util, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login'),
             'label-top': true,
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'enroll.symantecVip.passcode2.tooltip',
-              'enroll.symantecVip.passcode2.placeholder'),
+              'enroll.symantecVip.passcode2.placeholder',
+              'login'),
             'explain-top': true,
             name: 'nextPassCode',
             input: TextBox,

@@ -36,9 +36,10 @@ define([
         className: 'margin-btm-30',
         label: Okta.loc('primaryauth.username.placeholder', 'login'),
         'label-top': true,
-        explain: Util.checkForValidExplain(
+        explain: Util.createInputExplain(
           'primaryauth.username.tooltip',
-          'primaryauth.username.placeholder'),
+          'primaryauth.username.placeholder',
+          'login'),
         'explain-top': true,
         inputId: 'idp-discovery-username',
         disabled: false

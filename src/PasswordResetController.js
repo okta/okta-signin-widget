@@ -66,9 +66,10 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, Util, Foot
             className: 'margin-btm-5',
             label: Okta.loc('password.newPassword.placeholder', 'login'),
             'label-top': true,
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'password.newPassword.tooltip',
-              'password.newPassword.placeholder'),
+              'password.newPassword.placeholder',
+              'login'),
             'explain-top': true,
             name: 'newPassword',
             input: TextBox,
@@ -77,9 +78,10 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, Util, Foot
           FormType.Input({
             label: Okta.loc('password.confirmPassword.placeholder', 'login'),
             'label-top': true,
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'password.confirmPassword.tooltip',
-              'password.confirmPassword.placeholder'),
+              'password.confirmPassword.placeholder',
+              'login'),
             'explain-top': true,
             name: 'confirmPassword',
             input: TextBox,

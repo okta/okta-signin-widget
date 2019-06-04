@@ -69,9 +69,10 @@ function (Okta, FormController, FactorUtil, Util, Footer, TextBox) {
           {
             label: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
             'label-top': true,
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'mfa.challenge.answer.tooltip',
-              'mfa.challenge.answer.placeholder'),
+              'mfa.challenge.answer.placeholder',
+              'login'),
             'explain-top': true,
             className: 'o-form-fieldset o-form-label-top auth-passcode',
             name: 'answer',

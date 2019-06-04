@@ -85,9 +85,10 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Uti
           FormType.Input({
             'label-top': true,
             label: Okta.loc('password.oldPassword.placeholder', 'login'),
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'password.oldPassword.tooltip',
-              'password.oldPassword.placeholder'),
+              'password.oldPassword.placeholder',
+              'login'),
             'explain-top': true,
             name: 'oldPassword',
             input: TextBox,
@@ -98,9 +99,10 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Uti
             className: 'margin-btm-5',
             'label-top': true,
             label: Okta.loc('password.newPassword.placeholder', 'login'),
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'password.newPassword.tooltip',
-              'password.newPassword.placeholder'),
+              'password.newPassword.placeholder',
+              'login'),
             'explain-top': true,
             name: 'newPassword',
             input: TextBox,
@@ -109,9 +111,10 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Uti
           FormType.Input({
             'label-top': true,
             label: Okta.loc('password.confirmPassword.placeholder', 'login'),
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'password.confirmPassword.tooltip',
-              'password.confirmPassword.placeholder'),
+              'password.confirmPassword.placeholder',
+              'login'),
             'explain-top': true,
             name: 'confirmPassword',
             input: TextBox,

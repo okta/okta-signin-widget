@@ -87,9 +87,10 @@ function (Okta, FormType, FormController, Util, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName]),
             'label-top': true,
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'enroll.onprem.username.tooltip',
               'enroll.onprem.username.placeholder',
+              'login',
               [vendorName],
               [vendorName]),
             'explain-top': true,
@@ -100,9 +101,10 @@ function (Okta, FormType, FormController, Util, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
             'label-top': true,
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'enroll.onprem.passcode.tooltip',
               'enroll.onprem.passcode.placeholder',
+              'login',
               [vendorName],
               [vendorName]),
             'explain-top': true,

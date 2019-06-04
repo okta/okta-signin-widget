@@ -103,9 +103,10 @@ define([
         className: 'margin-btm-5',
         label: Okta.loc('primaryauth.username.placeholder', 'login'),
         'label-top': true,
-        explain: Util.checkForValidExplain(
+        explain: Util.createInputExplain(
           'primaryauth.username.tooltip',
-          'primaryauth.username.placeholder'),
+          'primaryauth.username.placeholder',
+          'login'),
         'explain-top': true,
         name: 'username',
         input: TextBox,
@@ -122,9 +123,10 @@ define([
         className: 'margin-btm-30',
         label: Okta.loc('primaryauth.password.placeholder', 'login'),
         'label-top': true,
-        explain: Util.checkForValidExplain(
+        explain: Util.createInputExplain(
           'primaryauth.password.tooltip',
-          'primaryauth.password.placeholder'),
+          'primaryauth.password.placeholder',
+          'login'),
         'explain-top': true,
         name: 'password',
         inputId: 'okta-signin-password',

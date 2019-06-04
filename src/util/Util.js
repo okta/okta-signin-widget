@@ -184,9 +184,9 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
    * okta-signin-widget gives the possibility to customize every i18n, so we cannot
    * know ahead if these two are equal or different, we need to call this function everytime.
    */
-  Util.checkForValidExplain = function (explainKey, labelKey, explainParams, labelParams) {
-    var explain = explainParams ? Okta.loc(explainKey, 'login', explainParams) : Okta.loc(explainKey, 'login');
-    var label = labelParams ? Okta.loc(labelKey, 'login', labelParams) : Okta.loc(labelKey, 'login');
+  Util.createInputExplain = function (explainKey, labelKey, bundleName, explainParams, labelParams) {
+    var explain = explainParams ? Okta.loc(explainKey, bundleName, explainParams) : Okta.loc(explainKey, bundleName);
+    var label = labelParams ? Okta.loc(labelKey, bundleName, labelParams) : Okta.loc(labelKey, bundleName);
     if (explain === label) {
       return false;
     }

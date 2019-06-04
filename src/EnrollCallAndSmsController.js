@@ -258,9 +258,10 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         FormType.Input({
           label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
           'label-top': true,
-          explain: Util.checkForValidExplain(
+          explain: Util.createInputExplain(
             'mfa.challenge.enterCode.tooltip',
-            'mfa.challenge.enterCode.placeholder'),
+            'mfa.challenge.enterCode.placeholder',
+            'login'),
           'explain-top': true,
           name: 'passCode',
           input: TextBox,

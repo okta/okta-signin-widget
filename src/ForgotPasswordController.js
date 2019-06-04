@@ -108,9 +108,10 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, Util, ContactSu
           formChildren.push(FormType.Input({
             label: Okta.loc('password.forgot.email.or.username.placeholder', 'login'),
             'label-top': true,
-            explain: Util.checkForValidExplain(
+            explain: Util.createInputExplain(
               'password.forgot.email.or.username.tooltip',
-              'password.forgot.email.or.username.placeholder'),
+              'password.forgot.email.or.username.placeholder',
+              'login'),
             'explain-top': true,
             name: 'username',
             input: TextBox,
