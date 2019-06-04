@@ -110,10 +110,23 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
           expect(test.form.getUsernameAutocomplete()).toBe('off');
         });
       });
-      itp('has correct username tooltip', function () {
+      itp('username field does not have explain by default', function () {
         return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toEqual('Email or username');
+          var explain = test.form.usernameExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
+      itp('username field does have explain when is customized', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'account.unlock.email.or.username.tooltip': 'Custom Username Explain'
+            }
+          } 
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.usernameExplain();
+          expect(explain.text()).toEqual('Custom Username Explain');
         });
       });
     });

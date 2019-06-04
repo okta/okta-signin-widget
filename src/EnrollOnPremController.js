@@ -14,10 +14,11 @@ define([
   'okta',
   'util/FormType',
   'util/FormController',
+  'util/Util',
   'views/enroll-factors/Footer',
   'views/shared/TextBox'
 ],
-function (Okta, FormType, FormController, Footer, TextBox) {
+function (Okta, FormType, FormController, Util, Footer, TextBox) {
 
   var _ = Okta._;
 
@@ -86,22 +87,30 @@ function (Okta, FormType, FormController, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName]),
             'label-top': true,
+            explain: Util.createInputExplain(
+              'enroll.onprem.username.tooltip',
+              'enroll.onprem.username.placeholder',
+              'login',
+              [vendorName],
+              [vendorName]),
+            'explain-top': true,
             name: 'credentialId',
             input: TextBox,
-            type: 'text',
-            params: {
-              innerTooltip: Okta.loc('enroll.onprem.username.tooltip', 'login', [_.escape(vendorName)])
-            }
+            type: 'text'
           }),
           FormType.Input({
             label: Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
             'label-top': true,
+            explain: Util.createInputExplain(
+              'enroll.onprem.passcode.tooltip',
+              'enroll.onprem.passcode.placeholder',
+              'login',
+              [vendorName],
+              [vendorName]),
+            'explain-top': true,
             name: 'passCode',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('enroll.onprem.passcode.tooltip', 'login', [_.escape(vendorName)])
-            }
+            type: 'password'
           }),
           FormType.Toolbar({
             noCancelButton: true,

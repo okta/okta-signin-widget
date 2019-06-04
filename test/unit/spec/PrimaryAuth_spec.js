@@ -307,16 +307,42 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(label).toEqual('Remember me');
         });
       });
-      itp('uses default for username tooltip', function () {
+      itp('username field does not have explain by default', function () {
         return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toEqual('Username');
+          var explain = test.form.usernameExplain();
+          expect(explain.length).toBe(0);
         });
       });
-      itp('uses default for password tooltip', function () {
+      itp('username field does have explain when is customized', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'primaryauth.username.tooltip': 'Custom Username Explain'
+            }
+          } 
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.usernameExplain();
+          expect(explain.text()).toEqual('Custom Username Explain');
+        });
+      });
+      itp('password field does not have explain by default', function () {
         return setup().then(function (test) {
-          var tip = test.form.passwordTooltipText();
-          expect(tip).toEqual('Password');
+          var explain = test.form.passwordExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
+      itp('password field does have explain when is customized', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'primaryauth.password.tooltip': 'Custom Password Explain'
+            }
+          } 
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.passwordExplain();
+          expect(explain.text()).toEqual('Custom Password Explain');
         });
       });
       itp('focuses on username field in browsers other than IE', function () {
@@ -333,45 +359,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           var $username = test.form.usernameField();
           // Focused element would be body element
           expect($username[0]).not.toBe(document.activeElement);
-        });
-      });
-    });
-
-    Expect.describe('customizing the tooltip', function () {
-      itp('if the placeholder and tooltip differ,' +
-       'display both in the tooltip', function () {
-        spyOn(Okta, 'loc').and.callFake(function (key) {
-          // remove the common part: 'primaryauth.username.'
-          return key.slice(21);
-        });
-        return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toMatch('placeholder');
-          expect(tip).toMatch('tooltip');
-        });
-      });
-      itp('if the placeholder and tooltip equal,' +
-       'display only one of them', function () {
-        spyOn(Okta, 'loc').and.callFake(function () {
-          return 'same text';
-        });
-        return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toEqual('same text');
-        });
-      });
-      itp('if the placeholder is not defined,' +
-       'display only the tooltip', function () {
-        spyOn(Okta, 'loc').and.callFake(function (key) {
-          if (key === 'primaryauth.username.placeholder') {
-            return null;
-          } else {
-            return 'tooltip';
-          }
-        });
-        return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toEqual('tooltip');
         });
       });
     });
