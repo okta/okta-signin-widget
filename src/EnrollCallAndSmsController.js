@@ -17,9 +17,10 @@ define([
   'views/enroll-factors/PhoneTextBox',
   'views/shared/TextBox',
   'util/CountryUtil',
-  'util/FormType'
+  'util/FormType',
+  'util/Util'
 ],
-function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, FormType) {
+function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, FormType, Util) {
 
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
@@ -260,12 +261,14 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         FormType.Input({
           label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
           'label-top': true,
+          explain: Util.createInputExplain(
+            'mfa.challenge.enterCode.tooltip',
+            'mfa.challenge.enterCode.placeholder',
+            'login'),
+          'explain-top': true,
           name: 'passCode',
           input: TextBox,
           type: 'tel',
-          params: {
-            innerTooltip: Okta.loc('mfa.challenge.enterCode.tooltip', 'login')
-          },
           showWhen: factorIdIsDefined
         }),
         FormType.Toolbar({
