@@ -21,6 +21,10 @@ define(['./Form'], function (Form) {
       return this.$(USERNAME_LABEL);
     },
 
+    usernameExplain: function () {
+      return this.explain(USERNAME_FIELD);
+    },
+
     getUsernameAutocomplete: function () {
       return this.autocomplete(USERNAME_FIELD);
     },
