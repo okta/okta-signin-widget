@@ -29,6 +29,17 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
 
   var _ = Okta._;
 
+  function getAllowCredentials (factors) {
+    var allowCredentials = [];
+    _.each(factors, function (factor) {
+      allowCredentials.push({
+        type: 'public-key',
+        id: CryptoUtil.strToBin(factor.profile.credentialId)
+      });
+    });
+    return allowCredentials;
+  }
+
   return FormController.extend({
     className: 'mfa-verify verify-webauthn',
     Model: {
@@ -47,21 +58,37 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
         this.trigger('request');
 
         return this.doTransaction(function (transaction) {
-          var factor = _.findWhere(transaction.factors, {
-            factorType: 'webauthn',
-            provider: 'FIDO'
-          });
+          var factor;
+          if (transaction.factorTypes) {
+            factor = _.findWhere(transaction.factorTypes, {
+              factorType: 'webauthn'
+            });
+          }
+          else {
+            factor = _.findWhere(transaction.factors, {
+              factorType: 'webauthn',
+              provider: 'FIDO'
+            });
+          }
 
           var self = this;
           return factor.verify().then(function (transaction) {
+            var allowCredentials, challenge;
+            if (transaction.factors) {
+              var factors = transaction.factors;
+              challenge = transaction.challenge;
+              allowCredentials = getAllowCredentials(factors);
+            }
+            else {
+              var factorData = transaction.factor;
+              challenge = factorData.challenge;
+              allowCredentials = getAllowCredentials([factorData]);
+            }
             self.trigger('request');
             // verify via browser webauthn js
-            var options = _.extend({}, transaction.factor.challenge, {
-              allowCredentials: [{
-                type: 'public-key',
-                id: CryptoUtil.strToBin(transaction.factor.profile.credentialId)
-              }],
-              challenge: CryptoUtil.strToBin(transaction.factor.challenge.challenge)
+            var options = _.extend({}, challenge, {
+              allowCredentials: allowCredentials,
+              challenge: CryptoUtil.strToBin(challenge.challenge)
             });
 
             return new Q(navigator.credentials.get({publicKey: options}))
