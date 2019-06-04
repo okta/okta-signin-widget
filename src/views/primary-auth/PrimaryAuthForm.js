@@ -14,8 +14,9 @@ define([
   'okta',
   'views/shared/TextBox',
   'util/DeviceFingerprint',
-  'util/TypingUtil'
-], function (Okta, TextBox, DeviceFingerprint, TypingUtil) {
+  'util/TypingUtil',
+  'util/Util'
+], function (Okta, TextBox, DeviceFingerprint, TypingUtil, Util) {
 
   var _ = Okta._;
 
@@ -102,13 +103,9 @@ define([
         className: 'margin-btm-5',
         label: Okta.loc('primaryauth.username.placeholder', 'login'),
         'label-top': true,
-        explain: function () {
-          var explain = Okta.loc('primaryauth.username.tooltip', 'login');
-          if (explain === Okta.loc('primaryauth.username.placeholder', 'login')) {
-            return false;
-          }
-          return explain;
-        },
+        explain: Util.checkForValidExplain(
+          'primaryauth.username.tooltip',
+          'primaryauth.username.placeholder'),
         'explain-top': true,
         name: 'username',
         input: TextBox,
@@ -125,13 +122,9 @@ define([
         className: 'margin-btm-30',
         label: Okta.loc('primaryauth.password.placeholder', 'login'),
         'label-top': true,
-        explain: function () {
-          var explain = Okta.loc('primaryauth.password.tooltip', 'login');
-          if (explain === Okta.loc('primaryauth.password.placeholder', 'login')) {
-            return false;
-          }
-          return explain;
-        },
+        explain: Util.checkForValidExplain(
+          'primaryauth.password.tooltip',
+          'primaryauth.password.placeholder'),
         'explain-top': true,
         name: 'password',
         inputId: 'okta-signin-password',

@@ -178,6 +178,21 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     form.submit();
   };
 
+  /**
+   * When we want to show an explain text, we need to check if this is different from
+   * the label text, to not have an explain that look like a duplicated label.
+   * okta-signin-widget gives the possibility to customize every i18n, so we cannot
+   * know ahead if these two are equal or different, we need to call this function everytime.
+   */
+  Util.checkForValidExplain = function (explainKey, labelKey, explainParams, labelParams) {
+    var explain = explainParams ? Okta.loc(explainKey, 'login', explainParams) : Okta.loc(explainKey, 'login');
+    var label = labelParams ? Okta.loc(labelKey, 'login', labelParams) : Okta.loc(labelKey, 'login');
+    if (explain === label) {
+      return false;
+    }
+    return explain;
+  };
+
   return Util;
 
 });

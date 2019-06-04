@@ -14,10 +14,11 @@ define([
   'okta',
   'util/FormController',
   'util/FactorUtil',
+  'util/Util',
   'views/enroll-factors/Footer',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, FactorUtil, Footer, TextBox) {
+function (Okta, FormController, FactorUtil, Util, Footer, TextBox) {
 
   var _ = Okta._;
 
@@ -68,13 +69,9 @@ function (Okta, FormController, FactorUtil, Footer, TextBox) {
           {
             label: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
             'label-top': true,
-            explain: function () {
-              var explain = Okta.loc('mfa.challenge.answer.tooltip', 'login');
-              if (explain === Okta.loc('mfa.challenge.answer.placeholder', 'login')) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'mfa.challenge.answer.tooltip',
+              'mfa.challenge.answer.placeholder'),
             'explain-top': true,
             className: 'o-form-fieldset o-form-label-top auth-passcode',
             name: 'answer',

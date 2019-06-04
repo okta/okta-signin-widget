@@ -14,10 +14,11 @@ define([
   'okta',
   'util/FormType',
   'util/FormController',
+  'util/Util',
   'views/enroll-factors/Footer',
   'views/shared/TextBox'
 ],
-function (Okta, FormType, FormController, Footer, TextBox) {
+function (Okta, FormType, FormController, Util, Footer, TextBox) {
 
   var _ = Okta._;
 
@@ -86,13 +87,11 @@ function (Okta, FormType, FormController, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName]),
             'label-top': true,
-            explain: function () {
-              var explain = Okta.loc('enroll.onprem.username.tooltip', 'login', [vendorName]);
-              if (explain === Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName])) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'enroll.onprem.username.tooltip',
+              'enroll.onprem.username.placeholder',
+              [vendorName],
+              [vendorName]),
             'explain-top': true,
             name: 'credentialId',
             input: TextBox,
@@ -101,13 +100,11 @@ function (Okta, FormType, FormController, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
             'label-top': true,
-            explain: function () {
-              var explain = Okta.loc('enroll.onprem.passcode.tooltip', 'login', [vendorName]);
-              if (explain === Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName])) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'enroll.onprem.passcode.tooltip',
+              'enroll.onprem.passcode.placeholder',
+              [vendorName],
+              [vendorName]),
             'explain-top': true,
             name: 'passCode',
             input: TextBox,

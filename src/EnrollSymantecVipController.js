@@ -14,9 +14,10 @@ define([
   'okta',
   'util/FormType',
   'util/FormController',
+  'util/Util',
   'views/enroll-factors/Footer',
   'views/shared/TextBox'],
-function (Okta, FormType, FormController, Footer, TextBox) {
+function (Okta, FormType, FormController, Util, Footer, TextBox) {
 
   var _ = Okta._;
 
@@ -56,13 +57,9 @@ function (Okta, FormType, FormController, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login'),
             'label-top': true,
-            explain: function () {
-              var explain = Okta.loc('enroll.symantecVip.credentialId.tooltip', 'login');
-              if (explain === Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login')) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'enroll.symantecVip.credentialId.tooltip',
+              'enroll.symantecVip.credentialId.placeholder'),
             'explain-top': true,
             name: 'credentialId',
             input: TextBox,
@@ -71,13 +68,9 @@ function (Okta, FormType, FormController, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login'),
             'label-top': true,
-            explain: function () {
-              var explain = Okta.loc('enroll.symantecVip.passcode1.tooltip', 'login');
-              if (explain === Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login')) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'enroll.symantecVip.passcode1.tooltip',
+              'enroll.symantecVip.passcode1.placeholder'),
             'explain-top': true,
             name: 'passCode',
             input: TextBox,
@@ -86,13 +79,9 @@ function (Okta, FormType, FormController, Footer, TextBox) {
           FormType.Input({
             label: Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login'),
             'label-top': true,
-            explain: function () {
-              var explain = Okta.loc('enroll.symantecVip.passcode2.tooltip', 'login');
-              if (explain === Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login')) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'enroll.symantecVip.passcode2.tooltip',
+              'enroll.symantecVip.passcode2.placeholder'),
             'explain-top': true,
             name: 'nextPassCode',
             input: TextBox,

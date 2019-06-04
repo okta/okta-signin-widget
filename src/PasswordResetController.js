@@ -16,10 +16,11 @@ define([
   'util/FormType',
   'util/ValidationUtil',
   'util/FactorUtil',
+  'util/Util',
   'views/shared/FooterSignout',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSignout, TextBox) {
+function (Okta, FormController, FormType, ValidationUtil, FactorUtil, Util, FooterSignout, TextBox) {
 
   var _ = Okta._;
 
@@ -65,13 +66,9 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
             className: 'margin-btm-5',
             label: Okta.loc('password.newPassword.placeholder', 'login'),
             'label-top': true,
-            explain: function () {
-              var explain = Okta.loc('password.newPassword.tooltip', 'login');
-              if (explain === Okta.loc('password.newPassword.placeholder', 'login')) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'password.newPassword.tooltip',
+              'password.newPassword.placeholder'),
             'explain-top': true,
             name: 'newPassword',
             input: TextBox,
@@ -80,13 +77,9 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
           FormType.Input({
             label: Okta.loc('password.confirmPassword.placeholder', 'login'),
             'label-top': true,
-            explain: function () {
-              var explain = Okta.loc('password.confirmPassword.tooltip', 'login');
-              if (explain === Okta.loc('password.confirmPassword.placeholder', 'login')) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'password.confirmPassword.tooltip',
+              'password.confirmPassword.placeholder'),
             'explain-top': true,
             name: 'confirmPassword',
             input: TextBox,

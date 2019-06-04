@@ -17,10 +17,11 @@ define([
   'util/FormType',
   'util/ValidationUtil',
   'util/FactorUtil',
+  'util/Util',
   'views/expired-password/Footer',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Footer, TextBox) {
+function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Util, Footer, TextBox) {
 
   var _ = Okta._;
 
@@ -84,13 +85,9 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
           FormType.Input({
             'label-top': true,
             label: Okta.loc('password.oldPassword.placeholder', 'login'),
-            explain: function () {
-              var explain = Okta.loc('password.oldPassword.tooltip', 'login');
-              if (explain === Okta.loc('password.oldPassword.placeholder', 'login')) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'password.oldPassword.tooltip',
+              'password.oldPassword.placeholder'),
             'explain-top': true,
             name: 'oldPassword',
             input: TextBox,
@@ -101,13 +98,9 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
             className: 'margin-btm-5',
             'label-top': true,
             label: Okta.loc('password.newPassword.placeholder', 'login'),
-            explain: function () {
-              var explain = Okta.loc('password.newPassword.tooltip', 'login');
-              if (explain === Okta.loc('password.newPassword.placeholder', 'login')) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'password.newPassword.tooltip',
+              'password.newPassword.placeholder'),
             'explain-top': true,
             name: 'newPassword',
             input: TextBox,
@@ -116,13 +109,9 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
           FormType.Input({
             'label-top': true,
             label: Okta.loc('password.confirmPassword.placeholder', 'login'),
-            explain: function () {
-              var explain = Okta.loc('password.confirmPassword.tooltip', 'login');
-              if (explain === Okta.loc('password.confirmPassword.placeholder', 'login')) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'password.confirmPassword.tooltip',
+              'password.confirmPassword.placeholder'),
             'explain-top': true,
             name: 'confirmPassword',
             input: TextBox,

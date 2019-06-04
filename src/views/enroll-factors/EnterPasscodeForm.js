@@ -14,8 +14,9 @@ define([
   'okta',
   'util/FactorUtil',
   'util/FormType',
+  'util/Util',
   'views/shared/TextBox'
-], function (Okta, FactorUtil, FormType, TextBox) {
+], function (Okta, FactorUtil, FormType, Util, TextBox) {
 
   var _ = Okta._;
 
@@ -34,13 +35,9 @@ define([
         FormType.Input({
           label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
           'label-top': true,
-          explain: function () {
-            var explain = Okta.loc('mfa.challenge.enterCode.tooltip', 'login');
-            if (explain === Okta.loc('mfa.challenge.enterCode.placeholder', 'login')) {
-              return false;
-            }
-            return explain;
-          },
+          explain: Util.checkForValidExplain(
+            'mfa.challenge.enterCode.tooltip',
+            'mfa.challenge.enterCode.placeholder'),
           'explain-top': true,
           name: 'passCode',
           input: TextBox,

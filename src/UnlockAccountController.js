@@ -15,11 +15,12 @@ define([
   'util/FormController',
   'util/Enums',
   'util/FormType',
+  'util/Util',
   'util/ValidationUtil',
   'views/shared/ContactSupport',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport, TextBox) {
+function (Okta, FormController, Enums, FormType, Util, ValidationUtil, ContactSupport, TextBox) {
 
   var _ = Okta._;
   var noFactorsError = '<div class="okta-form-infobox-error infobox infobox-error" role="alert">\
@@ -101,13 +102,9 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
           formChildren.push(FormType.Input({
             label: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
             'label-top': true,
-            explain: function () {
-              var explain = Okta.loc('account.unlock.email.or.username.tooltip', 'login');
-              if (explain === Okta.loc('account.unlock.email.or.username.placeholder', 'login')) {
-                return false;
-              }
-              return explain;
-            },
+            explain: Util.checkForValidExplain(
+              'account.unlock.email.or.username.tooltip',
+              'account.unlock.email.or.username.placeholder'),
             'explain-top': true,
             name: 'username',
             input: TextBox,
