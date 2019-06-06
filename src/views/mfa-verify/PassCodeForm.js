@@ -89,7 +89,7 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
 
       var factorType = this.model.get('factorType');
       var formAndButtonDetails = getFormAndButtonDetails.call(this, factorType);
-      var warningDetials = formAndButtonDetails.warning;
+      var warningDetails = formAndButtonDetails.warning;
       this.$el.attr('data-se', 'factor-' + factorType);
 
       this.subtitle = formAndButtonDetails.subtitle;
@@ -119,7 +119,7 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
               this.options.title = formAndButtonDetails.formRetry;
               this.enable();
               if (factorType === 'call' || factorType === 'sms') {
-                form.showWarning(warningDetials);
+                form.showWarning(warningDetails);
               }
               this.render();
             }, this));
