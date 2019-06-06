@@ -1,7 +1,7 @@
 {
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "2.20.0",
+  "version": "2.21.0",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
@@ -33,7 +33,7 @@
     "lint:grunt:report": "grunt lint --checkstyle",
     "lint": "mkdir -p build2 && run-p -c lint:eslint lint:grunt lint:stylelint",
     "lint:report": "mkdir -p build2 && run-p -c lint:eslint:report lint:grunt:report lint:stylelint:report",
-    "test:dev": "yarn generate-config && karma start",
+    "test:dev": "grunt assets && karma start",
     "test:coverage": "yarn test --reporters=progress,coverage",
     "test": "yarn test:dev --single-run",
     "start:basic": "PORT=3000 node test/e2e/basic/server.js & wait-on http-get://localhost:3000",
@@ -80,6 +80,7 @@
     "grunt-postcss": "^0.9.0",
     "grunt-sass": "^3.0.2",
     "grunt-search": "^0.1.8",
+    "jasmine-ajax": "^4.0.0",
     "jasmine-core": "2.99.1",
     "junit-report-builder": "1.1.1",
     "karma": "^3.0.0",

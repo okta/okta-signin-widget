@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 32], max-statements: 0, max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 180], camelcase:0 */
 define([
   'okta',
   'q',
@@ -6,6 +6,8 @@ define([
   'util/Errors',
   'util/BrowserFeatures',
   'util/Util',
+  'util/Bundles',
+  'config/config.json',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/util/Expect',
@@ -32,7 +34,7 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
+function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
   OktaAuth, Util, Expect, Router,
   $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm,
   resSuccess, resRecovery, resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
@@ -70,7 +72,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
   Expect.describe('LoginRouter', function () {
 
     function setup (settings) {
-      var setNextResponse = Util.mockAjax();
+      settings = settings || {};
+      var setNextResponse = settings.mockAjax === false ? function () {} : Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, headers: {}});
       var eventSpy = jasmine.createSpy('eventSpy');
@@ -199,6 +202,57 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil,
       expect(CourageLogger.warn).toHaveBeenCalledWith('Field not defined in schema', arg1);
     }
 
+    Expect.describe('Loads jsonp bundles', function () {
+      config.supportedLanguages.filter(function (lang) {
+        return lang !== 'en'; // no bundles are loaded for english
+      }).forEach(function (lang) {
+        itp(`for language: "${lang}"`, function () {
+          var loadingSpy = jasmine.createSpy('loading');
+          spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(false);
+          return setup({
+            mockAjax: false,
+            language: lang,
+            assets: {
+              baseUrl: '/base/target', // local jsonp bundles are served to us through karma
+            }
+          })
+            .then(function (test) {
+              test.router.appState.on('loading', loadingSpy);
+              spyOn(Bundles, 'loadLanguage').and.callThrough();
+              spyOn($, 'ajax').and.callThrough();
+              test.router.passwordExpired(); // choosing a simple view with text
+              return Expect.wait(function () {
+                var call = loadingSpy.calls.mostRecent();
+                return call && call.args.length === 1 && call.args[0] === false;
+              }, test);
+            })
+            .then(function () {
+              expect($.ajax).toHaveBeenCalledTimes(2); // login, country
+              expect(Bundles.loadLanguage).toHaveBeenCalled();
+              expect(Bundles.currentLanguage).toBe(lang);
+              $.ajax.calls.all().forEach(function (call) {
+                expect(call.returnValue.status).toBe(200);
+                expect(call.returnValue.responseJSON).toBeTruthy();
+              });
+
+              // Verify that the translation is being applied
+              var loginBundle = $.ajax.calls.all()[0].returnValue.responseJSON;
+              var title = loginBundle['password.expired.title'];
+              var $title = $sandbox.find('.password-expired .okta-form-title');
+              expect($title.length).toBe(1);
+              expect($title.text()).toBe(title);
+
+              // Loading bundles modifies internal structures of the global singleton "Bundles"
+              // Loading English here so that other tests will not be affected.
+              return Bundles.loadLanguage('en');
+            })
+            .then(function () {
+              expect(Bundles.currentLanguage).toBe('en');
+            });
+        });
+      });
+    });
+  
     it('logs a ConfigError error if unknown option is passed as a widget param', function () {
       spyOn(CourageLogger, 'warn');
       var fn = function () { setup({ foo: 'bla' }); };
