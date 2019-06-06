@@ -319,7 +319,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('focuses on username field in browsers other than IE', function () {
         spyOn(BrowserFeatures, 'isIE').and.returnValue(false);
-        return setup().then(function (test) {
+        var options = { 'features.autoFocus': true };
+        return setup(options).then(function (test) {
           var $username = test.form.usernameField();
           // Focused element would be username DOM element
           expect($username[0]).toBe(document.activeElement);
@@ -327,9 +328,19 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('does not focus on username field in IE', function () {
         spyOn(BrowserFeatures, 'isIE').and.returnValue(true);
-        return setup().then(function (test) {
+        var options = { 'features.autoFocus': true };
+        return setup(options).then(function (test) {
           var $username = test.form.usernameField();
           // Focused element would be body element
+          expect($username[0]).not.toBe(document.activeElement);
+        });
+      });
+      itp('does not focus on username field if autoFocus feature is disabled', function () {
+        spyOn(BrowserFeatures, 'isIE').and.returnValue(false);
+        var options = { 'features.autoFocus': false };
+        return setup(options).then(function (test) {
+          var $username = test.form.usernameField();
+          // Focused element would be username DOM element
           expect($username[0]).not.toBe(document.activeElement);
         });
       });

@@ -168,13 +168,15 @@ define([
     },
 
     focus: function () {
-      if (!this.model.get('username')) {
-        this.getInputs().first().focus();
-      } else if (!this.settings.get('features.passwordlessAuth')) {
-        this.getInputs().toArray()[1].focus();
-      }
-      if (this.settings.get('features.trackTypingPattern')) {
-        TypingUtil.track('okta-signin-username');
+      if (this.settings.get('features.autoFocus')) {
+        if (!this.model.get('username')) {
+          this.getInputs().first().focus();
+        } else if (!this.settings.get('features.passwordlessAuth')) {
+          this.getInputs().toArray()[1].focus();
+        }
+        if (this.settings.get('features.trackTypingPattern')) {
+          TypingUtil.track('okta-signin-username');
+        }
       }
     }
   });

@@ -1325,6 +1325,8 @@ features: {
 
 - **features.showPasswordToggleOnSignInPage** - End users can now toggle visibility of their password on the Okta Sign-In page, allowing end users to check their password before they click Sign In. This helps prevent account lock outs caused by end users exceeding your org's permitted number of failed sign-in attempts. Note that passwords are visible for 30 seconds and then hidden automatically. Defaults to `false`.
 
+- **features.autoFocus** - Set to `true` if you want the widget input fields to auto focus when rendered. Defaults to `true`.
+
 ## Events
 
 Events published by the widget. Subscribe to these events using [on](#onevent-callback-context).
