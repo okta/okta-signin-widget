@@ -41,7 +41,7 @@ describe('OIDC flows', function () {
     it('can login and exchange a sessionToken for an id_token', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
+        clientId: '{{{WIDGET_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'id_token',
@@ -56,13 +56,13 @@ describe('OIDC flows', function () {
       });
       Expect.toBeA11yCompliant();
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
-      expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
+      expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
     });
 
     it('throws form error if auth client returns with OAuth error', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
+        clientId: '{{{WIDGET_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'id_token',
@@ -76,7 +76,7 @@ describe('OIDC flows', function () {
     it('can login and get a token and id_token', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
+        clientId: '{{{WIDGET_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: ['id_token', 'token'],
@@ -91,14 +91,14 @@ describe('OIDC flows', function () {
       });
       Expect.toBeA11yCompliant();
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_2}}}', '{{{WIDGET_BASIC_PASSWORD_2}}}');
-      expect(oidcApp.getIdTokenUser()).toBe('Alexander Hamilton');
+      expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME_2}}}');
       expect(oidcApp.getAccessTokenType()).toBe('Bearer');
     });
 
     it('logs in and uses the redirect flow for responseType "code"', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
+        clientId: '{{{WIDGET_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'code',
@@ -122,7 +122,7 @@ describe('OIDC flows', function () {
     it('can login and get an idToken in the popup flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
+        clientId: '{{{WIDGET_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'id_token',
@@ -136,13 +136,13 @@ describe('OIDC flows', function () {
         ]
       });
       primaryAuth.loginToSocialIdpPopup('facebook', '{{{WIDGET_FB_USER}}}', '{{{WIDGET_FB_PASSWORD}}}');
-      expect(oidcApp.getIdTokenUser()).toBe('Tom Alacddgjegbja Qinson');
+      expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_FB_NAME}}}');
     });
 
     it('can login and get an idToken in the redirect flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
+        clientId: '{{{WIDGET_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'id_token',
@@ -157,13 +157,13 @@ describe('OIDC flows', function () {
         ]
       });
       primaryAuth.loginToSocialIdpRedirect('facebook', '{{{WIDGET_FB_USER_2}}}', '{{{WIDGET_FB_PASSWORD_2}}}');
-      expect(oidcApp.getIdTokenUser()).toBe('Joe Alacchebjdhcf Bharambewitz');
+      expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_FB_NAME_2}}}');
     });
 
     it('can login and get a "code" using the redirect flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: 'rW47c465c1wc3MKzHznu',
+        clientId: '{{{WIDGET_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'code',

@@ -436,6 +436,15 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return null;
         }
       },
+      'skipLink': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (res._links && res._links.skip) {
+            return res._links.skip.href;
+          }
+          return null;
+        }
+      },
       'user': {
         deps: ['lastAuthResponse'],
         fn: function (res) {

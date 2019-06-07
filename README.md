@@ -82,7 +82,7 @@ Loading our assets directly from the CDN is a good choice if you want an easy wa
 To use the CDN, include links to the JS and CSS files in your HTML:
 
 ```html
-<!-- Latest CDN production Javascript and CSS: 2.14.0 -->
+<!-- Latest CDN production Javascript and CSS -->
 <script
   src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.16.0/js/okta-sign-in.min.js"
   type="text/javascript"></script>

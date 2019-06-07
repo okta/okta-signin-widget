@@ -274,6 +274,39 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             expect(test.form.hasErrors()).toBe(true);
           });
       });
+
+      itp('shows warning message to click "Re-send" after 30s', function () {  
+        Util.speedUpDelay();      
+        return setup().then(function (test) {
+          test.setNextResponse(resFactorEnrollActivateSms);
+          enterCode(test, 'US', '4151111111');
+          test.form.sendCodeButton().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            expectResendButton(test);
+            expect(test.form.hasWarningMessage()).toBe(true);
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received an SMS? To try again, click Re-send code.');
+            return tick(test);
+          })
+          .then(function (test) {
+            // Re-send will clear the warning
+            $.ajax.calls.reset();
+            test.setNextResponse(resFactorEnrollActivateSms);
+            test.form.sendCodeButton().click();
+            expectSentButton(test);
+            expect(test.form.hasWarningMessage()).toBe(false);
+            return tick(test);
+          })
+          .then(function (test){
+            // Re-send after 30s wil show the warning again
+            expectResendButton(test);
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received an SMS? To try again, click Re-send code.');
+          });     
+      });
+
       itp('enrolls with correct info when sendCode is clicked', function () {
         return sendCodeFn(successRes, 'AQ', '12345678900')
           .then(function () {

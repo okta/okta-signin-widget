@@ -74,6 +74,10 @@ define(['okta', './Form'], function (Okta, Form) {
       return this.requiredFactorList().find('.list-title').trimmedText();
     },
 
+    skipSetUpLink: function () {
+      return this.$('.enroll-choices').find('.auth-footer .js-skip');
+    },
+
     enrolledFactorList: function () {
       var lists = this.$('.enroll-factor-list');
       return lists.length === 2 ? lists.eq(0) : $();

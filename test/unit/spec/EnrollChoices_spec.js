@@ -254,6 +254,11 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.submitButtonText()).toBe('Configure factor');
           });
         });
+        itp('does not have skip set up link when all factors are required', function () {
+          return setupWithRequiredNoneEnrolled().then(function (test) {
+            expect(test.form.skipSetUpLink().length).toBe(0);
+          });
+        });
         itp('has the button text "Configure next factor if a required factor has already been enrolled"', function () {
           return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
             expect(test.form.submitButtonText()).toBe('Configure next factor');
@@ -280,6 +285,11 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
               .toHaveBeenCalledWith('signin/enroll/google/token%3Asoftware%3Atotp', { trigger: true });
           });
         });
+        itp('has skip set up link when it is in the response and at least 1 required factor is enrolled but all required are not enrolled yet', function () {
+          return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
+            expect(test.form.skipSetUpLink().length).toBe(1);
+          });
+        });
       });
 
       Expect.describe('Optional/Finish', function () {
@@ -303,6 +313,21 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             expect(test.form.subtitleText()).toBe(
               'You can configure any additional optional factor or click finish'
             );
+          });
+        });
+        itp('does not have skip set up link when all factors are optional none enrolled', function () {
+          return setupWithAllOptionalNoneEnrolled().then(function (test) {
+            expect(test.form.skipSetUpLink().length).toBe(0);
+          });
+        });
+        itp('does not have skip set up link when all factors are optional some enrolled', function () {
+          return setupWithAllOptionalSomeEnrolled().then(function (test) {
+            expect(test.form.skipSetUpLink().length).toBe(0);
+          });
+        });
+        itp('does not have skip set up link when all required factors are enrolled', function () {
+          return setupWithRequiredAllRequiredEnrolled().then(function (test) {
+            expect(test.form.skipSetUpLink().length).toBe(0);
           });
         });
         itp('does not show the enrolled list if no factors have been enrolled', function () {
@@ -697,6 +722,13 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
               expect(test.form.factorCardinalityText(factorName)).toBe('(1 of 2 set up)');
             });
         });
+        itp('does not have skip set up link when enrolled=1 required=1', function () {
+          return setupMultipleFactorEnrollments(factorName, 'NOT_SETUP', 'REQUIRED',
+            {'enrolled': 1, 'minimum': 2, 'maximum': 3})
+            .then(function (test) {
+              expect(test.form.skipSetUpLink().length).toBe(0);
+            });
+        });
         itp('displays correct cardinality text when enrolled=2 required=0 and question required', function () {
           return setupMultipleRequiredActiveEnrollmentsForFactorAndAnotherFactorRequired(
             factorName, {'enrolled': 2, 'minimum': 2, 'maximum': 3}
@@ -704,6 +736,13 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
             //enrolled factor row should have success check and cardinality text
             expect(test.form.factorHasSuccessCheck(factorName)).toBe(true);
             expect(test.form.factorCardinalityText(factorName)).toBe('(2 set up)');
+          });
+        });
+        itp('has skip set up link when it is in the response and enrolled=2 required=0 and question required', function () {
+          return setupMultipleRequiredActiveEnrollmentsForFactorAndAnotherFactorRequired(
+            factorName, {'enrolled': 2, 'minimum': 2, 'maximum': 3}
+          ).then(function (test) {
+            expect(test.form.skipSetUpLink().length).toBe(1);
           });
         });
         itp('displays correct cardinality text when enrolled=2 required=0 optional=1', function () {

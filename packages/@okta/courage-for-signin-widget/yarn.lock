@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@okta/courage@4.6.0-beta.2098.gc581fa3":
-  version "4.6.0-beta.2098.gc581fa3"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.6.0-beta.2098+c581fa3.tgz#ad210af8cc385e8e00d44d32a53fb5f938974f84"
+"@okta/courage@4.6.0-beta.2416.g73309fe":
+  version "4.6.0-beta.2416.g73309fe"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.6.0-beta.2416+73309fe.tgz#2766c8bccb371d37f10a31bff38028866b8db3fb"
   dependencies:
-    "@okta/jquery.simplemodal" "1.4.17"
+    "@okta/jquery.simplemodal" "1.4.18"
     "@okta/moment" "1.0.5"
     backbone "^1.3.3"
     clipboard "^1.5.16"
@@ -15,9 +15,9 @@
     selectize "0.12.4"
     underscore "1.8.3"
 
-"@okta/jquery.simplemodal@1.4.17":
-  version "1.4.17"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/jquery.simplemodal/-/@okta/jquery.simplemodal-1.4.17.tgz#db8a33d91d93940a8d2332c5b66fac5cf23c132f"
+"@okta/jquery.simplemodal@1.4.18":
+  version "1.4.18"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/jquery.simplemodal/-/@okta/jquery.simplemodal-1.4.18.tgz#ff73bd62e4d9b5c4c2df828a1d3ad928271b28c8"
 
 "@okta/moment@1.0.5":
   version "1.0.5"

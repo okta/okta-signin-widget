@@ -20,8 +20,6 @@ define([
 ],
 function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
 
-  var _ = Okta._;
-
   return Okta.View.extend({
 
     template: '\
@@ -38,7 +36,11 @@ function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
       'click .auth-beacon-factor': function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.$('.dropdown .options').toggle();
+        var expanded = this.$('.dropdown .options').toggle().is(':visible');
+        this.$('a.option-selected').attr('aria-expanded', expanded);
+        if (expanded) {
+          this.$('#okta-dropdown-options').find('li.factor-option:first a').focus();
+        }
       }
     },
 
@@ -50,11 +52,8 @@ function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
       var factors = this.options.appState.get('factors'),
           factor, className;
       if (factors) {
-        factor = factors.findWhere(_.pick(this.options, 'provider', 'factorType'));
-        if (factor === undefined) {
-          //for factors that support cardinality and only have factorType
-          factor = factors.findWhere(_.pick(this.options, 'factorType'));
-        }
+        factor = FactorUtil.findFactorInFactorsArray(factors, this.options.provider,
+          this.options.factorType);
       } else  {
         factor = new Factor.Model(this.options.appState.get('factor'), this.toJSON());
       }

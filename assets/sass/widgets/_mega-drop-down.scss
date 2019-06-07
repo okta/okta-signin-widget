@@ -66,6 +66,9 @@
     background: #f9f9f9;
     cursor: pointer;
 }
+.dropdown .options li.option:focus-within {
+    background: #f9f9f9;
+}
 
 /**
  *  More actions variant
@@ -116,13 +119,14 @@
     padding: 0;
 }
 .dropdown.more-actions .option a {
-    color: #5e5e5e;
+    color: #2f3f4a; // gray 900
     font-size: 13px;
     padding: 10px 5px 10px 30px;
     display: block;
     line-height: 16px;
 }
-.dropdown.more-actions .option a:hover {
+.dropdown.more-actions .option a:hover,
+.dropdown.more-actions .option a:focus {
     text-decoration: none;
 }
 .dropdown.more-actions .option a .icon {
@@ -194,6 +198,17 @@
 
 p.option-subtitle {
     margin-top: 3px;
+}
+
+.off-screen {
+  position: absolute;
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
 }
 
 /* Overrides */

@@ -1,5 +1,9 @@
 /* global module, process */
-/* eslint max-statements: 0 */
+/* eslint max-statements: 0 no-console: 0 */
+
+var ENV = require('./test/e2e/env');
+ENV.config();
+
 module.exports = function (grunt) {
 
   require('load-grunt-tasks')(grunt);
@@ -97,37 +101,24 @@ module.exports = function (grunt) {
         options: {
           process: function (content) {
             var browserName = grunt.option('browserName') || 'phantomjs',
-                tpl = Handlebars.compile(content);
-            return tpl({
-              browserName: browserName,
-              WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER,
-              WIDGET_BASIC_USER: process.env.WIDGET_BASIC_USER,
-              WIDGET_BASIC_PASSWORD: process.env.WIDGET_BASIC_PASSWORD,
-              WIDGET_BASIC_USER_2: process.env.WIDGET_BASIC_USER_2,
-              WIDGET_BASIC_PASSWORD_2: process.env.WIDGET_BASIC_PASSWORD_2,
-              WIDGET_BASIC_USER_3: process.env.WIDGET_BASIC_USER_3,
-              WIDGET_BASIC_PASSWORD_3: process.env.WIDGET_BASIC_PASSWORD_3,
-              WIDGET_BASIC_USER_4: process.env.WIDGET_BASIC_USER_4,
-              WIDGET_BASIC_PASSWORD_4: process.env.WIDGET_BASIC_PASSWORD_4,
-              WIDGET_BASIC_USER_5: process.env.WIDGET_BASIC_USER_5,
-              WIDGET_BASIC_PASSWORD_5: process.env.WIDGET_BASIC_PASSWORD_5,
-              WIDGET_FB_USER: process.env.WIDGET_FB_USER,
-              WIDGET_FB_PASSWORD: process.env.WIDGET_FB_PASSWORD,
-              WIDGET_FB_USER_2: process.env.WIDGET_FB_USER_2,
-              WIDGET_FB_PASSWORD_2: process.env.WIDGET_FB_PASSWORD_2,
-              WIDGET_FB_USER_3: process.env.WIDGET_FB_USER_3,
-              WIDGET_FB_PASSWORD_3: process.env.WIDGET_FB_PASSWORD_3,
-              // To include accessibility check in the test, pass in -a11y option, i.e.
-              // "grunt test-e2e --browserName chrome -a11y"
-              CHECK_A11Y: !!grunt.option('a11y')
-            });
+                tpl = Handlebars.compile(content),
+                tplVars = {
+                  browserName: browserName,
+              
+                  // To include accessibility check in the test, pass in -a11y option, i.e.
+                  // "grunt test-e2e --browserName chrome -a11y"
+                  CHECK_A11Y: !!grunt.option('a11y')
+                };
+
+            Object.assign(tplVars, ENV.getValues());
+            return tpl(tplVars);
           }
         },
         files: [
           {
             expand: true,
             cwd: 'test/e2e/',
-            src: 'conf.js',
+            src: '*.js',
             dest: 'target/e2e/'
           },
           {
@@ -168,14 +159,19 @@ module.exports = function (grunt) {
           process: function (content) {
             var cdnLayout = grunt.file.read('./test/e2e/layouts/cdn.tpl', {encoding: 'utf8'}),
                 devLayout = grunt.file.read('./test/e2e/layouts/cdn-dev.tpl', {encoding: 'utf8'}),
+                indexLayout = grunt.file.read('./test/e2e/layouts/index.tpl', {encoding: 'utf8'}),
                 npmLayout = grunt.file.read('./test/e2e/layouts/npm.tpl', {encoding: 'utf8'}),
-                testTpl = Handlebars.compile(content);
+                testTpl = Handlebars.compile(content),
+                tplVars = {};
+
+            Object.assign(tplVars, ENV.getValues());
+
             Handlebars.registerPartial('cdnLayout', cdnLayout);
             Handlebars.registerPartial('devLayout', devLayout);
+            Handlebars.registerPartial('indexLayout', indexLayout);
             Handlebars.registerPartial('npmLayout', npmLayout);
-            return testTpl({
-              WIDGET_TEST_SERVER: process.env.WIDGET_TEST_SERVER
-            });
+
+            return testTpl(tplVars);
           }
         },
         files: [
@@ -296,6 +292,9 @@ module.exports = function (grunt) {
     'Runs end to end webdriver tests. Pass in `--browserName {{browser}}` to ' +
     'override default phantomjs browser',
     function () {
+      // Print warnings for missing environment variables
+      ENV.checkValues();
+
       // We will only run webdriver tests in these two environments:
       // 1. Travis, non pull request builds
       // 2. Local, developer has set up an org to test against and has their
@@ -304,6 +303,9 @@ module.exports = function (grunt) {
         grunt.log.writeln('Environment variables not available. Skipping.');
         return;
       }
+
+      grunt.log.writeln('Testing against: ' + process.env.WIDGET_TEST_SERVER);
+  
       grunt.task.run([
         'copy:e2e',
         'copy:e2e-pages',
@@ -314,26 +316,41 @@ module.exports = function (grunt) {
     }
   );
 
+  grunt.task.registerTask('assets', function (target) {
+    const prodBuild = target === 'release';
+    const buildTasks = [
+      'exec:generate-config', // populates src/config.json with supported languages
+      'copy:app-to-target',
+      'exec:generate-jsonp', // generates jsonp wrappers for json files in target dir
+      'sass:buildtheme',
+      'postcss:buildtheme',
+      'sass:build',
+    ];
+
+    if (prodBuild) {
+      buildTasks.push('postcss:minify');
+    } else {
+      buildTasks.push('postcss:build');
+    }
+
+    grunt.task.run(buildTasks);
+  });
+
   grunt.task.registerTask('build', function (target) {
     const prodBuild = target === 'release';
     const buildTasks = [];
     const postBuildTasks = [];
 
     if (prodBuild) {
-      buildTasks.push('postcss:minify', 'exec:build-release');
+      buildTasks.push('exec:build-release');
       postBuildTasks.push('copy:target-to-dist');
     } else {
-      buildTasks.push('postcss:build', 'exec:build-dev');
+      buildTasks.push('exec:build-dev');
     }
     grunt.task.run([
       'exec:clean',
       'exec:retirejs',
-      'exec:generate-config',
-      'copy:app-to-target',
-      'exec:generate-jsonp',
-      'sass:buildtheme',
-      'postcss:buildtheme',
-      'sass:build',
+      `assets:${target}`,
       ...buildTasks,
       ...postBuildTasks,
     ]);

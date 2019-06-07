@@ -315,5 +315,14 @@ function (Okta, TimeUtil) {
     return '';
   };
 
+  fn.findFactorInFactorsArray = function (factors, provider, factorType) {
+    var factor = factors.findWhere({provider: provider, factorType: factorType});
+    if (factor === undefined) {
+      //for factors that support cardinality and only have factorType
+      factor = factors.findWhere({factorType: factorType});
+    }
+    return factor;
+  };
+
   return fn;
 });

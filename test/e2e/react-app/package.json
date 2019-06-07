@@ -11,9 +11,13 @@
     "react-scripts": "1.0.17"
   },
   "scripts": {
-    "start": "cross-env PORT=3001 BROWSER=none REACT_APP_WIDGET_TEST_SERVER=$WIDGET_TEST_SERVER react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "start": "cross-env react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "dotenv": "^8.0.0",
+    "react-app-rewired": "1.6.2"
   }
 }

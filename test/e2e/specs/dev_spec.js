@@ -64,7 +64,7 @@ describe('Dev Mode flows', function () {
 
   it('can login and return tokens using the showSignInToGetTokens method', function () {
     var options = {
-      clientId: 'rW47c465c1wc3MKzHznu',
+      clientId: '{{{WIDGET_CLIENT_ID}}}',
       redirectUri: 'http://localhost:3000/done',
       scope: 'openid profile'
     };
@@ -79,7 +79,7 @@ describe('Dev Mode flows', function () {
         oidcApp = new OIDCAppPage();
 
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
-    expect(oidcApp.getIdTokenUser()).toBe('Saml Jackson');
+    expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
   });
 
   it('log a console message when tokens are not parsed from the URL after the Widget is rendered', function () {

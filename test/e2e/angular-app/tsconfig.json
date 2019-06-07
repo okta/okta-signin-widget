@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -16,7 +17,11 @@
       "dom"
     ],
     "paths": {
-      "@okta/okta-signin-widget": ["../../../../dist/js/okta-sign-in.entry.js"]
-    }
+      "@okta/okta-signin-widget": [
+        "../../../../dist/js/okta-sign-in.entry.js"
+      ]
+    },
+    "module": "es2015",
+    "baseUrl": "./"
   }
 }

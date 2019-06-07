@@ -15,6 +15,11 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
   var subtitleTpl = Okta.Handlebars.compile('({{subtitle}})');
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
+  var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning login-timeout-warning">\
+                           <span class="icon warning-16"></span>\
+                           <p>{{{warning}}}</p>\
+                         </div>\
+                         ';
 
   function getFormAndButtonDetails (factorType) {
     switch(factorType) {
@@ -26,6 +31,7 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
         formRetry: Okta.loc('mfa.resendCode', 'login'),
         formSubmitted: Okta.loc('mfa.sent', 'login'),
         subtitle: subtitleTpl({ subtitle: this.model.get('phoneNumber') }),
+        warning: Okta.loc('factor.sms.time.warning', 'login'),
       };
     case 'call':
       return {
@@ -35,6 +41,7 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
         formRetry: Okta.loc('mfa.redial', 'login'),
         formSubmitted: Okta.loc('mfa.calling', 'login'),
         subtitle: subtitleTpl({ subtitle: this.model.get('phoneNumber') }),
+        warning: Okta.loc('factor.call.time.warning', 'login'),
       };
     case 'email':
       return {
@@ -68,12 +75,21 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
       return this.model.appState.get('isMfaChallenge') && this.model.get('answer');
     },
 
+    showWarning: function (msg) {
+      this.clearWarnings();
+      this.add(warningTemplate, '.o-form-error-container', {options: {warning: msg}});
+    },
+    clearWarnings: function () {
+      this.$('.okta-form-infobox-warning').remove();
+    },
+
     initialize: function () {
       var form = this;
       this.title = this.model.get('factorLabel');
 
       var factorType = this.model.get('factorType');
       var formAndButtonDetails = getFormAndButtonDetails.call(this, factorType);
+      var warningDetails = formAndButtonDetails.warning;
       this.$el.attr('data-se', 'factor-' + factorType);
 
       this.subtitle = formAndButtonDetails.subtitle;
@@ -87,6 +103,7 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
         click: function () {
           form.clearErrors();
           this.disable();
+          form.clearWarnings();
           this.options.title = formAndButtonDetails.formSubmitted;
           this.render();
           // To send an OTP to the device, make the same request but use
@@ -101,6 +118,9 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
             .then(_.bind(function () {
               this.options.title = formAndButtonDetails.formRetry;
               this.enable();
+              if (factorType === 'call' || factorType === 'sms') {
+                form.showWarning(warningDetails);
+              }
               this.render();
             }, this));
         }

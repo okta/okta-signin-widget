@@ -684,6 +684,29 @@ function (Okta,
           expect(test.beacon.getOptionsList().is(':visible')).toBe(true);
         });
       });
+      itp('sets aria-expanded when dropDown link is clicked', function () {
+        return setup(allFactorsRes).then(function (test) {
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
+          test.beacon.dropDownButton().click();
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
+        });
+      });
+      itp('sets aria-expanded when beacon is clicked', function () {
+        return setup(allFactorsRes).then(function (test) {
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
+          test.beacon.factorBeacon().click();
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
+        });
+      });
+      itp('sets aria-expanded to false when anywhere outside of the dropdown is clicked', function () {
+        return setup(allFactorsRes).then(function (test) {
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
+          test.beacon.factorBeacon().click();
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
+          $(document).click();
+          expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
+        });
+      });
       itp('updates beacon image when different factor is selected', function () {
         return setup(allFactorsRes)
           .then(function (test) {
@@ -1085,6 +1108,36 @@ function (Okta,
                 stateToken: expectedStateToken
               }
             });
+          });
+      });
+      it('shows warning message to click "Re-send" after 30s', function () {
+        Util.speedUpPolling();
+        return setupFn().then(function (test) {
+          test.setNextResponse(challengeSmsRes);
+          expect(test.form.smsSendCode().text()).toBe('Send code');
+          test.form.smsSendCode().click();
+          return tick(test);
+        })
+          .then(function (test){
+            expect(test.form.smsSendCode().text()).toBe('Re-send code');
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received an SMS? To try again, click Re-send code.');
+            return tick(test);
+          })
+          .then(function (test) {
+            // Re-send will clear the warning
+            $.ajax.calls.reset();
+            test.setNextResponse(challengeSmsRes);
+            test.form.smsSendCode().click();
+            expect(test.form.smsSendCode().text()).toBe('Sent');
+            expect(test.form.hasWarningMessage()).toBe(false);
+            return tick(test);
+          })
+          .then(function (test){
+            // Re-send after 30s wil show the warning again
+            expect(test.form.smsSendCode().text()).toBe('Re-send code');
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received an SMS? To try again, click Re-send code.');
           });
       });
       itp('calls verifyFactor with rememberDevice URL param', function () {
@@ -1560,6 +1613,37 @@ function (Okta,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(false);
             expect(test.form.errorBox().length).toBe(0);
+          });
+      });
+
+      itp('shows warning message to click "Redial" after 30s', function () {
+        Util.speedUpPolling();
+        return setupFn().then(function (test) {
+          test.setNextResponse(challengeCallRes);
+          expect(test.form.makeCall().text()).toBe('Call');
+          test.form.makeCall().click();
+          return tick(test);
+        })
+          .then(function (test){
+            expect(test.form.makeCall().text()).toBe('Redial');
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received a voice call? To try again, click Redial.');
+            return tick(test);
+          })
+          .then(function (test) {
+            // Re-send will clear the warning
+            $.ajax.calls.reset();
+            test.setNextResponse(challengeCallRes);
+            test.form.makeCall().click();
+            expect(test.form.makeCall().text()).toBe('Calling');
+            expect(test.form.hasWarningMessage()).toBe(false);
+            return tick(test);
+          })
+          .then(function (test){
+            // Re-send after 30s wil show the warning again
+            expect(test.form.makeCall().text()).toBe('Redial');
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received a voice call? To try again, click Redial.');
           });
       });
       itp('posts to resend link if call button is clicked for the second time', function () {
