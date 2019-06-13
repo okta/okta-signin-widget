@@ -1107,6 +1107,36 @@ function (Okta,
             });
           });
       });
+      it('shows warning message to click "Re-send" after 30s', function () {
+        Util.speedUpPolling();
+        return setupFn().then(function (test) {
+          test.setNextResponse(challengeSmsRes);
+          expect(test.form.smsSendCode().text()).toBe('Send code');
+          test.form.smsSendCode().click();
+          return tick(test);
+        })
+          .then(function (test){
+            expect(test.form.smsSendCode().text()).toBe('Re-send code');
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received an SMS? To try again, click Re-send code.');
+            return tick(test);
+          })
+          .then(function (test) {
+            // Re-send will clear the warning
+            $.ajax.calls.reset();
+            test.setNextResponse(challengeSmsRes);
+            test.form.smsSendCode().click();
+            expect(test.form.smsSendCode().text()).toBe('Sent');
+            expect(test.form.hasWarningMessage()).toBe(false);
+            return tick(test);
+          })
+          .then(function (test){
+            // Re-send after 30s wil show the warning again
+            expect(test.form.smsSendCode().text()).toBe('Re-send code');
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received an SMS? To try again, click Re-send code.');
+          });
+      });
       itp('calls verifyFactor with rememberDevice URL param', function () {
         return setupFn().then(function (test) {
           $.ajax.calls.reset();
@@ -1580,6 +1610,37 @@ function (Okta,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(false);
             expect(test.form.errorBox().length).toBe(0);
+          });
+      });
+
+      itp('shows warning message to click "Redial" after 30s', function () {
+        Util.speedUpPolling();
+        return setupFn().then(function (test) {
+          test.setNextResponse(challengeCallRes);
+          expect(test.form.makeCall().text()).toBe('Call');
+          test.form.makeCall().click();
+          return tick(test);
+        })
+          .then(function (test){
+            expect(test.form.makeCall().text()).toBe('Redial');
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received a voice call? To try again, click Redial.');
+            return tick(test);
+          })
+          .then(function (test) {
+            // Re-send will clear the warning
+            $.ajax.calls.reset();
+            test.setNextResponse(challengeCallRes);
+            test.form.makeCall().click();
+            expect(test.form.makeCall().text()).toBe('Calling');
+            expect(test.form.hasWarningMessage()).toBe(false);
+            return tick(test);
+          })
+          .then(function (test){
+            // Re-send after 30s wil show the warning again
+            expect(test.form.makeCall().text()).toBe('Redial');
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received a voice call? To try again, click Redial.');
           });
       });
       itp('posts to resend link if call button is clicked for the second time', function () {

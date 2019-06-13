@@ -585,6 +585,38 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           });
       });
 
+      itp('shows warning message to click "Redial" after 30s', function () {  
+        Util.speedUpDelay();      
+        return setup().then(function (test) {
+          test.setNextResponse(resFactorEnrollActivateCall);
+          enterPhone(test, 'AQ', '6501231234');
+          test.form.sendCodeButton().click();
+          return tick(test);
+        })
+          .then(function (test) {
+            expectRedialButton(test);
+            expect(test.form.hasWarningMessage()).toBe(true);
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received a voice call? To try again, click Redial.');
+            return tick(test);
+          })
+          .then(function (test) {
+            // redial will clear the warning
+            $.ajax.calls.reset();
+            test.setNextResponse(resFactorEnrollActivateCall);
+            test.form.sendCodeButton().click();
+            expectCallingButton(test);
+            expect(test.form.hasWarningMessage()).toBe(false);
+            return tick(test);
+          })
+          .then(function (test){
+            // Re-send after 30s wil show the warning again
+            expectRedialButton(test);
+            expect(test.form.warningMessage()).toContain(
+              'Haven\'t received a voice call? To try again, click Redial.');
+          });
+      });
+
       itp('if phone number is changed after enroll, resets the status to MFA_Enroll ' +
         'and then enrolls with updatePhone=true', function () {
         return setupAndSendValidCode().then(function (test) {

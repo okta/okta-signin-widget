@@ -7,6 +7,7 @@ define([
   'helpers/dom/EnrollChoicesForm',
   'helpers/dom/Beacon',
   'helpers/util/Expect',
+  '../../../src/util/FactorUtil',
   'LoginRouter',
   'sandbox',
   'helpers/xhr/MFA_ENROLL_allFactors',
@@ -16,7 +17,7 @@ define([
   'helpers/xhr/MFA_ENROLL_multipleOktaVerify',
   'helpers/xhr/SUCCESS'
 ],
-function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
+function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, Router,
   $sandbox, resAllFactors, resAllFactorsOnPrem, resPush, resMultipleU2F,
   resMultipleOktaVerify, resSuccess) {
 
@@ -24,19 +25,58 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
   var itp = Expect.itp;
   var tick = Expect.tick;
   var factorEnrollList = {
-    'QUESTION': 0,
-    'GOOGLE_AUTH': 1,
-    'OKTA_VERIFY': 2,
-    'RSA_SECURID': 3,
-    'SYMANTEC_VIP': 4,
-    'YUBIKEY': 5,
-    'SMS': 6,
-    'CALL': 7,
-    'DUO': 8,
-    'WINDOWS_HELLO': 9,
-    'U2F': 10,
-    'GENERIC_SAML': 11,
-    'GENERIC_OIDC': 12
+    'QUESTION': {
+      index:      0,
+      factorType: 'question'
+    },
+    'GOOGLE_AUTH': {
+      index:      1,
+      factorType: null
+    },
+    'OKTA_VERIFY': {
+      index:      2,
+      factorType: 'token:software:totp'
+    },
+    'RSA_SECURID': {
+      index:      3,
+      factorType: 'token'
+    },
+    'SYMANTEC_VIP': {
+      index:      4,
+      factorType: 'token'
+    },
+    'YUBIKEY': {
+      index:      5,
+      factorType: 'token:hardware'
+    },
+    'SMS': {
+      index:      6,
+      factorType: 'sms'
+    },
+    'CALL': {
+      index:      7,
+      factorType: 'call'
+    },
+    'DUO': {
+      index:      8,
+      factorType: 'web'
+    },
+    'WINDOWS_HELLO': {
+      index:      9,
+      factorType: 'webauthn'
+    },
+    'U2F': {
+      index:      10,
+      factorType: 'u2f'
+    },
+    'GENERIC_SAML': {
+      index:      11,
+      factorType: 'assertion:saml2'
+    },
+    'GENERIC_OIDC': {
+      index:      12,
+      factorType: 'assertion:oidc'
+    }
   };
 
   Expect.describe('EnrollChoices', function () {
@@ -149,7 +189,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
 
     function setupMultipleFactorEnrollments (factorName, status, enrollment, policyEnrollment, singleFactorRes) {
       var res = singleFactorRes ? deepClone(singleFactorRes) : deepClone(resAllFactors);
-      var index = singleFactorRes ? 0 : factorEnrollList[factorName];
+      var index = singleFactorRes ? 0 : factorEnrollList[factorName].index;
       res.response._embedded.factors[index].status = status;
       res.response._embedded.factors[index].enrollment = enrollment;
       res.response._embedded.factors[index].policy.enrollment = policyEnrollment;
@@ -157,7 +197,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
     }
 
     function setupMultipleRequiredActiveEnrollmentsForFactorAndAnotherFactorRequired (factorName, policyEnrollment) {
-      var index = factorEnrollList[factorName];
+      var index = factorEnrollList[factorName].index;
       var res = deepClone(resAllFactors);
       // setting question to required
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
@@ -824,6 +864,26 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, Router,
               expect(test.form.factorHasSuccessCheck(factorName)).toBe(true);
               expect(test.form.factorCardinalityText(factorName)).toBe('(3 set up)');
             });
+        });
+        itp('checks that the order of factors is correct during enroll if enrollment OPTIONAL', function () {
+          return setupMultipleFactorEnrollments(
+            factorName, 'ACTIVE', 'OPTIONAL',{'enrolled': 1, 'minimum': 0, 'maximum': 3}
+          ).then(function (test) {
+            var factorRows = test.form.optionalFactorList();
+            var factorIndex = factorRows.find(`[data-se="${factorName}"]`).index();
+            var expectedIndex = FactorUtil.getFactorSortOrder(factorEnrollList[factorName].provider, factorEnrollList[factorName].factorType) - 1;
+            expect(factorIndex).toBe(expectedIndex);
+          });
+        });
+        itp('checks that the order of factors is correct during enroll if enrollment REQUIRED', function () {
+          return setupMultipleFactorEnrollments(
+            factorName, 'ACTIVE', 'REQUIRED',{'enrolled': 1, 'minimum': 1, 'maximum': 3}
+          ).then(function (test) {
+            var factorRows = test.form.optionalFactorList();
+            var factorIndex = factorRows.find(`[data-se="${factorName}"]`).index();
+            var expectedIndex = FactorUtil.getFactorSortOrder(factorEnrollList[factorName].provider, factorEnrollList[factorName].factorType) - 1;
+            expect(factorIndex).toBe(expectedIndex);
+          });
         });
       }
 

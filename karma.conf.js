@@ -14,6 +14,8 @@ module.exports = (config) => {
       './node_modules/babel-polyfill/dist/polyfill.js',
       { pattern: './test/unit/main.js', watched: false },
       { pattern: './test/unit/assets/*', watched: false, included: false, served: true, nocache: false },
+      { pattern: './target/css/*.css', watched: true, included: true, served: true },
+      { pattern: './target/**/*', watched: false, included: false, served: true },
     ],
     preprocessors: {
       'test/unit/main.js': ['webpack', 'sourcemap'],

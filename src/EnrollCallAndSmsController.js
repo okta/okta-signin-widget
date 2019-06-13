@@ -24,6 +24,11 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
   var _ = Okta._;
   var API_RATE_LIMIT = 30000; //milliseconds
   var { Keys } = Okta.internal.util;
+  var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning login-timeout-warning">\
+                           <span class="icon warning-16"></span>\
+                           <p>{{{warning}}}</p>\
+                         </div>\
+                         ';
 
   var factorIdIsDefined = {
     factorId: function (val) {
@@ -67,7 +72,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         trapEnrollment: 'boolean',
         ableToResend: 'boolean',
         factorType: 'string',
-        skipPhoneValidation: 'boolean'
+        skipPhoneValidation: 'boolean',
       },
       derived: {
         countryCallingCode: {
@@ -180,12 +185,10 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
     Form: function () {
       var factorType = this.options.factorType;
       var isCall = isCallFactor(factorType);
-
       var formTitle = Okta.loc(isCall ? 'enroll.call.setup' : 'enroll.sms.setup', 'login');
       var formSubmit = Okta.loc(isCall ? 'mfa.call' : 'mfa.sendCode', 'login');
       var formRetry = Okta.loc(isCall ? 'mfa.redial' : 'mfa.resendCode', 'login');
       var formSubmitted = Okta.loc(isCall ? 'mfa.calling' : 'mfa.sent', 'login');
-
       var numberFieldClassName = isCall ? 'enroll-call-phone' : 'enroll-sms-phone';
       var buttonClassName = isCall ? 'call-request-button' : 'sms-request-button';
 
@@ -277,8 +280,26 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
         noButtonBar: true,
         autoSave: true,
         className: getClassName(factorType),
+
+        showWarning: function (msg) {
+          this.clearWarnings();
+          this.add(warningTemplate, '.o-form-error-container', {options: {warning: msg}});
+        },
+        
+        clearWarnings: function () {
+          this.$('.okta-form-infobox-warning').remove();
+        },
+
         initialize: function () {
+          this.listenTo(this.model, 'change:ableToResend', function (model, ableToResend) {
+            if (ableToResend) {
+              this.showWarning(Okta.loc(isCall ? 'factor.call.time.warning' : 'factor.sms.time.warning', 'login'));
+            } else {
+              this.clearWarnings();
+            }
+          });
           this.listenTo(this.model, 'error errors:clear', function () {
+            this.clearWarnings();
             this.clearErrors();
           });
           this.listenTo(this.model, 'change:enrolled', function () {

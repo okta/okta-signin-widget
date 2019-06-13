@@ -1,28 +1,28 @@
 {
-  "_from": "@okta/i18n@54.2.0-beta.g90f3c44",
-  "_id": "@okta/i18n@54.2.0-beta.g90f3c44",
+  "_from": "@okta/i18n@55.0.0-beta.gbcf6a23",
+  "_id": "@okta/i18n@55.0.0-beta.gbcf6a23",
   "_inBundle": false,
-  "_integrity": "sha1-+CLTQjBpUyzjZslhExjvZ0jVsho=",
+  "_integrity": "sha1-jV2NN1U0sym1kyhLNQz37Qq9XBo=",
   "_location": "/@okta/i18n",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@okta/i18n@54.2.0-beta.g90f3c44",
+    "raw": "@okta/i18n@55.0.0-beta.gbcf6a23",
     "name": "@okta/i18n",
     "escapedName": "@okta%2fi18n",
     "scope": "@okta",
-    "rawSpec": "54.2.0-beta.g90f3c44",
+    "rawSpec": "55.0.0-beta.gbcf6a23",
     "saveSpec": null,
-    "fetchSpec": "54.2.0-beta.g90f3c44"
+    "fetchSpec": "55.0.0-beta.gbcf6a23"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-54.2.0-beta.g90f3c44.tgz",
-  "_shasum": "f822d3423069532ce366c9611318ef6748d5b21a",
-  "_spec": "@okta/i18n@54.2.0-beta.g90f3c44",
-  "_where": "/Users/gowthamidommety/okta/okta-signin-widget",
+  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/i18n/-/@okta/i18n-55.0.0-beta.gbcf6a23.tgz",
+  "_shasum": "8d5d8d375534b329b593284b350cf7ed0abd5c1a",
+  "_spec": "@okta/i18n@55.0.0-beta.gbcf6a23",
+  "_where": "/Users/haoyuli/okta/okta-signin-widget",
   "bundleDependencies": false,
   "deprecated": false,
   "description": "Okta Localization",
@@ -56,9 +56,9 @@
   "license": "Apache-2.0",
   "name": "@okta/i18n",
   "okta": {
-    "commitSha": "90f3c448e35c3a416d578584ae9daec1a6450e9a",
-    "fullVersion": "54.2.0-beta.g90f3c44-20190513202614-90f3c44",
-    "testedSha": "2badf0ec1ed61edbdcb63426edcd4cd46c6d301f"
+    "commitSha": "bcf6a2344970d1fdaca51bbf5c6abceef66676ef",
+    "fullVersion": "55.0.0-beta.gbcf6a23-20190530224122-bcf6a23",
+    "testedSha": "4e091fda2e408143f06a9010e59a701135e8e908"
   },
   "repository": {
     "type": "git",
@@ -80,5 +80,5 @@
     "test:unit-report": "mocha --ui bdd --require tasks/i18ndiff/test/support/node -R mocha-junit-reporter -O mochaFile=./build2/reports/unit/mocha-junit-result.xml tasks/i18ndiff/test",
     "unlink": "yarn i18n unlink"
   },
-  "version": "54.2.0-beta.g90f3c44"
+  "version": "55.0.0-beta.gbcf6a23"
 }

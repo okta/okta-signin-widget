@@ -182,13 +182,6 @@ function (Okta, TimeUtil) {
     if (provider === 'OKTA' && factorType === 'question') {
       return 'QUESTION';
     }
-    if (provider === 'FIDO' && factorType === 'webauthn') {
-      if (this.settings.get('features.webauthn')) {
-        return 'WEBAUTHN';
-      }else {
-        return 'WINDOWS_HELLO';
-      }
-    }
     if (provider === 'OKTA' && factorType === 'email') {
       return 'EMAIL';
     }
@@ -201,7 +194,7 @@ function (Okta, TimeUtil) {
     if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
       return 'GENERIC_OIDC';
     }
-    return fn.getFactorNameForFactorType(factorType);
+    return fn.getFactorNameForFactorType.call(this, factorType);
   };
 
   fn.getFactorNameForFactorType = function (factorType) {
@@ -210,6 +203,13 @@ function (Okta, TimeUtil) {
     }
     if (factorType === 'token:software:totp') {
       return 'OKTA_VERIFY';
+    }
+    if (factorType === 'webauthn') {
+      if (this.settings.get('features.webauthn')) {
+        return 'WEBAUTHN';
+      } else {
+        return 'WINDOWS_HELLO';
+      }
     }
   };
 

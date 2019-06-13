@@ -22,15 +22,6 @@ define({
         "rememberDeviceByDefault": false
       },
       "factorTypes": [{
-        "factorType": "u2f",
-        "_links": {
-          "next": {
-            "href": "https://foo.com/api/v1/authn/factors/u2f/verify",
-            "hints": {"allow": ["POST"]},
-            "name": "verify"
-          }
-        }
-      }, {
         "factorType": "webauthn",
         "_links": {
           "next": {
@@ -41,73 +32,6 @@ define({
         }
       }],
       "factors": [{
-        "id": "ufshpdkgNun3xNE3W0g3",
-        "factorType": "question",
-        "provider": "OKTA",
-        "vendorName": "OKTA",
-        "profile": {
-          "question": "disliked_food",
-          "questionText": "What is the food you least liked as a child?"
-        },
-        "_links": {
-          "verify": {
-            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/ufshpdkgNun3xNE3W0g3\/verify",
-            "hints": {
-              "allow": [
-                "POST"
-              ]
-            }
-          }
-        }
-      }, {
-        "id": "u2fFactorId",
-        "factorType": "u2f",
-        "provider": "FIDO",
-        "vendorName": "FIDO",
-        "profile": {
-          "credentialId": "someCredentialId",
-          "appId": "http://rain.okta1.com:1802",
-          "version": "U2F_V2"
-        },
-        "_links": {
-          "verify": {
-            "href": "https://foo.com/api/v1/authn/factors/u2fFactorId/verify",
-            "hints": {"allow": ["POST"]}
-          }
-        }
-      }, {
-        "id": "u2fFactorId2",
-        "factorType": "u2f",
-        "provider": "FIDO",
-        "vendorName": "FIDO",
-        "profile": {
-          "credentialId": "someCredentialId2",
-          "appId": "http://rain.okta1.com:1802",
-          "version": "U2F_V2"
-        },
-        "_links": {
-          "verify": {
-            "href": "https://foo.com/api/v1/authn/factors/u2fFactorId2/verify",
-            "hints": {"allow": ["POST"]}
-          }
-        }
-      }, {
-        "id": "u2fFactorId3",
-        "factorType": "u2f",
-        "provider": "FIDO",
-        "vendorName": "FIDO",
-        "profile": {
-          "credentialId": "someCredentialId3",
-          "appId": "http://rain.okta1.com:1802",
-          "version": "U2F_V2"
-        },
-        "_links": {
-          "verify": {
-            "href": "https://foo.com/api/v1/authn/factors/u2fFactorId3/verify",
-            "hints": {"allow": ["POST"]}
-          }
-        }
-      }, {
         "id": "webauthnFactorId1",
         "factorType": "webauthn",
         "provider": "FIDO",

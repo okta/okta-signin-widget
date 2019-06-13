@@ -50,7 +50,6 @@
   @import 'modules/factors-dropdown';
   @import 'modules/footer';
   @import 'modules/enroll';
-  @import 'modules/accessibility';
   @import 'modules/registration';
 
   &.can-remove-beacon {
@@ -73,12 +72,15 @@
     }
   }
 
+
+  @import 'modules/accessibility';
 }
 /* stylelint-enable selector-max-id */
 
 @import 'modules/qtip';
 @import 'widgets/chosen';
 @import 'modules/forms';
+
 
 .chzn-container-active {
   margin: 0;

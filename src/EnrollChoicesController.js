@@ -103,11 +103,11 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
         case Enums.ALL_OPTIONAL_SOME_ENROLLED:
         case Enums.ALL_OPTIONAL_NONE_ENROLLED:
           var enrolled = factors.where({ enrolled: true }),
-              notEnrolled = factors.where({ enrolled: false }),
+              notEnrolled = factors.filter(function (factor) {
+                // pick factors that are not enrolled or have additional enrollments
+                return !factor.get('enrolled') || factor.get('additionalEnrollment');
+              }),
               notEnrolledListTitle;
-          // add factors  to 'notEnrolled' that support cardinality and are actually 'enrolled'
-          // but may still have additional 'optional' instances
-          notEnrolled = notEnrolled.concat(factors.where({ additionalEnrollment: true }));
           if (enrolled.length > 0) {
             notEnrolledListTitle = Okta.loc('enroll.choices.list.optional', 'login');
             this.add(new FactorList({
