@@ -217,7 +217,7 @@ function (Okta,
           });
       });
 
-      itp('shows error if webauthn.makeCredential fails with NotSupportedError', function () {
+      itp('shows error if webauthn.makeCredential fails with NotSupportedError test it', function () {
         return emulateWindows('NotSupportedError')
           .then(setup)
           .then(function (test) {
