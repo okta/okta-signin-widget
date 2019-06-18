@@ -18,14 +18,15 @@ define([
   'views/mfa-verify/YubikeyForm',
   'views/mfa-verify/SecurityQuestionForm',
   'views/mfa-verify/PassCodeForm',
-  'views/factor-verify/EmailMagicLinkForm',
+  'views/mfa-verify/IDXPipelineForm',
   'views/mfa-verify/PushForm',
   'views/mfa-verify/PasswordForm',
   'views/mfa-verify/InlineTOTPForm',
-  'views/shared/FooterSignout'
+  'views/shared/FooterSignout',
+  'views/factor-verify/EmailMagicLinkForm'
 ],
 function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
-  EmailMagicLinkForm, PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
+  IDXPipelineForm, PushForm, PasswordForm, InlineTOTPForm, FooterSignout, EmailMagicLinkForm) {
 
   var { CheckBox } = Okta.internal.views.forms.inputs;
 
@@ -41,11 +42,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
         View = SecurityQuestionForm;
         break;
       case 'email':
-        if (this.options.appState.get('isIdxStateToken')){
-          View = EmailMagicLinkForm;
-        } else {
-          View = PassCodeForm;
-        }
+        View = IDXPipelineForm;
         break;
       case 'sms':
       case 'call':
