@@ -296,6 +296,28 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             });
           });
       });
+      itp('should hide back button in PwdResetEmailSent page when hideBackToSignInForReset is true', function () {
+        return setup({'features.hideBackToSignInForReset': true}).then(function (test) {
+          test.setNextResponse(resChallengeEmail);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForPwdResetEmailSent(test);
+        })
+          .then(function (test) {
+            expect(test.form.backToLoginButton().length).toBe(0);
+          });
+      });
+      itp('should show back button in PwdResetEmailSent page when hideBackToSignInForReset is false', function () {
+        return setup({'features.hideBackToSignInForReset': false}).then(function (test) {
+          test.setNextResponse(resChallengeEmail);
+          test.form.setUsername('foo');
+          test.form.pressEnter();
+          return Expect.waitForPwdResetEmailSent(test);
+        })
+          .then(function (test) {
+            expect(test.form.backToLoginButton().length).toBe(1);
+          });
+      });
       itp('calls the transformUsername function with the right parameters', function () {
         return setupWithTransformUsername().then(function (test) {
           spyOn(test.router.settings, 'transformUsername');
