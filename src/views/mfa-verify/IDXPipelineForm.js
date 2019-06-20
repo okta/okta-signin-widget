@@ -33,7 +33,7 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
     form.add(Okta.createButton({
       attributes: { 'data-se': 'enter-code', 'type': 'submit' },
       className: 'button button-primary verify-code-button',
-      title: 'Verify',
+      title: Okta.loc('mfa.challenge.verify', 'login'),
       click: function () {
         form.clearErrors();
         this.model.save();
@@ -45,12 +45,12 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
     form.add(Okta.createButton({
       attributes: { 'data-se': 'enter-code' },
       className: 'button enter-code-button',
-      title: 'Or enter code',
+      title: Okta.loc('mfa.challenge.orEnterCode', 'login'),
       click: function () {
         form.clearErrors();
         this.render();
         form.subtitle = '';
-        form.title = 'Enter Your One Time Code to Finish Signin';
+        form.title = Okta.loc('mfa.emailVerification.otc.finish', 'login');
         addEnterCodeField(form);
         addVerifyCodeButton(form);
         form.render();
@@ -69,14 +69,14 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
     initialize: function () {
 
       var form = this;
-      this.title = 'Sign in using a link sent to your email';
+      this.title = Okta.loc('mfa.mailVerification.title', 'login');
 
       var email = this.model.get('email') || this.options.appState.get('lastAuthResponse')._embedded.user.profile.login;
-      this.subtitle = 'Emails will be sent to ' + email;
+      this.subtitle = Okta.loc('mfa.emailVerification.subtitle', 'login', [email]);
       this.add(Okta.createButton({
         attributes: { 'data-se': 'email-send-code' },
         className: 'button email-request-button',
-        title: 'Send Email Link',
+        title: Okta.loc('mfa.sendEmail', 'login'),
         click: function () {
           form.clearErrors();
           this.disable();
@@ -84,7 +84,7 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
           this.render();
           this.model.save()
             .then(_.bind(function () {
-              form.subtitle = 'To finish signing in, click the link in your email.';
+              form.subtitle = Okta.loc('mfa.emailVerification.checkEmail', 'login');
               form.render();
               this.$el.remove();
               this.remove();
