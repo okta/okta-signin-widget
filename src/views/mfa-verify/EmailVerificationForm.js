@@ -62,14 +62,14 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
 
   return Okta.Form.extend({
     layout: 'o-form-theme',
-    className: 'mfa-verify-idxpipeline',
+    className: 'mfa-verify-emailVerification',
     save: _.partial(Okta.loc, 'mfa.challenge.verify', 'login'),
     autoSave: true,
     noCancelButton: true,
     initialize: function () {
 
       var form = this;
-      this.title = Okta.loc('mfa.mailVerification.title', 'login');
+      this.title = Okta.loc('mfa.emailVerification.title', 'login');
 
       var email = this.model.get('email') || this.options.appState.get('lastAuthResponse')._embedded.user.profile.login;
       this.subtitle = Okta.loc('mfa.emailVerification.subtitle', 'login', [email]);
