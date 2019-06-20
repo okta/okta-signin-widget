@@ -219,10 +219,6 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         return {'password': Okta.loc('error.password.required')};
       }
     },
-    needsPasscode: function () {
-      // we don't need passcode for email with magic link flow
-      return !(this.options.appState.get('isIdxStateToken') && this.get('factorType') === 'email');
-    },
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
       // Set/Remove the remember device cookie based on the remember device input.
@@ -238,7 +234,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         else if (this.get('factorType') === 'password') {
           data.password = this.get('password');
         }
-        else if (this.needsPasscode()){
+        else if (this.get('factorType') === 'email'){
           data.passCode = this.get('answer');
         }
 

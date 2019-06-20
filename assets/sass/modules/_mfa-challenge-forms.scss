@@ -71,3 +71,16 @@
     width: 100%;
   }
 }
+
+//idx pipeline
+.mfa-verify-idxpipeline {
+  .o-form-button-bar {
+    display: none;
+  }
+  .email-request-button,
+  .enter-code-button,
+  .verify-code-button {
+    width: 100%;
+    text-align: center;
+  }
+}

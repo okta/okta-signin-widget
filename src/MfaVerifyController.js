@@ -22,11 +22,10 @@ define([
   'views/mfa-verify/PushForm',
   'views/mfa-verify/PasswordForm',
   'views/mfa-verify/InlineTOTPForm',
-  'views/shared/FooterSignout',
-  'views/factor-verify/EmailMagicLinkForm'
+  'views/shared/FooterSignout'
 ],
 function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm, PassCodeForm,
-  IDXPipelineForm, PushForm, PasswordForm, InlineTOTPForm, FooterSignout, EmailMagicLinkForm) {
+  IDXPipelineForm, PushForm, PasswordForm, InlineTOTPForm, FooterSignout) {
 
   var { CheckBox } = Okta.internal.views.forms.inputs;
 

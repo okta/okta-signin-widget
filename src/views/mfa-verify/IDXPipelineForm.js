@@ -12,7 +12,6 @@
 /* eslint complexity: [2, 7] */
 define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
   var _ = Okta._;
-  var API_RATE_LIMIT = 30000; //milliseconds
 
   function addEnterCodeField (form) {
     form.clearErrors();
@@ -29,6 +28,19 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
     form.className = 'mfa-verify-passcode';
 
   }
+
+  function addVerifyCodeButton (form) {
+    form.add(Okta.createButton({
+      attributes: { 'data-se': 'enter-code', 'type': 'submit' },
+      className: 'button button-primary verify-code-button',
+      title: 'Verify',
+      click: function () {
+        form.clearErrors();
+        this.model.save();
+      }
+    }));
+  }
+
   function addEnterCodeButton (form) {
     form.add(Okta.createButton({
       attributes: { 'data-se': 'enter-code' },
@@ -38,8 +50,9 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
         form.clearErrors();
         this.render();
         form.subtitle = '';
-        form.title = 'Enter Your One Time Code to Finish Signin'
+        form.title = 'Enter Your One Time Code to Finish Signin';
         addEnterCodeField(form);
+        addVerifyCodeButton(form);
         form.render();
         this.remove();
       }
@@ -54,7 +67,7 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
     autoSave: true,
     noCancelButton: true,
     initialize: function () {
-      this.$el.attr('data-se', 'factor-email');
+
       var form = this;
       this.title = 'Sign in using a link sent to your email';
 
