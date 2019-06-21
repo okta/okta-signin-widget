@@ -34,6 +34,7 @@ define([
   'EnrollU2FController',
   'EnrollWebauthnController',
   'EnrollCustomFactorController',
+  'EnrollHotpController',
   'BarcodeTotpController',
   'BarcodePushController',
   'ActivateTotpController',
@@ -83,6 +84,7 @@ function (BaseLoginRouter,
   EnrollU2FController,
   EnrollWebauthnController,
   EnrollCustomFactorController,
+  EnrollHotpController,
   BarcodeTotpController,
   BarcodePushController,
   ActivateTotpController,
@@ -348,11 +350,19 @@ function (BaseLoginRouter,
     },
 
     enrollTotpFactor: function (provider, factorType) {
-      this.render(EnrollTotpController, {
-        provider: provider.toUpperCase(),
-        factorType: factorType,
-        Beacon: FactorBeacon
-      });
+      if (factorType === 'token:hotp') {
+        this.render(EnrollHotpController, {
+          provider: provider.toUpperCase(),
+          factorType: factorType,
+          Beacon: FactorBeacon
+        });
+      } else {
+        this.render(EnrollTotpController, {
+          provider: provider.toUpperCase(),
+          factorType: factorType,
+          Beacon: FactorBeacon
+        });
+      }
     },
 
     enrollWebauthn: function () {

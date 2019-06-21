@@ -210,6 +210,9 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
       this.appState = attributes.appState;
       // set the initial value for remember device.
       attributes.rememberDevice = factorUtil.getRememberDeviceValue(this.appState);
+
+      // Add vendorname for custom totp enroll
+      this.fixDataForCustomHotp(attributes);
       return _.omit(attributes, ['settings', 'appState']);
     },
 
@@ -320,6 +323,21 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
 
     pushFactorHasAutoPush: function () {
       return this.settings.get('features.autoPush') && this.get('factorType') === 'push';
+    },
+
+    fixDataForCustomHotp: function(attributes) {
+      // Set vendorname from profile during enroll.
+      if (attributes.factorType === 'custom:hotp' && attributes.profiles) {
+        if (attributes.status === 'ACTIVE') {
+          attributes.vendorName = profiles[0].name;
+        } else {
+          let enrolledProfiles = attributes.profiles.filter((profile) => {
+            return _embedded.enrolledFactors.length > 0;
+          });
+          attributes.vendorName = enrolledProfiles[0].name;
+        }
+      }
+      return attributes;
     }
   });
 
