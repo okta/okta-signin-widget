@@ -92,6 +92,17 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       }
     },
 
+    'CUSTOM_HOTP': {
+      icon: 'factor-icon mfa-custom-factor-30',
+      className: 'factor-option',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
+    },
+
     'SYMANTEC_VIP': {
       icon: 'factor-icon mfa-symantec-30',
       className: 'factor-option',

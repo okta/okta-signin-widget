@@ -59,6 +59,24 @@ define({
           }
         }
       }, {
+        "id": "ufthp18Zup4EGLtrd0g2",
+        "factorType": "token:hotp",
+        "provider": "CUSTOM",
+        "vendorName": "Entrust",
+        "profile": {
+          "credentialId": "administrator1@clouditude.net"
+        },
+        "_links": {
+          "verify": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors\/ufthp18Zup4EGLtrd0g2\/verify",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      }, {
         "id": "osthw62MEvG6YFuHe0g3",
         "factorType": "token:software:totp",
         "provider": "OKTA",

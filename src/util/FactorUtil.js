@@ -72,59 +72,65 @@ function (Okta, TimeUtil) {
       iconClassName: 'mfa-google-auth',
       sortOrder: 5
     },
+    'CUSTOM_HOTP': {
+      label: '',
+      description: '',
+      iconClassName: 'mfa-custom-factor',
+      sortOrder: 6
+    },
     'SMS': {
       label: 'factor.sms',
       description: Okta.loc('factor.sms.description', 'login'),
       iconClassName: 'mfa-okta-sms',
-      sortOrder: 6
+      sortOrder: 7
     },
     'CALL': {
       label: 'factor.call',
       description: Okta.loc('factor.call.description', 'login'),
       iconClassName: 'mfa-okta-call',
-      sortOrder: 7
+      sortOrder: 8
     },
     'EMAIL': {
       label: 'factor.email',
       description: '',
       iconClassName: 'mfa-okta-email',
-      sortOrder: 8
+      sortOrder: 9
     },
     'QUESTION': {
       label: 'factor.securityQuestion',
       description: Okta.loc('factor.securityQuestion.description', 'login'),
       iconClassName: 'mfa-okta-security-question',
-      sortOrder: 9
+      sortOrder: 10
     },
     'DUO': {
       label: 'factor.duo',
       description: Okta.loc('factor.duo.description', 'login'),
       iconClassName: 'mfa-duo',
-      sortOrder: 10
+      sortOrder: 11
     },
     'SYMANTEC_VIP': {
       label: 'factor.totpHard.symantecVip',
       description: Okta.loc('factor.totpHard.description', 'login'),
       iconClassName: 'mfa-symantec',
-      sortOrder: 11
+      sortOrder: 12
     },
     'RSA_SECURID': {
       label: 'factor.totpHard.rsaSecurId',
       description: Okta.loc('factor.totpHard.description', 'login'),
       iconClassName: 'mfa-rsa',
-      sortOrder: 12
+      sortOrder: 13
     },
     'ON_PREM': {
       label: '',
       description: Okta.loc('factor.totpHard.description', 'login'),
       iconClassName: 'mfa-onprem',
-      sortOrder: 13
+      sortOrder: 14
     },
     'PASSWORD': {
       label: 'factor.password',
       description: '',
       iconClassName: 'mfa-okta-password',
-      sortOrder: 14
+      sortOrder: 15
     },
     'GENERIC_SAML': {
       label: '',
@@ -134,7 +140,7 @@ function (Okta, TimeUtil) {
           Okta.loc('factor.customFactor.description.generic', 'login');
       },
       iconClassName: 'mfa-custom-factor',
-      sortOrder: 15
+      sortOrder: 16
     },
     'GENERIC_OIDC': {
       label: '',
@@ -144,7 +150,7 @@ function (Okta, TimeUtil) {
           Okta.loc('factor.customFactor.description.generic', 'login');
       },
       iconClassName: 'mfa-custom-factor',
-      sortOrder: 16
+      sortOrder: 17
     }
   };
 
@@ -210,6 +216,9 @@ function (Okta, TimeUtil) {
       } else {
         return 'WINDOWS_HELLO';
       }
+    }
+    if (factorType === 'token:hotp') {
+      return 'CUSTOM_HOTP';
     }
   };
 

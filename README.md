@@ -915,7 +915,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
       {type: 'GOOGLE', id: '0oaaix1twko0jyKik0g4'},
       {type: 'FACEBOOK', id: '0oar25ZnMM5LrpY1O0g3'},
       {type: 'LINKEDIN', id: '0oaaix1twko0jyKik0g4'},
-      {id: '0oabds23xM3ssMjosl0g5', text: 'Login with Joe', className: 'with-joe' }      
+      {id: '0oabds23xM3ssMjosl0g5', text: 'Login with Joe', className: 'with-joe' }
     ]
     ```
 
@@ -1224,7 +1224,7 @@ The `.widgetrc` file is a configuration file that saves your local widget settin
 | `yarn build:release` | Build a minified, uglified version of the widget (`okta-sign-in.min.js`) and a non-minified **development** version of the widget (`okta-sign-in.js`). |
 | `yarn test`          | Run unit tests                                                                                                                                         |
 | `yarn test --test OAuth2Util_spec`  | Run a single unit test                                                                                                                  |
-| `yarn lint`          | Run jshint and scss linting tests                                                                                                                      |
+| `yarn lint`          | Run eslint and scss linting tests                                                                                                                      |
 
 ## Browser support
 
