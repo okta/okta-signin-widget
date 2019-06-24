@@ -216,6 +216,7 @@ var OktaSignIn = (function () {
       headers: {
         'X-Okta-User-Agent-Extended': 'okta-signin-widget-' + config.version
       },
+      tokenManager: options.tokenManager,
       clientId: options.clientId,
       redirectUri: options.redirectUri
     });
