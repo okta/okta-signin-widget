@@ -253,7 +253,42 @@ define({
        "profile":{
           "user":"inca@clouditude.net"
        }
-    }]
+    }, {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
+        "factorType": "token:hotp",
+        "provider": "CUSTOM",
+        "profiles": [{
+          "id": '123',
+          "name": 'Entrust',
+          "_embedded": {
+            "enrolledFactors": []
+          }
+        }, {
+          "id": '124',
+          "name": 'Entrust2',
+          "_embedded": {
+            "enrolledFactors": []
+          }
+        }],
+        "policy": {
+          "enrollment": {
+            "enrolled": 0,
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "_links": {
+          "enroll": {
+            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      }]
     },
     "_links": {
       "skip": {

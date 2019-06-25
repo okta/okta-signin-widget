@@ -21,11 +21,10 @@ function (Okta, FormController, FormType,
   Footer, HtmlErrorMessageView) {
 
   return FormController.extend({
-    className: 'enroll-totp',
+    className: 'enroll-hotp',
     Model: function () {
       return {
         local: {
-          '__deviceType__': 'string',
           '__factorType__': ['string', false, this.options.factorType],
           '__provider__': ['string', false, this.options.provider]
         }
@@ -33,8 +32,12 @@ function (Okta, FormController, FormType,
     },
     Form: {
       title: function () {
-        //var factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
-        return Okta.loc('enroll.totp.title', 'login', ['Entrust']);
+        const factors = this.options.appState.get('factors');
+        const hotpFactor = factors.findWhere({
+          provider: this.model.get('__provider__'),
+          factorType: this.model.get('__factorType__')
+        });
+        return Okta.loc('enroll.totp.title', 'login', [hotpFactor.get('factorLabel')]);
       },
       noButtonBar: true,
       attributes: { 'data-se': 'restrict-enroll' },

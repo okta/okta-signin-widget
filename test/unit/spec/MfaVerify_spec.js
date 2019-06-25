@@ -4035,7 +4035,7 @@ function (Okta,
 
       itp('shows the right beacon', function () {
         return setupFn().then(function (test) {
-          expectHasRightBeaconImage(test, 'mfa-custom-factor');
+          expectHasRightBeaconImage(test, 'mfa-hotp');
         });
       });
 
