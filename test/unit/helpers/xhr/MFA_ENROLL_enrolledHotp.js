@@ -55,7 +55,7 @@ define({
           "id": '124',
           "name": 'Entrust2',
           "_embedded": {
-            "enrolledFactors": [{}]
+            "enrolledFactors": [{"name": 'test'}]
           }
         }],
         "_links": {

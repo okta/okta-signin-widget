@@ -271,13 +271,6 @@ define({
             "enrolledFactors": []
           }
         }],
-        "policy": {
-          "enrollment": {
-            "enrolled": 0,
-            "minimum": 0,
-            "maximum": 1
-          }
-        },
         "_links": {
           "enroll": {
             "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",

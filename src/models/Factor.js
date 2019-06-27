@@ -326,7 +326,9 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
     },
 
     setCustomHotpVendorName: function(attributes) {
-      // Set vendorname from profile during enroll.
+      // If factor is token:hotp and not enrolled, we assume the first profile is the default.
+      // If factor is enrolled, we only support one profile to be enrolled, so find that one
+      // and display as enrolled profile. We do this by populating profile name in vendorName.
       if (attributes.factorType === 'token:hotp' && attributes.profiles) {
         if (attributes.status === 'NOT_SETUP') {
           attributes.vendorName = attributes.profiles[0].name;
