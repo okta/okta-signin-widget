@@ -80,6 +80,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'features.deviceFingerprinting': ['boolean', false, false],
       'features.hideSignOutLinkInMFA' : ['boolean', false, false],
       'features.hideBackToSignInForReset' : ['boolean', false, false],
+      'features.showCustomizableBackLinkInMFA' : ['boolean', false, false],
       'features.customExpiredPassword': ['boolean', true, false],
       'features.registration': ['boolean', false, false],
       'features.consent': ['boolean', false, false],
@@ -155,6 +156,10 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
 
       //Consent
       'consent.cancel': 'function',
+
+      //Customizable back link in MFA
+      'customizableBackLinkInMFA.label': 'string',
+      'customizableBackLinkInMFA.fn': 'function',
 
       //IDP Discovery
       'idpDiscovery.requestContext': 'string',
@@ -258,7 +263,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       configuredSocialIdps: {
         deps: ['idps'],
         fn: function (idps) {
-          return _.map(idps, function (idp) { 
+          return _.map(idps, function (idp) {
             var type = idp.type && idp.type.toLowerCase();
             if ( !( type && _.contains(supportedIdps, type) ) ) {
               type = 'general-idp';

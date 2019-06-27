@@ -27,24 +27,25 @@ function (Okta,
   resU2F,
   resEnrollActivateU2F,
   resSuccess) {
-  var { $ } = Okta;
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
   Expect.describe('EnrollU2F', function () {
 
-    function setup (startRouter, onlyU2F) {
+    function setup (startRouter, onlyU2F, settings) {
+      settings || (settings = {});
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
       var successSpy = jasmine.createSpy('success');
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-      var router = new Router({
+      var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         globalSuccessFn: successSpy,
-      });
+      }, settings));
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
@@ -98,6 +99,18 @@ function (Okta,
       });
     }
 
+    function setupWithCustomBackLink () {
+      return setup(false, false, {
+        'features.showCustomizableBackLinkInMFA': true,
+        customizableBackLinkInMFA: {
+          label: 'Custom Back Link',
+          fn: function (e) {
+            $(e.target).addClass('test-back-link-class');
+          },
+        }
+      });
+    }
+
     function expectError (test, errorMessage){
       expect(window.u2f.register).toHaveBeenCalled();
       expect(test.form.hasErrors()).toBe(true);
@@ -130,6 +143,16 @@ function (Okta,
       itp('has a "back" link in the footer', function () {
         return setup().then(function (test) {
           Expect.isVisible(test.form.backLink());
+          expect(test.form.backLink().text().trim()).toBe('Back to factor list');
+        });
+      });
+      itp('shows custom back link if features.showCustomizableBackLinkInMFA is true', function () {
+        return setupWithCustomBackLink().then(function (test) {
+          expect(test.form.backLink().length).toBe(1);
+          expect(test.form.backLink().text().trim()).toBe('Custom Back Link');
+          expect(test.form.backLink().hasClass('test-back-link-class')).toBe(false);
+          test.form.backLink().click();
+          expect(test.form.backLink().hasClass('test-back-link-class')).toBe(true);
         });
       });
     });

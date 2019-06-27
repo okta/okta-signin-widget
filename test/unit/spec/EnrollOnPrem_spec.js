@@ -23,17 +23,18 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
 
   Expect.describe('EnrollOnPrem', function () {
 
-    function setup (response, includeOnPrem, startRouter) {
+    function setup (response, includeOnPrem, startRouter, settings) {
+      settings || (settings = {});
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-      var router = new Router({
+      var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
-      });
+      }, settings));
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
@@ -91,6 +92,18 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       return setup(responseCopy, true);
     };
 
+    function setupWithCustomBackLink () {
+      return setup(null, false, false, {
+        'features.showCustomizableBackLinkInMFA': true,
+        customizableBackLinkInMFA: {
+          label: 'Custom Back Link',
+          fn: function (e) {
+            $(e.target).addClass('test-back-link-class');
+          },
+        }
+      });
+    }
+
     Expect.describe('RSA', function () {
 
       Expect.describe('Header & Footer', function () {
@@ -103,6 +116,16 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
         itp('has a "back" link in the footer', function () {
           return setup().then(function (test) {
             Expect.isVisible(test.form.backLink());
+            expect(test.form.backLink().text().trim()).toBe('Back to factor list');
+          });
+        });
+        itp('shows custom back link if features.showCustomizableBackLinkInMFA is true', function () {
+          return setupWithCustomBackLink().then(function (test) {
+            expect(test.form.backLink().length).toBe(1);
+            expect(test.form.backLink().text().trim()).toBe('Custom Back Link');
+            expect(test.form.backLink().hasClass('test-back-link-class')).toBe(false);
+            test.form.backLink().click();
+            expect(test.form.backLink().hasClass('test-back-link-class')).toBe(true);
           });
         });
         itp('does not allow autocomplete', function () {

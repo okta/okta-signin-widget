@@ -31,17 +31,18 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
 
   Expect.describe('EnrollSms', function () {
 
-    function setup (resp, startRouter) {
+    function setup (resp, startRouter, settings) {
+      settings || (settings = {});
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-      var router = new Router({
+      var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
-      });
+      }, settings));
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
@@ -105,6 +106,18 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
     var setupAndSendValidCodeIdx = _.partial(setupAndSendCodeIdx, resFactorEnrollActivateSms, 'US', '4151234567');
     var setupAndSendInvalidCode = _.partial(setupAndSendCode, resEnrollError, 'US', '415');
 
+    function setupWithCustomBackLink (res) {
+      return setup(res, false, {
+        'features.showCustomizableBackLinkInMFA': true,
+        customizableBackLinkInMFA: {
+          label: 'Custom Back Link',
+          fn: function (e) {
+            $(e.target).addClass('test-back-link-class');
+          },
+        }
+      });
+    }
+
     function expectResendButton (test) {
       var button = test.form.sendCodeButton();
       expect(button.trimmedText()).toEqual('Re-send code');
@@ -131,11 +144,26 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
           expect(test.beacon.hasClass('mfa-okta-sms')).toBe(true);
         });
       });
+      itp('has a "back" link in the footer', function () {
+        return setup(allFactorsRes).then(function (test) {
+          Expect.isVisible(test.form.backLink());
+          expect(test.form.backLink().text().trim()).toBe('Back to factor list');
+        });
+      });
       itp('links back to factors directly if phone has not been enrolled', function () {
         return setup(allFactorsRes).then(function (test) {
           test.form.backLink().click();
           expect(test.router.navigate.calls.mostRecent().args)
             .toEqual(['signin/enroll', { trigger: true }]);
+        });
+      });
+      itp('shows custom back link if features.showCustomizableBackLinkInMFA is true', function () {
+        return setupWithCustomBackLink().then(function (test) {
+          expect(test.form.backLink().length).toBe(1);
+          expect(test.form.backLink().text().trim()).toBe('Custom Back Link');
+          expect(test.form.backLink().hasClass('test-back-link-class')).toBe(false);
+          test.form.backLink().click();
+          expect(test.form.backLink().hasClass('test-back-link-class')).toBe(true);
         });
       });
       itp('returns to factor list when browser\'s back button is clicked', function () {
@@ -275,8 +303,8 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
           });
       });
 
-      itp('shows warning message to click "Re-send" after 30s', function () {  
-        Util.speedUpDelay();      
+      itp('shows warning message to click "Re-send" after 30s', function () {
+        Util.speedUpDelay();
         return setup().then(function (test) {
           test.setNextResponse(resFactorEnrollActivateSms);
           enterCode(test, 'US', '4151111111');
@@ -304,7 +332,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             expectResendButton(test);
             expect(test.form.warningMessage()).toContain(
               'Haven\'t received an SMS? To try again, click Re-send code.');
-          });     
+          });
       });
 
       itp('enrolls with correct info when sendCode is clicked', function () {

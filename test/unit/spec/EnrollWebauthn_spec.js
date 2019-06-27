@@ -42,8 +42,8 @@ function (Okta,
 
   Expect.describe('EnrollWebauthn', function () {
 
-    function setup (startRouter, onlyWebauthn) {
-      var settings = {};
+    function setup (startRouter, onlyWebauthn, settings) {
+      settings || (settings = {});
       settings['features.webauthn'] = true;
 
       var setNextResponse = Util.mockAjax();
@@ -78,6 +78,18 @@ function (Okta,
             afterErrorHandler: afterErrorHandler
           });
         });
+    }
+
+    function setupWithCustomBackLink () {
+      return setup(false, false, {
+        'features.showCustomizableBackLinkInMFA': true,
+        customizableBackLinkInMFA: {
+          label: 'Custom Back Link',
+          fn: function (e) {
+            $(e.target).addClass('test-back-link-class');
+          },
+        }
+      });
     }
 
     function mockWebauthn (){
@@ -119,6 +131,16 @@ function (Okta,
       itp('has a "back" link in the footer', function () {
         return setup().then(function (test) {
           Expect.isVisible(test.form.backLink());
+          expect(test.form.backLink().text().trim()).toBe('Back to factor list');
+        });
+      });
+      itp('shows custom back link if features.showCustomizableBackLinkInMFA is true', function () {
+        return setupWithCustomBackLink().then(function (test) {
+          expect(test.form.backLink().length).toBe(1);
+          expect(test.form.backLink().text().trim()).toBe('Custom Back Link');
+          expect(test.form.backLink().hasClass('test-back-link-class')).toBe(false);
+          test.form.backLink().click();
+          expect(test.form.backLink().hasClass('test-back-link-class')).toBe(true);
         });
       });
     });

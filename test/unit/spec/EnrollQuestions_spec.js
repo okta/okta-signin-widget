@@ -26,17 +26,18 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function setup (res, startRouter, languagesResponse) {
+  function setup (res, startRouter, languagesResponse, settings) {
+    settings || (settings = {});
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({ url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-    var router = new Router({
+    var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
       'features.router': startRouter
-    });
+    }, settings));
     router.on('afterError', afterErrorHandler);
     Util.registerRouter(router);
     Util.mockRouterNavigate(router, startRouter);
@@ -70,6 +71,18 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
       _.extend({ delay: 0 }, labelsLoginJa),
       _.extend({ delay: 0 }, labelsCountryJa)
     ]);
+  }
+
+  function setupWithCustomBackLink (res) {
+    return setup(res, false, null, {
+      'features.showCustomizableBackLinkInMFA': true,
+      customizableBackLinkInMFA: {
+        label: 'Custom Back Link',
+        fn: function (e) {
+          $(e.target).addClass('test-back-link-class');
+        },
+      }
+    });
   }
 
   function testEnrollQuestion (allFactors, expectedStateToken) {
@@ -249,9 +262,19 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
     });
     itp('returns to factor list when back link is clicked', function () {
       return setup(allFactors).then(function (test) {
+        expect(test.form.backLink().text().trim()).toBe('Back to factor list');
         test.form.backLink().click();
         expect(test.router.navigate.calls.mostRecent().args)
           .toEqual(['signin/enroll', { trigger: true }]);
+      });
+    });
+    itp('shows custom back link if features.showCustomizableBackLinkInMFA is true', function () {
+      return setupWithCustomBackLink(allFactors).then(function (test) {
+        expect(test.form.backLink().length).toBe(1);
+        expect(test.form.backLink().text().trim()).toBe('Custom Back Link');
+        expect(test.form.backLink().hasClass('test-back-link-class')).toBe(false);
+        test.form.backLink().click();
+        expect(test.form.backLink().hasClass('test-back-link-class')).toBe(true);
       });
     });
   }

@@ -78,6 +78,10 @@ define(['okta', './Form'], function (Okta, Form) {
       return this.$('.enroll-choices').find('.auth-footer .js-skip');
     },
 
+    backToLink: function () {
+      return this.$('.enroll-choices').find('.auth-footer .js-back');
+    },
+
     enrolledFactorList: function () {
       var lists = this.$('.enroll-factor-list');
       return lists.length === 2 ? lists.eq(0) : $();

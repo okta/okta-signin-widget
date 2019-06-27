@@ -32,17 +32,18 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
 
   Expect.describe('EnrollCall', function () {
 
-    function setup (resp, startRouter) {
+    function setup (resp, startRouter, settings) {
+      settings || (settings = {});
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var afterRenderHandler = jasmine.createSpy('afterRenderHandler');
-      var router = new Router({
+      var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
-      });
+      }, settings));
       router.on('afterError', afterRenderHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
@@ -104,6 +105,18 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
     var setupAndSendValidCodeWithFactorEnroll = _.partial(setupAndSendCode, resFactorEnrollActivateCall, 'US', '6501231234');
     var setupAndSendInvalidCode = _.partial(setupAndSendCode, resEnrollError, 'US', '650');
 
+    function setupWithCustomBackLink () {
+      return setup(null, false, {
+        'features.showCustomizableBackLinkInMFA': true,
+        customizableBackLinkInMFA: {
+          label: 'Custom Back Link',
+          fn: function (e) {
+            $(e.target).addClass('test-back-link-class');
+          },
+        }
+      });
+    }
+
     function expectRedialButton (test) {
       var button = test.form.sendCodeButton();
       expect(button.trimmedText()).toEqual('Redial');
@@ -132,6 +145,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       });
       itp('links back to factors directly if phone has not been enrolled', function () {
         return setup().then(function (test) {
+          expect(test.form.backLink().text().trim()).toBe('Back to factor list');
           test.form.backLink().click();
           expect(test.router.navigate.calls.mostRecent().args)
             .toEqual(['signin/enroll', { trigger: true }]);
@@ -146,6 +160,15 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             Expect.isEnrollChoices(test.router.controller);
             Util.stopRouter();
           });
+      });
+      itp('shows custom back link if features.showCustomizableBackLinkInMFA is true', function () {
+        return setupWithCustomBackLink().then(function (test) {
+          expect(test.form.backLink().length).toBe(1);
+          expect(test.form.backLink().text().trim()).toBe('Custom Back Link');
+          expect(test.form.backLink().hasClass('test-back-link-class')).toBe(false);
+          test.form.backLink().click();
+          expect(test.form.backLink().hasClass('test-back-link-class')).toBe(true);
+        });
       });
       itp('visits previous link if phone is enrolled, but not activated', function () {
         return setupAndSendValidCode().then(function (test) {
@@ -585,8 +608,8 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           });
       });
 
-      itp('shows warning message to click "Redial" after 30s', function () {  
-        Util.speedUpDelay();      
+      itp('shows warning message to click "Redial" after 30s', function () {
+        Util.speedUpDelay();
         return setup().then(function (test) {
           test.setNextResponse(resFactorEnrollActivateCall);
           enterPhone(test, 'AQ', '6501231234');

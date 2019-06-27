@@ -12,18 +12,37 @@
 
 define(['okta', 'util/Enums'], function (Okta, Enums) {
 
+  var _ = Okta._;
+
   return Okta.View.extend({
     template: '\
       <a href="#" class="link help js-back" data-se="back-link">\
-        {{i18n code="mfa.backToFactors" bundle="login"}}\
+        {{backLabel}}\
       </a>\
     ',
     className: 'auth-footer',
     events: {
       'click .js-back' : function (e) {
         e.preventDefault();
+        if (this.settings.get('features.showCustomizableBackLinkInMFA')) {
+          var backToFn = this.settings.get('customizableBackLinkInMFA.fn');
+          if (_.isFunction(backToFn)) {
+            backToFn(e);
+            return;
+          }
+        }
         this.back();
       }
+    },
+
+    getTemplateData: function () {
+      var backLabel = Okta.loc('mfa.backToFactors', 'login');
+      if (this.settings.get('features.showCustomizableBackLinkInMFA')) {
+        backLabel = this.settings.get('customizableBackLinkInMFA.label');
+      }
+      return {
+        backLabel
+      };
     },
 
     back: function () {

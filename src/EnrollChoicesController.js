@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 13] */
+/* eslint complexity: [2, 14] */
 define([
   'okta',
   './util/FormController',
@@ -18,10 +18,11 @@ define([
   './util/RouterUtil',
   'views/enroll-choices/FactorList',
   'views/enroll-choices/RequiredFactorList',
-  'views/enroll-choices/Footer'
+  'views/enroll-choices/Footer',
+  'views/shared/FooterWithBackLink'
 ],
 function (Okta, FormController, Enums, RouterUtil, FactorList,
-  RequiredFactorList, Footer) {
+  RequiredFactorList, Footer, FooterWithBackLink) {
 
   var _ = Okta._;
 
@@ -204,6 +205,11 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
 
       if (this.options.appState.get('skipLink') && pageType === Enums.HAS_REQUIRED_SOME_REQUIRED_ENROLLED) {
         this.add(new Footer(this.toJSON()));
+      } else if (this.settings.get('features.showCustomizableBackLinkInMFA')) {
+        this.add(new FooterWithBackLink(_.extend({}, this.toJSON(), {
+          backLabel: this.settings.get('customizableBackLinkInMFA.label'),
+          backFn: this.settings.get('customizableBackLinkInMFA.fn')
+        })));
       }
     }
   });

@@ -82,21 +82,23 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
 
   Expect.describe('EnrollChoices', function () {
 
-    function setup (res, showSecurityImage, webauthnEnabled) {
+    function setup (res, showSecurityImage, webauthnEnabled, customBackLink, settings) {
+      settings || (settings = {});
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({
         url: baseUrl
       });
-      var router = new Router({
+      var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         features: {
           securityImage: showSecurityImage,
-          webauthn: webauthnEnabled
+          webauthn: webauthnEnabled,
+          showCustomizableBackLinkInMFA: customBackLink
         },
         authClient: authClient
-      });
+      }, settings));
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
       Util.mockJqueryCss();
@@ -116,12 +118,26 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       return JSON.parse(JSON.stringify(res));
     }
 
-    function setupWithRequiredNoneEnrolled () {
+    function createBackLinkSettings () {
+      return {
+        customizableBackLinkInMFA: {
+          label: 'Custom Back Link',
+          fn: function (e) {
+            $(e.target).addClass('test-back-link-class');
+          },
+        }
+      };
+    }
+
+    function setupWithRequiredNoneEnrolled (showCustomizableBackLinkInMFA) {
       var res = deepClone(resAllFactors);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
       res.response._embedded.factors[2].enrollment = 'REQUIRED';
       res.response._embedded.factors[3].enrollment = 'REQUIRED';
+      if (showCustomizableBackLinkInMFA) {
+        return setup(res, false, false, showCustomizableBackLinkInMFA, createBackLinkSettings());
+      }
       return setup(res);
     }
 
@@ -135,22 +151,28 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       return setup(res);
     }
 
-    function setupWithRequiredSomeRequiredEnrolled () {
+    function setupWithRequiredSomeRequiredEnrolled (showCustomizableBackLinkInMFA) {
       var res = deepClone(resAllFactors);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
       res.response._embedded.factors[2].enrollment = 'REQUIRED';
       res.response._embedded.factors[2].status = 'ACTIVE';
+      if (showCustomizableBackLinkInMFA) {
+        return setup(res, false, false, showCustomizableBackLinkInMFA, createBackLinkSettings());
+      }
       return setup(res);
     }
 
-    function setupWithRequiredAllRequiredEnrolled (includeOnPrem) {
+    function setupWithRequiredAllRequiredEnrolled (includeOnPrem, showCustomizableBackLinkInMFA) {
       var response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
       var res = deepClone(response);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[0].status = 'ACTIVE';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].status = 'ACTIVE';
+      if (showCustomizableBackLinkInMFA) {
+        return setup(res, false, false, showCustomizableBackLinkInMFA, createBackLinkSettings());
+      }
       return setup(res);
     }
 
@@ -300,6 +322,13 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.skipSetUpLink().length).toBe(0);
           });
         });
+        itp('has a back link if features.showCustomizableBackLinkInMFA is true and there is no skip link', function () {
+          return setupWithRequiredNoneEnrolled(true).then(function (test) {
+            expect(test.form.skipSetUpLink().length).toBe(0);
+            expect(test.form.backToLink().length).toBe(1);
+            expect(test.form.backToLink().text().trim()).toBe('Custom Back Link');
+          });
+        });
         itp('has the button text "Configure next factor if a required factor has already been enrolled"', function () {
           return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
             expect(test.form.submitButtonText()).toBe('Configure next factor');
@@ -329,6 +358,12 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         itp('has skip set up link when it is in the response and at least 1 required factor is enrolled but all required are not enrolled yet', function () {
           return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
             expect(test.form.skipSetUpLink().length).toBe(1);
+          });
+        });
+        itp('does not have back link if footer has a skip link, even if features.showCustomizableBackLinkInMFA is true', function () {
+          return setupWithRequiredSomeRequiredEnrolled(true).then(function (test) {
+            expect(test.form.skipSetUpLink().length).toBe(1);
+            expect(test.form.backToLink().length).toBe(0);
           });
         });
       });
@@ -369,6 +404,13 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         itp('does not have skip set up link when all required factors are enrolled', function () {
           return setupWithRequiredAllRequiredEnrolled().then(function (test) {
             expect(test.form.skipSetUpLink().length).toBe(0);
+          });
+        });
+        itp('has a back link if features.showCustomizableBackLinkInMFA is true and there is no skip link', function () {
+          return setupWithRequiredAllRequiredEnrolled(false, true).then(function (test) {
+            expect(test.form.skipSetUpLink().length).toBe(0);
+            expect(test.form.backToLink().length).toBe(1);
+            expect(test.form.backToLink().text().trim()).toBe('Custom Back Link');
           });
         });
         itp('does not show the enrolled list if no factors have been enrolled', function () {

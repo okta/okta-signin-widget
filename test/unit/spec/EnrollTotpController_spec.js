@@ -44,6 +44,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
   Expect.describe('EnrollTotp', function () {
 
     function setup (res, selectedFactor, settings, startRouter) {
+      settings || (settings = {});
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -169,7 +170,6 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
         });
     }
 
-
     function setupAndEnrollOktaPushWithIdxPipeline () {
       return setupOktaPushWithIdxPipeline()
         .then(function (test) {
@@ -214,6 +214,21 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           test.manualSetupForm.selectManualOption();
           return test.manualSetupForm.waitForManual(test);
         });
+    }
+
+    function setupTotpWithCustomBackLink () {
+      return setup(resAllFactors, {
+        provider: 'okta',
+        factorType: 'token:software:totp'
+      }, {
+        'features.showCustomizableBackLinkInMFA': true,
+        customizableBackLinkInMFA: {
+          label: 'Custom Back Link',
+          fn: function (e) {
+            $(e.target).addClass('test-back-link-class');
+          },
+        }
+      });
     }
 
     function testEnrollFactor (setupOktaTotpFn, setupAndEnrollOktaTotpFn, setupGoogleTotpFn, setupAndEnrollGoogleTotpFn, expectedStateToken) {
@@ -1073,6 +1088,16 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       itp('has a "back" link in the footer', function () {
         return setupOktaTotp().then(function (test) {
           Expect.isVisible(test.form.backLink());
+          expect(test.form.backLink().text().trim()).toBe('Back to factor list');
+        });
+      });
+      itp('shows custom back link if features.showCustomizableBackLinkInMFA is true', function () {
+        return setupTotpWithCustomBackLink().then(function (test) {
+          expect(test.form.backLink().length).toBe(1);
+          expect(test.form.backLink().text().trim()).toBe('Custom Back Link');
+          expect(test.form.backLink().hasClass('test-back-link-class')).toBe(false);
+          test.form.backLink().click();
+          expect(test.form.backLink().hasClass('test-back-link-class')).toBe(true);
         });
       });
     });

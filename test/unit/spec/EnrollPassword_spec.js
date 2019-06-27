@@ -17,25 +17,26 @@ define([
 function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $sandbox,
   resAllFactors, resError, resSuccess) {
 
-  var { $ } = Okta;
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
   Expect.describe('EnrollPassword', function () {
 
-    function setup (startRouter) {
+    function setup (startRouter, settings) {
+      settings || (settings = {});
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({ url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var successSpy = jasmine.createSpy('success');
-      var router = new Router({
+      var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter,
         globalSuccessFn: successSpy,
-      });
+      }, settings));
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
@@ -57,6 +58,18 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
             afterErrorHandler: afterErrorHandler
           });
         });
+    }
+
+    function setupWithCustomBackLink () {
+      return setup(false, {
+        'features.showCustomizableBackLinkInMFA': true,
+        customizableBackLinkInMFA: {
+          label: 'Custom Back Link',
+          fn: function (e) {
+            $(e.target).addClass('test-back-link-class');
+          },
+        }
+      });
     }
 
     itp('displays the correct factorBeacon', function () {
@@ -191,9 +204,19 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
     });
     itp('returns to factor list when back link is clicked', function () {
       return setup().then(function (test) {
+        expect(test.form.backLink().text().trim()).toBe('Back to factor list');
         test.form.backLink().click();
         expect(test.router.navigate.calls.mostRecent().args)
           .toEqual(['signin/enroll', { trigger: true }]);
+      });
+    });
+    itp('shows custom back link if features.showCustomizableBackLinkInMFA is true', function () {
+      return setupWithCustomBackLink().then(function (test) {
+        expect(test.form.backLink().length).toBe(1);
+        expect(test.form.backLink().text().trim()).toBe('Custom Back Link');
+        expect(test.form.backLink().hasClass('test-back-link-class')).toBe(false);
+        test.form.backLink().click();
+        expect(test.form.backLink().hasClass('test-back-link-class')).toBe(true);
       });
     });
 

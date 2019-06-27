@@ -22,16 +22,17 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
 
   Expect.describe('EnrollDuo', function () {
 
-    function setup (startRouter) {
+    function setup (startRouter, settings) {
+      settings || (settings = {});
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl});
-      var router = new Router({
+      var router = new Router(_.extend({
         el: $sandbox,
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter
-      });
+      }, settings));
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       Util.mockDuo();
@@ -54,6 +55,18 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
         });
     }
 
+    function setupWithCustomBackLink () {
+      return setup(false, {
+        'features.showCustomizableBackLinkInMFA': true,
+        customizableBackLinkInMFA: {
+          label: 'Custom Back Link',
+          fn: function (e) {
+            $(e.target).addClass('test-back-link-class');
+          },
+        }
+      });
+    }
+
     itp('displays the correct factorBeacon', function () {
       return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
@@ -63,6 +76,12 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
     itp('iframe has title', function () {
       return setup().then(function (test) {
         expect(test.form.iframe().attr('title')).toBe(test.form.titleText());
+      });
+    });
+    itp('has a "back" link in the footer', function () {
+      return setup().then(function (test) {
+        Expect.isVisible(test.form.backLink());
+        expect(test.form.backLink().text().trim()).toBe('Back to factor list');
       });
     });
     itp('visits previous link when back link is clicked', function () {
@@ -81,6 +100,15 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
             }
           });
         });
+    });
+    itp('shows custom back link if features.showCustomizableBackLinkInMFA is true', function () {
+      return setupWithCustomBackLink().then(function (test) {
+        expect(test.form.backLink().length).toBe(1);
+        expect(test.form.backLink().text().trim()).toBe('Custom Back Link');
+        expect(test.form.backLink().hasClass('test-back-link-class')).toBe(false);
+        test.form.backLink().click();
+        expect(test.form.backLink().hasClass('test-back-link-class')).toBe(true);
+      });
     });
     itp('returns to factor list when browser\'s back button is clicked', function () {
       return setup(true).then(function (test) {
