@@ -251,6 +251,7 @@ define([
     EnrollSms: 'enroll-sms',
     EnrollSymantecVip: 'enroll-symantec',
     EnrollTotp: 'enroll-totp',
+    EnrollHotp: 'enroll-hotp',
     EnrollU2F: 'enroll-u2f',
     EnrollWebauthn: 'enroll-webauthn',
     EnrollWindowsHello: 'enroll-windows-hello',

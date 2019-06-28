@@ -15,11 +15,12 @@ define([
   'helpers/xhr/MFA_ENROLL_push',
   'helpers/xhr/MFA_ENROLL_multipleU2F',
   'helpers/xhr/MFA_ENROLL_multipleOktaVerify',
+  'helpers/xhr/MFA_ENROLL_enrolledHotp',
   'helpers/xhr/SUCCESS'
 ],
 function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, Router,
   $sandbox, resAllFactors, resAllFactorsOnPrem, resPush, resMultipleU2F,
-  resMultipleOktaVerify, resSuccess) {
+  resMultipleOktaVerify, resEnrolledHotp, resSuccess) {
 
   var { $, _ } = Okta;
   var itp = Expect.itp;
@@ -642,6 +643,22 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           true
         );
       });
+      Expect.describe('Hotp', function () {
+        itHasIconAndText(
+          'CUSTOM_HOTP',
+          'mfa-hotp',
+          'Entrust',
+          'Enter a single-use code from an authenticator.',
+          resAllFactors,
+        );
+
+        itp('displays enrolled profile name if already enrolled', function () {
+          return setup(resEnrolledHotp).then(function (test) {
+            expect(test.form.factorTitle('CUSTOM_HOTP')).toBe('Entrust2');
+            expect(test.form.factorHasSuccessCheck('CUSTOM_HOTP')).toBe(true);
+          });
+        });
+      });
       Expect.describe('QUESTION', function () {
         itHasIconAndText(
           'QUESTION',
@@ -675,7 +692,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       itp('is in correct order', function () {
         return setup(resAllFactors).then(function (test) {
           var factorList = test.form.getFactorList();
-          expect(factorList).toEqual(['OKTA_VERIFY', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH',
+          expect(factorList).toEqual(['OKTA_VERIFY', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH', 'CUSTOM_HOTP',
             'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'RSA_SECURID', 'GENERIC_SAML', 'GENERIC_OIDC']);
         });
       });

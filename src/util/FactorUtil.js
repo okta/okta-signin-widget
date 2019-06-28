@@ -66,8 +66,8 @@ function (Okta, TimeUtil) {
     },
     'CUSTOM_HOTP': {
       label: '',
-      description: '',
-      iconClassName: 'mfa-custom-factor',
+      description: Okta.loc('factor.hotp.description', 'login'),
+      iconClassName: 'mfa-hotp',
       sortOrder: 6
     },
     'SMS': {

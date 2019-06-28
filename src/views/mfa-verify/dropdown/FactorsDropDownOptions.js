@@ -93,7 +93,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
     },
 
     'CUSTOM_HOTP': {
-      icon: 'factor-icon mfa-custom-factor-30',
+      icon: 'factor-icon mfa-hotp-30',
       className: 'factor-option',
       title: function () {
         return this.model.get('factorLabel');
