@@ -1,7 +1,7 @@
 define(['./Form'], function (Form) {
 
   return Form.extend({
-    title: function() {
+    title: function () {
       return this.$('[data-se="o-form-head"]');
     },
 
