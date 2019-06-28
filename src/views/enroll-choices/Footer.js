@@ -12,11 +12,20 @@
 
 define(['okta'], function (Okta) {
 
+  var _ = Okta._;
+
   return Okta.View.extend({
-    template: 
-      `<a href="#" class="link goto js-skip" data-se="skip-link">
-          {{i18n code="enroll.choices.setup.skip" bundle="login"}}
-       </a>`,
+    template: `
+    {{#if showBackLink}}
+      <a href="#" class="link help js-back" data-se="back-link">
+        {{backLabel}}
+      </a>
+    {{/if}}
+    {{#if showSkipLink}}
+      <a href="#" class="link goto js-skip" data-se="skip-link">
+        {{i18n code="enroll.choices.setup.skip" bundle="login"}}
+      </a>
+    {{/if}}`,
     className: 'auth-footer clearfix',
     events: {
       'click .js-skip' : function (e) {
@@ -24,7 +33,24 @@ define(['okta'], function (Okta) {
         this.model.doTransaction(function (transaction) {
           return transaction.skip();
         });
+      },
+      'click .js-back' : function (e) {
+        e.preventDefault();
+        var backToFn = this.settings.get('customizableBackLinkInMFA.fn');
+        if (_.isFunction(backToFn)) {
+          backToFn(e);
+        }
       }
+    },
+    getTemplateData: function () {
+      var data = {
+        showSkipLink: this.options.showSkipLink,
+        showBackLink: this.options.showBackLink,
+      };
+      if (this.options.showBackLink) {
+        data.backLabel = this.settings.get('customizableBackLinkInMFA.label');
+      }
+      return data;
     }
   });
 

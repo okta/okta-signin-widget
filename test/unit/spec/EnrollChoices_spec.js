@@ -320,9 +320,10 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         itp('does not have skip set up link when all factors are required', function () {
           return setupWithRequiredNoneEnrolled().then(function (test) {
             expect(test.form.skipSetUpLink().length).toBe(0);
+            expect(test.form.backToLink().length).toBe(0);
           });
         });
-        itp('has a back link if features.showCustomizableBackLinkInMFA is true and there is no skip link', function () {
+        itp('has a back link if features.showCustomizableBackLinkInMFA is true', function () {
           return setupWithRequiredNoneEnrolled(true).then(function (test) {
             expect(test.form.skipSetUpLink().length).toBe(0);
             expect(test.form.backToLink().length).toBe(1);
@@ -360,10 +361,10 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.skipSetUpLink().length).toBe(1);
           });
         });
-        itp('does not have back link if footer has a skip link, even if features.showCustomizableBackLinkInMFA is true', function () {
+        itp('has a back link and a skip link, when features.showCustomizableBackLinkInMFA is true and not all enrolled factors are enrolled', function () {
           return setupWithRequiredSomeRequiredEnrolled(true).then(function (test) {
             expect(test.form.skipSetUpLink().length).toBe(1);
-            expect(test.form.backToLink().length).toBe(0);
+            expect(test.form.backToLink().length).toBe(1);
           });
         });
       });

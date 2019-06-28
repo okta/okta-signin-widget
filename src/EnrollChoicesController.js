@@ -18,11 +18,10 @@ define([
   './util/RouterUtil',
   'views/enroll-choices/FactorList',
   'views/enroll-choices/RequiredFactorList',
-  'views/enroll-choices/Footer',
-  'views/shared/FooterWithBackLink'
+  'views/enroll-choices/Footer'
 ],
 function (Okta, FormController, Enums, RouterUtil, FactorList,
-  RequiredFactorList, Footer, FooterWithBackLink) {
+  RequiredFactorList, Footer) {
 
   var _ = Okta._;
 
@@ -203,12 +202,13 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
 
       this.state.set('pageType', pageType);
 
-      if (this.options.appState.get('skipLink') && pageType === Enums.HAS_REQUIRED_SOME_REQUIRED_ENROLLED) {
-        this.add(new Footer(this.toJSON()));
-      } else if (this.settings.get('features.showCustomizableBackLinkInMFA')) {
-        this.add(new FooterWithBackLink(_.extend({}, this.toJSON(), {
-          backLabel: this.settings.get('customizableBackLinkInMFA.label'),
-          backFn: this.settings.get('customizableBackLinkInMFA.fn')
+      var showSkipLink = this.options.appState.get('skipLink')
+        && pageType === Enums.HAS_REQUIRED_SOME_REQUIRED_ENROLLED;
+      var showBackLink = this.settings.get('features.showCustomizableBackLinkInMFA');
+      if (showSkipLink || showBackLink) {
+        this.add(new Footer(_.extend({}, this.toJSON(), {
+          showSkipLink,
+          showBackLink
         })));
       }
     }
