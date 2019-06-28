@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 15] */
+/* eslint max-params: [2, 16] */
 /*global JSON */
 define([
   'okta',

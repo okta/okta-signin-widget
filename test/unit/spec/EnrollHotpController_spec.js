@@ -20,13 +20,12 @@ function (Okta,
   Router,
   resEnrollAllFactors) {
 
-  const { _, $ } = Okta;
   const itp = Expect.itp;
   const tick = Expect.tick;
 
   Expect.describe('EnrollHotp', function () {
 
-    function setup (startRouter, onlyHotp) {
+    function setup () {
       const setNextResponse = Util.mockAjax();
       const baseUrl = 'https://foo.com';
       const authClient = new OktaAuth({url: baseUrl});
@@ -40,7 +39,7 @@ function (Okta,
       });
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
-      Util.mockRouterNavigate(router, startRouter);
+      Util.mockRouterNavigate(router);
       return tick()
         .then(function () {
           setNextResponse(resEnrollAllFactors);
@@ -48,7 +47,7 @@ function (Okta,
           return Expect.waitForEnrollChoices();
         })
         .then(function () {
-          router.enrollTotpFactor('custom', 'token:hotp');
+          router.enrollHotpFactor('custom', 'token:hotp');
           return Expect.waitForEnrollHotp({
             router: router,
             beacon: new Beacon($sandbox),
@@ -80,7 +79,7 @@ function (Okta,
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
           expect(test.form.errorHtml().html())
-            .toEqual('Contact your administrator to continue enrollement.');
+            .toEqual('Contact your administrator to continue enrollment.');
         });
       });
 
