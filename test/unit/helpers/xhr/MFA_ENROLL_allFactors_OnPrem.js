@@ -235,11 +235,30 @@ define({
            "user":"inca@clouditude.net"
         }
      }, {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
+        "factorType":"assertion:oidc",
+        "provider":"GENERIC_OIDC",
+        "vendorName":"OIDC Factor",
+        "_links":{
+          "enroll":{
+            "href":"http://rain.okta1.com:1802/api/v1/authn/factors",
+            "hints":{
+              "allow":[
+                "POST"
+              ]
+            }
+          }
+        },
+        "profile":{
+          "user":"inca@clouditude.net"
+        }
+     }, {
        "enrollment": "OPTIONAL",
        "status": "NOT_SETUP",
-       "factorType":"assertion:oidc",
-       "provider":"GENERIC_OIDC",
-       "vendorName":"OIDC Factor",
+       "factorType":"claims_provider",
+       "provider":"CUSTOM",
+       "vendorName":"IDP factor",
        "_links":{
           "enroll":{
              "href":"http://rain.okta1.com:1802/api/v1/authn/factors",
@@ -249,9 +268,6 @@ define({
                 ]
              }
           }
-       },
-       "profile":{
-          "user":"inca@clouditude.net"
        }
     }]
     },
