@@ -47,6 +47,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
           'password',
           'assertion:saml2',
           'assertion:oidc',
+          'claims_provider',
           'webauthn'
         ]
       },
