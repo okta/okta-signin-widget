@@ -122,7 +122,7 @@
     "handlebars": "4.0.14",
     "jquery": "1.12.1",
     "q": "1.4.1",
-    "u2f-api-polyfill": "0.4.1",
+    "u2f-api-polyfill": "0.4.3",
     "underscore": "1.8.3"
   },
   "optionalDependencies": {
