@@ -238,7 +238,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
 
               // Verify that the translation is being applied
               var loginBundle = $.ajax.calls.all()[0].returnValue.responseJSON;
-              var title = loginBundle['password.expired.title'];
+              var title = loginBundle['password.expired.title.generic'];
               var $title = $sandbox.find('.password-expired .okta-form-title');
               expect($title.length).toBe(1);
               expect($title.text()).toBe(title);

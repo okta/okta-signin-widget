@@ -15,19 +15,18 @@ var oktaSignIn = new OktaSignIn({
 });
 addMessageToPage('page', 'oidc_app');
 
-if (oktaSignIn.token.hasTokensInUrl()) {
-  oktaSignIn.token.parseTokensFromUrl(
-    function (res) {
-      var tokens = Array.isArray(res) ? res : [res];
-      for (var i = 0; i < tokens.length; ++i) {
-        if (tokens[i].idToken) {
-          addMessageToPage('idtoken_user', tokens[i].claims.name);
+if (oktaSignIn.hasTokensInUrl()) {
+  oktaSignIn.authClient.token.parseFromUrl()
+    .then(function (res) {
+        var tokens = Array.isArray(res) ? res : [res];
+        for (var i = 0; i < tokens.length; ++i) {
+          if (tokens[i].idToken) {
+            addMessageToPage('idtoken_user', tokens[i].claims.name);
+          }
         }
-      }
-    },
-    function (err) {
+      })
+    .fail(function (err) {
       addMessageToPage('oidc_error', JSON.stringify(err));
-    }
-  );
+    });
 }
 {{/cdnLayout}}
