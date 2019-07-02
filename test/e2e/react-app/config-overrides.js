@@ -28,7 +28,6 @@ module.exports = {
     Object.assign(config.resolve.alias, {
       '@okta/okta-signin-widget': MAIN_ENTRY,
       'okta-sign-in.min.css': path.resolve(ROOT_DIR, 'dist', 'css', 'okta-sign-in.min.css'),
-      'okta-theme.css': path.resolve(ROOT_DIR, 'dist', 'css', 'okta-theme.css'),
     });
     // Remove the 'ModuleScopePlugin' which keeps us from requiring outside the src/ dir
     config.resolve.plugins = [];

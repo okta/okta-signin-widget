@@ -1,6 +1,5 @@
 // inline totp form //
 .mfa-verify-totp-inline {
-
   .inline-input {
     width: 212px;
     float: left;
@@ -31,20 +30,18 @@
     display: block;
     text-align: center;
   }
-
 }
 
 // sms and call forms
 .mfa-verify-passcode {
-
   .link-button {
-    float: left;
+    float: right;
+    margin-top: 30px;
   }
 
-  .auth-passcode .o-form-input {
+  .auth-passcode {
+    float: left;
     width: 180px;
-    float: right;
-
     @include device-mq(x-small) {
       width: 170px;
     }
@@ -53,7 +50,6 @@
       width: 100%;
     }
   }
-
 }
 
 // Duo
