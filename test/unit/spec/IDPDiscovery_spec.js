@@ -35,6 +35,8 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
 
   var BEACON_LOADING_CLS = 'beacon-loading';
 
+  var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
+
   function setup (settings, requests) {
     settings || (settings = {});
     settings['features.idpDiscovery'] = true;
@@ -50,6 +52,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: WidgetUtil.transformErrorXHR, headers: {}});
     var successSpy = jasmine.createSpy('success');
+    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
 
     var setNextWebfingerResponse = function (res, reject) {
       spyOn(authClient, 'webfinger').and.callFake(function () {
@@ -74,6 +77,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
     var authContainer = new AuthContainer($sandbox);
     var form = new IDPDiscoveryForm($sandbox);
     var beacon = new Beacon($sandbox);
+    router.on('afterError', afterErrorHandler);
     router.idpDiscovery();
     Util.mockJqueryCss();
     return Expect.waitForIDPDiscovery({
@@ -84,13 +88,45 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       ac: authClient,
       setNextResponse: setNextResponse,
       setNextWebfingerResponse: setNextWebfingerResponse,
-      successSpy: successSpy
+      successSpy: successSpy,
+      afterErrorHandler: afterErrorHandler
     });
+  }
+
+  function setupSocial (settings) {
+    Util.mockOIDCStateGenerator();
+    return setup(_.extend({
+      clientId: 'someClientId',
+      redirectUri: 'https://0.0.0.0:9999',
+      authScheme: 'OAUTH2',
+      authParams: {
+        responseType: 'id_token',
+        display: 'popup',
+        scopes: [
+          'openid',
+          'email',
+          'profile'
+        ]
+      },
+      idps: [
+        {
+          type: 'FACEBOOK',
+          id: '0oaidiw9udOSceD1234'
+        }
+      ]
+    }, settings))
+      .then(function (test) {
+        spyOn(window, 'open').and.callFake(function () {
+          test.oidcWindow = {closed: false, close: jasmine.createSpy()};
+          return test.oidcWindow;
+        });
+        return test;
+      });
   }
 
   function setupPasswordlessAuth (requests) {
     return setup({ 'features.passwordlessAuth': true }, requests)
-      .then(function (test){
+      .then(function (test) {
         Util.mockRouterNavigate(test.router);
         test.setNextWebfingerResponse(resSuccessOktaIDP);
         test.setNextResponse(resPasswordlessUnauthenticated);
@@ -244,10 +280,10 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           expect(test.form.titleText()).toEqual('Sign In');
         });
       });
-      itp('uses default for username placeholder', function () {
+      itp('uses default for username label', function () {
         return setup().then(function (test) {
-          var $username = test.form.usernameField();
-          expect($username.attr('placeholder')).toEqual('Username');
+          var $usernameLabel = test.form.idpDiscoveryUsernameLabel();
+          expect($usernameLabel.text().trim()).toEqual('Username');
         });
       });
       itp('prevents autocomplete on username', function () {
@@ -330,10 +366,23 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           expect(cb.length).toBe(0);
         });
       });
-      itp('uses default for username tooltip', function () {
+      itp('username field does not have explain by default', function () {
         return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toEqual('Username');
+          var explain = test.form.usernameExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
+      itp('username field does have explain when is customized', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'primaryauth.username.tooltip': 'Custom Username Explain'
+            }
+          } 
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.usernameExplain();
+          expect(explain.text()).toEqual('Custom Username Explain');
         });
       });
       itp('has "Need help?" link', function () {
@@ -388,6 +437,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('does not show forgot password link when disabled and clicked', function () {
+        spyOn(SharedUtil, 'redirect');
         return setup().then(function (test) {
           test.form.setUsername('testuser@clouditude.net');
           test.setNextWebfingerResponse(resSuccessSAML);
@@ -407,6 +457,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('does not navigate to forgot password page when link disabled and clicked', function () {
+        spyOn(SharedUtil, 'redirect');
         return setup().then(function (test) {
           spyOn(test.router, 'navigate');
           test.form.setUsername('testuser@clouditude.net');
@@ -428,8 +479,8 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('does not navigate to custom forgot password page when link disabled and clicked', function () {
+        spyOn(SharedUtil, 'redirect');
         return setup({ 'helpLinks.forgotPassword': 'https://foo.com' }).then(function (test) {
-          spyOn(SharedUtil, 'redirect');
           test.form.setUsername('testuser@clouditude.net');
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
@@ -460,6 +511,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('does not navigate to unlock page when link disabled and clicked', function () {
+        spyOn(SharedUtil, 'redirect');
         return setup().then(function (test) {
           spyOn(test.router, 'navigate');
           test.form.setUsername('testuser@clouditude.net');
@@ -484,11 +536,11 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('does not navigate to custom unlock page when link disabled and clicked', function () {
+        spyOn(SharedUtil, 'redirect');
         return setup({
           'helpLinks.unlock': 'https://foo.com',
           'features.selfServiceUnlock': true
         }).then(function (test) {
-          spyOn(SharedUtil, 'redirect');
           test.form.setUsername('testuser@clouditude.net');
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.submit();
@@ -549,6 +601,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
 
     Expect.describe('transform username', function () {
       itp('calls the transformUsername function with the right parameters', function () {
+        spyOn(SharedUtil, 'redirect');
         return setupWithTransformUsername().then(function (test) {
           spyOn(test.router.settings, 'transformUsername');
           test.form.setUsername('testuser@clouditude.net');
@@ -578,6 +631,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           });
       });
       itp('changs the suffix of the username', function () {
+        spyOn(SharedUtil, 'redirect');
         return setupWithTransformUsername().then(function (test) {
           test.form.setUsername('testuser@clouditude.net');
           test.setNextWebfingerResponse(resSuccessSAML);
@@ -591,6 +645,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('does not change the suffix of the username if "IDP_DISCOVERY" operation is not handled', function () {
+        spyOn(SharedUtil, 'redirect');
         return setupWithTransformUsernameOnUnlock().then(function (test) {
           test.form.setUsername('testuser@clouditude.net');
           test.setNextWebfingerResponse(resSuccessSAML);
@@ -717,6 +772,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
 
       Expect.describe('beacon loading', function () {
         itp('shows beacon-loading animation when authClient webfinger is called', function () {
+          spyOn(SharedUtil, 'redirect');
           return setup({ features: { securityImage: true }})
             .then(function (test) {
               test.securityBeacon = test.router.header.currentBeacon.$el;
@@ -759,6 +815,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             });
         });
         itp('shows beacon-loading animation when webfinger is submitted (no security image)', function () {
+          spyOn(SharedUtil, 'redirect');
           return setup().then(function (test) {
             test.setNextWebfingerResponse(resSuccessSAML);
             test.form.setUsername('testuser@clouditude.net');
@@ -1077,6 +1134,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('calls authClient webfinger with correct values when submitted', function () {
+        spyOn(SharedUtil, 'redirect');
         return setup({'idpDiscovery.requestContext': 'http://rain.okta1.com:1802/app/UserHome'})
           .then(function (test) {
             test.form.setUsername(' testuser@clouditude.net');
@@ -1093,6 +1151,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           });
       });
       itp('does not call processCreds function before saving a model', function () {
+        spyOn(SharedUtil, 'redirect');
         var processCredsSpy = jasmine.createSpy('processCreds');
         return setup({
           processCreds: processCredsSpy
@@ -1109,6 +1168,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           });
       });
       itp('sets rememberMe cookie if rememberMe is enabled and checked on submit', function () {
+        spyOn(SharedUtil, 'redirect');
         var cookieSpy = Util.mockSetCookie();
         return setup({ 'features.rememberMe': true })
           .then(function (test) {
@@ -1126,6 +1186,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           });
       });
       itp('removes rememberMe cookie if called with existing username and unchecked', function () {
+        spyOn(SharedUtil, 'redirect');
         Util.mockGetCookie('ln', 'testuser@clouditude.net');
         var removeCookieSpy = Util.mockRemoveCookie();
         return setup({ 'features.rememberMe': true }).then(function (test) {
@@ -1205,14 +1266,11 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             test.setNextWebfingerResponse(resSuccessSAML);
             test.form.setUsername(' testuser@clouditude.net ');
             test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy, test);
+            return Expect.waitForSpyCall(SharedUtil.redirect);
           })
-          .then(function (test) {
-            var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
-            expect(redirectToIdp).toEqual(jasmine.any(Function));
-            redirectToIdp('https://foo.com');
+          .then(function () {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
-              'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
+              'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4'
             );
           });
       });
@@ -1223,14 +1281,11 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             test.setNextWebfingerResponse(resSuccessSAML);
             test.form.setUsername(' testuser@clouditude.net ');
             test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy, test);
+            return Expect.waitForSpyCall(WidgetUtil.redirectWithFormGet);
           })
-          .then(function (test) {
-            var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
-            expect(redirectToIdp).toEqual(jasmine.any(Function));
-            redirectToIdp('https://foo.com');
+          .then(function () {
             expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
-              'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
+              'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4'
             );
           });
       });
@@ -1241,14 +1296,11 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             test.setNextWebfingerResponse(resSuccessIWA);
             test.form.setUsername('testuser@clouditude.net');
             test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy, test);
+            return Expect.waitForSpyCall(SharedUtil.redirect);
           })
-          .then(function (test) {
-            var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
-            expect(redirectToIdp).toEqual(jasmine.any(Function));
-            redirectToIdp('https://foo.com');
+          .then(function () {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
-              'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
+              'http://demo.okta1.com:1802/login/sso_iwa'
             );
           });
       });
@@ -1259,14 +1311,11 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             test.setNextWebfingerResponse(resSuccessIWA);
             test.form.setUsername('testuser@clouditude.net');
             test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy, test);
+            return Expect.waitForSpyCall(WidgetUtil.redirectWithFormGet);
           })
-          .then(function (test) {
-            var redirectToIdp = test.successSpy.calls.mostRecent().args[0].idpDiscovery.redirectToIdp;
-            expect(redirectToIdp).toEqual(jasmine.any(Function));
-            redirectToIdp('https://foo.com');
+          .then(function () {
             expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
-              'http://demo.okta1.com:1802/login/sso_iwa?fromURI=https%3A%2F%2Ffoo.com&login_hint=testuser%40clouditude.net'
+              'http://demo.okta1.com:1802/login/sso_iwa'
             );
           });
       });
@@ -1350,23 +1399,24 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
     });
+
     Expect.describe('Additional Auth Button', function () {
       itp('does not display custom buttons when it is undefined', function () {
-        return setupWithoutCustomButtonsAndWithIdp().then(function (test){
+        return setupWithoutCustomButtonsAndWithIdp().then(function (test) {
           expect(test.form.authDivider().length).toBe(1);
           expect(test.form.additionalAuthButton().length).toBe(0);
           expect(test.form.facebookButton().length).toBe(1);
         });
       });
       itp('does not display social auth/generic idp when idps is undefined', function () {
-        return setupWithCustomButtons().then(function (test){
+        return setupWithCustomButtons().then(function (test) {
           expect(test.form.authDivider().length).toBe(1);
           expect(test.form.additionalAuthButton().length).toBe(1);
           expect(test.form.facebookButton().length).toBe(0);
         });
       });
       itp('does not display any additional buttons when idps and customButtons are undefined', function () {
-        return setupWithoutCustomButtonsWithoutIdp().then(function (test){
+        return setupWithoutCustomButtonsWithoutIdp().then(function (test) {
           expect(test.form.authDivider().length).toBe(0);
           expect(test.form.additionalAuthButton().length).toBe(0);
           expect(test.form.facebookButton().length).toBe(0);
@@ -1385,24 +1435,24 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('sets text with property passed', function () {
-        return setupWithCustomButtons().then(function (test){
+        return setupWithCustomButtons().then(function (test) {
           expect(test.form.additionalAuthButton().text()).toEqual('test text');
         });
       });
       itp('sets class with property passed', function () {
-        return setupWithCustomButtons().then(function (test){
+        return setupWithCustomButtons().then(function (test) {
           expect(test.form.additionalAuthButton().hasClass('test-class')).toBe(true);
         });
       });
       itp('clickHandler is called when button is clicked', function () {
-        return setupWithCustomButtons().then(function (test){
+        return setupWithCustomButtons().then(function (test) {
           expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(false);
           test.form.additionalAuthButton().click();
           expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(true);
         });
       });
       itp('displays generic idp buttons', function () {
-        return setupWith({ genericIdp: true }).then(function (test){
+        return setupWith({ genericIdp: true }).then(function (test) {
           expect(test.form.authDivider()).toHaveLength(1);
           expect(test.form.additionalAuthButton()).toHaveLength(0);
           expect(test.form.facebookButton()).toHaveLength(0);
@@ -1411,7 +1461,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('displays generic idp and custom buttons', function () {
-        return setupWith({ genericIdp: true, customButtons: true }).then(function (test){
+        return setupWith({ genericIdp: true, customButtons: true }).then(function (test) {
           expect(test.form.authDivider()).toHaveLength(1);
           expect(test.form.additionalAuthButton()).toHaveLength(1);
           expect(test.form.facebookButton()).toHaveLength(0);
@@ -1420,7 +1470,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('displays generic idp and social auth buttons', function () {
-        return setupWith({ genericIdp: true, socialAuth: true }).then(function (test){
+        return setupWith({ genericIdp: true, socialAuth: true }).then(function (test) {
           expect(test.form.authDivider()).toHaveLength(1);
           expect(test.form.additionalAuthButton()).toHaveLength(0);
           expect(test.form.facebookButton()).toHaveLength(1);
@@ -1429,7 +1479,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('displays generic idp, custom buttons, and social auth buttons', function () {
-        return setupWith({ genericIdp: true, customButtons: true, socialAuth: true }).then(function (test){
+        return setupWith({ genericIdp: true, customButtons: true, socialAuth: true }).then(function (test) {
           expect(test.form.authDivider()).toHaveLength(1);
           expect(test.form.additionalAuthButton()).toHaveLength(1);
           expect(test.form.facebookButton()).toHaveLength(1);
@@ -1438,13 +1488,43 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         });
       });
       itp('displays social auth and custom buttons', function () {
-        return setupWithCustomButtonsWithIdp().then(function (test){
+        return setupWithCustomButtonsWithIdp().then(function (test) {
           expect(test.form.authDivider()).toHaveLength(1);
           expect(test.form.additionalAuthButton()).toHaveLength(1);
           expect(test.form.facebookButton()).toHaveLength(1);
           expect(test.form.socialAuthButton('general-idp')).toHaveLength(0);
           expect(test.form.forgotPasswordLinkVisible()).toBe(false);
         });
+      });
+      itp('triggers the afterError event if there is no valid id token returned', function () {
+        spyOn(window, 'addEventListener');
+        return setupSocial()
+          .then(function (test) {
+            test.form.facebookButton().click();
+            var args = window.addEventListener.calls.argsFor(0);
+            var callback = args[1];
+            callback.call(null, {
+              origin: 'https://foo.com',
+              data: {
+                state: OIDC_STATE,
+                error: 'OAuth Error',
+                error_description: 'Message from server'
+              }
+            });
+            return Expect.waitForSpyCall(test.afterErrorHandler, test);
+          })
+          .then(function (test) {
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'idp-discovery'
+              },
+              {
+                name: 'OAUTH_ERROR',
+                message: 'Message from server'
+              }
+            ]);
+          });
       });
     });
   });

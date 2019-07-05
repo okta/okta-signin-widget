@@ -17,10 +17,11 @@ define([
   'util/FormType',
   'util/ValidationUtil',
   'util/FactorUtil',
+  'util/Util',
   'views/expired-password/Footer',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Footer, TextBox) {
+function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Util, Footer, TextBox) {
 
   var _ = Okta._;
 
@@ -60,12 +61,16 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
           return Okta.loc('password.expiring.soon', 'login');
         }
         else {
-          return Okta.loc('password.expired.title', 'login');
+          return this.settings.get('brandName') ?
+            Okta.loc('password.expired.title.specific', 'login', [this.settings.get('brandName')]) :
+            Okta.loc('password.expired.title.generic', 'login');
         }
       },
       subtitle: function () {
         if (this.options.appState.get('isPwdExpiringSoon')) {
-          return Okta.loc('password.expiring.subtitle', 'login');
+          return this.settings.get('brandName') ?
+            Okta.loc('password.expiring.subtitle.specific', 'login', [this.settings.get('brandName')]) :
+            Okta.loc('password.expiring.subtitle.generic', 'login');
         }
 
         var policy = this.options.appState.get('policy');
@@ -79,40 +84,41 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Foo
         return [
           FormType.Input({
             'label-top': true,
-            label: false,
-            placeholder: Okta.loc('password.oldPassword.placeholder', 'login'),
+            label: Okta.loc('password.oldPassword.placeholder', 'login'),
+            explain: Util.createInputExplain(
+              'password.oldPassword.tooltip',
+              'password.oldPassword.placeholder',
+              'login'),
+            'explain-top': true,
             name: 'oldPassword',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('password.oldPassword.tooltip', 'login'),
-              icon: 'credentials-16'
-            }
+            type: 'password'
           }),
           FormType.Divider(),
           FormType.Input({
+            className: 'margin-btm-5',
             'label-top': true,
-            label: false,
-            placeholder: Okta.loc('password.newPassword.placeholder', 'login'),
+            label: Okta.loc('password.newPassword.placeholder', 'login'),
+            explain: Util.createInputExplain(
+              'password.newPassword.tooltip',
+              'password.newPassword.placeholder',
+              'login'),
+            'explain-top': true,
             name: 'newPassword',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('password.newPassword.tooltip', 'login'),
-              icon: 'credentials-16'
-            }
+            type: 'password'
           }),
           FormType.Input({
             'label-top': true,
-            label: false,
-            placeholder: Okta.loc('password.confirmPassword.placeholder', 'login'),
+            label: Okta.loc('password.confirmPassword.placeholder', 'login'),
+            explain: Util.createInputExplain(
+              'password.confirmPassword.tooltip',
+              'password.confirmPassword.placeholder',
+              'login'),
+            'explain-top': true,
             name: 'confirmPassword',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login'),
-              icon: 'credentials-16'
-            }
+            type: 'password'
           })
         ];
       }

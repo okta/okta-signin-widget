@@ -160,7 +160,10 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'idpDiscovery.requestContext': 'string',
 
       //Colors
-      'colors.brand': 'string'
+      'colors.brand': 'string',
+
+      //Descriptions
+      'brandName': 'string'
     },
 
     derived: {

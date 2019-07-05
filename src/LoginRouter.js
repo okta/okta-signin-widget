@@ -34,6 +34,7 @@ define([
   'EnrollU2FController',
   'EnrollWebauthnController',
   'EnrollCustomFactorController',
+  'EnrollHotpController',
   'BarcodeTotpController',
   'BarcodePushController',
   'ActivateTotpController',
@@ -83,6 +84,7 @@ function (BaseLoginRouter,
   EnrollU2FController,
   EnrollWebauthnController,
   EnrollCustomFactorController,
+  EnrollHotpController,
   BarcodeTotpController,
   BarcodePushController,
   ActivateTotpController,
@@ -138,6 +140,7 @@ function (BaseLoginRouter,
       'signin/enroll/fido/u2f': 'enrollU2F',
       'signin/enroll/generic_saml/assertion:saml2': 'enrollSAMLFactor',
       'signin/enroll/generic_oidc/assertion:oidc': 'enrollOIDCFactor',
+      'signin/enroll/custom/token:hotp': 'enrollHotpFactor',
       'signin/enroll/:provider/:factorType': 'enrollTotpFactor',
       'signin/enroll-activate/okta/push': 'scanBarcodePushFactor',
       'signin/enroll-activate/okta/push/manual': 'manualSetupPushFactor',
@@ -349,6 +352,14 @@ function (BaseLoginRouter,
 
     enrollTotpFactor: function (provider, factorType) {
       this.render(EnrollTotpController, {
+        provider: provider.toUpperCase(),
+        factorType: factorType,
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollHotpFactor: function (provider, factorType) {
+      this.render(EnrollHotpController, {
         provider: provider.toUpperCase(),
         factorType: factorType,
         Beacon: FactorBeacon

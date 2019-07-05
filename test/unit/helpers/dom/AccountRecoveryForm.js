@@ -1,6 +1,7 @@
 define(['./Form'], function (Form) {
 
   var USERNAME_FIELD = 'username';
+  var USERNAME_LABEL = 'label[for="account-recovery-username"]';
   var SMS_BUTTON_SELECTOR = '.sms-button';
   var SMS_HINT_SELECTOR = '.sms-hint';
   var CALL_BUTTON_SELECTOR = '.call-button';
@@ -14,6 +15,14 @@ define(['./Form'], function (Form) {
 
     usernameField: function () {
       return this.input(USERNAME_FIELD);
+    },
+
+    usernameLabel: function () {
+      return this.$(USERNAME_LABEL);
+    },
+
+    usernameExplain: function () {
+      return this.explain(USERNAME_FIELD);
     },
 
     getUsernameAutocomplete: function () {

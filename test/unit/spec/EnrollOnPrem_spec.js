@@ -378,10 +378,10 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
               });
             });
         });
-        itp('guards against XSS when displaying tooltip text', function () {
+        itp('does not have explains by default', function () {
           return setupXssVendorName().then(function (test) {
-            expect(test.form.credIdTooltipText()).toEqual('Enter ><script>alert(123)</script> username');
-            expect(test.form.codeTooltipText()).toEqual('Enter ><script>alert(123)</script> passcode');
+            expect(test.form.credIdExplain().length).toBe(0);
+            expect(test.form.codeExplain().length).toBe(0);
           });
         });
       });

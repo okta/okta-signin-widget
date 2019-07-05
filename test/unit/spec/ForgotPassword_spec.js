@@ -83,10 +83,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.titleText()).toEqual('Reset Password');
         });
       });
-      itp('uses default for username placeholder', function () {
+      itp('uses default for username label', function () {
         return setup().then(function (test) {
-          var $username = test.form.usernameField();
-          expect($username.attr('placeholder')).toEqual('Email or Username');
+          var $usernameLabel = test.form.usernameLabel();
+          expect($usernameLabel.text().trim()).toEqual('Email or Username');
         });
       });
       itp('does not allow autocomplete', function () {
@@ -94,10 +94,23 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           expect(test.form.getUsernameAutocomplete()).toBe('off');
         });
       });
-      itp('uses default for username tooltip', function () {
+      itp('does not have explain by default', function () {
         return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toEqual('Email or Username');
+          var explain = test.form.usernameExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
+      itp('does have explain when is customized', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'password.forgot.email.or.username.tooltip': 'Custom Explain'
+            }
+          } 
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.usernameExplain();
+          expect(explain.text()).toEqual('Custom Explain');
         });
       });
     });

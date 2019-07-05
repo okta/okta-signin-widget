@@ -119,16 +119,17 @@ function (Okta,
     'WINDOWS_HELLO': 2,
     'YUBIKEY': 3,
     'GOOGLE_AUTH': 4,
-    'SMS': 5,
-    'CALL': 6,
-    'EMAIL': 7,
-    'QUESTION': 8,
-    'DUO': 9,
-    'SYMANTEC_VIP': 10,
-    'RSA_SECURID': 11,
-    'ON_PREM': 12,
-    'GENERIC_SAML': 14,
-    'GENERIC_OIDC': 15
+    'CUSTOM_HOTP': 5,
+    'SMS': 6,
+    'CALL': 7,
+    'EMAIL': 8,
+    'QUESTION': 9,
+    'DUO': 10,
+    'SYMANTEC_VIP': 11,
+    'RSA_SECURID': 12,
+    'ON_PREM': 13,
+    'GENERIC_SAML': 15,
+    'GENERIC_OIDC': 16,
   };
   function clickFactorInDropdown (test, factorName) {
     //assumes dropdown has all factors
@@ -300,7 +301,9 @@ function (Okta,
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
     var setupSecurityQuestionWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'question' });
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
+    var setupHOTP = _.partial(setup, resAllFactors, { factorType: 'token:hotp', provider: 'CUSTOM' });
     var setupGoogleTOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
+    var setupHOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'token:hotp', provider: 'CUSTOM' });
     var setupGoogleTOTPAutoPushTrue = _.partial(setup, Util.getAutoPushResponse(resAllFactors, true),
       { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupGoogleTOTPAutoPushTrueWithIdx = _.partial(setup, Util.getAutoPushResponse(resFactorRequiredAllFactors, true),
@@ -322,6 +325,8 @@ function (Okta,
     var setupOktaPush = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
     var setupWindowsHello = _.partial(
       setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false });
+    var setupWindowsHelloWithBrandName = _.partial(
+      setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false, brandName: 'Spaghetti Inc.' });
     var setupPassword = _.partial(setup, resPassword, { factorType: 'password' });
     var setupPasswordWithIdx = _.partial(setup, resFactorRequiredPassword, { factorType: 'password' });
     var setupCustomSAMLFactor = _.partial(setup, resAllFactors,
@@ -617,11 +622,6 @@ function (Okta,
       expect(password.attr('type')).toEqual(fieldType);
     }
 
-    function expectHasRightPlaceholderText (test, placeholderText){
-      var answer = test.form.answerField();
-      expect(answer.attr('placeholder')).toEqual(placeholderText);
-    }
-
     function expectError (test, code, message, controller, resError) {
       expect(test.form.hasErrors()).toBe(true);
       expect(test.form.errorMessage()).toBe(message);
@@ -653,7 +653,7 @@ function (Okta,
       itp('has a dropdown if there is more than one factor', function () {
         return setup(allFactorsRes).then(function (test) {
           var options = test.beacon.getOptionsLinks();
-          expect(options.length).toBe(15);
+          expect(options.length).toBe(16);
         });
       });
       itp('shows the right options in the dropdown, removes okta totp if ' +
@@ -661,7 +661,7 @@ function (Okta,
         return setup(allFactorsRes).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify (Test Device)', 'Security Key (U2F)', 'Windows Hello', 'YubiKey', 'Google Authenticator',
+            'Okta Verify (Test Device)', 'Security Key (U2F)', 'Windows Hello', 'YubiKey', 'Google Authenticator', 'Entrust',
             'SMS Authentication', 'Voice Call Authentication', 'Email Authentication', 'Security Question',
             'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password', 'SAML Factor', 'OIDC Factor'
           ]);
@@ -672,8 +672,8 @@ function (Okta,
         return setup(allFactorOnPremRes).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
-            'Okta Verify (Test Device)', 'YubiKey', 'Google Authenticator', 'SMS Authentication', 'Security Question',
-            'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'SAML Factor', 'OIDC Factor'
+            'Okta Verify (Test Device)', 'YubiKey', 'Google Authenticator', 'Entrust', 'SMS Authentication',
+            'Security Question', 'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'SAML Factor', 'OIDC Factor'
           ]);
         });
       });
@@ -2269,9 +2269,10 @@ function (Okta,
             expectHasAnswerField(test, 'password');
           });
         });
-        itp('has right placeholder text in answer field', function () {
+        itp('has right label for answer field', function () {
           return setupYubikey().then(function (test) {
-            expectHasRightPlaceholderText(test, 'Click here, then tap your YubiKey');
+            var $answerLabel = test.form.answerLabel();
+            expect($answerLabel.text().trim()).toEqual('Click here, then tap your YubiKey');
           });
         });
         itp('does not autocomplete', function () {
@@ -3669,7 +3670,35 @@ function (Okta,
               }, test);
             })
             .then(function (test) {
-              expect(test.form.subtitleText()).toBe('Signing in to Okta...');
+              expect(test.form.subtitleText()).toBe('Signing in...');
+              expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
+            });  
+        });
+
+        itp('subtitle changes after submitting the form to correct subtitle if config has a brandName', function () {
+          return emulateWindows()
+            .then(setupWindowsHelloWithBrandName)
+            .then(function (test) {
+              test.setNextResponse([resChallengeWindowsHello, resSuccess]);
+              expect(test.form.subtitleText()).toBe('Verify your identity with Windows Hello');
+              expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(false);
+
+              test.form.submit();
+              expect(test.form.subtitleText()).toBe('Please wait while Windows Hello is loading...');
+              expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
+
+              spyOn(test.router.controller.model, 'trigger').and.callThrough();
+              return Expect.waitForSpyCall(webauthn.getAssertion, test);
+            })
+            .then(function (test) {
+              return Expect.wait(() => {
+                const allArgs = test.router.controller.model.trigger.calls.allArgs();
+                const flattedArgs = Array.prototype.concat.apply([], allArgs);
+                return  flattedArgs.includes('sync') && flattedArgs.includes('signIn');
+              }, test);
+            })
+            .then(function (test) {
+              expect(test.form.subtitleText()).toBe('Signing in to Spaghetti Inc....');
               expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
             });
         });
@@ -4015,6 +4044,80 @@ function (Okta,
       });
     });
 
+    Expect.describe('Custom HOTP Factor', function () {
+      testHOTPFactor(setupHOTP, 'testStateToken');
+    });
+
+    Expect.describe('Custom HOTP Factor in IDX', function () {
+      testHOTPFactor(setupHOTPWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
+    });
+
+    function testHOTPFactor (setupFn, expectedStateToken) {
+      itp('is totpForm', function () {
+        return setupFn().then(function (test) {
+          expect(test.form.isTOTP()).toBe(true);
+        });
+      });
+
+      itp('shows the right beacon', function () {
+        return setupFn().then(function (test) {
+          expectHasRightBeaconImage(test, 'mfa-hotp');
+        });
+      });
+
+      itp('shows the right title', function () {
+        return setupFn().then(function (test) {
+          expectTitleToBe(test, 'Entrust');
+        });
+      });
+
+      itp('shows the right subtitle', function () {
+        return setupFn().then(function (test) {
+          expectSubtitleToBe(test, 'Enter your Entrust passcode');
+        });
+      });
+
+      itp('calls authClient verifyFactor with correct args when submitted', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setAnswer('123456');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g2/verify?rememberDevice=false',
+              data: {
+                passCode: '123456',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+
+      itp('calls authClient verifyFactor with correct args when submitted when rememberDevice is checked', function () {
+        return setupFn().then(function (test) {
+          $.ajax.calls.reset();
+          test.form.setAnswer('123456');
+          test.form.setRememberDevice(true);
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy);
+        })
+          .then(function () {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g2/verify?rememberDevice=true',
+              data: {
+                passCode: '123456',
+                stateToken: expectedStateToken
+              }
+            });
+          });
+      });
+    }
 
     Expect.describe('Beacon', function () {
       beaconTest(resAllFactors, resVerifyTOTPOnly, resAllFactorsOnPrem);

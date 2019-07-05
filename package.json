@@ -1,7 +1,7 @@
 {
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "2.21.0",
+  "version": "3.1.0",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
@@ -57,6 +57,7 @@
     "prepublish": "yarn build:release"
   },
   "devDependencies": {
+    "@okta/okta-auth-js": "~2.5.0",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "autoprefixer": "6.7.7",
     "axe-core": "2.0.7",
@@ -67,6 +68,7 @@
     "babel-plugin-istanbul": "^5.0.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
+    "backbone": "1.2.1",
     "cssnano": "^4.1.7",
     "dotenv": "^8.0.0",
     "eslint": "^5.9.0",
@@ -114,15 +116,11 @@
     "webpack-dev-server": "2.11.3"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "1.17.1",
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.26.0",
-    "backbone": "1.2.1",
-    "clipboard": "1.6.1",
     "handlebars": "4.0.14",
-    "jquery": "1.12.1",
     "q": "1.4.1",
-    "u2f-api-polyfill": "0.4.1",
+    "u2f-api-polyfill": "0.4.3",
     "underscore": "1.8.3"
   },
   "optionalDependencies": {

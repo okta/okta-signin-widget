@@ -28,19 +28,8 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [remove](#remove)
   - [on](#on)
   - [off](#off)
-  - [getTransaction](#gettransaction)
-  - [session.get](#sessionget)
-  - [session.refresh](#sessionrefresh)
-  - [session.close](#sessionclose)
-  - [token.hasTokensInUrl](#tokenhastokensinurl)
-  - [token.parseTokensFromUrl](#tokenparsetokensfromurl)
-  - [tokenManager.add](#tokenmanageradd)
-  - [tokenManager.get](#tokenmanagerget)
-  - [tokenManager.remove](#tokenmanagerremove)
-  - [tokenManager.clear](#tokenmanagerclear)
-  - [tokenManager.refresh](#tokenmanagerrefresh)
-  - [tokenManager.on](#tokenmanageron)
-  - [tokenManager.off](#tokenmanageroff)
+  - [authClient](#authclient)
+  - [hasTokensInUrl](#hastokensinurl)
 - [Configuration](#configuration)
   - [Basic config options](#basic-config-options)
   - [Username and password](#username-and-password)
@@ -125,10 +114,7 @@ node_modules/@okta/okta-signin-widget/dist/
 │   │   # Main CSS file for widget styles. Try not to override the classes in this
 │   │   # file when creating a custom theme - the classes/elements are subject to
 │   │   # change between releases
-│   ├── okta-sign-in.min.css
-│   │
-│   │   # Example theme that you can use as a template to create your own custom theme
-│   └── okta-theme.css
+│   └── okta-sign-in.min.css
 │
 │   # Base font and image files that are used in rendering the widget
 ├── font/
@@ -288,7 +274,7 @@ signIn.renderEl(
 
   function error(err) {
     // This function is invoked with errors the widget cannot recover from:
-    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR, OAUTH_ERROR, REGISTRATION_FAILED
+    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
   }
 );
 ```
@@ -380,256 +366,33 @@ signIn.off('ready');
 signIn.off('ready', onReady);
 ```
 
-### getTransaction
+### authClient
 
-Returns [authentication transaction information](https://developer.okta.com/docs/api/resources/authn#transaction-model) given a `stateToken`.
+Returns the underlying [`@okta/okta-auth-js`](https://github.com/okta/okta-auth-js) object used by the Sign-in Widget.
 
-```javascript
-signIn.getTransaction(stateToken)
-  .then(function (transaction) {
-    console.log(transaction.status);
-    console.log(transaction.user.profile.login);
-    // PASSWORD_EXPIRED
-    // user@example.com
-  })
-  .catch(function (err) {
-    console.log(error.message);
-  });
-```
-
-When the `getTransaction` method resolves, it returns a **transaction** object that encapulates the [state authentication flow](https://developer.okta.com/docs/api/resources/authn#transaction-model). The **transaction** contains metadata about the current state, and provides methods that can be used to progress into another state.
-
-> For a list of examples, see the [`transaction`](https://github.com/okta/okta-auth-js/#locked_out) documentation.
-
-### session.get
-
-Gets the active session, or returns `{status:inactive}` on error or no active session.
-
-- `callback` - Function that is called with the session once the request has completed.
+Before version 3.0, the Sign-in Widget contained `session` and `tokenManager` properties, and methods like `tokenManager.get`. These were just proxies to identical objects and methods in the [AuthJS](https://github.com/okta/okta-auth-js#api-reference) base library. These proxies have been removed in favor of direct access to the authClient object which allows you to call any of these methods. All the methods are documented in the [AuthJS](https://github.com/okta/okta-auth-js#api-reference) base library.
 
 ```javascript
-signIn.session.get(function (res) {
-  // Session exists, show logged in state.
-  if (res.status === 'ACTIVE') {
-    // showApp()
-  }
-  // No session, or error retrieving the session. Render the Sign-In Widget.
-  else if (res.status === 'INACTIVE') {
-    signIn.renderEl({
-        el: '#osw-container'
-      },
-      function success(res) {
-        // showApp() if res.status === 'SUCCESS'
-      },
-      function error(err) {
-        // handleError(err)
-      }
-    );
-  }
-});
+// Check for an existing authClient transaction
+signIn.authClient.tx.exists();
+if (exists) {
+  console.log('A session exists!');
+} else {
+  console.log('A session does not exist.');
+};
 ```
 
-### session.refresh
-
-Refresh the current session by extending its lifetime. This can be used as a keep-alive operation.
-
-- `callback` - Function that is called after the refresh request has completed.
-
-```javascript
-signIn.session.refresh(function (res) {
-  if (res.status === 'ACTIVE') {
-    // The session now has an extended lifetime
-  }
-  else if (res.status === 'INACTIVE') {
-    // There is no current session, render the Sign-In Widget
-  }
-});
-```
-
-### session.close
-
-Signs the user out of their current Okta session.
-
-- `callback` - Function that is called once the session has been closed. If there is an error, it will be passed to the callback function.
-
-```javascript
-signIn.session.close(function (err) {
-  if (err) {
-    // The user has not been logged out, perform some error handling here.
-    return;
-  }
-  // The user is now logged out. Render the Sign-In Widget.
-});
-```
-
-### token.hasTokensInUrl
+### hasTokensInUrl
 
 Synchronous method to check for access or ID Tokens in the url. This is used when `authParams.display = 'page'`. Returns `true` if there are tokens, and `false` if the redirect flow has not taken place yet.
 
 ```javascript
-// For an extended example, look at token.parseTokensFromUrl
-if (signIn.token.hasTokensInUrl()) {
+if (signIn.hasTokensInUrl()) {
   // The user has just successfully completed a redirect
 }
 else {
   // There are no tokens in the URL, render the Sign-In Widget.
 }
-```
-
-### token.parseTokensFromUrl
-
-Parses the access or ID Tokens from the url after a successful authentication redirect. This is used when `authParams.display = 'page'`.
-
-- `success` - Function that is called after the tokens have been parsed and validated
-- `error` - Function that is called if an error occurs while trying to parse or validate the tokens
-
-```javascript
-var signIn = new OktaSignIn({
-  baseUrl: 'https://{yourOktaDomain}',
-  clientId: '{{myClientId}}',
-  redirectUri: '{{redirectUri configured in OIDC app}}',
-  authParams: {
-    responseType: 'id_token',
-    // `display: page` will initiate the OAuth2 page redirect flow
-    display: 'page'
-  },
-  idps: [
-    {
-      type: 'FACEBOOK',
-      id: '{{facebook appId}}'
-    }
-  ]
-});
-
-// The user has just landed on our login form, and has not yet authenticated
-// with a Social Auth IDP.
-if (!signIn.token.hasTokensInUrl()) {
-  signIn.renderEl({el: '#osw-container'});
-}
-
-// The user has redirected back after authenticating and has their access or
-// ID Token in the URL.
-else {
-  signIn.token.parseTokensFromUrl(
-    function success(res) {
-      signIn.tokenManager.add('my_id_token', res);
-    },
-    function error(err) {
-      // handleError(err);
-    }
-  );
-}
-```
-
-### tokenManager.add
-
-After receiving an `access_token` or `id_token`, add it to the `tokenManager` to manage token expiration and refresh operations. When a token is added to the `tokenManager`, it is automatically refreshed when it expires.
-
-- `key` - Unique key to store the token in the `tokenManager`. This is used later when you want to get, delete, or refresh the token.
-- `token` - Token object that will be added
-
-```javascript
-// Example showing a success callback when authParams.responseType = 'id_token'
-signIn.renderEl({
-    el: '#osw-container'
-  },
-  function (res) {
-    if (res.status !== 'SUCCESS') {
-      return;
-    }
-
-    // When specifying authParams.responseType as 'id_token' or 'token', the
-    // response is the token itself
-    signIn.tokenManager.add('my_id_token', res);
-  }
-);
-```
-
-### tokenManager.get
-
-Get a token that you have previously added to the `tokenManager` with the given `key`.
-
-- `key` - Key for the token you want to get
-
-```javascript
-var token = signIn.tokenManager.get('my_id_token');
-```
-
-### tokenManager.remove
-
-Remove a token from the `tokenManager` with the given `key`.
-
-- `key` - Key for the token you want to remove
-
-```javascript
-signIn.tokenManager.remove('my_id_token');
-```
-
-### tokenManager.clear
-
-Remove all tokens from the `tokenManager`.
-
-```javascript
-signIn.tokenManager.clear();
-```
-
-### tokenManager.refresh
-
-Manually refresh a token before it expires.
-
-- `key` - Key for the token you want to refresh
-
-```javascript
-// Because the refresh() method is async, you can wait for it to complete
-// by using the returned Promise:
-signIn.tokenManager.refresh('my_id_token')
-  .then(function (newToken) {
-    // doSomethingWith(newToken);
-  });
-
-// Alternatively, you can subscribe to the 'refreshed' event:
-signIn.tokenManager.on('refreshed', function (key, newToken, oldToken) {
-  // doSomethingWith(newToken);
-});
-signIn.tokenManager.refresh('my_id_token');
-```
-
-### tokenManager.on
-
-Subscribe to an event published by the `tokenManager`.
-
-- `event` - Event to subscribe to. Possible events are `expired`, `error`, and `refreshed`.
-- `callback` - Function to call when the event is triggered
-- `context` - Optional context to bind the callback to
-
-```javascript
-
-signIn.tokenManager.on('expired', function (key, expiredToken) {
-  console.log('Token with key', key, ' has expired:');
-  console.log(expiredToken);
-});
-
-signIn.tokenManager.on('error', function (err) {
-  console.log('TokenManager error:', err);
-});
-
-signIn.tokenManager.on('refreshed', function (key, newToken, oldToken) {
-  console.log('Token with key', key, 'has been refreshed');
-  console.log('Old token:', oldToken);
-  console.log('New token:', newToken);
-});
-```
-
-### tokenManager.off
-
-Unsubscribe from `tokenManager` events. If no callback is provided, unsubscribes all listeners from the event.
-
-- `event` - Event to unsubscribe from
-- `callback` - Optional callback that was used to subscribe to the event
-
-```javascript
-signIn.tokenManager.off('refreshed');
-signIn.tokenManager.off('refreshed', myRefreshedCallback);
 ```
 
 ## Configuration
@@ -683,6 +446,12 @@ var signIn = new OktaSignIn(config);
     ```javascript
     // Can be any format - there are no formatting checks
     helpSupportNumber: '(123) 456-7890'
+    ```
+
+- **brandName:** The brand or company name that is displayed in messages rendered by the Sign-in Widget (for example, "Reset your {`brandName`} password"). If no `brandName` is provided, a generic message is rendered instead (for example, "Reset your password"). You can further customize the text that is displayed with [language and text settings](https://github.com/okta/okta-signin-widget#language-and-text).
+
+    ```javascript
+    brandName: 'Spaghetti Inc.'
     ```
 
 ### Username and password
@@ -1098,7 +867,7 @@ Optional configuration:
 IdP Discovery enables you to route users to different 3rd Party IdPs that are connected to your Okta Org. Users can federate back into the primary org after authenticating at the IdP.
 
 To use IdP Discovery in your application, first ensure that the `IDP_DISCOVERY` feature flag is enabled for your Org and configure an identity provider routing policy in the Okta admin panel.
-Then, in the widget configuration, set `features.idpDiscovery` to `true` and add additional configs under the `idpDiscovery` key on the [`OktaSignIn`](#new-oktasigninconfig) object.
+Then, in the widget configuration, set `features.idpDiscovery` to `true`.
 
 ```javascript
 var signIn = new OktaSignIn({
@@ -1108,15 +877,6 @@ var signIn = new OktaSignIn({
     idpDiscovery: true
   }
 });
-signIn.renderEl(
-  {...},
-  function (res) {
-    if (res.status === 'IDP_DISCOVERY') {
-      res.idpDiscovery.redirectToIdp('/a/app/request/context');
-      return;
-    }
-  }
-);
 ```
 
 The IdP Discovery authentication flow in widget will be
@@ -1128,14 +888,9 @@ For the identifier first flow,
 
 1. The widget will display an identifier first page for the user to enter an Okta userName to determine the IdP to be used for authentication.
 2. If the IdP is your Okta org, the widget will transition to the primary authentication flow.
-3. If the IdP is a 3rd party IdP or a different Okta org, the widget will invoke the [success callback](#rendereloptions-success-error) with `response.status` as `IDP_DISCOVERY`.
+3. If the IdP is a 3rd party IdP or a different Okta org, the widget will automatically redirect to path of the 3rd party IdP.
 
 #### Additional configuration
-
-##### Additions in the success callback
-
-- `response.status` is `IDP_DISCOVERY` when the authentication needs to be done agaist 3rd party IdP.
-- `res.idpDiscovery.redirectToIdp` is a function that is used for redirecting to relative path of the 3rd party IdP.
 
 ### OpenID Connect
 
@@ -1343,7 +1098,7 @@ signIn.on('ready', function (context) {
 
 ### afterError
 
-The widget will handle most types of errors - for example, if the user enters an invalid password or there are issues authenticating. To capture an authentication state change error after it is handled and rendered by the Widget, listen to the `afterError` event. For other error types, it is encouraged to handle them using the [`renderEl` error handler](#renderel).
+The widget will handle most types of errors - for example, if the user enters an invalid password or there are issues authenticating. To capture an authentication state change error after it is handled and rendered by the Widget, listen to the `afterError` event. You can also capture OAuth and registration errors. For other error types, it is encouraged to handle them using the [`renderEl` error handler](#renderel).
 
 Returns `context` and `error` objects containing the following properties:
 

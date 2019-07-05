@@ -12,8 +12,9 @@
 
 define([
   'okta',
+  'util/Util',
   'views/primary-auth/PrimaryAuthForm'
-], function (Okta, PrimaryAuthForm) {
+], function (Okta, Util, PrimaryAuthForm) {
 
   var _ = Okta._;
 
@@ -32,16 +33,16 @@ define([
     inputs: function () {
       var inputs = [];
       var usernameProps = {
+        className: 'margin-btm-30',
+        label: Okta.loc('primaryauth.username.placeholder', 'login'),
+        'label-top': true,
+        explain: Util.createInputExplain(
+          'primaryauth.username.tooltip',
+          'primaryauth.username.placeholder',
+          'login'),
+        'explain-top': true,
         inputId: 'idp-discovery-username',
-        placeholder: Okta.loc('primaryauth.username.placeholder', 'login'),
-        disabled: false,
-        params: {
-          innerTooltip: {
-            title: Okta.loc('primaryauth.username.placeholder', 'login'),
-            text: Okta.loc('primaryauth.username.tooltip', 'login')
-          },
-          icon: 'person-16-gray'
-        }
+        disabled: false
       };
       inputs.push(_.extend(this.getUsernameField(), usernameProps));
       if (this.settings.get('features.rememberMe')) {

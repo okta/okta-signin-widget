@@ -96,6 +96,14 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
       this.listenTo(this.model, 'error', function () {
         this.clearErrors();
       });
+      this.addInput({
+        label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
+        'label-top': true,
+        className: 'o-form-fieldset o-form-label-top auth-passcode',
+        name: 'answer',
+        input: TextBox,
+        type: 'tel'
+      });
       this.add(Okta.createButton({
         attributes: { 'data-se': formAndButtonDetails.buttonDataSe },
         className: 'button ' + formAndButtonDetails.buttonClassName,
@@ -125,15 +133,6 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
             }, this));
         }
       }));
-      this.addInput({
-        label: false,
-        'label-top': true,
-        placeholder: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
-        className: 'o-form-fieldset o-form-label-top auth-passcode',
-        name: 'answer',
-        input: TextBox,
-        type: 'tel'
-      });
       if (this.options.appState.get('allowRememberDevice')) {
         this.addInput({
           label: false,

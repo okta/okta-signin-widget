@@ -15,11 +15,12 @@ define([
   'util/FormController',
   'util/Enums',
   'util/FormType',
+  'util/Util',
   'util/ValidationUtil',
   'views/shared/ContactSupport',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport, TextBox) {
+function (Okta, FormController, Enums, FormType, Util, ValidationUtil, ContactSupport, TextBox) {
 
   var _ = Okta._;
   var noFactorsError = '<div class="okta-form-infobox-error infobox infobox-error" role="alert">\
@@ -99,15 +100,18 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, ContactSupport,
         }
         else {
           formChildren.push(FormType.Input({
-            placeholder: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
+            label: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
+            'label-top': true,
+            explain: Util.createInputExplain(
+              'account.unlock.email.or.username.tooltip',
+              'account.unlock.email.or.username.placeholder',
+              'login'),
+            'explain-top': true,
             name: 'username',
             input: TextBox,
+            inputId: 'account-recovery-username',
             type: 'text',
-            inlineValidation: false,
-            params: {
-              innerTooltip: Okta.loc('account.unlock.email.or.username.tooltip', 'login'),
-              icon: 'person-16-gray'
-            }
+            inlineValidation: false
           }));
 
           if (smsEnabled || callEnabled) {

@@ -49,12 +49,12 @@ define(['./Form'], function (Form) {
       return this.el('back-link');
     },
 
-    credIdTooltipText: function () {
-      return this.tooltipText(CRED_ID_FIELD);
+    credIdExplain: function () {
+      return this.explain(CRED_ID_FIELD);
     },
 
-    codeTooltipText: function () {
-      return this.tooltipText(CODE_FIELD);
+    codeExplain: function () {
+      return this.explain(CODE_FIELD);
     },
 
   });

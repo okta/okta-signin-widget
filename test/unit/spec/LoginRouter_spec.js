@@ -50,24 +50,25 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
   var OIDC_IFRAME_ID = 'okta-oauth-helper-frame';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
   var OIDC_NONCE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
-  var VALID_ID_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXIiOjEsIml' +
-                       'zcyI6Imh0dHBzOi8vZm9vLmNvbSIsInN1YiI6IjAwdWlsdE5RSzJ' +
-                       'Xc3pzMlJWMGczIiwibG9naW4iOiJzYW1samFja3NvbkBnYWNrLm1' +
-                       'lIiwiYXVkIjoic29tZUNsaWVudElkIiwiaWF0IjoxNDUxNjA2NDA' +
-                       'wLCJleHAiOjE2MDk0NTkyMDAsImFtciI6WyJwd2QiXSwiaWRwIjo' +
-                       'iMG9haWRpdzl1ZE9TY2VEcXcwZzMiLCJub25jZSI6ImdnZ2dnZ2d' +
-                       'nZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2d' +
-                       'nZ2dnZ2dnZ2dnZ2dnZ2dnZ2ciLCJhdXRoX3RpbWUiOjE0NTE2MDY' +
-                       '0MDAsImlkcF90eXBlIjoiRkFDRUJPT0siLCJuYW1lIjoiU2FtbCB' +
-                       'KYWNrc29uIiwicHJvZmlsZSI6Imh0dHBzOi8vd3d3LmZhY2Vib29' +
-                       'rLmNvbS9hcHBfc2NvcGVkX3VzZXJfaWQvMTIyODE5NjU4MDc2MzU' +
-                       '3LyIsImdpdmVuX25hbWUiOiJTYW1sIiwiZmFtaWx5X25hbWUiOiJ' +
-                       'KYWNrc29uIiwidXBkYXRlZF9hdCI6MTQ1MTYwNjQwMCwiZW1haWw' +
-                       'iOiJzYW1samFja3NvbkBnYWNrLm1lIiwiZW1haWxfdmVyaWZpZWQ' +
-                       'iOnRydWV9.Aq_42PVQwGW7WIT02fSaSLF5jvIZjnIy6pJvsXyduR' +
-                       'bx6SUbTzKr3R5dsZRskau9Awi91aDv4a1QRWANPmJZabzxScg9LA' +
-                       'e4J-RRZxZ0EbQZ6n8l9KVdUb_ndhcKmVAhmhK0GcQbuwk8frcVou' +
-                       '6gAQPJowg832umoCss-gEvimU';
+  var VALID_ID_TOKEN = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IlU1UjhjSGJHdzQ0NVFicTh6' +
+                       'Vk8xUGNDcFhMOHlHNkljb3ZWYTNsYUNveE0iLCJ0eXAiOiJKV1Qi' +
+                       'fQ.eyJ2ZXIiOjEsImlzcyI6Imh0dHBzOi8vZm9vLmNvbSIsInN1Y' +
+                       'iI6IjAwdWlsdE5RSzJXc3pzMlJWMGczIiwibG9naW4iOiJzYW1sa' +
+                       'mFja3NvbkBnYWNrLm1lIiwiYXVkIjoic29tZUNsaWVudElkIiwia' +
+                       'WF0IjoxNDUxNjA2NDAwLCJleHAiOjE2MDk0NTkyMDAsImFtciI6W' +
+                       'yJwd2QiXSwiaWRwIjoiMG9haWRpdzl1ZE9TY2VEcXcwZzMiLCJub' +
+                       '25jZSI6ImdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ' +
+                       '2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2ciLCJhdXRoX' +
+                       '3RpbWUiOjE0NTE2MDY0MDAsImlkcF90eXBlIjoiRkFDRUJPT0siL' +
+                       'CJuYW1lIjoiU2FtbCBKYWNrc29uIiwicHJvZmlsZSI6Imh0dHBzO' +
+                       'i8vd3d3LmZhY2Vib29rLmNvbS9hcHBfc2NvcGVkX3VzZXJfaWQvM' +
+                       'TIyODE5NjU4MDc2MzU3LyIsImdpdmVuX25hbWUiOiJTYW1sIiwiZ' +
+                       'mFtaWx5X25hbWUiOiJKYWNrc29uIiwidXBkYXRlZF9hdCI6MTQ1M' +
+                       'TYwNjQwMCwiZW1haWwiOiJzYW1samFja3NvbkBnYWNrLm1lIiwiZ' +
+                       'W1haWxfdmVyaWZpZWQiOnRydWV9.fJ8ZzLojgQKdZLvssGrSshTH' +
+                       'DhhUF6G2bPm9zRLPeZBh1zUiVccvV-0UzJERuWoL07hFt7QGGoxR' +
+                       'lXvxoMVtFk-fcdCkn1DnTtIzsFPOjysBl2vjwVBJXg9h1Nymd91l' +
+                       'dI5eorOMrbamRfxOFkEUC9P9mgO6DcVfR5oxY0pjfMA';
 
   Expect.describe('LoginRouter', function () {
 
@@ -237,7 +238,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
 
               // Verify that the translation is being applied
               var loginBundle = $.ajax.calls.all()[0].returnValue.responseJSON;
-              var title = loginBundle['password.expired.title'];
+              var title = loginBundle['password.expired.title.generic'];
               var $title = $sandbox.find('.password-expired .okta-form-title');
               expect($title.length).toBe(1);
               expect($title.text()).toBe(title);
@@ -281,7 +282,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
     });
     it('throws a ConfigError if baseUrl is not passed as a widget param', function () {
       var fn = function () { setup({ authClient: new OktaAuth({baseUrl: undefined }) }); };
-      expect(fn).toThrowError('No url passed to constructor. Required usage: new OktaAuth({url: "https://sample.okta.com"})');
+      expect(fn).toThrowError('No url passed to constructor. Required usage: new OktaAuth({url: "https://{yourOktaDomain}.com"})');
     });
     itp('renders the primary autenthentication form when no globalSuccessFn and globalErrorFn are passed as widget params', function () {
       return expectPrimaryAuthRender({ globalSuccessFn: undefined, globalErrorFn: undefined });
@@ -1136,6 +1137,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           });
       });
       itp('invokes the success function with idToken and user data when the iframe returns with data', function () {
+        Util.loadWellKnownAndKeysCache();
         var successSpy = jasmine.createSpy('successSpy');
         return setupOAuth2({ globalSuccessFn: successSpy })
           .then(function () {
@@ -1179,10 +1181,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             });
           });
       });
-      itp('calls the global error function if an idToken is not returned', function () {
-        var errorSpy = jasmine.createSpy('errorSpy');
-        return setupOAuth2({ globalErrorFn: errorSpy })
-          .then(function () {
+      itp('triggers the afterError event if an idToken is not returned', function () {
+        return setupOAuth2()
+          .then(function (test) {
             var args = window.addEventListener.calls.argsFor(0);
             var callback = args[1];
             callback.call(null, {
@@ -1193,14 +1194,19 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
                 error_description: 'Invalid value for client_id parameter.'
               }
             });
-            return tick();
+            return Expect.waitForSpyCall(test.afterErrorHandler, test);
           })
-          .then(function () {
-            expect(errorSpy.calls.count()).toBe(1);
-            var err = errorSpy.calls.argsFor(0)[0];
-            expect(err instanceof Errors.OAuthError).toBe(true);
-            expect(err.name).toBe('OAUTH_ERROR');
-            expect(err.message).toBe('Invalid value for client_id parameter.');
+          .then(function (test) {
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'mfa-verify'
+              },
+              {
+                name: 'OAUTH_ERROR',
+                message: 'Invalid value for client_id parameter.'
+              }
+            ]);
           });
       });
     });

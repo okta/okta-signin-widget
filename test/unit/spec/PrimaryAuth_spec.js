@@ -24,6 +24,7 @@ define([
   'helpers/xhr/ACCOUNT_LOCKED_OUT',
   'helpers/xhr/PASSWORD_EXPIRED',
   'helpers/xhr/UNAUTHORIZED_ERROR',
+  'helpers/xhr/ERROR_VALID_RESPONSE',
   'helpers/xhr/ERROR_NON_JSON_RESPONSE',
   'helpers/xhr/ERROR_INVALID_TEXT_RESPONSE',
   'helpers/xhr/ERROR_throttle',
@@ -33,7 +34,7 @@ define([
 function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth,
   Router, BrowserFeatures, Errors, DeviceFingerprint, TypingUtil, Expect, resSecurityImage,
   resSecurityImageFail, resSuccess, resUnauthenticated, resUnauthenticatedIdx, resFactorRequired, resLockedOut, resPwdExpired, resUnauthorized,
-  resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
+  resErrorValid, resNonJson, resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
@@ -43,24 +44,25 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
   var BEACON_LOADING_CLS = 'beacon-loading';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
   var OIDC_NONCE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
-  var VALID_ID_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXIiOjEsIml' +
-                       'zcyI6Imh0dHBzOi8vZm9vLmNvbSIsInN1YiI6IjAwdWlsdE5RSzJ' +
-                       'Xc3pzMlJWMGczIiwibG9naW4iOiJzYW1samFja3NvbkBnYWNrLm1' +
-                       'lIiwiYXVkIjoic29tZUNsaWVudElkIiwiaWF0IjoxNDUxNjA2NDA' +
-                       'wLCJleHAiOjE2MDk0NTkyMDAsImFtciI6WyJwd2QiXSwiaWRwIjo' +
-                       'iMG9haWRpdzl1ZE9TY2VEcXcwZzMiLCJub25jZSI6ImdnZ2dnZ2d' +
-                       'nZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2d' +
-                       'nZ2dnZ2dnZ2dnZ2dnZ2dnZ2ciLCJhdXRoX3RpbWUiOjE0NTE2MDY' +
-                       '0MDAsImlkcF90eXBlIjoiRkFDRUJPT0siLCJuYW1lIjoiU2FtbCB' +
-                       'KYWNrc29uIiwicHJvZmlsZSI6Imh0dHBzOi8vd3d3LmZhY2Vib29' +
-                       'rLmNvbS9hcHBfc2NvcGVkX3VzZXJfaWQvMTIyODE5NjU4MDc2MzU' +
-                       '3LyIsImdpdmVuX25hbWUiOiJTYW1sIiwiZmFtaWx5X25hbWUiOiJ' +
-                       'KYWNrc29uIiwidXBkYXRlZF9hdCI6MTQ1MTYwNjQwMCwiZW1haWw' +
-                       'iOiJzYW1samFja3NvbkBnYWNrLm1lIiwiZW1haWxfdmVyaWZpZWQ' +
-                       'iOnRydWV9.Aq_42PVQwGW7WIT02fSaSLF5jvIZjnIy6pJvsXyduR' +
-                       'bx6SUbTzKr3R5dsZRskau9Awi91aDv4a1QRWANPmJZabzxScg9LA' +
-                       'e4J-RRZxZ0EbQZ6n8l9KVdUb_ndhcKmVAhmhK0GcQbuwk8frcVou' +
-                       '6gAQPJowg832umoCss-gEvimU';
+  var VALID_ID_TOKEN = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IlU1UjhjSGJHdzQ0NVFicTh6' +
+                       'Vk8xUGNDcFhMOHlHNkljb3ZWYTNsYUNveE0iLCJ0eXAiOiJKV1Qi' +
+                       'fQ.eyJ2ZXIiOjEsImlzcyI6Imh0dHBzOi8vZm9vLmNvbSIsInN1Y' +
+                       'iI6IjAwdWlsdE5RSzJXc3pzMlJWMGczIiwibG9naW4iOiJzYW1sa' +
+                       'mFja3NvbkBnYWNrLm1lIiwiYXVkIjoic29tZUNsaWVudElkIiwia' +
+                       'WF0IjoxNDUxNjA2NDAwLCJleHAiOjE2MDk0NTkyMDAsImFtciI6W' +
+                       'yJwd2QiXSwiaWRwIjoiMG9haWRpdzl1ZE9TY2VEcXcwZzMiLCJub' +
+                       '25jZSI6ImdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ' +
+                       '2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2ciLCJhdXRoX' +
+                       '3RpbWUiOjE0NTE2MDY0MDAsImlkcF90eXBlIjoiRkFDRUJPT0siL' +
+                       'CJuYW1lIjoiU2FtbCBKYWNrc29uIiwicHJvZmlsZSI6Imh0dHBzO' +
+                       'i8vd3d3LmZhY2Vib29rLmNvbS9hcHBfc2NvcGVkX3VzZXJfaWQvM' +
+                       'TIyODE5NjU4MDc2MzU3LyIsImdpdmVuX25hbWUiOiJTYW1sIiwiZ' +
+                       'mFtaWx5X25hbWUiOiJKYWNrc29uIiwidXBkYXRlZF9hdCI6MTQ1M' +
+                       'TYwNjQwMCwiZW1haWwiOiJzYW1samFja3NvbkBnYWNrLm1lIiwiZ' +
+                       'W1haWxfdmVyaWZpZWQiOnRydWV9.fJ8ZzLojgQKdZLvssGrSshTH' +
+                       'DhhUF6G2bPm9zRLPeZBh1zUiVccvV-0UzJERuWoL07hFt7QGGoxR' +
+                       'lXvxoMVtFk-fcdCkn1DnTtIzsFPOjysBl2vjwVBJXg9h1Nymd91l' +
+                       'dI5eorOMrbamRfxOFkEUC9P9mgO6DcVfR5oxY0pjfMA';
   var VALID_ACCESS_TOKEN = 'anythingbecauseitsopaque';
   var typingPattern = '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
           0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
@@ -164,7 +166,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.oidcWindow = {closed: false, close: jasmine.createSpy()};
           return test.oidcWindow;
         });
-        return tick(test);
+        return test;
       });
   }
 
@@ -264,10 +266,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(test.form.titleText()).toEqual('Sign In');
         });
       });
-      itp('uses default for username placeholder', function () {
+      itp('uses default for username label', function () {
         return setup().then(function (test) {
-          var $username = test.form.usernameField();
-          expect($username.attr('placeholder')).toEqual('Username');
+          var $usernameLabel = test.form.usernameLabel();
+          expect($usernameLabel.text().trim()).toEqual('Username');
         });
       });
       itp('prevents autocomplete on username', function () {
@@ -280,10 +282,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(test.form.getPasswordFieldAutocomplete()).toBe('off');
         });
       });
-      itp('uses default for password placeholder', function () {
+      itp('uses default for password label', function () {
         return setup().then(function (test) {
-          var $password = test.form.passwordField();
-          expect($password.attr('placeholder')).toEqual('Password');
+          var $passwordLabel = test.form.passwordLabel();
+          expect($passwordLabel.text().trim()).toEqual('Password');
         });
       });
       itp('uses default for rememberMe', function () {
@@ -305,16 +307,42 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(label).toEqual('Remember me');
         });
       });
-      itp('uses default for username tooltip', function () {
+      itp('username field does not have explain by default', function () {
         return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toEqual('Username');
+          var explain = test.form.usernameExplain();
+          expect(explain.length).toBe(0);
         });
       });
-      itp('uses default for password tooltip', function () {
+      itp('username field does have explain when is customized', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'primaryauth.username.tooltip': 'Custom Username Explain'
+            }
+          } 
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.usernameExplain();
+          expect(explain.text()).toEqual('Custom Username Explain');
+        });
+      });
+      itp('password field does not have explain by default', function () {
         return setup().then(function (test) {
-          var tip = test.form.passwordTooltipText();
-          expect(tip).toEqual('Password');
+          var explain = test.form.passwordExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
+      itp('password field does have explain when is customized', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'primaryauth.password.tooltip': 'Custom Password Explain'
+            }
+          } 
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.passwordExplain();
+          expect(explain.text()).toEqual('Custom Password Explain');
         });
       });
       itp('focuses on username field in browsers other than IE', function () {
@@ -331,45 +359,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           var $username = test.form.usernameField();
           // Focused element would be body element
           expect($username[0]).not.toBe(document.activeElement);
-        });
-      });
-    });
-
-    Expect.describe('customizing the tooltip', function () {
-      itp('if the placeholder and tooltip differ,' +
-       'display both in the tooltip', function () {
-        spyOn(Okta, 'loc').and.callFake(function (key) {
-          // remove the common part: 'primaryauth.username.'
-          return key.slice(21);
-        });
-        return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toMatch('placeholder');
-          expect(tip).toMatch('tooltip');
-        });
-      });
-      itp('if the placeholder and tooltip equal,' +
-       'display only one of them', function () {
-        spyOn(Okta, 'loc').and.callFake(function () {
-          return 'same text';
-        });
-        return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toEqual('same text');
-        });
-      });
-      itp('if the placeholder is not defined,' +
-       'display only the tooltip', function () {
-        spyOn(Okta, 'loc').and.callFake(function (key) {
-          if (key === 'primaryauth.username.placeholder') {
-            return null;
-          } else {
-            return 'tooltip';
-          }
-        });
-        return setup().then(function (test) {
-          var tip = test.form.usernameTooltipText();
-          expect(tip).toEqual('tooltip');
         });
       });
     });
@@ -1919,10 +1908,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expectErrorEvent(test, 429, 'API call exceeded rate limit due to too many requests.');
           });
       });
-      itp('shows an error if authClient returns with an error that is plain text', function () {
+      itp('shows the correct error if authClient returns with a correct error object', function () {
         return setup()
           .then(function (test) {
-            test.setNextResponse(resNonJson, true);
+            test.setNextResponse(resErrorValid, true);
             test.form.setUsername('testuser');
             test.form.setPassword('invalidpass');
             test.form.submit();
@@ -1934,7 +1923,22 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expectErrorEvent(test, 401, 'Authentication failed');
           });
       });
-      itp('shows an error if authClient returns with an error that is plain text and not a valid json', function () {
+      itp('shows a form error if authClient returns with an error that is plain text', function () {
+        return setup()
+          .then(function (test) {
+            test.setNextResponse(resNonJson, true);
+            test.form.setUsername('testuser');
+            test.form.setPassword('invalidpass');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+            expectErrorEvent(test, 401, 'Authentication failed');
+          });
+      });
+      itp('shows a form error if authClient returns with an error that is plain text and not a valid json', function () {
         return setup()
           .then(function (test) {
             test.form.setUsername('testuser');
@@ -1945,7 +1949,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('There was an unexpected internal error. Please try again.');
+            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
             expectErrorEvent(test, 401, 'Unknown error');
           });
       });
@@ -2395,6 +2399,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           });
       });
       itp('calls the global success function with the idToken and user data when the popup sends a message with idToken', function () {
+        Util.loadWellKnownAndKeysCache();
         spyOn(window, 'addEventListener');
         return setupSocial()
           .then(function (test) {
@@ -2445,6 +2450,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           });
       });
       itp('calls the global success function with the idToken and accessToken', function () {
+        Util.loadWellKnownAndKeysCache();
         spyOn(window, 'addEventListener');
         return setupSocial({ 'authParams.responseType': ['id_token', 'token'] })
           .then(function (test) {
@@ -2478,10 +2484,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(data[1].tokenType).toBe('Bearer');
           });
       });
-      itp('calls the global error function if there is no valid id token returned', function () {
-        var errorSpy = jasmine.createSpy('errorSpy');
+      itp('triggers the afterError event if there is no valid id token returned', function () {
         spyOn(window, 'addEventListener');
-        return setupSocial({ globalErrorFn: errorSpy })
+        return setupSocial()
           .then(function (test) {
             test.form.facebookButton().click();
             var args = window.addEventListener.calls.argsFor(0);
@@ -2494,14 +2499,19 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
                 error_description: 'Message from server'
               }
             });
-            return tick();
+            return Expect.waitForSpyCall(test.afterErrorHandler, test);
           })
-          .then(function () {
-            expect(errorSpy.calls.count()).toBe(1);
-            var err = errorSpy.calls.argsFor(0)[0];
-            expect(err instanceof Errors.OAuthError).toBe(true);
-            expect(err.name).toBe('OAUTH_ERROR');
-            expect(err.message).toEqual('Message from server');
+          .then(function (test) {
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'primary-auth'
+              },
+              {
+                name: 'OAUTH_ERROR',
+                message: 'Message from server'
+              }
+            ]);
           });
       });
       itp('ignores messages with the wrong origin', function () {

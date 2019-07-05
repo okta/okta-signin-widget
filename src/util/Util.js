@@ -61,12 +61,11 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
       return xhr;
     }
     if (!xhr.responseJSON) {
-      try {
-        xhr.responseJSON = JSON.parse(xhr.responseText);
-      } catch (parseException) {
+      if (!xhr.responseText) {
         xhr.responseJSON = { errorSummary: Okta.loc('oform.error.unexpected', 'login') };
         return xhr;
       }
+      xhr.responseJSON = xhr.responseText;
     }
     // Temporary solution to display field errors
     // Assuming there is only one field error in a response
@@ -145,6 +144,8 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     var className = _.isFunction(controller.className) ? controller.className() : controller.className;
     var error = _.pick(err, 'name', 'message', 'statusCode', 'xhr');
     controller.trigger('afterError', { controller: className }, error);
+    // Logs to console only in dev mode
+    Logger.warn('controller: ' + className + ', error: ' + error);
   };
 
   /**
@@ -175,6 +176,21 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     var form = buildDynamicForm(url);
     mainContainer.appendChild(form);
     form.submit();
+  };
+
+  /**
+   * When we want to show an explain text, we need to check if this is different from
+   * the label text, to not have an explain that look like a duplicated label.
+   * okta-signin-widget gives the possibility to customize every i18n, so we cannot
+   * know ahead if these two are equal or different, we need to call this function everytime.
+   */
+  Util.createInputExplain = function (explainKey, labelKey, bundleName, explainParams, labelParams) {
+    var explain = explainParams ? Okta.loc(explainKey, bundleName, explainParams) : Okta.loc(explainKey, bundleName);
+    var label = labelParams ? Okta.loc(labelKey, bundleName, labelParams) : Okta.loc(labelKey, bundleName);
+    if (explain === label) {
+      return false;
+    }
+    return explain;
   };
 
   return Util;

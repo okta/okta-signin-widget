@@ -106,15 +106,18 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, Util, ContactSu
         }
         else {
           formChildren.push(FormType.Input({
-            placeholder: Okta.loc('password.forgot.email.or.username.placeholder', 'login'),
+            label: Okta.loc('password.forgot.email.or.username.placeholder', 'login'),
+            'label-top': true,
+            explain: Util.createInputExplain(
+              'password.forgot.email.or.username.tooltip',
+              'password.forgot.email.or.username.placeholder',
+              'login'),
+            'explain-top': true,
             name: 'username',
             input: TextBox,
+            inputId: 'account-recovery-username',
             type: 'text',
-            inlineValidation: false,
-            params: {
-              innerTooltip: Okta.loc('password.forgot.email.or.username.tooltip', 'login'),
-              icon: 'person-16-gray'
-            }
+            inlineValidation: false
           }));
           if (smsEnabled || callEnabled) {
             formChildren.push(FormType.View({

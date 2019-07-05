@@ -16,10 +16,11 @@ define([
   'util/FormType',
   'util/ValidationUtil',
   'util/FactorUtil',
+  'util/Util',
   'views/shared/FooterSignout',
   'views/shared/TextBox'
 ],
-function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSignout, TextBox) {
+function (Okta, FormController, FormType, ValidationUtil, FactorUtil, Util, FooterSignout, TextBox) {
 
   var _ = Okta._;
 
@@ -46,7 +47,11 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
     },
     Form: {
       save: _.partial(Okta.loc, 'password.reset', 'login'),
-      title: _.partial(Okta.loc, 'password.reset.title', 'login'),
+      title: function () {
+        return this.settings.get('brandName') ?
+          Okta.loc('password.reset.title.specific', 'login', [this.settings.get('brandName')]) :
+          Okta.loc('password.reset.title.generic', 'login');
+      },
       subtitle: function () {
         var policy = this.options.appState.get('policy');
         if (!policy) {
@@ -58,24 +63,29 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, FooterSign
       formChildren: function () {
         return [
           FormType.Input({
-            placeholder: Okta.loc('password.newPassword.placeholder', 'login'),
+            className: 'margin-btm-5',
+            label: Okta.loc('password.newPassword.placeholder', 'login'),
+            'label-top': true,
+            explain: Util.createInputExplain(
+              'password.newPassword.tooltip',
+              'password.newPassword.placeholder',
+              'login'),
+            'explain-top': true,
             name: 'newPassword',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('password.newPassword.tooltip', 'login'),
-              icon: 'credentials-16'
-            }
+            type: 'password'
           }),
           FormType.Input({
-            placeholder: Okta.loc('password.confirmPassword.placeholder', 'login'),
+            label: Okta.loc('password.confirmPassword.placeholder', 'login'),
+            'label-top': true,
+            explain: Util.createInputExplain(
+              'password.confirmPassword.tooltip',
+              'password.confirmPassword.placeholder',
+              'login'),
+            'explain-top': true,
             name: 'confirmPassword',
             input: TextBox,
-            type: 'password',
-            params: {
-              innerTooltip: Okta.loc('password.confirmPassword.tooltip', 'login'),
-              icon: 'credentials-16'
-            }
+            type: 'password'
           })
         ];
       }

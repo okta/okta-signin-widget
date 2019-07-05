@@ -180,7 +180,9 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Html
       },
 
       _successEnrollment: function () {
-        this.subtitle = Okta.loc('verify.windowsHello.subtitle.signingIn', 'login');
+        this.subtitle = this.settings.get('brandName') ?
+          Okta.loc('verify.windowsHello.subtitle.signingIn.specific', 'login', [this.settings.get('brandName')]) :
+          Okta.loc('verify.windowsHello.subtitle.signingIn.generic', 'login');
         this.render();
         this.$('.o-form-button-bar').addClass('hide');
       },

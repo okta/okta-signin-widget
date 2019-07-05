@@ -1,15 +1,13 @@
 /* eslint max-params:[0, 2] */
 define([
-  'okta',
   'widget/OktaSignIn',
   'helpers/util/Expect',
   'util/Logger',
   'sandbox',
   'jasmine-ajax',
 ],
-function (Okta, Widget, Expect, Logger, $sandbox) {
+function (Widget, Expect, Logger, $sandbox) {
   var url = 'https://foo.com';
-  var { $ } = Okta;
 
   Expect.describe('OktaSignIn initialization', function () {
     var signIn;
@@ -45,14 +43,14 @@ function (Okta, Widget, Expect, Logger, $sandbox) {
       it('has a renderEl method', function () {
         expect(signIn.renderEl).toBeDefined();
       });
+      it('has a authClient method', function () {
+        expect(signIn.authClient).toBeDefined();
+      });
       it('has a showSignInToGetTokens method', function () {
         expect(signIn.showSignInToGetTokens).toBeDefined();
       });
-      it('has a signOut method', function () {
-        expect(signIn.signOut).toBeDefined();
-      });
-      it('has a tokenManager method', function () {
-        expect(signIn.tokenManager).toBeDefined();
+      it('has a hasTokensInUrl method', function () {
+        expect(signIn.hasTokensInUrl).toBeDefined();
       });
       it('has a hide method', function () {
         expect(signIn.hide).toBeDefined();
@@ -63,77 +61,82 @@ function (Okta, Widget, Expect, Logger, $sandbox) {
       it('has a remove method', function () {
         expect(signIn.remove).toBeDefined();
       });
-      it('has a getTransaction method', function () {
-        expect(signIn.getTransaction).toBeDefined();
-      });
     });
 
-    Expect.describe('IdToken', function () {
-      it('has an idToken method', function () {
-        expect(signIn.idToken).toBeDefined();
+    Expect.describe('Auth Client', function () {
+      Expect.describe('Session', function () {
+        it('has a session method', function () {
+          expect(signIn.authClient.session).toBeDefined();
+        });
+        it('has a session.close method', function () {
+          expect(signIn.authClient.session.close).toBeDefined();
+        });
+        it('has a session.exists method', function () {
+          expect(signIn.authClient.session.exists).toBeDefined();
+        });
+        it('has a session.get method', function () {
+          expect(signIn.authClient.session.get).toBeDefined();
+        });
+        it('has a session.refresh method', function () {
+          expect(signIn.authClient.session.refresh).toBeDefined();
+        });
       });
-      it('has an idToken.refresh method', function () {
-        expect(signIn.idToken.refresh).toBeDefined();
-      });
-    });
 
-    Expect.describe('Session', function () {
-      it('has a session method', function () {
-        expect(signIn.session).toBeDefined();
+      Expect.describe('Token', function () {
+        it('has a token method', function () {
+          expect(signIn.authClient.token).toBeDefined();
+        });
+        it('has a token.getWithoutPrompt method', function () {
+          expect(signIn.authClient.token.getWithoutPrompt).toBeDefined();
+        });
+        it('has a token.getWithPopup method', function () {
+          expect(signIn.authClient.token.getWithPopup).toBeDefined();
+        });
+        it('has a token.getWithRedirect method', function () {
+          expect(signIn.authClient.token.getWithRedirect).toBeDefined();
+        });
+        it('has a token.parseFromUrl method', function () {
+          expect(signIn.authClient.token.parseFromUrl).toBeDefined();
+        });
+        it('has a token.decode method', function () {
+          expect(signIn.authClient.token.decode).toBeDefined();
+        });
+        it('has a token.renew method', function () {
+          expect(signIn.authClient.token.renew).toBeDefined();
+        });
+        it('has a token.getUserInfo method', function () {
+          expect(signIn.authClient.token.getUserInfo).toBeDefined();
+        });
+        it('has a token.verify method', function () {
+          expect(signIn.authClient.token.verify).toBeDefined();
+        });
       });
-      it('has a session.close method', function () {
-        expect(signIn.session.close).toBeDefined();
-      });
-      it('has a session.exists method', function () {
-        expect(signIn.session.exists).toBeDefined();
-      });
-      it('has a session.get method', function () {
-        expect(signIn.session.get).toBeDefined();
-      });
-      it('has a session.refresh method', function () {
-        expect(signIn.session.refresh).toBeDefined();
-      });
-    });
 
-    Expect.describe('Token', function () {
-      it('has a token method', function () {
-        expect(signIn.token).toBeDefined();
-      });
-      it('has a token.hasTokensInUrl method', function () {
-        expect(signIn.token.hasTokensInUrl).toBeDefined();
-      });
-      it('has a token.parseTokensFromUrl method', function () {
-        expect(signIn.token.parseTokensFromUrl).toBeDefined();
-      });
-    });
-
-    Expect.describe('getTransaction', function () {
-      beforeEach(function () {
-        spyOn($, 'ajax').and.callThrough();
-      });
-      it('throws an error if a state token is not provided', function () {
-        expect(function () {
-          signIn.getTransaction();
-        }).toThrow(new Error('A state token is required.'));
-      });
-      it('calls the authentication api with a stateToken', function (done) {
-        $.ajax.calls.reset();
-        signIn.getTransaction('fooToken')
-          .then(function (){/* Should never reach this */})
-          .catch(function () {
-            expect($.ajax).toHaveBeenCalledWith({
-              type: 'POST',
-              url: 'https://foo.com/api/v1/authn',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'X-Okta-User-Agent-Extended': 'okta-signin-widget-9.9.99'
-              },
-              data: '{"stateToken":"fooToken"}',
-              xhrFields: { withCredentials: true }
-            });
-            done();
-          });
+      Expect.describe('TokenManager', function () {
+        it('has a tokenManager method', function () {
+          expect(signIn.authClient.tokenManager).toBeDefined();
+        });
+        it('has a tokenManager.add method', function () {
+          expect(signIn.authClient.tokenManager.add).toBeDefined();
+        });
+        it('has a tokenManager.get method', function () {
+          expect(signIn.authClient.tokenManager.get).toBeDefined();
+        });
+        it('has a tokenManager.remove method', function () {
+          expect(signIn.authClient.tokenManager.remove).toBeDefined();
+        });
+        it('has a tokenManager.clear method', function () {
+          expect(signIn.authClient.tokenManager.clear).toBeDefined();
+        });
+        it('has a tokenManager.renew method', function () {
+          expect(signIn.authClient.tokenManager.renew).toBeDefined();
+        });
+        it('has a tokenManager.on method', function () {
+          expect(signIn.authClient.tokenManager.on).toBeDefined();
+        });
+        it('has a tokenManager.off method', function () {
+          expect(signIn.authClient.tokenManager.off).toBeDefined();
+        });
       });
     });
 

@@ -49,6 +49,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
         break;
       case 'token':
       case 'token:software:totp':
+      case 'token:hotp':
         View = TOTPForm;
         break;
       case 'token:hardware':

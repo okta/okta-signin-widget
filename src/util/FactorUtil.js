@@ -36,7 +36,11 @@ function (Okta, TimeUtil) {
     },
     'U2F': {
       label: 'factor.u2f',
-      description: Okta.loc('factor.u2f.description', 'login'),
+      description: (brandName) => {
+        return brandName ?
+          Okta.loc('factor.u2f.description.specific', 'login', [brandName]) :
+          Okta.loc('factor.u2f.description.generic', 'login');
+      },
       iconClassName: 'mfa-u2f',
       sortOrder: 2
     },
@@ -48,7 +52,11 @@ function (Okta, TimeUtil) {
     },
     'WINDOWS_HELLO': {
       label: 'factor.windowsHello',
-      description: Okta.loc('factor.windowsHello.signin.description', 'login'),
+      description: (brandName) => {
+        return brandName ?
+          Okta.loc('factor.windowsHello.signin.description.specific', 'login', [brandName]) :
+          Okta.loc('factor.windowsHello.signin.description.generic', 'login');
+      },
       iconClassName: 'mfa-windows-hello',
       sortOrder: 3
     },
@@ -64,71 +72,85 @@ function (Okta, TimeUtil) {
       iconClassName: 'mfa-google-auth',
       sortOrder: 5
     },
+    'CUSTOM_HOTP': {
+      label: '',
+      description: Okta.loc('factor.hotp.description', 'login'),
+      iconClassName: 'mfa-hotp',
+      sortOrder: 6
+    },
     'SMS': {
       label: 'factor.sms',
       description: Okta.loc('factor.sms.description', 'login'),
       iconClassName: 'mfa-okta-sms',
-      sortOrder: 6
+      sortOrder: 7
     },
     'CALL': {
       label: 'factor.call',
       description: Okta.loc('factor.call.description', 'login'),
       iconClassName: 'mfa-okta-call',
-      sortOrder: 7
+      sortOrder: 8
     },
     'EMAIL': {
       label: 'factor.email',
       description: '',
       iconClassName: 'mfa-okta-email',
-      sortOrder: 8
+      sortOrder: 9
     },
     'QUESTION': {
       label: 'factor.securityQuestion',
       description: Okta.loc('factor.securityQuestion.description', 'login'),
       iconClassName: 'mfa-okta-security-question',
-      sortOrder: 9
+      sortOrder: 10
     },
     'DUO': {
       label: 'factor.duo',
       description: Okta.loc('factor.duo.description', 'login'),
       iconClassName: 'mfa-duo',
-      sortOrder: 10
+      sortOrder: 11
     },
     'SYMANTEC_VIP': {
       label: 'factor.totpHard.symantecVip',
       description: Okta.loc('factor.totpHard.description', 'login'),
       iconClassName: 'mfa-symantec',
-      sortOrder: 11
+      sortOrder: 12
     },
     'RSA_SECURID': {
       label: 'factor.totpHard.rsaSecurId',
       description: Okta.loc('factor.totpHard.description', 'login'),
       iconClassName: 'mfa-rsa',
-      sortOrder: 12
+      sortOrder: 13
     },
     'ON_PREM': {
       label: '',
       description: Okta.loc('factor.totpHard.description', 'login'),
       iconClassName: 'mfa-onprem',
-      sortOrder: 13
+      sortOrder: 14
     },
     'PASSWORD': {
       label: 'factor.password',
       description: '',
       iconClassName: 'mfa-okta-password',
-      sortOrder: 14
+      sortOrder: 15
     },
     'GENERIC_SAML': {
       label: '',
-      description: Okta.loc('factor.customFactor.description', 'login'),
+      description: (brandName) => {
+        return brandName ?
+          Okta.loc('factor.customFactor.description.specific', 'login', [brandName]) :
+          Okta.loc('factor.customFactor.description.generic', 'login');
+      },
       iconClassName: 'mfa-custom-factor',
-      sortOrder: 15
+      sortOrder: 16
     },
     'GENERIC_OIDC': {
       label: '',
-      description: Okta.loc('factor.customFactor.description', 'login'),
+      description: (brandName) => {
+        return brandName ?
+          Okta.loc('factor.customFactor.description.specific', 'login', [brandName]) :
+          Okta.loc('factor.customFactor.description.generic', 'login');
+      },
       iconClassName: 'mfa-custom-factor',
-      sortOrder: 16
+      sortOrder: 17
     }
   };
 
@@ -195,6 +217,9 @@ function (Okta, TimeUtil) {
         return 'WINDOWS_HELLO';
       }
     }
+    if (factorType === 'token:hotp') {
+      return 'CUSTOM_HOTP';
+    }
   };
 
   fn.isOktaVerify = function (provider, factorType) {
@@ -207,7 +232,11 @@ function (Okta, TimeUtil) {
   };
 
   fn.getFactorDescription = function (provider, factorType) {
-    return factorData[fn.getFactorName.apply(this, [provider, factorType])].description;
+    var description = factorData[fn.getFactorName.apply(this, [provider, factorType])].description;
+    if (_.isFunction(description)) {
+      return description(this.settings.get('brandName'));
+    }
+    return description;
   };
 
   fn.getFactorIconClassName = function (provider, factorType) {

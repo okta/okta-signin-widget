@@ -1,6 +1,4 @@
 /* stylelint-disable selector-max-id */
-@import 'variables';
-@import 'helpers';
 
 @mixin light-button-template($bg-color) {
   @include button-template($bg-color, 1%, $dark-text-color, 22%, 25%);
@@ -76,10 +74,19 @@
     color: $header-text-color;
   }
 
-  .okta-form-subtitle,
-  .okta-form-label {
+  .okta-form-subtitle {
     /* -- Fonts and Text Colors -- */
     color: $medium-text-color;
+  }
+
+  .okta-form-label {
+    /* -- Fonts and Text Colors -- */
+    font-weight: $font-weight-labels;
+    color: $dark-text-color;
+  }
+
+  .o-form-explain {
+    padding-top: 0;
   }
 
   .link {
@@ -137,12 +144,6 @@
       .password-with-toggle {
         padding-right: 65px;
       }
-
-      .password-toggle {
-        .eyeicon {
-          right: 38px;
-        }
-      }
     }
     // add divider to username/password on login when password toggle on
     .o-form .o-form-input .o-form-control {
@@ -159,6 +160,18 @@
           border-right: 1px solid $input-border-color-focus;
         }
       }
+    }
+
+    .margin-btm-5 {
+      margin-bottom: 5px;
+    }
+
+    .margin-btm-30 {
+      margin-bottom: 30px;
+    }
+
+    .margin-top-30 {
+      margin-top: 30px;
     }
   }
 
@@ -231,6 +244,30 @@
       (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Google Authenticator  -- */
       background-image: url('../img/icons/mfa/googleAuth@2x.png');
+    }
+  }
+
+  .mfa-hotp {
+    /* -- Factor Icons (large): Hotp Factor -- */
+    background-image: url('../img/icons/mfa/hotpFactor_70x70.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Hotp Factor  -- */
+      background-image: url('../img/icons/mfa/hotpFactor@2x.png');
+    }
+  }
+
+  .mfa-hotp-30 {
+    /* -- Factor Icons (small): Hotp Factor -- */
+    background-image: url('../img/icons/mfa/hotpFactor_38x38.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Hotp Factor  -- */
+      background-image: url('../img/icons/mfa/hotpFactor_ico@2x.png');
     }
   }
 

@@ -17,7 +17,8 @@ define([
   'util/Enums',
   'util/RegistrationFormFactory',
   'views/registration/SubSchema',
-  'util/Errors'
+  'util/Errors',
+  'util/Util'
 ],
 function (
   Okta,
@@ -27,7 +28,8 @@ function (
   Enums,
   RegistrationFormFactory,
   SubSchema,
-  Errors
+  Errors,
+  Util
 ) {
 
   var { _, Backbone } = Okta;
@@ -110,7 +112,7 @@ function (
         var responseJSON = err.responseJSON;
         if (responseJSON && responseJSON.errorCauses.length) {
           var errMsg = responseJSON.errorCauses[0].errorSummary;
-          self.settings.callGlobalError(new Errors.RegistrationError(errMsg));
+          Util.triggerAfterError(self, new Errors.RegistrationError(errMsg));
         }
       });
     },
@@ -157,9 +159,9 @@ function (
         responseJSON: error
       });
 
-      //throw global error
-      var errMsg = error.callback? error.callback+':'+ error.errorSummary: error.errorSummary;
-      this.settings.callGlobalError(new Errors.RegistrationError(errMsg));
+      //throw registration error
+      var errMsg = error.callback ? error.callback + ':' + error.errorSummary : error.errorSummary;
+      Util.triggerAfterError(this, new Errors.RegistrationError(errMsg));
 
       if (hideRegisterButton) {
         this.$el.find('.button-primary').hide();

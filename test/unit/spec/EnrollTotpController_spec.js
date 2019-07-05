@@ -769,8 +769,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             Expect.isVisible(test.passCodeForm.codeField());
             test.passCodeForm.setCode('1234');
 
-            // Reset the ajaxRequest (changed during push setup)
-            test.ac.options.ajaxRequest = test.originalAjax;
+            // Reset the httpRequestClient (changed during push setup)
+            test.ac.options.httpRequestClient = test.originalAjax;
             test.setNextResponse(resSuccess);
             test.passCodeForm.submit();
             return tick(test);

@@ -9,71 +9,6 @@ var OktaSignIn = (function () {
   function getProperties (authClient, LoginRouter, Util, config) {
 
     /**
-     * Check if a session exists
-     * @param callback - callback function invoked with 'true'/'false' as the argument.
-     */
-    function checkSession (callback) {
-      authClient.session.exists().then(callback);
-    }
-
-    /**
-     * Close the current session (sign-out). Callback is invoked with an error message
-     * if the operation was not successful.
-     * @param callback - function to invoke after closing the session.
-     */
-    function closeSession (callback) {
-      authClient.session.close().then(callback)
-        .fail(function () {
-          callback('There was a problem closing the session');
-        });
-    }
-
-    /**
-     * Keep-alive for the session. The callback is invoked with the object containing
-     * the session if successful and {status: 'INACTIVE'} if it is not successful.
-     * @param callback - function to invoke after refreshing the session.
-     */
-    function refreshSession (callback) {
-      authClient.session.refresh().then(callback)
-        .fail(function () {
-          callback({status: 'INACTIVE'});
-        });
-    }
-
-    /**
-     * Refresh the idToken
-     * @param idToken - idToken generated from the OAUTH call
-     * @param callback - function to invoke after refreshing the idToken.
-     *        The callback will be passed a new idToken if successful and
-     *        an error message if not.
-     * @param opts - OAUTH options to refresh the idToken
-     */
-    function refreshIdToken (idToken, callback, opts) {
-      authClient.idToken.refresh(opts).then(callback)
-        .fail(function () {
-          callback('There was a problem refreshing the id_token');
-        });
-    }
-
-    /**
-     * Check if there is an active session. If there is one, the callback is invoked with
-     * the session and user information (similar to calling the global success callback)
-     * and if not, the callback is invoked with {status: 'INACTIVE'}, at which point,
-     * the widget can be rendered using renderEl().
-     * @param callback - function to invoke after checking if there is an active session.
-     */
-    function getSession (callback) {
-      authClient.session.get()
-        .then(function (res) {
-          if (res.status === 'ACTIVE' && res.user) {
-          // only include the attributes that are passed into the successFn on primary auth.
-            res.user = _.pick(res.user, 'id', 'profile', 'passwordChanged');
-          }
-          callback(res);
-        });
-    }
-
-    /**
      * Render the sign in widget to an element.
      * @param options - options for the signin widget.
      *        Must have an el or $el property to render the widget to.
@@ -136,17 +71,6 @@ var OktaSignIn = (function () {
     }
 
     /**
-     * Parses tokens from the url.
-     * @param success - success callback function (usually the same as passed to render)
-     * @param error - error callback function (usually the same as passed to render)
-     */
-    function parseTokensFromUrl (success, error) {
-      authClient.token.parseFromUrl()
-        .then(success)
-        .fail(error);
-    }
-
-    /**
      * Renders the Widget with opinionated defaults for the full-page
      * redirect flow.
      * @param options - options for the signin widget
@@ -156,39 +80,12 @@ var OktaSignIn = (function () {
       return render(renderOptions);
     }
 
-    /**
-     * Returns authentication transaction information given a stateToken.
-     * @param {String} stateToken - Ephemeral token that represents the current state of an authentication
-     *                              or recovery transaction
-     * @returns {Promise} - Returns a promise for an object containing the transaction information
-     */
-    function getTransaction (stateToken) {
-      if (!stateToken) {
-        throw new Error('A state token is required.');
-      }
-      return authClient.tx.resume({ stateToken: stateToken });
-    }
-
     // Properties exposed on OktaSignIn object.
     return {
       renderEl: render,
+      authClient: authClient,
       showSignInToGetTokens: showSignInToGetTokens,
-      signOut: closeSession,
-      idToken: {
-        refresh: refreshIdToken
-      },
-      session: {
-        close: closeSession,
-        exists: checkSession,
-        get: getSession,
-        refresh: refreshSession
-      },
-      token: {
-        hasTokensInUrl: hasTokensInUrl,
-        parseTokensFromUrl: parseTokensFromUrl
-      },
-      tokenManager: authClient.tokenManager,
-      getTransaction: getTransaction,
+      hasTokensInUrl: hasTokensInUrl,
       hide: hide,
       show: show,
       remove: remove
@@ -198,7 +95,7 @@ var OktaSignIn = (function () {
   function OktaSignIn (options) {
     require('okta');
 
-    var OktaAuth = require('@okta/okta-auth-js/jquery');
+    var OktaAuth = require('@okta/okta-auth-js');
     var Util = require('util/Util');
     var LoginRouter = require('LoginRouter');
 
