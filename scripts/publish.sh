@@ -31,4 +31,6 @@ if ! artifactory_curl -X PUT -u ${ARTIFACTORY_CREDS} ${DATALOAD} -v -f; then
   exit $PUBLISH_ARTIFACTORY_FAILURE
 fi
 
+upload_job_data version placeholder
+
 exit $SUCCESS

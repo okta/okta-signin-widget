@@ -14,4 +14,5 @@ if ! npm test; then
   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
 fi
 
+
 exit $PUBLISH_TYPE_AND_RESULT_DIR;
