@@ -31,4 +31,13 @@ if ! artifactory_curl -X PUT -u ${ARTIFACTORY_CREDS} ${DATALOAD} -v -f; then
   exit $PUBLISH_ARTIFACTORY_FAILURE
 fi
 
+# upload artifact version to eng prod s3 to be used by downstream jobs
+artifact_version="$(ci-pkginfo -t pkgname)@$(ci-pkginfo -t pkgsemver)"
+if upload_job_data global artifact_version ${artifact_version}; then
+  echo "Upload okta-signin-widget job data artifact_version=${artifact_version} to s3!"
+else
+  # only echo the info since the upload is not crucial
+  echo "Fail to upload okta-signin-widget job data artifact_version=${artifact_version} to s3!" >&2
+fi
+
 exit $SUCCESS
