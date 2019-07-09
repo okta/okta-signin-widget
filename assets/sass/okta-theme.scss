@@ -89,6 +89,10 @@
     padding-top: 0;
   }
 
+  .o-form-explain.okta-form-input-error {
+    padding-top: 8px;
+  }
+
   .link {
     /* -- Fonts and Text Colors: links -- */
     color: $medium-text-color;
