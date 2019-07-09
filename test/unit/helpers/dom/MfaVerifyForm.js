@@ -32,7 +32,7 @@ define(['./Form'], function (Form) {
     isCall: function () {
       return this.el('factor-call').length === 1;
     },
-    
+
     isEmail: function () {
       return this.el('factor-email').length === 1;
     },
@@ -152,9 +152,13 @@ define(['./Form'], function (Form) {
     makeCall: function () {
       return this.el('make-call');
     },
-    
+
     emailSendCode: function () {
       return this.el('email-send-code');
+    },
+
+    orEnterCode: function () {
+      return this.el('enter-code-button');
     },
 
     inlineTOTPVerify: function () {

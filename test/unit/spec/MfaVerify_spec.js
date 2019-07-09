@@ -2415,8 +2415,8 @@ function (Okta,
         });
         itp('shows the email in the title', function () {
           return setupEmail().then(function (test) {
-            expectTitleToBe(test, 'Email Authentication');
-            expectSubtitleToBe(test, '(a...1@clouditude.net)');
+            expectTitleToBe(test, 'Sign in using a link sent to your email.');
+            expectSubtitleToBe(test, 'Emails will be sent to  a...1@clouditude.net');
           });
         });
         itp('has a button to send the code', function () {
@@ -2426,33 +2426,9 @@ function (Okta,
             expect(button.is('a')).toBe(true);
           });
         });
-        itp('has a passCode field', function () {
-          return setupEmail().then(function (test) {
-            expectHasAnswerField(test, 'tel');
-          });
-        });
         itp('has remember device checkbox', function () {
           return setupEmail().then(function (test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
-          });
-        });
-        itp('clears the passcode text field on clicking the "Send email" button', function () {
-          return setupEmail().then(function (test) {
-            test.button = test.form.emailSendCode();
-            test.form.setAnswer('123456');
-            test.setNextResponse(resChallengeEmail);
-            expect(test.button.trimmedText()).toEqual('Send email');
-            expect(test.form.answerField().val()).toEqual('123456');
-            test.form.emailSendCode().click();
-            return tick().then(function () {
-              expect(test.button.trimmedText()).toEqual('Sent');
-              expect(test.form.answerField().val()).toEqual('');
-              var button = test.form.submitButton();
-              var buttonClass = button.attr('class');
-              expect(buttonClass).not.toContain('link-button-disabled');
-              expect(button.prop('disabled')).toBe(false);
-              return test;
-            });
           });
         });
         itp('calls verifyFactor with empty code if send code button is clicked', function () {
@@ -2511,6 +2487,16 @@ function (Okta,
               expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
               expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
             });
+        });
+        itp('shows code field if "or enter code" button is clicked', function () {
+          return setupEmail().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.emailSendCode().click();
+            test.form.orEnterCode().click();
+            Expect.isVisible(test.form.answerField());
+            return tick(test);
+          });
         });
         itp('calls verifyFactor with given code if verify button is clicked', function () {
           return setupEmail().then(function (test) {
@@ -3672,7 +3658,7 @@ function (Okta,
             .then(function (test) {
               expect(test.form.subtitleText()).toBe('Signing in...');
               expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
-            });  
+            });
         });
 
         itp('subtitle changes after submitting the form to correct subtitle if config has a brandName', function () {
