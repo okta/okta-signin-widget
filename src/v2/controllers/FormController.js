@@ -22,7 +22,6 @@ function (
   FooterWithBackLink
 ) {
   return BaseLoginController.extend({
-    className: 'enroll-user',
     initialize: function (options) {
       this.options = options || {};
       // create model

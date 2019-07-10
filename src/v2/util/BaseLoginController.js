@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019 Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -46,30 +46,11 @@ define(['okta', 'q'], function (Okta, Q) {
         this.toggleButtonState(false);
       });
 
-      this.addModelListeners(this.model);
     },
 
-    addModelListeners: function (model) {
-      var setTransactionHandler = _.bind(function (transaction) {
-        this.options.appState.set('transaction', transaction);
-      }, this);
-      var transactionErrorHandler = _.bind(function (err) {
-        this.options.appState.set('transactionError', err);
-      }, this);
-
-      // Events to set the transaction attributes on the app state.
-      this.listenTo(model, 'setTransaction', setTransactionHandler);
-      this.listenTo(model, 'setTransactionError', transactionErrorHandler);
-
-      // For TOTP factor model
-      // TOTP model is special, its model will not be attached to a controller, but will
-      // tag along with the push factor model. We need to listen to the transaction
-      // changes on this as well (in case of the push+totp form).
-      var totpModel = model.get('backupFactor');
-      if (totpModel) {
-        this.listenTo(totpModel, 'setTransaction', setTransactionHandler);
-        this.listenTo(totpModel, 'setTransactionError', transactionErrorHandler);
-      }
+    toggleButtonState: function (state) {
+      var button = this.$el.find('.button');
+      button.toggleClass('link-button-disabled', state).prop('disabled', state);
     },
 
     // Override this method to delay switching to this screen until return
@@ -92,17 +73,8 @@ define(['okta', 'q'], function (Okta, Q) {
       return _.extend(_.pick(this.options, 'appState'), data);
     },
 
-    toggleButtonState: function (state) {
-      var button = this.$el.find('.button');
-      button.toggleClass('link-button-disabled', state).prop('disabled', state);
-    },
-
-
     postRenderAnimation: function () {
       // Event triggered after a page is rendered along with the classname to identify the page
-      // TODO: Deprecate this event in the next major version in favor of 'afterRender'
-      this.trigger('pageRendered', {page: this.className});
-
       this.trigger('afterRender', { controller: this.className });
     }
   });

@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -16,25 +16,23 @@
 // responsible for adding new routes)
 define([
   'okta',
-  './BrowserFeatures',
+  'util/BrowserFeatures',
   'models/Settings',
   'views/shared/Header',
   'views/shared/SecurityBeacon',
   'views/shared/AuthContainer',
-  'models/AppState',
   '../models/WidgetState',
-  './ColorsUtil',
+  'util/ColorsUtil',
   './RouterUtil',
-  './RoutingUtil',
-  './Animations',
-  './Errors',
-  './Util',
-  './Enums',
+  'util/Animations',
+  'util/Errors',
+  'util/Util',
+  'util/Enums',
   'util/Bundles',
   'util/Logger'
 ],
 function (Okta, BrowserFeatures, Settings,
-  Header, SecurityBeacon, AuthContainer, AppState, WidgetState, ColorsUtil, RouterUtil, RoutingUtil, Animations,
+  Header, SecurityBeacon, AuthContainer, WidgetState, ColorsUtil, RouterUtil, Animations,
   Errors, Util, Enums, Bundles, Logger) {
 
   var { _, $, Backbone } = Okta;
@@ -78,16 +76,6 @@ function (Okta, BrowserFeatures, Settings,
 
     Events:  Backbone.Events,
 
-    widgetState: null,
-
-    setWidgetState: function (stateObject) {
-      this.widgetState = stateObject;
-    },
-
-    getWidgetState: function () {
-      return this.widgetState;
-    },
-
     initialize: function (options) {
       // Create a default success and/or error handler if
       // one is not provided.
@@ -116,7 +104,10 @@ function (Okta, BrowserFeatures, Settings,
         // and then the open tooltip will lose focus and close.
       });
 
-      this.appState = this.getWidgetState();
+      this.appState = new WidgetState({
+        baseUrl: this.settings.get('baseUrl'),
+        settings: this.settings
+      }, { parse: true });
 
       var wrapper = new AuthContainer({appState: this.appState});
       Okta.$(options.el).append(wrapper.render().$el);
@@ -128,20 +119,12 @@ function (Okta, BrowserFeatures, Settings,
         settings: this.settings
       });
 
-      this.listenTo(this.appState, 'change:transactionError', function (appState, err) {
+      this.listenTo(this.appState, 'change:remediationError', function (appState, err) {
         RouterUtil.routeAfterAuthStatusChangeError(this, err);
       });
 
-      this.listenTo(this.appState, 'change:transaction', function (appState, trans) {
-        RouterUtil.routeAfterAuthStatusChange(this, trans.data);
-      });
-
-      this.listenTo(this.appState, 'change:remediationError', function (appState, err) {
-        RoutingUtil.routeAfterAuthStatusChangeError(this, err);
-      });
-
       this.listenTo(this.appState, 'change:remediationSuccess', function (appState, trans) {
-        RoutingUtil.routeAfterAuthRemediationChange(this, trans.data);
+        RouterUtil.routeAfterAuthRemediationChange(this, trans.data);
       });
 
       this.listenTo(this.appState, 'navigate', function (url) {
@@ -150,14 +133,6 @@ function (Okta, BrowserFeatures, Settings,
     },
 
     execute: function (cb, args) {
-      // Recovery flow with a token passed through widget settings
-      var recoveryToken = this.settings.get('recoveryToken');
-      if (recoveryToken) {
-        this.settings.unset('recoveryToken');
-        this.navigate(RouterUtil.createRecoveryUrl(recoveryToken), { trigger: true });
-        return;
-      }
-
       // Refresh flow with a stateToken passed through widget settings
       var stateToken = this.settings.get('stateToken');
       if (stateToken) {
