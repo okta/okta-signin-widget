@@ -19,18 +19,6 @@ function (Okta) {
   var _ = Okta._;
 
   return Okta.Model.extend({
-
-    initialize: function (){
-
-      // Events to set the remediation attributes on the widget state.
-      this.listenTo(this, 'remediationSuccess', function (transaction) {
-        this.set('remediationSuccess', transaction);
-      });
-      this.listenTo(this, 'remediationFailure', function (err) {
-        this.set('remediationFailure', err);
-      });
-    },
-
     local: {
       baseUrl: 'string',
       lastAuthResponse: ['object', true, {}],

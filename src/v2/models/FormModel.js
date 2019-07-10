@@ -18,7 +18,6 @@ function (Okta, BaseLoginModel) {
   return BaseLoginModel.extend({
     initialize: function (options) {
       this.options = options || {};
-      this.appState = this.options.appState;
     },
     save: function () {
       // TODO integration with ION schema OKTA-236337

@@ -10,41 +10,31 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', '../util/FormController'], function (Okta, FormController) {
-
-  return FormController.extend({
-    className: 'refresh-auth-state',
-
-    Model: {},
-
-    Form: {
-      noButtonBar: true
-    },
-    
-    preRender: function () {
-      var token = this.options.token;
-      var appState = this.options.appState;
-      this.model.startTransaction(function (authClient) {
-        if (token) {
-          appState.trigger('loading', true);
-          return authClient.tx.resume({
-            stateToken: token
-          });
-        }
-
-        if (authClient.tx.exists()) {
-          appState.trigger('loading', true);
-          return authClient.tx.resume();
-        }
-
-        appState.trigger('navigate', '');
-      });
-    },
-
-    remove: function () {
-      this.options.appState.trigger('loading', false);
-      return FormController.prototype.remove.apply(this, arguments);
-    }
-
+define(['okta', '../util/BaseLoginController', '../models/BaseLoginModel'],
+  function (Okta, BaseLoginController, BaseLoginModel) {
+    return BaseLoginController.extend({
+      className: 'refresh-auth-state',
+      initialize: function () {
+        var token = this.options.token;
+        var appState = this.options.appState;
+        this.model = new BaseLoginModel({
+          settings: this.settings,
+          appState: this.options.appState
+        });
+        this.addListeners();
+        this.model.startTransaction(function (authClient) {
+          if (token) {
+            appState.trigger('loading', true);
+            return authClient.tx.resume({
+              stateToken: token
+            });
+          }
+          if (authClient.tx.exists()) {
+            appState.trigger('loading', true);
+            return authClient.tx.resume();
+          }
+          appState.trigger('navigate', '');
+        });
+      }
+    });
   });
-});

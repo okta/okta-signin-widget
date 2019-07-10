@@ -18,9 +18,10 @@ define([
 function (Okta, Q) {
   return Okta.Model.extend({
     startTransaction: function (fn) {
+      this.appState = this.options.appState;
+      this.settings = this.options.settings;
       var self = this,
           res = fn.call(this, this.settings.getAuthClient());
-
       // If it's a promise, then chain to it
       if (Q.isPromiseAlike(res)) {
         return res.then(function (trans) {
@@ -31,7 +32,7 @@ function (Okta, Q) {
         })
           .fail(function (err) {
             self.trigger('error', self, err.xhr);
-            self.trigger('remediationFailure', err);
+            self.appState.trigger('remediationFailure', err);
             throw err;
           });
       }

@@ -56,12 +56,7 @@ function (Okta, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
     if (!res || !res.status) {
       return;
     }
-
     router.appState.setAuthResponse(res);
-
-    if (router.controller && router.controller.trapAuthResponse(res)) {
-      return;
-    }
 
     fn.handleResponseStatus(router, res);
   };
@@ -71,13 +66,7 @@ function (Okta, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
     if (!res || !res.status) {
       return;
     }
-
     router.appState.setAuthResponse(res);
-
-    if (router.controller && router.controller.trapAuthResponse(res)) {
-      return;
-    }
-
     fn.handleRemediationResponse(router, res);
   };
 
