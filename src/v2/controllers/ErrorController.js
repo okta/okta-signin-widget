@@ -10,31 +10,41 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 define([
-  '../util/BaseLoginController',
-  '../views/FormView',
-  '../models/FormModel',
-  '../../views/shared/FooterWithBackLink'
+  'okta',
+  'util/BaseLoginController',
+  '../models/BaseLoginModel',
 ],
 function (
+  Okta,
   BaseLoginController,
-  FormView,
-  FormModel,
-  FooterWithBackLink
+  BaseLoginModel,
 ) {
   return BaseLoginController.extend({
     initialize: function (options) {
       this.options = options || {};
-      // create model
-      this.model = new FormModel(this.options);
+      this.model = new BaseLoginModel({
+        settings: this.settings,
+        appState: this.options.appState
+      });
+      this.listenTo(this, 'afterError', function (data, err) {
+        this.addErrorMessage(err.message);
+      });
     },
-    fetchInitialData: function () {
-      return BaseLoginController.prototype.fetchInitialData.call();
+    addErrorMessage: function (err) {
+      this.$el.find('.error-message').remove();
+      var errorView = Okta.View.extend({
+        template: '<p class="error-message">{{msg}}</p>',
+        getTemplateData: function () {
+          var msg = err;
+          return {
+            msg: msg
+          };
+        }
+      });
+      this.add(errorView);
     },
     postRender: function () {
-      var form = new FormView(this.toJSON());
-      this.add(form);
-      this.add(new FooterWithBackLink(this.toJSON()));
-      this.addListeners();
+      this.addErrorMessage('Widget bootstrapped with no stateToken');
     }
   });
 });

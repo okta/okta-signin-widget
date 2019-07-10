@@ -119,7 +119,7 @@ function (Okta, BrowserFeatures, Settings,
         settings: this.settings
       });
 
-      this.listenTo(this.appState, 'change:remediationError', function (appState, err) {
+      this.listenTo(this.appState, 'change:remediationFailure', function (appState, err) {
         RouterUtil.routeAfterAuthStatusChangeError(this, err);
       });
 
@@ -143,7 +143,7 @@ function (Okta, BrowserFeatures, Settings,
 
       // Normal flow - we've either navigated to a stateless page, or are
       // in the middle of an auth flow
-      var trans = this.appState.get('transaction') || this.appState.get('remediationSuccess');
+      var trans = this.appState.get('remediationSuccess');
       if ((trans && trans.data) || isStateLessRouteHandler(this, cb)) {
         cb.apply(this, args);
         return;
@@ -180,7 +180,6 @@ function (Okta, BrowserFeatures, Settings,
         { settings: this.settings, appState: this.appState },
         _.omit(options, 'Beacon')
       );
-
       // Since we have a wrapper view, render our wrapper and use its content
       // element as our new el.
       // Note: Render it here because we know dom is ready at this point
@@ -242,17 +241,11 @@ function (Okta, BrowserFeatures, Settings,
             dir: oldController.state.get('navigateDir'),
             ctx: this,
             success: function () {
-              var flashError = this.appState.get('flashError'),
-                  model = this.controller.model;
+              var flashError = this.appState.get('flashError');
               oldController.remove();
               oldController.$el.remove();
               this.controller.postRenderAnimation();
               if (flashError) {
-                model.trigger('error', model, {
-                  responseJSON: {
-                    errorSummary: Okta.loc('error.expired.session')
-                  }
-                });
                 this.appState.unset('flashError');
                 Util.triggerAfterError(this.controller, flashError);
               }

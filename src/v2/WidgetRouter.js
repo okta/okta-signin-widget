@@ -16,15 +16,13 @@ define([
   './util/BaseLoginRouter',
   './controllers/RefreshAuthStateController',
   './controllers/FormController',
-  '../views/shared/SecurityBeacon',
-  '../views/shared/FactorBeacon',
+  './controllers/ErrorController'
 ],
 function (Okta,
   BaseLoginRouter,
   RefreshAuthStateController,
   FormController,
-  SecurityBeacon,
-  FactorBeacon) {
+  ErrorController) {
   return BaseLoginRouter.extend({
     routes: {
       '': 'defaultAuth',
@@ -36,18 +34,33 @@ function (Okta,
     // Route handlers that do not require a stateToken. If the page is refreshed,
     // these functions will not require a status call to refresh the stateToken.
     stateLessRouteHandlers: [
-      'defaultAuth', 'refreshAuthState'
+      'defaultAuth', 'renderErrorView', 'refreshAuthState'
     ],
+
+    defaultAuth: function () {
+      var stateToken = this.settings.get('stateToken');
+      if (stateToken) {
+        //if widget bootstrapped with stateToken, make an API call to get authstate
+        this.refreshAuthState(stateToken);
+      } else {
+        //widget bootstrapped with no statetoken
+        this.renderErrorView();
+      }
+    },
 
     refreshAuthState: function (token) {
       this.render(RefreshAuthStateController, {
-        token: token,
-        Beacon: SecurityBeacon
+        token: token
       });
     },
 
+    renderErrorView: function () {
+      // no/invalid stateToken
+      this.render(ErrorController);
+    },
+
     renderWidgetView: function () {
-      this.render(FormController, { Beacon: FactorBeacon });
+      this.render(FormController);
     }
 
   });
