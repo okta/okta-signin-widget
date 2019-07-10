@@ -12,7 +12,7 @@
 
 define([
   'okta',
-  '../../models/BaseLoginModel'
+  './BaseLoginModel'
 ],
 function (Okta, BaseLoginModel) {
   return BaseLoginModel.extend({

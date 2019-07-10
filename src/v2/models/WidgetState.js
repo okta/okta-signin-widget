@@ -21,18 +21,14 @@ function (Okta) {
   return Okta.Model.extend({
 
     initialize: function (){
-      // add listeners
-      var setRemediationHandler = _.bind(function (transaction) {
-        this.set('remediationSuccess', transaction);
-      }, this);
-      var remediationErrorHandler = _.bind(function (err) {
-        this.set('remediationFailure', err);
-      }, this);
 
       // Events to set the remediation attributes on the widget state.
-      this.listenTo(this, 'setRemediationSuccess', setRemediationHandler);
-      this.listenTo(this, 'setRemediationFailure', remediationErrorHandler);
-
+      this.listenTo(this, 'remediationSuccess', function (transaction) {
+        this.set('remediationSuccess', transaction);
+      });
+      this.listenTo(this, 'remediationFailure', function (err) {
+        this.set('remediationFailure', err);
+      });
     },
 
     local: {
@@ -60,12 +56,6 @@ function (Okta) {
     },
 
     derived: {
-      'isSuccessResponse': {
-        deps: ['lastAuthResponse'],
-        fn: function (res) {
-          return res.status === 'SUCCESS';
-        }
-      },
       'remediation': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
@@ -88,30 +78,6 @@ function (Okta) {
           if (remediation && remediation[0]) {
             return remediation[0].uiSchema;
           }
-        }
-      },
-      'isFactorRequired': {
-        deps: ['lastAuthResponse'],
-        fn: function (res) {
-          return res.status === 'FACTOR_REQUIRED';
-        }
-      },
-      'isProfileRequired': {
-        deps: ['lastAuthResponse'],
-        fn: function (res) {
-          return res.status === 'PROFILE_REQUIRED';
-        }
-      },
-      'isFactorEnroll': {
-        deps: ['lastAuthResponse'],
-        fn: function (res) {
-          return res.status === 'FACTOR_ENROLL';
-        }
-      },
-      'isFactorChallenge': {
-        deps: ['lastAuthResponse'],
-        fn: function (res) {
-          return res.status === 'FACTOR_CHALLENGE';
         }
       },
     },

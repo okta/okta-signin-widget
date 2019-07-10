@@ -12,7 +12,7 @@
 
 define([
   'okta',
-  './FormType',
+  'util/FormType',
   './BaseLoginController',
   '../models/BaseLoginModel'
 ],

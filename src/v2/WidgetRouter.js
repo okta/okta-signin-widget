@@ -39,10 +39,6 @@ function (Okta,
       'defaultAuth', 'refreshAuthState'
     ],
 
-    defaultAuth: function () {
-      this.renderWidgetView();
-    },
-
     refreshAuthState: function (token) {
       this.render(RefreshAuthStateController, {
         token: token,

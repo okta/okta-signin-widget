@@ -4,10 +4,7 @@ var OktaSignIn = (function () {
 
   var _        = require('underscore'),
       config   = require('config/config.json'),
-      OAuth2Util = require('util/OAuth2Util'),
-      AppState = require('models/AppState'),
-      WidgetState = require('v2/models/WidgetState'),
-      Settings = require('models/Settings');
+      OAuth2Util = require('util/OAuth2Util');
 
   function getProperties (authClient, LoginRouter, Util, config) {
 
@@ -119,23 +116,14 @@ var OktaSignIn = (function () {
       redirectUri: options.redirectUri
     });
 
-    var settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });
-    var stateOptions = {
-      baseUrl: settings.get('baseUrl'),
-      settings: settings
-    };
-
     // options.useIdxPipeline defaults to false.TODO replace with Introspect API call OKTA-236343
-    var LoginRouter, stateObject;
+    var LoginRouter;
     if (options.useIdxPipeline) {
       LoginRouter = require('v2/WidgetRouter');
-      stateObject = new WidgetState(stateOptions, { parse: true });
     } else {
       LoginRouter = require('LoginRouter');
-      stateObject = new AppState(stateOptions, { parse: true });
     }
 
-    LoginRouter.prototype.setWidgetState(stateObject);
     _.extend(this, LoginRouter.prototype.Events, getProperties(authClient, LoginRouter, Util, options));
 
     // Triggers the event up the chain so it is available to the consumers of the widget.
