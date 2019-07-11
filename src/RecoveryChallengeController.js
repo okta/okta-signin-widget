@@ -73,7 +73,7 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
           FormType.Button({
             title: Okta.loc('mfa.resendCode', 'login'),
             attributes: { 'data-se': 'resend-button' },
-            className: 'button sms-request-button',
+            className: 'button sms-request-button margin-top-30',
             click: function () {
               this.model.resendCode();
             },
