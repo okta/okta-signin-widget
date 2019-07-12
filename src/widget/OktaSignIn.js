@@ -97,7 +97,6 @@ var OktaSignIn = (function () {
 
     var OktaAuth = require('@okta/okta-auth-js');
     var Util = require('util/Util');
-    var LoginRouter = require('LoginRouter');
 
     Util.debugMessage(
       `
@@ -116,6 +115,15 @@ var OktaSignIn = (function () {
       clientId: options.clientId,
       redirectUri: options.redirectUri
     });
+
+    // options.useIdxPipeline defaults to false.TODO replace with Introspect API call OKTA-236343
+    var LoginRouter;
+    if (options.useIdxPipeline) {
+      LoginRouter = require('v2/WidgetRouter');
+    } else {
+      LoginRouter = require('LoginRouter');
+    }
+
     _.extend(this, LoginRouter.prototype.Events, getProperties(authClient, LoginRouter, Util, options));
 
     // Triggers the event up the chain so it is available to the consumers of the widget.
