@@ -15,13 +15,13 @@ define(['okta', '../util/BaseLoginController', '../models/BaseLoginModel'],
     return BaseLoginController.extend({
       className: 'refresh-auth-state',
       initialize: function () {
+        BaseLoginController.prototype.initialize.call(this);
         var token = this.options.token;
         var appState = this.options.appState;
         this.model = new BaseLoginModel({
           settings: this.settings,
           appState: this.options.appState
         });
-        this.addListeners();
         this.model.startTransaction(function (authClient) {
           if (token) {
             appState.trigger('loading', true);

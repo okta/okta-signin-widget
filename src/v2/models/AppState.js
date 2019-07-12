@@ -38,8 +38,8 @@ function (Okta) {
     },
 
     setAuthResponse: function (res) {
-      // TODO set WidgetState.policy based on API response
-      // TODO set WidgetState.factors based on API response
+      // TODO set AppState.policy based on API response
+      // TODO set AppState.factors based on API response
       this.set('lastAuthResponse', res);
     },
 

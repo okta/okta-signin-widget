@@ -39,9 +39,5 @@ function (Okta, Q) {
 
       return Q.resolve(res);
     },
-
-    setTransaction: function (trans) {
-      this.appState.set('transaction', trans);
-    }
   });
 });

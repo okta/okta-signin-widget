@@ -15,11 +15,7 @@ define(['okta', 'q'], function (Okta, Q) {
 
   return Okta.Controller.extend({
 
-    addListeners: function () {
-      this.addModelListeners();
-    },
-
-    addModelListeners: function () {
+    initialize: function () {
       // Events to set the remediation attributes on the widget state.
       this.listenTo(this.options.appState, 'remediationSuccess', function (transaction) {
         this.options.appState.set('remediationSuccess', transaction);

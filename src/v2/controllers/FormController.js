@@ -23,6 +23,7 @@ function (
 ) {
   return BaseLoginController.extend({
     initialize: function (options) {
+      BaseLoginController.prototype.initialize.call(this);
       this.options = options || {};
       // create model
       this.model = new FormModel(this.options);
@@ -34,7 +35,6 @@ function (
       var form = new FormView(this.toJSON());
       this.add(form);
       this.add(new FooterWithBackLink(this.toJSON()));
-      this.addListeners();
     }
   });
 });
