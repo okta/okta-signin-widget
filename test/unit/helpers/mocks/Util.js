@@ -54,6 +54,15 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
     }
   };
 
+  fn.mockIntrospectResponse = function (router) {
+    return router.settings.authClient.tx.introspect({
+      stateToken: 'dummy-token',
+    }).then(function (trans) {
+      router.appState.set('introspectSuccess', trans);
+    });
+  };
+
+
   fn.mockDuo = function () {
     spyOn(Duo, 'init');
   };

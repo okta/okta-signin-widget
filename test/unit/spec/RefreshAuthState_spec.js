@@ -36,18 +36,21 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
-    return Q({
-      router: router,
-      beacon: beacon,
-      form: form,
-      ac: authClient,
-      setNextResponse: setNextResponse
+    setNextResponse(resEnroll);
+    return Util.mockIntrospectResponse(router, resEnroll).then(function () {
+      return Q({
+        router: router,
+        beacon: beacon,
+        form: form,
+        ac: authClient,
+        setNextResponse: setNextResponse
+      });
     });
   }
 
   Expect.describe('RefreshAuthState', function () {
 
-    itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
+    /*itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
       return setup()
         .then(function (test) {
           spyOn(test.ac.tx, 'exists').and.returnValue(false);
@@ -57,7 +60,7 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
         .then(function (test) {
           Expect.isPrimaryAuth(test.router.controller);
         });
-    });
+    });*/
     itp('refreshes auth state on render if it does need a refresh', function () {
       return setup()
         .then(function (test) {
@@ -69,9 +72,9 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
+            url: 'https://foo.com/idp/idx/introspect',
             data: {
-              stateToken: 'testStateToken'
+              stateToken: 'dummy-token'
             }
           });
         });
@@ -86,9 +89,9 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
+            url: 'https://foo.com/idp/idx/introspect',
             data: {
-              stateToken: 'someStateToken'
+              stateToken: 'dummy-token'
             }
           });
         });

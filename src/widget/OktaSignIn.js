@@ -4,19 +4,12 @@ var OktaSignIn = (function () {
 
   var _        = require('underscore'),
       config   = require('config/config.json'),
-      OAuth2Util = require('util/OAuth2Util');
+      OAuth2Util = require('util/OAuth2Util'),
+      router;
 
-  function getProperties (authClient, LoginRouter, Util, config) {
+  function getProperties (authClient, Util, widgetOptions = {}) {
 
-    /**
-     * Render the sign in widget to an element.
-     * @param options - options for the signin widget.
-     *        Must have an el or $el property to render the widget to.
-     * @param success - success callback function
-     * @param error - error callback function
-     */
-    var router;
-    function render (options, success, error) {
+    function render (renderOptions, successFn, errorFn) {
       if (router) {
         throw new Error('An instance of the widget has already been rendered. Call remove() first.');
       }
@@ -34,13 +27,29 @@ var OktaSignIn = (function () {
           `
         );
       }
-
-      router = new LoginRouter(_.extend({}, config, options, {
-        authClient: authClient,
-        globalSuccessFn: success,
-        globalErrorFn: error
-      }));
-      router.start();
+      var Router = require('LoginRouter');
+      if (widgetOptions.stateToken) {
+        Util.introspectToken(authClient, widgetOptions)
+          .then(_.bind(function (response) {
+            var isNewPipeline = checkResponseVersion(response);
+            if (isNewPipeline) {
+              Router = require('v2/WidgetRouter');
+            }
+            router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
+            router.appState.set('introspectSuccess', response);
+            router.start();
+          }, this)).fail(_.bind(function (err) {
+          // Introspect API error.
+          // Incase of an error we want to just load the LoginRouter
+            router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
+            router.appState.set('introspectError', err);
+            router.start();
+          }, this));
+      } else {
+        // If no stateToken bootstrap with LoginRouter
+        router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
+        router.start();
+      }
     }
 
     function hide () {
@@ -77,7 +86,7 @@ var OktaSignIn = (function () {
      */
     function showSignInToGetTokens (options) {
       var renderOptions = OAuth2Util.transformShowSignInToGetTokensOptions(options, config);
-      return render(renderOptions);
+      return render.call(this, renderOptions);
     }
 
     // Properties exposed on OktaSignIn object.
@@ -92,20 +101,40 @@ var OktaSignIn = (function () {
     };
   }
 
+  function checkResponseVersion (response) {
+    return !!(response.version && response.version >= '1.0.0');
+  }
+
+  function bootstrapRouter (Router, authClient, widgetOptions, renderOptions, successFn, errorFn) {
+    var widgetRouter = new Router(_.extend({}, widgetOptions, renderOptions, {
+      authClient: authClient,
+      globalSuccessFn: successFn,
+      globalErrorFn: errorFn
+    }));
+
+    _.extend(this, Router.prototype.Events);
+
+    // Triggers the event up the chain so it is available to the consumers of the widget.
+    this.listenTo(Router.prototype, 'all', this.trigger);
+
+    // On the first afterRender event (usually when the Widget is ready) - emit a 'ready' event
+    this.once('afterRender', function (context) {
+      this.trigger('ready', context);
+    });
+    return widgetRouter;
+  }
+
   function OktaSignIn (options) {
     require('okta');
-
-    var OktaAuth = require('@okta/okta-auth-js');
     var Util = require('util/Util');
-    var LoginRouter = require('LoginRouter');
-
-    Util.debugMessage(
-      `
-        The Okta Sign-In Widget is running in development mode.
-        When you are ready to publish your app, embed the minified version to turn on production mode.
-        See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
-      `
-    );
+    /**
+     * Render the sign in widget to an element.
+     * @param options - options for the signin widget.
+     *        Must have an el or $el property to render the widget to.
+     * @param success - success callback function
+     * @param error - error callback function
+     */
+    var OktaAuth = require('@okta/okta-auth-js');
 
     var authParams = _.extend({
       url: options.baseUrl,
@@ -118,15 +147,16 @@ var OktaSignIn = (function () {
     }, options.authParams);
 
     var authClient = new OktaAuth(authParams);
-    _.extend(this, LoginRouter.prototype.Events, getProperties(authClient, LoginRouter, Util, options));
 
-    // Triggers the event up the chain so it is available to the consumers of the widget.
-    this.listenTo(LoginRouter.prototype, 'all', this.trigger);
+    Util.debugMessage(
+      `
+        The Okta Sign-In Widget is running in development mode.
+        When you are ready to publish your app, embed the minified version to turn on production mode.
+        See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
+      `
+    );
 
-    // On the first afterRender event (usually when the Widget is ready) - emit a 'ready' event
-    this.once('afterRender', function (context) {
-      this.trigger('ready', context);
-    });
+    _.extend(this, getProperties(authClient, Util, options));
   }
 
   return OktaSignIn;

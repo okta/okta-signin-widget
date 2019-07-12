@@ -1,0 +1,123 @@
+{
+  "stateHandle": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+  "version": "1.0.0",
+  "expiresAt": "2019-09-30T22:19:25.000Z",
+  "step": "AUTHENTICATE",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "challenge-factor",
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "code"
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "factor": {
+    "type": "object",
+    "value": {
+      "factorType": "email",
+      "factorProfileId": "fprt52ie7vo5m7mSO0g3",
+      "factorId": "emfv6q1VxHR52T9az0g3",
+      "profile": {
+        "email": "inca@clouditude.net"
+      },
+      "send": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "send",
+        "href": "http://localhost:3000/idp/idx/challenge/send",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      "poll": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "poll",
+        "href": "http://localhost:3000/idp/idx/challenge/poll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "refresh": 4000,
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00usip1dptbE7NiLa0g3"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "context": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "context",
+    "href": "http://localhost:3000/idp/idx/context",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  }
+}

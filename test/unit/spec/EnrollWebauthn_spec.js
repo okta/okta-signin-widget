@@ -63,6 +63,10 @@ function (Okta,
       return tick()
         .then(function () {
           setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
+          return Util.mockIntrospectResponse(router, onlyWebauthn ? resWebauthn : resAllFactors);
+        })
+        .then(function () {
+          setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();
         })
