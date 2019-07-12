@@ -11,13 +11,15 @@
  */
 define([
   'okta',
-  'util/BaseLoginController',
+  '../util/BaseLoginController',
   '../models/BaseLoginModel',
+  'util/ErrorCodes',
 ],
 function (
   Okta,
   BaseLoginController,
   BaseLoginModel,
+  ErrorCodes,
 ) {
   return BaseLoginController.extend({
     initialize: function (options) {
@@ -26,8 +28,10 @@ function (
         settings: this.settings,
         appState: this.options.appState
       });
-      this.listenTo(this, 'afterError', function (data, err) {
-        this.addErrorMessage(err.message);
+      this.listenTo(this, 'afterError', function (controller, err) {
+        if (err.xhr.responseJSON.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
+          this.addErrorMessage(Okta.loc('error.expired.session', 'login'));
+        }
       });
     },
     addErrorMessage: function (err) {
