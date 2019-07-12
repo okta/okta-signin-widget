@@ -1,0 +1,47 @@
+/*!
+ * Copyright (c) 2019 Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
+
+define(['okta', 'q'], function (Okta, Q) {
+  var _ = Okta._;
+
+  return Okta.Controller.extend({
+
+    initialize: function () {
+      // Events to set the remediation attributes on the widget state.
+      this.listenTo(this.options.appState, 'remediationSuccess', function (transaction) {
+        this.options.appState.set('remediationSuccess', transaction);
+      });
+      this.listenTo(this.options.appState, 'remediationFailure', function (err) {
+        this.options.appState.set('remediationFailure', err);
+      });
+    },
+
+    // Override this method to delay switching to this screen until return
+    // promise is resolved. This is useful for cases like enrolling a security
+    // question, which requires an additional request to fetch the question
+    // list.
+    fetchInitialData: function () {
+      return Q();
+    },
+
+    toJSON: function () {
+      var data = Okta.Controller.prototype.toJSON.apply(this, arguments);
+      return _.extend(_.pick(this.options, 'appState'), data);
+    },
+
+    postRenderAnimation: function () {
+      // Event triggered after a page is rendered along with the classname to identify the page
+      this.trigger('afterRender', { controller: this.className });
+    }
+  });
+
+});
