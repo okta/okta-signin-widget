@@ -7,6 +7,7 @@ module.exports = {
     'amd': true
   },
   'parserOptions': {
+    'sourceType': 'module',
     'ecmaVersion': 2017
   },
   'globals': {

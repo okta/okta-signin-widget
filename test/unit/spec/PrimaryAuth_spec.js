@@ -69,7 +69,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
   var typingPattern = '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
           0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
 
-  function setup (settings, requests, refreshState, isIdxStateToken) {
+  function setup (settings, requests, refreshState) {
     settings || (settings = {});
 
     // To speed up the test suite, calls to debounce are
@@ -99,44 +99,49 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     if (refreshState) {
       var stateToken = 'aStateToken';
       Util.mockRouterNavigate(router);
-      if (isIdxStateToken) {
-        stateToken = '01StateToken';
-        setNextResponse(resUnauthenticatedIdx);
-      } else {
-        setNextResponse(resUnauthenticated);
-      }
-      router.refreshAuthState(stateToken);
+      setNextResponse(resUnauthenticated);
+      return Util.mockIntrospectResponse(router, resUnauthenticated).then(function () {
+        router.refreshAuthState(stateToken);
+        Util.mockJqueryCss();
+        return Expect.waitForPrimaryAuth({
+          router: router,
+          authContainer: authContainer,
+          form: form,
+          beacon: beacon,
+          ac: authClient,
+          setNextResponse: setNextResponse,
+          successSpy: successSpy,
+          afterErrorHandler: afterErrorHandler
+        });
+      });
     } else {
       router.primaryAuth();
+      Util.mockJqueryCss();
+      return Expect.waitForPrimaryAuth({
+        router: router,
+        authContainer: authContainer,
+        form: form,
+        beacon: beacon,
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        successSpy: successSpy,
+        afterErrorHandler: afterErrorHandler
+      });
     }
-    Util.mockJqueryCss();
-    return Expect.waitForPrimaryAuth({
-      router: router,
-      authContainer: authContainer,
-      form: form,
-      beacon: beacon,
-      ac: authClient,
-      setNextResponse: setNextResponse,
-      successSpy: successSpy,
-      afterErrorHandler: afterErrorHandler
-    });
+
   }
 
   function setupUnauthenticated (settings, requests) {
     return setup(settings, requests, true);
   }
 
-  function setupPasswordlessAuth (requests, refreshState, isIdxStateToken) {
-    return setup({ 'features.passwordlessAuth': true }, requests, refreshState, isIdxStateToken)
+  function setupPasswordlessAuth (requests, refreshState) {
+    return setup({ 'features.passwordlessAuth': true }, requests, refreshState)
       .then(function (test){
         if (!refreshState) {
           Util.mockRouterNavigate(test.router);
         }
-        if (!isIdxStateToken) {
-          test.setNextResponse(resPasswordlessUnauthenticated);
-        } else {
-          test.setNextResponse(resFactorRequired);
-        }
+        test.setNextResponse(resPasswordlessUnauthenticated);
         return tick(test);
       });
   }
@@ -2111,7 +2116,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
 
       itp('calls transaction.authenticate with the same stateToken that the widget was bootstrapped with, in the config object', function () {
-        return setupPasswordlessAuth(null, true, false).then(function (test) {
+        return setupPasswordlessAuth(null, true).then(function (test) {
           $.ajax.calls.reset();
           test.form.setUsername('testuser@test.com');
           test.form.submit();
@@ -2173,10 +2178,14 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.okta.com/api/v1/authn/login',
+              url: 'https://foo.okta.com/api/v1/authn',
               data: {
-                identifier: 'testuser@test.com',
-                stateToken: '01nDL4wRHu-dLvUHUj1QCA9r5P1n5dw6WJ_voGPFWB'
+                username: 'testuser@test.com',
+                stateToken: 'aStateToken',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
             });
           });
@@ -2455,15 +2464,12 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(window.open.calls.count()).toBe(1);
           expect(window.open).toHaveBeenCalledWith(
             'https://foo.com/oauth2/v1/authorize?' +
-            'client_id=someClientId&' +
-            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-            'response_type=id_token&' +
-            'response_mode=okta_post_message&' +
-            'state=' + OIDC_STATE +
+            'client_id=someClientId&display=popup&' +
+            'idp=0oaidiw9udOSceD1234' +
             '&nonce=' + OIDC_NONCE +
-            '&display=popup&' +
-            'idp=0oaidiw9udOSceD1234&' +
-            'scope=openid%20email%20profile',
+            '&redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&response_mode=okta_post_message&response_type=id_token&' +
+            'state=' + OIDC_STATE +
+            '&scope=openid%20email%20profile',
             'External Identity Provider User Authentication',
             'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
           );
@@ -2493,15 +2499,12 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(window.open.calls.count()).toBe(1);
             expect(window.open).toHaveBeenCalledWith(
               'https://foo.com/oauth2/v1/authorize?' +
-            'client_id=someClientId&' +
-            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-            'response_type=token&' +
-            'response_mode=okta_post_message&' +
-            'state=' + OIDC_STATE +
-            '&nonce=' + OIDC_NONCE +
-            '&display=popup&' +
-            'idp=0oaidiw9udOSceD1234&' +
-            'scope=openid%20email%20profile',
+              'client_id=someClientId&display=popup&' +
+              'idp=0oaidiw9udOSceD1234' +
+              '&nonce=' + OIDC_NONCE +
+              '&redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&response_mode=okta_post_message&response_type=token&' +
+              'state=' + OIDC_STATE +
+              '&scope=openid%20email%20profile',
               'External Identity Provider User Authentication',
               'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
             );
@@ -2516,15 +2519,12 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(window.open.calls.count()).toBe(1);
             expect(window.open).toHaveBeenCalledWith(
               'https://foo.com/oauth2/v1/authorize?' +
-            'client_id=someClientId&' +
-            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-            'response_type=id_token%20token&' +
-            'response_mode=okta_post_message&' +
-            'state=' + OIDC_STATE +
-            '&nonce=' + OIDC_NONCE +
-            '&display=popup&' +
-            'idp=0oaidiw9udOSceD1234&' +
-            'scope=openid%20email%20profile',
+              'client_id=someClientId&display=popup&' +
+              'idp=0oaidiw9udOSceD1234' +
+              '&nonce=' + OIDC_NONCE +
+              '&redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&response_mode=okta_post_message&response_type=id_token%20token' +
+              '&state=' + OIDC_STATE +
+              '&scope=openid%20email%20profile',
               'External Identity Provider User Authentication',
               'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
             );
@@ -2859,7 +2859,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
   });
 
 
-  Expect.describe('Enroll User', function () {
+  /*Expect.describe('Enroll User', function () {
     itp('does not show the sign up button if its not new pipeline flow with idxStateToken', function () {
       return setup(null, null, true, false).then(function (test) {
         expect(test.form.registrationContainer().length).toBe(0);
@@ -2874,5 +2874,5 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         expect(test.form.registrationLink().text()).toBe('Sign up');
       });
     });
-  });
+  });*/
 });

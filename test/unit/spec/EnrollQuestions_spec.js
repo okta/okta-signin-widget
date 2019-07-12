@@ -44,6 +44,10 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
     return tick()
       .then(function () {
         setNextResponse(res);
+        return Util.mockIntrospectResponse(router, res);
+      })
+      .then(function () {
+        setNextResponse(res);
         if (languagesResponse) {
           setNextResponse(languagesResponse);
         }

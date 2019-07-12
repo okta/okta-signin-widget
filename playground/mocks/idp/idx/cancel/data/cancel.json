@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "status": "TERMINAL",
+  "terminal" : {
+    "type" : "object",
+    "value" : {
+      "name" : "terminal",
+      "message" : {
+        "value" : "Please return to the original tab."
+      }
+    }
+  }
+}

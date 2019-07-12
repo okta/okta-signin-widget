@@ -30,7 +30,6 @@ function (Okta,
 
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   Expect.describe('EnrollActivateCustomFactor', function () {
 
@@ -50,19 +49,18 @@ function (Okta,
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
-      return tick()
-        .then(function () {
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollCustomFactor({
-            router: router,
-            beacon: new Beacon($sandbox),
-            form: new Form($sandbox),
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            successSpy: successSpy,
-            afterErrorHandler: afterErrorHandler
-          });
+      return Util.mockIntrospectResponse(router, initResponse).then(function () {
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForEnrollCustomFactor({
+          router: router,
+          beacon: new Beacon($sandbox),
+          form: new Form($sandbox),
+          ac: authClient,
+          setNextResponse: setNextResponse,
+          successSpy: successSpy,
+          afterErrorHandler: afterErrorHandler
         });
+      });
     }
 
     function getInitialResponse (options) {

@@ -48,6 +48,10 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       return tick()
         .then(function () {
           setNextResponse(resp || resAllFactors);
+          return Util.mockIntrospectResponse(router, resp || resAllFactors);
+        })
+        .then(function () {
+          setNextResponse(resp || resAllFactors);
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();
         })
