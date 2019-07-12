@@ -21,7 +21,7 @@ define([
   'views/shared/Header',
   'views/shared/SecurityBeacon',
   'views/shared/AuthContainer',
-  '../models/WidgetState',
+  '../models/AppState',
   'util/ColorsUtil',
   './RouterUtil',
   'util/Animations',
@@ -32,7 +32,7 @@ define([
   'util/Logger'
 ],
 function (Okta, BrowserFeatures, Settings,
-  Header, SecurityBeacon, AuthContainer, WidgetState, ColorsUtil, RouterUtil, Animations,
+  Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, RouterUtil, Animations,
   Errors, Util, Enums, Bundles, Logger) {
 
   var { _, $, Backbone } = Okta;
@@ -104,7 +104,7 @@ function (Okta, BrowserFeatures, Settings,
         // and then the open tooltip will lose focus and close.
       });
 
-      this.appState = new WidgetState({
+      this.appState = new AppState({
         baseUrl: this.settings.get('baseUrl'),
         settings: this.settings
       }, { parse: true });

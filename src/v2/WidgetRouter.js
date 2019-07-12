@@ -43,6 +43,7 @@ function (Okta,
         //if widget bootstrapped with stateToken, make an API call to get authstate
         this.refreshAuthState(stateToken);
       } else {
+        //TODO check for stateToken in cookie if not present in settings
         //widget bootstrapped with no statetoken
         this.renderErrorView();
       }
