@@ -25,7 +25,6 @@ function (
     initialize: function (options) {
       BaseLoginController.prototype.initialize.call(this);
       this.options = options || {};
-      // create model
       this.model = new FormModel(this.options);
     },
     fetchInitialData: function () {
