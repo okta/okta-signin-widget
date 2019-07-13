@@ -26,21 +26,20 @@ function (Okta,
   return BaseLoginRouter.extend({
     routes: {
       '': 'defaultAuth',
-      'signin/refresh-auth-state(/:token)': 'refreshAuthState',
       'signin/render': 'renderWidgetView',
       '*wildcard': 'defaultAuth'
     },
 
-    // Route handlers that do not require a stateToken. If the page is refreshed,
-    // these functions will not require a status call to refresh the stateToken.
-    stateLessRouteHandlers: [
-      'defaultAuth', 'renderErrorView', 'refreshAuthState'
-    ],
-
     defaultAuth: function () {
       var stateToken = this.settings.get('stateToken');
-      if (stateToken) {
-        //if widget bootstrapped with stateToken, make an API call to get authstate
+      var authStateRefreshed = this.settings.get('authStateRefreshed');
+      if (authStateRefreshed) {
+        this.renderWidgetView();
+        return;
+      }
+      if (stateToken && !authStateRefreshed) {
+        this.settings.unset('stateToken');
+        //if widget bootstrapped with stateToken
         this.refreshAuthState(stateToken);
       } else {
         //TODO check for stateToken in cookie if not present in settings
@@ -62,8 +61,7 @@ function (Okta,
 
     renderWidgetView: function () {
       this.render(FormController);
-    }
-
+    },
   });
 
 });

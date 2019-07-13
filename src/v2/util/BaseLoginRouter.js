@@ -23,7 +23,6 @@ define([
   'views/shared/AuthContainer',
   '../models/AppState',
   'util/ColorsUtil',
-  './RouterUtil',
   'util/Animations',
   'util/Errors',
   'util/Util',
@@ -32,16 +31,10 @@ define([
   'util/Logger'
 ],
 function (Okta, BrowserFeatures, Settings,
-  Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, RouterUtil, Animations,
+  Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, Animations,
   Errors, Util, Enums, Bundles, Logger) {
 
   var { _, $, Backbone } = Okta;
-
-  function isStateLessRouteHandler (router, fn) {
-    return _.find(router.stateLessRouteHandlers, function (routeName) {
-      return fn === router[routeName];
-    });
-  }
 
   function beaconIsAvailable (Beacon, settings) {
     if (!Beacon) {
@@ -120,44 +113,32 @@ function (Okta, BrowserFeatures, Settings,
       });
 
       this.listenTo(this.appState, 'change:remediationFailure', function (appState, err) {
-        RouterUtil.routeAfterAuthStatusChangeError(this, err);
+        // Global error handling for CORS enabled errors
+        if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
+          this.settings.callGlobalError(new Errors.UnsupportedBrowserError(
+            Okta.loc('error.enabled.cors')
+          ));
+          return;
+        }
+        //set flashError
+        this.appState.set('flashError', err);
+        this.controller.state.set('navigateDir', Enums.DIRECTION_BACK);
+        //trigger afterError event
+        Util.triggerAfterError(this.controller, err);
+        this.defaultAuth();
       });
 
       this.listenTo(this.appState, 'change:remediationSuccess', function (appState, trans) {
-        RouterUtil.routeAfterAuthRemediationChange(this, trans.data);
+        this.settings.set('authStateRefreshed', true);
+        //set authResponse
+        this.appState.setAuthResponse(trans.data);
+        this.navigate('signin/render', { trigger: true });
       });
 
       this.listenTo(this.appState, 'navigate', function (url) {
-        this.navigate(url, { trigger: true });
+        this.navigate(url, { trigger: true});
       });
-    },
 
-    execute: function (cb, args) {
-      // Refresh flow with a stateToken passed through widget settings
-      var stateToken = this.settings.get('stateToken');
-      if (stateToken) {
-        this.settings.unset('stateToken');
-        this.navigate(RouterUtil.createRefreshUrl(stateToken), { trigger: true });
-        return;
-      }
-
-      // Normal flow - we've either navigated to a stateless page, or are
-      // in the middle of an auth flow
-      var trans = this.appState.get('remediationSuccess');
-      if ((trans && trans.data) || isStateLessRouteHandler(this, cb)) {
-        cb.apply(this, args);
-        return;
-      }
-
-      // StateToken cookie exists on page load, and we are on a stateful url
-      if (this.settings.getAuthClient().tx.exists()) {
-        this.navigate(RouterUtil.createRefreshUrl(), { trigger: true });
-        return;
-      }
-
-      // We've hit a page that requires state, but have no stateToken - redirect
-      // back to primary auth
-      this.navigate('', { trigger: true });
     },
 
     // Overriding the default navigate method to allow the widget consumer

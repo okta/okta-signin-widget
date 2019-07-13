@@ -22,6 +22,7 @@ define(['okta', '../util/BaseLoginController', '../models/BaseLoginModel'],
           settings: this.settings,
           appState: this.options.appState
         });
+        //make API call
         this.model.startTransaction(function (authClient) {
           if (token) {
             appState.trigger('loading', true);
