@@ -323,6 +323,18 @@ define({
                         "hints": { "allow": ["POST"] }
                     }
                 }
+            },  {
+                "id": "claimsProviderFactorId",
+                "factorType": "claims_provider",
+                "provider": "CUSTOM",
+                "vendorName": "IDP factor",
+                "profile": { "user": "administrator1@clouditude.net" },
+                "_links": {
+                    "verify": {
+                        "href": "http://rain.okta1.com:1802/api/v1/authn/factors/claimsProviderFactorId/verify",
+                        "hints": { "allow": ["POST"] }
+                    }
+                }
             }],
             "authentication": {
                 "protocol": "OAUTH2.0",
