@@ -132,6 +132,12 @@ function (Okta, TimeUtil) {
       iconClassName: 'mfa-okta-password',
       sortOrder: 15
     },
+    'CUSTOM_CLAIMS': {
+      label: '',
+      description: Okta.loc('factor.customFactor.description', 'login'),
+      iconClassName: 'mfa-custom-factor',
+      sortOrder: 16
+    },
     'GENERIC_SAML': {
       label: '',
       description: (brandName) => {
@@ -140,7 +146,7 @@ function (Okta, TimeUtil) {
           Okta.loc('factor.customFactor.description.generic', 'login');
       },
       iconClassName: 'mfa-custom-factor',
-      sortOrder: 16
+      sortOrder: 17
     },
     'GENERIC_OIDC': {
       label: '',
@@ -150,7 +156,7 @@ function (Okta, TimeUtil) {
           Okta.loc('factor.customFactor.description.generic', 'login');
       },
       iconClassName: 'mfa-custom-factor',
-      sortOrder: 17
+      sortOrder: 18
     }
   };
 
@@ -219,6 +225,9 @@ function (Okta, TimeUtil) {
     }
     if (factorType === 'token:hotp') {
       return 'CUSTOM_HOTP';
+    }
+    if (factorType === 'claims_provider') {
+      return 'CUSTOM_CLAIMS';
     }
   };
 

@@ -238,6 +238,17 @@ define({
             "hints": {"allow": ["POST"]}
           }
         }
+      }, {
+        "id": "claimsProviderFactorId",
+        "factorType": "claims_provider",
+        "provider": "CUSTOM",
+        "vendorName": "IDP factor",
+        "_links": {
+          "verify": {
+            "href":"http://rain.okta1.com:1802/api/v1/authn/factors/claimsProviderFactorId/verify",
+            "hints": {"allow": ["POST"]}
+          }
+        }
       }]
     },
     "_links": {

@@ -39,6 +39,7 @@ define([
   'helpers/xhr/MFA_CHALLENGE_multipleU2F',
   'helpers/xhr/MFA_CHALLENGE_customSAMLFactor',
   'helpers/xhr/MFA_CHALLENGE_customOIDCFactor',
+  'helpers/xhr/MFA_CHALLENGE_ClaimsProvider',
   'helpers/xhr/MFA_CHALLENGE_push',
   'helpers/xhr/MFA_CHALLENGE_push_rejected',
   'helpers/xhr/MFA_CHALLENGE_push_timeout',
@@ -93,6 +94,7 @@ function (Okta,
   resChallengeMultipleU2F,
   resChallengeCustomSAMLFactor,
   resChallengeCustomOIDCFactor,
+  resChallengeClaimsProvider,
   resChallengePush,
   resRejectedPush,
   resTimeoutPush,
@@ -128,6 +130,7 @@ function (Okta,
     'SYMANTEC_VIP': 11,
     'RSA_SECURID': 12,
     'ON_PREM': 13,
+    'CUSTOM_CLAIMS': 14,
     'GENERIC_SAML': 15,
     'GENERIC_OIDC': 16,
   };
@@ -192,6 +195,11 @@ function (Okta,
             else if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
               setNextResponse(resChallengeCustomOIDCFactor);
               router.verifyOIDCFactor();
+              return Expect.waitForVerifyCustomFactor();
+            }
+            else if (provider === 'CUSTOM' && factorType === 'claims_provider') {
+              setNextResponse(resChallengeClaimsProvider);
+              router.verifyClaimsFactor();
               return Expect.waitForVerifyCustomFactor();
             }
             else {
@@ -333,6 +341,8 @@ function (Okta,
       { factorType: 'assertion:saml2', provider: 'GENERIC_SAML' });
     var setupCustomOIDCFactor = _.partial(setup, resAllFactors,
       { factorType: 'assertion:oidc', provider: 'GENERIC_OIDC' });
+    var setupClaimsProviderFactor = _.partial(setup, resAllFactors,
+      {factorType: 'claims_provider', provider: 'CUSTOM'});
     var setupAllFactorsWithRouter = _.partial(setup, resAllFactors, null, { 'features.router': true });
     function setupSecurityQuestionLocalized (options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
@@ -653,7 +663,7 @@ function (Okta,
       itp('has a dropdown if there is more than one factor', function () {
         return setup(allFactorsRes).then(function (test) {
           var options = test.beacon.getOptionsLinks();
-          expect(options.length).toBe(16);
+          expect(options.length).toBe(17);
         });
       });
       itp('shows the right options in the dropdown, removes okta totp if ' +
@@ -663,7 +673,7 @@ function (Okta,
           expect(options).toEqual([
             'Okta Verify (Test Device)', 'Security Key (U2F)', 'Windows Hello', 'YubiKey', 'Google Authenticator', 'Entrust',
             'SMS Authentication', 'Voice Call Authentication', 'Email Authentication', 'Security Question',
-            'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password', 'SAML Factor', 'OIDC Factor'
+            'Duo Security', 'Symantec VIP', 'RSA SecurID', 'Password', 'IDP factor', 'SAML Factor', 'OIDC Factor'
           ]);
         });
       });
@@ -673,7 +683,7 @@ function (Okta,
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
             'Okta Verify (Test Device)', 'YubiKey', 'Google Authenticator', 'Entrust', 'SMS Authentication',
-            'Security Question', 'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'SAML Factor', 'OIDC Factor'
+            'Security Question', 'Duo Security', 'Symantec VIP', 'On-Prem MFA', 'IDP factor', 'SAML Factor', 'OIDC Factor'
           ]);
         });
       });
@@ -4029,6 +4039,91 @@ function (Okta,
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
                 url: 'http://rain.okta1.com:1802/api/v1/authn/factors/customFactorId/verify?rememberDevice=true',
+                data: {
+                  stateToken: 'testStateToken'
+                }
+              });
+            });
+        });
+      });
+      Expect.describe('Claims Provider Factor', function () {
+        itp('is claims provider factor', function () {
+          return setupClaimsProviderFactor().then(function (test) {
+            expect(test.form.isCustomFactor()).toBe(true);
+          });
+        });
+        itp('shows the right beacon', function () {
+          return setupClaimsProviderFactor().then(function (test) {
+            expectHasRightBeaconImage(test, 'mfa-custom-factor');
+          });
+        });
+        itp('shows the right title', function () {
+          return setupClaimsProviderFactor().then(function (test) {
+            expectTitleToBe(test, 'IDP factor');
+          });
+        });
+        itp('shows the right subtitle', function () {
+          return setupClaimsProviderFactor().then(function (test) {
+            expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
+          });
+        });
+        itp('has remember device checkbox', function () {
+          return setupClaimsProviderFactor().then(function (test) {
+            Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
+        itp('redirects to third party when Verify button is clicked', function () {
+          spyOn(SharedUtil, 'redirect');
+          return setupClaimsProviderFactor().then(function (test) {
+            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(SharedUtil.redirect);
+          })
+            .then(function () {
+              expect(SharedUtil.redirect).toHaveBeenCalledWith(
+                'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
+              );
+            });
+        });
+        itp('displays error when error response received', function () {
+          return setupClaimsProviderFactor().then(function (test) {
+            test.setNextResponse(resNoPermissionError);
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+            .then(function (test) {
+              expectError(
+                test,
+                403,
+                'You do not have permission to perform the requested action',
+                'verify-custom-factor custom-factor-form',
+                {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                  responseJSON: {
+                    errorCode: 'E0000006',
+                    errorSummary: 'You do not have permission to perform the requested action',
+                    errorLink: 'E0000006',
+                    errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                    errorCauses: []
+                  }
+                }
+              );
+            });
+        });
+        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+          return setupClaimsProviderFactor().then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resSuccess);
+            test.form.setRememberDevice(true);
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+            .then(function () {
+              expect($.ajax.calls.count()).toBe(1);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'http://rain.okta1.com:1802/api/v1/authn/factors/claimsProviderFactorId/verify?rememberDevice=true',
                 data: {
                   stateToken: 'testStateToken'
                 }

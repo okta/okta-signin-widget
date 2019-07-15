@@ -285,7 +285,19 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
       action: function () {
         action.call(this, this.model);
       }
+    },
+
+    'CUSTOM_CLAIMS': {
+      icon: 'factor-icon mfa-custom-factor-30',
+      className: 'factor-option',
+      title: function () {
+        return this.model.get('factorLabel');
+      },
+      action: function () {
+        action.call(this, this.model);
+      }
     }
+
   };
 
   return {
