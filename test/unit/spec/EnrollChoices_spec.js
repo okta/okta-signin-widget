@@ -70,12 +70,16 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       index:      10,
       factorType: 'u2f'
     },
-    'GENERIC_SAML': {
+    'CUSTOM_CLAIMS': {
       index:      11,
+      factorType: 'claims_provider'
+    },
+    'GENERIC_SAML': {
+      index:      12,
       factorType: 'assertion:saml2'
     },
     'GENERIC_OIDC': {
-      index:      12,
+      index:      13,
       factorType: 'assertion:oidc'
     }
   };
@@ -297,6 +301,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.factorRow('SMS').length).toBe(0);
             expect(test.form.factorRow('GENERIC_SAML').length).toBe(0);
             expect(test.form.factorRow('GENERIC_OIDC').length).toBe(0);
+            expect(test.form.factorRow('CUSTOM_CLAIMS').length).toBe(0);
           });
         });
         itp('has the button text "Configure factor" if no required factors have been enrolled', function () {
@@ -427,6 +432,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.isFactorMinimized('CALL')).toBe(false);
             expect(test.form.isFactorMinimized('GENERIC_SAML')).toBe(false);
             expect(test.form.isFactorMinimized('GENERIC_OIDC')).toBe(false);
+            expect(test.form.isFactorMinimized('CUSTOM_CLAIMS')).toBe(false);
           });
         });
         itp('shows optional factors in their expanded title + description state (On-Prem)', function () {
@@ -438,6 +444,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.isFactorMinimized('SMS')).toBe(false);
             expect(test.form.isFactorMinimized('GENERIC_SAML')).toBe(false);
             expect(test.form.isFactorMinimized('GENERIC_OIDC')).toBe(false);
+            expect(test.form.isFactorMinimized('CUSTOM_CLAIMS')).toBe(false);
           });
         });
         itp('has a setup button for each unenrolled optional factor which navigates to the correct page', function () {
@@ -451,6 +458,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.factorButton('CALL').length).toBe(1);
             expect(test.form.factorButton('GENERIC_SAML').length).toBe(1);
             expect(test.form.factorButton('GENERIC_OIDC').length).toBe(1);
+            expect(test.form.factorButton('CUSTOM_CLAIMS').length).toBe(1);
             test.form.factorButton('SMS').click();
             expect(test.router.navigate)
               .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
@@ -472,6 +480,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
               expect(test.form.factorButton('SMS').length).toBe(1);
               expect(test.form.factorButton('GENERIC_SAML').length).toBe(1);
               expect(test.form.factorButton('GENERIC_OIDC').length).toBe(1);
+              expect(test.form.factorButton('CUSTOM_CLAIMS').length).toBe(1);
               test.form.factorButton('SMS').click();
               expect(test.router.navigate)
                 .toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
@@ -696,6 +705,15 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
+      Expect.describe('CUSTOM CLAIMS FACTOR', function () {
+        itHasIconAndText(
+          'CUSTOM_CLAIMS',
+          'mfa-custom-factor',
+          'IDP factor',
+          'Redirect to a third party MFA provider to sign in to Okta.',
+          resAllFactors
+        );
+      });
       Expect.describe('CUSTOM SAML FACTOR', function () {
         itHasIconAndText(
           'GENERIC_SAML',
@@ -743,14 +761,14 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         return setup(resAllFactors).then(function (test) {
           var factorList = test.form.getFactorList();
           expect(factorList).toEqual(['OKTA_VERIFY', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH', 'CUSTOM_HOTP',
-            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'RSA_SECURID', 'GENERIC_SAML', 'GENERIC_OIDC']);
+            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'RSA_SECURID', 'CUSTOM_CLAIMS', 'GENERIC_SAML', 'GENERIC_OIDC']);
         });
       });
       itp('with push and onPrem is in correct order', function () {
         return setup(resAllFactorsOnPrem).then(function (test) {
           var factorList = test.form.getFactorList();
           expect(factorList).toEqual(['OKTA_VERIFY_PUSH', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH',
-            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'ON_PREM', 'GENERIC_SAML', 'GENERIC_OIDC']);
+            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'ON_PREM', 'CUSTOM_CLAIMS', 'GENERIC_SAML', 'GENERIC_OIDC']);
         });
       });
     });
