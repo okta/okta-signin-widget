@@ -1,7 +1,7 @@
 {
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
@@ -57,7 +57,7 @@
     "prepublish": "yarn build:release"
   },
   "devDependencies": {
-    "@okta/okta-auth-js": "~2.5.0",
+    "@okta/okta-auth-js": "~2.6.0",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "autoprefixer": "6.7.7",
     "axe-core": "2.0.7",

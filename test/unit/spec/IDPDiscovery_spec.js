@@ -1501,7 +1501,12 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         return setupSocial()
           .then(function (test) {
             test.form.facebookButton().click();
+            // Wait for "popup" to be created (is async with okta-auth-js 2.6)
+            return Expect.waitForSpyCall(window.addEventListener, test);
+          })
+          .then(function (test) {
             var args = window.addEventListener.calls.argsFor(0);
+            expect(args[0]).toBe('message');
             var callback = args[1];
             callback.call(null, {
               origin: 'https://foo.com',
