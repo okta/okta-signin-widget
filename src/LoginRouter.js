@@ -376,10 +376,10 @@ function (BaseLoginRouter,
       });
     },
 
-    enrollHotpFactor: function (provider, factorType) {
+    enrollHotpFactor: function () {
       this.render(EnrollHotpController, {
-        provider: provider.toUpperCase(),
-        factorType: factorType,
+        provider: 'CUSTOM',
+        factorType: 'token:hotp',
         Beacon: FactorBeacon
       });
     },
