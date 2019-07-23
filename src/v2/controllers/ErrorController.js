@@ -28,11 +28,12 @@ function (
         settings: this.settings,
         appState: this.options.appState
       });
-      this.listenTo(this, 'afterError', function (controller, err) {
-        if (err.xhr.responseJSON.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
-          this.addErrorMessage(Okta.loc('error.expired.session', 'login'));
-        }
-      });
+      var error = this.options.appState.get('flashError');
+      if (error && error.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
+        this.addErrorMessage(Okta.loc('error.expired.session', 'login'));
+      } else {
+        this.addErrorMessage('Widget bootstrapped with no stateToken');
+      }
     },
     addErrorMessage: function (err) {
       this.$el.find('.error-message').remove();
@@ -47,8 +48,5 @@ function (
       });
       this.add(errorView);
     },
-    postRender: function () {
-      this.addErrorMessage('Widget bootstrapped with no stateToken');
-    }
   });
 });
