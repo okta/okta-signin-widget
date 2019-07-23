@@ -125,11 +125,9 @@ function (Okta, BrowserFeatures, Settings,
         this.defaultAuth();
       });
 
-      this.listenTo(this.appState, 'change:remediationSuccess', function (appState, trans) {
+      this.listenTo(this.appState, 'change:remediationSuccess', function () {
         // set authStateRefreshed
         this.settings.set('authStateRefreshed', true);
-        //set authResponse
-        this.appState.setAuthResponse(trans.data);
         this.navigate('signin/render', { trigger: true });
       });
 

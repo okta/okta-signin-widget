@@ -4,7 +4,7 @@ define([
   'helpers/util/Expect',
   'util/Logger',
   'sandbox',
-  'jasmine-ajax'
+  'jasmine-ajax',
 ],
 function (Widget, Expect, Logger, $sandbox) {
   var url = 'https://foo.com';

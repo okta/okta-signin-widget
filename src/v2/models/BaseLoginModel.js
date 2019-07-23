@@ -39,17 +39,5 @@ function (Okta, Q) {
 
       return Q.resolve(res);
     },
-    evaluate: function (fn) {
-      var res = fn.call();
-      if (Q.isPromiseAlike(res)) {
-        return res.then(function (trans) {
-          return trans;
-        })
-          .fail(function (err) {
-            return err;
-          });
-      }
-      return Q.resolve(res);
-    },
   });
 });

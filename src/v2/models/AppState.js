@@ -45,7 +45,7 @@ function (Okta) {
 
     derived: {
       'remediation': {
-        deps: ['lastAuthResponse'],
+        deps: ['remediationSuccess'],
         fn: function (res) {
           if (res && res.remediation) {
             return res.remediation;

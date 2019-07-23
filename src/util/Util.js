@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
-define(['okta', './Logger', './Enums', 'v2/models/BaseLoginModel'], function (Okta, Logger, Enums, Model) {
+define(['q', 'okta', './Logger', './Enums'], function (Q, Okta, Logger, Enums) {
 
   var Util = {};
   var _ = Okta._;
@@ -194,19 +194,20 @@ define(['okta', './Logger', './Enums', 'v2/models/BaseLoginModel'], function (Ok
     return explain;
   };
 
-  Util.getRouterFromResponse = function (response) {
-    //response.version = '1.0.0';
-    var Router = response.version && response.version === '1.0.0' ? require('v2/WidgetRouter'): require('LoginRouter');
-    return Router;
-  };
-
   Util.introspectToken = function (authClient, widgetOptions) {
-    return Model.prototype.evaluate(function () {
-      return authClient.tx.evaluate({
-        stateToken: widgetOptions.stateToken,
-        introspect: true
-      });
+    var deferred = Q.defer();
+    var trans = authClient.tx.evaluate({
+      stateToken: widgetOptions.stateToken,
+      introspect: true
     });
+    if (Q.isPromiseAlike(trans)) {
+      trans.then(function (trans) {
+        deferred.resolve(trans);
+      }).fail(function (err) {
+        deferred.reject(err);
+      });
+    }
+    return deferred.promise;
   };
 
   return Util;

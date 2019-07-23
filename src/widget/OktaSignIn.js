@@ -50,7 +50,8 @@ var OktaSignIn = (function () {
       if (widgetOptions.stateToken) {
         Util.introspectToken(authClient, widgetOptions)
           .then(_.bind(function (response) {
-            var Router = Util.getRouterFromResponse(response);
+            var isNewPipeline = checkResponseVersion(response);
+            var Router = isNewPipeline ? require('v2/WidgetRouter') : require('LoginRouter');
             router = new Router(_.extend({}, widgetOptions, renderOptions, {
               authClient: authClient,
               globalSuccessFn: successFn,
@@ -69,7 +70,7 @@ var OktaSignIn = (function () {
               this.trigger('ready', context);
             });
 
-            if (response && response.version === '1.0.0') {
+            if (isNewPipeline) {
               router.settings.unset('stateToken');
               router.appState.set('remediationSuccess', response);
             } else {
@@ -79,6 +80,7 @@ var OktaSignIn = (function () {
           //Introspect API error.
           // Incase of an error we want to just load the V1 router
             loadV1Router.call(this, authClient, widgetOptions, renderOptions, successFn, errorFn);
+            router.navigate('', { trigger: true });
             router.appState.set('transactionError', err);
           }, this));
       } else {
@@ -136,6 +138,10 @@ var OktaSignIn = (function () {
     };
   }
 
+  function checkResponseVersion (response) {
+    response.version = '1.0.0';
+    return !!(response.version && response.version === '1.0.0');
+  }
   function loadV1Router (authClient, widgetOptions, renderOptions, successFn, errorFn) {
     router = new LoginRouter(_.extend({}, widgetOptions, renderOptions, {
       authClient: authClient,
