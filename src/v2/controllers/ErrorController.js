@@ -22,6 +22,7 @@ function (
   ErrorCodes,
 ) {
   return BaseLoginController.extend({
+    className: 'error-controller',
     initialize: function (options) {
       this.options = options || {};
       this.model = new BaseLoginModel({

@@ -46,7 +46,6 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'baseUrl': ['string', true],
       'recoveryToken': ['string', false, undefined],
       'stateToken': ['string', false, undefined],
-      'authStateRefreshed': ['boolean', true, false],
       'username' : ['string', false],
       'signOutLink': ['string', false],
       'relayState': ['string', false],

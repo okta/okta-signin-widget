@@ -47,44 +47,28 @@ var OktaSignIn = (function () {
           `
         );
       }
+      var Router = require('LoginRouter');
       if (widgetOptions.stateToken) {
         Util.introspectToken(authClient, widgetOptions)
           .then(_.bind(function (response) {
             var isNewPipeline = checkResponseVersion(response);
-            var Router = isNewPipeline ? require('v2/WidgetRouter') : require('LoginRouter');
-            router = new Router(_.extend({}, widgetOptions, renderOptions, {
-              authClient: authClient,
-              globalSuccessFn: successFn,
-              globalErrorFn: errorFn
-            }));
-
-            router.start();
-
-            _.extend(this, Router.prototype.Events);
-
-            // Triggers the event up the chain so it is available to the consumers of the widget.
-            this.listenTo(Router.prototype, 'all', this.trigger);
-
-            // On the first afterRender event (usually when the Widget is ready) - emit a 'ready' event
-            this.once('afterRender', function (context) {
-              this.trigger('ready', context);
-            });
-
             if (isNewPipeline) {
-              router.settings.unset('stateToken');
-              router.appState.set('remediationSuccess', response);
-            } else {
-              router.appState.set('transaction', response);
+              Router = require('v2/WidgetRouter');
             }
+            router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
+            router.appState.set('introspectSuccess', response);
+            router.start();
           }, this)).fail(_.bind(function (err) {
-          //Introspect API error.
-          // Incase of an error we want to just load the V1 router
-            loadV1Router.call(this, authClient, widgetOptions, renderOptions, successFn, errorFn);
-            router.navigate('', { trigger: true });
-            router.appState.set('transactionError', err);
+          // Introspect API error.
+          // Incase of an error we want to just load the LoginRouter
+            router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
+            router.appState.set('introspectError', err);
+            router.start();
           }, this));
       } else {
-        loadV1Router.call(this, authClient, widgetOptions, renderOptions, successFn, errorFn);
+        // If no stateToken bootstrap with LoginRouter
+        router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
+        router.start();
       }
     }
 
@@ -139,29 +123,28 @@ var OktaSignIn = (function () {
   }
 
   function checkResponseVersion (response) {
-    response.version = '1.0.0';
-    return !!(response.version && response.version === '1.0.0');
+    return !!(response.version && response.version >= '1.0.0');
   }
-  function loadV1Router (authClient, widgetOptions, renderOptions, successFn, errorFn) {
-    router = new LoginRouter(_.extend({}, widgetOptions, renderOptions, {
+
+  function bootstrapRouter (Router, authClient, widgetOptions, renderOptions, successFn, errorFn) {
+    var widgetRouter = new Router(_.extend({}, widgetOptions, renderOptions, {
       authClient: authClient,
       globalSuccessFn: successFn,
       globalErrorFn: errorFn
     }));
 
-    router.start();
-
-    _.extend(this, LoginRouter.prototype.Events);
+    _.extend(this, Router.prototype.Events);
 
     // Triggers the event up the chain so it is available to the consumers of the widget.
-    this.listenTo(LoginRouter.prototype, 'all', this.trigger);
+    this.listenTo(Router.prototype, 'all', this.trigger);
 
     // On the first afterRender event (usually when the Widget is ready) - emit a 'ready' event
     this.once('afterRender', function (context) {
       this.trigger('ready', context);
     });
-
+    return widgetRouter;
   }
+
   function OktaSignIn (options) {
     require('okta');
     var Util = require('util/Util');
