@@ -71,6 +71,7 @@
     "backbone": "1.2.1",
     "cssnano": "^4.1.7",
     "dotenv": "^8.0.0",
+    "dyson": "^2.0.5",
     "eslint": "^5.9.0",
     "fs-extra": "^7.0.1",
     "glob": "^7.1.3",
