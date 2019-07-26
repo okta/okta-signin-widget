@@ -47,11 +47,25 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
         case Enums.ALL_OPTIONAL_SOME_ENROLLED:
         case Enums.HAS_REQUIRED_ALL_REQUIRED_ENROLLED:
           return Okta.loc('enroll.choices.optional', 'login');
+        case Enums.HAS_REQUIRED_SOME_REQUIRED_ENROLLED:
+          var remainingDays = this.options.appState.get('gracePeriodRemainingDays');
+          return (Number.isInteger(remainingDays) && remainingDays >= 0) ?
+            this.getGracePeriodSubtitle(remainingDays) : this.getDefaultSubtitle();
         default:
-          return this.settings.get('brandName') ?
-            Okta.loc('enroll.choices.description.specific', 'login', [this.settings.get('brandName')]) :
-            Okta.loc('enroll.choices.description.generic', 'login');
+          return this.getDefaultSubtitle();
         }
+      },
+
+      getDefaultSubtitle: function () {
+        return this.settings.get('brandName') ?
+          Okta.loc('enroll.choices.description.specific', 'login', [this.settings.get('brandName')]) :
+          Okta.loc('enroll.choices.description.generic', 'login');
+      },
+
+      getGracePeriodSubtitle: function (remainingDays) {
+        return (remainingDays >= 1) ?
+          Okta.loc('enroll.choices.description.gracePeriod', 'login', [remainingDays]) :
+          Okta.loc('enroll.choices.description.gracePeriod.oneDay', 'login');
       },
 
       save: function () {
