@@ -125,6 +125,16 @@ function (Okta, BrowserFeatures, Settings,
         this.defaultAuth();
       });
 
+      this.listenTo(this.appState, 'change:remediationSuccess', function (appState, trans) {
+        //set remediationSuccess
+        this.appState.set('remediationSuccess', trans);
+      });
+
+      this.listenTo(this.appState, 'change:introspectSuccess', function (appState, trans) {
+        //set remediationSuccess after intropect API call
+        this.appState.set('remediationSuccess', trans);
+      });
+
       this.listenTo(this.appState, 'navigate', function (url) {
         this.navigate(url, { trigger: true });
       });

@@ -100,13 +100,8 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
     // Token has expired - no longer valid. Navigate back to primary auth.
     if (err.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
       router.appState.set('flashError', err);
-      if (router.controller) {
-        router.controller.state.set('navigateDir', Enums.DIRECTION_BACK);
-        router.navigate('', { trigger: true });
-      } else {
-        // If introspect failed with expired token error, controller is not set
-        router.defaultAuth();
-      }
+      router.controller.state.set('navigateDir', Enums.DIRECTION_BACK);
+      router.navigate('', { trigger: true });
       return;
     }
 

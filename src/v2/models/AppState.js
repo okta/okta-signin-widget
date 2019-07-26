@@ -40,7 +40,7 @@ function (Okta) {
 
     derived: {
       'remediation': {
-        deps: ['introspectSuccess'],
+        deps: ['remediationSuccess'],
         fn: function (res) {
           if (res && res.remediation) {
             return res.remediation;

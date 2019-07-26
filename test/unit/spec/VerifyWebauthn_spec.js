@@ -63,36 +63,38 @@ function (Okta,
     var router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });
     router.on('afterError', afterErrorHandler);
     setNextResponse(options.multipleWebauthn ? [resMultipleFactors] : [resAllFactors]);
-    router.refreshAuthState('dummy-token');
-    return Expect.waitForMfaVerify()
-      .then(function () {
-        var responses = options.multipleWebauthn ? [resChallengeMultipleWebauthn] : [resChallengeWebauthn];
-        if (options.signStatus === 'success') {
-          responses.push(resSuccess);
-        }
-        setNextResponse(responses);
-        router.verifyWebauthn();
-        return Expect.waitForVerifyWebauthn();
-      })
-      .then(function () {
-        var $forms = $sandbox.find('.o-form');
-        var forms = _.map($forms, function (form) {
-          return new MfaVerifyForm($(form));
+    return Util.mockIntrospectResponse(router, resAllFactors).then(function () {
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForMfaVerify()
+        .then(function () {
+          var responses = options.multipleWebauthn ? [resChallengeMultipleWebauthn] : [resChallengeWebauthn];
+          if (options.signStatus === 'success') {
+            responses.push(resSuccess);
+          }
+          setNextResponse(responses);
+          router.verifyWebauthn();
+          return Expect.waitForVerifyWebauthn();
+        })
+        .then(function () {
+          var $forms = $sandbox.find('.o-form');
+          var forms = _.map($forms, function (form) {
+            return new MfaVerifyForm($(form));
+          });
+          if (forms.length === 1) {
+            forms = forms[0];
+          }
+          var beacon = new Beacon($sandbox);
+          return {
+            router: router,
+            form: forms,
+            beacon: beacon,
+            ac: authClient,
+            setNextResponse: setNextResponse,
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
+          };
         });
-        if (forms.length === 1) {
-          forms = forms[0];
-        }
-        var beacon = new Beacon($sandbox);
-        return {
-          router: router,
-          form: forms,
-          beacon: beacon,
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          successSpy: successSpy,
-          afterErrorHandler: afterErrorHandler
-        };
-      });
+    });
   }
 
   var testAuthData = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
@@ -175,25 +177,27 @@ function (Okta,
       responses.push(resSuccess);
     }
     setNextResponse(responses);
-    router.refreshAuthState('dummy-token');
-    return Expect.waitForVerifyWebauthn().then(function () {
-      var $forms = $sandbox.find('.o-form');
-      var forms = _.map($forms, function (form) {
-        return new MfaVerifyForm($(form));
+    return Util.mockIntrospectResponse(router, responses).then(function () {
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForVerifyWebauthn().then(function () {
+        var $forms = $sandbox.find('.o-form');
+        var forms = _.map($forms, function (form) {
+          return new MfaVerifyForm($(form));
+        });
+        if (forms.length === 1) {
+          forms = forms[0];
+        }
+        var beacon = new Beacon($sandbox);
+        return {
+          router: router,
+          form: forms,
+          beacon: beacon,
+          ac: authClient,
+          setNextResponse: setNextResponse,
+          successSpy: successSpy,
+          afterErrorHandler: afterErrorHandler
+        };
       });
-      if (forms.length === 1) {
-        forms = forms[0];
-      }
-      var beacon = new Beacon($sandbox);
-      return {
-        router: router,
-        form: forms,
-        beacon: beacon,
-        ac: authClient,
-        setNextResponse: setNextResponse,
-        successSpy: successSpy,
-        afterErrorHandler: afterErrorHandler
-      };
     });
   }
 

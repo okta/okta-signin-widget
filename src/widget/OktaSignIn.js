@@ -5,7 +5,6 @@ var OktaSignIn = (function () {
   var _        = require('underscore'),
       config   = require('config/config.json'),
       OAuth2Util = require('util/OAuth2Util'),
-      LoginRouter = require('LoginRouter'),
       router;
 
   function getProperties (Util, widgetOptions) {
@@ -71,7 +70,6 @@ var OktaSignIn = (function () {
         router.start();
       }
     }
-
 
     function hide () {
       if (router) {
