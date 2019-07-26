@@ -2,27 +2,21 @@ const data = {
   "status": 200,
   "responseType": "json",
   "response": {
-    "version": "1.0.0",
     "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
     "expiresAt": "2018-09-17T23:08:56.000Z",
-    "status": "FACTOR_REQUIRED",
-    "intent": "login",
+    "status": "FACTOR_VERIFICATION_REQUIRED",
     "remediation": {
       "type": "array",
       "value": [
         {
-
-          "rel": ["create-form"],
-          "name": "submit-factor",
+          "rel": [
+            "create-form"
+          ],
+          "name": "factor-poll-verification",
           "href": "https://your-org.okta.com/api/v2/authn/",
           "method": "POST",
+          "refresh": 2000,
           "value": [
-            {
-              "name": "email",
-              "placeholder": "Enter code",
-              "required": true,
-              "type": "text"
-            },
             {
               "name": "stateHandle",
               "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
@@ -35,12 +29,43 @@ const data = {
     "factor": {
       "type": "object",
       "value": {
-        "id": "emf1axecbKovLJPWl0g4",
-        "factorType": "email",
-        "provider": "OKTA",
-        "vendorName": "OKTA",
+        "factorType": "push",
+        "provider": "okta",
         "profile": {
-          "email": "e...a@rain.com"
+          "email": "omgitstom@abbott.dev"
+        },
+        "qr": {
+          "href": ":link/:to/:qrcode"
+        },
+        "refresh": {
+          "rel": [
+            "create-form"
+          ],
+          "href": "https://your-org.okta.com/api/v2/authn/refresh",
+          "name": "refresh",
+          "method": "post",
+          "value": [
+            {
+              "name": "stateHandle",
+              "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+              "visible": false
+            }
+          ]
+        },
+        "resend": {
+          "rel": [
+            "create-form"
+          ],
+          "href": "https://your-org.okta.com/api/v2/authn/resend",
+          "name": "resend",
+          "method": "post",
+          "value": [
+            {
+              "name": "stateHandle",
+              "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+              "visible": false
+            }
+          ]
         }
       }
     },
@@ -59,7 +84,9 @@ const data = {
       }
     },
     "cancel": {
-      "rel": ["create-form"],
+      "rel": [
+        "create-form"
+      ],
       "name": "cancel",
       "href": "https://your-org.okta.com/api/v2/authn/cancel",
       "method": "POST",
@@ -72,7 +99,9 @@ const data = {
       ]
     },
     "context": {
-      "rel": ["create-form"],
+      "rel": [
+        "create-form"
+      ],
       "name": "context",
       "href": "https://your-org.okta.com/api/v2/authn/context",
       "method": "POST",
