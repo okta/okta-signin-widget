@@ -29,7 +29,7 @@ function (Okta,
     },
 
     defaultAuth: function () {
-      var trans = this.appState.get('introspectSuccess') || this.appState.get('remediationSuccess');
+      var trans = this.appState.get('remediationSuccess');
       if (trans && trans.data) {
         this.renderWidgetView();
         return;

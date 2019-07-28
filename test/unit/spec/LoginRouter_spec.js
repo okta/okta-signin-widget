@@ -1573,7 +1573,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
       });
     });
 
-    // TODO
+    // TODO OKTA-240812
     /*Expect.describe('Config: "assets"', function () {
 
       function expectBundles (baseUrl, login, country) {
