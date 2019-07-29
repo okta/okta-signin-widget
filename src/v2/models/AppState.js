@@ -21,9 +21,10 @@ function (Okta) {
   return Okta.Model.extend({
     local: {
       baseUrl: 'string',
-      lastAuthResponse: ['object', true, {}],
       remediationSuccess: 'object',
       remediationFailure: 'object',
+      introspectSuccess: 'object', // only set during introspection
+      introspectError: 'object', // only set during introspection
       username: 'string',
       flashError: 'object',
       beaconType: 'string',
@@ -37,15 +38,9 @@ function (Okta) {
       disableUsername: ['boolean', false, false],
     },
 
-    setAuthResponse: function (res) {
-      // TODO set AppState.policy based on API response
-      // TODO set AppState.factors based on API response
-      this.set('lastAuthResponse', res);
-    },
-
     derived: {
       'remediation': {
-        deps: ['lastAuthResponse'],
+        deps: ['remediationSuccess'],
         fn: function (res) {
           if (res && res.remediation) {
             return res.remediation;
