@@ -19,7 +19,7 @@ import { _ } from 'okta';
 /**
  * @typedef {Object} CurrentState
  * @property {string} stateHandle
- * @property {string} status
+ * @property {string} step
  * @property {string} intent
  * @property {function} cancel
  * @property {function} context
