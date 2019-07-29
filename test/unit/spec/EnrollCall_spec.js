@@ -49,6 +49,10 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       return tick()
         .then(function () {
           setNextResponse(resp || resAllFactors);
+          return Util.mockIntrospectResponse(router, resp || resAllFactors);
+        })
+        .then(function () {
+          setNextResponse(resp || resAllFactors);
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();
         })

@@ -18,7 +18,7 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function setup (settings) {
+  function setup (settings, resp) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({ url: baseUrl });
@@ -33,30 +33,32 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
-    return Q({
-      router: router,
-      beacon: beacon,
-      form: form,
-      ac: authClient,
-      setNextResponse: setNextResponse
+    setNextResponse(resp);
+    return Util.mockIntrospectResponse(router, resp).then(function () {
+      return {
+        router: router,
+        beacon: beacon,
+        form: form,
+        ac: authClient,
+        setNextResponse: setNextResponse
+      };
     });
+
   }
 
-  Expect.describe('RefreshAuthStateController', function () {
-    itp('makes API call to refresh auth state on render', function () {
-      return setup({ stateToken: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'})
+  Expect.describe('Introspect API', function () {
+    itp('makes introspect API call to refresh auth state on render', function () {
+      return setup({ stateToken: 'dummy-token' }, resFactorRequiredEmail)
         .then(function (test) {
-          test.setNextResponse(resFactorRequiredEmail);
-          test.router.refreshAuthState();
           return tick(test);
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            //TODO update to api/v2
-            url: 'https://foo.com/api/v1/authn',
+            url: 'https://foo.com/api/v1/idx/introspect',
             data: {
-              stateToken: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
+              stateToken: 'dummy-token',
+              introspect: true
             }
           });
         });

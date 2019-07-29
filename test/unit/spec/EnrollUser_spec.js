@@ -39,15 +39,16 @@ function (Okta, OktaAuth, LoginUtil, Util, EnrollUserForm, Expect, Router,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
-
-    router.refreshAuthState('dummy-token');
-    return settings = {
-      router: router,
-      successSpy: successSpy,
-      form: new EnrollUserForm($sandbox),
-      ac: authClient,
-      setNextResponse: setNextResponse
-    };
+    return Util.mockIntrospectResponse(router, nextResponse).then(function () {
+      router.refreshAuthState('dummy-token');
+      return settings = {
+        router: router,
+        successSpy: successSpy,
+        form: new EnrollUserForm($sandbox),
+        ac: authClient,
+        setNextResponse: setNextResponse
+      };
+    });
   }
 
   function setupEnroll () {
