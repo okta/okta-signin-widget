@@ -58,6 +58,7 @@ define([
   'RegistrationCompleteController',
   'ConsentRequiredController',
   'EnrollUserController',
+  'DeviceProbeController',
   'views/shared/SecurityBeacon',
   'views/shared/FactorBeacon',
   'views/consent/ConsentBeacon'
@@ -108,6 +109,7 @@ function (BaseLoginRouter,
   RegistrationCompleteController,
   ConsentRequiredController,
   EnrollUserController,
+  DeviceProbeController,
   SecurityBeacon,
   FactorBeacon,
   ConsentBeacon) {
@@ -169,6 +171,7 @@ function (BaseLoginRouter,
       'signin/register-complete': 'registerComplete',
       'signin/consent': 'consentRequired',
       'signin/enroll-user': 'enrollUser',
+      'signin/probe': 'deviceProbe',
       '*wildcard': 'defaultAuth'
     },
 
@@ -194,6 +197,10 @@ function (BaseLoginRouter,
 
     primaryAuth: function () {
       this.render(PrimaryAuthController, { Beacon: SecurityBeacon });
+    },
+
+    deviceProbe: function () {
+      this.render(DeviceProbeController, { Beacon: SecurityBeacon });
     },
 
     verifyDuo: function () {

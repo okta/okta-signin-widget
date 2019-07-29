@@ -268,6 +268,9 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       // Or we don't have anything and we need to show the login page
       router.navigate('', { trigger: true });
       return;
+    case 'DEVICE_PROBING':
+      router.navigate('signin/probe', { trigger: true });
+      return;
     default:
       throw new Error('Unknown status: ' + res.status);
     }
