@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/FormController'], function (Okta, FormController) {
+define(['q', 'okta', 'util/FormController'], function (Q, Okta, FormController) {
 
   return FormController.extend({
     className: 'refresh-auth-state',
@@ -22,22 +22,16 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
     },
 
     preRender: function () {
-      var token = this.options.token;
       var appState = this.options.appState;
-      this.model.startTransaction(function (authClient) {
-        if (token) {
-          appState.trigger('loading', true);
-          return authClient.tx.resume({
-            stateToken: token
-          });
+      this.model.startTransaction(function () {
+        appState.trigger('loading', true);
+        var trans = this.options.appState.get('introspectSuccess');
+        var transError = this.options.appState.get('introspectError');
+        if (trans && trans.data) {
+          return Q.resolve(trans);
+        } else {
+          return Q.reject(transError);
         }
-
-        if (authClient.tx.exists()) {
-          appState.trigger('loading', true);
-          return authClient.tx.resume();
-        }
-
-        appState.trigger('navigate', '');
       });
     },
 

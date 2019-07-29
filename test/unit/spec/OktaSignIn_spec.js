@@ -146,42 +146,45 @@ function (Widget, Expect, Logger, $sandbox) {
         signIn.off();
       });
       it('triggers an afterRender event when the Widget renders a page', function (done) {
+        signIn.renderEl({ el: $sandbox });
         signIn.on('afterRender', function (context) {
           expect(context).toEqual({ controller: 'primary-auth' });
           done();
         });
-        signIn.renderEl({ el: $sandbox });
       });
-      it('triggers a ready event when the Widget is loaded for the first time', function (done) {
+
+      it('triggers a ready event when the Widget renders a page', function (done) {
+        signIn.renderEl({ el: $sandbox });
         signIn.on('ready', function (context) {
           expect(context).toEqual({ controller: 'primary-auth' });
           done();
         });
-        signIn.renderEl({ el: $sandbox });
       });
+      
       it('triggers a ready event when the Widget is loaded with a recoveryToken', function (done) {
         signIn = new Widget({
           baseUrl: url,
           recoveryToken: 'foo'
         });
+        signIn.renderEl({ el: $sandbox });
         signIn.on('ready', function (context) {
           expect(context).toEqual({ controller: 'recovery-loading' });
           done();
         });
-        signIn.renderEl({ el: $sandbox });
       });
       it('triggers a ready event when the Widget is loaded with using idpDiscovery', function (done) {
         signIn = new Widget({
           baseUrl: url,
           features: { idpDiscovery: true }
         });
+        signIn.renderEl({ el: $sandbox });
         signIn.on('ready', function (context) {
           expect(context).toEqual({ controller: 'idp-discovery' });
           done();
         });
-        signIn.renderEl({ el: $sandbox });
       });
       it('does not trigger a ready event twice', function (done) {
+        signIn.renderEl({ el: '#sandbox' });
         signIn.on('ready', function (context) {
           expect(context).toEqual({ controller: 'primary-auth' });
           // Navigate directly to forgot-password page
@@ -193,7 +196,6 @@ function (Widget, Expect, Logger, $sandbox) {
             done();
           }
         });
-        signIn.renderEl({ el: '#sandbox' });
       });
     });
   });
