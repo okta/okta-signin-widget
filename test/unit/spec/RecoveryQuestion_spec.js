@@ -42,16 +42,19 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
 
     resRecovery.response = _.extend(resRecovery.response, res);
     setNextResponse(resRecovery);
-    router.refreshAuthState('dummy-token');
+    return Util.mockIntrospectResponse(router, resRecovery).then(function () {
+      router.refreshAuthState('dummy-token');
 
-    return Expect.waitForRecoveryQuestion({
-      router: router,
-      form: form,
-      beacon: beacon,
-      ac: authClient,
-      setNextResponse: setNextResponse,
-      afterErrorHandler: afterErrorHandler
+      return Expect.waitForRecoveryQuestion({
+        router: router,
+        form: form,
+        beacon: beacon,
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        afterErrorHandler: afterErrorHandler
+      });
     });
+
   }
 
   var setupOIDC = _.partial(setup, { clientId: 'someClientId' });

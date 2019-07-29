@@ -51,6 +51,10 @@ function (Okta,
       return tick()
         .then(function () {
           setNextResponse(onlyU2F ? resU2F : resAllFactors);
+          return Util.mockIntrospectResponse(router, onlyU2F ? resU2F : resAllFactors);
+        })
+        .then(function () {
+          setNextResponse(onlyU2F ? resU2F : resAllFactors);
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();
         })
