@@ -51,6 +51,10 @@ function (Okta,
       Util.mockRouterNavigate(router);
       return tick()
         .then(function () {
+          setNextResponse(responseMfaEnrollAll);
+          return Util.mockIntrospectResponse(router, responseMfaEnrollAll);
+        })
+        .then(function () {
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();
         })
