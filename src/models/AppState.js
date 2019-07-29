@@ -93,6 +93,12 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
     return Okta.loc('minutes', 'login', [factorLifetimeInMinutes]);
   }
 
+  function getGracePeriodRemainingDays (gracePeriodEndDate) {
+    var endDate = new Date(gracePeriodEndDate).getTime();
+    var remainingDays = Math.floor((endDate - new Date().getTime()) / (1000 * 3600 * 24));
+    return remainingDays;
+  }
+
   function combineFactorsObjects (factorTypes, factors) {
     var addedFactorTypes = [];
     var combinedFactors = [];
@@ -441,6 +447,15 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         fn: function (res) {
           if (res._links && res._links.skip) {
             return res._links.skip.href;
+          }
+          return null;
+        }
+      },
+      'gracePeriodRemainingDays': {
+        deps: ['policy'],
+        fn: function (policy) {
+          if (policy && policy.gracePeriod && policy.gracePeriod.endDate) {
+            return getGracePeriodRemainingDays(policy.gracePeriod.endDate);
           }
           return null;
         }

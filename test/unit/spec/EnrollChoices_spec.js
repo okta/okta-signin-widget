@@ -121,12 +121,24 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       return JSON.parse(JSON.stringify(res));
     }
 
-    function setupWithRequiredNoneEnrolled (brandName) {
+    function setGracePeriodEndDate (res, endDate) {
+      var policy = res.response._embedded.policy || {};
+      res.response._embedded.policy = _.extend(policy, {
+        gracePeriod: {
+          endDate
+        }
+      });
+    }
+
+    function setupWithRequiredNoneEnrolled (brandName, endDate) {
       var res = deepClone(resAllFactors);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
       res.response._embedded.factors[2].enrollment = 'REQUIRED';
       res.response._embedded.factors[3].enrollment = 'REQUIRED';
+      if (endDate) {
+        setGracePeriodEndDate(res, endDate);
+      }
       return setup(res, false, false, brandName);
     }
 
@@ -140,35 +152,46 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       return setup(res);
     }
 
-    function setupWithRequiredSomeRequiredEnrolled () {
+    function setupWithRequiredSomeRequiredEnrolled (endDate) {
       var res = deepClone(resAllFactors);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
       res.response._embedded.factors[2].enrollment = 'REQUIRED';
       res.response._embedded.factors[2].status = 'ACTIVE';
+      if (endDate) {
+        setGracePeriodEndDate(res, endDate);
+      }
       return setup(res);
     }
 
-    function setupWithRequiredAllRequiredEnrolled (includeOnPrem) {
+    function setupWithRequiredAllRequiredEnrolled (includeOnPrem, endDate) {
       var response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
       var res = deepClone(response);
       res.response._embedded.factors[0].enrollment = 'REQUIRED';
       res.response._embedded.factors[0].status = 'ACTIVE';
       res.response._embedded.factors[1].enrollment = 'REQUIRED';
       res.response._embedded.factors[1].status = 'ACTIVE';
+      if (endDate) {
+        setGracePeriodEndDate(res, endDate);
+      }
       return setup(res);
     }
 
-    function setupWithAllOptionalNoneEnrolled (brandName) {
-      // This is the default resAllFactors response. Creating this function for
-      // consistency
-      return setup(resAllFactors, false, false, brandName);
+    function setupWithAllOptionalNoneEnrolled (brandName, endDate) {
+      var res = deepClone(resAllFactors);
+      if (endDate) {
+        setGracePeriodEndDate(res, endDate);
+      }
+      return setup(res, false, false, brandName);
     }
 
-    function setupWithAllOptionalSomeEnrolled (includeOnPrem) {
+    function setupWithAllOptionalSomeEnrolled (includeOnPrem, endDate) {
       var response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
       var res = deepClone(response);
       res.response._embedded.factors[0].status = 'ACTIVE';
+      if (endDate) {
+        setGracePeriodEndDate(res, endDate);
+      }
       return setup(res);
     }
 
@@ -522,6 +545,97 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         });
       });
 
+      Expect.describe('Grace period', function () {
+        beforeEach(function () {
+          var today = new Date('2019-06-25T00:00:00.000Z');
+          jasmine.clock().mockDate(today);
+        });
+        Expect.describe('all factors are required and none are enrolled', function () {
+          itp('has default subtitle', function () {
+            return setupWithRequiredNoneEnrolled(null, '2019-06-28T00:00:00.000Z')
+            .then(function (test) {
+              expect(test.form.subtitleText()).toBe(
+                'Your company requires multifactor authentication to add an ' +
+                'additional layer of security when signing in to your account'
+              );
+            });
+          });
+        });
+        Expect.describe('all factors are required and at least one is enrolled', function () {
+          itp('has default subtitle when endDate is null', function () {
+            return setupWithRequiredSomeRequiredEnrolled(null)
+            .then(function (test) {
+              expect(test.form.subtitleText()).toBe(
+                'Your company requires multifactor authentication to add an additional ' +
+                'layer of security when signing in to your account'
+              );
+            });
+          });
+          itp('has grace period subtitle when endDate is not null', function () {
+            return setupWithRequiredSomeRequiredEnrolled('2019-06-28T00:00:00.000Z')
+            .then(function (test) {
+              expect(test.form.subtitleText()).toBe(
+                'Your company recommends setting up additional factors for authentication. ' +
+                'Set up will be required in: 3 day(s).'
+              );
+            });
+          });
+          itp('has grace period less than one day subtitle when time remaining is less \
+          than a day', function () {
+            var today = new Date('2019-06-25T11:59:59.000Z');
+            jasmine.clock().mockDate(today);
+            return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z')
+            .then(function (test) {
+              expect(test.form.subtitleText()).toBe(
+                'Your company recommends setting up additional factors for authentication. ' +
+                'Set up will be required in less than 1 day.'
+              );
+            });
+          });
+          itp('has default subtitle when todays date is past endDate', function () {
+            var today = new Date('2019-06-26T11:59:59.000Z');
+            jasmine.clock().mockDate(today);
+            return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z')
+            .then(function (test) {
+              expect(test.form.subtitleText()).toBe(
+                'Your company requires multifactor authentication to add an additional ' +
+                'layer of security when signing in to your account'
+              );
+            });
+          });
+        });
+        Expect.describe('all factors are required and all are enrolled', function () {
+          itp('has optional subtitle', function () {
+            return setupWithRequiredAllRequiredEnrolled(null, '2019-06-28T00:00:00.000Z')
+            .then(function (test) {
+              expect(test.form.subtitleText()).toBe(
+                'You can configure any additional optional factor or click finish'
+              );
+            });
+          });
+        });
+        Expect.describe('all factors optional and none are enrolled', function () {
+          itp('has default subtitle', function () {
+            return setupWithAllOptionalNoneEnrolled(null, '2019-06-28T00:00:00.000Z')
+            .then(function (test) {
+              expect(test.form.subtitleText()).toBe(
+                'Your company requires multifactor authentication to add an ' +
+                'additional layer of security when signing in to your account'
+              );
+            });
+          });
+        });
+        Expect.describe('all factors optional and some are enrolled', function () {
+          itp('has optional subtitle', function () {
+            return setupWithAllOptionalSomeEnrolled(null, '2019-06-28T00:00:00.000Z')
+            .then(function (test) {
+              expect(test.form.subtitleText()).toBe(
+                'You can configure any additional optional factor or click finish'
+              );
+            });
+          });
+        });
+      });
     });
 
     Expect.describe('Factor list', function () {
