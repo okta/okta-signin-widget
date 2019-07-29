@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 17], max-statements: [2, 21] */
+/* eslint max-params: [2, 18], max-statements: [2, 21] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
@@ -28,11 +28,15 @@ define([
   'util/Util',
   'util/Enums',
   'util/Bundles',
-  'util/Logger'
+  'util/Logger',
+  '../ion/transformer',
+  './RemediationUtil',
+  './SchemaData',
+
 ],
 function (Okta, BrowserFeatures, Settings,
   Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, Animations,
-  Errors, Util, Enums, Bundles, Logger) {
+  Errors, Util, Enums, Bundles, Logger, transform , RemediationUtil, SchemaData) {
 
   var { _, $, Backbone } = Okta;
 
@@ -130,10 +134,30 @@ function (Okta, BrowserFeatures, Settings,
         this.appState.set('remediationSuccess', trans);
       });
 
+      this.listenTo(this.appState, 'change:remediationSuccess', function (appState, trans) {
+        this.handleRemediationSuccess(trans);
+      });
+
       this.listenTo(this.appState, 'navigate', function (url) {
         this.navigate(url, { trigger: true });
       });
 
+    },
+
+    handleRemediationSuccess: function (trans) {
+      // transform response
+      const ionResponse = transform(trans);
+      this.appState.set('currentState', ionResponse.currentState);
+      // set formSchema
+      const formSchema = ionResponse.currentState.remediation[0].value;
+      this.appState.set('formSchema', formSchema);
+      // set setFormSchemaInputMap
+      RemediationUtil.setFormSchemaInputMap(formSchema);
+      const formName = ionResponse.currentState.remediation[0].name;
+      const factorType = trans.data.factor && trans.data.factor.value.factorType;
+      // set uiSchema
+      const uiSchema = SchemaData.getUISchema(formName, factorType);
+      this.appState.set('uiSchema', uiSchema);
     },
 
     // Overriding the default navigate method to allow the widget consumer

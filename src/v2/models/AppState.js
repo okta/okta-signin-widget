@@ -36,33 +36,12 @@ function (Okta) {
       // language picker, etc.
       languageCode: ['string', true],
       disableUsername: ['boolean', false, false],
+      currentState: 'object',
+      formSchema: 'object',
+      uiSchema: 'object',
     },
 
     derived: {
-      'remediation': {
-        deps: ['remediationSuccess'],
-        fn: function (res) {
-          if (res && res.remediation) {
-            return res.remediation;
-          }
-        }
-      },
-      'formSchema': {
-        deps: ['remediation'],
-        fn: function (remediation) {
-          if (remediation && remediation[0]) {
-            return remediation[0].value;
-          }
-        }
-      },
-      'uiSchema': {
-        deps: ['remediation'],
-        fn: function (remediation) {
-          if (remediation && remediation[0]) {
-            return remediation[0].uiSchema;
-          }
-        }
-      },
     },
 
     parse: function (options) {
