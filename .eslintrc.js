@@ -4,9 +4,11 @@ module.exports = {
   'env': {
     'browser': true,
     'jasmine': true,
+    'node': true,
     'amd': true
   },
   'parserOptions': {
+    'sourceType': 'module',
     'ecmaVersion': 2017
   },
   'globals': {
