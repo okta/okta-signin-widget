@@ -23,50 +23,31 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
 
     preRender: function () {
       this.options.appState.trigger('loading', true);
-      var deviceChallenges = this.options.appState.attributes.transaction.probing.deviceChallenges;
-      var forceInstall = this.options.appState.attributes.transaction.probing.useExternalHelper;
-      var deviceEnrollmentId = '';
-      var challengeResponse = '';
-      var success = false;
-      if (deviceChallenges.length !== 0) {
-        var i;
-        for (i = 0; i < deviceChallenges.length; i++) {
-          var deviceChallenge = deviceChallenges[i];
-          deviceEnrollmentId = deviceChallenge.deviceEnrollmentId;
-          var nonce = deviceChallenge.nonce;
-          var signals = deviceChallenge.signals;
-          var bindingDetailsText = deviceChallenge.bindingDetails;
-          var bindingDetails = JSON.parse(bindingDetailsText);
-          var binding = bindingDetails.binding;
-          var port = bindingDetails.ports;
-          if (binding === 'loopback server') {
-            // Make xhr request
-            var url = 'http://localhost';
-            if (port) {
-              url += ':' + port;
-            }
-            var data = {
-              signals: signals,
-              nonce: nonce
-            }
-            Okta.$.post(url, data)
-              .done( function (data) {
-                console.log('Received from device: ')
-                console.log(data);
-              });
-          }
+      var nonce = this.options.appState.attributes.transaction.probeInfo.nonce;
+      var signals = this.options.appState.attributes.transaction.probeInfo.signals;
+      var forceInstall = this.options.appState.attributes.transaction.probeInfo.forceInstall;
+      var authenticatorDownloadLinks = this.options.appState.attributes.transaction.probeInfo.authenticatorDownloadLinks;
 
+      var challenge = {
+        signals: signals,
+        nonce: nonce
+      }
 
-        }
-        // For each device challenge, probe the device
-        // If success, set device enrollment id
-        // If success, set challenge response
-        success = true;
+      // Attempt to probe via loopback
+      var port = 5000;
+      for (port; port < 5100; port+=10) {
+        var url = 'localhost:' + port;
+        Okta.$.post(url, challenge)
+          .done( function (data) {
+            console.log('Received from device: ')
+            console.log(data);
+          });
+        // If success, return
       }
 
       // if device challenge response not successfully received
-      if (!success && forceInstall) {
-        // Make widget bounce you to app store
+      if (forceInstall) {
+        // Make widget bounce you to app store, use authenticatorDownloadLinks
       }
 
       var token = this.options.token;
