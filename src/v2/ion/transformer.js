@@ -4,10 +4,10 @@ import { _ } from 'okta';
  * Transform the ion spec response into canonical format.
  */
 
- /**
-  * Authn V2 response
-  * @typedef {Object} AuthnResponse
-  */
+/**
+ * Authn V2 response
+ * @typedef {Object} AuthnResponse
+ */
 
 /**
  * @typedef {Object} AuthnResult
@@ -37,25 +37,22 @@ import { _ } from 'okta';
  * @property {value[]=} value mandatory visible parameters
  */
 
-const isObject = (x) => _.isObject(x);
-const isArray = (x) => Array.isArray(x);
+const isObject = x => _.isObject(x);
+const isArray = x => Array.isArray(x);
 const containsAny = (xs, ys) => _.intersection(xs, ys).length > 0;
 
 const getRelObjectByName = (resp, relName) => {
-  const getRelBy_ = (result, resp_) => {
+  const getRelBy_ = (result_, resp_) => {
     if (isObject(resp_)) {
       if (resp_.rel && containsAny(resp_.rel, relName)) {
-        result.push(resp_);
+        result_.push(resp_);
       } else {
-        Object.keys(resp_)
-          .forEach(k => {
-            getRelBy_(result, resp_[k]);
-          });
+        _.mapObject(resp_, getRelBy_.bind({}, result_));
       }
     } else if (isArray(resp_)) {
-      resp_.forEach(x => getRelBy_(result, x));
+      resp_.forEach(getRelBy_.bind({}, result_));
     }
-    return result;
+    return result_;
   };
 
   return getRelBy_([], resp);
@@ -165,7 +162,7 @@ const createCurrentStateObject = (originalResp, omitKeys) => {
  * @returns {AuthnResult} transformed result
  */
 const convert = (resp) => {
-  if (!isObject(resp) || !resp) {
+  if (!isObject(resp)) {
     return null;
   }
 

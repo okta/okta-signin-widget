@@ -117,7 +117,7 @@ describe('v2/ion/transformer', function () {
         'factorType': 'push',
         'provider': 'okta',
         'profile': {
-          'email': 'omgitstom@abbott.dev'
+          'email': 'omgm@foo.dev'
         },
         'qr': {
           'href': ':link/:to/:qrcode'
