@@ -5,7 +5,7 @@ const data = {
     "version": "1.0.0",
     "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
     "expiresAt": "2018-09-17T23:08:56.000Z",
-    "status": "FACTOR_REQUIRED",
+    "step": "FACTOR_REQUIRED",
     "intent": "login",
     "remediation": {
       "type": "array",

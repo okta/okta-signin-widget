@@ -176,7 +176,7 @@ const convert = (resp) => {
     firstLevelObjects,
     {
       currentState,
-      __raw: resp,
+      __rawResponse: resp,
     },
   );
   return result;

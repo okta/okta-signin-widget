@@ -2,9 +2,10 @@ const data = {
   "status": 200,
   "responseType": "json",
   "response": {
+    "version": "1.0.0",
     "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
     "expiresAt": "2018-09-17T23:08:56.000Z",
-    "status": "FACTOR_VERIFICATION_REQUIRED",
+    "step": "FACTOR_VERIFICATION_REQUIRED",
     "remediation": {
       "type": "array",
       "value": [

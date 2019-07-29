@@ -32,9 +32,10 @@ describe('v2/ion/transformer', function () {
         }
       },
       'currentState': {
+        'version': '1.0.0',
         'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
         'expiresAt': '2018-09-17T23:08:56.000Z',
-        'status': 'FACTOR_REQUIRED',
+        'step': 'FACTOR_REQUIRED',
         'intent': 'login',
         'submit-factor': jasmine.any(Function),
         'cancel': jasmine.any(Function),
@@ -53,7 +54,7 @@ describe('v2/ion/transformer', function () {
           }
         ]
       },
-      __raw: XHRFactorRequiredEmail.response,
+      __rawResponse: XHRFactorRequiredEmail.response,
     });
 
     expect(result.currentState['submit-factor']()).toEqual({
@@ -136,9 +137,10 @@ describe('v2/ion/transformer', function () {
         }
       },
       'currentState': {
+        'version': '1.0.0',
         'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
         'expiresAt': '2018-09-17T23:08:56.000Z',
-        'status': 'FACTOR_VERIFICATION_REQUIRED',
+        'step': 'FACTOR_VERIFICATION_REQUIRED',
         'factor-poll-verification': jasmine.any(Function),
         'cancel': jasmine.any(Function),
         'context': jasmine.any(Function),
@@ -149,7 +151,7 @@ describe('v2/ion/transformer', function () {
           }
         ]
       },
-      __raw: XHRFactorVerificationRequiredPush.response,
+      __rawResponse: XHRFactorVerificationRequiredPush.response,
     });
 
     expect(result.currentState['factor-poll-verification']()).toEqual({
