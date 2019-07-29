@@ -22,13 +22,11 @@ function (
   FooterWithBackLink
 ) {
   return BaseLoginController.extend({
+    className: 'form-controller',
     initialize: function (options) {
       BaseLoginController.prototype.initialize.call(this);
       this.options = options || {};
       this.model = new FormModel(this.options);
-    },
-    fetchInitialData: function () {
-      return BaseLoginController.prototype.fetchInitialData.call();
     },
     postRender: function () {
       var form = new FormView(this.toJSON());
