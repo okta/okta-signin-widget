@@ -2,6 +2,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const dyson = require('dyson');
 
 const TARGET = path.resolve(__dirname, 'target');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
@@ -67,6 +68,36 @@ module.exports = {
     compress: true,
     port: PORT,
     open: true,
+    before (app) {
+      app.get('/app/UserHome', (req, res) => {
+        res.status(200)
+          .send('<h1>Mock User Dashboard</h1><a href="/">Back to Login</a>');
+      });
+
+      // ================================= dyson mock setup
+      const mockOptions = {
+        multiRequest: false,
+        proxy: false,
+        configDir: `${PLAYGROUND}/mocks`,
+      };
+      dyson.registerServices(
+        app,
+        mockOptions,
+        dyson.getConfigurations(mockOptions),
+      );
+      // dyson register '*' route explicitly, that leads to multiple "*" routes. We need to remove "*" route
+      // added by dyson from router stack and keep the one which was added by webpack dev server.
+      let routeIndex = app._router.stack.length;
+      while (routeIndex) {
+        routeIndex -= 1;
+        const layer = app._router.stack[routeIndex];
+        if (layer.route && layer.route.path && layer.route.path === '*') {
+          app._router.stack.splice(routeIndex, 1);
+          break;
+        }
+      }
+      // ================================= dyson mock setup
+    }
   },
 
 };
