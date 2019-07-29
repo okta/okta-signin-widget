@@ -44,6 +44,10 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
       return tick()
         .then(function () {
           setNextResponse(resAllFactors);
+          return Util.mockIntrospectResponse(router, resAllFactors);
+        })
+        .then(function () {
+          setNextResponse(resAllFactors);
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();
         })

@@ -61,6 +61,10 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       return tick()
         .then(function () {
           setNextResponse(res);
+          return Util.mockIntrospectResponse(router, res);
+        })
+        .then(function () {
+          setNextResponse(res);
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();
         })

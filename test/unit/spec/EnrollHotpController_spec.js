@@ -43,6 +43,10 @@ function (Okta,
       return tick()
         .then(function () {
           setNextResponse(resEnrollAllFactors);
+          return Util.mockIntrospectResponse(router, resEnrollAllFactors);
+        })
+        .then(function () {
+          setNextResponse(resEnrollAllFactors);
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();
         })
