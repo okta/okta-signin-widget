@@ -92,8 +92,6 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
       };
     },
 
-    Footer: FooterSignout,
-
     trapAuthResponse: function () {
       if (this.options.appState.get('isMfaChallenge')) {
         return true;
@@ -110,6 +108,9 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
     initialize: function () {
       this.model.set('provider', this.options.provider);
       this.model.set('factorType', this.options.factorType);
+      if (!this.settings.get('features.hideSignOutLinkInMFA')) {
+        this.addFooter(FooterSignout);
+      }
     }
 
   });
