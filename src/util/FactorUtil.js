@@ -24,13 +24,13 @@ function (Okta, TimeUtil) {
   var factorData = {
     'OKTA_VERIFY': {
       label: 'factor.totpSoft.oktaVerify',
-      description: Okta.loc('factor.totpSoft.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.totpSoft.description', 'login'),
       iconClassName: 'mfa-okta-verify',
       sortOrder: 1
     },
     'OKTA_VERIFY_PUSH': {
       label: 'factor.oktaVerifyPush',
-      description: Okta.loc('factor.push.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.push.description', 'login'),
       iconClassName: 'mfa-okta-verify',
       sortOrder: 1
     },
@@ -38,15 +38,15 @@ function (Okta, TimeUtil) {
       label: 'factor.u2f',
       description: (brandName) => {
         return brandName ?
-          Okta.loc('factor.u2f.description.specific', 'login', [brandName]) :
-          Okta.loc('factor.u2f.description.generic', 'login');
+          _.partial(Okta.loc, 'factor.u2f.description.specific', 'login', [brandName]) :
+          _.partial(Okta.loc, 'factor.u2f.description.generic', 'login');
       },
       iconClassName: 'mfa-u2f',
       sortOrder: 2
     },
     'WEBAUTHN': {
       label: 'factor.webauthn',
-      description: Okta.loc('factor.webauthn.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.webauthn.description', 'login'),
       iconClassName: 'mfa-webauthn',
       sortOrder: 2
     },
@@ -54,39 +54,39 @@ function (Okta, TimeUtil) {
       label: 'factor.windowsHello',
       description: (brandName) => {
         return brandName ?
-          Okta.loc('factor.windowsHello.signin.description.specific', 'login', [brandName]) :
-          Okta.loc('factor.windowsHello.signin.description.generic', 'login');
+          _.partial(Okta.loc, 'factor.windowsHello.signin.description.specific', 'login', [brandName]) :
+          _.partial(Okta.loc, 'factor.windowsHello.signin.description.generic', 'login');
       },
       iconClassName: 'mfa-windows-hello',
       sortOrder: 3
     },
     'YUBIKEY': {
       label: 'factor.totpHard.yubikey',
-      description: Okta.loc('factor.totpHard.yubikey.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.totpHard.yubikey.description', 'login'),
       iconClassName: 'mfa-yubikey',
       sortOrder: 4
     },
     'GOOGLE_AUTH': {
       label: 'factor.totpSoft.googleAuthenticator',
-      description: Okta.loc('factor.totpSoft.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.totpSoft.description', 'login'),
       iconClassName: 'mfa-google-auth',
       sortOrder: 5
     },
     'CUSTOM_HOTP': {
       label: '',
-      description: Okta.loc('factor.hotp.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.hotp.description', 'login'),
       iconClassName: 'mfa-hotp',
       sortOrder: 6
     },
     'SMS': {
       label: 'factor.sms',
-      description: Okta.loc('factor.sms.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.sms.description', 'login'),
       iconClassName: 'mfa-okta-sms',
       sortOrder: 7
     },
     'CALL': {
       label: 'factor.call',
-      description: Okta.loc('factor.call.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.call.description', 'login'),
       iconClassName: 'mfa-okta-call',
       sortOrder: 8
     },
@@ -98,31 +98,31 @@ function (Okta, TimeUtil) {
     },
     'QUESTION': {
       label: 'factor.securityQuestion',
-      description: Okta.loc('factor.securityQuestion.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.securityQuestion.description', 'login'),
       iconClassName: 'mfa-okta-security-question',
       sortOrder: 10
     },
     'DUO': {
       label: 'factor.duo',
-      description: Okta.loc('factor.duo.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.duo.description', 'login'),
       iconClassName: 'mfa-duo',
       sortOrder: 11
     },
     'SYMANTEC_VIP': {
       label: 'factor.totpHard.symantecVip',
-      description: Okta.loc('factor.totpHard.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.totpHard.description', 'login'),
       iconClassName: 'mfa-symantec',
       sortOrder: 12
     },
     'RSA_SECURID': {
       label: 'factor.totpHard.rsaSecurId',
-      description: Okta.loc('factor.totpHard.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.totpHard.description', 'login'),
       iconClassName: 'mfa-rsa',
       sortOrder: 13
     },
     'ON_PREM': {
       label: '',
-      description: Okta.loc('factor.totpHard.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.totpHard.description', 'login'),
       iconClassName: 'mfa-onprem',
       sortOrder: 14
     },
@@ -134,7 +134,7 @@ function (Okta, TimeUtil) {
     },
     'CUSTOM_CLAIMS': {
       label: '',
-      description: Okta.loc('factor.customFactor.description', 'login'),
+      description: _.partial(Okta.loc, 'factor.customFactor.description', 'login'),
       iconClassName: 'mfa-custom-factor',
       sortOrder: 16
     },
@@ -142,8 +142,8 @@ function (Okta, TimeUtil) {
       label: '',
       description: (brandName) => {
         return brandName ?
-          Okta.loc('factor.customFactor.description.specific', 'login', [brandName]) :
-          Okta.loc('factor.customFactor.description.generic', 'login');
+          _.partial(Okta.loc, 'factor.customFactor.description.specific', 'login', [brandName]) :
+          _.partial(Okta.loc, 'factor.customFactor.description.generic', 'login');
       },
       iconClassName: 'mfa-custom-factor',
       sortOrder: 17
@@ -152,8 +152,8 @@ function (Okta, TimeUtil) {
       label: '',
       description: (brandName) => {
         return brandName ?
-          Okta.loc('factor.customFactor.description.specific', 'login', [brandName]) :
-          Okta.loc('factor.customFactor.description.generic', 'login');
+          _.partial(Okta.loc, 'factor.customFactor.description.specific', 'login', [brandName]) :
+          _.partial(Okta.loc, 'factor.customFactor.description.generic', 'login');
       },
       iconClassName: 'mfa-custom-factor',
       sortOrder: 18
