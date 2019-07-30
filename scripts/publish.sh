@@ -2,8 +2,11 @@
 
 source $OKTA_HOME/$REPO/scripts/setup.sh
 
-REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta"
+# Install required dependencies
+yarn global add @okta/ci-update-package
+yarn global add @okta/ci-pkginfo
 
+export PATH="${PATH}:$(yarn global bin)"
 export TEST_SUITE_TYPE="build"
 
 if [ -n "$action_branch" ];
@@ -20,7 +23,10 @@ if ! ci-update-package --branch ${TARGET_BRANCH}; then
   exit $FAILED_SETUP
 fi
 
-if ! npm publish --registry ${REGISTRY}; then
+### Not able to use 'yarn publish' which failed at
+### publish alpha version.
+### Didn't figure out root cause but keep using npm.
+if ! npm publish --unsafe-perm; then
   echo "npm publish failed! Exiting..."
   exit $PUBLISH_ARTIFACTORY_FAILURE
 fi
