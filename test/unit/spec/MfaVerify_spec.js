@@ -3682,7 +3682,7 @@ function (Okta,
             .then(function (test) {
               expect(test.form.subtitleText()).toBe('Signing in...');
               expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
-            });  
+            });
         });
 
         itp('subtitle changes after submitting the form to correct subtitle if config has a brandName', function () {
@@ -4070,6 +4070,16 @@ function (Okta,
         itp('has remember device checkbox', function () {
           return setupClaimsProviderFactor().then(function (test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
+          });
+        });
+        itp('has a sign out link', function () {
+          return setupClaimsProviderFactor().then(function (test) {
+            Expect.isVisible(test.form.signoutLink($sandbox));
+          });
+        });
+        itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
+          return setupClaimsProviderFactor({'features.hideSignOutLinkInMFA': true}).then(function (test) {
+            expect(test.form.signoutLink($sandbox).length).toBe(0);
           });
         });
         itp('redirects to third party when Verify button is clicked', function () {
