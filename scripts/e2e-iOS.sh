@@ -26,16 +26,7 @@ do
    export $WIDGET_ENV_VAR=$(cat ./test_credentials.yaml | yq .${WIDGET_ENV_VAR} | tr -d '"')
 done
 
-setup_service grunt
-
-# Install required dependencies
-yarn install -g @okta/ci-update-package
-yarn install -g @okta/ci-pkginfo
-
-if ! npm install --no-optional --unsafe-perm; then
-  echo "yarn install failed! Exiting..."
-  exit ${FAILED_SETUP}
-fi
+source $OKTA_HOME/$REPO/scripts/setup.sh
 
 function update_yarn_locks() {
     git checkout -- test/e2e/react-app/yarn.lock
@@ -60,7 +51,7 @@ function update_yarn_locks() {
 
 update_yarn_locks
 
-if ! npm run test:e2e; then
+if ! yarn test:e2e; then
   echo "e2e tests on iOS failed! Exiting..."
   exit ${FAILURE}
 fi
