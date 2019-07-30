@@ -552,8 +552,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         });
         Expect.describe('all factors are required and none are enrolled', function () {
           itp('has default subtitle', function () {
-            return setupWithRequiredNoneEnrolled(null, '2019-06-28T00:00:00.000Z')
-            .then(function (test) {
+            return setupWithRequiredNoneEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
                 'Your company requires multifactor authentication to add an ' +
                 'additional layer of security when signing in to your account'
@@ -563,8 +562,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         });
         Expect.describe('all factors are required and at least one is enrolled', function () {
           itp('has default subtitle when endDate is null', function () {
-            return setupWithRequiredSomeRequiredEnrolled(null)
-            .then(function (test) {
+            return setupWithRequiredSomeRequiredEnrolled(null).then(function (test) {
               expect(test.form.subtitleText()).toBe(
                 'Your company requires multifactor authentication to add an additional ' +
                 'layer of security when signing in to your account'
@@ -572,8 +570,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             });
           });
           itp('has grace period subtitle when endDate is not null', function () {
-            return setupWithRequiredSomeRequiredEnrolled('2019-06-28T00:00:00.000Z')
-            .then(function (test) {
+            return setupWithRequiredSomeRequiredEnrolled('2019-06-28T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
                 'Your company recommends setting up additional factors for authentication. ' +
                 'Set up will be required in: 3 day(s).'
@@ -584,19 +581,17 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           than a day', function () {
             var today = new Date('2019-06-25T11:59:59.000Z');
             jasmine.clock().mockDate(today);
-            return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z')
-            .then(function (test) {
+            return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
                 'Your company recommends setting up additional factors for authentication. ' +
-                'Set up will be required in less than 1 day.'
+                'Set up will be required in: less than 1 day.'
               );
             });
           });
           itp('has default subtitle when todays date is past endDate', function () {
             var today = new Date('2019-06-26T11:59:59.000Z');
             jasmine.clock().mockDate(today);
-            return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z')
-            .then(function (test) {
+            return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
                 'Your company requires multifactor authentication to add an additional ' +
                 'layer of security when signing in to your account'
@@ -606,8 +601,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         });
         Expect.describe('all factors are required and all are enrolled', function () {
           itp('has optional subtitle', function () {
-            return setupWithRequiredAllRequiredEnrolled(null, '2019-06-28T00:00:00.000Z')
-            .then(function (test) {
+            return setupWithRequiredAllRequiredEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
                 'You can configure any additional optional factor or click finish'
               );
@@ -616,8 +610,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         });
         Expect.describe('all factors optional and none are enrolled', function () {
           itp('has default subtitle', function () {
-            return setupWithAllOptionalNoneEnrolled(null, '2019-06-28T00:00:00.000Z')
-            .then(function (test) {
+            return setupWithAllOptionalNoneEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
                 'Your company requires multifactor authentication to add an ' +
                 'additional layer of security when signing in to your account'
@@ -627,8 +620,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         });
         Expect.describe('all factors optional and some are enrolled', function () {
           itp('has optional subtitle', function () {
-            return setupWithAllOptionalSomeEnrolled(null, '2019-06-28T00:00:00.000Z')
-            .then(function (test) {
+            return setupWithAllOptionalSomeEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
                 'You can configure any additional optional factor or click finish'
               );
