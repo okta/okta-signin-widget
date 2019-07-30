@@ -7,9 +7,5 @@ if [ "${TRAVIS_EVENT_TYPE}" = "cron" ] ; then
     yarn build:release
     yarn test:e2e
 else
-    set -e
-    yarn build:release
-    yarn lint
-    yarn test
-    yarn test:e2e
+    yarn $TEST_SUITE
 fi
