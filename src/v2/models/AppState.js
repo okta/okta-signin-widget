@@ -36,30 +36,48 @@ function (Okta) {
       // language picker, etc.
       languageCode: ['string', true],
       disableUsername: ['boolean', false, false],
+      ionResponse: 'object',
+      uiSchema: 'object',
+      currentState: 'object'
     },
 
     derived: {
-      'remediation': {
-        deps: ['remediationSuccess'],
-        fn: function (res) {
-          if (res && res.remediation) {
-            return res.remediation;
+      'formName': {
+        deps: ['currentState'],
+        fn: function (currentState) {
+          if (currentState && currentState.remediation) {
+            return currentState.remediation[0].name;
           }
         }
       },
       'formSchema': {
-        deps: ['remediation'],
-        fn: function (remediation) {
-          if (remediation && remediation[0]) {
-            return remediation[0].value;
+        deps: ['currentState'],
+        fn: function (currentState) {
+          if (currentState && currentState.remediation) {
+            return currentState.remediation[0].value;
           }
         }
       },
-      'uiSchema': {
-        deps: ['remediation'],
-        fn: function (remediation) {
-          if (remediation && remediation[0]) {
-            return remediation[0].uiSchema;
+      'formSchemaInputMap': {
+        deps: ['currentState'],
+        fn: function (currentState) {
+          if (currentState && currentState.remediation) {
+            var formSchema = currentState.remediation[0].value;
+            var formSchemaMap = {};
+            _.each(formSchema, function (input) {
+              var inputName = input.name;
+              input.type = 'text';
+              formSchemaMap[inputName] = input;
+            });
+            return formSchemaMap;
+          }
+        }
+      },
+      'factorType': {
+        deps: ['currentState'],
+        fn: function (currentState) {
+          if (currentState && currentState.data && currentState.data.factor) {
+            return currentState.data.factor.value.factorType;
           }
         }
       },
