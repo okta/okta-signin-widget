@@ -11,15 +11,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { _, loc, Form } from 'okta';
-import { getFormSchemaInputMap } from './RemediationUtil';
 
-const getSelectOptions = function (type) {
-  switch (type) {
+const getSelectOptions = function () {
+  /*switch (type) {
   case 'countryCode':
     return CountryUtil.getCountries();
   case 'questions':
     return securityQuestionData.getSecurityQuestions();
-  }
+  }*/
 };
 
 const addInputObject = function (inputObj, inputOptions, uiSchema) {
@@ -48,8 +47,11 @@ const addInputObject = function (inputObj, inputOptions, uiSchema) {
   }
 };
 
-const createInputOptions = function (formSchema, uiSchema) {
+const createInputOptions = function (appState) {
   var inputOptions = [];
+  var formSchema = appState.get('formSchema');
+  var uiSchema = appState.get('uiSchema');
+  var formSchemaInputMap = appState.get('formSchemaInputMap');
   let formObj = {
     layout: 'o-form-theme',
     className: 'ion-form',
@@ -88,7 +90,8 @@ const createInputOptions = function (formSchema, uiSchema) {
   _.each(formInputs.formInputs, _.bind(function (formInput) {
     var schemaInput;
     if (formInput.rel) {
-      schemaInput = getFormSchemaInputMap(formInput.rel);
+      //schemaInput = getFormSchemaInputMap(formInput.rel);
+      schemaInput = formSchemaInputMap[formInput.rel];
       if (schemaInput) {
         addInputObject(schemaInput, inputOptions, uiSchema);
       } else {

@@ -30,13 +30,12 @@ define([
   'util/Bundles',
   'util/Logger',
   '../ion/transformer',
-  './RemediationUtil',
-  './SchemaData',
+  '../ion/uiSchema/SchemaData',
 
 ],
 function (Okta, BrowserFeatures, Settings,
   Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, Animations,
-  Errors, Util, Enums, Bundles, Logger, transform , RemediationUtil, SchemaData) {
+  Errors, Util, Enums, Bundles, Logger, transform, SchemaData) {
 
   var { _, $, Backbone } = Okta;
 
@@ -147,16 +146,9 @@ function (Okta, BrowserFeatures, Settings,
     handleRemediationSuccess: function (trans) {
       // transform response
       const ionResponse = transform(trans);
-      this.appState.set('currentState', ionResponse.currentState);
-      // set formSchema
-      const formSchema = ionResponse.currentState.remediation[0].value;
-      this.appState.set('formSchema', formSchema);
-      // set setFormSchemaInputMap
-      RemediationUtil.setFormSchemaInputMap(formSchema);
-      const formName = ionResponse.currentState.remediation[0].name;
-      const factorType = trans.data.factor && trans.data.factor.value.factorType;
+      this.appState.set(ionResponse);
       // set uiSchema
-      const uiSchema = SchemaData.getUISchema(formName, factorType);
+      const uiSchema = SchemaData.getSchema(this.appState.get('formName'), this.appState.get('factorType'));
       this.appState.set('uiSchema', uiSchema);
     },
 

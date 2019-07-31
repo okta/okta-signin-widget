@@ -22,7 +22,7 @@ const getIdentifySchema = function () {
   };
 };
 
-const getSchema = function (formName, factorType) {
+const getSchema = function (formName) {
   if (formName === 'identify') {
     return getIdentifySchema();
   }

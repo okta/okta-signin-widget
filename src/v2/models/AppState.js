@@ -36,12 +36,51 @@ function (Okta) {
       // language picker, etc.
       languageCode: ['string', true],
       disableUsername: ['boolean', false, false],
-      currentState: 'object',
-      formSchema: 'object',
+      ionResponse: 'object',
       uiSchema: 'object',
+      currentState: 'object'
     },
 
     derived: {
+      'formName': {
+        deps: ['currentState'],
+        fn: function (currentState) {
+          if (currentState && currentState.remediation) {
+            return currentState.remediation[0].name;
+          }
+        }
+      },
+      'formSchema': {
+        deps: ['currentState'],
+        fn: function (currentState) {
+          if (currentState && currentState.remediation) {
+            return currentState.remediation[0].value;
+          }
+        }
+      },
+      'formSchemaInputMap': {
+        deps: ['currentState'],
+        fn: function (currentState) {
+          if (currentState && currentState.remediation) {
+            var formSchema = currentState.remediation[0].value;
+            var formSchemaMap = {};
+            _.each(formSchema, function (input) {
+              var inputName = input.name;
+              input.type = 'text';
+              formSchemaMap[inputName] = input;
+            });
+            return formSchemaMap;
+          }
+        }
+      },
+      'factorType': {
+        deps: ['currentState'],
+        fn: function (currentState) {
+          if (currentState && currentState.data && currentState.data.factor) {
+            return currentState.data.factor.value.factorType;
+          }
+        }
+      },
     },
 
     parse: function (options) {

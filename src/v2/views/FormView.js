@@ -21,13 +21,13 @@ define([
       this.uiSchema = appState.get('uiSchema');
       this.formSchema = appState.get('formSchema');
       this.addFormEventHandlers();
-      this.add(FormBuilder.createInputOptions(this.formSchema, this.uiSchema));
+      this.add(FormBuilder.createInputOptions(this.options.appState));
     },
     addFormEventHandlers: function () {
       this.uiSchema.formSubmitEventsHandler = this.formSubmitEventsHandler;
     },
-    formSubmitEventsHandler: function (data) {
-      console.log(data);
+    formSubmitEventsHandler: function () {
+      //TODO
     },
   });
 });
