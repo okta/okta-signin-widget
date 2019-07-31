@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 17], max-statements: [2, 21] */
+/* eslint max-params: [2, 18], max-statements: [2, 21] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
@@ -28,11 +28,14 @@ define([
   'util/Util',
   'util/Enums',
   'util/Bundles',
-  'util/Logger'
+  'util/Logger',
+  '../ion/transformer',
+  '../ion/uiSchema/SchemaData',
+
 ],
 function (Okta, BrowserFeatures, Settings,
   Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, Animations,
-  Errors, Util, Enums, Bundles, Logger) {
+  Errors, Util, Enums, Bundles, Logger, transform, SchemaData) {
 
   var { _, $, Backbone } = Okta;
 
@@ -130,10 +133,23 @@ function (Okta, BrowserFeatures, Settings,
         this.appState.set('remediationSuccess', trans);
       });
 
+      this.listenTo(this.appState, 'change:remediationSuccess', function (appState, trans) {
+        this.handleRemediationSuccess(trans);
+      });
+
       this.listenTo(this.appState, 'navigate', function (url) {
         this.navigate(url, { trigger: true });
       });
 
+    },
+
+    handleRemediationSuccess: function (trans) {
+      // transform response
+      const ionResponse = transform(trans);
+      this.appState.set(ionResponse);
+      // set uiSchema
+      const uiSchema = SchemaData.getSchema(this.appState.get('formName'), this.appState.get('factorType'));
+      this.appState.set('uiSchema', uiSchema);
     },
 
     // Overriding the default navigate method to allow the widget consumer
