@@ -2,12 +2,6 @@
 
 cd ${OKTA_HOME}/${REPO}
 
-setup_service grunt
-
-# Install required dependencies
-npm install -g @okta/ci-update-package
-npm install -g @okta/ci-pkginfo
-
 # ---------------------------------------------------------------------
 YARN_REGISTRY=https://registry.yarnpkg.com
 OKTA_REGISTRY=${ARTIFACTORY_URL}/api/npm/npm-okta-master
