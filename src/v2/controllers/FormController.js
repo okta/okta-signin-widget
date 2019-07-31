@@ -31,7 +31,10 @@ function (
     postRender: function () {
       var form = new FormView(this.toJSON());
       this.add(form);
-      this.add(new FooterWithBackLink(this.toJSON()));
+      // add footer if its not IDENTIFY step
+      if (!this.options.appState.get('currentState').step === 'IDENTIFY') {
+        this.add(new FooterWithBackLink(this.toJSON()));
+      }
     }
   });
 });
