@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /*!
  * Copyright (c) 2015-Present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
