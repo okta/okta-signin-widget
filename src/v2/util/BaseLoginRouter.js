@@ -30,11 +30,11 @@ define([
   'util/Bundles',
   'util/Logger',
   '../ion/responseTransformer',
-
+  '../ion/actionsTransformer',
 ],
 function (Okta, BrowserFeatures, Settings,
   Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, Animations,
-  Errors, Util, Enums, Bundles, Logger, transform) {
+  Errors, Util, Enums, Bundles, Logger, responseTransformer, actionsTransformer) {
 
   var { _, $, Backbone } = Okta;
 
@@ -128,13 +128,11 @@ function (Okta, BrowserFeatures, Settings,
       });
 
       this.listenTo(this.appState, 'change:introspectSuccess', function (appState, trans) {
-        //set remediationSuccess after intropect API call
-        this.appState.set('remediationSuccess', trans);
+        //transfer introspectSuccess into remediationSuccess response
+        this.appState.trigger('remediationSuccess', trans);
       });
 
-      this.listenTo(this.appState, 'change:remediationSuccess', function (appState, trans) {
-        this.handleRemediationSuccess(trans);
-      });
+      this.listenTo(this.appState, 'remediationSuccess', this.handleRemediationSuccess);
 
       this.listenTo(this.appState, 'navigate', function (url) {
         this.navigate(url, { trigger: true });
@@ -144,7 +142,7 @@ function (Okta, BrowserFeatures, Settings,
 
     handleRemediationSuccess: function (trans) {
       // transform response
-      const ionResponse = transform(trans);
+      const ionResponse = _.compose(actionsTransformer, responseTransformer)(trans);
       this.appState.set(ionResponse);
     },
 

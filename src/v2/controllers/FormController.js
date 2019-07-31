@@ -10,31 +10,60 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 define([
+  'okta',
   '../util/BaseLoginController',
   '../views/FormView',
-  '../models/FormModel',
   '../../views/shared/FooterWithBackLink'
 ],
 function (
+  Okta,
   BaseLoginController,
   FormView,
-  FormModel,
   FooterWithBackLink
 ) {
   return BaseLoginController.extend({
     className: 'form-controller',
-    initialize: function (options) {
+    initialize: function () {
       BaseLoginController.prototype.initialize.call(this);
-      this.options = options || {};
-      this.model = new FormModel(this.options);
+      this.listenTo(this.options.appState, 'change:currentState', this.reRender);
     },
-    postRender: function () {
-      var form = new FormView(this.toJSON());
-      this.add(form);
+
+    reRender () {
+      if (this.formView) {
+        this.formView.remove();
+      }
+      this.render();
+    },
+
+    postRender () {
+      this.formView = this.add(FormView).last();
+
+      this.listenTo(this.formView, 'save', this.handleFormSave);
+
       // add footer if its not IDENTIFY step
       if (!this.options.appState.get('currentState').step === 'IDENTIFY') {
         this.add(new FooterWithBackLink(this.toJSON()));
       }
-    }
+    },
+
+    handleFormSave (model) {
+      const formName = model.get('formName');
+      const actionFn = this.options.appState.get('currentState')[formName];
+
+      if (!Okta._.isFunction(actionFn)) {
+        model.trigger('error', `Cannot find http action for "${formName}".`);
+        return;
+      }
+
+      model.trigger('request');
+      return actionFn(model.toJSON())
+        .then(resp => {
+          model.trigger('sync');
+          this.options.appState.trigger('remediationSuccess', resp.response);
+        })
+        .catch(error => {
+          model.trigger('error', error);
+        });
+    },
   });
 });
