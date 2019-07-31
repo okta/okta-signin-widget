@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint camelcase: 0 */
 define([
   'okta',

@@ -12,17 +12,22 @@
 /* eslint max-len: [2, 130] */
 define([
   'okta',
-], function (Okta) {
+  '../util/FormBuilder'
+], function (Okta, FormBuilder) {
   return Okta.View.extend({
     initialize: function (options) {
       this.options = options;
-      var remediation = this.options.appState.get('remediation');
-      if (remediation[0]) {
-        this.formData = this.options.appState.get('formSchema');
-        this.uiSchema = this.options.appState.get('uiSchema');
-      }
-      //TODO integrate with FormBuilder OKTA-236336
-      //this.add(FormBuilder.createInputOptions(this.formData, this.uiSchema));
+      const appState = this.options.appState;
+      this.uiSchema = appState.get('uiSchema');
+      this.formSchema = appState.get('formSchema');
+      this.addFormEventHandlers();
+      this.add(FormBuilder.createInputOptions(this.options.appState));
+    },
+    addFormEventHandlers: function () {
+      this.uiSchema.formSubmitEventsHandler = this.formSubmitEventsHandler;
+    },
+    formSubmitEventsHandler: function () {
+      //TODO
     },
   });
 });
