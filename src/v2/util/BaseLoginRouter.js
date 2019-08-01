@@ -29,7 +29,7 @@ define([
   'util/Enums',
   'util/Bundles',
   'util/Logger',
-  '../ion/transformer',
+  '../ion/responseTransformer',
   '../ion/uiSchema/SchemaData',
 
 ],
