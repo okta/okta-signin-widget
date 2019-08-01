@@ -58,21 +58,6 @@ function (Okta) {
           }
         }
       },
-      'formSchemaInputMap': {
-        deps: ['currentState'],
-        fn: function (currentState) {
-          if (currentState && currentState.remediation) {
-            var formSchema = currentState.remediation[0].value;
-            var formSchemaMap = {};
-            _.each(formSchema, function (input) {
-              var inputName = input.name;
-              input.type = 'text';
-              formSchemaMap[inputName] = input;
-            });
-            return formSchemaMap;
-          }
-        }
-      },
       'factorType': {
         deps: ['currentState'],
         fn: function (currentState) {
