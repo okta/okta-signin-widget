@@ -47,34 +47,35 @@ const addInputObject = function (inputObj, inputOptions, uiSchema) {
   }
 };
 
+let formObj = {
+  inputOptions: [],
+  layout: 'o-form-theme',
+  className: 'ion-form',
+  autoSave: true,
+  noCancelButton: true,
+  title: '',
+  save: '',
+  children: [],
+  inputs: [],
+  events: {
+    'click .button-primary': function (e) {
+      e.preventDefault();
+      this.options.appState.get('uiSchema').formSubmitEventsHandler(e);
+    }
+  },
+  initialize: function () {
+    // add inputs
+    _.each(formObj.inputOptions, _.bind(function (input) {
+      this.addInput(input);
+    }, this));
+    // TODO add form footer
+  }
+};
+
 const createInputOptions = function (appState) {
-  var inputOptions = [];
   var formSchema = appState.get('formSchema');
   var uiSchema = appState.get('uiSchema');
   var formSchemaInputMap = appState.get('formSchemaInputMap');
-  let formObj = {
-    layout: 'o-form-theme',
-    className: 'ion-form',
-    autoSave: true,
-    noCancelButton: true,
-    title: '',
-    save: '',
-    children: [],
-    inputs: [],
-    events: {
-      'click .button-primary': function (e) {
-        e.preventDefault();
-        this.options.appState.get('uiSchema').formSubmitEventsHandler(e);
-      }
-    },
-    initialize: function () {
-      // add inputs
-      _.each(inputOptions, _.bind(function (input) {
-        this.addInput(input);
-      }, this));
-      // TODO add form footer
-    }
-  };
 
   // uiSchema has formHeader, formInputs and formFooter
   var formHeaderObj = _.pick(uiSchema, 'formHeader');
@@ -93,15 +94,15 @@ const createInputOptions = function (appState) {
       //schemaInput = getFormSchemaInputMap(formInput.rel);
       schemaInput = formSchemaInputMap[formInput.rel];
       if (schemaInput) {
-        addInputObject(schemaInput, inputOptions, uiSchema);
+        addInputObject(schemaInput, formObj.inputOptions, uiSchema);
       } else {
-        addInputObject(formInput, inputOptions, uiSchema);
+        addInputObject(formInput, formObj.inputOptions, uiSchema);
       }
     } else {
       // PROFILE_REQUIRED form where we are not looking for a specific input
       _.each(formSchema, _.bind(function (formInput) {
         if (formInput.visible !== false) {
-          addInputObject(formInput, inputOptions, uiSchema);
+          addInputObject(formInput, formObj.inputOptions, uiSchema);
         }
       }, this));
     }
@@ -118,6 +119,11 @@ const createInputOptions = function (appState) {
   return Form.extend(formObj);
 };
 
+const __getFormObj = function () {
+  return formObj;
+};
+
 module.exports = {
-  createInputOptions
+  createInputOptions,
+  __getFormObj
 };
