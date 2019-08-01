@@ -44,7 +44,7 @@ const data = {
           ],
           "href": "https://your-org.okta.com/api/v2/authn/refresh",
           "name": "refresh",
-          "method": "post",
+          "method": "POST",
           "value": [
             {
               "name": "stateHandle",
@@ -59,7 +59,7 @@ const data = {
           ],
           "href": "https://your-org.okta.com/api/v2/authn/resend",
           "name": "resend",
-          "method": "post",
+          "method": "POST",
           "value": [
             {
               "name": "stateHandle",
