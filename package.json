@@ -120,6 +120,7 @@
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.26.0",
     "grunt-properties-to-json": "^0.6.0",
+    "cross-fetch": "^3.0.4",
     "handlebars": "4.0.14",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.3",

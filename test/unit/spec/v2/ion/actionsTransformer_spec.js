@@ -1,15 +1,18 @@
-import transform from 'v2/ion/transformer';
+import transformResponse from 'v2/ion/responseTransformer';
+import transformActions from 'v2/ion/actionsTransformer';
+import httpClient from 'v2/ion/httpClient';
 import XHRFactorRequiredEmail from '../../../helpers/xhr/v2/FACTOR_REQUIRED_EMAIL';
 import XHRFactorVerificationRequiredPush from '../../../helpers/xhr/v2/FACTOR_VERIFICATION_REQUIRED_OKTA_PUSH';
+import { _ } from 'okta';
 
-describe('v2/ion/transformer', function () {
+describe('v2/ion/actionsTransformer', function () {
   it('returns result when invokes with invalid resp', () => {
-    expect(transform()).toBeNull();
-    expect(transform('hello')).toBeNull();
+    expect(transformActions()).toBeNull();
+    expect(transformActions('hello')).toBeNull();
   });
 
   it('converts factor require email', () => {
-    const result = transform(XHRFactorRequiredEmail.response);
+    const result = _.compose(transformActions, transformResponse)(XHRFactorRequiredEmail.response);
     expect(result).toEqual({
       'factor': {
         'id': 'emf1axecbKovLJPWl0g4',
@@ -57,61 +60,68 @@ describe('v2/ion/transformer', function () {
       __rawResponse: XHRFactorRequiredEmail.response,
     });
 
-    expect(result.currentState['submit-factor']()).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/',
-      data: {
+    spyOn(httpClient, 'fetchRequest');
+    result.currentState['submit-factor']();
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
-    });
+    );
 
-    expect(result.currentState['submit-factor']({foo: 'bar'})).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/',
-      data: {
+    result.currentState['submit-factor']({ foo: 'bar' });
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
-        foo: 'bar',
+        foo: 'bar'
       }
-    });
+    );
 
-    expect(result.currentState['cancel']()).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/cancel',
-      data: {
+    result.currentState['cancel']();
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/cancel',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
-    });
+    );
 
     // cancel doesn't take additional data for http request
-    expect(result.currentState['cancel']({ foo: 'bar' })).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/cancel',
-      data: {
+    result.currentState['cancel']({ foo: 'bar' });
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/cancel',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
-    });
+    );
 
-    expect(result.currentState['context']()).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/context',
-      data: {
+    result.currentState['context']();
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/context',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
-    });
+    );
 
     // context doesn't take additional data for http request
-    expect(result.currentState['context']({ foo: 'bar' })).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/context',
-      data: {
+    result.currentState['context']({ foo: 'bar' });
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/context',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
-    });
+    );
 
   });
 
   it('converts factor verification require push', () => {
-    const result = transform(XHRFactorVerificationRequiredPush.response);
+    const result = _.compose(transformActions, transformResponse)(XHRFactorVerificationRequiredPush.response);
     expect(result).toEqual({
       'factor': {
         'factorType': 'push',
@@ -154,55 +164,81 @@ describe('v2/ion/transformer', function () {
       __rawResponse: XHRFactorVerificationRequiredPush.response,
     });
 
-    expect(result.currentState['factor-poll-verification']()).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/',
-      data: {
+    spyOn(httpClient, 'fetchRequest');
+    result.factor['refresh']();
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/refresh',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
-    });
+    );
 
-    expect(result.currentState['factor-poll-verification']({foo: 'bar'})).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/',
-      data: {
+    result.factor['resend']();
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/resend',
+      'POST',
+      {
+        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
+      }
+    );
+
+    result.currentState['factor-poll-verification']();
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/',
+      'POST',
+      {
+        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
+      }
+    );
+
+    result.currentState['factor-poll-verification']({ foo: 'bar' });
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+        foo: 'bar'
       }
-    });
+    );
 
-    expect(result.currentState['cancel']()).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/cancel',
-      data: {
+    result.currentState['cancel']();
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/cancel',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
-    });
+    );
 
     // cancel doesn't take additional data for http request
-    expect(result.currentState['cancel']({ foo: 'bar' })).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/cancel',
-      data: {
+    result.currentState['cancel']({ foo: 'bar' });
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/cancel',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
-    });
+    );
 
-    expect(result.currentState['context']()).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/context',
-      data: {
+    result.currentState['context']();
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/context',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
-    });
+    );
 
     // context doesn't take additional data for http request
-    expect(result.currentState['context']({ foo: 'bar' })).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/context',
-      data: {
+    result.currentState['factor-poll-verification']({ foo: 'bar' });
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/context',
+      'POST',
+      {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
-    });
+    );
 
   });
 
