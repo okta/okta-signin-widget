@@ -10,7 +10,9 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { _, loc, Form } from 'okta';
+import { _, loc, Form, Collection, createButton } from 'okta';
+import FactorEnrollOptions from '../components/FactorEnrollOptions';
+import SchemaData from '../ion/uiSchema/SchemaData';
 
 const getSelectOptions = function () {
   /*switch (type) {
@@ -20,16 +22,37 @@ const getSelectOptions = function () {
     return securityQuestionData.getSecurityQuestions();
   }*/
 };
-
-const addInputObject = function (inputObj, inputOptions, uiSchema) {
+const addInputComponent = function (inputObj, inputComponents, uiSchema) {
   switch (inputObj.type) {
   case 'text':
     inputObj['label-top'] =  true;
-    inputOptions.push(inputObj);
+    inputComponents.push(inputObj);
+    break;
+  case 'button':
+    inputComponents.push(createButton({
+      title: loc(inputObj.key, 'login'),
+      className: inputObj.className,
+      click: function () {
+        uiSchema.formButtonEventsHandler();
+      },
+    }));
+    break;
+  case 'factorType':
+    if (inputObj.options) {
+      var options = inputObj.options;
+      var factorOption = new FactorEnrollOptions({
+        minimize: true,
+        listTitle: loc('enroll.choices.description', 'login'),
+        collection: new Collection(options),
+      });
+      inputComponents.push({
+        component: factorOption
+      });
+    }
     break;
   case 'select':
     var selectOptions = getSelectOptions(inputObj.rel);
-    inputOptions.push({
+    inputComponents.push({
       name: inputObj.rel,
       type: 'select',
       wide: true,
@@ -47,11 +70,28 @@ const addInputObject = function (inputObj, inputOptions, uiSchema) {
   }
 };
 
+const augmentUISchema = function (formSchema, uiSchema) {
+  // augment each item in uiSchem using formSchema
+  _.each(uiSchema.formInputs, function (input, index) {
+    delete input.rel;
+    switch (input.type) {
+    case 'factorType':
+      _.extend(input, _.omit(formSchema[index], 'type'));
+      //input.type = 'factorType';
+      break;
+    case 'formSchema':
+      _.extend(input, formSchema[index]);
+      input.type = 'text';
+      break;
+    }
+  });
+};
+
 const createInputOptions = function (appState) {
-  var inputOptions = [];
-  var formSchema = appState.get('formSchema');
-  var uiSchema = appState.get('uiSchema');
-  var formSchemaInputMap = appState.get('formSchemaInputMap');
+  const inputOptions = [];
+  const uiSchema = SchemaData.getSchema(appState.get('formName'), appState.get('factorType'));
+  const formSchema = appState.get('formSchema');
+  augmentUISchema(formSchema, uiSchema);
   let formObj = {
     layout: 'o-form-theme',
     className: 'ion-form',
@@ -68,11 +108,14 @@ const createInputOptions = function (appState) {
       }
     },
     initialize: function () {
-      // add inputs
+      // add input components
       _.each(inputOptions, _.bind(function (input) {
-        this.addInput(input);
+        if (input.component) {
+          this.add(input.component);
+        } else {
+          this.addInput(input);
+        }
       }, this));
-      // TODO add form footer
     }
   };
 
@@ -86,25 +129,9 @@ const createInputOptions = function (appState) {
   }, this));
 
   // form inputs
-  var formInputs = _.pick(uiSchema, 'formInputs');
-  _.each(formInputs.formInputs, _.bind(function (formInput) {
-    var schemaInput;
-    if (formInput.rel) {
-      //schemaInput = getFormSchemaInputMap(formInput.rel);
-      schemaInput = formSchemaInputMap[formInput.rel];
-      if (schemaInput) {
-        addInputObject(schemaInput, inputOptions, uiSchema);
-      } else {
-        addInputObject(formInput, inputOptions, uiSchema);
-      }
-    } else {
-      // PROFILE_REQUIRED form where we are not looking for a specific input
-      _.each(formSchema, _.bind(function (formInput) {
-        if (formInput.visible !== false) {
-          addInputObject(formInput, inputOptions, uiSchema);
-        }
-      }, this));
-    }
+  var formInputsObject = _.pick(uiSchema, 'formInputs');
+  _.each(formInputsObject.formInputs, _.bind(function (formInput) {
+    addInputComponent(formInput, inputOptions, uiSchema);
   }, this));
 
   // form footer
