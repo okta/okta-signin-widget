@@ -178,6 +178,25 @@ For an overview of the Widget's features and authentication flows, check out [ou
 
 You can also browse the full [API reference documentation](#api-reference).
 
+## Usage examples
+
+## PKCE (Proof Key for Code Exchange) flow
+
+- Configure your SWA application in the Okta Admin UI to allow the `Authorization code` grant type. 
+
+- To complete the flow, your client application must handle a callback `redirectUri`. This can be handled with [okta-auth-js](https://github.com/okta/okta-auth-js#pkce-oauth-20-flow) or with one of our [Javascript OIDC SDKs](https://github.com/okta/okta-oidc-js)
+
+```javascript
+var signIn = new OktaSignIn(
+  {
+    baseUrl: 'https://{yourOktaDomain}',
+    responseType: 'code',
+    grantType: 'authorization_code',
+    redirectUri: '{{redirectUri configured in OIDC app}}',
+  }
+);
+```
+
 ## API Reference
 
 ### OktaSignIn
