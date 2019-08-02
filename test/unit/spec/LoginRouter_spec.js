@@ -1014,9 +1014,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           expect(params.get('prompt')).toBe(options.prompt);
         }
 
-        if (responseType === 'code') {
+        if (options.code_challenge_method) {
+          expect(params.get('code_challenge_method')).toBe(options.code_challenge_method);
           expect(params.get('code_challenge')).toBeTruthy();
-          expect(params.get('code_challenge_method')).toBe('S256');
         }
 
       }
@@ -1046,77 +1046,82 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             Expect.deprecated('Use "scopes" instead of "scope"');
           });
       });
-      itp('redirects instead of using an iframe if the responseType is "code"', function () {
+
+      itp('PKCE: redirects, sets the responseMode to "fragment" and sets a code_challenge', function () {
         return setupOAuth2({
           'authParams.responseType': 'code', 
           'authParams.grantType': 'authorization_code'
         })
-          .then(expectCodeRedirect({responseMode: 'fragment', responseType:'code'}));
+          .then(expectCodeRedirect({
+            responseMode: 'fragment',
+            responseType:'code',
+            code_challenge_method: 'S256'
+          }));
+      });
+      itp('redirects instead of using an iframe if the responseType is "code"', function () {
+        return setupOAuth2({
+          'authParams.responseType': 'code', 
+        })
+          .then(expectCodeRedirect({responseMode: 'query', responseType:'code'}));
       });
       itp('redirects to alternate authorizeUrl if the responseType is "code"', function () {
         return setupOAuth2({
-          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.authorizeUrl': 'https://altfoo.com/oauth2/v1/authorize'
         })
           .then(expectCodeRedirect({
             authorizeUrl: 'https://altfoo.com/oauth2/v1/authorize',
-            responseMode: 'fragment',
+            responseMode: 'query',
             responseType:'code'
           }));
       });
       itp('redirects to alternate authorizeUrl if an alternate issuer is provided', function () {
         return setupOAuth2({
-          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.issuer': 'https://altfoo.com'
         })
           .then(expectCodeRedirect({
             authorizeUrl: 'https://altfoo.com/oauth2/v1/authorize',
-            responseMode: 'fragment',
+            responseMode: 'query',
             responseType:'code'
           }));
       });
       itp('redirects to alternate authorizeUrl if an alternate issuer and alternate authorizeUrl is provided', function () {
         return setupOAuth2({
-          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.issuer': 'https://altfoo.com',
           'authParams.authorizeUrl': 'https://reallyaltfoo.com/oauth2/v1/authorize'
         })
           .then(expectCodeRedirect({
             authorizeUrl: 'https://reallyaltfoo.com/oauth2/v1/authorize',
-            responseMode: 'fragment',
+            responseMode: 'query',
             responseType:'code'
           }));
       });
       itp('redirects with alternate state provided', function () {
         return setupOAuth2({
-          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.state': 'myalternatestate'
         })
           .then(expectCodeRedirect({
             state: 'myalternatestate',
-            responseMode: 'fragment',
+            responseMode: 'query',
             responseType:'code'
           }));
       });
       itp('redirects with alternate nonce provided', function () {
         return setupOAuth2({
-          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.nonce': 'myalternatenonce'
         })
           .then(expectCodeRedirect({
             nonce: 'myalternatenonce',
-            responseMode: 'fragment',
+            responseMode: 'query',
             responseType:'code'
           }));
       });
       itp('redirects with alternate state and nonce provided', function () {
         return setupOAuth2({
-          'authParams.grantType': 'authorization_code',
           'authParams.responseType': 'code',
           'authParams.state': 'myalternatestate',
           'authParams.nonce': 'myalternatenonce'
@@ -1124,7 +1129,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           .then(expectCodeRedirect({
             state: 'myalternatestate',
             nonce: 'myalternatenonce',
-            responseMode: 'fragment',
+            responseMode: 'query',
             responseType:'code'
           }));
       });
