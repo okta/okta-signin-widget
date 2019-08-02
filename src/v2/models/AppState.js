@@ -37,7 +37,6 @@ function (Okta) {
       languageCode: ['string', true],
       disableUsername: ['boolean', false, false],
       ionResponse: 'object',
-      uiSchema: 'object',
       currentState: 'object'
     },
 
@@ -55,21 +54,6 @@ function (Okta) {
         fn: function (currentState) {
           if (currentState && currentState.remediation) {
             return currentState.remediation[0].value;
-          }
-        }
-      },
-      'formSchemaInputMap': {
-        deps: ['currentState'],
-        fn: function (currentState) {
-          if (currentState && currentState.remediation) {
-            var formSchema = currentState.remediation[0].value;
-            var formSchemaMap = {};
-            _.each(formSchema, function (input) {
-              var inputName = input.name;
-              input.type = 'text';
-              formSchemaMap[inputName] = input;
-            });
-            return formSchemaMap;
           }
         }
       },

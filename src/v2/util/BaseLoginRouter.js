@@ -30,12 +30,11 @@ define([
   'util/Bundles',
   'util/Logger',
   '../ion/responseTransformer',
-  '../ion/uiSchema/SchemaData',
 
 ],
 function (Okta, BrowserFeatures, Settings,
   Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, Animations,
-  Errors, Util, Enums, Bundles, Logger, transform, SchemaData) {
+  Errors, Util, Enums, Bundles, Logger, transform) {
 
   var { _, $, Backbone } = Okta;
 
@@ -147,9 +146,6 @@ function (Okta, BrowserFeatures, Settings,
       // transform response
       const ionResponse = transform(trans);
       this.appState.set(ionResponse);
-      // set uiSchema
-      const uiSchema = SchemaData.getSchema(this.appState.get('formName'), this.appState.get('factorType'));
-      this.appState.set('uiSchema', uiSchema);
     },
 
     // Overriding the default navigate method to allow the widget consumer
