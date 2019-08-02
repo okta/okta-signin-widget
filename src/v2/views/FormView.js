@@ -18,16 +18,8 @@ define([
     initialize: function (options) {
       this.options = options;
       const appState = this.options.appState;
-      this.uiSchema = appState.get('uiSchema');
       this.formSchema = appState.get('formSchema');
-      this.addFormEventHandlers();
       this.add(FormBuilder.createInputOptions(this.options.appState));
-    },
-    addFormEventHandlers: function () {
-      this.uiSchema.formSubmitEventsHandler = this.formSubmitEventsHandler;
-    },
-    formSubmitEventsHandler: function () {
-      //TODO
     },
   });
 });
