@@ -8,6 +8,7 @@ define([
   'helpers/dom/Beacon',
   'helpers/util/Expect',
   'LoginRouter',
+  'util/RouterUtil',
   'util/BrowserFeatures',
   'util/Util',
   'sandbox',
@@ -19,7 +20,7 @@ define([
   'helpers/xhr/labels_login_ja',
   'helpers/xhr/labels_country_ja'
 ],
-function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures, LoginUtil,
+function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, BrowserFeatures, LoginUtil,
   $sandbox, resAllFactors, resFactorEnrollAllFactors, resQuestions, resError, resSuccess, labelsLoginJa, labelsCountryJa) {
 
   var { _, $ } = Okta;
@@ -200,6 +201,47 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, BrowserFeatures
           });
         });
     });
+
+    itp('calls enroll with the right arguments when save is clicked in restrictRedirectToForeground flow', function () {
+      return setup(allFactors).then(function (test) {
+        $.ajax.calls.reset();
+        test.form.selectQuestion('favorite_security_question');
+        test.form.setAnswer('No question! Hah!');
+        test.setNextResponse(resSuccess);
+        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callFake(function() {
+          return true;
+        });
+        spyOn(document, 'addEventListener').and.callFake(function(type, fn){
+          fn();
+        });
+        spyOn(document, 'removeEventListener').and.callThrough();
+        test.form.submit();
+        spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function() {
+          return true;
+        });
+        return tick();
+      })
+        .then(function () {
+          expect(RouterUtil.isHostBackgroundChromeTab).toHaveBeenCalled();
+          expect(RouterUtil.isDocumentVisible).toHaveBeenCalled();
+          expect(document.removeEventListener).toHaveBeenCalled();
+          expect(document.addEventListener).toHaveBeenCalled();
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'question',
+              provider: 'OKTA',
+              profile: {
+                question: 'favorite_security_question',
+                answer: 'No question! Hah!'
+              },
+              stateToken: expectedStateToken
+            }
+          });
+        });
+    });
+
     itp('validates answer field and errors before the request', function () {
       return setup(allFactors).then(function (test) {
         $.ajax.calls.reset();

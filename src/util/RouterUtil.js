@@ -37,6 +37,22 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
     '&token={{{token}}}&redirectUrl={{{redirectUrl}}}'
   );
 
+  fn.isHostBackgroundChromeTab = function () {
+    // Checks if the SIW is loaded in a chrome webview and
+    // it is in an app that is in background.
+    if (navigator.userAgent.match(/Android/) &&
+        navigator.userAgent.match(/Chrome/) &&
+        document.hidden) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  fn.isDocumentVisible = function () {
+    return document.visibilityState === 'visible';
+  };
+
   fn.createVerifyUrl = function (provider, factorType, factorIndex) {
     if (provider && factorIndex) {
       return verifyUrlMultipleTpl({
@@ -177,8 +193,24 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
           }
         };
       }
-
-      router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
+      
+      // Check if we need to wait for redirect based on host.
+      if (router.settings.get('features.restrictRedirectToForeground') &&
+          fn.isHostBackgroundChromeTab()) {
+        var checkVisibilityAndCallSuccess = function () {
+          if (document.visibilityState === 'visible') {
+            router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
+          }
+        }
+        document.addEventListener('visibilitychange', function checkVisibilityAndCallSuccess() {
+          if (fn.isDocumentVisible()) {
+            document.removeEventListener('visibilitychange', checkVisibilityAndCallSuccess);
+            router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
+          }
+        });
+      } else {
+        router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
+      }
       return;
     case 'CONSENT_REQUIRED':
       if (router.settings.get('features.consent')) {

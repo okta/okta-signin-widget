@@ -8,13 +8,14 @@ define([
   'helpers/dom/Beacon',
   'helpers/util/Expect',
   'LoginRouter',
+  'util/RouterUtil',
   'util/Util',
   'sandbox',
   'helpers/xhr/FACTOR_ENROLL_allFactors',
   'helpers/xhr/FACTOR_ENROLL_password_error',
   'helpers/xhr/SUCCESS'
 ],
-function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $sandbox,
+function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, LoginUtil, $sandbox,
   resAllFactors, resError, resSuccess) {
 
   var { $ } = Okta;
@@ -119,6 +120,48 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, LoginUtil, $san
           });
         });
     });
+
+    itp(`calls enroll with the right arguments when save is clicked in android chrome
+      in restrictRedirectToForeground flow`, function () {
+      return setup().then(function (test) {
+        $.ajax.calls.reset();
+        test.form.setPassword('somepassword');
+        test.form.setConfirmPassword('somepassword');
+        test.setNextResponse(resSuccess);
+        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callFake(function() {
+          return true;
+        });
+        spyOn(document, 'addEventListener').and.callFake(function(type, fn){
+          fn();
+        });
+        spyOn(document, 'removeEventListener').and.callThrough();
+        test.form.submit();
+
+        spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function() {
+          return true;
+        });
+        return Expect.waitForSpyCall(test.successSpy, test);
+      })
+        .then(function () {
+          expect(RouterUtil.isHostBackgroundChromeTab).toHaveBeenCalled();
+          expect(RouterUtil.isDocumentVisible).toHaveBeenCalled();
+          expect(document.removeEventListener).toHaveBeenCalled();
+          expect(document.addEventListener).toHaveBeenCalled();
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn/factors',
+            data: {
+              factorType: 'password',
+              provider: 'OKTA',
+              profile: {
+                password: 'somepassword'
+              },
+              stateToken: '01testStateToken'
+            }
+          });
+        });
+    });
+
     itp('validates password and confirmPassword cannot be empty', function () {
       return setup().then(function (test) {
         $.ajax.calls.reset();
