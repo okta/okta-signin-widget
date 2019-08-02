@@ -100,13 +100,13 @@ function (Okta,
           });
         }
 
-        return tick(deferred.promise);
+        return deferred.promise;
       });
 
-      return tick();
+      return Q();
     }
 
-    Expect.describe('Header & Footer', function () {
+    describe('Header & Footer', function () {
       itp('displays the correct factorBeacon', function () {
         return emulateNotWindows()
           .then(setup)
@@ -124,7 +124,7 @@ function (Okta,
       });
     });
 
-    Expect.describe('Enroll factor', function () {
+    describe('Enroll factor', function () {
       itp('displays error if not Windows', function () {
         return emulateNotWindows()
           .then(setup)
@@ -209,10 +209,14 @@ function (Okta,
           .then(function (test) {
             test.setNextResponse([responseMfaEnrollActivateWindowsHello, responseSuccess]);
             test.form.submit();
-            return Expect.waitForSpyCall(webauthn.makeCredential, test);
+            expect(test.form.subtitleText()).toBe('Please wait while Windows Hello is loading...');
+            return Expect.wait(function () {
+              return test.form.$('.o-form-button-bar').hasClass('hide') === false;
+            }, test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(2);
+            expect(test.form.subtitleText()).toBe('Click below to enroll Windows Hello as a second form of authentication');
             expect(test.form.hasErrorHtml()).toBe(false);
           });
       });
@@ -223,10 +227,14 @@ function (Okta,
           .then(function (test) {
             test.setNextResponse([responseMfaEnrollActivateWindowsHello, responseSuccess]);
             test.form.submit();
-            return Expect.waitForSpyCall(webauthn.makeCredential, test);
+            expect(test.form.subtitleText()).toBe('Please wait while Windows Hello is loading...');
+            return Expect.wait(function () {
+              return test.form.$('.o-form-button-bar').hasClass('hide') === false;
+            }, test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(2);
+            expect(test.form.subtitleText()).toBe('Click below to enroll Windows Hello as a second form of authentication');
             expect(test.form.hasErrorHtml()).toBe(true);
           });
       });

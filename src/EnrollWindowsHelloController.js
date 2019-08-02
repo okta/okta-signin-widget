@@ -158,7 +158,6 @@ function (Okta, FormController, FormType, webauthn, Spinner, Footer, HtmlErrorMe
         this.subtitle = Okta.loc('enroll.windowsHello.subtitle', 'login');
 
         this.model.trigger('spinner:hide');
-        this.$('.o-form-button-bar').removeClass('hide');
 
         var message;
         switch (errorMessage){
@@ -180,6 +179,7 @@ function (Okta, FormController, FormType, webauthn, Spinner, Footer, HtmlErrorMe
         }
 
         this.render();
+        this.$('.o-form-button-bar').removeClass('hide');
       },
 
 
