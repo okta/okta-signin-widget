@@ -37,7 +37,6 @@ define([
         className: 'button',
         title: Okta.loc('enroll.choices.setup', 'login'),
         click: function () {
-          console.log('here');
         }
       }), '.enroll-factor-button']];
     },

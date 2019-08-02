@@ -12,6 +12,7 @@
  */
 import { _, loc, Form, Collection, createButton } from 'okta';
 import FactorEnrollOptions from '../components/FactorEnrollOptions';
+import SchemaData from '../ion/uiSchema/SchemaData';
 
 const getSelectOptions = function () {
   /*switch (type) {
@@ -27,7 +28,6 @@ const addInputComponent = function (inputObj, inputComponents, uiSchema) {
     inputObj['label-top'] =  true;
     inputComponents.push(inputObj);
     break;
-
   case 'button':
     inputComponents.push(createButton({
       title: loc(inputObj.key, 'login'),
@@ -37,22 +37,17 @@ const addInputComponent = function (inputObj, inputComponents, uiSchema) {
       },
     }));
     break;
-    //options to enroll factors
-  case 'view':
-    if (inputObj.component === 'FactorEnrollOptions') {
-      // eslint-disable-next-line max-depth
-      if (inputObj.options) {
-        var options = inputObj.options;
-        var factorOption = new FactorEnrollOptions({
-          minimize: true,
-          listTitle: loc('enroll.choices.description', 'login'),
-          collection: new Collection(options),
-        });
-        inputComponents.push({
-          type: 'view',
-          component: factorOption
-        });
-      }
+  case 'factorType':
+    if (inputObj.options) {
+      var options = inputObj.options;
+      var factorOption = new FactorEnrollOptions({
+        minimize: true,
+        listTitle: loc('enroll.choices.description', 'login'),
+        collection: new Collection(options),
+      });
+      inputComponents.push({
+        component: factorOption
+      });
     }
     break;
   case 'select':
@@ -75,43 +70,27 @@ const addInputComponent = function (inputObj, inputComponents, uiSchema) {
   }
 };
 
-const getFormSchemaInputMap = function (currentState, uiSchema) {
-  if (currentState && currentState.remediation) {
-    const formSchema = currentState.remediation[0].value;
-    const formSchemaMap = {};
-    _.each(uiSchema.formInputs, function (input, index) {
-      const component = input.component;
-      switch (input.type) {
-      case 'view':
-        formSchemaMap[input.rel] = {
-          type: 'view',
-          component: component
-        };
-        if (component === 'FactorEnrollOptions') {
-          formSchemaMap[input.rel].options = formSchema[index].options;
-        }
-        break;
-      case 'formSchema':
-        //get inputObject from formSchem
-        _.extend(input, formSchema[index]);
-        // default to text input
-        input.type = 'text';
-        formSchemaMap[input.rel] = input;
-        break;
-      case 'button':
-        formSchemaMap[input.rel] = input;
-        break;
-      }
-    });
-    return formSchemaMap;
-  }
+const augmentUISchema = function (formSchema, uiSchema) {
+  // augment each item in uiSchem using formSchema
+  _.each(uiSchema.formInputs, function (input, index) {
+    _.extend(input, formSchema[index]);
+    delete input.rel;
+    switch (input.type) {
+    case 'factorType':
+      input.type = 'factorType';
+      break;
+    case 'formSchema':
+      input.type = 'text';
+      break;
+    }
+  });
 };
+
 const createInputOptions = function (appState) {
-  var inputOptions = [];
-  var formSchema = appState.get('formSchema');
-  var uiSchema = appState.get('uiSchema');
-  var currentState = appState.get('currentState');
-  var formSchemaInputMap = getFormSchemaInputMap(currentState, uiSchema);
+  const inputOptions = [];
+  const uiSchema = SchemaData.getSchema(appState.get('formName'), appState.get('factorType'));
+  const formSchema = appState.get('formSchema');
+  augmentUISchema(formSchema, uiSchema);
   let formObj = {
     layout: 'o-form-theme',
     className: 'ion-form',
@@ -130,16 +109,10 @@ const createInputOptions = function (appState) {
     initialize: function () {
       // add input components
       _.each(inputOptions, _.bind(function (input) {
-        switch (input.type) {
-        case 'text':
-          this.addInput(input);
-          break;
-        case 'view':
+        if (input.component) {
           this.add(input.component);
-          break;
-        default :
-          this.add(input);
-          break;
+        } else {
+          this.addInput(input);
         }
       }, this));
     }
@@ -155,24 +128,9 @@ const createInputOptions = function (appState) {
   }, this));
 
   // form inputs
-  var formInputs = _.pick(uiSchema, 'formInputs');
-  _.each(formInputs.formInputs, _.bind(function (formInput) {
-    var schemaInput;
-    if (formInput.rel) {
-      schemaInput = formSchemaInputMap[formInput.rel];
-      if (schemaInput) {
-        addInputComponent(schemaInput, inputOptions, uiSchema);
-      } else {
-        addInputComponent(formInput, inputOptions, uiSchema);
-      }
-    } else {
-      // PROFILE_REQUIRED form where we are not looking for a specific input
-      _.each(formSchema, _.bind(function (formInput) {
-        if (formInput.visible !== false) {
-          addInputComponent(formInput, inputOptions, uiSchema);
-        }
-      }, this));
-    }
+  var formInputsObject = _.pick(uiSchema, 'formInputs');
+  _.each(formInputsObject.formInputs, _.bind(function (formInput) {
+    addInputComponent(formInput, inputOptions, uiSchema);
   }, this));
 
   // form footer

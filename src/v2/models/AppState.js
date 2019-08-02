@@ -37,7 +37,6 @@ function (Okta) {
       languageCode: ['string', true],
       disableUsername: ['boolean', false, false],
       ionResponse: 'object',
-      uiSchema: 'object',
       currentState: 'object'
     },
 

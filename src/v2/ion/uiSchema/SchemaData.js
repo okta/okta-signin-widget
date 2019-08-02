@@ -40,12 +40,6 @@ const getEmailFactorRequiredSchema = function () {
         'type': 'formSchema',
         'rel': 'email'
       },
-      {
-        'rel': 'button',
-        'type': 'button',
-        'className': 'button email-request-button link-button',
-        'key': 'mfa.sendEmail'
-      }
     ],
     'formFooter': [
       {
@@ -95,8 +89,7 @@ const getSelectFactorSchema = function () {
     'formInputs': [
       {
         'rel': 'select-factor',
-        'type': 'view',
-        'component': 'FactorEnrollOptions'
+        'type': 'factorType',
       },
     ],
   };
