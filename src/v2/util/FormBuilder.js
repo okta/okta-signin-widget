@@ -73,13 +73,14 @@ const addInputComponent = function (inputObj, inputComponents, uiSchema) {
 const augmentUISchema = function (formSchema, uiSchema) {
   // augment each item in uiSchem using formSchema
   _.each(uiSchema.formInputs, function (input, index) {
-    _.extend(input, formSchema[index]);
     delete input.rel;
     switch (input.type) {
     case 'factorType':
-      input.type = 'factorType';
+      _.extend(input, _.omit(formSchema[index], 'type'));
+      //input.type = 'factorType';
       break;
     case 'formSchema':
+      _.extend(input, formSchema[index]);
       input.type = 'text';
       break;
     }
