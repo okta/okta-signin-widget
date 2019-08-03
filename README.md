@@ -182,17 +182,20 @@ You can also browse the full [API reference documentation](#api-reference).
 
 ## PKCE (Proof Key for Code Exchange) flow
 
-- Configure your SWA application in the Okta Admin UI to allow the `Authorization code` grant type. 
+- Configure your SWA application in the Okta Admin UI to allow the `Authorization code` grant type.
 
-- To complete the flow, your client application must handle a callback `redirectUri`. This can be handled with [okta-auth-js](https://github.com/okta/okta-auth-js#pkce-oauth-20-flow) or with one of our [Javascript OIDC SDKs](https://github.com/okta/okta-oidc-js)
+- To complete the flow, your client application must handle the code passed to `redirectUri`. This is most easily accomplished using [okta-auth-js](https://github.com/okta/okta-auth-js#pkce-oauth-20-flow) or with one of our [Javascript OIDC SDKs](https://github.com/okta/okta-oidc-js)
 
 ```javascript
 var signIn = new OktaSignIn(
   {
     baseUrl: 'https://{yourOktaDomain}',
-    responseType: 'code',
-    grantType: 'authorization_code',
     redirectUri: '{{redirectUri configured in OIDC app}}',
+    authParams: {
+      display: 'page',
+      responseType: 'code',
+      grantType: 'authorization_code'
+    }
   }
 );
 ```
@@ -968,13 +971,27 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     }
     ```
 
+- **authParams.grantType:** Used only by SWA applications. Specify a flow to be used when authenticating or renewing tokens.
+
+  - `implicit` - The default value. The tokens requested in `responseType` will be returned as parameters on the `redirectUri`
+  - `authorization_code` - Use PKCE client-side authorization code flow. Must be used in combination with `responseType: ['code']`
+
+    ```javascript
+    // Use PKCE flow
+    authParams: {
+      display: 'page',
+      responseType: 'code',
+      grantType: 'authorization_code'
+    }
+    ```
+
 - **authParams.responseMode:** Specify how the authorization response should be returned. You will generally not need to set this unless you want to override the default values for your `authParams.display` and `authParams.responseType` settings.
 
     - `okta_post_message` - Used when `authParams.display = 'popup'`. Uses [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to send the response from the popup to the origin window.
 
-    - `fragment` - Default value when `authParams.display = 'page'` and `authParams.responseType != 'code'`. Returns the authorization response in the hash fragment of the URL after the authorization redirect.
+    - `fragment` - Used when `authParams.display = 'page'`. Returns the authorization response in the hash fragment of the URL after the authorization redirect. `fragment` is the default for SWA applications and for standard web applications where `responseType != 'code'`.
 
-    - `query` - Default value when `authParams.display = 'page'` and `authParams.responseType = 'code'`. Returns the authorization response in the query string of the URL after the authorization redirect.
+    - `query` - Used when `authParams.display = 'page'`. Returns the authorization response in the query string of the URL after the authorization redirect. `query` is the default value for standard web applications where `authParams.responseType = 'code'`.
 
     - `form_post` - Returns the authorization response as a form POST after the authorization redirect. Use this when `authParams.display = page` and you do not want the response returned in the URL.
 
