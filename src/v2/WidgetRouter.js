@@ -29,10 +29,9 @@ function (Okta,
     },
 
     defaultAuth: function () {
-      var trans = this.appState.get('remediationSuccess');
-      if (trans && trans.data) {
+      var currentState = this.appState.get('currentState');
+      if (currentState) {
         this.renderWidgetView();
-        return;
       } else {
         this.renderErrorView();
       }

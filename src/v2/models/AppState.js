@@ -21,8 +21,6 @@ function (Okta) {
   return Okta.Model.extend({
     local: {
       baseUrl: 'string',
-      remediationSuccess: 'object',
-      remediationFailure: 'object',
       introspectSuccess: 'object', // only set during introspection
       introspectError: 'object', // only set during introspection
       username: 'string',
@@ -41,28 +39,10 @@ function (Okta) {
     },
 
     derived: {
-      'formName': {
+      'remediation': {
         deps: ['currentState'],
-        fn: function (currentState) {
-          if (currentState && currentState.remediation) {
-            return currentState.remediation[0].name;
-          }
-        }
-      },
-      'formSchema': {
-        deps: ['currentState'],
-        fn: function (currentState) {
-          if (currentState && currentState.remediation) {
-            return currentState.remediation[0].value;
-          }
-        }
-      },
-      'factorType': {
-        deps: ['currentState'],
-        fn: function (currentState) {
-          if (currentState && currentState.data && currentState.data.factor) {
-            return currentState.data.factor.value.factorType;
-          }
+        fn: function (currentState = {}) {
+          return Array.isArray(currentState.remediation) ? currentState.remediation : [];
         }
       },
     },
@@ -73,7 +53,6 @@ function (Okta) {
         _.omit(options, 'settings'),
         { languageCode: this.settings.get('languageCode' )}
       );
-    }
+    },
   });
-
 });
