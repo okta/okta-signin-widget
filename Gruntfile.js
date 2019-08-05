@@ -104,7 +104,7 @@ module.exports = function (grunt) {
                 tpl = Handlebars.compile(content),
                 tplVars = {
                   browserName: browserName,
-              
+
                   // To include accessibility check in the test, pass in -a11y option, i.e.
                   // "grunt test-e2e --browserName chrome -a11y"
                   CHECK_A11Y: !!grunt.option('a11y')
@@ -277,6 +277,13 @@ module.exports = function (grunt) {
       }
     },
 
+    propertiesToJSON: {
+      main: {
+        src: ['packages/@okta/i18n/dist/properties/*.properties'],
+        dest: 'packages/@okta/i18n/dist/json'
+      }
+    },
+
   });
 
   grunt.task.registerTask(
@@ -297,7 +304,7 @@ module.exports = function (grunt) {
       }
 
       grunt.log.writeln('Testing against: ' + process.env.WIDGET_TEST_SERVER);
-  
+
       grunt.task.run([
         'copy:e2e',
         'copy:e2e-pages',
@@ -340,6 +347,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'exec:clean',
       'exec:retirejs',
+      'propertiesToJSON',
       `assets:${target}`,
       ...buildTasks,
       ...postBuildTasks,
