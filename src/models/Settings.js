@@ -89,7 +89,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'features.trackTypingPattern': ['boolean', false, false],
       'features.redirectByFormSubmit': ['boolean', false, false],
       'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
-      'features.restrictRedirectToForeground': ['boolean', false, true],
+      'features.restrictRedirectToForeground': ['boolean', true, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function

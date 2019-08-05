@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 18] */
+/* eslint max-params: [2, 19] */
 define([
   'q',
   'okta',
@@ -182,10 +182,13 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
         test.form.selectQuestion('favorite_security_question');
         test.form.setAnswer('No question! Hah!');
         test.setNextResponse(resSuccess);
+        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callThrough();
         test.form.submit();
         return tick();
       })
         .then(function () {
+          // restrictRedirectToForeground Flag is not enabled
+          expect(RouterUtil.isHostBackgroundChromeTab).not.toHaveBeenCalled();
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -208,15 +211,17 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
         test.form.selectQuestion('favorite_security_question');
         test.form.setAnswer('No question! Hah!');
         test.setNextResponse(resSuccess);
-        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callFake(function() {
+        // Set flag
+        test.router.settings.set('features.restrictRedirectToForeground', true);
+        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callFake(function () {
           return true;
         });
-        spyOn(document, 'addEventListener').and.callFake(function(type, fn){
+        spyOn(document, 'addEventListener').and.callFake(function (type, fn){
           fn();
         });
         spyOn(document, 'removeEventListener').and.callThrough();
         test.form.submit();
-        spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function() {
+        spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function () {
           return true;
         });
         return tick();

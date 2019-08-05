@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 40], max-statements: [2, 30] */
+/* eslint complexity: [2, 42], max-statements: [2, 30] */
 define([
   'okta',
   './OAuth2Util',
@@ -197,12 +197,7 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       // Check if we need to wait for redirect based on host.
       if (router.settings.get('features.restrictRedirectToForeground') &&
           fn.isHostBackgroundChromeTab()) {
-        var checkVisibilityAndCallSuccess = function () {
-          if (document.visibilityState === 'visible') {
-            router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
-          }
-        }
-        document.addEventListener('visibilitychange', function checkVisibilityAndCallSuccess() {
+        document.addEventListener('visibilitychange', function checkVisibilityAndCallSuccess () {
           if (fn.isDocumentVisible()) {
             document.removeEventListener('visibilitychange', checkVisibilityAndCallSuccess);
             router.settings.callGlobalSuccess(Enums.SUCCESS, successData);

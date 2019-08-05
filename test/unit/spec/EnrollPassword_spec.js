@@ -24,7 +24,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
 
   Expect.describe('EnrollPassword', function () {
 
-    function setup (startRouter) {
+    function setup (startRouter, restrictRedirectToForeground) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({ url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -35,6 +35,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter,
+        'features.restrictRedirectToForeground': restrictRedirectToForeground,
         globalSuccessFn: successSpy,
       });
       router.on('afterError', afterErrorHandler);
@@ -102,10 +103,13 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
         test.form.setPassword('somepassword');
         test.form.setConfirmPassword('somepassword');
         test.setNextResponse(resSuccess);
+        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callThrough();
         test.form.submit();
         return Expect.waitForSpyCall(test.successSpy, test);
       })
         .then(function () {
+          // restrictRedirectToForeground Flag is not enabled
+          expect(RouterUtil.isHostBackgroundChromeTab).not.toHaveBeenCalled();
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -123,21 +127,21 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
 
     itp(`calls enroll with the right arguments when save is clicked in android chrome
       in restrictRedirectToForeground flow`, function () {
-      return setup().then(function (test) {
+      return setup(false, true).then(function (test) {
         $.ajax.calls.reset();
         test.form.setPassword('somepassword');
         test.form.setConfirmPassword('somepassword');
         test.setNextResponse(resSuccess);
-        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callFake(function() {
+        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callFake(function () {
           return true;
         });
-        spyOn(document, 'addEventListener').and.callFake(function(type, fn){
+        spyOn(document, 'addEventListener').and.callFake(function (type, fn){
           fn();
         });
         spyOn(document, 'removeEventListener').and.callThrough();
         test.form.submit();
 
-        spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function() {
+        spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function () {
           return true;
         });
         return Expect.waitForSpyCall(test.successSpy, test);
