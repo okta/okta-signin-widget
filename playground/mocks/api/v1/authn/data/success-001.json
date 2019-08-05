@@ -17,7 +17,7 @@
     },
     "_links": {
         "cancel": {
-            "href": "https://rain.bar.com/api/v1/authn/cancel",
+            "href": "http://localhost:3000/api/v1/authn/cancel",
             "hints": {
                 "allow": [
                     "POST"
