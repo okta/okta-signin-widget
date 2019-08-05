@@ -147,7 +147,8 @@ describe('v2/ion/responseTransformer', function () {
         'remediation': [
           {
             'name': 'factor-poll-verification',
-            'refresh': 2000
+            'refresh': 2000,
+            'value': [],
           }
         ]
       },

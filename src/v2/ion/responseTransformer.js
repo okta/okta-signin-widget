@@ -141,11 +141,8 @@ const convertObjectType = (resp) => {
  */
 const normalizeRemedation = (remedationValue) => {
   const result = _.omit(remedationValue, 'rel', 'href', 'method', 'value');
-  const value = remedationValue.value.filter(v => v.visible !== false);
+  result.value = remedationValue.value.filter(v => v.visible !== false);
 
-  if (value.length) {
-    result.value = value;
-  }
   return result;
 };
 

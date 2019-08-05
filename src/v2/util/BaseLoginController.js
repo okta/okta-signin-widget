@@ -15,16 +15,6 @@ define(['okta', 'q'], function (Okta, Q) {
 
   return Okta.Controller.extend({
 
-    initialize: function () {
-      // Events to set the remediation attributes on the widget state.
-      this.listenTo(this.options.appState, 'remediationSuccess', function (transaction) {
-        this.options.appState.set('remediationSuccess', transaction);
-      });
-      this.listenTo(this.options.appState, 'remediationFailure', function (err) {
-        this.options.appState.set('remediationFailure', err);
-      });
-    },
-
     // Override this method to delay switching to this screen until return
     // promise is resolved. This is useful for cases like enrolling a security
     // question, which requires an additional request to fetch the question

@@ -1,12 +1,12 @@
-import SchemaData from 'v2/ion/uiSchema/SchemaData';
+import uiSchemaFactory from 'v2/ion/uiSchemaFactory';
 
-describe('v2/ion/uiSchema/SchemaData', function () {
+describe('v2/ion/uiSchemaFactory', function () {
   it('returns undefined for invalid form name', () => {
-    const result = SchemaData.getSchema('invalid');
+    const result = uiSchemaFactory.createUISchema('invalid');
     expect(result).toBe(undefined);
   });
   it('returns correct schema for identify form', () => {
-    const result = SchemaData.getSchema('identify');
+    const result = uiSchemaFactory.createUISchema('identify');
     expect(result).toEqual({
       'formHeader': [
         {
