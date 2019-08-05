@@ -12,7 +12,7 @@
  */
 import { _, loc, Form, Collection, createButton } from 'okta';
 import FactorEnrollOptions from '../components/FactorEnrollOptions';
-import SchemaData from '../ion/uiSchema/SchemaData';
+import uiSchemaFactory from '../ion/uiSchemaFactory';
 
 const getSelectOptions = function () {
   /*switch (type) {
@@ -87,26 +87,21 @@ const augmentUISchema = function (formSchema, uiSchema) {
   });
 };
 
-const createInputOptions = function (appState) {
+const createInputOptions = function (remediation = {}) {
   const inputOptions = [];
-  const uiSchema = SchemaData.getSchema(appState.get('formName'), appState.get('factorType'));
-  const formSchema = appState.get('formSchema');
-  augmentUISchema(formSchema, uiSchema);
+  const uiSchema = uiSchemaFactory.createUISchema(remediation.name);
+  augmentUISchema(remediation.value, uiSchema);
+
   let formObj = {
     layout: 'o-form-theme',
     className: 'ion-form',
-    autoSave: true,
+    hasSavingState: true,
+    autoSave: false,
     noCancelButton: true,
     title: '',
     save: '',
     children: [],
     inputs: [],
-    events: {
-      'click .button-primary': function (e) {
-        e.preventDefault();
-        this.options.appState.get('uiSchema').formSubmitEventsHandler(e);
-      }
-    },
     initialize: function () {
       // add input components
       _.each(inputOptions, _.bind(function (input) {
@@ -139,7 +134,7 @@ const createInputOptions = function (appState) {
   _.each(formFooterObj.formFooter, _.bind(function (formFooterItem) {
     // form submit button
     if (formFooterItem.type === 'submit') {
-      formObj.save = loc(formFooterItem.key, 'login');
+      formObj.save = formFooterItem.key ? loc(formFooterItem.key, 'login') : formFooterItem.label;
     }
   }, this));
   return Form.extend(formObj);

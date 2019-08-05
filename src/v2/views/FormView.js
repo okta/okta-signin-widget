@@ -9,17 +9,36 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-/* eslint max-len: [2, 130] */
 define([
   'okta',
-  '../util/FormBuilder'
-], function (Okta, FormBuilder) {
+  '../util/ModelBuilder',
+  '../util/FormBuilder',
+], function (Okta, ModelBuilder, FormBuilder) {
   return Okta.View.extend({
-    initialize: function (options) {
-      this.options = options;
-      const appState = this.options.appState;
-      this.formSchema = appState.get('formSchema');
-      this.add(FormBuilder.createInputOptions(this.options.appState));
+
+    initialize: function () {
+      this.options.appState.get('remediation').forEach(this.renderSingleForm.bind(this));
     },
+
+    renderSingleForm: function (remediationValue) {
+      const IonModel = ModelBuilder.createModel(remediationValue);
+
+      const model = new IonModel({
+        formName: remediationValue.name,
+      });
+
+      const IonForm = FormBuilder.createInputOptions(remediationValue);
+      const form = this.add(IonForm, {
+        options: {
+          model,
+        }
+      }).last();
+
+      this.listenTo(form, 'save', (model) => {
+        this.trigger('save', model);
+      });
+
+    },
+
   });
 });
