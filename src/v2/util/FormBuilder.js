@@ -25,6 +25,7 @@ const getSelectOptions = function () {
 const addInputComponent = function (inputObj, inputComponents, uiSchema) {
   switch (inputObj.type) {
   case 'text':
+  case 'password':
     inputObj['label-top'] =  true;
     inputComponents.push(inputObj);
     break;
@@ -81,7 +82,14 @@ const augmentUISchema = function (formSchema, uiSchema) {
       break;
     case 'formSchema':
       _.extend(input, formSchema[index]);
-      input.type = 'text';
+      if (input.secret === true) {
+        input.type = 'password';
+        input.params = {
+          showPasswordToggle: true,
+        };
+      } else {
+        input.type = 'text';
+      }
       break;
     }
   });
