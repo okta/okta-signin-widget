@@ -27,9 +27,9 @@ module.exports = {
   proxy: false,
   method: 'POST',
   template () {
-    if (index >= factorEnrollEmail.length) {
+    if (index >= factorEnrollPassword.length) {
       index = 0;
     }
-    return factorEnrollEmail[index++];
+    return factorEnrollPassword[index++];
   },
 };
