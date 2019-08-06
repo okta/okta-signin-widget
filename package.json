@@ -18,6 +18,11 @@
     "> 0.1%",
     "not ie <= 9"
   ],
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "main": "./dist/js/okta-sign-in.entry.js",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
@@ -57,6 +62,9 @@
     "prepublishOnly": "yarn build:release"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@commitlint/travis-cli": "^8.1.0",
     "@okta/okta-auth-js": "~2.6.3",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "autoprefixer": "^9.6.1",
@@ -84,6 +92,7 @@
     "grunt-properties-to-json": "^0.6.0",
     "grunt-sass": "^3.0.2",
     "grunt-search": "^0.1.8",
+    "husky": "^3.0.2",
     "jasmine-ajax": "^4.0.0",
     "jasmine-core": "2.99.1",
     "junit-report-builder": "^1.3.2",
