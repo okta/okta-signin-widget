@@ -9,7 +9,8 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { _, Model } from 'okta';
+import { _, Model} from 'okta';
+import { validateFieldsMatch } from './ValidationUtil';
 
 const covertIonFieldToProp = (ionField) => {
   const config = Object.assign(
@@ -38,6 +39,12 @@ const createModel = function (remediation = {}) {
       formName: 'string',
     },
 
+    validate: function (data) {
+      //validate password match
+      if (data.formName === 'enroll-factor-password') {
+        return validateFieldsMatch(data.password, data.confirmPassword);
+      }
+    }
   });
 };
 
