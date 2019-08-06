@@ -72,7 +72,7 @@ const uiSchemas = {
       }
     ],
   },
-  otp: {
+  'otp': {
     'formHeader': [
       {
         'type': 'formTitle',
@@ -106,6 +106,50 @@ const uiSchemas = {
       },
     ],
   },
+  'enroll-factor-email': {
+    'formHeader': [
+      {
+        'type': 'formTitle',
+        'key': 'mfa.challenge.verify'
+      },
+    ],
+    'formInputs': [
+    ],
+    'formFooter': [
+      {
+        'type': 'submit',
+        'label': 'Send Email',
+      }
+    ],
+  },
+  'enroll-factor-password': {
+    'formHeader': [
+      {
+        'type': 'factorBeacon',
+        'iconClassName': 'mfa-okta-password'
+      },
+      {
+        'type': 'formTitle',
+        'key': 'factor.password'
+      },
+    ],
+    'formInputs': [
+      {
+        'type': 'formSchema',
+        'rel': 'password'
+      },
+      {
+        'type': 'formSchema',
+        'rel': 'confirm-password'
+      }
+    ],
+    'formFooter': [
+      {
+        'type': 'submit',
+        'key': 'mfa.challenge.verify'
+      }
+    ],
+  }
 };
 
 const createUISchema = function (formName) {
