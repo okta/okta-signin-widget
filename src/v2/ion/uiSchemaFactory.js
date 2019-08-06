@@ -27,9 +27,6 @@ const uiSchemas = {
       },
     ],
     'formInputs': [
-      {
-        'type': 'spinner',
-      },
     ],
   },
   'required-factor-password': {

@@ -17,7 +17,8 @@ define([
   return Okta.View.extend({
 
     initialize: function () {
-      this.options.appState.get('remediation').forEach(this.renderSingleForm.bind(this));
+      // Assume the first form is most important and default to display.
+      this.renderSingleForm(this.options.appState.get('remediation')[0]);
     },
 
     renderSingleForm: function (remediationValue) {
@@ -27,7 +28,7 @@ define([
         formName: remediationValue.name,
       });
 
-      const IonForm = FormBuilder.createInputOptions(remediationValue);
+      const IonForm = FormBuilder.createForm(remediationValue);
       const appState = this.options.appState;
       const form = this.add(IonForm, {
         options: {
@@ -36,10 +37,26 @@ define([
         }
       }).last();
 
-      this.listenTo(form, 'save', (model) => {
-        this.options.appState.trigger('saveForm', model);
-      });
+      this.listenTo(form, 'save', this.saveForm);
+
+      this.maybeRunPolling(remediationValue, model);
     },
+
+    maybeRunPolling (remediationValue, model) {
+      // auto 'save' the form if `refresh` is set. a.k.a polling
+      // UI will re-render per response even it might be same response
+      // thus don't need `setInterval`.
+      // (because FormController listen to 'change:currentState' and
+      //  'currentState` will be re-created per response hence it's different object.
+      //  )
+      if (Okta._.isNumber(remediationValue.refresh)) {
+        Okta._.delay(this.saveForm.bind(this, model), remediationValue.refresh);
+      }
+    },
+
+    saveForm (model) {
+      this.options.appState.trigger('saveForm', model);
+    }
 
   });
 });

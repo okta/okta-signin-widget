@@ -10,7 +10,7 @@ describe('v2/util/FormBuilder', function () {
     const xhrResponse = XHRIntrospect;
     const ionResponse = transform(xhrResponse.response);
     appState.set(ionResponse);
-    FormBuilderForm = FormBuilder.createInputOptions(ionResponse.currentState.remediation[0]);
+    FormBuilderForm = FormBuilder.createForm(ionResponse.currentState.remediation[0]);
     spyOn(FormBuilderForm.prototype, 'addInput');
   });
 
