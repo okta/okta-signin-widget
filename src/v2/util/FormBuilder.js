@@ -13,6 +13,7 @@
 import { _, loc, Form, Collection, createButton } from 'okta';
 import FactorEnrollOptions from '../components/FactorEnrollOptions';
 import uiSchemaFactory from '../ion/uiSchemaFactory';
+import FactorUtil from '../util/FactorUtil';
 
 const getSelectOptions = function () {
   /*switch (type) {
@@ -40,14 +41,17 @@ const addInputComponent = function (inputObj, inputComponents, uiSchema) {
     break;
   case 'factorType':
     if (inputObj.options) {
-      var options = inputObj.options;
-      var factorOption = new FactorEnrollOptions({
-        minimize: true,
-        listTitle: loc('enroll.choices.description', 'login'),
-        collection: new Collection(options),
+      var optionItems = inputObj.options;
+      _.each(optionItems, function (optionItem) {
+        _.extend(optionItem, FactorUtil.getFactorData(optionItem.value));
       });
       inputComponents.push({
-        component: factorOption
+        component: FactorEnrollOptions,
+        options: {
+          minimize: true,
+          listTitle: loc('enroll.choices.description', 'login'),
+          collection: new Collection(optionItems),
+        }
       });
     }
     break;
@@ -114,11 +118,17 @@ const createInputOptions = function (remediation = {}) {
       // add input components
       _.each(inputOptions, _.bind(function (input) {
         if (input.component) {
-          this.add(input.component);
+          const componentOptions = _.extend(input.options, {
+            appState: this.options.appState
+          });
+          this.add(input.component, {
+            componentOptions
+          });
         } else {
           this.addInput(input);
         }
       }, this));
+
     }
   };
 
