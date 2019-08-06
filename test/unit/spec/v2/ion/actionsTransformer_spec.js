@@ -43,6 +43,7 @@ describe('v2/ion/actionsTransformer', function () {
         'submit-factor': jasmine.any(Function),
         'cancel': jasmine.any(Function),
         'context': jasmine.any(Function),
+        'recovery': jasmine.any(Function),
         'remediation': [
           {
             'name': 'submit-factor',
@@ -118,6 +119,14 @@ describe('v2/ion/actionsTransformer', function () {
       }
     );
 
+    result.currentState['recovery']({ foo: 'bar' });
+    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
+      'https://your-org.okta.com/api/v2/authn/recovery',
+      'POST',
+      {
+        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
+      }
+    );
   });
 
   it('converts factor verification require push', () => {
@@ -199,7 +208,6 @@ describe('v2/ion/actionsTransformer', function () {
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
-        foo: 'bar'
       }
     );
 

@@ -12,6 +12,7 @@
  */
 import { _, loc, Form, Collection, createButton } from 'okta';
 import FactorEnrollOptions from '../components/FactorEnrollOptions';
+import Link from '../components/Link';
 import uiSchemaFactory from '../ion/uiSchemaFactory';
 import FactorUtil from '../util/FactorUtil';
 
@@ -23,41 +24,43 @@ const getSelectOptions = function () {
     return securityQuestionData.getSecurityQuestions();
   }*/
 };
-const addInputComponent = function (inputObj, inputComponents, uiSchema) {
+const createInputComponent = function (uiSchema, inputObj) {
   switch (inputObj.type) {
   case 'text':
   case 'password':
-    inputObj['label-top'] =  true;
-    inputComponents.push(inputObj);
-    break;
+    return Object.assign(
+      { 'label-top': true },
+      inputObj,
+    );
   case 'button':
-    inputComponents.push(createButton({
+    return createButton({
       title: loc(inputObj.key, 'login'),
       className: inputObj.className,
       click: function () {
         uiSchema.formButtonEventsHandler();
       },
-    }));
-    break;
+    });
   case 'factorType':
-    if (inputObj.options) {
-      var optionItems = inputObj.options;
-      _.each(optionItems, function (optionItem) {
-        _.extend(optionItem, FactorUtil.getFactorData(optionItem.value));
+    var optionItems = (inputObj.options || [])
+      .map(opt => {
+        return Object.assign({}, opt, FactorUtil.getFactorData(opt.value));
       });
-      inputComponents.push({
-        component: FactorEnrollOptions,
-        options: {
-          minimize: true,
-          listTitle: loc('enroll.choices.description', 'login'),
-          collection: new Collection(optionItems),
-        }
-      });
-    }
-    break;
+    return {
+      component: FactorEnrollOptions,
+      options: {
+        minimize: true,
+        listTitle: loc('enroll.choices.description', 'login'),
+        collection: new Collection(optionItems),
+      }
+    };
+  case 'link':
+    return {
+      component: Link,
+      options: _.omit(inputObj, 'type',)
+    };
   case 'select':
     var selectOptions = getSelectOptions(inputObj.rel);
-    inputComponents.push({
+    return {
       name: inputObj.rel,
       type: 'select',
       wide: true,
@@ -70,8 +73,7 @@ const addInputComponent = function (inputObj, inputComponents, uiSchema) {
           }
         },
       }
-    });
-    break;
+    };
   }
 };
 
@@ -100,7 +102,7 @@ const augmentUISchema = function (formSchema, uiSchema) {
 };
 
 const createInputOptions = function (remediation = {}) {
-  const inputOptions = [];
+  let inputOptions = [];
   const uiSchema = uiSchemaFactory.createUISchema(remediation.name);
   augmentUISchema(remediation.value, uiSchema);
 
@@ -118,17 +120,37 @@ const createInputOptions = function (remediation = {}) {
       // add input components
       _.each(inputOptions, _.bind(function (input) {
         if (input.component) {
-          const componentOptions = _.extend(input.options, {
-            appState: this.options.appState
-          });
+          const componentOptions = _.extend(
+            _.pick(this.options, 'appState'),
+            input.options,
+          );
           this.add(input.component, {
-            componentOptions
+            options: componentOptions
           });
         } else {
           this.addInput(input);
         }
       }, this));
-
+    },
+    render () {
+      Form.prototype.render.apply(this, arguments);
+      if (Array.isArray(uiSchema.footer) && uiSchema.footer.length) {
+        this.add('<div class="auth-footer"></div>', { prepend: false });
+        uiSchema.footer
+          .map(createInputComponent.bind({}, uiSchema))
+          .forEach(config => {
+            if (config.component) {
+              const componentOptions = Object.assign(
+                _.pick(this.options, 'appState'),
+                config.options,
+              );
+              this.add(config.component, {
+                selector: '.auth-footer',
+                options: componentOptions,
+              });
+            }
+          });
+      }
     }
   };
 
@@ -143,18 +165,22 @@ const createInputOptions = function (remediation = {}) {
 
   // form inputs
   var formInputsObject = _.pick(uiSchema, 'formInputs');
-  _.each(formInputsObject.formInputs, _.bind(function (formInput) {
-    addInputComponent(formInput, inputOptions, uiSchema);
-  }, this));
+  inputOptions = _.map(formInputsObject.formInputs, createInputComponent.bind({}, uiSchema));
 
   // form footer
-  var formFooterObj = _.pick(uiSchema, 'formFooter');
-  _.each(formFooterObj.formFooter, _.bind(function (formFooterItem) {
-    // form submit button
-    if (formFooterItem.type === 'submit') {
-      formObj.save = formFooterItem.key ? loc(formFooterItem.key, 'login') : formFooterItem.label;
-    }
-  }, this));
+  if (uiSchema.hasOwnProperty('formFooter')) {
+    // FIXME: only last `submit` button will be add hence 'formFooter` as list doesn't make sense now.
+    _.each(uiSchema.formFooter, _.bind(function (formFooterItem) {
+      // form submit button
+      if (formFooterItem.type === 'submit') {
+        formObj.save = formFooterItem.key ? loc(formFooterItem.key, 'login') : formFooterItem.label;
+      }
+    }, this));
+  } else {
+    // Omit `formFooter` from uiSchema indicates hide the Form's toolbar.
+    formObj.noButtonBar = true;
+  }
+
   return Form.extend(formObj);
 };
 

@@ -37,13 +37,8 @@ define([
       }).last();
 
       this.listenTo(form, 'save', (model) => {
-        this.trigger('save', model);
+        this.options.appState.trigger('saveForm', model);
       });
-
-      this.listenTo(this.options.appState, 'saveForm', (model) => {
-        this.trigger('save', model);
-      });
-
     },
 
   });

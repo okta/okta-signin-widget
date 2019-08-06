@@ -55,6 +55,14 @@ const uiSchemas = {
         'key': 'mfa.challenge.verify'
       }
     ],
+    'footer': [
+      {
+        'type': 'link',
+        'label': 'Forgot Password',
+        'name': 'forgot-password',
+        'actionName': 'recovery',
+      }
+    ],
   },
   'required-factor-email': {
     'formHeader': [

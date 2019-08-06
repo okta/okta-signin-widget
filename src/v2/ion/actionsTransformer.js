@@ -10,12 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import httpClient from './httpClient';
 import { _ } from 'okta';
+import httpClient from './httpClient';
 
 const convertActionToRequestFunction = action => {
-  const request = action();
-  return extraData => httpClient.fetchRequest(request.url, request.method, Object.assign({}, request.data, extraData));
+  return extraData => {
+    const request = action(extraData);
+    return httpClient.fetchRequest(request.url, request.method, request.data);
+  };
 };
 
 /**

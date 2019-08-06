@@ -19,19 +19,20 @@ function (
   Okta,
   BaseLoginController,
   FormView,
-  FooterWithBackLink
+  // FooterWithBackLink
 ) {
   return BaseLoginController.extend({
     className: 'form-controller',
     initialize: function () {
       BaseLoginController.prototype.initialize.call(this);
+
       this.listenTo(this.options.appState, 'change:currentState', this.reRender);
+      this.listenTo(this.options.appState, 'invokeCurrentStateAction', this.currentStateAction);
+      this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
     },
 
     reRender () {
-      if (this.formView) {
-        this.formView.remove();
-      }
+      this.removeChildren();
       this.render();
     },
 
@@ -41,8 +42,21 @@ function (
       this.listenTo(this.formView, 'save', this.handleFormSave);
 
       // add footer if its not IDENTIFY step
-      if (!this.options.appState.get('currentState').step === 'IDENTIFY') {
-        this.add(new FooterWithBackLink(this.toJSON()));
+      if (this.options.appState.get('currentState').step !== 'IDENTIFY') {
+        // TODO: move to uiSchema
+        // this.add(new FooterWithBackLink(this.toJSON()));
+      }
+    },
+
+    currentStateAction (actionName = '') {
+      const currentState = this.options.appState.get('currentState');
+      if (Okta._.isFunction(currentState[actionName])) {
+        // TODO: what's the approach to show spinner indicating API in fligh?
+        currentState[actionName]()
+          .then(resp => {
+            this.options.appState.trigger('remediationSuccess', resp.response);
+          })
+          .catch();
       }
     },
 
@@ -58,7 +72,6 @@ function (
       model.trigger('request');
       return actionFn(model.toJSON())
         .then(resp => {
-          model.trigger('sync');
           this.options.appState.trigger('remediationSuccess', resp.response);
         })
         .catch(error => {
