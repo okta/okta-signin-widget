@@ -140,7 +140,7 @@ const uiSchemas = {
       },
       {
         'type': 'formSchema',
-        'rel': 'confirm-password'
+        'rel': 'confirmPassword'
       }
     ],
     'formFooter': [
