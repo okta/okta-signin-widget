@@ -12,6 +12,8 @@
 
 define(['okta', 'util/FormController'], function (Okta, FormController) {
 
+  const $ = Okta.$;
+
   return FormController.extend({
     className: 'device-probe',
 
@@ -22,7 +24,7 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
     },
 
     preRender: function () {
-      this.options.appState.trigger('loading', true);
+      // this.options.appState.trigger('loading', false);
       var nonce = this.options.appState.attributes.transaction.probeInfo.nonce;
       var signals = this.options.appState.attributes.transaction.probeInfo.signals;
       var forceInstall = this.options.appState.attributes.transaction.probeInfo.forceInstall;
@@ -31,19 +33,37 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
       var challenge = {
         signals: signals,
         nonce: nonce
-      }
+      };
 
       // Attempt to probe via loopback
-      var port = 5000;
-      for (port; port < 5100; port+=10) {
-        var url = 'localhost:' + port;
-        Okta.$.post(url, challenge)
-          .done( function (data) {
-            console.log('Received from device: ')
-            console.log(data);
-          });
-        // If success, return
-      }
+      // var port = 5000;
+      // for (port; port < 5100; port+=10) {
+      //   var url = 'localhost:' + port;
+      //   Okta.$.post(url, challenge)
+      //     .done( function (data) {
+      //       console.log('Received from device: ')
+      //       console.log(data);
+      //     });
+      //   // If success, return
+      // }
+
+      $.post(this.getLoopbackData('5000'))
+        .fail(() => {
+          $.post(this.getLoopbackData('5002'))
+            .fail(() => {
+              $.post(this.getLoopbackData('5004'))
+                .fail(() => {
+                  $.post(this.getLoopbackData('5006'))
+                    .fail(() => {
+                      $.post(this.getLoopbackData('5008'))
+                        .done(data => {
+                          console.log('------', data);
+                        });
+                    })
+                })
+            });
+        });
+
 
       // if device challenge response not successfully received
       if (forceInstall) {
@@ -63,7 +83,16 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
     remove: function () {
       // this.options.appState.trigger('loading', false);
       // return FormController.prototype.remove.apply(this, arguments);
-    }
+    },
 
+    // TODO: request with data
+    getLoopbackData: function (port) {
+      return {
+        url: 'http://localhost:3000/loopback/' + port,
+        data: {
+          nounce: 'blah',
+        }
+      };
+    }
   });
 });
