@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2499.g49ab643 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2670.g173eed7 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -6265,13 +6265,18 @@ function clean(obj) {
 /* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_5__views_BaseView__["default"].extend(
   /** @lends module:Okta.Controller.prototype */ {
     constructor: function (options) {
-      /* eslint max-statements: [2, 13], complexity: [2, 7]*/
+      /* eslint max-statements: [2, 15], complexity: [2, 9]*/
       options || (options = {});
 
-      const stateData = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].defaults(clean(options.state), this.state || {});
-
-      this.state = new __WEBPACK_IMPORTED_MODULE_4__StateMachine__["a" /* default */](stateData);
-      delete options.state;
+      // If 'state' is passed down as options, use it, else create a 'new StateMachine()'
+      if (options.state instanceof __WEBPACK_IMPORTED_MODULE_4__StateMachine__["a" /* default */] || this.state instanceof __WEBPACK_IMPORTED_MODULE_4__StateMachine__["a" /* default */]) {
+        this.state = options.state || this.state;
+      }
+      else {
+        const stateData = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].defaults(clean(options.state), this.state || {});
+        this.state = new __WEBPACK_IMPORTED_MODULE_4__StateMachine__["a" /* default */](stateData);
+        delete options.state;
+      }
 
       if (options.settings) {
         this.settings = options.settings;
@@ -8200,7 +8205,7 @@ const getErrorSummary = function (responseJSON = {}) {
      * Add a form input
      * @param {Object} options Options to describe the input
      * @param {String} options.type The input type.
-     * The options are: `text`, `textarea`, `select`, `checkbox`, `radio`,
+     * The options are: `text`, `textarea`, `select`, `checkbox`, `radio`, `switch`,
      * `password`, `number`, `textselect`, `date`, `grouppicker`, `su-orgspicker`
      * `file/image`, `file/cert`, `checkboxset`, `list`, `group`, `zonepicker`
      * @param {String} options.name The name of the model field this input mutates
