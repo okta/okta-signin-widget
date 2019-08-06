@@ -28,13 +28,19 @@ define([
       });
 
       const IonForm = FormBuilder.createInputOptions(remediationValue);
+      const appState = this.options.appState;
       const form = this.add(IonForm, {
         options: {
           model,
+          appState
         }
       }).last();
 
       this.listenTo(form, 'save', (model) => {
+        this.trigger('save', model);
+      });
+
+      this.listenTo(this.options.appState, 'saveForm', (model) => {
         this.trigger('save', model);
       });
 

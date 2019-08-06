@@ -9,17 +9,11 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+import { _, loc, createButton, View, ListView } from 'okta';
 
-define([
-  'okta',
-], function (Okta) {
-
-  var _ = Okta._;
-
-  const FactorRow = Okta.View.extend({
-    className: 'enroll-factor-row clearfix',
-
-    template: '\
+const FactorRow = View.extend({
+  className: 'enroll-factor-row clearfix',
+  template: '\
       <div class="enroll-factor-icon-container">\
         <div class="factor-icon enroll-factor-icon {{iconClassName}}">\
         </div>\
@@ -32,40 +26,46 @@ define([
         <div class="enroll-factor-button"></div>\
       </div>\
     ',
-    children: function () {
-      return [[Okta.createButton({
-        className: 'button',
-        title: Okta.loc('enroll.choices.setup', 'login'),
-        click: function () {
-        }
-      }), '.enroll-factor-button']];
-    },
-    minimize: function () {
-      this.$el.addClass('enroll-factor-row-min');
-    },
-  });
+  children: function () {
+    return [[createButton({
+      className: 'button select-factor',
+      title: loc('enroll.choices.setup', 'login'),
+      click: function () {
+        this.model.trigger('selectFactor', this.model.get('value'));
+      }
+    }), '.enroll-factor-button']];
+  },
+  minimize: function () {
+    this.$el.addClass('enroll-factor-row-min');
+  }
+});
 
-  return Okta.ListView.extend({
+export default ListView.extend({
 
-    className: 'enroll-factor-list',
+  className: 'enroll-factor-list',
 
-    item: FactorRow,
+  item: FactorRow,
 
-    itemSelector: '.list-content',
+  itemSelector: '.list-content',
 
-    template: '\
+  initialize: function () {
+    this.listenTo(this.collection,'selectFactor', function (data) {
+      this.model.set('factorType', data);
+      this.options.appState.trigger('saveForm', this.model);
+    });
+  },
+
+  template: '\
       {{#if listTitle}}\
         <div class="list-title">{{listTitle}}</div>\
       {{/if}}\
       <div class="list-content"></div>\
     ',
 
-    getTemplateData: function () {
-      var json = Okta.ListView.prototype.getTemplateData.call(this);
-      _.extend(json, this);
-      return json;
-    },
-
-  });
+  getTemplateData: function () {
+    var json = ListView.prototype.getTemplateData.call(this);
+    _.extend(json, this);
+    return json;
+  },
 
 });
