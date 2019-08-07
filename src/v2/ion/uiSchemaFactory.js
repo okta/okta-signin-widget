@@ -18,6 +18,15 @@ const uiSchemas = {
         'key': 'oform.next'
       }
     ],
+    'footer': [
+      {
+        'type': 'link',
+        'label': 'Need Help Signing In?',
+        'name': 'help',
+        'href': '/help/login',
+        'actionName': 'redirect',
+      }
+    ],
   },
   'factor-poll-verification': {
     'formHeader': [
