@@ -39,10 +39,10 @@ define([
 
       this.listenTo(form, 'save', this.saveForm);
 
-      this.maybeRunPolling(remediationValue, model);
+      this.checkAndDoPolling(remediationValue, model);
     },
 
-    maybeRunPolling (remediationValue, model) {
+    checkAndDoPolling (remediationValue, model) {
       // auto 'save' the form if `refresh` is set. a.k.a polling
       // UI will re-render per response even it might be same response
       // thus don't need `setInterval`.
