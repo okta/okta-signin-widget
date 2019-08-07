@@ -9,45 +9,39 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-define([
-  'okta',
-  '../util/BaseLoginController',
-  '../models/BaseLoginModel',
-  'util/ErrorCodes',
-],
-function (
-  Okta,
-  BaseLoginController,
-  BaseLoginModel,
-  ErrorCodes,
-) {
-  return BaseLoginController.extend({
-    className: 'error-controller',
-    initialize: function (options) {
-      this.options = options || {};
-      this.model = new BaseLoginModel({
-        settings: this.settings,
-        appState: this.options.appState
-      });
-      var error = this.options.appState.get('flashError');
-      if (error && error.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
-        this.addErrorMessage(Okta.loc('error.expired.session', 'login'));
-      } else {
-        this.addErrorMessage('Widget bootstrapped with no stateToken');
-      }
-    },
-    addErrorMessage: function (err) {
-      this.$el.find('.error-message').remove();
-      var errorView = Okta.View.extend({
-        template: '<p class="error-message">{{msg}}</p>',
-        getTemplateData: function () {
-          var msg = err;
-          return {
-            msg: msg
-          };
-        }
-      });
-      this.add(errorView);
-    },
-  });
+import { loc, View } from 'okta';
+import ErrorCodes from 'util/ErrorCodes';
+import BaseLoginModel from '../models/BaseLoginModel';
+import BaseLoginController from '../util/BaseLoginController';
+export default BaseLoginController.extend({
+  className: 'error-controller',
+  initialize: function (options) {
+    this.options = options || {};
+    this.model = new BaseLoginModel({
+      settings: this.settings,
+      appState: this.options.appState,
+    });
+    const error = this.options.appState.get('flashError');
+
+    if (error && error.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
+      this.addErrorMessage(loc('error.expired.session', 'login'));
+    } else {
+      this.addErrorMessage('Widget bootstrapped with no stateToken');
+    }
+  },
+  addErrorMessage: function (err) {
+    this.$el.find('.error-message').remove();
+    const ErrorControllererrorView = View.extend({
+      template: '<p class="error-message">{{msg}}</p>',
+      getTemplateData: function () {
+        const msg = err;
+
+        return {
+          msg: msg,
+        };
+      },
+    });
+
+    this.add(ErrorControllererrorView);
+  },
 });

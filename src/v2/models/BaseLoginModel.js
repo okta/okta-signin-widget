@@ -10,34 +10,32 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'q',
-  'util/Enums',
-],
-function (Okta, Q) {
-  return Okta.Model.extend({
-    startTransaction: function (fn) {
-      this.appState = this.options.appState;
-      this.settings = this.options.settings;
-      var self = this,
-          res = fn.call(this, this.settings.getAuthClient());
-      // If it's a promise, then chain to it
-      if (Q.isPromiseAlike(res)) {
-        return res.then(function (trans) {
+import { Model } from 'okta';
+import Q from 'q';
+import 'util/Enums';
+export default Model.extend({
+  startTransaction: function (fn) {
+    this.appState = this.options.appState;
+    this.settings = this.options.settings;
+    const self = this;
+    const res = fn.call(this, this.settings.getAuthClient());
+
+    // If it's a promise, then chain to it
+    if (Q.isPromiseAlike(res)) {
+      return res
+        .then(function (trans) {
           if (trans.remediation) {
             self.appState.trigger('remediationSuccess', trans);
           }
           return trans;
         })
-          .fail(function (err) {
-            self.trigger('error', self, err.xhr);
-            self.appState.trigger('remediationFailure', err);
-            throw err;
-          });
-      }
+        .fail(function (err) {
+          self.trigger('error', self, err.xhr);
+          self.appState.trigger('remediationFailure', err);
+          throw err;
+        });
+    }
 
-      return Q.resolve(res);
-    },
-  });
+    return Q.resolve(res);
+  },
 });

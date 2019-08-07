@@ -11,40 +11,33 @@
  */
 
 /* eslint max-params: [2, 50] */
-define([
-  'okta',
-  './util/BaseLoginRouter',
-  './controllers/FormController',
-  './controllers/ErrorController'
-],
-function (Okta,
-  BaseLoginRouter,
-  FormController,
-  ErrorController) {
-  return BaseLoginRouter.extend({
-    routes: {
-      '': 'defaultAuth',
-      'signin/render': 'renderWidgetView',
-      '*wildcard': 'defaultAuth'
-    },
+import ErrorController from './controllers/ErrorController';
+import FormController from './controllers/FormController';
+import BaseLoginRouter from './util/BaseLoginRouter';
 
-    defaultAuth: function () {
-      var currentState = this.appState.get('currentState');
-      if (currentState) {
-        this.renderWidgetView();
-      } else {
-        this.renderErrorView();
-      }
-    },
+module.exports = BaseLoginRouter.extend({
+  routes: {
+    '': 'defaultAuth',
+    'signin/render': 'renderWidgetView',
+    '*wildcard': 'defaultAuth',
+  },
 
-    renderErrorView: function () {
-      // no/invalid stateToken
-      this.render(ErrorController);
-    },
+  defaultAuth: function () {
+    const currentState = this.appState.get('currentState');
 
-    renderWidgetView: function () {
-      this.render(FormController);
-    },
-  });
+    if (currentState) {
+      this.renderWidgetView();
+    } else {
+      this.renderErrorView();
+    }
+  },
 
+  renderErrorView: function () {
+    // no/invalid stateToken
+    this.render(ErrorController);
+  },
+
+  renderWidgetView: function () {
+    this.render(FormController);
+  },
 });
