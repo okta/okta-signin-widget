@@ -19,9 +19,10 @@ const Link = View.extend({
   tagName: 'a',
 
   attributes () {
+    let href = this.options.href  || '#';
     return {
       'data-se': this.options.name,
-      href: this.options.href || '#',
+      href: href
     };
   },
 
@@ -32,10 +33,13 @@ const Link = View.extend({
   },
 
   postRender () {
-    this.$el.click((event) => {
-      event.preventDefault();
-      this.options.appState.trigger('invokeCurrentStateAction', this.options.actionName);
-    });
+    let actionName = this.options.actionName;
+    if (!this.options.href) {
+      this.$el.click((event) => {
+        event.preventDefault();
+        this.options.appState.trigger('invokeCurrentStateAction', actionName);
+      });
+    }
   }
 });
 

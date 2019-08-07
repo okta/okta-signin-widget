@@ -26,6 +26,14 @@ describe('v2/ion/uiSchemaFactory', function () {
           'key': 'oform.next'
         }
       ],
+      'footer': [
+        {
+          'type': 'link',
+          'label': 'Need help signing in?',
+          'name': 'help',
+          'href': '/help/login',
+        }
+      ]
     });
   });
 });
