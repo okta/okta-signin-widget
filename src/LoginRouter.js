@@ -59,6 +59,7 @@ define([
   'ConsentRequiredController',
   'EnrollUserController',
   'DeviceProbeController',
+  'DeviceProbeClipboardController',
   'views/shared/SecurityBeacon',
   'views/shared/FactorBeacon',
   'views/consent/ConsentBeacon'
@@ -110,6 +111,7 @@ function (BaseLoginRouter,
   ConsentRequiredController,
   EnrollUserController,
   DeviceProbeController,
+  DeviceProbeClipboardController,
   SecurityBeacon,
   FactorBeacon,
   ConsentBeacon) {
@@ -200,7 +202,19 @@ function (BaseLoginRouter,
     },
 
     deviceProbe: function () {
-      this.render(DeviceProbeController, { Beacon: SecurityBeacon });
+      const approach = 'clipboard';
+      let controller;
+      switch (approach) {
+      case 'loopback':
+        controller = DeviceProbeController;
+        break;
+      case 'clipboard':
+        controller = DeviceProbeClipboardController;
+        break;
+      default:
+        controller = DeviceProbeController;
+      }
+      this.render(controller, { Beacon: SecurityBeacon });
     },
 
     verifyDuo: function () {

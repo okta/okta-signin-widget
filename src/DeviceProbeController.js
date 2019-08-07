@@ -64,7 +64,6 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
             });
         });
 
-
       // if device challenge response not successfully received
       if (forceInstall) {
         // Make widget bounce you to app store, use authenticatorDownloadLinks
