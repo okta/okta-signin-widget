@@ -136,6 +136,12 @@ const createForm = function (remediation = {}) {
       Form.prototype.render.apply(this, arguments);
       if (Array.isArray(uiSchema.footer) && uiSchema.footer.length) {
         this.add('<div class="auth-footer"></div>', { prepend: false });
+        // support custom help links on identify form
+        let customHelpLink = '';
+        const baseUrl = this.options.settings.get('baseUrl');
+        if (this.options.settings.get('helpLinks.help') && this.model.get('formName') === 'identify') {
+          customHelpLink = this.options.settings.get('helpLinks.help');
+        }
         uiSchema.footer
           .map(createInputComponent.bind({}, uiSchema))
           .forEach(config => {
@@ -144,6 +150,13 @@ const createForm = function (remediation = {}) {
                 _.pick(this.options, 'appState'),
                 config.options,
               );
+              if (componentOptions.href) {
+                // if href is defined append a baseUrl
+                componentOptions.href = baseUrl + componentOptions.href;
+              }
+              if (customHelpLink && componentOptions.name === 'help') {
+                componentOptions.href = customHelpLink;
+              }
               this.add(config.component, {
                 selector: '.auth-footer',
                 options: componentOptions,
