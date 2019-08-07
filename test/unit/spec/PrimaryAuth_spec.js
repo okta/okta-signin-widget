@@ -313,6 +313,35 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(explain.length).toBe(0);
         });
       });
+      itp('username field does have default explain when label is customized', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'primaryauth.username.placeholder': 'Custom Username Explain'
+            }
+          }
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.usernameExplain();
+          expect(explain.text()).toEqual('Username');
+        });
+      });
+      itp('username field does not have explain when label is customized and features.hideDefaultTip is true', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'primaryauth.username.placeholder': 'Custom Username Label'
+            }
+          },
+          'features' : {
+            'hideDefaultTip': true
+          }
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.usernameExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
       itp('username field does have explain when is customized', function () {
         var options = {
           'i18n': {
@@ -328,6 +357,35 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('password field does not have explain by default', function () {
         return setup().then(function (test) {
+          var explain = test.form.passwordExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
+      itp('password field does have default explain when label is customized', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'primaryauth.password.placeholder': 'Custom Password Explain'
+            }
+          }
+        };
+        return setup(options).then(function (test) {
+          var explain = test.form.passwordExplain();
+          expect(explain.text()).toEqual('Password');
+        });
+      });
+      itp('password field does not have explain when label is customized and features.hideDefaultTip is true', function () {
+        var options = {
+          'i18n': {
+            'en': {
+              'primaryauth.password.placeholder': 'Custom Password Explain'
+            }
+          },
+          'features' : {
+            'hideDefaultTip': true
+          }
+        };
+        return setup(options).then(function (test) {
           var explain = test.form.passwordExplain();
           expect(explain.length).toBe(0);
         });
