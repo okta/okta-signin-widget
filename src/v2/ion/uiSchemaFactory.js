@@ -7,10 +7,6 @@ const uiSchemas = {
       },
     ],
     'formInputs': [
-      {
-        'type': 'formSchema',
-        'rel': 'identifier'
-      },
     ],
     'formFooter': [
       {
@@ -49,10 +45,6 @@ const uiSchemas = {
       },
     ],
     'formInputs': [
-      {
-        'type': 'formSchema',
-        'rel': 'password'
-      }
     ],
     'formFooter': [
       {
@@ -81,7 +73,7 @@ const uiSchemas = {
     'formFooter': [
       {
         'type': 'submit',
-        'label': 'Send Email',
+        'label': 'Send Email Link',
       }
     ],
   },
@@ -93,10 +85,6 @@ const uiSchemas = {
       },
     ],
     'formInputs': [
-      {
-        'type': 'formSchema',
-        'rel': 'otp'
-      },
     ],
     'formFooter': [
       {
@@ -113,10 +101,6 @@ const uiSchemas = {
       },
     ],
     'formInputs': [
-      {
-        'rel': 'select-factor',
-        'type': 'factorType',
-      },
     ],
   },
   'enroll-factor-email': {
@@ -147,14 +131,6 @@ const uiSchemas = {
       },
     ],
     'formInputs': [
-      {
-        'type': 'formSchema',
-        'rel': 'password'
-      },
-      {
-        'type': 'formSchema',
-        'rel': 'confirmPassword'
-      }
     ],
     'formFooter': [
       {
