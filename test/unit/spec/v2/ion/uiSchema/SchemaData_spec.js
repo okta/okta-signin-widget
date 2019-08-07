@@ -29,10 +29,9 @@ describe('v2/ion/uiSchemaFactory', function () {
       'footer': [
         {
           'type': 'link',
-          'label': 'Need Help Signing In?',
+          'label': 'Need help signing in?',
           'name': 'help',
           'href': '/help/login',
-          'actionName': 'redirect'
         }
       ]
     });
