@@ -347,7 +347,7 @@ function (Okta, TimeUtil) {
         return (cardinality.enrolled === 1) ? '' :
           Okta.loc('enroll.choices.cardinality.setup', 'login', [cardinality.enrolled]);
       }
-      else if (required) {
+      else if (required && cardinality.maximum > 1) {
         return Okta.loc('enroll.choices.cardinality.setup.remaining', 'login',
           [cardinality.enrolled, cardinality.minimum]);
       }
