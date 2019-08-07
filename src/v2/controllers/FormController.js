@@ -11,8 +11,10 @@
  */
 import { _ } from 'okta';
 import '../../views/shared/FooterWithBackLink';
-import BaseLoginController from '../util/BaseLoginController';
+import BaseLoginController from './BaseLoginController';
 import FormView from '../views/FormView';
+import ViewFactory from '../view-builder/ViewFactory';
+
 export default BaseLoginController.extend({
   className: 'form-controller',
   initialize: function () {
@@ -29,7 +31,18 @@ export default BaseLoginController.extend({
   },
 
   postRender () {
-    this.formView = this.add(FormView).last();
+    const firstRemediationValue = this.options.appState.get('remediation')[0];
+
+    if (_.contains(['identify', 'select-factor', 'enroll-factor-password'], firstRemediationValue.name)) {
+      const TheView = ViewFactory.create(firstRemediationValue.name);
+      this.formView = this.add(TheView, {
+        options: {
+          remediationValue: firstRemediationValue,
+        }
+      }).last();
+    } else {
+      this.formView = this.add(FormView).last();
+    }
 
     this.listenTo(this.formView, 'save', this.handleFormSave);
 

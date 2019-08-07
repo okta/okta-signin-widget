@@ -13,7 +13,7 @@
 /* eslint max-params: [2, 50] */
 import ErrorController from './controllers/ErrorController';
 import FormController from './controllers/FormController';
-import BaseLoginRouter from './util/BaseLoginRouter';
+import BaseLoginRouter from './BaseLoginRouter';
 
 module.exports = BaseLoginRouter.extend({
   routes: {
