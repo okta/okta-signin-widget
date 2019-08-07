@@ -924,6 +924,20 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.factorCardinalityText(factorName)).toBe('');
           });
         });
+        itp('does not display cardinality text when factor is REQUIRED and maximum=1', function () {
+          return setupMultipleFactorEnrollments({
+            factorName,
+            status: 'NOT_SETUP',
+            enrollment: 'REQUIRED',
+            cardinality: {'enrolled': 0, 'minimum': 0, 'maximum': 1},
+            webauthnEnabled,
+            useProfiles,
+          }).then(function (test) {
+            expect(test.form.factorButtonText(factorName)).toBe('');
+            expect(test.form.factorCardinalityText(factorName)).toBe('');
+            expect(test.form.submitButtonText()).toBe('Configure factor');
+          });
+        });
         itp('displays correct button and cardinality text when enrolled=1 optional=2', function () {
           return setupMultipleFactorEnrollments({
             factorName,
