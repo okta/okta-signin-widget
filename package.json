@@ -81,6 +81,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-exec": "^3.0.0",
     "grunt-postcss": "^0.9.0",
+    "grunt-properties-to-json": "^0.6.0",
     "grunt-sass": "^3.0.2",
     "grunt-search": "^0.1.8",
     "jasmine-ajax": "^4.0.0",
@@ -119,7 +120,6 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.26.0",
-    "grunt-properties-to-json": "^0.6.0",
     "handlebars": "4.0.14",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.3",
