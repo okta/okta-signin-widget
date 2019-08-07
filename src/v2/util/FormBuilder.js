@@ -101,7 +101,7 @@ const augmentUISchema = function (formSchema, uiSchema) {
   });
 };
 
-const createInputOptions = function (remediation = {}) {
+const createForm = function (remediation = {}) {
   let inputOptions = [];
   const uiSchema = uiSchemaFactory.createUISchema(remediation.name);
   augmentUISchema(remediation.value, uiSchema);
@@ -185,5 +185,5 @@ const createInputOptions = function (remediation = {}) {
 };
 
 module.exports = {
-  createInputOptions
+  createForm
 };
