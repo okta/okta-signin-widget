@@ -27,7 +27,7 @@ function (
       BaseLoginController.prototype.initialize.call(this);
 
       this.listenTo(this.options.appState, 'change:currentState', this.reRender);
-      this.listenTo(this.options.appState, 'invokeCurrentStateAction', this.currentStateAction);
+      this.listenTo(this.options.appState, 'invokeCurrentStateAction', this.invokeCurrentStateAction);
       this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
     },
 
@@ -48,7 +48,7 @@ function (
       }
     },
 
-    currentStateAction (actionName = '') {
+    invokeCurrentStateAction (actionName = '') {
       const currentState = this.options.appState.get('currentState');
       if (Okta._.isFunction(currentState[actionName])) {
         // TODO: what's the approach to show spinner indicating API in fligh?
