@@ -28,7 +28,6 @@ function (
 
       this.listenTo(this.options.appState, 'change:currentState', this.reRender);
       this.listenTo(this.options.appState, 'invokeCurrentStateAction', this.currentStateAction);
-      this.listenTo(this.options.appState, 'invokeRedirectLinkAction', this.redirectToLink);
       this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
     },
 
@@ -59,10 +58,6 @@ function (
           })
           .catch();
       }
-    },
-
-    redirectToLink (link = '') {
-      this.options.appState.trigger('navigate', link);
     },
 
     handleFormSave (model) {

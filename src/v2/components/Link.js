@@ -19,8 +19,11 @@ const Link = View.extend({
   tagName: 'a',
 
   attributes () {
-    const customHelpLink = this.options.settings.get('helpLinks.help');
-    let href = customHelpLink ? customHelpLink: this.options.href || '#';
+    if (this.options.href && !this.options.customLink) {
+      // if href is defined append a baseUrl
+      this.options.href = this.options.settings.get('baseUrl') + this.options.href;
+    }
+    let href = this.options.href  || '#';
     return {
       'data-se': this.options.name,
       href: href
@@ -34,17 +37,13 @@ const Link = View.extend({
   },
 
   postRender () {
-    this.$el.click((event) => {
-      let actionName = this.options.actionName;
-      if (actionName === 'redirect') {
-        const customHelpLink = this.options.settings.get('helpLinks.help');
-        let link = customHelpLink ? customHelpLink: this.options.href;
-        this.options.appState.trigger('invokeRedirectLinkAction', link);
-      } else {
+    let actionName = this.options.actionName;
+    if (actionName !== 'redirect') {
+      this.$el.click((event) => {
         event.preventDefault();
         this.options.appState.trigger('invokeCurrentStateAction', actionName);
-      }
-    });
+      });
+    }
   }
 });
 
