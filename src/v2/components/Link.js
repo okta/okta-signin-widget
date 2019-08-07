@@ -19,10 +19,6 @@ const Link = View.extend({
   tagName: 'a',
 
   attributes () {
-    if (this.options.href && !this.options.customLink) {
-      // if href is defined append a baseUrl
-      this.options.href = this.options.settings.get('baseUrl') + this.options.href;
-    }
     let href = this.options.href  || '#';
     return {
       'data-se': this.options.name,
@@ -38,7 +34,7 @@ const Link = View.extend({
 
   postRender () {
     let actionName = this.options.actionName;
-    if (actionName !== 'redirect') {
+    if (!this.options.href) {
       this.$el.click((event) => {
         event.preventDefault();
         this.options.appState.trigger('invokeCurrentStateAction', actionName);

@@ -21,10 +21,9 @@ const uiSchemas = {
     'footer': [
       {
         'type': 'link',
-        'label': 'Need Help Signing In?',
+        'label': 'Need help signing in?',
         'name': 'help',
         'href': '/help/login',
-        'actionName': 'redirect',
       }
     ],
   },
