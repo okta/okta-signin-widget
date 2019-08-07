@@ -10,55 +10,46 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta'
-],
-function (Okta) {
+import { _, Model } from 'okta';
+export default Model.extend({
+  local: {
+    baseUrl: 'string',
+    introspectSuccess: 'object', // only set during introspection
+    introspectError: 'object', // only set during introspection
+    username: 'string',
+    flashError: 'object',
+    beaconType: 'string',
+    deviceFingerprint: 'string', // valid only once
+    typingPattern: 'string',
+    // Note: languageCode is special in that it is shared between Settings
+    // and AppState. Settings is the *configured* language, and is static.
+    // AppState is the dynamic language state - it can be changed via a
+    // language picker, etc.
+    languageCode: ['string', true],
+    disableUsername: ['boolean', false, false],
+    ionResponse: 'object',
+    currentState: 'object',
+  },
 
-  // Keep track of stateMachine with this special model. Similar to Appstate.js
-  var _ = Okta._;
-
-  return Okta.Model.extend({
-    local: {
-      baseUrl: 'string',
-      introspectSuccess: 'object', // only set during introspection
-      introspectError: 'object', // only set during introspection
-      username: 'string',
-      flashError: 'object',
-      beaconType: 'string',
-      deviceFingerprint: 'string', // valid only once
-      typingPattern: 'string',
-      // Note: languageCode is special in that it is shared between Settings
-      // and AppState. Settings is the *configured* language, and is static.
-      // AppState is the dynamic language state - it can be changed via a
-      // language picker, etc.
-      languageCode: ['string', true],
-      disableUsername: ['boolean', false, false],
-      ionResponse: 'object',
-      currentState: 'object'
-    },
-
-    derived: {
-      'remediation': {
-        deps: ['currentState'],
-        fn: function (currentState = {}) {
-          return Array.isArray(currentState.remediation) ? currentState.remediation : [];
-        }
-      },
-      'factorEmail': {
-        deps: ['factor'],
-        fn: function (factor = {}) {
-          return factor.profile && factor.profile.email;
-        }
+  derived: {
+    remediation: {
+      deps: ['currentState'],
+      fn: function (currentState = {}) {
+        return Array.isArray(currentState.remediation) ? currentState.remediation : [];
       },
     },
-
-    parse: function (options) {
-      this.settings = options.settings;
-      return _.extend(
-        _.omit(options, 'settings'),
-        { languageCode: this.settings.get('languageCode' )}
-      );
+    factorEmail: {
+      deps: ['factor'],
+      fn: function (factor = {}) {
+        return factor.profile && factor.profile.email;
+      },
     },
-  });
+  },
+
+  parse: function (options) {
+    this.settings = options.settings;
+    return _.extend(_.omit(options, 'settings'), { languageCode: this.settings.get('languageCode') });
+  },
 });
+
+// Keep track of stateMachine with this special model. Similar to Appstate.js

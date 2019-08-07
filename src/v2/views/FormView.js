@@ -9,54 +9,49 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-define([
-  'okta',
-  '../util/ModelBuilder',
-  '../util/FormBuilder',
-], function (Okta, ModelBuilder, FormBuilder) {
-  return Okta.View.extend({
+import { View, _ } from 'okta';
+import FormBuilder from '../util/FormBuilder';
+import ModelBuilder from '../util/ModelBuilder';
+export default View.extend({
+  initialize: function () {
+    // Assume the first form is most important and default to display.
+    this.renderSingleForm(this.options.appState.get('remediation')[0]);
+  },
 
-    initialize: function () {
-      // Assume the first form is most important and default to display.
-      this.renderSingleForm(this.options.appState.get('remediation')[0]);
-    },
+  renderSingleForm: function (remediationValue) {
+    const IonModel = ModelBuilder.createModel(remediationValue);
 
-    renderSingleForm: function (remediationValue) {
-      const IonModel = ModelBuilder.createModel(remediationValue);
+    const model = new IonModel({
+      formName: remediationValue.name,
+    });
 
-      const model = new IonModel({
-        formName: remediationValue.name,
-      });
+    const IonForm = FormBuilder.createForm(remediationValue);
+    const appState = this.options.appState;
+    const form = this.add(IonForm, {
+      options: {
+        model,
+        appState,
+      },
+    }).last();
 
-      const IonForm = FormBuilder.createForm(remediationValue);
-      const appState = this.options.appState;
-      const form = this.add(IonForm, {
-        options: {
-          model,
-          appState
-        }
-      }).last();
+    this.listenTo(form, 'save', this.saveForm);
 
-      this.listenTo(form, 'save', this.saveForm);
+    this.checkAndDoPolling(remediationValue, model);
+  },
 
-      this.checkAndDoPolling(remediationValue, model);
-    },
-
-    checkAndDoPolling (remediationValue, model) {
-      // auto 'save' the form if `refresh` is set. a.k.a polling
-      // UI will re-render per response even it might be same response
-      // thus don't need `setInterval`.
-      // (because FormController listen to 'change:currentState' and
-      //  'currentState` will be re-created per response hence it's different object.
-      //  )
-      if (Okta._.isNumber(remediationValue.refresh)) {
-        Okta._.delay(this.saveForm.bind(this, model), remediationValue.refresh);
-      }
-    },
-
-    saveForm (model) {
-      this.options.appState.trigger('saveForm', model);
+  checkAndDoPolling (remediationValue, model) {
+    // auto 'save' the form if `refresh` is set. a.k.a polling
+    // UI will re-render per response even it might be same response
+    // thus don't need `setInterval`.
+    // (because FormController listen to 'change:currentState' and
+    //  'currentState` will be re-created per response hence it's different object.
+    //  )
+    if (_.isNumber(remediationValue.refresh)) {
+      _.delay(this.saveForm.bind(this, model), remediationValue.refresh);
     }
+  },
 
-  });
+  saveForm (model) {
+    this.options.appState.trigger('saveForm', model);
+  },
 });
