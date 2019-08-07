@@ -1,6 +1,9 @@
+import { _ } from 'okta';
 import FormBuilder from 'v2/util/FormBuilder';
 import AppState from 'v2/models/AppState';
-import transform from 'v2/ion/responseTransformer';
+import responseTransformer from 'v2/ion/responseTransformer';
+import actionsTransformer from 'v2/ion/actionsTransformer';
+import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';
 import XHRIntrospect from '../../../helpers/xhr/v2/INTROSPECT';
 
 describe('v2/util/FormBuilder', function () {
@@ -8,7 +11,7 @@ describe('v2/util/FormBuilder', function () {
   beforeEach(function () {
     const appState = new AppState();
     const xhrResponse = XHRIntrospect;
-    const ionResponse = transform(xhrResponse.response);
+    const ionResponse = _.compose(uiSchemaTransformer, actionsTransformer, responseTransformer)(xhrResponse.response);
     appState.set(ionResponse);
     FormBuilderForm = FormBuilder.createForm(ionResponse.currentState.remediation[0]);
     spyOn(FormBuilderForm.prototype, 'addInput');

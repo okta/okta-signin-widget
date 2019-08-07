@@ -9,74 +9,65 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-define([
-  'okta',
-  '../util/BaseLoginController',
-  '../views/FormView',
-  '../../views/shared/FooterWithBackLink'
-],
-function (
-  Okta,
-  BaseLoginController,
-  FormView,
-  // FooterWithBackLink
-) {
-  return BaseLoginController.extend({
-    className: 'form-controller',
-    initialize: function () {
-      BaseLoginController.prototype.initialize.call(this);
+import { _ } from 'okta';
+import '../../views/shared/FooterWithBackLink';
+import BaseLoginController from '../util/BaseLoginController';
+import FormView from '../views/FormView';
+export default BaseLoginController.extend({
+  className: 'form-controller',
+  initialize: function () {
+    BaseLoginController.prototype.initialize.call(this);
 
-      this.listenTo(this.options.appState, 'change:currentState', this.reRender);
-      this.listenTo(this.options.appState, 'invokeCurrentStateAction', this.invokeCurrentStateAction);
-      this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
-    },
+    this.listenTo(this.options.appState, 'change:currentState', this.reRender);
+    this.listenTo(this.options.appState, 'invokeCurrentStateAction', this.invokeCurrentStateAction);
+    this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
+  },
 
-    reRender () {
-      this.removeChildren();
-      this.render();
-    },
+  reRender () {
+    this.removeChildren();
+    this.render();
+  },
 
-    postRender () {
-      this.formView = this.add(FormView).last();
+  postRender () {
+    this.formView = this.add(FormView).last();
 
-      this.listenTo(this.formView, 'save', this.handleFormSave);
+    this.listenTo(this.formView, 'save', this.handleFormSave);
 
-      // add footer if its not IDENTIFY step
-      if (this.options.appState.get('currentState').step !== 'IDENTIFY') {
-        // TODO: move to uiSchema
-        // this.add(new FooterWithBackLink(this.toJSON()));
-      }
-    },
+    // add footer if its not IDENTIFY step
+    if (this.options.appState.get('currentState').step !== 'IDENTIFY') {
+      // TODO: move to uiSchema
+      // this.add(new FooterWithBackLink(this.toJSON()));
+    }
+  },
 
-    invokeCurrentStateAction (actionName = '') {
-      const currentState = this.options.appState.get('currentState');
-      if (Okta._.isFunction(currentState[actionName])) {
-        // TODO: what's the approach to show spinner indicating API in fligh?
-        currentState[actionName]()
-          .then(resp => {
-            this.options.appState.trigger('remediationSuccess', resp.response);
-          })
-          .catch();
-      }
-    },
-
-    handleFormSave (model) {
-      const formName = model.get('formName');
-      const actionFn = this.options.appState.get('currentState')[formName];
-
-      if (!Okta._.isFunction(actionFn)) {
-        model.trigger('error', `Cannot find http action for "${formName}".`);
-        return;
-      }
-
-      model.trigger('request');
-      return actionFn(model.toJSON())
+  invokeCurrentStateAction (actionName = '') {
+    const currentState = this.options.appState.get('currentState');
+    if (_.isFunction(currentState[actionName])) {
+      // TODO: what's the approach to show spinner indicating API in fligh?
+      currentState[actionName]()
         .then(resp => {
           this.options.appState.trigger('remediationSuccess', resp.response);
         })
-        .catch(error => {
-          model.trigger('error', error);
-        });
-    },
-  });
+        .catch();
+    }
+  },
+
+  handleFormSave (model) {
+    const formName = model.get('formName');
+    const actionFn = this.options.appState.get('currentState')[formName];
+
+    if (!_.isFunction(actionFn)) {
+      model.trigger('error', `Cannot find http action for "${formName}".`);
+      return;
+    }
+
+    model.trigger('request');
+    return actionFn(model.toJSON())
+      .then(resp => {
+        this.options.appState.trigger('remediationSuccess', resp.response);
+      })
+      .catch(error => {
+        model.trigger('error', error);
+      });
+  },
 });
