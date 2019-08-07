@@ -19,6 +19,8 @@ const factorEnrollPassword = [
 ];
 const path = __dirname.slice(__dirname.indexOf('api') - 1);
 
+const testData = factorEnrollEmail;
+
 let index = 0;
 
 module.exports = {
@@ -27,9 +29,9 @@ module.exports = {
   proxy: false,
   method: 'POST',
   template () {
-    if (index >= factorEnrollPassword.length) {
+    if (index >= testData.length) {
       index = 0;
     }
-    return factorEnrollPassword[index++];
+    return testData[index++];
   },
 };

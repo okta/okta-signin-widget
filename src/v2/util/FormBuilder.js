@@ -77,34 +77,10 @@ const createInputComponent = function (uiSchema, inputObj) {
   }
 };
 
-const augmentUISchema = function (formSchema, uiSchema) {
-  // augment each item in uiSchem using formSchema
-  _.each(uiSchema.formInputs, function (input, index) {
-    delete input.rel;
-    switch (input.type) {
-    case 'factorType':
-      _.extend(input, _.omit(formSchema[index], 'type'));
-      //input.type = 'factorType';
-      break;
-    case 'formSchema':
-      _.extend(input, formSchema[index]);
-      if (input.secret === true) {
-        input.type = 'password';
-        input.params = {
-          showPasswordToggle: true,
-        };
-      } else {
-        input.type = 'text';
-      }
-      break;
-    }
-  });
-};
-
 const createForm = function (remediation = {}) {
   let inputOptions = [];
   const uiSchema = uiSchemaFactory.createUISchema(remediation.name);
-  augmentUISchema(remediation.value, uiSchema);
+  uiSchema.formInputs = remediation.uiSchema;
 
   let formObj = {
     layout: 'o-form-theme',

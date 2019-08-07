@@ -45,6 +45,12 @@ function (Okta) {
           return Array.isArray(currentState.remediation) ? currentState.remediation : [];
         }
       },
+      'factorEmail': {
+        deps: ['factor'],
+        fn: function (factor = {}) {
+          return factor.profile && factor.profile.email;
+        }
+      },
     },
 
     parse: function (options) {

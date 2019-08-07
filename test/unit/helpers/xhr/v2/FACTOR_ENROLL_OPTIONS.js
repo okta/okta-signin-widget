@@ -1,7 +1,11 @@
-{
+const data = {
+  "status": 200,
+  "responseType": "json",
+  "response": {
+    "version": "1.0.0",
     "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
     "expiresAt": "2018-09-17T23:08:56.000Z",
-    "step": "FACTOR_REQUIRED",
+    "step": "FACTOR_ENROLL",
     "intent": "login",
     "remediation": {
       "type": "array",
@@ -10,10 +14,24 @@
           "rel": [
             "create-form"
           ],
-          "name": "required-factor-email",
-          "href": "http://localhost:3000/api/v1/idx/",
+          "name": "select-factor",
+          "href": "http://localhost:3000/api/v1/idx",
           "method": "POST",
           "value": [
+            {
+              "name": "factorType",
+              "type": "set",
+              "options": [
+                {
+                  "label": "Password",
+                  "value": "password"
+                },
+                {
+                  "label": "E-mail",
+                  "value": "email"
+                }
+              ]
+            },
             {
               "name": "stateHandle",
               "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
@@ -22,16 +40,6 @@
           ]
         }
       ]
-    },
-    "factor": {
-      "type": "object",
-      "value": {
-        "factorType": "email",
-        "provider": "okta",
-        "profile": {
-          "email": "o*****m@abbott.dev"
-        }
-      }
     },
     "user": {
       "type": "object",
@@ -78,3 +86,6 @@
       ]
     }
   }
+};
+
+module.exports = data;

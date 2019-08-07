@@ -31,10 +31,12 @@ define([
   'util/Logger',
   '../ion/responseTransformer',
   '../ion/actionsTransformer',
+  '../ion/uiSchemaTransformer',
 ],
 function (Okta, BrowserFeatures, Settings,
   Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, Animations,
-  Errors, Util, Enums, Bundles, Logger, responseTransformer, actionsTransformer) {
+  Errors, Util, Enums, Bundles, Logger, responseTransformer, actionsTransformer,
+  uiSchemaTransformer) {
 
   var { _, $, Backbone } = Okta;
 
@@ -142,7 +144,7 @@ function (Okta, BrowserFeatures, Settings,
 
     handleRemediationSuccess: function (trans) {
       // transform response
-      const ionResponse = _.compose(actionsTransformer, responseTransformer)(trans);
+      const ionResponse = _.compose(uiSchemaTransformer, actionsTransformer, responseTransformer)(trans);
       this.appState.set(ionResponse);
     },
 
@@ -240,12 +242,12 @@ function (Okta, BrowserFeatures, Settings,
 
         }, this))
         .fail(function () {
-        // OKTA-69665 - if an error occurs in fetchInitialData, we're left in
-        // a state with two active controllers. Therefore, we clean up the
-        // old one. Note: This explicitly handles the invalid token case -
-        // if we get some other type of error which doesn't force a redirect,
-        // we will probably be left in a bad state. I.e. old controller is
-        // dropped and new controller is not rendered.
+          // OKTA-69665 - if an error occurs in fetchInitialData, we're left in
+          // a state with two active controllers. Therefore, we clean up the
+          // old one. Note: This explicitly handles the invalid token case -
+          // if we get some other type of error which doesn't force a redirect,
+          // we will probably be left in a bad state. I.e. old controller is
+          // dropped and new controller is not rendered.
           if (oldController) {
             oldController.remove();
             oldController.$el.remove();

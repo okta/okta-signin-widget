@@ -15,10 +15,6 @@ describe('v2/ion/uiSchemaFactory', function () {
         },
       ],
       'formInputs': [
-        {
-          'type': 'formSchema',
-          'rel': 'identifier'
-        },
       ],
       'formFooter': [
         {
