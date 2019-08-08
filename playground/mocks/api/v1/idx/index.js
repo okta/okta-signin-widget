@@ -3,6 +3,7 @@ const factorRequiredEmail = [
   require('./data/factor-required-email.json'),
   require('./data/factor-verification-email.json'),
 ];
+
 const factorRequiredPassword = [
   require('./data/factor-required-password.json'),
 ];
@@ -19,7 +20,7 @@ const factorEnrollPassword = [
 ];
 const path = __dirname.slice(__dirname.indexOf('api') - 1);
 
-const testData = factorRequiredPassword;
+const testData = factorRequiredEmail;
 
 let index = 0;
 

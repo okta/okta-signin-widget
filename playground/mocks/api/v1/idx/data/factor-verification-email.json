@@ -45,7 +45,7 @@
         "factorType": "email",
         "provider": "okta",
         "profile": {
-          "email": "omgitstom@abbott.dev"
+          "email": "o*****m@abbott.dev"
         },
         "resend": {
           "rel": [

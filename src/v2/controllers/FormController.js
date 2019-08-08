@@ -12,7 +12,6 @@
 import { _ } from 'okta';
 import '../../views/shared/FooterWithBackLink';
 import BaseLoginController from './BaseLoginController';
-import FormView from '../views/FormView';
 import ViewFactory from '../view-builder/ViewFactory';
 
 export default BaseLoginController.extend({
@@ -20,37 +19,46 @@ export default BaseLoginController.extend({
   initialize: function () {
     BaseLoginController.prototype.initialize.call(this);
 
-    this.listenTo(this.options.appState, 'change:currentState', this.reRender);
+    this.listenTo(this.options.appState, 'change:currentState', this.setRemediationValueByPriorityAndRender);
     this.listenTo(this.options.appState, 'invokeCurrentStateAction', this.invokeCurrentStateAction);
+    this.listenTo(this.options.appState, 'showView', this.setRemediationByFormAndRender);
     this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
+
+    this.setRemediationValueByPriority();
   },
 
-  reRender () {
-    this.removeChildren();
+  setRemediationByFormAndRender (formName) {
+    this.remediationValue = this.findRemediationValueByFormName(formName);
     this.render();
   },
 
-  postRender () {
-    const firstRemediationValue = this.options.appState.get('remediation')[0];
+  setRemediationValueByPriority () {
+    this.remediationValue = this.options.appState.get('remediation')[0];
+  },
 
-    if (_.contains(['identify', 'select-factor', 'enroll-factor-password'], firstRemediationValue.name)) {
-      const TheView = ViewFactory.create(firstRemediationValue.name);
-      this.formView = this.add(TheView, {
-        options: {
-          remediationValue: firstRemediationValue,
-        }
-      }).last();
-    } else {
-      this.formView = this.add(FormView).last();
-    }
+  setRemediationValueByPriorityAndRender () {
+    this.setRemediationValueByPriority();
+    this.render();
+  },
+
+  preRender () {
+    this.removeChildren();
+  },
+
+  postRender () {
+    const TheView = ViewFactory.create(this.remediationValue.name);
+    this.formView = this.add(TheView, {
+      options: {
+        remediationValue: this.remediationValue,
+      }
+    }).last();
 
     this.listenTo(this.formView, 'save', this.handleFormSave);
+  },
 
-    // add footer if its not IDENTIFY step
-    if (this.options.appState.get('currentState').step !== 'IDENTIFY') {
-      // TODO: move to uiSchema
-      // this.add(new FooterWithBackLink(this.toJSON()));
-    }
+  findRemediationValueByFormName (formName) {
+    return this.options.appState.get('remediation')
+      .filter(r => r.name === formName)[0];
   },
 
   invokeCurrentStateAction (actionName = '') {
