@@ -51,6 +51,7 @@
   @import 'modules/footer';
   @import 'modules/enroll';
   @import 'modules/registration';
+  @import 'v2/enrolluser';
 
   &.can-remove-beacon {
     @include max-height-mq(550px) {

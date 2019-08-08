@@ -7,10 +7,11 @@ import RequiredFactorEmailView from './views/RequiredFactorEmailView';
 import RequiredFactorPasswordView from './views/RequiredFactorPasswordView';
 import FactorPollVerificationView from './views/FactorPollVerificationView';
 import OTPView from './views/OTPView';
+import EnrollUserView from './views/EnrollUserView';
 import BaseView from './internals/BaseView';
 
 const VIEWS_MAPPING = {
-  identify: IdentifierView,
+  'identify': IdentifierView,
   'select-factor': SelectFactorView,
   'enroll-factor-email': EnrollFactorEmailView,
   'enroll-factor-password': EnrollFactorPasswordView,
@@ -18,6 +19,7 @@ const VIEWS_MAPPING = {
   'required-factor-password': RequiredFactorPasswordView,
   'factor-poll-verification': FactorPollVerificationView,
   'otp': OTPView,
+  'enroll-profile': EnrollUserView,
 };
 
 module.exports = {
