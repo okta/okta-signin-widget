@@ -116,16 +116,16 @@ describe('v2/ion/uiSchemaTransformer', function () {
           'name': 'otp',
           'value': [
             {
-              "name": "otp",
-              "label": "Passcode",
-              "minLength": 4
+              'name': 'otp',
+              'label': 'Passcode',
+              'minLength': 4
             }
           ],
           'uiSchema': [
             {
-              "name": "otp",
-              "label": "Passcode",
-              "minLength": 4,
+              'name': 'otp',
+              'label': 'Passcode',
+              'minLength': 4,
               type: 'text',
             }
           ],
