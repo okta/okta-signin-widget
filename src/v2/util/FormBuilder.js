@@ -11,8 +11,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { _, loc, Form, Collection, createButton } from 'okta';
-import FactorEnrollOptions from '../components/FactorEnrollOptions';
-import Link from '../components/Link';
+import FactorEnrollOptions from '../view-builder/components/FactorEnrollOptions';
+import Link from '../view-builder/components/Link';
 import uiSchemaFactory from '../ion/uiSchemaFactory';
 import FactorUtil from '../util/FactorUtil';
 

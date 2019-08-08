@@ -12,7 +12,7 @@
 import { loc, View } from 'okta';
 import ErrorCodes from 'util/ErrorCodes';
 import BaseLoginModel from '../models/BaseLoginModel';
-import BaseLoginController from '../util/BaseLoginController';
+import BaseLoginController from './BaseLoginController';
 export default BaseLoginController.extend({
   className: 'error-controller',
   initialize: function (options) {
