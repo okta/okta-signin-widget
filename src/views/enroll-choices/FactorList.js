@@ -44,7 +44,7 @@ define([
       var children = [],
           enrolled = this.model.get('enrolled'),
           required = this.model.get('required'),
-          policy = this.model.get('policy');
+          cardinality = this.model.get('cardinality');
 
       if (this.options.showInlineSetupButton) {
         return [[Okta.createButton({
@@ -65,7 +65,7 @@ define([
         children.push(['<span class="icon success-16-gray"></span>', '.enroll-factor-label']);
       }
 
-      var cardinalityText = FactorUtil.getCardinalityText(enrolled, required, policy);
+      var cardinalityText = FactorUtil.getCardinalityText(enrolled, required, cardinality);
       if (cardinalityText) {
         children.push([cardinalityTextTpl({cardinalityText: cardinalityText}), '.enroll-factor-description']);
       }

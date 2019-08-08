@@ -182,13 +182,23 @@ define({
         "factorType": "webauthn",
         "provider": "FIDO",
         "vendorName": "FIDO",
-        "policy": {
-          "enrollment": {
-            "enrolled": 0,
-            "minimum": 0,
-            "maximum": 2
+        "profiles": [{
+          "id": "fp12345",
+          "name": "Security key or built-in authenticator",
+          "default": true,
+          "_embedded": {
+            "features": [
+              {
+                "type": "adoption",
+                "cardinality": {
+                    "min": 0,
+                    "max": 3
+                }
+              }
+            ],
+            "enrolledFactors": []
           }
-        },
+        }],
         "_links": {
           "enroll": {
             "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
@@ -260,51 +270,7 @@ define({
        "profile":{
           "user":"inca@clouditude.net"
        }
-    }, {
-        "enrollment": "OPTIONAL",
-        "status": "NOT_SETUP",
-        "factorType":"claims_provider",
-        "provider":"CUSTOM",
-        "vendorName":"IDP factor",
-        "_links":{
-          "enroll":{
-            "href":"http://rain.okta1.com:1802/api/v1/authn/factors",
-            "hints":{
-              "allow":[
-                "POST"
-              ]
-            }
-          }
-        }
-     }, {
-        "enrollment": "OPTIONAL",
-        "status": "NOT_SETUP",
-        "factorType": "token:hotp",
-        "provider": "CUSTOM",
-        "profiles": [{
-          "id": '123',
-          "name": 'Entrust',
-          "_embedded": {
-            "enrolledFactors": []
-          }
-        }, {
-          "id": '124',
-          "name": 'Entrust2',
-          "_embedded": {
-            "enrolledFactors": []
-          }
-        }],
-        "_links": {
-          "enroll": {
-            "href": "https:\/\/foo.com\/api\/v1\/authn\/factors",
-            "hints": {
-              "allow": [
-                "POST"
-              ]
-            }
-          }
-        }
-      }]
+    }]
     },
     "_links": {
       "skip": {
