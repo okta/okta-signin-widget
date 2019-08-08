@@ -1,12 +1,44 @@
+import { View, createButton, createCallout, _ } from 'okta';
 import BaseView from '../internals//BaseView';
 import BaseForm from '../internals//BaseForm';
 
-const Body = BaseForm.extend({
-  title () {
-    return `Email link sent to (${this.options.appState.get('factorEmail')})`;
+const SHOW_RESEND_TIMEOUT = 60000;
+
+const ResendView = View.extend({
+  // by default is hide after one minute polling
+  className: 'hide resend-email-view',
+  initialize () {
+    this.add(createCallout({
+      subtitle: 'Haven\'t received an email? To try again, click "Resend Email"',
+      type: 'warning',
+    }));
+    this.add(createButton({
+      className: 'button',
+      title: 'Resend Email',
+      click () {
+        this.options.appState.trigger('invokeAction', 'factor.resend');
+      }
+    }));
   },
 
-  subtitle: 'To Finish signing in, click the link in your email.',
+  postRender () {
+    this.showMeTimeout = _.delay(() => {
+      this.$el.removeClass('hide');
+    }, SHOW_RESEND_TIMEOUT);
+  },
+
+  remove () {
+    View.prototype.remove.apply(this, arguments);
+    clearTimeout(this.showMeTimeout);
+  }
+});
+
+const Body = BaseForm.extend({
+  title () {
+    return `Email link (${this.options.appState.get('factorEmail')})`;
+  },
+
+  subtitle: 'To finish signing in, click the link in your email.',
 
   noButtonBar: true,
 
@@ -15,6 +47,11 @@ const Body = BaseForm.extend({
   },
 
   postRender () {
+    this.add(ResendView, {
+      selector: '.okta-form-subtitle',
+      prepend: true,
+    });
+
     this.add('Or <a href="#" class="js-show-otp">enter code</a>', {
       selector: '.okta-form-subtitle',
     });

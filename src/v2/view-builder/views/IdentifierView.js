@@ -25,7 +25,7 @@ const Footer = BaseFooter.extend({
         'type': 'link',
         'label': 'Sign up',
         'name': 'enroll',
-        'actionName': 'enroll',
+        'actionPath': 'enroll',
       }
     ];
   }
