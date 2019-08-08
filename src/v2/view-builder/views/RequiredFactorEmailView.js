@@ -1,7 +1,7 @@
 import BaseView from '../internals//BaseView';
 import BaseForm from '../internals//BaseForm';
 
-const RequiredFactorEmailForm = BaseForm.extend({
+const Body = BaseForm.extend({
 
   title () {
     return `Email link sent to (${this.options.appState.get('factorEmail')})`;
@@ -11,5 +11,5 @@ const RequiredFactorEmailForm = BaseForm.extend({
 });
 
 export default BaseView.extend({
-  Body: RequiredFactorEmailForm,
+  Body,
 });

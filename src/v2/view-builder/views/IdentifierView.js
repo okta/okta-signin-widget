@@ -3,7 +3,7 @@ import BaseView from '../internals//BaseView';
 import BaseForm from '../internals//BaseForm';
 import BaseFooter from '../internals//BaseFooter';
 
-const IdentifierForm = BaseForm.extend({
+const Body = BaseForm.extend({
   title: loc('primaryauth.title'),
   save: loc('oform.next', 'login'),
 });
@@ -26,6 +26,6 @@ const Footer = BaseFooter.extend({
 });
 
 export default BaseView.extend({
-  Body: IdentifierForm,
+  Body,
   Footer,
 });
