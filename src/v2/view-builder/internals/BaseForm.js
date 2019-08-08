@@ -50,7 +50,7 @@ export default Form.extend({
     }
   },
 
-  remove() {
+  remove () {
     Form.prototype.remove.apply(this, arguments);
 
     if (this.polling) {
