@@ -2,7 +2,7 @@ import transformResponse from 'v2/ion/responseTransformer';
 import transformActions from 'v2/ion/actionsTransformer';
 import httpClient from 'v2/ion/httpClient';
 import XHRFactorRequiredEmail from '../../../helpers/xhr/v2/FACTOR_REQUIRED_EMAIL';
-import XHRFactorVerificationRequiredPush from '../../../helpers/xhr/v2/FACTOR_VERIFICATION_REQUIRED_OKTA_PUSH';
+import XHRFactorVerificationRequiredEmail from '../../../helpers/xhr/v2/FACTOR_VERIFICATION_REQUIRED_EMAIL';
 import { _ } from 'okta';
 
 describe('v2/ion/actionsTransformer', function () {
@@ -43,7 +43,6 @@ describe('v2/ion/actionsTransformer', function () {
         'submit-factor': jasmine.any(Function),
         'cancel': jasmine.any(Function),
         'context': jasmine.any(Function),
-        'recovery': jasmine.any(Function),
         'remediation': [
           {
             'name': 'submit-factor',
@@ -64,7 +63,7 @@ describe('v2/ion/actionsTransformer', function () {
     spyOn(httpClient, 'fetchRequest');
     result.currentState['submit-factor']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/',
+      'http://localhost:3000/api/v1/idx/',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -73,7 +72,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['submit-factor']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/',
+      'http://localhost:3000/api/v1/idx/',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
@@ -83,7 +82,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['cancel']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/cancel',
+      'http://localhost:3000/api/v1/idx/cancel',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -93,7 +92,7 @@ describe('v2/ion/actionsTransformer', function () {
     // cancel doesn't take additional data for http request
     result.currentState['cancel']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/cancel',
+      'http://localhost:3000/api/v1/idx/cancel',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -102,7 +101,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['context']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/context',
+      'http://localhost:3000/api/v1/idx/context',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -112,16 +111,7 @@ describe('v2/ion/actionsTransformer', function () {
     // context doesn't take additional data for http request
     result.currentState['context']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/context',
-      'POST',
-      {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    );
-
-    result.currentState['recovery']({ foo: 'bar' });
-    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/recovery',
+      'http://localhost:3000/api/v1/idx/context',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -130,18 +120,14 @@ describe('v2/ion/actionsTransformer', function () {
   });
 
   it('converts factor verification require push', () => {
-    const result = _.compose(transformActions, transformResponse)(XHRFactorVerificationRequiredPush.response);
+    const result = _.compose(transformActions, transformResponse)(XHRFactorVerificationRequiredEmail.response);
     expect(result).toEqual({
       'factor': {
-        'factorType': 'push',
+        'factorType': 'email',
         'provider': 'okta',
         'profile': {
-          'email': 'omgm@foo.dev'
+          'email': 'o*****m@abbott.dev'
         },
-        'qr': {
-          'href': ':link/:to/:qrcode'
-        },
-        'refresh': jasmine.any(Function),
         'resend': jasmine.any(Function),
       },
       'user': {
@@ -160,33 +146,37 @@ describe('v2/ion/actionsTransformer', function () {
         'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
         'expiresAt': '2018-09-17T23:08:56.000Z',
         'step': 'FACTOR_VERIFICATION_REQUIRED',
+        'intent': 'login',
         'factor-poll-verification': jasmine.any(Function),
         'cancel': jasmine.any(Function),
         'context': jasmine.any(Function),
+        'otp': jasmine.any(Function),
         'remediation': [
           {
             'name': 'factor-poll-verification',
             'refresh': 2000,
             'value': [],
+          },
+          {
+            'name': 'otp',
+            'value': [
+              {
+                'name': 'otp',
+                'label': 'Passcode',
+                'minLength': 4
+              }
+            ],
           }
         ]
       },
-      __rawResponse: XHRFactorVerificationRequiredPush.response,
+      __rawResponse: XHRFactorVerificationRequiredEmail.response,
     });
 
     spyOn(httpClient, 'fetchRequest');
-    result.factor['refresh']();
-    expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/refresh',
-      'POST',
-      {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    );
 
     result.factor['resend']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/resend',
+      'http://localhost:3000/api/v1/idx/resend',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -195,7 +185,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['factor-poll-verification']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/',
+      'http://localhost:3000/api/v1/idx/',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -204,7 +194,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['factor-poll-verification']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/',
+      'http://localhost:3000/api/v1/idx/',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
@@ -213,7 +203,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['cancel']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/cancel',
+      'http://localhost:3000/api/v1/idx/cancel',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -223,7 +213,7 @@ describe('v2/ion/actionsTransformer', function () {
     // cancel doesn't take additional data for http request
     result.currentState['cancel']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/cancel',
+      'http://localhost:3000/api/v1/idx/cancel',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -232,7 +222,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['context']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/context',
+      'http://localhost:3000/api/v1/idx/context',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -242,7 +232,7 @@ describe('v2/ion/actionsTransformer', function () {
     // context doesn't take additional data for http request
     result.currentState['factor-poll-verification']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'https://your-org.okta.com/api/v2/authn/context',
+      'http://localhost:3000/api/v1/idx/context',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'

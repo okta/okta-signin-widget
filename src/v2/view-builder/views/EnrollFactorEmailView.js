@@ -1,25 +1,13 @@
-import { loc } from 'okta';
 import BaseView from '../internals//BaseView';
 import BaseForm from '../internals//BaseForm';
-import { validateFieldsMatch } from '../../util/ValidationUtil';
 
 const Body = BaseForm.extend({
-  title: loc('factor.password', 'login'),
-  save: loc('mfa.challenge.verify', 'login')
+  title () {
+    return `Email link sent to (${this.options.appState.get('factorEmail')})`;
+  },
+  save: 'Send Email Link',
 });
 
 export default BaseView.extend({
-
   Body,
-
-  createModelClass () {
-    const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
-    return ModelClass.extend({
-
-      validate: function (data) {
-        return validateFieldsMatch(data.password, data.confirmPassword);
-      }
-
-    });
-  }
 });

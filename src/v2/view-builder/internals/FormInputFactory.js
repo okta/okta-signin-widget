@@ -17,7 +17,7 @@ const create = function (uiSchemaObj) {
         return Object.assign({}, opt, FactorUtil.getFactorData(opt.value));
       });
     return {
-      component: FactorEnrollOptions,
+      View: FactorEnrollOptions,
       options: {
         minimize: true,
         listTitle: loc('enroll.choices.description', 'login'),
