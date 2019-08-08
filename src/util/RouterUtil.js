@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 40], max-statements: [2, 30] */
+/* eslint complexity: [2, 42], max-statements: [2, 30] */
 define([
   'okta',
   './OAuth2Util',
@@ -36,6 +36,22 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
     '{{baseUrl}}/login/sessionCookieRedirect?checkAccountSetupComplete=true' +
     '&token={{{token}}}&redirectUrl={{{redirectUrl}}}'
   );
+
+  fn.isHostBackgroundChromeTab = function () {
+    // Checks if the SIW is loaded in a chrome webview and
+    // it is in an app that is in background.
+    if (navigator.userAgent.match(/Android/) &&
+        navigator.userAgent.match(/Chrome/) &&
+        document.hidden) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  fn.isDocumentVisible = function () {
+    return document.visibilityState === 'visible';
+  };
 
   fn.createVerifyUrl = function (provider, factorType, factorIndex) {
     if (provider && factorIndex) {
@@ -177,8 +193,19 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
           }
         };
       }
-
-      router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
+      
+      // Check if we need to wait for redirect based on host.
+      if (router.settings.get('features.restrictRedirectToForeground') &&
+          fn.isHostBackgroundChromeTab()) {
+        document.addEventListener('visibilitychange', function checkVisibilityAndCallSuccess () {
+          if (fn.isDocumentVisible()) {
+            document.removeEventListener('visibilitychange', checkVisibilityAndCallSuccess);
+            router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
+          }
+        });
+      } else {
+        router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
+      }
       return;
     case 'CONSENT_REQUIRED':
       if (router.settings.get('features.consent')) {
