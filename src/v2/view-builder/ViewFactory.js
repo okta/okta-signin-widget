@@ -2,7 +2,7 @@ import Logger from 'util/Logger';
 import IdentifierView from './views/IdentifierView';
 import SelectFactorView from './views/SelectFactorView';
 import EnrollFactorPasswordView from './views/EnrollFactorPasswordView';
-import EnrollFactorEmailView from './views/EnrollFactorPasswordView';
+import EnrollFactorEmailView from './views/EnrollFactorEmailView';
 import RequiredFactorEmailView from './views/RequiredFactorEmailView';
 import RequiredFactorPasswordView from './views/RequiredFactorPasswordView';
 import FactorPollVerificationView from './views/FactorPollVerificationView';

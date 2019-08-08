@@ -16,7 +16,7 @@ const Footer = BaseFooter.extend({
       'type': 'link',
       'label': 'Forgot Password',
       'name': 'forgot-password',
-      'actionName': 'recovery',
+      'actionPath': 'factor.recovery',
     }
   ],
 });

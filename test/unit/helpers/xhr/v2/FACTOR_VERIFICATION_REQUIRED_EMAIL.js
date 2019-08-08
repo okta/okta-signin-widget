@@ -6,6 +6,7 @@ const data = {
     "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
     "expiresAt": "2018-09-17T23:08:56.000Z",
     "step": "FACTOR_VERIFICATION_REQUIRED",
+    "intent": "login",
     "remediation": {
       "type": "array",
       "value": [
@@ -14,7 +15,7 @@ const data = {
             "create-form"
           ],
           "name": "factor-poll-verification",
-          "href": "https://your-org.okta.com/api/v2/authn/",
+          "href": "http://localhost:3000/api/v1/idx/",
           "method": "POST",
           "refresh": 2000,
           "value": [
@@ -24,41 +25,38 @@ const data = {
               "visible": false
             }
           ]
+        },
+        {
+          "rel": [
+            "create-form"
+          ],
+          "name": "otp",
+          "href": "http://localhost:3000/api/v1/idx/",
+          "method": "POST",
+          "value": [
+            {
+              "name": "otp",
+              "label": "Passcode",
+              "minLength": 4
+            }
+          ]
         }
       ]
     },
     "factor": {
       "type": "object",
       "value": {
-        "factorType": "push",
+        "factorType": "email",
         "provider": "okta",
         "profile": {
-          "email": "omgm@foo.dev"
-        },
-        "qr": {
-          "href": ":link/:to/:qrcode"
-        },
-        "refresh": {
-          "rel": [
-            "create-form"
-          ],
-          "href": "https://your-org.okta.com/api/v2/authn/refresh",
-          "name": "refresh",
-          "method": "POST",
-          "value": [
-            {
-              "name": "stateHandle",
-              "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-              "visible": false
-            }
-          ]
+          "email": "o*****m@abbott.dev"
         },
         "resend": {
+          "name": "resend",
           "rel": [
             "create-form"
           ],
-          "href": "https://your-org.okta.com/api/v2/authn/resend",
-          "name": "resend",
+          "href": "http://localhost:3000/api/v1/idx/resend",
           "method": "POST",
           "value": [
             {
@@ -89,7 +87,7 @@ const data = {
         "create-form"
       ],
       "name": "cancel",
-      "href": "https://your-org.okta.com/api/v2/authn/cancel",
+      "href": "http://localhost:3000/api/v1/idx/cancel",
       "method": "POST",
       "value": [
         {
@@ -104,7 +102,7 @@ const data = {
         "create-form"
       ],
       "name": "context",
-      "href": "https://your-org.okta.com/api/v2/authn/context",
+      "href": "http://localhost:3000/api/v1/idx/context",
       "method": "POST",
       "value": [
         {

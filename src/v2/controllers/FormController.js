@@ -20,7 +20,7 @@ export default BaseLoginController.extend({
     BaseLoginController.prototype.initialize.call(this);
 
     this.listenTo(this.options.appState, 'change:currentState', this.setRemediationValueByPriorityAndRender);
-    this.listenTo(this.options.appState, 'invokeCurrentStateAction', this.invokeCurrentStateAction);
+    this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
     this.listenTo(this.options.appState, 'showView', this.setRemediationByFormAndRender);
     this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
 
@@ -61,11 +61,22 @@ export default BaseLoginController.extend({
       .filter(r => r.name === formName)[0];
   },
 
-  invokeCurrentStateAction (actionName = '') {
-    const currentState = this.options.appState.get('currentState');
-    if (_.isFunction(currentState[actionName])) {
-      // TODO: what's the approach to show spinner indicating API in fligh?
-      currentState[actionName]()
+  invokeAction (actionPath = '') {
+    const paths = actionPath.split('.');
+    let targetObject;
+    if (paths.length === 1) {
+      targetObject = this.options.appState.get('currentState');
+    } else {
+      targetObject = this.options.appState.get(paths.shift());
+    }
+    // At the time of writting, action only lives in first level of state objects.
+    const actionFn = targetObject[paths.shift()];
+
+    if (_.isFunction(actionFn)) {
+      // TODO: OKTA-243167
+      // 1. what's the approach to show spinner indicating API in fligh?
+      // 2. how to catch error?
+      actionFn()
         .then(resp => {
           this.options.appState.trigger('remediationSuccess', resp.response);
         })

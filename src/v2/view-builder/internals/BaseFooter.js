@@ -3,13 +3,13 @@ import Link from '../components/Link';
 
 /**
  * When `href` is present, the Link behaviors as normal web link.
- * When `actionName` is present, the Link behaviors as link button
- *    upon click, will trigger the action `actionName`.
+ * When `actionPath` is present, the Link behaviors as link button
+ *    upon click, will trigger the action `actionPath`.
  * @typedef {Object} Link
  * @property {string} label
  * @property {string} name
  * @property {string=} href
- * @property {string=} actionName
+ * @property {string=} actionPath
  */
 
 

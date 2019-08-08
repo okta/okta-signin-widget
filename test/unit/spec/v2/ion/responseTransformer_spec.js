@@ -1,6 +1,6 @@
 import transformResponse from 'v2/ion/responseTransformer';
 import XHRFactorRequiredEmail from '../../../helpers/xhr/v2/FACTOR_REQUIRED_EMAIL';
-import XHRFactorVerificationRequiredPush from '../../../helpers/xhr/v2/FACTOR_VERIFICATION_REQUIRED_OKTA_PUSH';
+import XHRFactorVerificationRequiredEmail from '../../../helpers/xhr/v2/FACTOR_VERIFICATION_REQUIRED_EMAIL';
 
 describe('v2/ion/responseTransformer', function () {
   it('returns result when invokes with invalid resp', () => {
@@ -40,7 +40,6 @@ describe('v2/ion/responseTransformer', function () {
         'submit-factor': jasmine.any(Function),
         'cancel': jasmine.any(Function),
         'context': jasmine.any(Function),
-        'recovery': jasmine.any(Function),
         'remediation': [
           {
             'name': 'submit-factor',
@@ -60,7 +59,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['submit-factor']()).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/',
+      url: 'http://localhost:3000/api/v1/idx/',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -68,7 +67,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['submit-factor']({foo: 'bar'})).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/',
+      url: 'http://localhost:3000/api/v1/idx/',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
         foo: 'bar',
@@ -77,7 +76,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['cancel']()).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/cancel',
+      url: 'http://localhost:3000/api/v1/idx/cancel',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -86,7 +85,7 @@ describe('v2/ion/responseTransformer', function () {
     // cancel doesn't take additional data for http request
     expect(result.currentState['cancel']({ foo: 'bar' })).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/cancel',
+      url: 'http://localhost:3000/api/v1/idx/cancel',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -94,7 +93,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['context']()).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/context',
+      url: 'http://localhost:3000/api/v1/idx/context',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -103,34 +102,22 @@ describe('v2/ion/responseTransformer', function () {
     // context doesn't take additional data for http request
     expect(result.currentState['context']({ foo: 'bar' })).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/context',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
-    expect(result.currentState['recovery']({ foo: 'bar' })).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/recovery',
+      url: 'http://localhost:3000/api/v1/idx/context',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
     });
   });
 
-  it('converts factor verification require push', () => {
-    const result = transformResponse(XHRFactorVerificationRequiredPush.response);
+  it('converts factor verification require email', () => {
+    const result = transformResponse(XHRFactorVerificationRequiredEmail.response);
     expect(result).toEqual({
       'factor': {
-        'factorType': 'push',
+        'factorType': 'email',
         'provider': 'okta',
         'profile': {
-          'email': 'omgm@foo.dev'
+          'email': 'o*****m@abbott.dev'
         },
-        'qr': {
-          'href': ':link/:to/:qrcode'
-        },
-        'refresh': jasmine.any(Function),
         'resend': jasmine.any(Function),
       },
       'user': {
@@ -149,31 +136,35 @@ describe('v2/ion/responseTransformer', function () {
         'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
         'expiresAt': '2018-09-17T23:08:56.000Z',
         'step': 'FACTOR_VERIFICATION_REQUIRED',
+        'intent': 'login',
         'factor-poll-verification': jasmine.any(Function),
         'cancel': jasmine.any(Function),
         'context': jasmine.any(Function),
+        'otp': jasmine.any(Function),
         'remediation': [
           {
             'name': 'factor-poll-verification',
             'refresh': 2000,
             'value': [],
+          },
+          {
+            'name': 'otp',
+            'value': [
+              {
+                'name': 'otp',
+                'label': 'Passcode',
+                'minLength': 4
+              }
+            ]
           }
         ]
       },
-      __rawResponse: XHRFactorVerificationRequiredPush.response,
-    });
-
-    expect(result.factor['refresh']()).toEqual({
-      method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/refresh',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
+      __rawResponse: XHRFactorVerificationRequiredEmail.response,
     });
 
     expect(result.factor['resend']()).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/resend',
+      url: 'http://localhost:3000/api/v1/idx/resend',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -181,7 +172,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['factor-poll-verification']()).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/',
+      url: 'http://localhost:3000/api/v1/idx/',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -189,7 +180,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['factor-poll-verification']({foo: 'bar'})).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/',
+      url: 'http://localhost:3000/api/v1/idx/',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
       }
@@ -197,7 +188,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['cancel']()).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/cancel',
+      url: 'http://localhost:3000/api/v1/idx/cancel',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -206,7 +197,7 @@ describe('v2/ion/responseTransformer', function () {
     // cancel doesn't take additional data for http request
     expect(result.currentState['cancel']({ foo: 'bar' })).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/cancel',
+      url: 'http://localhost:3000/api/v1/idx/cancel',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -214,7 +205,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['context']()).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/context',
+      url: 'http://localhost:3000/api/v1/idx/context',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -223,7 +214,7 @@ describe('v2/ion/responseTransformer', function () {
     // context doesn't take additional data for http request
     expect(result.currentState['context']({ foo: 'bar' })).toEqual({
       method: 'POST',
-      url: 'https://your-org.okta.com/api/v2/authn/context',
+      url: 'http://localhost:3000/api/v1/idx/context',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }

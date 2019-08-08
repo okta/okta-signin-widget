@@ -3,7 +3,7 @@ import responseTransformer from 'v2/ion/responseTransformer';
 import actionsTransformer from 'v2/ion/actionsTransformer';
 import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';
 import XHRFactorRequiredEmail from '../../../helpers/xhr/v2/FACTOR_REQUIRED_EMAIL';
-import XHRFactorVerificationRequiredPush from '../../../helpers/xhr/v2/FACTOR_VERIFICATION_REQUIRED_OKTA_PUSH';
+import XHRFactorVerificationRequiredEmail from '../../../helpers/xhr/v2/FACTOR_VERIFICATION_REQUIRED_EMAIL';
 import XHRFactorEnrollOptions from '../../../helpers/xhr/v2/FACTOR_ENROLL_OPTIONS';
 
 describe('v2/ion/uiSchemaTransformer', function () {
@@ -18,7 +18,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
       'submit-factor': jasmine.any(Function),
       'cancel': jasmine.any(Function),
       'context': jasmine.any(Function),
-      'recovery': jasmine.any(Function),
       'remediation': [
         {
           'name': 'submit-factor',
@@ -94,14 +93,16 @@ describe('v2/ion/uiSchemaTransformer', function () {
     });
   });
 
-  it('converts factor verification require push', () => {
-    const result = _.compose(uiSchemaTransformer, actionsTransformer, responseTransformer)(XHRFactorVerificationRequiredPush.response);
+  it('converts factor verification require email', () => {
+    const result = _.compose(uiSchemaTransformer, actionsTransformer, responseTransformer)(XHRFactorVerificationRequiredEmail.response);
     expect(result.currentState).toEqual({
       'version': '1.0.0',
       'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
       'expiresAt': '2018-09-17T23:08:56.000Z',
       'step': 'FACTOR_VERIFICATION_REQUIRED',
+      'intent': 'login',
       'factor-poll-verification': jasmine.any(Function),
+      'otp': jasmine.any(Function),
       'cancel': jasmine.any(Function),
       'context': jasmine.any(Function),
       'remediation': [
@@ -110,6 +111,24 @@ describe('v2/ion/uiSchemaTransformer', function () {
           'refresh': 2000,
           'value': [],
           'uiSchema': [],
+        },
+        {
+          'name': 'otp',
+          'value': [
+            {
+              'name': 'otp',
+              'label': 'Passcode',
+              'minLength': 4
+            }
+          ],
+          'uiSchema': [
+            {
+              'name': 'otp',
+              'label': 'Passcode',
+              'minLength': 4,
+              type: 'text',
+            }
+          ],
         }
       ]
     });
