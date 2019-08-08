@@ -27,10 +27,10 @@ import Util from 'util/Util';
 import AuthContainer from 'views/shared/AuthContainer';
 import Header from 'views/shared/Header';
 import SecurityBeacon from 'views/shared/SecurityBeacon';
-import actionsTransformer from '../ion/actionsTransformer';
-import responseTransformer from '../ion/responseTransformer';
-import uiSchemaTransformer from '../ion/uiSchemaTransformer';
-import AppState from '../models/AppState';
+import actionsTransformer from './ion/actionsTransformer';
+import responseTransformer from './ion/responseTransformer';
+import uiSchemaTransformer from './ion/uiSchemaTransformer';
+import AppState from './models/AppState';
 
 function beaconIsAvailable (Beacon, settings) {
   if (!Beacon) {
