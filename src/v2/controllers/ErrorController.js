@@ -9,15 +9,14 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { loc, View } from 'okta';
+import { loc, View, Model } from 'okta';
 import ErrorCodes from 'util/ErrorCodes';
-import BaseLoginModel from '../models/BaseLoginModel';
 import BaseLoginController from './BaseLoginController';
 export default BaseLoginController.extend({
   className: 'error-controller',
   initialize: function (options) {
     this.options = options || {};
-    this.model = new BaseLoginModel({
+    this.model = new Model({
       settings: this.settings,
       appState: this.options.appState,
     });
