@@ -82,7 +82,8 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
       },
       profile: ['object'],
       vendorName: 'string',
-      policy: ['object']
+      policy: ['object'],
+      profiles: ['object']
     },
 
     local: {
@@ -168,14 +169,39 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
           return status === 'ACTIVE';
         }
       },
-      additionalEnrollment : {
-        deps: ['policy'],
-        fn: function (policy) {
-          if (!policy || !policy.enrollment) {
+      cardinality : {
+        deps: ['policy', 'profiles'],
+        fn: function (policy, profiles) {
+          if (profiles && profiles.length > 0) {
+            //assume for now we only get one profile (multiple profiles are not supported yet)
+            var profile = profiles[0];
+            var enrolled = profile._embedded.enrolledFactors.length;
+            var adoption = _.findWhere(profile._embedded.features, {type: 'adoption'});
+            if (adoption && adoption.cardinality) {
+              return {
+                enrolled: enrolled,
+                minimum: adoption.cardinality.min,
+                maximum: adoption.cardinality.max
+              }; 
+            }
             return false;
           }
+          else if (policy && policy.enrollment) {
+            return policy.enrollment;
+          }
           else {
-            return policy.enrollment.enrolled !== 0 && policy.enrollment.enrolled < policy.enrollment.maximum;
+            return false;
+          }
+        }
+      },
+      additionalEnrollment : {
+        deps: ['cardinality'],
+        fn: function (cardinality) {
+          if (cardinality) {
+            return cardinality.enrolled !== 0 && cardinality.enrolled < cardinality.maximum;
+          }
+          else {
+            return false;
           }
         }
       },

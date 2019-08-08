@@ -341,16 +341,15 @@ function (Okta, TimeUtil) {
     return result.join(' ');
   };
 
-  fn.getCardinalityText = function (enrolled, required, policy) {
-    if (policy && policy.enrollment) {
-      var enrollmentInfo = policy.enrollment;
+  fn.getCardinalityText = function (enrolled, required, cardinality) {
+    if (cardinality) {
       if (enrolled) {
-        return (enrollmentInfo.enrolled === 1) ? '' :
-          Okta.loc('enroll.choices.cardinality.setup', 'login', [enrollmentInfo.enrolled]);
+        return (cardinality.enrolled === 1) ? '' :
+          Okta.loc('enroll.choices.cardinality.setup', 'login', [cardinality.enrolled]);
       }
-      else if (required) {
+      else if (required && cardinality.maximum > 1) {
         return Okta.loc('enroll.choices.cardinality.setup.remaining', 'login',
-          [enrollmentInfo.enrolled, enrollmentInfo.minimum]);
+          [cardinality.enrolled, cardinality.minimum]);
       }
     }
     return '';
