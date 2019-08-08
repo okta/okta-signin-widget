@@ -21,6 +21,12 @@ const Footer = BaseFooter.extend({
         'label': 'Need help signing in?',
         'href': href,
       },
+      {
+        'type': 'link',
+        'label': 'Sign up',
+        'name': 'enroll',
+        'actionName': 'enroll',
+      }
     ];
   }
 });
