@@ -148,45 +148,13 @@ const normalizeRemedation = (remedationValue) => {
 };
 
 /**
- * Insert Recovery action if step is "FACTOR_REQUIRED".
- */
-const insertRecoveryAction = (resp) => {
-  if (resp.step === 'FACTOR_REQUIRED' && !resp.recovery) {
-    // ASSUME that the recovery endpoint has similar pattern to 'cancel' endpoint.
-    // HOPEFULLY API has in the response.
-    const url = resp.cancel ? resp.cancel.href.replace('cancel', 'recovery') : '';
-
-    return Object.assign({
-      'recovery': {
-        'rel': [
-          'create-form'
-        ],
-        'name': 'recovery',
-        'href': url,
-        'method': 'POST',
-        'value': [
-          {
-            'name': 'stateHandle',
-            'value': resp.stateHandle,
-            'visible': false
-          }
-        ]
-      }
-    }, resp);
-  } else {
-    return resp;
-  }
-};
-
-/**
  *
  * @param {AuthnResponse} originalResp
  * @param {*} omitKeys
  * @returns {CurrentState} currentState
  */
 const createCurrentStateObject = (originalResp, omitKeys) => {
-  const updatedResp = insertRecoveryAction(originalResp);
-  const resp = _.omit.apply(_, [updatedResp].concat(omitKeys));
+  const resp = _.omit.apply(_, [originalResp].concat(omitKeys));
   const allCreateForms = getRelObjectByName(resp, ['create-form']);
   const actions = createActions(allCreateForms);
   const remediation = resp.remediation.value.map(normalizeRemedation);

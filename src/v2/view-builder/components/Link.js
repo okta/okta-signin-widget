@@ -33,10 +33,10 @@ const Link = View.extend({
   },
 
   postRender () {
-    if (!this.options.href && this.options.actionName) {
+    if (!this.options.href && this.options.actionPath) {
       this.$el.click((event) => {
         event.preventDefault();
-        this.options.appState.trigger('invokeCurrentStateAction', this.options.actionName);
+        this.options.appState.trigger('invokeAction', this.options.actionPath);
       });
     }
   }

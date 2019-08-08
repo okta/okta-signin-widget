@@ -24,6 +24,16 @@
       }
     ]
   },
+  "factor": {
+    "type": "object",
+    "value": {
+      "factorType": "email",
+      "provider": "okta",
+      "profile": {
+        "email": "o*****m@abbott.dev"
+      }
+    }
+  },
   "user": {
     "type": "object",
     "value": {

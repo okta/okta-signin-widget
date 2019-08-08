@@ -14,7 +14,7 @@ const data = {
 
           "rel": ["create-form"],
           "name": "submit-factor",
-          "href": "https://your-org.okta.com/api/v2/authn/",
+          "href": "http://localhost:3000/api/v1/idx/",
           "method": "POST",
           "value": [
             {
@@ -61,7 +61,7 @@ const data = {
     "cancel": {
       "rel": ["create-form"],
       "name": "cancel",
-      "href": "https://your-org.okta.com/api/v2/authn/cancel",
+      "href": "http://localhost:3000/api/v1/idx/cancel",
       "method": "POST",
       "value": [
         {
@@ -74,7 +74,7 @@ const data = {
     "context": {
       "rel": ["create-form"],
       "name": "context",
-      "href": "https://your-org.okta.com/api/v2/authn/context",
+      "href": "http://localhost:3000/api/v1/idx/context",
       "method": "POST",
       "value": [
         {

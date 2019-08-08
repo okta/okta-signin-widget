@@ -12,15 +12,14 @@ export default Form.extend({
   save: loc('oform.next', 'login'),
 
   initialize: function () {
-    const remediationValue = this.options.remediationValue;
-    const inputOptions = remediationValue.uiSchema.map(FormInputFactory.create);
+    const inputOptions = this.createInputs();
 
     inputOptions.forEach(input => {
       this.addInputOrView(input);
     });
 
     this.listenTo(this, 'save', this.saveForm);
-    this.checkAndDoPolling(remediationValue, this.options.model);
+    this.checkAndDoPolling(this.options.remediationValue, this.options.model);
   },
 
 
@@ -40,9 +39,13 @@ export default Form.extend({
     this.options.appState.trigger('saveForm', model);
   },
 
+  createInputs () {
+    return this.options.remediationValue.uiSchema.map(FormInputFactory.create);
+  },
+
   addInputOrView (input) {
-    if (input.component) {
-      this.add(input.component, {
+    if (input.View) {
+      this.add(input.View, {
         options: input.options
       });
     } else {

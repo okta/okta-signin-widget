@@ -1,4 +1,5 @@
 {
+    "version": "1.0.0",
     "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
     "expiresAt": "2018-09-17T23:08:56.000Z",
     "step": "FACTOR_VERIFICATION_REQUIRED",
@@ -48,6 +49,7 @@
           "email": "o*****m@abbott.dev"
         },
         "resend": {
+          "name": "resend",
           "rel": [
             "create-form"
           ],
