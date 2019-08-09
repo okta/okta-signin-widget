@@ -29,6 +29,7 @@ import PasswordBox from '@okta/courage/src/views/forms/inputs/PasswordBox';
 import Radio from '@okta/courage/src/views/forms/inputs/Radio';
 import Select from '@okta/courage/src/views/forms/inputs/Select';
 import TextBox from '@okta/courage/src/views/forms/inputs/TextBox';
+import Callout from '@okta/courage/src/views/components/Callout';
 import Backbone from 'backbone';
 
 const Okta = {
@@ -43,6 +44,8 @@ const Okta = {
   loc: StringUtil.localize,
 
   createButton: ButtonFactory.create,
+
+  createCallout: Callout.create,
 
   registerInput: InputRegistry.register,
 
