@@ -25,7 +25,7 @@ define([
     noCancelButton: true,
     save: function () {
       if (this.settings.get('features.passwordlessAuth')) {
-        return Okta.loc('oform.next', 'login') ;
+        return Okta.loc('oform.next', 'login');
       }
       return Okta.loc('primaryauth.submit', 'login');
     },
@@ -103,10 +103,17 @@ define([
         className: 'margin-btm-5',
         label: Okta.loc('primaryauth.username.placeholder', 'login'),
         'label-top': true,
-        explain: Util.createInputExplain(
-          'primaryauth.username.tooltip',
-          'primaryauth.username.placeholder',
-          'login'),
+        explain: () => {
+          if (this.settings.get('features.hideDefaultTip') &&
+            !this.isCustomized('primaryauth.username.tooltip')) {
+            return false;
+          }
+
+          return Util.createInputExplain(
+            'primaryauth.username.tooltip',
+            'primaryauth.username.placeholder',
+            'login');
+        },
         'explain-top': true,
         name: 'username',
         input: TextBox,
@@ -123,10 +130,17 @@ define([
         className: 'margin-btm-30',
         label: Okta.loc('primaryauth.password.placeholder', 'login'),
         'label-top': true,
-        explain: Util.createInputExplain(
-          'primaryauth.password.tooltip',
-          'primaryauth.password.placeholder',
-          'login'),
+        explain: () => {
+          if (this.settings.get('features.hideDefaultTip') &&
+            !this.isCustomized('primaryauth.password.tooltip')) {
+            return false;
+          }
+
+          return Util.createInputExplain(
+            'primaryauth.password.tooltip',
+            'primaryauth.password.placeholder',
+            'login');
+        },
         'explain-top': true,
         name: 'password',
         inputId: 'okta-signin-password',
@@ -138,6 +152,13 @@ define([
         passwordFieldObject.params.showPasswordToggle = true;
       }
       return passwordFieldObject;
+    },
+
+    isCustomized: function (property) {
+      var language = this.settings.get('language');
+      var i18n = this.settings.get('i18n');
+      var customizedProperty = i18n && i18n[language] && i18n[language][property];
+      return !!customizedProperty;
     },
 
     getRemeberMeCheckbox: function () {
