@@ -90,6 +90,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'features.redirectByFormSubmit': ['boolean', false, false],
       'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
       'features.restrictRedirectToForeground': ['boolean', true, false],
+      'features.hideDefaultTip': ['boolean', false, true],
 
       // I18N
       'language': ['any', false], // Can be a string or a function
