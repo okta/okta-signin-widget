@@ -19,26 +19,10 @@ export default BaseLoginController.extend({
   initialize: function () {
     BaseLoginController.prototype.initialize.call(this);
 
-    this.listenTo(this.options.appState, 'change:currentState', this.setRemediationValueByPriorityAndRender);
+    this.listenTo(this.options.appState, 'change:currentState', this.render);
+    this.listenTo(this.options.appState, 'change:currentFormName', this.render);
     this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
-    this.listenTo(this.options.appState, 'showView', this.setRemediationByFormAndRender);
     this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
-
-    this.setRemediationValueByPriority();
-  },
-
-  setRemediationByFormAndRender (formName) {
-    this.remediationValue = this.findRemediationValueByFormName(formName);
-    this.render();
-  },
-
-  setRemediationValueByPriority () {
-    this.remediationValue = this.options.appState.get('remediation')[0];
-  },
-
-  setRemediationValueByPriorityAndRender () {
-    this.setRemediationValueByPriority();
-    this.render();
   },
 
   preRender () {
@@ -46,19 +30,15 @@ export default BaseLoginController.extend({
   },
 
   postRender () {
-    const TheView = ViewFactory.create(this.remediationValue.name);
+    const currentViewState = this.options.appState.getCurrentViewState();
+    const TheView = ViewFactory.create(currentViewState.name);
     this.formView = this.add(TheView, {
       options: {
-        remediationValue: this.remediationValue,
+        currentViewState: currentViewState,
       }
     }).last();
 
     this.listenTo(this.formView, 'save', this.handleFormSave);
-  },
-
-  findRemediationValueByFormName (formName) {
-    return this.options.appState.get('remediation')
-      .filter(r => r.name === formName)[0];
   },
 
   invokeAction (actionPath = '') {

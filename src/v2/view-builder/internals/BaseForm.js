@@ -19,19 +19,19 @@ export default Form.extend({
     });
 
     this.listenTo(this, 'save', this.saveForm);
-    this.checkAndDoPolling(this.options.remediationValue, this.options.model);
+    this.checkAndDoPolling(this.options.currentViewState, this.options.model);
   },
 
 
-  checkAndDoPolling (remediationValue, model) {
+  checkAndDoPolling (currentViewState, model) {
     // auto 'save' the form if `refresh` is set. a.k.a polling
     // UI will re-render per response even it might be same response
     // thus don't need `setInterval`.
     // (because FormController listen to 'change:currentState' and
     //  'currentState` will be re-created per response hence it's different object.
     //  )
-    if (_.isNumber(remediationValue.refresh)) {
-      this.polling = _.delay(this.saveForm.bind(this, model), remediationValue.refresh);
+    if (_.isNumber(currentViewState.refresh)) {
+      this.polling = _.delay(this.saveForm.bind(this, model), currentViewState.refresh);
     }
   },
 
@@ -40,7 +40,11 @@ export default Form.extend({
   },
 
   createInputs () {
-    return this.options.remediationValue.uiSchema.map(FormInputFactory.create);
+    if (Array.isArray(this.options.currentViewState.uiSchema)) {
+      return this.options.currentViewState.uiSchema.map(FormInputFactory.create);
+    } else {
+      return [];
+    }
   },
 
   addInputOrView (input) {

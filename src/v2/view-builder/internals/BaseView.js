@@ -20,7 +20,7 @@ export default View.extend({
     // Create Model
     const IonModel = this.createModelClass();
     const model = new IonModel ({
-      formName: this.options.remediationValue.name,
+      formName: this.options.currentViewState.name,
     });
 
     // Add Views
@@ -35,7 +35,7 @@ export default View.extend({
   },
 
   createModelClass () {
-    return BaseModel.create(this.options.remediationValue);
+    return BaseModel.create(this.options.currentViewState);
   }
 
 });
