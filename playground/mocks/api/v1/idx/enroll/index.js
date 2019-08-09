@@ -1,4 +1,4 @@
-const data1 = require('./data/userenroll.json');
+const data1 = require('./data/enroll-profile.json');
 const path = __dirname.slice(__dirname.indexOf('api') - 1);
 
 module.exports = {
