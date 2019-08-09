@@ -101,6 +101,7 @@
   // height: 1%; // For Opera   DO WE NEED THIS DECLARATION?
   display: block;
 
+  &:before,
   &:after {
     display: block;
     height: 0;
