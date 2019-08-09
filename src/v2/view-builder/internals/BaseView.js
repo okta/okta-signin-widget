@@ -1,10 +1,11 @@
 import { View } from 'okta';
 import BaseForm from './BaseForm';
 import BaseModel from './BaseModel';
+import HeaderView from './HeaderView';
 
 export default View.extend({
 
-  Header: '',
+  Header: HeaderView,
 
   Body: BaseForm,
 
@@ -24,7 +25,7 @@ export default View.extend({
     });
 
     // Add Views
-    this.add(this.Header, { selector : '.siw-main-header' });
+    this.add(this.Header, { selector: '.siw-main-header' });
     this.add(this.Body, {
       selector : '.siw-main-body',
       options: {
