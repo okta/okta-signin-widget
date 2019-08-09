@@ -17,23 +17,16 @@ module.exports = {
   port: 4723,
   // Check this link for configurations - https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/
   // Check this for capabilities - http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
-  iosCapabilities: [{
-    'deviceName': 'iPhone XS Simulator',
-    'platformName': 'iOS',
-    'platformVersion': '12.0',
+  androidCapabilities: [{
+    'deviceName': 'Samsung Galaxy S9 WQHD GoogleAPI Emulator',
+    'platformName': 'Android',
+    'platformVersion': '8.1',
     'deviceOrientation': 'portrait',
-    'browserName': 'Safari',
+    'unicodeKeyboard': true,
+    'resetKeyboard': true,
+    'browserName': 'Chrome',
     'appiumVersion': '1.9.1',
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'build': process.env.TRAVIS_BUILD_NUMBER
-  }, {
-    'deviceName': 'iPhone X Simulator',
-    'platformName': 'iOS',
-    'platformVersion': '11.3',
-    'deviceOrientation': 'portrait',
-    'browserName': 'Safari',
-    'appiumVersion': '1.9.1',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_BUILD_NUMBER
-  }]
+  }],
 };

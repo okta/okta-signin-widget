@@ -30,6 +30,14 @@ if (process.env.TRAVIS) {
     config.multiCapabilities = appium.iosCapabilities;
   }
 
+  else if (process.env.SAUCE_PLATFORM_NAME === 'android') {
+    var appium = require('./appium/android-conf.js');
+    config.sauceUser = process.env.SAUCE_USERNAME;
+    config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+    config.port = appium.port;
+    config.multiCapabilities = appium.androidCapabilities;
+  }
+
   // Desktop browsers
   else {
     config.capabilities = {
