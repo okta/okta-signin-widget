@@ -202,7 +202,7 @@ function (BaseLoginRouter,
     },
 
     deviceProbe: function () {
-      const approach = 'clipboard';
+      const approach = 'loopback';
       let controller;
       switch (approach) {
       case 'loopback':

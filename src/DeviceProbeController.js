@@ -17,81 +17,50 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
   return FormController.extend({
     className: 'device-probe',
 
-    Model: {},
-
-    Form: {
-      noButtonBar: true
+    Model: {
+      url: 'https://rain.okta1.com/api/v1/authn/probe/verify',
+      props: {
+        stateToken: 'string',
+        challengeResponse: 'string'
+      },
     },
 
-    preRender: function () {
-      // this.options.appState.trigger('loading', false);
-      var nonce = this.options.appState.attributes.transaction.probeInfo.nonce;
-      var signals = this.options.appState.attributes.transaction.probeInfo.signals;
-      var forceInstall = this.options.appState.attributes.transaction.probeInfo.forceInstall;
-      var authenticatorDownloadLinks = this.options.appState.attributes.transaction.probeInfo.authenticatorDownloadLinks;
-
-      var challenge = {
-        signals: signals,
-        nonce: nonce
-      };
-
-      // Attempt to probe via loopback
-      // var port = 5000;
-      // for (port; port < 5100; port+=10) {
-      //   var url = 'localhost:' + port;
-      //   Okta.$.post(url, challenge)
-      //     .done( function (data) {
-      //       console.log('Received from device: ')
-      //       console.log(data);
-      //     });
-      //   // If success, return
-      // }
-
-      $.post(this.getLoopbackData('5000'))
+    Form: {
+      noButtonBar: true,
+    },
+  
+    initialize: function () {
+      this.model.set('stateToken', this.options.appState.get('transaction').data.stateToken);
+      // this.model.trigger('save');
+      // this.model.trigger('setTransaction');
+      this.doLoopback('5000')
         .fail(() => {
-          $.post(this.getLoopbackData('5002'))
+          this.doLoopback('5002')
             .fail(() => {
-              $.post(this.getLoopbackData('5004'))
+              this.doLoopback('5004')
                 .fail(() => {
-                  $.post(this.getLoopbackData('5006'))
+                  this.doLoopback('5006')
                     .fail(() => {
-                      $.post(this.getLoopbackData('5008'))
+                      this.doLoopback('5008')
                         .done(data => {
                           console.log('------', data);
+                          this.model.set('challengeResponse', data.jwt);
+                          this.model.save();
                         });
                     })
                 })
             });
         });
+    },
 
-      // if device challenge response not successfully received
-      if (forceInstall) {
-        // Make widget bounce you to app store, use authenticatorDownloadLinks
-      }
-
-      var token = this.options.token;
-      this.model.startTransaction(function (authClient) {
-        return authClient.tx.resume({
-          stateToken: token,
-          deviceEnrollmentId: deviceEnrollmentId,
-          challengeResponse: challengeResponse
-        });
+    doLoopback: function (port) {
+      return $.ajax({
+        url: `/loopback/${port}`,
+        method: 'POST',
+        data: {
+          nounce: this.options.appState.attributes.transaction.probeInfo.nonce,
+        }
       });
     },
-
-    remove: function () {
-      // this.options.appState.trigger('loading', false);
-      // return FormController.prototype.remove.apply(this, arguments);
-    },
-
-    // TODO: request with data
-    getLoopbackData: function (port) {
-      return {
-        url: 'http://localhost:3000/loopback/' + port,
-        data: {
-          nounce: 'blah',
-        }
-      };
-    }
   });
 });

@@ -11,11 +11,10 @@
  */
 
 define([
-  'okta',
   'util/FormController',
   'util/FormType',
   'views/shared/TextBox'
-], function (Okta, FormController, FormType, TextBox) {
+], function (FormController, FormType, TextBox) {
 
   return FormController.extend({
     className: 'device-probe',
@@ -31,7 +30,7 @@ define([
       formChildren: function () {
         return [
           FormType.Input({
-            label: 'This is label',
+            label: 'Imagin I\'m spinning',
             'label-top': true,
             className: 'make-me-invisible',
             name: 'stateToken',
@@ -62,6 +61,7 @@ define([
     },
 
     postRender: function () {
+      FormController.prototype.postRender.apply(this, arguments);
       const copyDom = this.$('[name="stateToken"]');
       copyDom.focus();
       this.copyTextToClipboard(this.stateTokenText);
