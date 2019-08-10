@@ -31,10 +31,14 @@ export default BaseLoginController.extend({
 
   postRender () {
     const currentViewState = this.options.appState.getCurrentViewState();
-    const TheView = ViewFactory.create(currentViewState.name);
+
+    const TheView = ViewFactory.create(
+      currentViewState.name,
+      this.options.appState.get('factorType')
+    );
     this.formView = this.add(TheView, {
       options: {
-        currentViewState: currentViewState,
+        currentViewState,
       }
     }).last();
 

@@ -1,6 +1,6 @@
 import { View, createButton, createCallout, _ } from 'okta';
-import BaseView from '../internals//BaseView';
-import BaseForm from '../internals//BaseForm';
+import BaseView from '../internals/BaseView';
+import BaseForm from '../internals/BaseForm';
 
 const SHOW_RESEND_TIMEOUT = 60000;
 
