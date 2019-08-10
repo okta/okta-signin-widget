@@ -13,7 +13,6 @@ import { _ } from 'okta';
 import '../../views/shared/FooterWithBackLink';
 import BaseLoginController from './BaseLoginController';
 import ViewFactory from '../view-builder/ViewFactory';
-import FactorBeacon from '../view-builder/components/FactorBeacon';
 
 export default BaseLoginController.extend({
   className: 'form-controller',
