@@ -42,13 +42,13 @@ function beaconIsAvailable (Beacon, settings) {
   return true;
 }
 
-function loadLanguage (appState, i18n, assetBaseUrl, assetRewrite) {
+function loadLanguage (appState, languageCode, i18n, assetBaseUrl, assetRewrite) {
   const timeout = setTimeout(function () {
     // Trigger a spinner if we're waiting on a request for a new language.
     appState.trigger('loading', true);
   }, 200);
 
-  return Bundles.loadLanguage(appState.get('languageCode'), i18n, {
+  return Bundles.loadLanguage(languageCode, i18n, {
     baseUrl: assetBaseUrl,
     rewrite: assetRewrite,
   }).then(function () {
@@ -135,7 +135,7 @@ export default Router.extend({
       actionsTransformer,
       responseTransformer
     )(trans);
-    this.appState.set(ionResponse);
+    this.appState.setIonResponse(ionResponse);
   },
 
   // Overriding the default navigate method to allow the widget consumer
@@ -166,9 +166,10 @@ export default Router.extend({
 
     // If we need to load a language (or apply custom i18n overrides), do
     // this now and re-run render after it's finished.
-    if (!Bundles.isLoaded(this.appState.get('languageCode'))) {
+    if (!Bundles.isLoaded(this.settings.get('languageCode'))) {
       return loadLanguage(
         this.appState,
+        this.settings.get('languageCode'),
         this.settings.get('i18n'),
         this.settings.get('assets.baseUrl'),
         this.settings.get('assets.rewrite')

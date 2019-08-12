@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "status": "TERMINAL",
+  "message": {
+    "value": "You can close this window"
+  },
+  "factor": {
+    "type": "object",
+    "value": {
+      "factorType": "email",
+      "provider": "okta",
+      "profile": {
+        "email": "o*****m@abbott.dev"
+      }
+    }
+  }
+}

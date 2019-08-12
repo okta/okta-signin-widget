@@ -64,7 +64,7 @@ const Body = BaseForm.extend({
   },
 
   showOTPView () {
-    this.options.appState.trigger('showView', 'otp');
+    this.options.appState.set('currentFormName', 'otp');
   }
 
 });
