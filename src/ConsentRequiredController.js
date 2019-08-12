@@ -58,8 +58,8 @@ function (Okta, FormController, FormType, ScopeList) {
     Form: {
       noCancelButton:false,
       autoSave: true,
-      save: Okta.loc('consent.required.consentButton', 'login'),
-      cancel: Okta.loc('consent.required.cancelButton', 'login'),
+      save: _.partial(Okta.loc, 'consent.required.consentButton', 'login'),
+      cancel: _.partial(Okta.loc, 'consent.required.cancelButton', 'login'),
       formChildren: function () {
         var appState = this.options.appState;
         return [

@@ -135,6 +135,7 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
       itp('has the consent button', function () {
         return setup().then(function (test) {
           expect(test.form.consentButton()).toExist();
+          expect(test.form.consentButton().attr('value')).toBe('Allow Access');
         });
       });
       itp('consent button click makes the correct consent post', function () {
@@ -161,6 +162,7 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
       itp('has the cancel button', function () {
         return setup().then(function (test) {
           expect(test.form.cancelButton()).toExist();
+          expect(test.form.cancelButton().attr('value')).toBe('Don\'t Allow');
         });
       });
       itp('cancel button click cancels the current stateToken and calls the cancel function', function () {
