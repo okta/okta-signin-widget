@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { View } from 'okta';
-import Q from 'q';
 import { getFactorData } from '../../util/FactorUtil';
 
 const BeaconView = View.extend({
@@ -34,14 +33,6 @@ const BeaconView = View.extend({
       className = getFactorData(factor.factorType).iconClassName;
     }
     return { className: className || '' };
-  },
-
-  fadeOut: function () {
-    var deferred = Q.defer();
-    this.$('.auth-beacon-factor').fadeOut(200, function () {
-      deferred.resolve();
-    });
-    return deferred.promise;
   },
 });
 
