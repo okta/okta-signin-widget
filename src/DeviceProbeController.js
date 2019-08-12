@@ -54,12 +54,14 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
     },
 
     doLoopback: function (port) {
+      console.log('------', port);
       return $.ajax({
         // url: `/loopback/${port}`,
         url: `http://localhost:${port}`,
         method: 'POST',
         data: {
-          nounce: this.options.appState.attributes.transaction.probeInfo.nonce,
+          requestType: 'deviceChallenge',
+          nonce: this.options.appState.attributes.transaction.probeInfo.nonce,
         }
       });
     },
