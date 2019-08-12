@@ -42,19 +42,21 @@ export default Model.extend({
 
   getCurrentViewState () {
     const currentFormName = this.get('currentFormName');
-    let vo;
+    let currentViewState;
     if (!_.isEmpty(this.get('remediation'))) {
-      vo = this.get('remediation').filter(r => r.name === currentFormName)[0];
+      currentViewState = this.get('remediation').filter(r => r.name === currentFormName)[0];
     }
 
-    if (!vo) {
+    if (!currentViewState) {
       if (currentFormName) {
         Logger.warn(`Cannot find view state for form ${currentFormName}. Fall back to terminal state.`);
       }
-      vo = this.get('currentState').terminal[0];
+      // whenever nothing found from remediation (either wrong formName, or remediation is empty),
+      // assume fall back to terminal state.
+      currentViewState = this.get('currentState').terminal[0];
     }
 
-    return vo;
+    return currentViewState;
   },
 
   setIonResponse (resp) {
