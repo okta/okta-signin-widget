@@ -11,24 +11,18 @@
  */
 
 import { _, Model } from 'okta';
+import Logger from 'util/Logger';
+
 export default Model.extend({
+
   local: {
-    baseUrl: 'string',
     introspectSuccess: 'object', // only set during introspection
     introspectError: 'object', // only set during introspection
-    username: 'string',
-    flashError: 'object',
-    beaconType: 'string',
-    deviceFingerprint: 'string', // valid only once
-    typingPattern: 'string',
-    // Note: languageCode is special in that it is shared between Settings
-    // and AppState. Settings is the *configured* language, and is static.
-    // AppState is the dynamic language state - it can be changed via a
-    // language picker, etc.
-    languageCode: ['string', true],
-    disableUsername: ['boolean', false, false],
-    ionResponse: 'object',
+
     currentState: 'object',
+    factor: 'object',      // optional
+    user: 'object',        // optional
+    currentFormName: 'string', // default to first form from Remediation
   },
 
   derived: {
@@ -46,9 +40,43 @@ export default Model.extend({
     },
   },
 
-  parse: function (options) {
-    this.settings = options.settings;
-    return _.extend(_.omit(options, 'settings'), { languageCode: this.settings.get('languageCode') });
+  getCurrentViewState () {
+    const currentFormName = this.get('currentFormName');
+    let currentViewState;
+    if (!_.isEmpty(this.get('remediation'))) {
+      currentViewState = this.get('remediation').filter(r => r.name === currentFormName)[0];
+    }
+
+    if (!currentViewState) {
+      if (currentFormName) {
+        Logger.warn(`Cannot find view state for form ${currentFormName}. Fall back to terminal state.`);
+      }
+      // whenever nothing found from remediation (either wrong formName, or remediation is empty),
+      // assume fall back to terminal state.
+      currentViewState = this.get('currentState').terminal[0];
+    }
+
+    return currentViewState;
+  },
+
+  setIonResponse (resp) {
+    if (!_.isEmpty(resp.currentState.remediation)) {
+      resp.currentFormName = resp.currentState.remediation[0].name;
+    } else {
+      resp.currentFormName = null;
+    }
+
+    // Inject default terminal state for fall back.
+    if (_.isEmpty(resp.currentState.terminal)) {
+      resp.currentState.terminal = [
+        {
+          name: 'terminal',
+          value: [],
+          uiSchema: [],
+        }
+      ];
+    }
+    this.set(resp);
   },
 });
 

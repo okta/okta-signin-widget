@@ -46,7 +46,8 @@ import { _ } from 'okta';
 /**
  * @typedef {Object} RemediationObject
  * @property {string} name
- * @property {value[]=} value mandatory visible parameters
+ * @property {value[]} value mandatory visible parameters
+ * @property {uiSchema[]} uiSchema `value` corresponding UI Schema
  */
 
 const isObject = x => _.isObject(x);
@@ -157,8 +158,12 @@ const createCurrentStateObject = (originalResp, omitKeys) => {
   const resp = _.omit.apply(_, [originalResp].concat(omitKeys));
   const allCreateForms = getRelObjectByName(resp, ['create-form']);
   const actions = createActions(allCreateForms);
-  const remediation = resp.remediation.value.map(normalizeRemedation);
   const restData = _.omit.apply(_, [resp, 'remediation'].concat(Object.keys(actions)));
+  let remediation = [];
+
+  if (resp.remediation) {
+    remediation = resp.remediation.value.map(normalizeRemedation);
+  }
 
   return Object.assign(restData, actions, {
     remediation,

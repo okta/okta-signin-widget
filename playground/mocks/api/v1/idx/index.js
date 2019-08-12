@@ -2,6 +2,7 @@
 const factorRequiredEmail = [
   require('./data/factor-required-email.json'),
   require('./data/factor-verification-email.json'),
+  require('./data/terminal.json'),
 ];
 
 const factorRequiredPassword = [

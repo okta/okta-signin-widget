@@ -8,6 +8,7 @@ import RequiredFactorPasswordView from './views/RequiredFactorPasswordView';
 import FactorPollVerificationView from './views/FactorPollVerificationView';
 import OTPView from './views/OTPView';
 import EnrollProfileView from './views/EnrollProfileView';
+import TerminalView from './views/TerminalView';
 import BaseView from './internals/BaseView';
 
 const VIEWS_MAPPING = {
@@ -20,6 +21,7 @@ const VIEWS_MAPPING = {
   'factor-poll-verification': FactorPollVerificationView,
   'otp': OTPView,
   'enroll-profile': EnrollProfileView,
+  'terminal': TerminalView,
 };
 
 module.exports = {
