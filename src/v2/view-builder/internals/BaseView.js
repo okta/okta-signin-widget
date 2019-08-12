@@ -1,11 +1,11 @@
 import { View } from 'okta';
 import BaseForm from './BaseForm';
 import BaseModel from './BaseModel';
-import HeaderView from './HeaderView';
+import BaseHeader from './BaseHeader';
 
 export default View.extend({
 
-  Header: HeaderView,
+  Header: BaseHeader,
 
   Body: BaseForm,
 

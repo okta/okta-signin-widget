@@ -9,8 +9,6 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
-/* eslint complexity: [2, 8] */
 import { View } from 'okta';
 import Q from 'q';
 import { getFactorData } from '../../util/FactorUtil';
@@ -29,10 +27,6 @@ const BeaconView = View.extend({
     </div >\
     ',
 
-  initialize: function () {
-    this.options.appState.set('beaconType', 'factor');
-  },
-
   getTemplateData: function () {
     const factor = this.options.appState.get('factor');
     let className = 'undefined-user';
@@ -40,12 +34,6 @@ const BeaconView = View.extend({
       className = getFactorData(factor.factorType).iconClassName;
     }
     return { className: className || '' };
-  },
-
-  postRender: function () {
-    if (this.options.animate) {
-      this.$('.auth-beacon-factor').fadeIn(200);
-    }
   },
 
   fadeOut: function () {

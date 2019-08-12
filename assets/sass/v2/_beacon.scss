@@ -1,14 +1,7 @@
-/* stylelint-disable declaration-no-important */
-.okta-sign-in-header {
-  padding-bottom: 90px !important;
-}
-.siw-main-body {
-  padding-top: 60px;
-}
 .siw-main-header {
   position: relative;
   .beacon-container {
-    top: -60px;
+    top: -160px;
     z-index: 10;
     .auth-beacon-factor {
       cursor: initial;
