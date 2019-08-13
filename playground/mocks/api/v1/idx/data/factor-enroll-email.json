@@ -11,7 +11,7 @@
         "rel": [
           "create-form"
         ],
-        "name": "enroll-factor-email",
+        "name": "enroll-factor",
         "href": "http://localhost:3000/api/v1/idx/",
         "method": "POST",
         "value": [
