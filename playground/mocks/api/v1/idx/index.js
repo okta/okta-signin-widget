@@ -21,7 +21,7 @@ const factorEnrollPassword = [
 ];
 const path = __dirname.slice(__dirname.indexOf('api') - 1);
 
-const testData = factorRequiredEmail;
+const testData = factorRequiredPassword;
 
 let index = 0;
 
