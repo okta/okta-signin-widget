@@ -32,6 +32,7 @@ export default Model.extend({
         return Array.isArray(currentState.remediation) ? currentState.remediation : [];
       },
     },
+    // TODO: change to factorProfile otherwise too many derived props per factor??
     factorEmail: {
       deps: ['factor'],
       fn: function (factor = {}) {
