@@ -1572,19 +1572,17 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             form.setUsername('testuser');
             form.setPassword('testpassword');
             form.submit();
-            // TODO 
-            //expect($.ajax.calls.mostRecent().args[0].headers['Accept-Language']).toBe('ja');
+            expect($.ajax.calls.all()[0].args[0].headers['Accept-Language']).toBe('ja');
           });
       });
     });
 
-    // TODO OKTA-240812
-    /*Expect.describe('Config: "assets"', function () {
+    Expect.describe('Config: "assets"', function () {
 
       function expectBundles (baseUrl, login, country) {
         expect($.ajax.calls.count()).toBe(3);
-        var loginCall = $.ajax.calls.argsFor(0)[0];
-        var countryCall = $.ajax.calls.argsFor(1)[0];
+        var loginCall = $.ajax.calls.argsFor(1)[0];
+        var countryCall = $.ajax.calls.argsFor(2)[0];
         expect(loginCall).toEqual({
           cache: true,
           dataType: 'jsonp',
@@ -1610,10 +1608,10 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
 
       var expectDefaultCdn = _.partial(
         expectBundles,
-        'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.997777777'
+        'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99'
       );
 
-      fit('loads properties from the cdn if no baseUrl and path overrides are supplied', function () {
+      itp('loads properties from the cdn if no baseUrl and path overrides are supplied', function () {
         return setupLanguage({
           mockLanguageRequest: 'ja',
           settings: {
@@ -1729,8 +1727,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             }
           })
             .then(function () {
-              var loginCall = $.ajax.calls.argsFor(0)[0];
-              var countryCall = $.ajax.calls.argsFor(1)[0];
+              var loginCall = $.ajax.calls.argsFor(1)[0];
+              var countryCall = $.ajax.calls.argsFor(2)[0];
               expect(loginCall.url).toBe('/assets/labels/jsonp/login_pt_BR.jsonp');
               expect(countryCall.url).toBe('/assets/labels/jsonp/country_pt_BR.jsonp');
             });
@@ -1747,8 +1745,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           })
             .then(function (test) {
               expectJa(test);
-              var loginCall = $.ajax.calls.argsFor(0)[0];
-              var countryCall = $.ajax.calls.argsFor(1)[0];
+              var loginCall = $.ajax.calls.argsFor(1)[0];
+              var countryCall = $.ajax.calls.argsFor(2)[0];
               expect(loginCall.url).toBe('/assets/labels/jsonp/login_ja.jsonp');
               expect(countryCall.url).toBe('/assets/labels/jsonp/country_ja.jsonp');
             });
@@ -1765,8 +1763,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           })
             .then(function (test) {
               expectJa(test);
-              var loginCall = $.ajax.calls.argsFor(0)[0];
-              var countryCall = $.ajax.calls.argsFor(1)[0];
+              var loginCall = $.ajax.calls.argsFor(1)[0];
+              var countryCall = $.ajax.calls.argsFor(2)[0];
               expect(loginCall.url).toBe('/assets/labels/jsonp/login_pt_BR.jsonp');
               expect(countryCall.url).toBe('/assets/labels/jsonp/country_pt_BR.jsonp');
             });
@@ -1974,7 +1972,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             });
         });
       });
-    });*/
+    });
 
   });
 
