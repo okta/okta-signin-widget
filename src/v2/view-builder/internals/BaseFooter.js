@@ -31,18 +31,13 @@ export default View.extend({
       'name': 'cancel',
       'type': 'link'
     };
-    const cancelInLinks = links.find(obj => obj.name === 'cancel');
     const isTerminalState = this.options.appState.get('currentState').status === 'TERMINAL';
 
-    if (cancelFn && _.isFunction(cancelFn) && !cancelInLinks) {
+    if (cancelFn && _.isFunction(cancelFn) && !isTerminalState) {
       //add cancel/signout link
       links.push(cancelObj);
     }
 
-    //remove cancel/signout link if TERMINAL state that were previously added in other states
-    if (isTerminalState && cancelInLinks) {
-      links.pop();
-    }
     links.forEach(link => {
       this.add(Link, {
         options: link,
