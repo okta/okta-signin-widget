@@ -57,12 +57,12 @@ const Body = BaseForm.extend(Object.assign(
         prepend: true,
       });
 
-      this.addPolling();
+      this.startPolling();
     },
 
     remove () {
       BaseForm.prototype.remove.apply(this, arguments);
-      this.removePolling();
+      this.stopPolling();
     }
   },
 

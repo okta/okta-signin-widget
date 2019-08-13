@@ -1,7 +1,7 @@
 import { _ } from 'okta';
 
 export default {
-  addPolling () {
+  startPolling () {
     // auto 'save' the form if `refresh` is set. a.k.a polling
     // UI will re-render per response even it might be same response
     // thus don't need `setInterval`.
@@ -13,7 +13,7 @@ export default {
       }, factorPollingInterval);
     }
   },
-  removePolling () {
+  stopPolling () {
     if (this.polling) {
       clearTimeout(this.polling);
     }
