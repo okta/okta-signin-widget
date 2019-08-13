@@ -1,4 +1,4 @@
-import { Form, loc, _ } from 'okta' ;
+import { Form, loc } from 'okta' ;
 import FormInputFactory from './FormInputFactory';
 
 export default Form.extend({
