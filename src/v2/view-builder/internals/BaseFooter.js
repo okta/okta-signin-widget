@@ -33,7 +33,7 @@ export default View.extend({
     };
     const isTerminalState = this.options.appState.get('currentState').status === 'TERMINAL';
 
-    if (cancelFn && _.isFunction(cancelFn) && !isTerminalState) {
+    if (_.isFunction(cancelFn) && !isTerminalState) {
       //add cancel/signout link
       links.push(cancelObj);
     }
