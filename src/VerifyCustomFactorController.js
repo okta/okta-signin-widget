@@ -13,10 +13,12 @@
 define([
   'okta',
   'util/FormController',
+  'util/FormType',
   'views/shared/FooterSignout',
-  'util/FactorUtil'
+  'util/FactorUtil',
+  'views/mfa-verify/HtmlErrorMessageView',
 ],
-function (Okta, FormController, FooterSignout, FactorUtil) {
+function (Okta, FormController, FormType, FooterSignout, FactorUtil, HtmlErrorMessageView) {
 
   var _ = Okta._;
   var { Util } = Okta.internal.util;
@@ -88,7 +90,21 @@ function (Okta, FormController, FooterSignout, FactorUtil) {
               type: 'checkbox'
             });
           }
-        }
+        },
+        formChildren: function () {
+          var result = [],
+              lastFailedChallengeFactorData = this.options.appState.get('lastFailedChallengeFactorData');
+          if (lastFailedChallengeFactorData) {
+            result.push(
+              FormType.View(
+                { View: new HtmlErrorMessageView(
+                  { message: lastFailedChallengeFactorData.errorMessage }) },
+                { selector: '.o-form-error-container'}
+              )
+            );
+          }
+          return result;
+        },
       };
     },
 
