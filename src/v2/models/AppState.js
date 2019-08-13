@@ -38,6 +38,12 @@ export default Model.extend({
         return factor.profile && factor.profile.email;
       },
     },
+    factorType: {
+      deps: ['factor'],
+      fn: function (factor = {}) {
+        return factor.factorType;
+      },
+    },
   },
 
   getCurrentViewState () {
