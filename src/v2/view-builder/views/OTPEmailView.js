@@ -4,7 +4,7 @@ import BaseForm from '../internals/BaseForm';
 import email from '../shared/email';
 import polling from '../shared/polling';
 
-const SHOW_RESEND_TIMEOUT = 600;
+const SHOW_RESEND_TIMEOUT = 60000;
 
 const ResendView = View.extend(
   {
