@@ -97,6 +97,9 @@ const createActionObj = (relObj) => {
       };
     }
   };
+  if (relObj.refresh) {
+    obj.createRequest.refresh = relObj.refresh;
+  }
 
   return obj;
 };

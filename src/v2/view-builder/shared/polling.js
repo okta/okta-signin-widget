@@ -8,14 +8,14 @@ export default {
     const factor = this.options.appState.get('factor');
     const factorPollingInterval = factor && factor.poll && factor.poll.refresh;
     if (_.isNumber(factorPollingInterval)) {
-      this.polling = _.delay(()=>{
-        this.options.trigger('invokeAction', 'factor.poll');
+      this.polling = setInterval(()=>{
+        this.options.appState.trigger('invokeAction', 'factor.poll');
       }, factorPollingInterval);
     }
   },
   stopPolling () {
     if (this.polling) {
-      clearTimeout(this.polling);
+      clearInterval(this.polling);
     }
   }
 };

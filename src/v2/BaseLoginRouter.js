@@ -118,7 +118,9 @@ export default Router.extend({
 
     this.listenTo(this.appState, 'change:introspectSuccess', function (appState, trans) {
       //transfer introspectSuccess into remediationSuccess response
-      this.appState.trigger('remediationSuccess', trans);
+      // `data` attribute is added by auth-js Transaction Class as the 'original response'
+      // but it's useless in idx pipeline.
+      this.appState.trigger('remediationSuccess', _.omit(trans, 'data'));
     });
 
     this.listenTo(this.appState, 'remediationSuccess', this.handleRemediationSuccess);

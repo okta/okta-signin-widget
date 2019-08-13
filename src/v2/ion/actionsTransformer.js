@@ -14,10 +14,15 @@ import { _ } from 'okta';
 import httpClient from './httpClient';
 
 const convertActionToRequestFunction = action => {
-  return extraData => {
+  const reqFn = extraData => {
     const request = action(extraData);
     return httpClient.fetchRequest(request.url, request.method, request.data);
   };
+  if (action.refresh) {
+    reqFn.refresh = action.refresh;
+  }
+
+  return reqFn;
 };
 
 /**

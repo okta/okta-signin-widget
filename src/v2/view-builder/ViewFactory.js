@@ -8,6 +8,8 @@ import RequiredFactorPasswordView from './views/RequiredFactorPasswordView';
 import OTPEmailView from './views/OTPEmailView';
 import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
+import TerminalReturnView from './views/TerminalReturnView';
+import TerminalTransferedView from './views/TerminalTransferedView';
 import BaseView from './internals/BaseView';
 
 const DEFAULT = '_';
@@ -33,6 +35,24 @@ const VIEWS_MAPPING = {
   'otp': {
     email: OTPEmailView,
   },
+  'terminal-transfered': {
+    [DEFAULT]: TerminalView,
+    'email': TerminalTransferedView,
+  },
+  'terminal-return': {
+    [DEFAULT]: TerminalView,
+    'email': TerminalReturnView,
+  },
+  'terminal-invalid': {
+    [DEFAULT]: TerminalView,
+  },
+  'terminal-expired': {
+    [DEFAULT]: TerminalView,
+  },
+  'terminal-revoked': {
+    [DEFAULT]: TerminalView,
+  },
+  // Fall back when neither remediation nor terminal-* views found.
   'terminal': {
     [DEFAULT]: TerminalView,
   },

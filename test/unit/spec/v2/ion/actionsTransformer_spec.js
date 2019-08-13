@@ -128,6 +128,7 @@ describe('v2/ion/actionsTransformer', function () {
         'profile': {
           'email': 'o*****m@abbott.dev'
         },
+        'poll': jasmine.any(Function),
         'resend': jasmine.any(Function),
       },
       'user': {
@@ -147,16 +148,10 @@ describe('v2/ion/actionsTransformer', function () {
         'expiresAt': '2018-09-17T23:08:56.000Z',
         'step': 'FACTOR_VERIFICATION_REQUIRED',
         'intent': 'login',
-        'factor-poll-verification': jasmine.any(Function),
         'cancel': jasmine.any(Function),
         'context': jasmine.any(Function),
         'otp': jasmine.any(Function),
         'remediation': [
-          {
-            'name': 'factor-poll-verification',
-            'refresh': 2000,
-            'value': [],
-          },
           {
             'name': 'otp',
             'value': [
@@ -171,6 +166,7 @@ describe('v2/ion/actionsTransformer', function () {
       },
       __rawResponse: XHRFactorVerificationRequiredEmail.response,
     });
+    expect(result.factor.poll.refresh).toBe(2000);
 
     spyOn(httpClient, 'fetchRequest');
 
@@ -183,18 +179,18 @@ describe('v2/ion/actionsTransformer', function () {
       }
     );
 
-    result.currentState['factor-poll-verification']();
+    result.factor['poll']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/',
+      'http://localhost:3000/api/v1/idx/poll',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
     );
 
-    result.currentState['factor-poll-verification']({ foo: 'bar' });
+    result.factor['poll']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/',
+      'http://localhost:3000/api/v1/idx/poll',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
@@ -230,9 +226,9 @@ describe('v2/ion/actionsTransformer', function () {
     );
 
     // context doesn't take additional data for http request
-    result.currentState['factor-poll-verification']({ foo: 'bar' });
+    result.factor['poll']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/context',
+      'http://localhost:3000/api/v1/idx/poll',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'

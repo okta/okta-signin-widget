@@ -37,7 +37,7 @@
             "create-form"
           ],
           "name": "poll",
-          "href": "http://localhost:3000/api/v1/idx/polling",
+          "href": "http://localhost:3000/api/v1/idx/poll",
           "method": "POST",
           "refresh": 2000,
           "value": [

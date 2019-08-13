@@ -11,7 +11,6 @@
  */
 
 import { _, Model } from 'okta';
-import Logger from 'util/Logger';
 
 export default Model.extend({
 
@@ -22,69 +21,56 @@ export default Model.extend({
     currentState: 'object',
     factor: 'object',      // optional
     user: 'object',        // optional
-    currentFormName: 'string', // default to first form from Remediation
   },
 
   derived: {
     remediation: {
       deps: ['currentState'],
-      fn: function (currentState = {}) {
+      fn (currentState = {}) {
         return Array.isArray(currentState.remediation) ? currentState.remediation : [];
       },
     },
-    // TODO: change to factorProfile otherwise too many derived props per factor??
-    factorEmail: {
+    factorProfile: {
       deps: ['factor'],
-      fn: function (factor = {}) {
-        return factor.profile && factor.profile.email;
+      fn (factor = {}) {
+        return factor.profile || {};
       },
     },
     factorType: {
       deps: ['factor'],
-      fn: function (factor = {}) {
+      fn (factor = {}) {
         return factor.factorType;
+      },
+    },
+    isTerminalState: {
+      deps: ['terminal'],
+      fn: function (terminal) {
+        return !_.isEmpty(terminal);
       },
     },
   },
 
   getCurrentViewState () {
-    const currentFormName = this.get('currentFormName');
-    let currentViewState;
     if (!_.isEmpty(this.get('remediation'))) {
-      currentViewState = this.get('remediation').filter(r => r.name === currentFormName)[0];
+      return this.get('remediation')[0];
+    } else if (!_.isEmpty(this.get('terminal'))) {
+      return this.get('terminal');
+    } else {
+      return {
+        name: 'terminal'
+      };
     }
-
-    if (!currentViewState) {
-      if (currentFormName) {
-        Logger.warn(`Cannot find view state for form ${currentFormName}. Fall back to terminal state.`);
-      }
-      // whenever nothing found from remediation (either wrong formName, or remediation is empty),
-      // assume fall back to terminal state.
-      currentViewState = this.get('currentState').terminal[0];
-    }
-
-    return currentViewState;
   },
 
   setIonResponse (resp) {
-    if (!_.isEmpty(resp.currentState.remediation)) {
-      resp.currentFormName = resp.currentState.remediation[0].name;
-    } else {
-      resp.currentFormName = null;
-    }
-
-    // Inject default terminal state for fall back.
-    if (_.isEmpty(resp.currentState.terminal)) {
-      resp.currentState.terminal = [
-        {
-          name: 'terminal',
-          value: [],
-          uiSchema: [],
-        }
-      ];
+    // Don't re-render view if new response is same as last.
+    // Usually happening at polling use case when `state` is not updated yet.
+    if (_.isEqual(resp.__rawResponse, this.get('__rawResponse'))) {
+      return;
     }
     this.set(resp);
-  },
+  }
+
 });
 
 // Keep track of stateMachine with this special model. Similar to Appstate.js
