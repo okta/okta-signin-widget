@@ -1,30 +1,33 @@
-import { Collection, loc } from 'okta';
+import { Collection, _ } from 'okta';
 import FactorEnrollOptions from '../components/FactorEnrollOptions';
 import FactorUtil from '../../util/FactorUtil';
 
-// TODO: stategy to handle each input instead of using if/else.
+const changeLabelToTop = (opt) => {
+  return Object.assign({}, opt, { 'label-top': true });
+};
+
+const createFactorTypeView = (opt) => {
+  var optionItems = (opt.options || [])
+    .map(opt => {
+      return Object.assign({}, opt, FactorUtil.getFactorData(opt.value));
+    });
+  return {
+    View: FactorEnrollOptions,
+    options: {
+      collection: new Collection(optionItems),
+    }
+  };
+};
+const inputCreationStrategy = {
+  text: changeLabelToTop,
+  password: changeLabelToTop,
+  factorType: createFactorTypeView,
+};
+
 const create = function (uiSchemaObj) {
-  switch (uiSchemaObj.type) {
-  case 'text':
-  case 'password':
-    return Object.assign(
-      { 'label-top': true },
-      uiSchemaObj,
-    );
-  case 'factorType':
-    var optionItems = (uiSchemaObj.options || [])
-      .map(opt => {
-        return Object.assign({}, opt, FactorUtil.getFactorData(opt.value));
-      });
-    return {
-      View: FactorEnrollOptions,
-      options: {
-        minimize: true,
-        listTitle: loc('enroll.choices.description', 'login'),
-        collection: new Collection(optionItems),
-      }
-    };
-  }
+  const strategyFn = inputCreationStrategy[uiSchemaObj.type] || _.identity;
+
+  return strategyFn(uiSchemaObj);
 };
 module.exports = {
   create,

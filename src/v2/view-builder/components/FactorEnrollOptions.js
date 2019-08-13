@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { _, loc, createButton, View, ListView } from 'okta';
+import { loc, createButton, View, ListView } from 'okta';
 
 const FactorRow = View.extend({
   className: 'enroll-factor-row clearfix',
@@ -55,17 +55,10 @@ export default ListView.extend({
     });
   },
 
-  template: '\
-      {{#if listTitle}}\
-        <div class="list-title">{{listTitle}}</div>\
-      {{/if}}\
-      <div class="list-content"></div>\
-    ',
-
-  getTemplateData: function () {
-    var json = ListView.prototype.getTemplateData.call(this);
-    _.extend(json, this);
-    return json;
-  },
+  template: `
+    <div class="list-title">
+    {{i18n code="enroll.choices.description" bundle="login"}}
+    </div>\
+    <div class="list-content"></div>`,
 
 });
