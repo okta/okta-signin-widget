@@ -11,15 +11,17 @@ import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
 import BaseView from './internals/BaseView';
 
+const DEFAULT = '_';
+
 const VIEWS_MAPPING = {
   'identify': {
-    '_': IdentifierView,
+    [DEFAULT]: IdentifierView,
   },
   'select-factor': {
-    '_': SelectFactorView,
+    [DEFAULT]: SelectFactorView,
   },
   'enroll-profile': {
-    '_': EnrollProfileView,
+    [DEFAULT]: EnrollProfileView,
   },
   'enroll-factor': {
     email: EnrollFactorEmailView,
@@ -36,18 +38,18 @@ const VIEWS_MAPPING = {
     email: OTPEmailView,
   },
   'terminal': {
-    '_': TerminalView,
+    [DEFAULT]: TerminalView,
   },
 };
 
 module.exports = {
-  create (formName, factorType = '_') {
+  create (formName, factorType = DEFAULT) {
     const config = VIEWS_MAPPING[formName];
     if (!config) {
       Logger.warn(`Cannot find customized View (form: ${formName}). Fallback to BaseView.`);
       return BaseView;
     }
-    const View = config[factorType] || config['_'];
+    const View = config[factorType] || config[DEFAULT];
 
     if (!View) {
       Logger.warn(`Cannot find customized View (form: ${formName}, factor: ${factorType}). Fallback to BaseView.`);
