@@ -5,7 +5,6 @@ import EnrollFactorPasswordView from './views/EnrollFactorPasswordView';
 import EnrollFactorEmailView from './views/EnrollFactorEmailView';
 import RequiredFactorEmailView from './views/RequiredFactorEmailView';
 import RequiredFactorPasswordView from './views/RequiredFactorPasswordView';
-import FactorPollVerificationEmailView from './views/FactorPollVerificationEmailView';
 import OTPEmailView from './views/OTPEmailView';
 import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
@@ -30,9 +29,6 @@ const VIEWS_MAPPING = {
   'required-factor': {
     email: RequiredFactorEmailView,
     password: RequiredFactorPasswordView,
-  },
-  'factor-poll-verification': {
-    email: FactorPollVerificationEmailView,
   },
   'otp': {
     email: OTPEmailView,

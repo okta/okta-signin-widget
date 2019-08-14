@@ -1,14 +1,14 @@
 import BaseView from '../internals//BaseView';
 import BaseForm from '../internals//BaseForm';
+import email from '../shared/email';
 
-const Body = BaseForm.extend({
+const Body = BaseForm.extend(Object.assign(
+  {
 
-  title () {
-    return `Email link (${this.options.appState.get('factorEmail')})`;
+    save: 'Send Email Link',
   },
-
-  save: 'Send Email Link',
-});
+  email,
+));
 
 export default BaseView.extend({
   Body,
