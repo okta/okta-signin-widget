@@ -386,7 +386,7 @@ Before version 3.0, the Sign-in Widget contained `session` and `tokenManager` pr
 
 ```javascript
 // Check for an existing authClient transaction
-signIn.authClient.tx.exists();
+var exists = signIn.authClient.tx.exists();
 if (exists) {
   console.log('A session exists!');
 } else {
