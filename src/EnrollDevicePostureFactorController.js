@@ -53,51 +53,51 @@ function (Okta, FormController) {
       var nonce = factor.get('nonce');
       var that = this;
       // mock
-      that.doLoopback('5000', nonce)
-        .fail(() => {
-          that.doLoopback('5002', nonce)
-            .fail(() => {
-              that.doLoopback('5004', nonce)
-                .fail(() => {
-                  that.doLoopback('5006', nonce)
-                    .fail(() => {
-                      that.doLoopback('5008', nonce)
-                        .done(data => {
-                          that.model.set('profile', {
-                            devicePostureJwt: data.jwt
-                          });
-                          that.model.save()
-                            .done(data => {
-                              this.options.appState.trigger('change:transaction', this.options.appState, { data });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-
-      // POC
-      // this.doLoopback('41236')
-      //     .done(data => {
-      //         this.model.set('profile', {
-      //           devicePostureJwt: data.jwt
-      //         });
-      //         this.model.save()
-      //           .done(data => {
-      //             this.options.appState.trigger('change:transaction', this.options.appState, { data });
+      // that.doLoopback('5000', nonce)
+      //   .fail(() => {
+      //     that.doLoopback('5002', nonce)
+      //       .fail(() => {
+      //         that.doLoopback('5004', nonce)
+      //           .fail(() => {
+      //             that.doLoopback('5006', nonce)
+      //               .fail(() => {
+      //                 that.doLoopback('5008', nonce)
+      //                   .done(data => {
+      //                     that.model.set('profile', {
+      //                       devicePostureJwt: data.jwt
+      //                     });
+      //                     that.model.save()
+      //                       .done(data => {
+      //                         this.options.appState.trigger('change:transaction', this.options.appState, { data });
+      //                       });
+      //                   });
+      //               });
       //           });
       //       });
+      //   });
+
+      // POC
+      that.doLoopback('41236', nonce)
+        .done(data => {
+          that.model.set('profile', {
+            devicePostureJwt: data.jwt
+          });
+          that.model.save()
+            .done(data => {
+              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+            });
+        });
     },
 
     doLoopback: function (port, nonce) {
       return $.post({
         // mock
-        url: `/loopback/factorEnrollChallenge/${port}`,
+        //url: `/loopback/factorEnrollChallenge/${port}`,
         // POC
-        // url: `http://localhost:${port}`,
+        url: `http://localhost:${port}`,
         method: 'POST',
         data: JSON.stringify({
-          requestType: 'factorEnrollChallenge',
+          requestType: 'userEnroll',
           nonce: nonce,
         }),
         contentType: 'application/json',

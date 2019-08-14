@@ -38,45 +38,48 @@ define([
       this.model.set('stateToken', this.options.appState.get('lastAuthResponse').stateToken);
 
       // mock
-      this.doLoopback('5000')
-        .fail(() => {
-          this.doLoopback('5002')
-            .fail(() => {
-              this.doLoopback('5004')
-                .fail(() => {
-                  this.doLoopback('5006')
-                    .fail(() => {
-                      this.doLoopback('5008')
-                        .done(data => {
-                          this.model.set('challengeResponse', data.jwt);
-                          this.model.save()
-                            .done(data => {
-                              this.options.appState.trigger('change:transaction', this.options.appState, { data });
-                            });
-                        });
-                    });
-                });
-            });
-        });
+      // this.doLoopback('5000')
+      //   .fail(() => {
+      //     this.doLoopback('5002')
+      //       .fail(() => {
+      //         this.doLoopback('5004')
+      //           .fail(() => {
+      //             this.doLoopback('5006')
+      //               .fail(() => {
+      //                 this.doLoopback('5008')
+      //                   .done(data => {
+      //                     this.model.set('challengeResponse', data.jwt);
+      //                     this.model.save()
+      //                       .done(data => {
+      //                         this.options.appState.trigger('change:transaction', this.options.appState, { data });
+      //                       });
+      //                   });
+      //               });
+      //           });
+      //       });
+      //   });
 
       // // POC
-      // this.doLoopback('41236')
-      // .done(data => {
-      //   console.log('------', data);
-      //   this.model.set('challengeResponse', data.jwt);
-      //   this.model.save();
-      // });
+       this.doLoopback('41236')
+       .done(data => {
+         console.log('------', data);
+         this.model.set('challengeResponse', data.jwt);
+         this.model.save()
+         .done(data => {
+           this.options.appState.trigger('change:transaction', this.options.appState, { data });
+          });
+       });
     },
 
     doLoopback: function (port) {
       return $.post({
         // mock
-        url: `/loopback/deviceProbe/${port}`,
+        //url: `/loopback/deviceProbe/${port}`,
         // POC
-        // url: `http://localhost:${port}`,
+        url: `http://localhost:${port}`,
         method: 'POST',
         data: JSON.stringify({
-          requestType: 'deviceProbeChallenge',
+          requestType: 'deviceChallenge',
           nonce: this.options.appState.get('lastAuthResponse')._embedded.probeInfo.nonce,
         }),
         contentType: 'application/json',

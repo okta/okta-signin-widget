@@ -48,61 +48,61 @@ define([
             that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
             var nonce = response._embedded.factor._embedded.challenge.nonce;
             // mock
-            that.doLoopback('5000', nonce)
-              .fail(() => {
-                that.doLoopback('5002', nonce)
-                  .fail(() => {
-                    that.doLoopback('5004', nonce)
-                      .fail(() => {
-                        that.doLoopback('5006', nonce)
-                          .fail(() => {
-                            that.doLoopback('5008', nonce)
-                              .done(data => {
-                                var Model = BaseLoginModel.extend(_.extend({
-                                  parse: function (attributes) {
-                                    this.settings = attributes.settings;
-                                    this.appState = attributes.appState;
-                                    return _.omit(attributes, ['settings', 'appState']);
-                                  }
-                                }, _.result(this, 'Model')));
-                                that.model = new Model({
-                                  settings: that.settings,
-                                  appState: that.options.appState
-                                }, { parse: true });
-                                that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
-                                that.model.set('devicePostureJwt', data.jwt);
-                                that.model.set('stateToken', response.stateToken);
-                                that.model.save()
-                                  .done(data => {
-                                    that.options.appState.trigger('change:transaction', that.options.appState, {data});
-                                  });
-                              });
-                          });
-                      });
-                  });
-              });
-            // // POC
-            // this.doLoopback('5008')
-            //   .done(data => {
-            //       var Model = BaseLoginModel.extend(_.extend({
-            //         parse: function (attributes) {
-            //           this.settings = attributes.settings;
-            //           this.appState = attributes.appState;
-            //           return _.omit(attributes, ['settings', 'appState']);
-            //         }
-            //       }, _.result(this, 'Model')));
-            //       that.model = new Model({
-            //         settings: that.settings,
-            //         appState: that.options.appState
-            //       }, { parse: true });
-            //       that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
-            //       that.model.set('devicePostureJwt', data.jwt);
-            //       that.model.set('stateToken', response.stateToken);
-            //       that.model.save()
-            //         .done(data => {
-            //           that.options.appState.trigger('change:transaction', that.options.appState, {data});
-            //         });
+            // that.doLoopback('5000', nonce)
+            //   .fail(() => {
+            //     that.doLoopback('5002', nonce)
+            //       .fail(() => {
+            //         that.doLoopback('5004', nonce)
+            //           .fail(() => {
+            //             that.doLoopback('5006', nonce)
+            //               .fail(() => {
+            //                 that.doLoopback('5008', nonce)
+            //                   .done(data => {
+            //                     var Model = BaseLoginModel.extend(_.extend({
+            //                       parse: function (attributes) {
+            //                         this.settings = attributes.settings;
+            //                         this.appState = attributes.appState;
+            //                         return _.omit(attributes, ['settings', 'appState']);
+            //                       }
+            //                     }, _.result(this, 'Model')));
+            //                     that.model = new Model({
+            //                       settings: that.settings,
+            //                       appState: that.options.appState
+            //                     }, { parse: true });
+            //                     that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
+            //                     that.model.set('devicePostureJwt', data.jwt);
+            //                     that.model.set('stateToken', response.stateToken);
+            //                     that.model.save()
+            //                       .done(data => {
+            //                         that.options.appState.trigger('change:transaction', that.options.appState, {data});
+            //                       });
+            //                   });
+            //               });
+            //           });
+            //       });
             //   });
+            // // POC
+            this.doLoopback('41236')
+              .done(data => {
+                  var Model = BaseLoginModel.extend(_.extend({
+                    parse: function (attributes) {
+                      this.settings = attributes.settings;
+                      this.appState = attributes.appState;
+                      return _.omit(attributes, ['settings', 'appState']);
+                    }
+                  }, _.result(this, 'Model')));
+                  that.model = new Model({
+                    settings: that.settings,
+                    appState: that.options.appState
+                  }, { parse: true });
+                  that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
+                  that.model.set('devicePostureJwt', data.jwt);
+                  that.model.set('stateToken', response.stateToken);
+                  that.model.save()
+                    .done(data => {
+                      that.options.appState.trigger('change:transaction', that.options.appState, {data});
+                    });
+              });
           });
       } else if (status === 'FACTOR_CHALLENGE') {
         console.log('Error! Ended up in FACTOR_CHALLENGE without being in FACTOR_REQUIRED first, do not mess around like that');
@@ -111,12 +111,12 @@ define([
 
     doLoopback: function (port, nonce) {
       return $.post({
-        url: `/loopback/factorVerifyChallenge/${port}`,
+        //url: `/loopback/factorVerifyChallenge/${port}`,
         // POC
-        // url: `http://localhost:${port}`,
+        url: `http://localhost:${port}`,
         method: 'POST',
         data: JSON.stringify({
-          requestType: 'factorVerifyChallenge',
+          requestType: 'userChallenge',
           nonce: nonce,
         }),
         contentType: 'application/json',
