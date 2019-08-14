@@ -1,14 +1,8 @@
-// Uncomment for Jintai:
-// const data = {
-// eslint-disable-next-line max-len
-//   jwt: <todo: add challenge response jwt>
-// };
-
-// Uncomment for Lars:
+const fs = require('fs');
+const widgetrc = JSON.parse(fs.readFileSync('.widgetrc'));
 const data = {
-  // eslint-disable-next-line max-len
-  jwt: 'eyJraWQiOiJheHl5OWZuMTdiaDBqZHZoaTRrMCIsImFsZyI6IlJTMjU2In0.eyJub25jZSI6IjxmaWxsSW4-In0.dvYx1rmAkQ5QgSsp4XJRLmi9Mdcw99BRozRu9umIjFHm0rB3Jt0tDd6SlrG6qDyPEMWvbQGHG5OBwRQugQA9R_4gLntT45lvyQNhUEAWK1B8GGvlnWWTTS7vDc2vBElh3yCxcGfLzohojfjNXO6KJx4_J3d19LfbnEDLh3TGaYp5fKvnjKx_GE0WqY2oTVzHPeUXlGDcD7g8vHkmvArhg-8We4YgARX3fd9XpMtf0Z2-CsY-yQeRErpJNfv1OVZXghWX4OSnXrHYrJm5Xlvp8jiTvCfF9FjkPOdFt-qSu9f8nqk0sgs-zInZ8RvPLXel0bTW6w5oMZV7Wt0BzmGBYQ',
-}
+  jwt: widgetrc.widgetOptions.mockDeviceFactorChallengeResponseJwt,
+};
 
 module.exports = {
   path: '/loopback/factorVerifyChallenge/:port',

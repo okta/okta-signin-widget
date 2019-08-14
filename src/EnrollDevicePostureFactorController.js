@@ -50,7 +50,7 @@ function (Okta, FormController) {
       // If GET, it means we're using extension
       if (_.indexOf(factor.get('_links').enroll.hints.allow, 'GET') >= 0) {
         if (this.settings.get('useMock')) {
-          window.location.href = factor.get('_links').enroll.href + '&OktaAuthorizationProviderExtension=' + this.settings.get('mockExtensionEnrollmentResponseJwt');
+          window.location.href = factor.get('_links').enroll.href + '&OktaAuthorizationProviderExtension=' + this.settings.get('mockDeviceFactorEnrollmentResponseJwt');
         } else {
           window.location.href = factor.get('_links').enroll.href;
         }

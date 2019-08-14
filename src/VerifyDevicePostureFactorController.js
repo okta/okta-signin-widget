@@ -49,7 +49,7 @@ define([
             // If GET, it means we're using extension
             if (_.indexOf(response._links.next.hints.allow, 'GET') >= 0) {
               if (that.settings.get('useMock')) {
-                window.location.href = response._links.next.href + '&OktaAuthorizationProviderExtension=' + that.settings.get('mockExtensionChallengeResponseJwt');
+                window.location.href = response._links.next.href + '&OktaAuthorizationProviderExtension=' + that.settings.get('mockDeviceFactorChallengeResponseJwt');
               } else {
                 window.location.href = response._links.next.href;
               }
