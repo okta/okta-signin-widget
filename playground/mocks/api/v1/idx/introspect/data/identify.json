@@ -29,22 +29,6 @@
         }
       ]
     },
-    "cancel": {
-      "rel": [
-        "create-form"
-      ],
-      "name": "cancel",
-      "href": "http://localhost:3000/api/v1/idx/cancel",
-      "method": "POST",
-      "accepts": "application/vnd.okta.v1+json",
-      "value": [
-        {
-          "name": "stateHandle",
-          "value": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
-          "visible": false
-        }
-      ]
-    },
     "enroll": {
       "rel": [
         "create-form"
