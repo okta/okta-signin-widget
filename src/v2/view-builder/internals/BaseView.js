@@ -2,6 +2,7 @@ import { View } from 'okta';
 import BaseForm from './BaseForm';
 import BaseModel from './BaseModel';
 import BaseHeader from './BaseHeader';
+import BaseFooter from './BaseFooter';
 
 export default View.extend({
 
@@ -9,7 +10,7 @@ export default View.extend({
 
   Body: BaseForm,
 
-  Footer: '',
+  Footer: BaseFooter,
 
   className: 'siw-main-view',
 
