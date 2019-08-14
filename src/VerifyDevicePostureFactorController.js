@@ -40,68 +40,51 @@ define([
 
       this.model.set('stateToken', response.stateToken);
       if (status === 'FACTOR_REQUIRED') {
-        this.model.url = this.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factors[0].id}/verify`;
+        this.model.url = response._embedded.factors[0]._links.verify.href;
         this.model.save()
           .done(data => {
             that.options.appState.setAuthResponse(data);
             var response = that.options.appState.get('lastAuthResponse');
-            that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
+
+            // If GET, it means we're using extension
+            if (_.indexOf(response._links.next.hints.allow, 'GET') >= 0) {
+              if (that.settings.get('useMock')) {
+                window.location.href = response._links.next.href + '&OktaAuthorizationProviderExtension=' + that.settings.get('mockExtensionChallengeResponseJwt');
+              } else {
+                window.location.href = response._links.next.href;
+              }
+              return;
+            }
+
+            that.model.url = response._links.next.href;
             var nonce = response._embedded.factor._embedded.challenge.nonce;
-            // mock
-            // that.doLoopback('5000', nonce)
-            //   .fail(() => {
-            //     that.doLoopback('5002', nonce)
-            //       .fail(() => {
-            //         that.doLoopback('5004', nonce)
-            //           .fail(() => {
-            //             that.doLoopback('5006', nonce)
-            //               .fail(() => {
-            //                 that.doLoopback('5008', nonce)
-            //                   .done(data => {
-            //                     var Model = BaseLoginModel.extend(_.extend({
-            //                       parse: function (attributes) {
-            //                         this.settings = attributes.settings;
-            //                         this.appState = attributes.appState;
-            //                         return _.omit(attributes, ['settings', 'appState']);
-            //                       }
-            //                     }, _.result(this, 'Model')));
-            //                     that.model = new Model({
-            //                       settings: that.settings,
-            //                       appState: that.options.appState
-            //                     }, { parse: true });
-            //                     that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
-            //                     that.model.set('devicePostureJwt', data.jwt);
-            //                     that.model.set('stateToken', response.stateToken);
-            //                     that.model.save()
-            //                       .done(data => {
-            //                         that.options.appState.trigger('change:transaction', that.options.appState, {data});
-            //                       });
-            //                   });
-            //               });
-            //           });
-            //       });
-            //   });
-            // // POC
-            this.doLoopback('41236')
+
+            if (that.settings.get('useMock')) {
+              this.mockLoopback(that, nonce);
+              return;
+            }
+
+            that.doLoopback('http://localhost:', '5008', nonce)
               .done(data => {
-                  var Model = BaseLoginModel.extend(_.extend({
-                    parse: function (attributes) {
-                      this.settings = attributes.settings;
-                      this.appState = attributes.appState;
-                      return _.omit(attributes, ['settings', 'appState']);
-                    }
-                  }, _.result(this, 'Model')));
-                  that.model = new Model({
-                    settings: that.settings,
-                    appState: that.options.appState
-                  }, { parse: true });
-                  that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
-                  that.model.set('devicePostureJwt', data.jwt);
-                  that.model.set('stateToken', response.stateToken);
-                  that.model.save()
-                    .done(data => {
-                      that.options.appState.trigger('change:transaction', that.options.appState, {data});
-                    });
+                var Model = BaseLoginModel.extend(_.extend({
+                  parse: function (attributes) {
+                    this.settings = attributes.settings;
+                    this.appState = attributes.appState;
+                    return _.omit(attributes, ['settings', 'appState']);
+                  }
+                }, _.result(this, 'Model')));
+                that.model = new Model({
+                  settings: that.settings,
+                  appState: that.options.appState
+                }, { parse: true });
+                var response = that.options.appState.get('lastAuthResponse');
+                that.model.url = response._links.next.href;
+                that.model.set('devicePostureJwt', data.jwt);
+                that.model.set('stateToken', response.stateToken);
+                that.model.save()
+                  .done(data => {
+                    that.options.appState.trigger('change:transaction', that.options.appState, {data});
+                  });
               });
           });
       } else if (status === 'FACTOR_CHALLENGE') {
@@ -109,11 +92,47 @@ define([
       }
     },
 
-    doLoopback: function (port, nonce) {
+    mockLoopback: function (that, nonce) {
+      var baseUrl = '/loopback/factorVerifyChallenge/';
+      that.doLoopback(baseUrl, '5000', nonce)
+        .fail(() => {
+          that.doLoopback(baseUrl, '5002', nonce)
+            .fail(() => {
+              that.doLoopback(baseUrl, '5004', nonce)
+                .fail(() => {
+                  that.doLoopback(baseUrl, '5006', nonce)
+                    .fail(() => {
+                      that.doLoopback(baseUrl, '5008', nonce)
+                        .done(data => {
+                          var Model = BaseLoginModel.extend(_.extend({
+                            parse: function (attributes) {
+                              this.settings = attributes.settings;
+                              this.appState = attributes.appState;
+                              return _.omit(attributes, ['settings', 'appState']);
+                            }
+                          }, _.result(this, 'Model')));
+                          that.model = new Model({
+                            settings: that.settings,
+                            appState: that.options.appState
+                          }, { parse: true });
+                          var response = that.options.appState.get('lastAuthResponse');
+                          that.model.url = response._links.next.href;
+                          that.model.set('devicePostureJwt', data.jwt);
+                          that.model.set('stateToken', response.stateToken);
+                          that.model.save()
+                            .done(data => {
+                              that.options.appState.trigger('change:transaction', that.options.appState, {data});
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    },
+
+    doLoopback: function (baseUrl, port, nonce) {
       return $.post({
-        //url: `/loopback/factorVerifyChallenge/${port}`,
-        // POC
-        url: `http://localhost:${port}`,
+        url: baseUrl + `${port}`,
         method: 'POST',
         data: JSON.stringify({
           requestType: 'userChallenge',

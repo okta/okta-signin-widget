@@ -17,6 +17,7 @@ define([
 ],
 function (Okta, FormController) {
 
+
   const $ = Okta.$;
   const _ = Okta._;
 
@@ -39,45 +40,38 @@ function (Okta, FormController) {
     },
 
     initialize: function () {
-      this.model.url = this.settings.get('baseUrl') + '/api/v1/authn/factors';
-      this.model.set('stateToken', this.options.appState.get('lastAuthResponse').stateToken);
-      this.model.set('provider', 'OKTA');
-      this.model.set('factorType', 'device_posture');
-
+      var response = this.options.appState.get('lastAuthResponse');
       var factors = this.options.appState.get('factors');
       var factor = factors.findWhere({
         provider: this.options.provider,
         factorType: this.options.factorType
       });
 
-      var nonce = factor.get('nonce');
-      var that = this;
-      // mock
-      // that.doLoopback('5000', nonce)
-      //   .fail(() => {
-      //     that.doLoopback('5002', nonce)
-      //       .fail(() => {
-      //         that.doLoopback('5004', nonce)
-      //           .fail(() => {
-      //             that.doLoopback('5006', nonce)
-      //               .fail(() => {
-      //                 that.doLoopback('5008', nonce)
-      //                   .done(data => {
-      //                     that.model.set('profile', {
-      //                       devicePostureJwt: data.jwt
-      //                     });
-      //                     that.model.save()
-      //                       .done(data => {
-      //                         this.options.appState.trigger('change:transaction', this.options.appState, { data });
-      //                       });
-      //                   });
-      //               });
-      //           });
-      //       });
-      //   });
+      // If GET, it means we're using extension
+      if (_.indexOf(factor.get('_links').enroll.hints.allow, 'GET') >= 0) {
+        if (this.settings.get('useMock')) {
+          window.location.href = factor.get('_links').enroll.href + '&OktaAuthorizationProviderExtension=' + this.settings.get('mockExtensionEnrollmentResponseJwt');
+        } else {
+          window.location.href = factor.get('_links').enroll.href;
+        }
+        return;
+      }
 
-      // POC
-      that.doLoopback('41236', nonce)
+      this.model.set('stateToken', response.stateToken);
+      this.model.set('provider', this.options.provider);
+      this.model.set('factorType', this.options.factorType);
+
+      var nonce = factor.get('nonce');
+
+      this.model.url = response._embedded.factors[0]._links.enroll.href;
+
+      if (this.settings.get('useMock')) {
+        this.mockLoopback(this, nonce);
+        return;
+      }
+
+      var that = this;
+      that.doLoopback('http://localhost:', '41236', nonce)
         .done(data => {
           that.model.set('profile', {
             devicePostureJwt: data.jwt
@@ -89,12 +83,35 @@ function (Okta, FormController) {
         });
     },
 
-    doLoopback: function (port, nonce) {
+    mockLoopback: function (that, nonce) {
+      var baseUrl = '/loopback/factorEnrollChallenge/';
+      that.doLoopback(baseUrl, '5000', nonce)
+        .fail(() => {
+          that.doLoopback(baseUrl, '5002', nonce)
+            .fail(() => {
+              that.doLoopback(baseUrl, '5004', nonce)
+                .fail(() => {
+                  that.doLoopback(baseUrl, '5006', nonce)
+                    .fail(() => {
+                      that.doLoopback(baseUrl, '5008', nonce)
+                        .done(data => {
+                          that.model.set('profile', {
+                            devicePostureJwt: data.jwt
+                          });
+                          that.model.save()
+                            .done(data => {
+                              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    },
+
+    doLoopback: function (baseUrl, port, nonce) {
       return $.post({
-        // mock
-        //url: `/loopback/factorEnrollChallenge/${port}`,
-        // POC
-        url: `http://localhost:${port}`,
+        url: baseUrl + `${port}`,
         method: 'POST',
         data: JSON.stringify({
           requestType: 'userEnroll',

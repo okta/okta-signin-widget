@@ -19,6 +19,7 @@ define([
   const _ = Okta._;
 
   return FormController.extend({
+
     className: 'device-probe',
 
     Model: {
@@ -34,53 +35,58 @@ define([
     },
   
     initialize: function () {
-      this.model.url = this.settings.get('baseUrl') + '/api/v1/authn/probe/verify';
-      this.model.set('stateToken', this.options.appState.get('lastAuthResponse').stateToken);
+      var response = this.options.appState.get('lastAuthResponse');
+      this.model.set('stateToken', response.stateToken);
 
-      // mock
-      // this.doLoopback('5000')
-      //   .fail(() => {
-      //     this.doLoopback('5002')
-      //       .fail(() => {
-      //         this.doLoopback('5004')
-      //           .fail(() => {
-      //             this.doLoopback('5006')
-      //               .fail(() => {
-      //                 this.doLoopback('5008')
-      //                   .done(data => {
-      //                     this.model.set('challengeResponse', data.jwt);
-      //                     this.model.save()
-      //                       .done(data => {
-      //                         this.options.appState.trigger('change:transaction', this.options.appState, { data });
-      //                       });
-      //                   });
-      //               });
-      //           });
-      //       });
-      //   });
+      this.model.url = response._links.next.href;
+      var nonce = response._embedded.probeInfo.nonce;
 
-      // // POC
-       this.doLoopback('41236')
-       .done(data => {
-         console.log('------', data);
-         this.model.set('challengeResponse', data.jwt);
-         this.model.save()
-         .done(data => {
-           this.options.appState.trigger('change:transaction', this.options.appState, { data });
-          });
-       });
+      if (this.settings.get('useMock')) {
+        this.mockLoopback(nonce);
+        return;
+      }
+
+      this.doLoopback('http://localhost:', '41236', nonce)
+        .done(data => {
+          this.model.set('challengeResponse', data.jwt);
+          this.model.save()
+            .done(data => {
+              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+            });
+        });
     },
 
-    doLoopback: function (port) {
+    mockLoopback: function (nonce) {
+      var baseUrl = '/loopback/deviceProbe/';
+      this.doLoopback(baseUrl, '5000', nonce)
+        .fail(() => {
+          this.doLoopback(baseUrl, '5002', nonce)
+            .fail(() => {
+              this.doLoopback(baseUrl, '5004', nonce)
+                .fail(() => {
+                  this.doLoopback(baseUrl, '5006', nonce)
+                    .fail(() => {
+                      this.doLoopback(baseUrl, '5008', nonce)
+                        .done(data => {
+                          this.model.set('challengeResponse', data.jwt);
+                          this.model.save()
+                            .done(data => {
+                              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    },
+
+    doLoopback: function (baseUrl, port, nonce) {
       return $.post({
-        // mock
-        //url: `/loopback/deviceProbe/${port}`,
-        // POC
-        url: `http://localhost:${port}`,
+        url: baseUrl + `${port}`,
         method: 'POST',
         data: JSON.stringify({
           requestType: 'deviceChallenge',
-          nonce: this.options.appState.get('lastAuthResponse')._embedded.probeInfo.nonce,
+          nonce: nonce,
         }),
         contentType: 'application/json',
       });
