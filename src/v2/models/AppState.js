@@ -11,6 +11,7 @@
  */
 
 import { _, Model } from 'okta';
+import Logger from 'util/Logger';
 
 export default Model.extend({
 
@@ -21,6 +22,7 @@ export default Model.extend({
     currentState: 'object',
     factor: 'object',      // optional
     user: 'object',        // optional
+    currentFormName: 'string',
   },
 
   derived: {
@@ -51,15 +53,22 @@ export default Model.extend({
   },
 
   getCurrentViewState () {
+    const currentFormName = this.get('currentFormName');
+
+    let currentViewState;
     if (!_.isEmpty(this.get('remediation'))) {
-      return this.get('remediation')[0];
-    } else if (!_.isEmpty(this.get('terminal'))) {
-      return this.get('terminal');
-    } else {
-      return {
-        name: 'terminal'
-      };
+      currentViewState = this.get('remediation').filter(r => r.name === currentFormName)[0];
     }
+
+    if (!currentViewState) {
+      if (currentFormName) {
+        Logger.warn(`Cannot find view state for form ${currentFormName}. Fall back to terminal state.`);
+      }
+
+      currentViewState = this.get('terminal');
+    }
+
+    return currentViewState;
   },
 
   setIonResponse (resp) {
@@ -68,6 +77,22 @@ export default Model.extend({
     if (_.isEqual(resp.__rawResponse, this.get('__rawResponse'))) {
       return;
     }
+
+    // `currentFormName` is default to first form of remediation object or nothing.
+    resp.currentFormName = null;
+
+    if (!_.isEmpty(resp.currentState.remediation)) {
+      resp.currentFormName = resp.currentState.remediation[0].name;
+    }
+    // an default terminal state for fall back
+    if (_.isEmpty(resp.terminal)) {
+      resp.terminal = {
+        name: 'terminal',
+        value: [],
+        uiSchema: [],
+      };
+    }
+
     this.set(resp);
   }
 
