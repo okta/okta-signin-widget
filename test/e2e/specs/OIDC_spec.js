@@ -21,6 +21,10 @@ function setup (options) {
 }
 
 describe('OIDC flows', function () {
+  if (process.env.SAUCE_PLATFORM_NAME === 'android') {
+    return 0;
+  }
+
   var primaryAuth = new PrimaryAuthPage(),
       oidcApp = new OIDCAppPage(),
       facebook = new FacebookPage();
