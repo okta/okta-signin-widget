@@ -1,0 +1,100 @@
+const data = {  
+  'stateToken':'00GT7RBSRf4oVfYkCjaQV--uakPPm6fN_Ea909Xv--',
+  'expiresAt':'2019-08-07T18:59:43.000Z',
+  'status':'MFA_REQUIRED',
+  '_embedded':{  
+    'user':{  
+      'id':'00u75rekkaQDAIMRARFS',
+      'passwordChanged':'2019-07-11T16:54:54.000Z',
+      'profile':{  
+        'login':'jhe@okta.com',
+        'firstName':'Jintai',
+        'lastName':'He',
+        'locale':'en',
+        'timeZone':'America/Los_Angeles'
+      }
+    },
+    'factors':[  
+      {  
+        'id':'opf1fkoeq4jpj0Xi91d8',
+        'factorType':'push',
+        'provider':'OKTA',
+        'vendorName':'OKTA',
+        'profile':{  
+          'credentialId':'jhe@okta.com',
+          'deviceType':'SmartPhone_Android',
+          'keys':[  
+            {  
+              'kty':'PKIX',
+              'use':'sig',
+              'kid':'default',
+              'x5c':[  
+                // eslint-disable-next-line max-len
+                'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwM2B94SyEmmJkqZJsTMXwu3J/+1BlN30\n9WZNnQf/oNX5eOSRnpun8eGMklItXcL0tnKpCeNNDUUF+XjeL/3BIK0RNKgLTFjT9JFXPjkVQHbM\nYhvIfnOg0OxdtYD4X4goRcoHdTsRQo/VQtYpNUxLsUKVg9adm21PH7aQ34vEmlBhAfJmrtqmLIO6\nS/CaJVYn6V5dmMk+ABW8xjOlNkjKeFz7bPqEYph2C0DqQgh5j3VNOzYVKzXaNgEMVV3puCWxJzle\nAj1esdu0CpiJHimVvX2NZZmYlhYooVMHucbgXr9ER2mjfq6AUSmt0QxZTtH2wxkJctYa3fqzPsX/\nStAJZwIDAQAB\n'
+              ]
+            }
+          ],
+          'name':'Pixel 3 XL',
+          'platform':'ANDROID',
+          'version':'28'
+        },
+        '_links':{  
+          'verify':{  
+            'href':'https://okta.okta.com/api/v1/authn/factors/opf1fkoeq4jpj0Xi91d8/verify',
+            'hints':{  
+              'allow':[  
+                'POST'
+              ]
+            }
+          }
+        }
+      },
+      {  
+        'id':'ost1fkoeq4iudUFLd1d8',
+        'factorType':'token:software:totp',
+        'provider':'OKTA',
+        'vendorName':'OKTA',
+        'profile':{  
+          'credentialId':'jhe@okta.com'
+        },
+        '_links':{  
+          'verify':{  
+            'href':'https://okta.okta.com/api/v1/authn/factors/ost1fkoeq4iudUFLd1d8/verify',
+            'hints':{  
+              'allow':[  
+                'POST'
+              ]
+            }
+          }
+        }
+      }
+    ],
+    'policy':{  
+      'allowRememberDevice':false,
+      'rememberDeviceLifetimeInMinutes':0,
+      'rememberDeviceByDefault':false,
+      'factorsPolicyInfo':{  
+        'opf1fkoeq4jpj0Xi91d8':{  
+          'autoPushEnabled':true
+        }
+      }
+    }
+  },
+  '_links':{  
+    'cancel':{  
+      'href':'https://okta.okta.com/api/v1/authn/cancel',
+      'hints':{  
+        'allow':[  
+          'POST'
+        ]
+      }
+    }
+  }
+};
+
+module.exports = {
+  path: '/api/v1/authn/probe/verify',
+  proxy: false,
+  method: 'POST',
+  template: data,
+};
