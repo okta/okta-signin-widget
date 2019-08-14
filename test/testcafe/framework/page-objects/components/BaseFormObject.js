@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, ClientFunction } from 'testcafe';
 
 export default class BaseFormObject {
   constructor (t, index) {
@@ -30,6 +30,14 @@ export default class BaseFormObject {
 
   getCheckboxValue(name) {
     return this.form.find(`input[name="${name}"]`).checked;
+  }
+
+  async focusSaveButton() {
+    // testcafe does not support actions for focus yet
+    const focus = ClientFunction(() => {
+      document.querySelector('.o-form-button-bar input[data-type="save"]').focus();
+    });
+    await focus();
   }
 
   async clickSaveButton() {
