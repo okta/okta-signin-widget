@@ -391,7 +391,7 @@ if (exists) {
   console.log('A session exists!');
 } else {
   console.log('A session does not exist.');
-};
+}
 ```
 
 ### hasTokensInUrl
