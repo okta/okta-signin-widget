@@ -22,7 +22,7 @@ describe('Angular flows', function () {
 
     // expect to see widget
     var widget = element(by.css('#okta-sign-in'));
-    browser.wait(until.presenceOf(widget), 2000, 'Unable to find widget');
+    browser.wait(until.presenceOf(widget), 10000, 'Unable to find widget');
 
     // log in to widget
     var primaryAuth = new PrimaryAuthPage();
@@ -30,7 +30,7 @@ describe('Angular flows', function () {
 
     // expect to see protected
     var protectedText = element(by.xpath('//app-secure[text()="Protected endpoint!"]'));
-    browser.wait(until.presenceOf(protectedText), 3000, 'Not able to detect protected route');
+    browser.wait(until.presenceOf(protectedText), 10000, 'Not able to detect protected route');
 
     // log out of Okta session
     browser.get('{{{WIDGET_TEST_SERVER}}}/login/signout');
