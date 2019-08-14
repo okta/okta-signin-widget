@@ -12,7 +12,8 @@ export default Form.extend({
   save: loc('oform.next', 'login'),
 
   initialize: function () {
-    const inputOptions = this.createInputs();
+    const uiSchemas = this.getUISchema();
+    const inputOptions = uiSchemas.map(FormInputFactory.create);
 
     inputOptions.forEach(input => {
       this.addInputOrView(input);
@@ -25,9 +26,9 @@ export default Form.extend({
     this.options.appState.trigger('saveForm', model);
   },
 
-  createInputs () {
+  getUISchema () {
     if (Array.isArray(this.options.currentViewState.uiSchema)) {
-      return this.options.currentViewState.uiSchema.map(FormInputFactory.create);
+      return this.options.currentViewState.uiSchema;
     } else {
       return [];
     }

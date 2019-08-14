@@ -5,7 +5,21 @@ import { validateFieldsMatch } from '../../../util/ValidationUtil';
 
 const Body = BaseForm.extend({
   title: loc('factor.password', 'login'),
-  save: loc('mfa.challenge.verify', 'login')
+  save: loc('mfa.challenge.verify', 'login'),
+
+  getUISchema () {
+    const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
+    return uiSchemas.concat([
+      {
+        name: 'confirmPassword',
+        label: 'Repeat Password',
+        type: 'password',
+        params: {
+          showPasswordToggle: true
+        }
+      }
+    ]);
+  }
 });
 
 export default BaseView.extend({
@@ -14,8 +28,17 @@ export default BaseView.extend({
 
   createModelClass () {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
+    const local = Object.assign(
+      {
+        confirmPassword: {
+          type: 'string',
+          required: true,
+        }
+      },
+      ModelClass.prototype.local,
+    );
     return ModelClass.extend({
-
+      local,
       validate: function (data) {
         return validateFieldsMatch(data.password, data.confirmPassword);
       }
