@@ -35,7 +35,7 @@ define([
   
     initialize: function () {
       this.model.url = this.settings.get('baseUrl') + '/api/v1/authn/probe/verify';
-      this.model.set('stateToken', this.options.appState.get('transaction').data.stateToken);
+      this.model.set('stateToken', this.options.appState.get('lastAuthResponse').stateToken);
 
       // mock
       this.doLoopback('5000')
@@ -50,11 +50,9 @@ define([
                         .done(data => {
                           this.model.set('challengeResponse', data.jwt);
                           this.model.save()
-                          .done(data => {
-                            console.log('saving the transaction response', data);
-                            this.options.appState.trigger('change:transaction', this.options.appState, { data });
-                            // this.options.appState.setAuthResponse(data);
-                          });
+                            .done(data => {
+                              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+                            });
                         });
                     });
                 });
@@ -71,16 +69,15 @@ define([
     },
 
     doLoopback: function (port) {
-      console.log('------', port);
       return $.post({
         // mock
-        url: `/loopback/${port}`,
+        url: `/loopback/deviceProbe/${port}`,
         // POC
         // url: `http://localhost:${port}`,
         method: 'POST',
         data: JSON.stringify({
-          requestType: 'deviceChallenge',
-          nonce: this.options.appState.attributes.transaction.probeInfo.nonce,
+          requestType: 'deviceProbeChallenge',
+          nonce: this.options.appState.get('lastAuthResponse')._embedded.probeInfo.nonce,
         }),
         contentType: 'application/json',
       });

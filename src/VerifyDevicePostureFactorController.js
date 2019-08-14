@@ -13,7 +13,8 @@
 define([
   'okta',
   'util/FormController',
-], function (Okta, FormController) {
+  'models/BaseLoginModel',
+], function (Okta, FormController, BaseLoginModel) {
 
   const $ = Okta.$;
   const _ = Okta._;
@@ -21,44 +22,106 @@ define([
   return FormController.extend({
     className: 'device-posture',
 
-    Model: {},
+    Model: {
+      url: '',
+      props: {
+        stateToken: 'string',
+      },
+    },
 
     Form: {
       noButtonBar: true,
     },
 
     initialize: function () {
+      var response = this.options.appState.get('lastAuthResponse');
+      var status = response.status;
+      var that = this;
 
-      $.post({
-        url: `https://rain.okta1.com/api/v1/authn/factors/${this.options.appState.get('factors').getDefaultFactor().get('id')}/verify`,
-        data: JSON.stringify({
-          stateToken: this.options.appState.get('transaction').data.stateToken
-        }),
-        contentType: 'application/json'
-      })
-        .done(() => {
-          return $.ajax({
+      this.model.set('stateToken', response.stateToken);
+      if (status === 'FACTOR_REQUIRED') {
+        this.model.url = this.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factors[0].id}/verify`;
+        this.model.save()
+          .done(data => {
+            that.options.appState.setAuthResponse(data);
+            var response = that.options.appState.get('lastAuthResponse');
+            that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
+            var nonce = response._embedded.factor._embedded.challenge.nonce;
             // mock
-            url: '/loopback/41236',
+            that.doLoopback('5000', nonce)
+              .fail(() => {
+                that.doLoopback('5002', nonce)
+                  .fail(() => {
+                    that.doLoopback('5004', nonce)
+                      .fail(() => {
+                        that.doLoopback('5006', nonce)
+                          .fail(() => {
+                            that.doLoopback('5008', nonce)
+                              .done(data => {
+                                var Model = BaseLoginModel.extend(_.extend({
+                                  parse: function (attributes) {
+                                    this.settings = attributes.settings;
+                                    this.appState = attributes.appState;
+                                    return _.omit(attributes, ['settings', 'appState']);
+                                  }
+                                }, _.result(this, 'Model')));
+                                that.model = new Model({
+                                  settings: that.settings,
+                                  appState: that.options.appState
+                                }, { parse: true });
+                                that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
+                                that.model.set('devicePostureJwt', data.jwt);
+                                that.model.set('stateToken', response.stateToken);
+                                that.model.save()
+                                  .done(data => {
+                                    that.options.appState.trigger('change:transaction', that.options.appState, {data});
+                                  });
+                              });
+                          });
+                      });
+                  });
+              });
             // // POC
-            // url: 'http://localhost:41236',
-            method: 'POST',
-            data: {
-              requestType: 'deviceChallenge',
-              nonce: this.options.appState.attributes.transaction.probeInfo.nonce,
-            }
+            // this.doLoopback('5008')
+            //   .done(data => {
+            //       var Model = BaseLoginModel.extend(_.extend({
+            //         parse: function (attributes) {
+            //           this.settings = attributes.settings;
+            //           this.appState = attributes.appState;
+            //           return _.omit(attributes, ['settings', 'appState']);
+            //         }
+            //       }, _.result(this, 'Model')));
+            //       that.model = new Model({
+            //         settings: that.settings,
+            //         appState: that.options.appState
+            //       }, { parse: true });
+            //       that.model.url = that.settings.get('baseUrl') + `/api/v1/authn/factors/${response._embedded.factor.id}/verify`;
+            //       that.model.set('devicePostureJwt', data.jwt);
+            //       that.model.set('stateToken', response.stateToken);
+            //       that.model.save()
+            //         .done(data => {
+            //           that.options.appState.trigger('change:transaction', that.options.appState, {data});
+            //         });
+            //   });
           });
-        })
-        .done(data => {
-          return $.post({
-            url: `https://rain.okta1.com/api/v1/authn/factors/${this.options.appState.get('factors').getDefaultFactor().get('id')}/verify`,
-            data: JSON.stringify({
-              stateToken: this.options.appState.get('transaction').data.stateToken,
-              devicePostureJwt: data.jwt,
-            }),
-            contentType: 'application/json'
-          });
-        });
+      } else if (status === 'FACTOR_CHALLENGE') {
+        console.log('Error! Ended up in FACTOR_CHALLENGE without being in FACTOR_REQUIRED first, do not mess around like that');
+      }
     },
+
+    doLoopback: function (port, nonce) {
+      return $.post({
+        url: `/loopback/factorVerify/${port}`,
+        // POC
+        // url: `http://localhost:${port}`,
+        method: 'POST',
+        data: JSON.stringify({
+          requestType: 'deviceFactorChallenge',
+          nonce: nonce,
+        }),
+        contentType: 'application/json',
+      });
+    },
+
   });
 });

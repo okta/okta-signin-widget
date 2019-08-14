@@ -11,7 +11,7 @@ const data = {
 }
 
 module.exports = {
-  path: '/loopback/:port',
+  path: '/loopback/deviceProbe/:port',
   proxy: false,
   method: 'POST',
   template: (params, query, body, cookies, headers) => {
