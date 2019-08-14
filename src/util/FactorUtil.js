@@ -157,6 +157,12 @@ function (Okta, TimeUtil) {
       },
       iconClassName: 'mfa-custom-factor',
       sortOrder: 18
+    },
+    'DEVICE_POSTURE': {
+      label: '',
+      description: Okta.loc('factor.customFactor.description.generic', 'login'),
+      iconClassName: 'mfa-custom-factor',
+      sortOrder: 19
     }
   };
 
@@ -205,6 +211,9 @@ function (Okta, TimeUtil) {
     }
     if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
       return 'GENERIC_OIDC';
+    }
+    if (provider === 'OKTA' && factorType === 'device_posture') {
+      return 'DEVICE_POSTURE';
     }
     return fn.getFactorNameForFactorType.call(this, factorType);
   };

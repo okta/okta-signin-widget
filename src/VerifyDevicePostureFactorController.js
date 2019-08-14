@@ -13,8 +13,7 @@
 define([
   'okta',
   'util/FormController',
-  'util/RouterUtil'
-], function (Okta, FormController, RouterUtil) {
+], function (Okta, FormController) {
 
   const $ = Okta.$;
   const _ = Okta._;
@@ -27,7 +26,7 @@ define([
     Form: {
       noButtonBar: true,
     },
-  
+
     initialize: function () {
 
       $.post({
@@ -37,28 +36,29 @@ define([
         }),
         contentType: 'application/json'
       })
-      .done(() => {
-        return $.ajax({
-          // mock
-          // url: `/loopback/41236`,
-          // // POC
-          url: 'http://localhost:41236',
-          method: 'POST',
-          data: {
-            requestType: 'deviceChallenge',
-            nonce: this.options.appState.attributes.transaction.probeInfo.nonce,
-          }
-        });
-      })
-      .done(data => {
-        return $.post({
-          url: `https://rain.okta1.com/api/v1/authn/factors/${this.options.appState.get('factors').getDefaultFactor().get('id')}/verify`,
-          data: JSON.stringify({
-            stateToken: this.options.appState.get('transaction').data.stateToken,
-            devicePostureJwt: data.jwt,
-          }),
-          contentType: 'application/json'
+        .done(() => {
+          return $.ajax({
+            // mock
+            url: '/loopback/41236',
+            // // POC
+            // url: 'http://localhost:41236',
+            method: 'POST',
+            data: {
+              requestType: 'deviceChallenge',
+              nonce: this.options.appState.attributes.transaction.probeInfo.nonce,
+            }
+          });
         })
-      });
+        .done(data => {
+          return $.post({
+            url: `https://rain.okta1.com/api/v1/authn/factors/${this.options.appState.get('factors').getDefaultFactor().get('id')}/verify`,
+            data: JSON.stringify({
+              stateToken: this.options.appState.get('transaction').data.stateToken,
+              devicePostureJwt: data.jwt,
+            }),
+            contentType: 'application/json'
+          });
+        });
+    },
   });
 });

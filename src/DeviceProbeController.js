@@ -10,15 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/FormController'], function (Okta, FormController) {
+define([
+  'okta',
+  'util/FormController'
+], function (Okta, FormController) {
 
   const $ = Okta.$;
+  const _ = Okta._;
 
   return FormController.extend({
     className: 'device-probe',
 
     Model: {
-      url: '/api/v1/authn/probe/verify',
+      url: '',
       props: {
         stateToken: 'string',
         challengeResponse: 'string'
@@ -30,40 +34,56 @@ define(['okta', 'util/FormController'], function (Okta, FormController) {
     },
   
     initialize: function () {
+      this.model.url = this.settings.get('baseUrl') + '/api/v1/authn/probe/verify';
       this.model.set('stateToken', this.options.appState.get('transaction').data.stateToken);
-      // this.model.trigger('save');
-      // this.model.trigger('setTransaction');
-      // this.doLoopback('5000')
-      //   .fail(() => {
-      //     this.doLoopback('5002')
-      //       .fail(() => {
-      //         this.doLoopback('5004')
-      //           .fail(() => {
-      //             this.doLoopback('5006')
-      //               .fail(() => {
-      this.doLoopback('41236')
-        .done(data => {
-          console.log('------', data);
-          this.model.set('challengeResponse', data.jwt);
-          this.model.save();
+
+      // mock
+      this.doLoopback('5000')
+        .fail(() => {
+          this.doLoopback('5002')
+            .fail(() => {
+              this.doLoopback('5004')
+                .fail(() => {
+                  this.doLoopback('5006')
+                    .fail(() => {
+                      this.doLoopback('5008')
+                        .done(data => {
+                          this.model.set('challengeResponse', data.jwt);
+                          this.model.save()
+                          .done(data => {
+                            console.log('saving the transaction response', data);
+                            this.options.appState.trigger('change:transaction', this.options.appState, { data });
+                            // this.options.appState.setAuthResponse(data);
+                          });
+                        });
+                    });
+                });
+            });
         });
-                    // })
-            //     })
-            // });
-        // });
+
+      // // POC
+      // this.doLoopback('41236')
+      // .done(data => {
+      //   console.log('------', data);
+      //   this.model.set('challengeResponse', data.jwt);
+      //   this.model.save();
+      // });
     },
 
     doLoopback: function (port) {
       console.log('------', port);
-      return $.ajax({
-        // url: `/loopback/${port}`,
-        url: `http://localhost:${port}`,
+      return $.post({
+        // mock
+        url: `/loopback/${port}`,
+        // POC
+        // url: `http://localhost:${port}`,
         method: 'POST',
-        data: {
+        data: JSON.stringify({
           requestType: 'deviceChallenge',
           nonce: this.options.appState.attributes.transaction.probeInfo.nonce,
-        }
+        }),
+        contentType: 'application/json',
       });
-    },
+    }
   });
 });

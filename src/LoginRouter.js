@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 50] */
+/* eslint max-params: [2, 51] */
 define([
   'util/BaseLoginRouter',
   'IDPDiscoveryController',
@@ -60,9 +60,10 @@ define([
   'EnrollUserController',
   'DeviceProbeController',
   'DeviceProbeClipboardController',
+  'VerifyDevicePostureFactorController',
   'views/shared/SecurityBeacon',
   'views/shared/FactorBeacon',
-  'views/consent/ConsentBeacon'
+  'views/consent/ConsentBeacon',
 ],
 function (BaseLoginRouter,
   IDPDiscoveryController,
@@ -112,6 +113,7 @@ function (BaseLoginRouter,
   EnrollUserController,
   DeviceProbeController,
   DeviceProbeClipboardController,
+  VerifyDevicePostureFactorController,
   SecurityBeacon,
   FactorBeacon,
   ConsentBeacon) {
@@ -125,6 +127,7 @@ function (BaseLoginRouter,
       'signin/verify/webauthn': 'verifyWebauthn',
       'signin/verify/fido/u2f': 'verifyU2F',
       'signin/verify/u2f': 'verifyU2F',
+      'signin/verify/okta/device_posture': 'verifyDevicePostureFactor',
       'signin/verify/generic_saml/assertion:saml2': 'verifySAMLFactor',
       'signin/verify/generic_oidc/assertion:oidc': 'verifyOIDCFactor',
       'signin/verify/custom/claims_provider': 'verifyClaimsFactor',
@@ -215,6 +218,10 @@ function (BaseLoginRouter,
         controller = DeviceProbeController;
       }
       this.render(controller, { Beacon: SecurityBeacon });
+    },
+
+    verifyDevicePostureFactor: function () {
+      this.render(VerifyDevicePostureFactorController, { Beacon: FactorBeacon });
     },
 
     verifyDuo: function () {

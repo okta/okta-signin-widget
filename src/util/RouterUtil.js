@@ -119,10 +119,11 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
     if (router.controller && router.controller.trapAuthResponse(res)) {
       return;
     }
-
+    console.log('I am at the right place');
     fn.handleResponseStatus(router, res);
   };
 
+  // eslint-disable-next-line complexity
   fn.handleResponseStatus = function (router, res) {
     switch (res.status) {
     case 'SUCCESS':
