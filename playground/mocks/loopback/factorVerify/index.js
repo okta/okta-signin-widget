@@ -11,7 +11,7 @@ const data = {
 }
 
 module.exports = {
-  path: '/loopback/factorVerify/:port',
+  path: '/loopback/factorVerifyChallenge/:port',
   proxy: false,
   method: 'POST',
   template: (params, query, body, cookies, headers) => {

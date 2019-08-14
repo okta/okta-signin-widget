@@ -111,12 +111,12 @@ define([
 
     doLoopback: function (port, nonce) {
       return $.post({
-        url: `/loopback/factorVerify/${port}`,
+        url: `/loopback/factorVerifyChallenge/${port}`,
         // POC
         // url: `http://localhost:${port}`,
         method: 'POST',
         data: JSON.stringify({
-          requestType: 'deviceFactorChallenge',
+          requestType: 'factorVerifyChallenge',
           nonce: nonce,
         }),
         contentType: 'application/json',

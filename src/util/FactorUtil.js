@@ -159,7 +159,7 @@ function (Okta, TimeUtil) {
       sortOrder: 18
     },
     'DEVICE_POSTURE': {
-      label: '',
+      label: 'factor.webauthn',
       description: Okta.loc('factor.customFactor.description.generic', 'login'),
       iconClassName: 'mfa-custom-factor',
       sortOrder: 19

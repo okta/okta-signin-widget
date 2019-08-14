@@ -61,6 +61,7 @@ define([
   'DeviceProbeController',
   'DeviceProbeClipboardController',
   'VerifyDevicePostureFactorController',
+  'EnrollDevicePostureFactorController',
   'views/shared/SecurityBeacon',
   'views/shared/FactorBeacon',
   'views/consent/ConsentBeacon',
@@ -114,6 +115,7 @@ function (BaseLoginRouter,
   DeviceProbeController,
   DeviceProbeClipboardController,
   VerifyDevicePostureFactorController,
+  EnrollDevicePostureFactorController,
   SecurityBeacon,
   FactorBeacon,
   ConsentBeacon) {
@@ -139,6 +141,7 @@ function (BaseLoginRouter,
       'signin/enroll/okta/password': 'enrollPassword',
       'signin/enroll/okta/sms': 'enrollSms',
       'signin/enroll/okta/call': 'enrollCall',
+      'signin/enroll/okta/device_posture': 'enrollDevicePosture',
       'signin/enroll-activate/okta/sms': 'enrollSms',
       'signin/enroll/rsa/token': 'enrollRsa',
       'signin/enroll/del_oath/token': 'enrollOnPrem',
@@ -432,6 +435,14 @@ function (BaseLoginRouter,
       this.render(EnrollU2FController, {
         provider: 'FIDO',
         factorType: 'u2f',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollDevicePosture: function () {
+      this.render(EnrollDevicePostureFactorController, {
+        provider: 'OKTA',
+        factorType: 'device_posture',
         Beacon: FactorBeacon
       });
     },
