@@ -64,7 +64,7 @@ export default Model.extend({
 
   setIonResponse (resp) {
     // Don't re-render view if new response is same as last.
-    // Usually happening at polling use case when `state` is not updated yet.
+    // Usually happening at polling and pipeline doesn't proceed to next step.
     if (_.isEqual(resp.__rawResponse, this.get('__rawResponse'))) {
       return;
     }
