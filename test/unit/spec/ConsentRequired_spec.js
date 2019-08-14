@@ -9,10 +9,11 @@ define([
   'LoginRouter',
   'sandbox',
   'helpers/xhr/CONSENT_REQUIRED',
-  'helpers/xhr/SUCCESS'
+  'helpers/xhr/SUCCESS',
+  'helpers/xhr/CANCEL'
 ],
 function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
-  $sandbox, resConsentRequired, resSuccess) {
+  $sandbox, resConsentRequired, resSuccess, resCancel) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -168,12 +169,13 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
       itp('cancel button click cancels the current stateToken and calls the cancel function', function () {
         var cancel = jasmine.createSpy('cancel');
         return setup({ consent: { cancel } }).then(function (test) {
+          spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
           $.ajax.calls.reset();
-          test.setNextResponse(resSuccess);
+          test.setNextResponse(resCancel);
           test.form.cancelButton().click();
-          return tick();
+          return tick(test);
         })
-          .then(function () {
+          .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://example.okta.com/api/v1/authn/cancel',
@@ -181,6 +183,7 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
                 stateToken: 'testStateToken'
               }
             });
+            expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
             expect(cancel).toHaveBeenCalled();
           });
       });

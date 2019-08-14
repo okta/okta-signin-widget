@@ -200,6 +200,10 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       this.set('lastAuthResponse', res);
     },
 
+    clearLastAuthResponse: function () {
+      this.set('lastAuthResponse', {});
+    },
+
     derived: {
       'isSuccessResponse': {
         deps: ['lastAuthResponse'],

@@ -15,11 +15,12 @@ define([
   'helpers/xhr/PASSWORD_EXPIRED_error_oldpass',
   'helpers/xhr/CUSTOM_PASSWORD_WARN',
   'helpers/xhr/CUSTOM_PASSWORD_EXPIRED',
-  'helpers/xhr/SUCCESS'
+  'helpers/xhr/SUCCESS',
+  'helpers/xhr/CANCEL'
 ],
 function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
   $sandbox, resPassWarn, resPassExpired, resErrorComplexity,
-  resErrorOldPass, resCustomPassWarn, resCustomPassExpired, resSuccess) {
+  resErrorOldPass, resCustomPassWarn, resCustomPassExpired, resSuccess, resCancel) {
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
@@ -172,9 +173,10 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       });
       itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
         return setup().then(function (test) {
+          spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
           spyOn(SharedUtil, 'redirect');
           $.ajax.calls.reset();
-          test.setNextResponse(resSuccess);
+          test.setNextResponse(resCancel);
           test.form.signout();
           return tick(test);
         })
@@ -186,19 +188,21 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
                 stateToken: 'testStateToken'
               }
             });
+            expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
             Expect.isPrimaryAuth(test.router.controller);
           });
       });
       itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
         function () {
           return setup({ signOutLink: 'http://www.goodbye.com' }).then(function (test) {
+            spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
             spyOn(SharedUtil, 'redirect');
             $.ajax.calls.reset();
-            test.setNextResponse(resSuccess);
+            test.setNextResponse(resCancel);
             test.form.signout();
-            return tick();
+            return tick(test);
           })
-            .then(function () {
+            .then(function (test) {
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
                 url: 'https://foo.com/api/v1/authn/cancel',
@@ -206,6 +210,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
                   stateToken: 'testStateToken'
                 }
               });
+              expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
               expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
             });
         });
@@ -536,17 +541,23 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       });
       itp('goToLink is called with the correct args on sign out', function () {
         return setupWarn(4).then(function (test) {
+          spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
           $.ajax.calls.reset();
-          test.setNextResponse(resSuccess);
+          test.setNextResponse(resCancel);
           test.form.signout();
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn/cancel',
-            data: {
-              stateToken: 'testStateToken'
-            }
+          return Expect.waitForPrimaryAuth(test);
+        })
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/cancel',
+              data: {
+                stateToken: 'testStateToken'
+              }
+            });
+            expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
+            Expect.isPrimaryAuth(test.router.controller);
           });
-        });
       });
 
     });
