@@ -23,19 +23,20 @@ export default View.extend({
   links: [],
 
   initialize () {
-    const links = _.resultCtx(this, 'links', this);
-    let cancelFn = this.options.appState.get('currentState').cancel;
-    let cancelObj = {
-      'actionPath': 'cancel',
-      'label': 'Sign out',
-      'name': 'cancel',
-      'type': 'link'
-    };
-    const isTerminalState = this.options.appState.get('currentState').status === 'TERMINAL';
+    let links = _.resultCtx(this, 'links', this);
+    const cancelFn = this.options.appState.get('currentState').cancel;
+    const isTerminalState = this.options.appState.get('isTerminalState');
 
     if (_.isFunction(cancelFn) && !isTerminalState) {
       //add cancel/signout link
-      links.push(cancelObj);
+      links = links.concat([
+        {
+          'actionPath': 'cancel',
+          'label': 'Sign out',
+          'name': 'cancel',
+          'type': 'link'
+        },
+      ]);
     }
 
     links.forEach(link => {

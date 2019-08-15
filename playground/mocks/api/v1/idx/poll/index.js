@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
 const recoveryByEmail = [
   require('../data/factor-verification-email.json'),
+  require('../data/factor-verification-email.json'),
+  require('../data/factor-verification-email.json'),
+  require('../data/factor-verification-email.json'),
+  require('../data/terminal-email-transfered.json'),
 ];
 const path = __dirname.slice(__dirname.indexOf('api') - 1);
 

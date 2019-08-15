@@ -1,13 +1,14 @@
 import BaseView from '../internals//BaseView';
 import BaseForm from '../internals//BaseForm';
-import email from '../shared/email';
 
-const Body = BaseForm.extend(Object.assign(
-  {
-    save: 'Send Email Link',
+const Body = BaseForm.extend({
+  title: 'Sign in using a link sent to your email',
+  subtitle () {
+    return `Email will be sent to ${this.options.appState.get('factorProfile').email}`;
   },
-  email,
-));
+  save: 'Send Email Link',
+},
+);
 
 export default BaseView.extend({
   Body,

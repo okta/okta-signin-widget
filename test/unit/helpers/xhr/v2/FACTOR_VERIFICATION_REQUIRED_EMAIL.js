@@ -14,22 +14,6 @@ const data = {
           "rel": [
             "create-form"
           ],
-          "name": "factor-poll-verification",
-          "href": "http://localhost:3000/api/v1/idx/",
-          "method": "POST",
-          "refresh": 2000,
-          "value": [
-            {
-              "name": "stateHandle",
-              "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-              "visible": false
-            }
-          ]
-        },
-        {
-          "rel": [
-            "create-form"
-          ],
           "name": "otp",
           "href": "http://localhost:3000/api/v1/idx/",
           "method": "POST",
@@ -50,6 +34,22 @@ const data = {
         "provider": "okta",
         "profile": {
           "email": "o*****m@abbott.dev"
+        },
+        "poll": {
+          "rel": [
+            "create-form"
+          ],
+          "name": "poll",
+          "href": "http://localhost:3000/api/v1/idx/poll",
+          "method": "POST",
+          "refresh": 2000,
+          "value": [
+            {
+              "name": "stateHandle",
+              "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+              "visible": false
+            }
+          ]
         },
         "resend": {
           "name": "resend",

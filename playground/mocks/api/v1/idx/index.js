@@ -2,7 +2,7 @@
 const factorRequiredEmail = [
   require('./data/factor-required-email.json'),
   require('./data/factor-verification-email.json'),
-  require('./data/terminal.json'),
+  require('./data/terminal-email-return.json'),
 ];
 
 const factorRequiredPassword = [
@@ -13,6 +13,7 @@ const factorEnrollEmail = [
   require('./data/factor-enroll-options.json'),
   require('./data/factor-enroll-email.json'),
   require('./data/factor-verification-email.json'),
+  require('./data/terminal-email-transfered.json'),
 ];
 
 const factorEnrollPassword = [
@@ -21,7 +22,7 @@ const factorEnrollPassword = [
 ];
 const path = __dirname.slice(__dirname.indexOf('api') - 1);
 
-const testData = factorRequiredPassword;
+const testData = factorEnrollEmail;
 
 let index = 0;
 

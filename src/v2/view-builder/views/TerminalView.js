@@ -4,7 +4,7 @@ import BaseFooter from '../internals/BaseFooter';
 
 const Body = BaseForm.extend({
   title () {
-    const msg = this.options.appState.get('currentState').message || {};
+    const msg = this.options.appState.get('terminal').message || {};
     return msg.value || 'You can close this window';
   },
   noButtonBar: true,
