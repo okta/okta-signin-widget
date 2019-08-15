@@ -1250,6 +1250,7 @@ The `.widgetrc` file is a configuration file that saves your local widget settin
 | `yarn build:release` | Build a minified, uglified version of the widget (`okta-sign-in.min.js`) and a non-minified **development** version of the widget (`okta-sign-in.js`). |
 | `yarn test`          | Run unit tests                                                                                                                                         |
 | `yarn test --test OAuth2Util_spec`  | Run a single unit test                                                                                                                  |
+| `yarn test:testcafe <browser>`  | Run testcafe tests on selected browser (example: `yarn test:testcafe chrome`)                                                               |
 | `yarn lint`          | Run eslint and scss linting tests                                                                                                                      |
 
 ## Browser support
