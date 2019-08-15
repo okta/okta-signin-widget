@@ -8,7 +8,7 @@ export default class BaseFormObject {
 
   async setTextBoxValue(name, text) {
     const element = this.form.find(`input[name="${name}"]`);
-    if (text === '') {
+    if (!text) {
       await this.t
         .selectText(element)
         .pressKey('delete');

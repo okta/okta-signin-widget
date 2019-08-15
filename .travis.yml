@@ -24,7 +24,6 @@ env:
   - TEST_SUITE=lint
   - TEST_SUITE=test
   - TEST_SUITE=test:e2e
-  - TEST_SUITE=test:testcafe-ci
   global:
   - SAUCE_BROWSER_NAME="chrome"
   - SAUCE_BROWSER_VERSION=""
