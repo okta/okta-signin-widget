@@ -101,17 +101,10 @@ describe('v2/ion/uiSchemaTransformer', function () {
       'expiresAt': '2018-09-17T23:08:56.000Z',
       'step': 'FACTOR_VERIFICATION_REQUIRED',
       'intent': 'login',
-      'factor-poll-verification': jasmine.any(Function),
       'otp': jasmine.any(Function),
       'cancel': jasmine.any(Function),
       'context': jasmine.any(Function),
       'remediation': [
-        {
-          'name': 'factor-poll-verification',
-          'refresh': 2000,
-          'value': [],
-          'uiSchema': [],
-        },
         {
           'name': 'otp',
           'value': [

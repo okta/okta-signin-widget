@@ -22,33 +22,39 @@ export default Model.extend({
     currentState: 'object',
     factor: 'object',      // optional
     user: 'object',        // optional
-    currentFormName: 'string', // default to first form from Remediation
+    currentFormName: 'string',
   },
 
   derived: {
     remediation: {
       deps: ['currentState'],
-      fn: function (currentState = {}) {
+      fn (currentState = {}) {
         return Array.isArray(currentState.remediation) ? currentState.remediation : [];
       },
     },
-    // TODO: change to factorProfile otherwise too many derived props per factor??
-    factorEmail: {
+    factorProfile: {
       deps: ['factor'],
-      fn: function (factor = {}) {
-        return factor.profile && factor.profile.email;
+      fn (factor = {}) {
+        return factor.profile || {};
       },
     },
     factorType: {
       deps: ['factor'],
-      fn: function (factor = {}) {
+      fn (factor = {}) {
         return factor.factorType;
+      },
+    },
+    isTerminalState: {
+      deps: ['terminal'],
+      fn: function (terminal) {
+        return !_.isEmpty(terminal);
       },
     },
   },
 
   getCurrentViewState () {
     const currentFormName = this.get('currentFormName');
+
     let currentViewState;
     if (!_.isEmpty(this.get('remediation'))) {
       currentViewState = this.get('remediation').filter(r => r.name === currentFormName)[0];
@@ -58,33 +64,38 @@ export default Model.extend({
       if (currentFormName) {
         Logger.warn(`Cannot find view state for form ${currentFormName}. Fall back to terminal state.`);
       }
-      // whenever nothing found from remediation (either wrong formName, or remediation is empty),
-      // assume fall back to terminal state.
-      currentViewState = this.get('currentState').terminal[0];
+
+      currentViewState = this.get('terminal');
     }
 
     return currentViewState;
   },
 
   setIonResponse (resp) {
-    if (!_.isEmpty(resp.currentState.remediation)) {
-      resp.currentFormName = resp.currentState.remediation[0].name;
-    } else {
-      resp.currentFormName = null;
+    // Don't re-render view if new response is same as last.
+    // Usually happening at polling and pipeline doesn't proceed to next step.
+    if (_.isEqual(resp.__rawResponse, this.get('__rawResponse'))) {
+      return;
     }
 
-    // Inject default terminal state for fall back.
-    if (_.isEmpty(resp.currentState.terminal)) {
-      resp.currentState.terminal = [
-        {
-          name: 'terminal',
-          value: [],
-          uiSchema: [],
-        }
-      ];
+    // `currentFormName` is default to first form of remediation object or nothing.
+    resp.currentFormName = null;
+
+    if (!_.isEmpty(resp.currentState.remediation)) {
+      resp.currentFormName = resp.currentState.remediation[0].name;
     }
+    // an default terminal state for fall back
+    if (_.isEmpty(resp.terminal)) {
+      resp.terminal = {
+        name: 'terminal',
+        value: [],
+        uiSchema: [],
+      };
+    }
+
     this.set(resp);
-  },
+  }
+
 });
 
 // Keep track of stateMachine with this special model. Similar to Appstate.js

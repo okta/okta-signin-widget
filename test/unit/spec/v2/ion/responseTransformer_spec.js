@@ -1,6 +1,7 @@
 import transformResponse from 'v2/ion/responseTransformer';
 import XHRFactorRequiredEmail from '../../../helpers/xhr/v2/FACTOR_REQUIRED_EMAIL';
 import XHRFactorVerificationRequiredEmail from '../../../helpers/xhr/v2/FACTOR_VERIFICATION_REQUIRED_EMAIL';
+import XHRTerminalTransfered from '../../../helpers/xhr/v2/TERMINAL_TRANSFERED';
 
 describe('v2/ion/responseTransformer', function () {
   it('returns result when invokes with invalid resp', () => {
@@ -118,6 +119,7 @@ describe('v2/ion/responseTransformer', function () {
         'profile': {
           'email': 'o*****m@abbott.dev'
         },
+        'poll': jasmine.any(Function),
         'resend': jasmine.any(Function),
       },
       'user': {
@@ -137,16 +139,10 @@ describe('v2/ion/responseTransformer', function () {
         'expiresAt': '2018-09-17T23:08:56.000Z',
         'step': 'FACTOR_VERIFICATION_REQUIRED',
         'intent': 'login',
-        'factor-poll-verification': jasmine.any(Function),
         'cancel': jasmine.any(Function),
         'context': jasmine.any(Function),
         'otp': jasmine.any(Function),
         'remediation': [
-          {
-            'name': 'factor-poll-verification',
-            'refresh': 2000,
-            'value': [],
-          },
           {
             'name': 'otp',
             'value': [
@@ -170,17 +166,17 @@ describe('v2/ion/responseTransformer', function () {
       }
     });
 
-    expect(result.currentState['factor-poll-verification']()).toEqual({
+    expect(result.factor['poll']()).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/',
+      url: 'http://localhost:3000/api/v1/idx/poll',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
     });
 
-    expect(result.currentState['factor-poll-verification']({foo: 'bar'})).toEqual({
+    expect(result.factor['poll']({foo: 'bar'})).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/',
+      url: 'http://localhost:3000/api/v1/idx/poll',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
       }
@@ -222,4 +218,18 @@ describe('v2/ion/responseTransformer', function () {
 
   });
 
+  it('converts terminal transfered', () => {
+    const result = transformResponse(XHRTerminalTransfered.response);
+    expect(result).toEqual({
+      'terminal': {
+        'name': 'terminal-transfered',
+        'message': 'Flow continued in a new tab.',
+      },
+      'currentState': {
+        'version': '1.0.0',
+        'remediation': [],
+      },
+      __rawResponse: XHRTerminalTransfered.response,
+    });
+  });
 });

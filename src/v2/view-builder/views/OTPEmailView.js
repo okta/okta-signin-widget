@@ -41,7 +41,6 @@ const ResendView = View.extend(
       clearTimeout(this.showMeTimeout);
     }
   },
-
 );
 
 const Body = BaseForm.extend(Object.assign(
@@ -50,6 +49,12 @@ const Body = BaseForm.extend(Object.assign(
     save: loc('mfa.challenge.verify', 'login'),
 
     subtitle: 'To finish signing in, click the link in your email or enter code below.',
+
+    saveForm () {
+      BaseForm.prototype.saveForm.apply(this, arguments);
+      this.stopPolling();
+      // TODO: abort ongoing request. (https://oktainc.atlassian.net/browse/OKTA-244134)
+    },
 
     postRender () {
       this.add(ResendView, {

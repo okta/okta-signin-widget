@@ -1,9 +1,18 @@
 {
   "version": "1.0.0",
   "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-  "status": "TERMINAL",
-  "message": {
-    "value": "You can close this window"
+  "terminal" : {
+    "type" : "object",
+    "value" : {
+      "name" : "terminal-transfered",
+      "message" : {
+        "value" : "Flow continued in a new tab.",
+        "i18n" : {
+          "key" : "idx.session.expired",
+          "params" : []
+        }
+      }
+    }
   },
   "factor": {
     "type": "object",
