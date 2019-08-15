@@ -46,13 +46,39 @@ define([
             that.options.appState.setAuthResponse(data);
             var response = that.options.appState.get('lastAuthResponse');
 
-            // If GET, it means we're using extension
-            if (_.indexOf(response._links.next.hints.allow, 'GET') >= 0) {
-              if (that.settings.get('useMock')) {
-                window.location.href = response._links.next.href + '&OktaAuthorizationProviderExtension=' + that.settings.get('mockDeviceFactorChallengeResponseJwt');
+            // If extension is being used
+            if (response._links.extension) {
+              let headers;
+              if (this.settings.get('useMock')) {
+                headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + that.settings.get('mockDeviceFactorChallengeResponseJwt')};
               } else {
-                window.location.href = response._links.next.href;
+                headers = {'Authorization': 'OktaAuthorizationProviderExtension <valueToBeReplacedByExtension>'};
               }
+              // Let the call be intercepted, populated and returned back
+              $.get({
+                url: response._links.extension.href,
+                headers: headers // Included to trigger CORS acceptance for the actual request that's being modified
+              }).done(data => {
+                var Model = BaseLoginModel.extend(_.extend({
+                  parse: function (attributes) {
+                    this.settings = attributes.settings;
+                    this.appState = attributes.appState;
+                    return _.omit(attributes, ['settings', 'appState']);
+                  }
+                }, _.result(this, 'Model')));
+                that.model = new Model({
+                  settings: that.settings,
+                  appState: that.options.appState
+                }, { parse: true });
+                var response = that.options.appState.get('lastAuthResponse');
+                that.model.url = response._links.next.href;
+                that.model.set('devicePostureJwt', data.devicePostureJwt);
+                that.model.set('stateToken', response.stateToken);
+                that.model.save()
+                  .done(data => {
+                    that.options.appState.trigger('change:transaction', that.options.appState, {data});
+                  });
+              });
               return;
             }
 

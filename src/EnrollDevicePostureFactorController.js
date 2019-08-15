@@ -17,7 +17,6 @@ define([
 ],
 function (Okta, FormController) {
 
-
   const $ = Okta.$;
   const _ = Okta._;
 
@@ -40,26 +39,41 @@ function (Okta, FormController) {
     },
 
     initialize: function () {
+      var that = this;
       var response = this.options.appState.get('lastAuthResponse');
       var factors = this.options.appState.get('factors');
       var factor = factors.findWhere({
         provider: this.options.provider,
         factorType: this.options.factorType
       });
-
-      // If GET, it means we're using extension
-      if (_.indexOf(factor.get('_links').enroll.hints.allow, 'GET') >= 0) {
-        if (this.settings.get('useMock')) {
-          window.location.href = factor.get('_links').enroll.href + '&OktaAuthorizationProviderExtension=' + this.settings.get('mockDeviceFactorEnrollmentResponseJwt');
-        } else {
-          window.location.href = factor.get('_links').enroll.href;
-        }
-        return;
-      }
-
       this.model.set('stateToken', response.stateToken);
       this.model.set('provider', this.options.provider);
       this.model.set('factorType', this.options.factorType);
+
+      // If extension is being used
+      if (factor.get('_links').extension) {
+        let headers;
+        if (this.settings.get('useMock')) {
+          headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + this.settings.get('mockDeviceFactorEnrollmentResponseJwt')};
+        } else {
+          headers = {'Authorization': 'OktaAuthorizationProviderExtension <valueToBeReplacedByExtension>'};
+        }
+        // Let the call be intercepted, populated and returned back
+        $.get({
+          url: factor.get('_links').extension.href,
+          headers: headers // Included to trigger CORS acceptance for the actual request that's being modified
+        }).done(data => {
+          that.model.url = factor.get('_links').enroll.href;
+          that.model.set('profile', {
+            devicePostureJwt: data.devicePostureJwt
+          });
+          that.model.save()
+            .done(data => {
+              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+            });
+        });
+        return;
+      }
 
       var nonce = factor.get('nonce');
 
@@ -70,7 +84,6 @@ function (Okta, FormController) {
         return;
       }
 
-      var that = this;
       that.doLoopback('http://localhost:', '41236', nonce)
         .done(data => {
           that.model.set('profile', {
