@@ -1,7 +1,7 @@
 import { loc } from 'okta';
-import BaseView from '../internals//BaseView';
-import BaseForm from '../internals//BaseForm';
-import { validateFieldsMatch } from '../../util/ValidationUtil';
+import BaseView from '../../internals/BaseView';
+import BaseForm from '../../internals/BaseForm';
+import { validateFieldsMatch } from '../../../util/ValidationUtil';
 
 const Body = BaseForm.extend({
   title: loc('factor.password', 'login'),
