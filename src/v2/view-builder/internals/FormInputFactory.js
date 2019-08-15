@@ -1,5 +1,5 @@
 import { Collection, _ } from 'okta';
-import FactorEnrollOptions from '../components/FactorEnrollOptions';
+import FactorOptions from '../components/FactorOptions';
 import FactorUtil from '../../util/FactorUtil';
 
 const changeLabelToTop = (opt) => {
@@ -12,7 +12,7 @@ const createFactorTypeView = (opt) => {
       return Object.assign({}, opt, FactorUtil.getFactorData(opt.value));
     });
   return {
-    View: FactorEnrollOptions,
+    View: FactorOptions,
     options: {
       collection: new Collection(optionItems),
     }
@@ -26,7 +26,6 @@ const inputCreationStrategy = {
 
 const create = function (uiSchemaObj) {
   const strategyFn = inputCreationStrategy[uiSchemaObj.type] || _.identity;
-
   return strategyFn(uiSchemaObj);
 };
 module.exports = {

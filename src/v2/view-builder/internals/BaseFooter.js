@@ -22,12 +22,15 @@ export default View.extend({
    */
   links: [],
 
+  hideSignOutLink () {
+    const isTerminalStep = this.options.appState.get('isTerminalStep');
+    return isTerminalStep;
+  },
+
   initialize () {
     let links = _.resultCtx(this, 'links', this);
     const cancelFn = this.options.appState.get('currentState').cancel;
-    const isTerminalState = this.options.appState.get('isTerminalState');
-
-    if (_.isFunction(cancelFn) && !isTerminalState) {
+    if (_.isFunction(cancelFn) && !this.hideSignOutLink()) {
       //add cancel/signout link
       links = links.concat([
         {

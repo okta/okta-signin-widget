@@ -36,7 +36,7 @@ const Link = View.extend({
     if (!this.options.href && this.options.actionPath) {
       this.$el.click((event) => {
         event.preventDefault();
-        this.options.appState.trigger('invokeAction', this.options.actionPath);
+        this.options.appState.trigger('invokeAction', this.options);
       });
     }
   }

@@ -29,7 +29,13 @@ const FactorRow = View.extend({
   children: function () {
     return [[createButton({
       className: 'button select-factor',
-      title: loc('enroll.choices.setup', 'login'),
+      title: function () {
+        if (this.options.appState.get('isAuthenticateStep')) {
+          return 'Use';
+        } else {
+          return loc('enroll.choices.setup', 'login');
+        }
+      },
       click: function () {
         this.model.trigger('selectFactor', this.model.get('value'));
       }
@@ -49,8 +55,15 @@ export default ListView.extend({
   itemSelector: '.list-content',
 
   initialize: function () {
+    this.step = this.options.appState.get('currentState').step;
+    this.currentState = this.options.appState.get('currentState');
     this.listenTo(this.collection,'selectFactor', function (data) {
-      this.model.set('factorType', data);
+      // for challenge flow send factorId
+      if (this.step === 'AUTHENTICATE') {
+        this.model.set('factorId', data);
+      } else {
+        this.model.set('factorType', data);
+      }
       this.options.appState.trigger('saveForm', this.model);
     });
   },

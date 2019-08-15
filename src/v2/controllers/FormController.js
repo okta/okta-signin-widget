@@ -44,7 +44,16 @@ export default BaseLoginController.extend({
     this.listenTo(this.formView, 'save', this.handleFormSave);
   },
 
-  invokeAction (actionPath = '') {
+  invokeAction (options = {}) {
+    const actionPath = options.actionPath;
+    // handle switch-factor form
+    if (actionPath === 'switch-factor') {
+      // setting factor to null to adjust the beacon header in the select-factor view
+      this.options.appState.set('factor', null);
+      // trigger formname change to change view
+      this.options.appState.set('currentFormName', options.actionPath);
+      return;
+    }
     const paths = actionPath.split('.');
     let targetObject;
     if (paths.length === 1) {

@@ -28,6 +28,9 @@ const VIEWS_MAPPING = {
   'select-factor': {
     [DEFAULT]: SelectFactorView,
   },
+  'switch-factor': {
+    [DEFAULT]: SelectFactorView,
+  },
   'enroll-profile': {
     [DEFAULT]: EnrollProfileView,
   },
@@ -35,7 +38,7 @@ const VIEWS_MAPPING = {
     email: EnrollFactorEmailView,
     password: EnrollFactorPasswordView
   },
-  'required-factor': {
+  'challenge-factor': {
     email: RequiredFactorEmailView,
     password: RequiredFactorPasswordView,
   },

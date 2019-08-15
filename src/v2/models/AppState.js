@@ -35,21 +35,44 @@ export default Model.extend({
     factorProfile: {
       deps: ['factor'],
       fn (factor = {}) {
-        return factor.profile || {};
+        return factor && factor.profile || {};
       },
     },
     factorType: {
       deps: ['factor'],
       fn (factor = {}) {
-        return factor.factorType;
+        return factor && factor.factorType;
       },
     },
-    isTerminalState: {
+    isTerminalStep: {
       deps: ['terminal'],
       fn: function (terminal) {
-        return !_.isEmpty(terminal);
+        return !_.isEmpty(terminal) && terminal.value.length;
       },
     },
+    isAuthenticateStep: {
+      deps: ['currentState'],
+      fn: function (currentState = {}) {
+        return currentState && currentState.step === 'AUTHENTICATE';
+      },
+    },
+    isIdentifyStep: {
+      deps: ['currentState'],
+      fn: function (currentState = {}) {
+        return currentState && currentState.step === 'IDENTIFY';
+      },
+    },
+  },
+
+  getNextViewState () {
+    if (this.get('currentState').remediation[1]) {
+      const nextFormName = this.get('currentState').remediation[1].name;
+      let nextViewState;
+      if (!_.isEmpty(this.get('remediation'))) {
+        nextViewState = this.get('remediation').filter(r => r.name === nextFormName)[0];
+      }
+      return nextViewState;
+    }
   },
 
   getCurrentViewState () {
@@ -74,7 +97,8 @@ export default Model.extend({
   setIonResponse (resp) {
     // Don't re-render view if new response is same as last.
     // Usually happening at polling and pipeline doesn't proceed to next step.
-    if (_.isEqual(resp.__rawResponse, this.get('__rawResponse'))) {
+    if (_.isEqual(resp.__rawResponse, this.get('__rawResponse'))
+        && this.get('__rawResponse').remediation.value.length === 1) {
       return;
     }
 

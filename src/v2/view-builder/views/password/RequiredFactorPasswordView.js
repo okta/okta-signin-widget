@@ -11,14 +11,27 @@ const Body = BaseForm.extend({
 });
 
 const Footer = BaseFooter.extend({
-  links: [
-    {
-      'type': 'link',
-      'label': 'Forgot Password',
-      'name': 'forgot-password',
-      'actionPath': 'factor.recovery',
+  links: function () {
+    var links = [
+      {
+        'type': 'link',
+        'label': 'Forgot Password',
+        'name': 'forgot-password',
+        'actionPath': 'factor.recovery',
+      }
+    ];
+    const nextViewState = this.options.appState.getNextViewState();
+    // if there are 2 forms, the second form is the switch factor form
+    if (nextViewState) {
+      links.push({
+        'type': 'link',
+        'label': 'Switch Factor',
+        'name': 'switchFactor',
+        'actionPath': 'switch-factor',
+      });
     }
-  ],
+    return links;
+  }
 });
 
 export default BaseView.extend({
