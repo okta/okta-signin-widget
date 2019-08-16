@@ -44,6 +44,7 @@ define([
   'helpers/xhr/MFA_CHALLENGE_push_rejected',
   'helpers/xhr/MFA_CHALLENGE_push_timeout',
   'helpers/xhr/SUCCESS',
+  'helpers/xhr/CANCEL',
   'helpers/xhr/MFA_VERIFY_invalid_answer',
   'helpers/xhr/MFA_VERIFY_invalid_password',
   'helpers/xhr/MFA_VERIFY_totp_invalid_answer',
@@ -99,6 +100,7 @@ function (Okta,
   resRejectedPush,
   resTimeoutPush,
   resSuccess,
+  resCancel,
   resInvalid,
   resInvalidPassword,
   resInvalidTotp,
@@ -520,6 +522,7 @@ function (Okta,
       spyOn(model, 'trigger').and.callThrough();
       spyOn(model, 'setTransaction').and.callThrough();
       spyOn(controller.options.appState, 'set').and.callThrough();
+      spyOn(controller.options.appState, 'clearLastAuthResponse').and.callThrough();
       spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
       spyOn(RouterUtil, 'routeAfterAuthStatusChangeError').and.callThrough();
     }
@@ -537,6 +540,8 @@ function (Okta,
       }
       // Make sure that the transaction event is called on the model
       expect(model.setTransaction).toHaveBeenCalledWith(mockTransaction);
+      // Make sure clearLastAuthResponse was not called
+      expect(router.controller.options.appState.clearLastAuthResponse).not.toHaveBeenCalled();
       // Make sure that the controller catches the model's event and sets the transaction property on appState
       expect(router.controller.options.appState.set).toHaveBeenCalledWith('transaction', mockTransaction);
       expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalledWith(router, res.response);
@@ -2072,8 +2077,10 @@ function (Okta,
         itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
           return setupSecurityQuestion()
             .then(function (test) {
+              spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
+              spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
               $.ajax.calls.reset();
-              test.setNextResponse(resSuccess);
+              test.setNextResponse(resCancel);
               test.form.signoutLink($sandbox).click();
               return Expect.waitForPrimaryAuth(test);
             })
@@ -2085,6 +2092,8 @@ function (Okta,
                   stateToken: 'testStateToken'
                 }
               });
+              expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalled();
+              expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
               Expect.isPrimaryAuth(test.router.controller);
             });
         });
@@ -2093,13 +2102,15 @@ function (Okta,
           function () {
             return setupSecurityQuestion({ signOutLink: 'http://www.goodbye.com' })
               .then(function (test) {
+                spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
+                spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
                 spyOn(SharedUtil, 'redirect');
                 $.ajax.calls.reset();
-                test.setNextResponse(resSuccess);
+                test.setNextResponse(resCancel);
                 test.form.signoutLink($sandbox).click();
-                return tick();
+                return tick(test);
               })
-              .then(function () {
+              .then(function (test) {
                 expect($.ajax.calls.count()).toBe(1);
                 Expect.isJsonPost($.ajax.calls.argsFor(0), {
                   url: 'https://foo.com/api/v1/authn/cancel',
@@ -2107,6 +2118,8 @@ function (Okta,
                     stateToken: 'testStateToken'
                   }
                 });
+                expect(RouterUtil.routeAfterAuthStatusChange).toHaveBeenCalled();
+                expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
                 expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
               });
           });

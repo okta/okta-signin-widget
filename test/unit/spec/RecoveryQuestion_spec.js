@@ -65,6 +65,7 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
       return setup()
         .then(function (test) {
+          spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
           $.ajax.calls.reset();
           test.setNextResponse(res200);
           var $link = test.form.signoutLink();
@@ -80,6 +81,7 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
               stateToken: 'testStateToken'
             }
           });
+          expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
           Expect.isPrimaryAuth(test.router.controller);
         });
     });
@@ -87,15 +89,16 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
       function () {
         return setup({ signOutLink: 'http://www.goodbye.com' })
           .then(function (test) {
+            spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
             spyOn(SharedUtil, 'redirect');
             $.ajax.calls.reset();
             test.setNextResponse(res200);
             var $link = test.form.signoutLink();
             expect($link.length).toBe(1);
             $link.click();
-            return tick();
+            return tick(test);
           })
-          .then(function () {
+          .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/cancel',
@@ -103,6 +106,7 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
                 stateToken: 'testStateToken'
               }
             });
+            expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
             expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
           });
       });

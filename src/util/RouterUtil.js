@@ -127,6 +127,7 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
   fn.routeAfterAuthStatusChange = function (router, res) {
     // Other errors are handled by the function making the authClient request
     if (!res || !res.status) {
+      router.appState.clearLastAuthResponse();
       return;
     }
 
