@@ -10,27 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+/*eslint no-console: [0] */
+/*eslint max-len: [0]*/
+/*eslint max-statements: [0]*/
+/*eslint max-depth: [0]*/
 define([
   'okta',
+  'util/Util',
   'util/FormController',
   'models/BaseLoginModel',
-], function (Okta, FormController, BaseLoginModel) {
+], function (Okta, Util, FormController, BaseLoginModel) {
 
   const $ = Okta.$;
   const _ = Okta._;
-
-  var getUserAgentName = function () {
-    return navigator.userAgent;
-  };
-  var userAgentContainsSafari = function () {
-    return /safari/i.test(getUserAgentName());
-  };
-  var isIOS = function () {
-    return /(iPad|iPhone|iPod)/i.test(getUserAgentName());
-  };
-  var isIOSWebView = function () {
-    return isIOS() && !userAgentContainsSafari();
-  };
 
   return FormController.extend({
     className: 'device-posture',
@@ -47,147 +39,130 @@ define([
     },
 
     initialize: function () {
-      var response = this.options.appState.get('lastAuthResponse');
-      var status = response.status;
-      var that = this;
+      let response = this.options.appState.get('lastAuthResponse');
 
+      if (!this._isStatusFactorRequired(response)) {
+        return;
+      }
+      this._selectFactor(response).done(this._verifyFactor.bind(this));
+    },
+
+    _isStatusFactorRequired: function (response) {
+      let isFactorRequired = response.status === 'FACTOR_REQUIRED';
+      if (!isFactorRequired) {
+        console.log('Error! The status was not FACTOR_REQUIRED when it should have been!');
+      }
+      return isFactorRequired;
+    },
+
+    _selectFactor: function (response) {
       this.model.set('stateToken', response.stateToken);
-      if (status === 'FACTOR_REQUIRED') {
-        this.model.url = response._embedded.factors[0]._links.verify.href;
-        this.model.save()
-          .done(data => {
-            that.options.appState.setAuthResponse(data);
-            var response = that.options.appState.get('lastAuthResponse');
+      this.model.url = response._embedded.factors[0]._links.verify.href;
+      return this.model.save();
+    },
 
-            // If extension is being used
-            if (response._links.extension) {
-              // Figure out if browser indicates xhr call, if so the extension will not pick it up and we need to do regular browser request
-              if (!isIOSWebView()) {
-                if (this.settings.get('useMock')) {
-                  window.location.href = response._links.extension.href.replace('/api/v1', '') + '&OktaAuthorizationProviderExtension=' + that.settings.get('mockDeviceFactorChallengeResponseJwt');
-                } else {
-                  window.location.href = response._links.extension.href.replace('/api/v1', '');
-                }
-                return;
-              }
-              let headers;
-              if (this.settings.get('useMock')) {
-                headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + that.settings.get('mockDeviceFactorChallengeResponseJwt')};
-              } else {
-                headers = {'Authorization': 'OktaAuthorizationProviderExtension <valueToBeReplacedByExtension>'};
-              }
-              // Let the call be intercepted, populated and returned back
-              $.get({
-                url: response._links.extension.href,
-                headers: headers // Included to trigger CORS acceptance for the actual request that's being modified
-              }).done(data => {
-                var Model = BaseLoginModel.extend(_.extend({
-                  parse: function (attributes) {
-                    this.settings = attributes.settings;
-                    this.appState = attributes.appState;
-                    return _.omit(attributes, ['settings', 'appState']);
-                  }
-                }, _.result(this, 'Model')));
-                that.model = new Model({
-                  settings: that.settings,
-                  appState: that.options.appState
-                }, { parse: true });
-                var response = that.options.appState.get('lastAuthResponse');
-                that.model.url = response._links.next.href;
-                that.model.set('devicePostureJwt', data.devicePostureJwt);
-                that.model.set('stateToken', response.stateToken);
-                that.model.save()
-                  .done(data => {
-                    that.options.appState.trigger('change:transaction', that.options.appState, {data});
-                  });
-              });
-              return;
-            }
+    _verifyFactor: function (data) {
+      this.options.appState.setAuthResponse(data);
+      let response = this.options.appState.get('lastAuthResponse');
 
-            that.model.url = response._links.next.href;
-            var nonce = response._embedded.factor._embedded.challenge.nonce;
-
-            if (that.settings.get('useMock')) {
-              this.mockLoopback(that, nonce);
-              return;
-            }
-
-            that.doLoopback('http://localhost:', '41236', nonce)
-              .done(data => {
-                var Model = BaseLoginModel.extend(_.extend({
-                  parse: function (attributes) {
-                    this.settings = attributes.settings;
-                    this.appState = attributes.appState;
-                    return _.omit(attributes, ['settings', 'appState']);
-                  }
-                }, _.result(this, 'Model')));
-                that.model = new Model({
-                  settings: that.settings,
-                  appState: that.options.appState
-                }, { parse: true });
-                var response = that.options.appState.get('lastAuthResponse');
-                that.model.url = response._links.next.href;
-                that.model.set('devicePostureJwt', data.jwt);
-                that.model.set('stateToken', response.stateToken);
-                that.model.save()
-                  .done(data => {
-                    that.options.appState.trigger('change:transaction', that.options.appState, {data});
-                  });
-              });
-          });
-      } else if (status === 'FACTOR_CHALLENGE') {
-        console.log('Error! Ended up in FACTOR_CHALLENGE without being in FACTOR_REQUIRED first, do not mess around like that');
+      // If extension is being used
+      if (response._links.extension) {
+        this._verifyUsingExtension(response);
+      } else { // If loopback is being used
+        this._verifyUsingLoopback(response);
       }
     },
 
-    mockLoopback: function (that, nonce) {
-      var baseUrl = '/loopback/factorVerifyChallenge/';
-      that.doLoopback(baseUrl, '5000', nonce)
-        .fail(() => {
-          that.doLoopback(baseUrl, '5002', nonce)
-            .fail(() => {
-              that.doLoopback(baseUrl, '5004', nonce)
-                .fail(() => {
-                  that.doLoopback(baseUrl, '5006', nonce)
-                    .fail(() => {
-                      that.doLoopback(baseUrl, '5008', nonce)
-                        .done(data => {
-                          var Model = BaseLoginModel.extend(_.extend({
-                            parse: function (attributes) {
-                              this.settings = attributes.settings;
-                              this.appState = attributes.appState;
-                              return _.omit(attributes, ['settings', 'appState']);
-                            }
-                          }, _.result(this, 'Model')));
-                          that.model = new Model({
-                            settings: that.settings,
-                            appState: that.options.appState
-                          }, { parse: true });
-                          var response = that.options.appState.get('lastAuthResponse');
-                          that.model.url = response._links.next.href;
-                          that.model.set('devicePostureJwt', data.jwt);
-                          that.model.set('stateToken', response.stateToken);
-                          that.model.save()
-                            .done(data => {
-                              that.options.appState.trigger('change:transaction', that.options.appState, {data});
-                            });
-                        });
-                    });
-                });
-            });
-        });
+    _verifyUsingExtension: function (response) {
+      // Seems like web view does not indicate xhr calls, so we can trigger extension as if it was a regular browser request
+      // Note also that Office365 native app does not seem to support regular requests during login, so needs to use xhr requests
+      if (Util.isIOSWebView()) {
+        this._initiateVerificationUsingExtensionViaXhr(response);
+      } else {
+        this._initiateVerificationUsingExtensionViaRegularRequests(response);
+      }
     },
 
-    doLoopback: function (baseUrl, port, nonce) {
-      return $.post({
-        url: baseUrl + `${port}`,
-        method: 'POST',
-        data: JSON.stringify({
-          requestType: 'userChallenge',
-          nonce: nonce,
-        }),
-        contentType: 'application/json',
-      });
+    _initiateVerificationUsingExtensionViaRegularRequests: function (response) {
+      if (this.settings.get('useMock')) {
+        window.location.href = response._links.extension.href.replace('/api/v1', '') + '&OktaAuthorizationProviderExtension=' + this.settings.get('mockDeviceFactorChallengeResponseJwt');
+      } else {
+        window.location.href = response._links.extension.href.replace('/api/v1', '');
+      }
+    },
+
+    _initiateVerificationUsingExtensionViaXhr: function (response) {
+      let headers;
+      if (this.settings.get('useMock')) {
+        headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + this.settings.get('mockDeviceFactorChallengeResponseJwt')};
+      } else {
+        headers = {'Authorization': 'OktaAuthorizationProviderExtension <valueToBeReplacedByExtension>'};
+      }
+      // Let the call be intercepted, populated and returned back
+      $.get({
+        url: response._links.extension.href,
+        headers: headers // Included to trigger CORS acceptance for the actual request that's being modified by the extension
+      }).done(function (data) {
+        this._verifyUsingExtensionViaXhr(data, response);
+      }.bind(this));
+    },
+
+    _verifyUsingExtensionViaXhr: function (data, response) {
+      let Model = BaseLoginModel.extend(_.extend({
+        parse: function (attributes) {
+          this.settings = attributes.settings;
+          this.appState = attributes.appState;
+          return _.omit(attributes, ['settings', 'appState']);
+        }
+      }, _.result(this, 'Model')));
+      let model = new Model({
+        settings: this.settings,
+        appState: this.options.appState
+      }, { parse: true });
+      model.url = response._links.next.href;
+      model.set('devicePostureJwt', data.devicePostureJwt);
+      model.set('stateToken', response.stateToken);
+      model.save()
+        .done(function (data) {
+          this.options.appState.trigger('change:transaction', this.options.appState, {data});
+        }.bind(this));
+    },
+
+    _verifyUsingLoopback: function (response) {
+      let baseUrl = 'http://localhost:';
+      if (this.settings.get('useMock')) {
+        baseUrl = '/loopback/factorVerifyChallenge/';
+      }
+      let options = {
+        context: this,
+        baseUrl: baseUrl,
+        requestType: 'userChallenge',
+        port: 41236,
+        nonce: response._embedded.factor._embedded.challenge.nonce,
+        maxAttempts: 5
+      };
+      var successFn = function (data) {
+        let Model = BaseLoginModel.extend(_.extend({
+          parse: function (attributes) {
+            this.settings = attributes.settings;
+            this.appState = attributes.appState;
+            return _.omit(attributes, ['settings', 'appState']);
+          }
+        }, _.result(this, 'Model')));
+        let model = new Model({
+          settings: this.settings,
+          appState: this.options.appState
+        }, { parse: true });
+        let response = this.options.appState.get('lastAuthResponse');
+        model.url = response._links.next.href;
+        model.set('devicePostureJwt', data.jwt);
+        model.set('stateToken', response.stateToken);
+        model.save()
+          .done(function (data) {
+            this.options.appState.trigger('change:transaction', this.options.appState, {data});
+          }.bind(this));
+      };
+      Util.performLoopback(options, successFn);
     },
 
   });

@@ -67,7 +67,7 @@ module.exports = {
     contentBase: [PLAYGROUND, TARGET],
     compress: true,
     port: PORT,
-    open: true,
+    open: false,
     before (app) {
       app.get('/app/UserHome', (req, res) => {
         res.status(200)

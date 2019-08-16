@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 13], max-depth: [2, 3] */
+/* eslint complexity: [2, 13], max-depth: [2, 3], no-console: [0] */
 define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
 
   var Util = {};
   var _ = Okta._;
+  var $ = Okta.$;
 
   var buildInputForParameter = function (name, value) {
     var input = document.createElement('input');
@@ -146,6 +147,35 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     controller.trigger('afterError', { controller: className }, error);
     // Logs to console only in dev mode
     Logger.warn('controller: ' + className + ', error: ' + error);
+  };
+
+  Util.performLoopback = function (options, successFn, currentAttempt) {
+    if (!currentAttempt) {
+      currentAttempt = 0;
+    }
+    $.post({
+      url: options.baseUrl + `${options.port}`,
+      method: 'POST',
+      data: JSON.stringify({
+        requestType: options.requestType,
+        nonce: options.nonce,
+      }),
+      contentType: 'application/json',
+    })
+      .fail(function () {
+        if (currentAttempt > options.maxAttempts) {
+          console.warn('Max number of loopback attempts was reached!');
+        } else {
+          // Try with next port and increase number of attempts
+          options.port += 2;
+          Util.performLoopback(options, successFn, ++currentAttempt);
+        }
+      }.bind(options.context))
+      .done(successFn.bind(options.context));
+  };
+
+  Util.isIOSWebView = function () {
+    return /(iPad|iPhone|iPod)/i.test(navigator.userAgent) && !/safari/i.test(navigator.userAgent);
   };
 
   /**

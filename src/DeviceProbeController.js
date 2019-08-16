@@ -10,10 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+/*eslint no-console: [0] */
+/*eslint max-len: [0]*/
+/*eslint max-statements: [0]*/
+/*eslint max-depth: [0]*/
 define([
   'okta',
+  'util/Util',
   'util/FormController'
-], function (Okta, FormController) {
+], function (Okta, Util, FormController) {
 
   const $ = Okta.$;
   const _ = Okta._;
@@ -35,61 +40,30 @@ define([
     },
   
     initialize: function () {
-      var response = this.options.appState.get('lastAuthResponse');
-      this.model.set('stateToken', response.stateToken);
-
-      this.model.url = response._links.next.href;
-      var nonce = response._embedded.probeInfo.nonce;
-
+      let response = this.options.appState.get('lastAuthResponse');
+      let baseUrl = 'http://localhost:';
       if (this.settings.get('useMock')) {
-        this.mockLoopback(nonce);
-        return;
+        baseUrl = '/loopback/deviceProbe/';
       }
-
-      this.doLoopback('http://localhost:', '41236', nonce)
-        .done(data => {
-          this.model.set('challengeResponse', data.jwt);
-          this.model.save()
-            .done(data => {
-              this.options.appState.trigger('change:transaction', this.options.appState, { data });
-            });
-        });
-    },
-
-    mockLoopback: function (nonce) {
-      var baseUrl = '/loopback/deviceProbe/';
-      this.doLoopback(baseUrl, '5000', nonce)
-        .fail(() => {
-          this.doLoopback(baseUrl, '5002', nonce)
-            .fail(() => {
-              this.doLoopback(baseUrl, '5004', nonce)
-                .fail(() => {
-                  this.doLoopback(baseUrl, '5006', nonce)
-                    .fail(() => {
-                      this.doLoopback(baseUrl, '5008', nonce)
-                        .done(data => {
-                          this.model.set('challengeResponse', data.jwt);
-                          this.model.save()
-                            .done(data => {
-                              this.options.appState.trigger('change:transaction', this.options.appState, { data });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    },
-
-    doLoopback: function (baseUrl, port, nonce) {
-      return $.post({
-        url: baseUrl + `${port}`,
-        method: 'POST',
-        data: JSON.stringify({
-          requestType: 'deviceChallenge',
-          nonce: nonce,
-        }),
-        contentType: 'application/json',
-      });
+      let options = {
+        context: this,
+        baseUrl: baseUrl,
+        requestType: 'deviceChallenge',
+        port: 41236,
+        nonce: response._embedded.probeInfo.nonce,
+        maxAttempts: 5
+      };
+      var successFn = function (data) {
+        this.model.url = response._links.next.href;
+        this.model.set('stateToken', response.stateToken);
+        this.model.set('challengeResponse', data.jwt);
+        this.model.save()
+          .done(function (data) {
+            this.options.appState.trigger('change:transaction', this.options.appState, { data });
+          }.bind(this));
+      };
+      Util.performLoopback(options, successFn);
     }
+
   });
 });
