@@ -19,6 +19,19 @@ define([
   const $ = Okta.$;
   const _ = Okta._;
 
+  var getUserAgentName = function () {
+    return navigator.userAgent;
+  };
+  var userAgentContainsSafari = function () {
+    return /safari/i.test(getUserAgentName());
+  };
+  var isIOS = function () {
+    return /(iPad|iPhone|iPod)/i.test(getUserAgentName());
+  };
+  var isIOSWebView = function () {
+    return isIOS() && !userAgentContainsSafari();
+  };
+
   return FormController.extend({
     className: 'device-posture',
 
@@ -49,48 +62,44 @@ define([
             // If extension is being used
             if (response._links.extension) {
               // Figure out if browser indicates xhr call, if so the extension will not pick it up and we need to do regular browser request
-              $.get({
-                url: this.settings.get('baseUrl') + '/api/v1/idx/extension/includes/x-requested-with',
-              }).done(data => {
-                if (data['x-requested-with'] !== undefined) {
-                  if (this.settings.get('useMock')) {
-                    window.location.href = response._links.extension.href.replace('/api/v1', '') + '&OktaAuthorizationProviderExtension=' + that.settings.get('mockDeviceFactorChallengeResponseJwt');
-                  } else {
-                    window.location.href = response._links.extension.href.replace('/api/v1', '');
-                  }
-                  return;
-                }
-                let headers;
+              if (!isIOSWebView()) {
                 if (this.settings.get('useMock')) {
-                  headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + that.settings.get('mockDeviceFactorChallengeResponseJwt')};
+                  window.location.href = response._links.extension.href.replace('/api/v1', '') + '&OktaAuthorizationProviderExtension=' + that.settings.get('mockDeviceFactorChallengeResponseJwt');
                 } else {
-                  headers = {'Authorization': 'OktaAuthorizationProviderExtension <valueToBeReplacedByExtension>'};
+                  window.location.href = response._links.extension.href.replace('/api/v1', '');
                 }
-                // Let the call be intercepted, populated and returned back
-                $.get({
-                  url: response._links.extension.href,
-                  headers: headers // Included to trigger CORS acceptance for the actual request that's being modified
-                }).done(data => {
-                  var Model = BaseLoginModel.extend(_.extend({
-                    parse: function (attributes) {
-                      this.settings = attributes.settings;
-                      this.appState = attributes.appState;
-                      return _.omit(attributes, ['settings', 'appState']);
-                    }
-                  }, _.result(this, 'Model')));
-                  that.model = new Model({
-                    settings: that.settings,
-                    appState: that.options.appState
-                  }, { parse: true });
-                  var response = that.options.appState.get('lastAuthResponse');
-                  that.model.url = response._links.next.href;
-                  that.model.set('devicePostureJwt', data.devicePostureJwt);
-                  that.model.set('stateToken', response.stateToken);
-                  that.model.save()
-                    .done(data => {
-                      that.options.appState.trigger('change:transaction', that.options.appState, {data});
-                    });
-                });
+                return;
+              }
+              let headers;
+              if (this.settings.get('useMock')) {
+                headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + that.settings.get('mockDeviceFactorChallengeResponseJwt')};
+              } else {
+                headers = {'Authorization': 'OktaAuthorizationProviderExtension <valueToBeReplacedByExtension>'};
+              }
+              // Let the call be intercepted, populated and returned back
+              $.get({
+                url: response._links.extension.href,
+                headers: headers // Included to trigger CORS acceptance for the actual request that's being modified
+              }).done(data => {
+                var Model = BaseLoginModel.extend(_.extend({
+                  parse: function (attributes) {
+                    this.settings = attributes.settings;
+                    this.appState = attributes.appState;
+                    return _.omit(attributes, ['settings', 'appState']);
+                  }
+                }, _.result(this, 'Model')));
+                that.model = new Model({
+                  settings: that.settings,
+                  appState: that.options.appState
+                }, { parse: true });
+                var response = that.options.appState.get('lastAuthResponse');
+                that.model.url = response._links.next.href;
+                that.model.set('devicePostureJwt', data.devicePostureJwt);
+                that.model.set('stateToken', response.stateToken);
+                that.model.save()
+                  .done(data => {
+                    that.options.appState.trigger('change:transaction', that.options.appState, {data});
+                  });
               });
               return;
             }

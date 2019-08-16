@@ -20,6 +20,19 @@ function (Okta, FormController) {
   const $ = Okta.$;
   const _ = Okta._;
 
+  var getUserAgentName = function () {
+    return navigator.userAgent;
+  };
+  var userAgentContainsSafari = function () {
+    return /safari/i.test(getUserAgentName());
+  };
+  var isIOS = function () {
+    return /(iPad|iPhone|iPod)/i.test(getUserAgentName());
+  };
+  var isIOSWebView = function () {
+    return isIOS() && !userAgentContainsSafari();
+  };
+
   return FormController.extend({
 
     className: 'device-probe',
@@ -53,37 +66,33 @@ function (Okta, FormController) {
       // If extension is being used
       if (factor.get('_links').extension) {
         // Figure out if browser indicates xhr call, if so the extension will not pick it up and we need to do regular browser request
-        $.get({
-          url: this.settings.get('baseUrl') + '/api/v1/idx/extension/includes/x-requested-with',
-        }).done(data => {
-          if (data['x-requested-with'] !== undefined) {
-            if (this.settings.get('useMock')) {
-              window.location.href = factor.get('_links').extension.href.replace('/api/v1', '') + '&OktaAuthorizationProviderExtension=' + this.settings.get('mockDeviceFactorEnrollmentResponseJwt');
-            } else {
-              window.location.href = factor.get('_links').extension.href.replace('/api/v1', '');
-            }
-            return;
-          }
-          let headers;
+        if (!isIOSWebView()) {
           if (this.settings.get('useMock')) {
-            headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + this.settings.get('mockDeviceFactorEnrollmentResponseJwt')};
+            window.location.href = factor.get('_links').extension.href.replace('/api/v1', '') + '&OktaAuthorizationProviderExtension=' + this.settings.get('mockDeviceFactorEnrollmentResponseJwt');
           } else {
-            headers = {'Authorization': 'OktaAuthorizationProviderExtension <valueToBeReplacedByExtension>'};
+            window.location.href = factor.get('_links').extension.href.replace('/api/v1', '');
           }
-          // Let the call be intercepted, populated and returned back
-          $.get({
-            url: factor.get('_links').extension.href,
-            headers: headers // Included to trigger CORS acceptance for the actual request that's being modified
-          }).done(data => {
-            that.model.url = factor.get('_links').enroll.href;
-            that.model.set('profile', {
-              devicePostureJwt: data.devicePostureJwt
-            });
-            that.model.save()
-              .done(data => {
-                this.options.appState.trigger('change:transaction', this.options.appState, { data });
-              });
+          return;
+        }
+        let headers;
+        if (this.settings.get('useMock')) {
+          headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + this.settings.get('mockDeviceFactorEnrollmentResponseJwt')};
+        } else {
+          headers = {'Authorization': 'OktaAuthorizationProviderExtension <valueToBeReplacedByExtension>'};
+        }
+        // Let the call be intercepted, populated and returned back
+        $.get({
+          url: factor.get('_links').extension.href,
+          headers: headers // Included to trigger CORS acceptance for the actual request that's being modified
+        }).done(data => {
+          that.model.url = factor.get('_links').enroll.href;
+          that.model.set('profile', {
+            devicePostureJwt: data.devicePostureJwt
           });
+          that.model.save()
+            .done(data => {
+              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+            });
         });
         return;
       }
