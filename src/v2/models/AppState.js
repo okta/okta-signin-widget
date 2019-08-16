@@ -35,7 +35,7 @@ export default Model.extend({
     factorProfile: {
       deps: ['factor'],
       fn (factor = {}) {
-        return factor && factor.profile || {};
+        return factor.profile || {};
       },
     },
     factorType: {
@@ -64,15 +64,8 @@ export default Model.extend({
     },
   },
 
-  getNextViewState () {
-    if (this.get('currentState').remediation[1]) {
-      const nextFormName = this.get('currentState').remediation[1].name;
-      let nextViewState;
-      if (!_.isEmpty(this.get('remediation'))) {
-        nextViewState = this.get('remediation').filter(r => r.name === nextFormName)[0];
-      }
-      return nextViewState;
-    }
+  hasRemediationForm (formName) {
+    return this.get('currentState').remediation.filter(v => v.name === formName).length === 1;
   },
 
   getCurrentViewState () {
@@ -97,8 +90,7 @@ export default Model.extend({
   setIonResponse (resp) {
     // Don't re-render view if new response is same as last.
     // Usually happening at polling and pipeline doesn't proceed to next step.
-    if (_.isEqual(resp.__rawResponse, this.get('__rawResponse'))
-        && this.get('__rawResponse').remediation.value.length === 1) {
+    if (_.isEqual(resp.__rawResponse, this.get('__rawResponse'))) {
       return;
     }
 

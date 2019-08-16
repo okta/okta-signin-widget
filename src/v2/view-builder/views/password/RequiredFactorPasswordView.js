@@ -20,9 +20,8 @@ const Footer = BaseFooter.extend({
         'actionPath': 'factor.recovery',
       }
     ];
-    const nextViewState = this.options.appState.getNextViewState();
     // if there are 2 forms, the second form is the switch factor form
-    if (nextViewState) {
+    if (this.options.appState.hasRemediationForm('switch-factor')) {
       links.push({
         'type': 'link',
         'label': 'Switch Factor',

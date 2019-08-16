@@ -56,14 +56,8 @@ export default ListView.extend({
 
   initialize: function () {
     this.step = this.options.appState.get('currentState').step;
-    this.currentState = this.options.appState.get('currentState');
     this.listenTo(this.collection,'selectFactor', function (data) {
-      // for challenge flow send factorId
-      if (this.step === 'AUTHENTICATE') {
-        this.model.set('factorId', data);
-      } else {
-        this.model.set('factorType', data);
-      }
+      this.model.set(this.options.name, data);
       this.options.appState.trigger('saveForm', this.model);
     });
   },

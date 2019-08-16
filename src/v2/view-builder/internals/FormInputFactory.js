@@ -14,6 +14,7 @@ const createFactorTypeView = (opt) => {
   return {
     View: FactorOptions,
     options: {
+      name: opt.name,
       collection: new Collection(optionItems),
     }
   };

@@ -25,9 +25,12 @@ const VIEWS_MAPPING = {
   'identify': {
     [DEFAULT]: IdentifierView,
   },
+  //select-factor is used to show the list of factors before challenge and enroll flows
   'select-factor': {
     [DEFAULT]: SelectFactorView,
   },
+  // switch-factor is used when we want to re-render factor options i.e going back from 
+  // challenge or enroll views
   'switch-factor': {
     [DEFAULT]: SelectFactorView,
   },
