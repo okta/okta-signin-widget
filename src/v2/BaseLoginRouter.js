@@ -86,13 +86,7 @@ export default Router.extend({
       // and then the open tooltip will lose focus and close.
     });
 
-    this.appState = new AppState(
-      {
-        baseUrl: this.settings.get('baseUrl'),
-        settings: this.settings,
-      },
-      { parse: true }
-    );
+    this.appState = new AppState();
 
     const wrapper = new AuthContainer({ appState: this.appState });
 

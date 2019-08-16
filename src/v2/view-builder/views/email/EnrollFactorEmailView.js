@@ -1,5 +1,5 @@
-import BaseView from '../internals//BaseView';
-import BaseForm from '../internals//BaseForm';
+import BaseView from '../../internals/BaseView';
+import BaseForm from '../../internals/BaseForm';
 
 const Body = BaseForm.extend({
   title: 'Sign in using a link sent to your email',

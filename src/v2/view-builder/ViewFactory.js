@@ -1,16 +1,23 @@
 import Logger from 'util/Logger';
+import BaseView from './internals/BaseView';
+
+// factor ignostic views
 import IdentifierView from './views/IdentifierView';
 import SelectFactorView from './views/SelectFactorView';
-import EnrollFactorPasswordView from './views/EnrollFactorPasswordView';
-import EnrollFactorEmailView from './views/EnrollFactorEmailView';
-import RequiredFactorEmailView from './views/RequiredFactorEmailView';
-import RequiredFactorPasswordView from './views/RequiredFactorPasswordView';
-import OTPEmailView from './views/OTPEmailView';
 import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
-import TerminalReturnView from './views/TerminalReturnView';
-import TerminalTransferedView from './views/TerminalTransferedView';
-import BaseView from './internals/BaseView';
+
+// password
+import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
+import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
+
+// email
+import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
+import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
+import OTPEmailView from './views/email/OTPEmailView';
+import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
+import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
+
 
 const DEFAULT = '_';
 
@@ -37,11 +44,11 @@ const VIEWS_MAPPING = {
   },
   'terminal-transfered': {
     [DEFAULT]: TerminalView,
-    'email': TerminalTransferedView,
+    'email': TerminalTransferedEmailView,
   },
   'terminal-return': {
     [DEFAULT]: TerminalView,
-    'email': TerminalReturnView,
+    'email': TerminalReturnEmailView,
   },
   'terminal-invalid': {
     [DEFAULT]: TerminalView,

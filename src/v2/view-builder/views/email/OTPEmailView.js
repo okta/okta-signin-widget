@@ -1,8 +1,8 @@
 import { loc, View, createCallout, createButton, _ } from 'okta';
-import BaseView from '../internals/BaseView';
-import BaseForm from '../internals/BaseForm';
-import email from '../shared/email';
-import polling from '../shared/polling';
+import BaseView from '../../internals/BaseView';
+import BaseForm from '../../internals/BaseForm';
+import email from '../../shared/email';
+import polling from '../../shared/polling';
 
 const SHOW_RESEND_TIMEOUT = 60000;
 
