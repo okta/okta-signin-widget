@@ -1,6 +1,6 @@
-import BaseView from '../internals//BaseView';
-import BaseForm from '../internals//BaseForm';
-import email from '../shared/email';
+import BaseView from '../../internals/BaseView';
+import BaseForm from '../../internals/BaseForm';
+import email from '../../shared/email';
 
 const Body = BaseForm.extend(Object.assign(
   {
