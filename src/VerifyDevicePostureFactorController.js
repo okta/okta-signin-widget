@@ -76,11 +76,11 @@ define([
     _verifyUsingExtension: function (response) {
       // Seems like web view does not indicate xhr calls, so we can trigger extension as if it was a regular browser request
       // Note also that Office365 native app does not seem to support regular requests during login, so needs to use xhr requests
-      if (Util.isIOSWebView()) {
-        this._initiateVerificationUsingExtensionViaXhr(response);
-      } else {
-        this._initiateVerificationUsingExtensionViaRegularRequests(response);
-      }
+      // if (Util.isIOSWebView()) {
+      this._initiateVerificationUsingExtensionViaXhr(response);
+      // } else {
+      //   this._initiateVerificationUsingExtensionViaRegularRequests(response);
+      // }
     },
 
     _initiateVerificationUsingExtensionViaRegularRequests: function (response) {
@@ -101,7 +101,8 @@ define([
       // Let the call be intercepted, populated and returned back
       $.get({
         url: response._links.extension.href,
-        headers: headers // Included to trigger CORS acceptance for the actual request that's being modified by the extension
+        headers: headers, // Included to trigger CORS acceptance for the actual request that's being modified by the extension
+        crossDomain: true // Included for force jQuery to omit the header indicating this is an XHR call
       }).done(function (data) {
         this._verifyUsingExtensionViaXhr(data, response);
       }.bind(this));
@@ -131,7 +132,7 @@ define([
     _verifyUsingLoopback: function (response) {
       let baseUrl = 'http://localhost:';
       if (this.settings.get('useMock')) {
-        baseUrl = '/loopback/factorVerifyChallenge/';
+        baseUrl = 'http://localhost:3000/loopback/factorVerifyChallenge/';
       }
       let options = {
         context: this,

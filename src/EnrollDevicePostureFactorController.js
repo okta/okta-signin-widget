@@ -22,7 +22,6 @@ define([
 function (Okta, Util, FormController) {
 
   const $ = Okta.$;
-  const _ = Okta._;
 
   return FormController.extend({
 
@@ -60,11 +59,11 @@ function (Okta, Util, FormController) {
     _enrollUsingExtension: function (factor) {
       // Seems like web view does not indicate xhr calls, so we can trigger extension as if it was a regular browser request
       // Note also that Office365 native app does not seem to support regular requests during login, so needs to use xhr requests
-      if (Util.isIOSWebView()) {
-        this._initiateEnrollmentUsingExtensionViaXhr(factor);
-      } else {
-        this._initiateEnrollmentUsingExtensionViaRegularRequests(factor);
-      }
+      // if (Util.isIOSWebView()) {
+      this._initiateEnrollmentUsingExtensionViaXhr(factor);
+      // } else {
+      //   this._initiateEnrollmentUsingExtensionViaRegularRequests(factor);
+      // }
     },
 
     _initiateEnrollmentUsingExtensionViaXhr: function (factor) {
@@ -77,7 +76,8 @@ function (Okta, Util, FormController) {
       // Let the call be intercepted, populated and returned back
       $.get({
         url: factor.get('_links').extension.href,
-        headers: headers // Included to trigger CORS acceptance for the actual request that's being modified by the extension
+        headers: headers, // Included to trigger CORS acceptance for the actual request that's being modified by the extension
+        crossDomain: true // Included for force jQuery to omit the header indicating this is an XHR call
       }).done(function (data) {
         this._enrollUsingExtensionViaXhr(data, factor);
       }.bind(this));
@@ -109,7 +109,7 @@ function (Okta, Util, FormController) {
     _enrollUsingLoopback: function (factor) {
       let baseUrl = 'http://localhost:';
       if (this.settings.get('useMock')) {
-        baseUrl = '/loopback/factorEnrollChallenge/';
+        baseUrl = 'http://localhost:3000/loopback/factorEnrollChallenge/';
       }
       let options = {
         context: this,

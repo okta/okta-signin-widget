@@ -20,9 +20,6 @@ define([
   'util/FormController'
 ], function (Okta, Util, FormController) {
 
-  const $ = Okta.$;
-  const _ = Okta._;
-
   return FormController.extend({
 
     className: 'device-probe',
@@ -43,7 +40,7 @@ define([
       let response = this.options.appState.get('lastAuthResponse');
       let baseUrl = 'http://localhost:';
       if (this.settings.get('useMock')) {
-        baseUrl = '/loopback/deviceProbe/';
+        baseUrl = 'http://localhost:3000/loopback/deviceProbe/';
       }
       let options = {
         context: this,
