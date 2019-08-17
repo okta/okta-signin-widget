@@ -41,13 +41,7 @@ export default Model.extend({
     factorType: {
       deps: ['factor'],
       fn (factor = {}) {
-        return factor && factor.factorType;
-      },
-    },
-    isTerminalStep: {
-      deps: ['terminal'],
-      fn: function (terminal) {
-        return !_.isEmpty(terminal) && terminal.value.length;
+        return factor.factorType;
       },
     },
     isAuthenticateStep: {

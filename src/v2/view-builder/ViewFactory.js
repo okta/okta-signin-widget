@@ -3,7 +3,8 @@ import BaseView from './internals/BaseView';
 
 // factor ignostic views
 import IdentifierView from './views/IdentifierView';
-import SelectFactorView from './views/SelectFactorView';
+import SelectFactorEnrollView from './views/SelectFactorEnrollView';
+import SelectFactorChallengeView from './views/SelectFactorChallengeView';
 import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
 
@@ -25,14 +26,13 @@ const VIEWS_MAPPING = {
   'identify': {
     [DEFAULT]: IdentifierView,
   },
-  //select-factor is used to show the list of factors before challenge and enroll flows
-  'select-factor': {
-    [DEFAULT]: SelectFactorView,
+  //select-factor-challenge is used to show the list of factors before challenge flow
+  'select-factor-challenge': {
+    [DEFAULT]: SelectFactorChallengeView,
   },
-  // switch-factor is used when we want to re-render factor options i.e going back from 
-  // challenge or enroll views
-  'switch-factor': {
-    [DEFAULT]: SelectFactorView,
+  //select-factor-enroll is used to show the list of factors before enroll flows
+  'select-factor-enroll': {
+    [DEFAULT]: SelectFactorEnrollView,
   },
   'enroll-profile': {
     [DEFAULT]: EnrollProfileView,

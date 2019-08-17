@@ -26,15 +26,11 @@ const FactorRow = View.extend({
         <div class="enroll-factor-button"></div>\
       </div>\
     ',
-  children: function () {
+  children: function (){
     return [[createButton({
       className: 'button select-factor',
       title: function () {
-        if (this.options.appState.get('isAuthenticateStep')) {
-          return 'Use';
-        } else {
-          return loc('enroll.choices.setup', 'login');
-        }
+        return 'Select';
       },
       click: function () {
         this.model.trigger('selectFactor', this.model.get('value'));
@@ -58,6 +54,8 @@ export default ListView.extend({
     this.step = this.options.appState.get('currentState').step;
     this.listenTo(this.collection,'selectFactor', function (data) {
       this.model.set(this.options.name, data);
+      //adjust formname
+      this.model.set('formName', 'select-factor');
       this.options.appState.trigger('saveForm', this.model);
     });
   },

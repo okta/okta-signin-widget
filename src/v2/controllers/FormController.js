@@ -31,6 +31,14 @@ export default BaseLoginController.extend({
   postRender () {
     const currentViewState = this.options.appState.getCurrentViewState();
 
+    if (currentViewState.name === 'select-factor') {
+      if (this.options.appState.get('isAuthenticateStep')) {
+        currentViewState.name = 'select-factor-challenge';
+      } else {
+        currentViewState.name = 'select-factor-enroll';
+      }
+    }
+
     const TheView = ViewFactory.create(
       currentViewState.name,
       this.options.appState.get('factorType')
@@ -45,8 +53,8 @@ export default BaseLoginController.extend({
   },
 
   invokeAction (actionPath = '') {
-    // handle switch-factor form
-    if (actionPath === 'switch-factor') {
+    // handle select-factor form
+    if (actionPath === 'select-factor') {
       // setting factor to null to adjust the beacon header in the select-factor view
       this.options.appState.set('factor', {});
       // trigger formname change to change view

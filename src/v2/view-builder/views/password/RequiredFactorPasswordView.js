@@ -20,13 +20,13 @@ const Footer = BaseFooter.extend({
         'actionPath': 'factor.recovery',
       }
     ];
-    // if there are 2 forms, the second form is the switch factor form
-    if (this.options.appState.hasRemediationForm('switch-factor')) {
+    // check if we have a select-factor-challenge form in remediation, if so add a link
+    if (this.options.appState.hasRemediationForm('select-factor')) {
       links.push({
         'type': 'link',
         'label': 'Switch Factor',
         'name': 'switchFactor',
-        'actionPath': 'switch-factor',
+        'actionPath': 'select-factor',
       });
     }
     return links;

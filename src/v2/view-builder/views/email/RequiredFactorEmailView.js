@@ -13,13 +13,13 @@ const Body = BaseForm.extend(Object.assign(
 const Footer = BaseFooter.extend({
   links: function () {
     var links = [];
-    // if there are 2 forms, the second form is the switch factor form
-    if (this.options.appState.hasRemediationForm('switch-factor')) {
+    // check if we have a select-factor form in remediation, if so add a link
+    if (this.options.appState.hasRemediationForm('select-factor')) {
       links.push({
         'type': 'link',
         'label': 'Switch Factor',
         'name': 'switchFactor',
-        'actionPath': 'switch-factor',
+        'actionPath': 'select-factor',
       });
     }
     return links;

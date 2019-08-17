@@ -27,7 +27,7 @@
         "rel": [
           "create-form"
         ],
-        "name": "switch-factor",
+        "name": "select-factor",
         "href": "http://localhost:3000/api/v1/idx/challenge",
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",
