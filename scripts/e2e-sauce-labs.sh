@@ -1,7 +1,6 @@
 #!/bin/bash
 export SAUCE_USERNAME=OktaSignInWidget
 export SAUCE_ACCESS_KEY="$(aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/sauce_access_key /dev/stdout)"
-export SAUCE_PLATFORM_NAME="iOS";
 export TRAVIS=true # work-around to run tests on saucelabs instead of chrome
 export TRAVIS_JOB_NUMBER=${TEST_SUITE_ID}
 export TRAVIS_BUILD_NUMBER=${TEST_SUITE_RESULT_ID}
@@ -52,7 +51,7 @@ function update_yarn_locks() {
 update_yarn_locks
 
 if ! yarn test:e2e; then
-  echo "e2e tests on iOS failed! Exiting..."
+  echo "e2e tests on ${SAUCE_PLATFORM_NAME} failed! Exiting..."
   exit ${FAILURE}
 fi
 
