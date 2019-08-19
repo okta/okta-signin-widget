@@ -129,6 +129,12 @@ module.exports = function (grunt) {
           },
           {
             expand: true,
+            cwd: 'test/e2e/appium',
+            src: 'android-conf.js',
+            dest: 'target/e2e/appium'
+          },
+          {
+            expand: true,
             cwd: 'test/e2e/specs/',
             src: '*',
             dest: 'target/e2e/specs/'

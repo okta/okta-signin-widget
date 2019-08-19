@@ -21,17 +21,14 @@ var config = {
 
 // Travis sauceLabs tests
 if (process.env.TRAVIS) {
-  // Mobile devices
-  if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
-    var appium = require('./appium/ios-conf.js');
+  if (process.env.SAUCE_PLATFORM_NAME) {
+    // Mobile emulators on sauce labs
     config.sauceUser = process.env.SAUCE_USERNAME;
     config.sauceKey = process.env.SAUCE_ACCESS_KEY;
-    config.port = appium.port;
-    config.multiCapabilities = appium.iosCapabilities;
-  }
-
-  // Desktop browsers
-  else {
+    // Default port for Appium
+    config.port = 4723;
+  } else {
+    // Desktop browser
     config.capabilities = {
       'browserName': 'chrome',
       'chromeOptions': {
@@ -39,8 +36,17 @@ if (process.env.TRAVIS) {
       }
     };
   }
-}
 
+  if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
+    var appiumiOS = require('./appium/ios-conf.js');
+    config.multiCapabilities = appiumiOS.iosCapabilities;
+  }
+
+  else if (process.env.SAUCE_PLATFORM_NAME === 'android') {
+    var appiumAndroid = require('./appium/android-conf.js');
+    config.multiCapabilities = appiumAndroid.androidCapabilities;
+  }
+}
 // Local tests, required:
 // WIDGET_TEST_SERVER
 // WIDGET_BASIC_USER
