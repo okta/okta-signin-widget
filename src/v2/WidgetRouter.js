@@ -10,34 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 50] */
-import ErrorController from './controllers/ErrorController';
 import FormController from './controllers/FormController';
 import BaseLoginRouter from './BaseLoginRouter';
 
 module.exports = BaseLoginRouter.extend({
   routes: {
     '': 'defaultAuth',
-    'signin/render': 'renderWidgetView',
     '*wildcard': 'defaultAuth',
   },
 
   defaultAuth: function () {
-    const currentState = this.appState.get('currentState');
-
-    if (currentState) {
-      this.renderWidgetView();
-    } else {
-      this.renderErrorView();
-    }
-  },
-
-  renderErrorView: function () {
-    // no/invalid stateToken
-    this.render(ErrorController);
-  },
-
-  renderWidgetView: function () {
     this.render(FormController);
   },
+
 });
