@@ -1,0 +1,102 @@
+{
+  "stateHandle": "01pCiYqxWzm-iaFdL2W26KHFB-myLMJk2JBrLWmPxF",
+  "version": "1.0.0",
+  "expiresAt": "2019-08-14T20:42:04.000Z",
+  "step": "AUTHENTICATE",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "challenge-factor",
+        "href": "http://localhost:3000/api/v1/idx/challenge",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "stateHandle",
+            "value": "01pCiYqxWzm-iaFdL2W26KHFB-myLMJk2JBrLWmPxF",
+            "visible": false
+          }
+        ]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-factor",
+        "href": "http://localhost:3000/api/v1/idx/challenge",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "factorId",
+            "type": "set",
+            "options": [
+              {
+                "label": "Password",
+                "value": "password"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "value": "01Ki99dQyNhuVGzY3wJBuKZTOFQwuG3sVq348MOF0F",
+            "visible": false
+          }
+        ]
+      }
+    ]
+  },
+  "factor": {
+    "type": "object",
+    "value": {
+      "factorType": "email",
+      "provider": "okta",
+      "profile": {
+        "email": "o*****m@abbott.dev"
+      }
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u20baPvUzPfrlX50g4"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/api/v1/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "value": "01pCiYqxWzm-iaFdL2W26KHFB-myLMJk2JBrLWmPxF",
+        "visible": false
+      }
+    ]
+  },
+  "context": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "context",
+    "href": "http://localhost:3000/api/v1/idx/context",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "value": "01pCiYqxWzm-iaFdL2W26KHFB-myLMJk2JBrLWmPxF",
+        "visible": false
+      }
+    ]
+  }
+}

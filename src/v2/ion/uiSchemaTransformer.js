@@ -39,7 +39,8 @@ const createUISchema = (remediationValue = []) => {
         showPasswordToggle: true,
       };
     }
-    if (ionFormField.name === 'factorType') {
+    //select factor form for multiple factor enroll and multiple factors verify
+    if (ionFormField.name === 'factorType' || ionFormField.name === 'factorId') {
       uiSchema.type = 'factorType';
     }
     return Object.assign(

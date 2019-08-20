@@ -11,14 +11,26 @@ const Body = BaseForm.extend({
 });
 
 const Footer = BaseFooter.extend({
-  links: [
-    {
-      'type': 'link',
-      'label': 'Forgot Password',
-      'name': 'forgot-password',
-      'actionPath': 'factor.recovery',
+  links: function () {
+    var links = [
+      {
+        'type': 'link',
+        'label': 'Forgot Password',
+        'name': 'forgot-password',
+        'actionPath': 'factor.recovery',
+      }
+    ];
+    // check if we have a select-factor form in remediation, if so add a link
+    if (this.options.appState.hasRemediationForm('select-factor')) {
+      links.push({
+        'type': 'link',
+        'label': 'Switch Factor',
+        'name': 'switchFactor',
+        'formName': 'select-factor',
+      });
     }
-  ],
+    return links;
+  }
 });
 
 export default BaseView.extend({
