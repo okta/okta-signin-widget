@@ -44,12 +44,23 @@ export default Model.extend({
         return factor.factorType;
       },
     },
-    isTerminalState: {
-      deps: ['terminal'],
-      fn: function (terminal) {
-        return !_.isEmpty(terminal);
+    currentStep: {
+      deps: ['currentState'],
+      fn: function (currentState = {}) {
+        return currentState.step && currentState.step.toLowerCase();
       },
     },
+    showSignoutLink: {
+      deps: ['currentState'],
+      fn: function (currentState = {}) {
+        // hide signout for IDENTIFY step
+        return _.isFunction(currentState.cancel) && currentState.step !== 'IDENTIFY';
+      },
+    },
+  },
+
+  hasRemediationForm (formName) {
+    return this.get('currentState').remediation.filter(v => v.name === formName).length === 1;
   },
 
   getCurrentViewState () {

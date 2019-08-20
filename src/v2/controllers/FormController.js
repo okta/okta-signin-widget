@@ -21,6 +21,7 @@ export default BaseLoginController.extend({
 
     this.listenTo(this.options.appState, 'change:currentFormName', this.render);
     this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
+    this.listenTo(this.options.appState, 'switchForm', this.switchForm);
     this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
   },
 
@@ -33,7 +34,8 @@ export default BaseLoginController.extend({
 
     const TheView = ViewFactory.create(
       currentViewState.name,
-      this.options.appState.get('factorType')
+      this.options.appState.get('factorType'),
+      this.options.appState.get('currentStep'),
     );
     this.formView = this.add(TheView, {
       options: {
@@ -65,6 +67,13 @@ export default BaseLoginController.extend({
         })
         .catch();
     }
+  },
+
+  switchForm (formName) {
+    // setting factor to null to adjust the beacon header in the select-factor view
+    this.options.appState.set('factor', {});
+    // trigger formname change to change view
+    this.options.appState.set('currentFormName', formName);
   },
 
   handleFormSave (model) {

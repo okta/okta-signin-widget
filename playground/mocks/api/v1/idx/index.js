@@ -20,9 +20,13 @@ const factorEnrollPassword = [
   require('./data/factor-enroll-options.json'),
   require('./data/factor-enroll-password.json'),
 ];
+
+const factorRequiredMultiple = [
+  require('./data/factor-required-options.json')
+];
 const path = __dirname.slice(__dirname.indexOf('api') - 1);
 
-const testData = factorEnrollPassword;
+const testData = factorRequiredMultiple;
 
 let index = 0;
 

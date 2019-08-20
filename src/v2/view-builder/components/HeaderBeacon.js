@@ -27,10 +27,10 @@ const BeaconView = View.extend({
     ',
 
   getTemplateData: function () {
-    const factor = this.options.appState.get('factor');
+    const factorType = this.options.appState.get('factorType');
     let className = 'undefined-user';
-    if (factor) {
-      className = getFactorData(factor.factorType).iconClassName;
+    if (factorType) {
+      className = getFactorData(factorType).iconClassName;
     }
     return { className: className || '' };
   },

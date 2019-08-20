@@ -3,7 +3,8 @@ import BaseView from './internals/BaseView';
 
 // factor ignostic views
 import IdentifierView from './views/IdentifierView';
-import SelectFactorView from './views/SelectFactorView';
+import SelectFactorEnrollView from './views/SelectFactorEnrollView';
+import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
 import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
 
@@ -25,9 +26,13 @@ const VIEWS_MAPPING = {
   'identify': {
     [DEFAULT]: IdentifierView,
   },
+  //select-factor-authenticate is used to show the list of factors before challenge flow
+  //select-factor-enroll is used to show the list of factors before enroll flows
   'select-factor': {
-    [DEFAULT]: SelectFactorView,
+    authenticate: SelectFactorAuthenticateView,
+    enroll: SelectFactorEnrollView
   },
+
   'enroll-profile': {
     [DEFAULT]: EnrollProfileView,
   },
@@ -35,7 +40,7 @@ const VIEWS_MAPPING = {
     email: EnrollFactorEmailView,
     password: EnrollFactorPasswordView
   },
-  'required-factor': {
+  'challenge-factor': {
     email: RequiredFactorEmailView,
     password: RequiredFactorPasswordView,
   },
@@ -66,13 +71,14 @@ const VIEWS_MAPPING = {
 };
 
 module.exports = {
-  create (formName, factorType = DEFAULT) {
+  create (formName, factorType = DEFAULT, step) {
     const config = VIEWS_MAPPING[formName];
     if (!config) {
       Logger.warn(`Cannot find customized View (form: ${formName}). Fallback to BaseView.`);
       return BaseView;
     }
-    const View = config[factorType] || config[DEFAULT];
+    // look for customized view by step, then by factor, if not found then use DEFAULT
+    const View = config[step] || config[factorType] || config[DEFAULT];
 
     if (!View) {
       Logger.warn(`Cannot find customized View (form: ${formName}, factor: ${factorType}). Fallback to BaseView.`);
