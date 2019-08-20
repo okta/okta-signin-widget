@@ -44,18 +44,16 @@ export default Model.extend({
         return factor.factorType;
       },
     },
-    isIdentifyStep: {
-      deps: ['currentState'],
-      fn: function (currentState = {}) {
-        return currentState && currentState.step === 'IDENTIFY';
-      },
-    },
     currentStep: {
       deps: ['currentState'],
       fn: function (currentState = {}) {
-        return currentState.step;
+        return currentState.step && currentState.step.toLowerCase();
       },
     },
+  },
+
+  showSignoutLink () {
+    return this.get('currentState').step !== 'IDENTIFY';
   },
 
   hasRemediationForm (formName) {

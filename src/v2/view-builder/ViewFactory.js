@@ -27,13 +27,12 @@ const VIEWS_MAPPING = {
     [DEFAULT]: IdentifierView,
   },
   //select-factor-authenticate is used to show the list of factors before challenge flow
-  'select-factor-authenticate': {
-    [DEFAULT]: SelectFactorAuthenticateView,
-  },
   //select-factor-enroll is used to show the list of factors before enroll flows
-  'select-factor-enroll': {
-    [DEFAULT]: SelectFactorEnrollView,
+  'select-factor': {
+    authenticate: SelectFactorAuthenticateView,
+    enroll: SelectFactorEnrollView
   },
+
   'enroll-profile': {
     [DEFAULT]: EnrollProfileView,
   },
@@ -73,18 +72,13 @@ const VIEWS_MAPPING = {
 
 module.exports = {
   create (formName, factorType = DEFAULT, step) {
-    // Add unique formNames based on step,
-    // since API sends select-factor as formName for both enroll and challenge flows
-    if (formName === 'select-factor') {
-      formName = formName + '-' + step.toLowerCase();
-    }
-
     const config = VIEWS_MAPPING[formName];
     if (!config) {
       Logger.warn(`Cannot find customized View (form: ${formName}). Fallback to BaseView.`);
       return BaseView;
     }
-    const View = config[factorType] || config[DEFAULT];
+    // look for customized view by step, then by factor, if not found then use DEFAULT
+    const View = config[step] || config[factorType] || config[DEFAULT];
 
     if (!View) {
       Logger.warn(`Cannot find customized View (form: ${formName}, factor: ${factorType}). Fallback to BaseView.`);

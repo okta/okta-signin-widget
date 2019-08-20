@@ -33,10 +33,13 @@ const Link = View.extend({
   },
 
   postRender () {
-    if (!this.options.href && this.options.actionPath) {
+    //TODO OKTA-245224
+    if (!this.options.href) {
       this.$el.click((event) => {
+        const appState = this.options.appState;
         event.preventDefault();
-        this.options.appState.trigger('invokeAction', this.options.actionPath);
+        this.options.formName? appState.trigger('switchForm', this.options.formName):
+          appState.trigger('invokeAction', this.options.actionPath);
       });
     }
   }

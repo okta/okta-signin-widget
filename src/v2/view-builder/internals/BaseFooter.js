@@ -26,8 +26,7 @@ export default View.extend({
     let links = _.resultCtx(this, 'links', this);
     const cancelFn = this.options.appState.get('currentState').cancel;
     // hide signout for IDENTIFY step
-    const isIdentifyStep = this.options.appState.get('isIdentifyStep');
-    if (_.isFunction(cancelFn) && !isIdentifyStep) {
+    if (_.isFunction(cancelFn) && this.options.appState.showSignoutLink()) {
       //add cancel/signout link
       links = links.concat([
         {

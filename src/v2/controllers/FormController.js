@@ -21,6 +21,7 @@ export default BaseLoginController.extend({
 
     this.listenTo(this.options.appState, 'change:currentFormName', this.render);
     this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
+    this.listenTo(this.options.appState, 'switchForm', this.switchForm);
     this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
   },
 
@@ -46,14 +47,6 @@ export default BaseLoginController.extend({
   },
 
   invokeAction (actionPath = '') {
-    // handle select-factor form
-    if (actionPath === 'select-factor') {
-      // setting factor to null to adjust the beacon header in the select-factor view
-      this.options.appState.set('factor', {});
-      // trigger formname change to change view
-      this.options.appState.set('currentFormName', actionPath);
-      return;
-    }
     const paths = actionPath.split('.');
     let targetObject;
     if (paths.length === 1) {
@@ -74,6 +67,13 @@ export default BaseLoginController.extend({
         })
         .catch();
     }
+  },
+
+  switchForm (formName) {
+    // setting factor to null to adjust the beacon header in the select-factor view
+    this.options.appState.set('factor', {});
+    // trigger formname change to change view
+    this.options.appState.set('currentFormName', formName);
   },
 
   handleFormSave (model) {

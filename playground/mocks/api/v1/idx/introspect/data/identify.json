@@ -45,6 +45,21 @@
         }
       ]
     },
+    "cancel": {
+      "rel": [
+        "create-form"
+      ],
+      "name": "cancel",
+      "href": "http://localhost:3000/api/v1/idx/cancel",
+      "method": "POST",
+      "value": [
+        {
+          "name": "stateHandle",
+          "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+          "visible": false
+        }
+      ]
+    },
     "context": {
       "rel": [
         "create-form"

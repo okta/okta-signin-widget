@@ -26,7 +26,7 @@ const Footer = BaseFooter.extend({
         'type': 'link',
         'label': 'Switch Factor',
         'name': 'switchFactor',
-        'actionPath': 'select-factor',
+        'formName': 'select-factor',
       });
     }
     return links;
