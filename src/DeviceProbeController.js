@@ -17,8 +17,11 @@
 define([
   'okta',
   'util/Util',
-  'util/FormController'
-], function (Okta, Util, FormController) {
+  'util/FormController',
+  'models/BaseLoginModel'
+], function (Okta, Util, FormController, BaseLoginModel) {
+
+  const _ = Okta._;
 
   return FormController.extend({
 
@@ -51,6 +54,10 @@ define([
         maxAttempts: 5
       };
       var successFn = function (data) {
+        if (data.status === 'FAILED') {
+          this._probeUsingUniversalLink();
+          return;
+        }
         this.model.url = response._links.next.href;
         this.model.set('stateToken', response.stateToken);
         this.model.set('challengeResponse', data.jwt);
@@ -60,6 +67,48 @@ define([
           }.bind(this));
       };
       Util.performLoopback(options, successFn);
+    },
+
+    _probeUsingUniversalLink: function () {
+      let response = this.options.appState.get('lastAuthResponse');
+      let baseUrl = 'http://universal.link';
+      if (this.settings.get('useMock')) {
+        baseUrl = 'http://localhost:3000/universalLink/deviceProbe';
+      }
+      var pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
+      let options = {
+        context: this,
+        baseUrl: baseUrl,
+        pollingUrl: pollingUrl,
+        status: response.status,
+        nonce: response._embedded.probeInfo.nonce,
+        stateToken: response.stateToken,
+        maxAttempts: 10
+      };
+      var successFn = function (data) {
+        if (data.status === 'FAILED') {
+          alert('Device Probing failed!');
+          return;
+        }
+        let Model = BaseLoginModel.extend(_.extend({
+          parse: function (attributes) {
+            this.settings = attributes.settings;
+            this.appState = attributes.appState;
+            return _.omit(attributes, ['settings', 'appState']);
+          }
+        }, _.result(this, 'Model')));
+        let model = new Model({
+          settings: this.settings,
+          appState: this.options.appState
+        }, { parse: true });
+        model.url = this.settings.get('baseUrl') + '/api/v1/authn';
+        model.set('stateToken', response.stateToken);
+        model.save()
+          .done(function (data) {
+            this.options.appState.trigger('change:transaction', this.options.appState, {data});
+          }.bind(this));
+      };
+      Util.performUniversalLink(options, successFn);
     }
 
   });

@@ -17,11 +17,13 @@
 define([
   'okta',
   'util/Util',
-  'util/FormController'
+  'util/FormController',
+  'models/BaseLoginModel'
 ],
-function (Okta, Util, FormController) {
+function (Okta, Util, FormController, BaseLoginModel) {
 
   const $ = Okta.$;
+  const _ = Okta._;
 
   return FormController.extend({
 
@@ -48,22 +50,26 @@ function (Okta, Util, FormController) {
         factorType: this.options.factorType
       });
 
+      let useLoopback = factor.get('deviceEnrollment').binding === 'LOOPBACK';
+
       // If extension is being used
       if (factor.get('_links').extension) {
         this._enrollUsingExtension(factor);
-      } else { // If loopback is being used
+      } else if (useLoopback) { // If loopback is being used
         this._enrollUsingLoopback(factor);
+      } else { // If universal link is being used
+        this._enrollUsingUniversalLink(factor);
       }
     },
 
     _enrollUsingExtension: function (factor) {
       // Seems like web view does not indicate xhr calls, so we can trigger extension as if it was a regular browser request
       // Note also that Office365 native app does not seem to support regular requests during login, so needs to use xhr requests
-      // if (Util.isIOSWebView()) {
-      this._initiateEnrollmentUsingExtensionViaXhr(factor);
-      // } else {
-      //   this._initiateEnrollmentUsingExtensionViaRegularRequests(factor);
-      // }
+      if (Util.isIOSWebView()) {
+        this._initiateEnrollmentUsingExtensionViaXhr(factor);
+      } else {
+        this._initiateEnrollmentUsingExtensionViaRegularRequests(factor);
+      }
     },
 
     _initiateEnrollmentUsingExtensionViaXhr: function (factor) {
@@ -135,6 +141,48 @@ function (Okta, Util, FormController) {
       };
       Util.performLoopback(options, successFn);
     },
+
+    _enrollUsingUniversalLink: function (factor) {
+      let response = this.options.appState.get('lastAuthResponse');
+      let baseUrl = 'http://universal.link';
+      if (this.settings.get('useMock')) {
+        baseUrl = 'http://localhost:3000/universalLink/factorEnrollment';
+      }
+      var pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
+      let options = {
+        context: this,
+        baseUrl: baseUrl,
+        pollingUrl: pollingUrl,
+        status: response.status,
+        nonce: factor.get('nonce'),
+        stateToken: response.stateToken,
+        maxAttempts: 10
+      };
+      var successFn = function (data) {
+        if (data.status === 'FAILED') {
+          alert('Factor Enrollment failed!');
+          return;
+        }
+        let Model = BaseLoginModel.extend(_.extend({
+          parse: function (attributes) {
+            this.settings = attributes.settings;
+            this.appState = attributes.appState;
+            return _.omit(attributes, ['settings', 'appState']);
+          }
+        }, _.result(this, 'Model')));
+        let model = new Model({
+          settings: this.settings,
+          appState: this.options.appState
+        }, { parse: true });
+        model.url = this.settings.get('baseUrl') + '/api/v1/authn';
+        model.set('stateToken', response.stateToken);
+        model.save()
+          .done(function (data) {
+            this.options.appState.trigger('change:transaction', this.options.appState, {data});
+          }.bind(this));
+      };
+      Util.performUniversalLink(options, successFn);
+    }
 
   });
 

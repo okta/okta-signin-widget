@@ -9,7 +9,7 @@ module.exports = {
   proxy: false,
   method: 'POST',
   template: (params, query, body, cookies, headers) => {
-    if (params.port === '41244') {
+    if (widgetrc.widgetOptions.useLoopback && params.port === '41244') {
       return data;
     }
   },
@@ -29,8 +29,14 @@ module.exports = {
       res.status(406);
       break;
     case '41244':
+      if (widgetrc.widgetOptions.useLoopback) {
+        res.status(200);
+      } else {
+        res.status(400);
+      }
+      break;
     default:
-      res.status(200);
+      res.status(400);
     }
     next();
   },

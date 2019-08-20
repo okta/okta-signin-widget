@@ -65,22 +65,26 @@ define([
       this.options.appState.setAuthResponse(data);
       let response = this.options.appState.get('lastAuthResponse');
 
+      var useLoopback = response._embedded.factor._embedded.binding === 'LOOPBACK';
+
       // If extension is being used
       if (response._links.extension) {
         this._verifyUsingExtension(response);
-      } else { // If loopback is being used
+      } else if (useLoopback) { // If loopback is being used
         this._verifyUsingLoopback(response);
+      } else { // If universal link is being used
+        this._verifyUsingUniversalLink(response);
       }
     },
 
     _verifyUsingExtension: function (response) {
       // Seems like web view does not indicate xhr calls, so we can trigger extension as if it was a regular browser request
       // Note also that Office365 native app does not seem to support regular requests during login, so needs to use xhr requests
-      // if (Util.isIOSWebView()) {
-      this._initiateVerificationUsingExtensionViaXhr(response);
-      // } else {
-      //   this._initiateVerificationUsingExtensionViaRegularRequests(response);
-      // }
+      if (Util.isIOSWebView()) {
+        this._initiateVerificationUsingExtensionViaXhr(response);
+      } else {
+        this._initiateVerificationUsingExtensionViaRegularRequests(response);
+      }
     },
 
     _initiateVerificationUsingExtensionViaRegularRequests: function (response) {
@@ -165,6 +169,48 @@ define([
       };
       Util.performLoopback(options, successFn);
     },
+
+    _verifyUsingUniversalLink: function (response) {
+      let baseUrl = 'http://universal.link';
+      if (this.settings.get('useMock')) {
+        baseUrl = 'http://localhost:3000/universalLink/factorVerification';
+      }
+      var pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
+      let options = {
+        context: this,
+        baseUrl: baseUrl,
+        pollingUrl: pollingUrl,
+        status: response.status,
+        nonce: response._embedded.factor._embedded.challenge.nonce,
+        stateToken: response.stateToken,
+        factorId: response._embedded.factor.id,
+        maxAttempts: 10
+      };
+      var successFn = function (data) {
+        if (data.status === 'FAILED') {
+          alert('Factor Verification failed!');
+          return;
+        }
+        let Model = BaseLoginModel.extend(_.extend({
+          parse: function (attributes) {
+            this.settings = attributes.settings;
+            this.appState = attributes.appState;
+            return _.omit(attributes, ['settings', 'appState']);
+          }
+        }, _.result(this, 'Model')));
+        let model = new Model({
+          settings: this.settings,
+          appState: this.options.appState
+        }, { parse: true });
+        model.url = this.settings.get('baseUrl') + '/api/v1/authn';
+        model.set('stateToken', response.stateToken);
+        model.save()
+          .done(function (data) {
+            this.options.appState.trigger('change:transaction', this.options.appState, {data});
+          }.bind(this));
+      };
+      Util.performUniversalLink(options, successFn);
+    }
 
   });
 });

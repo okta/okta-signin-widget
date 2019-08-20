@@ -165,6 +165,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
       .fail(function () {
         if (currentAttempt > options.maxAttempts) {
           console.warn('Max number of loopback attempts was reached!');
+          successFn.call(options.context, { status: 'FAILED' });
         } else {
           // Try with next port and increase number of attempts
           options.port += 2;
@@ -172,6 +173,53 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
         }
       }.bind(options.context))
       .done(successFn.bind(options.context));
+  };
+
+  Util.performUniversalLink = function (options, successFn) {
+    // Make the initial call
+    var data = {
+      stateToken: options.stateToken,
+      nonce: options.nonce,
+    };
+    if (options.factorId) {
+      data.factorId = options.factorId;
+    }
+    $.post({
+      url: options.baseUrl,
+      method: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+    });
+
+    // Poll for updates
+    Util._doPollForUniversalLink(options, successFn);
+  };
+
+  Util._doPollForUniversalLink = function (options, successFn, currentAttempt) {
+    if (!currentAttempt) {
+      currentAttempt = 0;
+    }
+    setTimeout(function () {
+      $.post({
+        url: options.pollingUrl,
+        method: 'POST',
+        data: JSON.stringify({
+          stateToken: options.stateToken,
+        }),
+        contentType: 'application/json',
+      }).fail(function () {
+        successFn.call(options.context);
+      }.bind(options.context))
+        .done(function (data) {
+          if (data.status !== options.status) {
+            successFn.call(options.context, {status: 'SUCCESS'});
+          } else if (currentAttempt < options.maxAttempts) {
+            Util._doPollForUniversalLink(options, successFn, ++currentAttempt);
+          } else {
+            successFn.call(options.context, {status: 'FAILED'});
+          }
+        }.bind(options.context));
+    }.bind(options.context), 1000);
   };
 
   Util.isIOSWebView = function () {
