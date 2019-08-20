@@ -50,10 +50,13 @@ export default Model.extend({
         return currentState.step && currentState.step.toLowerCase();
       },
     },
-  },
-
-  showSignoutLink () {
-    return this.get('currentState').step !== 'IDENTIFY';
+    showSignoutLink: {
+      deps: ['currentState'],
+      fn: function (currentState = {}) {
+        // hide signout for IDENTIFY step
+        return _.isFunction(currentState.cancel) && currentState.step !== 'IDENTIFY';
+      },
+    },
   },
 
   hasRemediationForm (formName) {
