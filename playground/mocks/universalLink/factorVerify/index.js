@@ -3,7 +3,7 @@ const widgetrc = JSON.parse(fs.readFileSync('.widgetrc'));
 const request = require('request');
 
 var makeRequest = function (data) {
-  request.post('http://rain.okta1.com:1802/api/v1/authn/factors/' + data.factorId + '/verify', {
+  request.post(widgetrc.widgetOptions.baseUrl + '/api/v1/authn/factors/' + data.factorId + '/verify', {
     json: {
       stateToken: data.stateToken,
       devicePostureJwt: data.jwt
