@@ -36,7 +36,7 @@ module.exports = {
       }
       break;
     default:
-      res.status(200);
+      res.status(400);
     }
     next();
   },

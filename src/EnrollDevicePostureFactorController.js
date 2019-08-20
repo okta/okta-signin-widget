@@ -126,6 +126,10 @@ function (Okta, Util, FormController, BaseLoginModel) {
         maxAttempts: 5
       };
       var successFn = function (data) {
+        if (data.status === 'FAILED') {
+          alert('Factor Enrollment failed using loopback!');
+          return;
+        }
         var response = this.options.appState.get('lastAuthResponse');
         this.model.url = response._embedded.factors[0]._links.enroll.href;
         this.model.set('stateToken', response.stateToken);
@@ -160,7 +164,7 @@ function (Okta, Util, FormController, BaseLoginModel) {
       };
       var successFn = function (data) {
         if (data.status === 'FAILED') {
-          alert('Factor Enrollment failed!');
+          alert('Factor Enrollment failed using universal link!');
           return;
         }
         let Model = BaseLoginModel.extend(_.extend({

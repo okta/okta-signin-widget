@@ -147,6 +147,10 @@ define([
         maxAttempts: 5
       };
       var successFn = function (data) {
+        if (data.status === 'FAILED') {
+          alert('Factor Verification failed using loopback!');
+          return;
+        }
         let Model = BaseLoginModel.extend(_.extend({
           parse: function (attributes) {
             this.settings = attributes.settings;
@@ -188,7 +192,7 @@ define([
       };
       var successFn = function (data) {
         if (data.status === 'FAILED') {
-          alert('Factor Verification failed!');
+          alert('Factor Verification failed using universal link!');
           return;
         }
         let Model = BaseLoginModel.extend(_.extend({
