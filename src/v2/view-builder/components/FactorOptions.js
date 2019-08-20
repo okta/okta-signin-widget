@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { loc, createButton, View, ListView } from 'okta';
+import { createButton, View, ListView } from 'okta';
 
 const FactorRow = View.extend({
   className: 'enroll-factor-row clearfix',
@@ -51,11 +51,8 @@ export default ListView.extend({
   itemSelector: '.list-content',
 
   initialize: function () {
-    this.step = this.options.appState.get('currentState').step;
     this.listenTo(this.collection,'selectFactor', function (data) {
       this.model.set(this.options.name, data);
-      //adjust formname
-      this.model.set('formName', 'select-factor');
       this.options.appState.trigger('saveForm', this.model);
     });
   },

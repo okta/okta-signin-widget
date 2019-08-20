@@ -22,9 +22,7 @@ const factorEnrollPassword = [
 ];
 
 const factorRequiredMultiple = [
-  require('./data/factor-required-options.json'),
-  require('./data/factor-required-password-with-options.json'),
-  require('./data/factor-required-options-email.json')
+  require('./data/factor-required-options.json')
 ];
 const path = __dirname.slice(__dirname.indexOf('api') - 1);
 

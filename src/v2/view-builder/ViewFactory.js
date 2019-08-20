@@ -4,7 +4,7 @@ import BaseView from './internals/BaseView';
 // factor ignostic views
 import IdentifierView from './views/IdentifierView';
 import SelectFactorEnrollView from './views/SelectFactorEnrollView';
-import SelectFactorChallengeView from './views/SelectFactorChallengeView';
+import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
 import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
 
@@ -26,9 +26,9 @@ const VIEWS_MAPPING = {
   'identify': {
     [DEFAULT]: IdentifierView,
   },
-  //select-factor-challenge is used to show the list of factors before challenge flow
-  'select-factor-challenge': {
-    [DEFAULT]: SelectFactorChallengeView,
+  //select-factor-authenticate is used to show the list of factors before challenge flow
+  'select-factor-authenticate': {
+    [DEFAULT]: SelectFactorAuthenticateView,
   },
   //select-factor-enroll is used to show the list of factors before enroll flows
   'select-factor-enroll': {
@@ -72,7 +72,13 @@ const VIEWS_MAPPING = {
 };
 
 module.exports = {
-  create (formName, factorType = DEFAULT) {
+  create (formName, factorType = DEFAULT, step) {
+    // Add unique formNames based on step,
+    // since API sends select-factor as formName for both enroll and challenge flows
+    if (formName === 'select-factor') {
+      formName = formName + '-' + step.toLowerCase();
+    }
+
     const config = VIEWS_MAPPING[formName];
     if (!config) {
       Logger.warn(`Cannot find customized View (form: ${formName}). Fallback to BaseView.`);

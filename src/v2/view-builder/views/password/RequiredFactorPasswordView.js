@@ -20,7 +20,7 @@ const Footer = BaseFooter.extend({
         'actionPath': 'factor.recovery',
       }
     ];
-    // check if we have a select-factor-challenge form in remediation, if so add a link
+    // check if we have a select-factor form in remediation, if so add a link
     if (this.options.appState.hasRemediationForm('select-factor')) {
       links.push({
         'type': 'link',

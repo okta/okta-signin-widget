@@ -31,17 +31,10 @@ export default BaseLoginController.extend({
   postRender () {
     const currentViewState = this.options.appState.getCurrentViewState();
 
-    if (currentViewState.name === 'select-factor') {
-      if (this.options.appState.get('isAuthenticateStep')) {
-        currentViewState.name = 'select-factor-challenge';
-      } else {
-        currentViewState.name = 'select-factor-enroll';
-      }
-    }
-
     const TheView = ViewFactory.create(
       currentViewState.name,
-      this.options.appState.get('factorType')
+      this.options.appState.get('factorType'),
+      this.options.appState.get('currentStep'),
     );
     this.formView = this.add(TheView, {
       options: {
