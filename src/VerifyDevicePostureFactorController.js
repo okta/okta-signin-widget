@@ -147,6 +147,7 @@ define([
         nonce: response._embedded.factor._embedded.challenge.nonce,
         credentialId: response._embedded.factor.profile.credentialId,
         factorId: response._embedded.factor.id,
+        domain: this.settings.get('baseUrl'),
         maxAttempts: 5
       };
       var successFn = function (data) {
@@ -192,6 +193,7 @@ define([
         stateToken: response.stateToken,
         credentialId: response._embedded.factor.profile.credentialId,
         factorId: response._embedded.factor.id,
+        domain: this.settings.get('baseUrl'),
         maxAttempts: 10
       };
       var successFn = function (data) {

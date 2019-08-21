@@ -156,6 +156,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     var data = {
       requestType: options.requestType,
       nonce: options.nonce,
+      domain: options.domain,
     };
     if (options.credentialId) {
       data.credentialId = options.credentialId;
@@ -187,6 +188,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     var data = {
       stateToken: options.stateToken,
       nonce: options.nonce,
+      domain: options.domain,
     };
     if (options.factorId) {
       data.factorId = options.factorId;

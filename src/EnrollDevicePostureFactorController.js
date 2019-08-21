@@ -123,6 +123,7 @@ function (Okta, Util, FormController, BaseLoginModel) {
         requestType: 'userEnroll',
         port: 41236,
         nonce: factor.get('nonce'),
+        domain: this.settings.get('baseUrl'),
         maxAttempts: 5
       };
       var successFn = function (data) {
@@ -160,6 +161,7 @@ function (Okta, Util, FormController, BaseLoginModel) {
         status: response.status,
         nonce: factor.get('nonce'),
         stateToken: response.stateToken,
+        domain: this.settings.get('baseUrl'),
         maxAttempts: 10
       };
       var successFn = function (data) {

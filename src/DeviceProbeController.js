@@ -51,6 +51,7 @@ define([
         requestType: 'deviceChallenge',
         port: 41236,
         nonce: response._embedded.probeInfo.nonce,
+        domain: this.settings.get('baseUrl'),
         maxAttempts: 5
       };
       var successFn = function (data) {
@@ -83,6 +84,7 @@ define([
         status: response.status,
         nonce: response._embedded.probeInfo.nonce,
         stateToken: response.stateToken,
+        domain: this.settings.get('baseUrl'),
         maxAttempts: 10
       };
       var successFn = function (data) {
