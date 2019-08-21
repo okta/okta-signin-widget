@@ -18,9 +18,11 @@ define([
   'okta',
   'util/Util',
   'util/FormController',
-  'models/BaseLoginModel'
+  'models/BaseLoginModel',
+  'util/FormType',
+  'views/shared/Spinner'
 ],
-function (Okta, Util, FormController, BaseLoginModel) {
+function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
 
   const $ = Okta.$;
   const _ = Okta._;
@@ -37,13 +39,42 @@ function (Okta, Util, FormController, BaseLoginModel) {
         factorType: 'string',
         profile: 'object'
       },
+      save: function () {
+        var appState = this.options.appState;
+        return this.startTransaction(function () {
+          appState.trigger('loading', true);
+          var data = {
+            stateToken: this.get('stateToken'),
+            provider: this.get('provider'),
+            factorType: this.get('factorType'),
+            profile: this.get('profile'),
+          };
+          return $.post({
+            url: this.url,
+            method: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+          }).done(function (data) {
+            this.options.appState.trigger('change:transaction', this.options.appState, { data });
+          }.bind(this));
+        });
+      }
     },
 
     Form: {
       noButtonBar: true,
+      title: 'Signing in',
+      subtitle: 'Enrolling in device posture factor',
+      formChildren: function () {
+        var result = [];
+        result.push(FormType.View({ View: new Spinner({ model: this.model, visible: false }) }));
+        return result;
+      }
     },
 
     initialize: function () {
+      this.model.trigger('spinner:show');
+
       var factors = this.options.appState.get('factors');
       var factor = factors.findWhere({
         provider: this.options.provider,
@@ -98,10 +129,7 @@ function (Okta, Util, FormController, BaseLoginModel) {
       this.model.set('profile', {
         devicePostureJwt: data.devicePostureJwt
       });
-      this.model.save()
-        .done(function (data) {
-          this.options.appState.trigger('change:transaction', this.options.appState, { data });
-        }.bind(this));
+      this.model.save();
     },
 
     _initiateEnrollmentUsingExtensionViaRegularRequests: function (factor) {
@@ -139,10 +167,7 @@ function (Okta, Util, FormController, BaseLoginModel) {
         this.model.set('profile', {
           devicePostureJwt: data.jwt
         });
-        this.model.save()
-          .done(function (data) {
-            this.options.appState.trigger('change:transaction', this.options.appState, { data });
-          }.bind(this));
+        this.model.save();
       };
       Util.performLoopback(options, successFn);
     },
@@ -182,10 +207,24 @@ function (Okta, Util, FormController, BaseLoginModel) {
         }, { parse: true });
         model.url = this.settings.get('baseUrl') + '/api/v1/authn';
         model.set('stateToken', response.stateToken);
-        model.save()
-          .done(function (data) {
-            this.options.appState.trigger('change:transaction', this.options.appState, {data});
-          }.bind(this));
+        model.save = function () {
+          var appState = this.options.appState;
+          return this.startTransaction(function () {
+            appState.trigger('loading', true);
+            var data = {
+              stateToken: this.get('stateToken'),
+            };
+            return $.post({
+              url: this.url,
+              method: 'POST',
+              data: JSON.stringify(data),
+              contentType: 'application/json',
+            }).done(function (data) {
+              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+            }.bind(this));
+          });
+        }.bind(model);
+        model.save();
       };
       Util.performUniversalLink(options, successFn);
     }

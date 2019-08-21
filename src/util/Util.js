@@ -177,7 +177,9 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
         } else {
           // Try with next port and increase number of attempts
           options.port += 2;
-          Util.performLoopback(options, successFn, ++currentAttempt);
+          setTimeout(function () {
+            Util.performLoopback(options, successFn, ++currentAttempt);
+          }, 100);
         }
       }.bind(options.context))
       .done(successFn.bind(options.context));
@@ -237,6 +239,14 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
   Util.isIOSWebView = function () {
     return /(iPad|iPhone|iPod)/i.test(navigator.userAgent) && !/safari/i.test(navigator.userAgent);
   };
+
+  Util.getCustomUriPrefix = function () {
+    return 'com-okta-client-authenticator-win://';
+  }
+
+  Util.getUniversalLinkPrefix = function () {
+    return 'https://login.okta1.com';
+  }
 
   /**
    * Why redirect via Form get rather using `window.location.href`?

@@ -224,7 +224,7 @@ function (BaseLoginRouter,
     },
 
     verifyDevicePostureFactor: function () {
-      this.render(VerifyDevicePostureFactorController, { Beacon: FactorBeacon });
+      this.render(VerifyDevicePostureFactorController, {});
     },
 
     verifyDuo: function () {
@@ -442,8 +442,7 @@ function (BaseLoginRouter,
     enrollDevicePosture: function () {
       this.render(EnrollDevicePostureFactorController, {
         provider: 'OKTA',
-        factorType: 'device_posture',
-        Beacon: FactorBeacon
+        factorType: 'device_posture'
       });
     },
 

@@ -19,7 +19,9 @@ define([
   'util/Util',
   'util/FormController',
   'models/BaseLoginModel',
-], function (Okta, Util, FormController, BaseLoginModel) {
+  'util/FormType',
+  'views/shared/Spinner'
+], function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
 
   const $ = Okta.$;
   const _ = Okta._;
@@ -32,14 +34,22 @@ define([
       url: '',
       props: {
         stateToken: 'string',
-      },
+      }
     },
 
     Form: {
       noButtonBar: true,
+      title: 'Signing in',
+      subtitle: 'Verifying device posture factor',
+      formChildren: function () {
+        var result = [];
+        result.push(FormType.View({ View: new Spinner({ model: this.model, visible: false }) }));
+        return result;
+      }
     },
 
     initialize: function () {
+      this.model.trigger('spinner:show');
       let response = this.options.appState.get('lastAuthResponse');
 
       if (!this._isStatusFactorRequired(response)) {
@@ -68,14 +78,16 @@ define([
 
       var useLoopback = response._embedded.factor._embedded.binding === 'LOOPBACK';
 
-      // If extension is being used
-      if (response._links.extension) {
-        this._verifyUsingExtension(response);
-      } else if (useLoopback) { // If loopback is being used
-        this._verifyUsingLoopback(response);
-      } else { // If universal link is being used
-        this._verifyUsingUniversalLink(response);
-      }
+      setTimeout(function () {
+        // If extension is being used
+        if (response._links.extension) {
+          this._verifyUsingExtension(response);
+        } else if (useLoopback) { // If loopback is being used
+          this._verifyUsingLoopback(response);
+        } else { // If universal link is being used
+          this._verifyUsingUniversalLink(response);
+        }
+      }.bind(this), 3000);
     },
 
     _verifyUsingExtension: function (response) {
@@ -128,10 +140,25 @@ define([
       model.url = response._links.next.href;
       model.set('devicePostureJwt', data.devicePostureJwt);
       model.set('stateToken', response.stateToken);
-      model.save()
-        .done(function (data) {
-          this.options.appState.trigger('change:transaction', this.options.appState, {data});
-        }.bind(this));
+      model.save = function () {
+        var appState = this.options.appState;
+        return this.startTransaction(function () {
+          appState.trigger('loading', true);
+          let data = {
+            stateToken: this.get('stateToken'),
+            devicePostureJwt: this.get('devicePostureJwt'),
+          };
+          return $.post({
+            url: this.url,
+            method: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+          }).done(function (data) {
+            this.options.appState.trigger('change:transaction', this.options.appState, { data });
+          }.bind(this));
+        });
+      }.bind(model);
+      model.save();
     },
 
     _verifyUsingLoopback: function (response) {
@@ -170,10 +197,25 @@ define([
         model.url = response._links.next.href;
         model.set('devicePostureJwt', data.jwt);
         model.set('stateToken', response.stateToken);
-        model.save()
-          .done(function (data) {
-            this.options.appState.trigger('change:transaction', this.options.appState, {data});
-          }.bind(this));
+        model.save = function () {
+          let appState = this.options.appState;
+          return this.startTransaction(function () {
+            appState.trigger('loading', true);
+            var data = {
+              stateToken: this.get('stateToken'),
+              devicePostureJwt: this.get('devicePostureJwt'),
+            };
+            return $.post({
+              url: this.url,
+              method: 'POST',
+              data: JSON.stringify(data),
+              contentType: 'application/json',
+            }).done(function (data) {
+              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+            }.bind(this));
+          });
+        }.bind(model);
+        model.save();
       };
       Util.performLoopback(options, successFn);
     },
@@ -214,10 +256,24 @@ define([
         }, { parse: true });
         model.url = this.settings.get('baseUrl') + '/api/v1/authn';
         model.set('stateToken', response.stateToken);
-        model.save()
-          .done(function (data) {
-            this.options.appState.trigger('change:transaction', this.options.appState, {data});
-          }.bind(this));
+        model.save = function () {
+          let appState = this.options.appState;
+          return this.startTransaction(function () {
+            appState.trigger('loading', true);
+            var data = {
+              stateToken: this.get('stateToken'),
+            };
+            return $.post({
+              url: this.url,
+              method: 'POST',
+              data: JSON.stringify(data),
+              contentType: 'application/json',
+            }).done(function (data) {
+              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+            }.bind(this));
+          });
+        }.bind(model);
+        model.save();
       };
       Util.performUniversalLink(options, successFn);
     }

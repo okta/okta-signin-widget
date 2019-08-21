@@ -18,10 +18,13 @@ define([
   'okta',
   'util/Util',
   'util/FormController',
-  'models/BaseLoginModel'
-], function (Okta, Util, FormController, BaseLoginModel) {
+  'models/BaseLoginModel',
+  'util/FormType',
+  'views/shared/Spinner'
+], function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
 
   const _ = Okta._;
+  const $ = Okta.$;
 
   return FormController.extend({
 
@@ -33,13 +36,40 @@ define([
         stateToken: 'string',
         challengeResponse: 'string'
       },
+      save: function () {
+        var appState = this.options.appState;
+        return this.startTransaction(function () {
+          appState.trigger('loading', true);
+          var data = {
+            stateToken: this.get('stateToken'),
+            challengeResponse: this.get('challengeResponse'),
+          };
+          return $.post({
+            url: this.url,
+            method: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+          }).done(function (data) {
+            this.options.appState.trigger('change:transaction', this.options.appState, { data });
+          }.bind(this));
+        });
+      }
     },
 
     Form: {
       noButtonBar: true,
+      title: 'Signing in',
+      subtitle: 'Probing for device context',
+      formChildren: function () {
+        var result = [];
+        result.push(FormType.View({ View: new Spinner({ model: this.model, visible: false }) }));
+        return result;
+      }
     },
   
     initialize: function () {
+      this.model.trigger('spinner:show');
+
       let response = this.options.appState.get('lastAuthResponse');
       let baseUrl = 'http://localhost:';
       if (this.settings.get('useMock')) {
@@ -62,10 +92,7 @@ define([
         this.model.url = response._links.next.href;
         this.model.set('stateToken', response.stateToken);
         this.model.set('challengeResponse', data.jwt);
-        this.model.save()
-          .done(function (data) {
-            this.options.appState.trigger('change:transaction', this.options.appState, { data });
-          }.bind(this));
+        this.model.save();
       };
       Util.performLoopback(options, successFn);
     },
@@ -105,10 +132,24 @@ define([
         }, { parse: true });
         model.url = this.settings.get('baseUrl') + '/api/v1/authn';
         model.set('stateToken', response.stateToken);
-        model.save()
-          .done(function (data) {
-            this.options.appState.trigger('change:transaction', this.options.appState, {data});
-          }.bind(this));
+        model.save = function () {
+          var appState = this.options.appState;
+          return this.startTransaction(function () {
+            appState.trigger('loading', true);
+            var data = {
+              stateToken: this.get('stateToken'),
+            };
+            return $.post({
+              url: this.url,
+              method: 'POST',
+              data: JSON.stringify(data),
+              contentType: 'application/json',
+            }).done(function (data) {
+              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+            }.bind(this));
+          });
+        }.bind(model);
+        model.save();
       };
       Util.performUniversalLink(options, successFn);
     }
