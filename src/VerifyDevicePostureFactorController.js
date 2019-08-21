@@ -25,6 +25,7 @@ define([
   const _ = Okta._;
 
   return FormController.extend({
+
     className: 'device-posture',
 
     Model: {
@@ -144,6 +145,8 @@ define([
         requestType: 'userChallenge',
         port: 41236,
         nonce: response._embedded.factor._embedded.challenge.nonce,
+        credentialId: response._embedded.factor.profile.credentialId,
+        factorId: response._embedded.factor.id,
         maxAttempts: 5
       };
       var successFn = function (data) {
@@ -187,6 +190,7 @@ define([
         status: response.status,
         nonce: response._embedded.factor._embedded.challenge.nonce,
         stateToken: response.stateToken,
+        credentialId: response._embedded.factor.profile.credentialId,
         factorId: response._embedded.factor.id,
         maxAttempts: 10
       };

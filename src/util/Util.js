@@ -153,13 +153,20 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     if (!currentAttempt) {
       currentAttempt = 0;
     }
+    var data = {
+      requestType: options.requestType,
+      nonce: options.nonce,
+    };
+    if (options.credentialId) {
+      data.credentialId = options.credentialId;
+    }
+    if (options.factorId) {
+      data.factorId = options.factorId;
+    }
     $.post({
       url: options.baseUrl + `${options.port}`,
       method: 'POST',
-      data: JSON.stringify({
-        requestType: options.requestType,
-        nonce: options.nonce,
-      }),
+      data: JSON.stringify(data),
       contentType: 'application/json',
     })
       .fail(function () {
@@ -183,6 +190,9 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     };
     if (options.factorId) {
       data.factorId = options.factorId;
+    }
+    if (options.credentialId) {
+      data.credentialId = options.credentialId;
     }
     $.post({
       url: options.baseUrl,
