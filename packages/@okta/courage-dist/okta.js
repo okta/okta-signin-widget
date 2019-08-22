@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2702.g116a94b */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2670.g173eed7 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -8116,7 +8116,6 @@ const getErrorSummary = function (responseJSON = {}) {
         if (showBanner) {
           this.$('.o-form-error-container').addClass('o-form-has-errors');
           this.add(__WEBPACK_IMPORTED_MODULE_7__helpers_ErrorBanner__["a" /* default */], '.o-form-error-container', { options: { errorSummary: errorSummary } });
-          this.focusOnFirstError();
         }
 
         // slide to and focus on the error message
@@ -8387,12 +8386,6 @@ const getErrorSummary = function (responseJSON = {}) {
       if (first && first.focus) {
         first.focus();
       }
-      return this;
-    },
-
-    focusOnFirstError: function () {
-      this.$('.o-form-input.o-form-has-errors input, .o-form-input.o-form-has-errors textarea').first().focus();
-
       return this;
     },
 
