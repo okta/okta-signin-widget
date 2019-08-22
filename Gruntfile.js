@@ -280,6 +280,11 @@ module.exports = function (grunt) {
           open: false,
           keepalive: false
         }
+      },
+      dev: {
+        options: {
+          open: true
+        }
       }
     },
 

@@ -100,13 +100,13 @@ describe('OIDC flows', function () {
       expect(oidcApp.getAccessTokenType()).toBe('Bearer');
     });
 
-    it('logs in and uses the redirect flow for responseType "code"', function () {
+    // https://oktainc.atlassian.net/browse/OKTA-246000
+    xit('logs in and uses the redirect flow for responseType "code"', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: '{{{WIDGET_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
-          grantType: 'authorization_code',
           responseType: 'code',
           scope: ['openid', 'email', 'profile', 'address', 'phone']
         }
@@ -115,6 +115,23 @@ describe('OIDC flows', function () {
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_4}}}', '{{{WIDGET_BASIC_PASSWORD_4}}}');
       expect(oidcApp.getCodeFromQuery()).not.toBeNull();
     });
+
+
+    it('PKCE login flow', function () {
+      setup({
+        baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+        clientId: '{{{WIDGET_CLIENT_ID}}}',
+        redirectUri: 'http://localhost:3000/done',
+        authParams: {
+          pkce: true,
+          scope: ['openid', 'email', 'profile', 'address', 'phone']
+        }
+      });
+      Expect.toBeA11yCompliant();
+      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_4}}}', '{{{WIDGET_BASIC_PASSWORD_4}}}');
+      expect(oidcApp.getCodeFromQuery()).not.toBeNull();
+    });
+
 
   });
 
