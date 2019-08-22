@@ -14,7 +14,7 @@ const Body = BaseForm.extend({
 const Footer = BaseFooter.extend({
   links () {
     const links = [];
-    if (this.options.appState.isFormInRemediation('select-identify')) {
+    if (this.options.appState.hasRemediationForm('select-identify')) {
       links.push({
         'type': 'link',
         'label': 'Already have an account ?',

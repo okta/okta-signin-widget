@@ -3,6 +3,7 @@ import responseTransformer from 'v2/ion/responseTransformer';
 import actionsTransformer from 'v2/ion/actionsTransformer';
 import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';
 import XHRFactorRequiredEmail from '../../../helpers/xhr/v2/FACTOR_REQUIRED_EMAIL';
+import XHREnrollProfile from '../../../helpers/xhr/v2/ENROLL_PROFILE';
 import XHRFactorVerificationRequiredEmail from '../../../helpers/xhr/v2/FACTOR_VERIFICATION_REQUIRED_EMAIL';
 import XHRFactorEnrollOptions from '../../../helpers/xhr/v2/FACTOR_ENROLL_OPTIONS';
 
@@ -124,6 +125,82 @@ describe('v2/ion/uiSchemaTransformer', function () {
           ],
         }
       ]
+    });
+  });
+
+  it('converts response with fields as form for ENROLL_PROFILE', () => {
+    const result = _.compose(uiSchemaTransformer, actionsTransformer, responseTransformer)(XHREnrollProfile.response);
+    expect(result.currentState).toEqual({
+      'version': '1.0.0',
+      'stateHandle': '01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB',
+      'expiresAt': '2019-07-24T21:25:33.000Z',
+      'step': 'PROFILE_REQUIRED',
+      'intent': 'LOGIN',
+      'enroll-profile': jasmine.any(Function),
+      'select-identify': jasmine.any(Function),
+      'cancel': jasmine.any(Function),
+      'context': jasmine.any(Function),
+      'remediation': [
+        {
+          'name': 'enroll-profile',
+          'accepts': 'application/vnd.okta.v1+json',
+          'value': [
+            {
+              'name': 'userProfile.lastName',
+              'label': 'Last name',
+              'required': true
+            },
+            {
+              'name': 'userProfile.firstName',
+              'label': 'First name',
+              'required': true
+            },
+            {
+              'name': 'userProfile.email',
+              'label': 'Primary email',
+              'required': true
+            }
+          ],
+          'uiSchema': [
+            {
+              'name': 'userProfile.lastName',
+              'label': 'Last name',
+              'required': true,
+              'type': 'text'
+            },
+            {
+              'name': 'userProfile.firstName',
+              'label': 'First name',
+              'required': true,
+              'type': 'text'
+            },
+            {
+              'name': 'userProfile.email',
+              'label': 'Primary email',
+              'required': true,
+              'type': 'text'
+            }
+          ]
+        },
+        {
+          'name': 'select-identify',
+          'accepts': 'application/vnd.okta.v1+json',
+          'value': [
+            {
+              'name': 'identifier',
+              'label': 'identifier'
+            }
+          ],
+          'uiSchema': [
+            {
+              'name': 'identifier',
+              'label': 'identifier',
+              'type': 'text'
+            }
+          ]
+        }
+      ]
+
     });
   });
 

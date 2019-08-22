@@ -28,7 +28,7 @@ const Footer = BaseFooter.extend({
         'href': href,
       },
     ];
-    if (this.options.appState.isFormInRemediation('select-enroll-profile')) {
+    if (this.options.appState.hasRemediationForm('select-enroll-profile')) {
       links.push(signupLinkObj);
     }
     return links;
