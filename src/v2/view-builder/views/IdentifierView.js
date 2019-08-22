@@ -15,19 +15,23 @@ const Footer = BaseFooter.extend({
     if (this.options.settings.get('helpLinks.help') ) {
       href = this.options.settings.get('helpLinks.help');
     }
-    return [
+    const signupLinkObj = {
+      'type': 'link',
+      'label': 'Sign up',
+      'name': 'enroll',
+      'actionPath': 'select-enroll-profile',
+    };
+    const links = [
       {
         'name': 'help',
         'label': 'Need help signing in?',
         'href': href,
       },
-      {
-        'type': 'link',
-        'label': 'Sign up',
-        'name': 'enroll',
-        'actionPath': 'enroll',
-      }
     ];
+    if (this.options.appState.isFormInRemediation('select-enroll-profile')) {
+      links.push(signupLinkObj);
+    }
+    return links;
   }
 });
 

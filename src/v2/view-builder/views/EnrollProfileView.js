@@ -12,14 +12,18 @@ const Body = BaseForm.extend({
 });
 
 const Footer = BaseFooter.extend({
-  links: [
-    {
-      'type': 'link',
-      'label': 'Back to sign in',
-      'name': 'back',
-      'href': '/'
+  links () {
+    const links = [];
+    if (this.options.appState.isFormInRemediation('select-identify')) {
+      links.push({
+        'type': 'link',
+        'label': 'Already have an account ?',
+        'name': 'back',
+        'actionPath': 'select-identify',
+      });
     }
-  ],
+    return links;
+  }
 });
 
 export default BaseView.extend({
