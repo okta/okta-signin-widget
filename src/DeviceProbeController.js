@@ -68,8 +68,8 @@ define([
     },
   
     initialize: function () {
+      this.options.appState.trigger('loading', false);
       this.model.trigger('spinner:show');
-
       let response = this.options.appState.get('lastAuthResponse');
       let baseUrl = 'http://localhost:';
       if (this.settings.get('useMock')) {
@@ -99,7 +99,7 @@ define([
 
     _probeUsingUniversalLink: function () {
       let response = this.options.appState.get('lastAuthResponse');
-      let baseUrl = 'http://universal.link';
+      let baseUrl = Util.getUniversalLinkPrefix();
       if (this.settings.get('useMock')) {
         baseUrl = 'http://localhost:3000/universalLink/deviceProbe';
       }

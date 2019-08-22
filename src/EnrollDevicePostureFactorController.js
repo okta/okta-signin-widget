@@ -73,8 +73,8 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
     },
 
     initialize: function () {
+      this.options.appState.trigger('loading', false);
       this.model.trigger('spinner:show');
-
       var factors = this.options.appState.get('factors');
       var factor = factors.findWhere({
         provider: this.options.provider,
@@ -174,7 +174,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
 
     _enrollUsingUniversalLink: function (factor) {
       let response = this.options.appState.get('lastAuthResponse');
-      let baseUrl = 'http://universal.link';
+      let baseUrl = Util.getUniversalLinkPrefix();
       if (this.settings.get('useMock')) {
         baseUrl = 'http://localhost:3000/universalLink/factorEnrollment';
       }

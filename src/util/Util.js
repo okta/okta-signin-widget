@@ -177,9 +177,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
         } else {
           // Try with next port and increase number of attempts
           options.port += 2;
-          setTimeout(function () {
-            Util.performLoopback(options, successFn, ++currentAttempt);
-          }, 100);
+          Util.performLoopback(options, successFn, ++currentAttempt);
         }
       }.bind(options.context))
       .done(successFn.bind(options.context));

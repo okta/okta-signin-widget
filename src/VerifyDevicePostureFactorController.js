@@ -49,6 +49,7 @@ define([
     },
 
     initialize: function () {
+      this.options.appState.trigger('loading', false);
       this.model.trigger('spinner:show');
       let response = this.options.appState.get('lastAuthResponse');
 
@@ -78,16 +79,14 @@ define([
 
       var useLoopback = response._embedded.factor._embedded.binding === 'LOOPBACK';
 
-      setTimeout(function () {
-        // If extension is being used
-        if (response._links.extension) {
-          this._verifyUsingExtension(response);
-        } else if (useLoopback) { // If loopback is being used
-          this._verifyUsingLoopback(response);
-        } else { // If universal link is being used
-          this._verifyUsingUniversalLink(response);
-        }
-      }.bind(this), 3000);
+      // If extension is being used
+      if (response._links.extension) {
+        this._verifyUsingExtension(response);
+      } else if (useLoopback) { // If loopback is being used
+        this._verifyUsingLoopback(response);
+      } else { // If universal link is being used
+        this._verifyUsingUniversalLink(response);
+      }
     },
 
     _verifyUsingExtension: function (response) {
@@ -221,7 +220,7 @@ define([
     },
 
     _verifyUsingUniversalLink: function (response) {
-      let baseUrl = 'http://universal.link';
+      let baseUrl = Util.getUniversalLinkPrefix();
       if (this.settings.get('useMock')) {
         baseUrl = 'http://localhost:3000/universalLink/factorVerification';
       }
