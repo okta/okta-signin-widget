@@ -99,7 +99,7 @@ define([
         if (!Util.isIOS() && !Util.isMac()) {
           console.warn('Attempting extension for OS' + Util.getOS());
         }
-        this._verifyUsingExtension(bindingArray, response);
+        this._verifyUsingExtension(response);
       } else if (binding === Util.getBindings().CUSTOM_URI) {
         if (!Util.isWindows()) {
           console.warn('Attempting custom uri for OS' + Util.getOS());
@@ -110,45 +110,25 @@ define([
       }
     },
 
-    _verifyUsingExtension: function (bindingArray, response) {
+    _verifyUsingExtension: function (response) {
       // Seems like web view does not indicate xhr calls, so we can trigger extension as if it was a regular browser request
       // Note also that Office365 native app does not seem to support regular requests during login, so needs to use xhr requests
       if (Util.isIOSWebView()) {
-        this._initiateVerificationUsingExtensionViaXhr(bindingArray, response);
+        this._verificationUsingExtensionViaXhr(response);
       } else {
-        this._initiateVerificationUsingExtensionViaRegularRequests(response);
+        this._verificationUsingExtensionViaRegularRequests(response);
       }
     },
 
-    _initiateVerificationUsingExtensionViaRegularRequests: function (response) {
-      if (this.settings.get('useMock')) {
-        window.location.href = response._links.extension.href.replace('/api/v1', '') + '&OktaAuthorizationProviderExtension=' + this.settings.get('mockDeviceFactorChallengeResponseJwt');
-      } else {
-        window.location.href = response._links.extension.href.replace('/api/v1', '');
-      }
+    _verificationUsingExtensionViaRegularRequests: function (response) {
+      const options = {
+        stateToken: response.stateToken,
+        devicePostureJwt: this.settings.get('useMock') ? this.settings.get('mockDeviceFactorChallengeResponseJwt') : ''
+      };
+      Util.formPost(response._links.extension.href, options);
     },
 
-    _initiateVerificationUsingExtensionViaXhr: function (bindingArray, response) {
-      let headers;
-      if (this.settings.get('useMock')) {
-        headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + this.settings.get('mockDeviceFactorChallengeResponseJwt')};
-      } else {
-        headers = {'Authorization': 'OktaAuthorizationProviderExtension <valueToBeReplacedByExtension>'};
-      }
-      // Let the call be intercepted, populated and returned back
-      $.get({
-        url: response._links.extension.href,
-        headers: headers, // Included to trigger CORS acceptance for the actual request that's being modified by the extension
-        crossDomain: true // Included for force jQuery to omit the header indicating this is an XHR call
-      }).done(function (data) {
-        this._verifyUsingExtensionViaXhr(data, response);
-      }.bind(this))
-        .fail(function () {
-          this._verifyUsingNextBinding(bindingArray, response);
-        }.bind(this));
-    },
-
-    _verifyUsingExtensionViaXhr: function (data, response) {
+    _verificationUsingExtensionViaXhr: function (response) {
       let Model = BaseLoginModel.extend(_.extend({
         parse: function (attributes) {
           this.settings = attributes.settings;
@@ -161,7 +141,7 @@ define([
         appState: this.options.appState
       }, { parse: true });
       model.url = response._links.next.href;
-      model.set('devicePostureJwt', data.devicePostureJwt);
+      model.set('devicePostureJwt', this.settings.get('useMock') ? this.settings.get('mockDeviceFactorChallengeResponseJwt') : '');
       model.set('stateToken', response.stateToken);
       model.save = function () {
         var appState = this.options.appState;

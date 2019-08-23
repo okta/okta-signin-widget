@@ -103,7 +103,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         if (!Util.isIOS() && !Util.isMac()) {
           console.warn('Attempting extension for OS' + Util.getOS());
         }
-        this._enrollUsingExtension(bindingArray, factor);
+        this._enrollUsingExtension(factor);
       } else if (binding === Util.getBindings().CUSTOM_URI) {
         if (!Util.isWindows()) {
           console.warn('Attempting custom uri for OS' + Util.getOS());
@@ -114,54 +114,35 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
       }
     },
 
-    _enrollUsingExtension: function (bindingArray, factor) {
+    _enrollUsingExtension: function (factor) {
       // Seems like web view does not indicate xhr calls, so we can trigger extension as if it was a regular browser request
       // Note also that Office365 native app does not seem to support regular requests during login, so needs to use xhr requests
       if (Util.isIOSWebView()) {
-        this._initiateEnrollmentUsingExtensionViaXhr(bindingArray, factor);
+        this._enrollmentUsingExtensionViaXhr(factor);
       } else {
-        this._initiateEnrollmentUsingExtensionViaRegularRequests(factor);
+        this._enrollmentUsingExtensionViaFormPost(factor);
       }
     },
 
-    _initiateEnrollmentUsingExtensionViaXhr: function (bindingArray, factor) {
-      let headers;
-      if (this.settings.get('useMock')) {
-        headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + this.settings.get('mockDeviceFactorEnrollmentResponseJwt')};
-      } else {
-        headers = {'Authorization': 'OktaAuthorizationProviderExtension <valueToBeReplacedByExtension>'};
-      }
-      // Let the call be intercepted, populated and returned back
-      $.get({
-        url: factor.get('_links').extension.href,
-        headers: headers, // Included to trigger CORS acceptance for the actual request that's being modified by the extension
-        crossDomain: true // Included for force jQuery to omit the header indicating this is an XHR call
-      }).done(function (data) {
-        this._enrollUsingExtensionViaXhr(data, factor);
-      }.bind(this))
-        .fail(function () {
-          this._enrollUsingNextBinding(bindingArray, factor);
-        }.bind(this));
-    },
-
-    _enrollUsingExtensionViaXhr: function (data, factor) {
+    _enrollmentUsingExtensionViaXhr: function (data, factor) {
       let response = this.options.appState.get('lastAuthResponse');
       this.model.url = factor.get('_links').enroll.href;
       this.model.set('stateToken', response.stateToken);
       this.model.set('provider', this.options.provider);
       this.model.set('factorType', this.options.factorType);
       this.model.set('profile', {
-        devicePostureJwt: data.devicePostureJwt
+        devicePostureJwt: this.settings.get('useMock') ? this.settings.get('mockDeviceFactorEnrollmentResponseJwt') : ''
       });
       this.model.save();
     },
 
-    _initiateEnrollmentUsingExtensionViaRegularRequests: function (factor) {
-      if (this.settings.get('useMock')) {
-        window.location.href = factor.get('_links').extension.href.replace('/api/v1', '') + '&OktaAuthorizationProviderExtension=' + this.settings.get('mockDeviceFactorEnrollmentResponseJwt');
-      } else {
-        window.location.href = factor.get('_links').extension.href.replace('/api/v1', '');
-      }
+    _enrollmentUsingExtensionViaFormPost: function (factor) {
+      let response = this.options.appState.get('lastAuthResponse');
+      const options = {
+        stateToken: response.stateToken,
+        devicePostureJwt: this.settings.get('useMock') ? this.settings.get('mockDeviceFactorEnrollmentResponseJwt') : ''
+      };
+      Util.formPost(factor.get('_links').extension.href, options);
     },
 
     _enrollUsingLoopback: function (bindingArray, factor) {

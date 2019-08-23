@@ -236,7 +236,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
         contentType: 'application/json',
       }).fail(function () {
         if (currentAttempt < options.maxAttempts) {
-          Util._doPollForUniversalLink(options, fn, ++currentAttempt);
+          Util._doPoll(options, fn, ++currentAttempt);
         } else {
           fn.call(options.context, {status: 'FAILED'});
         }
@@ -245,12 +245,29 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
           if (data.status !== options.status) {
             fn.call(options.context);
           } else if (currentAttempt < options.maxAttempts) {
-            Util._doPollForUniversalLink(options, fn, ++currentAttempt);
+            Util._doPoll(options, fn, ++currentAttempt);
           } else {
             fn.call(options.context, {status: 'FAILED'});
           }
         }.bind(options.context));
     }.bind(options.context), 1000);
+  };
+
+  Util.formPost = function (path, params) {
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = path;
+    for (const key in params) {
+      if (params.hasOwnProperty(key)) {
+        const hiddenField = document.createElement('input');
+        hiddenField.type = 'hidden';
+        hiddenField.name = key;
+        hiddenField.value = params[key];
+        form.appendChild(hiddenField);
+      }
+    }
+    document.body.appendChild(form);
+    form.submit();
   };
 
   Util.isIOSWebView = function () {
