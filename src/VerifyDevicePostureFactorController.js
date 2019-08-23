@@ -116,14 +116,14 @@ define([
       if (Util.isIOSWebView()) {
         this._verificationUsingExtensionViaXhr(response);
       } else {
-        this._verificationUsingExtensionViaRegularRequests(response);
+        this._verificationUsingExtensionViaFormPost(response);
       }
     },
 
-    _verificationUsingExtensionViaRegularRequests: function (response) {
+    _verificationUsingExtensionViaFormPost: function (response) {
       const options = {
         stateToken: response.stateToken,
-        devicePostureJwt: this.settings.get('useMock') ? this.settings.get('mockDeviceFactorChallengeResponseJwt') : ''
+        devicePostureJwt: this.settings.get('useMock') ? this.settings.get('mockDeviceFactorChallengeResponseJwt') : '<dummyValue>'
       };
       Util.formPost(response._links.extension.href, options);
     },
@@ -141,7 +141,7 @@ define([
         appState: this.options.appState
       }, { parse: true });
       model.url = response._links.next.href;
-      model.set('devicePostureJwt', this.settings.get('useMock') ? this.settings.get('mockDeviceFactorChallengeResponseJwt') : '');
+      model.set('devicePostureJwt', this.settings.get('useMock') ? this.settings.get('mockDeviceFactorChallengeResponseJwt') : '<dummyValue>');
       model.set('stateToken', response.stateToken);
       model.save = function () {
         var appState = this.options.appState;

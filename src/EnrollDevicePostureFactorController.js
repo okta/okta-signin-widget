@@ -131,7 +131,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
       this.model.set('provider', this.options.provider);
       this.model.set('factorType', this.options.factorType);
       this.model.set('profile', {
-        devicePostureJwt: this.settings.get('useMock') ? this.settings.get('mockDeviceFactorEnrollmentResponseJwt') : ''
+        devicePostureJwt: this.settings.get('useMock') ? this.settings.get('mockDeviceFactorEnrollmentResponseJwt') : '<dummyValue>'
       });
       this.model.save();
     },
@@ -140,7 +140,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
       let response = this.options.appState.get('lastAuthResponse');
       const options = {
         stateToken: response.stateToken,
-        devicePostureJwt: this.settings.get('useMock') ? this.settings.get('mockDeviceFactorEnrollmentResponseJwt') : ''
+        devicePostureJwt: this.settings.get('useMock') ? this.settings.get('mockDeviceFactorEnrollmentResponseJwt') : '<dummyValue>'
       };
       Util.formPost(factor.get('_links').extension.href, options);
     },
