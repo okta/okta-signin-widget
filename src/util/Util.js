@@ -164,6 +164,9 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     if (options.factorId) {
       data.factorId = options.factorId;
     }
+    if (options.deviceEnrollmentId) {
+      data.deviceEnrollmentId = options.deviceEnrollmentId;
+    }
     $.post({
       url: options.baseUrl + `${options.port}`,
       method: 'POST',

@@ -142,8 +142,12 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
 
     _enrollUsingLoopback: function (factor) {
       let baseUrl = 'http://localhost:';
+      let deviceEnrollmentId = undefined;
       if (this.settings.get('useMock')) {
         baseUrl = 'http://localhost:3000/loopback/factorEnrollChallenge/';
+      }
+      if (factor.get('deviceEnrollment')) {
+        deviceEnrollmentId = factor.get('deviceEnrollment').deviceEnrollmentId;
       }
       let options = {
         context: this,
@@ -152,6 +156,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         port: 41236,
         nonce: factor.get('nonce'),
         domain: this.settings.get('baseUrl'),
+        deviceEnrollmentId: deviceEnrollmentId,
         maxAttempts: 5
       };
       var successFn = function (data) {
