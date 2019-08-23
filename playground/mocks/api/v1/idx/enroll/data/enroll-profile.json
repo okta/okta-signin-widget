@@ -17,18 +17,50 @@
         "accepts": "application/vnd.okta.v1+json",
         "value": [
           {
-            "name": "firstName",
-            "label": "First Name",
-            "maxlength": 14
-          },
-          {
-            "name": "lastName",
-            "label": "Last Name",
-            "maxlength": 14
+            "name": "userProfile",
+            "form": {
+              "value": [
+                {
+                  "name": "lastName",
+                  "label": "Last name",
+                  "required": true
+                },
+                {
+                  "name": "firstName",
+                  "label": "First name",
+                  "required": true
+                },
+                {
+                  "name": "email",
+                  "label": "Primary email",
+                  "required": true
+                }
+              ]
+            }
           },
           {
             "name": "stateHandle",
             "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+            "visible": false
+          }
+        ]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-identify",
+        "href": "http://localhost:3000/api/v1/idx",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "identifier",
+            "label": "identifier"
+          },
+          {
+            "name": "stateHandle",
+            "value": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
             "visible": false
           }
         ]

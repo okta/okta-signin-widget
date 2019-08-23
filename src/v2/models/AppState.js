@@ -53,8 +53,9 @@ export default Model.extend({
     showSignoutLink: {
       deps: ['currentState'],
       fn: function (currentState = {}) {
-        // hide signout for IDENTIFY step
-        return _.isFunction(currentState.cancel) && currentState.step !== 'IDENTIFY';
+        const invalidSignOutSteps = ['IDENTIFY', 'ENROLL', 'SUCCESS'];
+        // hide signout for IDENTIFY, ENROLL & SUCCESS step
+        return _.isFunction(currentState.cancel) && !invalidSignOutSteps.includes(currentState.step);
       },
     },
   },
