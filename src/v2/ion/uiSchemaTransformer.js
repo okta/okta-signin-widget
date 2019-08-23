@@ -13,7 +13,7 @@
 /**
  * Create UI Schema into remedation object base on remediation values
  */
-
+import { _ } from 'okta';
 /**
  * @typedef {Object} IONFormField
  * @property {string} name
@@ -29,16 +29,22 @@
  * @param {IONFormField[]} remediationValue
  */
 const createUISchema = (remediationValue = []) => {
-  // For casee where field itself is a form, it has a formname and we are appending the formname to each field
+  // For cases where field itself is a form, it has a formname and we are appending the formname to each field
   // This is so that while making the request we can bundle these key:value pairs under the same key name
   // For simplicity we are assuming that when field itself is a form its only one level deep
-  if (remediationValue[0] && remediationValue[0].name && remediationValue[0].form) {
-    const inputGroupName = remediationValue[0].name;
-    remediationValue = remediationValue[0].form.value.map(input => {
-      input.name = inputGroupName + '.' + input.name;
-      return input;
-    });
-  }
+  remediationValue = _.chain(remediationValue)
+    .map(v => {
+      if (v.form) {
+        const inputGroupName = v.name;
+        return v.form.value.map(input => {
+          return Object.assign({}, input, { name: inputGroupName + '.' + input.name });
+        });
+      } else {
+        return v;
+      }
+    })
+    .flatten()
+    .value();
   return remediationValue.map(ionFormField => {
     const uiSchema = {
       type: 'text',

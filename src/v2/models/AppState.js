@@ -54,7 +54,7 @@ export default Model.extend({
       deps: ['currentState'],
       fn: function (currentState = {}) {
         const invalidSignOutSteps = ['IDENTIFY', 'ENROLL', 'SUCCESS'];
-        // hide signout for IDENTIFY and ENROLL step
+        // hide signout for IDENTIFY, ENROLL & SUCCESS step
         return _.isFunction(currentState.cancel) && !invalidSignOutSteps.includes(currentState.step);
       },
     },
