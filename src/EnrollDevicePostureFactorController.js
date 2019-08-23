@@ -200,6 +200,8 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         context: this,
         baseUrl: baseUrl,
         pollingUrl: pollingUrl,
+        postbackUrl: this.settings.get('baseUrl') + '/api/v1/authn/factors',
+        requestType: 'userEnroll',
         status: response.status,
         nonce: factor.get('nonce'),
         stateToken: response.stateToken,

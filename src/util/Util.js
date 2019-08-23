@@ -190,6 +190,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     if (options.useMock) {
       // Make the initial call
       let data = {
+        requestType: options.requestType,
         stateToken: options.stateToken,
         nonce: options.nonce,
         domain: options.domain,
@@ -200,6 +201,9 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
       if (options.credentialId) {
         data.credentialId = options.credentialId;
       }
+      if (options.postbackUrl) {
+        data.postbackUrl = options.postbackUrl;
+      }
       $.post({
         url: options.baseUrl,
         method: 'POST',
@@ -207,12 +211,15 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
         contentType: 'application/json',
       });
     } else {
-      let linkUrl = options.baseUrl + '?stateToken=' + options.stateToken + '&nonce=' + options.nonce + '&domain=' + options.domain;
+      let linkUrl = options.baseUrl + '?stateToken=' + options.stateToken + '&nonce=' + options.nonce + '&domain=' + options.domain + '&requestType=' + options.requestType;
       if (options.factorId) {
         linkUrl += '&factorId=' + options.factorId;
       }
       if (options.credentialId) {
         linkUrl += '&credentialId=' + options.credentialId;
+      }
+      if (options.postbackUrl) {
+        data.postbackUrl = options.postbackUrl;
       }
       // This should invoke the universal link and move on after
       window.location.assign(linkUrl);

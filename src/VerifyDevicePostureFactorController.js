@@ -140,9 +140,10 @@ define([
         settings: this.settings,
         appState: this.options.appState
       }, { parse: true });
-      model.url = response._links.next.href;
+      model.url = response._links.extension.href.replace('/idx', '/api/v1/idx');
       model.set('devicePostureJwt', this.settings.get('useMock') ? this.settings.get('mockDeviceFactorChallengeResponseJwt') : '<dummyValue>');
       model.set('stateToken', response.stateToken);
+      model.set('factorId', response._embedded.factor.id);
       model.save = function () {
         var appState = this.options.appState;
         return this.startTransaction(function () {
@@ -150,6 +151,7 @@ define([
           let data = {
             stateToken: this.get('stateToken'),
             devicePostureJwt: this.get('devicePostureJwt'),
+            factorId: this.get('factorId')
           };
           return $.post({
             url: this.url,
@@ -240,6 +242,8 @@ define([
         context: this,
         baseUrl: baseUrl,
         pollingUrl: pollingUrl,
+        postbackUrl: this.settings.get('baseUrl') + '/api/v1/authn/factors/' + response._embedded.factor.id + '/verify',
+        requestType: 'userChallenge',
         status: response.status,
         nonce: response._embedded.factor._embedded.challenge.nonce,
         stateToken: response.stateToken,

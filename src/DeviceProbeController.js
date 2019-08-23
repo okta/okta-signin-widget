@@ -119,6 +119,8 @@ define([
         context: this,
         baseUrl: baseUrl,
         pollingUrl: pollingUrl,
+        requestType: 'deviceChallenge',
+        postbackUrl: this.settings.get('baseUrl') + '/api/v1/authn/probe/verify',
         status: response.status,
         nonce: response._embedded.probeInfo.nonce,
         stateToken: response.stateToken,
