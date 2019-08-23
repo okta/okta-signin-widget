@@ -23,7 +23,7 @@ const covertIonFieldToProp = (ionField) => {
 };
 
 const create = function (remediation = {}) {
-  const value = remediation.value;
+  const value = remediation.uiSchema;
   const props = _.chain(value)
     .map(covertIonFieldToProp)
     .reduce((init, field) => {
