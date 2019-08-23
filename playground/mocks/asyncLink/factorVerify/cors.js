@@ -1,5 +1,5 @@
 module.exports = {
-  path: '/loopback/factorVerification',
+  path: '/asyncLink/factorVerification',
   proxy: false,
   method: 'OPTIONS',
   status: (req, res, next) => {

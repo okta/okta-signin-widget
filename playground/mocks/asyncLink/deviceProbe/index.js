@@ -18,7 +18,7 @@ var randomTimeout = function () {
 };
 
 module.exports = {
-  path: '/universalLink/deviceProbe',
+  path: '/asyncLink/deviceProbe',
   proxy: false,
   method: 'POST',
   status: (req, res, next) => {

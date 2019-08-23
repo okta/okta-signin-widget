@@ -101,11 +101,18 @@ define([
       Util.performLoopback(options, fn);
     },
 
-    _probeUsingUniversalLink: function () {
+    _probeUsingAsyncLink: function (opt) {
       let response = this.options.appState.get('lastAuthResponse');
-      let baseUrl = Util.getUniversalLinkPrefix();
+      let baseUrl = '';
+      if (opt.method === Util.getBindings().UNIVERSAL_LINK) {
+        baseUrl = Util.getUniversalLinkPrefix();
+      } else if (opt.method === Util.getBindings().CUSTOM_URI) {
+        baseUrl = Util.getCustomUriPrefix();
+      } else {
+        alert('Invalid invocation for async linking');
+      }
       if (this.settings.get('useMock')) {
-        baseUrl = 'http://localhost:3000/universalLink/deviceProbe';
+        baseUrl = 'http://localhost:3000/asyncLink/deviceProbe';
       }
       let pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
       let options = {
@@ -116,7 +123,8 @@ define([
         nonce: response._embedded.probeInfo.nonce,
         stateToken: response.stateToken,
         domain: this.settings.get('baseUrl'),
-        maxAttempts: 10
+        maxAttempts: 10,
+        useMock: this.settings.get('useMock')
       };
       let fn = function (data) {
         if (data && data.status === 'FAILED') {
@@ -155,7 +163,7 @@ define([
         }.bind(model);
         model.save();
       };
-      Util.performUniversalLink(options, fn);
+      Util.performAsyncLink(options, fn);
     },
 
     _getNextBinding: function (previousBinding) {
@@ -198,9 +206,9 @@ define([
       if (binding === Util.getBindings().LOOPBACK) {
         this._probeUsingLoopback();
       } else if (binding === Util.getBindings().UNIVERSAL_LINK) {
-        this._probeUsingUniversalLink();
+        this._probeUsingAsyncLink({ method: Util.getBindings().UNIVERSAL_LINK });
       } else if (binding === Util.getBindings().CUSTOM_URI) {
-        alert('TODO: Implement custom uri binding for probing');
+        this._probeUsingAsyncLink({ method: Util.getBindings().CUSTOM_URI });
       }
     }
 

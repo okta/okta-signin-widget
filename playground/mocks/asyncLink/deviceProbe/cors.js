@@ -1,5 +1,5 @@
 module.exports = {
-  path: '/universalLink/deviceProbe',
+  path: '/asyncLink/deviceProbe',
   proxy: false,
   method: 'OPTIONS',
   status: (req, res, next) => {

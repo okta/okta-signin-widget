@@ -186,31 +186,43 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
       .done(fn.bind(options.context));
   };
 
-  Util.performUniversalLink = function (options, fn) {
-    // Make the initial call
-    var data = {
-      stateToken: options.stateToken,
-      nonce: options.nonce,
-      domain: options.domain,
-    };
-    if (options.factorId) {
-      data.factorId = options.factorId;
+  Util.performAsyncLink = function (options, fn) {
+    if (options.useMock) {
+      // Make the initial call
+      let data = {
+        stateToken: options.stateToken,
+        nonce: options.nonce,
+        domain: options.domain,
+      };
+      if (options.factorId) {
+        data.factorId = options.factorId;
+      }
+      if (options.credentialId) {
+        data.credentialId = options.credentialId;
+      }
+      $.post({
+        url: options.baseUrl,
+        method: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+      });
+    } else {
+      let linkUrl = options.baseUrl + '?stateToken=' + options.stateToken + '&nonce=' + options.nonce + '&domain=' + options.domain;
+      if (options.factorId) {
+        linkUrl += '&factorId=' + options.factorId;
+      }
+      if (options.credentialId) {
+        linkUrl += '&credentialId=' + options.credentialId;
+      }
+      // This should invoke the universal link and move on after
+      window.location.assign(linkUrl);
     }
-    if (options.credentialId) {
-      data.credentialId = options.credentialId;
-    }
-    $.post({
-      url: options.baseUrl,
-      method: 'POST',
-      data: JSON.stringify(data),
-      contentType: 'application/json',
-    });
 
     // Poll for updates
-    Util._doPollForUniversalLink(options, fn);
+    Util._doPoll(options, fn);
   };
 
-  Util._doPollForUniversalLink = function (options, fn, currentAttempt) {
+  Util._doPoll = function (options, fn, currentAttempt) {
     if (!currentAttempt) {
       currentAttempt = 0;
     }

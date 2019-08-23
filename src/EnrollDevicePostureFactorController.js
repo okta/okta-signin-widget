@@ -98,7 +98,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         if (!Util.isIOS()) {
           console.warn('Attempting universal link for OS' + Util.getOS());
         }
-        this._enrollUsingUniversalLink(bindingArray, factor);
+        this._enrollUsingAsyncLink({ method: Util.getBindings().UNIVERSAL_LINK }, bindingArray, factor);
       } else if (binding === Util.getBindings().EXTENSION) {
         if (!Util.isIOS() && !Util.isMac()) {
           console.warn('Attempting extension for OS' + Util.getOS());
@@ -108,7 +108,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         if (!Util.isWindows()) {
           console.warn('Attempting custom uri for OS' + Util.getOS());
         }
-        alert('TODO: Implement custom uri binding for factor enrollment');
+        this._enrollUsingAsyncLink({ method: Util.getBindings().CUSTOM_URI }, bindingArray, factor);
       } else {
         alert('Invalid binding mechanism retrieved from the server!');
       }
@@ -201,11 +201,18 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
       Util.performLoopback(options, fn);
     },
 
-    _enrollUsingUniversalLink: function (bindingArray, factor) {
+    _enrollUsingAsyncLink: function (opt, bindingArray, factor) {
       let response = this.options.appState.get('lastAuthResponse');
-      let baseUrl = Util.getUniversalLinkPrefix();
+      let baseUrl = '';
+      if (opt.method === Util.getBindings().UNIVERSAL_LINK) {
+        baseUrl = Util.getUniversalLinkPrefix();
+      } else if (opt.method === Util.getBindings().CUSTOM_URI) {
+        baseUrl = Util.getCustomUriPrefix();
+      } else {
+        alert('Invalid invocation for async linking');
+      }
       if (this.settings.get('useMock')) {
-        baseUrl = 'http://localhost:3000/universalLink/factorEnrollment';
+        baseUrl = 'http://localhost:3000/asyncLink/factorEnrollment';
       }
       let pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
       let options = {
@@ -216,7 +223,8 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         nonce: factor.get('nonce'),
         stateToken: response.stateToken,
         domain: this.settings.get('baseUrl'),
-        maxAttempts: 10
+        maxAttempts: 10,
+        useMock: this.settings.get('useMock')
       };
       let fn = function (data) {
         if (data && data.status === 'FAILED') {
@@ -255,7 +263,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         }.bind(model);
         model.save();
       };
-      Util.performUniversalLink(options, fn);
+      Util.performAsyncLink(options, fn);
     }
 
   });

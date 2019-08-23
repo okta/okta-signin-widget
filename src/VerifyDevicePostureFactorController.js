@@ -94,7 +94,7 @@ define([
         if (!Util.isIOS()) {
           console.warn('Attempting universal link for OS' + Util.getOS());
         }
-        this._verifyUsingUniversalLink(bindingArray, response);
+        this._verifyUsingAsyncLink({ method: Util.getBindings().UNIVERSAL_LINK }, bindingArray, response);
       } else if (binding === Util.getBindings().EXTENSION) {
         if (!Util.isIOS() && !Util.isMac()) {
           console.warn('Attempting extension for OS' + Util.getOS());
@@ -104,7 +104,7 @@ define([
         if (!Util.isWindows()) {
           console.warn('Attempting custom uri for OS' + Util.getOS());
         }
-        alert('TODO: Implement custom uri binding for factor verification');
+        this._verifyUsingAsyncLink({ method: Util.getBindings().CUSTOM_URI }, bindingArray, response);
       } else {
         alert('Invalid binding mechanism retrieved from the server!');
       }
@@ -243,10 +243,17 @@ define([
       Util.performLoopback(options, fn);
     },
 
-    _verifyUsingUniversalLink: function (bindingArray, response) {
-      let baseUrl = Util.getUniversalLinkPrefix();
+    _verifyUsingAsyncLink: function (opt, bindingArray, response) {
+      let baseUrl = '';
+      if (opt.method === Util.getBindings().UNIVERSAL_LINK) {
+        baseUrl = Util.getUniversalLinkPrefix();
+      } else if (opt.method === Util.getBindings().CUSTOM_URI) {
+        baseUrl = Util.getCustomUriPrefix();
+      } else {
+        alert('Invalid invocation for async linking');
+      }
       if (this.settings.get('useMock')) {
-        baseUrl = 'http://localhost:3000/universalLink/factorVerification';
+        baseUrl = 'http://localhost:3000/asyncLink/factorVerification';
       }
       let pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
       let options = {
@@ -259,7 +266,8 @@ define([
         credentialId: response._embedded.factor.profile.credentialId,
         factorId: response._embedded.factor.id,
         domain: this.settings.get('baseUrl'),
-        maxAttempts: 10
+        maxAttempts: 10,
+        useMock: this.settings.get('useMock')
       };
       let fn = function (data) {
         if (data && data.status === 'FAILED') {
@@ -298,7 +306,7 @@ define([
         }.bind(model);
         model.save();
       };
-      Util.performUniversalLink(options, fn);
+      Util.performAsyncLink(options, fn);
     }
 
   });
