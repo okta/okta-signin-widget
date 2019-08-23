@@ -37,10 +37,10 @@ define([
         challengeResponse: 'string'
       },
       save: function () {
-        var appState = this.options.appState;
+        let appState = this.options.appState;
         return this.startTransaction(function () {
           appState.trigger('loading', true);
-          var data = {
+          let data = {
             stateToken: this.get('stateToken'),
             challengeResponse: this.get('challengeResponse'),
           };
@@ -61,7 +61,7 @@ define([
       title: 'Signing in',
       subtitle: 'Probing for device context',
       formChildren: function () {
-        var result = [];
+        let result = [];
         result.push(FormType.View({ View: new Spinner({ model: this.model, visible: false }) }));
         return result;
       }
@@ -70,6 +70,10 @@ define([
     initialize: function () {
       this.options.appState.trigger('loading', false);
       this.model.trigger('spinner:show');
+      this._performNextBinding(this._getNextBinding());
+    },
+
+    _probeUsingLoopback: function () {
       let response = this.options.appState.get('lastAuthResponse');
       let baseUrl = 'http://localhost:';
       if (this.settings.get('useMock')) {
@@ -84,9 +88,9 @@ define([
         domain: this.settings.get('baseUrl'),
         maxAttempts: 5
       };
-      var successFn = function (data) {
-        if (data.status === 'FAILED') {
-          this._probeUsingUniversalLink();
+      let fn = function (data) {
+        if (data && data.status === 'FAILED') {
+          this._performNextBinding(this._getNextBinding(Util.getBindings().LOOPBACK));
           return;
         }
         this.model.url = response._links.next.href;
@@ -94,7 +98,7 @@ define([
         this.model.set('challengeResponse', data.jwt);
         this.model.save();
       };
-      Util.performLoopback(options, successFn);
+      Util.performLoopback(options, fn);
     },
 
     _probeUsingUniversalLink: function () {
@@ -103,7 +107,7 @@ define([
       if (this.settings.get('useMock')) {
         baseUrl = 'http://localhost:3000/universalLink/deviceProbe';
       }
-      var pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
+      let pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
       let options = {
         context: this,
         baseUrl: baseUrl,
@@ -114,9 +118,9 @@ define([
         domain: this.settings.get('baseUrl'),
         maxAttempts: 10
       };
-      var successFn = function (data) {
-        if (data.status === 'FAILED') {
-          alert('Device Probing failed!');
+      let fn = function (data) {
+        if (data && data.status === 'FAILED') {
+          this._performNextBinding(this._getNextBinding(Util.getBindings().UNIVERSAL_LINK));
           return;
         }
         let Model = BaseLoginModel.extend(_.extend({
@@ -133,10 +137,10 @@ define([
         model.url = this.settings.get('baseUrl') + '/api/v1/authn';
         model.set('stateToken', response.stateToken);
         model.save = function () {
-          var appState = this.options.appState;
+          let appState = this.options.appState;
           return this.startTransaction(function () {
             appState.trigger('loading', true);
-            var data = {
+            let data = {
               stateToken: this.get('stateToken'),
             };
             return $.post({
@@ -151,7 +155,53 @@ define([
         }.bind(model);
         model.save();
       };
-      Util.performUniversalLink(options, successFn);
+      Util.performUniversalLink(options, fn);
+    },
+
+    _getNextBinding: function (previousBinding) {
+      if (previousBinding === Util.getBindings().LOOPBACK) {
+        if (Util.isIOS() || Util.isMac()) {
+          alert('No more bindings to try for device probing');
+          return '';
+        } else if (Util.isWindows()) {
+          return Util.getBindings().CUSTOM_URI;
+        } else {
+          alert('Invalid next binding for OS: ' + Util.getOS() + ' when previous binding was ' + previousBinding);
+        }
+      }
+      if (previousBinding === Util.getBindings().UNIVERSAL_LINK) {
+        if (Util.isIOS() || Util.isMac()) {
+          return Util.getBindings().LOOPBACK;
+        } else {
+          alert('Invalid next binding for OS: ' + Util.getOS() + ' when previous binding was ' + previousBinding);
+        }
+      }
+      if (previousBinding === Util.getBindings().CUSTOM_URI) {
+        if (Util.isWindows()) {
+          console.log('No more bindings to try');
+          return '';
+        } else {
+          alert('Invalid next binding for OS: ' + Util.getOS() + ' when previous binding was ' + previousBinding);
+        }
+      }
+      // No previous binding, let's attempt the most likely to succeed based on OS
+      if (Util.isIOS() || Util.isMac()) {
+        return Util.getBindings().UNIVERSAL_LINK;
+      } else if (Util.isWindows()) {
+        return Util.getBindings().LOOPBACK;
+      } else {
+        alert('Unsupported OS: ' + Util.getOS());
+      }
+    },
+
+    _performNextBinding: function (binding) {
+      if (binding === Util.getBindings().LOOPBACK) {
+        this._probeUsingLoopback();
+      } else if (binding === Util.getBindings().UNIVERSAL_LINK) {
+        this._probeUsingUniversalLink();
+      } else if (binding === Util.getBindings().CUSTOM_URI) {
+        alert('TODO: Implement custom uri binding for probing');
+      }
     }
 
   });

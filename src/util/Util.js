@@ -149,7 +149,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     Logger.warn('controller: ' + className + ', error: ' + error);
   };
 
-  Util.performLoopback = function (options, successFn, currentAttempt) {
+  Util.performLoopback = function (options, fn, currentAttempt) {
     if (!currentAttempt) {
       currentAttempt = 0;
     }
@@ -176,17 +176,17 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
       .fail(function () {
         if (currentAttempt > options.maxAttempts) {
           console.warn('Max number of loopback attempts was reached!');
-          successFn.call(options.context, { status: 'FAILED' });
+          fn.call(options.context, { status: 'FAILED' });
         } else {
           // Try with next port and increase number of attempts
           options.port += 2;
-          Util.performLoopback(options, successFn, ++currentAttempt);
+          Util.performLoopback(options, fn, ++currentAttempt);
         }
       }.bind(options.context))
-      .done(successFn.bind(options.context));
+      .done(fn.bind(options.context));
   };
 
-  Util.performUniversalLink = function (options, successFn) {
+  Util.performUniversalLink = function (options, fn) {
     // Make the initial call
     var data = {
       stateToken: options.stateToken,
@@ -207,10 +207,10 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     });
 
     // Poll for updates
-    Util._doPollForUniversalLink(options, successFn);
+    Util._doPollForUniversalLink(options, fn);
   };
 
-  Util._doPollForUniversalLink = function (options, successFn, currentAttempt) {
+  Util._doPollForUniversalLink = function (options, fn, currentAttempt) {
     if (!currentAttempt) {
       currentAttempt = 0;
     }
@@ -223,31 +223,59 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
         }),
         contentType: 'application/json',
       }).fail(function () {
-        successFn.call(options.context);
+        if (currentAttempt < options.maxAttempts) {
+          Util._doPollForUniversalLink(options, fn, ++currentAttempt);
+        } else {
+          fn.call(options.context, {status: 'FAILED'});
+        }
       }.bind(options.context))
         .done(function (data) {
           if (data.status !== options.status) {
-            successFn.call(options.context, {status: 'SUCCESS'});
+            fn.call(options.context);
           } else if (currentAttempt < options.maxAttempts) {
-            Util._doPollForUniversalLink(options, successFn, ++currentAttempt);
+            Util._doPollForUniversalLink(options, fn, ++currentAttempt);
           } else {
-            successFn.call(options.context, {status: 'FAILED'});
+            fn.call(options.context, {status: 'FAILED'});
           }
         }.bind(options.context));
     }.bind(options.context), 1000);
   };
 
   Util.isIOSWebView = function () {
-    return /(iPad|iPhone|iPod)/i.test(navigator.userAgent) && !/safari/i.test(navigator.userAgent);
+    return /(iPad|iPhone|iPod)/i.test(navigator.platform) && !/safari/i.test(navigator.userAgent);
   };
-
+  Util.isIOS = function () {
+    return /(iPad|iPhone|iPod)/i.test(navigator.platform);
+  };
+  Util.isMacWebView = function () {
+    return /(Mac)/i.test(navigator.platform) && !/safari/i.test(navigator.userAgent);
+  };
+  Util.isMac = function () {
+    return /(Mac)/i.test(navigator.platform);
+  };
+  Util.isWindows = function () {
+    return /(Win)/i.test(navigator.platform);
+  };
+  Util.getOS = function () {
+    return navigator.platform;
+  };
+  Util.getBindings = function () {
+    return {
+      LOOPBACK: 'LOOPBACK',
+      UNIVERSAL_LINK: 'UNIVERSAL_LINK',
+      CUSTOM_URI: 'CUSTOM_URI',
+      EXTENSION: 'EXTENSION',
+    };
+  };
+  Util.createBindingList = function (bindingString) {
+    return bindingString.replace(' ', '').split(',');
+  };
   Util.getCustomUriPrefix = function () {
     return 'com-okta-client-authenticator-win://';
-  }
-
+  };
   Util.getUniversalLinkPrefix = function () {
     return 'https://login.okta1.com';
-  }
+  };
 
   /**
    * Why redirect via Form get rather using `window.location.href`?

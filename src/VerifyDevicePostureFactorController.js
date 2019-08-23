@@ -77,23 +77,44 @@ define([
       this.options.appState.setAuthResponse(data);
       let response = this.options.appState.get('lastAuthResponse');
 
-      var useLoopback = response._embedded.factor._embedded.binding === 'LOOPBACK';
+      let bindingArray = Util.createBindingList(response._embedded.factor._embedded.binding);
+      this._verifyUsingNextBinding(bindingArray, response);
+    },
 
-      // If extension is being used
-      if (response._links.extension) {
-        this._verifyUsingExtension(response);
-      } else if (useLoopback) { // If loopback is being used
-        this._verifyUsingLoopback(response);
-      } else { // If universal link is being used
-        this._verifyUsingUniversalLink(response);
+    _verifyUsingNextBinding: function (bindingArray, response) {
+      let binding = bindingArray.shift();
+      if (binding === undefined) {
+        alert('No more bindings to try for factor verification');
+      } else if (binding === Util.getBindings().LOOPBACK) {
+        if (!Util.isWindows()) {
+          console.warn('Attempting loopback for OS' + Util.getOS());
+        }
+        this._verifyUsingLoopback(bindingArray, response);
+      } else if (binding === Util.getBindings().UNIVERSAL_LINK) {
+        if (!Util.isIOS()) {
+          console.warn('Attempting universal link for OS' + Util.getOS());
+        }
+        this._verifyUsingUniversalLink(bindingArray, response);
+      } else if (binding === Util.getBindings().EXTENSION) {
+        if (!Util.isIOS() && !Util.isMac()) {
+          console.warn('Attempting extension for OS' + Util.getOS());
+        }
+        this._verifyUsingExtension(bindingArray, response);
+      } else if (binding === Util.getBindings().CUSTOM_URI) {
+        if (!Util.isWindows()) {
+          console.warn('Attempting custom uri for OS' + Util.getOS());
+        }
+        alert('TODO: Implement custom uri binding for factor verification');
+      } else {
+        alert('Invalid binding mechanism retrieved from the server!');
       }
     },
 
-    _verifyUsingExtension: function (response) {
+    _verifyUsingExtension: function (bindingArray, response) {
       // Seems like web view does not indicate xhr calls, so we can trigger extension as if it was a regular browser request
       // Note also that Office365 native app does not seem to support regular requests during login, so needs to use xhr requests
       if (Util.isIOSWebView()) {
-        this._initiateVerificationUsingExtensionViaXhr(response);
+        this._initiateVerificationUsingExtensionViaXhr(bindingArray, response);
       } else {
         this._initiateVerificationUsingExtensionViaRegularRequests(response);
       }
@@ -107,7 +128,7 @@ define([
       }
     },
 
-    _initiateVerificationUsingExtensionViaXhr: function (response) {
+    _initiateVerificationUsingExtensionViaXhr: function (bindingArray, response) {
       let headers;
       if (this.settings.get('useMock')) {
         headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + this.settings.get('mockDeviceFactorChallengeResponseJwt')};
@@ -121,7 +142,10 @@ define([
         crossDomain: true // Included for force jQuery to omit the header indicating this is an XHR call
       }).done(function (data) {
         this._verifyUsingExtensionViaXhr(data, response);
-      }.bind(this));
+      }.bind(this))
+        .fail(function () {
+          this._verifyUsingNextBinding(bindingArray, response);
+        }.bind(this));
     },
 
     _verifyUsingExtensionViaXhr: function (data, response) {
@@ -160,7 +184,7 @@ define([
       model.save();
     },
 
-    _verifyUsingLoopback: function (response) {
+    _verifyUsingLoopback: function (bindingArray, response) {
       let baseUrl = 'http://localhost:';
       if (this.settings.get('useMock')) {
         baseUrl = 'http://localhost:3000/loopback/factorVerifyChallenge/';
@@ -176,9 +200,9 @@ define([
         domain: this.settings.get('baseUrl'),
         maxAttempts: 5
       };
-      var successFn = function (data) {
-        if (data.status === 'FAILED') {
-          alert('Factor Verification failed using loopback!');
+      let fn = function (data) {
+        if (data && data.status === 'FAILED') {
+          this._verifyUsingNextBinding(bindingArray, response);
           return;
         }
         let Model = BaseLoginModel.extend(_.extend({
@@ -216,15 +240,15 @@ define([
         }.bind(model);
         model.save();
       };
-      Util.performLoopback(options, successFn);
+      Util.performLoopback(options, fn);
     },
 
-    _verifyUsingUniversalLink: function (response) {
+    _verifyUsingUniversalLink: function (bindingArray, response) {
       let baseUrl = Util.getUniversalLinkPrefix();
       if (this.settings.get('useMock')) {
         baseUrl = 'http://localhost:3000/universalLink/factorVerification';
       }
-      var pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
+      let pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
       let options = {
         context: this,
         baseUrl: baseUrl,
@@ -237,9 +261,9 @@ define([
         domain: this.settings.get('baseUrl'),
         maxAttempts: 10
       };
-      var successFn = function (data) {
-        if (data.status === 'FAILED') {
-          alert('Factor Verification failed using universal link!');
+      let fn = function (data) {
+        if (data && data.status === 'FAILED') {
+          this._verifyUsingNextBinding(bindingArray, response);
           return;
         }
         let Model = BaseLoginModel.extend(_.extend({
@@ -274,7 +298,7 @@ define([
         }.bind(model);
         model.save();
       };
-      Util.performUniversalLink(options, successFn);
+      Util.performUniversalLink(options, fn);
     }
 
   });

@@ -40,10 +40,10 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         profile: 'object'
       },
       save: function () {
-        var appState = this.options.appState;
+        let appState = this.options.appState;
         return this.startTransaction(function () {
           appState.trigger('loading', true);
-          var data = {
+          let data = {
             stateToken: this.get('stateToken'),
             provider: this.get('provider'),
             factorType: this.get('factorType'),
@@ -66,7 +66,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
       title: 'Signing in',
       subtitle: 'Enrolling in device posture factor',
       formChildren: function () {
-        var result = [];
+        let result = [];
         result.push(FormType.View({ View: new Spinner({ model: this.model, visible: false }) }));
         return result;
       }
@@ -75,35 +75,56 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
     initialize: function () {
       this.options.appState.trigger('loading', false);
       this.model.trigger('spinner:show');
-      var factors = this.options.appState.get('factors');
-      var factor = factors.findWhere({
+      let factors = this.options.appState.get('factors');
+      let factor = factors.findWhere({
         provider: this.options.provider,
         factorType: this.options.factorType
       });
 
-      let useLoopback = factor.get('deviceEnrollment').binding === 'LOOPBACK';
+      let bindingArray = Util.createBindingList(factor.get('deviceEnrollment').binding);
+      this._enrollUsingNextBinding(bindingArray, factor);
+    },
 
-      // If extension is being used
-      if (factor.get('_links').extension) {
-        this._enrollUsingExtension(factor);
-      } else if (useLoopback) { // If loopback is being used
-        this._enrollUsingLoopback(factor);
-      } else { // If universal link is being used
-        this._enrollUsingUniversalLink(factor);
+    _enrollUsingNextBinding: function (bindingArray, factor) {
+      let binding = bindingArray.shift();
+      if (binding === undefined) {
+        alert('No more bindings to try for factor enrollment');
+      } else if (binding === Util.getBindings().LOOPBACK) {
+        if (!Util.isWindows()) {
+          console.warn('Attempting loopback for OS' + Util.getOS());
+        }
+        this._enrollUsingLoopback(bindingArray, factor);
+      } else if (binding === Util.getBindings().UNIVERSAL_LINK) {
+        if (!Util.isIOS()) {
+          console.warn('Attempting universal link for OS' + Util.getOS());
+        }
+        this._enrollUsingUniversalLink(bindingArray, factor);
+      } else if (binding === Util.getBindings().EXTENSION) {
+        if (!Util.isIOS() && !Util.isMac()) {
+          console.warn('Attempting extension for OS' + Util.getOS());
+        }
+        this._enrollUsingExtension(bindingArray, factor);
+      } else if (binding === Util.getBindings().CUSTOM_URI) {
+        if (!Util.isWindows()) {
+          console.warn('Attempting custom uri for OS' + Util.getOS());
+        }
+        alert('TODO: Implement custom uri binding for factor enrollment');
+      } else {
+        alert('Invalid binding mechanism retrieved from the server!');
       }
     },
 
-    _enrollUsingExtension: function (factor) {
+    _enrollUsingExtension: function (bindingArray, factor) {
       // Seems like web view does not indicate xhr calls, so we can trigger extension as if it was a regular browser request
       // Note also that Office365 native app does not seem to support regular requests during login, so needs to use xhr requests
       if (Util.isIOSWebView()) {
-        this._initiateEnrollmentUsingExtensionViaXhr(factor);
+        this._initiateEnrollmentUsingExtensionViaXhr(bindingArray, factor);
       } else {
         this._initiateEnrollmentUsingExtensionViaRegularRequests(factor);
       }
     },
 
-    _initiateEnrollmentUsingExtensionViaXhr: function (factor) {
+    _initiateEnrollmentUsingExtensionViaXhr: function (bindingArray, factor) {
       let headers;
       if (this.settings.get('useMock')) {
         headers = {'Authorization': 'OktaAuthorizationProviderExtension ' + this.settings.get('mockDeviceFactorEnrollmentResponseJwt')};
@@ -117,7 +138,10 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         crossDomain: true // Included for force jQuery to omit the header indicating this is an XHR call
       }).done(function (data) {
         this._enrollUsingExtensionViaXhr(data, factor);
-      }.bind(this));
+      }.bind(this))
+        .fail(function () {
+          this._enrollUsingNextBinding(bindingArray, factor);
+        }.bind(this));
     },
 
     _enrollUsingExtensionViaXhr: function (data, factor) {
@@ -140,7 +164,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
       }
     },
 
-    _enrollUsingLoopback: function (factor) {
+    _enrollUsingLoopback: function (bindingArray, factor) {
       let baseUrl = 'http://localhost:';
       let deviceEnrollmentId = undefined;
       if (this.settings.get('useMock')) {
@@ -159,12 +183,12 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         deviceEnrollmentId: deviceEnrollmentId,
         maxAttempts: 5
       };
-      var successFn = function (data) {
-        if (data.status === 'FAILED') {
-          alert('Factor Enrollment failed using loopback!');
+      let fn = function (data) {
+        if (data && data.status === 'FAILED') {
+          this._enrollUsingNextBinding(bindingArray, factor);
           return;
         }
-        var response = this.options.appState.get('lastAuthResponse');
+        let response = this.options.appState.get('lastAuthResponse');
         this.model.url = response._embedded.factors[0]._links.enroll.href;
         this.model.set('stateToken', response.stateToken);
         this.model.set('provider', this.options.provider);
@@ -174,16 +198,16 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         });
         this.model.save();
       };
-      Util.performLoopback(options, successFn);
+      Util.performLoopback(options, fn);
     },
 
-    _enrollUsingUniversalLink: function (factor) {
+    _enrollUsingUniversalLink: function (bindingArray, factor) {
       let response = this.options.appState.get('lastAuthResponse');
       let baseUrl = Util.getUniversalLinkPrefix();
       if (this.settings.get('useMock')) {
         baseUrl = 'http://localhost:3000/universalLink/factorEnrollment';
       }
-      var pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
+      let pollingUrl = this.settings.get('baseUrl') + '/api/v1/authn/introspect';
       let options = {
         context: this,
         baseUrl: baseUrl,
@@ -194,9 +218,9 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         domain: this.settings.get('baseUrl'),
         maxAttempts: 10
       };
-      var successFn = function (data) {
-        if (data.status === 'FAILED') {
-          alert('Factor Enrollment failed using universal link!');
+      let fn = function (data) {
+        if (data && data.status === 'FAILED') {
+          this._enrollUsingNextBinding(bindingArray, factor);
           return;
         }
         let Model = BaseLoginModel.extend(_.extend({
@@ -213,10 +237,10 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         model.url = this.settings.get('baseUrl') + '/api/v1/authn';
         model.set('stateToken', response.stateToken);
         model.save = function () {
-          var appState = this.options.appState;
+          let appState = this.options.appState;
           return this.startTransaction(function () {
             appState.trigger('loading', true);
-            var data = {
+            let data = {
               stateToken: this.get('stateToken'),
             };
             return $.post({
@@ -231,7 +255,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
         }.bind(model);
         model.save();
       };
-      Util.performUniversalLink(options, successFn);
+      Util.performUniversalLink(options, fn);
     }
 
   });

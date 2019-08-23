@@ -16,7 +16,7 @@ var makeRequest = function (data) {
 };
 
 var randomTimeout = function () {
-  var min=5;
+  var min=4;
   var max=8;
   return Math.floor(Math.random() * (+max - +min)) + +min;
 };
