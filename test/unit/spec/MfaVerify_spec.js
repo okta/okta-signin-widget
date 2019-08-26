@@ -22,19 +22,13 @@ define([
   'helpers/xhr/MFA_REQUIRED_multipleOktaVerify',
   'helpers/xhr/MFA_REQUIRED_windows_hello',
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
-  'helpers/xhr/FACTOR_REQUIRED_oktaPassword',
-  'helpers/xhr/FACTOR_REQUIRED',
-  'helpers/xhr/FACTOR_REQUIRED_question',
   'helpers/xhr/MFA_REQUIRED_U2F',
   'helpers/xhr/MFA_REQUIRED_multipleU2F',
   'helpers/xhr/MFA_REQUIRED_multipleFactors',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
-  'helpers/xhr/FACTOR_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
-  'helpers/xhr/FACTOR_CHALLENGE_call',
   'helpers/xhr/MFA_CHALLENGE_email',
-  'helpers/xhr/FACTOR_CHALLENGE_email',
   'helpers/xhr/MFA_CHALLENGE_windows_hello',
   'helpers/xhr/MFA_CHALLENGE_u2f',
   'helpers/xhr/MFA_CHALLENGE_multipleU2F',
@@ -77,19 +71,13 @@ function (Okta,
   resVerifyMultiple,
   resRequiredWindowsHello,
   resPassword,
-  resFactorRequiredPassword,
-  resFactorRequiredAllFactors,
-  resFactorRequiredQuestion,
   resU2F,
   resMultipleU2F,
   resMultipleFactors,
   resChallengeDuo,
   resChallengeSms,
-  resFactorChallengeSMS,
   resChallengeCall,
-  resFactorChallengeCall,
   resChallengeEmail,
-  resFactorChallengeEmail,
   resChallengeWindowsHello,
   resChallengeU2F,
   resChallengeMultipleU2F,
@@ -325,7 +313,7 @@ function (Okta,
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupHOTP = _.partial(setup, resAllFactors, { factorType: 'token:hotp', provider: 'CUSTOM' });
     var setupGoogleTOTPAutoPushTrue = _.partial(setup, Util.getAutoPushResponse(resAllFactors, true),
-      { factorType: 'token:software:totp', provider: 'GOOGLE' });
+      { factorType: 'token:software:totp', provider: 'GOOGLE' }, {'features.autoPush': true}, null, true);
     var setupRsaTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'RSA' });
     var setupOnPremTOTP = _.partial(setup, resAllFactorsOnPrem, { factorType: 'token', provider: 'DEL_OATH' }, null, null, true);
     var setupSymantecTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'SYMANTEC' });
@@ -801,8 +789,7 @@ function (Okta,
             });
           });
       });
-      // TODO OKTA-243970
-      xit('Verify Push after switching from Google TOTP', function () {
+      itp('Verify Push after switching from Google TOTP', function () {
         return setupGoogleTOTPAutoPushTrueFn({ 'features.autoPush': true })
           .then(function (test) {
             test.setNextResponse(resChallengePush);
