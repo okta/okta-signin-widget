@@ -219,7 +219,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
         linkUrl += '&credentialId=' + options.credentialId;
       }
       if (options.postbackUrl) {
-        data.postbackUrl = options.postbackUrl;
+        linkUrl += '&postbackUrl=' + options.postbackUrl;
       }
       // This should invoke the universal link and move on after
       window.location.assign(linkUrl);
