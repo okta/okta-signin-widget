@@ -125,7 +125,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
     },
 
     _enrollmentUsingExtensionViaXhr: function (factor) {
-      let response = this.options.appState.get('lastAuthResponse');
+      let response = this.options.appState.get('lastAuthResponse') + '?nonce=' + factor.get('nonce');
       this.model.url = factor.get('_links').enroll.href;
       this.model.set('stateToken', response.stateToken);
       this.model.set('provider', this.options.provider);
