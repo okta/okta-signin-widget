@@ -469,6 +469,51 @@ function (Okta,
         });
     }
 
+    function setupMfaChallengeClaimsFactor (options) {
+      options = options || {};
+      var initResponse = getInitialChallengeResponse(options);
+      //get MFA_CHALLENGE, and routerUtil calls prev, to set state to MFA_REQUIRED
+      var setNextResponse = Util.mockAjax([initResponse, resAllFactors]);
+      var baseUrl = 'https://foo.com';
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var successSpy = jasmine.createSpy('success');
+      var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+      var router = createRouter(baseUrl, authClient, successSpy, options.settings);
+      router.on('afterError', afterErrorHandler);
+      router.refreshAuthState('dummy-token');
+      var verifyView = (options.factorResult === 'FAILED') ?
+        'waitForVerifyCustomFactor' : 'waitForMfaVerify';
+      return Expect[verifyView]()
+        .then(function () {
+          var $forms = $sandbox.find('.o-form');
+          var forms = _.map($forms, function (form) {
+            return new MfaVerifyForm($(form));
+          });
+          if (forms.length === 1) {
+            forms = forms[0];
+          }
+          var beacon = new Beacon($sandbox);
+          return {
+            router: router,
+            form: forms,
+            beacon: beacon,
+            ac: authClient,
+            setNextResponse: setNextResponse,
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
+          };
+        });
+    }
+
+    function getInitialChallengeResponse (options) {
+      var initResponse = deepClone(resChallengeClaimsProvider);
+      if(options && options.setFactorResult) {
+        initResponse.response.factorResult = options.factorResult;
+        initResponse.response.factorResultMessage = options.factorResultMessage;
+      }
+      return initResponse;
+    }
+
     function emulateNotWindows () {
       spyOn(webauthn, 'isAvailable').and.returnValue(false);
       spyOn(webauthn, 'makeCredential');
@@ -4152,6 +4197,212 @@ function (Okta,
                 }
               });
             });
+        });
+
+        Expect.describe('in MFA_CHALLENGE state when idp returns', function () {
+          beforeEach(function () {
+            this.options = {
+              setFactorResult: true,
+              factorResult: 'FAILED',
+              factorResultMessage: 'Verify failed.'
+            };
+          });
+          itp('renders claims provider factor if factorResult FAILED', function () {
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              expect(test.form.isCustomFactor()).toBe(true);
+            });
+          });
+          itp('shows the right beacon if factorResult FAILED', function () {
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              expectHasRightBeaconImage(test, 'mfa-custom-factor');
+            });
+          });
+          itp('shows the right title if factorResult FAILED', function () {
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              expectTitleToBe(test, 'IDP factor');
+            });
+          });
+          itp('shows the right subtitle if factorResult FAILED', function () {
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
+            });
+          });
+          itp('has remember device checkbox if factorResult FAILED', function () {
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              Expect.isVisible(test.form.rememberDeviceCheckbox());
+            });
+          });
+          itp('has a sign out link if factorResult FAILED', function () {
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              Expect.isVisible(test.form.signoutLink($sandbox));
+            });
+          });
+          itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
+            this.options.settings = {'features.hideSignOutLinkInMFA': true};
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              expect(test.form.signoutLink($sandbox).length).toBe(0);
+            });
+          });
+          itp('redirects to third party when Verify button is clicked', function () {
+            spyOn(SharedUtil, 'redirect');
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
+              test.form.submit();
+              return Expect.waitForSpyCall(SharedUtil.redirect);
+            })
+              .then(function () {
+                expect(SharedUtil.redirect).toHaveBeenCalledWith(
+                  'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
+                );
+              });
+          });
+          itp('displays error when error response received', function () {
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              test.setNextResponse(resNoPermissionError);
+              test.form.submit();
+              return Expect.waitForFormError(test.form, test);
+            })
+              .then(function (test) {
+                expectError(
+                  test,
+                  403,
+                  'You do not have permission to perform the requested action',
+                  'verify-custom-factor custom-factor-form',
+                  {
+                    status: 403,
+                    responseType: 'json',
+                    responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                    responseJSON: {
+                      errorCode: 'E0000006',
+                      errorSummary: 'You do not have permission to perform the requested action',
+                      errorLink: 'E0000006',
+                      errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                      errorCauses: []
+                    }
+                  }
+                );
+              });
+          });
+          itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              $.ajax.calls.reset();
+              test.setNextResponse(resSuccess);
+              test.form.setRememberDevice(true);
+              test.form.submit();
+              return Expect.waitForSpyCall(test.successSpy);
+            })
+              .then(function () {
+                expect($.ajax.calls.count()).toBe(1);
+                Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                  url: 'http://rain.okta1.com:1802/api/v1/authn/factors/claimsProviderFactorId/verify?rememberDevice=true',
+                  data: {
+                    stateToken: 'testStateToken'
+                  }
+                });
+              });
+          });
+          itp('does not display error and loads first factor when factorResult is not returned', function () {
+            return setupMfaChallengeClaimsFactor().then(function (test) {
+              expect(test.form.isSecurityQuestion()).toBe(true);
+              expect(test.form.el('o-form-error-html')).toHaveLength(0);
+            });
+          });
+          itp('displays error when factorResult is FAILED', function () {
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              expect(test.form.el('o-form-error-html')).toHaveLength(1);
+              expect(test.form.el('o-form-error-html').find('strong').html())
+                .toEqual('Verify failed.');
+            });
+          });
+          itp('does not display error when factorResult is WAITING', function () {
+            this.options = {
+              setFactorResult: true,
+              factorResult: 'WAITING',
+              factorResultMessage: 'Verify failed.'
+            };
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              expect(test.form.isSecurityQuestion()).toBe(true);
+              expect(test.form.el('o-form-error-html')).toHaveLength(0);
+            });
+          });
+          itp('does not display error when factorResult is undefined', function () {
+            this.options = {
+              setFactorResult: true,
+              factorResultMessage: 'Verify failed.'
+            };
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              expect(test.form.isSecurityQuestion()).toBe(true);
+              expect(test.form.el('o-form-error-html')).toHaveLength(0);
+            });
+          });
+          itp('displays default error when factorResultMessage is undefined', function () {
+            this.options = {
+              setFactorResult: true,
+              factorResult: 'FAILED',
+            };
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              expect(test.form.el('o-form-error-html')).toHaveLength(1);
+              expect(test.form.el('o-form-error-html').find('strong').html())
+                .toEqual('There was an unexpected internal error. Please try again.');
+            });
+          });
+          itp('can switch to Security Question and verify successfully', function () {
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              test.setNextResponse(resAllFactors);
+              test.beacon.dropDownButton().click();
+              clickFactorInDropdown(test, 'QUESTION');
+              return Expect.waitForVerifyQuestion(test);
+            })
+              .then(function (test) {
+                $.ajax.calls.reset();
+                test.setNextResponse(resSuccess);
+                test.questionForm = new MfaVerifyForm($sandbox.find('.o-form'));
+                test.questionForm.setAnswer('food');
+                test.questionForm.submit();
+                return Expect.waitForSpyCall(test.successSpy);
+              })
+              .then(function () {
+                expect($.ajax.calls.count()).toBe(1);
+                Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                  url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=false',
+                  data: {
+                    answer: 'food',
+                    stateToken: 'testStateToken'
+                  }
+                });
+              });
+          });
+          itp('does not show error and can verify when switching to Security Question and back to idp factor', function () {
+            spyOn(SharedUtil, 'redirect');
+            return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+              test.setNextResponse(resAllFactors);
+              test.beacon.dropDownButton().click();
+              clickFactorInDropdown(test, 'QUESTION');
+              return Expect.waitForVerifyQuestion(test);
+            })
+              .then(function (test) {
+                test.questionForm = new MfaVerifyForm($sandbox.find('.o-form'));
+                expect(test.questionForm.isSecurityQuestion()).toBe(true);
+                // switch to claims provider
+                test.setNextResponse(resAllFactors);
+                test.beacon.dropDownButton().click();
+                clickFactorInDropdown(test, 'CUSTOM_CLAIMS');
+                return Expect.waitForVerifyCustomFactor(test);
+              })
+              .then(function (test) {
+                test.claimsForm = new MfaVerifyForm($sandbox.find('.o-form'));
+                expect(test.claimsForm.isCustomFactor()).toBe(true);
+                expect(test.claimsForm.el('o-form-error-html')).toHaveLength(0);
+                test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
+                test.claimsForm.submit();
+                return Expect.waitForSpyCall(SharedUtil.redirect);
+              })
+              .then(function () {
+                expect(SharedUtil.redirect).toHaveBeenCalledWith(
+                  'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
+                );
+              });
+          });
         });
       });
       Expect.describe('Password', function () {

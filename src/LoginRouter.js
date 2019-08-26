@@ -34,6 +34,7 @@ define([
   'EnrollU2FController',
   'EnrollWebauthnController',
   'EnrollCustomFactorController',
+  'EnrollActivateCustomFactorController',
   'EnrollHotpController',
   'BarcodeTotpController',
   'BarcodePushController',
@@ -84,6 +85,7 @@ function (BaseLoginRouter,
   EnrollU2FController,
   EnrollWebauthnController,
   EnrollCustomFactorController,
+  EnrollActivateCustomFactorController,
   EnrollHotpController,
   BarcodeTotpController,
   BarcodePushController,
@@ -148,6 +150,7 @@ function (BaseLoginRouter,
       'signin/enroll-activate/okta/push/manual': 'manualSetupPushFactor',
       'signin/enroll-activate/okta/push/sent': 'activationLinkSent',
       'signin/enroll-activate/okta/token:software:totp/passcode': 'enterPasscodeInPushEnrollmentFlow',
+      'signin/enroll-activate/custom/claims_provider': 'enrollActivateClaimsFactor',
       'signin/enroll-activate/:provider/:factorType': 'scanBarcodeTotpFactor',
       'signin/enroll-activate/:provider/:factorType/activate': 'activateTotpFactor',
       'signin/enroll-activate/:provider/:factorType/manual': 'manualSetupTotpFactor',
@@ -362,6 +365,14 @@ function (BaseLoginRouter,
 
     enrollClaimsFactor: function () {
       this.render(EnrollCustomFactorController, {
+        provider: 'CUSTOM',
+        factorType: 'claims_provider',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollActivateClaimsFactor: function () {
+      this.render(EnrollActivateCustomFactorController, {
         provider: 'CUSTOM',
         factorType: 'claims_provider',
         Beacon: FactorBeacon

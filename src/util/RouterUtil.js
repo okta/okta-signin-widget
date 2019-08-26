@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 42], max-statements: [2, 30] */
+/* eslint complexity: [2, 45], max-statements: [2, 30] */
 define([
   'okta',
   './OAuth2Util',
@@ -218,14 +218,26 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
     case 'FACTOR_REQUIRED':
     case 'FACTOR_CHALLENGE':
     case 'MFA_REQUIRED':
+      // When the widget is bootstrapped with an error in MFA_CHALLENGE state, we pass the
+      // lastFailedChallengeFactorData to MFA_REQUIRED, in order to show the error message
+      // on the correct factor view
+      var lastFailedChallengeFactorData = router.appState.get('lastFailedChallengeFactorData');
+      if (lastFailedChallengeFactorData && lastFailedChallengeFactorData.factor) {
+        router.appState.get('factors').lastUsedFactor = lastFailedChallengeFactorData.factor;
+      }
       var factor = router.appState.get('factors').getDefaultFactor();
       var url = fn.createVerifyUrl(factor.get('provider'), factor.get('factorType'));
       router.navigate(url, { trigger: true });
+      router.appState.clearLastFailedChallengeFactorData();
       return;
     case 'MFA_CHALLENGE':
       // Since we normally trap MFA_CHALLENGE, this will only get called on a
-      // page refresh. We need to return to MFA_REQUIRED to initialize the
+      // page refresh or when an error is returned on verification with an IdP.
+      // We need to return to MFA_REQUIRED to initialize the
       // page correctly (i.e. factors dropdown, etc)
+      if (router.appState.get('isFactorResultFailed')) {
+        router.appState.setLastFailedChallengeFactorData();
+      }
       router.appState.get('transaction').prev()
         .then(function (trans) {
           router.appState.set('transaction', trans);

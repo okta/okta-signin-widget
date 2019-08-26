@@ -55,7 +55,7 @@ function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
         factor = FactorUtil.findFactorInFactorsArray(factors, this.options.provider,
           this.options.factorType);
       } else  {
-        factor = new Factor.Model(this.options.appState.get('factor'), this.toJSON());
+        factor = new Factor.Model(this.options.appState.get('factor'));
       }
       className = factor.get('iconClassName');
       return { className: className || '' };
