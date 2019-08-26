@@ -137,7 +137,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           var next = [resSuccess];
 
           // mock .well-known for PKCE flow
-          if (settings && settings['authParams.grantType'] === 'authorization_code') {
+          if (settings && settings['authParams.pkce'] === true) {
             next.push(resWellKnownSR);
           }
           test.setNextResponse(next);
@@ -1049,8 +1049,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
 
       itp('PKCE: redirects, sets the responseMode to "fragment" and sets a code_challenge', function () {
         return setupOAuth2({
-          'authParams.responseType': 'code', 
-          'authParams.grantType': 'authorization_code'
+          'authParams.pkce': true,
+          'authParams.responseType': 'code',
         })
           .then(expectCodeRedirect({
             responseMode: 'fragment',

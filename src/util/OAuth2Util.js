@@ -54,7 +54,9 @@ define(['okta', './Enums', './Errors', './Util'], function (Okta, Enums, Errors,
     _.extend(
       oauthParams,
       _.pick(options, 'clientId', 'redirectUri'),
-      _.pick(options.authParams, 'grantType', 'responseType', 'responseMode', 'display', 'scopes', 'state', 'nonce'),
+      _.pick(options.authParams,
+        'pkce', 'grantType', 'responseType', 'responseMode',
+        'display', 'scopes', 'state', 'nonce'),
       params
     );
 

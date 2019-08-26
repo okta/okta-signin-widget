@@ -1,3 +1,5 @@
+/* eslint max-statements: [2, 22],  complexity: [2, 12] */
+
 /*!
  * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -442,6 +444,11 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
     // settings we currently support. This is a good place to deprecate old
     // option formats.
     parse: function (options) {
+      // PKCE flow: automatically set responseType to 'code'
+      if (options.authParams && options.authParams.pkce) {
+        options.authParams.responseType = 'code';
+      }
+
       if (options.authParams && options.authParams.scope) {
         Logger.deprecate('Use "scopes" instead of "scope"');
         options.authParams.scopes = options.authParams.scope;
