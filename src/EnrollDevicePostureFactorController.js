@@ -35,9 +35,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
       url: '',
       props: {
         stateToken: 'string',
-        provider: 'string',
-        factorType: 'string',
-        profile: 'object'
+        devicePostureJwt: 'string'
       },
       save: function () {
         let appState = this.options.appState;
@@ -45,9 +43,7 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
           appState.trigger('loading', true);
           let data = {
             stateToken: this.get('stateToken'),
-            provider: this.get('provider'),
-            factorType: this.get('factorType'),
-            profile: this.get('profile'),
+            devicePostureJwt: this.get('devicePostureJwt')
           };
           return $.post({
             url: this.url,
@@ -125,14 +121,10 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
     },
 
     _enrollmentUsingExtensionViaXhr: function (factor) {
-      let response = this.options.appState.get('lastAuthResponse') + '?nonce=' + factor.get('nonce');
-      this.model.url = factor.get('_links').enroll.href;
+      let response = this.options.appState.get('lastAuthResponse');
+      this.model.url = factor.get('_links').extension.href.replace('/idx', '/api/v1/idx');
       this.model.set('stateToken', response.stateToken);
-      this.model.set('provider', this.options.provider);
-      this.model.set('factorType', this.options.factorType);
-      this.model.set('profile', {
-        devicePostureJwt: this.settings.get('useMock') ? this.settings.get('mockDeviceFactorEnrollmentResponseJwt') : '<dummyValue>'
-      });
+      this.model.set('devicePostureJwt', this.settings.get('useMock') ? this.settings.get('mockDeviceFactorEnrollmentResponseJwt') : '<dummyValue>');
       this.model.save();
     },
 
