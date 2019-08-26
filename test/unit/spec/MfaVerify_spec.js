@@ -247,36 +247,38 @@ function (Okta,
       var router = createRouter(baseUrl, authClient, successSpy, settings);
       router.on('afterError', afterErrorHandler);
       setNextResponse(res);
-      router.refreshAuthState('dummy-token');
-      return Expect.waitForMfaVerify()
-        .then(function () {
-          if (selectedFactorProps) {
-            var factors = router.appState.get('factors');
-            var selectedFactor = factors.findWhere(selectedFactorProps),
-                factorType = selectedFactor.get('factorType');
-            router.verifyNoProvider(factorType);
-            return Expect.waitForMfaVerify();
-          }
-        })
-        .then(function () {
-          var $forms = $sandbox.find('.o-form');
-          var forms = _.map($forms, function (form) {
-            return new MfaVerifyForm($(form));
+      return Util.mockIntrospectResponse(router, res).then(function () {
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForMfaVerify()
+          .then(function () {
+            if (selectedFactorProps) {
+              var factors = router.appState.get('factors');
+              var selectedFactor = factors.findWhere(selectedFactorProps),
+                  factorType = selectedFactor.get('factorType');
+              router.verifyNoProvider(factorType);
+              return Expect.waitForMfaVerify();
+            }
+          })
+          .then(function () {
+            var $forms = $sandbox.find('.o-form');
+            var forms = _.map($forms, function (form) {
+              return new MfaVerifyForm($(form));
+            });
+            if (forms.length === 1) {
+              forms = forms[0];
+            }
+            var beacon = new Beacon($sandbox);
+            return {
+              router: router,
+              form: forms,
+              beacon: beacon,
+              ac: authClient,
+              setNextResponse: setNextResponse,
+              successSpy: successSpy,
+              afterErrorHandler: afterErrorHandler
+            };
           });
-          if (forms.length === 1) {
-            forms = forms[0];
-          }
-          var beacon = new Beacon($sandbox);
-          return {
-            router: router,
-            form: forms,
-            beacon: beacon,
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            successSpy: successSpy,
-            afterErrorHandler: afterErrorHandler
-          };
-        });
+      });
     }
 
     function setupWindowsHelloOnly () {
@@ -344,7 +346,8 @@ function (Okta,
     //var setupEmailMagicLink = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'email' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' }, null, null , true);
     var setupOktaPush = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
-    var setupOktaPushWithRefreshAuth = _.partial(setup, resVerifyPushOnly, { factorType: 'push' }, null, null, true);
+    var setupOktaPushWithIntrospect = _.partial(setup, resVerifyPushOnly, { factorType: 'push' }, null, null, true);
+    var setupOktaPushWithRefreshAuth = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
     var setupWindowsHello = _.partial(
       setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false });
     var setupWindowsHelloWithBrandName = _.partial(
@@ -367,7 +370,7 @@ function (Okta,
       ]);
     }
 
-    var setupMultipleOktaVerify = _.partial(setup, resVerifyMultiple, { factorType: 'push' });
+    var setupMultipleOktaVerify = _.partial(setup, resVerifyMultiple, { factorType: 'push' }, null, null, true);
 
     function setupMultipleOktaTOTP (settings) {
       var totpOnly = deepClone(resVerifyMultiple);
@@ -379,7 +382,7 @@ function (Okta,
       var pushOnly = deepClone(resVerifyMultiple);
       pushOnly.response._embedded.factors = _.where(pushOnly.response._embedded.factors, { factorType: 'push'});
       delete pushOnly.response._embedded.factorTypes;
-      return setup(pushOnly, { factorType: 'push' }, settings);
+      return setup(pushOnly, { factorType: 'push' }, settings, null, true);
     }
 
     function setupU2F (options) {
@@ -458,27 +461,29 @@ function (Okta,
         responses.push(options.res);
       }
       setNextResponse(responses);
-      router.refreshAuthState('dummy-token');
-      return Expect.waitForVerifyU2F()
-        .then(function () {
-          var $forms = $sandbox.find('.o-form');
-          var forms = _.map($forms, function (form) {
-            return new MfaVerifyForm($(form));
+      return Util.mockIntrospectResponse(router, options.res).then(function () {
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForVerifyU2F()
+          .then(function () {
+            var $forms = $sandbox.find('.o-form');
+            var forms = _.map($forms, function (form) {
+              return new MfaVerifyForm($(form));
+            });
+            if (forms.length === 1) {
+              forms = forms[0];
+            }
+            var beacon = new Beacon($sandbox);
+            return {
+              router: router,
+              form: forms,
+              beacon: beacon,
+              ac: authClient,
+              setNextResponse: setNextResponse,
+              successSpy: successSpy,
+              afterErrorHandler: afterErrorHandler
+            };
           });
-          if (forms.length === 1) {
-            forms = forms[0];
-          }
-          var beacon = new Beacon($sandbox);
-          return {
-            router: router,
-            form: forms,
-            beacon: beacon,
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            successSpy: successSpy,
-            afterErrorHandler: afterErrorHandler
-          };
-        });
+      });
     }
 
     function emulateNotWindows () {
@@ -807,7 +812,8 @@ function (Okta,
             });
           });
       });
-      itp('Verify Push after switching from Google TOTP', function () {
+      // TODO OKTA-243970
+      xit('Verify Push after switching from Google TOTP', function () {
         return setupGoogleTOTPAutoPushTrueFn({ 'features.autoPush': true })
           .then(function (test) {
             test.setNextResponse(resChallengePush);
@@ -2787,7 +2793,7 @@ function (Okta,
         }
         itp('has push without totp when totp is not in the factors list', function () {
           return setupOktaPushWithRefreshAuth().then(function (test) {
-            expect(test.form.isPush()).toBe(true);
+            expect(test.form[0].isPush()).toBe(true);
           });
         });
         itp('has push and an inline totp form when totp is available', function () {
@@ -2824,15 +2830,14 @@ function (Okta,
             });
           });
         });
-        // TODO OKTA-240812
-        /*Expect.describe('Push', function () {
+        Expect.describe('Push', function () {
           itp('shows a title that includes the device name', function () {
-            return setupOktaPushWithRefreshAuth().then(function (test) {
+            return setupOktaPushWithIntrospect().then(function (test) {
               expect(test.form.titleText()).toBe('Okta Verify (Test iPhone)');
             });
           });
           itp('calls authClient verifyFactor with correct args when submitted', function () {
-            return setupOktaPushWithRefreshAuth().then(function (test) {
+            return setupOktaPushWithIntrospect().then(function (test) {
               $.ajax.calls.reset();
               setRememberDeviceForPushForm(test, true);
               test.setNextResponse(resSuccess);
@@ -2854,7 +2859,7 @@ function (Okta,
               $.ajax.calls.reset();
               setAutoPushCheckbox(test, true);
               test.setNextResponse(resSuccess);
-              test.form.submit();
+              test.form[0].submit();
               return tick();
             })
               .then(function () {
@@ -2873,7 +2878,7 @@ function (Okta,
               $.ajax.calls.reset();
               setAutoPushCheckbox(test, false);
               test.setNextResponse(resSuccess);
-              test.form.submit();
+              test.form[0].submit();
               return tick();
             })
               .then(function () {
@@ -3103,7 +3108,7 @@ function (Okta,
               });
             });
             itp('sets transaction state to MFA_CHALLENGE before poll', function () {
-              return setupOktaPush().then(function (test) {
+              return setupOktaPushWithIntrospect().then(function (test) {
                 $.ajax.calls.reset();
                 test.setNextResponse(resChallengePush);
                 test.form.submit();
@@ -3114,7 +3119,7 @@ function (Okta,
             });
             itp('starts poll after a delay of 4000ms', function () {
               var callAfterTimeoutStub;
-              return setupOktaPush()
+              return setupOktaPushWithIntrospect()
                 .then(function (test) {
                   spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function (pullPromiseResolver) {
                   // setup a deterministic callAfterTimeout stub
@@ -3171,18 +3176,21 @@ function (Okta,
               });
             });
             itp('stops listening on factorSwitched when we start polling', function () {
-              return setupOktaPush().then(function (test) {
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
-                  return setTimeout(arguments[0]);
-                });
-                $.ajax.calls.reset();
-                test.setNextResponse(resChallengePush);
-                test.form.submit();
-                spyOn(test.router.controller.model, 'stopListening').and.callThrough();
-                return tick(test).then(function () {
-                  expect(test.router.controller.model.stopListening).toHaveBeenCalledWith(
-                    test.router.controller.model.appState, 'factorSwitched');
-                });
+              return setupOktaPushWithIntrospect().then(function (test) {
+                tick(test)
+                  .then(function (test) {
+                    spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
+                      return setTimeout(arguments[0]);
+                    });
+                    $.ajax.calls.reset();
+                    test.setNextResponse(resChallengePush);
+                    test.form.submit();
+                    spyOn(test.router.controller.model, 'stopListening').and.callThrough();
+                    return tick(test).then(function () {
+                      expect(test.router.controller.model.stopListening).toHaveBeenCalledWith(
+                        test.router.controller.model.appState, 'factorSwitched');
+                    });
+                  });
               });
             });
             itp('on REJECTED, re-enables submit, displays an error, and allows resending', function () {
@@ -3256,7 +3264,7 @@ function (Okta,
                 test.form.submit();
                 return Expect.waitForFormError(test.form, test);
               }
-              return setupOktaPush().then(function (test) {
+              return setupOktaPushWithIntrospect().then(function (test) {
                 spyOn(test.router.settings, 'callGlobalError');
                 Q.stopUnhandledRejectionTracking();
                 return setupFailurePolling(test)
@@ -3291,7 +3299,7 @@ function (Okta,
                 test.form.submit();
                 return tick(test);
               }
-              return setupOktaPush().then(function (test) {
+              return setupOktaPushWithIntrospect().then(function (test) {
                 spyOn(test.router.settings, 'callGlobalError');
                 Q.stopUnhandledRejectionTracking();
                 return setupFailurePolling(test)
@@ -3314,7 +3322,7 @@ function (Okta,
 
           // Do this when we have implemented push errors in OktaAuth and have an example
           xit('shows an error if error response from authClient');
-        });*/
+        });
         Expect.describe('TOTP', function () {
           itp('has a link to enter code', function () {
             return setupOktaPushWithTOTP().then(function (test) {
@@ -4246,8 +4254,7 @@ function (Okta,
       beaconTest(resFactorRequiredAllFactors, resFactorRequiredQuestion, resAllFactorsOnPrem);
     });*/
 
-    //TODO
-    /*Expect.describe('Switch between different factors and verify a factor', function () {
+    Expect.describe('Switch between different factors and verify a factor', function () {
       switchFactorTest(setupSMS, setupOktaPushWithTOTP, setupGoogleTOTPAutoPushTrue, resAllFactors, resSuccess, resChallengeSms, 'testStateToken');
       itp('Verify DUO after switching from SMS MFA_CHALLENGE', function () {
         return setupSMS().then(function (test) {
@@ -4347,7 +4354,7 @@ function (Okta,
             });
         });
       });
-    });*/
+    });
 
     /*Expect.describe('Switch between different factors and verify a factor on Idx Pipeline', function () {
       switchFactorTest(setupEmailWithIdx, setupOktaPushWithTOTPWithIdx, setupGoogleTOTPAutoPushTrueWithIdx, resFactorRequiredAllFactors, resSuccess, resFactorChallengeEmail, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
@@ -4508,8 +4515,7 @@ function (Okta,
       });
     });
 
-    // TODO
-    /*Expect.describe('Multiple Factors of the same type', function () {
+    Expect.describe('Multiple Factors of the same type', function () {
       function getPageForm () {
         var $forms = $sandbox.find('.o-form');
         var forms = _.map($forms, function (form) {
@@ -5087,7 +5093,7 @@ function (Okta,
             });
         });
       });
-    });*/
+    });
 
   });
 
