@@ -322,28 +322,18 @@ function (Okta,
     }
 
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
-    //var setupSecurityQuestionWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'question' });
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupHOTP = _.partial(setup, resAllFactors, { factorType: 'token:hotp', provider: 'CUSTOM' });
-    //var setupGoogleTOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
-    //var setupHOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'token:hotp', provider: 'CUSTOM' });
     var setupGoogleTOTPAutoPushTrue = _.partial(setup, Util.getAutoPushResponse(resAllFactors, true),
       { factorType: 'token:software:totp', provider: 'GOOGLE' });
-    /*var setupGoogleTOTPAutoPushTrueWithIdx = _.partial(setup, Util.getAutoPushResponse(resFactorRequiredAllFactors, true),
-      { factorType: 'token:software:totp', provider: 'GOOGLE' });*/
     var setupRsaTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'RSA' });
     var setupOnPremTOTP = _.partial(setup, resAllFactorsOnPrem, { factorType: 'token', provider: 'DEL_OATH' }, null, null, true);
     var setupSymantecTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'SYMANTEC' });
     var setupYubikey = _.partial(setup, resAllFactors, { factorType: 'token:hardware', provider: 'YUBICO' });
     var setupSMS = _.partial(setup, resAllFactors, { factorType: 'sms' });
-    //var setupSMSWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'sms' });
     var setupCall = _.partial(setup, resAllFactors, { factorType: 'call' });
-    //var setupCallWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'call' });
     var setupEmail = _.partial(setup, resAllFactors, { factorType: 'email' });
-    //var setupEmailWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'email' });
     var setupOktaPushWithTOTP = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
-    //var setupOktaPushWithTOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'push', provider: 'OKTA' });
-    //var setupEmailMagicLink = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'email' });
     var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' }, null, null , true);
     var setupOktaPush = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
     var setupOktaPushWithIntrospect = _.partial(setup, resVerifyPushOnly, { factorType: 'push' }, null, null, true);
@@ -353,7 +343,6 @@ function (Okta,
     var setupWindowsHelloWithBrandName = _.partial(
       setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false, brandName: 'Spaghetti Inc.' });
     var setupPassword = _.partial(setup, resPassword, { factorType: 'password' }, null, null, true);
-    //var setupPasswordWithIdx = _.partial(setup, resFactorRequiredPassword, { factorType: 'password' });
     var setupCustomSAMLFactor = _.partial(setup, resAllFactors,
       { factorType: 'assertion:saml2', provider: 'GENERIC_SAML' });
     var setupCustomOIDCFactor = _.partial(setup, resAllFactors,
@@ -2191,10 +2180,6 @@ function (Okta,
         testSecurityQuestion(setupSecurityQuestion, setupSecurityQuestionLocalized, 'testStateToken');
       });
 
-      /*Expect.describe('Security Question on Idx Pipeline', function () {
-        testSecurityQuestion(setupSecurityQuestionWithIdx, setupSecurityQuestionLocalized, 'testStateToken');
-      });*/
-
       Expect.describe('TOTP', function () {
         testGoogleTOTP(setupGoogleTOTP, 'testStateToken');
         itp('shows the right beacon for Okta TOTP', function () {
@@ -2283,10 +2268,6 @@ function (Okta,
             });
         });
       });
-
-      /*Expect.describe('TOTP on Idx Pipeline', function () {
-        testGoogleTOTP(setupGoogleTOTPWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
-      });*/
 
       Expect.describe('Yubikey', function () {
         itp('shows the right beacon for Yubikey', function () {
@@ -2408,17 +2389,9 @@ function (Okta,
         testSms(setupSMS, resChallengeSms, resSuccess, 'testStateToken');
       });
 
-      /*Expect.describe('SMS on Idx Pipeline', function () {
-        testSms(setupSMSWithIdx, resFactorChallengeSMS, resSuccess, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
-      });*/
-
       Expect.describe('Call', function () {
         testCall(setupCall, resChallengeCall, resSuccess, 'testStateToken');
       });
-
-      /*Expect.describe('Call on Idx Pipeline', function () {
-        testCall(setupCallWithIdx, resFactorChallengeCall, resSuccess, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
-      });*/
 
       Expect.describe('Email', function () {
         beforeEach(function () {
@@ -2712,57 +2685,6 @@ function (Okta,
             });
         });
       });
-
-      /*Expect.describe('Email on Idx Pipeline', function () {
-        itp('posts email link if send email button is clicked once and changes button text', function () {
-          return setupEmailMagicLink().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resFactorChallengeEmail);
-            expect(test.form.answerField().length).toEqual(0);
-            expect(test.form.button().length).toEqual(0);
-            expect(test.form.emailSendCode().text()).toEqual('Send email');
-            test.form.emailSendCode().click();
-            return Expect.waitForMfaVerify(test);
-          })
-            .then(function (test) {
-              expect(test.form.emailSendCode().text()).toEqual('Sent');
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
-                url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=false'
-              });
-            });
-        });
-        itp('posts email link, changes button text and posts to verify if button is clicked for the second time', function () {
-          Util.speedUpPolling();
-          return setupEmailMagicLink().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resFactorChallengeEmail);
-            expect(test.form.answerField().length).toEqual(0);
-            expect(test.form.button().length).toEqual(0);
-            expect(test.form.emailSendCode().text()).toEqual('Send email');
-            test.form.emailSendCode().click();
-            return Expect.wait(() => {
-              return $('[data-se="email-send-code"]').text() === 'Re-send email';
-            }, test);
-          })
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.setNextResponse(resFactorChallengeEmail);
-              test.form.emailSendCode().click();
-              return Expect.wait(() => {
-                return $('[data-se="email-send-code"]').text() === 'Re-send email';
-              }, test);
-            })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
-                url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3s/verify/resend'
-              });
-            });
-        });
-      });*/
 
       Expect.describe('Okta Push', function () {
         // Remember device for Push form exists out of the form.
@@ -4166,18 +4088,11 @@ function (Okta,
       Expect.describe('Password', function () {
         testPassword(setupPassword, 'testStateToken');
       });
-      /*Expect.describe('Password on Idx Pipeline', function () {
-        testPassword(setupPasswordWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
-      });*/
     });
 
     Expect.describe('Custom HOTP Factor', function () {
       testHOTPFactor(setupHOTP, 'testStateToken');
     });
-
-    /*Expect.describe('Custom HOTP Factor in IDX', function () {
-      testHOTPFactor(setupHOTPWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
-    });*/
 
     function testHOTPFactor (setupFn, expectedStateToken) {
       itp('is totpForm', function () {
@@ -4249,10 +4164,6 @@ function (Okta,
     Expect.describe('Beacon', function () {
       beaconTest(resAllFactors, resVerifyTOTPOnly, resAllFactorsOnPrem);
     });
-
-    /*Expect.describe('Beacon on Idx Pipeline', function () {
-      beaconTest(resFactorRequiredAllFactors, resFactorRequiredQuestion, resAllFactorsOnPrem);
-    });*/
 
     Expect.describe('Switch between different factors and verify a factor', function () {
       switchFactorTest(setupSMS, setupOktaPushWithTOTP, setupGoogleTOTPAutoPushTrue, resAllFactors, resSuccess, resChallengeSms, 'testStateToken');
@@ -4355,10 +4266,6 @@ function (Okta,
         });
       });
     });
-
-    /*Expect.describe('Switch between different factors and verify a factor on Idx Pipeline', function () {
-      switchFactorTest(setupEmailWithIdx, setupOktaPushWithTOTPWithIdx, setupGoogleTOTPAutoPushTrueWithIdx, resFactorRequiredAllFactors, resSuccess, resFactorChallengeEmail, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
-    });*/
 
     Expect.describe('Browser back button does not change view', function () {
       itp('from mfa verify controller', function () {
