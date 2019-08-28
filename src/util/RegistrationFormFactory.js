@@ -78,17 +78,15 @@ define([
     var password = value;
     if (_.isString(regex)) {
       // call passwordContainsFormField if regex is userName, firstName, lastName
-      if (regex === '^[#/userName]') {
-        // with email as login enabled, we only have email populated
-        // Therefore we fallback and run validation with email attribute.
-        var username = model.has('userName') ? model.get('userName'): model.get('email');
-        return !passwordContainsFormField(username, password);
-      } else if (regex === '^[#/firstName]') {
-        var firstName = model.get('firstName');
-        return !passwordContainsFormField(firstName, password);
-      } else if (regex === '^[#/lastName]') {
-        var lastName = model.get('lastName');
-        return !passwordContainsFormField(lastName, password);
+      if (regex === '^[#/userName]' || regex === '^[#/firstName]' || regex === '^[#/lastName]') {
+        var fieldName = regex.split('^[#/')[1].split(']')[0];
+        var fieldValue = model.get(fieldName);
+        if (fieldName === 'userName') {
+          // with email as login enabled, we only have email populated
+          // Therefore we fallback and run validation with email attribute.
+          fieldValue = model.has('userName') ? model.get('userName') : model.get('email');
+        }
+        return !passwordContainsFormField(fieldValue, password);
       } else {
         if (!new RegExp(regex).test(value)) {
           return false;
@@ -172,16 +170,16 @@ define([
         'focusout': function () {
           checkSubSchemas(fieldName, this.model, subSchemas, true);
         },
-        'change:userName ': function () {
+        'change:userName': function () {
           checkSubSchemas(fieldName, this.model, subSchemas, true);
         },
-        'change:firstName ': function () {
+        'change:firstName': function () {
           checkSubSchemas(fieldName, this.model, subSchemas, true);
         },
-        'change:lastName ': function () {
+        'change:lastName': function () {
           checkSubSchemas(fieldName, this.model, subSchemas, true);
         },
-        'change:email ': function () {
+        'change:email': function () {
           checkSubSchemas(fieldName, this.model, subSchemas, true);
         }
       };
