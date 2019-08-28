@@ -162,14 +162,45 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
           return;
         }
         let response = this.options.appState.get('lastAuthResponse');
-        this.model.url = response._embedded.factors[0]._links.enroll.href;
-        this.model.set('stateToken', response.stateToken);
-        this.model.set('provider', this.options.provider);
-        this.model.set('factorType', this.options.factorType);
-        this.model.set('profile', {
+        let Model = BaseLoginModel.extend(_.extend({
+          parse: function (attributes) {
+            this.settings = attributes.settings;
+            this.appState = attributes.appState;
+            return _.omit(attributes, ['settings', 'appState']);
+          }
+        }, _.result(this, 'Model')));
+        let model = new Model({
+          settings: this.settings,
+          appState: this.options.appState
+        }, { parse: true });
+        model.url = response._embedded.factors[0]._links.enroll.href;
+        model.set('stateToken', response.stateToken);
+        model.set('provider', this.options.provider);
+        model.set('factorType', this.options.factorType);
+        model.set('profile', {
           devicePostureJwt: data.jwt
         });
-        this.model.save();
+        model.save = function () {
+          let appState = this.options.appState;
+          return this.startTransaction(function () {
+            appState.trigger('loading', true);
+            let data = {
+              stateToken: this.get('stateToken'),
+              provider: this.get('provider'),
+              factorType: this.get('factorType'),
+              profile: this.get('profile')
+            };
+            return $.post({
+              url: this.url,
+              method: 'POST',
+              data: JSON.stringify(data),
+              contentType: 'application/json',
+            }).done(function (data) {
+              this.options.appState.trigger('change:transaction', this.options.appState, { data });
+            }.bind(this));
+          });
+        }.bind(model);
+        model.save();
       };
       Util.performLoopback(options, fn);
     },
