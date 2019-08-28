@@ -133,15 +133,15 @@ function (Okta, RegistrationFormFactory) {
 
     });
 
-    describe('PasswordContainsUserName', function () {
+    describe('PasswordContainsFormField', function () {
       it('returns false if password does not contain username or no username ', function () {
-        expect(RegistrationFormFactory.passwordContainsUserName('administrator1', 'Abcd1234')).toEqual(false);
-        expect(RegistrationFormFactory.passwordContainsUserName(null, 'Abcd1234')).toEqual(false);
+        expect(RegistrationFormFactory.passwordContainsFormField('administrator1', 'Abcd1234')).toEqual(false);
+        expect(RegistrationFormFactory.passwordContainsFormField(null, 'Abcd1234')).toEqual(false);
       });
       it('returns true if password does contain username ', function () {
-        expect(RegistrationFormFactory.passwordContainsUserName('abcd@okta.com', 'Abcd1234')).toEqual(true);
-        expect(RegistrationFormFactory.passwordContainsUserName('abc', 'abc')).toEqual(true);
-        expect(RegistrationFormFactory.passwordContainsUserName('abc', 'abc@okta.com')).toEqual(true);
+        expect(RegistrationFormFactory.passwordContainsFormField('abcd@okta.com', 'Abcd1234')).toEqual(true);
+        expect(RegistrationFormFactory.passwordContainsFormField('abc', 'abc')).toEqual(true);
+        expect(RegistrationFormFactory.passwordContainsFormField('abc', 'abc@okta.com')).toEqual(true);
       });
     });
 
