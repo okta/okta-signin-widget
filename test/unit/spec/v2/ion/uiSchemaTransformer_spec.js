@@ -146,19 +146,26 @@ describe('v2/ion/uiSchemaTransformer', function () {
           'accepts': 'application/vnd.okta.v1+json',
           'value': [
             {
-              'name': 'userProfile.lastName',
-              'label': 'Last name',
-              'required': true
-            },
-            {
-              'name': 'userProfile.firstName',
-              'label': 'First name',
-              'required': true
-            },
-            {
-              'name': 'userProfile.email',
-              'label': 'Primary email',
-              'required': true
+              'name': 'userProfile',
+              'form': {
+                'value': [
+                  {
+                    'name': 'lastName',
+                    'label': 'Last name',
+                    'required': true
+                  },
+                  {
+                    'name': 'firstName',
+                    'label': 'First name',
+                    'required': true
+                  },
+                  {
+                    'name': 'email',
+                    'label': 'Primary email',
+                    'required': true
+                  }
+                ],
+              },
             }
           ],
           'uiSchema': [
