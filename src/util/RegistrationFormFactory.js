@@ -1,4 +1,4 @@
-/* eslint max-statements: [2, 20],  max-depth: [2, 3], complexity: [2, 9] */
+/* eslint max-statements: [2, 23],  max-depth: [2, 3], complexity: [2, 13] */
 /*!
  * Copyright (c) 2017, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -42,17 +42,17 @@ define([
     return userNameParts.filter(Boolean);
   };
 
-  var passwordContainsUserName = function (username, password) {
-    if(!username) {
+  var passwordContainsFormField = function (formField, password) {
+    if(!formField) {
       return false;
     }
-    username = username.toLowerCase();
+    formField = formField.toLowerCase();
     password = password.toLowerCase();
-    var usernameArr = getParts(username);
-    //check if each username part contains password
-    for (var i=0; i < usernameArr.length; i++){
-      var usernamePart = usernameArr[i];
-      if (password.indexOf(usernamePart) !== -1) {
+    var formFieldArr = getParts(formField);
+    //check if each formField part contains password
+    for (var i=0; i < formFieldArr.length; i++){
+      var formFieldPart = formFieldArr[i];
+      if (password.indexOf(formFieldPart) !== -1) {
         return true;
       }
     }
@@ -75,14 +75,18 @@ define([
         return false;
       }
     }
-
+    var password = value;
     if (_.isString(regex)) {
-      if (regex === '^[#/userName]') {
-        // with email as login enabled, we only have email populated
-        // Therefore we fallback and run validation with email attribute.
-        var username = model.has('userName') ? model.get('userName'): model.get('email');
-        var password = value;
-        return !passwordContainsUserName(username, password);
+      // call passwordContainsFormField if regex is userName, firstName, lastName
+      if (regex === '^[#/userName]' || regex === '^[#/firstName]' || regex === '^[#/lastName]') {
+        var fieldName = regex.split('^[#/')[1].split(']')[0];
+        var fieldValue = model.get(fieldName);
+        if (fieldName === 'userName') {
+          // with email as login enabled, we only have email populated
+          // Therefore we fallback and run validation with email attribute.
+          fieldValue = model.has('userName') ? model.get('userName') : model.get('email');
+        }
+        return !passwordContainsFormField(fieldValue, password);
       } else {
         if (!new RegExp(regex).test(value)) {
           return false;
@@ -168,6 +172,15 @@ define([
         },
         'change:userName': function () {
           checkSubSchemas(fieldName, this.model, subSchemas, true);
+        },
+        'change:firstName': function () {
+          checkSubSchemas(fieldName, this.model, subSchemas, true);
+        },
+        'change:lastName': function () {
+          checkSubSchemas(fieldName, this.model, subSchemas, true);
+        },
+        'change:email': function () {
+          checkSubSchemas(fieldName, this.model, subSchemas, true);
         }
       };
     }
@@ -178,6 +191,6 @@ define([
   return {
     createInputOptions : fnCreateInputOptions,
     getUsernameParts: getParts,
-    passwordContainsUserName: passwordContainsUserName
+    passwordContainsFormField: passwordContainsFormField
   };
 });
