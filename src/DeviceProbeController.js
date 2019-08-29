@@ -181,7 +181,8 @@ define([
       }
       if (previousBinding === Util.getBindings().UNIVERSAL_LINK) {
         if (Util.isIOS() || Util.isMac()) {
-          return Util.getBindings().LOOPBACK;
+          console.log('No more bindings to try');
+          return '';
         } else {
           alert('Invalid next binding for OS: ' + Util.getOS() + ' when previous binding was ' + previousBinding);
         }
