@@ -212,7 +212,25 @@ define([
         this._probeUsingAsyncLink({ method: Util.getBindings().UNIVERSAL_LINK });
       } else if (binding === Util.getBindings().CUSTOM_URI) {
         this._probeUsingAsyncLink({ method: Util.getBindings().CUSTOM_URI });
+      } else {
+        // No more bindings to try, follow fallback behavior
+        let response = this.options.appState.get('lastAuthResponse');
+        if (response._embedded.probeInfo.forceInstall) {
+          this._showDownloadLinks(response._embedded.probeInfo.authenticatorDownloadLinks[0]);
+        } else {
+          this._failProbing(response);
+        }
       }
+    },
+
+    _showDownloadLinks: function (link) {
+      alert('You need to download the Authenticator App. Please go to the following link to download: ' + link);
+    },
+
+    _failProbing: function (response) {
+      this.model.url = this.settings.get('baseUrl') + '/api/v1/authn/probe/failed';
+      this.model.set('stateToken', response.stateToken);
+      this.model.save();
     }
 
   });
