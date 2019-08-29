@@ -181,7 +181,7 @@ define([
       }
       if (previousBinding === Util.getBindings().UNIVERSAL_LINK) {
         if (Util.isIOS() || Util.isMac()) {
-          console.log('No more bindings to try');
+          console.log('No more bindings to try for device probing');
           return '';
         } else {
           alert('Invalid next binding for OS: ' + Util.getOS() + ' when previous binding was ' + previousBinding);
@@ -189,7 +189,7 @@ define([
       }
       if (previousBinding === Util.getBindings().CUSTOM_URI) {
         if (Util.isWindows()) {
-          console.log('No more bindings to try');
+          console.log('No more bindings to try for device probing');
           return '';
         } else {
           alert('Invalid next binding for OS: ' + Util.getOS() + ' when previous binding was ' + previousBinding);

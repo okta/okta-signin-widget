@@ -183,6 +183,7 @@ define([
         maxAttempts: 5
       };
       let fn = function (data) {
+        let response = this.options.appState.get('lastAuthResponse');
         if (data && data.status === 'FAILED') {
           this._verifyUsingNextBinding(bindingArray, response);
           return;
@@ -198,7 +199,6 @@ define([
           settings: this.settings,
           appState: this.options.appState
         }, { parse: true });
-        let response = this.options.appState.get('lastAuthResponse');
         model.url = response._links.next.href;
         model.set('devicePostureJwt', data.jwt);
         model.set('stateToken', response.stateToken);
@@ -254,6 +254,7 @@ define([
         useMock: this.settings.get('useMock')
       };
       let fn = function (data) {
+        let response = this.options.appState.get('lastAuthResponse');
         if (data && data.status === 'FAILED') {
           this._verifyUsingNextBinding(bindingArray, response);
           return;
