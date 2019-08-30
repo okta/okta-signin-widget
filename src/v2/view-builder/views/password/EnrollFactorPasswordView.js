@@ -2,6 +2,7 @@ import { loc } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import { validateFieldsMatch } from '../../../util/ValidationUtil';
+import BaseFactorView from '../shared/BaseFactorView';
 
 const Body = BaseForm.extend({
   title: loc('factor.password', 'login'),
@@ -22,7 +23,7 @@ const Body = BaseForm.extend({
   }
 });
 
-export default BaseView.extend({
+export default BaseFactorView.extend({
 
   Body,
 

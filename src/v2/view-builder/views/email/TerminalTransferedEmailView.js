@@ -1,11 +1,11 @@
-import TerminalView from '../TerminalView';
+import BaseFactorTerminalView from '../shared/BaseFactorTerminalView';
 
-const Body = TerminalView.prototype.Body.extend({
+const Body = BaseFactorTerminalView.prototype.Body.extend({
   title () {
     return 'You can close this window';
   },
 });
 
-export default TerminalView.extend({
+export default BaseFactorTerminalView.extend({
   Body,
 });

@@ -3,9 +3,11 @@ import HeaderBeacon from '../components/HeaderBeacon';
 import Animations from 'util/Animations';
 
 export default View.extend({
+  HeaderBeacon: HeaderBeacon,
+
   initialize () {
     // add beacon
-    this.add(HeaderBeacon);
+    this.add(this.HeaderBeacon);
   },
 
   postRender () {

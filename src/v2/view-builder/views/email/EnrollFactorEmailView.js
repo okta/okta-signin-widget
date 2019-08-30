@@ -1,5 +1,5 @@
-import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
+import BaseFactorView from '../shared/BaseFactorView';
 
 const Body = BaseForm.extend({
   title: 'Sign in using a link sent to your email',
@@ -10,6 +10,6 @@ const Body = BaseForm.extend({
 },
 );
 
-export default BaseView.extend({
+export default BaseFactorView.extend({
   Body,
 });

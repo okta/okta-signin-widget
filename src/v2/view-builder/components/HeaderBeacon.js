@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { View } from 'okta';
-import { getFactorData } from '../../util/FactorUtil';
 
 const BeaconView = View.extend({
 
@@ -27,13 +26,11 @@ const BeaconView = View.extend({
     ',
 
   getTemplateData: function () {
-    const factorType = this.options.appState.get('factorType');
-    let className = 'undefined-user';
-    if (factorType) {
-      className = getFactorData(factorType).iconClassName;
-    }
-    return { className: className || '' };
+    return { className: this.getBeaconClassName() || '' };
   },
+  getBeaconClassName () {
+    return 'undefined-user';
+  }
 });
 
 module.exports = BeaconView;

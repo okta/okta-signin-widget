@@ -27,3 +27,8 @@ export default BaseView.extend({
   Body,
   Footer
 });
+
+module.exports = {
+  Body,
+  Footer,
+};
