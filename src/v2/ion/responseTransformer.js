@@ -161,11 +161,15 @@ const createCurrentStateObject = (originalResp, omitKeys) => {
   const resp = _.omit.apply(_, [originalResp].concat(omitKeys));
   const allCreateForms = getRelObjectByName(resp, ['create-form']);
   const actions = createActions(allCreateForms);
-  const restData = _.omit.apply(_, [resp, 'remediation'].concat(Object.keys(actions)));
+  const restData = _.omit.apply(_, [resp, 'remediation', 'success'].concat(Object.keys(actions)));
   let remediation = [];
 
   if (resp.remediation) {
     remediation = resp.remediation.value.map(normalizeRemedation);
+  }
+  // success does not have remediation
+  if (resp.success) {
+    remediation = [resp.success].map(normalizeRemedation);
   }
 
   return Object.assign(restData, actions, {

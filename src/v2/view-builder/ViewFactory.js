@@ -7,7 +7,7 @@ import SelectFactorEnrollView from './views/SelectFactorEnrollView';
 import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
 import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
-
+import SuccessView from './views/SuccessView';
 // password
 import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
 import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
@@ -63,6 +63,9 @@ const VIEWS_MAPPING = {
   },
   'terminal-revoked': {
     [DEFAULT]: TerminalView,
+  },
+  'success-redirect': {
+    [DEFAULT]: SuccessView,
   },
   // Fall back when neither remediation nor terminal-* views found.
   'terminal': {

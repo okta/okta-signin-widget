@@ -96,7 +96,8 @@ export default Model.extend({
     if (!_.isEmpty(resp.currentState.remediation)) {
       resp.currentFormName = resp.currentState.remediation[0].name;
     }
-    // an default terminal state for fall back
+
+    // default terminal state for fall back
     if (_.isEmpty(resp.terminal)) {
       resp.terminal = {
         name: 'terminal',
