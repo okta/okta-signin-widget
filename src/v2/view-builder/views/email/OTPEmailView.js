@@ -1,8 +1,8 @@
 import { loc, View, createCallout, createButton, _ } from 'okta';
-import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
-import email from '../../shared/email';
-import polling from '../../shared/polling';
+import email from '../shared/email';
+import polling from '../shared/polling';
+import BaseFactorView from '../shared/BaseFactorView';
 
 const SHOW_RESEND_TIMEOUT = 60000;
 
@@ -75,6 +75,6 @@ const Body = BaseForm.extend(Object.assign(
   polling,
 ));
 
-export default BaseView.extend({
+export default BaseFactorView.extend({
   Body,
 });

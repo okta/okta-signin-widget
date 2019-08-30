@@ -70,8 +70,6 @@ export default BaseLoginController.extend({
   },
 
   switchForm (formName) {
-    // setting factor to null to adjust the beacon header in the select-factor view
-    this.options.appState.set('factor', {});
     // trigger formname change to change view
     this.options.appState.set('currentFormName', formName);
   },

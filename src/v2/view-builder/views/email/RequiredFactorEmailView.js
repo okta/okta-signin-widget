@@ -1,7 +1,7 @@
-import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
-import email from '../../shared/email';
+import email from '../shared/email';
+import BaseFactorView from '../shared/BaseFactorView';
 
 const Body = BaseForm.extend(Object.assign(
   {
@@ -26,7 +26,7 @@ const Footer = BaseFooter.extend({
   }
 });
 
-export default BaseView.extend({
+export default BaseFactorView.extend({
   Body,
   Footer
 });
