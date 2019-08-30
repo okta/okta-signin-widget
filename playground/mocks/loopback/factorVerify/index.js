@@ -30,6 +30,7 @@ module.exports = {
       break;
     case '41244':
       res.status(200);
+      break;
     default:
       res.status(400);
     }
