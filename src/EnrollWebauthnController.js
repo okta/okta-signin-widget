@@ -27,6 +27,17 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
 
   var _ = Okta._;
 
+  function getExcludeCredentials (credentials) {
+    var excludeCredentials = [];
+    _.each(credentials, function (credential) {
+      excludeCredentials.push({
+        type: 'public-key',
+        id: CryptoUtil.strToBin(credential.id)
+      });
+    });
+    return excludeCredentials;
+  }  
+
   return FormController.extend({
     className: 'enroll-webauthn',
     Model: {
@@ -65,7 +76,8 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
                 id: CryptoUtil.strToBin(activation.user.id),
                 name: activation.user.name,
                 displayName: activation.user.displayName
-              }
+              },
+              excludeCredentials: getExcludeCredentials(activation.excludeCredentials)
             });
             return new Q(navigator.credentials.create({publicKey: options}))
               .then(function (newCredential) {
