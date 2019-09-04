@@ -39,7 +39,7 @@ define([
         };
       }
       return {
-        number: lastAuthResponse._embedded.challenge.correctAnswer,
+        number: lastAuthResponse._embedded.factor._embedded.challenge.correctAnswer,
       };
     } 
   });
