@@ -174,7 +174,8 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       // language picker, etc.
       languageCode: ['string', true],
       disableUsername: ['boolean', false, false],
-      trapMfaRequiredResponse: ['boolean', false, false]
+      trapMfaRequiredResponse: ['boolean', false, false],
+      pollResponse: 'object'
     },
 
     setAuthResponse: function (res) {
@@ -264,6 +265,12 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         deps: ['isMfaEnrollActivate', 'lastAuthResponse'],
         fn: function (isMfaEnrollActivate, res) {
           return isMfaEnrollActivate && res.factorResult === 'WAITING';
+        }
+      },
+      'isWaitingForNumberChallenge': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          return res && res.factorResult === 'WAITING' && res._embedded.challenge;
         }
       },
       'hasMultipleFactorsAvailable': {

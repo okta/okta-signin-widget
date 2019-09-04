@@ -61,7 +61,7 @@
     "prepublishOnly": "yarn build:release"
   },
   "devDependencies": {
-    "@okta/okta-auth-js": "okta/okta-auth-js#57c927cb5d43332c5362eaef2e6e5f087aaf4019",
+    "@okta/okta-auth-js": "2.9.0-alpha.g0a3ff20",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "autoprefixer": "^9.6.1",
     "axe-core": "^3.3.1",

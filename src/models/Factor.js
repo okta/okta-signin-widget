@@ -275,7 +275,13 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
         return promise
           .then(function (trans) {
             var options = {
-              'delay': PUSH_INTERVAL
+              'delay': PUSH_INTERVAL,
+              'transactionCallBack': (transaction) => {
+                // transaction._embedded.challenge = {
+                //   correctAnswer: 54
+                // };
+                self.options.appState.set('lastAuthResponse', transaction);
+              },
             };
             setTransaction(trans);
             // In Okta verify case we initiate poll.
