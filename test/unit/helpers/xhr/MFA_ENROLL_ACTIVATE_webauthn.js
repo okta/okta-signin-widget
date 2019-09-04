@@ -44,7 +44,11 @@ define({
             },
             "u2fParams": {
               "appid": "https://test.okta.com"
-            }
+            },
+            "excludeCredentials": [{
+              "type": 'public-key',
+              "id": "vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZt"
+            }]            
           }
         }
       }
