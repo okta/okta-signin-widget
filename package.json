@@ -65,7 +65,7 @@
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
     "@commitlint/travis-cli": "^8.1.0",
-    "@okta/okta-auth-js": "~2.6.3",
+    "@okta/okta-auth-js": "2.9.0-alpha.g0a3ff20",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "autoprefixer": "^9.6.1",
     "axe-core": "^3.3.1",
