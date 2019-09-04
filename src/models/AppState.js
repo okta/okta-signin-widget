@@ -280,6 +280,17 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return isMfaEnrollActivate && res.factorResult === 'WAITING';
         }
       },
+      'isWaitingForNumberChallenge': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          if (res && res.factorResult === 'WAITING'
+              && res._embedded.factor._embedded
+              && res._embedded.factor._embedded.challenge) {
+            return true;
+          }
+          return false;
+        }
+      },
       'hasMultipleFactorsAvailable': {
         deps: ['factors', 'isMfaRequired', 'isMfaChallenge', 'isUnauthenticated'],
         fn: function (factors, isMfaRequired, isMfaChallenge, isUnauthenticated) {
