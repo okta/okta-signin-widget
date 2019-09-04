@@ -257,9 +257,11 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
           test.form.sendEmail();
-          return tick();
+          return tick(test);
         })
-          .then(function () {
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBeFalsy();
+            expect(test.form.titleText()).toBe('Email sent!');
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/recovery/password',
