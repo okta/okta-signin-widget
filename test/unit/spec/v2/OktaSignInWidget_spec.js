@@ -35,7 +35,7 @@ Expect.describe('OktaSignIn initialization', function () {
         router: true
       }
     });
-    spyOn(signIn.authClient.tx, 'evaluate').and.callFake(function () {
+    spyOn(signIn.authClient.tx, 'introspect').and.callFake(function () {
       return options.response;
     });
     spyOn($, 'ajax');
@@ -49,7 +49,7 @@ Expect.describe('OktaSignIn initialization', function () {
           version: '1.0.0'
         }
       }).then(function () {
-        expect(signIn.authClient.tx.evaluate).toHaveBeenCalledWith({ stateToken: '01stateToken', introspect: true });
+        expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '01stateToken'});
       });
     });
   });
