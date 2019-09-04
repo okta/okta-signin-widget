@@ -47,10 +47,9 @@ Expect.describe('Introspect API', function () {
     }).then(function () {
       expect($.ajax.calls.count()).toBe(1);
       Expect.isJsonPost($.ajax.calls.argsFor(0), {
-        url: 'https://foo.com/api/v1/idx/introspect',
+        url: 'https://foo.com/idp/idx/introspect',
         data: {
           stateToken: 'dummy-token',
-          introspect: true
         }
       });
     });

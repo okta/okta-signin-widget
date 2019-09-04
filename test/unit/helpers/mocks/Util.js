@@ -55,9 +55,8 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
   };
 
   fn.mockIntrospectResponse = function (router) {
-    return router.settings.authClient.tx.evaluate({
+    return router.settings.authClient.tx.introspect({
       stateToken: 'dummy-token',
-      introspect: true
     }).then(function (trans) {
       router.appState.set('introspectSuccess', trans);
     });
