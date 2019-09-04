@@ -196,9 +196,8 @@ define(['q', 'okta', './Logger', './Enums'], function (Q, Okta, Logger, Enums) {
 
   Util.introspectToken = function (authClient, widgetOptions) {
     var deferred = Q.defer();
-    var trans = authClient.tx.evaluate({
-      stateToken: widgetOptions.stateToken,
-      introspect: true
+    var trans = authClient.tx.introspect({
+      stateToken: widgetOptions.stateToken
     });
     if (Q.isPromiseAlike(trans)) {
       trans.then(function (trans) {

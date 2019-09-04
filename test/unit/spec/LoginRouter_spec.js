@@ -712,10 +712,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/idx/introspect',
+            url: 'https://foo.com/idp/idx/introspect',
             data: {
-              stateToken: 'dummy-token',
-              introspect: true
+              stateToken: 'dummy-token'
             }
           });
           var form = new RecoveryForm($sandbox);
@@ -733,10 +732,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/idx/introspect',
+            url: 'https://foo.com/idp/idx/introspect',
             data: {
-              stateToken: 'dummy-token',
-              introspect: true
+              stateToken: 'dummy-token'
             }
           });
           var form = new RecoveryForm($sandbox);
@@ -811,10 +809,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
         .then(function (test) {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/idx/introspect',
+            url: 'https://foo.com/idp/idx/introspect',
             data: {
-              stateToken: 'dummy-token',
-              introspect: true
+              stateToken: 'dummy-token'
             }
           });
           expect(test.router.appState.get('isUnauthenticated')).toBe(true);
@@ -833,10 +830,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
         .then(function (test) {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/idx/introspect',
+            url: 'https://foo.com/idp/idx/introspect',
             data: {
-              stateToken: 'dummy-token',
-              introspect: true
+              stateToken: 'dummy-token'
             }
           });
           expect(test.router.appState.get('isUnauthenticated')).toBe(true);

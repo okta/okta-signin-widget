@@ -1,5 +1,5 @@
 import { Collection } from 'okta';
-import FactorEnrollOptions from 'v2/view-builder/components/FactorEnrollOptions';
+import FactorEnrollOptions from 'v2/view-builder/components/FactorOptions';
 import FormInputFactory from 'v2/view-builder/internals/FormInputFactory';
 
 describe('v2/view-builder/internals/FormInputFactory', function () {
@@ -41,14 +41,16 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           'label': 'E-mail',
           'value': 'email'
         }
-      ]
+      ],
+      name: 'factorType'
     };
     const result = FormInputFactory.create(opt);
     expect(result).toEqual({
       View: FactorEnrollOptions,
       options: {
         collection: jasmine.anything(),
-      }
+        name: 'factorType'
+      },
     });
     expect(result.options.collection instanceof Collection).toBe(true);
     expect(result.options.collection.toJSON()).toEqual([
@@ -76,7 +78,8 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           'label': 'E-mail',
           'value': 'email'
         }
-      ]
+      ],
+      name: 'factorType'
     });
   });
 });
