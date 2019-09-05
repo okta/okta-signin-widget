@@ -17,7 +17,7 @@ define([
   return Okta.View.extend({
     className: 'number-challenge-view',
     template: `
-      <p class="explain">On your phone tap, {{number}} on Okta Verify prompt to continue.</p>
+      <p>On your phone tap, <span class="challenge-number">{{number}}</span> on Okta Verify prompt to continue.</p>
       <div class="phone">
         <div class="phone--body">
           <div class="phone--screen">
@@ -26,7 +26,7 @@ define([
           <div class="phone--home-button"></div>
         </div>        
       </div>
-      <p class="explain">This extra step helps us makge sure it's really you signing in.</p>
+      <p>This extra step helps us make sure it's really you signing in.</p>
     `,
     initialize () {
       this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', () => {

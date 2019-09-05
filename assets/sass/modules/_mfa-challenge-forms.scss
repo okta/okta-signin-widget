@@ -71,17 +71,19 @@
 // number challenge Okta-verify push
 .number-challenge-view {
   display: none;
+  text-align: center;
   .phone {
-    text-align: center;
+    margin: 20px 0;
     .phone--body {
       display: inline-block;
-      border-radius: 5px;
+      border-radius: 6px;
       padding: 14px 3px 0;
       margin: 0 auto;
       background: #666;
     }
     .phone--screen {
-      padding: 16px 0;
+      min-width: 50px;
+      padding: 20px 0;
       background: #e5edfb;
     }
     .phone--number {
@@ -97,8 +99,8 @@
       background: $white;
     }
   }
-  .explain {
-    margin: 10px 0;
+  .challenge-number {
+    font-weight: bold;
   }
 }
 
