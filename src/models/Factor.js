@@ -277,9 +277,11 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
             var options = {
               'delay': PUSH_INTERVAL,
               'transactionCallBack': (transaction) => {
-                // transaction._embedded.challenge = {
-                //   correctAnswer: 54
-                // };
+                transaction._embedded.factor._embedded = {
+                  challenge : {
+                    correctAnswer: 54
+                  }
+                };
                 self.options.appState.set('lastAuthResponse', transaction);
               },
             };
@@ -305,6 +307,7 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
                   };
                 }
                 return trans.poll(options).then(function (trans) {
+                  self.options.appState.set('lastAuthResponse', trans.data);
                   setTransaction(trans);
                 });
               });

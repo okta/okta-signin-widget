@@ -270,7 +270,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       'isWaitingForNumberChallenge': {
         deps: ['lastAuthResponse'],
         fn: function (res) {
-          return res && res.factorResult === 'WAITING' && res._embedded.factor._embedded.challenge;
+          return res && (res.status === 'SUCCESS' || (res.factorResult === 'WAITING' && res._embedded.factor._embedded && res._embedded.factor._embedded.challenge));
         }
       },
       'hasMultipleFactorsAvailable': {

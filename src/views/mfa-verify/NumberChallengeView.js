@@ -29,7 +29,11 @@ define([
       <p class="explain">This extra step helps us makge sure it's really you signing in.</p>
     `,
     initialize () {
-      this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', this.render);
+      this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', () => {
+        if (this.options.appState.get('lastAuthResponse').status !== 'SUCCESS') {
+          this.render();
+        }        
+      });
     },
     getTemplateData () {
       const lastAuthResponse = this.options.appState.get('lastAuthResponse');
