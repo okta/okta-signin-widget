@@ -79,12 +79,12 @@
       border-radius: 5px;
       padding: 14px 3px 0px 3px;
       margin: 0 auto;
+      background:#666666;
     }
     .phone--screen {
-      color: blue;
       border: 1px solid grey;
       padding: 15px 0px;
-      background: aqua;
+      background:#E5EDFB;
     }
     .phone--number {
       padding: 10px;
@@ -102,8 +102,7 @@
     margin: 10px 0;
   }
   .number-challenge {
-    color: blue;
-    border: 1px blue($color: #000000)
+    color: #1E60CE;
   }
 
 }

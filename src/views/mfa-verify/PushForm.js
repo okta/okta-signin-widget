@@ -129,7 +129,9 @@ function (Okta, CookieUtil, Util, NumberChallengeView) {
         });
         this.trigger('save', this.model);
         warningTimeout = Util.callAfterTimeout(_.bind(function () {
-          this.showWarning(Okta.loc('oktaverify.warning', 'login'));
+          if (!this.options.appState.get('isWaitingForNumberChallenge')) {
+            this.showWarning(Okta.loc('oktaverify.warning', 'login'));
+          }          
         }, this), WARNING_TIMEOUT);
       }
     },
