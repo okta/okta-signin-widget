@@ -126,7 +126,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
 
       this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge',
         function (state, isWaitingForNumberChallenge) {
-          if (isWaitingForNumberChallenge) {
+          if (isWaitingForNumberChallenge || this.options.appState.get('lastAuthResponse').status === 'SUCCESS') {
             this.autoPushCheckBox && this.autoPushCheckBox.$el.hide();
             this.rememberDeviceCheckbox && this.rememberDeviceCheckbox.$el.hide();
             this.inlineTotpForm && this.inlineTotpForm.$el.hide();

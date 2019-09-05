@@ -68,42 +68,37 @@
   }
 }
 
-// number challenge Okta-verify push 
+// number challenge Okta-verify push
 .number-challenge-view {
   display: none;
   .phone {
     text-align: center;
     .phone--body {
-      border: 1px solid grey;
       display: inline-block;
       border-radius: 5px;
-      padding: 14px 3px 0px 3px;
+      padding: 14px 3px 0;
       margin: 0 auto;
-      background:#666666;
+      background: #666;
     }
     .phone--screen {
-      border: 1px solid grey;
-      padding: 15px 0px;
-      background:#E5EDFB;
+      padding: 16px 0;
+      background: #e5edfb;
     }
     .phone--number {
       padding: 10px;
       font-size: 25px;
+      color: #1662dd;
     }
     .phone--home-button {
       border-radius: 50%;
-      border: 1px solid grey;
       width: 10px;
       height: 10px;
       margin: 3px auto;
+      background: $white;
     }
   }
   .explain {
     margin: 10px 0;
   }
-  .number-challenge {
-    color: #1E60CE;
-  }
-
 }
 

@@ -53,7 +53,7 @@ function (Okta, CookieUtil, Util, NumberChallengeView) {
       this.numberChallengeView = this.add(NumberChallengeView).last();
       this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge',
         function (state, isWaitingForNumberChallenge) {
-          if (isWaitingForNumberChallenge) {
+          if (isWaitingForNumberChallenge || this.options.appState.get('lastAuthResponse').status === 'SUCCESS') {
             this.$el.find('.button').hide();
             this.numberChallengeView.$el.show();
           } else {
