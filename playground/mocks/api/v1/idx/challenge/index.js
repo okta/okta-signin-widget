@@ -4,6 +4,9 @@ const factorRequiredWithOptions = [
 ];
 const path = __dirname.slice(__dirname.indexOf('api') - 1);
 const testData = factorRequiredWithOptions;
+
+const responseConfig = require('../../../../../config/responseConfig');
+
 let index = 0;
 module.exports = {
   path,
@@ -11,6 +14,11 @@ module.exports = {
   proxy: false,
   method: 'POST',
   template () {
+    if (responseConfig.challenge !== 'default') {
+      const fileName = responseConfig.challenge;
+      return require('./data/' + fileName + '.json');
+    }
+
     if (index >= testData.length) {
       index = 0;
     }

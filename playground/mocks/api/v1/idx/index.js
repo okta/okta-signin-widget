@@ -28,6 +28,9 @@ const success = [
 const factorRequiredMultiple = [
   require('./data/factor-required-options.json')
 ];
+
+const responseConfig = require('../../../../config/responseConfig');
+
 const path = __dirname.slice(__dirname.indexOf('api') - 1);
 
 const testData = success;
@@ -40,6 +43,11 @@ module.exports = {
   proxy: false,
   method: 'POST',
   template () {
+    if (responseConfig.idx !== 'default') {
+      const fileName = responseConfig.idx;
+      return require('./data/' + fileName + '.json');
+    }
+
     if (index >= testData.length) {
       index = 0;
     }

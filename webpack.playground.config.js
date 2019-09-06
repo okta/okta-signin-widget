@@ -3,6 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const dyson = require('dyson');
+const responseConfig = require('./playground/config/responseConfig');
 
 const TARGET = path.resolve(__dirname, 'target');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
@@ -72,6 +73,11 @@ module.exports = {
       app.get('/app/UserHome', (req, res) => {
         res.status(200)
           .send('<h1>Mock User Dashboard</h1><a href="/">Back to Login</a>');
+      });
+
+      // Use this endpoint to configure playground responses
+      app.get('/playground/responseConfig', (req, res) => {
+        Object.assign(responseConfig.endpoints, req.body.endpoints);
       });
 
       // ================================= dyson mock setup
