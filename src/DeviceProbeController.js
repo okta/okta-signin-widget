@@ -165,7 +165,7 @@ define([
               data: JSON.stringify(data),
               contentType: 'application/json',
             }).done(function (data) {
-              
+              this.options.appState.set('device_probing_binding', opt.method)
               this.options.appState.trigger('change:transaction', this.options.appState, { data });
             }.bind(this));
           });

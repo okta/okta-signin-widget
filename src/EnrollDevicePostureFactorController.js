@@ -82,7 +82,8 @@ function (Okta, Util, FormController, BaseLoginModel, FormType, Spinner) {
     },
 
     _enrollUsingNextBinding: function (bindingArray, factor) {
-      let binding = bindingArray.shift();
+      let binding = this.options.appState.get('device_probing_binding')
+      //let binding = bindingArray.shift();
       if (binding === undefined) {
         alert('No more bindings to try for factor enrollment');
       } else if (binding === Util.getBindings().LOOPBACK) {
