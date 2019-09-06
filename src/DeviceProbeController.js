@@ -165,13 +165,26 @@ define([
               data: JSON.stringify(data),
               contentType: 'application/json',
             }).done(function (data) {
+              
               this.options.appState.trigger('change:transaction', this.options.appState, { data });
             }.bind(this));
           });
         }.bind(model);
         model.save();
       };
-      Util.performAsyncLink(options, fn);
+
+      if (opt.method === Util.getBindings().UNIVERSAL_LINK) {
+        this.add(Okta.createButton({
+          attributes: { },
+          className: 'button',
+          title: 'Probe for devicecontext',
+          click: function click() {
+            Util.performAsyncLink(options, fn);
+          }}));
+      } else {
+        Util.performAsyncLink(options, fn);
+      }
+      
     },
 
     _getNextBinding: function (previousBinding) {

@@ -310,7 +310,7 @@ define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
     return 'com-okta-client-authenticator-win://';
   };
   Util.getUniversalLinkPrefix = function () {
-    return 'https://login.okta1.com';
+    return 'https://login.okta1.com/auth';
   };
 
   /**
