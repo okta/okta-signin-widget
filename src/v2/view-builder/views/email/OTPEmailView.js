@@ -48,12 +48,19 @@ const Body = BaseForm.extend(Object.assign(
   {
     save: loc('mfa.challenge.verify', 'login'),
 
-    subtitle: 'To finish signing in, click the link in your email or enter code below.',
+    subtitle:
+    'An email has been sent to you. Please click the link in your email or enter the code from that email below.',
 
     saveForm () {
       BaseForm.prototype.saveForm.apply(this, arguments);
       this.stopPolling();
       // TODO: abort ongoing request. (https://oktainc.atlassian.net/browse/OKTA-244134)
+    },
+
+    sendEmailLink () {
+      _.delay(_.bind(function () {
+        this.options.appState.trigger('invokeAction', 'factor.send');
+      }, this), 300);
     },
 
     postRender () {
@@ -63,6 +70,8 @@ const Body = BaseForm.extend(Object.assign(
       });
 
       this.startPolling();
+
+      this.sendEmailLink();
     },
 
     remove () {

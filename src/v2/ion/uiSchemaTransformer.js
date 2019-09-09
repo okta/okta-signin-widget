@@ -56,7 +56,10 @@ const createUISchema = (remediationValue = []) => {
       };
     }
     //select factor form for multiple factor enroll and multiple factors verify
-    if (ionFormField.name === 'factorType' || ionFormField.name === 'factorId') {
+    // when factor has not been enrolled we get back factorProfileId form the API
+    if (ionFormField.name === 'factorType' ||
+      ionFormField.name === 'factorId' ||
+      ionFormField.name === 'factorProfileId') {
       uiSchema.type = 'factorType';
     }
     return Object.assign(
