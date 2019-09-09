@@ -14,7 +14,7 @@ import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordV
 
 // email
 import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
-import OTPEmailView from './views/email/OTPEmailView';
+import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
 import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
 
@@ -40,11 +40,8 @@ const VIEWS_MAPPING = {
     password: EnrollFactorPasswordView
   },
   'challenge-factor': {
-    email: OTPEmailView,
+    email: RequiredFactorEmailView,
     password: RequiredFactorPasswordView,
-  },
-  'otp': {
-    email: OTPEmailView,
   },
   'terminal-transfered': {
     [DEFAULT]: TerminalView,
