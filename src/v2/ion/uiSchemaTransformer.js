@@ -55,10 +55,10 @@ const createUISchema = (remediationValue = []) => {
         showPasswordToggle: true,
       };
     }
-    //select factor form for multiple factor enroll and multiple factors verify
-    // when factor has not been enrolled we get back factorProfileId form the API
-    if (ionFormField.name === 'factorType' ||
-      ionFormField.name === 'factorId' ||
+    // select factor form for multiple factor enroll and multiple factor verify
+    // when factor has not been enrolled we get back factorProfileId, and once its enrolled
+    // we get back factorId
+    if (ionFormField.name === 'factorId' ||
       ionFormField.name === 'factorProfileId') {
       uiSchema.type = 'factorType';
     }
