@@ -58,6 +58,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     sendEmailLink () {
+      // auto send email magic link after page has rendered.
       _.delay(_.bind(function () {
         this.options.appState.trigger('invokeAction', 'factor.send');
       }, this), 300);
