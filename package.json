@@ -48,7 +48,7 @@
     "test:testcafe-setup": "mkdir -p test-reports/testcafe && yarn start --no-open",
     "test:testcafe-run": "wait-on http-get://localhost:3000 && testcafe",
     "test:testcafe": "run-p -r test:testcafe-setup \"test:testcafe-run {@} test/testcafe/spec/*\" -- 2>/dev/null",
-    "webdriver:update": "webdriver-manager update --versions.standalone=3.141.59 --gecko false",
+    "webdriver:update": "./scripts/updateSeDrivers.sh",
     "protractor": "yarn webdriver:update && protractor target/e2e/conf.js",
     "build:dev": "grunt build:dev",
     "build:release": "grunt build:release",

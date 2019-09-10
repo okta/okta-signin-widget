@@ -47,7 +47,7 @@ var OktaSignIn = (function () {
         );
       }
       var Router = require('LoginRouter');
-      if (widgetOptions.stateToken) {
+      if (widgetOptions && widgetOptions.stateToken) {
         Util.introspectToken(authClient, widgetOptions)
           .then(_.bind(function (response) {
             var isNewPipeline = checkResponseVersion(response);
@@ -105,7 +105,7 @@ var OktaSignIn = (function () {
      */
     function showSignInToGetTokens (options) {
       var renderOptions = OAuth2Util.transformShowSignInToGetTokensOptions(options, config);
-      return render(renderOptions);
+      return render.call(this, renderOptions);
     }
 
     // Properties exposed on OktaSignIn object.

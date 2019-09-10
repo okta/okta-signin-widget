@@ -63,8 +63,7 @@ describe('Dev Mode flows', function () {
     expect(el.isDisplayed()).toBe(true);
   });
 
-  // TODO OKTA-240812
-  /*it('can login and return tokens using the showSignInToGetTokens method', function () {
+  it('can login and return tokens using the showSignInToGetTokens method', function () {
     var options = {
       clientId: '{{{WIDGET_CLIENT_ID}}}',
       redirectUri: 'http://localhost:3000/done',
@@ -82,7 +81,7 @@ describe('Dev Mode flows', function () {
 
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
     expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
-  });*/
+  });
 
   it('log a console message when tokens are not parsed from the URL after the Widget is rendered', function () {
     // Browsers on iOS & Android emulators don't support device logs
