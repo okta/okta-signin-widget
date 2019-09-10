@@ -43,7 +43,7 @@ const VIEWS_MAPPING = {
     email: RequiredFactorEmailView,
     password: RequiredFactorPasswordView,
   },
-  'terminal-transfered': {
+  'terminal-transferred': {
     [DEFAULT]: TerminalView,
     'email': TerminalTransferedEmailView,
   },
