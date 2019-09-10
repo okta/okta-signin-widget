@@ -41,7 +41,7 @@ export default BaseFactorView.extend({
     return ModelClass.extend({
       local,
       validate: function (data) {
-        return validateFieldsMatch(data.password, data.confirmPassword);
+        return validateFieldsMatch(data['credential.value'], data.confirmPassword);
       }
 
     });
