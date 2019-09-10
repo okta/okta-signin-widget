@@ -82,7 +82,23 @@ define([
     },
 
     _verifyUsingNextBinding: function (bindingArray, response) {
-      let binding = bindingArray.shift();
+      let bindingHint  = this.options.appState.get('device_probe_binding_hint');
+      let indexBindingHint = -1;
+      let binding = undefined;
+      if (bindingHint !== undefined) {
+        indexBindingHint =  bindingArray.findIndex(function (binding) {
+          return binding === bindingHint;
+        });
+      }
+
+      if (indexBindingHint >= 0) {
+        binding = bindingHint;
+        bindingArray.splice(indexBindingHint, 1);
+      } else {
+        binding = bindingArray.shift();
+      }
+
+      //let binding = bindingArray.shift();
       if (binding === undefined) {
         alert('No more bindings to try for factor verification');
       } else if (binding === Util.getBindings().LOOPBACK) {
@@ -291,7 +307,18 @@ define([
         }.bind(model);
         model.save();
       };
-      Util.performAsyncLink(options, fn);
+
+      if (opt.method === Util.getBindings().UNIVERSAL_LINK) {
+        this.add(Okta.createButton({
+          attributes: { },
+          className: 'button',
+          title: 'Click to Verify Factor',
+          click: function click() {
+            Util.performAsyncLink(options, fn);
+          }}));
+      } else {
+        Util.performAsyncLink(options, fn);
+      }
     }
 
   });
