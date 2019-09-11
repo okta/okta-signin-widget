@@ -2,7 +2,7 @@
 const recoveryByEmail = [
   require('../data/factor-required-email.json'),
 ];
-const path = __dirname.slice(__dirname.indexOf('api') - 1);
+const path = __dirname.slice(__dirname.indexOf('idp') - 1);
 
 let index = 0;
 

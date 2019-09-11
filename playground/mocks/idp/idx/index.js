@@ -28,9 +28,9 @@ const success = [
 const factorRequiredMultiple = [
   require('./data/factor-required-options.json')
 ];
-const path = __dirname.slice(__dirname.indexOf('api') - 1);
+const path = __dirname.slice(__dirname.indexOf('idp') - 1);
 
-const testData = success;
+const testData = factorRequiredEmail;
 
 let index = 0;
 
