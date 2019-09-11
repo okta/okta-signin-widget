@@ -7,7 +7,7 @@ const data1 = require('./data/identify.json');
 // const data1 = require('../data/terminal-email-transfered.json');
 //const data1 = require('../data/success.json');
 
-const path = __dirname.slice(__dirname.indexOf('api') - 1);
+const path = __dirname.slice(__dirname.indexOf('idp') - 1);
 
 module.exports = {
   path,
