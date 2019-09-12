@@ -1,5 +1,6 @@
 import { loc, View, createCallout, createButton, _ } from 'okta';
 import BaseForm from '../../internals/BaseForm';
+import BaseFooter from '../../internals/BaseFooter';
 import email from '../shared/email';
 import polling from '../shared/polling';
 import BaseFactorView from '../shared/BaseFactorView';
@@ -85,6 +86,31 @@ const Body = BaseForm.extend(Object.assign(
   polling,
 ));
 
+const Footer = BaseFooter.extend({
+  links: function () {
+    // recover link
+    var links = [
+      {
+        'type': 'link',
+        'label': 'Forgot Email',
+        'name': 'forgot-email',
+        'actionPath': 'factor.recover',
+      }
+    ];
+    // check if we have a select-factor form in remediation, if so add a link
+    if (this.options.appState.hasRemediationForm('select-factor')) {
+      links.push({
+        'type': 'link',
+        'label': 'Switch Factor',
+        'name': 'switchFactor',
+        'formName': 'select-factor',
+      });
+    }
+    return links;
+  }
+});
+
 export default BaseFactorView.extend({
   Body,
+  Footer
 });
