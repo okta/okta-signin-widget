@@ -85,16 +85,16 @@ define([
       let bindingHint  = this.options.appState.get('device_probe_binding_hint');
       let indexBindingHint = -1;
       let binding = undefined;
-      if (bindingHint !== undefined) {
+      if (bindingHint !== undefined) { // find index of binding based on hint provided by device probing
         indexBindingHint =  bindingArray.findIndex(function (binding) {
           return binding === bindingHint;
         });
       }
 
-      if (indexBindingHint >= 0) {
+      if (indexBindingHint >= 0) { /*First pick binding based on hint provided by device probing.*/
         binding = bindingHint;
         bindingArray.splice(indexBindingHint, 1);
-      } else {
+      } else { // If hint is not provided, pick the first binding in bindingArray
         binding = bindingArray.shift();
       }
 

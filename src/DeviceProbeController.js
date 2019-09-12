@@ -148,7 +148,7 @@ define([
         }, _.result(this, 'Model')));
         let model = new Model({
           settings: this.settings,
-          appState: this.options.appdevice_probing_bindingState
+          appState: this.options.appState
         }, { parse: true });
         model.url = this.settings.get('baseUrl') + '/api/v1/authn';
         model.set('stateToken', response.stateToken);
@@ -165,7 +165,7 @@ define([
               data: JSON.stringify(data),
               contentType: 'application/json',
             }).done(function (data) {
-              this.options.appState.set('device_probe_binding_hint', opt.method)
+              this.options.appState.set('device_probe_binding_hint', opt.method);
               this.options.appState.trigger('change:transaction', this.options.appState, { data });
             }.bind(this));
           });
@@ -178,7 +178,7 @@ define([
           attributes: { },
           className: 'button',
           title: 'Click to  verify DeviceContext',
-          click: function click() {
+          click: function click () {
             Util.performAsyncLink(options, fn);
           }}));
       } else {
