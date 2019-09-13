@@ -88,14 +88,8 @@ const Body = BaseForm.extend(Object.assign(
 
 const Footer = BaseFooter.extend({
   links: function () {
-    // recover link
     var links = [
-      {
-        'type': 'link',
-        'label': 'Forgot Email',
-        'name': 'forgot-email',
-        'actionPath': 'factor.recover',
-      }
+      // email recovery not supported to LEA
     ];
     // check if we have a select-factor form in remediation, if so add a link
     if (this.options.appState.hasRemediationForm('select-factor')) {
