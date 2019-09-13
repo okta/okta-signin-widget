@@ -12,12 +12,13 @@ const Body = BaseForm.extend({
 
 const Footer = BaseFooter.extend({
   links: function () {
+    // recovery link
     var links = [
       {
         'type': 'link',
         'label': 'Forgot Password',
         'name': 'forgot-password',
-        'actionPath': 'factor.recovery',
+        'actionPath': 'factor.recover',
       }
     ];
     // check if we have a select-factor form in remediation, if so add a link

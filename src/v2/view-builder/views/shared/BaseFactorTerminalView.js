@@ -1,7 +1,7 @@
 import BaseFactorView from './BaseFactorView';
-import {Footer as TerminalFooter, Body as TerminalBody } from '../TerminalView';
+import TerminalView from '../TerminalView';
 
 export default BaseFactorView.extend({
-  Body: TerminalBody,
-  Footer: TerminalFooter,
+  Body: TerminalView.prototype.Body,
+  Footer: TerminalView.prototype.Footer,
 });
