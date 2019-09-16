@@ -107,6 +107,11 @@ export default Model.extend({
     }
 
     this.set(resp);
+
+    // response has messages object with the same form
+    if (!_.isEmpty(resp.currentState.messages)) {
+      this.trigger('showCallout', resp.currentState.messages);
+    }
   }
 
 });

@@ -25,12 +25,16 @@ const success = [
   require('./data/success.json'),
 ];
 
+const unknownUser = [
+  require('./data/unknown-user.json'),
+];
+
 const factorRequiredMultiple = [
   require('./data/factor-required-options.json')
 ];
 const path = __dirname.slice(__dirname.indexOf('idp') - 1);
 
-const testData = factorRequiredEmail;
+const testData = unknownUser;
 
 let index = 0;
 

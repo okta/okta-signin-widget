@@ -36,6 +36,26 @@ const Footer = BaseFooter.extend({
 });
 
 export default BaseView.extend({
+  initialize () {
+    // add message callout
+    this.currentState = this.options.appState.get('currentState');
+    if (this.currentState && this.currentState.messages) {
+      let message = this.currentState.messages.value[0].message;
+      this.showMessageCallout(message, 'warning');
+    }
+    BaseView.prototype.initialize.call(this, arguments);
+  },
+  postRender () {
+    // If user enterted identifier is not found, API sends back a message with a link to sign up
+    // This is the click handler for that link
+    if (this.currentState && this.currentState.messages) {
+      const appState = this.options.appState;
+      this.$el.find('.js-sign-up').click(function () {
+        appState.trigger('invokeAction', 'select-enroll-profile');
+        return false;
+      });
+    }
+  },
   Body,
   Footer,
 });

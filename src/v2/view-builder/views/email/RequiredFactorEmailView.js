@@ -34,7 +34,7 @@ const ResendView = View.extend(
       // and it hide anything from `:before` node hence remove
       // `clearfix` as workaround rather change existing style
       // just to be extreme safe.
-      this.$el.find('.infobox').removeClass('clearfix');
+      //this.$el.find('.infobox').removeClass('clearfix');
     },
 
     remove () {

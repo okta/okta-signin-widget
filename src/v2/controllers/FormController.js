@@ -20,6 +20,7 @@ export default BaseLoginController.extend({
     BaseLoginController.prototype.initialize.call(this);
 
     this.listenTo(this.options.appState, 'change:currentFormName', this.render);
+    this.listenTo(this.options.appState, 'showCallout', this.render);
     this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
     this.listenTo(this.options.appState, 'switchForm', this.switchForm);
     this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
