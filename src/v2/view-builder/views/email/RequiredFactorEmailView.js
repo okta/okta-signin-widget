@@ -29,12 +29,6 @@ const ResendView = View.extend(
       this.showMeTimeout = _.delay(() => {
         this.$el.removeClass('hide');
       }, SHOW_RESEND_TIMEOUT);
-
-      // `clearfix` has different style in SIW than Courage
-      // and it hide anything from `:before` node hence remove
-      // `clearfix` as workaround rather change existing style
-      // just to be extreme safe.
-      //this.$el.find('.infobox').removeClass('clearfix');
     },
 
     remove () {

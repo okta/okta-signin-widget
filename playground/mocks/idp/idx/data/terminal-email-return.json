@@ -6,7 +6,7 @@
     "value" : {
       "name" : "terminal-return",
       "message" : {
-        "value" : "Please return to the original tab.",
+        "message" : "Please return to the original tab.",
         "i18n" : {
           "key" : "idx.session.expired",
           "params" : []
