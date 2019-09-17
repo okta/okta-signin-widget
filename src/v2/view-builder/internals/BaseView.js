@@ -37,8 +37,7 @@ export default View.extend({
     this.add(this.Footer, { selector : '.siw-main-footer' });
 
     // add callout for messages
-    this.messages = options.messages;
-    if (this.messages && this.messages.value.length) {
+    if (options.messages && options.messages.value.length) {
       this.showMessageCallout(options.messages.value[0].message, 'warning');
     }
   },
