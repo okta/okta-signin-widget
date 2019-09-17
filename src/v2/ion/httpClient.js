@@ -29,20 +29,25 @@ const fetchRequest = (url, method, body) => {
     credentials: 'include'
   })
     .then(response => {
-      if (!response.ok) {
-        throw 'API error';
-      }
-
-      return response.json()
-        .then(resp => {
-          return {
-            response: resp,
-            status: response.status
-          };
-        })
+      const responsePromise = response.json()
         .catch(() => {
           throw 'Not a JSON';
         });
+      // handle error
+      if (!response.ok) {
+        return responsePromise
+          .then(error => {
+            throw error;
+          });
+      } else {
+        return responsePromise
+          .then(resp => {
+            return {
+              response: resp,
+              status: response.status
+            };
+          });
+      }
     });
 
   return fetchPromise;
