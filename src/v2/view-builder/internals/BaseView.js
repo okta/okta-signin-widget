@@ -46,13 +46,12 @@ export default View.extend({
   postRender () {
     // If user enterted identifier is not found, API sends back a message with a link to sign up
     // This is the click handler for that link
-    if (this.messages && this.messages.value.length) {
-      const appState = this.options.appState;
-      this.$el.find('.js-sign-up').click(function () {
-        appState.trigger('invokeAction', 'select-enroll-profile');
-        return false;
-      });
-    }
+    const appState = this.options.appState;
+    this.$el.find('.js-sign-up').click(function () {
+      appState.trigger('invokeAction', 'select-enroll-profile');
+      return false;
+    });
+
   },
 
   showMessageCallout (message, type) {
