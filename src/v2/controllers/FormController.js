@@ -77,7 +77,6 @@ export default BaseLoginController.extend({
   handleFormSave (model) {
     const formName = model.get('formName');
     const actionFn = this.options.appState.get('currentState')[formName];
-
     if (!_.isFunction(actionFn)) {
       model.trigger('error', `Cannot find http action for "${formName}".`);
       return;
@@ -89,7 +88,7 @@ export default BaseLoginController.extend({
         this.options.appState.trigger('remediationSuccess', resp.response);
       })
       .catch(error => {
-        model.trigger('error', error);
+        model.trigger('error', model, {'responseJSON': error}, true);
       });
   },
 });
