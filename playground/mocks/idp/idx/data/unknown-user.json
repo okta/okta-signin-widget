@@ -53,9 +53,9 @@
     "type": "array",
     "value": [
       {
-        "message": "No account found with the username <strong> john@test </strong>. <a href=\"#\" class=\"js-sign-up\"> Sign up </a> for an account",
+        "message": "There is no account with the email <strong> test@rain.com </strong>. <a href=\"#\" class=\"js-sign-up\"> Sign up </a> for an account",
         "i18n": {
-          "key": "some.i18n.message.unknown.user",
+          "key": "idx.unknown.user",
           "params": []
         },
         "class": "INFO"
