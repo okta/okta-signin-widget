@@ -145,7 +145,7 @@ const convertObjectType = (resp) => {
  * @returns {RemediationObject} remediationObject
  */
 const normalizeRemedation = (remedationValue) => {
-  const result = _.omit(remedationValue, 'rel', 'href', 'method', 'value');
+  const result = _.omit(remedationValue, 'rel', 'method', 'value');
   result.value = remedationValue.value.filter(v => v.visible !== false);
 
   return result;
