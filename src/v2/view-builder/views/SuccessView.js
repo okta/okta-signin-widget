@@ -1,14 +1,18 @@
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
-
+import Util from '../../../util/Util';
 const Body = BaseForm.extend({
   title () {
     return  'You will be redirected';
   },
   noButtonBar: true,
-  initialize (options) {
+  initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
-    options.appState.trigger('saveForm', options.model);
+    // TODO OKTA-250473
+    // Form post for success redirect
+    const url = this.options.appState.getCurrentViewState().href +
+      '?stateHandle=' + this.options.appState.get('currentState').stateHandle;
+    Util.redirectWithForm(url);
   },
 });
 
