@@ -107,6 +107,9 @@ export default Model.extend({
     }
 
     this.set(resp);
+
+    // broadcast idxResponseUpdated to re-render the view
+    this.trigger('idxResponseUpdated', resp);
   }
 
 });
