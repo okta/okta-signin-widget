@@ -19,7 +19,7 @@ export default BaseLoginController.extend({
   initialize: function () {
     BaseLoginController.prototype.initialize.call(this);
 
-    this.listenTo(this.options.appState, 'change:currentFormName', this.render);
+    this.listenTo(this.options.appState, 'idxResponseUpdated', this.render);
     this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
     this.listenTo(this.options.appState, 'switchForm', this.switchForm);
     this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
@@ -40,6 +40,7 @@ export default BaseLoginController.extend({
     this.formView = this.add(TheView, {
       options: {
         currentViewState,
+        messages: this.options.appState.get('currentState').messages
       }
     }).last();
 
@@ -72,6 +73,8 @@ export default BaseLoginController.extend({
   switchForm (formName) {
     // trigger formname change to change view
     this.options.appState.set('currentFormName', formName);
+    this.options.appState.trigger('idxResponseUpdated', formName);
+
   },
 
   handleFormSave (model) {

@@ -6,7 +6,7 @@
     "value" : {
       "name" : "terminal-transfered",
       "message" : {
-        "value" : "Flow continued in a new tab.",
+        "message" : "Flow continued in a new tab.",
         "i18n" : {
           "key" : "idx.session.expired",
           "params" : []
