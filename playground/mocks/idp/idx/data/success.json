@@ -15,7 +15,7 @@
             "create-form"
         ],
         "name": "cancel",
-        "href": "http://localhost:3000/api/v1/idx/cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",
         "value": [
@@ -31,7 +31,7 @@
             "create-form"
         ],
         "name": "context",
-        "href": "http://localhost:3000/api/v1/idx/context",
+        "href": "http://localhost:3000/idp/idx/context",
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",
         "value": [
@@ -47,7 +47,7 @@
         "create-form"
       ],
       "name": "success-redirect",
-      "href": "http://localhost:3000/api/v1/idx/login/token/redirect",
+      "href": "http://localhost:3000/idp/idx/login/token/redirect",
       "method": "POST",
       "accepts": "application/vnd.okta.v1+json",
       "value": [

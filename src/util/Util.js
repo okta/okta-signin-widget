@@ -25,7 +25,7 @@ define(['q', 'okta', './Logger', './Enums'], function (Q, Okta, Logger, Enums) {
     return input;
   };
 
-  var buildDynamicForm = function (url = '') {
+  var buildDynamicForm = function (url = '', method) {
     var splitOnFragment = url.split('#');
     var fragment = splitOnFragment[1];
 
@@ -37,7 +37,7 @@ define(['q', 'okta', './Logger', './Enums'], function (Q, Okta, Logger, Enums) {
     }
 
     var form = document.createElement('form');
-    form.method = 'get';
+    form.method = method;
     form.setAttribute('style', 'display: none;');
     form.action = targetUrl;
     if (query && query.length) {
@@ -163,6 +163,10 @@ define(['q', 'okta', './Logger', './Enums'], function (Q, Okta, Logger, Enums) {
    * Check the commit history for more details.
    */
   Util.redirectWithFormGet = function (url) {
+    Util.redirectWithForm(url, 'get');
+  };
+
+  Util.redirectWithForm = function (url, method = 'post') {
     if (!url) {
       Logger.error(`Cannot redirect to empty URL: (${url})`);
       return;
@@ -174,7 +178,7 @@ define(['q', 'okta', './Logger', './Enums'], function (Q, Okta, Logger, Enums) {
       return;
     }
 
-    var form = buildDynamicForm(url);
+    var form = buildDynamicForm(url, method);
     mainContainer.appendChild(form);
     form.submit();
   };
