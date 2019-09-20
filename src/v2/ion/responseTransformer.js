@@ -167,9 +167,9 @@ const createCurrentStateObject = (originalResp, omitKeys) => {
   if (resp.remediation) {
     remediation = resp.remediation.value.map(normalizeRemedation);
   }
-  // success does not have remediation
+  // success does not have remediation, only has a name and href
   if (resp.success) {
-    remediation = [resp.success].map(normalizeRemedation);
+    remediation = [resp.success];
   }
 
   return Object.assign(restData, actions, {

@@ -10,9 +10,8 @@ const Body = BaseForm.extend({
     BaseForm.prototype.initialize.apply(this, arguments);
     // TODO OKTA-250473
     // Form post for success redirect
-    const url = this.options.appState.getCurrentViewState().href +
-      '?stateHandle=' + this.options.appState.get('currentState').stateHandle;
-    Util.redirectWithForm(url);
+    const url = this.options.appState.getCurrentViewState().href;
+    Util.redirectWithFormGet(url);
   },
 });
 
