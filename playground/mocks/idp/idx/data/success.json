@@ -43,19 +43,7 @@
         ]
     },
     "success": {
-      "rel": [
-        "create-form"
-      ],
       "name": "success-redirect",
-      "href": "http://localhost:3000/idp/idx/login/token/redirect",
-      "method": "POST",
-      "accepts": "application/vnd.okta.v1+json",
-      "value": [
-        {
-          "name": "stateToken",
-          "value": "022FJBvS6bHS7OjQSOhtfghhJvO2a2TELaMZ94s69K",
-          "visible": false
-        }
-      ]
+      "href": "http://localhost:3000/login/token/redirect?stateToken=022FJBvS6bHS7OjQSOhtfghhJvO2a2TELaMZ94s69K"
     }
 }
