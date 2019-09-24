@@ -65,9 +65,11 @@ const Body = BaseForm.extend(Object.assign(
         prepend: true,
       });
 
+      // auto send email magic link email on load
+      this.sendEmailLink();
+
       this.startPolling();
 
-      this.sendEmailLink();
     },
 
     remove () {
