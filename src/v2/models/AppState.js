@@ -86,7 +86,8 @@ export default Model.extend({
   setIonResponse (resp) {
     // Don't re-render view if new response is same as last.
     // Usually happening at polling and pipeline doesn't proceed to next step.
-    if (_.isEqual(resp.__rawResponse, this.get('__rawResponse'))) {
+    // expiresAt will be different for each response, hence compare objects without that property
+    if (_.isEqual(_.omit(resp.__rawResponse, 'expiresAt'), _.omit(this.get('__rawResponse'), 'expiresAt'))) {
       return;
     }
 
