@@ -7,7 +7,7 @@ async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
   await identityPage.clickRegistrationButton();
-  return new RegistrationPageObject(t);;
+  return new RegistrationPageObject(t);
 }
 
 test(`should have editable fields`, async t => {
@@ -25,11 +25,11 @@ test(`should show errors if required fields are empty`, async t => {
 
   await registrationPage.clickSignInButton();
   await registrationPage.waitForErrorBox();
-
-  await t.expect(registrationPage.hasFirstNameError()).eql(true);
-  await t.expect(registrationPage.hasFirstNameErrorMessage()).eql(true);
   await t.expect(registrationPage.hasLastNameError()).eql(true);
   await t.expect(registrationPage.hasLastNameErrorMessage()).eql(true);
+  await t.expect(registrationPage.hasFirstNameError()).eql(true);
+  await t.expect(registrationPage.hasFirstNameErrorMessage()).eql(true);
+
 });
 
 test(`should show errors after empty required fields are focused out`, async t => {
@@ -41,22 +41,9 @@ test(`should show errors after empty required fields are focused out`, async t =
 
   await registrationPage.waitForLastNameError();
 
+  await t.expect(registrationPage.hasLastNameError()).eql(true);
+  await t.expect(registrationPage.hasLastNameErrorMessage()).eql(true);
   await t.expect(registrationPage.hasFirstNameError()).eql(true);
   await t.expect(registrationPage.hasFirstNameErrorMessage()).eql(true);
-  await t.expect(registrationPage.hasLastNameError()).eql(true);
-  await t.expect(registrationPage.hasLastNameErrorMessage()).eql(true);
 });
 
-test(`should not show errors on first field if not interacted with`, async t => {
-  const registrationPage = await setup(t);
-
-  await registrationPage.fillLastNameField('');
-  await registrationPage.focusSignInButton();
-
-  await registrationPage.waitForLastNameError();
-
-  await t.expect(registrationPage.hasFirstNameError()).eql(false);
-  await t.expect(registrationPage.hasFirstNameErrorMessage()).eql(false);
-  await t.expect(registrationPage.hasLastNameError()).eql(true);
-  await t.expect(registrationPage.hasLastNameErrorMessage()).eql(true);
-});
