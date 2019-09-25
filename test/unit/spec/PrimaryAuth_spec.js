@@ -2178,10 +2178,14 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.okta.com/api/v1/authn/login',
+              url: 'https://foo.okta.com/api/v1/authn',
               data: {
-                identifier: 'testuser@test.com',
-                stateToken: '01nDL4wRHu-dLvUHUj1QCA9r5P1n5dw6WJ_voGPFWB'
+                username: 'testuser@test.com',
+                stateToken: 'aStateToken',
+                options: {
+                  warnBeforePasswordExpired: true,
+                  multiOptionalFactorEnroll: false
+                }
               }
             });
           });

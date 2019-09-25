@@ -35,11 +35,15 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       options: [
         {
           'label': 'Password',
-          'value': 'password'
+          'value': 'password',
+          'iconClassName': 'mfa-okta-password',
+          'description': ''
         },
         {
           'label': 'E-mail',
-          'value': 'email'
+          'value': 'email',
+          'iconClassName': 'mfa-okta-email',
+          'description': ''
         }
       ],
       name: 'factorType'
@@ -57,14 +61,14 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       {
         'label': 'Password',
         'value': 'password',
-        iconClassName: 'mfa-okta-password',
-        description: ''
+        'iconClassName': 'mfa-okta-password',
+        'description': ''
       },
       {
-        'label': 'Email Authentication',
+        'label': 'E-mail',
         'value': 'email',
-        iconClassName: 'mfa-okta-email',
-        description: ''
+        'iconClassName': 'mfa-okta-email',
+        'description': ''
       }
     ]);
     expect(opt).toEqual({
@@ -72,11 +76,15 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       options: [
         {
           'label': 'Password',
-          'value': 'password'
+          'value': 'password',
+          'iconClassName': 'mfa-okta-password',
+          'description': ''
         },
         {
           'label': 'E-mail',
-          'value': 'email'
+          'value': 'email',
+          'iconClassName': 'mfa-okta-email',
+          'description': ''
         }
       ],
       name: 'factorType'

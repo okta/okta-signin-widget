@@ -13,6 +13,7 @@ describe('v2/ion/actionsTransformer', function () {
 
   it('converts factor require email', () => {
     const result = _.compose(transformActions, transformResponse)(XHRFactorRequiredEmail.response);
+
     expect(result).toEqual({
       'factor': {
         'id': 'emf1axecbKovLJPWl0g4',
@@ -46,6 +47,7 @@ describe('v2/ion/actionsTransformer', function () {
         'remediation': [
           {
             'name': 'submit-factor',
+            'href': 'http://localhost:3000/api/v1/idx/',
             'value': [
               {
                 'name': 'email',
@@ -154,6 +156,7 @@ describe('v2/ion/actionsTransformer', function () {
         'remediation': [
           {
             'name': 'otp',
+            'href': 'http://localhost:3000/api/v1/idx/',
             'value': [
               {
                 'name': 'otp',

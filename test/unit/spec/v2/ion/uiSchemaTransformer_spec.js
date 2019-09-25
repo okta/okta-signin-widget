@@ -22,6 +22,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
       'remediation': [
         {
           'name': 'submit-factor',
+          'href': 'http://localhost:3000/api/v1/idx/',
           'value': [
             {
               'name': 'email',
@@ -57,6 +58,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
       'remediation': [
         {
           'name': 'select-factor',
+          'href': 'http://localhost:3000/api/v1/idx',
           'value': [
             {
               'name': 'factorType',
@@ -76,7 +78,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
           'uiSchema': [
             {
               'name': 'factorType',
-              'type': 'factorType',
+              'type': 'text',
               'options': [
                 {
                   'label': 'Password',
@@ -108,6 +110,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
       'remediation': [
         {
           'name': 'otp',
+          'href': 'http://localhost:3000/api/v1/idx/',
           'value': [
             {
               'name': 'otp',
@@ -143,6 +146,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
       'remediation': [
         {
           'name': 'enroll-profile',
+          'href': 'http://localhost:3000/api/v1/idx/enroll',
           'accepts': 'application/vnd.okta.v1+json',
           'value': [
             {
@@ -191,6 +195,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
         },
         {
           'name': 'select-identify',
+          'href': 'http://localhost:3000/api/v1/idx',
           'accepts': 'application/vnd.okta.v1+json',
           'value': [
             {

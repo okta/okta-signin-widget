@@ -337,8 +337,8 @@ function (Okta,
       { factorType: 'assertion:saml2', provider: 'GENERIC_SAML' });
     var setupCustomOIDCFactor = _.partial(setup, resAllFactors,
       { factorType: 'assertion:oidc', provider: 'GENERIC_OIDC' });
-    var setupClaimsProviderFactor = _.partial(setup, resAllFactors,
-      {factorType: 'claims_provider', provider: 'CUSTOM'});
+    var setupClaimsProviderFactorWithIntrospect = _.partial(setup, resAllFactors,
+      { factorType: 'claims_provider', provider: 'CUSTOM', });
     var setupAllFactorsWithRouter = _.partial(setup, resAllFactors, null, { 'features.router': true });
     function setupSecurityQuestionLocalized (options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
@@ -476,29 +476,31 @@ function (Okta,
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = createRouter(baseUrl, authClient, successSpy, options.settings);
       router.on('afterError', afterErrorHandler);
-      router.refreshAuthState('dummy-token');
-      var verifyView = (options.factorResult === 'FAILED') ?
-        'waitForVerifyCustomFactor' : 'waitForMfaVerify';
-      return Expect[verifyView]()
-        .then(function () {
-          var $forms = $sandbox.find('.o-form');
-          var forms = _.map($forms, function (form) {
-            return new MfaVerifyForm($(form));
+      return Util.mockIntrospectResponse(router).then(function () {
+        router.refreshAuthState('dummy-token');
+        var verifyView = (options.factorResult === 'FAILED') ?
+          'waitForVerifyCustomFactor' : 'waitForMfaVerify';
+        return Expect[verifyView]()
+          .then(function () {
+            var $forms = $sandbox.find('.o-form');
+            var forms = _.map($forms, function (form) {
+              return new MfaVerifyForm($(form));
+            });
+            if (forms.length === 1) {
+              forms = forms[0];
+            }
+            var beacon = new Beacon($sandbox);
+            return {
+              router: router,
+              form: forms,
+              beacon: beacon,
+              ac: authClient,
+              setNextResponse: setNextResponse,
+              successSpy: successSpy,
+              afterErrorHandler: afterErrorHandler
+            };
           });
-          if (forms.length === 1) {
-            forms = forms[0];
-          }
-          var beacon = new Beacon($sandbox);
-          return {
-            router: router,
-            form: forms,
-            beacon: beacon,
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            successSpy: successSpy,
-            afterErrorHandler: afterErrorHandler
-          };
-        });
+      });
     }
 
     function getInitialChallengeResponse (options) {
@@ -4037,43 +4039,43 @@ function (Okta,
       });
       Expect.describe('Claims Provider Factor', function () {
         itp('is claims provider factor', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             expect(test.form.isCustomFactor()).toBe(true);
           });
         });
         itp('shows the right beacon', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-custom-factor');
           });
         });
         itp('shows the right title', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             expectTitleToBe(test, 'IDP factor');
           });
         });
         itp('shows the right subtitle', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
           });
         });
         itp('has remember device checkbox', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
         itp('has a sign out link', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             Expect.isVisible(test.form.signoutLink($sandbox));
           });
         });
         itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
-          return setupClaimsProviderFactor({'features.hideSignOutLinkInMFA': true}).then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect({'features.hideSignOutLinkInMFA': true}).then(function (test) {
             expect(test.form.signoutLink($sandbox).length).toBe(0);
           });
         });
         itp('redirects to third party when Verify button is clicked', function () {
           spyOn(SharedUtil, 'redirect');
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
@@ -4085,7 +4087,7 @@ function (Okta,
             });
         });
         itp('displays error when error response received', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
@@ -4112,7 +4114,7 @@ function (Okta,
             });
         });
         itp('calls authClient verifyFactor with rememberDevice URL param', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse(resSuccess);
             test.form.setRememberDevice(true);

@@ -44,6 +44,7 @@ describe('v2/ion/responseTransformer', function () {
         'remediation': [
           {
             'name': 'submit-factor',
+            'href': 'http://localhost:3000/api/v1/idx/',
             'value': [
               {
                 'name': 'email',
@@ -145,6 +146,7 @@ describe('v2/ion/responseTransformer', function () {
         'remediation': [
           {
             'name': 'otp',
+            'href': 'http://localhost:3000/api/v1/idx/',
             'value': [
               {
                 'name': 'otp',
