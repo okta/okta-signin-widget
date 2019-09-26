@@ -43,6 +43,7 @@ define([
   'helpers/xhr/MFA_CHALLENGE_push',
   'helpers/xhr/MFA_CHALLENGE_push_rejected',
   'helpers/xhr/MFA_CHALLENGE_push_timeout',
+  'helpers/xhr/MFA_CHALLENGE_push_with_number_challenge',
   'helpers/xhr/SUCCESS',
   'helpers/xhr/CANCEL',
   'helpers/xhr/MFA_VERIFY_invalid_answer',
@@ -99,6 +100,7 @@ function (Okta,
   resChallengePush,
   resRejectedPush,
   resTimeoutPush,
+  resChallengePushWithNumberChallenge,
   resSuccess,
   resCancel,
   resInvalid,
@@ -111,7 +113,6 @@ function (Okta,
   resMfaAlwaysPolicy,
   labelsLoginJa,
   labelsCountryJa) {
-
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
@@ -624,7 +625,7 @@ function (Okta,
       return setup(res);
     }
 
-    function setupPolling (test, finalResponse) {
+    function setupPolling (test, finalResponse, firstPollResponse) {
       // This is to reduce delay before initiating polling in the tests.
       spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
         return setTimeout(arguments[0]);
@@ -637,7 +638,7 @@ function (Okta,
       // 1: Set for first verifyFactor
       // 2: Set for startVerifyFactorPoll
       // 3: Set for verifyFactor poll finish
-      test.setNextResponse([resChallengePush, resChallengePush, finalResponse]);
+      test.setNextResponse([resChallengePush, firstPollResponse || resChallengePush, finalResponse]);
 
       // View contains 2 forms when push and totp are avaiable
       // For polling we are only interested in the push form.
@@ -3187,7 +3188,10 @@ function (Okta,
                 })
                 .then(function (transaction) {
                   expect(transaction.poll.calls.count()).toBe(1);
-                  expect(transaction.poll).toHaveBeenCalledWith({delay: 4000});
+                  expect(transaction.poll).toHaveBeenCalledWith({
+                    delay: 4000,
+                    transactionCallBack: jasmine.createSpy()
+                  });
                 });
             });
             itp('does not start polling if factor was switched before the initial poll delay', function () {
@@ -5226,6 +5230,83 @@ function (Okta,
                 }
               });
             });
+        });
+      });
+
+      Expect.describe('Okta Verify Push with number challenge', function () {
+        itp('displays number challenge on poll', function () {
+          return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+            spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
+            spyOn(test.router.settings, 'callGlobalSuccess');
+            return setupPolling(test, resSuccess, resChallengePushWithNumberChallenge)
+              .then(tick)
+              .then(function () {
+                // Warnings need to be cleared when switching to number challenge view.
+                expect(test.form.hasWarningMessage()).toBeFalsy();
+                expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeFalsy();
+                expect(test.router.controller.$('[data-se="o-form-input-rememberDevice"]').is(':visible')).toBeFalsy();
+                expect(test.form.submitButton().is(':visible')).toBeFalsy();
+                expect(test.form.numberChallengeView().is(':visible')).toBeTruthy();
+                expect(test.form.getChallengeNumber()).toBe('30');
+
+                expect(test.router.settings.callGlobalSuccess).toHaveBeenCalled();
+                // One after first poll returns and one after polling finished.
+                var calls = test.router.controller.model.setTransaction.calls;
+                expect(calls.count()).toBe(2);
+                expect(calls.first().args[0].status).toBe('MFA_CHALLENGE');
+                expect(calls.mostRecent().args[0].status).toBe('SUCCESS');
+              });
+          });
+        });
+
+        itp('doest not display number challenge on poll in low risk cases', function () {
+          return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+            spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
+            spyOn(test.router.settings, 'callGlobalSuccess');
+            return setupPolling(test, resSuccess)
+              .then(function () {
+                expect(test.form.hasWarningMessage()).toBeTruthy();
+                expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeTruthy();
+                expect(test.router.controller.$('[data-se="o-form-input-rememberDevice"]').is(':visible')).toBeTruthy();
+                expect(test.form.submitButton().is(':visible')).toBeTruthy();
+                expect(test.form.numberChallengeView().is(':visible')).toBeFalsy();
+                return tick(test);
+              })
+              .then(function () {
+                expect(test.router.settings.callGlobalSuccess).toHaveBeenCalled();
+                // One after first poll returns and one after polling finished.
+                var calls = test.router.controller.model.setTransaction.calls;
+                expect(calls.count()).toBe(2);
+                expect(calls.first().args[0].status).toBe('MFA_CHALLENGE');
+                expect(calls.mostRecent().args[0].status).toBe('SUCCESS');
+              });
+          });
+        });
+
+        itp('displays error and send push button after wrong number selection in number challenge', function () {
+          return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+            spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
+            spyOn(test.router.settings, 'callGlobalSuccess');
+            return setupPolling(test, resRejectedPush, resChallengePushWithNumberChallenge)
+              .then(function () {
+                expect(test.form.hasErrors()).toBeTruthy();
+                expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
+                expect(test.form.hasWarningMessage()).toBeFalsy();
+                expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeTruthy();
+                expect(test.router.controller.$('[data-se="o-form-input-rememberDevice"]').is(':visible')).toBeTruthy();
+                expect(test.form.submitButton().is(':visible')).toBeTruthy();
+                expect(test.form.numberChallengeView().is(':visible')).toBeFalsy();
+                return tick(test);
+              })
+              .then(function () {
+                expect(test.router.settings.callGlobalSuccess).not.toHaveBeenCalled();
+                // One after first poll returns and one after polling finished.
+                var calls = test.router.controller.model.setTransaction.calls;
+                expect(calls.count()).toBe(2);
+                expect(calls.first().args[0].status).toBe('MFA_CHALLENGE');
+                expect(calls.mostRecent().args[0].status).toBe('MFA_CHALLENGE');
+              });
+          });
         });
       });
 

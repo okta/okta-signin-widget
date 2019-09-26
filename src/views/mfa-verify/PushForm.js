@@ -10,7 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Util) {
+define([
+  'okta',
+  'util/CookieUtil',
+  'util/Util',
+  './NumberChallengeView',
+],
+function (Okta, CookieUtil, Util, NumberChallengeView) {
 
   var _ = Okta._;
   // deviceName is escaped on BaseForm (see BaseForm's template)
@@ -40,6 +46,20 @@ define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Uti
           this.setSubmitState(isMfaRejectedByUser);
           if (isMfaRejectedByUser) {
             this.showError(Okta.loc('oktaverify.rejected', 'login'));
+          }
+        }
+      );
+
+      this.numberChallengeView = this.add(NumberChallengeView).last();
+      this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge',
+        function (state, isWaitingForNumberChallenge) {
+          if (isWaitingForNumberChallenge || this.options.appState.get('lastAuthResponse').status === 'SUCCESS') {
+            this.clearWarnings();
+            this.$el.find('.button').hide();
+            this.numberChallengeView.$el.show();
+          } else {
+            this.numberChallengeView.$el.hide();
+            this.$el.find('.button').show();
           }
         }
       );
@@ -110,7 +130,9 @@ define(['okta', 'util/CookieUtil', 'util/Util'], function (Okta, CookieUtil, Uti
         });
         this.trigger('save', this.model);
         warningTimeout = Util.callAfterTimeout(_.bind(function () {
-          this.showWarning(Okta.loc('oktaverify.warning', 'login'));
+          if (!this.options.appState.get('isWaitingForNumberChallenge')) {
+            this.showWarning(Okta.loc('oktaverify.warning', 'login'));
+          }
         }, this), WARNING_TIMEOUT);
       }
     },
