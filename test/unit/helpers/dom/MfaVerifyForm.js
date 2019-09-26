@@ -6,6 +6,8 @@ define(['./Form'], function (Form) {
   var SHOW_ANSWER_FIELD = 'showAnswer';
   var REMEMBER_DEVICE = 'rememberDevice';
   var AUTO_PUSH = 'autoPush';
+  var FACTOR_PUSH = 'factor-push';
+  var NUMBER_CHALLENGE_VIEW_CLASS = '.number-challenge-view';
 
   return Form.extend({
 
@@ -14,7 +16,7 @@ define(['./Form'], function (Form) {
     },
 
     isPush: function () {
-      return this.el('factor-push').length === 1;
+      return this.el(FACTOR_PUSH).length === 1;
     },
 
     isSecurityQuestion: function () {
@@ -143,6 +145,14 @@ define(['./Form'], function (Form) {
 
     isPushSent: function () {
       return this.button('.mfa-verify ').val() === 'Push sent!';
+    },
+
+    numberChallengeView: function () {
+      return this.el(FACTOR_PUSH).find(NUMBER_CHALLENGE_VIEW_CLASS);
+    },
+
+    getChallengeNumber: function () {
+      return this.el('challenge-number').text().trim();
     },
 
     smsSendCode: function () {
