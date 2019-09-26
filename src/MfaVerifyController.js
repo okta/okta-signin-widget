@@ -84,13 +84,13 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
       // which is rendered in an additional InlineTOTPForm
       if (factorType === 'push' && this.model.get('isOktaFactor')) {
         if (this.model.get('backupFactor')) {
-          this.add(InlineTOTPForm, {
+          this.inlineTotpForm = this.add(InlineTOTPForm, {
             options: { model: this.model.get('backupFactor') }
-          });
+          }).last();
         }
 
         if (this.settings.get('features.autoPush')) {
-          this.add(CheckBox, {
+          this.autoPushCheckBox = this.add(CheckBox, {
             options: {
               model: this.model,
               name: 'autoPush',
@@ -99,12 +99,12 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
               'label-top': false,
               className: 'margin-btm-0'
             }
-          });
+          }).last();
         }
 
         // Remember Device checkbox resides outside of the Push and TOTP forms.
         if (this.options.appState.get('allowRememberDevice')) {
-          this.add(CheckBox, {
+          this.rememberDeviceCheckbox = this.add(CheckBox, {
             options: {
               model: this.model,
               name: 'rememberDevice',
@@ -113,7 +113,7 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
               'label-top': true,
               className: 'margin-btm-0'
             }
-          });
+          }).last();
         }
         // Set rememberDevice on the backup factor (totp) if available
         if (this.model.get('backupFactor')) {
@@ -122,6 +122,20 @@ function (Okta, BaseLoginController, TOTPForm, YubikeyForm, SecurityQuestionForm
           });
         }
       }
+
+      this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge',
+        function (state, isWaitingForNumberChallenge) {
+          if (isWaitingForNumberChallenge || this.options.appState.get('lastAuthResponse').status === 'SUCCESS') {
+            this.autoPushCheckBox && this.autoPushCheckBox.$el.hide();
+            this.rememberDeviceCheckbox && this.rememberDeviceCheckbox.$el.hide();
+            this.inlineTotpForm && this.inlineTotpForm.$el.hide();
+          } else {
+            this.autoPushCheckBox && this.autoPushCheckBox.$el.show();
+            this.rememberDeviceCheckbox && this.rememberDeviceCheckbox.$el.show();
+            this.inlineTotpForm && this.inlineTotpForm.$el.show();
+          }
+        }
+      );
 
       if (!this.settings.get('features.hideSignOutLinkInMFA')) {
         this.add(new FooterSignout(this.toJSON()));
