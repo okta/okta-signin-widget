@@ -129,7 +129,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.26.0",
-    "handlebars": "4.0.14",
+    "handlebars": "4.3.0",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.3",
     "underscore": "1.8.3"
