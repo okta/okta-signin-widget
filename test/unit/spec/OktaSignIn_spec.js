@@ -64,6 +64,33 @@ function (Widget, Expect, Logger, $sandbox) {
     });
 
     Expect.describe('Auth Client', function () {
+      Expect.describe('Config', function () {
+        it('has an options object', function () {
+          expect(signIn.authClient.options).toBeDefined();
+        });
+        
+        it('SIW passes all config within authParams to OktaAuth', function () {
+          const authParams = {
+            // known params
+            issuer: 'my-issuer',
+            authorizeUrl: 'fake-url',
+            pkce: true,
+            // unknown
+            a: 'b',
+            x: [],
+            y: function () {},
+          };
+          signIn = new Widget({
+            baseUrl: url,
+            authParams,
+          });
+
+          Object.keys(authParams).forEach(function (key) {
+            expect(signIn.authClient.options[key]).toBe(authParams[key]);
+          });
+        });
+      });
+
       Expect.describe('Session', function () {
         it('has a session method', function () {
           expect(signIn.authClient.session).toBeDefined();
