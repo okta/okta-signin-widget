@@ -64,6 +64,24 @@ export default Model.extend({
     return this.get('currentState').remediation.filter(v => v.name === formName).length === 1;
   },
 
+  getActionByPath (actionPath) {
+    const paths = actionPath.split('.');
+    let targetObject;
+    if (paths.length === 1) {
+      targetObject = this.get('currentState');
+    } else {
+      targetObject = this.get(paths.shift());
+    }
+    // Limitation
+    // At the time of writting, action only lives in first level of state objects.
+    const actionName = paths.shift();
+    if (targetObject && _.isFunction(targetObject[actionName])) {
+      return targetObject[actionName];
+    } else {
+      return null;
+    }
+  },
+
   getCurrentViewState () {
     const currentFormName = this.get('currentFormName');
 

@@ -3,6 +3,8 @@ import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
 import BaseFactorView from '../shared/BaseFactorView';
 
+const recoveryLinkAction = 'factor.recover';
+
 const Body = BaseForm.extend({
 
   title: loc('factor.password', 'login'),
@@ -13,14 +15,16 @@ const Body = BaseForm.extend({
 const Footer = BaseFooter.extend({
   links: function () {
     // recovery link
-    var links = [
-      {
+    var links = [];
+
+    if (this.options.appState.getActionByPath(recoveryLinkAction)) {
+      links.push({
         'type': 'link',
         'label': 'Forgot Password',
         'name': 'forgot-password',
-        'actionPath': 'factor.recover',
-      }
-    ];
+        'actionPath': recoveryLinkAction,
+      });
+    }
     // check if we have a select-factor form in remediation, if so add a link
     if (this.options.appState.hasRemediationForm('select-factor')) {
       links.push({

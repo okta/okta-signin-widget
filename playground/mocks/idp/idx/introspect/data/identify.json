@@ -69,7 +69,7 @@
         "create-form"
       ],
       "name": "context",
-      "href": "http://localhost:3000/api/v1/idx/context",
+      "href": "http://localhost:3000/idp/idx/context",
       "method": "POST",
       "accepts": "application/vnd.okta.v1+json",
       "value": [
