@@ -13,12 +13,12 @@ function onAuthRequired({history}) {
 }
 
 // See config-overrides.js
-/* global WIDGET_TEST_SERVER, WIDGET_CLIENT_ID */
+/* global WIDGET_TEST_SERVER, WIDGET_AUTH_SERVER_ID, WIDGET_CLIENT_ID */
 class App extends Component {
   render() {
     return (
       <Router>
-        <Security issuer={WIDGET_TEST_SERVER + '/oauth2/default'}
+        <Security issuer={`${WIDGET_TEST_SERVER}/oauth2/${WIDGET_AUTH_SERVER_ID}`}
                   client_id={WIDGET_CLIENT_ID}
                   redirect_uri={window.location.origin + '/implicit/callback'}
                   onAuthRequired={onAuthRequired} >

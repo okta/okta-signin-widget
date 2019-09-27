@@ -1,6 +1,7 @@
 module.exports = {
   // Server / Client
   WIDGET_TEST_SERVER: '',
+  WIDGET_AUTH_SERVER_ID: 'default',
   WIDGET_CLIENT_ID: 'rW47c465c1wc3MKzHznu',
 
   // Basic user 1

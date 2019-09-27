@@ -7,6 +7,7 @@ const env = {};
 [
   'PORT',
   'WIDGET_TEST_SERVER',
+  'WIDGET_AUTH_SERVER_ID',
   'WIDGET_CLIENT_ID'
 ].forEach(function (key) {
   env[key] = JSON.stringify(process.env[key]);
