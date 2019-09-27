@@ -7,6 +7,7 @@ const factorRequiredEmail = [
 
 const factorRequiredPassword = [
   require('./data/factor-required-password.json'),
+  require('./data/success.json'),
 ];
 
 const factorEnrollEmail = [
@@ -34,7 +35,7 @@ const factorRequiredMultiple = [
 ];
 const path = __dirname.slice(__dirname.indexOf('idp') - 1);
 
-const testData = success;
+const testData = factorRequiredPassword;
 
 let index = 0;
 

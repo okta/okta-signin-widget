@@ -48,15 +48,7 @@ export default BaseLoginController.extend({
   },
 
   invokeAction (actionPath = '') {
-    const paths = actionPath.split('.');
-    let targetObject;
-    if (paths.length === 1) {
-      targetObject = this.options.appState.get('currentState');
-    } else {
-      targetObject = this.options.appState.get(paths.shift());
-    }
-    // At the time of writting, action only lives in first level of state objects.
-    const actionFn = targetObject[paths.shift()];
+    const actionFn = this.options.appState.getActionByPath(actionPath);
 
     if (_.isFunction(actionFn)) {
       // TODO: OKTA-243167

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const recoveryByEmail = [
+const recoverByEmail = [
   require('../data/factor-verification-email.json'),
   require('../data/factor-verification-email.json'),
   require('../data/factor-verification-email.json'),
@@ -15,9 +15,9 @@ module.exports = {
   proxy: false,
   method: 'POST',
   template () {
-    if (index >= recoveryByEmail.length) {
+    if (index >= recoverByEmail.length) {
       index = 0;
     }
-    return recoveryByEmail[index++];
+    return recoverByEmail[index++];
   },
 };
