@@ -282,6 +282,19 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return isMfaEnrollActivate && res.factorResult === 'WAITING';
         }
       },
+      'isWaitingForNumberChallenge': {
+        deps: ['lastAuthResponse', 'isMfaChallenge'],
+        fn: function (res, isMfaChallenge) {
+          if (isMfaChallenge && res && res.factorResult === 'WAITING'
+              && res._embedded
+              && res._embedded.factor
+              && res._embedded.factor._embedded
+              && res._embedded.factor._embedded.challenge) {
+            return true;
+          }
+          return false;
+        }
+      },
       'hasMultipleFactorsAvailable': {
         deps: ['factors', 'isMfaRequired', 'isMfaChallenge', 'isUnauthenticated'],
         fn: function (factors, isMfaRequired, isMfaChallenge, isUnauthenticated) {
