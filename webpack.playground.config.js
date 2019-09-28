@@ -3,7 +3,6 @@
 const path = require('path');
 const fs = require('fs');
 const dyson = require('dyson');
-const responseConfig = require('./playground/config/responseConfig.js');
 
 const TARGET = path.resolve(__dirname, 'target');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
@@ -75,34 +74,6 @@ module.exports = {
         res.status(200)
           .send('<h1>Mock User Dashboard</h1><a href="/">Back to Login</a>');
       });
-
-      const bodyParser = require('body-parser');
-
-      app.use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      );
-
-      app.use(bodyParser.json());
-
-      // Endpoint to configure mock playground responses
-      app.post('/playground/responseConfig', (req, res) => {
-        /**
-         * Example post data:
-        {
-          "idp/idx": ["select-factor-authenticate"],
-          "idp/idx/challenge":[
-              "factor-required-password-with-options",
-              "success"
-            ]
-          }
-         */
-        Object.assign(responseConfig.mocks, req.body);
-        res.status(200).
-          send('Mock data bootstrapped');
-      });
-
 
       // ================================= dyson mock setup
       const mockOptions = {

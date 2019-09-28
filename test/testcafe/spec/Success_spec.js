@@ -20,6 +20,7 @@ test(`should navigate to redirect link google.com after success`, async t => {
   const identityPage = await setup(t);
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
-  await t.expect(getPageUrl()).contains('httpbin.org');
+  const pageUrl = getPageUrl();
+  await t.expect(pageUrl).contains('stateToken=abc123');
 });
 

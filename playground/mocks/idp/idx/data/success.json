@@ -44,6 +44,6 @@
     },
     "success": {
       "name": "success-redirect",
-      "href": "https://httpbin.org"
+      "href": "https://httpbin.org?stateToken=abc123"
     }
 }
