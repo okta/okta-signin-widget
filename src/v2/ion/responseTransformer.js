@@ -132,7 +132,21 @@ const convertRelFormToFunction = (value) => {
 const convertObjectType = (resp) => {
   const result = {};
   _.each(resp, (val, key) => {
-    if (val.type && val.type === 'object') {
+    // if key is remediation we dont do any transformation
+    if (key === 'remediation') {
+      return;
+    }
+
+    // for arrays we just want it as a top level object
+    // Example factors array in select-factor form
+    if (val.type === 'array') {
+      result[key] = {
+        value: val.value
+      };
+    }
+
+    // for objects we run convertRelFormToFunction
+    if (val.type === 'object') {
       result[key] = convertRelFormToFunction(val.value);
     }
   });

@@ -70,6 +70,17 @@ const createUISchema = (remediationValue = []) => {
   });
 };
 
+const addFactorType = (options, factors) => {
+  _.each(options, function (optionItem) {
+    const factorValue = optionItem.value;
+    const factor = factors.find(function (item) {
+      return (item.factorProfileId === factorValue
+        || item.factorId === factorValue);
+    });
+    optionItem.factorType = factor.factorType;
+  });
+};
+
 /**
  *
  * @param {AuthResult} transformedResp (after `actionsTransformer`)
@@ -77,8 +88,12 @@ const createUISchema = (remediationValue = []) => {
 const insertUISchema = (transformedResp) => {
   if (transformedResp.currentState) {
     const remediation = transformedResp.currentState.remediation || [];
+    const factors = transformedResp.factors && transformedResp.factors.value || [];
     transformedResp.currentState.remediation = remediation.map(obj => {
       obj.uiSchema = createUISchema(obj.value);
+      if (obj.value && obj.value[0] && obj.value[0].options) {
+        addFactorType(obj.value[0].options, factors);
+      }
       return obj;
     });
   }
