@@ -46,6 +46,14 @@ const Body = BaseForm.extend(Object.assign(
     subtitle:
     'An email has been sent to you. Please click the link in your email or enter the code from that email below.',
 
+    initialize () {
+      BaseForm.prototype.initialize.apply(this, arguments);
+
+      // polling has been killed when click save to avoid race conditions
+      // hence resume if save failed.
+      this.listenTo(this.options.model, 'error', this.startPolling.bind(this));
+    },
+
     saveForm () {
       BaseForm.prototype.saveForm.apply(this, arguments);
       this.stopPolling();
