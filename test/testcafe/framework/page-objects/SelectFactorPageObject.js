@@ -1,4 +1,3 @@
-import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 import BaseFormObject from './components/BaseFormObject';
 
@@ -13,6 +12,6 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async selectPasswordFactor() {
-    await this.t.click(Selector('a[data-se="enroll"]'));
+    await this.form.clickElement('.enroll-factor-row > .enroll-factor-description > .enroll-factor-button');
   }
 }

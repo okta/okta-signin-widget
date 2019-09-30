@@ -48,6 +48,10 @@ export default class BaseFormObject {
     await focus();
   }
 
+  async clickElement(selector) {
+    await this.t.click(this.form.find(selector));
+  }
+
   async clickSaveButton() {
     await this.t.click(this.form.find('.o-form-button-bar input[data-type="save"]'));
   }
