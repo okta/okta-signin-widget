@@ -48,12 +48,12 @@
             }
           ]
         },
-        "resend": {
-          "name": "resend",
+        "send": {
+          "name": "send",
           "rel": [
             "create-form"
           ],
-          "href": "http://localhost:3000/idp/idx/resend",
+          "href": "http://localhost:3000/idp/idx/send",
           "method": "post",
           "value": [
             {

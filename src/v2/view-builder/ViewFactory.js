@@ -51,21 +51,8 @@ const VIEWS_MAPPING = {
     [DEFAULT]: TerminalView,
     'email': TerminalReturnEmailView,
   },
-  'terminal-invalid': {
-    [DEFAULT]: TerminalView,
-  },
-  'terminal-expired': {
-    [DEFAULT]: TerminalView,
-  },
-  'terminal-revoked': {
-    [DEFAULT]: TerminalView,
-  },
   'success-redirect': {
     [DEFAULT]: SuccessView,
-  },
-  // Fall back when neither remediation nor terminal-* views found.
-  'terminal': {
-    [DEFAULT]: TerminalView,
   },
 };
 
@@ -73,8 +60,12 @@ module.exports = {
   create (formName, factorType = DEFAULT, step) {
     const config = VIEWS_MAPPING[formName];
     if (!config) {
-      Logger.warn(`Cannot find customized View (form: ${formName}). Fallback to BaseView.`);
-      return BaseView;
+      Logger.warn(`Cannot find customized View (form: ${formName}). Fallback to default configuration.`);
+      if (formName.indexOf('terminal') === 0) {
+        return TerminalView;
+      } else {
+        return BaseView;
+      }
     }
     // look for customized view by step, then by factor, if not found then use DEFAULT
     const View = config[step] || config[factorType] || config[DEFAULT];

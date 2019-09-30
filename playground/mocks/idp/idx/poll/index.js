@@ -4,7 +4,7 @@ const recoverByEmail = [
   require('../data/factor-verification-email.json'),
   require('../data/factor-verification-email.json'),
   require('../data/factor-verification-email.json'),
-  require('../data/terminal-email-transfered.json'),
+  require('../data/terminal-transfered-email.json'),
 ];
 const path = __dirname.slice(__dirname.indexOf('idp') - 1);
 
