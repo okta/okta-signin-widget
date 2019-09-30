@@ -1,6 +1,8 @@
 import BasePageObject from './BasePageObject';
 import BaseFormObject from './components/BaseFormObject';
 
+const FIRSTNAME_FIELD = 'userProfile.firstName';
+const LASTNAME_FIELD = 'userProfile.lastName';
 export default class RegistrationPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -8,11 +10,11 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   fillFirstNameField(value) {
-    return this.form.setTextBoxValue('firstName', value);
+    return this.form.setTextBoxValue(FIRSTNAME_FIELD, value);
   }
 
   fillLastNameField(value) {
-    return this.form.setTextBoxValue('lastName', value);
+    return this.form.setTextBoxValue(LASTNAME_FIELD, value);
   }
 
   setRememberMeField(value) {
@@ -20,11 +22,11 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   getFirstNameValue() {
-    return this.form.getTextBoxValue('firstName');
+    return this.form.getTextBoxValue(FIRSTNAME_FIELD);
   }
 
   getLastNameValue() {
-    return this.form.getTextBoxValue('lastName');
+    return this.form.getTextBoxValue(LASTNAME_FIELD);
   }
 
   getRememberMeValue() {
@@ -44,22 +46,22 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   hasFirstNameError() {
-    return this.form.hasTextBoxError('firstName');
+    return this.form.hasTextBoxError(FIRSTNAME_FIELD);
   }
 
   hasFirstNameErrorMessage() {
-    return this.form.hasTextBoxErrorMessage('firstName');
+    return this.form.hasTextBoxErrorMessage(FIRSTNAME_FIELD);
   }
 
   hasLastNameError() {
-    return this.form.hasTextBoxError('lastName');
+    return this.form.hasTextBoxError(LASTNAME_FIELD);
   }
 
   hasLastNameErrorMessage() {
-    return this.form.hasTextBoxErrorMessage('lastName');
+    return this.form.hasTextBoxErrorMessage(LASTNAME_FIELD);
   }
 
   waitForLastNameError() {
-    return this.form.waitForTextBoxError('lastName');
+    return this.form.waitForTextBoxError(LASTNAME_FIELD);
   }
 }

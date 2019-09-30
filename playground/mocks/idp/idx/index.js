@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+
 const factorRequiredEmail = [
   require('./data/factor-required-email.json'),
   require('./data/factor-verification-email.json'),
@@ -33,21 +34,17 @@ const unknownUser = [
 const factorRequiredMultiple = [
   require('./data/factor-required-options.json')
 ];
+
 const path = __dirname.slice(__dirname.indexOf('idp') - 1);
-
-const testData = factorRequiredPassword;
-
+const templateHelper = require('../../../config/templateHelper');
 let index = 0;
-
 module.exports = {
   path,
   delay: [1000, 3000],
   proxy: false,
   method: 'POST',
   template () {
-    if (index >= testData.length) {
-      index = 0;
-    }
-    return testData[index++];
+    const filePath = templateHelper.getTemplatePath(path, index++);
+    return require(filePath);
   },
 };

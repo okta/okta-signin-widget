@@ -17,6 +17,14 @@ export default class BaseFormObject {
     }
   }
 
+  getSelectFormButton(selector) {
+    return this.form.find(selector).exists;
+  }
+
+  getSelectFormButtonLabel(selector) {
+    return this.form.find(selector).textContent;
+  }
+
   getTextBoxValue(name) {
     return this.form.find(`input[name="${name}"]`).value;
   }
@@ -40,6 +48,10 @@ export default class BaseFormObject {
     await focus();
   }
 
+  async clickElement(selector) {
+    await this.t.click(this.form.find(selector));
+  }
+
   async clickSaveButton() {
     await this.t.click(this.form.find('.o-form-button-bar input[data-type="save"]'));
   }
@@ -49,11 +61,11 @@ export default class BaseFormObject {
   }
 
   hasTextBoxError(name) {
-    return this.form.find(`.o-form-input-name-${name}.o-form-has-errors`).exists;
+    return this.form.find(`input[name="${name}"]`).exists;
   }
 
   hasTextBoxErrorMessage(name) {
-    return this.form.find(`.o-form-input-name-${name} + .o-form-input-error`).exists;
+    return this.form.find(`input[name="${name}"]`).parent().sibling('.o-form-input-error').exists;
   }
 
   async waitForTextBoxError(name) {
