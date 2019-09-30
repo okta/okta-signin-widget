@@ -69,7 +69,6 @@ module.exports = {
     port: PORT,
     open: true,
     before (app) {
-
       app.get('/app/UserHome', (req, res) => {
         res.status(200)
           .send('<h1>Mock User Dashboard</h1><a href="/">Back to Login</a>');
