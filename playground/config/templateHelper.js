@@ -20,17 +20,17 @@ const getDataDir = (apiPath) => {
 const configMock = (option) => {
   let index = 0;
   const apiPath = option.path;
-  const mockData = responseConfig.mocks[apiPath];
-  const hasMockData = Array.isArray(mockData) && mockData.length > 0;
+  const chainedMockData = responseConfig.mocks[apiPath];
+  const hasChainedMockData = Array.isArray(chainedMockData) && chainedMockData.length > 0;
   const updateIndex = () => {
     index++;
-    if (index >= mockData.length) {
+    if (index >= chainedMockData.length) {
       index = 0;
     }
   };
   const getMockFile = () => {
     const dataDir = getDataDir(apiPath);
-    const fileName = mockData[index];
+    const fileName = chainedMockData[index];
     const filePath = `${dataDir}/${fileName}.json`;
 
     return (filePath);
@@ -41,7 +41,7 @@ const configMock = (option) => {
     proxy: false,
     method: 'POST',
     status: (req, res, next) => {
-      if(!hasMockData) {
+      if(!hasChainedMockData) {
         res.status(403);
         next();
         return;
@@ -49,13 +49,14 @@ const configMock = (option) => {
       const mockFile = getMockFile();
 
       const basenameMockFile = path.basename(mockFile, '.json');
+      // response as error when the file name starts with 'error'
       if (basenameMockFile.indexOf('error') === 0) {
         res.status(403);
       }
       next();
     },
     template () {
-      if (!hasMockData) {
+      if (!hasChainedMockData) {
         return {
           errorSummary: `No mock found for ${apiPath}`,
         };
