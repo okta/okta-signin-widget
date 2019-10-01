@@ -1,14 +1,23 @@
 /* eslint no-console: 0 */
 const path = require('path');
+const fs = require('fs');
+const dotenv = require('dotenv');
+
 var DEFAULTS = require('./env.defaults');
 var VALUES = {};
 
 function config () {
-  require('dotenv').config({
-    path: path.resolve(__dirname, '../..', '.env')
-  });
 
+  // Read environment variables from "testenv". Override environment vars if they are already set.
+  const TESTENV = path.resolve(__dirname, '../..', 'testenv');
+  if (fs.existsSync(TESTENV)) {
+    const envConfig = dotenv.parse(fs.readFileSync(TESTENV));
+    Object.keys(envConfig).forEach((k) => {
+      process.env[k] = envConfig[k];
+    });
+  }
 
+  // Set defaults, populate VALUES
   Object.keys(DEFAULTS).forEach(function (key) {
     if (!process.env[key]) {
       // Allow use of default value

@@ -107,7 +107,7 @@ var OktaSignIn = (function () {
       `
     );
 
-    var authClient = new OktaAuth({
+    var authParams = _.extend({
       url: options.baseUrl,
       transformErrorXHR: Util.transformErrorXHR,
       headers: {
@@ -115,7 +115,9 @@ var OktaSignIn = (function () {
       },
       clientId: options.clientId,
       redirectUri: options.redirectUri
-    });
+    }, options.authParams);
+
+    var authClient = new OktaAuth(authParams);
     _.extend(this, LoginRouter.prototype.Events, getProperties(authClient, LoginRouter, Util, options));
 
     // Triggers the event up the chain so it is available to the consumers of the widget.

@@ -16,4 +16,5 @@ packages/@okta/courage-dist/*.map
 /dist
 .yalc
 .env
+testenv
 packages/@okta/i18n/dist/json/

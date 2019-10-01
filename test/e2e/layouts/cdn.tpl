@@ -14,6 +14,11 @@
   <script type="text/javascript">
     {{> @partial-block }}
   </script>
+
+  {{#> body-block}}
+    {{!-- body content goes here. --}}
+  {{/body-block}}
+
 </body>
 
 </html>

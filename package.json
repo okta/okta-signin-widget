@@ -41,6 +41,7 @@
     "test:dev": "grunt assets && karma start",
     "test:coverage": "yarn test --reporters=progress,coverage",
     "test": "yarn test:dev --single-run",
+    "start:app": "yarn build:webpack-e2e-app && grunt copy:e2e-pages && yarn start:basic",
     "start:basic": "PORT=3000 node test/e2e/basic/server.js & wait-on http-get://localhost:3000",
     "install:react": "yarn --cwd test/e2e/react-app install",
     "prestart:react": "kill -9 $(lsof -t -i:3001 -sTCP:LISTEN) || true",

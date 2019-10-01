@@ -16,11 +16,11 @@ import { ProtectedComponent } from './protected.component';
 import { LoginComponent } from './login.component';
 
 // See extra-webpack.config.js
-let { WIDGET_TEST_SERVER, WIDGET_CLIENT_ID, PORT } = process.env;
+let { WIDGET_TEST_SERVER, WIDGET_AUTH_SERVER_ID, WIDGET_CLIENT_ID, PORT } = process.env;
 PORT = PORT || '4200';
 
 const config = {
-  issuer: `${WIDGET_TEST_SERVER}/oauth2/default`,
+  issuer: `${WIDGET_TEST_SERVER}/oauth2/${WIDGET_AUTH_SERVER_ID}`,
   redirectUri: `http://localhost:${PORT}/implicit/callback`,
   clientId: `${WIDGET_CLIENT_ID}`
 };
