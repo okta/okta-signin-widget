@@ -23,14 +23,22 @@ define(['q', 'okta', 'util/FormController'], function (Q, Okta, FormController) 
 
     preRender: function () {
       var appState = this.options.appState;
-      this.model.startTransaction(function () {
+      this.model.startTransaction(function (authClient) {
         appState.trigger('loading', true);
         var trans = this.options.appState.get('introspectSuccess');
         var transError = this.options.appState.get('introspectError');
-        if (trans && trans.data) {
-          return Q.resolve(trans);
+        if (trans || transError) {
+          if (trans && trans.data) {
+            return Q.resolve(trans);
+          } else {
+            return Q.reject(transError);
+          }
         } else {
-          return Q.reject(transError);
+          // currently only applies to old pipeline
+          if (authClient.tx.exists()) {
+            appState.trigger('loading', true);
+            return authClient.tx.resume();
+          }
         }
       });
     },
