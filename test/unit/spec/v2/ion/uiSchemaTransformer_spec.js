@@ -22,7 +22,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
       'remediation': [
         {
           'name': 'submit-factor',
-          'href': 'http://localhost:3000/api/v1/idx/',
+          'href': 'http://localhost:3000/idp/idx/',
           'value': [
             {
               'name': 'email',
@@ -44,7 +44,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
     });
   });
 
-  it('converts factor enroll options', () => {
+  fit('converts factor enroll options', () => {
     const result = _.compose(uiSchemaTransformer, actionsTransformer, responseTransformer)(XHRFactorEnrollOptions.response);
     expect(result.currentState).toEqual({
       'version': '1.0.0',
@@ -58,35 +58,39 @@ describe('v2/ion/uiSchemaTransformer', function () {
       'remediation': [
         {
           'name': 'select-factor',
-          'href': 'http://localhost:3000/api/v1/idx',
+          'href': 'http://localhost:3000/idp/idx',
           'value': [
             {
-              'name': 'factorType',
+              'name': 'factorProfileId',
               'type': 'set',
               'options': [
                 {
                   'label': 'Password',
-                  'value': 'password'
+                  'value': '00u2j17ObFUsbGfLg0g4',
+                  'factorType': 'password'
                 },
                 {
                   'label': 'E-mail',
-                  'value': 'email'
+                  'value': 'emf2j1ccd6CF4IWFY0g3',
+                  'factorType': 'email'
                 }
               ]
             }
           ],
           'uiSchema': [
             {
-              'name': 'factorType',
-              'type': 'text',
+              'name': 'factorProfileId',
+              'type': 'factorType',
               'options': [
                 {
                   'label': 'Password',
-                  'value': 'password'
+                  'value': '00u2j17ObFUsbGfLg0g4',
+                  'factorType': 'password'
                 },
                 {
                   'label': 'E-mail',
-                  'value': 'email'
+                  'value': 'emf2j1ccd6CF4IWFY0g3',
+                  'factorType': 'email'
                 }
               ]
             }
@@ -110,7 +114,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
       'remediation': [
         {
           'name': 'otp',
-          'href': 'http://localhost:3000/api/v1/idx/',
+          'href': 'http://localhost:3000/idp/idx/',
           'value': [
             {
               'name': 'otp',
@@ -146,7 +150,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
       'remediation': [
         {
           'name': 'enroll-profile',
-          'href': 'http://localhost:3000/api/v1/idx/enroll',
+          'href': 'http://localhost:3000/idp/idx/enroll',
           'accepts': 'application/vnd.okta.v1+json',
           'value': [
             {
@@ -195,7 +199,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
         },
         {
           'name': 'select-identify',
-          'href': 'http://localhost:3000/api/v1/idx',
+          'href': 'http://localhost:3000/idp/idx',
           'accepts': 'application/vnd.okta.v1+json',
           'value': [
             {

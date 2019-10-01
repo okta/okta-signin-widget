@@ -47,7 +47,7 @@ describe('v2/ion/actionsTransformer', function () {
         'remediation': [
           {
             'name': 'submit-factor',
-            'href': 'http://localhost:3000/api/v1/idx/',
+            'href': 'http://localhost:3000/idp/idx/',
             'value': [
               {
                 'name': 'email',
@@ -65,7 +65,7 @@ describe('v2/ion/actionsTransformer', function () {
     spyOn(httpClient, 'fetchRequest');
     result.currentState['submit-factor']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/',
+      'http://localhost:3000/idp/idx/',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -74,7 +74,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['submit-factor']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/',
+      'http://localhost:3000/idp/idx/',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
@@ -84,7 +84,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['cancel']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/cancel',
+      'http://localhost:3000/idp/idx/cancel',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -94,7 +94,7 @@ describe('v2/ion/actionsTransformer', function () {
     // cancel doesn't take additional data for http request
     result.currentState['cancel']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/cancel',
+      'http://localhost:3000/idp/idx/cancel',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -103,7 +103,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['context']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/context',
+      'http://localhost:3000/idp/idx/context',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -113,7 +113,7 @@ describe('v2/ion/actionsTransformer', function () {
     // context doesn't take additional data for http request
     result.currentState['context']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/context',
+      'http://localhost:3000/idp/idx/context',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -156,7 +156,7 @@ describe('v2/ion/actionsTransformer', function () {
         'remediation': [
           {
             'name': 'otp',
-            'href': 'http://localhost:3000/api/v1/idx/',
+            'href': 'http://localhost:3000/idp/idx/',
             'value': [
               {
                 'name': 'otp',
@@ -175,7 +175,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.factor['resend']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/resend',
+      'http://localhost:3000/idp/idx/resend',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -184,7 +184,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.factor['poll']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/poll',
+      'http://localhost:3000/idp/idx/poll',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -193,7 +193,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.factor['poll']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/poll',
+      'http://localhost:3000/idp/idx/poll',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
@@ -202,7 +202,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['cancel']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/cancel',
+      'http://localhost:3000/idp/idx/cancel',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -212,7 +212,7 @@ describe('v2/ion/actionsTransformer', function () {
     // cancel doesn't take additional data for http request
     result.currentState['cancel']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/cancel',
+      'http://localhost:3000/idp/idx/cancel',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -221,7 +221,7 @@ describe('v2/ion/actionsTransformer', function () {
 
     result.currentState['context']();
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/context',
+      'http://localhost:3000/idp/idx/context',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
@@ -231,7 +231,7 @@ describe('v2/ion/actionsTransformer', function () {
     // context doesn't take additional data for http request
     result.factor['poll']({ foo: 'bar' });
     expect(httpClient.fetchRequest).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/idx/poll',
+      'http://localhost:3000/idp/idx/poll',
       'POST',
       {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
