@@ -1,112 +1,123 @@
 {
-    "version": "1.0.0",
-    "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-    "expiresAt": "2018-09-17T23:08:56.000Z",
-    "step": "FACTOR_VERIFICATION_REQUIRED",
-    "intent": "login",
-    "remediation": {
-      "type": "array",
-      "value": [
-        {
-          "rel": [
-            "create-form"
-          ],
-          "name": "otp",
-          "href": "http://localhost:3000/idp/idx/",
-          "method": "POST",
-          "value": [
-            {
-              "name": "otp",
-              "label": "Passcode",
-              "minLength": 4
-            }
-          ]
-        }
-      ]
-    },
-    "factor": {
-      "type": "object",
-      "value": {
-        "factorType": "email",
-        "provider": "okta",
-        "profile": {
-          "email": "o*****m@abbott.dev"
-        },
-        "poll": {
-          "rel": [
-            "create-form"
-          ],
-          "name": "poll",
-          "href": "http://localhost:3000/idp/idx/poll",
-          "method": "POST",
-          "refresh": 2000,
-          "value": [
-            {
-              "name": "stateHandle",
-              "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-              "visible": false
-            }
-          ]
-        },
-        "send": {
-          "name": "send",
-          "rel": [
-            "create-form"
-          ],
-          "href": "http://localhost:3000/idp/idx/send",
-          "method": "post",
-          "value": [
-            {
-              "name": "stateHandle",
-              "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-              "visible": false
-            }
-          ]
-        }
+  "stateHandle": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+  "version": "1.0.0",
+  "expiresAt": "2019-09-30T22:19:25.000Z",
+  "step": "AUTHENTICATE",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "challenge-factor",
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "code"
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+            "visible": false,
+            "mutable": false
+          }
+        ]
       }
-    },
-    "user": {
-      "type": "object",
-      "value": {
-        "id": "I9bvFiq01cRFgbn",
-        "passwordChanged": "2019-05-03T19:00:00.000Z",
-        "profile": {
-          "login": "foo@example.com",
-          "firstName": "Foo",
-          "lastName": "Bar",
-          "locale": "en-us",
-          "timeZone": "UTC"
-        }
+    ]
+  },
+  "factor": {
+    "type": "object",
+    "value": {
+      "factorType": "email",
+      "factorProfileId": "fprt52ie7vo5m7mSO0g3",
+      "factorId": "emfv6q1VxHR52T9az0g3",
+      "profile": {
+        "email": "inca@clouditude.net"
+      },
+      "send": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "send",
+        "href": "http://localhost:3000/idp/idx/challenge/send",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      "poll": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "poll",
+        "href": "http://localhost:3000/idp/idx/challenge/poll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "refresh": 4000,
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+            "visible": false,
+            "mutable": false
+          }
+        ]
       }
-    },
-    "cancel": {
-      "rel": [
-        "create-form"
-      ],
-      "name": "cancel",
-      "href": "http://localhost:3000/idp/idx/cancel",
-      "method": "POST",
-      "value": [
-        {
-          "name": "stateHandle",
-          "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-          "visible": false
-        }
-      ]
-    },
-    "context": {
-      "rel": [
-        "create-form"
-      ],
-      "name": "context",
-      "href": "http://localhost:3000/idp/idx/context",
-      "method": "POST",
-      "value": [
-        {
-          "name": "stateHandle",
-          "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-          "visible": false
-        }
-      ]
     }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00usip1dptbE7NiLa0g3"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "context": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "context",
+    "href": "http://localhost:3000/idp/idx/context",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+        "visible": false,
+        "mutable": false
+      }
+    ]
   }
+}

@@ -7,7 +7,7 @@ var OktaSignIn = (function () {
       OAuth2Util = require('util/OAuth2Util'),
       router;
 
-  function getProperties (Util, widgetOptions) {
+  function getProperties (Util, widgetOptions = {}) {
 
     /**
      * Render the sign in widget to an element.
@@ -47,7 +47,7 @@ var OktaSignIn = (function () {
         );
       }
       var Router = require('LoginRouter');
-      if (widgetOptions && widgetOptions.stateToken) {
+      if (widgetOptions.stateToken) {
         Util.introspectToken(authClient, widgetOptions)
           .then(_.bind(function (response) {
             var isNewPipeline = checkResponseVersion(response);

@@ -1,7 +1,7 @@
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 import { ClientFunction, RequestMock } from 'testcafe';
-import factorRequiredPassword from '../../../playground/mocks/idp/idx/challenge/data/factor-required-password-with-options';
+import factorRequiredPassword from '../../../playground/mocks/idp/idx/data/factor-required-password-with-options';
 import success from '../../../playground/mocks/idp/idx/data/success';
 
 const mock = RequestMock()
@@ -29,4 +29,3 @@ test
     const pageUrl = getPageUrl();
     await t.expect(pageUrl).contains('stateToken=abc123');
   });
-
