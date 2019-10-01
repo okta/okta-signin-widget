@@ -44,7 +44,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
     });
   });
 
-  fit('converts factor enroll options', () => {
+  it('converts factor enroll options', () => {
     const result = _.compose(uiSchemaTransformer, actionsTransformer, responseTransformer)(XHRFactorEnrollOptions.response);
     expect(result.currentState).toEqual({
       'version': '1.0.0',

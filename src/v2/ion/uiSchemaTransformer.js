@@ -18,7 +18,7 @@ import { _ } from 'okta';
 /**
  * Adds factorType metadata to each select-factor option item using factors array
  */
-const addFactorTypeToOptions = (options, factors) => {
+const createFactorTypeOptions = (options, factors) => {
   _.each(options, function (optionItem) {
     const factorValue = optionItem.value;
     const factor = factors.find(function (item) {
@@ -27,6 +27,7 @@ const addFactorTypeToOptions = (options, factors) => {
     });
     optionItem.factorType = factor.factorType;
   });
+  return options;
 };
 
 /**
@@ -77,7 +78,7 @@ const createUISchema = (remediationValue = [], factors = []) => {
     if (ionFormField.name === 'factorId' ||
       ionFormField.name === 'factorProfileId') {
       uiSchema.type = 'factorType';
-      addFactorTypeToOptions(ionFormField.options, factors);
+      uiSchema.options = createFactorTypeOptions(ionFormField.options, factors);
     }
     return Object.assign(
       {},
