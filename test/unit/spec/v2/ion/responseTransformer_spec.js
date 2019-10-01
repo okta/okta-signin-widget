@@ -44,7 +44,7 @@ describe('v2/ion/responseTransformer', function () {
         'remediation': [
           {
             'name': 'submit-factor',
-            'href': 'http://localhost:3000/api/v1/idx/',
+            'href': 'http://localhost:3000/idp/idx/',
             'value': [
               {
                 'name': 'email',
@@ -61,7 +61,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['submit-factor']()).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/',
+      url: 'http://localhost:3000/idp/idx/',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -69,7 +69,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['submit-factor']({foo: 'bar'})).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/',
+      url: 'http://localhost:3000/idp/idx/',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
         foo: 'bar',
@@ -78,7 +78,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['cancel']()).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/cancel',
+      url: 'http://localhost:3000/idp/idx/cancel',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -87,7 +87,7 @@ describe('v2/ion/responseTransformer', function () {
     // cancel doesn't take additional data for http request
     expect(result.currentState['cancel']({ foo: 'bar' })).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/cancel',
+      url: 'http://localhost:3000/idp/idx/cancel',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -95,7 +95,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['context']()).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/context',
+      url: 'http://localhost:3000/idp/idx/context',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -104,7 +104,7 @@ describe('v2/ion/responseTransformer', function () {
     // context doesn't take additional data for http request
     expect(result.currentState['context']({ foo: 'bar' })).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/context',
+      url: 'http://localhost:3000/idp/idx/context',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -146,7 +146,7 @@ describe('v2/ion/responseTransformer', function () {
         'remediation': [
           {
             'name': 'otp',
-            'href': 'http://localhost:3000/api/v1/idx/',
+            'href': 'http://localhost:3000/idp/idx/',
             'value': [
               {
                 'name': 'otp',
@@ -162,7 +162,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.factor['resend']()).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/resend',
+      url: 'http://localhost:3000/idp/idx/resend',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -170,7 +170,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.factor['poll']()).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/poll',
+      url: 'http://localhost:3000/idp/idx/poll',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -178,7 +178,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.factor['poll']({foo: 'bar'})).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/poll',
+      url: 'http://localhost:3000/idp/idx/poll',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
       }
@@ -186,7 +186,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['cancel']()).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/cancel',
+      url: 'http://localhost:3000/idp/idx/cancel',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -195,7 +195,7 @@ describe('v2/ion/responseTransformer', function () {
     // cancel doesn't take additional data for http request
     expect(result.currentState['cancel']({ foo: 'bar' })).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/cancel',
+      url: 'http://localhost:3000/idp/idx/cancel',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -203,7 +203,7 @@ describe('v2/ion/responseTransformer', function () {
 
     expect(result.currentState['context']()).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/context',
+      url: 'http://localhost:3000/idp/idx/context',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }
@@ -212,7 +212,7 @@ describe('v2/ion/responseTransformer', function () {
     // context doesn't take additional data for http request
     expect(result.currentState['context']({ foo: 'bar' })).toEqual({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/idx/context',
+      url: 'http://localhost:3000/idp/idx/context',
       data: {
         stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
       }

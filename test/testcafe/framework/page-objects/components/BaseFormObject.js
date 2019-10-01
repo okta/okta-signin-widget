@@ -17,7 +17,7 @@ export default class BaseFormObject {
     }
   }
 
-  getSelectFormButton(selector) {
+  getElement(selector) {
     return this.form.find(selector).exists;
   }
 

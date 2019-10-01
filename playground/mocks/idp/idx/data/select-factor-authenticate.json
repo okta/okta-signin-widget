@@ -26,7 +26,7 @@
                             },
                             {
                                 "label": "Email",
-                                "value": "emf2j1ccd6CF4IWFY0g4"
+                                "value": "emf2j1ccd6CF4IWFY0g3"
                             }
                         ]
                     },
@@ -38,6 +38,19 @@
                         "mutable": false
                     }
                 ]
+            }
+        ]
+    },
+    "factors": {
+        "type": "array",
+        "value": [
+            {
+                "factorType": "password",
+                "factorProfileId": "00u2j17ObFUsbGfLg0g4"
+            },
+            {
+                "factorType": "email",
+                "factorProfileId": "emf2j1ccd6CF4IWFY0g3"
             }
         ]
     },

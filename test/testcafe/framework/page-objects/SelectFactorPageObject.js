@@ -8,7 +8,16 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   hasPasswordSelectButton() {
-    return this.form.getSelectFormButton('.enroll-factor-row > .enroll-factor-description > .enroll-factor-button');
+    return this.form.getElement('.enroll-factor-row > .enroll-factor-description > .enroll-factor-button');
+  }
+
+
+  hasPasswordIcon() {
+    return this.form.getElement('.enroll-factor-row > .enroll-factor-icon-container > .mfa-okta-password');
+  }
+
+  hasEmailIcon() {
+    return this.form.getElement('.enroll-factor-row > .enroll-factor-icon-container > .mfa-okta-email');
   }
 
   async selectPasswordFactor() {

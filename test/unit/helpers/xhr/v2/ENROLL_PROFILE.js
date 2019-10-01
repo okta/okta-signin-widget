@@ -15,7 +15,7 @@ const data = {
             "create-form"
           ],
           "name": "enroll-profile",
-          "href": "http://localhost:3000/api/v1/idx/enroll",
+          "href": "http://localhost:3000/idp/idx/enroll",
           "method": "POST",
           "accepts": "application/vnd.okta.v1+json",
           "value": [
@@ -53,7 +53,7 @@ const data = {
             "create-form"
           ],
           "name": "select-identify",
-          "href": "http://localhost:3000/api/v1/idx",
+          "href": "http://localhost:3000/idp/idx",
           "method": "POST",
           "accepts": "application/vnd.okta.v1+json",
           "value": [
@@ -75,7 +75,7 @@ const data = {
         "create-form"
       ],
       "name": "cancel",
-      "href": "http://localhost:3000/api/v1/idx/cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
       "method": "POST",
       "value": [
         {
@@ -90,7 +90,7 @@ const data = {
         "create-form"
       ],
       "name": "context",
-      "href": "http://localhost:3000/api/v1/idx/context",
+      "href": "http://localhost:3000/idp/idx/context",
       "method": "POST",
       "accepts": "application/vnd.okta.v1+json",
       "value": [

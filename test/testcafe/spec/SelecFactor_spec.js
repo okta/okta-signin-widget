@@ -9,7 +9,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx')
   .respond(selectFactorAuthenticate)
 
-fixture(`Challenge Password Form`)
+fixture(`Select Factor Form`)
   .requestHooks(mock)
 
 async function setup(t) {
@@ -24,4 +24,6 @@ test
   (`should load select factor list`, async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.hasPasswordSelectButton()).eql(true);
+  await t.expect(selectFactorPage.hasPasswordIcon()).eql(true);
+  await t.expect(selectFactorPage.hasEmailIcon()).eql(true);
 });

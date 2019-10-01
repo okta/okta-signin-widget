@@ -14,7 +14,7 @@ const data = {
 
           "rel": ["create-form"],
           "name": "submit-factor",
-          "href": "http://localhost:3000/api/v1/idx/",
+          "href": "http://localhost:3000/idp/idx/",
           "method": "POST",
           "value": [
             {
@@ -61,7 +61,7 @@ const data = {
     "cancel": {
       "rel": ["create-form"],
       "name": "cancel",
-      "href": "http://localhost:3000/api/v1/idx/cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
       "method": "POST",
       "value": [
         {
@@ -74,7 +74,7 @@ const data = {
     "context": {
       "rel": ["create-form"],
       "name": "context",
-      "href": "http://localhost:3000/api/v1/idx/context",
+      "href": "http://localhost:3000/idp/idx/context",
       "method": "POST",
       "value": [
         {
