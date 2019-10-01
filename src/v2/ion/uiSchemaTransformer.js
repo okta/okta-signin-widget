@@ -14,6 +14,22 @@
  * Create UI Schema into remedation object base on remediation values
  */
 import { _ } from 'okta';
+
+/**
+ * Adds factorType metadata to each select-factor option item using factors array
+ */
+const createFactorTypeOptions = (options, factors) => {
+  _.each(options, function (optionItem) {
+    const factorValue = optionItem.value;
+    const factor = factors.find(function (item) {
+      return (item.factorProfileId === factorValue
+        || item.factorId === factorValue);
+    });
+    optionItem.factorType = factor.factorType;
+  });
+  return options;
+};
+
 /**
  * @typedef {Object} IONFormField
  * @property {string} name
@@ -27,8 +43,9 @@ import { _ } from 'okta';
 /**
  *
  * @param {IONFormField[]} remediationValue
+ * @param {factor[]} factors
  */
-const createUISchema = (remediationValue = []) => {
+const createUISchema = (remediationValue = [], factors = []) => {
   // For cases where field itself is a form, it has a formname and we are appending the formname to each field
   // This is so that while making the request we can bundle these key:value pairs under the same key name
   // For simplicity we are assuming that when field itself is a form its only one level deep
@@ -61,6 +78,7 @@ const createUISchema = (remediationValue = []) => {
     if (ionFormField.name === 'factorId' ||
       ionFormField.name === 'factorProfileId') {
       uiSchema.type = 'factorType';
+      uiSchema.options = createFactorTypeOptions(ionFormField.options, factors);
     }
     return Object.assign(
       {},
@@ -77,8 +95,9 @@ const createUISchema = (remediationValue = []) => {
 const insertUISchema = (transformedResp) => {
   if (transformedResp.currentState) {
     const remediation = transformedResp.currentState.remediation || [];
+    const factors = transformedResp.factors && transformedResp.factors.value || [];
     transformedResp.currentState.remediation = remediation.map(obj => {
-      obj.uiSchema = createUISchema(obj.value);
+      obj.uiSchema = createUISchema(obj.value, factors);
       return obj;
     });
   }

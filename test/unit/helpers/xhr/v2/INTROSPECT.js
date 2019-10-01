@@ -15,7 +15,7 @@ const data = {
             "create-form"
           ],
           "name": "identify",
-          "href": "http://rain.okta1.com:1802/api/v1/idx",
+          "href": "http://rain.okta1.com:1802/idp/idx",
           "method": "POST",
           "accepts": "application/vnd.okta.v1+json",
           "value": [
@@ -37,7 +37,7 @@ const data = {
         "create-form"
       ],
       "name": "cancel",
-      "href": "http://rain.okta1.com:1802/api/v1/idx/cancel",
+      "href": "http://rain.okta1.com:1802/idp/idx/cancel",
       "method": "POST",
       "accepts": "application/vnd.okta.v1+json",
       "value": [
@@ -53,7 +53,7 @@ const data = {
         "create-form"
       ],
       "name": "context",
-      "href": "http://rain.okta1.com:1802/api/v1/idx/context",
+      "href": "http://rain.okta1.com:1802/idp/idx/context",
       "method": "POST",
       "accepts": "application/vnd.okta.v1+json",
       "value": [

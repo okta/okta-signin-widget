@@ -15,7 +15,7 @@ const data = {
             "create-form"
           ],
           "name": "otp",
-          "href": "http://localhost:3000/api/v1/idx/",
+          "href": "http://localhost:3000/idp/idx/",
           "method": "POST",
           "value": [
             {
@@ -40,7 +40,7 @@ const data = {
             "create-form"
           ],
           "name": "poll",
-          "href": "http://localhost:3000/api/v1/idx/poll",
+          "href": "http://localhost:3000/idp/idx/poll",
           "method": "POST",
           "refresh": 2000,
           "value": [
@@ -56,7 +56,7 @@ const data = {
           "rel": [
             "create-form"
           ],
-          "href": "http://localhost:3000/api/v1/idx/resend",
+          "href": "http://localhost:3000/idp/idx/resend",
           "method": "POST",
           "value": [
             {
@@ -87,7 +87,7 @@ const data = {
         "create-form"
       ],
       "name": "cancel",
-      "href": "http://localhost:3000/api/v1/idx/cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
       "method": "POST",
       "value": [
         {
@@ -102,7 +102,7 @@ const data = {
         "create-form"
       ],
       "name": "context",
-      "href": "http://localhost:3000/api/v1/idx/context",
+      "href": "http://localhost:3000/idp/idx/context",
       "method": "POST",
       "value": [
         {

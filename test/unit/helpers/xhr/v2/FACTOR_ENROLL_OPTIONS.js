@@ -15,20 +15,20 @@ const data = {
             "create-form"
           ],
           "name": "select-factor",
-          "href": "http://localhost:3000/api/v1/idx",
+          "href": "http://localhost:3000/idp/idx",
           "method": "POST",
           "value": [
             {
-              "name": "factorType",
+              "name": "factorProfileId",
               "type": "set",
               "options": [
                 {
                   "label": "Password",
-                  "value": "password"
+                  "value": "00u2j17ObFUsbGfLg0g4"
                 },
                 {
                   "label": "E-mail",
-                  "value": "email"
+                  "value": "emf2j1ccd6CF4IWFY0g3"
                 }
               ]
             },
@@ -38,6 +38,19 @@ const data = {
               "visible": false
             }
           ]
+        }
+      ]
+    },
+    "factors": {
+      "type": "array",
+      "value": [
+        {
+          "factorType": "password",
+          "factorProfileId": "00u2j17ObFUsbGfLg0g4"
+        },
+        {
+          "factorType": "email",
+          "factorProfileId": "emf2j1ccd6CF4IWFY0g3"
         }
       ]
     },
@@ -60,7 +73,7 @@ const data = {
         "create-form"
       ],
       "name": "cancel",
-      "href": "http://localhost:3000/api/v1/idx/cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
       "method": "POST",
       "value": [
         {
@@ -75,7 +88,7 @@ const data = {
         "create-form"
       ],
       "name": "context",
-      "href": "http://localhost:3000/api/v1/idx/context",
+      "href": "http://localhost:3000/idp/idx/context",
       "method": "POST",
       "value": [
         {
