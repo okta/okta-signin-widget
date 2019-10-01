@@ -13,11 +13,11 @@ import { _, Model} from 'okta';
 
 const covertIonFieldToProp = (ionField) => {
   const config = Object.assign(
-    {
-      required: true,
-      type: 'string',
-    },
-    _.pick(ionField, 'minLength', 'maxLength'),
+    {},
+    _.chain(ionField)
+      .pick('minLength', 'maxLength', 'required')
+      .defaults({ type: 'string', required: true })
+      .value()
   );
   return { [ionField.name]: config };
 };
