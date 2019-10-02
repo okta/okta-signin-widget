@@ -19,7 +19,7 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function setup (settings) {
+  function setup (settings, skipIntrospect) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
@@ -36,6 +36,15 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
+    if (skipIntrospect) {
+      return Q({
+        router: router,
+        beacon: beacon,
+        form: form,
+        ac: authClient,
+        setNextResponse: setNextResponse
+      });
+    }
     setNextResponse(resEnroll);
     return Util.mockIntrospectResponse(router, resEnroll).then(function () {
       return Q({
@@ -50,8 +59,8 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
 
   Expect.describe('RefreshAuthState', function () {
 
-    /*itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
-      return setup()
+    it('redirects to PrimaryAuth if authClient does not need a refresh', function () {
+      return setup({}, true)
         .then(function (test) {
           spyOn(test.ac.tx, 'exists').and.returnValue(false);
           test.router.refreshAuthState();
@@ -60,7 +69,7 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
         .then(function (test) {
           Expect.isPrimaryAuth(test.router.controller);
         });
-    });*/
+    });
     itp('refreshes auth state on render if it does need a refresh', function () {
       return setup()
         .then(function (test) {

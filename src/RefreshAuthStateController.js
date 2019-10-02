@@ -39,6 +39,7 @@ define(['q', 'okta', 'util/FormController'], function (Q, Okta, FormController) 
             appState.trigger('loading', true);
             return authClient.tx.resume();
           }
+          appState.trigger('navigate', '');
         }
       });
     },
