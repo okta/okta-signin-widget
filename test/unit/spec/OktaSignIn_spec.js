@@ -75,10 +75,6 @@ function (Widget, Expect, Logger, $sandbox) {
             issuer: 'my-issuer',
             authorizeUrl: 'fake-url',
             pkce: true,
-            // unknown
-            a: 'b',
-            x: [],
-            y: function () {},
           };
           signIn = new Widget({
             baseUrl: url,

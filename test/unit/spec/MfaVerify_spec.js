@@ -3190,7 +3190,7 @@ function (Okta,
                   expect(transaction.poll.calls.count()).toBe(1);
                   expect(transaction.poll).toHaveBeenCalledWith({
                     delay: 4000,
-                    transactionCallBack: jasmine.createSpy()
+                    transactionCallBack: jasmine.any(Function)
                   });
                 });
             });
