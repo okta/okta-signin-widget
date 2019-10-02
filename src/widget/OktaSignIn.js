@@ -6,6 +6,7 @@ var OktaSignIn = (function () {
       config   = require('config/config.json'),
       OAuth2Util = require('util/OAuth2Util'),
       router;
+  var V1LoginRouter = require('LoginRouter');
 
   function getProperties (authClient, Util, widgetOptions = {}) {
 
@@ -27,7 +28,7 @@ var OktaSignIn = (function () {
           `
         );
       }
-      var Router = require('LoginRouter');
+      var Router = V1LoginRouter;
       if (widgetOptions.stateToken) {
         Util.introspectToken(authClient, widgetOptions)
           .then(_.bind(function (response) {
@@ -156,7 +157,7 @@ var OktaSignIn = (function () {
       `
     );
 
-    _.extend(this, getProperties(authClient, Util, options));
+    _.extend(this, V1LoginRouter.prototype.Events, getProperties(authClient, Util, options));
   }
 
   return OktaSignIn;
