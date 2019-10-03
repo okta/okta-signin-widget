@@ -19,7 +19,7 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
   var itp = Expect.itp;
   var tick = Expect.tick;
 
-  function setup (settings) {
+  function setup (settings, skipIntrospect) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
@@ -36,19 +36,31 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
-    return Q({
-      router: router,
-      beacon: beacon,
-      form: form,
-      ac: authClient,
-      setNextResponse: setNextResponse
+    if (skipIntrospect) {
+      return Q({
+        router: router,
+        beacon: beacon,
+        form: form,
+        ac: authClient,
+        setNextResponse: setNextResponse
+      });
+    }
+    setNextResponse(resEnroll);
+    return Util.mockIntrospectResponse(router, resEnroll).then(function () {
+      return Q({
+        router: router,
+        beacon: beacon,
+        form: form,
+        ac: authClient,
+        setNextResponse: setNextResponse
+      });
     });
   }
 
   Expect.describe('RefreshAuthState', function () {
 
-    itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
-      return setup()
+    it('redirects to PrimaryAuth if authClient does not need a refresh', function () {
+      return setup({}, true)
         .then(function (test) {
           spyOn(test.ac.tx, 'exists').and.returnValue(false);
           test.router.refreshAuthState();
@@ -69,9 +81,9 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
+            url: 'https://foo.com/idp/idx/introspect',
             data: {
-              stateToken: 'testStateToken'
+              stateToken: 'dummy-token'
             }
           });
         });
@@ -86,9 +98,9 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/api/v1/authn',
+            url: 'https://foo.com/idp/idx/introspect',
             data: {
-              stateToken: 'someStateToken'
+              stateToken: 'dummy-token'
             }
           });
         });

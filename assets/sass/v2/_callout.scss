@@ -1,0 +1,16 @@
+.siw-main-view {
+  .clearfix:before,
+  .clearfix:after {
+    visibility: visible;
+    content: '';
+    height: 102%;
+  }
+  .infobox {
+    a {
+      color: $primary-color;
+    }
+    strong {
+      font-weight: bold;
+    }
+  }
+}

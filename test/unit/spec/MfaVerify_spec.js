@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint camelcase: 0 */
 define([
   'okta',
@@ -21,19 +22,13 @@ define([
   'helpers/xhr/MFA_REQUIRED_multipleOktaVerify',
   'helpers/xhr/MFA_REQUIRED_windows_hello',
   'helpers/xhr/MFA_REQUIRED_oktaPassword',
-  'helpers/xhr/FACTOR_REQUIRED_oktaPassword',
-  'helpers/xhr/FACTOR_REQUIRED',
-  'helpers/xhr/FACTOR_REQUIRED_question',
   'helpers/xhr/MFA_REQUIRED_U2F',
   'helpers/xhr/MFA_REQUIRED_multipleU2F',
   'helpers/xhr/MFA_REQUIRED_multipleFactors',
   'helpers/xhr/MFA_CHALLENGE_duo',
   'helpers/xhr/MFA_CHALLENGE_sms',
-  'helpers/xhr/FACTOR_CHALLENGE_sms',
   'helpers/xhr/MFA_CHALLENGE_call',
-  'helpers/xhr/FACTOR_CHALLENGE_call',
   'helpers/xhr/MFA_CHALLENGE_email',
-  'helpers/xhr/FACTOR_CHALLENGE_email',
   'helpers/xhr/MFA_CHALLENGE_windows_hello',
   'helpers/xhr/MFA_CHALLENGE_u2f',
   'helpers/xhr/MFA_CHALLENGE_multipleU2F',
@@ -78,19 +73,13 @@ function (Okta,
   resVerifyMultiple,
   resRequiredWindowsHello,
   resPassword,
-  resFactorRequiredPassword,
-  resFactorRequiredAllFactors,
-  resFactorRequiredQuestion,
   resU2F,
   resMultipleU2F,
   resMultipleFactors,
   resChallengeDuo,
   resChallengeSms,
-  resFactorChallengeSMS,
   resChallengeCall,
-  resFactorChallengeCall,
   resChallengeEmail,
-  resFactorChallengeEmail,
   resChallengeWindowsHello,
   resChallengeU2F,
   resChallengeMultipleU2F,
@@ -160,7 +149,7 @@ function (Okta,
       return router;
     }
 
-    function setup (res, selectedFactorProps, settings, languagesResponse) {
+    function setup (res, selectedFactorProps, settings, languagesResponse, useResForIntrospect) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
@@ -168,68 +157,76 @@ function (Okta,
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = createRouter(baseUrl, authClient, successSpy, settings);
       router.on('afterError', afterErrorHandler);
-      setNextResponse(res);
-      if (languagesResponse) {
-        setNextResponse(languagesResponse);
+      var resp = resAllFactors;
+      if (useResForIntrospect) {
+        resp = res;
       }
-      router.refreshAuthState('dummy-token');
-      return Expect.waitForMfaVerify()
-        .then(function () {
-          if (selectedFactorProps) {
-            var factors = router.appState.get('factors'),
-                selectedFactor = factors.findWhere(selectedFactorProps),
-                provider = selectedFactor.get('provider'),
-                factorType = selectedFactor.get('factorType');
-            if (provider === 'DUO' && factorType === 'web') {
-              setNextResponse(resChallengeDuo);
-              router.verifyDuo();
-              return Expect.waitForVerifyDuo();
+      setNextResponse(resp);
+      return Util.mockIntrospectResponse(router, resp).then(function () {
+        setNextResponse(res);
+        if (languagesResponse) {
+          setNextResponse(languagesResponse);
+        }
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForMfaVerify()
+          .then(function () {
+            if (selectedFactorProps) {
+              var factors = router.appState.get('factors'),
+                  selectedFactor = factors.findWhere(selectedFactorProps),
+                  provider = selectedFactor.get('provider'),
+                  factorType = selectedFactor.get('factorType');
+              if (provider === 'DUO' && factorType === 'web') {
+                setNextResponse(resChallengeDuo);
+                router.verifyDuo();
+                return Expect.waitForVerifyDuo();
+              }
+              else if (provider === 'FIDO' && factorType === 'webauthn') {
+                setNextResponse(resChallengeWindowsHello);
+                router.verifyWebauthn();
+                return Expect.waitForVerifyWindowsHello();
+              }
+              else if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
+                setNextResponse(resChallengeCustomSAMLFactor);
+                router.verifySAMLFactor();
+                return Expect.waitForVerifyCustomFactor();
+              }
+              else if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
+                setNextResponse(resChallengeCustomOIDCFactor);
+                router.verifyOIDCFactor();
+                return Expect.waitForVerifyCustomFactor();
+              }
+              else if (provider === 'CUSTOM' && factorType === 'claims_provider') {
+                setNextResponse(resChallengeClaimsProvider);
+                router.verifyClaimsFactor();
+                return Expect.waitForVerifyCustomFactor();
+              }
+              else {
+                router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
+                return Expect.waitForMfaVerify();
+              }
             }
-            else if (provider === 'FIDO' && factorType === 'webauthn') {
-              setNextResponse(resChallengeWindowsHello);
-              router.verifyWebauthn();
-              return Expect.waitForVerifyWindowsHello();
+          })
+          .then(function () {
+            var $forms = $sandbox.find('.o-form');
+            var forms = _.map($forms, function (form) {
+              return new MfaVerifyForm($(form));
+            });
+            if (forms.length === 1) {
+              forms = forms[0];
             }
-            else if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
-              setNextResponse(resChallengeCustomSAMLFactor);
-              router.verifySAMLFactor();
-              return Expect.waitForVerifyCustomFactor();
-            }
-            else if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
-              setNextResponse(resChallengeCustomOIDCFactor);
-              router.verifyOIDCFactor();
-              return Expect.waitForVerifyCustomFactor();
-            }
-            else if (provider === 'CUSTOM' && factorType === 'claims_provider') {
-              setNextResponse(resChallengeClaimsProvider);
-              router.verifyClaimsFactor();
-              return Expect.waitForVerifyCustomFactor();
-            }
-            else {
-              router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
-              return Expect.waitForMfaVerify();
-            }
-          }
-        })
-        .then(function () {
-          var $forms = $sandbox.find('.o-form');
-          var forms = _.map($forms, function (form) {
-            return new MfaVerifyForm($(form));
+            var beacon = new Beacon($sandbox);
+            return {
+              router: router,
+              form: forms,
+              beacon: beacon,
+              ac: authClient,
+              setNextResponse: setNextResponse,
+              successSpy: successSpy,
+              afterErrorHandler: afterErrorHandler
+            };
           });
-          if (forms.length === 1) {
-            forms = forms[0];
-          }
-          var beacon = new Beacon($sandbox);
-          return {
-            router: router,
-            form: forms,
-            beacon: beacon,
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            successSpy: successSpy,
-            afterErrorHandler: afterErrorHandler
-          };
-        });
+      });
+
     }
 
     function setupNoProvider (res, selectedFactorProps, settings) {
@@ -241,36 +238,38 @@ function (Okta,
       var router = createRouter(baseUrl, authClient, successSpy, settings);
       router.on('afterError', afterErrorHandler);
       setNextResponse(res);
-      router.refreshAuthState('dummy-token');
-      return Expect.waitForMfaVerify()
-        .then(function () {
-          if (selectedFactorProps) {
-            var factors = router.appState.get('factors');
-            var selectedFactor = factors.findWhere(selectedFactorProps),
-                factorType = selectedFactor.get('factorType');
-            router.verifyNoProvider(factorType);
-            return Expect.waitForMfaVerify();
-          }
-        })
-        .then(function () {
-          var $forms = $sandbox.find('.o-form');
-          var forms = _.map($forms, function (form) {
-            return new MfaVerifyForm($(form));
+      return Util.mockIntrospectResponse(router, res).then(function () {
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForMfaVerify()
+          .then(function () {
+            if (selectedFactorProps) {
+              var factors = router.appState.get('factors');
+              var selectedFactor = factors.findWhere(selectedFactorProps),
+                  factorType = selectedFactor.get('factorType');
+              router.verifyNoProvider(factorType);
+              return Expect.waitForMfaVerify();
+            }
+          })
+          .then(function () {
+            var $forms = $sandbox.find('.o-form');
+            var forms = _.map($forms, function (form) {
+              return new MfaVerifyForm($(form));
+            });
+            if (forms.length === 1) {
+              forms = forms[0];
+            }
+            var beacon = new Beacon($sandbox);
+            return {
+              router: router,
+              form: forms,
+              beacon: beacon,
+              ac: authClient,
+              setNextResponse: setNextResponse,
+              successSpy: successSpy,
+              afterErrorHandler: afterErrorHandler
+            };
           });
-          if (forms.length === 1) {
-            forms = forms[0];
-          }
-          var beacon = new Beacon($sandbox);
-          return {
-            router: router,
-            form: forms,
-            beacon: beacon,
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            successSpy: successSpy,
-            afterErrorHandler: afterErrorHandler
-          };
-        });
+      });
     }
 
     function setupWindowsHelloOnly () {
@@ -280,16 +279,20 @@ function (Okta,
       var successSpy = jasmine.createSpy('success');
       var router = createRouter(baseUrl, authClient, successSpy);
       setNextResponse([resRequiredWindowsHello, resChallengeWindowsHello, resSuccess]);
-      router.refreshAuthState('dummy-token');
-      return Expect.waitForVerifyWindowsHello()
-        .then(function () {
-          return Expect.waitForSpyCall(successSpy);
-        })
-        .then(function () {
-          return {
-            router: router
-          };
-        });
+      return Util.mockIntrospectResponse(router, resRequiredWindowsHello).then(function () {
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForVerifyWindowsHello()
+          .then(function () {
+            return Expect.waitForSpyCall(successSpy);
+          })
+          .then(function () {
+            return {
+              router: router
+            };
+          });
+      });
+
+
     }
 
     function setupWithMfaPolicy (options) {
@@ -306,46 +309,37 @@ function (Okta,
         }
       }
 
-      return setup(res);
+      return setup(res, null, null, null, true);
     }
 
     var setupSecurityQuestion = _.partial(setup, resAllFactors, { factorType: 'question' });
-    var setupSecurityQuestionWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'question' });
     var setupGoogleTOTP = _.partial(setup, resAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
     var setupHOTP = _.partial(setup, resAllFactors, { factorType: 'token:hotp', provider: 'CUSTOM' });
-    var setupGoogleTOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'token:software:totp', provider: 'GOOGLE' });
-    var setupHOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'token:hotp', provider: 'CUSTOM' });
     var setupGoogleTOTPAutoPushTrue = _.partial(setup, Util.getAutoPushResponse(resAllFactors, true),
-      { factorType: 'token:software:totp', provider: 'GOOGLE' });
-    var setupGoogleTOTPAutoPushTrueWithIdx = _.partial(setup, Util.getAutoPushResponse(resFactorRequiredAllFactors, true),
-      { factorType: 'token:software:totp', provider: 'GOOGLE' });
+      { factorType: 'token:software:totp', provider: 'GOOGLE' }, {'features.autoPush': true}, null, true);
     var setupRsaTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'RSA' });
-    var setupOnPremTOTP = _.partial(setup, resAllFactorsOnPrem, { factorType: 'token', provider: 'DEL_OATH' });
+    var setupOnPremTOTP = _.partial(setup, resAllFactorsOnPrem, { factorType: 'token', provider: 'DEL_OATH' }, null, null, true);
     var setupSymantecTOTP = _.partial(setup, resAllFactors, { factorType: 'token', provider: 'SYMANTEC' });
     var setupYubikey = _.partial(setup, resAllFactors, { factorType: 'token:hardware', provider: 'YUBICO' });
     var setupSMS = _.partial(setup, resAllFactors, { factorType: 'sms' });
-    var setupSMSWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'sms' });
     var setupCall = _.partial(setup, resAllFactors, { factorType: 'call' });
-    var setupCallWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'call' });
     var setupEmail = _.partial(setup, resAllFactors, { factorType: 'email' });
-    var setupEmailWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'email' });
     var setupOktaPushWithTOTP = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
-    var setupOktaPushWithTOTPWithIdx = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'push', provider: 'OKTA' });
-    var setupEmailMagicLink = _.partial(setup, resFactorRequiredAllFactors, { factorType: 'email' });
-    var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' });
+    var setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' }, null, null , true);
     var setupOktaPush = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
+    var setupOktaPushWithIntrospect = _.partial(setup, resVerifyPushOnly, { factorType: 'push' }, null, null, true);
+    var setupOktaPushWithRefreshAuth = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
     var setupWindowsHello = _.partial(
       setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false });
     var setupWindowsHelloWithBrandName = _.partial(
       setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false, brandName: 'Spaghetti Inc.' });
-    var setupPassword = _.partial(setup, resPassword, { factorType: 'password' });
-    var setupPasswordWithIdx = _.partial(setup, resFactorRequiredPassword, { factorType: 'password' });
+    var setupPassword = _.partial(setup, resPassword, { factorType: 'password' }, null, null, true);
     var setupCustomSAMLFactor = _.partial(setup, resAllFactors,
       { factorType: 'assertion:saml2', provider: 'GENERIC_SAML' });
     var setupCustomOIDCFactor = _.partial(setup, resAllFactors,
       { factorType: 'assertion:oidc', provider: 'GENERIC_OIDC' });
-    var setupClaimsProviderFactor = _.partial(setup, resAllFactors,
-      {factorType: 'claims_provider', provider: 'CUSTOM'});
+    var setupClaimsProviderFactorWithIntrospect = _.partial(setup, resAllFactors,
+      { factorType: 'claims_provider', provider: 'CUSTOM', });
     var setupAllFactorsWithRouter = _.partial(setup, resAllFactors, null, { 'features.router': true });
     function setupSecurityQuestionLocalized (options) {
       spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
@@ -356,7 +350,7 @@ function (Okta,
       ]);
     }
 
-    var setupMultipleOktaVerify = _.partial(setup, resVerifyMultiple, { factorType: 'push' });
+    var setupMultipleOktaVerify = _.partial(setup, resVerifyMultiple, { factorType: 'push' }, null, null, true);
 
     function setupMultipleOktaTOTP (settings) {
       var totpOnly = deepClone(resVerifyMultiple);
@@ -368,7 +362,7 @@ function (Okta,
       var pushOnly = deepClone(resVerifyMultiple);
       pushOnly.response._embedded.factors = _.where(pushOnly.response._embedded.factors, { factorType: 'push'});
       delete pushOnly.response._embedded.factorTypes;
-      return setup(pushOnly, { factorType: 'push' }, settings);
+      return setup(pushOnly, { factorType: 'push' }, settings, null, true);
     }
 
     function setupU2F (options) {
@@ -391,7 +385,7 @@ function (Okta,
         delete window.u2f;
       }
 
-      return setup(options.nextResponse ? options.nextResponse : resAllFactors)
+      return setup(options.nextResponse ? options.nextResponse : resAllFactors, null, null, null, true)
         .then(function (test) {
           var responses = options.multipleU2F ? [resChallengeMultipleU2F] : [resChallengeU2F];
           if (options && options.res) {
@@ -447,27 +441,29 @@ function (Okta,
         responses.push(options.res);
       }
       setNextResponse(responses);
-      router.refreshAuthState('dummy-token');
-      return Expect.waitForVerifyU2F()
-        .then(function () {
-          var $forms = $sandbox.find('.o-form');
-          var forms = _.map($forms, function (form) {
-            return new MfaVerifyForm($(form));
+      return Util.mockIntrospectResponse(router, options.res).then(function () {
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForVerifyU2F()
+          .then(function () {
+            var $forms = $sandbox.find('.o-form');
+            var forms = _.map($forms, function (form) {
+              return new MfaVerifyForm($(form));
+            });
+            if (forms.length === 1) {
+              forms = forms[0];
+            }
+            var beacon = new Beacon($sandbox);
+            return {
+              router: router,
+              form: forms,
+              beacon: beacon,
+              ac: authClient,
+              setNextResponse: setNextResponse,
+              successSpy: successSpy,
+              afterErrorHandler: afterErrorHandler
+            };
           });
-          if (forms.length === 1) {
-            forms = forms[0];
-          }
-          var beacon = new Beacon($sandbox);
-          return {
-            router: router,
-            form: forms,
-            beacon: beacon,
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            successSpy: successSpy,
-            afterErrorHandler: afterErrorHandler
-          };
-        });
+      });
     }
 
     function setupMfaChallengeClaimsFactor (options) {
@@ -481,29 +477,31 @@ function (Okta,
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = createRouter(baseUrl, authClient, successSpy, options.settings);
       router.on('afterError', afterErrorHandler);
-      router.refreshAuthState('dummy-token');
-      var verifyView = (options.factorResult === 'FAILED') ?
-        'waitForVerifyCustomFactor' : 'waitForMfaVerify';
-      return Expect[verifyView]()
-        .then(function () {
-          var $forms = $sandbox.find('.o-form');
-          var forms = _.map($forms, function (form) {
-            return new MfaVerifyForm($(form));
+      return Util.mockIntrospectResponse(router).then(function () {
+        router.refreshAuthState('dummy-token');
+        var verifyView = (options.factorResult === 'FAILED') ?
+          'waitForVerifyCustomFactor' : 'waitForMfaVerify';
+        return Expect[verifyView]()
+          .then(function () {
+            var $forms = $sandbox.find('.o-form');
+            var forms = _.map($forms, function (form) {
+              return new MfaVerifyForm($(form));
+            });
+            if (forms.length === 1) {
+              forms = forms[0];
+            }
+            var beacon = new Beacon($sandbox);
+            return {
+              router: router,
+              form: forms,
+              beacon: beacon,
+              ac: authClient,
+              setNextResponse: setNextResponse,
+              successSpy: successSpy,
+              afterErrorHandler: afterErrorHandler
+            };
           });
-          if (forms.length === 1) {
-            forms = forms[0];
-          }
-          var beacon = new Beacon($sandbox);
-          return {
-            router: router,
-            form: forms,
-            beacon: beacon,
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            successSpy: successSpy,
-            afterErrorHandler: afterErrorHandler
-          };
-        });
+      });
     }
 
     function getInitialChallengeResponse (options) {
@@ -622,7 +620,7 @@ function (Okta,
       var index = _.findIndex(factors, factorIdentifier);
       var factor = factors.splice(index, 1);
       factors.unshift(factor[0]);
-      return setup(res);
+      return setup(res, null, null, null, true);
     }
 
     function setupPolling (test, finalResponse, firstPollResponse) {
@@ -706,7 +704,7 @@ function (Okta,
 
     function beaconTest (allFactorsRes, singleFactorRes, allFactorOnPremRes) {
       itp('has no dropdown if there is only one factor', function () {
-        return setup(singleFactorRes).then(function (test) {
+        return setup(singleFactorRes, null, null, null, true).then(function (test) {
           var options = test.beacon.getOptionsLinks();
           expect(options.length).toBe(0);
         });
@@ -730,7 +728,7 @@ function (Okta,
       });
       itp('shows the right options in the dropdown, removes okta totp if ' +
         'okta push exists, and orders factors by security (On-Prem, no Password)', function () {
-        return setup(allFactorOnPremRes).then(function (test) {
+        return setup(allFactorOnPremRes, null, null, null , true).then(function (test) {
           var options = test.beacon.getOptionsLinksText();
           expect(options).toEqual([
             'Okta Verify (Test Device)', 'YubiKey', 'Google Authenticator', 'Entrust', 'SMS Authentication',
@@ -2207,7 +2205,7 @@ function (Okta,
           });
         });
         itp('is not rendered when policy is always ask for mfa', function () {
-          return setup(resMfaAlwaysPolicy).then(function (test) {
+          return setup(resMfaAlwaysPolicy, null, null, null, true).then(function (test) {
             expect(test.form.rememberDeviceCheckbox().length).toEqual(0);
           });
         });
@@ -2228,10 +2226,6 @@ function (Okta,
 
       Expect.describe('Security Question', function () {
         testSecurityQuestion(setupSecurityQuestion, setupSecurityQuestionLocalized, 'testStateToken');
-      });
-
-      Expect.describe('Security Question on Idx Pipeline', function () {
-        testSecurityQuestion(setupSecurityQuestionWithIdx, setupSecurityQuestionLocalized, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
       Expect.describe('TOTP', function () {
@@ -2321,10 +2315,6 @@ function (Okta,
               expect(test.form.answerField().val()).toEqual('');
             });
         });
-      });
-
-      Expect.describe('TOTP on Idx Pipeline', function () {
-        testGoogleTOTP(setupGoogleTOTPWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
       Expect.describe('Yubikey', function () {
@@ -2447,16 +2437,8 @@ function (Okta,
         testSms(setupSMS, resChallengeSms, resSuccess, 'testStateToken');
       });
 
-      Expect.describe('SMS on Idx Pipeline', function () {
-        testSms(setupSMSWithIdx, resFactorChallengeSMS, resSuccess, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
-      });
-
       Expect.describe('Call', function () {
         testCall(setupCall, resChallengeCall, resSuccess, 'testStateToken');
-      });
-
-      Expect.describe('Call on Idx Pipeline', function () {
-        testCall(setupCallWithIdx, resFactorChallengeCall, resSuccess, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
       });
 
       Expect.describe('Email', function () {
@@ -2752,57 +2734,6 @@ function (Okta,
         });
       });
 
-      Expect.describe('Email on Idx Pipeline', function () {
-        itp('posts email link if send email button is clicked once and changes button text', function () {
-          return setupEmailMagicLink().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resFactorChallengeEmail);
-            expect(test.form.answerField().length).toEqual(0);
-            expect(test.form.button().length).toEqual(0);
-            expect(test.form.emailSendCode().text()).toEqual('Send email');
-            test.form.emailSendCode().click();
-            return Expect.waitForMfaVerify(test);
-          })
-            .then(function (test) {
-              expect(test.form.emailSendCode().text()).toEqual('Sent');
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
-                url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=false'
-              });
-            });
-        });
-        itp('posts email link, changes button text and posts to verify if button is clicked for the second time', function () {
-          Util.speedUpPolling();
-          return setupEmailMagicLink().then(function (test) {
-            $.ajax.calls.reset();
-            test.setNextResponse(resFactorChallengeEmail);
-            expect(test.form.answerField().length).toEqual(0);
-            expect(test.form.button().length).toEqual(0);
-            expect(test.form.emailSendCode().text()).toEqual('Send email');
-            test.form.emailSendCode().click();
-            return Expect.wait(() => {
-              return $('[data-se="email-send-code"]').text() === 'Re-send email';
-            }, test);
-          })
-            .then(function (test) {
-              $.ajax.calls.reset();
-              test.setNextResponse(resFactorChallengeEmail);
-              test.form.emailSendCode().click();
-              return Expect.wait(() => {
-                return $('[data-se="email-send-code"]').text() === 'Re-send email';
-              }, test);
-            })
-            .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
-                data: { stateToken: '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ' },
-                url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3s/verify/resend'
-              });
-            });
-        });
-      });
-
       Expect.describe('Okta Push', function () {
         // Remember device for Push form exists out of the form.
         function getRememberDeviceForPushForm (test) {
@@ -2831,8 +2762,8 @@ function (Okta,
           return autoPushLabel;
         }
         itp('has push without totp when totp is not in the factors list', function () {
-          return setupOktaPush().then(function (test) {
-            expect(test.form.isPush()).toBe(true);
+          return setupOktaPushWithRefreshAuth().then(function (test) {
+            expect(test.form[0].isPush()).toBe(true);
           });
         });
         itp('has push and an inline totp form when totp is available', function () {
@@ -2869,15 +2800,14 @@ function (Okta,
             });
           });
         });
-
         Expect.describe('Push', function () {
           itp('shows a title that includes the device name', function () {
-            return setupOktaPush().then(function (test) {
+            return setupOktaPushWithIntrospect().then(function (test) {
               expect(test.form.titleText()).toBe('Okta Verify (Test iPhone)');
             });
           });
           itp('calls authClient verifyFactor with correct args when submitted', function () {
-            return setupOktaPush().then(function (test) {
+            return setupOktaPushWithIntrospect().then(function (test) {
               $.ajax.calls.reset();
               setRememberDeviceForPushForm(test, true);
               test.setNextResponse(resSuccess);
@@ -2895,11 +2825,11 @@ function (Okta,
               });
           });
           itp('calls authClient verifyFactor with correct args when autoPush is checked', function () {
-            return setupOktaPush({'features.autoPush': true}).then(function (test) {
+            return setupOktaPushWithRefreshAuth({'features.autoPush': true}).then(function (test) {
               $.ajax.calls.reset();
               setAutoPushCheckbox(test, true);
               test.setNextResponse(resSuccess);
-              test.form.submit();
+              test.form[0].submit();
               return tick();
             })
               .then(function () {
@@ -2914,11 +2844,11 @@ function (Okta,
               });
           });
           itp('calls authClient verifyFactor with correct args when autoPush is not checked', function () {
-            return setupOktaPush({'features.autoPush': true}).then(function (test) {
+            return setupOktaPushWithRefreshAuth({'features.autoPush': true}).then(function (test) {
               $.ajax.calls.reset();
               setAutoPushCheckbox(test, false);
               test.setNextResponse(resSuccess);
-              test.form.submit();
+              test.form[0].submit();
               return tick();
             })
               .then(function () {
@@ -3148,7 +3078,7 @@ function (Okta,
               });
             });
             itp('sets transaction state to MFA_CHALLENGE before poll', function () {
-              return setupOktaPush().then(function (test) {
+              return setupOktaPushWithIntrospect().then(function (test) {
                 $.ajax.calls.reset();
                 test.setNextResponse(resChallengePush);
                 test.form.submit();
@@ -3159,7 +3089,7 @@ function (Okta,
             });
             itp('starts poll after a delay of 4000ms', function () {
               var callAfterTimeoutStub;
-              return setupOktaPush()
+              return setupOktaPushWithIntrospect()
                 .then(function (test) {
                   spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function (pullPromiseResolver) {
                   // setup a deterministic callAfterTimeout stub
@@ -3219,18 +3149,21 @@ function (Okta,
               });
             });
             itp('stops listening on factorSwitched when we start polling', function () {
-              return setupOktaPush().then(function (test) {
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
-                  return setTimeout(arguments[0]);
-                });
-                $.ajax.calls.reset();
-                test.setNextResponse(resChallengePush);
-                test.form.submit();
-                spyOn(test.router.controller.model, 'stopListening').and.callThrough();
-                return tick(test).then(function () {
-                  expect(test.router.controller.model.stopListening).toHaveBeenCalledWith(
-                    test.router.controller.model.appState, 'factorSwitched');
-                });
+              return setupOktaPushWithIntrospect().then(function (test) {
+                tick(test)
+                  .then(function (test) {
+                    spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
+                      return setTimeout(arguments[0]);
+                    });
+                    $.ajax.calls.reset();
+                    test.setNextResponse(resChallengePush);
+                    test.form.submit();
+                    spyOn(test.router.controller.model, 'stopListening').and.callThrough();
+                    return tick(test).then(function () {
+                      expect(test.router.controller.model.stopListening).toHaveBeenCalledWith(
+                        test.router.controller.model.appState, 'factorSwitched');
+                    });
+                  });
               });
             });
             itp('on REJECTED, re-enables submit, displays an error, and allows resending', function () {
@@ -3304,7 +3237,7 @@ function (Okta,
                 test.form.submit();
                 return Expect.waitForFormError(test.form, test);
               }
-              return setupOktaPush().then(function (test) {
+              return setupOktaPushWithIntrospect().then(function (test) {
                 spyOn(test.router.settings, 'callGlobalError');
                 Q.stopUnhandledRejectionTracking();
                 return setupFailurePolling(test)
@@ -3339,7 +3272,7 @@ function (Okta,
                 test.form.submit();
                 return tick(test);
               }
-              return setupOktaPush().then(function (test) {
+              return setupOktaPushWithIntrospect().then(function (test) {
                 spyOn(test.router.settings, 'callGlobalError');
                 Q.stopUnhandledRejectionTracking();
                 return setupFailurePolling(test)
@@ -4110,43 +4043,43 @@ function (Okta,
       });
       Expect.describe('Claims Provider Factor', function () {
         itp('is claims provider factor', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             expect(test.form.isCustomFactor()).toBe(true);
           });
         });
         itp('shows the right beacon', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-custom-factor');
           });
         });
         itp('shows the right title', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             expectTitleToBe(test, 'IDP factor');
           });
         });
         itp('shows the right subtitle', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
           });
         });
         itp('has remember device checkbox', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
         itp('has a sign out link', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             Expect.isVisible(test.form.signoutLink($sandbox));
           });
         });
         itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
-          return setupClaimsProviderFactor({'features.hideSignOutLinkInMFA': true}).then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect({'features.hideSignOutLinkInMFA': true}).then(function (test) {
             expect(test.form.signoutLink($sandbox).length).toBe(0);
           });
         });
         itp('redirects to third party when Verify button is clicked', function () {
           spyOn(SharedUtil, 'redirect');
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
@@ -4158,7 +4091,7 @@ function (Okta,
             });
         });
         itp('displays error when error response received', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
@@ -4185,7 +4118,7 @@ function (Okta,
             });
         });
         itp('calls authClient verifyFactor with rememberDevice URL param', function () {
-          return setupClaimsProviderFactor().then(function (test) {
+          return setupClaimsProviderFactorWithIntrospect().then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse(resSuccess);
             test.form.setRememberDevice(true);
@@ -4412,17 +4345,10 @@ function (Okta,
       Expect.describe('Password', function () {
         testPassword(setupPassword, 'testStateToken');
       });
-      Expect.describe('Password on Idx Pipeline', function () {
-        testPassword(setupPasswordWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
-      });
     });
 
     Expect.describe('Custom HOTP Factor', function () {
       testHOTPFactor(setupHOTP, 'testStateToken');
-    });
-
-    Expect.describe('Custom HOTP Factor in IDX', function () {
-      testHOTPFactor(setupHOTPWithIdx, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
     });
 
     function testHOTPFactor (setupFn, expectedStateToken) {
@@ -4495,11 +4421,6 @@ function (Okta,
     Expect.describe('Beacon', function () {
       beaconTest(resAllFactors, resVerifyTOTPOnly, resAllFactorsOnPrem);
     });
-
-    Expect.describe('Beacon on Idx Pipeline', function () {
-      beaconTest(resFactorRequiredAllFactors, resFactorRequiredQuestion, resAllFactorsOnPrem);
-    });
-
 
     Expect.describe('Switch between different factors and verify a factor', function () {
       switchFactorTest(setupSMS, setupOktaPushWithTOTP, setupGoogleTOTPAutoPushTrue, resAllFactors, resSuccess, resChallengeSms, 'testStateToken');
@@ -4601,10 +4522,6 @@ function (Okta,
             });
         });
       });
-    });
-
-    Expect.describe('Switch between different factors and verify a factor on Idx Pipeline', function () {
-      switchFactorTest(setupEmailWithIdx, setupOktaPushWithTOTPWithIdx, setupGoogleTOTPAutoPushTrueWithIdx, resFactorRequiredAllFactors, resSuccess, resFactorChallengeEmail, '01bfpkAkRyqUZQAe3IzERUqZGOfvYhX83QYCQIDnKZ');
     });
 
     Expect.describe('Browser back button does not change view', function () {

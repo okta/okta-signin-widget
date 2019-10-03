@@ -100,15 +100,17 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
     setNextResponse(passwordResetResponse);
-    router.refreshAuthState('dummy-token');
-    return Expect.waitForPasswordReset({
-      router: router,
-      successSpy: successSpy,
-      form: form,
-      beacon: beacon,
-      ac: authClient,
-      setNextResponse: setNextResponse,
-      afterErrorHandler: afterErrorHandler
+    return Util.mockIntrospectResponse(router, passwordResetResponse).then(function () {
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForPasswordReset({
+        router: router,
+        successSpy: successSpy,
+        form: form,
+        beacon: beacon,
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        afterErrorHandler: afterErrorHandler
+      });
     });
   }
 

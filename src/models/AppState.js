@@ -153,6 +153,8 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       lastAuthResponse: ['object', true, {}],
       transaction: 'object',
       transactionError: 'object',
+      introspectSuccess: 'object', // only set during introspection
+      introspectError: 'object', // only set during introspection
       username: 'string',
       factors: 'object',
       policy: 'object',

@@ -39,21 +39,21 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
-
     setNextResponse(resChallenge);
-    router.refreshAuthState('dummy-token');
-
-    // Two ticks because of the extra defer that happens when we disable
-    // the sent button.
-    return Expect.waitForRecoveryChallenge({
-      router: router,
-      form: form,
-      beacon: beacon,
-      ac: authClient,
-      setNextResponse: setNextResponse,
-      afterErrorHandler: afterErrorHandler
-    })
-      .then(tick);
+    return Util.mockIntrospectResponse(router, resChallenge).then(function () {
+      router.refreshAuthState('dummy-token');
+      // Two ticks because of the extra defer that happens when we disable
+      // the sent button.
+      return Expect.waitForRecoveryChallenge({
+        router: router,
+        form: form,
+        beacon: beacon,
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        afterErrorHandler: afterErrorHandler
+      })
+        .then(tick);
+    });
   }
 
   Expect.describe('RecoveryChallenge', function () {

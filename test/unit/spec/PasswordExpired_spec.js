@@ -51,20 +51,22 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
     setNextResponse(res || resPassExpired);
-    router.refreshAuthState('dummy-token');
-    settings = {
-      router: router,
-      successSpy: successSpy,
-      beacon: new Beacon($sandbox),
-      form: new PasswordExpiredForm($sandbox),
-      ac: authClient,
-      setNextResponse: setNextResponse,
-      afterErrorHandler: afterErrorHandler
-    };
-    if(custom) {
-      return Expect.waitForCustomPasswordExpired(settings);
-    }
-    return Expect.waitForPasswordExpired(settings);
+    return Util.mockIntrospectResponse(router, res || resPassExpired).then(function () {
+      router.refreshAuthState('dummy-token');
+      settings = {
+        router: router,
+        successSpy: successSpy,
+        beacon: new Beacon($sandbox),
+        form: new PasswordExpiredForm($sandbox),
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        afterErrorHandler: afterErrorHandler
+      };
+      if (custom) {
+        return Expect.waitForCustomPasswordExpired(settings);
+      }
+      return Expect.waitForPasswordExpired(settings);
+    });
   }
 
   function setupWarn (numDays, settings) {

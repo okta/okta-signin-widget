@@ -1,28 +1,28 @@
 {
-    "expiresAt": "2019-07-25T17:49:07.000Z",
-    "status": "SUCCESS",
-    "sessionToken": "xxxxx",
-    "_embedded": {
-        "user": {
-            "id": "00u1xxxxxxxxxxxxxxxx",
-            "passwordChanged": "2016-07-05T21:55:01.000Z",
-            "profile": {
-                "login": "foo@bar.com",
-                "firstName": "foo",
-                "lastName": "bar",
-                "locale": "en",
-                "timeZone": "America/Los_Angeles"
-            }
-        }
-    },
-    "_links": {
-        "cancel": {
-            "href": "https://rain.bar.com/api/v1/authn/cancel",
-            "hints": {
-                "allow": [
-                    "POST"
-                ]
-            }
-        }
+  "expiresAt": "2019-07-25T17:49:07.000Z",
+  "status": "SUCCESS",
+  "sessionToken": "xxxxx",
+  "_embedded": {
+    "user": {
+      "id": "00u1xxxxxxxxxxxxxxxx",
+      "passwordChanged": "2016-07-05T21:55:01.000Z",
+      "profile": {
+        "login": "foo@bar.com",
+        "firstName": "foo",
+        "lastName": "bar",
+        "locale": "en",
+        "timeZone": "America/Los_Angeles"
+      }
     }
+  },
+  "_links": {
+    "cancel": {
+      "href": "http://localhost:3000/api/v1/authn/cancel",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    }
+  }
 }
