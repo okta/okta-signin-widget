@@ -1,7 +1,7 @@
 module.exports = {
   mocks: {
     '/idp/idx/introspect': ['identify'],
-    '/idp/idx': ['factor-verification-email'],
+    '/idp/idx': ['select-factor-authenticate'],
     '/idp/idx/enroll': ['enroll-profile'],
     '/idp/idx/challenge/answer': [
       'error-email-verify',
@@ -14,8 +14,7 @@ module.exports = {
       'factor-verification-email',
     ],
     '/idp/idx/challenge': [
-      'factor-required-password-with-options',
-      'success'
+      'factor-required-email-with-options',
     ]
   },
 };

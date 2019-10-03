@@ -2,8 +2,6 @@ import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import SelectFactorPageObject from '../framework/page-objects/SelectFactorPageObject';
 import { RequestMock } from 'testcafe';
 import selectFactorAuthenticate from '../../../playground/mocks/idp/idx/data/select-factor-authenticate';
-// import factorRequiredPassword from '../../../playground/mocks/idp/idx/data/factor-required-password-with-options';
-// import success from '../../../playground/mocks/idp/idx/data/success';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx')
