@@ -19,6 +19,12 @@ function emptyModule () {
   return new IgnorePlugin(/^\.\/locale$/, /moment$/);
 }
 
+function prodMode () {
+  return new DefinePlugin({
+    DEBUG: false
+  });
+}
+
 function devMode () {
   return new DefinePlugin({
     DEBUG: true
@@ -83,7 +89,7 @@ function banner () {
 function plugins (options = {}) {
   if (options.isProduction) {
     // Uglify and add license header
-    return [ emptyModule(), uglify(), banner(), webpackBundleAnalyzer(options.analyzerFile) ];
+    return [emptyModule(), prodMode(), uglify(), banner(), webpackBundleAnalyzer(options.analyzerFile) ];
   }
   // Use DEBUG/development environment w/ console warnings
   return [ emptyModule(), devMode(), webpackBundleAnalyzer(options.analyzerFile) ];
