@@ -1,3 +1,4 @@
+/* eslint-disable max-depth */
 /*!
  * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -23,24 +24,37 @@ define(['q', 'okta', 'util/FormController'], function (Q, Okta, FormController) 
 
     preRender: function () {
       var appState = this.options.appState;
+      var token = this.options.token;
       this.model.startTransaction(function (authClient) {
         appState.trigger('loading', true);
-        var trans = this.options.appState.get('introspectSuccess');
-        var transError = this.options.appState.get('introspectError');
-        if (trans || transError) {
-          if (trans && trans.data) {
-            return Q.resolve(trans);
-          } else {
-            return Q.reject(transError);
+        if (token && (token === this.settings.get('stateToken'))) {
+          // widget bootstrapped with statetoken via settings
+          // check if stateToken in url is same as settings
+          //unset stateToken to prevent the baseloginrouter controller from calling it again on render
+          this.settings.unset('stateToken');
+          var trans = this.options.appState.get('introspectSuccess');
+          var transError = this.options.appState.get('introspectError');
+          if (trans || transError) {
+            if (trans && trans.data) {
+              return Q.resolve(trans);
+            } else {
+              return Q.reject(transError);
+            }
           }
+        } else if (token) {
+          // widget bootstrapped with statetoken only in the url and not in settings
+          return authClient.tx.resume({
+            stateToken: token
+          });
         } else {
+          // get stateToken from cookie
           // currently only applies to old pipeline
           if (authClient.tx.exists()) {
-            appState.trigger('loading', true);
             return authClient.tx.resume();
           }
           appState.trigger('navigate', '');
         }
+
       });
     },
 
