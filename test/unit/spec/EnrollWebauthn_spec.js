@@ -88,17 +88,19 @@ function (Okta,
       navigator.credentials = { create: function () {} };
     }
 
-    function mockWebauthnSuccessRegistration () {
+    function mockWebauthnSuccessRegistration (doNotResolve) {
       mockWebauthn();
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
       spyOn(navigator.credentials, 'create').and.callFake(function () {
         var deferred = Q.defer();
-        deferred.resolve({
-          response: {
-            attestationObject: CryptoUtil.strToBin(testAttestationObject),
-            clientDataJSON: CryptoUtil.strToBin(testClientData)
-          }
-        });
+        if (!doNotResolve) {
+          deferred.resolve({
+            response: {
+              attestationObject: CryptoUtil.strToBin(testAttestationObject),
+              clientDataJSON: CryptoUtil.strToBin(testClientData)
+            }
+          });
+        }
         return deferred.promise;
       });
     }
@@ -174,13 +176,34 @@ function (Okta,
           Expect.isVisible(test.form.submitButton());
         });
       });
+      
+      itp('calls aborts on appstate when switching to factor list after clicking enroll', function () {
+        mockWebauthnSuccessRegistration(true);
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse([resEnrollActivateWebauthn]);
+          test.form.submit();
+          return Expect.waitForSpyCall(navigator.credentials.create, test);
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          expect(test.router.appState.get('webauthnAbortController')).toBeDefined();
+          test.webauthnAbortController = test.router.appState.get('webauthnAbortController');
+          spyOn(test.webauthnAbortController, 'abort').and.callThrough();
+          test.setNextResponse([resAllFactors]);
+          test.form.backLink().click();
+          return Expect.waitForEnrollChoices(test);
+        }).then(function (test ){
+          expect(test.router.appState.get('webauthnAbortController')).not.toBeDefined();
+          expect(test.webauthnAbortController.abort).toHaveBeenCalled();
+        });
+      });
 
       itp('shows a waiting spinner after submitting the form', function () {
         mockWebauthnSuccessRegistration();
         return setup().then(function (test) {
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
+          return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
           .then(function (test) {
             Expect.isVisible(test.form.enrollInstructions());
@@ -246,7 +269,8 @@ function (Okta,
                   type: 'public-key',
                   id: CryptoUtil.strToBin('vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZt')
                 }]
-              }
+              },
+              signal: jasmine.any(Object)
             });
             expect($.ajax.calls.count()).toBe(2);
             Expect.isJsonPost($.ajax.calls.argsFor(1), {
