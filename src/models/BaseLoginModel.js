@@ -36,7 +36,8 @@ function (Okta, Q, Enums) {
         .fail(function (err) {
         // Q may still consider AuthPollStopError to be unhandled
           if (err.name === 'AuthPollStopError' ||
-            err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR) {
+            err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR ||
+            err.name === Enums.WEBAUTHN_ABORT_ERROR) {
             return;
           }
           self.trigger('error', self, err.xhr);
@@ -55,7 +56,8 @@ function (Okta, Q, Enums) {
       if (Q.isPromiseAlike(res)) {
         return res.fail(function (err) {
           if (err.name === 'AuthPollStopError' ||
-              err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR) {
+              err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR ||
+              err.name === Enums.WEBAUTHN_ABORT_ERROR) {
             return;
           }
           self.trigger('error', self, err.xhr);

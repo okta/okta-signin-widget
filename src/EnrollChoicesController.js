@@ -87,6 +87,10 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
       },
 
       initialize: function (options) {
+        if (options.appState.get('webauthnAbortController')) {
+          options.appState.get('webauthnAbortController').abort();
+          options.appState.unset('webauthnAbortController');
+        }
         this.listenTo(this, 'save', function () {
           var current;
           switch (this.state.get('pageType')) {

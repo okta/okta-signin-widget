@@ -14,7 +14,7 @@ define([
   'sandbox',
   'util/webauthn',
   'helpers/xhr/MFA_REQUIRED_allFactors',
-  'helpers/xhr/MFA_REQUIRED_multipleFactors',
+  'helpers/xhr/MFA_REQUIRED_multipleWebauthn_question',
   'helpers/xhr/MFA_REQUIRED_multipleWebauthn',
   'helpers/xhr/MFA_CHALLENGE_webauthn',
   'helpers/xhr/MFA_CHALLENGE_multipleWebauthn',
@@ -52,6 +52,14 @@ function (Okta,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     return router;
+  }
+  
+  function clickFactorInDropdown (test, factorName) {
+    if (factorName === 'WEBAUTHN') {
+      test.beacon.getOptionsLinks().eq(0).click();
+    } else {
+      test.beacon.getOptionsLinks().eq(1).click();
+    }
   }
 
   function setup (options) {
@@ -282,7 +290,8 @@ function (Okta,
             extensions: {
               appid: 'https://foo.com'
             }
-          }
+          },
+          signal: jasmine.any(Object)
         });
         expect($.ajax.calls.count()).toBe(3);
         Expect.isJsonPost($.ajax.calls.argsFor(2), {
@@ -323,7 +332,8 @@ function (Okta,
             extensions: {
               appid: 'https://foo.com'
             }
-          }
+          },
+          signal: jasmine.any(Object)
         });
         expect($.ajax.calls.count()).toBe(3);
         Expect.isJsonPost($.ajax.calls.argsFor(2), {
@@ -389,7 +399,8 @@ function (Okta,
             extensions: {
               appid: 'https://foo.com'
             }
-          }
+          },
+          signal: jasmine.any(Object)
         });
         expect($.ajax.calls.count()).toBe(3);
         Expect.isJsonPost($.ajax.calls.argsFor(2), {
@@ -422,7 +433,8 @@ function (Okta,
             extensions: {
               appid: 'https://foo.com'
             }
-          }
+          },
+          signal: jasmine.any(Object)
         });
         expect($.ajax.calls.count()).toBe(3);
         Expect.isJsonPost($.ajax.calls.argsFor(2), {
@@ -476,5 +488,18 @@ function (Okta,
   Expect.describe('Multiple Webauthn and one or more factors are setup', function () {
     testWebauthnFactor(setupMultipleWebauthn);
     testMultipleWebauthnFactor(setupMultipleWebauthn);
+
+    itp('switching to another factor after initiating webauthn verify calls abort', function () {
+      return setupMultipleWebauthn({webauthnSupported: true}).then(function (test) {
+        expect(test.form.el('webauthn-waiting').length).toBe(1);
+        expect(test.router.appState.get('webauthnAbortController')).toBeDefined();
+        var webauthnAbortController = test.router.appState.get('webauthnAbortController');
+        spyOn(webauthnAbortController, 'abort').and.callThrough();
+        clickFactorInDropdown(test, 'QUESTION');
+        expect(test.router.navigate).toHaveBeenCalledWith('signin/verify/okta/question', { trigger: true });
+        expect(test.router.appState.get('webauthnAbortController')).not.toBeDefined();
+        expect(webauthnAbortController.abort).toHaveBeenCalled();
+      });
+    });
   });
 });

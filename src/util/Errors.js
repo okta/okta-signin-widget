@@ -56,6 +56,12 @@ define(['okta', './Enums'], function (Okta, Enums) {
   }
   WebAuthnError.prototype = new Error();
 
+  // This is triggered only when code aborts webauthn browser prompt.
+  function WebauthnAbortError () {
+    this.name = Enums.WEBAUTHN_ABORT_ERROR;
+  }
+  WebauthnAbortError.prototype = new Error();
+
   return {
     ConfigError: ConfigError,
     UnsupportedBrowserError: UnsupportedBrowserError,
@@ -63,7 +69,8 @@ define(['okta', './Enums'], function (Okta, Enums) {
     RegistrationError: RegistrationError,
     AuthStopPollInitiationError: AuthStopPollInitiationError,
     U2FError: U2FError,
-    WebAuthnError: WebAuthnError
+    WebAuthnError: WebAuthnError,
+    WebauthnAbortError: WebauthnAbortError
   };
 
 });
