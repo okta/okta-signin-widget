@@ -3629,7 +3629,7 @@ function (Okta,
               expect(test.form.errorBox().length).toBe(1);
               expect(test.form.errorBox().text().trim())
                 .toBe('Windows Hello is not configured. Select the Start button, ' +
-                    'then select Settings > Accounts > Sign-in to configure Windows Hello.');
+                    'then select Settings - Accounts - Sign-in to configure Windows Hello.');
               expect($.ajax.calls.count()).toBe(2);
             });
         });
