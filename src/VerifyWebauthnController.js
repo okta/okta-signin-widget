@@ -90,8 +90,12 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
               allowCredentials: allowCredentials,
               challenge: CryptoUtil.strToBin(challenge.challenge)
             });
-
-            return new Q(navigator.credentials.get({publicKey: options}))
+            var webauthnAbortController = new AbortController();
+            self.appState.set('webauthnAbortController', webauthnAbortController);
+            return new Q(navigator.credentials.get({
+              publicKey: options,
+              signal: webauthnAbortController.signal
+            }))
               .then(function (assertion) {
                 var rememberDevice = !!self.get('rememberDevice');
                 return factor.verify({
@@ -103,6 +107,10 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
               })
               .fail(function (error) {
                 self.trigger('errors:clear');
+                // Do not display if it is abort error triggered by code when switching.
+                if (error && error.code === 20) {
+                  return;
+                }
                 throw new Errors.WebAuthnError({
                   xhr: {responseJSON: {errorSummary: error.message}}
                 });

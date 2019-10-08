@@ -79,7 +79,12 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
               },
               excludeCredentials: getExcludeCredentials(activation.excludeCredentials)
             });
-            return new Q(navigator.credentials.create({publicKey: options}))
+            var webauthnAbortController = new AbortController();
+            this.appState.set('webauthnAbortController', webauthnAbortController);
+            return new Q(navigator.credentials.create({
+              publicKey: options,
+              signal: webauthnAbortController.signal
+            }))
               .then(function (newCredential) {
                 return transaction.activate({
                   attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
@@ -88,6 +93,10 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
               })
               .fail(function (error) {
                 self.trigger('errors:clear');
+                // Do not display if it is abort error triggered by code when switching.
+                if (error && error.code === 20) {
+                  return;
+                }
                 throw new Errors.WebAuthnError({
                   xhr: {responseJSON: {errorSummary: error.message}}
                 });
