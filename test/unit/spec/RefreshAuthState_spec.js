@@ -1,4 +1,3 @@
-/* eslint max-params: [2, 25] */
 define([
   'q',
   'okta',
@@ -17,12 +16,11 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
-  function setup (settings, skipIntrospect) {
+  function setup (settings) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({url: baseUrl});
+    var authClient = new OktaAuth({ url: baseUrl });
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -36,30 +34,17 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
-    if (skipIntrospect) {
-      return Q({
-        router: router,
-        beacon: beacon,
-        form: form,
-        ac: authClient,
-        setNextResponse: setNextResponse
-      });
-    }
-    setNextResponse(resEnroll);
-    return Util.mockIntrospectResponse(router, resEnroll).then(function () {
-      return Q({
-        router: router,
-        beacon: beacon,
-        form: form,
-        ac: authClient,
-        setNextResponse: setNextResponse
-      });
+    return Q({
+      router: router,
+      beacon: beacon,
+      form: form,
+      ac: authClient,
+      setNextResponse: setNextResponse
     });
   }
 
   Expect.describe('RefreshAuthState', function () {
-
-    it('redirects to PrimaryAuth if authClient does not need a refresh', function () {
+    itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
       return setup({}, true)
         .then(function (test) {
           spyOn(test.ac.tx, 'exists').and.returnValue(false);
@@ -70,30 +55,53 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
           Expect.isPrimaryAuth(test.router.controller);
         });
     });
-    itp('refreshes auth state on render if it does need a refresh', function () {
+    itp('refreshes auth state and picks token from cookie', function () {
       return setup()
         .then(function (test) {
-          Util.mockSDKCookie(test.ac);
+          Util.mockSDKCookie(test.ac, null, 'a-token-in-cookie');
           test.setNextResponse(resEnroll);
           test.router.refreshAuthState();
-          return tick(test);
+          return Expect.waitForEnrollChoices();
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/idp/idx/introspect',
+            url: 'https://foo.com/api/v1/authn',
             data: {
-              stateToken: 'dummy-token'
+              stateToken: 'a-token-in-cookie'
             }
           });
         });
     });
-    itp('calls status with token if initialized with token', function () {
-      return setup({ stateToken: 'someStateToken' })
+    itp('calls status with token if initialized with token passed directly to controller via options', function () {
+      return setup()
         .then(function (test) {
           test.setNextResponse(resEnroll);
-          test.router.refreshAuthState();
-          return tick(test);
+          test.router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices();
+        })
+        .then(function () {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              stateToken: 'dummy-token',
+            }
+          });
+        });
+    });
+
+    itp('calls status with token if initialized with token passed via settings', function () {
+      return setup({ stateToken: 'dummy-token' })
+        .then(function (test) {
+          test.setNextResponse(resEnroll);
+          return Util.mockIntrospectResponse(test.router).then(function () {
+            return test;
+          });
+        })
+        .then(function (test) {
+          test.router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices();
         })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);
