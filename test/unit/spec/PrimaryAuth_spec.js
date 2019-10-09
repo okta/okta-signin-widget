@@ -97,7 +97,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     var beacon = new Beacon($sandbox);
     router.on('afterError', afterErrorHandler);
     if (refreshState) {
-      var stateToken = 'aStateToken';
+      var stateToken = 'dummy-token';
       Util.mockRouterNavigate(router);
       setNextResponse(resUnauthenticated);
       return Util.mockIntrospectResponse(router, resUnauthenticated).then(function () {
