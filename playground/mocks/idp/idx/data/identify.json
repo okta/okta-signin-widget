@@ -45,10 +45,6 @@
         }
       ]
     },
-      "messages": {
-      "type": "array",
-      "value": []
-    },
     "cancel": {
       "rel": [
         "create-form"
