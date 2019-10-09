@@ -17,8 +17,12 @@ export default class BaseFormObject {
     }
   }
 
-  getElement(selector) {
+  elementExist(selector) {
     return this.form.find(selector).exists;
+  }
+
+  getElement(selector) {
+    return this.form.find(selector);
   }
 
   getSelectFormButtonLabel(selector) {
@@ -66,6 +70,10 @@ export default class BaseFormObject {
 
   hasTextBoxErrorMessage(name) {
     return this.form.find(`input[name="${name}"]`).parent().sibling('.o-form-input-error').exists;
+  }
+
+  getCallout(selector) {
+    return Selector(selector);
   }
 
   async waitForTextBoxError(name) {
