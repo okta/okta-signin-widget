@@ -40,7 +40,7 @@ export default BaseLoginController.extend({
     this.formView = this.add(TheView, {
       options: {
         currentViewState,
-        messages: this.options.appState.get('currentState').messages,
+        messages: this.options.appState.get('messages'),
       }
     }).last();
 
