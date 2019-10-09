@@ -21,11 +21,11 @@
                         "type": "set",
                         "options": [
                             {
-                                "label": "Password",
+                                "label": "Password Label",
                                 "value": "00u2j17ObFUsbGfLg0g4"
                             },
                             {
-                                "label": "Email",
+                                "label": "Email Label",
                                 "value": "emf2j1ccd6CF4IWFY0g3"
                             }
                         ]
@@ -46,11 +46,11 @@
         "value": [
             {
                 "factorType": "password",
-                "factorProfileId": "00u2j17ObFUsbGfLg0g4"
+                "factorId": "00u2j17ObFUsbGfLg0g4"
             },
             {
                 "factorType": "email",
-                "factorProfileId": "emf2j1ccd6CF4IWFY0g3"
+                "factorId": "emf2j1ccd6CF4IWFY0g3"
             }
         ]
     },
