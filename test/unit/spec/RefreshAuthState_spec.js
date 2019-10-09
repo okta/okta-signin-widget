@@ -43,7 +43,7 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
     });
   }
 
-  Expect.fdescribe('RefreshAuthState', function () {
+  Expect.describe('RefreshAuthState', function () {
     itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
       return setup({}, true)
         .then(function (test) {
