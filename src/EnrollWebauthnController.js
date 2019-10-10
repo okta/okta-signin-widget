@@ -64,6 +64,12 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
       activate: function () {
         this.set('__enrolled__', true);
         this.trigger('errors:clear');
+        this.appState.on('backToFactors', () => {
+          if (this.webauthnAbortController) {
+            this.webauthnAbortController.abort();
+            this.webauthnAbortController = null;
+          }
+        });
 
         return this.doTransaction(function (transaction) {
           // enroll via browser webauthn js
@@ -79,11 +85,10 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
               },
               excludeCredentials: getExcludeCredentials(activation.excludeCredentials)
             });
-            var webauthnAbortController = new AbortController();
-            this.appState.set('webauthnAbortController', webauthnAbortController);
+            self.webauthnAbortController = new AbortController();
             return new Q(navigator.credentials.create({
               publicKey: options,
-              signal: webauthnAbortController.signal
+              signal: self.webauthnAbortController.signal
             }))
               .then(function (newCredential) {
                 return transaction.activate({

@@ -52,6 +52,12 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
         // set the initial value for remember device (Cannot do this while defining the
         // local property because this.settings would not be initialized there yet).
         this.set('rememberDevice', rememberDevice);
+        this.appState.on('factorSwitched', () => {
+          if (this.webauthnAbortController) {
+            this.webauthnAbortController.abort();
+            this.webauthnAbortController = null;
+          }
+        });
       },
 
       save: function () {
@@ -90,11 +96,10 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
               allowCredentials: allowCredentials,
               challenge: CryptoUtil.strToBin(challenge.challenge)
             });
-            var webauthnAbortController = new AbortController();
-            self.appState.set('webauthnAbortController', webauthnAbortController);
+            self.webauthnAbortController = new AbortController();
             return new Q(navigator.credentials.get({
               publicKey: options,
-              signal: webauthnAbortController.signal
+              signal: self.webauthnAbortController.signal
             }))
               .then(function (assertion) {
                 var rememberDevice = !!self.get('rememberDevice');

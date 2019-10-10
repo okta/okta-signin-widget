@@ -175,8 +175,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       languageCode: ['string', true],
       disableUsername: ['boolean', false, false],
       trapMfaRequiredResponse: ['boolean', false, false],
-      lastFailedChallengeFactorData: ['object', false],
-      webauthnAbortController: 'object'
+      lastFailedChallengeFactorData: ['object', false]
     },
 
     setAuthResponse: function (res) {

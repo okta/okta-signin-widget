@@ -22,6 +22,7 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
     events: {
       'click .js-back' : function (e) {
         e.preventDefault();
+        this.options.appState.trigger('backToFactors');
         this.back();
       }
     },

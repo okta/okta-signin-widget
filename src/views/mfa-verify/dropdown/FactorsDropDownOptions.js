@@ -27,11 +27,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
     }
     var url = RouterUtil.createVerifyUrl(model.get('provider'), factorType, factorIndex);
     var self = this;
-
-    if (this.options.appState.get('webauthnAbortController')) {
-      this.options.appState.get('webauthnAbortController').abort();
-      this.options.appState.unset('webauthnAbortController');
-    }
+    
     this.options.appState.trigger('factorSwitched');
     this.model.manageTransaction(function (transaction, setTransaction) {
       // FACTOR_CHALLENGE does not have a prev link

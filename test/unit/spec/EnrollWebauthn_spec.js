@@ -186,14 +186,14 @@ function (Okta,
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         }).then(function (test) {
           $.ajax.calls.reset();
-          expect(test.router.appState.get('webauthnAbortController')).toBeDefined();
-          test.webauthnAbortController = test.router.appState.get('webauthnAbortController');
+          test.webauthnAbortController = test.router.controller.model.webauthnAbortController;
+          expect(test.webauthnAbortController).toBeDefined();
           spyOn(test.webauthnAbortController, 'abort').and.callThrough();
           test.setNextResponse([resAllFactors]);
           test.form.backLink().click();
           return Expect.waitForEnrollChoices(test);
         }).then(function (test ){
-          expect(test.router.appState.get('webauthnAbortController')).not.toBeDefined();
+          expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
           expect(test.webauthnAbortController.abort).toHaveBeenCalled();
         });
       });

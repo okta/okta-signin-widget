@@ -494,12 +494,12 @@ function (Okta,
         return Expect.waitForSpyCall(navigator.credentials.get, test);
       }).then(function (test) {
         expect(test.form.el('webauthn-waiting').length).toBe(1);
-        expect(test.router.appState.get('webauthnAbortController')).toBeDefined();
-        var webauthnAbortController = test.router.appState.get('webauthnAbortController');
+        var webauthnAbortController = test.router.controller.model.webauthnAbortController;
+        expect(webauthnAbortController).toBeDefined();
         spyOn(webauthnAbortController, 'abort').and.callThrough();
         clickFactorInDropdown(test, 'QUESTION');
         expect(test.router.navigate).toHaveBeenCalledWith('signin/verify/okta/question', { trigger: true });
-        expect(test.router.appState.get('webauthnAbortController')).not.toBeDefined();
+        expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
         expect(webauthnAbortController.abort).toHaveBeenCalled();
       });
     });
