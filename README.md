@@ -1094,6 +1094,8 @@ features: {
 
 - **features.windowsVerify** - Display instructions for enrolling a windows device with Okta Verify. Defaults to `false`.
 
+- **features.webauthn** - Display and use factors supported by the FIDO 2.0 (Web Authentication) security standard. Enabling this feature will prevent the widget from invoking the legacy Windows Hello factor. Defaults to `false`.
+
 - **features.selfServiceUnlock** - Display the "Unlock Account" link to allow users to unlock their accounts. Defaults to `false`.
 
 - **features.multiOptionalFactorEnroll** - Allow users to enroll in multiple optional factors before finishing the authentication flow. Default behavior is to force enrollment of all required factors and skip optional factors. Defaults to `false`.
