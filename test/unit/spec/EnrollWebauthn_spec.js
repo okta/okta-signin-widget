@@ -88,17 +88,19 @@ function (Okta,
       navigator.credentials = { create: function () {} };
     }
 
-    function mockWebauthnSuccessRegistration () {
+    function mockWebauthnSuccessRegistration (resolvePromise) {
       mockWebauthn();
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
       spyOn(navigator.credentials, 'create').and.callFake(function () {
         var deferred = Q.defer();
-        deferred.resolve({
-          response: {
-            attestationObject: CryptoUtil.strToBin(testAttestationObject),
-            clientDataJSON: CryptoUtil.strToBin(testClientData)
-          }
-        });
+        if (resolvePromise) {
+          deferred.resolve({
+            response: {
+              attestationObject: CryptoUtil.strToBin(testAttestationObject),
+              clientDataJSON: CryptoUtil.strToBin(testClientData)
+            }
+          });
+        }
         return deferred.promise;
       });
     }
@@ -174,13 +176,34 @@ function (Okta,
           Expect.isVisible(test.form.submitButton());
         });
       });
+      
+      itp('calls abort on appstate when switching to factor list after clicking enroll', function () {
+        mockWebauthnSuccessRegistration(false);
+        return setup().then(function (test) {
+          $.ajax.calls.reset();
+          test.setNextResponse([resEnrollActivateWebauthn]);
+          test.form.submit();
+          return Expect.waitForSpyCall(navigator.credentials.create, test);
+        }).then(function (test) {
+          $.ajax.calls.reset();
+          test.webauthnAbortController = test.router.controller.model.webauthnAbortController;
+          expect(test.webauthnAbortController).toBeDefined();
+          spyOn(test.webauthnAbortController, 'abort').and.callThrough();
+          test.setNextResponse([resAllFactors]);
+          test.form.backLink().click();
+          return Expect.waitForEnrollChoices(test);
+        }).then(function (test ){
+          expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
+          expect(test.webauthnAbortController.abort).toHaveBeenCalled();
+        });
+      });
 
       itp('shows a waiting spinner after submitting the form', function () {
-        mockWebauthnSuccessRegistration();
+        mockWebauthnSuccessRegistration(true);
         return setup().then(function (test) {
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
+          return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
           .then(function (test) {
             Expect.isVisible(test.form.enrollInstructions());
@@ -190,7 +213,7 @@ function (Okta,
       });
 
       itp('sends enroll request after submitting the form', function () {
-        mockWebauthnSuccessRegistration();
+        mockWebauthnSuccessRegistration(true);
         return setup().then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
@@ -211,14 +234,14 @@ function (Okta,
       });
 
       itp('calls navigator.credentials.create and activates the factor', function () {
-        mockWebauthnSuccessRegistration();
+        mockWebauthnSuccessRegistration(true);
         return setup().then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy);
+          return Expect.waitForSpyCall(test.successSpy, test);
         })
-          .then(function () {
+          .then(function (test) {
             expect(navigator.credentials.create).toHaveBeenCalledWith({
               publicKey: {
                 rp: {
@@ -246,7 +269,8 @@ function (Okta,
                   type: 'public-key',
                   id: CryptoUtil.strToBin('vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZt')
                 }]
-              }
+              },
+              signal: jasmine.any(Object)
             });
             expect($.ajax.calls.count()).toBe(2);
             Expect.isJsonPost($.ajax.calls.argsFor(1), {
@@ -257,6 +281,7 @@ function (Okta,
                 stateToken: 'testStateToken'
               }
             });
+            expect(test.router.controller.model.webauthnAbortController).toBe(null);
           });
       });
 
@@ -290,6 +315,7 @@ function (Okta,
                 }
               }
             ]);
+            expect(test.router.controller.model.webauthnAbortController).toBe(null);
           });
       });
     });
