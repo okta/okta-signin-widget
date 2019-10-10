@@ -18,10 +18,11 @@ async function setup(t) {
   return new SelectFactorPageObject(t);
 }
 
-test
-  (`should load select factor list`, async t => {
+test(`should load select factor list`, async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.hasPasswordSelectButton()).eql(true);
   await t.expect(selectFactorPage.hasPasswordIcon()).eql(true);
   await t.expect(selectFactorPage.hasEmailIcon()).eql(true);
+  await t.expect(selectFactorPage.getPasswordLabel()).eql('Password Label');
+  await t.expect(selectFactorPage.getEmailLabel()).eql('Email Label');
 });

@@ -9,7 +9,7 @@ const changeLabelToTop = (opt) => {
 const createFactorTypeView = (opt) => {
   var optionItems = (opt.options || [])
     .map(opt => {
-      return Object.assign({}, opt, FactorUtil.getFactorData(opt.factorType));
+      return Object.assign({}, FactorUtil.getFactorData(opt.factorType), opt);
     });
   return {
     View: FactorOptions,
