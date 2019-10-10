@@ -52,7 +52,7 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
         // set the initial value for remember device (Cannot do this while defining the
         // local property because this.settings would not be initialized there yet).
         this.set('rememberDevice', rememberDevice);
-        this.appState.on('factorSwitched', () => {
+        this.appState.on('factorSwitched signOut', () => {
           if (this.webauthnAbortController) {
             this.webauthnAbortController.abort();
             this.webauthnAbortController = null;
@@ -113,13 +113,17 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
               .fail(function (error) {
                 self.trigger('errors:clear');
                 // Do not display if it is abort error triggered by code when switching.
-                if (error && error.code === 20) {
+                // self.webauthnAbortController would be null if abort was triggered by code.
+                if (!self.webauthnAbortController) {
                   throw new Errors.WebauthnAbortError();
                 } else {
                   throw new Errors.WebAuthnError({
                     xhr: {responseJSON: {errorSummary: error.message}}
                   });
                 }
+              }).finally(function () {
+                // unset webauthnAbortController on successful authentication or error
+                self.webauthnAbortController = null;
               });
           });
         });

@@ -99,13 +99,17 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
               .fail(function (error) {
                 self.trigger('errors:clear');
                 // Do not display if it is abort error triggered by code when switching.
-                if (error && error.code === 20) {
+                // self.webauthnAbortController would be null if abort was triggered by code. 
+                if (!self.webauthnAbortController) {
                   throw new Errors.WebauthnAbortError();
                 } else {
                   throw new Errors.WebAuthnError({
                     xhr: {responseJSON: {errorSummary: error.message}}
                   });
                 }
+              }).finally(function () {
+                // unset webauthnAbortController on successful authentication or error
+                self.webauthnAbortController = null;
               });
           }
         });

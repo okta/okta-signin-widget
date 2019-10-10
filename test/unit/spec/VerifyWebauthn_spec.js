@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 18] */
+/* eslint max-params: [2, 19] */
 
 define([
   'okta',
@@ -18,7 +18,8 @@ define([
   'helpers/xhr/MFA_REQUIRED_multipleWebauthn',
   'helpers/xhr/MFA_CHALLENGE_webauthn',
   'helpers/xhr/MFA_CHALLENGE_multipleWebauthn',
-  'helpers/xhr/SUCCESS'
+  'helpers/xhr/SUCCESS',
+  'helpers/xhr/CANCEL'
 ],
 function (Okta,
   Q,
@@ -33,11 +34,12 @@ function (Okta,
   $sandbox,
   webauthn,
   resAllFactors,
-  resMultipleFactors,
+  resMultipleWebauthnWithQuestion,
   resMultipleWebauthn,
   resChallengeWebauthn,
   resChallengeMultipleWebauthn,
-  resSuccess) {
+  resSuccess,
+  resCancel) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -54,12 +56,13 @@ function (Okta,
     return router;
   }
   
+  var Factors = {
+    'WEBAUTHN' : 0,
+    'QUESTION' : 1,
+  };
+
   function clickFactorInDropdown (test, factorName) {
-    if (factorName === 'WEBAUTHN') {
-      test.beacon.getOptionsLinks().eq(0).click();
-    } else {
-      test.beacon.getOptionsLinks().eq(1).click();
-    }
+    test.beacon.getOptionsLinks().eq(Factors[factorName]).click();
   }
 
   function setup (options) {
@@ -70,7 +73,7 @@ function (Okta,
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });
     router.on('afterError', afterErrorHandler);
-    setNextResponse(options.multipleWebauthn ? [resMultipleFactors] : [resAllFactors]);
+    setNextResponse(options.multipleWebauthn ? [resMultipleWebauthnWithQuestion] : [resAllFactors]);
     return Util.mockIntrospectResponse(router, resAllFactors).then(function () {
       router.refreshAuthState('dummy-token');
       return Expect.waitForMfaVerify()
@@ -387,8 +390,8 @@ function (Okta,
         webauthnSupported: true,
         signStatus: 'success'
       }).then(function (test) {
-        return Expect.waitForSpyCall(test.successSpy);
-      }).then(function () {
+        return Expect.waitForSpyCall(test.successSpy, test);
+      }).then(function (test) {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
           publicKey: {
             allowCredentials: [{
@@ -412,6 +415,7 @@ function (Okta,
             stateToken: 'testStateToken'
           }
         });
+        expect(test.router.controller.model.webauthnAbortController).toBe(null);
       });
     });
 
@@ -462,6 +466,7 @@ function (Okta,
         expect(test.form.errorBox()).toHaveLength(1);
         expect(test.form.errorMessage()).toEqual('something went wrong');
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+        expect(test.router.controller.model.webauthnAbortController).toBe(null);
         expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
           {
             controller: 'mfa-verify verify-webauthn'
@@ -501,6 +506,23 @@ function (Okta,
         expect(test.router.navigate).toHaveBeenCalledWith('signin/verify/okta/question', { trigger: true });
         expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
         expect(webauthnAbortController.abort).toHaveBeenCalled();
+      });
+    });
+
+    itp('SignOut after initiating webauthn verify calls abort', function () {
+      return setupMultipleWebauthn({webauthnSupported: true}).then(function (test) {
+        return Expect.waitForSpyCall(navigator.credentials.get, test);
+      }).then(function (test) {
+        expect(test.form.el('webauthn-waiting').length).toBe(1);
+        test.webauthnAbortController = test.router.controller.model.webauthnAbortController;
+        expect(test.webauthnAbortController).toBeDefined();
+        spyOn(test.webauthnAbortController, 'abort').and.callThrough();
+        test.setNextResponse([resCancel]);
+        test.form.signoutLink(test.router.el).click();
+        return Expect.waitForPrimaryAuth(test);
+      }).then(function (test) {
+        expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
+        expect(test.webauthnAbortController.abort).toHaveBeenCalled();
       });
     });
   });
