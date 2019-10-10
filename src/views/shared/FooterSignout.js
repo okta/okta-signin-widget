@@ -25,6 +25,7 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
     events: {
       'click a' : function (e) {
         e.preventDefault();
+        this.options.appState.trigger('signOut');
         var self = this;
         this.model.doTransaction(function (transaction) {
           return transaction.cancel();

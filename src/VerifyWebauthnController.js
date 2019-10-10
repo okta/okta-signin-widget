@@ -52,6 +52,12 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
         // set the initial value for remember device (Cannot do this while defining the
         // local property because this.settings would not be initialized there yet).
         this.set('rememberDevice', rememberDevice);
+        this.appState.on('factorSwitched signOut', () => {
+          if (this.webauthnAbortController) {
+            this.webauthnAbortController.abort();
+            this.webauthnAbortController = null;
+          }
+        });
       },
 
       save: function () {
@@ -90,8 +96,11 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
               allowCredentials: allowCredentials,
               challenge: CryptoUtil.strToBin(challenge.challenge)
             });
-
-            return new Q(navigator.credentials.get({publicKey: options}))
+            self.webauthnAbortController = new AbortController();
+            return new Q(navigator.credentials.get({
+              publicKey: options,
+              signal: self.webauthnAbortController.signal
+            }))
               .then(function (assertion) {
                 var rememberDevice = !!self.get('rememberDevice');
                 return factor.verify({
@@ -103,9 +112,18 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
               })
               .fail(function (error) {
                 self.trigger('errors:clear');
-                throw new Errors.WebAuthnError({
-                  xhr: {responseJSON: {errorSummary: error.message}}
-                });
+                // Do not display if it is abort error triggered by code when switching.
+                // self.webauthnAbortController would be null if abort was triggered by code.
+                if (!self.webauthnAbortController) {
+                  throw new Errors.WebauthnAbortError();
+                } else {
+                  throw new Errors.WebAuthnError({
+                    xhr: {responseJSON: {errorSummary: error.message}}
+                  });
+                }
+              }).finally(function () {
+                // unset webauthnAbortController on successful authentication or error
+                self.webauthnAbortController = null;
               });
           });
         });

@@ -64,6 +64,12 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
       activate: function () {
         this.set('__enrolled__', true);
         this.trigger('errors:clear');
+        this.appState.on('backToFactors', () => {
+          if (this.webauthnAbortController) {
+            this.webauthnAbortController.abort();
+            this.webauthnAbortController = null;
+          }
+        });
 
         return this.doTransaction(function (transaction) {
           // enroll via browser webauthn js
@@ -79,7 +85,11 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
               },
               excludeCredentials: getExcludeCredentials(activation.excludeCredentials)
             });
-            return new Q(navigator.credentials.create({publicKey: options}))
+            self.webauthnAbortController = new AbortController();
+            return new Q(navigator.credentials.create({
+              publicKey: options,
+              signal: self.webauthnAbortController.signal
+            }))
               .then(function (newCredential) {
                 return transaction.activate({
                   attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
@@ -88,9 +98,18 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
               })
               .fail(function (error) {
                 self.trigger('errors:clear');
-                throw new Errors.WebAuthnError({
-                  xhr: {responseJSON: {errorSummary: error.message}}
-                });
+                // Do not display if it is abort error triggered by code when switching.
+                // self.webauthnAbortController would be null if abort was triggered by code. 
+                if (!self.webauthnAbortController) {
+                  throw new Errors.WebauthnAbortError();
+                } else {
+                  throw new Errors.WebAuthnError({
+                    xhr: {responseJSON: {errorSummary: error.message}}
+                  });
+                }
+              }).finally(function () {
+                // unset webauthnAbortController on successful authentication or error
+                self.webauthnAbortController = null;
               });
           }
         });
