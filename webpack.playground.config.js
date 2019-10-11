@@ -11,14 +11,16 @@ const WIDGET_RC = '.widgetrc';
 
 let widgetRc = {
   widgetOptions: {
-    baseUrl: 'https://{yourOktaDomain}',
+    baseUrl: 'http://localhost:3000',
     logo: '/img/logo_widgico.png',
     logoText: 'Windico',
     features: {
       router: true,
       rememberMe: true,
+      securityImage: true,
       multiOptionalFactorEnroll: true
     },
+    stateToken: 'dummy-state-token-wrc',
     // Host the assets (i.e. jsonp files) locally
     assets: {
       baseUrl: '/'
