@@ -15,8 +15,13 @@ module.exports = {
     ],
     '/idp/idx/challenge': [
       'factor-verification-webauthn',
-      'factor-verification-password',
-      'factor-verification-email',
+      'success'
+      // 'factor-verification-password',
+      // 'factor-verification-email',
+    ],
+    '/idp/idx/credential/enroll': [
+      'factor-enroll-webauthn',
+      'success'
     ]
   },
 };

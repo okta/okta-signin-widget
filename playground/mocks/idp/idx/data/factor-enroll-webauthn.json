@@ -1,0 +1,126 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+    "expiresAt": "2018-09-17T23:08:56.000Z",
+    "step": "ENROLL",
+    "intent": "login",
+    "remediation": {
+      "type": "array",
+      "value": [
+        {
+          "rel": [
+            "create-form"
+          ],
+          "name": "enroll-factor",
+          "href": "http://localhost:3000/idp/idx/credential/enroll",
+          "method": "POST",
+          "value": [
+            {
+                "type": "webauthn",
+                "name": "clientData",
+                "visible": false
+            },
+            {
+                "type": "webauthn",
+                "name": "registrationData",
+                "visible": false
+            },
+            {
+              "name": "stateHandle",
+              "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+              "visible": false
+            }
+          ]
+        }
+      ]
+    },
+    "activation": {
+      "type": "object",
+      "value": {
+        "rp": {
+          "name": "idxrain"
+        },
+        "user": {
+          "displayName": "Foo Bar",
+          "name": "foo@example.com",
+          "id": "I9bvFiq01cRFgbn"
+        },
+        "pubKeyCredParams": [
+          {
+            "type": "public-key",
+            "alg": -7
+          },
+          {
+            "type": "public-key",
+            "alg": -257
+          }
+        ],
+        "challenge": "RmcyFLpEOZud7Zbgk8eY",
+        "attestation": "direct",
+        "authenticatorSelection": {
+          "userVerification": "preferred",
+          "requireResidentKey": false
+        },
+        "u2fParams": {
+          "appid": "https://idxrain.okta1.com:80"
+        },
+        "excludeCredentials": [
+          {
+            "type": "public-key",
+            "id": "AUbARv8IFlp3Cj2zn74ciMYcZofWVR7OOOmtBra243ivC-zkaz8LKbs2oUADxkzpZQ0-yw8MyqobIo89hL9lpu1GpnsMNEabtqvtsT7K9RJG7GQ37K60e6GU5g4lSgcRYIGtbx-3"
+          }
+        ]
+      }
+    },
+    "factor": {
+      "type": "object",
+      "value": {
+        "factorType": "webauthn",
+        "factorProfileId": "fwf2w9etx6SnppVp60g7"
+      }
+    },
+    "user": {
+      "type": "object",
+      "value": {
+        "id": "I9bvFiq01cRFgbn",
+        "passwordChanged": "2019-05-03T19:00:00.000Z",
+        "profile": {
+          "login": "foo@example.com",
+          "firstName": "Foo",
+          "lastName": "Bar",
+          "locale": "en-us",
+          "timeZone": "UTC"
+        }
+      }
+    },
+    "cancel": {
+      "rel": [
+        "create-form"
+      ],
+      "name": "cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
+      "method": "POST",
+      "value": [
+        {
+          "name": "stateHandle",
+          "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+          "visible": false
+        }
+      ]
+    },
+    "context": {
+      "rel": [
+        "create-form"
+      ],
+      "name": "context",
+      "href": "http://localhost:3000/idp/idx/context",
+      "method": "POST",
+      "value": [
+        {
+          "name": "stateHandle",
+          "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+          "visible": false
+        }
+      ]
+    }
+  }

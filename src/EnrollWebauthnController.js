@@ -36,7 +36,7 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
       });
     });
     return excludeCredentials;
-  }  
+  }
 
   return FormController.extend({
     className: 'enroll-webauthn',

@@ -20,6 +20,7 @@ import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailVi
 
 // webauthn
 import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnView';
+import EnrollFactorWebauthnView from './views/webauthn/EnrollFactorWebauthnView';
 
 
 const DEFAULT = '_';
@@ -40,7 +41,8 @@ const VIEWS_MAPPING = {
   },
   'enroll-factor': {
     email: EnrollFactorEmailView,
-    password: EnrollFactorPasswordView
+    password: EnrollFactorPasswordView,
+    webauthn: EnrollFactorWebauthnView,
   },
   'challenge-factor': {
     email: RequiredFactorEmailView,
