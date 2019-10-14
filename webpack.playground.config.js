@@ -17,7 +17,6 @@ let widgetRc = {
     features: {
       router: true,
       rememberMe: true,
-      securityImage: true,
       multiOptionalFactorEnroll: true
     },
     stateToken: 'dummy-state-token-wrc',
