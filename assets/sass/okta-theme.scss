@@ -624,6 +624,18 @@
     }
   }
 
+  .smartcard {
+    /* -- Factor Icons (large): PIV -- */
+    background-image: url('../img/icons/login/smartcard_70x70.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): PIV -- */
+      background-image: url('../img/icons/login/smartcard@2x.png');
+    }
+  }
+
   .button {
     /* -- Buttons' Colors -- */
     @include light-button-template($button-bg-color);

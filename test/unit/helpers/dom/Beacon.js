@@ -12,6 +12,9 @@ define(['okta', './Dom'], function (Okta, Dom) {
       if (!beacon.length) {
         beacon = this.loadingBeacon();
       }
+      if (!beacon.length) {
+        beacon = this.pivBeacon();
+      }
       return beacon;
     },
 
@@ -37,6 +40,14 @@ define(['okta', './Dom'], function (Okta, Dom) {
 
     isFactorBeacon: function () {
       return this.factorBeacon().length === 1;
+    },
+
+    pivBeacon: function () {
+      return this.el('piv-beacon');
+    },
+
+    isPIVBeacon: function () {
+      return this.pivBeacon().length === 1;
     },
 
     getBeaconImage: function () {

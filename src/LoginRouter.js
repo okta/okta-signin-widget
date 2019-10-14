@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 50] */
+/* eslint max-params: [2, 52] */
 define([
   'util/BaseLoginRouter',
   'IDPDiscoveryController',
   'PrimaryAuthController',
   'VerifyDuoController',
+  'VerifyPIVController',
   'MfaVerifyController',
   'VerifyWindowsHelloController',
   'VerifyU2FController',
@@ -60,12 +61,14 @@ define([
   'ConsentRequiredController',
   'EnrollUserController',
   'views/shared/SecurityBeacon',
-  'views/shared/FactorBeacon'
+  'views/shared/FactorBeacon',
+  'views/shared/PIVBeacon'
 ],
 function (BaseLoginRouter,
   IDPDiscoveryController,
   PrimaryAuthController,
   VerifyDuoController,
+  VerifyPIVController,
   MfaVerifyController,
   VerifyWindowsHelloController,
   VerifyU2FController,
@@ -110,13 +113,15 @@ function (BaseLoginRouter,
   ConsentRequiredController,
   EnrollUserController,
   SecurityBeacon,
-  FactorBeacon) {
+  FactorBeacon,
+  PIVBeacon) {
   return BaseLoginRouter.extend({
 
     routes: {
       '': 'defaultAuth',
       'signin': 'primaryAuth',
       'signin/verify/duo/web': 'verifyDuo',
+      'signin/verify/piv': 'verifyPIV',
       'signin/verify/fido/webauthn': 'verifyWebauthn',
       'signin/verify/webauthn': 'verifyWebauthn',
       'signin/verify/fido/u2f': 'verifyU2F',
@@ -177,7 +182,7 @@ function (BaseLoginRouter,
     // these functions will not require a status call to refresh the stateToken.
     stateLessRouteHandlers: [
       'defaultAuth', 'idpDiscovery', 'primaryAuth', 'forgotPassword', 'recoveryLoading',
-      'unlockAccount', 'refreshAuthState', 'register', 'registerComplete'
+      'unlockAccount', 'refreshAuthState', 'register', 'registerComplete', 'verifyPIV'
     ],
 
     defaultAuth: function () {
@@ -203,6 +208,10 @@ function (BaseLoginRouter,
         factorType: 'web',
         Beacon: FactorBeacon
       });
+    },
+
+    verifyPIV: function () {
+      this.render(VerifyPIVController, { Beacon: PIVBeacon });
     },
 
     verifyWebauthn: function () {

@@ -284,6 +284,7 @@ define([
     VerifyWindowsHello: 'verify-windows-hello',
     VerifyCustomFactor: 'verify-custom-factor',
     EnrollUser: 'enroll-user',
+    VerifyPIV: 'piv-cac-card',
   };
 
   _.each(controllerClasses, function (className, controller) {
