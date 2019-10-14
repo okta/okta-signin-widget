@@ -20,6 +20,10 @@ import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
 import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
 
+// webauthn
+import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnView';
+import EnrollFactorWebauthnView from './views/webauthn/EnrollFactorWebauthnView';
+
 
 const DEFAULT = '_';
 
@@ -44,12 +48,14 @@ const VIEWS_MAPPING = {
     [DEFAULT]: EnrollProfileView,
   },
   'enroll-factor': {
-    email: RequiredFactorEmailView, // TODO EnrollFactorEmailView is unimplemented
-    password: EnrollFactorPasswordView
+    email: RequiredFactorEmailView,
+    password: EnrollFactorPasswordView,
+    webauthn: EnrollFactorWebauthnView,
   },
   'challenge-factor': {
     email: RequiredFactorEmailView,
     password: RequiredFactorPasswordView,
+    webauthn: RequiredFactorWebauthnView,
   },
   'terminal-transferred': {
     [DEFAULT]: TerminalView,

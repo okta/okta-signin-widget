@@ -2,7 +2,7 @@
     "stateHandle": "02h50hMLvmuZUuoKCShHKZytlDeFRnn8KG-rcd8Ay5",
     "version": "1.0.0",
     "expiresAt": "2019-09-25T23:55:18.000Z",
-    "step": "AUTHENTICATE",
+    "step": "ENROLL",
     "intent": "LOGIN",
     "remediation": {
         "type": "array",
@@ -12,20 +12,20 @@
                     "create-form"
                 ],
                 "name": "select-factor",
-                "href": "http://localhost:3000/idp/idx/challenge",
+                "href": "http://localhost:3000/idp/idx/credential/enroll",
                 "method": "POST",
                 "accepts": "application/vnd.okta.v1+json",
                 "value": [
                     {
-                        "name": "factorId",
+                        "name": "factorProfileId",
                         "type": "set",
                         "options": [
                             {
-                                "label": "Password Label",
+                                "label": "Password",
                                 "value": "00u2j17ObFUsbGfLg0g4"
                             },
                             {
-                                "label": "Email Label",
+                                "label": "Email",
                                 "value": "emf2j1ccd6CF4IWFY0g3"
                             },
                             {
@@ -50,15 +50,15 @@
         "value": [
             {
                 "factorType": "password",
-                "factorId": "00u2j17ObFUsbGfLg0g4"
+                "factorProfileId": "00u2j17ObFUsbGfLg0g4"
             },
             {
                 "factorType": "email",
-                "factorId": "emf2j1ccd6CF4IWFY0g3"
+                "factorProfileId": "emf2j1ccd6CF4IWFY0g3"
             },
             {
                 "factorType": "webauthn",
-                "factorId": "webfidocd6CF4IWFY0g5"
+                "factorProfileId": "webfidocd6CF4IWFY0g5"
             }
         ]
     },
