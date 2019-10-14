@@ -34,12 +34,17 @@ define([
     children: function () {
       var children = [],
           socialIdpButtons = this.settings.get('configuredSocialIdps'),
+          pivButton = this.settings.get('piv'),
           customButtons = this.settings.get('customButtons'),
           divider = dividerTpl({text: Okta.loc('socialauth.divider.text', 'login')});
 
       _.each(socialIdpButtons, function (button) {
         children.push(this._createSocialIdpButton(button));
       }, this);
+
+      if (this.settings.get('features.piv')) {
+        children.push(this._createPivButton(pivButton));
+      }
 
       _.each(customButtons, function (button) {
         children.push(this._createCustomButton(button));
@@ -82,6 +87,21 @@ define([
             const targetUri = `${baseUrl}/sso/idps/${options.id}?${params}`;
             SharedUtil.redirect(targetUri);
           }
+        }
+      });
+    },
+
+    _createPivButton: function (options) {
+      let className = options.className || '';
+      return Okta.createButton({
+        attributes: {
+          'data-se': 'piv-card-button'
+        },
+        className: className  + ' default-custom-button',
+        title: options.text || Okta.loc('piv.card', 'login'),
+        click:  function (e) {
+          e.preventDefault();
+          this.options.appState.trigger('navigate', 'signin/verify/piv');
         }
       });
     },
