@@ -32,7 +32,6 @@ const configMock = (option) => {
     const dataDir = getDataDir(apiPath);
     const fileName = chainedMockData[index];
     const filePath = `${dataDir}/${fileName}.json`;
-
     return (filePath);
   };
 

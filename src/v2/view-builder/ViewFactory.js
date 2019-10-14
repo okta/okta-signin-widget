@@ -18,6 +18,9 @@ import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
 import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
 
+// webauthn
+import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnView';
+
 
 const DEFAULT = '_';
 
@@ -42,6 +45,7 @@ const VIEWS_MAPPING = {
   'challenge-factor': {
     email: RequiredFactorEmailView,
     password: RequiredFactorPasswordView,
+    webauthn: RequiredFactorWebauthnView,
   },
   'terminal-transferred': {
     [DEFAULT]: TerminalView,

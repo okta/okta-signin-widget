@@ -79,7 +79,7 @@ const getRelObjectByName = (resp, relName) => {
  */
 const createActionObj = (relObj) => {
   const data = (relObj.value || [])
-    .filter(v => v.visible === false)
+    .filter(v => v.visible === false && v.value)
     .map(v => { return { [v.name]: v.value }; })
     .reduce((init, x) => Object.assign({}, init, x), {});
 
