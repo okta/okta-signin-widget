@@ -4,8 +4,8 @@ module.exports = {
     '/idp/idx': ['select-factor-authenticate'],
     '/idp/idx/enroll': ['enroll-profile'],
     '/idp/idx/challenge/answer': [
-      'error-email-verify',
-      'success',
+      // 'error-email-verify',
+      'terminal-return-expired-email',
     ],
     '/idp/idx/challenge/send': [
       'factor-verification-email',
@@ -14,7 +14,8 @@ module.exports = {
       'factor-verification-email',
     ],
     '/idp/idx/challenge': [
-      'factor-required-email-with-options',
+      'factor-verification-password',
+      'factor-verification-email',
     ]
   },
 };
