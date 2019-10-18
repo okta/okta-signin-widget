@@ -5,10 +5,10 @@ import selectFactorAuthenticate from '../../../playground/mocks/idp/idx/data/sel
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx')
-  .respond(selectFactorAuthenticate)
+  .respond(selectFactorAuthenticate);
 
 fixture(`Select Factor Form`)
-  .requestHooks(mock)
+  .requestHooks(mock);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
