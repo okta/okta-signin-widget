@@ -3,6 +3,8 @@ import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
 
 const Body = BaseForm.extend({
+  attributes: { 'data-se': 'terminal-state' },
+
   title () {
     const msg = this.options.appState.get('terminal').message || {};
     return msg.message || 'You can close this window';
