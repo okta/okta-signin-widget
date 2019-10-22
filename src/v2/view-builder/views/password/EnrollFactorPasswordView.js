@@ -1,7 +1,7 @@
 import { loc } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
-import { validateFieldsMatch } from '../../../util/ValidationUtil';
+import ValidationUtil from '../../../../util/ValidationUtil';
 import BaseFactorView from '../shared/BaseFactorView';
 
 const Body = BaseForm.extend({
@@ -40,8 +40,13 @@ export default BaseFactorView.extend({
     );
     return ModelClass.extend({
       local,
-      validate: function (data) {
-        return validateFieldsMatch(data['credential.value'], data.confirmPassword);
+      validate: function () {
+        return ValidationUtil.validateFieldsMatch(
+          this,
+          'credential.value',
+          'confirmPassword',
+          loc('password.error.match', 'login'),
+        );
       }
 
     });
