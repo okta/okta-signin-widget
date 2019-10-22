@@ -64,12 +64,17 @@ export default class BaseFormObject {
     await this.form.find(`.okta-form-infobox-error`).exists;
   }
 
+
   hasTextBoxError(name) {
-    return this.form.find(`input[name="${name}"]`).exists;
+    return this.form.find(`.o-form-input-name-${name}.o-form-has-errors`).exists;
   }
 
   hasTextBoxErrorMessage(name) {
-    return this.form.find(`input[name="${name}"]`).parent().sibling('.o-form-input-error').exists;
+    return this.form.find(`.o-form-input-name-${name} + .o-form-input-error`).exists;
+  }
+
+  getTextBoxErrorMessage(name) {
+    return this.form.find(`.o-form-input-name-${name} + .o-form-input-error`).textContent;
   }
 
   getCallout(selector) {
