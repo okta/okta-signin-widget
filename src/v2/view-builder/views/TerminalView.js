@@ -3,13 +3,15 @@ import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
 
 const Body = BaseForm.extend({
-  attributes: { 'data-se': 'terminal-state' },
-
   title () {
     const msg = this.options.appState.get('terminal').message || {};
     return msg.message || 'You can close this window';
   },
   noButtonBar: true,
+  postRender () {
+    BaseForm.prototype.postRender.apply(this, arguments);
+    this.$el.addClass('terminal-state');
+  },
 });
 
 const Footer = BaseFooter.extend({
