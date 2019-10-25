@@ -4,7 +4,7 @@ import BasePageObject from './BasePageObject';
 export default class TerminalPageObject extends BasePageObject {
   constructor(t) {
     super(t);
-    this.body = new Selector('[data-se="terminal-state"]');
+    this.body = new Selector('.terminal-state');
     this.footer = new Selector('.siw-main-footer');
   }
 
