@@ -16,9 +16,10 @@ define([
   'okta',
   'util/FormController',
   'util/FormType',
-  'views/shared/FooterWithBackLink'
+  'views/shared/FooterWithBackLink',
+  'q'
 ],
-function (Okta, FormController, FormType, FooterWithBackLink) {
+function (Okta, FormController, FormType, FooterWithBackLink, Q) {
 
   var _ = Okta._,
       $ = Okta.$;
@@ -34,13 +35,20 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
               fromUri: this.settings.get('relayState')
             },
             pivButton = this.settings.get('piv');
-        $.post(pivButton.certAuthUrl, data)
-        .then(function (res) {
-          // TODO: redirect to res.redirect
-        })
-        .fail(function (err) {
-          self.trigger('error', self, err.xhr);
-        });
+        return Q($.post(pivButton.certAuthUrl, data))
+          .then(function (res) {
+            // TODO: pass token in response to another endpoint
+            // var tokenData = {
+            //    token: res.token
+            // };
+            // return Q($.post(res.endpoint, tokenData))
+            //   .fail(function (err) {
+            //     self.trigger('error', self, err.xhr);
+            //   });
+          })
+          .fail(function (err) {
+            self.trigger('error', self, err.xhr);
+          });
       }
     },
 
