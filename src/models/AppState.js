@@ -126,24 +126,26 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       if (this.settings.get('features.securityImage')) {
         var self = this;
         this.listenTo(this, 'change:username', function (model, username) {
-          getSecurityImage(this.get('baseUrl'), username, this.get('deviceFingerprint'))
-            .then(function (image) {
-              model.set('securityImage', image.securityImage);
-              model.set('securityImageDescription', image.securityImageDescription);
-              model.unset('deviceFingerprint'); //Fingerprint can only be used once
-            })
-            .fail(function (jqXhr) {
-            // Only notify the consumer on a CORS error
-              if (BrowserFeatures.corsIsNotEnabled(jqXhr)) {
-                self.settings.callGlobalError(new Errors.UnsupportedBrowserError(
-                  Okta.loc('error.enabled.cors')
-                ));
-              }
-              else {
-                throw jqXhr;
-              }
-            })
-            .done();
+          if (username) {
+            getSecurityImage(this.get('baseUrl'), username, this.get('deviceFingerprint'))
+              .then(function (image) {
+                model.set('securityImage', image.securityImage);
+                model.set('securityImageDescription', image.securityImageDescription);
+                model.unset('deviceFingerprint'); //Fingerprint can only be used once
+              })
+              .fail(function (jqXhr) {
+              // Only notify the consumer on a CORS error
+                if (BrowserFeatures.corsIsNotEnabled(jqXhr)) {
+                  self.settings.callGlobalError(new Errors.UnsupportedBrowserError(
+                    Okta.loc('error.enabled.cors')
+                  ));
+                }
+                else {
+                  throw jqXhr;
+                }
+              })
+              .done();
+          }
         });
       }
     },
