@@ -147,11 +147,17 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
                      <p>{{{i18n code="enroll.webauthn.v2.instructions.edge" bundle="login"}}}</p>\
                   </div>\
                 {{/if}}\
+                {{#if onlySupportsSecurityKey}}\
+                  <div class="webauthn-restrictions-text">\
+                     <p>{{{i18n code="enroll.webauthn.instructions.noSupportForBiometric" bundle="login"}}}</p>\
+                  </div>\
+                {{/if}}\
                 <div data-se="webauthn-waiting" class="okta-waiting-spinner hide"></div>\
               ',
               getTemplateData: function () {
                 return {
-                  isEdge: BrowserFeatures.isEdge
+                  isEdge: BrowserFeatures.isEdge,
+                  onlySupportsSecurityKey: (BrowserFeatures.isFirefox || BrowserFeatures.isSafari) && (BrowserFeatures.isMac)
                 };
               }
             })

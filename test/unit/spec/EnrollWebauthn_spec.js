@@ -176,6 +176,19 @@ function (Okta,
           Expect.isVisible(test.form.submitButton());
         });
       });
+
+      itp('shows a note on support restrictions for firefox and safari on mac', function () {
+        spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
+        spyOn(BrowserFeatures, 'isFirefox').and.returnValue(true);
+        spyOn(BrowserFeatures, 'isSafari').and.returnValue(true);
+        spyOn(BrowserFeatures, 'isMac').and.returnValue(true);
+        return setup().then(function (test) {
+          Expect.isVisible(test.form.enrollInstructions());
+          Expect.isVisible(test.form.enrollRestrictions());
+          expect(test.form.enrollRestrictions().text()).toEqual('Note: Some browsers may not support biometric authenticators.');
+          Expect.isVisible(test.form.submitButton());
+        });
+      });
       
       itp('calls abort on appstate when switching to factor list after clicking enroll', function () {
         mockWebauthnSuccessRegistration(false);
