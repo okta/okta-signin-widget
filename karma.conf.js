@@ -45,6 +45,7 @@ module.exports = (config) => {
       // but this works only with `karma start`, not `karma run`.
       test: config.test,
       jasmine: {
+        timeoutInterval: 10000, // increased timeout for Travis
         random: false
       }
     },

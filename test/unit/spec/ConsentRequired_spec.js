@@ -175,7 +175,9 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
           $.ajax.calls.reset();
           test.setNextResponse(resCancel);
           test.form.cancelButton().click();
-          return tick(test);
+          return Expect.wait(function () {
+            return $.ajax.calls.count() > 0;
+          }, test);
         })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
@@ -185,6 +187,11 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
                 stateToken: 'testStateToken'
               }
             });
+            return Expect.wait(function () {
+              return test.router.controller.options.appState.clearLastAuthResponse.calls.count() > 0;
+            }, test);
+          })
+          .then(function (test) {
             expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
             expect(cancel).toHaveBeenCalled();
           });
