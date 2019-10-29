@@ -45,8 +45,8 @@ function (Okta, TimeUtil) {
       sortOrder: 2
     },
     'WEBAUTHN': {
-      label: 'factor.webauthn',
-      description: 'factor.webauthn.description',
+      label: 'factor.webauthn.biometric',
+      description: 'factor.webauthn.biometric.description',
       iconClassName: 'mfa-webauthn',
       sortOrder: 2
     },

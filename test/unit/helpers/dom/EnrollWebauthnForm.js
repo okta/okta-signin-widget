@@ -10,6 +10,10 @@ define(['./Form'], function (Form) {
       return this.$('.webauthn-edge-text p');
     },
 
+    enrollRestrictions: function () {
+      return this.$('.webauthn-restrictions-text p');
+    },
+
     enrollSpinningIcon: function () {
       return this.el('webauthn-waiting');
     },

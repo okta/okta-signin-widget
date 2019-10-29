@@ -231,7 +231,7 @@ function (Okta,
     itp('shows the right beacon and title for webauthn', function () {
       return setupFn({webauthnSupported: true}).then(function (test) {
         expectHasRightBeaconImage(test, 'mfa-webauthn');
-        expectTitleToBe(test, 'Security Key or Built-in Authenticator');
+        expectTitleToBe(test, 'Security Key or Biometric Authenticator');
       });
     });
 
@@ -239,9 +239,9 @@ function (Okta,
       return setupFn({webauthnSupported: false}).then(function (test) {
         expect(test.form.el('o-form-error-html')).toHaveLength(1);
         var errorMessage = webauthnOnly ?
-          'Security key or built-in authenticator is not supported on this browser. ' +
+          'Security key or biometric authenticator is not supported on this browser. ' +
           'Contact your admin for assistance.' :
-          'Security key or built-in authenticator is not supported on this browser. ' +
+          'Security key or biometric authenticator is not supported on this browser. ' +
           'Select another factor or contact your admin for assistance.';
         expect(test.form.el('o-form-error-html').find('strong').html())
           .toEqual(errorMessage);

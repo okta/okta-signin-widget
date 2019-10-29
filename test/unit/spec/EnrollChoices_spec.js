@@ -818,8 +818,8 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         itHasIconAndText(
           'WEBAUTHN',
           'mfa-webauthn',
-          'Security Key or Built-in Authenticator',
-          'Use a security key (USB or bluetooth) or a built-in device authenticator (Windows Hello, macOS TouchID, etc.)',
+          'Security Key or Biometric Authenticator',
+          'Use a security key (USB or bluetooth) or a biometric authenticator (Windows Hello, Touch ID, etc.)',
           resAllFactors,
           true
         );
