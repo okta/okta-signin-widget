@@ -231,7 +231,7 @@ function (Okta,
     itp('shows the right beacon and title for webauthn', function () {
       return setupFn({webauthnSupported: true}).then(function (test) {
         expectHasRightBeaconImage(test, 'mfa-webauthn');
-        expectTitleToBe(test, 'Security Key or biometric Authenticator');
+        expectTitleToBe(test, 'Security Key or Biometric Authenticator');
       });
     });
 
