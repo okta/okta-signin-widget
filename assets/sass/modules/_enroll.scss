@@ -33,9 +33,17 @@
 
 .enroll-factor-row {
   margin-bottom: 30px;
+  display: flex;
+  align-items: center;
 
   .enroll-factor-description {
     overflow: hidden;
+  }
+
+  .enroll-factor-label {
+    display: flex;
+    justify-content: space-between;
+    min-width: 250px;
   }
 
   .enroll-factor-button {
@@ -61,7 +69,7 @@
   }
 
   .enroll-factor-icon-container {
-    float: left;
+    align-self: flex-start;
     margin-right: 20px;
   }
 
@@ -77,10 +85,10 @@
 
   .success-16-green,
   .success-16-gray {
-    float: right;
     width: 20px;
     height: 20px;
     line-height: 24px;
+    flex-shrink: 0;
   }
 
   .success-16-green:before,
@@ -97,11 +105,11 @@
 .enroll-factor-row-min {
   margin-bottom: 10px;
 
-  h3 {
-    padding-top: 10px;
+  p {
+    display: none;
   }
 
-  p {
+  .enroll-factor-button {
     display: none;
   }
 }

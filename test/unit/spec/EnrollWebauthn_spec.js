@@ -135,7 +135,7 @@ function (Okta,
 
         return setup().then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
-          expect(test.form.errorHtml().html()).toEqual('Security key or built-in authenticator is not supported on this browser.' +
+          expect(test.form.errorHtml().html()).toEqual('Security key or biometric authenticator is not supported on this browser.' +
             ' Select another factor or contact your admin for assistance.');
         });
       });
@@ -145,7 +145,7 @@ function (Okta,
 
         return setup(false, true).then(function (test) {
           expect(test.form.errorHtml()).toHaveLength(1);
-          expect(test.form.errorHtml().html()).toEqual('Security key or built-in authenticator is not supported on this browser.' +
+          expect(test.form.errorHtml().html()).toEqual('Security key or biometric authenticator is not supported on this browser.' +
             ' Contact your admin for assistance.');
         });
       });
@@ -172,7 +172,7 @@ function (Okta,
           Expect.isVisible(test.form.enrollInstructions());
           Expect.isVisible(test.form.enrollEdgeInstructions());
           expect(test.form.enrollEdgeInstructions().text()).toEqual('Note: If you are enrolling a security key and' +
-          ' Windows Hello or PIN is enabled, you will need to select \'Cancel\' before continuing.');
+          ' Windows Hello or PIN is enabled, you will need to select \'Cancel\' in the prompt before continuing.');
           Expect.isVisible(test.form.submitButton());
         });
       });
