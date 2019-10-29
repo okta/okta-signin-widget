@@ -43,7 +43,7 @@ export default BaseFactorView.extend({
       validate: function () {
         return ValidationUtil.validateFieldsMatch(
           this,
-          'credential.value',
+          'credentials.passcode',
           'confirmPassword',
           loc('password.error.match', 'login'),
         );
