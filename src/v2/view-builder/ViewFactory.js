@@ -13,7 +13,7 @@ import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView'
 import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
 
 // email
-import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
+// import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
 import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
@@ -36,7 +36,7 @@ const VIEWS_MAPPING = {
     [DEFAULT]: EnrollProfileView,
   },
   'enroll-factor': {
-    email: EnrollFactorEmailView,
+    email: RequiredFactorEmailView, // TODO EnrollFactorEmailView is unimplemented
     password: EnrollFactorPasswordView
   },
   'challenge-factor': {

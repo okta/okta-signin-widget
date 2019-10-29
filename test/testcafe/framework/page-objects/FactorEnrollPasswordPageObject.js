@@ -2,7 +2,7 @@ import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 import BaseFormObject from './components/BaseFormObject';
 
-const passwordFieldName = 'credential\\.value';
+const passwordFieldName = 'credentials\\.passcode';
 const confirmPasswordFieldName = 'confirmPassword';
 
 export default class EnrollPasswordPageObject extends BasePageObject {

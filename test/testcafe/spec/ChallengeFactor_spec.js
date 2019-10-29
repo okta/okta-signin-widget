@@ -24,7 +24,7 @@ const getPageUrl = ClientFunction(() => window.location.href);
 test
   (`challenge password factor`, async t => {
     const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.verifyPassword('password', 'test');
+    await challengeFactorPageObject.verifyPassword('credentials.passcode', 'test');
     await challengeFactorPageObject.clickNextButton();
     const pageUrl = getPageUrl();
     await t.expect(pageUrl).contains('stateToken=abc123');
