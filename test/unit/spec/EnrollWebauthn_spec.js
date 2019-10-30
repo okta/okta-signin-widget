@@ -177,9 +177,22 @@ function (Okta,
         });
       });
 
-      itp('shows a note on support restrictions for firefox and safari on mac', function () {
+      itp('shows a note on support restrictions for firefox on mac', function () {
         spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
         spyOn(BrowserFeatures, 'isFirefox').and.returnValue(true);
+        spyOn(BrowserFeatures, 'isSafari').and.returnValue(false);
+        spyOn(BrowserFeatures, 'isMac').and.returnValue(true);
+        return setup().then(function (test) {
+          Expect.isVisible(test.form.enrollInstructions());
+          Expect.isVisible(test.form.enrollRestrictions());
+          expect(test.form.enrollRestrictions().text()).toEqual('Note: Some browsers may not support biometric authenticators.');
+          Expect.isVisible(test.form.submitButton());
+        });
+      });
+
+      itp('shows a note on support restrictions for safari on mac', function () {
+        spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
+        spyOn(BrowserFeatures, 'isFirefox').and.returnValue(false);
         spyOn(BrowserFeatures, 'isSafari').and.returnValue(true);
         spyOn(BrowserFeatures, 'isMac').and.returnValue(true);
         return setup().then(function (test) {

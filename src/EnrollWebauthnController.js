@@ -117,7 +117,7 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
     },
 
     Form: {
-      title: _.partial(Okta.loc, 'enroll.webauthn.v2.title', 'login'),
+      title: _.partial(Okta.loc, 'enroll.webauthn.biometric.title', 'login'),
       save: _.partial(Okta.loc, 'enroll.webauthn.save', 'login'),
       noCancelButton: true,
       hasSavingState: false,
@@ -134,17 +134,17 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
         var children = [];
 
         if (webauthn.isNewApiAvailable()) {
-          //enroll.webauthn.v2.instructions.edge is unescaped because it contains html
+          //enroll.webauthn.biometric.instructions.edge is unescaped because it contains html
           children.push(FormType.View({
             View: Okta.View.extend({
               className: 'webauthn-enroll-text',
               template: '\
                 <div class="webauthn-enroll-instructions">\
-                  <p>{{i18n code="enroll.webauthn.v2.instructions" bundle="login"}}</p>\
+                  <p>{{i18n code="enroll.webauthn.biometric.instructions" bundle="login"}}</p>\
                 </div>\
                 {{#if isEdge}}\
                   <div class="webauthn-edge-text">\
-                     <p>{{{i18n code="enroll.webauthn.v2.instructions.edge" bundle="login"}}}</p>\
+                     <p>{{{i18n code="enroll.webauthn.biometric.instructions.edge" bundle="login"}}}</p>\
                   </div>\
                 {{/if}}\
                 {{#if onlySupportsSecurityKey}}\
@@ -164,9 +164,9 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
             })
           }));
         } else {
-          var errorMessageKey = 'webauthn.v2.error.factorNotSupported';
+          var errorMessageKey = 'webauthn.biometric.error.factorNotSupported';
           if (this.options.appState.get('factors').length === 1) {
-            errorMessageKey = 'webauthn.v2.error.factorNotSupported.oneFactor';
+            errorMessageKey = 'webauthn.biometric.error.factorNotSupported.oneFactor';
           }
           children.push(FormType.View(
             {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},

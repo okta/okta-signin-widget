@@ -133,7 +133,7 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
     Form: {
       autoSave: true,
       hasSavingState: false,
-      title: _.partial(Okta.loc, 'factor.webauthn.v2', 'login'),
+      title: _.partial(Okta.loc, 'factor.webauthn.biometric', 'login'),
       className: 'verify-webauthn-form',
       noCancelButton: true,
       save: _.partial(Okta.loc, 'verify.u2f.retry', 'login'),
@@ -152,15 +152,15 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
           children.push(FormType.View({
             View:
                '<div class="webauthn-verify-text">\
-                 <p>{{i18n code="verify.webauthn.v2.instructions" bundle="login"}}</p>\
+                 <p>{{i18n code="verify.webauthn.biometric.instructions" bundle="login"}}</p>\
                  <div data-se="webauthn-waiting" class="okta-waiting-spinner"></div>\
                </div>'
           }));
         }
         else {
-          var errorMessageKey = 'webauthn.v2.error.factorNotSupported';
+          var errorMessageKey = 'webauthn.biometric.error.factorNotSupported';
           if (this.options.appState.get('factors').length === 1) {
-            errorMessageKey = 'webauthn.v2.error.factorNotSupported.oneFactor';
+            errorMessageKey = 'webauthn.biometric.error.factorNotSupported.oneFactor';
           }
           children.push(FormType.View(
             {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
