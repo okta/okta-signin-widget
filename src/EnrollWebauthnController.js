@@ -157,7 +157,8 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
               getTemplateData: function () {
                 return {
                   isEdge: BrowserFeatures.isEdge,
-                  onlySupportsSecurityKey: (BrowserFeatures.isFirefox || BrowserFeatures.isSafari) && (BrowserFeatures.isMac)
+                  onlySupportsSecurityKey: (BrowserFeatures.isFirefox || BrowserFeatures.isSafari)
+                    && (BrowserFeatures.isMac)
                 };
               }
             })
