@@ -889,6 +889,18 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             expect($.ajax.calls.count()).toBe(1);
           });
       });
+      itp('undefined username does not make API call', function () {
+        return setup({ features: { securityImage: true }})
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername(undefined);
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            expect($.ajax.calls.count()).toBe(0);
+            expect(test.form.securityBeacon()[0].className).toContain('undefined-user');
+          });
+      });
       itp('updates security beacon to show the new user image when user enters unfamiliar username', function () {
         return setup({ features: { securityImage: true }})
           .then(function (test) {
