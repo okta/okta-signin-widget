@@ -157,7 +157,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           test.setNextResponse(next);
           form.setAnswer('wrong');
           form.submit();
-          return tick(test);
+          var redirectFlow = settings && (settings['authParams.responseType'] !== undefined || settings['authParams.display'] === 'page');
+          var spy = redirectFlow ? test.ac.token.getWithRedirect._setLocation : test.ac.token.getWithoutPrompt;
+          return Expect.waitForSpyCall(spy, test);
         });
     }
 
@@ -1193,10 +1195,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
                 state: OIDC_STATE
               }
             });
-            return tick();
-          })
-          .then(function () {
-            expect($sandbox.find('#' + OIDC_IFRAME_ID).length).toBe(0);
+            return Expect.wait(function () {
+              return $sandbox.find('#' + OIDC_IFRAME_ID).length === 0;
+            });
           });
       });
       itp('invokes the success function with idToken and user data when the iframe returns with data', function () {
@@ -1206,6 +1207,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           .then(function () {
             expect(window.addEventListener).toHaveBeenCalled();
             var args = window.addEventListener.calls.argsFor(0);
+            expect(args[0]).toBe('message');
+            // Simulate callback from an iframe
             var callback = args[1];
             callback.call(null, {
               origin: 'https://foo.com',
@@ -1534,41 +1537,54 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
       });
 
       itp('Sends the default accept lang header en with API calls if widget is not configured with a language', function () {
-        return setupLanguage({})
+        var success = jasmine.createSpy('successSpy');
+        return setupLanguage({
+          settings: {
+            globalSuccessFn: success
+          }
+        })
           .then(function (test) {
             test.setNextResponse(resSuccess);
             test.router.navigate('');
-            return Expect.waitForPrimaryAuth();
+            return Expect.waitForPrimaryAuth(test);
           })
-          .then(function () {
+          .then(function (test) {
             var form = new PrimaryAuthForm($sandbox);
             expect(form.isPrimaryAuth()).toBe(true);
             form.setUsername('testuser');
             form.setPassword('testpassword');
             form.submit();
             expect($.ajax.calls.mostRecent().args[0].headers['Accept-Language']).toBe('en');
+
+            // Wait for login success
+            return Expect.waitForSpyCall(success, test);
           });
       });
 
       itp('Sends the right accept lang header with API calls if widget is configured with a language', function () {
+        var success = jasmine.createSpy('successSpy');
         return setupLanguage({
           mockLanguageRequest: 'ja',
           settings: {
+            globalSuccessFn: success,
             language: 'ja'
           }
         })
           .then(function (test) {
             test.setNextResponse(resSuccess);
             test.router.navigate('');
-            return Expect.waitForPrimaryAuth();
+            return Expect.waitForPrimaryAuth(test);
           })
-          .then(function () {
+          .then(function (test) {
             var form = new PrimaryAuthForm($sandbox);
             expect(form.isPrimaryAuth()).toBe(true);
             form.setUsername('testuser');
             form.setPassword('testpassword');
             form.submit();
             expect($.ajax.calls.all()[0].args[0].headers['Accept-Language']).toBe('ja');
+
+            // Wait for login success
+            return Expect.waitForSpyCall(success, test);
           });
       });
     });

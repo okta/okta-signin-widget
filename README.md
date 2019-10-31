@@ -183,8 +183,7 @@ var signIn = new OktaSignIn(
     redirectUri: '{{redirectUri configured in OIDC app}}',
     authParams: {
       display: 'page',
-      responseType: 'code',
-      grantType: 'authorization_code'
+      pkce: true
     }
   }
 );
@@ -946,6 +945,8 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     oAuthTimeout: 300000 // 5 minutes
     ```
 
+- **authParams.pkce:** Set to `true` to enable PKCE flow
+
 - **authParams.display:** Specify how to display the authentication UI for External Identity Providers. Defaults to `popup`.
 
     - `popup` - Opens a popup to the authorization server when an External Identity Provider button is clicked. `responseMode` will be set to `okta_post_message` and cannot be overridden.
@@ -958,20 +959,6 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     authParams: {
       display: 'page',
       responseType: 'token'
-    }
-    ```
-
-- **authParams.grantType:** Used only by Single-page applications. Specify a flow to be used when authenticating or renewing tokens.
-
-  - `implicit` - The default value. The tokens requested in `responseType` will be returned as parameters on the `redirectUri`
-  - `authorization_code` - Use PKCE client-side authorization code flow. Must be used in combination with `responseType: ['code']`
-
-    ```javascript
-    // Use PKCE flow
-    authParams: {
-      display: 'page',
-      responseType: 'code',
-      grantType: 'authorization_code'
     }
     ```
 

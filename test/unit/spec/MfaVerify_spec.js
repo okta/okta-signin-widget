@@ -644,10 +644,13 @@ function (Okta,
         test.form = test.form[0];
       }
       test.form.submit();
-
-      return tick(test)    // First tick - submit verifyFactor
-        .then(function () { return tick(test); }); // Second tick - start verifyFactor poll
+ 
+      // First tick - submit verifyFactor
+      // Second tick - start verifyFactor poll
       // The next tick will trigger the final response
+      return Expect.wait(function () {
+        return JSON.stringify(test.router.controller.model.appState.get('lastAuthResponse')) === JSON.stringify(finalResponse.response);
+      }, test);
     }
 
     function expectHasRightBeaconImage (test, desiredClassName) {
@@ -772,7 +775,9 @@ function (Okta,
             expectHasRightBeaconImage(test, 'mfa-okta-security-question');
             test.beacon.dropDownButton().click();
             clickFactorInDropdown(test, 'GOOGLE_AUTH');
-            return tick(test);
+            return Expect.wait(function () {
+              return test.beacon.hasClass('mfa-google-auth');
+            }, test);
           })
           .then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-google-auth');
@@ -813,7 +818,9 @@ function (Okta,
         return setupSmsFn().then(function (test) {
           test.setNextResponse(challengeRes);
           test.form.smsSendCode().click();
-          return tick(test);
+          return Expect.wait(function () {
+            return test.router.controller.model.appState.get('transaction').status === 'MFA_CHALLENGE';
+          }, test);
         })
           .then(function (test) {
             test.setNextResponse(allFactorsRes);
@@ -1102,7 +1109,9 @@ function (Okta,
             test.form.setAnswer('123456');
             expect(test.form.answerField().val()).toEqual('123456');
             test.form.smsSendCode().click();
-            return tick(test);
+            return Expect.wait(function () {
+              return test.form.answerField().val() === '';
+            }, test);
           })
           .then(function (test) {
             expect(test.form.smsSendCode().trimmedText()).toEqual('Sent');
@@ -1175,22 +1184,24 @@ function (Okta,
           test.setNextResponse(challengeSmsRes);
           expect(test.form.smsSendCode().text()).toBe('Send code');
           test.form.smsSendCode().click();
-          return tick(test);
+          return Expect.wait(function () {
+            return test.form.smsSendCode().text() === 'Re-send code';
+          }, test);
         })
           .then(function (test){
             expect(test.form.smsSendCode().text()).toBe('Re-send code');
             expect(test.form.warningMessage()).toContain(
               'Haven\'t received an SMS? To try again, click Re-send code.');
-            return tick(test);
-          })
-          .then(function (test) {
+
             // Re-send will clear the warning
             $.ajax.calls.reset();
             test.setNextResponse(challengeSmsRes);
             test.form.smsSendCode().click();
             expect(test.form.smsSendCode().text()).toBe('Sent');
             expect(test.form.hasWarningMessage()).toBe(false);
-            return tick(test);
+            return Expect.wait(function () {
+              return test.form.smsSendCode().text() === 'Re-send code';
+            }, test);
           })
           .then(function (test){
             // Re-send after 30s wil show the warning again
@@ -1314,32 +1325,49 @@ function (Okta,
           expect(test.button.trimmedText()).toEqual('Send code');
           test.setNextResponse(challengeSmsRes);
           test.form.smsSendCode().click();
-          return tick(test);
+          return Expect.wait(function () {
+            return test.button.trimmedText() === 'Sent';
+          }, test);
         }).then(function (test) {
           expect(test.button.trimmedText()).toEqual('Sent');
           deferred.resolve();
-          return test;
+
+          return Expect.wait(function () {
+            return test.button.trimmedText() === 'Re-send code';
+          }, test);
         }).then(function (test) {
-          return tick().then(function () {
-            expect(test.button.length).toBe(1);
-            expect(test.button.trimmedText()).toEqual('Re-send code');
-          });
+          expect(test.button.length).toBe(1);
+          expect(test.button.trimmedText()).toEqual('Re-send code');
         });
       });
       itp('displays only one error block if got an error resp on "Send code"', function () {
         var deferred = Util.mockRateLimiting();
         return setupFn().then(function (test) {
+          expect(test.form.hasErrors()).toBe(false);
           test.setNextResponse(resResendError);
+          expect(test.form.smsSendCode().hasClass('disabled')).toBe(false);
+          expect(test.afterErrorHandler.calls.count()).toBe(0);
           test.form.smsSendCode().click();
-          return tick(test);
+          expect(test.form.smsSendCode().hasClass('disabled')).toBe(true);
+          return Expect.wait(function () {
+            return test.afterErrorHandler.calls.count() > 0;
+          }, test);
         })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorBox().length).toBe(1);
             deferred.resolve();
+            return Expect.wait(function () {
+              return test.form.smsSendCode().hasClass('disabled') === false;
+            }, test);
+          })
+          .then(function (test) {
             test.setNextResponse(resResendError);
             test.form.smsSendCode().click();
-            return tick(test);
+            expect(test.form.smsSendCode().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return test.form.smsSendCode().hasClass('disabled') === false;
+            }, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
@@ -1379,16 +1407,19 @@ function (Okta,
       });
       itp('hides error messages after clicking on send sms', function () {
         return setupFn().then(function (test) {
+          expect(test.form.hasErrors()).toBe(false);
           test.form.setAnswer('');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorBox().length).toBe(1);
             test.setNextResponse(challengeSmsRes);
             test.form.smsSendCode().click();
-            return tick(test);
+            return Expect.wait(function () {
+              return test.form.hasErrors() === false;
+            }, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(false);
@@ -1446,7 +1477,11 @@ function (Okta,
           expect(test.button.trimmedText()).toEqual('Call');
           expect(test.form.answerField().val()).toEqual('123456');
           test.form.makeCall().click();
-          return tick().then(function () {
+          return Expect.wait(function () {
+            return test.form.answerField().val() === '';
+          }, test);
+        })
+          .then(function (test) {
             expect(test.button.trimmedText()).toEqual('Calling');
             expect(test.form.answerField().val()).toEqual('');
             var button = test.form.submitButton();
@@ -1455,14 +1490,15 @@ function (Okta,
             expect(button.prop('disabled')).toBe(false);
             return test;
           });
-        });
       });
       itp('calls verifyFactor with empty code if call button is clicked', function () {
         return setupFn().then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(challengeCallRes);
           test.form.makeCall().click();
-          return tick();
+          return Expect.wait(function () {
+            return $.ajax.calls.count() > 0;
+          }, test);
         })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -1481,7 +1517,9 @@ function (Okta,
           test.form.setRememberDevice(true);
           test.setNextResponse(challengeCallRes);
           test.form.makeCall().click();
-          return tick();
+          return Expect.wait(function () {
+            return $.ajax.calls.count() > 0;
+          }, test);
         })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -1499,14 +1537,17 @@ function (Okta,
           $.ajax.calls.reset();
           test.setNextResponse(challengeCallRes);
           test.form.makeCall().click();
-          return tick(test);
+          return Expect.wait(function () {
+            return $.ajax.calls.count() > 0;
+          }, test);
         })
           .then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse(successRes);
             test.form.setAnswer('');
+            expect(test.form.hasErrors()).toBe(false);
             test.form.submit();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect($.ajax).not.toHaveBeenCalled();
@@ -1520,7 +1561,9 @@ function (Okta,
           $.ajax.calls.reset();
           test.setNextResponse(challengeCallRes);
           test.form.makeCall().click();
-          return tick(test);
+          return Expect.wait(function () {
+            return $.ajax.calls.count() > 0;
+          }, test);
         })
           .then(function (test) {
             $.ajax.calls.reset();
@@ -1546,7 +1589,9 @@ function (Okta,
           test.form.setRememberDevice(true);
           test.setNextResponse(challengeCallRes);
           test.form.makeCall().click();
-          return tick(test);
+          return Expect.wait(function () {
+            return $.ajax.calls.count() > 0;
+          }, test);
         })
           .then(function (test) {
             $.ajax.calls.reset();
@@ -1590,32 +1635,49 @@ function (Okta,
           expect(test.button.trimmedText()).toEqual('Call');
           test.setNextResponse(challengeCallRes);
           test.form.makeCall().click();
-          return tick().then(function () {
+          return Expect.wait(function () {
+            return test.button.trimmedText() === 'Calling';
+          }, test);
+        })
+          .then(function (test) {
             expect(test.button.trimmedText()).toEqual('Calling');
             deferred.resolve();
-            return test;
-          });
-        }).then(function (test) {
-          return tick().then(function () {
+            return Expect.wait(function () {
+              return test.button.trimmedText() === 'Redial';
+            }, test);
+          })
+          .then(function (test) {
             expect(test.button.length).toBe(1);
             expect(test.button.trimmedText()).toEqual('Redial');
           });
-        });
       });
       itp('displays only one error block if got an error resp on "Call"', function () {
         var deferred = Util.mockRateLimiting();
         return setupFn().then(function (test) {
           test.setNextResponse(resResendError);
           test.form.makeCall().click();
-          return tick(test);
+          expect(test.form.makeCall().hasClass('disabled')).toBe(true);
+          return Expect.wait(function () {
+            return test.afterErrorHandler.calls.count() > 0;
+          }, test);
         })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorBox().length).toBe(1);
+            test.afterErrorHandler.calls.reset();
             deferred.resolve();
+            return Expect.wait(function () {
+              return test.form.makeCall().hasClass('disabled') === false;
+            }, test);
+
+          })
+          .then(function (test) {
             test.setNextResponse(resResendError);
             test.form.makeCall().click();
-            return tick(test);
+            expect(test.form.makeCall().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return test.form.makeCall().hasClass('disabled') === false;
+            }, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
@@ -1657,17 +1719,17 @@ function (Okta,
         return setupFn().then(function (test) {
           test.form.setAnswer('');
           test.form.submit();
-          return tick(test);
+          return Expect.waitForFormError(test.form, test);
         })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorBox().length).toBe(1);
-            return tick(test);
-          })
-          .then(function (test) {
             test.setNextResponse(challengeCallRes);
             test.form.makeCall().click();
-            return tick(test);
+            expect(test.form.makeCall().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return test.form.hasErrors() === false;
+            }, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(false);
@@ -1681,22 +1743,26 @@ function (Okta,
           test.setNextResponse(challengeCallRes);
           expect(test.form.makeCall().text()).toBe('Call');
           test.form.makeCall().click();
-          return tick(test);
+          expect(test.form.makeCall().hasClass('disabled')).toBe(true);
+          return Expect.wait(function () {
+            return test.form.makeCall().hasClass('disabled') === false;
+          }, test);
         })
           .then(function (test){
             expect(test.form.makeCall().text()).toBe('Redial');
             expect(test.form.warningMessage()).toContain(
               'Haven\'t received a voice call? To try again, click Redial.');
-            return tick(test);
-          })
-          .then(function (test) {
+
             // Re-send will clear the warning
             $.ajax.calls.reset();
             test.setNextResponse(challengeCallRes);
             test.form.makeCall().click();
             expect(test.form.makeCall().text()).toBe('Calling');
             expect(test.form.hasWarningMessage()).toBe(false);
-            return tick(test);
+            expect(test.form.makeCall().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return test.form.makeCall().hasClass('disabled') === false;
+            }, test);
           })
           .then(function (test){
             // Re-send after 30s wil show the warning again
@@ -2152,7 +2218,9 @@ function (Okta,
                 $.ajax.calls.reset();
                 test.setNextResponse(resCancel);
                 test.form.signoutLink($sandbox).click();
-                return tick(test);
+                return Expect.wait(function () {
+                  return RouterUtil.routeAfterAuthStatusChange.calls.count() > 0;
+                }, test);
               })
               .then(function (test) {
                 expect($.ajax.calls.count()).toBe(1);
@@ -2495,7 +2563,12 @@ function (Okta,
             expect(test.button.trimmedText()).toEqual('Send email');
             expect(test.form.answerField().val()).toEqual('123456');
             test.form.emailSendCode().click();
-            return tick().then(function () {
+            expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return test.form.answerField().val() === '';
+            }, test);
+          })
+            .then(function (test) {
               expect(test.button.trimmedText()).toEqual('Sent');
               expect(test.form.answerField().val()).toEqual('');
               var button = test.form.submitButton();
@@ -2504,14 +2577,16 @@ function (Okta,
               expect(button.prop('disabled')).toBe(false);
               return test;
             });
-          });
         });
         itp('calls verifyFactor with empty code if send code button is clicked', function () {
           return setupEmail().then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeEmail);
             test.form.emailSendCode().click();
-            return tick();
+            expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return $.ajax.calls.count() > 0;
+            }, test);
           })
             .then(function () {
               expect($.ajax.calls.count()).toBe(1);
@@ -2530,7 +2605,10 @@ function (Okta,
             test.form.setRememberDevice(true);
             test.setNextResponse(resChallengeEmail);
             test.form.emailSendCode().click();
-            return tick();
+            expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return $.ajax.calls.count() > 0;
+            }, test);
           })
             .then(function () {
               expect($.ajax.calls.count()).toBe(1);
@@ -2548,7 +2626,10 @@ function (Okta,
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeEmail);
             test.form.emailSendCode().click();
-            return tick(test);
+            expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return $.ajax.calls.count() > 0;
+            }, test);
           })
             .then(function (test) {
               $.ajax.calls.reset();
@@ -2568,7 +2649,10 @@ function (Okta,
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeEmail);
             test.form.emailSendCode().click();
-            return tick(test);
+            expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return $.ajax.calls.count() > 0;
+            }, test);
           })
             .then(function (test) {
               $.ajax.calls.reset();
@@ -2594,7 +2678,10 @@ function (Okta,
             test.form.setRememberDevice(true);
             test.setNextResponse(resChallengeEmail);
             test.form.emailSendCode().click();
-            return tick(test);
+            expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return $.ajax.calls.count() > 0;
+            }, test);
           })
             .then(function (test) {
               $.ajax.calls.reset();
@@ -2621,34 +2708,54 @@ function (Okta,
             test.button = test.form.emailSendCode();
             expect(test.button.trimmedText()).toEqual('Send email');
             test.setNextResponse(resChallengeEmail);
+            $.ajax.calls.reset();
             test.form.emailSendCode().click();
-            return tick().then(function () {
+            expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return $.ajax.calls.count() > 0;
+            }, test);
+          })
+            .then(function (test) {
               expect(test.button.trimmedText()).toEqual('Sent');
               expect(test.button.attr('class')).toContain('link-button-disabled');
               deferred.resolve();
-              return test;
-            });
-          }).then(function (test) {
-            return tick().then(function () {
+              expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+              return Expect.wait(function () {
+                return test.form.emailSendCode().hasClass('disabled') === false;
+              }, test);
+            })
+            .then(function (test) {
               expect(test.button.length).toBe(1);
               expect(test.button.trimmedText()).toEqual('Re-send email');
             });
-          });
         });
         itp('displays only one error block if got an error resp on "Send email"', function () {
           var deferred = Util.mockRateLimiting();
           return setupEmail().then(function (test) {
             test.setNextResponse(resResendError);
+            $.ajax.calls.reset();
             test.form.emailSendCode().click();
-            return tick(test);
+            expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+            return Expect.wait(function () {
+              return test.form.hasErrors();
+            }, test);
           })
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               deferred.resolve();
+              return Expect.wait(function () {
+                return test.form.emailSendCode().hasClass('disabled') === false;
+              }, test);
+            })
+            .then(function (test) {
+              $.ajax.calls.reset();
               test.setNextResponse(resResendError);
               test.form.emailSendCode().click();
-              return tick(test);
+              expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+              return Expect.wait(function () {
+                return test.form.emailSendCode().hasClass('disabled') === false;
+              }, test);
             })
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
@@ -2690,14 +2797,19 @@ function (Okta,
           return setupEmail().then(function (test) {
             test.form.setAnswer('');
             test.form.submit();
-            return tick(test);
+            return Expect.wait(function () {
+              return test.form.hasErrors() === true;
+            }, test);
           })
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
               test.setNextResponse(resChallengeEmail);
               test.form.emailSendCode().click();
-              return tick(test);
+              expect(test.form.emailSendCode().hasClass('disabled')).toBe(true);
+              return Expect.wait(function () {
+                return test.form.hasErrors() === false;
+              }, test);
             })
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(false);
@@ -2812,7 +2924,9 @@ function (Okta,
               setRememberDeviceForPushForm(test, true);
               test.setNextResponse(resSuccess);
               test.form.submit();
-              return tick();
+              return Expect.wait(function () {
+                return $.ajax.calls.count() > 0;
+              }, test);
             })
               .then(function () {
                 expect($.ajax.calls.count()).toBe(1);
@@ -2830,7 +2944,9 @@ function (Okta,
               setAutoPushCheckbox(test, true);
               test.setNextResponse(resSuccess);
               test.form[0].submit();
-              return tick();
+              return Expect.wait(function () {
+                return $.ajax.calls.count() > 0;
+              }, test);
             })
               .then(function () {
                 expect($.ajax.calls.count()).toBe(1);
@@ -2849,7 +2965,9 @@ function (Okta,
               setAutoPushCheckbox(test, false);
               test.setNextResponse(resSuccess);
               test.form[0].submit();
-              return tick();
+              return Expect.wait(function () {
+                return $.ajax.calls.count() > 0;
+              }, test);
             })
               .then(function () {
                 expect($.ajax.calls.count()).toBe(1);
@@ -2867,7 +2985,6 @@ function (Okta,
               return setupOktaPush().then(function (test) {
                 setRememberDeviceForPushForm(test, true);
                 return setupPolling(test, resSuccess)
-                  .then(tick) // Final tick - SUCCESS
                   .then(function () {
                     expect($.ajax.calls.count()).toBe(3);
                     // initial verifyFactor call
@@ -2900,7 +3017,6 @@ function (Okta,
               return setupOktaPush({'features.autoPush': true}).then(function (test) {
                 setAutoPushCheckbox(test, true);
                 return setupPolling(test, resSuccess)
-                  .then(tick) // Final tick - SUCCESS
                   .then(function () {
                     expect($.ajax.calls.count()).toBe(3);
                     // initial verifyFactor call
@@ -2936,7 +3052,6 @@ function (Okta,
               return setupOktaPush({'features.autoPush': true}).then(function (test) {
                 setAutoPushCheckbox(test, false);
                 return setupPolling(test, resSuccess)
-                  .then(tick) // Final tick - SUCCESS
                   .then(function () {
                     expect($.ajax.calls.count()).toBe(3);
                     // initial verifyFactor call
@@ -2973,7 +3088,6 @@ function (Okta,
                 setAutoPushCheckbox(test, true);
                 setRememberDeviceForPushForm(test, true);
                 return setupPolling(test, resSuccess)
-                  .then(tick) // Final tick - SUCCESS
                   .then(function () {
                     expect($.ajax.calls.count()).toBe(3);
                     // initial verifyFactor call
@@ -3011,7 +3125,6 @@ function (Okta,
                   setAutoPushCheckbox(test, false);
                   setRememberDeviceForPushForm(test, true);
                   return setupPolling(test, resSuccess)
-                    .then(tick) // Final tick - SUCCESS
                     .then(function () {
                       expect($.ajax.calls.count()).toBe(3);
                       // initial verifyFactor call
@@ -3064,10 +3177,6 @@ function (Okta,
                 spyOn(test.router.settings, 'callGlobalSuccess');
                 return setupPolling(test, resSuccess)
                   .then(function () {
-                  // Final tick - SUCCESS
-                    return tick(test);
-                  })
-                  .then(function () {
                     expect(test.router.settings.callGlobalSuccess).toHaveBeenCalled();
                     // One after first poll returns and one after polling finished.
                     var calls = test.router.controller.model.setTransaction.calls;
@@ -3082,8 +3191,8 @@ function (Okta,
                 $.ajax.calls.reset();
                 test.setNextResponse(resChallengePush);
                 test.form.submit();
-                return tick(test).then(function () {
-                  expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
+                return Expect.wait(function () {
+                  return test.router.controller.model.appState.get('transaction').status === 'MFA_CHALLENGE';
                 });
               });
             });
@@ -3133,7 +3242,11 @@ function (Okta,
                 $.ajax.calls.reset();
                 test.setNextResponse([resChallengePush, resAllFactors]);
                 test.form[0].submit();
-                return tick(test).then(function () {
+                return Expect.wait(function () {
+                  return test.router.controller.model.appState.get('transaction').status === 'MFA_CHALLENGE';
+                }, test);
+              })
+                .then(function (test) {
                   var deferred = Q.defer();
                   expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                   var transaction = test.router.controller.model.appState.get('transaction');
@@ -3146,30 +3259,33 @@ function (Okta,
                     expect(transaction.poll).not.toHaveBeenCalled();
                   });
                 });
-              });
             });
             itp('stops listening on factorSwitched when we start polling', function () {
-              return setupOktaPushWithIntrospect().then(function (test) {
-                tick(test)
-                  .then(function (test) {
-                    spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
-                      return setTimeout(arguments[0]);
-                    });
-                    $.ajax.calls.reset();
-                    test.setNextResponse(resChallengePush);
-                    test.form.submit();
-                    spyOn(test.router.controller.model, 'stopListening').and.callThrough();
-                    return tick(test).then(function () {
-                      expect(test.router.controller.model.stopListening).toHaveBeenCalledWith(
-                        test.router.controller.model.appState, 'factorSwitched');
-                    });
-                  });
+              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
+                return setTimeout(arguments[0]);
               });
+              var stopListening;
+              var appState;
+              return setupOktaPushWithIntrospect().then(function (test) {
+                appState =  test.router.controller.model.appState;
+                stopListening = spyOn(test.router.controller.model, 'stopListening').and.callThrough();
+                test.setNextResponse(resChallengePush);
+                test.form.submit();
+                expect(test.form.submitButton().prop('disabled')).toBe(true);
+                return Expect.wait(function () {
+                  return stopListening.calls.count() > 0;
+                }, test);
+              })
+                .then(function (test) {
+                  expect(stopListening).toHaveBeenCalledWith(
+                    appState, 'factorSwitched');
+                });
+
             });
             itp('on REJECTED, re-enables submit, displays an error, and allows resending', function () {
               return setupOktaPush().then(function (test) {
                 return setupPolling(test, resRejectedPush)
-                  .then(function () { return tick(test); }) // Final response - REJECTED
+                  // Final response - REJECTED
                   .then(function (test) {
                     expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
                     expect(test.form.submitButton().prop('disabled')).toBe(false);
@@ -3180,9 +3296,11 @@ function (Okta,
 
                     // Click submit
                     test.form.submit();
-                    return tick()
-                      .then(tick)
-                      .then(tick);
+                  })
+                  .then(function () {
+                    return Expect.wait(function () {
+                      return $.ajax.calls.count() === 3;
+                    }, test);
                   })
                   .then(function () {
                     expect($.ajax.calls.count()).toBe(3);
@@ -3216,7 +3334,7 @@ function (Okta,
             itp('on TIMEOUT, re-enables submit, displays an error, and allows resending', function () {
               return setupOktaPush().then(function (test) {
                 return setupPolling(test, resTimeoutPush)
-                  .then(function () { return tick(test); }) // Final response - TIMEOUT
+                  // Final response - TIMEOUT
                   .then(function (test) {
                     expect(test.form.errorMessage()).toBe('Your push notification has expired.');
                     expect(test.form.submitButton().prop('disabled')).toBe(false);
@@ -3241,7 +3359,7 @@ function (Okta,
                 spyOn(test.router.settings, 'callGlobalError');
                 Q.stopUnhandledRejectionTracking();
                 return setupFailurePolling(test)
-                  .then(function () { return tick(test); }) // Final response - failed
+                  // Final response - failed
                   .then(function (test) {
                     expect(test.form.errorMessage()).toBe(
                       'Unable to connect to the server. Please check your network connection.');
@@ -3270,13 +3388,15 @@ function (Okta,
                 test.setNextResponse([resChallengePush, resChallengePush, failureResponse, failureResponse,
                   failureResponse, failureResponse, failureResponse, failureResponse]);
                 test.form.submit();
-                return tick(test);
+                return Expect.wait(function () {
+                  return test.form.hasWarningMessage();
+                }, test);
               }
               return setupOktaPushWithIntrospect().then(function (test) {
                 spyOn(test.router.settings, 'callGlobalError');
                 Q.stopUnhandledRejectionTracking();
                 return setupFailurePolling(test)
-                  .then(function () {
+                  .then(function (test) {
                     expect(test.form.submitButton().prop('disabled')).toBe(true);
                     expect(test.form.submitButtonText()).toBe('Push sent!');
                     expect(test.form.warningMessage()).toBe(
@@ -3320,7 +3440,9 @@ function (Okta,
               test.form[1].setAnswer('654321');
               test.setNextResponse(resSuccess);
               test.form[1].inlineTOTPVerify().click();
-              return tick();
+              return Expect.wait(function () {
+                return $.ajax.calls.count() > 0;
+              }, test);
             })
               .then(function () {
                 expect($.ajax.calls.count()).toBe(1);
@@ -3339,7 +3461,12 @@ function (Okta,
                 var pushForm = test.form[0],
                     inlineForm = test.form[1];
                 return setupPolling(test, resRejectedPush)
-                  .then(function () { return tick(test); }) // Final response - REJECTED
+                  .then(function () {
+                    return Expect.wait(function () {
+                      return $.ajax.calls.count() === 3;
+                    }, test);
+                  })
+                  // Final response - REJECTED
                   .then(function () {
                     return Expect.waitForFormError(pushForm, {
                       test: test,
@@ -3367,7 +3494,9 @@ function (Okta,
               setRememberDeviceForPushForm(test, true);
               test.setNextResponse(resSuccess);
               test.form[1].inlineTOTPVerify().click();
-              return tick();
+              return Expect.wait(function () {
+                return $.ajax.calls.count() > 0;
+              }, test);
             })
               .then(function () {
                 expect($.ajax.calls.count()).toBe(1);
@@ -3389,7 +3518,9 @@ function (Okta,
                 test.setNextResponse(resInvalidTotp);
                 form.setAnswer('wrong');
                 form.inlineTOTPVerify().click();
-                return tick(form);
+                return Expect.wait(function () {
+                  return form.hasErrors();
+                }, form);
               })
               .then(function (form) {
                 expect(form.hasErrors()).toBe(true);
@@ -3418,7 +3549,10 @@ function (Okta,
               test.form[1].setAnswer('654321');
               test.setNextResponse(resSuccess);
               test.form[1].inlineTOTPVerify().click();
-              return tick(test);
+              return Expect.wait(function () {
+                var model = test.router.controller.model.get('backupFactor');
+                return model.setTransaction.calls.count() > 0;
+              }, test);
             })
               .then(function (test) {
                 expectSetTransaction(test.router, resSuccess, true);
@@ -3433,7 +3567,10 @@ function (Okta,
               form.inlineTOTPAdd().click();
               form.setAnswer('wrong');
               form.inlineTOTPVerify().click();
-              return tick(test);
+              return Expect.wait(function () {
+                var model = test.router.controller.model.get('backupFactor');
+                return model.trigger.calls.allArgs().filter(function (a) { return a.length && a[0] === 'setTransactionError'; }).length;
+              }, test);
             })
               .then(function (test) {
                 expectSetTransactionError(test.router, resInvalidTotp, true);
@@ -4426,9 +4563,12 @@ function (Okta,
       switchFactorTest(setupSMS, setupOktaPushWithTOTP, setupGoogleTOTPAutoPushTrue, resAllFactors, resSuccess, resChallengeSms, 'testStateToken');
       itp('Verify DUO after switching from SMS MFA_CHALLENGE', function () {
         return setupSMS().then(function (test) {
+          $.ajax.calls.reset();
           test.setNextResponse(resChallengeSms);
           test.form.smsSendCode().click();
-          return tick(test);
+          return Expect.wait(function () {
+            return test.router.controller.model.appState.get('transaction').status === 'MFA_CHALLENGE';
+          }, test);
         })
           .then(function (test) {
             spyOn(Duo, 'init');
@@ -4453,7 +4593,9 @@ function (Okta,
               test.totpForm.inlineTOTPAdd().click();
               test.totpForm.setAnswer('654321');
               test.totpForm.inlineTOTPVerify().click();
-              return tick(test);
+              return Expect.wait(function () {
+                return $.ajax.calls.count() === 2;
+              }, test);
             })
             .then(function () {
               expect($.ajax.calls.count()).toBe(2);
@@ -4477,8 +4619,9 @@ function (Okta,
       itp('Verify Okta TOTP success (after Push MFA_REJECTED) sets the transaction on the appState', function () {
         return setupOktaPushWithTOTP().then(function (test) {
           return setupPolling(test, resRejectedPush)
-            .then(function () { return tick(test); }) // Final response - REJECTED
             .then(function (test) {
+              expect(test.router.controller.model.appState.get('transaction').factorResult).toBe('REJECTED');
+
               mockTransactions(test.router.controller, true);
               test.setNextResponse([resAllFactors, resSuccess]);
               test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
@@ -4486,7 +4629,9 @@ function (Okta,
               test.totpForm.inlineTOTPAdd().click();
               test.totpForm.setAnswer('654321');
               test.totpForm.inlineTOTPVerify().click();
-              return tick(test);
+              return Expect.wait(function () {
+                return test.router.controller.model.appState.get('transaction').status === 'SUCCESS';
+              }, test);
             })
             .then(function () {
               expectSetTransaction(test.router, resSuccess, true);
@@ -4508,7 +4653,9 @@ function (Okta,
               test.totpForm.inlineTOTPAdd().click();
               test.totpForm.setAnswer('654321');
               test.totpForm.inlineTOTPVerify().click();
-              return tick(test);
+              return Expect.wait(function () {
+                return $.ajax.calls.count() === 2;
+              }, test);
             })
             .then(function () {
               expect($.ajax.calls.count()).toBe(2);
@@ -4532,7 +4679,9 @@ function (Okta,
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'SMS');
-          return tick(test);
+          return Expect.wait(function () {
+            return test.beacon.hasClass('mfa-okta-sms');
+          }, test);
         })
           .then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-okta-sms');
@@ -4554,7 +4703,9 @@ function (Okta,
           test.setNextResponse(resChallengeDuo);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'DUO');
-          return tick(test);
+          return Expect.wait(function () {
+            return test.beacon.hasClass('mfa-duo');
+          }, test);
         })
           .then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-duo');
@@ -4577,7 +4728,9 @@ function (Okta,
             test.setNextResponse(resChallengeWindowsHello);
             test.beacon.dropDownButton().click();
             clickFactorInDropdown(test, 'WINDOWS_HELLO');
-            return tick(test);
+            return Expect.wait(function () {
+              return test.beacon.hasClass('mfa-windows-hello');
+            }, test);
           })
           .then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-windows-hello');
@@ -4606,7 +4759,9 @@ function (Okta,
             test.setNextResponse(resChallengeU2F);
             test.beacon.dropDownButton().click();
             clickFactorInDropdown(test, 'U2F');
-            return tick(test);
+            return Expect.wait(function () {
+              return test.beacon.hasClass('mfa-u2f');
+            }, test);
           })
           .then(function (test) {
             expectHasRightBeaconImage(test, 'mfa-u2f');
@@ -4644,7 +4799,9 @@ function (Okta,
           spyOn(RouterUtil, 'handleResponseStatus').and.callThrough();
           test.setNextResponse(resChallengeSms);
           test.form.smsSendCode().click();
-          return tick(test);
+          return Expect.wait(function () {
+            return test.router.controller.model.appState.get('transaction').status === 'MFA_CHALLENGE';
+          }, test);
         })
           .then(function (test) {
             test.setNextResponse(resAllFactors);
