@@ -38,7 +38,7 @@
     "lint:grunt:report": "grunt lint --checkstyle",
     "lint": "mkdir -p build2 && run-p -c lint:eslint lint:grunt lint:stylelint",
     "lint:report": "mkdir -p build2 && run-p -c lint:eslint:report lint:grunt:report lint:stylelint:report",
-    "test:dev": "yarn build:dev && karma start",
+    "test:dev": "grunt assets && karma start",
     "test:coverage": "yarn test --reporters=progress,coverage",
     "test": "yarn test:dev --single-run",
     "start:app": "yarn build:webpack-e2e-app && grunt copy:e2e-pages && yarn start:basic",
