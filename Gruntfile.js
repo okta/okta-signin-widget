@@ -78,8 +78,9 @@ module.exports = function (grunt) {
             ],
             dest: I18N_SRC,
             rename (dest, src) {
-              grunt.log.write(`copy app to target: ${dest}/${src} to ${dest}/${src.replace('_id', '_in')} \n`);
-              return `${dest}/${src.replace('_id', '_in')}`;
+              var targetFile = `${dest}/${src.replace('_id', '_in')}`;
+              grunt.log.write(`Generates _in properties: ${dest}/${src} to ${targetFile} \n`);
+              return targetFile;
             },
           },
         ]
