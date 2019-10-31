@@ -18,6 +18,7 @@ module.exports = function (grunt) {
   var JS                    = 'target/js',
       DIST                  = 'dist',
       SASS                  = 'target/sass',
+      I18N_SRC              = 'packages/@okta/i18n/src',
       SEARCH_OUT_FILE       = 'build2/OSW-search-checkstyle-result.xml',
       WIDGET_RC             = '.widgetrc',
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
@@ -39,14 +40,13 @@ module.exports = function (grunt) {
           // i18n files
           {
             expand: true,
-            cwd: 'packages/@okta/i18n/dist/',
+            cwd: I18N_SRC,
             src: [
               'json/{login,country}*.json',
               'properties/{login,country}*.properties'
             ],
             dest: 'target/labels'
           },
-
           // Assets
           {
             expand: true,
@@ -65,6 +65,24 @@ module.exports = function (grunt) {
               return 'target/sass/widgets/_jquery.qtip.scss';
             }
           }
+        ]
+      },
+
+      'generate-in-translation': {
+        files: [
+          {
+            expand: true,
+            cwd: I18N_SRC,
+            src: [
+              'properties/{login,country}_id.properties'
+            ],
+            dest: I18N_SRC,
+            rename (dest, src) {
+              var targetFile = `${dest}/${src.replace('_id', '_in')}`;
+              grunt.log.write(`Generates _in properties: ${dest}/${src} to ${targetFile} \n`);
+              return targetFile;
+            },
+          },
         ]
       },
 
@@ -290,8 +308,8 @@ module.exports = function (grunt) {
 
     propertiesToJSON: {
       main: {
-        src: ['packages/@okta/i18n/dist/properties/*.properties'],
-        dest: 'packages/@okta/i18n/dist/json'
+        src: [`${I18N_SRC}/properties/*.properties`],
+        dest: `${I18N_SRC}/json`
       }
     },
 
@@ -329,9 +347,11 @@ module.exports = function (grunt) {
   grunt.task.registerTask('assets', function (target) {
     const prodBuild = target === 'release';
     const buildTasks = [
-      'exec:generate-config', // populates src/config.json with supported languages
+      'copy:generate-in-translation',
+      'propertiesToJSON',
       'copy:app-to-target',
       'exec:generate-jsonp', // generates jsonp wrappers for json files in target dir
+      'exec:generate-config', // populates src/config.json with supported languages
       'sass:build',
     ];
 
@@ -358,7 +378,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'exec:clean',
       'exec:retirejs',
-      'propertiesToJSON',
       `assets:${target}`,
       ...buildTasks,
       ...postBuildTasks,

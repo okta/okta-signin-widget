@@ -4,7 +4,7 @@ const glob = require('glob');
 
 const ROOT_DIR = resolve(__dirname, '../../');
 const packageJson = require(ROOT_DIR + '/package.json');
-const languageGlob = ROOT_DIR + '/packages/@okta/i18n/dist/json/login_*.json';
+const languageGlob = ROOT_DIR + '/packages/@okta/i18n/src/json/login_*.json';
 const OUTPUT_DIR = resolve(ROOT_DIR, 'src/config');
 const OUTPUT_FILE = resolve(OUTPUT_DIR, 'config.json');
 

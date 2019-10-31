@@ -20,7 +20,7 @@ module.exports = function (outputFilename) {
       modules: [SRC, 'packages', 'node_modules'],
       alias: {
         // General remapping
-        'nls': '@okta/i18n/dist/json',
+        'nls': '@okta/i18n/src/json',
         'okta': `${LOCAL_PACKAGES}/@okta/courage-dist/okta.js`,
         'okta-i18n-bundles': 'util/Bundles',
         'jquery': `${LOCAL_PACKAGES}/@okta/courage-dist/jquery.js`,
