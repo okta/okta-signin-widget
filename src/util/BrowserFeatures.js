@@ -57,6 +57,14 @@ define(function () {
     return navigator.userAgent.toLowerCase().indexOf('edge') > -1;
   };
 
+  fn.isSafari = function () {
+    return navigator.userAgent.toLowerCase().indexOf('safari') > -1;
+  };
+
+  fn.isMac = function () {
+    return navigator.platform.toUpperCase().indexOf('MAC')>=0;
+  };
+
   // Returns a list of languages the user has configured for their browser, in
   // order of preference.
   fn.getUserLanguages = function () {

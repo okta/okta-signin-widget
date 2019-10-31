@@ -117,7 +117,7 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
     },
 
     Form: {
-      title: _.partial(Okta.loc, 'enroll.webauthn.title', 'login'),
+      title: _.partial(Okta.loc, 'enroll.webauthn.biometric.title', 'login'),
       save: _.partial(Okta.loc, 'enroll.webauthn.save', 'login'),
       noCancelButton: true,
       hasSavingState: false,
@@ -134,32 +134,39 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
         var children = [];
 
         if (webauthn.isNewApiAvailable()) {
-          //enroll.webauthn.instructions.edge is unescaped because it contains html
+          //enroll.webauthn.biometric.instructions.edge is unescaped because it contains html
           children.push(FormType.View({
             View: Okta.View.extend({
               className: 'webauthn-enroll-text',
               template: '\
                 <div class="webauthn-enroll-instructions">\
-                  <p>{{i18n code="enroll.webauthn.instructions" bundle="login"}}</p>\
+                  <p>{{i18n code="enroll.webauthn.biometric.instructions" bundle="login"}}</p>\
                 </div>\
                 {{#if isEdge}}\
                   <div class="webauthn-edge-text">\
-                     <p>{{{i18n code="enroll.webauthn.instructions.edge" bundle="login"}}}</p>\
+                     <p>{{{i18n code="enroll.webauthn.biometric.instructions.edge" bundle="login"}}}</p>\
+                  </div>\
+                {{/if}}\
+                {{#if onlySupportsSecurityKey}}\
+                  <div class="webauthn-restrictions-text">\
+                     <p>{{{i18n code="enroll.webauthn.instructions.noSupportForBiometric" bundle="login"}}}</p>\
                   </div>\
                 {{/if}}\
                 <div data-se="webauthn-waiting" class="okta-waiting-spinner hide"></div>\
               ',
               getTemplateData: function () {
                 return {
-                  isEdge: BrowserFeatures.isEdge
+                  isEdge: BrowserFeatures.isEdge,
+                  onlySupportsSecurityKey: (BrowserFeatures.isFirefox || BrowserFeatures.isSafari)
+                    && (BrowserFeatures.isMac)
                 };
               }
             })
           }));
         } else {
-          var errorMessageKey = 'webauthn.error.factorNotSupported';
+          var errorMessageKey = 'webauthn.biometric.error.factorNotSupported';
           if (this.options.appState.get('factors').length === 1) {
-            errorMessageKey = 'webauthn.error.factorNotSupported.oneFactor';
+            errorMessageKey = 'webauthn.biometric.error.factorNotSupported.oneFactor';
           }
           children.push(FormType.View(
             {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
