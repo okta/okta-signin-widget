@@ -1,6 +1,6 @@
 #!/bin/bash
 
-setup_service google-chrome-stable 66.0.3359.139-1
+setup_service google-chrome-stable 77.0.3865.90-1
 
 source $OKTA_HOME/$REPO/scripts/setup.sh
 
