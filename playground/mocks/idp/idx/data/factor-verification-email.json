@@ -17,7 +17,16 @@
         "accepts": "application/vnd.okta.v1+json",
         "value": [
           {
-            "name": "code"
+            "name": "credentials",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "One-time verification code",
+                  "secret": true
+                }
+              ]
+            }
           },
           {
             "name": "stateHandle",
