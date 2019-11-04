@@ -86,13 +86,42 @@ function banner () {
   return new BannerPlugin(license);
 }
 
+function failOnBuildFail () {
+  return function () {
+    this.plugin('done', function (build) {
+      // webpack 3.x and karma-webpack combo will fail to treat seom missing assets as build failures
+      // See https://oktainc.atlassian.net/browse/OKTA-253137
+      if( build.compilation.warnings.length || build.compilation.errors.length ) {
+        [
+          ...build.compilation.warnings,
+          ...build.compilation.errors,
+        ].forEach(function ( warning ) { console.error( warning ); });
+        console.error('failOnBuildFail plugin Forcibly killing build because of webpack compile failure');
+        throw new Error('Plugin failOnBuildFail forcing build abort');
+      }
+    });
+  };
+}
+
 function plugins (options = {}) {
   if (options.isProduction) {
     // Uglify and add license header
-    return [emptyModule(), prodMode(), uglify(), banner(), webpackBundleAnalyzer(options.analyzerFile) ];
+    return [
+      failOnBuildFail(),
+      emptyModule(),
+      prodMode(),
+      uglify(),
+      banner(),
+      webpackBundleAnalyzer(options.analyzerFile),
+    ];
   }
   // Use DEBUG/development environment w/ console warnings
-  return [ emptyModule(), devMode(), webpackBundleAnalyzer(options.analyzerFile) ];
+  return [
+    failOnBuildFail(),
+    emptyModule(),
+    devMode(),
+    webpackBundleAnalyzer(options.analyzerFile),
+  ];
 }
 
 module.exports = plugins;
