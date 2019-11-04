@@ -23,6 +23,7 @@ function (Okta, FormController, FormType, FooterWithBackLink, Q) {
 
   var _ = Okta._,
       $ = Okta.$;
+  var { Util } = Okta.internal.util;
 
   return FormController.extend({
     className: 'mfa-verify verify-piv',
@@ -37,17 +38,10 @@ function (Okta, FormController, FormType, FooterWithBackLink, Q) {
             pivButton = this.settings.get('piv');
         return Q($.post(pivButton.certAuthUrl, data))
           .then(function (res) {
-            // TODO: pass token in response to another endpoint
-            // var tokenData = {
-            //    token: res.token
-            // };
-            // return Q($.post(res.endpoint, tokenData))
-            //   .fail(function (err) {
-            //     self.trigger('error', self, err.xhr);
-            //   });
+            Util.redirect(res.redirectUrl);
           })
           .fail(function (err) {
-            self.trigger('error', self, err.xhr);
+            self.trigger('error', self, err);
           });
       }
     },
