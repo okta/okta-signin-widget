@@ -97,8 +97,8 @@ define([
         attributes: {
           'data-se': 'piv-card-button'
         },
-        className: className  + ' default-custom-button',
-        title: options.text || Okta.loc('piv.card', 'login'),
+        className: className  + ' piv-button',
+        title: options.text || Okta.loc('piv.cac.card', 'login'),
         click:  function (e) {
           e.preventDefault();
           this.options.appState.trigger('navigate', 'signin/verify/piv');
