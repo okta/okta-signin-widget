@@ -50,7 +50,7 @@ function (Okta, FormController, FormType, FooterWithBackLink, Q) {
       autoSave: true,
       hasSavingState: false,
       title: 'PIV',
-      className: 'verify-piv-form',
+      className: 'verify-piv',
       noCancelButton: true,
       save: _.partial(Okta.loc, 'retry', 'login'),
       modelEvents: {

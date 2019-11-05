@@ -234,6 +234,10 @@ define(['okta', './Form'], function (Okta, Form) {
       return this.$('.default-custom-button');
     },
 
+    pivButton: function () {
+      return this.$('.piv-button');
+    },
+
     authDivider: function () {
       return this.$('.auth-divider');
     },
