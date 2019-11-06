@@ -14,9 +14,10 @@ define([
   'okta',
   'models/PrimaryAuth',
   'util/CookieUtil',
-  'util/Enums'
+  'util/Enums',
+  'util/Util',
 ],
-function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
+function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
 
   var _ = Okta._;
 
@@ -64,7 +65,10 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums) {
             if(res.links[0].properties['okta:idp:type'] === 'OKTA') {
               this.trigger('goToPrimaryAuth');
             } else if (res.links[0].href) {
-              var redirectFn = this.settings.get('redirectUtilFn');
+              //override redirectFn to only use Util.redirectWithFormGet if OKTA_INVALID_SESSION_REPOST is included
+              //it will be encoded since it will be included in the encoded fromURI
+              var redirectFn = res.links[0].href.includes('OKTA_INVALID_SESSION_REPOST%3Dtrue') ? 
+                Util.redirectWithFormGet.bind(Util) : this.settings.get('redirectUtilFn');
               redirectFn(res.links[0].href);
             }
           }
