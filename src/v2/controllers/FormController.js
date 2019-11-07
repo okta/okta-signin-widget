@@ -9,15 +9,15 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { _ } from 'okta';
+import { _, Controller } from 'okta';
 import '../../views/shared/FooterWithBackLink';
-import BaseLoginController from './BaseLoginController';
 import ViewFactory from '../view-builder/ViewFactory';
 
-export default BaseLoginController.extend({
+export default Controller.extend({
   className: 'form-controller',
+
   initialize: function () {
-    BaseLoginController.prototype.initialize.call(this);
+    Controller.prototype.initialize.call(this);
 
     this.listenTo(this.options.appState, 'idxResponseUpdated', this.render);
     this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
@@ -77,6 +77,7 @@ export default BaseLoginController.extend({
       return;
     }
 
+    this.toggleFormButtonState(true);
     model.trigger('request');
     return actionFn(model.toJSON())
       .then(resp => {
@@ -84,6 +85,21 @@ export default BaseLoginController.extend({
       })
       .catch(error => {
         model.trigger('error', model, {'responseJSON': error}, true);
+        this.toggleFormButtonState(false);
       });
   },
+
+  /**
+   * SignIn widget has its own (hacky) way to customize the button disabled state:
+   * adding `link-button-disabled` despite the name was intend only to disable
+   * `link-button`.
+   * Instead of doing decent refactor, we want to follow the convention for now.
+   *
+   * @param {boolean} disabled whether add extra disable CSS class.
+   */
+  toggleFormButtonState: function (disabled) {
+    var button = this.$el.find('.o-form-button-bar .button');
+    button.toggleClass('link-button-disabled', disabled);
+  },
+
 });
