@@ -58,7 +58,9 @@ define(function () {
   };
 
   fn.isSafari = function () {
-    return navigator.userAgent.toLowerCase().indexOf('safari') > -1;
+    // Chrome has safari in its useragent string so adding this extra check.
+    return navigator.userAgent.toLowerCase().indexOf('safari') > -1 &&
+      navigator.userAgent.toLowerCase().indexOf('chrome') === -1;
   };
 
   fn.isMac = function () {
