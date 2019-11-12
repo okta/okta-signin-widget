@@ -210,5 +210,5 @@
 }
 
 .piv-button.link-button {
-  @include piv-button-template($piv-button-background-color, $piv-button-border-color, $piv-action-button-background-color, $piv-action-button-border-color);
+  @include piv-button-template($piv-button-background-color, $piv-button-border-text-color, $piv-action-button-background-color, $piv-action-button-border-text-color);
 }

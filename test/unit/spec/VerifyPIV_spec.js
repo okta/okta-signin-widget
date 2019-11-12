@@ -110,7 +110,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
           Expect.isNotVisible(test.form.spinningIcon());
         });
       });
-      itp('can retry', function () {
+      itp('can retry authentication', function () {
         return setup(true).then(function (test) {
           return Expect.waitForFormError(test.form, test);
         })
