@@ -52,19 +52,6 @@
     text-decoration: none;
     cursor: pointer;
   }
-
-  &.btn-disabled,
-  &.btn-disabled:hover,
-  &.btn-disabled:active,
-  &.btn-disabled .button-down {
-    $_disabled-bg-color: lighten($bg-color, 18%);
-
-    border-color: $_disabled-bg-color $_disabled-bg-color $_disabled-bg-color;
-    background: $_disabled-bg-color;
-    color: lighten($text-color, 30%);
-    cursor: not-allowed;
-  }
-
 }
 
 #okta-sign-in.auth-container {
