@@ -33,10 +33,14 @@ function (Okta, FormController, FormType, FooterWithBackLink, Q) {
         this.trigger('request');
         var self = this,
             data = {
-              fromUri: this.settings.get('relayState')
+              fromURI: this.settings.get('relayState')
             },
             pivButton = this.settings.get('piv');
-        return Q($.post(pivButton.certAuthUrl, data))
+        return Q($.post({
+            url: pivButton.certAuthUrl,
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+          }))
           .then(function (res) {
             Util.redirect(res.redirectUrl);
           })
