@@ -170,7 +170,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'brandName': 'string',
 
       //PIV
-      'piv': ['object', false]
+      'piv': ['object', false, {}]
     },
 
     derived: {
