@@ -91,18 +91,7 @@ define([
    */
   fn.tick = function (returnVal) {
     var deferred = Q.defer();
-    // Using four setTimeouts to remove flakiness (some tests need an extra
-    // cycle when transitioning/setting up, and the new tick in OktaAuth makes
-    // for three)
-    setTimeout(function () {
-      setTimeout(function () {
-        setTimeout(function () {
-          setTimeout(function () {
-            deferred.resolve(returnVal);
-          });
-        });
-      });
-    });
+    deferred.resolve(returnVal);
     return deferred.promise;
   };
 
