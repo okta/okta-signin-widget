@@ -90,19 +90,22 @@ define([
    *             Instead use any of the Expect.wait* functions.
    */
   fn.tick = function (returnVal) {
+    // return Promise.resolve(returnVal);
+
     var deferred = Q.defer();
-    // Using four setTimeouts to remove flakiness (some tests need an extra
-    // cycle when transitioning/setting up, and the new tick in OktaAuth makes
-    // for three)
-    setTimeout(function () {
-      setTimeout(function () {
-        setTimeout(function () {
-          setTimeout(function () {
-            deferred.resolve(returnVal);
-          });
-        });
-      });
-    });
+    deferred.resolve(returnVal);
+    // // Using four setTimeouts to remove flakiness (some tests need an extra
+    // // cycle when transitioning/setting up, and the new tick in OktaAuth makes
+    // // for three)
+    // setTimeout(function () {
+    //   setTimeout(function () {
+    //     setTimeout(function () {
+    //       setTimeout(function () {
+    //         deferred.resolve(returnVal);
+    //       });
+    //     });
+    //   });
+    // });
     return deferred.promise;
   };
 
