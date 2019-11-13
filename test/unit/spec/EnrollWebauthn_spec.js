@@ -174,6 +174,7 @@ function (Okta,
           expect(test.form.enrollEdgeInstructions().text()).toEqual('Note: If you are enrolling a security key and' +
           ' Windows Hello or PIN is enabled, you will need to select \'Cancel\' in the prompt before continuing.');
           Expect.isVisible(test.form.submitButton());
+          expect(BrowserFeatures.isEdge).toHaveBeenCalled();
         });
       });
 
@@ -187,6 +188,9 @@ function (Okta,
           Expect.isVisible(test.form.enrollRestrictions());
           expect(test.form.enrollRestrictions().text()).toEqual('Note: Some browsers may not support biometric authenticators.');
           Expect.isVisible(test.form.submitButton());
+          expect(BrowserFeatures.isFirefox).toHaveBeenCalled();
+          expect(BrowserFeatures.isSafari).not.toHaveBeenCalled();
+          expect(BrowserFeatures.isMac).toHaveBeenCalled();
         });
       });
 
@@ -200,6 +204,9 @@ function (Okta,
           Expect.isVisible(test.form.enrollRestrictions());
           expect(test.form.enrollRestrictions().text()).toEqual('Note: Some browsers may not support biometric authenticators.');
           Expect.isVisible(test.form.submitButton());
+          expect(BrowserFeatures.isFirefox).toHaveBeenCalled();
+          expect(BrowserFeatures.isSafari).toHaveBeenCalled();
+          expect(BrowserFeatures.isMac).toHaveBeenCalled();
         });
       });
       

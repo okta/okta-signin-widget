@@ -21,11 +21,12 @@ define([
   'helpers/xhr/IDPDiscoverySuccess_OktaIDP',
   'helpers/xhr/ERROR_webfinger',
   'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED',
+  'helpers/xhr/IDPDiscoverySuccessRepost_IWA',
   'sandbox'
 ],
 function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, Beacon, IDPDiscovery,
   Router, BrowserFeatures, DeviceFingerprint, Errors, Expect, resSecurityImage,
-  resSecurityImageFail, resSuccessIWA, resSuccessSAML, resSuccessOktaIDP, resError, resPasswordlessUnauthenticated, $sandbox) {
+  resSecurityImageFail, resSuccessIWA, resSuccessSAML, resSuccessOktaIDP, resError, resPasswordlessUnauthenticated, resSuccessRepostIWA, $sandbox) {
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
@@ -1328,6 +1329,21 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           .then(function () {
             expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
               'http://demo.okta1.com:1802/login/sso_iwa'
+            );
+          });
+      });
+      itp('redirects using form GET to idp when OKTA_INVALID_SESSION_REPOST=true', function () {
+        spyOn(WidgetUtil, 'redirectWithFormGet');
+        return setup()
+          .then(function (test) {
+            test.setNextWebfingerResponse(resSuccessRepostIWA);
+            test.form.setUsername('testuser@clouditude.net');
+            test.form.submit();
+            return Expect.waitForSpyCall(WidgetUtil.redirectWithFormGet);
+          })
+          .then(function () {
+            expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
+              'http://demo.okta1.com:1802/login/sso_iwa?fromURI=%2Fapp%2Finstance%2Fkey%3FSAMLRequest%3Dencoded%26RelayState%3DrelayState%26OKTA_INVALID_SESSION_REPOST%3Dtrue'
             );
           });
       });
