@@ -22,13 +22,9 @@ define([
         <p>{{name}}</p>\
       </div>\
       {{#if description}}\
-        <span class="scope-item-tooltip icon info-16-gray" />\
+        <span class="scope-item-tooltip icon form-help-16" />\
       {{/if}}\
     ',
-
-    initialize: function () {
-      this.render();
-    },
 
     postRender: function () {
       this.$('.scope-item-tooltip').qtip({

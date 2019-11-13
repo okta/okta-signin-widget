@@ -17,17 +17,15 @@ define([
 
   return Okta.View.extend({
     className: 'scope-list',
-    template: '\
-      <div class="scope-list-wrapper" />\
-    ',
 
     postRender: function () {
       this.model.get('scopes').forEach(scope => {
-        var item = new ScopeItem({
-          name: scope.displayName || scope.name,
-          description: scope.description
+        this.add(ScopeItem, {
+          options: {
+            name: scope.displayName || scope.name,
+            description: scope.description
+          },
         });
-        this.$('.scope-list-wrapper').append(item.$el);
       });
     }
   });

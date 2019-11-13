@@ -17,7 +17,6 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   function deepClone (res) {
     return JSON.parse(JSON.stringify(res));
@@ -65,27 +64,18 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
     return setup(undefined, resConsentRequiredClientLogo);
   }
 
+  function setupClientUri () {
+    var resConsentRequiredClientUri = deepClone(resConsentRequired);
+    resConsentRequiredClientUri.response._embedded.target._links['client-uri'] = {
+      href: 'http://example.com/client-uri.html',
+      type: 'text/html'
+    };
+    return setup(undefined, resConsentRequiredClientUri);
+  }
+
   Expect.describe('ConsentRequired', function () {
 
-    Expect.describe('ConsentBeacon', function () {
-      itp('has the correct user logo', function () {
-        return setup().then(function (test) {
-          expect(test.form.userLogo()).toHaveClass('person-16-gray');
-        });
-      });
-      itp('has the default logo if client logo is not provided', function () {
-        return setup().then(function (test) {
-          expect(test.form.clientLogo()).toHaveAttr('src', 'https://example.okta.com/img/logos/default.png');
-        });
-      });
-      itp('has the correct client logo', function () {
-        return setupClientLogo().then(function (test) {
-          expect(test.form.clientLogo()).toHaveAttr('src', 'https://example.com/custom-logo.png');
-        });
-      });
-    });
-
-    Expect.describe('ScopeList', function () {
+    describe('ScopeList', function () {
       itp('has the correct number of scopes', function () {
         return setup().then(function (test) {
           expect(test.form.scopeList().children()).toHaveLength(2);
@@ -114,15 +104,32 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
       });
     });
 
-    Expect.describe('ConsentForm', function () {
-      itp('has the correct app name in the title', function () {
+    describe('ConsentForm', function () {
+      itp('has the default logo if client logo is not provided', function () {
         return setup().then(function (test) {
-          expect(test.form.consentTitle().text()).toContain('Janky App');
+          expect(test.form.clientLogoLink())
+            .toHaveLength(0);
+          expect(test.form.clientLogo())
+            .toHaveAttr('src', 'https://example.okta.com/img/logos/default.png');
         });
       });
-      itp('has the correct consent name in the title', function () {
+      itp('has the client uri', function () {
+        return setupClientUri()
+          .then(function (test) {
+            expect(test.form.clientLogoLink())
+              .toHaveAttr('href', 'http://example.com/client-uri.html');
+            expect(test.form.clientLogo())
+              .toHaveAttr('src', 'https://example.okta.com/img/logos/default.png');
+          });
+      });
+      itp('has the correct client logo', function () {
+        return setupClientLogo().then(function (test) {
+          expect(test.form.clientLogo()).toHaveAttr('src', 'https://example.com/custom-logo.png');
+        });
+      });
+      itp('has the correct app name in the title', function () {
         return setup().then(function (test) {
-          expect(test.form.consentTitle().text()).toContain('Add-Min O.');
+          expect(test.form.consentTitle().text().trim()).toBe('Janky App would like to:');
         });
       });
       itp('has the correct term of services link', function () {
@@ -146,7 +153,7 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
           $.ajax.calls.reset();
           test.setNextResponse(resSuccess);
           test.form.consentButton().click();
-          return tick();
+          return Expect.waitForSpyCall($.ajax);
         })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
