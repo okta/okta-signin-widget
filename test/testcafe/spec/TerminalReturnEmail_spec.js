@@ -1,4 +1,3 @@
-import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { RequestMock } from 'testcafe';
 import terminalReturnEmail from '../../../playground/mocks/idp/idx/data/terminal-return-email';
