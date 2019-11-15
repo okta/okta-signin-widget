@@ -16,7 +16,6 @@ async function setup(t) {
 }
 
 test(`should show messages callout for unknown user`, async t => {
-  debugger;
   const identityPage = await setup(t);
   await identityPage.fillIdentifierField('unknown');
   await identityPage.clickNextButton();  

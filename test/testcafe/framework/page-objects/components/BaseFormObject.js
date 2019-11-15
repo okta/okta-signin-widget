@@ -64,6 +64,10 @@ export default class BaseFormObject {
     await this.form.find(`.okta-form-infobox-error`).exists;
   }
 
+  getErrorBoxText() {
+    return this.form.find(`.okta-form-infobox-error`).textContent;
+  }
+
 
   hasTextBoxError(name) {
     return this.form.find(`.o-form-input-name-${name}.o-form-has-errors`).exists;

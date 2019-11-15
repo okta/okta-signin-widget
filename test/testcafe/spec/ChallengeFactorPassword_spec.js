@@ -7,7 +7,7 @@ import success from '../../../playground/mocks/idp/idx/data/success';
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx')
   .respond(factorRequiredPassword)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success)
 
 fixture(`Challenge Password Form`)
@@ -16,7 +16,7 @@ fixture(`Challenge Password Form`)
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.fillIdentifierField('Challenge Password');
   await identityPage.clickNextButton();
   return new ChallengeFactorPageObject(t);
 }
@@ -24,7 +24,7 @@ const getPageUrl = ClientFunction(() => window.location.href);
 test
   (`challenge password factor`, async t => {
     const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.verifyPassword('credentials.passcode', 'test');
+    await challengeFactorPageObject.verifyFactor('credentials.passcode', 'test');
     await challengeFactorPageObject.clickNextButton();
     const pageUrl = getPageUrl();
     await t.expect(pageUrl).contains('stateToken=abc123');
