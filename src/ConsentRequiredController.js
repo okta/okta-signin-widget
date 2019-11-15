@@ -64,7 +64,7 @@ function (Okta, FormController, FormType, ScopeList) {
         return [
           FormType.View({
             View: Okta.View.extend({
-              className: 'consent-title',
+              className: 'consent-title detail-row',
               template: '\
                 {{#if clientURI}}\
                   <a href="{{clientURI}}" class="client-logo-link" target="_blank">\
@@ -95,7 +95,7 @@ function (Okta, FormController, FormType, ScopeList) {
           }),
           FormType.View({
             View: Okta.View.extend({
-              className: 'consent-description',
+              className: 'consent-description detail-row',
               template: '\
                 <p>{{i18n code="consent.required.description" bundle="login"}}</p>\
               ',

@@ -11,8 +11,15 @@ $image-size: 30px;
     vertical-align: middle;
   }
 
-  .consent-title {
+  .detail-row {
     padding-bottom: $space-between-container;
+
+    &:last-child {
+      padding-bottom: $space-of-last-container;
+    }
+  }
+
+  .consent-title {
     text-align: center;
     word-wrap: break-word;
     font-size: 16px;
@@ -43,13 +50,7 @@ $image-size: 30px;
     }
   }
 
-  .scope-list {
-    padding-bottom: $space-between-container;
-  }
-
   .consent-description {
-    padding-bottom: $space-of-last-container;
-
     p {
       color: $text-color-light;
     }

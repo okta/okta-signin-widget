@@ -1,5 +1,7 @@
 module.exports = {
   mocks: {
+    // ===== IDX
+
     '/idp/idx/introspect': ['identify'],
     '/idp/idx': ['select-factor-authenticate'],
     '/idp/idx/enroll': ['enroll-profile'],
@@ -16,6 +18,13 @@ module.exports = {
     '/idp/idx/challenge': [
       'factor-verification-password',
       'factor-verification-email',
-    ]
+    ],
+
+    // ===== AUTHN
+    '/api/v1/authn': [
+      'consent-required',
+      // 'success-001'
+    ],
+
   },
 };

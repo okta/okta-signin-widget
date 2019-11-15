@@ -16,7 +16,7 @@ define([
 ], function (Okta, ScopeItem) {
 
   return Okta.View.extend({
-    className: 'scope-list',
+    className: 'scope-list detail-row',
 
     postRender: function () {
       this.model.get('scopes').forEach(scope => {
