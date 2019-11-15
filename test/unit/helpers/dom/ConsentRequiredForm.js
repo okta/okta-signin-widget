@@ -2,28 +2,28 @@ define(['./Form'], function (Form) {
 
   return Form.extend({
 
-    userLogo: function () {
-      return this.$('.user-logo');
-    },
-
-    clientLogo: function () {
-      return this.$('.client-logo');
-    },
-
-    scopeList: function () {
-      return this.$('.scope-list-wrapper');
-    },
-
     consentTitle: function () {
       return this.$('.consent-title');
     },
 
+    clientLogo: function () {
+      return this.consentTitle().find('.client-logo');
+    },
+
+    clientLogoLink: function () {
+      return this.consentTitle().find('.client-logo-link');
+    },
+
+    scopeList: function () {
+      return this.$('.scope-list');
+    },
+
     termsOfService: function () {
-      return this.$('.terms-of-service');
+      return this.$('.consent-footer .terms-of-service');
     },
 
     privacyPolicy: function () {
-      return this.$('.privacy-policy');
+      return this.$('.consent-footer .privacy-policy');
     },
 
     consentButton: function () {

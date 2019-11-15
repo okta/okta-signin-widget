@@ -1,0 +1,71 @@
+{
+  "status": "CONSENT_REQUIRED",
+  "expiresAt": "2017-07-20T00:06:25.000Z",
+  "stateToken": "testStateToken",
+  "_embedded": {
+    "target": {
+      "type": "APP",
+      "name": "oidc_client",
+      "label": "Janky App",
+      "clientId": "8WUqrTzUG9RyJt2C6Gmm",
+      "_links": {
+        "about": {
+          "href": "http://localhost:3000/about.html",
+          "type": "text/html"
+        },
+        "terms-of-service": {
+          "href": "http://localhost:3000/tos.html",
+          "type": "text/html"
+        },
+        "privacy-policy": {
+          "href": "http://localhost:3000/policy.html",
+          "type": "text/html"
+        },
+        "client-uri": {
+          "href": "http://localhost:3000/client-uri.html",
+          "type": "text/html"
+        }
+      }
+    },
+    "scopes": [
+      {
+        "name": "api:read",
+        "displayName": "Ability to read protected data",
+        "description": "This scope will give the application the ability to read protected data"
+      },
+      {
+        "name": "api:write"
+      }
+    ],
+    "user": {
+      "id": "00uo9lKo7Ea265DZq0g3",
+      "passwordChanged": "2017-03-21T11:07:32.000Z",
+      "profile": {
+        "login": "administrator1@clouditude.net",
+        "firstName": "Add-Min",
+        "lastName": "O'Cloudy Tud",
+        "locale": "en_US",
+        "timeZone": "America\/Los_Angeles"
+      }
+    }
+  },
+  "_links": {
+    "next": {
+      "name": "consent",
+      "href": "https://example.okta.com/api/v1/authn/consent",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    },
+    "cancel": {
+      "href": "https://example.okta.com/api/v1/authn/cancel",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    }
+  }
+}

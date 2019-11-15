@@ -1,89 +1,31 @@
-.consent-beacon {
-
-  .logo-wrapper {
-    width: 71px;
-    height: 71px;
-    position: absolute;
-    border-radius: 50%;
-    top: 7px;
-    background-color: $white;
-  }
-
-  .consent-beacon-border {
-    position: absolute;
-    border: 1px solid #ddd;
-    border-radius: $border-radius-default;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-  }
-
-  .consent-beacon-user {
-    left: -45px;
-
-    .user-logo::before {
-      color: #737373;
-      font-size: 69px;
-      margin: -10px 0 0;
-    }
-  }
-
-  .consent-beacon-client {
-    left: 59px;
-
-    .client-logo {
-      border-radius: $border-radius-default;
-    }
-
-    .custom-logo {
-      width: 70px;
-      height: 70px;
-    }
-
-    .default-logo {
-      width: 50px;
-      height: 50px;
-      padding: 10px;
-    }
-  }
-
-  .arrows-wrapper {
-    background: $white;
-    position: absolute;
-    top: 10px;
-    left: 26px;
-    height: 65px;
-    width: 34px;
-  }
-
-  .arrow-left {
-    position: absolute;
-    top: 24px;
-    left: 5px;
-  }
-
-  .arrow-right {
-    position: absolute;
-    top: 10px;
-    left: 5px;
-  }
-
-  .arrow::before {
-    color: $light-text-color;
-    font-size: 24px;
-  }
-}
+$space-between-container: 25px;
+$space-of-last-container: $space-between-container - 14px; // 14px is margin between form body and form toolbar
+$image-size: 30px;
 
 .consent-required {
+
+  .default-logo,
+  .custom-logo {
+    width: $image-size;
+    height: $image-size;
+    vertical-align: middle;
+  }
+
+  .detail-row {
+    padding-bottom: $space-between-container;
+
+    &:last-child {
+      padding-bottom: $space-of-last-container;
+    }
+  }
+
   .consent-title {
-    padding-top: 20px;
-    padding-bottom: 25px;
     text-align: center;
     word-wrap: break-word;
+    font-size: 16px;
 
-    p {
-      font-size: 16px;
+    span {
+      padding-left: 10px;
     }
 
     b {
@@ -98,7 +40,6 @@
 
     .scope-item-text {
       float: left;
-      font-size: 14px;
       width: 85%;
       word-wrap: break-word;
     }
@@ -110,15 +51,13 @@
   }
 
   .consent-description {
-    padding-top: 15px;
-    padding-bottom: 25px;
-    font-size: $body-font-size;
-
     p {
       color: $text-color-light;
-      padding-bottom: 25px;
     }
+  }
 
+  .consent-footer {
+    text-align: center;
     a {
       color: $primary-color;
     }
@@ -127,7 +66,7 @@
   .o-form-button-bar {
     display: inline-block;
     width: 100%;
-    padding: 0 0 14px;
+    padding-bottom: $space-between-container;
 
     input {
       width: 140px;
