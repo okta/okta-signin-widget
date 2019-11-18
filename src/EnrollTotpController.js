@@ -35,7 +35,6 @@ function (Okta, FactorUtil, FormController, FormType,
     attributes: { 'data-se': 'app-download-instructions' },
     className: 'app-download-instructions',
     template: '\
-      <p class="instructions-title">{{title}}</p>\
       <span class="app-logo {{appIcon}}"></span>\
       <p class="instructions">{{{appStoreLinkText}}}</p>\
     ',
@@ -54,7 +53,6 @@ function (Okta, FactorUtil, FormController, FormType,
         appIcon = 'okta-verify-38';
       }
       return {
-        title: Okta.loc('enroll.totp.installApp', 'login', [factorName]),
         appStoreLinkText: Okta.loc('enroll.totp.downloadApp',
           'login', [appStoreLink, factorName, appStoreName]),
         appIcon: appIcon
@@ -95,21 +93,15 @@ function (Okta, FactorUtil, FormController, FormType,
 
       formChildren: function () {
         var inputOptions = {
-          APPLE: '',
-          ANDROID: ''
+          APPLE: 'Apple',
+          ANDROID: 'Android'
         };
-        if (this.settings.get('features.windowsVerify') && this.model.get('__provider__') === 'OKTA') {
-          inputOptions.WINDOWS = '';
-        } else if (this.model.get('__provider__') === 'GOOGLE') {
-          inputOptions.BLACKBERRY = '';
-        }
 
         var children = [
           FormType.Input({
             name: '__deviceType__',
             type: 'radio',
-            options: inputOptions,
-            className: 'device-type-input'
+            options: inputOptions
           }),
 
           FormType.Divider({showWhen: showWhenDeviceTypeSelected}),

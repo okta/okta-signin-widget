@@ -242,66 +242,9 @@
 }
 
 /* TOTP Factor Enrollment */
-.device-type-input {
-
-  .o-form-input {
-    display: table;
-    width: 100%;
-
-    > span {
-      display: table-row;
-
-      > div {
-        display: table-cell;
-      }
-    }
-  }
-
-  label,
-  label.checked,
-  label.hover,
-  label.focus {
-    height: 60px;
-    width: 60px;
-    margin: 0 auto;
-    padding: 0;
-    background-position: 50% 50%;
-  }
-
-  [value="APPLE"] + label {
-    background-image: url('../img/icons/mfa/iOS_60x60.png');
-  }
-
-  [value="ANDROID"] + label {
-    background-image: url('../img/icons/mfa/android_60x60.png');
-  }
-
-  [value="WINDOWS"] + label {
-    background-image: url('../img/icons/mfa/windows_60x60.png');
-  }
-
-  [value="BLACKBERRY"] + label {
-    background-image: url('../img/icons/mfa/blackberry_60x60.png');
-  }
-
-  [value="APPLE"] + label.checked,
-  [value="APPLE"] + label.hover {
-    background-image: url('../img/icons/mfa/iOSActive_60x60.png');
-  }
-
-  [value="ANDROID"] + label.checked,
-  [value="ANDROID"] + label.hover {
-    background-image: url('../img/icons/mfa/androidActive_60x60.png');
-  }
-
-  [value="WINDOWS"] + label.checked,
-  [value="WINDOWS"] + label.hover {
-    background-image: url('../img/icons/mfa/windowsActive_60x60.png');
-  }
-
-  [value="BLACKBERRY"] + label.checked,
-  [value="BLACKBERRY"] + label.hover {
-    background-image: url('../img/icons/mfa/blackberryActive_60x60.png');
+.enroll-totp {
+  .okta-form-subtitle.o-form-explain {
+    text-align: left;
   }
 }
 

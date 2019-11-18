@@ -226,26 +226,13 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           expect(test.form.deviceTypeOptions().length).toBe(2);
           expect(test.form.deviceTypeOptionLabel('APPLE').length).toBe(1);
           expect(test.form.deviceTypeOptionLabel('ANDROID').length).toBe(1);
-          expect(test.form.deviceTypeOptionLabel('WINDOWS').length).toBe(0);
-          expect(test.form.deviceTypeOptionLabel('BLACKBERRY').length).toBe(0);
-        });
-      });
-      itp('has Windows Phone option for Okta Verify when feature is on', function () {
-        return setupOktaTotpFn({ 'features.windowsVerify': true }).then(function (test) {
-          expect(test.form.deviceTypeOptions().length).toBe(3);
-          expect(test.form.deviceTypeOptionLabel('APPLE').length).toBe(1);
-          expect(test.form.deviceTypeOptionLabel('ANDROID').length).toBe(1);
-          expect(test.form.deviceTypeOptionLabel('WINDOWS').length).toBe(1);
-          expect(test.form.deviceTypeOptionLabel('BLACKBERRY').length).toBe(0);
         });
       });
       itp('has correct device type options for Google Authenticator', function () {
         return setupGoogleTotpFn().then(function (test) {
-          expect(test.form.deviceTypeOptions().length).toBe(3);
+          expect(test.form.deviceTypeOptions().length).toBe(2);
           expect(test.form.deviceTypeOptionLabel('APPLE').length).toBe(1);
           expect(test.form.deviceTypeOptionLabel('ANDROID').length).toBe(1);
-          expect(test.form.deviceTypeOptionLabel('WINDOWS').length).toBe(0);
-          expect(test.form.deviceTypeOptionLabel('BLACKBERRY').length).toBe(1);
         });
       });
       itp('has app download instructions not displayed until device type is selected', function () {
