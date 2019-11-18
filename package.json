@@ -65,7 +65,8 @@
     "build:webpack-release": "webpack --config webpack.release.config.js",
     "build:webpack-e2e-app": "webpack target/e2e/app/app-using-osw-entry.js target/js/app-bundle.js",
     "prestart": "yarn build:dev",
-    "prepublishOnly": "yarn build:release"
+    "prepublishOnly": "yarn build:release",
+    "authenticator": "dyson playground/mocks/ 4000"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
