@@ -3,6 +3,7 @@ import BaseView from './internals/BaseView';
 
 // factor ignostic views
 import IdentifierView from './views/IdentifierView';
+import DeviceChallengePollView from './views/DeviceChallengePollView';
 import SelectFactorEnrollView from './views/SelectFactorEnrollView';
 import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
 import EnrollProfileView from './views/EnrollProfileView';
@@ -24,6 +25,9 @@ const DEFAULT = '_';
 const VIEWS_MAPPING = {
   'identify': {
     [DEFAULT]: IdentifierView,
+  },
+  'device-challenge-poll': {
+    [DEFAULT]: DeviceChallengePollView,
   },
   //select-factor-authenticate is used to show the list of factors before challenge flow
   //select-factor-enroll is used to show the list of factors before enroll flows

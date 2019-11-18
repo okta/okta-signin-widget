@@ -1,0 +1,78 @@
+{
+    "stateHandle": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
+    "version": "1.0.0",
+    "expiresAt": "2020-10-15T17:28:11.000Z",
+    "step": "IDENTIFY",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                  "rel": ["create-form"],
+                  "name": "device-challenge-poll",
+                  "relatesTo": "authenticatorChallenge",
+                  "href": "http://localhost:3000/idp/idx/authenticators/poll",
+                  "method": "POST",
+                  "accepts": "application/ion+json;okta-version=1",
+                  "produces": "application/ion+json;okta-version=1",
+                  "refresh": 2000,
+                  "value": [{
+                      "name": "stateHandle",
+                      "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
+                      "required": true,
+                      "visible": false
+                  }]
+            }
+        ]
+    },
+    "cancel": {
+        "rel": ["create-form"],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "accepts": "application/ion+json;okta-version=1",
+        "produces": "application/ion+json;okta-version=1",
+        "value": [
+            {
+                "name": "stateHandle",
+                "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
+                "required": true,
+                "visible": false
+            }
+        ]
+    },
+    "context": {
+        "rel": ["create-form"],
+        "name": "context",
+        "href": "http://localhost:3000/idp/idx/context",
+        "method": "POST",
+        "accepts": "application/ion+json;okta-version=1",
+        "produces": "application/ion+json;okta-version=1",
+        "value": [
+            {
+                "name": "stateHandle",
+                "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
+                "required": true,
+                "visible": false
+            }
+        ]
+    },
+    "authenticatorChallenge": {
+        "challengeMethod": "custom-scheme",
+        "href": "oktaAuthenticator:/deviceChallenge?challengeRequest=<...Base64URL-Encoded Device Challenge JWT... >",
+        "cancel": {
+            "rel": ["create-form"],
+            "name": "cancel-polling-transaction",
+            "href": "http://your-org.okta.com/idp/idx/authenticators/poll/cancel",
+            "method": "POST",
+            "accepts": "application/ion+json;okta-version=1",
+            "produces": "application/ion+json;okta-version=1",
+            "value": [{
+                "name": "stateHandle",
+                "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
+                "required": true,
+                "visible": false
+            }]
+        }       
+    }
+}
