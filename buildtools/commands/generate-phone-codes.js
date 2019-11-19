@@ -37,6 +37,7 @@ exports.handler = () => {
       regionCodesToCallingCodeMap['AQ'] = 672;
       regionCodesToCallingCodeMap['UM'] = 1;
       regionCodesToCallingCodeMap['AN'] = 599;
+      regionCodesToCallingCodeMap['XK'] = 383;
 
       const contents = 'define(' + JSON.stringify(regionCodesToCallingCodeMap, null, 2) + ')';
       writeFileSync(OUTPUT_FILE, contents);
