@@ -214,12 +214,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       piv: {
         text: buttonText,
         className: 'piv-test-class',
-        certAuthUrl: 'https://rain.mtls.okta1.com:80/auth/cert/primaryAuth'
+        certAuthUrl: pivAuthentication ? 'https://rain.mtls.okta1.com:80/auth/cert/primaryAuth' : ''
       }
     };
-    if (_.isBoolean(pivAuthentication)) {
-      settings['features.piv'] = pivAuthentication;
-    }
     return setup(settings);
   }
 
@@ -2842,7 +2839,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
   });
 
   Expect.describe('PIV Button', function () {
-    itp('does not show the divider and buttons if settings.features.piv is false', function () {
+    itp('does not show the divider and buttons if certAuthUrl is not defined', function () {
       return setupPIV(false).then(function (test) {
         expect(test.form.authDivider().length).toBe(0);
         expect(test.form.pivButton().length).toBe(0);
@@ -2905,7 +2902,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           certAuthUrl: 'https://rain.mtls.okta1.com:80/auth/cert/primaryAuth'
         }
       };
-      settings['features.piv'] = true;
       return setup(settings).then(function (test){
         expect(test.form.authDivider().length).toBe(1);
         expect(test.form.additionalAuthButton().length).toBe(1);
@@ -2913,7 +2909,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         expect(test.form.pivButton().length).toBe(1);
       });
     });
-    itp('does not display piv button when feature is false', function () {
+    itp('does not display piv button when certAuthUrl is not defined', function () {
       var settings = {
         idps: [
           {
@@ -2923,11 +2919,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         ],
         piv: {
           text: 'piv test text',
-          className: 'piv-test-class',
-          certAuthUrl: 'https://rain.mtls.okta1.com:80/auth/cert/primaryAuth'
+          className: 'piv-test-class'
         }
       };
-      settings['features.piv'] = false;
       return setup(settings).then(function (test){
         expect(test.form.authDivider().length).toBe(1);
         expect(test.form.pivButton().length).toBe(0);
@@ -2943,7 +2937,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         },
         idps: undefined
       };
-      settings['features.piv'] = true;
       return setup(settings).then(function (test){
         expect(test.form.authDivider().length).toBe(1);
         expect(test.form.pivButton().length).toBe(1);

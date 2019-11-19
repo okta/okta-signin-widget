@@ -92,7 +92,6 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
       'features.restrictRedirectToForeground': ['boolean', true, false],
       'features.hideDefaultTip': ['boolean', false, true],
-      'features.piv': ['boolean', false, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function
@@ -287,9 +286,17 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
         },
         cache: true
       },
+      // Can support piv authentication
+      hasPivCard: {
+        deps: ['piv'],
+        fn: function (piv) {
+          return piv && piv.certAuthUrl;
+        },
+        cache: true
+      },
       // social auth buttons order - 'above'/'below' the primary auth form (boolean)
       socialAuthPositionTop: {
-        deps: ['configuredSocialIdps', 'features.piv', 'idpDisplay'],
+        deps: ['configuredSocialIdps', 'hasPivCard', 'idpDisplay'],
         fn: function (configuredSocialIdps, hasPivCard, idpDisplay) {
           return (!_.isEmpty(configuredSocialIdps) || hasPivCard)
             && idpDisplay.toUpperCase() === 'PRIMARY';
@@ -297,7 +304,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
         cache: true
       },
       hasConfiguredButtons: {
-        deps: ['configuredSocialIdps', 'customButtons', 'features.piv'],
+        deps: ['configuredSocialIdps', 'customButtons', 'hasPivCard'],
         fn: function (configuredSocialIdps, customButtons, hasPivCard) {
           return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons) || hasPivCard;
         },

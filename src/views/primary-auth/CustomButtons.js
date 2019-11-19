@@ -42,7 +42,7 @@ define([
         children.push(this._createSocialIdpButton(button));
       }, this);
 
-      if (this.settings.get('features.piv')) {
+      if (this.settings.get('hasPivCard')) {
         children.push(this._createPivButton(pivButton));
       }
 
