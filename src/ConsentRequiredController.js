@@ -61,18 +61,31 @@ function (Okta, FormController, FormType, ScopeList) {
       save: _.partial(Okta.loc, 'consent.required.consentButton', 'login'),
       cancel: _.partial(Okta.loc, 'consent.required.cancelButton', 'login'),
       formChildren: function () {
-        var appState = this.options.appState;
         return [
           FormType.View({
             View: Okta.View.extend({
-              className: 'consent-title',
+              className: 'consent-title detail-row',
               template: '\
-                <p>{{{i18n code="consent.required.text" bundle="login" arguments="appName;userConsentName"}}}</p>\
+                {{#if clientURI}}\
+                  <a href="{{clientURI}}" class="client-logo-link" target="_blank">\
+                {{/if}}\
+                {{#if customLogo}}\
+                  <img class="client-logo custom-logo" src="{{customLogo}}" />\
+                {{else}}\
+                  <img class="client-logo default-logo" src="{{defaultLogo}}" />\
+                {{/if}}\
+                {{#if clientURI}}\
+                  </a>\
+                {{/if}}\
+                <span>{{{i18n code="consent.required.text" bundle="login" arguments="appName"}}}</span>\
               ',
               getTemplateData: function () {
+                var appState = this.options.appState;
                 return {
                   appName: appState.escape('targetLabel'),
-                  userConsentName: appState.escape('userConsentName')
+                  customLogo: appState.get('targetLogo') && appState.get('targetLogo').href,
+                  defaultLogo: appState.get('defaultAppLogo'),
+                  clientURI: appState.get('targetClientURI') && appState.get('targetClientURI').href
                 };
               }
             })
@@ -82,30 +95,36 @@ function (Okta, FormController, FormType, ScopeList) {
           }),
           FormType.View({
             View: Okta.View.extend({
-              className: 'consent-description',
+              className: 'consent-description detail-row',
               template: '\
                 <p>{{i18n code="consent.required.description" bundle="login"}}</p>\
-                {{#if termsOfService}}\
-                  <a class="terms-of-service" href="{{termsOfService}}" target="_blank">{{i18n code="consent.required.termsOfService" bundle="login"}}</a>\
-                  {{#if privacyPolicy}}\
-                    &#8226\
-                  {{/if}}\
-                {{/if}}\
-                {{#if privacyPolicy}}\
-                  <a class="privacy-policy" href="{{privacyPolicy}}" target="_blank">{{i18n code="consent.required.privacyPolicy" bundle="login"}}</a>\
-                {{/if}}\
               ',
-              getTemplateData: function () {
-                return {
-                  termsOfService: appState.get('targetTermsOfService') && appState.get('targetTermsOfService').href,
-                  privacyPolicy: appState.get('targetPrivacyPolicy') && appState.get('targetPrivacyPolicy').href
-                };
-              }
             })
           })
         ];
+      },
+    },
+    Footer: Okta.View.extend({
+      className: 'consent-footer',
+      template: '\
+        {{#if termsOfService}}\
+          <a class="terms-of-service" href="{{termsOfService}}" target="_blank">{{i18n code="consent.required.termsOfService" bundle="login"}}</a>\
+          {{#if privacyPolicy}}\
+            &#8226\
+          {{/if}}\
+        {{/if}}\
+        {{#if privacyPolicy}}\
+          <a class="privacy-policy" href="{{privacyPolicy}}" target="_blank">{{i18n code="consent.required.privacyPolicy" bundle="login"}}</a>\
+        {{/if}}\
+      ',
+      getTemplateData: function () {
+        var appState = this.options.appState;
+        return {
+          termsOfService: appState.get('targetTermsOfService') && appState.get('targetTermsOfService').href,
+          privacyPolicy: appState.get('targetPrivacyPolicy') && appState.get('targetPrivacyPolicy').href
+        };
       }
-    }
+    }),
   });
 
 });

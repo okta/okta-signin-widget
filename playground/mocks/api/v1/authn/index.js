@@ -1,8 +1,5 @@
-const data1 = require('./data/success-001.json');
+const templateHelper = require('../../../../config/templateHelper');
 
-module.exports = {
+module.exports = templateHelper({
   path: '/api/v1/authn',
-  proxy: false,
-  method: 'POST',
-  template: data1,
-};
+});

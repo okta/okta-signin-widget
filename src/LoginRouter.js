@@ -60,8 +60,7 @@ define([
   'ConsentRequiredController',
   'EnrollUserController',
   'views/shared/SecurityBeacon',
-  'views/shared/FactorBeacon',
-  'views/consent/ConsentBeacon'
+  'views/shared/FactorBeacon'
 ],
 function (BaseLoginRouter,
   IDPDiscoveryController,
@@ -111,8 +110,7 @@ function (BaseLoginRouter,
   ConsentRequiredController,
   EnrollUserController,
   SecurityBeacon,
-  FactorBeacon,
-  ConsentBeacon) {
+  FactorBeacon) {
   return BaseLoginRouter.extend({
 
     routes: {
@@ -298,7 +296,7 @@ function (BaseLoginRouter,
         Beacon: FactorBeacon
       });
     },
-    
+
     enrollSms: function () {
       this.render(EnrollCallAndSmsController, {
         provider: 'OKTA',
@@ -538,7 +536,7 @@ function (BaseLoginRouter,
     },
 
     consentRequired: function () {
-      this.render(ConsentRequiredController, { Beacon: ConsentBeacon });
+      this.render(ConsentRequiredController);
     },
 
     enrollUser: function () {
