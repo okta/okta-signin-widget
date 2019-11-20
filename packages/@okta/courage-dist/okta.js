@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.2670.g173eed7 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.3045.gbd4a3b0 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -437,6 +437,19 @@ const StringUtil = /** @lends module:Okta.internal.util.StringUtil */ {
     return String(string).replace(/&[\w#\d]{2,};/g, function (s) {
       return entityMap[s] || s;
     });
+  },
+
+  /**
+   * Get the original i18n template directly without string format with parameters
+   * @param {String} key The key
+   * @param {String} bundle="messages"] The name of the i18n bundle. Defaults to the first bundle in the list.
+   */
+  getTemplate: function (key, bundleName) {
+    const bundle = bundleName ? __WEBPACK_IMPORTED_MODULE_2_okta_i18n_bundles___default.a[bundleName] : __WEBPACK_IMPORTED_MODULE_2_okta_i18n_bundles___default.a[__WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].keys(__WEBPACK_IMPORTED_MODULE_2_okta_i18n_bundles___default.a)[0]];
+    if (!bundle) {
+      return 'L10N_ERROR[' + bundleName + ']';
+    }
+    return bundle[key] || 'L10N_ERROR[' + key + ']';
   },
 
   /**
@@ -5851,11 +5864,41 @@ function validateString(field, value) {
 }
 
 function validateField(field, value) {
-  /* eslint complexity: [2, 23], max-statements: [2, 19] */
+  /* eslint complexity: [2, 25], max-statements: [2, 27] */
   var createMessageWith = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].partial(createMessage, field),
       isDefined = !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isUndefined(value) && !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isNull(value),
       checkType,
       errorMessage;
+
+  // If using an array validator, perform the validation
+  if (Array.isArray(field.validate)) {
+    let output = [];
+    let foundError = false;
+    let result;
+    field.validate.forEach(item => {
+      if (!value) {
+        result = false;
+      } else {
+        switch (item.type.toLowerCase()) {
+        case 'regex':
+          result = (new RegExp(item.value.pattern, item.value.flags || '')).test(value);
+          break;
+        default:
+          result = false;
+        }
+      }
+      // Append the result.
+      foundError = foundError || !result;
+      output.push({
+        message: item.hasOwnProperty('message') ? item.message : '',
+        passed: result
+      });
+    });
+    if (foundError) {
+      return createMessageWith(output);
+    }
+    return;
+  }
 
   // check required fields
   if (field.required && (!isDefined || __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isNull(value) || value === '')) {
@@ -6845,12 +6888,7 @@ const disabledEvents = {
 
       this.disabled = !bool;
       this.$el.toggleClass('link-button-disabled btn-disabled disabled', this.disabled);
-
-      // delegateEvents asynchronously in case the button is not yet added to the DOM
-      // in these cases the alternate events won't work
-      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defer(() => {
-        this.delegateEvents(this.disabled ? disabledEvents : null);
-      });
+      this.delegateEvents(this.disabled ? disabledEvents : null);
     },
 
     toggleVisible: function (visible) {

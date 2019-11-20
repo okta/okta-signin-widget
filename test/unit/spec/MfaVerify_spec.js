@@ -2816,28 +2816,35 @@ function (Okta,
               expect(test.form.errorBox().length).toBe(0);
             });
         });
+
         itp('posts to resend link if send email button is clicked for the second time', function () {
           Util.speedUpPolling();
           return setupEmail().then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeEmail);
             test.form.emailSendCode().click();
+            expect($('[data-se="email-send-code"]')).toHaveClass('disabled');
             return Expect.wait(() => {
-              return $('[data-se="email-send-code"]').text() === 'Re-send email';
+              return $('[data-se="email-send-code"]').hasClass('disabled') === false;
             }, test);
           })
-            .then(function (test) {
+            .then(function (test) { 
+              expect($('[data-se="email-send-code"]').text()).toBe('Re-send email');
               expect(test.form.submitButton().prop('disabled')).toBe(false);
+              expect($.ajax.calls.count()).toBe(1);
               $.ajax.calls.reset();
               test.setNextResponse(resChallengeEmail);
               test.form.emailSendCode().click();
+              expect($('[data-se="email-send-code"]')).toHaveClass('disabled');
               return Expect.wait(() => {
-                return $('[data-se="email-send-code"]').text() === 'Re-send email';
+                return $('[data-se="email-send-code"]').hasClass('disabled') === false;
               }, test);
             })
             .then(function (test) {
+              expect($('[data-se="email-send-code"]').text()).toBe('Re-send email');
               expect(test.form.submitButton().prop('disabled')).toBe(false);
               expect($.ajax.calls.count()).toBe(1);
+              // validate 2nd ajax call is a resend request
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
                 data: {stateToken: 'testStateToken'},
                 url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify/resend'
