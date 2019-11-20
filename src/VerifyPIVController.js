@@ -37,16 +37,14 @@ function (Okta, FormController, FormType, FooterWithBackLink, Q) {
             },
             pivButton = this.settings.get('piv');
         return Q($.post({
-            url: pivButton.certAuthUrl,
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-          }))
-          .then(function (res) {
-            Util.redirect(res.redirectUrl);
-          })
-          .fail(function (err) {
-            self.trigger('error', self, err);
-          });
+          url: pivButton.certAuthUrl,
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+        })).then(function (res) {
+          Util.redirect(res.redirectUrl);
+        }).fail(function (err) {
+          self.trigger('error', self, err);
+        });
       }
     },
 

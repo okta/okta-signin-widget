@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 50] */
+/* eslint max-params: [2, 52] */
 define([
   'util/BaseLoginRouter',
   'IDPDiscoveryController',

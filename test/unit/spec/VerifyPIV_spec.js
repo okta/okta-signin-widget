@@ -11,17 +11,14 @@ define([
   'LoginRouter',
   'sandbox',
   'helpers/xhr/PIV_error',
-  'helpers/xhr/PIV_CHALLENGE',
-  'helpers/xhr/MFA_REQUIRED_oktaVerify',
-  'helpers/xhr/SUCCESS'
+  'helpers/xhr/PIV_CHALLENGE'
 ],
 function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
-  Router, $sandbox, resError, resChallenge, resMfaRequired, resSuccess) {
+  Router, $sandbox, resError, resChallenge) {
 
   var SharedUtil = Okta.internal.util.Util;
-  var { _, $ } = Okta;
+  var { _ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   function setup (hasError) {
     var setNextResponse = Util.mockAjax();
@@ -80,13 +77,10 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         });
       });
       itp('redirects on successful cert auth', function () {
-        return setup().then(function (test) {
+        return setup().then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
-        })
-        .then(function () {
-          expect(SharedUtil.redirect).toHaveBeenCalledWith(
-            'https://rain.okta1.com/login/sessionCookieRedirect?redirectUrl=%2Fapp%2FUserHome&amp;token=token1'
-          );
+        }).then(function () {
+          expect(SharedUtil.redirect).toHaveBeenCalledWith('https://rain.okta1.com/login/sessionCookieRedirect?redirectUrl=%2Fapp%2FUserHome&amp;token=token1');
         });
       });
     });
@@ -94,8 +88,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
       itp('shows error box with error response', function () {
         return setup(true).then(function (test) {
           return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
+        }).then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox()).toHaveLength(1);
           expect(test.form.errorMessage()).toEqual('Invalid certificate.');
@@ -104,8 +97,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
       itp('displays retry button', function () {
         return setup(true).then(function (test) {
           return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
+        }).then(function (test) {
           Expect.isVisible(test.form.submitButton());
           Expect.isNotVisible(test.form.spinningIcon());
         });
@@ -113,13 +105,11 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
       itp('can retry authentication', function () {
         return setup(true).then(function (test) {
           return Expect.waitForFormError(test.form, test);
-        })
-        .then(function (test) {
+        }).then(function (test) {
           test.setNextResponse([resChallenge]);
           test.form.submit();
           return Expect.waitForSpyCall(SharedUtil.redirect);
-        })
-        .then(function () {
+        }).then(function () {
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
             'https://rain.okta1.com/login/sessionCookieRedirect?redirectUrl=%2Fapp%2FUserHome&amp;token=token1'
           );
