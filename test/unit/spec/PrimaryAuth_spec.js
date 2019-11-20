@@ -2859,7 +2859,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     });
     itp('shows default text if none passed', function () {
       return setupPIV(true, true).then(function (test){
-        expect(test.form.pivButton().text()).toEqual('Sign in with CAC / PIV card');
+        expect(test.form.pivButton().text()).toEqual('Sign in with PIV / CAC card');
       });
     });
     itp('sets text with property passed', function () {

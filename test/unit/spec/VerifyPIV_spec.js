@@ -65,6 +65,11 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
           expect(test.beacon.hasClass('smartcard')).toBe(true);
         });
       });
+      itp('displays the correct title', function () {
+        return setup().then(function (test) {
+          expect(test.form.titleText()).toBe('PIV / CAC card');
+        });
+      });
       itp('has a "back" link in the footer', function () {
         return setup().then(function (test) {
           Expect.isVisible(test.form.backLink());
@@ -74,6 +79,12 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         return setup().then(function (test) {
           Expect.isVisible(test.form.spinningIcon());
           Expect.isNotVisible(test.form.submitButton());
+        });
+      });
+      itp('displays the correct instructions', function () {
+        return setup().then(function (test) {
+          expect(test.form.instructions())
+            .toBe('Please insert your PIV / CAC card and select the user certificate.');
         });
       });
       itp('redirects on successful cert auth', function () {

@@ -51,7 +51,7 @@ function (Okta, FormController, FormType, FooterWithBackLink, Q) {
     Form: {
       autoSave: true,
       hasSavingState: false,
-      title: 'PIV',
+      title: _.partial(Okta.loc, 'piv.cac.title', 'login'),
       className: 'verify-piv',
       noCancelButton: true,
       save: _.partial(Okta.loc, 'retry', 'login'),
@@ -65,7 +65,7 @@ function (Okta, FormController, FormType, FooterWithBackLink, Q) {
         children.push(FormType.View({
           View:
              '<div class="piv-verify-text">\
-               <p>{{i18n code="piv.card.insert" bundle="login"}}</p>\
+               <p>{{i18n code="piv.cac.card.insert" bundle="login"}}</p>\
                <div data-se="piv-waiting" class="okta-waiting-spinner"></div>\
              </div>'
         }));
