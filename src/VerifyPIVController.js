@@ -39,7 +39,8 @@ function (Okta, FormController, FormType, FooterWithBackLink, Q) {
         return Q($.post({
           url: pivButton.certAuthUrl,
           data: JSON.stringify(data),
-          contentType: 'application/json',
+          contentType: 'text/plain',
+          beforeSend: function () {},
         })).then(function (res) {
           Util.redirect(res.redirectUrl);
         }).fail(function (err) {
