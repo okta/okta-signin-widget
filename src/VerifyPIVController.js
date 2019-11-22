@@ -38,6 +38,9 @@ function (Okta, FormController, FormType, FooterWithBackLink, Q) {
             pivButton = this.settings.get('piv');
         return Q($.post({
           url: pivButton.certAuthUrl,
+          xhrFields: {
+            withCredentials: true
+          },
           data: JSON.stringify(data),
           contentType: 'text/plain',
           beforeSend: function () {},
