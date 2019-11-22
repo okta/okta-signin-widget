@@ -106,9 +106,9 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
       },
 
       postRender: function () {
-        _.defer(_.bind(function () {
+        _.defer(() => {
           this.model.save();
-        }, this));
+        });
       },
     },
 
