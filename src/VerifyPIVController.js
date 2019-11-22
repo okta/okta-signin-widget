@@ -16,10 +16,9 @@ define([
   'okta',
   'util/FormController',
   'util/FormType',
-  'views/shared/FooterWithBackLink',
-  'q'
+  'views/shared/FooterWithBackLink'
 ],
-function (Okta, FormController, FormType, FooterWithBackLink, Q) {
+function (Okta, FormController, FormType, FooterWithBackLink) {
 
   var _ = Okta._,
       $ = Okta.$;
@@ -29,25 +28,44 @@ function (Okta, FormController, FormType, FooterWithBackLink, Q) {
     className: 'mfa-verify verify-piv',
     Model: {
 
-      save: function () {
+      save: async function () {
         this.trigger('request');
         var self = this,
             data = {
               fromURI: this.settings.get('relayState')
             },
             pivButton = this.settings.get('piv');
-        return Q($.post({
-          url: pivButton.certAuthUrl,
+
+        try {
+          await this.getCert(pivButton.certAuthUrl);
+          const res = await this.postCert(pivButton.certAuthUrl, data);
+          Util.redirect(res.redirectUrl);
+        } catch (err) {
+          self.trigger('error', self, err);
+        }
+      },
+
+      getCert: function (certAuthUrl) {
+        return $.get({
+          url: certAuthUrl,
+          xhrFields: {
+            withCredentials: true
+          },
+          beforeSend: function () {},
+        });
+      },
+
+      postCert: function (certAuthUrl, data) {
+        return $.post({
+          url: certAuthUrl,
           xhrFields: {
             withCredentials: true
           },
           data: JSON.stringify(data),
           contentType: 'text/plain',
           beforeSend: function () {},
-        })).then(function (res) {
-          Util.redirect(res.redirectUrl);
-        }).fail(function (err) {
-          self.trigger('error', self, err);
+        }).then((result) => {
+          return result;
         });
       }
     },
