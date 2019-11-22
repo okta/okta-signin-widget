@@ -103,7 +103,7 @@ define(['okta', 'q'], function (Okta, Q) {
       // TODO: Deprecate this event in the next major version in favor of 'afterRender'
       this.trigger('pageRendered', {page: this.className});
 
-      this.trigger('afterRender', { controller: this.className });
+      this.trigger('afterRender', {controller: this.className, settings: this.model});
     }
   });
 

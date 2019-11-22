@@ -1,12 +1,14 @@
 /* eslint max-params:[0, 2] */
 define([
+  'okta',
+  'models/Settings',
   'widget/OktaSignIn',
   'helpers/util/Expect',
   'util/Logger',
   'sandbox',
   'jasmine-ajax',
 ],
-function (Widget, Expect, Logger, $sandbox) {
+function (Okta, Settings, Widget, Expect, Logger, $sandbox) {
   var url = 'https://foo.com';
 
   Expect.describe('OktaSignIn initialization', function () {
@@ -171,7 +173,7 @@ function (Widget, Expect, Logger, $sandbox) {
       it('triggers an afterRender event when the Widget renders a page', function (done) {
         signIn.renderEl({ el: $sandbox });
         signIn.on('afterRender', function (context) {
-          expect(context).toEqual({ controller: 'primary-auth' });
+          expect(context).toEqual(jasmine.objectContaining({ controller: 'primary-auth', model: jasmine.any(Okta.Model.Settings) }))
           done();
         });
       });
@@ -179,7 +181,7 @@ function (Widget, Expect, Logger, $sandbox) {
       it('triggers a ready event when the Widget renders a page', function (done) {
         signIn.renderEl({ el: $sandbox });
         signIn.on('ready', function (context) {
-          expect(context).toEqual({ controller: 'primary-auth' });
+          expect(context).toEqual(jasmine.objectContaining({ controller: 'primary-auth', model: jasmine.any(Okta.Model.Settings) }))
           done();
         });
       });
@@ -191,7 +193,7 @@ function (Widget, Expect, Logger, $sandbox) {
         });
         signIn.renderEl({ el: $sandbox });
         signIn.on('ready', function (context) {
-          expect(context).toEqual({ controller: 'recovery-loading' });
+          expect(context).toEqual(jasmine.objectContaining({ controller: 'recovery-loading', model: jasmine.any(Okta.Model.Settings) }))
           done();
         });
       });
@@ -202,14 +204,14 @@ function (Widget, Expect, Logger, $sandbox) {
         });
         signIn.renderEl({ el: $sandbox });
         signIn.on('ready', function (context) {
-          expect(context).toEqual({ controller: 'idp-discovery' });
+          expect(context).toEqual(jasmine.objectContaining({ controller: 'idp-discovery', model: jasmine.any(Okta.Model.Settings) }))
           done();
         });
       });
       it('does not trigger a ready event twice', function (done) {
         signIn.renderEl({ el: '#sandbox' });
         signIn.on('ready', function (context) {
-          expect(context).toEqual({ controller: 'primary-auth' });
+          expect(context).toEqual(jasmine.objectContaining({ controller: 'primary-auth', model: jasmine.any(Okta.Model.Settings) }))
           // Navigate directly to forgot-password page
           var forgotPasswordLink = document.getElementsByClassName('link js-forgot-password');
           forgotPasswordLink[0].click();
