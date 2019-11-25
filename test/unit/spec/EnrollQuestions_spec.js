@@ -274,7 +274,8 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {
-              controller: 'enroll-question'
+              controller: 'enroll-question',
+              settings: jasmine.any(Object)
             },
             {
               name: 'AuthApiError',

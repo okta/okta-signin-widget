@@ -110,7 +110,8 @@ function (Okta,
       expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
       expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
         {
-          controller: 'enroll-u2f'
+          controller: 'enroll-u2f',
+          settings: jasmine.any(Object)
         },
         {
           name: 'U2F_ERROR',

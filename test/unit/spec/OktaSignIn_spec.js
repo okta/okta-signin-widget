@@ -1,14 +1,13 @@
 /* eslint max-params:[0, 2] */
 define([
   'okta',
-  'models/Settings',
   'widget/OktaSignIn',
   'helpers/util/Expect',
   'util/Logger',
   'sandbox',
   'jasmine-ajax',
 ],
-function (Okta, Settings, Widget, Expect, Logger, $sandbox) {
+function (Okta, Widget, Expect, Logger, $sandbox) {
   var url = 'https://foo.com';
 
   Expect.describe('OktaSignIn initialization', function () {
@@ -173,7 +172,7 @@ function (Okta, Settings, Widget, Expect, Logger, $sandbox) {
       it('triggers an afterRender event when the Widget renders a page', function (done) {
         signIn.renderEl({ el: $sandbox });
         signIn.on('afterRender', function (context) {
-          expect(context).toEqual(jasmine.objectContaining({ controller: 'primary-auth', model: jasmine.any(Okta.Model.Settings) }))
+          expect(context).toEqual(jasmine.objectContaining({ controller: 'primary-auth', settings: jasmine.any(Object) }))
           done();
         });
       });
@@ -181,7 +180,7 @@ function (Okta, Settings, Widget, Expect, Logger, $sandbox) {
       it('triggers a ready event when the Widget renders a page', function (done) {
         signIn.renderEl({ el: $sandbox });
         signIn.on('ready', function (context) {
-          expect(context).toEqual(jasmine.objectContaining({ controller: 'primary-auth', model: jasmine.any(Okta.Model.Settings) }))
+          expect(context).toEqual(jasmine.objectContaining({ controller: 'primary-auth', settings: jasmine.any(Object) }))
           done();
         });
       });
@@ -193,7 +192,7 @@ function (Okta, Settings, Widget, Expect, Logger, $sandbox) {
         });
         signIn.renderEl({ el: $sandbox });
         signIn.on('ready', function (context) {
-          expect(context).toEqual(jasmine.objectContaining({ controller: 'recovery-loading', model: jasmine.any(Okta.Model.Settings) }))
+          expect(context).toEqual(jasmine.objectContaining({ controller: 'recovery-loading', settings: jasmine.any(Object) }))
           done();
         });
       });
@@ -204,14 +203,14 @@ function (Okta, Settings, Widget, Expect, Logger, $sandbox) {
         });
         signIn.renderEl({ el: $sandbox });
         signIn.on('ready', function (context) {
-          expect(context).toEqual(jasmine.objectContaining({ controller: 'idp-discovery', model: jasmine.any(Okta.Model.Settings) }))
+          expect(context).toEqual(jasmine.objectContaining({ controller: 'idp-discovery', settings: jasmine.any(Object) }))
           done();
         });
       });
       it('does not trigger a ready event twice', function (done) {
         signIn.renderEl({ el: '#sandbox' });
         signIn.on('ready', function (context) {
-          expect(context).toEqual(jasmine.objectContaining({ controller: 'primary-auth', model: jasmine.any(Okta.Model.Settings) }))
+          expect(context).toEqual(jasmine.objectContaining({ controller: 'primary-auth', settings: jasmine.any(Object) }))
           // Navigate directly to forgot-password page
           var forgotPasswordLink = document.getElementsByClassName('link js-forgot-password');
           forgotPasswordLink[0].click();

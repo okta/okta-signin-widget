@@ -507,7 +507,8 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {
-              controller: 'password-reset'
+              controller: 'password-reset',
+              settings: jasmine.any(Object)
             },
             {
               name: 'AuthApiError',

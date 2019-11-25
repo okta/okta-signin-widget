@@ -549,7 +549,8 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
       expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
       expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
         {
-          controller: 'registration'
+          controller: 'registration',
+          settings: jasmine.any(Object)
         },
         {
           name: 'REGISTRATION_FAILED',
@@ -562,7 +563,8 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
       expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
       expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
         {
-          controller: 'registration'
+          controller: 'registration',
+          settings: jasmine.any(Object)
         },
         {
           name: 'REGISTRATION_FAILED',

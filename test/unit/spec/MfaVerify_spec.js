@@ -694,7 +694,8 @@ function (Okta,
       expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
       expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
         {
-          controller: controller
+          controller: controller,
+          settings: jasmine.any(Object)
         },
         {
           name: 'AuthApiError',
@@ -3992,7 +3993,8 @@ function (Okta,
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {
-                  controller: 'mfa-verify verify-u2f'
+                  controller: 'mfa-verify verify-u2f',
+                  settings: jasmine.any(Object)
                 },
                 {
                   name: 'U2F_ERROR',
@@ -4987,7 +4989,8 @@ function (Okta,
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {
-                  controller: 'mfa-verify verify-u2f'
+                  controller: 'mfa-verify verify-u2f',
+                  settings: jasmine.any(Object)
                 },
                 {
                   name: 'U2F_ERROR',
@@ -5134,7 +5137,8 @@ function (Okta,
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {
-                  controller: 'mfa-verify verify-u2f'
+                  controller: 'mfa-verify verify-u2f',
+                  settings: jasmine.any(Object)
                 },
                 {
                   name: 'U2F_ERROR',

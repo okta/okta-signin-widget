@@ -178,7 +178,8 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {
-                  controller: 'enroll-rsa'
+                  controller: 'enroll-rsa',
+                  settings: jasmine.any(Object)
                 },
                 {
                   name: 'AuthApiError',
@@ -323,7 +324,8 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {
-                  controller: 'enroll-onprem'
+                  controller: 'enroll-onprem',
+                  settings: jasmine.any(Object)
                 },
                 {
                   name: 'AuthApiError',

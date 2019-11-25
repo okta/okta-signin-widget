@@ -130,7 +130,8 @@ function (Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
-                controller: 'enroll-symantec'
+                controller: 'enroll-symantec',
+                settings: jasmine.any(Object)
               },
               {
                 name: 'AuthApiError',

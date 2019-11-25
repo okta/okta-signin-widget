@@ -366,7 +366,8 @@ function (Okta,
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
         expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
           {
-            controller: 'mfa-verify verify-webauthn'
+            controller: 'mfa-verify verify-webauthn',
+            settings: jasmine.any(Object)
           },
           {
             name: 'WEB_AUTHN_ERROR',
@@ -469,7 +470,8 @@ function (Okta,
         expect(test.router.controller.model.webauthnAbortController).toBe(null);
         expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
           {
-            controller: 'mfa-verify verify-webauthn'
+            controller: 'mfa-verify verify-webauthn',
+            settings: jasmine.any(Object)
           },
           {
             name: 'WEB_AUTHN_ERROR',

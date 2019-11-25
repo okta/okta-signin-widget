@@ -1,7 +1,6 @@
 /* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 180], camelcase:0 */
 define([
   'okta',
-  'models/Settings',
   'q',
   'util/Logger',
   'util/Errors',
@@ -36,7 +35,7 @@ define([
   'helpers/xhr/labels_country_ja',
   'helpers/xhr/well-known-shared-resource'
 ],
-function (Okta, Settings, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
+function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
   OktaAuth, Util, Expect, Router,
   $sandbox, PrimaryAuthForm, IDPDiscoveryForm, RecoveryForm, MfaVerifyForm, EnrollCallForm,
   resSuccess, resRecovery, resMfa, resMfaRequiredDuo, resMfaRequiredOktaVerify, resMfaChallengeDuo,
@@ -763,7 +762,7 @@ function (Okta, Settings, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundle
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()).toEqual([
             [
-              { controller: 'primary-auth', settings: jasmine.any(Settings) },
+              { controller: 'primary-auth', settings: jasmine.any(Object) },
               {
                 name: 'AuthApiError',
                 message: 'Invalid token provided',
@@ -866,8 +865,8 @@ function (Okta, Settings, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundle
         .then(function (test) {
           expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
           expect(test.afterRenderHandler).toHaveBeenCalledTimes(2);
-          expect(test.afterRenderHandler).toHaveBeenCalledWith({controller: 'refresh-auth-state', settings: jasmine.any(Settings)});
-          expect(test.afterRenderHandler).toHaveBeenCalledWith({controller: 'primary-auth', settings: jasmine.any(Settings)});
+          expect(test.afterRenderHandler).toHaveBeenCalledWith({controller: 'refresh-auth-state', settings: jasmine.any(Object)});
+          expect(test.afterRenderHandler).toHaveBeenCalledWith({controller: 'primary-auth', settings: jasmine.any(Object)});
         });
     });
     itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {
@@ -1268,7 +1267,7 @@ function (Okta, Settings, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundle
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
                 controller: 'mfa-verify',
-                settings: jasmine.any(Settings)
+                settings: jasmine.any(Object)
               },
               {
                 name: 'OAUTH_ERROR',
@@ -1299,7 +1298,7 @@ function (Okta, Settings, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundle
           })
           .then(function (test){
             expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
-            expect(test.afterRenderHandler).toHaveBeenCalledWith({controller: 'primary-auth', settings: jasmine.any(Settings)});
+            expect(test.afterRenderHandler).toHaveBeenCalledWith({controller: 'primary-auth', settings: jasmine.any(Object)});
           });
       });
       itp('triggers both pageRendered and afterRender events when first controller is loaded', function () {
@@ -1312,7 +1311,7 @@ function (Okta, Settings, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundle
             expect(test.eventSpy).toHaveBeenCalledTimes(1);
             expect(test.eventSpy).toHaveBeenCalledWith({ page: 'primary-auth'});
             expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
-            expect(test.afterRenderHandler).toHaveBeenCalledWith({controller: 'primary-auth', settings: jasmine.any(Settings)});
+            expect(test.afterRenderHandler).toHaveBeenCalledWith({controller: 'primary-auth', settings: jasmine.any(Object)});
           });
       });
       itp('triggers a pageRendered event when navigating to a new controller', function () {
@@ -1341,7 +1340,7 @@ function (Okta, Settings, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundle
           })
           .then(function (test) {
             expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
-            expect(test.afterRenderHandler).toHaveBeenCalledWith({controller: 'primary-auth', settings: jasmine.any(Settings)});
+            expect(test.afterRenderHandler).toHaveBeenCalledWith({controller: 'primary-auth', settings: jasmine.any(Object)});
             Util.mockRouterNavigate(test.router);
             test.router.navigate('signin/forgot-password');
             return Expect.waitForForgotPassword(test);
@@ -1350,7 +1349,7 @@ function (Okta, Settings, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundle
             // since the event is triggered from the success function of the animation
             // as well as after render, we expect two calls
             expect(test.afterRenderHandler).toHaveBeenCalledTimes(2);
-            expect(test.afterRenderHandler.calls.allArgs()[1]).toEqual([{ controller: 'forgot-password', settings: jasmine.any(Settings)}]);
+            expect(test.afterRenderHandler.calls.allArgs()[1]).toEqual([{ controller: 'forgot-password', settings: jasmine.any(Object)}]);
           });
       });
     });
