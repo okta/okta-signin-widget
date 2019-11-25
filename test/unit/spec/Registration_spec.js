@@ -17,7 +17,6 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
 
   var { _, $, Backbone } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
   var testData = {
     policyId: '1234',
     profileSchema: {
@@ -771,6 +770,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
       itp('calls postSubmit call onSuccess assert username is same as email', function () {
         var parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
         var preSubmitSpy = jasmine.createSpy('preSubmitSpy');
+        var postSubmitSpy = jasmine.createSpy('postSubmitSpy');
         var setting = {
           'registration': {
             'parseSchema': function (resp, onSuccess, onFailure) {
@@ -781,25 +781,28 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
               preSubmitSpy(postData, onSuccess, onFailure);
               onSuccess(postData);
             },
-            'postSubmit': jasmine.createSpy('postSubmitSpy')
+            'postSubmit': function (postData, onSuccess, onFailure) {
+              postSubmitSpy(postData, onSuccess, onFailure);
+              onSuccess(postData);
+            }
           }
         };
         return setup(setting)
           .then(function (test) {
+            spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
             $.ajax.calls.reset();
             test.form.setUserName('test@example.com');
             test.form.setPassword('Abcd1234');
             test.form.setFirstname('firstName');
+            test.form.setLastname('lastName');
+            test.form.setReferrer('referrer');
             test.form.submit();
-            var model = test.router.controller.model;
-            spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
-            model.save();
-            test.router.navigate('signin/register-complete', {trigger: true});
-            expect(setting.registration.postSubmit).toHaveBeenCalled();
+            return Expect.waitForRegistrationComplete(test);
+          })
+          .then(function (test) {
             expect(test.router.navigate).toHaveBeenCalledWith('signin/register-complete', {trigger: true});
-            return tick().then(function () {
-              expect( $('div.registration-complete').text().includes('Verification email sent')).toBe(true);
-            });
+            expect(postSubmitSpy).toHaveBeenCalled();
+            expect($('div.registration-complete').text().includes('Verification email sent')).toBe(true);
           });
       });
       itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function () {
