@@ -993,7 +993,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
-                controller: 'activate-totp'
+                controller: 'activate-totp',
+                settings: jasmine.any(Object)
               },
               {
                 name: 'AuthApiError',

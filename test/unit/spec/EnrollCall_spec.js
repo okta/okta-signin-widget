@@ -292,7 +292,8 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
           expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([
             {
-              controller: 'enroll-call'
+              controller: 'enroll-call',
+              settings: jasmine.any(Object)
             },
             {
               name: 'AuthApiError',
@@ -531,7 +532,8 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
             expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([
               {
-                controller: 'enroll-call'
+                controller: 'enroll-call',
+                settings: jasmine.any(Object)
               },
               {
                 name: 'AuthApiError',

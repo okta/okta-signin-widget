@@ -61,7 +61,8 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
     expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
       {
-        controller: controller || 'account-unlock'
+        controller: controller || 'account-unlock',
+        settings: jasmine.any(Object)
       },
       {
         name: 'AuthApiError',

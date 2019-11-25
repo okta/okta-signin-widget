@@ -147,7 +147,8 @@ function (Okta,
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {
-                  controller: 'enroll-custom-factor'
+                  controller: 'enroll-custom-factor',
+                  settings: jasmine.any(Object)
                 },
                 {
                   name: 'AuthApiError',

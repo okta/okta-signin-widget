@@ -1550,7 +1550,8 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
-                controller: 'idp-discovery'
+                controller: 'idp-discovery',
+                settings: jasmine.any(Object)
               },
               {
                 name: 'OAUTH_ERROR',

@@ -342,7 +342,8 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
-                controller: 'password-expired'
+                controller: 'password-expired',
+                settings: jasmine.any(Object)
               },
               {
                 name: 'AuthApiError',
@@ -383,7 +384,8 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
-                controller: 'password-expired'
+                controller: 'password-expired',
+                settings: jasmine.any(Object)
               },
               {
                 name: 'AuthApiError',

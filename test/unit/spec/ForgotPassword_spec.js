@@ -561,7 +561,8 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
-                controller: 'forgot-password'
+                controller: 'forgot-password',
+                settings: jasmine.any(Object)
               },
               {
                 name: 'AuthApiError',
@@ -722,7 +723,8 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
-                controller: 'forgot-password'
+                controller: 'forgot-password',
+                settings: jasmine.any(Object)
               },
               {
                 name: 'AuthApiError',
@@ -1046,7 +1048,8 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
               expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
               expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
                 {
-                  controller: 'recovery-challenge'
+                  controller: 'recovery-challenge',
+                  settings: jasmine.any(Object)
                 },
                 {
                   name: 'AuthApiError',

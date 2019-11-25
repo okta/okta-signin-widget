@@ -241,7 +241,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
     expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
       {
-        controller: 'primary-auth'
+        controller: 'primary-auth',
+        settings: jasmine.any(Object)
       },
       jasmine.objectContaining({
         name: 'AuthApiError',
@@ -2659,7 +2660,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
-                controller: 'primary-auth'
+                controller: 'primary-auth',
+                settings: jasmine.any(Object)
               },
               {
                 name: 'OAUTH_ERROR',

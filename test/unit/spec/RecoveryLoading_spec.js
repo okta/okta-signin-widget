@@ -106,7 +106,8 @@ function (Okta, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView,
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {
-              controller: 'recovery-loading'
+              controller: 'recovery-loading',
+              settings: jasmine.any(Object)
             },
             {
               name: 'AuthApiError',

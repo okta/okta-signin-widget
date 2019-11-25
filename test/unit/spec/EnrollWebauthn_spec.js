@@ -336,7 +336,8 @@ function (Okta,
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
-                controller: 'enroll-webauthn'
+                controller: 'enroll-webauthn',
+                settings: jasmine.any(Object)
               },
               {
                 name: 'WEB_AUTHN_ERROR',
