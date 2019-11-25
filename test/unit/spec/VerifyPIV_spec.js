@@ -11,11 +11,11 @@ define([
   'LoginRouter',
   'sandbox',
   'helpers/xhr/PIV_error',
-  'helpers/xhr/PIV_CHALLENGE',
+  'helpers/xhr/PIV_POST',
   'helpers/xhr/PIV_GET'
 ],
 function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
-  Router, $sandbox, resError, resChallenge, resGet) {
+  Router, $sandbox, resError, resPost, resGet) {
 
   var SharedUtil = Okta.internal.util.Util;
   var { _ } = Okta;
@@ -43,7 +43,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     spyOn(SharedUtil, 'redirect');
-    setNextResponse(hasError ? [resError] : [resGet, resChallenge]);
+    setNextResponse(hasError ? [resError] : [resGet, resPost]);
     router.verifyPIV();
     return Expect.waitForVerifyPIV({
       router: router,
@@ -118,7 +118,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         return setup(true).then(function (test) {
           return Expect.waitForFormError(test.form, test);
         }).then(function (test) {
-          test.setNextResponse([resGet, resChallenge]);
+          test.setNextResponse([resGet, resPost]);
           test.form.submit();
           return Expect.waitForSpyCall(SharedUtil.redirect);
         }).then(function () {

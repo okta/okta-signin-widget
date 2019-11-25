@@ -38,13 +38,13 @@ define([
           customButtons = this.settings.get('customButtons'),
           divider = dividerTpl({text: Okta.loc('socialauth.divider.text', 'login')});
 
-      _.each(socialIdpButtons, function (button) {
-        children.push(this._createSocialIdpButton(button));
-      }, this);
-
       if (this.settings.get('hasPivCard')) {
         children.push(this._createPivButton(pivButton));
       }
+
+      _.each(socialIdpButtons, function (button) {
+        children.push(this._createSocialIdpButton(button));
+      }, this);
 
       _.each(customButtons, function (button) {
         children.push(this._createCustomButton(button));

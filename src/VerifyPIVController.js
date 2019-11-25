@@ -25,7 +25,7 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
   var { Util } = Okta.internal.util;
 
   return FormController.extend({
-    className: 'mfa-verify verify-piv',
+    className: 'piv-cac-card',
     Model: {
 
       save: async function () {
@@ -34,11 +34,11 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
             data = {
               fromURI: this.settings.get('relayState')
             },
-            pivButton = this.settings.get('piv');
+            pivConfig = this.settings.get('piv');
 
         try {
-          await this.getCert(pivButton.certAuthUrl);
-          const res = await this.postCert(pivButton.certAuthUrl, data);
+          await this.getCert(pivConfig.certAuthUrl);
+          const res = await this.postCert(pivConfig.certAuthUrl, data);
           Util.redirect(res.redirectUrl);
         } catch (err) {
           self.trigger('error', self, err);
@@ -74,7 +74,7 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
       autoSave: true,
       hasSavingState: false,
       title: _.partial(Okta.loc, 'piv.cac.title', 'login'),
-      className: 'verify-piv',
+      className: 'piv-cac-card',
       noCancelButton: true,
       save: _.partial(Okta.loc, 'retry', 'login'),
       modelEvents: {
