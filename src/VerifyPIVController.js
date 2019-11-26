@@ -51,7 +51,11 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
           xhrFields: {
             withCredentials: true
           },
-          beforeSend: function () {},
+          beforeSend: function () {
+            // overriding this function to prevent our jquery-wrapper from
+            // setting headers. Need to keep this a simple request in order for
+            // PIV / CAC to work in IE.
+          },
         });
       },
 
@@ -63,9 +67,11 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
           },
           data: JSON.stringify(data),
           contentType: 'text/plain',
-          beforeSend: function () {},
-        }).then((result) => {
-          return result;
+          beforeSend: function () {
+            // overriding this function to prevent our jquery-wrapper from
+            // setting headers. Need to keep this a simple request in order for
+            // PIV / CAC to work in IE.
+          },
         });
       }
     },
