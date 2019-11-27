@@ -30,12 +30,8 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
-
   var itp = Expect.itp;
-  var tick = Expect.tick;
-
   var BEACON_LOADING_CLS = 'beacon-loading';
-
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
 
   function setup (settings, requests) {
@@ -81,6 +77,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
     router.on('afterError', afterErrorHandler);
     router.idpDiscovery();
     Util.mockJqueryCss();
+    spyOn(router.appState, 'trigger').and.callThrough();
     return Expect.waitForIDPDiscovery({
       router: router,
       authContainer: authContainer,
@@ -131,7 +128,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         Util.mockRouterNavigate(test.router);
         test.setNextWebfingerResponse(resSuccessOktaIDP);
         test.setNextResponse(resPasswordlessUnauthenticated);
-        return tick(test);
+        return test;
       });
   }
 
@@ -146,16 +143,28 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
   }
 
   function waitForBeaconChange (test) {
-    return tick() //wait to read value of user input
-      .then(tick)   //wait to receive ajax response
-      .then(tick)   //wait for animation (TODO: verify if needed)
-      .then(function () { return test; });
+    var cur = test.beacon.getBeaconImage();
+    return Expect.wait(function () {
+      return test.beacon.getBeaconImage() !== cur;
+    }, test);
+  }
+
+  function waitForDefaultBeaconLoaded (test) {
+    return Expect.wait(function () {
+      return test.beacon.hasClass('undefined-user');
+    }, test);
+  }
+
+  function waitForSecurityBeaconLoaded (test) {
+    return Expect.wait(function () {
+      return test.beacon.hasClass('undefined-user') === false;
+    }, test);
   }
 
   function waitForWebfingerCall (test) {
-    return tick() // wait for the webfinger call cycle finish (promise -> then -> final)
-      .then(function () {
-        return Expect.waitForSpyCall(test.ac.webfinger, test);
+    return Expect.waitForSpyCall(test.ac.webfinger, test)
+      .then((test) => {
+        return Expect.waitForSpyCall(test.router.appState.trigger, test);
       });
   }
 
@@ -184,22 +193,22 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         type: 'SpaceBook',
         id: '0oaidiw9udOSceD1234'
       },
-      socialAuth: { 
+      socialAuth: {
         type: 'FACEBOOK',
         id: '0oaidiw9udOSceD1234'
       }
     };
     var settings = {};
-    if ( options.customButtons ) { 
+    if ( options.customButtons ) {
       settings.customButtons = [ examples.customButton ];
     }
-    if ( options.genericIdp || options.socialAuth ) { 
+    if ( options.genericIdp || options.socialAuth ) {
       settings.idps = [];
     }
-    if ( options.socialAuth ) { 
+    if ( options.socialAuth ) {
       settings.idps.push( examples.socialAuth );
     }
-    if ( options.genericIdp ) { 
+    if ( options.genericIdp ) {
       settings.idps.push( examples.genericIdp );
     }
     return setup(settings);
@@ -268,14 +277,14 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
 
   Expect.describe('IDPDiscovery', function () {
 
-    Expect.describe('IDPDiscoveryModel', function () {
+    describe('IDPDiscoveryModel', function () {
       it('returns validation error when email is blank', function () {
         var model = new IDPDiscovery({username: ''});
         expect(model.validate().username).toEqual('model.validation.field.blank');
       });
     });
 
-    Expect.describe('settings', function () {
+    describe('settings', function () {
       itp('uses default title', function () {
         return setup().then(function (test) {
           expect(test.form.titleText()).toEqual('Sign In');
@@ -322,7 +331,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
     });
 
-    Expect.describe('elements', function () {
+    describe('elements', function () {
       itp('has a security beacon if features.securityImage is true', function () {
         return setup({ features: { securityImage: true }}, [resSecurityImage]).then(function (test) {
           expect(test.beacon.isSecurityBeacon()).toBe(true);
@@ -379,7 +388,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             'en': {
               'primaryauth.username.tooltip': 'Custom Username Explain'
             }
-          } 
+          }
         };
         return setup(options).then(function (test) {
           var explain = test.form.usernameExplain();
@@ -587,20 +596,14 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         return setup()
           .then(function (test) {
             test.form.usernameField().focus();
-            return tick(test);
-          })
-          .then(function (test) {
             expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
             test.form.usernameField().focusout();
-            return tick(test);
-          })
-          .then(function (test) {
             expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
           });
       });
     });
 
-    Expect.describe('transform username', function () {
+    describe('transform username', function () {
       itp('calls the transformUsername function with the right parameters', function () {
         spyOn(SharedUtil, 'redirect');
         return setupWithTransformUsername().then(function (test) {
@@ -662,16 +665,22 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
     });
 
-    Expect.describe('Device Fingerprint', function () {
+    describe('Device Fingerprint', function () {
       itp(`is not computed if securityImage is off, deviceFingerprinting is
         true and useDeviceFingerprintForSecurityImage is true`, function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
-        return setup({ features: { securityImage: false, deviceFingerprinting: true,
-          useDeviceFingerprintForSecurityImage: true}})
+        return setup({
+          features: {
+            securityImage: false,
+            deviceFingerprinting: true,
+            useDeviceFingerprintForSecurityImage: true
+          }})
           .then(function (test) {
             test.setNextResponse(resSecurityImage);
             test.form.setUsername('testuser@clouditude.net');
-            return waitForBeaconChange(test);
+            return Expect.wait(() => {
+              return test.router.appState.get('username') === 'testuser@clouditude.net';
+            });
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(0);
@@ -769,9 +778,9 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
     });
 
-    Expect.describe('events', function () {
+    describe('events', function () {
 
-      Expect.describe('beacon loading', function () {
+      describe('beacon loading', function () {
         itp('shows beacon-loading animation when authClient webfinger is called', function () {
           spyOn(SharedUtil, 'redirect');
           return setup({ features: { securityImage: true }})
@@ -782,16 +791,18 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
               return waitForBeaconChange(test);
             })
             .then(function (test) {
-              spyOn(test.securityBeacon, 'toggleClass');
+              spyOn(test.securityBeacon, 'toggleClass').and.callThrough();
               test.setNextWebfingerResponse(resSuccessSAML);
               test.form.submit();
+              return Expect.waitForSpyCall(test.securityBeacon.toggleClass, test);
+            })
+            .then((test) => {
+              expect(test.securityBeacon.toggleClass).toHaveBeenCalledWith(BEACON_LOADING_CLS, true);
+              test.securityBeacon.toggleClass.calls.reset();
               return waitForWebfingerCall(test);
             })
             .then(function (test) {
-              var spyCalls = test.securityBeacon.toggleClass.calls;
-              expect(spyCalls.count()).toBe(2);
-              expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-              expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+              expect(test.securityBeacon.toggleClass).toHaveBeenCalledWith(BEACON_LOADING_CLS, false);
             });
         });
         itp('does not show beacon-loading animation when authClient webfinger fails', function () {
@@ -845,7 +856,9 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         return setup()
           .then(function (test) {
             test.form.setUsername('testuser@clouditude.net');
-            return waitForBeaconChange(test);
+            return Expect.wait(() => {
+              return test.router.appState.get('username') === 'testuser@clouditude.net';
+            });
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(0);
@@ -853,7 +866,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
       itp('has default security image on page load and no rememberMe', function () {
         return setup({ features: { securityImage: true }})
-          .then(waitForBeaconChange)
+          .then(waitForDefaultBeaconLoaded)
           .then(function (test) {
             expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
             expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
@@ -894,11 +907,24 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
         return setup({ features: { securityImage: true }})
           .then(function (test) {
             test.setNextResponse(resSecurityImage);
+            // security image and description will be set properly when username changes
+            test.router.appState.set(
+              {
+                securityImage: undefined,
+                securityImageDescription: undefined,
+              },
+              {
+                silent: true,
+              });
             test.form.setUsername(undefined);
-            return waitForBeaconChange(test);
+            return Expect.wait(() => {
+              return !!test.router.appState.get('securityImage');
+            }, test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(0);
+            expect(test.router.appState.get('securityImage')).toContain('/img/security/default.png');
+            expect(test.router.appState.get('securityImageDescription')).toBe('');
             expect(test.form.securityBeacon()[0].className).toContain('undefined-user');
           });
       });
@@ -937,13 +963,16 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             return waitForBeaconChange(test);
           })
           .then(function (test) {
+            expect($.qtip.prototype.toggle.calls.count()).toBe(1);
             expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: false}));
+            $.qtip.prototype.toggle.calls.reset();
             test.form.securityBeaconContainer().show();
             $(window).trigger('resize');
-            return tick(test);
+            return Expect.waitForSpyCall($.qtip.prototype.toggle);
           })
           .then(function () {
-            expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: true}));
+            expect($.qtip.prototype.toggle.calls.count()).toBe(1);
+            expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: true}));
           });
       });
       itp('show anti-phishing message if security image become visible', function () {
@@ -956,18 +985,20 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           })
           .then(function (test) {
             expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: true}));
+            $.qtip.prototype.toggle.calls.reset();
             test.form.securityBeaconContainer().hide();
             $(window).trigger('resize');
-            return waitForBeaconChange(test);
+            return Expect.waitForSpyCall($.qtip.prototype.toggle, test);
           })
           .then(function (test) {
-            expect($.qtip.prototype.toggle.calls.argsFor(1)).toEqual(jasmine.objectContaining({0: false}));
+            expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: false}));
+            $.qtip.prototype.toggle.calls.reset();
             test.form.securityBeaconContainer().show();
             $(window).trigger('resize');
-            return waitForBeaconChange(test);
+            return Expect.waitForSpyCall($.qtip.prototype.toggle, test);
           })
           .then(function () {
-            expect($.qtip.prototype.toggle.calls.argsFor(2)).toEqual(jasmine.objectContaining({0: true}));
+            expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({0: true}));
           });
       });
       itp('guards against XSS when showing the anti-phishing message', function () {
@@ -1014,7 +1045,8 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           }
         };
         return setup(options, [resSecurityImage])
-          .then(waitForBeaconChange)
+          .then(Expect.waitForSpyCall($.ajax))
+          .then(waitForSecurityBeaconLoaded)
           .then(function (test) {
             expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
             expect(test.form.accessibilityText()).toBe('a single pixel');
@@ -1033,9 +1065,10 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             });
             spyOn(test.router.settings, 'callGlobalError');
             test.form.setUsername('testuser@clouditude.net');
-            return waitForBeaconChange(test);
+            return Expect.waitForSpyCall(test.router.settings.callGlobalError, test);
           })
           .then(function (test) {
+            expect(test.router.settings.callGlobalError.calls.count()).toBe(1);
             var err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
             expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
             expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
@@ -1243,7 +1276,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
     });
 
-    Expect.describe('IDP Discovery', function () {
+    describe('IDP Discovery', function () {
       itp('renders primary auth when idp is okta', function () {
         return setup()
           .then(function (test) {
@@ -1349,7 +1382,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
     });
 
-    Expect.describe('Passwordless Auth', function () {
+    describe('Passwordless Auth', function () {
       itp('automatically calls authClient.signIn when idp is Okta', function () {
         return setupPasswordlessAuth().then(function (test) {
           $.ajax.calls.reset();
@@ -1383,7 +1416,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
     });
 
-    Expect.describe('Registration Flow', function () {
+    describe('Registration Flow', function () {
       itp('does not show the registration button if features.registration is not set', function () {
         return setup().then(function (test) {
           expect(test.form.registrationContainer().length).toBe(0);
@@ -1428,7 +1461,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
     });
 
-    Expect.describe('Additional Auth Button', function () {
+    describe('Additional Auth Button', function () {
       itp('does not display custom buttons when it is undefined', function () {
         return setupWithoutCustomButtonsAndWithIdp().then(function (test) {
           expect(test.form.authDivider().length).toBe(1);
