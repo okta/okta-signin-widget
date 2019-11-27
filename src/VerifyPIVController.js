@@ -88,18 +88,15 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
         'error': '_stopEnrollment'
       },
 
-      formChildren: function () {
-        var children = [];
-        children.push(FormType.View({
+      formChildren: [
+        FormType.View({
           View:
              '<div class="piv-verify-text">\
                <p>{{i18n code="piv.cac.card.insert" bundle="login"}}</p>\
                <div data-se="piv-waiting" class="okta-waiting-spinner"></div>\
              </div>'
-        }));
-
-        return children;
-      },
+        })
+      ],
 
       _startEnrollment: function () {
         this.$('.okta-waiting-spinner').show();

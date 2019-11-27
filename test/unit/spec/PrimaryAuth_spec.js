@@ -2872,7 +2872,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         expect(test.form.pivButton().hasClass('piv-test-class')).toBe(true);
       });
     });
-    itp('navigates to piv verify view when button is clicked', function () {
+    itp('navigates to piv login flow when button is clicked', function () {
       return setupPIV(true).then(function (test){
         spyOn(test.router, 'navigate');
         test.form.pivButton().click();
