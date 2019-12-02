@@ -132,6 +132,12 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
           expect(test.form.consentTitle().text().trim()).toBe('Janky App would like to:');
         });
       });
+      itp('has the correct consent description', function () {
+        return setup().then(function (test) {
+          expect(test.form.consentDescription().text().trim())
+            .toBe('By clicking Allow Access, you allow the actions listed above.');
+        });
+      });
       itp('has the correct term of services link', function () {
         return setup().then(function (test) {
           expect(test.form.termsOfService()).toHaveAttr('href', 'https://example.com/tos.html');
