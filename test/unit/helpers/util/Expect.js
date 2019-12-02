@@ -24,7 +24,6 @@ define([
       };
       window.addEventListener('error', errListener);
       testFn.call(this)
-        .then(fn.tick) // Wait a tick for the tests to clean up
         .then(function () {
           expect(Q.getUnhandledReasons()).toEqual([]);
           // Reset unhandled exceptions (which in the normal case come from the
