@@ -18,6 +18,10 @@ define(['./Form'], function (Form) {
       return this.$('.scope-list');
     },
 
+    consentDescription: function () {
+      return this.$('.o-form-content .consent-description');
+    },
+
     termsOfService: function () {
       return this.$('.consent-footer .terms-of-service');
     },

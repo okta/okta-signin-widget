@@ -28,6 +28,12 @@ function (Okta, FormController, FormType, ScopeList) {
       this.model.set('scopes', this.options.appState.get('scopes'));
       this.listenTo(this.form, 'cancel', _.bind(this.model.cancel, this.model));
     },
+    postRender: function () {
+      FormController.prototype.postRender.apply(this, arguments);
+
+      // Update the "don't allow" and "allow access" buttons to be neutral by changing "allow button" to be gray.
+      this.$('.o-form-button-bar .button-primary').removeClass('button-primary');
+    },
     Model: {
       props: {
         expiresAt: ['string', true],
@@ -56,7 +62,7 @@ function (Okta, FormController, FormType, ScopeList) {
       }
     },
     Form: {
-      noCancelButton:false,
+      noCancelButton: false,
       autoSave: true,
       save: _.partial(Okta.loc, 'consent.required.consentButton', 'login'),
       cancel: _.partial(Okta.loc, 'consent.required.cancelButton', 'login'),

@@ -132,6 +132,12 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
           expect(test.form.consentTitle().text().trim()).toBe('Janky App would like to:');
         });
       });
+      itp('has the correct consent description', function () {
+        return setup().then(function (test) {
+          expect(test.form.consentDescription().text().trim())
+            .toBe('By clicking Allow Access, you allow the actions listed above.');
+        });
+      });
       itp('has the correct term of services link', function () {
         return setup().then(function (test) {
           expect(test.form.termsOfService()).toHaveAttr('href', 'https://example.com/tos.html');
@@ -146,6 +152,7 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
         return setup().then(function (test) {
           expect(test.form.consentButton()).toExist();
           expect(test.form.consentButton().attr('value')).toBe('Allow Access');
+          expect(test.form.consentButton().attr('class')).toBe('button');
         });
       });
       itp('consent button click makes the correct consent post', function () {
@@ -173,6 +180,7 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
         return setup().then(function (test) {
           expect(test.form.cancelButton()).toExist();
           expect(test.form.cancelButton().attr('value')).toBe('Don\'t Allow');
+          expect(test.form.cancelButton().attr('class')).toBe('button');
         });
       });
       itp('cancel button click cancels the current stateToken and calls the cancel function', function () {
