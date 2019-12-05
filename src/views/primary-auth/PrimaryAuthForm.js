@@ -105,7 +105,7 @@ define([
         'label-top': true,
         explain: () => {
           if (this.settings.get('features.hideDefaultTip') &&
-            !this.isCustomized('primaryauth.username.tooltip')) {
+            !Util.isPropertyCustomized(this.settings, 'primaryauth.username.tooltip')) {
             return false;
           }
 
@@ -132,7 +132,7 @@ define([
         'label-top': true,
         explain: () => {
           if (this.settings.get('features.hideDefaultTip') &&
-            !this.isCustomized('primaryauth.password.tooltip')) {
+            !Util.isPropertyCustomized(this.settings, 'primaryauth.password.tooltip')) {
             return false;
           }
 
@@ -152,13 +152,6 @@ define([
         passwordFieldObject.params.showPasswordToggle = true;
       }
       return passwordFieldObject;
-    },
-
-    isCustomized: function (property) {
-      var language = this.settings.get('language');
-      var i18n = this.settings.get('i18n');
-      var customizedProperty = i18n && i18n[language] && i18n[language][property];
-      return !!customizedProperty;
     },
 
     getRemeberMeCheckbox: function () {

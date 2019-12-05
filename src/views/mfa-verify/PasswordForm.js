@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
+define(['okta', 'util/Util'], function (Okta, Util) {
 
   var _ = Okta._;
 
@@ -32,6 +32,18 @@ define(['okta'], function (Okta) {
         className: 'auth-passcode',
         name: 'password',
         type: 'password',
+        explain: () => {
+          // Show explain only if it is customized (there is no default value)
+          if (!Util.isPropertyCustomized(this.settings, 'mfa.challenge.password.tooltip')) {
+            return false;
+          }
+
+          return Util.createInputExplain(
+            'mfa.challenge.password.tooltip',
+            'mfa.challenge.password.placeholder',
+            'login');
+        },
+        'explain-top': true,
         params: {
           showPasswordToggle: true
         }

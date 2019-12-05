@@ -333,7 +333,9 @@ function (Okta,
       setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false });
     var setupWindowsHelloWithBrandName = _.partial(
       setup, resAllFactors, { factorType: 'webauthn', provider: 'FIDO' }, { 'features.webauthn': false, brandName: 'Spaghetti Inc.' });
-    var setupPassword = _.partial(setup, resPassword, { factorType: 'password' }, null, null, true);
+    function setupPassword (settings) {
+      return setup(resPassword, { factorType: 'password' }, settings, null, true);
+    }
     var setupCustomSAMLFactor = _.partial(setup, resAllFactors,
       { factorType: 'assertion:saml2', provider: 'GENERIC_SAML' });
     var setupCustomOIDCFactor = _.partial(setup, resAllFactors,
@@ -644,7 +646,7 @@ function (Okta,
         test.form = test.form[0];
       }
       test.form.submit();
- 
+
       // First tick - submit verifyFactor
       // Second tick - start verifyFactor poll
       // The next tick will trigger the final response
@@ -2004,6 +2006,69 @@ function (Okta,
           expect(test.form.autoPushCheckbox().length).toBe(0);
         });
       });
+      itp('has the correct default label', function () {
+        return setupFn().then(function (test) {
+          expect(test.form.passwordField().text(), 'Password');
+        });
+      });
+      itp('label can be customized', function () {
+        var settings = {
+          'language': 'en',
+          'i18n': {
+            'en': {
+              'mfa.challenge.password.placeholder': 'Custom Password Factor Label'
+            }
+          }
+        };
+        return setupFn(settings).then(function (test) {
+          expect(test.form.passwordField().text(), 'Custom Password Factor Label');
+        });
+      });
+      itp('does not have explain by default', function () {
+        return setupFn().then(function (test) {
+          var explain = test.form.passwordExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
+      itp('does not have explain when only label is customized', function () {
+        var options = {
+          'language': 'en',
+          'i18n': {
+            'en': {
+              'mfa.challenge.password.placeholder': 'Custom Password Factor Label'
+            }
+          }
+        };
+        return setupFn(options).then(function (test) {
+          var explain = test.form.passwordExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
+      itp('does not have explain if it is not customized, even if features.hideDefaultTip is false', function () {
+        var options = {
+          'features' : {
+            'hideDefaultTip': false
+          }
+        };
+        return setupFn(options).then(function (test) {
+          var explain = test.form.passwordExplain();
+          expect(explain.length).toBe(0);
+        });
+      });
+      itp('has explain only if it is customized', function () {
+        var options = {
+          'language': 'en',
+          'i18n': {
+            'en': {
+              'mfa.challenge.password.tooltip': 'Custom Password Explain'
+            }
+          }
+        };
+        return setupFn(options).then(function (test) {
+          var explain = test.form.passwordExplain();
+          expect(explain.text()).toEqual('Custom Password Explain');
+        });
+      });
       itp('a password field type is "password" initially and can be switched between "text" and "password" \
           by clicking on "show"/"hide" buttons', function () {
         return setupFn().then(function (test) {
@@ -2828,7 +2893,7 @@ function (Okta,
               return $('[data-se="email-send-code"]').hasClass('disabled') === false;
             }, test);
           })
-            .then(function (test) { 
+            .then(function (test) {
               expect($('[data-se="email-send-code"]').text()).toBe('Re-send email');
               expect(test.form.submitButton().prop('disabled')).toBe(false);
               expect($.ajax.calls.count()).toBe(1);

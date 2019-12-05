@@ -198,6 +198,13 @@ define(['q', 'okta', './Logger', './Enums'], function (Q, Okta, Logger, Enums) {
     return explain;
   };
 
+  Util.isPropertyCustomized = function (settings, property) {
+    var language = settings.get('language');
+    var i18n = settings.get('i18n');
+    var customizedProperty = i18n && i18n[language] && i18n[language][property];
+    return !!customizedProperty;
+  };
+
   Util.introspectToken = function (authClient, widgetOptions) {
     var deferred = Q.defer();
     var trans = authClient.tx.introspect({
