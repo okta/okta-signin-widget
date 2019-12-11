@@ -25,7 +25,6 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   function deepClone (res) {
     return JSON.parse(JSON.stringify(res));
@@ -174,14 +173,20 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
         });
       });
       itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
-        return setup().then(function (test) {
-          spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
-          spyOn(SharedUtil, 'redirect');
-          $.ajax.calls.reset();
-          test.setNextResponse(resCancel);
-          test.form.signout();
-          return tick(test);
-        })
+        return setup()
+          .then(function (test) {
+            spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
+            spyOn(SharedUtil, 'redirect');
+            $.ajax.calls.reset();
+            test.setNextResponse(resCancel);
+            test.form.signout();
+            return Expect.waitForSpyCall($.ajax, test);
+          })
+          .then(test => {
+            // `clearLastAuthResponse` will be invoked when response has no `status`
+            // see RouterUtil for details
+            return Expect.waitForSpyCall(test.router.controller.options.appState.clearLastAuthResponse, test);
+          })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
@@ -196,14 +201,20 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       });
       itp('has a signout link which cancels the current stateToken and redirects to the provided signout url',
         function () {
-          return setup({ signOutLink: 'http://www.goodbye.com' }).then(function (test) {
-            spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
-            spyOn(SharedUtil, 'redirect');
-            $.ajax.calls.reset();
-            test.setNextResponse(resCancel);
-            test.form.signout();
-            return tick(test);
-          })
+          return setup({ signOutLink: 'http://www.goodbye.com' })
+            .then(function (test) {
+              spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
+              spyOn(SharedUtil, 'redirect');
+              $.ajax.calls.reset();
+              test.setNextResponse(resCancel);
+              test.form.signout();
+              return Expect.waitForSpyCall($.ajax, test);
+            })
+            .then(test => {
+              // `clearLastAuthResponse` will be invoked when response has no `status`
+              // see RouterUtil for details
+              return Expect.waitForSpyCall(test.router.controller.options.appState.clearLastAuthResponse, test);
+            })
             .then(function (test) {
               expect($.ajax.calls.count()).toBe(1);
               Expect.isJsonPost($.ajax.calls.argsFor(0), {
@@ -268,7 +279,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             $.ajax.calls.reset();
             test.setNextResponse(resSuccess);
             submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
-            return tick();
+            return Expect.waitForSpyCall(processCredsSpy);
           })
           .then(function () {
             expect(processCredsSpy.calls.count()).toBe(1);

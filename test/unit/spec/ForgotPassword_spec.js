@@ -23,7 +23,6 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   function setup (settings, startRouter) {
     var setNextResponse = Util.mockAjax();
@@ -257,7 +256,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
           test.form.sendEmail();
-          return tick(test);
+          return Expect.waitForPwdResetEmailSent(test);
         })
           .then(function (test) {
             expect(test.form.hasErrors()).toBeFalsy();
@@ -273,13 +272,14 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           });
       });
       itp('sends email with relayState', function () {
-        return setupWithRedirect().then(function (test) {
-          $.ajax.calls.reset();
-          test.setNextResponse(resChallengeEmail);
-          test.form.setUsername('foo');
-          test.form.sendEmail();
-          return tick();
-        })
+        return setupWithRedirect()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.setUsername('foo');
+            test.form.sendEmail();
+            return Expect.waitForPwdResetEmailSent();
+          })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
@@ -344,13 +344,14 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
         });
       });
       itp('appends the suffix returned by the transformUsername function to the username', function () {
-        return setupWithTransformUsername().then(function (test) {
-          $.ajax.calls.reset();
-          test.setNextResponse(resChallengeEmail);
-          test.form.setUsername('foo');
-          test.form.sendEmail();
-          return tick();
-        })
+        return setupWithTransformUsername()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.setUsername('foo');
+            test.form.sendEmail();
+            return Expect.waitForPwdResetEmailSent(test);
+          })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
@@ -365,10 +366,13 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       itp('updates appState username after sending email', function () {
         return setup()
           .then(function (test) {
+            $.ajax.calls.reset();
             test.setNextResponse(resChallengeEmail);
             test.form.setUsername('foo');
+            expect(test.router.appState.get('username')).toBeUndefined();
+
             test.form.sendEmail();
-            return tick(test);
+            return Expect.waitForPwdResetEmailSent(test);
           })
           .then(function (test) {
             expect(test.router.appState.get('username')).toBe('foo');
@@ -435,11 +439,12 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
       itp('shows an error if sending email results in an error', function () {
         return setup()
           .then(function (test) {
+            $.ajax.calls.reset();
             Q.stopUnhandledRejectionTracking();
             test.setNextResponse(resError);
             test.form.setUsername('foo');
             test.form.sendEmail();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
@@ -800,17 +805,24 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           })
           .then(function (test) {
             test.router.navigate('signin/forgot-password');
-            return tick(test);
+            return Expect.waitForForgotPassword(test);
           })
           .then(function (test) {
             $.ajax.calls.reset();
             test.setNextResponse(resSuccess);
             test.form.setUsername('foo');
             test.form.sendEmail();
-            return tick();
+            return Expect.waitForSpyCall($.ajax);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/api/v1/authn/recovery/password',
+              data: {
+                'username': 'foo',
+                'factorType': 'EMAIL'
+              }
+            });
           });
       });
       itp('sends email, goes back to login page and allows resending', function () {
@@ -952,7 +964,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
               Q.stopUnhandledRejectionTracking();
               test.setNextResponse(resError);
               test.form.clickSendEmailLink();
-              return tick(test);
+              return Expect.waitForFormError(test.form, test);
             })
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);

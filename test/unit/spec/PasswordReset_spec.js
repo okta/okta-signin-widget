@@ -21,7 +21,6 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   function deepClone (res) {
     return JSON.parse(JSON.stringify(res));
@@ -168,7 +167,12 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
             var $link = test.form.signoutLink();
             expect($link.length).toBe(1);
             $link.click();
-            return tick(test);
+            return Expect.waitForSpyCall($.ajax, test);
+          })
+          .then(test => {
+            // `clearLastAuthResponse` will be invoked when response has no `status`
+            // see RouterUtil for details
+            return Expect.waitForSpyCall(test.router.controller.options.appState.clearLastAuthResponse, test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
@@ -397,7 +401,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           test.form.setNewPassword('newpwd');
           test.form.setConfirmPassword('newpwd');
           test.form.submit();
-          return tick();
+          return Expect.waitForSpyCall(processCredsSpy);
         })
         .then(function () {
           expect(processCredsSpy.calls.count()).toBe(1);
@@ -432,14 +436,23 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
     });
 
     itp('makes submit button disable when form is submitted', function () {
+      var dummySaveEventHnadler = jasmine.createSpy();
       return setup()
         .then(function (test) {
           $.ajax.calls.reset();
+          // Submit form will trigger `save` event and its handler will
+          // 'disable' the button. Thus when the `dummySaveEventHnadler`
+          // has been invoked, we could reason the `save` event has been
+          // fired and could expect the save button shall been disabled.
+          test.router.controller.listenTo(
+            test.router.controller.model,
+            'save',
+            dummySaveEventHnadler);
           test.form.setNewPassword('pwd');
           test.form.setConfirmPassword('pwd');
           test.setNextResponse(resSuccess);
           test.form.submit();
-          return tick(test);
+          return Expect.waitForSpyCall(dummySaveEventHnadler, test);
         })
         .then(function (test) {
           var button = test.form.submitButton();
