@@ -19,7 +19,6 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   function setup (settings, startRouter) {
     var setNextResponse = Util.mockAjax();
@@ -263,7 +262,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
           test.setNextResponse(resChallengeEmail);
           test.form.setUsername('foo');
           test.form.sendEmail();
-          return tick();
+          return Expect.waitForUnlockEmailSent(test);
         })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -306,13 +305,14 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
         });
       });
       itp('appends the suffix returned by the transformUsername function to the username', function () {
-        return setupWithTransformUsername().then(function (test) {
-          $.ajax.calls.reset();
-          test.setNextResponse(resChallengeEmail);
-          test.form.setUsername('foo');
-          test.form.sendEmail();
-          return tick();
-        })
+        return setupWithTransformUsername()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resChallengeEmail);
+            test.form.setUsername('foo');
+            test.form.sendEmail();
+            return Expect.waitForUnlockEmailSent(test);
+          })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
@@ -328,9 +328,10 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
         return setup()
           .then(function (test) {
             test.form.setUsername('foo');
+            expect(test.router.appState.get('username')).toBeUndefined();
             test.setNextResponse(resChallengeEmail);
             test.form.sendEmail();
-            return tick(test);
+            return Expect.waitForUnlockEmailSent(test);
           })
           .then(function (test) {
             expect(test.router.appState.get('username')).toBe('foo');
@@ -394,7 +395,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo');
           test.form.sendSms();
-          return tick();
+          return Expect.waitForRecoveryChallenge();
         })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -415,7 +416,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
           test.setNextResponse(resChallengeSms);
           test.form.setUsername('foo');
           test.form.sendSms();
-          return tick();
+          return Expect.waitForRecoveryChallenge();
         })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -471,10 +472,12 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
       itp('updates appState username after sending sms', function () {
         return setupWithSms()
           .then(function (test) {
-            test.form.setUsername('foo');
+            $.ajax.calls.reset();
             test.setNextResponse(resChallengeSms);
+            test.form.setUsername('foo');
+            expect(test.router.appState.get('username')).toBeUndefined();
             test.form.sendSms();
-            return tick(test);
+            return Expect.waitForRecoveryChallenge(test);
           })
           .then(function (test) {
             expect(test.router.appState.get('username')).toBe('foo');
@@ -495,12 +498,14 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, Beacon, Expect, Router,
       itp('does not have a problem with sending email after sending sms', function () {
         return setupWithSms()
           .then(function (test) {
+            $.ajax.calls.reset();
             test.setNextResponse(resError);
             test.form.setUsername('foo');
             test.form.sendSms();
-            return tick(test);
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
+            expectError(test);
             $.ajax.calls.reset();
             test.setNextResponse(resChallengeEmail);
             test.form.sendEmail();
