@@ -1,5 +1,6 @@
-/* eslint max-params:[2, 20] */
+/* eslint max-params: 0 */
 define([
+  'q',
   'okta',
   '@okta/okta-auth-js/jquery',
   'util/Util',
@@ -9,6 +10,7 @@ define([
   'helpers/dom/Beacon',
   'helpers/util/Expect',
   'sandbox',
+  'LoginRouter',
   'helpers/xhr/MFA_ENROLL_allFactors',
   'helpers/xhr/FACTOR_ENROLL_allFactors',
   'helpers/xhr/MFA_ENROLL_smsFactor_existingPhone',
@@ -18,16 +20,16 @@ define([
   'helpers/xhr/MFA_ENROLL_ACTIVATE_error',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_errorActivate',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_invalid_phone',
-  'helpers/xhr/SUCCESS',
-  'LoginRouter'
-],
-function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, $sandbox,
-  resAllFactors, resAllFactorsIdx, resExistingPhone, resFactorEnrollExistingPhone, resEnrollSuccess, resFactorEnrollActivateSms, resEnrollError, resActivateError,
-  resEnrollInvalidPhoneError, resSuccess, Router) {
+  'helpers/xhr/SUCCESS'
+], function (Q, Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, $sandbox, Router,
+  resAllFactors, resAllFactorsIdx,
+  resExistingPhone, resExistingPhoneIdx,
+  resEnrollSuccess, resEnrollSuccessIdx,
+  resEnrollError, resEnrollActivateError, resEnrollInvalidPhoneError,
+  resSuccess) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   Expect.describe('EnrollSms', function () {
 
@@ -45,7 +47,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
-      return tick()
+      return Q()
         .then(function () {
           setNextResponse(resp || resAllFactors);
           return Util.mockIntrospectResponse(router, resp || resAllFactors);
@@ -66,6 +68,10 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             setNextResponse: setNextResponse,
             afterErrorHandler: afterErrorHandler
           });
+        })
+        .then(test => {
+          spyOn(test.router.controller, 'trapAuthResponse').and.callThrough();
+          return test;
         });
     }
 
@@ -78,7 +84,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       test.setNextResponse(res);
       enterCode(test, countryCode, phoneNumber);
       test.form.sendCodeButton().click();
-      return tick(test);
+      return test;
     }
 
     function sendCodeOnEnter (test, res, countryCode, phoneNumber) {
@@ -90,24 +96,51 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       var keyup = $.Event('keyup');
       keyup.which = 13;
       test.form.phoneNumberField().trigger(keyup);
-      return tick(test);
+      return test;
+    }
+
+    function waitForEnrollActivateSuccess (test) {
+      test.router.controller.trapAuthResponse.calls.reset();
+      return Expect.waitForSpyCall(test.router.controller.trapAuthResponse, test);
     }
 
     function setupAndSendCode (res, countryCode, phoneNumber) {
-      return setup().then(function (test) {
-        return sendCode(test, res, countryCode, phoneNumber);
-      });
+      return setup()
+        .then(function (test) {
+          return sendCode(test, res, countryCode, phoneNumber);
+        });
     }
 
     function setupAndSendCodeIdx (res, countryCode, phoneNumber) {
-      return setup(resAllFactorsIdx).then(function (test) {
-        return sendCode(test, res, countryCode, phoneNumber);
-      });
+      return setup(resAllFactorsIdx)
+        .then(function (test) {
+          return sendCode(test, res, countryCode, phoneNumber);
+        });
     }
 
-    var setupAndSendValidCode = _.partial(setupAndSendCode, resEnrollSuccess, 'US', '4151234567');
-    var setupAndSendValidCodeIdx = _.partial(setupAndSendCodeIdx, resFactorEnrollActivateSms, 'US', '4151234567');
-    var setupAndSendInvalidCode = _.partial(setupAndSendCode, resEnrollError, 'US', '415');
+    var setupAndSendValidCode = function () {
+      return setup()
+        .then(function (test) {
+          sendCode(test, resEnrollSuccess, 'US', '4151234567');
+          return waitForEnrollActivateSuccess(test);
+        });
+    };
+
+    var setupAndSendValidCodeIdx = function () {
+      return setup()
+        .then(function (test) {
+          sendCode(test, resEnrollSuccessIdx, 'US', '4151234567');
+          return waitForEnrollActivateSuccess(test);
+        });
+    };
+
+    var setupAndSendInvalidCode = function () {
+      return setup()
+        .then(function (test) {
+          sendCode(test, resEnrollError, 'US', '415');
+          return Expect.waitForFormError(test.form, test);
+        });
+    };
 
     function expectResendButton (test) {
       var button = test.form.sendCodeButton();
@@ -153,12 +186,13 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
           });
       });
       itp('visits previous link if phone is enrolled, but not activated', function () {
-        return sendValidCodeFn().then(function (test) {
-          $.ajax.calls.reset();
-          test.setNextResponse(resAllFactors);
-          test.form.backLink().click();
-          return Expect.waitForEnrollChoices();
-        })
+        return sendValidCodeFn()
+          .then(function (test) {
+            $.ajax.calls.reset();
+            test.setNextResponse(resAllFactors);
+            test.form.backLink().click();
+            return Expect.waitForEnrollChoices();
+          })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
@@ -242,6 +276,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
           Expect.isNotVisible(test.form.submitButton());
         });
       });
+
       itp('sends sms when return key is pressed in phoneNumber field', function () {
         return setup(allFactorsRes).then(function (test) {
           $.ajax.calls.reset();
@@ -262,16 +297,20 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             });
           });
       });
+
       itp('clears previous errors in form when resend code', function () {
-        return setupAndSendInvalidCode().then(function (test) {
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
-          return sendCodeOnEnter(test, successRes, 'US', '4151111111');
-        })
+        return setupAndSendInvalidCode()
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
+            sendCodeOnEnter(test, successRes, 'US', '4151111111');
+            return waitForEnrollActivateSuccess(test);
+          })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(false);
           });
       });
+
       itp('validation error if phone number field is blank', function () {
         return sendCodeFn(successRes, 'US', '')
           .then(function (test) {
@@ -279,42 +318,46 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
           });
       });
 
-      itp('shows warning message to click "Re-send" after 30s', function () {  
-        Util.speedUpDelay();      
-        return setup().then(function (test) {
-          test.setNextResponse(resFactorEnrollActivateSms);
-          enterCode(test, 'US', '4151111111');
-          test.form.sendCodeButton().click();
-          return tick(test);
-        })
+      itp('shows warning message to click "Re-send" after 30s', function () {
+        Util.speedUpDelay();
+        return sendCodeFn(successRes, 'US', '4151111111')
+          .then(waitForEnrollActivateSuccess)
           .then(function (test) {
             expectResendButton(test);
             expect(test.form.hasWarningMessage()).toBe(true);
             expect(test.form.warningMessage()).toContain(
               'Haven\'t received an SMS? To try again, click Re-send code.');
-            return tick(test);
+            return test;
           })
           .then(function (test) {
             // Re-send will clear the warning
             $.ajax.calls.reset();
-            test.setNextResponse(resFactorEnrollActivateSms);
+            test.setNextResponse(successRes);
             test.form.sendCodeButton().click();
             expectSentButton(test);
             expect(test.form.hasWarningMessage()).toBe(false);
-            return tick(test);
+            return test;
           })
+          .then(waitForEnrollActivateSuccess)
           .then(function (test){
             // Re-send after 30s wil show the warning again
             expectResendButton(test);
             expect(test.form.warningMessage()).toContain(
               'Haven\'t received an SMS? To try again, click Re-send code.');
-          });     
+          });
       });
 
       itp('enrolls with correct info when sendCode is clicked', function () {
         return sendCodeFn(successRes, 'AQ', '12345678900')
+          .then(waitForEnrollActivateSuccess)
           .then(function () {
             expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              url: 'https://foo.com/idp/idx/introspect',
+              data: {
+                stateToken: 'dummy-token'
+              }
+            });
             Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
@@ -328,40 +371,42 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             });
           });
       });
+
       itp('shows error and does not go to next step if error response', function () {
-        return setupAndSendInvalidCode().then(function (test) {
-          expectSendButton(test);
-          Expect.isNotVisible(test.form.divider());
-          Expect.isNotVisible(test.form.codeField());
-          Expect.isNotVisible(test.form.submitButton());
-          expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
-          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
-            {
-              controller: 'enroll-sms'
-            },
-            {
-              name: 'AuthApiError',
-              message: 'Api validation failed: factorEnrollRequest',
-              statusCode: 400,
-              xhr: {
-                status: 400,
-                responseType: 'json',
-                responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[{"errorSummary":"Invalid Phone Number."}]}',
-                responseJSON: {
-                  'errorCode': 'E0000001',
-                  'errorSummary': 'Invalid Phone Number.',
-                  'errorLink': 'E0000001',
-                  'errorId': 'oaepmWRr7i5TZa2AQv8sNmu6w',
-                  'errorCauses': [{
-                    'errorSummary': 'Invalid Phone Number.'
-                  }]
+        return setupAndSendInvalidCode()
+          .then(function (test) {
+            expectSendButton(test);
+            Expect.isNotVisible(test.form.divider());
+            Expect.isNotVisible(test.form.codeField());
+            Expect.isNotVisible(test.form.submitButton());
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'enroll-sms'
+              },
+              {
+                name: 'AuthApiError',
+                message: 'Api validation failed: factorEnrollRequest',
+                statusCode: 400,
+                xhr: {
+                  status: 400,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[{"errorSummary":"Invalid Phone Number."}]}',
+                  responseJSON: {
+                    'errorCode': 'E0000001',
+                    'errorSummary': 'Invalid Phone Number.',
+                    'errorLink': 'E0000001',
+                    'errorId': 'oaepmWRr7i5TZa2AQv8sNmu6w',
+                    'errorCauses': [{
+                      'errorSummary': 'Invalid Phone Number.'
+                    }]
+                  }
                 }
               }
-            }
-          ]);
-        });
+            ]);
+          });
       });
     }
 
@@ -395,7 +440,8 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
         return setup(allFactorsRes)
           .then(function (test) {
             $.ajax.calls.reset();
-            return sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+            sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
@@ -416,7 +462,8 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
               .toEqual('The number you entered seems invalid. If the number is correct, please try again.');
 
             $.ajax.calls.reset();
-            return sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+            sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+            return Expect.waitForSpyCall($.ajax, test);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -438,7 +485,8 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
         return setup(allFactorsRes)
           .then(function (test) {
             $.ajax.calls.reset();
-            return sendCode(test, resEnrollError, 'PF', '12345678');
+            sendCode(test, resEnrollError, 'PF', '12345678');
+            return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
@@ -459,7 +507,8 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
               .toEqual('Invalid Phone Number.');
 
             $.ajax.calls.reset();
-            return sendCode(test, resEnrollError, 'PF', '12345678');
+            sendCode(test, resEnrollError, 'PF', '12345678');
+            return Expect.waitForSpyCall($.ajax, test);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -481,12 +530,9 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
         return sendValidCodeFn()
           .then(function (test) {
             $.ajax.calls.reset();
-            return tick(test);
-          })
-          .then(function (test) {
             test.setNextResponse(successRes);
             test.form.sendCodeButton().click();
-            return tick();
+            return Expect.waitForSpyCall($.ajax);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -498,45 +544,50 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             });
           });
       });
-      itp('if phone number is changed after enroll, resets the status to MFA_Enroll ' +
-        'and then enrolls with updatePhone=true', function () {
-        return sendValidCodeFn().then(function (test) {
-          expectSentButton(test);
-          Expect.isVisible(test.form.codeField());
-          enterCode(test, 'US', '4151112222');
-          expectSendButton(test);
-          $.ajax.calls.reset();
-          test.setNextResponse([allFactorsRes, successRes]);
-          test.form.sendCodeButton().click();
-          return tick(test);
-        })
-          .then(function (test) {
-            expect($.ajax.calls.count()).toBe(2);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn/previous',
-              data: { stateToken: expectedStateToken }
+      itp(
+        'if phone number is changed after enroll, resets the status to MFA_Enroll ' +
+        'and then enrolls with updatePhone=true',
+        function () {
+          return sendValidCodeFn()
+            .then(function (test) {
+              expectSentButton(test);
+              Expect.isVisible(test.form.codeField());
+              enterCode(test, 'US', '4151112222');
+              expectSendButton(test);
+              $.ajax.calls.reset();
+              test.setNextResponse([allFactorsRes, successRes]);
+              test.form.sendCodeButton().click();
+              return Expect.wait(() => {
+                return $.ajax.calls.count() === 2;
+              }, test);
+            })
+            .then(function (test) {
+              expect($.ajax.calls.count()).toBe(2);
+              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                url: 'https://foo.com/api/v1/authn/previous',
+                data: { stateToken: expectedStateToken }
+              });
+              Expect.isJsonPost($.ajax.calls.argsFor(1), {
+                url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
+                data: {
+                  factorType: 'sms',
+                  provider: 'OKTA',
+                  profile: {
+                    phoneNumber: '+14151112222'
+                  },
+                  stateToken: expectedStateToken
+                }
+              });
+              return test;
+            })
+            .then(function (test) {
+              // form wasn't rerendered
+              expect(test.form.phoneNumberField().val()).toEqual('4151112222');
+              expectSentButton(test);
+              Expect.isVisible(test.form.codeField());
+              Expect.isVisible(test.form.submitButton());
             });
-            Expect.isJsonPost($.ajax.calls.argsFor(1), {
-              url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
-              data: {
-                factorType: 'sms',
-                provider: 'OKTA',
-                profile: {
-                  phoneNumber: '+14151112222'
-                },
-                stateToken: expectedStateToken
-              }
-            });
-            return tick(test);
-          })
-          .then(function (test) {
-            // form wasn't rerendered
-            expect(test.form.phoneNumberField().val()).toEqual('4151112222');
-            expectSentButton(test);
-            Expect.isVisible(test.form.codeField());
-            Expect.isVisible(test.form.submitButton());
-          });
-      });
+        });
       itp('submitting a number, then changing it, and then changing it back ' +
         'will still use the resend endpoint', function () {
         // The send button is normally diabled for several seconds
@@ -547,13 +598,13 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
           // change the number from 'US' to 'AQ'
           enterCode(test, 'AQ', '4151234567');
           expectSendButton(test);
-          return tick(test);
+          return test;
         })
           .then(function (test) {
             // change the number back to 'US'
             enterCode(test, 'US', '4151234567');
             expectResendButton(test);
-            return tick(test);
+            return test;
           })
           .then(function (test) {
             // resubmit the 'US' number
@@ -561,7 +612,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             test.setNextResponse(successRes);
             test.form.sendCodeButton().click();
             expectSentButton(test);
-            return tick(test);
+            return Expect.waitForSpyCall($.ajax);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -604,7 +655,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
             test.form.setCode(123456);
             test.setNextResponse(successRes);
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall($.ajax);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -620,7 +671,7 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       itp('shows error if error response on verification', function () {
         return sendValidCodeFn()
           .then(function (test) {
-            test.setNextResponse(resActivateError);
+            test.setNextResponse(resEnrollActivateError);
             test.form.setCode(123);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
@@ -657,28 +708,28 @@ function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, 
       });
     }
 
-    Expect.describe('Header & Footer', function () {
+    describe('Header & Footer', function () {
       testHeaderAndFooter(resAllFactors, setupAndSendValidCode, 'testStateToken');
     });
 
-    Expect.describe('Header & Footer on Idx Pipeline', function () {
+    describe('Header & Footer on Idx Pipeline', function () {
       testHeaderAndFooter(resAllFactorsIdx, setupAndSendValidCodeIdx, '01testStateToken');
     });
 
-    Expect.describe('Enroll phone number', function () {
+    describe('Enroll phone number', function () {
       testEnrollPhoneNumber(resAllFactors, resEnrollSuccess, setupAndSendCode, 'testStateToken');
     });
 
-    Expect.describe('Enroll phone number on Idx Pipeline', function () {
-      testEnrollPhoneNumber(resAllFactorsIdx, resFactorEnrollActivateSms, setupAndSendCodeIdx, '01testStateToken');
+    describe('Enroll phone number on Idx Pipeline', function () {
+      testEnrollPhoneNumber(resAllFactorsIdx, resEnrollSuccessIdx, setupAndSendCodeIdx, '01testStateToken');
     });
 
-    Expect.describe('Verify phone number', function () {
+    describe('Verify phone number', function () {
       testVerifyPhoneNumber(resAllFactors, resSuccess ,setupAndSendValidCode, resExistingPhone, 'testStateToken');
     });
 
-    Expect.describe('Verify phone number on Idx Pipeline', function () {
-      testVerifyPhoneNumber(resAllFactorsIdx, resFactorEnrollActivateSms ,setupAndSendValidCodeIdx, resFactorEnrollExistingPhone, '01testStateToken');
+    describe('Verify phone number on Idx Pipeline', function () {
+      testVerifyPhoneNumber(resAllFactorsIdx, resEnrollSuccessIdx ,setupAndSendValidCodeIdx, resExistingPhoneIdx, '01testStateToken');
     });
 
   });
