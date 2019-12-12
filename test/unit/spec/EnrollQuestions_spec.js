@@ -31,10 +31,12 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({ url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    var successSpy = jasmine.createSpy('success');
     var router = new Router({
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
+      globalSuccessFn: successSpy,
       'features.router': startRouter
     });
     router.on('afterError', afterErrorHandler);
@@ -62,6 +64,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
           form: new Form($sandbox),
           ac: authClient,
           setNextResponse: setNextResponse,
+          successSpy: successSpy,
           afterErrorHandler: afterErrorHandler
         });
       });
@@ -227,9 +230,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
         spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function () {
           return true;
         });
-        // document.removeEventListener happens to be last call in the flow
-        // before invoke global.successFn.
-        return Expect.waitForSpyCall(document.removeEventListener);
+        return Expect.waitForSpyCall(test.successSpy);
       })
         .then(function () {
           expect(RouterUtil.isHostBackgroundChromeTab).toHaveBeenCalled();

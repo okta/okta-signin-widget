@@ -1731,6 +1731,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       itp('calls authClient primaryAuth with form values when submitted', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
+          test.successSpy.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
@@ -1738,8 +1739,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return Expect.waitForSpyCall(test.successSpy, test);
         })
           .then(function (test) {
-            // it depends client to invoke `callGlobalSuccess`
-            // hence form is still disabling.
+            // Form is kept disabling until `globalSuccessFn` does something else,
+            // change the DOM or redirect. Widget will not re-enable form when success.
             expect(test.form.isDisabled()).toBe(true);
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
