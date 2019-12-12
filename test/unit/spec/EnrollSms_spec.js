@@ -192,7 +192,6 @@ define([
             test.setNextResponse(resAllFactors);
             test.form.backLink().click();
             return Expect.waitForEnrollChoices();
-            // return Expect.waitForSpyCall($.ajax);
           })
           .then(function () {
             expect($.ajax.calls.count()).toBe(1);
@@ -345,7 +344,6 @@ define([
             expectResendButton(test);
             expect(test.form.warningMessage()).toContain(
               'Haven\'t received an SMS? To try again, click Re-send code.');
-            jasmine.clock().uninstall();
           });
       });
 

@@ -213,6 +213,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
 
     itp('calls enroll with the right arguments when save is clicked in restrictRedirectToForeground flow', function () {
       return setup(allFactors).then(function (test) {
+        test.successSpy.calls.reset();
         $.ajax.calls.reset();
         test.form.selectQuestion('favorite_security_question');
         test.form.setAnswer('No question! Hah!');
