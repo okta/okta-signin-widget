@@ -72,7 +72,7 @@ function (Okta,
       return initResponse;
     }
 
-    Expect.describe('Enroll Activate CUSTOM_CLAIMS', function () {
+    describe('Enroll Activate CUSTOM_CLAIMS', function () {
 
       itp('displays the correct factorBeacon', function () {
         return setup().then(function (test) {

@@ -25,7 +25,6 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   function setup (res, startRouter, languagesResponse) {
     var setNextResponse = Util.mockAjax();
@@ -41,7 +40,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
     router.on('afterError', afterErrorHandler);
     Util.registerRouter(router);
     Util.mockRouterNavigate(router, startRouter);
-    return tick()
+    return Q()
       .then(function () {
         setNextResponse(res);
         return Util.mockIntrospectResponse(router, res);
@@ -188,7 +187,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
         test.setNextResponse(resSuccess);
         spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callThrough();
         test.form.submit();
-        return tick();
+        return Expect.waitForSpyCall($.ajax);
       })
         .then(function () {
           // restrictRedirectToForeground Flag is not enabled
@@ -228,7 +227,9 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
         spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function () {
           return true;
         });
-        return tick();
+        // document.removeEventListener happens to be last call in the flow
+        // before invoke global.successFn.
+        return Expect.waitForSpyCall(document.removeEventListener);
       })
         .then(function () {
           expect(RouterUtil.isHostBackgroundChromeTab).toHaveBeenCalled();
