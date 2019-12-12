@@ -42,7 +42,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   var BEACON_LOADING_CLS = 'beacon-loading';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
@@ -144,7 +143,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           Util.mockRouterNavigate(test.router);
         }
         test.setNextResponse(resPasswordlessUnauthenticated);
-        return tick(test);
+        return Q(test);
       });
   }
 
@@ -692,14 +691,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setup()
           .then(function (test) {
             test.form.usernameField().focus();
-            return tick(test);
-          })
-          .then(function (test) {
             expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
             test.form.usernameField().focusout();
-            return tick(test);
-          })
-          .then(function (test) {
             expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
           });
       });
@@ -790,21 +783,13 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setup()
           .then(function (test) {
             test.form.usernameField().focus();
-            return tick(test);
-          }).then(function (test) {
             test.form.setUsername('testuser');
-            return tick(test);
-          }).then(function (test) {
-            var msg = test.router.controller.model.validateField('username');
-            expect(msg).toEqual(undefined);
+            var msg1 = test.router.controller.model.validateField('username');
+            expect(msg1).toEqual(undefined);
             test.form.usernameField().focus();
-            return tick(test);
-          }).then(function (test) {
             test.form.setUsername('');
-            return tick(test);
-          }).then(function (test) {
-            var msg = test.router.controller.model.validateField('username').username;
-            expect(msg).toEqual('Please enter a username');
+            var msg2 = test.router.controller.model.validateField('username').username;
+            expect(msg2).toEqual('Please enter a username');
           });
       });
       itp('does not show username validation error when username field is not dirty', function () {
@@ -812,14 +797,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function (test) {
             test.form.usernameField().focus();
             expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
-            return tick(test);
-          })
-          .then(function (test) {
             test.form.usernameField().focusout();
             expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
-            return tick(test);
-          })
-          .then(function (test) {
             spyOn(test.router.controller.model, 'validate');
             expect(test.router.controller.model.validate).not.toHaveBeenCalled();
           });
@@ -828,37 +807,24 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setup()
           .then(function (test) {
             test.form.passwordField().focus();
-            return tick(test);
-          }).then(function (test) {
             test.form.setPassword('Abcd1234');
-            return tick(test);
-          }).then(function (test) {
-            var msg = test.router.controller.model.validateField('password');
-            expect(msg).toEqual(undefined);
+
+            var msg1 = test.router.controller.model.validateField('password');
+            expect(msg1).toEqual(undefined);
             test.form.passwordField().focus();
-            return tick(test);
-          }).then(function (test) {
             test.form.setPassword('');
-            return tick(test);
-          }).then(function (test) {
-            var msg = test.router.controller.model.validateField('password').password;
-            expect(msg).toEqual('Please enter a password');
+            var msg2 = test.router.controller.model.validateField('password').password;
+            expect(msg2).toEqual('Please enter a password');
           });
       });
       itp('does not show password validation error when password field is not dirty', function () {
         return setup({username: 'abc'})
           .then(function (test) {
+            spyOn(test.router.controller.model, 'validate');
             test.form.passwordField().focus();
             expect(test.form.passwordField()[0].parentElement).toHaveClass('focused-input');
-            return tick(test);
-          })
-          .then(function (test) {
             test.form.passwordField().focusout();
             expect(test.form.passwordField()[0].parentElement).not.toHaveClass('focused-input');
-            return tick(test);
-          })
-          .then(function (test) {
-            spyOn(test.router.controller.model, 'validate');
             expect(test.router.controller.model.validate).not.toHaveBeenCalled();
           });
       });
@@ -1720,7 +1686,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           test.form.setPassword('pass');
           test.setNextResponse({status: 0, response: {}});
           test.form.submit();
-          return tick(test);
+          return Expect.waitForSpyCall($.ajax, test);
         })
           .then(function (test) {
             var button = test.form.submitButton();
@@ -1765,6 +1731,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       itp('calls authClient primaryAuth with form values when submitted', function () {
         return setup().then(function (test) {
           $.ajax.calls.reset();
+          test.successSpy.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
@@ -1772,10 +1739,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return Expect.waitForSpyCall(test.successSpy, test);
         })
           .then(function (test) {
+            // Form is kept disabling until `globalSuccessFn` does something else,
+            // change the DOM or redirect. Widget will not re-enable form when success.
             expect(test.form.isDisabled()).toBe(true);
-            return tick();
-          })
-          .then(function () {
             expect($.ajax.calls.count()).toBe(1);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn',
@@ -1866,7 +1832,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       itp('calls async processCreds function and can prevent saving a model', function () {
         var processCredsSpy = jasmine.createSpy('processCreds');
         return setup({
-          'processCreds': function (creds, callback) {
+          processCreds: function (creds, callback) {
             processCredsSpy(creds, callback);
           }
         })
@@ -1876,7 +1842,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             test.form.setPassword('pass');
             test.setNextResponse(resSuccess);
             test.form.submit();
-            return tick();
+            return Expect.waitForSpyCall(processCredsSpy);
           })
           .then(function () {
             expect(processCredsSpy.calls.count()).toBe(1);
@@ -2555,10 +2521,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setupSocial()
           .then(function (test) {
             test.form.facebookButton().click();
-            return tick(test);
+            return Expect.waitForSpyCall(window.addEventListener, test);
           })
           .then(function (test) {
-            expect(window.addEventListener).toHaveBeenCalled();
+            expect(window.addEventListener.calls.count()).toBe(1);
             var args = window.addEventListener.calls.argsFor(0);
             var type = args[0];
             var callback = args[1];
@@ -2668,28 +2634,42 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             ]);
           });
       });
+
+      // TODO: add test to verify the behavior when missing `state` in the data
       itp('ignores messages with the wrong origin', function () {
-        var successSpy = jasmine.createSpy('successSpy'),
-            errorSpy = jasmine.createSpy('errorSpy');
+        var successSpy = jasmine.createSpy('successSpy');
+        var errorSpy = jasmine.createSpy('errorSpy');
         spyOn(window, 'addEventListener');
+
         return setupSocial({ globalErrorFn: errorSpy, globalSuccessFn: successSpy })
           .then(function (test) {
             test.form.facebookButton().click();
             return Expect.waitForSpyCall(window.addEventListener, test);
-          }).then(function () {
+          })
+          .then(function (test) {
             var args = window.addEventListener.calls.argsFor(0);
             var callback = args[1];
             callback.call(null, {
               origin: 'https://evil.com',
               data: {
-                id_token: VALID_ID_TOKEN
+                id_token: VALID_ID_TOKEN,
+                state: OIDC_STATE,
               }
             });
-            return tick();
+            return Expect.waitForSpyCall(test.afterErrorHandler, test);
           })
-          .then(function () {
+          .then(function (test) {
             expect(successSpy.calls.count()).toBe(0);
             expect(errorSpy.calls.count()).toBe(0);
+            expect(test.afterErrorHandler).toHaveBeenCalledWith(
+              {
+                controller: 'primary-auth',
+              },
+              {
+                name: 'OAUTH_ERROR',
+                message: 'The request does not match client configuration'
+              }
+            );
           });
       });
       itp('closes the popup after receiving the idToken message', function () {

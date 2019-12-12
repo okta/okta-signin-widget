@@ -20,7 +20,6 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
   var { _, $ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   function setup (settings, res) {
     var setNextResponse = Util.mockAjax();
@@ -99,7 +98,7 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
             var $link = test.form.signoutLink();
             expect($link.length).toBe(1);
             $link.click();
-            return tick(test);
+            return Expect.waitForSpyCall(SharedUtil.redirect, test);
           })
           .then(function (test) {
             expect($.ajax.calls.count()).toBe(1);
@@ -176,7 +175,7 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
         test.form.setAnswer('4444');
         test.setNextResponse(resSuccess);
         test.form.submit();
-        return tick();
+        return Expect.waitForSpyCall($.ajax);
       })
         .then(function () {
           expect($.ajax.calls.count()).toBe(1);

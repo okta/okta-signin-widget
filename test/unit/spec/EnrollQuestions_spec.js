@@ -25,23 +25,24 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   function setup (res, startRouter, languagesResponse) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({ url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    var successSpy = jasmine.createSpy('success');
     var router = new Router({
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
+      globalSuccessFn: successSpy,
       'features.router': startRouter
     });
     router.on('afterError', afterErrorHandler);
     Util.registerRouter(router);
     Util.mockRouterNavigate(router, startRouter);
-    return tick()
+    return Q()
       .then(function () {
         setNextResponse(res);
         return Util.mockIntrospectResponse(router, res);
@@ -63,6 +64,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
           form: new Form($sandbox),
           ac: authClient,
           setNextResponse: setNextResponse,
+          successSpy: successSpy,
           afterErrorHandler: afterErrorHandler
         });
       });
@@ -188,7 +190,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
         test.setNextResponse(resSuccess);
         spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callThrough();
         test.form.submit();
-        return tick();
+        return Expect.waitForSpyCall($.ajax);
       })
         .then(function () {
           // restrictRedirectToForeground Flag is not enabled
@@ -211,6 +213,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
 
     itp('calls enroll with the right arguments when save is clicked in restrictRedirectToForeground flow', function () {
       return setup(allFactors).then(function (test) {
+        test.successSpy.calls.reset();
         $.ajax.calls.reset();
         test.form.selectQuestion('favorite_security_question');
         test.form.setAnswer('No question! Hah!');
@@ -228,7 +231,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
         spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function () {
           return true;
         });
-        return tick();
+        return Expect.waitForSpyCall(test.successSpy);
       })
         .then(function () {
           expect(RouterUtil.isHostBackgroundChromeTab).toHaveBeenCalled();
