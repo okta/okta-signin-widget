@@ -119,11 +119,7 @@ function (Expect, $sandbox, DeviceFingerprint) {
         return false;
       });
       mockIFrameMessages(true);
-
-      DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
-      expect(DeviceFingerprint.isMessageFromCorrectSource).not.toHaveBeenCalled();
-
-      window.addEventListener('message', () => {
+      const messageHandler = () => {
         expect(DeviceFingerprint.isMessageFromCorrectSource).toHaveBeenCalled();
 
         // When promise either resolved or rejected, the iframe will be removed.
@@ -132,8 +128,15 @@ function (Expect, $sandbox, DeviceFingerprint) {
         expect($iFrame).toExist();
         expect($iFrame.attr('src')).toBe(baseUrl + '/auth/services/devicefingerprint');
         expect($iFrame.is(':visible')).toBe(false);
+
+        window.removeEventListener('message', messageHandler, false);
         done();
-      });
+      };
+
+      DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
+      expect(DeviceFingerprint.isMessageFromCorrectSource).not.toHaveBeenCalled();
+
+      window.addEventListener('message', messageHandler, false);
     });
 
   });
