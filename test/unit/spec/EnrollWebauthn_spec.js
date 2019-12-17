@@ -36,7 +36,6 @@ function (Okta,
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
   var testAttestationObject = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
   var testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
 
@@ -60,7 +59,7 @@ function (Okta,
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
-      return tick()
+      return Q()
         .then(function () {
           setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
           return Util.mockIntrospectResponse(router, onlyWebauthn ? resWebauthn : resAllFactors);

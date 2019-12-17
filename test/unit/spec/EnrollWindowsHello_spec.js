@@ -32,7 +32,6 @@ function (Okta,
 
   var { $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   Expect.describe('EnrollWindowsHello', function () {
 
@@ -49,7 +48,7 @@ function (Okta,
       });
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
-      return tick()
+      return Q()
         .then(function () {
           setNextResponse(responseMfaEnrollAll);
           return Util.mockIntrospectResponse(router, responseMfaEnrollAll);

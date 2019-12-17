@@ -1,6 +1,7 @@
 /* eslint max-params: [2, 16] */
 define([
   'okta',
+  'q',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollHotpForm',
@@ -11,6 +12,7 @@ define([
   'helpers/xhr/MFA_ENROLL_allFactors'
 ],
 function (Okta,
+  Q,
   OktaAuth,
   Util,
   Form,
@@ -21,7 +23,6 @@ function (Okta,
   resEnrollAllFactors) {
 
   const itp = Expect.itp;
-  const tick = Expect.tick;
 
   Expect.describe('EnrollHotp', function () {
 
@@ -40,7 +41,7 @@ function (Okta,
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
-      return tick()
+      return Q()
         .then(function () {
           setNextResponse(resEnrollAllFactors);
           return Util.mockIntrospectResponse(router, resEnrollAllFactors);

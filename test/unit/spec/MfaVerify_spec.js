@@ -550,7 +550,7 @@ function (Okta,
           });
         }
 
-        return tick(deferred.promise);
+        return deferred.promise;
       });
 
       return Q();
