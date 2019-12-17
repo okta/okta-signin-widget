@@ -20,7 +20,7 @@
   ],
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "pre-push": "commitlint --from=master 1>&2"
     }
   },
   "main": "./dist/js/okta-sign-in.entry.js",
