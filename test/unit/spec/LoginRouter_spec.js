@@ -45,8 +45,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
   var { Util: SharedUtil, Logger: CourageLogger } = Okta.internal.util;
   var {_, $, Backbone} = Okta;
 
-  var itp = Expect.itp,
-      tick = Expect.tick;
+  var itp = Expect.itp;
 
   var OIDC_IFRAME_ID = 'okta-oauth-helper-frame';
   var OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
@@ -95,7 +94,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
       if (resp) {
         setNextResponse(resp);
         return Util.mockIntrospectResponse(router, resp).then(function () {
-          return tick({
+          return Q({
             router: router,
             ac: authClient,
             setNextResponse: setNextResponse,
@@ -105,7 +104,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           });
         });
       } else {
-        return tick({
+        return Q({
           router: router,
           ac: authClient,
           setNextResponse: setNextResponse,
@@ -884,10 +883,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           form.setUsername('testuser');
           form.setPassword('pass');
           form.submit();
-          // Wait an extra tick for the animation success function to run
-          return tick().then(function () {
-            return tick(test);
-          });
+          return Expect.wait(() => {
+            return $.ajax.calls.count() === 2;
+          }, test);
         })
         .then(function () {
         // If we don't have our fix, there will be two PrimaryAuth forms
@@ -902,12 +900,13 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           Util.mockSDKCookie(test.ac);
           test.setNextResponse([resMfaChallengeDuo, resMfa]);
           test.router.navigate('signin/verify/duo/web', { trigger: true });
-          return Expect.waitForMfaVerify();
+          return Expect.wait(() => {
+            return $.ajax.calls.count() === 3;
+          }, test);
         })
         .then(function () {
         // Expect that we are on the MFA_CHALLENGE page (default is push for this
         // response)
-          expect($.ajax.calls.count()).toBe(3);
           var form = new MfaVerifyForm($sandbox);
           expect(form.isSecurityQuestion()).toBe(true);
         });
@@ -929,7 +928,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           form.setUsername('testuser');
           form.setPassword('pass');
           form.submit();
-          return Expect.waitForMfaVerify();
+          return Expect.wait(() => {
+            return $.ajax.calls.count() === 2;
+          }, test);
         })
         .then(function () {
           var form = new MfaVerifyForm($sandbox);
@@ -937,6 +938,18 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           expect(form.isAutoPushChecked()).toBe(true);
           expect(form.isPushSent()).toBe(true);
           expect($.ajax.calls.count()).toBe(2);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              password: 'pass',
+              username: 'testuser',
+              options:
+              {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
           Expect.isJsonPost($.ajax.calls.argsFor(1), {
             url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=true&rememberDevice=false',
             data: {
@@ -985,14 +998,28 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           return Expect.waitForMfaVerify(test);
         })
         .then(function (test) {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'https://foo.com/api/v1/authn',
+            data: {
+              password: 'pass',
+              username: 'testuser',
+              options:
+              {
+                warnBeforePasswordExpired: true,
+                multiOptionalFactorEnroll: false
+              }
+            }
+          });
+          $.ajax.calls.reset();
           test.setNextResponse(resMfaChallengePush);
           var form = new MfaVerifyForm($sandbox);
           form.submit();
-          return tick();
+          return Expect.waitForSpyCall($.ajax);
         })
         .then(function () {
-          expect($.ajax.calls.count()).toBe(2);
-          Expect.isJsonPost($.ajax.calls.argsFor(1), {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
             data: {
               stateToken: 'testStateToken'
@@ -1892,7 +1919,6 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
               test.router.enrollCall();
               return Expect.waitForEnrollCall(test);
             })
-            .then(tick) // Wait for Chosen items to update
             .then(expectZz);
         });
         itp('caches the language after the initial fetch', function () {
