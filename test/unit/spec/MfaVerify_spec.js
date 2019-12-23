@@ -3419,9 +3419,6 @@ function (Okta,
               });
             });
           });
-
-          // Do this when we have implemented push errors in OktaAuth and have an example
-          xit('shows an error if error response from authClient');
         });
         Expect.describe('TOTP', function () {
           itp('has a link to enter code', function () {

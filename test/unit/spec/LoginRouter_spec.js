@@ -233,10 +233,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
       config.supportedLanguages.filter(function (lang) {
         return lang !== 'en'; // no bundles are loaded for english
       }).forEach(function (lang) {
-        // TODO: the key 'password.expired.title' has changed in 3.0 - all strings are untranslated
-        // See PasswordExpiredController
-        // https://oktainc.atlassian.net/browse/OKTA-233498
-        xit(`for language: "${lang}"`, function () {
+        it(`for language: "${lang}"`, function () {
           var loadingSpy = jasmine.createSpy('loading');
           spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(false);
           return setup({
@@ -1183,12 +1180,6 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             responseMode: 'query',
             responseType:'code'
           }));
-      });
-
-      // TODO: "hybrid" flows like these are explicitly disallowed. Rewrite or trash this test?
-      xit('redirects if there are multiple responseTypes, and one is "code"', function () {
-        return setupOAuth2({'authParams.responseType': ['id_token', 'code']})
-          .then(expectCodeRedirect({responseMode: 'fragment', 'responseType': 'id_token%20code'}));
       });
 
       itp('redirects instead of using an iframe if display is "page"', function () {

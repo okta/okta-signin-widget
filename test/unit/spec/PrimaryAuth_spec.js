@@ -1278,8 +1278,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
             });
         });
-        // TODO: FIXME
-        xit('does not show beacon-loading animation when password expires', function () {
+        itp('does not show beacon-loading animation when password expires', function () {
           return setup({ features: { securityImage: true }})
             .then(function (test) {
               test.securityBeacon = test.router.header.currentBeacon.$el;
@@ -1293,7 +1292,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               test.setNextResponse(resPwdExpired);
               test.form.setPassword('pass');
               test.form.submit();
-              return Expect.waitForSpyCall(test.afterErrorHandler, test);
+              return Expect.waitForSpyCall(test.securityBeacon.toggleClass, test);
             })
             .then(function (test) {
               var spyCalls = test.securityBeacon.toggleClass.calls;
@@ -1350,15 +1349,14 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               expect(test.beacon.beacon().length).toBe(0);
             });
         });
-        // TODO: FIXME
-        xit('does not show beacon-loading animation when password expires (no security image)', function () {
+        itp('does not show beacon-loading animation when password expires (no security image)', function () {
           return setup().then(function (test) {
             Q.stopUnhandledRejectionTracking();
             test.setNextResponse(resPwdExpired);
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.form.submit();
-            return Expect.waitForSpyCall(test.afterErrorHandler, test);
+            return Expect.waitForPasswordExpired(test);
           })
             .then(function (test) {
               expect(test.beacon.isLoadingBeacon()).toBe(false);
@@ -1538,8 +1536,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(test.form.isSecurityImageTooltipDestroyed()).toBe(true);
           });
       });
-      // TODO: FIXME
-      xit('updates security beacon immediately if rememberMe is available', function () {
+      itp('updates security beacon immediately if rememberMe is available', function () {
         Util.mockGetCookie('ln', 'testuser');
         var options = {
           features: {
@@ -1548,6 +1545,11 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           }
         };
         return setup(options, [resSecurityImage])
+          .then(function (test) {
+            return Expect.wait(function () {
+              return test.form.accessibilityText() === 'a single pixel';
+            }, test);
+          })
           .then(function (test) {
             expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
             expect(test.form.accessibilityText()).toBe('a single pixel');
@@ -2711,6 +2713,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       // Reminder: Think about how to mock this out in the future - currently
       // cannot mock it because we defer to AuthJs to do set window.location.
       // On the plus side, there is an e2e test that covers this.
+      // eslint-disable-next-line jasmine/no-disabled-tests
       xit('redirects to the correct url in the social idp redirect flow');
     });
 
