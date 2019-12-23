@@ -900,15 +900,16 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           Util.mockSDKCookie(test.ac);
           test.setNextResponse([resMfaChallengeDuo, resMfa]);
           test.router.navigate('signin/verify/duo/web', { trigger: true });
-          return Expect.wait(() => {
-            return $.ajax.calls.count() === 3;
-          }, test);
+          return Expect.waitForMfaVerify();
         })
         .then(function () {
         // Expect that we are on the MFA_CHALLENGE page (default is push for this
         // response)
           var form = new MfaVerifyForm($sandbox);
           expect(form.isSecurityQuestion()).toBe(true);
+          return Expect.wait(() => {
+            return $.ajax.calls.count() === 3;
+          });
         });
     });
     itp('checks auto push by default for a returning user with autoPush true', function () {
@@ -928,14 +929,17 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           form.setUsername('testuser');
           form.setPassword('pass');
           form.submit();
-          return Expect.wait(() => {
-            return $.ajax.calls.count() === 2;
-          }, test);
+          return Expect.waitForMfaVerify();
         })
         .then(function () {
           var form = new MfaVerifyForm($sandbox);
           expect(form.autoPushCheckbox().length).toBe(1);
           expect(form.isAutoPushChecked()).toBe(true);
+          return Expect.wait(() => {
+            return $.ajax.calls.count() === 2;
+          }, form);
+        })
+        .then(function (form) {
           expect(form.isPushSent()).toBe(true);
           expect($.ajax.calls.count()).toBe(2);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
