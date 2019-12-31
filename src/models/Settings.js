@@ -166,7 +166,10 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'colors.brand': 'string',
 
       //Descriptions
-      'brandName': 'string'
+      'brandName': 'string',
+
+      //PIV
+      'piv': ['object', false, {}]
     },
 
     derived: {
@@ -283,18 +286,27 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
         },
         cache: true
       },
+      // Can support piv authentication
+      hasPivCard: {
+        deps: ['piv'],
+        fn: function (piv) {
+          return piv && piv.certAuthUrl;
+        },
+        cache: true
+      },
       // social auth buttons order - 'above'/'below' the primary auth form (boolean)
       socialAuthPositionTop: {
-        deps: ['configuredSocialIdps', 'idpDisplay'],
-        fn: function (configuredSocialIdps, idpDisplay) {
-          return !_.isEmpty(configuredSocialIdps) && idpDisplay.toUpperCase() === 'PRIMARY';
+        deps: ['configuredSocialIdps', 'hasPivCard', 'idpDisplay'],
+        fn: function (configuredSocialIdps, hasPivCard, idpDisplay) {
+          return (!_.isEmpty(configuredSocialIdps) || hasPivCard)
+            && idpDisplay.toUpperCase() === 'PRIMARY';
         },
         cache: true
       },
       hasConfiguredButtons: {
-        deps: ['configuredSocialIdps', 'customButtons'],
-        fn: function (configuredSocialIdps, customButtons) {
-          return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons);
+        deps: ['configuredSocialIdps', 'customButtons', 'hasPivCard'],
+        fn: function (configuredSocialIdps, customButtons, hasPivCard) {
+          return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons) || hasPivCard;
         },
         cache: true
       }

@@ -102,6 +102,29 @@
   }
 }
 
+.piv-button.link-button {
+  @extend .button-wide;
+  border-radius: $border-radius-default;
+  box-sizing: border-box;
+
+  display: block;
+  font-size: $font-size;
+  line-height: 50px;
+  margin-top: 15px;
+  text-align: center;
+
+  &:last-of-type {
+    margin-bottom: 25px;
+  }
+
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited {
+    text-decoration: none;
+  }
+}
+
 @mixin social-auth-button-template($bg-image, $icon-bg-color, $label-bg-color, $border-color) {
   background-color: $label-bg-color;
   background: $bg-image no-repeat 10px,
@@ -124,6 +147,20 @@
   &:focus,
   &:hover {
     background-color: lighten($background-color, 3%);
+  }
+}
+
+@mixin piv-button-template($background-color, $border-color, $action-background-color, $action-border-color) {
+  color: $border-color;
+  border: 2px solid $border-color;
+  background-color: $background-color;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: $action-border-color;
+    border-color: $action-border-color;
+    background-color: $action-background-color;
   }
 }
 
@@ -170,4 +207,8 @@
 
 .default-custom-button {
   @include default-custom-button-template($default-custom-button-background-color, $default-custom-button-border-color);
+}
+
+.piv-button.link-button {
+  @include piv-button-template($piv-button-background-color, $piv-button-border-text-color, $piv-action-button-background-color, $piv-action-button-border-text-color);
 }

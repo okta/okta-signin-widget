@@ -207,6 +207,18 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     return setup(settings);
   }
 
+  function setupPIV (pivAuthentication, useDefaultText) {
+    var buttonText = (useDefaultText) ? '' : 'piv test text';
+    var settings = {
+      piv: {
+        text: buttonText,
+        className: 'piv-test-class',
+        certAuthUrl: pivAuthentication ? 'https://rain.mtls.okta1.com:80/auth/cert/primaryAuth' : ''
+      }
+    };
+    return setup(settings);
+  }
+
   function setupRegistrationButton (featuresRegistration, registrationObj) {
     var settings = {
       registration: registrationObj
@@ -2801,6 +2813,126 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       return setup(settings).then(function (test){
         expect(test.form.authDivider().length).toBe(0);
         expect(test.form.additionalAuthButton().length).toBe(0);
+        expect(test.form.facebookButton().length).toBe(0);
+      });
+    });
+  });
+
+  Expect.describe('PIV Button', function () {
+    itp('does not show the divider and buttons if certAuthUrl is not defined', function () {
+      return setupPIV(false).then(function (test) {
+        expect(test.form.authDivider().length).toBe(0);
+        expect(test.form.pivButton().length).toBe(0);
+      });
+    });
+    itp('does not show the divider and buttons if settings.piv is not set', function () {
+      return setup().then(function (test) {
+        expect(test.form.authDivider().length).toBe(0);
+        expect(test.form.pivButton().length).toBe(0);
+      });
+    });
+    itp('show the divider and buttons if settings.piv is not empty', function () {
+      return setupPIV(true).then(function (test) {
+        expect(test.form.authDivider().length).toBe(1);
+        expect(test.form.pivButton().length).toBe(1);
+      });
+    });
+    itp('shows default text if none passed', function () {
+      return setupPIV(true, true).then(function (test){
+        expect(test.form.pivButton().text()).toEqual('Sign in with PIV / CAC card');
+      });
+    });
+    itp('sets text with property passed', function () {
+      return setupPIV(true).then(function (test){
+        expect(test.form.pivButton().text()).toEqual('piv test text');
+      });
+    });
+    itp('sets class with property passed', function () {
+      return setupPIV(true).then(function (test){
+        expect(test.form.pivButton().hasClass('piv-test-class')).toBe(true);
+      });
+    });
+    itp('navigates to piv login flow when button is clicked', function () {
+      return setupPIV(true).then(function (test){
+        spyOn(test.router, 'navigate');
+        test.form.pivButton().click();
+        expect(test.router.navigate).toHaveBeenCalledWith('signin/verify/piv', {trigger: true});
+      });
+    });
+    itp('displays social auth, piv and custom buttons', function () {
+      var settings = {
+        customButtons: [
+          {
+            title: 'test text',
+            className: 'test-class',
+            click: function (e) {
+              $(e.target).addClass('new-class');
+            }
+          }
+        ],
+        idps: [
+          {
+            type: 'FACEBOOK',
+            id: '0oaidiw9udOSceD1234'
+          }
+        ],
+        piv: {
+          text: 'piv test text',
+          className: 'piv-test-class',
+          certAuthUrl: 'https://rain.mtls.okta1.com:80/auth/cert/primaryAuth'
+        }
+      };
+      return setup(settings).then(function (test){
+        expect(test.form.authDivider().length).toBe(1);
+        expect(test.form.additionalAuthButton().length).toBe(1);
+        expect(test.form.facebookButton().length).toBe(1);
+        expect(test.form.pivButton().length).toBe(1);
+      });
+    });
+    itp('does not display piv button when certAuthUrl is not defined', function () {
+      var settings = {
+        idps: [
+          {
+            type: 'FACEBOOK',
+            id: '0oaidiw9udOSceD1234'
+          }
+        ],
+        piv: {
+          text: 'piv test text',
+          className: 'piv-test-class'
+        }
+      };
+      return setup(settings).then(function (test){
+        expect(test.form.authDivider().length).toBe(1);
+        expect(test.form.pivButton().length).toBe(0);
+        expect(test.form.facebookButton().length).toBe(1);
+      });
+    });
+    itp('does not display social auth when it is undefined', function () {
+      var settings = {
+        piv: {
+          text: 'piv test text',
+          className: 'piv-test-class',
+          certAuthUrl: 'https://rain.mtls.okta1.com:80/auth/cert/primaryAuth'
+        },
+        idps: undefined
+      };
+      return setup(settings).then(function (test){
+        expect(test.form.authDivider().length).toBe(1);
+        expect(test.form.pivButton().length).toBe(1);
+        expect(test.form.facebookButton().length).toBe(0);
+      });
+    });
+    itp('does not display any additional buttons when social auth, piv and customButtons are undefined', function () {
+      var settings = {
+        piv: undefined,
+        customButtons: undefined,
+        idps: undefined
+      };
+      return setup(settings).then(function (test){
+        expect(test.form.authDivider().length).toBe(0);
+        expect(test.form.additionalAuthButton().length).toBe(0);
+        expect(test.form.pivButton().length).toBe(0);
         expect(test.form.facebookButton().length).toBe(0);
       });
     });
