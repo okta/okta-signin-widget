@@ -5,6 +5,7 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   constructor(t) {
     super(t);
     this.body = new Selector('.device-challenge-poll');
+    this.footer = new Selector('.auth-footer');
   }
 
   getHeader() {
@@ -15,7 +16,15 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.body.find('[data-se="o-form-explain"]').innerText;
   }
 
-  getFooterBackLink() {
-    return this.footer.find('[data-se="back"]');
+  getContent() {
+    return this.body.find('[data-se="o-form-fieldset-container"]').innerText;
+  }
+
+  getFooterLink() {
+    return this.footer.find('[data-se="sign-in-options"]');
+  }
+
+  async clickLaunchOktaVerifyLink() {
+    await this.t.click(this.body.find('#launch-ov'));
   }
 }
