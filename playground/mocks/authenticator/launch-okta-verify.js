@@ -1,4 +1,4 @@
 module.exports = {
-  path: '/challenge',
+  path: '/launch-okta-verify',
   method: 'POST',
 };

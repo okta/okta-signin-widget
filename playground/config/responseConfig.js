@@ -53,12 +53,14 @@ module.exports = {
 // module.exports = {
 //   mocks: {
 //     '/idp/idx/introspect': [
-//       'identify-with-device-launch-authenticator',
+//       'identify-with-device-probing-loopback-challenge-not-received',
 //     ],
 //     '/idp/idx/authenticators/poll': [
 //       'identify-with-device-launch-authenticator',
-//       'identify-with-device-launch-authenticator',
-//       'identify', // as a signal of success
+//     ],
+//     '/idp/idx/authenticators/okta-verify/launch': [
+//       'identify-with-device-launch-authenticator', // 5
+//       'identify-with-device-probing-loopback-challenge-not-received' // 7
 //     ]
 //   },
 // };

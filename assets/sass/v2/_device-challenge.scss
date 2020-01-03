@@ -1,0 +1,27 @@
+.siw-main-view {
+  .device-challenge-poll {
+    .o-form-content {
+      .okta-form-subtitle {
+        font-weight: 600;
+      }
+    }
+    .o-form-fieldset-container {
+      width: 88%;
+      text-align: center;
+      margin: 0 auto;
+
+      .spinner {
+        height: 38px;
+        margin-top: 40px;
+        background: url('../img/ui/indicators/loader@1x.gif') no-repeat center;
+      }
+
+      .link {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+
+
