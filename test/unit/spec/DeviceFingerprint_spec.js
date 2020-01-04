@@ -41,16 +41,12 @@ function (Expect, $sandbox, DeviceFingerprint) {
       expect(window.addEventListener).toHaveBeenCalledWith('message', jasmine.any(Function), false);
     });
 
-    it('returns a fingerprint if the communication with the iframe is successfull', function (done) {
+    it('returns a fingerprint if the communication with the iframe is successfull', function () {
       mockIFrameMessages(true);
       bypassMessageSourceCheck();
-      DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
+      return DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
         .then(function (fingerprint) {
           expect(fingerprint).toBe('thisIsTheFingerprint');
-          done();
-        })
-        .fail(function (reason) {
-          done.fail('Fingerprint promise incorrectly failed. ' + reason);
         });
     });
 
@@ -61,7 +57,7 @@ function (Expect, $sandbox, DeviceFingerprint) {
         .then(function () {
           done.fail('Fingerprint promise should have been rejected');
         })
-        .fail(function (reason) {
+        .catch(function (reason) {
           expect(reason).toBe('no data');
           var $iFrame = $sandbox.find('iframe');
           expect($iFrame).not.toExist();
@@ -76,7 +72,7 @@ function (Expect, $sandbox, DeviceFingerprint) {
         .then(function () {
           done.fail('Fingerprint promise should have been rejected');
         })
-        .fail(function (reason) {
+        .catch(function (reason) {
           expect(reason).toBe('no data');
           var $iFrame = $sandbox.find('iframe');
           expect($iFrame).not.toExist();
@@ -91,7 +87,7 @@ function (Expect, $sandbox, DeviceFingerprint) {
         .then(function () {
           done.fail('Fingerprint promise should have been rejected');
         })
-        .fail(function (reason) {
+        .catch(function (reason) {
           var $iFrame = $sandbox.find('iframe');
           expect($iFrame).not.toExist();
           expect(reason).toBe('user agent is not defined');
@@ -106,7 +102,7 @@ function (Expect, $sandbox, DeviceFingerprint) {
         .then(function () {
           done.fail('Fingerprint promise should have been rejected');
         })
-        .fail(function (reason) {
+        .catch(function (reason) {
           expect(reason).toBe('device fingerprint is not supported on Windows phones');
           var $iFrame = $sandbox.find('iframe');
           expect($iFrame).not.toExist();

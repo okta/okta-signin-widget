@@ -139,6 +139,7 @@
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.26.0",
     "cross-fetch": "^3.0.4",
+    "eslint-plugin-jasmine": "^4.1.0",
     "handlebars": "^4.5.1",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.3",

@@ -1,15 +1,14 @@
 /* eslint max-params:[2, 28], max-statements:[2, 40], camelcase:0, max-len:[2, 180] */
 define([
-  'models/RegistrationSchema',
-  'helpers/util/Expect'
+  'models/RegistrationSchema'
 ],
-function (RegistrationSchema, Expect) {
+function (RegistrationSchema) {
 
-  Expect.describe('RegistrationSchema', function () {
+  describe('RegistrationSchema', function () {
 
-    Expect.describe('properties', function () {
+    describe('properties', function () {
 
-      Expect.describe('string field', function () {
+      describe('string field', function () {
         beforeEach(function () {
           var jsonResponse = {
             'profileSchema': {
@@ -59,7 +58,7 @@ function (RegistrationSchema, Expect) {
         });
       });
 
-      Expect.describe('email field', function () {
+      describe('email field', function () {
         beforeEach(function () {
           var jsonResponse = {
             profileSchema: {
@@ -79,6 +78,7 @@ function (RegistrationSchema, Expect) {
 
         });
 
+        // eslint-disable-next-line jasmine/no-spec-dupes
         it('is a string type', function () {
           expect(this.schema.properties.first().get('type')).toEqual('string');
         });
@@ -88,7 +88,7 @@ function (RegistrationSchema, Expect) {
         });
       });
 
-      Expect.describe('enum field', function () {
+      describe('enum field', function () {
         beforeEach(function () {
           var jsonResponse = {
             profileSchema: {
@@ -107,6 +107,7 @@ function (RegistrationSchema, Expect) {
           this.schema.parse(jsonResponse);
         });
 
+        // eslint-disable-next-line jasmine/no-spec-dupes
         it('is a string type', function () {
           expect(this.schema.properties.first().get('type')).toEqual('string');
         });
@@ -116,7 +117,7 @@ function (RegistrationSchema, Expect) {
         });
       });
 
-      Expect.describe('required fields', function () {
+      describe('required fields', function () {
         beforeEach(function () {
           var jsonResponse = {
             policyId: '1234',
@@ -165,7 +166,7 @@ function (RegistrationSchema, Expect) {
         });
       });
 
-      Expect.describe('sorting order', function () {
+      describe('sorting order', function () {
         beforeEach(function () {
           var jsonResponse = {
             profileSchema: {
