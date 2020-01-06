@@ -529,6 +529,19 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(test.form.helpLinkHref()).toBe('https://foo.com/help/login');
         });
       });
+      itp('has the correct rel attributes for help link', function () {
+        return setup().then(function (test) {
+          expect(test.form.helpLink().attr('rel')).toBe('noopener noreferrer');
+        });
+      });
+      itp('has the correct rel attributes for custom help link', function () {
+        var customLink = [
+          { text: 'google', href: 'https://google.com' }
+        ];
+        return setup({ 'helpLinks.custom': customLink }).then(function (test) {
+          expect(test.form.customHelpLink().attr('rel')).toBe('noopener noreferrer');
+        });
+      });
       itp('has a custom help link url when available', function () {
         return setup({ 'helpLinks.help': 'https://bar.com' }).then(function (test) {
           spyOn(SharedUtil, 'redirect');

@@ -138,6 +138,10 @@ define(['okta', './Form'], function (Okta, Form) {
       return this.$('.js-help-link');
     },
 
+    customHelpLink: function () {
+      return this.$('.js-custom');
+    },
+
     helpLinkLabel: function () {
       return this.helpLink().text();
     },
