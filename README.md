@@ -149,6 +149,9 @@ After installing:
     // Use OktaSignIn
     var signIn = new OktaSignIn(/* configOptions */);
     ```
+
+    Source maps are provided as an external .map file. If you are using [Webpack](https://webpack.github.io/), these can be loaded using the [source-map-loader](https://github.com/webpack-contrib/source-map-loader) plugin.
+
     **Note:** If you use [Browserify](http://browserify.org/) to bundle your app, you'll need to use the `--noparse` option:
 
     ```bash
@@ -156,7 +159,9 @@ After installing:
     --noparse=$PWD/node_modules/@okta/okta-signin-widget/dist/js-okta-sign-in.entry.js \
     --outfile=bundle.js
     ```
+
 3. Make sure you include ES6 polyfills with your bundler if you need the broadest browser support. We recommend [`babel-polyfill`](https://babeljs.io/docs/en/babel-polyfill/).
+
 
 ## Usage guide
 
