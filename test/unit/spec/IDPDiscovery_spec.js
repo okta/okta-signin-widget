@@ -573,8 +573,8 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
       itp('shows custom links if they exist', function () {
         var customLinks = [
-          { text: 'github', href: 'https://github.com' },
-          { text: 'google', href: 'https://google.com' }
+          { text: 'github', href: 'https://github.com', rel: 'noopener noreferrer' },
+          { text: 'google', href: 'https://google.com', rel: 'noopener noreferrer' }
         ];
         return setup({ 'helpLinks.custom': customLinks }).then(function (test) {
           var links = test.form.customLinks();
@@ -583,9 +583,9 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
       });
       itp('shows custom links with target attribute', function () {
         var customLinks = [
-          { text: 'github', href: 'https://github.com', target: '_blank' },
-          { text: 'google', href: 'https://google.com' },
-          { text: 'okta', href: 'https://okta.com', target: '_custom' }
+          { text: 'github', href: 'https://github.com', rel: 'noopener noreferrer', target: '_blank' },
+          { text: 'google', href: 'https://google.com', rel: 'noopener noreferrer' },
+          { text: 'okta', href: 'https://okta.com', rel: 'noopener noreferrer', target: '_custom' }
         ];
         return setup({ 'helpLinks.custom': customLinks }).then(function (test) {
           var links = test.form.customLinks();
