@@ -529,6 +529,11 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(test.form.helpLinkHref()).toBe('https://foo.com/help/login');
         });
       });
+      itp('has the correct rel attributes for help link', function () {
+        return setup().then(function (test) {
+          expect(test.form.helpLink().attr('rel')).toBe('noopener noreferrer');
+        });
+      });
       itp('has a custom help link url when available', function () {
         return setup({ 'helpLinks.help': 'https://bar.com' }).then(function (test) {
           spyOn(SharedUtil, 'redirect');
@@ -680,8 +685,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('shows custom links if they exist', function () {
         var customLinks = [
-          { text: 'github', href: 'https://github.com' },
-          { text: 'google', href: 'https://google.com' }
+          { text: 'github', href: 'https://github.com', rel: 'noopener noreferrer'},
+          { text: 'google', href: 'https://google.com', rel: 'noopener noreferrer'}
         ];
         return setup({ 'helpLinks.custom': customLinks }).then(function (test) {
           var links = test.form.customLinks();
@@ -690,9 +695,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('shows custom links with target attribute', function () {
         var customLinks = [
-          { text: 'github', href: 'https://github.com', target: '_blank' },
-          { text: 'google', href: 'https://google.com' },
-          { text: 'okta', href: 'https://okta.com', target: '_custom' }
+          { text: 'github', href: 'https://github.com', rel: 'noopener noreferrer', target: '_blank' },
+          { text: 'google', href: 'https://google.com', rel: 'noopener noreferrer' },
+          { text: 'okta', href: 'https://okta.com', rel: 'noopener noreferrer', target: '_custom' }
         ];
         return setup({ 'helpLinks.custom': customLinks }).then(function (test) {
           var links = test.form.customLinks();
