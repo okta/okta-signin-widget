@@ -8,6 +8,7 @@ import Logger from '../../../util/Logger';
 const request = (opts) => {
   const ajaxOptions = Object.assign({
     method: 'GET',
+    contentType: 'application/json',
   }, opts);
   return $.ajax(ajaxOptions);
 };
@@ -69,7 +70,7 @@ const Body = BaseForm.extend({
     const checkPort = () => {
       return request({
         url: getAuthenticatorUrl('probe'),
-        timeout: 1000
+        timeout: 1000 // if authenticator & its probing endpoint exist, it should respond within 1000ms
       });
     };
 
@@ -79,7 +80,7 @@ const Body = BaseForm.extend({
         url: getAuthenticatorUrl('challenge'),
         method: 'POST',
         body: JSON.stringify({ challengeRequest }),
-        timeout: 3000
+        timeout: 3000 // authenticator should respond within 3000ms for challenge request
       });
     };
 
