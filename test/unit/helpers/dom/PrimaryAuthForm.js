@@ -175,7 +175,8 @@ define(['okta', './Form'], function (Okta, Form) {
         var $el = $(el);
         var link = {
           text: $el.text(),
-          href: $el.attr('href')
+          href: $el.attr('href'),
+          rel: $el.attr('rel')
         };
         if($el.attr('target')) {
           link.target = $el.attr('target');

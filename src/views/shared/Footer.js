@@ -40,11 +40,13 @@ function (Okta) {
         {{/if}}\
         {{#each helpLinks.custom}}\
           <li>\
-          <a href="{{href}}" class="link js-custom" {{#if target}}target="{{target}}"{{/if}}>{{text}}</a>\
+          <a href="{{href}}" class="link js-custom" rel="noopener noreferrer"\
+          {{#if target}}target="{{target}}"{{/if}}>{{text}}</a>\
           </li>\
         {{/each}}\
         <li>\
-        <a href="{{helpLinkUrl}}" data-se="help-link" class="link js-help-link" target="_blank">\
+        <a href="{{helpLinkUrl}}" data-se="help-link" class="link js-help-link"\
+          rel="noopener noreferrer" target="_blank">\
         {{i18n code="help" bundle="login"}}\
         </a>\
         </li>\
