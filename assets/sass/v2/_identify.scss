@@ -1,0 +1,42 @@
+.sign-in-with-device-option {
+  .okta-verify-container {
+    .button {
+      display: block;
+      position: relative;
+      text-align: center;
+      height: 50px;
+      line-height: 50px;
+    }
+  }
+  .separation-line {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    text-transform: uppercase;
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+
+    &:before {
+      font-size: 13px;
+      border-top: 1px solid $border-color-default;
+      content: "";
+      margin: 0 auto;
+      position: absolute;
+      top: 55%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      z-index: -1;
+    }
+
+    span {
+      background: $white;
+      padding: 0 15px;
+      font-size: 13px;
+      color: $border-color-default;
+    }
+  }
+}

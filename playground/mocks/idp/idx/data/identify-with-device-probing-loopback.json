@@ -58,25 +58,30 @@
         ]
     },
     "authenticatorChallenge": {
-        "challengeMethod": "LOOPBACK",
-        "challengeRequest": "eyJraWQiOiI1aTZaQW5TTlZ4RHlNYlNLS0NDcUhpUDdaNG92Q1Fab0thYlFYVE4zVnFjIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2lkeC5va3RhMS5jb206ODAiLCJhdWQiOiJodHRwczovL2lkeC5va3RhMS5jb206ODAiLCJleHAiOjE1NzUxNDY0NDEsImlhdCI6MTU3NTE0NjE0MSwibm9uY2UiOiJzYW1wbGVOb25jZSIsInNpZ25hbHMiOlsic2NyZWVuTG9jayIsInJvb3RQcml2aWxlZ2VzIiwiZnVsbERpc2tFbmNyeXB0aW9uIiwiaWQiLCJwbGF0Zm9ybSIsIm9zVmVyc2lvbiIsIm1hbnVmYWN0dXJlciIsIm1vZGVsIiwiZGV2aWNlQXR0ZXN0YXRpb24iXSwidXNlclZlcmlmaWNhdGlvblJlcXVpcmVtZW50IjpmYWxzZSwidmVyaWZpY2F0aW9uVXJpIjoiaHR0cHM6Ly9yYWluLm9rdGExLmNvbS8vaWRwL2F1dGhlbnRpY2F0b3JzL2F1dGhlbnRpY2F0b3JJZC90cmFuc2FjdGlvbnMvdHJhbnNhY3Rpb25JZC92ZXJpZnkiLCJ2ZXIiOjB9.JEXKJAQE95ANX5u1CEPA7HtH1n4YcHquhee4nd5fCRtD6rvu49OSZhJo7mpd9UjF1UNLBxkektTetpvmq7IXaf0WQ-a0EqMHELbdqmpsLl9jQd7lmVpXN6nrjI-YjxZzgTNqj5GEw_Of_3eMkHo_SM4Em4YYxf8XdQHmtPJUima9gHoGbShZ-XjD1K0feEl1ybCFyflxHXa6qvhqSbhxB0wD81Khb7T-T9-GUmfDGh9FlrypIhexjDghC52puY6N-m9kuJI5IllxeW_ggFD0cB6lx8VImFrbn5CETlFCwvDqZzhbAYWh0v-Nt59w-W-DlyPp-ap0meU4pdyfcGqisQ",
-        "domain": "http://localhost",
-        "ports": [ "2000", "6511", "6512", "6513" ],
-        "cancel": {
-            "rel": ["create-form"],
-            "name": "cancel-polling-transaction",
-            "href": "http://localhost:3000/idp/idx/authenticators/poll/cancel",
-            "method": "POST",
-            "accepts": "application/ion+json;okta-version=1",
-            "produces": "application/ion+json;okta-version=1",
-            "value": [
-                {
-                    "name": "stateHandle",
-                    "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
-                    "required": true,
-                    "visible": false
-                }
-            ]
-        }  
-    }  
+        "type": "object",
+        "value": {
+            "challengeMethod": "LOOPBACK",
+            "challengeRequest": "eyJraWQiOiI1aTZaQW5TTlZ4RHlNYlNLS0NDcUhpUDdaNG92Q1Fab0thYlFYVE4zVnFjIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2lkeC5va3RhMS5jb206ODAiLCJhdWQiOiJodHRwczovL2lkeC5va3RhMS5jb206ODAiLCJleHAiOjE1NzUxNDY0NDEsImlhdCI6MTU3NTE0NjE0MSwibm9uY2UiOiJzYW1wbGVOb25jZSIsInNpZ25hbHMiOlsic2NyZWVuTG9jayIsInJvb3RQcml2aWxlZ2VzIiwiZnVsbERpc2tFbmNyeXB0aW9uIiwiaWQiLCJwbGF0Zm9ybSIsIm9zVmVyc2lvbiIsIm1hbnVmYWN0dXJlciIsIm1vZGVsIiwiZGV2aWNlQXR0ZXN0YXRpb24iXSwidXNlclZlcmlmaWNhdGlvblJlcXVpcmVtZW50IjpmYWxzZSwidmVyaWZpY2F0aW9uVXJpIjoiaHR0cHM6Ly9yYWluLm9rdGExLmNvbS8vaWRwL2F1dGhlbnRpY2F0b3JzL2F1dGhlbnRpY2F0b3JJZC90cmFuc2FjdGlvbnMvdHJhbnNhY3Rpb25JZC92ZXJpZnkiLCJ2ZXIiOjB9.JEXKJAQE95ANX5u1CEPA7HtH1n4YcHquhee4nd5fCRtD6rvu49OSZhJo7mpd9UjF1UNLBxkektTetpvmq7IXaf0WQ-a0EqMHELbdqmpsLl9jQd7lmVpXN6nrjI-YjxZzgTNqj5GEw_Of_3eMkHo_SM4Em4YYxf8XdQHmtPJUima9gHoGbShZ-XjD1K0feEl1ybCFyflxHXa6qvhqSbhxB0wD81Khb7T-T9-GUmfDGh9FlrypIhexjDghC52puY6N-m9kuJI5IllxeW_ggFD0cB6lx8VImFrbn5CETlFCwvDqZzhbAYWh0v-Nt59w-W-DlyPp-ap0meU4pdyfcGqisQ",
+            "domain": "http://localhost",
+            "ports": [ "2000", "6511", "6512", "6513" ],
+            "cancel": {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "cancel-polling",
+                "href": "http://localhost:3000/idp/idx/authenticators/poll/cancel",
+                "method": "POST",
+                "accepts": "application/vnd.okta.v1+json",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02FPayGvc7oz1BvKt_jyE50FeDuWaJ4UBfdxT20IhH",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ]
+            }
+        }
+    }
 }

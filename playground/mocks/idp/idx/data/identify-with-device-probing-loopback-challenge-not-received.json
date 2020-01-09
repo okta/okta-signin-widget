@@ -1,7 +1,7 @@
 {
-    "stateHandle": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
+    "stateHandle": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
     "version": "1.0.0",
-    "expiresAt": "2020-10-15T17:28:11.000Z",
+    "expiresAt": "2020-12-18T21:48:11.000Z",
     "step": "IDENTIFY",
     "intent": "LOGIN",
     "remediation": {
@@ -9,40 +9,55 @@
         "value": [
             {
                 "rel": ["create-form"],
-                "name": "identifier",
+                "name": "identify",
                 "href": "http://localhost:3000/idp/idx/identify",
                 "method": "POST",
-                "accepts": "application/ion+json;okta-version=1",
-                "produces": "application/ion+json;okta-version=1",
+                "accepts": "application/vnd.okta.v1+json",
                 "value": [
                     {
-                       "name": "identifier",
-                       "label": "Enter your username",
-                       "required": true                         
+                        "name": "identifier",
+                        "label": "Username"
                     },
                     {
-                       "name": "stateHandle",
-                       "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
-                       "required": true,
-                       "visible": false
-                    }       
-                ]       
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ]
             },
             {
-                "rel": ["create-form"],   
-                "name": "authenticator",
+                "rel": ["create-form"],
+                "name": "launch-authenticator",
                 "href": "http://localhost:3000/idp/idx/authenticators/okta-verify/launch",
                 "method": "POST",
-                "accepts": "application/ion+json;okta-version=1",
-                "produces": "application/ion+json;okta-version=1",
+                "accepts": "application/vnd.okta.v1+json",
                 "value": [
                     {
                         "name": "stateHandle",
-                        "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
                         "required": true,
-                        "visible": false
-                    }         
-                ]       
+                        "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ]
+            },
+            {
+                "rel": ["create-form"],
+                "name": "select-enroll-profile",
+                "href": "http://localhost:3000/idp/idx/enroll",
+                "method": "POST",
+                "accepts": "application/vnd.okta.v1+json",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ]
             }
         ]
     },
@@ -51,14 +66,14 @@
         "name": "cancel",
         "href": "http://localhost:3000/idp/idx/cancel",
         "method": "POST",
-        "accepts": "application/ion+json;okta-version=1",
-        "produces": "application/ion+json;okta-version=1",
+        "accepts": "application/vnd.okta.v1+json",
         "value": [
             {
                 "name": "stateHandle",
-                "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
                 "required": true,
-                "visible": false
+                "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
+                "visible": false,
+                "mutable": false
             }
         ]
     },
@@ -67,13 +82,12 @@
         "name": "context",
         "href": "http://localhost:3000/idp/idx/context",
         "method": "POST",
-        "accepts": "application/ion+json;okta-version=1",
-        "produces": "application/ion+json;okta-version=1",
+        "accepts": "application/vnd.okta.v1+json",
         "value": [
             {
                 "name": "stateHandle",
-                "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cK",
                 "required": true,
+                "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
                 "visible": false,
                 "mutable": false
             }
