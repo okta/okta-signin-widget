@@ -10,6 +10,22 @@ export default class IdentityPageObject extends BasePageObject {
     this.form = new BaseFormObject(t);
   }
 
+  getPageTitle() {
+    return this.form.getElement('.okta-form-title').textContent;
+  }
+
+  getOktaVerifyButtonText() {
+    return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
+  }
+
+  async clickOktaVerifyButton() {
+    await this.t.click(Selector('.sign-in-with-device-option .okta-verify-container .link-button'));
+  }
+
+  getSeparationLineText() {
+    return this.form.getElement('.sign-in-with-device-option .separation-line').textContent;
+  }
+
   fillIdentifierField(value) {
     return this.form.setTextBoxValue('identifier', value);
   }
