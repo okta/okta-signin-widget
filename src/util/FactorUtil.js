@@ -92,7 +92,7 @@ function (Okta, TimeUtil) {
     },
     'EMAIL': {
       label: 'factor.email',
-      description: '',
+      description: 'factor.email.description',
       iconClassName: 'mfa-okta-email',
       sortOrder: 9
     },
