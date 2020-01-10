@@ -1,8 +1,9 @@
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
-import { RequestMock } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 import magicLinkReturnTab from '../../../playground/mocks/idp/idx/data/terminal-return-email';
 import magicLinkExpired from '../../../playground/mocks/idp/idx/data/terminal-return-expired-email';
+import magicLinkEmailSent from '../../../playground/mocks/idp/idx/data/factor-verification-email';
 
 const magicLinkReturnTabMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx')
@@ -11,7 +12,17 @@ const magicLinkReturnTabMock = RequestMock()
 const magicLinkExpiredMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx')
   .respond(magicLinkExpired)
-  
+
+const magicLinkEmailSentMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx')
+  .respond(magicLinkEmailSent)
+
+const resendEmailMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(magicLinkEmailSent)
+
+const logger = RequestLogger(/poll|resend/);
+
 fixture(`Challenge Email Magic Link Form Content`)
 
 async function setup(t) {
@@ -36,5 +47,29 @@ test
     const challengeFactorPageObject = await setup(t);
     const pageTitle = challengeFactorPageObject.getPageTitle();
     await t.expect(pageTitle).eql('This email link has expired. To resend it, return to the screen where you requested it.');
+  });
+
+  test
+  .requestHooks(logger, resendEmailMock, magicLinkEmailSentMock)
+  (`challenge email factor with magic link sent renders and has resend link`, async t => {
+    const challengeFactorPageObject = await setup(t);
+    await t.expect(challengeFactorPageObject.resendEmailView().getStyleProperty('display')).eql('none');
+    // wait for resend button to appear
+    await t.wait(65000);
+    // Making sure we keep polling while we wait for the resend view to appear
+    // Widget will poll with a refresh interval of 4000(comes from API).
+    // In 65000 seconds it will poll Math.floor(65000/4000) = 16 times
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.url.match(/poll/)
+    )).eql(16);
+    await t.expect(challengeFactorPageObject.resendEmailView().getStyleProperty('display')).eql('block');
+    const resendEmailViewCallout = challengeFactorPageObject.getResendEmailViewCallout();
+    await t.expect(resendEmailViewCallout).eql('Haven\'t received an email? To try again, click "Resend Email"');
+    await challengeFactorPageObject.clickResendEmailButton();
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.url.match(/poll|resend/)
+    )).eql(17);
   });
 
