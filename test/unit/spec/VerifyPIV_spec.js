@@ -21,7 +21,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
   var { _ } = Okta;
   var itp = Expect.itp;
 
-  function setup (hasError) {
+  function setup (errorResponse, responseTextOnly) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
@@ -43,7 +43,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     spyOn(SharedUtil, 'redirect');
-    setNextResponse(hasError ? [resError] : [resGet, resPost]);
+    setNextResponse(errorResponse ? [errorResponse] : [resGet, resPost], responseTextOnly);
     router.verifyPIV();
     return Expect.waitForVerifyPIV({
       router: router,
@@ -55,6 +55,10 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
       successSpy: successSpy,
       afterErrorHandler: afterErrorHandler
     });
+  }
+
+  function deepClone (res) {
+    return JSON.parse(JSON.stringify(res));
   }
 
   Expect.describe('PIV', function () {
@@ -97,8 +101,9 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
       });
     });
     Expect.describe('Error', function () {
+      var pivError = deepClone(resError);
       itp('shows error box with error response', function () {
-        return setup(true).then(function (test) {
+        return setup(pivError).then(function (test) {
           return Expect.waitForFormError(test.form, test);
         }).then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -107,7 +112,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         });
       });
       itp('displays retry button', function () {
-        return setup(true).then(function (test) {
+        return setup(pivError).then(function (test) {
           return Expect.waitForFormError(test.form, test);
         }).then(function (test) {
           Expect.isVisible(test.form.submitButton());
@@ -115,7 +120,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         });
       });
       itp('can retry authentication', function () {
-        return setup(true).then(function (test) {
+        return setup(pivError).then(function (test) {
           return Expect.waitForFormError(test.form, test);
         }).then(function (test) {
           test.setNextResponse([resGet, resPost]);
@@ -125,6 +130,44 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
             'https://rain.okta1.com/login/sessionCookieRedirect?redirectUrl=%2Fapp%2FUserHome&amp;token=token1'
           );
+        });
+      });
+      itp('shows generic error message for undefined error response', function () {
+        var res = deepClone(resError);
+        res.response = undefined;
+        return setup(res).then(function (test) {
+          return Expect.waitForFormError(test.form, test);
+        }).then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorBox()).toHaveLength(1);
+          expect(test.form.errorMessage())
+            .toEqual('There was an error signing in. Click the button below to try again.');
+        });
+      });
+      itp('shows generic error message for empty text error response', function () {
+        var res = deepClone(resError);
+        res.responseType = 'text';
+        res.response = '';
+        return setup(res, true).then(function (test) {
+          return Expect.waitForFormError(test.form, test);
+        }).then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorBox()).toHaveLength(1);
+          expect(test.form.errorMessage())
+            .toEqual('There was an error signing in. Click the button below to try again.');
+        });
+      });
+      itp('shows correct error message for text error response', function () {
+        var res = deepClone(resError);
+        res.responseType = 'text';
+        res.response =
+          '{"errorCode":"E0000004","errorSummary":"Authentication failed","errorLink":"E0000004","errorId":"oaeDtg9knyJR7agwMN-70SYgw","errorCauses":[]}';
+        return setup(res, true).then(function (test) {
+          return Expect.waitForFormError(test.form, test);
+        }).then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorBox()).toHaveLength(1);
+          expect(test.form.errorMessage()).toEqual('Authentication failed');
         });
       });
     });
