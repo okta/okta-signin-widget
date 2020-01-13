@@ -38,7 +38,8 @@ const Body = BaseForm.extend({
     case 'LOOPBACK':
       this.title = loc('signin', 'login');
       this.add('<div class="spinner"></div>');
-      this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
+      // this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
+      this.doLoopback('http://localhost', deviceChallenge.ports, deviceChallenge.challengeRequest);
       break;
     case 'CUSTOM_URI':
       this.title = 'Verify account access';
