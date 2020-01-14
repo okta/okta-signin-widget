@@ -41,7 +41,7 @@ define([
       const lastAuthResponse = this.options.appState.get('lastAuthResponse');
       if (!this.options.appState.get('isWaitingForNumberChallenge')) {
         return {
-          number: null
+          number: ''
         };
       }
       return {
