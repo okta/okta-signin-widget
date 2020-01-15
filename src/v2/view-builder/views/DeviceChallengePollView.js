@@ -79,6 +79,7 @@ const Body = BaseForm.extend({
     };
 
     const onPortFound = () => {
+      Logger.info(`  onPortFound, going to challenge port ${getAuthenticatorUrl('challenge')}`);
       foundPort = true;
       return request({
         url: getAuthenticatorUrl('challenge'),
@@ -88,7 +89,9 @@ const Body = BaseForm.extend({
       });
     };
 
-    const onFailure = () => {};
+    const onFailure = () => {
+      Logger.info(`  onFailure, with port ${currentPort}`);
+    };
 
     const doProbing = () => {
       return checkPort()
@@ -100,13 +103,14 @@ const Body = BaseForm.extend({
     ports.forEach(port => {
       probeChain = probeChain
         .then(() => {
+          Logger.info(`done probing ${currentPort}, found port? ${foundPort}`);
           if (!foundPort) {
             currentPort = port;
             return doProbing();
           }
         })
         .catch(() => {
-          Logger.error('Something unexpected happened during device probing.');
+          Logger.error(`Something unexpected happened during device probing port ${currentPort}.`);
         });
     });
   },
