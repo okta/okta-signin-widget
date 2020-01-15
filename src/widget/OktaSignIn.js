@@ -37,6 +37,13 @@ var OktaSignIn = (function () {
               Router = require('v2/WidgetRouter');
             }
             router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
+            if (!isNewPipeline) {
+              // unset statetoken for old pipeline, to prevent authn API call
+              // if stateToken is not unset,
+              // router.start will call BaseLoginRouter.start,
+              // which eventually calls BaseLoginRouter.execute, where we check stateToken and call authn API
+              router.settings.unset('stateToken');
+            }
             router.appState.set('introspectSuccess', response);
             router.start();
           }, this)).fail(_.bind(function (err) {

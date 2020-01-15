@@ -38,11 +38,14 @@ Expect.describe('OktaSignIn initialization', function () {
     spyOn(signIn.authClient.tx, 'introspect').and.callFake(function () {
       return options.response;
     });
+    spyOn(signIn.authClient.tx, 'resume').and.callFake(function () {
+      return options.response;
+    });
     spyOn($, 'ajax');
     signIn.renderEl({ el: $sandbox });
     return Q({});
   }
-  Expect.describe('Introspects token on load', function () {
+  Expect.describe('Calls Introspect API on load for new pipelione', function () {
     it('calls introspect API on page load', function () {
       return setupIntrospect({
         response: {
@@ -50,6 +53,16 @@ Expect.describe('OktaSignIn initialization', function () {
         }
       }).then(function () {
         expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '01stateToken'});
+      });
+    });
+  });
+  Expect.describe('Calls Introspect API on load for old pipeline', function () {
+    it('calls introspect API on page load', function () {
+      return setupIntrospect({
+        response: {}
+      }).then(function () {
+        expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '01stateToken'});
+        expect(signIn.authClient.tx.resume).not.toHaveBeenCalledWith({ stateToken: '01stateToken'});
       });
     });
   });
