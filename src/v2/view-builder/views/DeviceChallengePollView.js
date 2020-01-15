@@ -30,6 +30,10 @@ const Body = BaseForm.extend({
     this.stopPolling();
   },
 
+  render () {
+    return BaseForm.prototype.render.apply(this, arguments);
+  },
+
   doChallenge () {
     const deviceChallenge = this.options.appState.get(
       this.deviceChallengePollRemediation.relatesTo

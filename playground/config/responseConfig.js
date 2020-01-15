@@ -64,3 +64,15 @@ module.exports = {
 //     ]
 //   },
 // };
+
+// Apple authenticator (SSO extension)
+// module.exports = {
+//   mocks: {
+//     '/idp/idx/introspect': [
+//       'identify-with-apple-sso-extension',
+//     ],
+//     '/idp/idx/authenticators/sso_extension/transactions/123/verify': [
+//       'identify', // as a signal of success
+//     ],
+//   },
+// };
