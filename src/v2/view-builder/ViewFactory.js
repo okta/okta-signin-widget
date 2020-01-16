@@ -4,6 +4,7 @@ import BaseView from './internals/BaseView';
 // factor ignostic views
 import IdentifierView from './views/IdentifierView';
 import DeviceChallengePollView from './views/DeviceChallengePollView';
+import SSOExtensionView from './views/SSOExtensionView';
 import SelectFactorEnrollView from './views/SelectFactorEnrollView';
 import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
 import EnrollProfileView from './views/EnrollProfileView';
@@ -28,6 +29,9 @@ const VIEWS_MAPPING = {
   },
   'device-challenge-poll': {
     [DEFAULT]: DeviceChallengePollView,
+  },
+  'device-apple-sso-extension': {
+    [DEFAULT]: SSOExtensionView,
   },
   //select-factor-authenticate is used to show the list of factors before challenge flow
   //select-factor-enroll is used to show the list of factors before enroll flows
