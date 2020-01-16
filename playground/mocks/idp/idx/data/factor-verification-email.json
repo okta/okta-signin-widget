@@ -93,12 +93,12 @@
       "profile": {
         "email": "inca@clouditude.net"
       },
-      "send": {
+      "resend": {
         "rel": [
           "create-form"
         ],
-        "name": "send",
-        "href": "http://localhost:3000/idp/idx/challenge/send",
+        "name": "resend",
+        "href": "http://localhost:3000/idp/idx/challenge/resend",
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",
         "value": [
