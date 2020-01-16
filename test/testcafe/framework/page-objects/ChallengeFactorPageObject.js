@@ -2,7 +2,7 @@ import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 import BaseFormObject from './components/BaseFormObject';
 
-export default class FactorRequiredPageObject extends BasePageObject {
+export default class ChallengeFactorPageObject extends BasePageObject {
   constructor(t) {
     super(t);
     this.form = new BaseFormObject(t);
@@ -31,4 +31,17 @@ export default class FactorRequiredPageObject extends BasePageObject {
   getInvalidOTPError() {
     return this.form.getErrorBoxText();
   }
+
+  getResendEmailViewCallout() {
+    return this.form.getElement('.resend-email-view p').textContent;
+  }
+
+  resendEmailView() {
+    return this.form.getElement('.resend-email-view');
+  }
+
+  async clickResendEmailButton() {
+    await this.form.clickElement('.resend-email-view a.button');
+  }
+
 }
