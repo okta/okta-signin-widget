@@ -20,7 +20,7 @@ const ResendView = View.extend(
         className: 'button',
         title: 'Resend Email',
         click () {
-          this.options.appState.trigger('invokeAction', 'factor.send');
+          this.options.appState.trigger('invokeAction', 'factor.resend');
         }
       }));
     },
@@ -60,21 +60,11 @@ const Body = BaseForm.extend(Object.assign(
       // TODO: abort ongoing request. (https://oktainc.atlassian.net/browse/OKTA-244134)
     },
 
-    sendEmailLink () {
-      // auto send email magic link after page has rendered.
-      _.delay(_.bind(function () {
-        this.options.appState.trigger('invokeAction', 'factor.send');
-      }, this), 300);
-    },
-
     postRender () {
       this.add(ResendView, {
         selector: '.okta-form-subtitle',
         prepend: true,
       });
-
-      // auto send email magic link email on load
-      this.sendEmailLink();
 
       this.startPolling();
 
