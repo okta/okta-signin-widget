@@ -1,5 +1,6 @@
 import { RequestLogger, RequestMock, Selector } from 'testcafe';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
+import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/idp/idx/data/identify-with-device-probing-loopback';
 import loopbackChallengeNotReceived from '../../../playground/mocks/idp/idx/data/identify-with-device-probing-loopback-challenge-not-received';
 
@@ -60,7 +61,8 @@ test
       record.request.url.match(/2000|6511/)
     )).eql(2);
     await t.expect(logger.contains(record => record.request.url.match(/6513/))).eql(false);
-    // replace with custom uri page object OKTA-258116
-    const form = new Selector('.o-form').nth(0);
-    await t.expect(form.find('input[name="identifier"]').exists).eql(true);
+
+    const identityPage = new IdentityPageObject(t);
+    await identityPage.fillIdentifierField('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
   })
