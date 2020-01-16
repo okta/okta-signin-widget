@@ -25,7 +25,7 @@ test(`should have the correct content`, async t => {
   await t.expect(logger.count(
     record => record.response.statusCode === 200 &&
     record.request.method === 'post' &&
-    record.request.url.match(/verify/)
+    record.request.url.match(/authenticators\/sso_extension\/transactions\/123\/verify/)
   )).eql(1);
   const pageUrl = getPageUrl();
   await t.expect(pageUrl).contains('stateToken=abc123');
