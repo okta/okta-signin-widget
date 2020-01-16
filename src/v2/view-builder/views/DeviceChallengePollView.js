@@ -79,7 +79,7 @@ const Body = BaseForm.extend({
       return request({
         url: getAuthenticatorUrl('challenge'),
         method: 'POST',
-        body: JSON.stringify({ challengeRequest }),
+        data: JSON.stringify({ challengeRequest }),
         timeout: 3000 // authenticator should respond within 3000ms for challenge request
       });
     };
