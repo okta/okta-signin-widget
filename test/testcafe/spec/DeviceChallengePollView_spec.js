@@ -5,7 +5,7 @@ import loopbackChallengeNotReceived from '../../../playground/mocks/idp/idx/data
 
 let failureCount = 0;
 
-const logger = RequestLogger(/introspect|probe|challenge/);
+const logger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -49,6 +49,11 @@ test
       record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect|6512/)
     )).eql(3);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.url.match(/challenge/) &&
+      record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
+    )).eql(1);
     failureCount = 2;
     await t.expect(logger.count(
       record => record.response.statusCode === 500 &&
