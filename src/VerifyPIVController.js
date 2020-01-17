@@ -41,6 +41,11 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
           const res = await this.postCert(pivConfig.certAuthUrl, data);
           Util.redirect(res.redirectUrl);
         } catch (err) {
+          if (_.isEmpty(err.responseJSON) && !err.responseText) {
+            err.responseJSON = {
+              errorSummary: Okta.loc('piv.cac.error', 'login')
+            };
+          }
           self.trigger('error', self, err);
         }
       },
