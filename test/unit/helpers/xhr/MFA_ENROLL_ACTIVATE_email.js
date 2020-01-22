@@ -22,7 +22,7 @@ define({
         "factorType": "email",
         "provider": "OKTA",
         "profile": {
-          "email": "t....son@okta.com"
+          "email": "t...n@okta.com"
         }
       }
     },

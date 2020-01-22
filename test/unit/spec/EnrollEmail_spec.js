@@ -102,7 +102,7 @@ define([
           const form = new EnrollActivateEmailForm($sandbox);
           expect(form.titleText()).toBe('Set up Email Authentication');
           expect(form.enrollEmailActivateContent())
-            .toBe('A verification code was sent to t....son@okta.com. Check your email and enter the code below.');
+            .toBe('A verification code was sent to t...n@okta.com. Check your email and enter the code below.');
           expect(form.labelText('passCode')).toBe('Verification code');
           expect(form.submitButtonText()).toBe('Verify');
           return Object.assign({}, test, {form: form});
