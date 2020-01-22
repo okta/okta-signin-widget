@@ -57,7 +57,7 @@ function (Okta, FormController, Footer, FormType) {
               'data-se': 'enroll-activate-email-content',
             },
 
-            // Why use `{{{` for the first description?
+            // Why use `{{{` for the description?
             // - factorEmail is actually an HTML fragment which
             //   is created via another handlebar template and used for bold the email address.
             template: '{{{i18n code="enroll.activate.email.description" bundle="login" arguments="factorEmail"}}}',

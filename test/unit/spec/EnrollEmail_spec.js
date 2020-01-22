@@ -39,7 +39,6 @@ define([
         globalSuccessFn: successSpy,
         'features.router': true
       });
-      // router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, true);
       setNextResponse(resp);
@@ -64,18 +63,21 @@ define([
     itp('display start enroll email form and is able to send code to email', function () {
       return setup(xhrEnrollEmail)
         .then(function (test) {
+          // 1. verify the page loads
           expect(test.form.titleText()).toBe('Set up Email Authentication');
           expect(test.form.enrollEmailContent()).toBe('Send a verification code to your registered email.');
           expect(test.form.submitButtonText()).toBe('Send me the code');
           return test;
         })
         .then(function (test) {
+          // 2. mock data and click send button.
           $.ajax.calls.reset();
           test.setNextResponse(xhrEnrollActivateEmail);
           test.form.submit();
           return Expect.waitForSpyCall($.ajax);
         })
         .then(function () {
+          // 3. verify request has been made
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'http://localhost:3000/api/v1/authn/factors',
