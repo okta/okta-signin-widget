@@ -22,7 +22,6 @@ const Body = BaseForm.extend({
     BaseForm.prototype.initialize.apply(this, arguments);
     this.deviceChallengePollRemediation = this.options.appState.getCurrentViewState();
     this.doChallenge();
-    this.startPolling();
   },
 
   remove () {
@@ -50,6 +49,7 @@ const Body = BaseForm.extend({
       `);
       this.customURI = deviceChallenge.href;
       this.doCustomURI();
+      this.startPolling();
       break;
     }
   },
@@ -60,6 +60,7 @@ const Body = BaseForm.extend({
   },
 
   doLoopback (authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
+    const self = this;
     let currentPort;
     let foundPort = false;
 
@@ -86,14 +87,21 @@ const Body = BaseForm.extend({
 
     const onFailure = () => {};
 
+    const onProbingComplete = () => {
+      Logger.info(`Probing is completed, port ${currentPort} is listening.`);
+      self.startPolling();
+    };
+
     const doProbing = () => {
-      return checkPort()
-        .done(onPortFound)
-        .fail(onFailure);
+      return checkPort() // 1. jqXHR
+        .done(onPortFound) // 2
+        .fail(onFailure) // 2
+        .then(onProbingComplete); // 3
     };
 
     let probeChain = Promise.resolve();
-    ports.forEach(port => {
+    let maxTries = ports.length;
+    ports.forEach((port, idx) => {
       probeChain = probeChain
         .then(() => {
           if (!foundPort) {
@@ -102,7 +110,11 @@ const Body = BaseForm.extend({
           }
         })
         .catch(() => {
-          Logger.error('Something unexpected happened during device probing.');
+          Logger.info(`Authenticator is not listening to port ${currentPort}.`);
+          if (maxTries === idx + 1) { // SIW has exhausted all the ports
+            Logger.info('Probing is completed, no port is listening.');
+            self.startPolling();
+          }
         });
     });
   },
