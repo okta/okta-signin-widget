@@ -56,15 +56,19 @@ function (Okta, FormController, Footer, FormType) {
             attributes: {
               'data-se': 'enroll-activate-email-content',
             },
-            template: '{{i18n code="enroll.activate.email.description.1" bundle="login"}}' +
-              ' <span class="mask-email">{{factorEmail}}</span>. ' +
-              '{{i18n code="enroll.activate.email.description.2" bundle="login"}}',
+
+            // Why use `{{{` for the first description?
+            // - factorEmail is actually an HTML fragment which
+            //   is created via another handlebar template and used for bold the email address.
+            template: '{{{i18n code="enroll.activate.email.description.1" bundle="login" arguments="factorEmail"}}}' +
+              ' {{i18n code="enroll.activate.email.description.2" bundle="login"}}',
 
             getTemplateData: function () {
               const factor = this.options.appState.get('factor');
-
+              const factorEmailVal = factor && factor.profile ? factor.profile.email : '';
+              const factorEmail = Okta.tpl('<span class="mask-email">{{email}}</span>')({email: factorEmailVal });
               return {
-                factorEmail: factor && factor.profile ? factor.profile.email : ''
+                factorEmail,
               };
             },
 
