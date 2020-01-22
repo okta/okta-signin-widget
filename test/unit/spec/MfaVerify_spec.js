@@ -1384,7 +1384,7 @@ function (Okta,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorBox().length).toBe(1);
-            expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+            expect(test.form.errorMessage()).toBe('Your account is locked because of too many authentication attempts.');
             expectErrorEvent(
               test,
               403,
@@ -1396,7 +1396,7 @@ function (Okta,
                 responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
                 responseJSON: {
                   errorCode: 'E0000069',
-                  errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                  errorSummary: 'Your account is locked because of too many authentication attempts.',
                   errorLink: 'E0000069',
                   errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
                   errorCauses: []
@@ -1694,7 +1694,7 @@ function (Okta,
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorBox().length).toBe(1);
-            expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+            expect(test.form.errorMessage()).toBe('Your account is locked because of too many authentication attempts.');
             expectErrorEvent(
               test,
               403,
@@ -1706,7 +1706,7 @@ function (Okta,
                 responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
                 responseJSON: {
                   errorCode: 'E0000069',
-                  errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                  errorSummary: 'Your account is locked because of too many authentication attempts.',
                   errorLink: 'E0000069',
                   errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
                   errorCauses: []
@@ -2772,7 +2772,7 @@ function (Okta,
             .then(function (test) {
               expect(test.form.hasErrors()).toBe(true);
               expect(test.form.errorBox().length).toBe(1);
-              expect(test.form.errorMessage()).toBe('Your account was locked due to excessive MFA attempts.');
+              expect(test.form.errorMessage()).toBe('Your account is locked because of too many authentication attempts.');
               expectErrorEvent(
                 test,
                 403,
@@ -2784,7 +2784,7 @@ function (Okta,
                   responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
                   responseJSON: {
                     errorCode: 'E0000069',
-                    errorSummary: 'Your account was locked due to excessive MFA attempts.',
+                    errorSummary: 'Your account is locked because of too many authentication attempts.',
                     errorLink: 'E0000069',
                     errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
                     errorCauses: []
