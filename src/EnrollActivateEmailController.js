@@ -60,8 +60,7 @@ function (Okta, FormController, Footer, FormType) {
             // Why use `{{{` for the first description?
             // - factorEmail is actually an HTML fragment which
             //   is created via another handlebar template and used for bold the email address.
-            template: '{{{i18n code="enroll.activate.email.description.1" bundle="login" arguments="factorEmail"}}}' +
-              ' {{i18n code="enroll.activate.email.description.2" bundle="login"}}',
+            template: '{{{i18n code="enroll.activate.email.description" bundle="login" arguments="factorEmail"}}}',
 
             getTemplateData: function () {
               const factor = this.options.appState.get('factor');

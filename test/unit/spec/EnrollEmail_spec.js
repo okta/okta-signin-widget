@@ -107,10 +107,8 @@ define([
           expect(form.submitButtonText()).toBe('Verify');
           return Object.assign({}, test, {form: form});
         })
-      // TODO: 3. verify send again
-
         .then(function (test) {
-          // 4. submit verification code
+          // 3. submit verification code
           $.ajax.calls.reset();
           test.setNextResponse(xhrSUCCESS);
           test.form.setVerificationCode('1209876');
@@ -118,7 +116,7 @@ define([
           return Expect.waitForSpyCall(test.successSpy, test);
         })
         .then(function (test) {
-          // 5. enroll successfully
+          // 4. enroll successfully
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'http://localhost:3000/api/v1/authn/factors/eml198rKSEWOSKRIVIFT/lifecycle/activate',
