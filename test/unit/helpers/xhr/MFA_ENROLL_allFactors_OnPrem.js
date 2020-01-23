@@ -221,17 +221,17 @@ define({
         "factorType":"assertion:saml2",
         "provider":"GENERIC_SAML",
         "vendorName":"Third Party Factor",
-        "_links":{  
-           "enroll":{  
+        "_links":{
+           "enroll":{
               "href":"http://rain.okta1.com:1802/api/v1/authn/factors",
-              "hints":{  
-                 "allow":[  
+              "hints":{
+                 "allow":[
                     "POST"
                  ]
               }
            }
         },
-        "profile":{  
+        "profile":{
            "user":"inca@clouditude.net"
         }
      }, {
@@ -269,7 +269,26 @@ define({
              }
           }
        }
-    }]
+     },{
+       "enrollment": "OPTIONAL",
+       "status": "NOT_SETUP",
+       "factorType": "email",
+       "provider": "OKTA",
+       "vendorName": "OKTA",
+       "_links": {
+         "enroll": {
+           "href": "http://rain.okta1.com:1802/api/v1/authn/factors",
+           "hints": {
+             "allow": [
+               "POST"
+             ]
+           }
+         }
+       },
+       "_embedded": {
+         "emails": []
+       }
+     }]
     },
     "_links": {
       "skip": {

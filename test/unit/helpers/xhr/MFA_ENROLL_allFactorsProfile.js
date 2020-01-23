@@ -270,7 +270,26 @@ define({
        "profile":{
           "user":"inca@clouditude.net"
        }
-    }]
+     },{
+       "enrollment": "OPTIONAL",
+       "status": "NOT_SETUP",
+       "factorType": "email",
+       "provider": "OKTA",
+       "vendorName": "OKTA",
+       "_links": {
+         "enroll": {
+           "href": "http://rain.okta1.com:1802/api/v1/authn/factors",
+           "hints": {
+             "allow": [
+               "POST"
+             ]
+           }
+         }
+       },
+       "_embedded": {
+         "emails": []
+       }
+     }]
     },
     "_links": {
       "skip": {

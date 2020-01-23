@@ -229,38 +229,38 @@ define({
         "provider":"GENERIC_SAML",
         "vendorName":"Third Party Factor",
         "_links":{
-           "enroll":{
-              "href":"http://rain.okta1.com:1802/api/v1/authn/factors",
-              "hints":{
-                 "allow":[
-                    "POST"
-                 ]
-              }
-           }
+          "enroll":{
+            "href":"http://rain.okta1.com:1802/api/v1/authn/factors",
+            "hints":{
+              "allow":[
+                "POST"
+              ]
+            }
+          }
         },
         "profile":{
-           "user":"inca@clouditude.net"
-        }
-     }, {
-       "enrollment": "OPTIONAL",
-       "status": "NOT_SETUP",
-       "factorType":"assertion:oidc",
-       "provider":"GENERIC_OIDC",
-       "vendorName":"OIDC Factor",
-       "_links":{
-          "enroll":{
-             "href":"http://rain.okta1.com:1802/api/v1/authn/factors",
-             "hints":{
-                "allow":[
-                   "POST"
-                ]
-             }
-          }
-       },
-       "profile":{
           "user":"inca@clouditude.net"
-       }
-    }, {
+        }
+      }, {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
+        "factorType":"assertion:oidc",
+        "provider":"GENERIC_OIDC",
+        "vendorName":"OIDC Factor",
+        "_links":{
+          "enroll":{
+            "href":"http://rain.okta1.com:1802/api/v1/authn/factors",
+            "hints":{
+              "allow":[
+                "POST"
+              ]
+            }
+          }
+        },
+        "profile":{
+          "user":"inca@clouditude.net"
+        }
+      }, {
         "enrollment": "OPTIONAL",
         "status": "NOT_SETUP",
         "factorType":"claims_provider",
@@ -276,7 +276,7 @@ define({
             }
           }
         }
-     }, {
+      }, {
         "enrollment": "OPTIONAL",
         "status": "NOT_SETUP",
         "factorType": "token:hotp",
@@ -303,6 +303,25 @@ define({
               ]
             }
           }
+        }
+      }, {
+        "enrollment": "OPTIONAL",
+        "status": "NOT_SETUP",
+        "factorType": "email",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "_links": {
+          "enroll": {
+            "href": "https://foo.com/api/v1/authn/factors",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        },
+        "_embedded": {
+          "emails": []
         }
       }]
     },
