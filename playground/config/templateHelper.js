@@ -37,7 +37,7 @@ const configMock = (option) => {
   };
 
   return Object.assign({
-    delay: [1000, 300],
+    // delay: [2000, 3000],
     proxy: false,
     method: 'POST',
     status: (req, res, next) => {

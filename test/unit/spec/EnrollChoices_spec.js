@@ -86,6 +86,10 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
     'GENERIC_OIDC': {
       index:      13,
       factorType: 'assertion:oidc'
+    },
+    'EMAIL': {
+      index:      14,
+      factorType: 'email'
     }
   };
   const enrolledWebauthnFactor = {
@@ -288,7 +292,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       });
     }
 
-    Expect.describe('General', function () {
+    describe('General', function () {
       itp('has correct title', function () {
         return setup(resAllFactors).then(function (test) {
           expect(test.form.titleText()).toBe('Set up multifactor authentication');
@@ -301,9 +305,9 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       });
     });
 
-    Expect.describe('Wizard', function () {
+    describe('Wizard', function () {
 
-      Expect.describe('Required', function () {
+      describe('Required', function () {
         itp('has the correct subtitle text', function () {
           return setupWithRequiredNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
@@ -357,6 +361,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.factorRow('SYMANTEC_VIP').length).toBe(0);
             expect(test.form.factorRow('DUO').length).toBe(0);
             expect(test.form.factorRow('SMS').length).toBe(0);
+            expect(test.form.factorRow('EMAIL').length).toBe(0);
             expect(test.form.factorRow('GENERIC_SAML').length).toBe(0);
             expect(test.form.factorRow('GENERIC_OIDC').length).toBe(0);
             expect(test.form.factorRow('CUSTOM_CLAIMS').length).toBe(0);
@@ -405,7 +410,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         });
       });
 
-      Expect.describe('Optional/Finish', function () {
+      describe('Optional/Finish', function () {
         itp('displays the general subtitle if there are only optional factors and none are enrolled', function () {
           return setupWithAllOptionalNoneEnrolled().then(function (test) {
             expect(test.form.subtitleText()).toBe(
@@ -488,6 +493,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.isFactorMinimized('DUO')).toBe(false);
             expect(test.form.isFactorMinimized('WINDOWS_HELLO')).toBe(false);
             expect(test.form.isFactorMinimized('SMS')).toBe(false);
+            expect(test.form.isFactorMinimized('EMAIL')).toBe(false);
             expect(test.form.isFactorMinimized('CALL')).toBe(false);
             expect(test.form.isFactorMinimized('GENERIC_SAML')).toBe(false);
             expect(test.form.isFactorMinimized('GENERIC_OIDC')).toBe(false);
@@ -502,6 +508,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.isFactorMinimized('DUO')).toBe(false);
             expect(test.form.isFactorMinimized('WINDOWS_HELLO')).toBe(false);
             expect(test.form.isFactorMinimized('SMS')).toBe(false);
+            expect(test.form.isFactorMinimized('EMAIL')).toBe(false);
             expect(test.form.isFactorMinimized('GENERIC_SAML')).toBe(false);
             expect(test.form.isFactorMinimized('GENERIC_OIDC')).toBe(false);
             expect(test.form.isFactorMinimized('CUSTOM_CLAIMS')).toBe(false);
@@ -516,6 +523,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             expect(test.form.factorButton('DUO').length).toBe(1);
             expect(test.form.factorButton('WINDOWS_HELLO').length).toBe(1);
             expect(test.form.factorButton('SMS').length).toBe(1);
+            expect(test.form.factorButton('EMAIL').length).toBe(1);
             expect(test.form.factorButton('CALL').length).toBe(1);
             expect(test.form.factorButton('GENERIC_SAML').length).toBe(1);
             expect(test.form.factorButton('GENERIC_OIDC').length).toBe(1);
@@ -539,6 +547,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
               expect(test.form.factorButton('U2F').length).toBe(1);
               expect(test.form.factorButton('CALL').length).toBe(1);
               expect(test.form.factorButton('SMS').length).toBe(1);
+              expect(test.form.factorButton('EMAIL').length).toBe(1);
               expect(test.form.factorButton('GENERIC_SAML').length).toBe(1);
               expect(test.form.factorButton('GENERIC_OIDC').length).toBe(1);
               expect(test.form.factorButton('CUSTOM_CLAIMS').length).toBe(1);
@@ -583,12 +592,12 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         });
       });
 
-      Expect.describe('Grace period', function () {
+      describe('Grace period', function () {
         beforeEach(function () {
           var today = new Date('2019-06-25T00:00:00.000Z');
           jasmine.clock().mockDate(today);
         });
-        Expect.describe('all factors are required and none are enrolled', function () {
+        describe('all factors are required and none are enrolled', function () {
           itp('has default subtitle', function () {
             return setupWithRequiredNoneEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
@@ -598,7 +607,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             });
           });
         });
-        Expect.describe('all factors are required and at least one is enrolled', function () {
+        describe('all factors are required and at least one is enrolled', function () {
           itp('has default subtitle when endDate is null', function () {
             return setupWithRequiredSomeRequiredEnrolled(null).then(function (test) {
               expect(test.form.subtitleText()).toBe(
@@ -637,7 +646,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             });
           });
         });
-        Expect.describe('all factors are required and all are enrolled', function () {
+        describe('all factors are required and all are enrolled', function () {
           itp('has optional subtitle', function () {
             return setupWithRequiredAllRequiredEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
@@ -646,7 +655,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             });
           });
         });
-        Expect.describe('all factors optional and none are enrolled', function () {
+        describe('all factors optional and none are enrolled', function () {
           itp('has default subtitle', function () {
             return setupWithAllOptionalNoneEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
@@ -656,7 +665,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
             });
           });
         });
-        Expect.describe('all factors optional and some are enrolled', function () {
+        describe('all factors optional and some are enrolled', function () {
           itp('has optional subtitle', function () {
             return setupWithAllOptionalSomeEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
               expect(test.form.subtitleText()).toBe(
@@ -668,8 +677,8 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       });
     });
 
-    Expect.describe('Factor list', function () {
-      Expect.describe('OKTA_VERIFY', function () {
+    describe('Factor list', function () {
+      describe('OKTA_VERIFY', function () {
         itHasIconAndText(
           'OKTA_VERIFY',
           'mfa-okta-verify',
@@ -678,7 +687,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
-      Expect.describe('OKTA_VERIFY_PUSH', function () {
+      describe('OKTA_VERIFY_PUSH', function () {
         itHasIconAndText(
           'OKTA_VERIFY_PUSH',
           'mfa-okta-verify',
@@ -717,7 +726,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           });
         });
       });
-      Expect.describe('GOOGLE_AUTH', function () {
+      describe('GOOGLE_AUTH', function () {
         itHasIconAndText(
           'GOOGLE_AUTH',
           'mfa-google-auth',
@@ -726,7 +735,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
-      Expect.describe('SYMANTEC_VIP', function () {
+      describe('SYMANTEC_VIP', function () {
         itHasIconAndText(
           'SYMANTEC_VIP',
           'mfa-symantec',
@@ -735,7 +744,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
-      Expect.describe('RSA_SECURID', function () {
+      describe('RSA_SECURID', function () {
         itHasIconAndText(
           'RSA_SECURID',
           'mfa-rsa',
@@ -744,7 +753,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
-      Expect.describe('ON_PREM', function () {
+      describe('ON_PREM', function () {
         itHasIconAndText(
           'ON_PREM',
           'mfa-onprem',
@@ -753,7 +762,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactorsOnPrem
         );
       });
-      Expect.describe('DUO', function () {
+      describe('DUO', function () {
         itHasIconAndText(
           'DUO',
           'mfa-duo',
@@ -762,7 +771,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
-      Expect.describe('SMS', function () {
+      describe('SMS', function () {
         itHasIconAndText(
           'SMS',
           'mfa-okta-sms',
@@ -778,7 +787,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           });
         });
       });
-      Expect.describe('CALL', function () {
+      describe('CALL', function () {
         itHasIconAndText(
           'CALL',
           'mfa-okta-call',
@@ -794,7 +803,23 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           });
         });
       });
-      Expect.describe('U2F', function () {
+      describe('EMAIL', function () {
+        itHasIconAndText(
+          'EMAIL',
+          'mfa-okta-email',
+          'Email Authentication',
+          'Enter a verification code sent to your email.',
+          resAllFactors
+        );
+        itp('has the right click event', function () {
+          return setup(resAllFactors).then(function (test) {
+            test.form.factorButton('EMAIL').click();
+            expect(test.router.navigate)
+              .toHaveBeenCalledWith('signin/enroll/okta/email', { trigger: true });
+          });
+        });
+      });
+      describe('U2F', function () {
         itHasIconAndText(
           'U2F',
           'mfa-u2f',
@@ -803,7 +828,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
-      Expect.describe('U2F WITH BRANDNAME', function () {
+      describe('U2F WITH BRANDNAME', function () {
         itHasIconAndText(
           'U2F',
           'mfa-u2f',
@@ -814,7 +839,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           'Spaghetti Inc.'
         );
       });
-      Expect.describe('WEBAUTHN', function () {
+      describe('WEBAUTHN', function () {
         itHasIconAndText(
           'WEBAUTHN',
           'mfa-webauthn',
@@ -824,7 +849,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           true
         );
       });
-      Expect.describe('Hotp', function () {
+      describe('Hotp', function () {
         itHasIconAndText(
           'CUSTOM_HOTP',
           'mfa-hotp',
@@ -840,7 +865,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           });
         });
       });
-      Expect.describe('QUESTION', function () {
+      describe('QUESTION', function () {
         itHasIconAndText(
           'QUESTION',
           'mfa-okta-security-question',
@@ -849,7 +874,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
-      Expect.describe('CUSTOM CLAIMS FACTOR', function () {
+      describe('CUSTOM CLAIMS FACTOR', function () {
         itHasIconAndText(
           'CUSTOM_CLAIMS',
           'mfa-custom-factor',
@@ -858,7 +883,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
-      Expect.describe('CUSTOM SAML FACTOR', function () {
+      describe('CUSTOM SAML FACTOR', function () {
         itHasIconAndText(
           'GENERIC_SAML',
           'mfa-custom-factor',
@@ -867,7 +892,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
-      Expect.describe('CUSTOM SAML FACTOR WITH BRANDNAME', function () {
+      describe('CUSTOM SAML FACTOR WITH BRANDNAME', function () {
         itHasIconAndText(
           'GENERIC_SAML',
           'mfa-custom-factor',
@@ -878,7 +903,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           'Spaghetti Inc.'
         );
       });
-      Expect.describe('CUSTOM OIDC FACTOR', function () {
+      describe('CUSTOM OIDC FACTOR', function () {
         itHasIconAndText(
           'GENERIC_OIDC',
           'mfa-custom-factor',
@@ -887,7 +912,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
           resAllFactors
         );
       });
-      Expect.describe('CUSTOM OIDC FACTOR WITH BRANDNAME', function () {
+      describe('CUSTOM OIDC FACTOR WITH BRANDNAME', function () {
         itHasIconAndText(
           'GENERIC_OIDC',
           'mfa-custom-factor',
@@ -900,24 +925,34 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       });
     });
 
-    Expect.describe('Factor list order', function () {
+    describe('Factor list order', function () {
       itp('is in correct order', function () {
         return setup(resAllFactors).then(function (test) {
           var factorList = test.form.getFactorList();
-          expect(factorList).toEqual(['OKTA_VERIFY', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH', 'CUSTOM_HOTP',
-            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'RSA_SECURID', 'CUSTOM_CLAIMS', 'GENERIC_SAML', 'GENERIC_OIDC']);
+          expect(factorList).toEqual([
+            'OKTA_VERIFY', 'U2F', 'WINDOWS_HELLO',
+            'YUBIKEY', 'GOOGLE_AUTH', 'CUSTOM_HOTP',
+            'SMS', 'CALL', 'EMAIL', 'QUESTION', 'DUO',
+            'SYMANTEC_VIP', 'RSA_SECURID', 'CUSTOM_CLAIMS',
+            'GENERIC_SAML', 'GENERIC_OIDC'
+          ]);
         });
       });
       itp('with push and onPrem is in correct order', function () {
         return setup(resAllFactorsOnPrem).then(function (test) {
           var factorList = test.form.getFactorList();
-          expect(factorList).toEqual(['OKTA_VERIFY_PUSH', 'U2F', 'WINDOWS_HELLO', 'YUBIKEY', 'GOOGLE_AUTH',
-            'SMS', 'CALL', 'QUESTION', 'DUO', 'SYMANTEC_VIP', 'ON_PREM', 'CUSTOM_CLAIMS', 'GENERIC_SAML', 'GENERIC_OIDC']);
+          expect(factorList).toEqual([
+            'OKTA_VERIFY_PUSH', 'U2F', 'WINDOWS_HELLO',
+            'YUBIKEY', 'GOOGLE_AUTH', 'SMS', 'CALL',
+            'EMAIL', 'QUESTION', 'DUO', 'SYMANTEC_VIP',
+            'ON_PREM', 'CUSTOM_CLAIMS', 'GENERIC_SAML',
+            'GENERIC_OIDC'
+          ]);
         });
       });
     });
 
-    Expect.describe('Multiple Enrollments', function () {
+    describe('Multiple Enrollments', function () {
       function testMultipleEnrollmentsForFactor (factorName, webauthnEnabled, useProfiles, enrolledFactor) {
         itp('does not display cardinality text if it is optional', function () {
           var res = useProfiles ? resAllFactorsProfile : resAllFactors;
@@ -1263,38 +1298,38 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         });
       }
 
-      Expect.describe('U2F', function () {
+      describe('U2F multi enrollments', function () {
         testMultipleEnrollmentsForFactor('U2F');
       });
-      Expect.describe('with only U2F configured', function () {
+      describe('with only U2F configured', function () {
         testMultipleEnrollmentsWhenSingleFactor('U2F', resMultipleU2F);
       });
-      Expect.describe('WEBAUTHN', function () {
+      describe('WEBAUTHN multi enrollments', function () {
         testMultipleEnrollmentsForFactor('WEBAUTHN', true);
       });
-      Expect.describe('with only WEBAUTHN configured', function () {
+      describe('with only WEBAUTHN configured', function () {
         testMultipleEnrollmentsWhenSingleFactor('WEBAUTHN', resMultipleWebauthn, true);
       });
-      Expect.describe('WEBAUTHN with profiles', function () {
+      describe('WEBAUTHN with profiles', function () {
         testMultipleEnrollmentsForFactor('WEBAUTHN', true, true, enrolledWebauthnFactor);
       });
-      Expect.describe('with only WEBAUTHN configured with profiles', function () {
+      describe('with only WEBAUTHN configured with profiles', function () {
         testMultipleEnrollmentsWhenSingleFactor('WEBAUTHN', resMultipleWebauthnProfile, true, true, enrolledWebauthnFactor);
       });
-      Expect.describe('Okta Verify', function () {
+      describe('Okta Verify', function () {
         testMultipleEnrollmentsForFactor('OKTA_VERIFY');
       });
-      Expect.describe('with only Okta Verify totp configured', function () {
+      describe('with only Okta Verify totp configured', function () {
         var resMultipleOktaVerifyTotp = deepClone(resMultipleOktaVerify);
         resMultipleOktaVerifyTotp.response._embedded.factors = _.where(resMultipleOktaVerifyTotp.response._embedded.factors, { factorType: 'token:software:totp'});
         testMultipleEnrollmentsWhenSingleFactor('OKTA_VERIFY', resMultipleOktaVerifyTotp);
       });
-      Expect.describe('with only Okta Verify push configured', function () {
+      describe('with only Okta Verify push configured', function () {
         var resMultipleOktaVerifyTotp = deepClone(resMultipleOktaVerify);
         resMultipleOktaVerifyTotp.response._embedded.factors = _.where(resMultipleOktaVerifyTotp.response._embedded.factors, { factorType: 'push'});
         testMultipleEnrollmentsWhenSingleFactor('OKTA_VERIFY_PUSH', resMultipleOktaVerifyTotp);
       });
-      Expect.describe('with only Okta Verify Totp/Push configured', function () {
+      describe('with only Okta Verify Totp/Push configured', function () {
         testMultipleEnrollmentsWhenSingleFactor('OKTA_VERIFY_PUSH', resMultipleOktaVerify);
       });
     });

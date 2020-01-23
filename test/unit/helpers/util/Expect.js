@@ -251,6 +251,8 @@ define([
     EnrollPassword: 'enroll-password',
     EnrollRsa: 'enroll-rsa',
     EnrollSms: 'enroll-sms',
+    EnrollEmail: 'enroll-email',
+    EnrollActivateEmail: 'enroll-activate-email',
     EnrollSymantecVip: 'enroll-symantec',
     EnrollTotp: 'enroll-totp',
     EnrollHotp: 'enroll-hotp',

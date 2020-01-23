@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 52] */
+/* eslint max-params: 0 */
 define([
   'util/BaseLoginRouter',
   'IDPDiscoveryController',
@@ -28,6 +28,8 @@ define([
   'EnrollPasswordController',
   'EnrollWindowsHelloController',
   'EnrollCallAndSmsController',
+  'EnrollEmailController',
+  'EnrollActivateEmailController',
   'EnrollOnPremController',
   'EnrollSymantecVipController',
   'EnrollYubikeyController',
@@ -80,6 +82,8 @@ function (BaseLoginRouter,
   EnrollPasswordController,
   EnrollWindowsHelloController,
   EnrollCallAndSmsController,
+  EnrollEmailController,
+  EnrollActivateEmailController,
   EnrollOnPremController,
   EnrollSymantecVipController,
   EnrollYubikeyController,
@@ -137,6 +141,7 @@ function (BaseLoginRouter,
       'signin/enroll/okta/password': 'enrollPassword',
       'signin/enroll/okta/sms': 'enrollSms',
       'signin/enroll/okta/call': 'enrollCall',
+      'signin/enroll/okta/email': 'enrollEmail',
       'signin/enroll-activate/okta/sms': 'enrollSms',
       'signin/enroll/rsa/token': 'enrollRsa',
       'signin/enroll/del_oath/token': 'enrollOnPrem',
@@ -149,6 +154,7 @@ function (BaseLoginRouter,
       'signin/enroll/custom/claims_provider': 'enrollClaimsFactor',
       'signin/enroll/custom/token:hotp': 'enrollHotpFactor',
       'signin/enroll/:provider/:factorType': 'enrollTotpFactor',
+      'signin/enroll-activate/okta/email': 'enrollActivateEmail',
       'signin/enroll-activate/okta/push': 'scanBarcodePushFactor',
       'signin/enroll-activate/okta/push/manual': 'manualSetupPushFactor',
       'signin/enroll-activate/okta/push/sent': 'activationLinkSent',
@@ -318,6 +324,22 @@ function (BaseLoginRouter,
       this.render(EnrollCallAndSmsController, {
         provider: 'OKTA',
         factorType: 'call',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollEmail: function () {
+      this.render(EnrollEmailController, {
+        provider: 'OKTA',
+        factorType: 'email',
+        Beacon: FactorBeacon
+      });
+    },
+
+    enrollActivateEmail: function () {
+      this.render(EnrollActivateEmailController, {
+        provider: 'OKTA',
+        factorType: 'email',
         Beacon: FactorBeacon
       });
     },

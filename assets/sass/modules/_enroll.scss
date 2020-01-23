@@ -1,4 +1,3 @@
-
 .enroll-choices {
   .okta-form-subtitle > span {
     b {
@@ -160,6 +159,30 @@
     }
   }
 
+}
+
+// Enroll Email
+.enroll-email {
+  .o-form-content.o-form-theme {
+    margin-bottom: 15px;
+  }
+}
+
+// Enroll Activate Email
+.enroll-activate-email {
+  .o-form-content.o-form-theme {
+    margin-bottom: 15px;
+  }
+  .enroll-activate-email-content {
+    margin-bottom: 15px;
+  }
+  .mask-email {
+    font-weight: 600;
+  }
+  .email-activate-send-again-btn {
+    float: right;
+    color: $link-text-color;
+  }
 }
 
 // CALL Enrollment
