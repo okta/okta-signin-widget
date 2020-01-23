@@ -10,11 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* eslint complexity: [2, 7] */
-define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
+define([
+  'okta',
+  'q',
+  'views/shared/TextBox',
+  'util/Enums'
+], function (Okta, Q, TextBox, Enums) {
 
   var subtitleTpl = Okta.Handlebars.compile('({{subtitle}})');
   var _ = Okta._;
-  var API_RATE_LIMIT = 30000; //milliseconds
   var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning login-timeout-warning">\
                            <span class="icon warning-16"></span>\
                            <p>{{{warning}}}</p>\
@@ -121,7 +125,7 @@ define(['okta', 'q', 'views/shared/TextBox'], function (Okta, Q, TextBox) {
             .then(function () {
             // render and focus on the passcode input field.
               form.getInputs().first().render().focus();
-              return Q.delay(API_RATE_LIMIT);
+              return Q.delay(Enums.API_RATE_LIMIT);
             })
             .then(_.bind(function () {
               this.options.title = formAndButtonDetails.formRetry;

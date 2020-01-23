@@ -112,6 +112,8 @@ define([
           expect(form.submitButtonText()).toBe('Verify');
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-okta-email')).toBe(true);
+          expect(form.getResendEmailMessage().length).toBe(0);
+          expect(form.getResendButton().length).toBe(0);
 
           return Object.assign({}, test, {form: form});
         })
@@ -156,6 +158,7 @@ define([
     });
 
     itp('shall be able to resend email', function () {
+      Util.speedUpDelay();
       return setup(xhrEnrollEmail)
         .then(function (test) {
           // 1. click 'send to email' button
@@ -165,14 +168,22 @@ define([
           return Expect.waitForEnrollActivateEmail(test);
         })
         .then(function (test) {
-          // 2. verify send again
+          // 2. verify resend again view
           const form = new EnrollActivateEmailForm($sandbox);
+          expect(form.getResendEmailMessage().length).toBe(1);
+          expect(form.getResendButton().length).toBe(1);
+
+          // 3. click resend link
           $.ajax.calls.reset();
           test.setNextResponse(xhrEnrollActivateEmail);
           form.clickResend();
-          return Expect.waitForSpyCall($.ajax);
+          expect(form.getResendEmailMessage().length).toBe(0);
+          expect(form.getResendButton().length).toBe(0);
+          expect(form.getResendEmailView().attr('class'))
+            .toBe('resend-email-infobox hide');
+          return Expect.waitForSpyCall($.ajax, Object.assign(test, {form}));
         })
-        .then(function () {
+        .then(function (test) {
           expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'http://localhost:3000/api/v1/authn' +
@@ -181,6 +192,13 @@ define([
               stateToken: 'dummy-token'
             }
           });
+          return Expect.wait(() => {
+            return test.form.getResendEmailView().attr('class') === 'resend-email-infobox';
+          }, test);
+        })
+        .then(function (test) {
+          expect(test.form.getResendEmailMessage().length).toBe(1);
+          expect(test.form.getResendButton().length).toBe(1);
         })
       ;
     });

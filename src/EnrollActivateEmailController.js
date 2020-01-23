@@ -14,8 +14,8 @@ define([
   'util/FormController',
   'views/enroll-factors/Footer',
   'util/FormType',
-],
-function (Okta, FormController, Footer, FormType) {
+  'util/Enums'
+], function (Okta, FormController, Footer, FormType, Enums) {
 
   var _ = Okta._;
 
@@ -73,6 +73,46 @@ function (Okta, FormController, Footer, FormType) {
 
           })
         }),
+        // send again callout message and link button
+        FormType.View({
+          View: Okta.View.extend({
+            className: 'hide resend-email-infobox',
+            template: '<div class="infobox infobox-warning">' +
+              '<span class="icon warning-16"></span>' +
+              '<p>' +
+              '<span>{{i18n code="enroll.activate.email.not.received" bundle="login"}}</span>'+
+              '<a href="#" class="email-activate-send-again-btn">' +
+              '{{i18n code="enroll.activate.email.resend" bundle="login"}}'+
+              '</a>' +
+              '</p>' +
+              '</div>',
+
+            events: {
+              'click .email-activate-send-again-btn': 'resendEmail',
+            },
+
+            postRender: function () {
+              this.showResendCallout();
+            },
+
+            showResendCallout: function () {
+              _.delay(() => {
+                this.$el.removeClass('hide');
+              }, Enums.API_RATE_LIMIT);
+            },
+
+            hideResendCallout: function () {
+              this.$el.addClass('hide');
+            },
+
+            resendEmail: function (e) {
+              e.preventDefault();
+              this.hideResendCallout();
+              this.model.resend()
+                .finally(this.showResendCallout.bind(this));
+            },
+          })
+        }),
         // passcode input
         FormType.Input({
           label: Okta.loc('enroll.activate.email.code.label', 'login'),
@@ -80,21 +120,6 @@ function (Okta, FormController, Footer, FormType) {
           name: 'passCode',
           type: 'text',
           wide: true,
-        }),
-        // send again link button
-        FormType.View({
-          View: Okta.View.extend({
-            template: '<a href="#" class="email-activate-send-again-btn">' +
-              '{{i18n code="enroll.activate.email.resend" bundle="login"}}'+
-              '</a>',
-            events: {
-              'click .email-activate-send-again-btn': 'resendEmail',
-            },
-            resendEmail: function (e) {
-              e.preventDefault();
-              this.model.resend();
-            },
-          })
         }),
       ]
     };

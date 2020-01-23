@@ -12,6 +12,8 @@
 
 define({
 
+  API_RATE_LIMIT: 30000, //milliseconds
+
   WIDGET_CONTAINER_ID: 'okta-sign-in',
   WIDGET_CONFIG_COLORS_ID: 'okta-sign-in-config-colors',
 

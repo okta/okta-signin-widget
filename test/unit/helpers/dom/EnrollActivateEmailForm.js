@@ -12,8 +12,20 @@ define(['./Form'], function (Form) {
       field.trigger('change');
     },
 
+    getResendEmailView: function () {
+      return this.$('.resend-email-infobox');
+    },
+
+    getResendEmailMessage: function () {
+      return this.$('.resend-email-infobox:not(.hide) .infobox p');
+    },
+
+    getResendButton: function () {
+      return this.$('.resend-email-infobox:not(.hide) a.email-activate-send-again-btn');
+    },
+
     clickResend: function () {
-      var resendLinkBtn = this.$('a.email-activate-send-again-btn');
+      var resendLinkBtn = this.getResendButton();
       resendLinkBtn.click();
     },
 

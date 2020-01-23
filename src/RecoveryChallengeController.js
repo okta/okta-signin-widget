@@ -21,7 +21,6 @@ define([
 function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
 
   var _ = Okta._;
-  var API_RATE_LIMIT = 30000; //milliseconds
 
   return FormController.extend({
     className: 'recovery-challenge',
@@ -42,7 +41,7 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
       },
       limitResending: function () {
         this.set({ableToResend: false});
-        _.delay(_.bind(this.set, this), API_RATE_LIMIT, {ableToResend: true});
+        _.delay(_.bind(this.set, this), Enums.API_RATE_LIMIT, {ableToResend: true});
       },
       save: function () {
         return this.doTransaction(function (transaction) {

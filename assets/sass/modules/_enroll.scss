@@ -1,3 +1,5 @@
+$enroll-content-spacing: 15px;
+
 .enroll-choices {
   .okta-form-subtitle > span {
     b {
@@ -164,17 +166,15 @@
 // Enroll Email
 .enroll-email {
   .o-form-content.o-form-theme {
-    margin-bottom: 15px;
+    margin-bottom: $enroll-content-spacing;
   }
 }
 
 // Enroll Activate Email
 .enroll-activate-email {
-  .o-form-content.o-form-theme {
-    margin-bottom: 15px;
-  }
+  .resend-email-infobox,
   .enroll-activate-email-content {
-    margin-bottom: 15px;
+    margin-bottom: $enroll-content-spacing;
   }
   .mask-email {
     font-weight: 600;

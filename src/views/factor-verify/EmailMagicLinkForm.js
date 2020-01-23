@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* eslint complexity: [2, 7] */
-define(['okta', 'q'], function (Okta, Q) {
+define(['okta', 'q', 'util/Enums'], function (Okta, Q, Enums) {
   var _ = Okta._;
-  var API_RATE_LIMIT = 30000; //milliseconds
 
   return Okta.Form.extend({
     layout: 'o-form-theme',
@@ -37,7 +36,7 @@ define(['okta', 'q'], function (Okta, Q) {
           this.render();
           this.model.save()
             .then(_.bind(function () {
-              return Q.delay(API_RATE_LIMIT);
+              return Q.delay(Enums.API_RATE_LIMIT);
             }, this))
             .then(_.bind(function () {
               this.options.title = Okta.loc('mfa.resendEmail', 'login');
