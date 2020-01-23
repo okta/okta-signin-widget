@@ -67,6 +67,9 @@ define([
           expect(test.form.titleText()).toBe('Set up Email Authentication');
           expect(test.form.enrollEmailContent()).toBe('Send a verification code to your registered email.');
           expect(test.form.submitButtonText()).toBe('Send me the code');
+          expect(test.beacon.isFactorBeacon()).toBe(true);
+          expect(test.beacon.hasClass('mfa-okta-email')).toBe(true);
+
           return test;
         })
         .then(function (test) {
@@ -107,6 +110,9 @@ define([
             .toBe('A verification code was sent to t...n@okta.com. Check your email and enter the code below.');
           expect(form.labelText('passCode')).toBe('Verification code');
           expect(form.submitButtonText()).toBe('Verify');
+          expect(test.beacon.isFactorBeacon()).toBe(true);
+          expect(test.beacon.hasClass('mfa-okta-email')).toBe(true);
+
           return Object.assign({}, test, {form: form});
         })
         .then(function (test) {
