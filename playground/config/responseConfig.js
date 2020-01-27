@@ -35,6 +35,9 @@ const emailEnrollMocks = {
   '/api/v1/authn': [
     'enroll-email-with-sms-enrolled'
   ],
+  '/api/v1/authn/skip': [
+    'success-001'
+  ],
   '/api/v1/authn/factors': [
     'enroll-activate-email'
   ],
