@@ -33,13 +33,16 @@ const VIEWS_MAPPING = {
   'device-apple-sso-extension': {
     [DEFAULT]: SSOExtensionView,
   },
-  //select-factor-authenticate is used to show the list of factors before challenge flow
-  //select-factor-enroll is used to show the list of factors before enroll flows
-  'select-factor': {
+  'select-factor': { //DEPRECATED: temporary backwards compatibility
     authenticate: SelectFactorAuthenticateView,
     enroll: SelectFactorEnrollView
   },
-
+  'select-factor-authenticate': {
+    [DEFAULT]: SelectFactorAuthenticateView,
+  },
+  'select-factor-enroll': {
+    [DEFAULT]: SelectFactorEnrollView,
+  },
   'enroll-profile': {
     [DEFAULT]: EnrollProfileView,
   },
