@@ -1,3 +1,4 @@
+@import './email-factor';
 $enroll-content-spacing: 15px;
 
 .enroll-choices {
@@ -172,16 +173,10 @@ $enroll-content-spacing: 15px;
 
 // Enroll Activate Email
 .enroll-activate-email {
-  .resend-email-infobox,
+  @include email-factor;
+
   .enroll-activate-email-content {
     margin-bottom: $enroll-content-spacing;
-  }
-  .mask-email {
-    font-weight: 600;
-  }
-  .email-activate-send-again-btn {
-    float: right;
-    color: $link-text-color;
   }
 }
 

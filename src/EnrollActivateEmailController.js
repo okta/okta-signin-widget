@@ -13,9 +13,9 @@ define([
   'okta',
   'util/FormController',
   'views/enroll-factors/Footer',
+  'views/ResendEmailView',
   'util/FormType',
-  'util/Enums'
-], function (Okta, FormController, Footer, FormType, Enums) {
+], function (Okta, FormController, Footer, ResendEmailView, FormType) {
 
   var _ = Okta._;
 
@@ -47,7 +47,6 @@ define([
       noButtonBar: false,
       autoSave: true,
       save: _.partial(Okta.loc, 'oform.verify', 'login'),
-      hasSavingState: true,
       formChildren: [
         // message
         FormType.View({
@@ -60,7 +59,7 @@ define([
             // Why use `{{{` for the description?
             // - factorEmail is actually an HTML fragment which
             //   is created via another handlebar template and used for bold the email address.
-            template: '{{{i18n code="enroll.activate.email.description" bundle="login" arguments="factorEmail"}}}',
+            template: '{{{i18n code="check.email.and.enter.code.description" bundle="login" arguments="factorEmail"}}}',
 
             getTemplateData: function () {
               const factor = this.options.appState.get('factor');
@@ -75,47 +74,11 @@ define([
         }),
         // send again callout message and link button
         FormType.View({
-          View: Okta.View.extend({
-            className: 'hide resend-email-infobox',
-            template: '<div class="infobox infobox-warning">' +
-              '<span class="icon warning-16"></span>' +
-              '<p>' +
-              '<span>{{i18n code="enroll.activate.email.not.received" bundle="login"}}</span>'+
-              '<a href="#" class="email-activate-send-again-btn">' +
-              '{{i18n code="enroll.activate.email.resend" bundle="login"}}'+
-              '</a>' +
-              '</p>' +
-              '</div>',
-
-            events: {
-              'click .email-activate-send-again-btn': 'resendEmail',
-            },
-
-            postRender: function () {
-              this.showResendCallout();
-            },
-
-            showResendCallout: function () {
-              _.delay(() => {
-                this.$el.removeClass('hide');
-              }, Enums.API_RATE_LIMIT);
-            },
-
-            hideResendCallout: function () {
-              this.$el.addClass('hide');
-            },
-
-            resendEmail: function (e) {
-              e.preventDefault();
-              this.hideResendCallout();
-              this.model.resend()
-                .finally(this.showResendCallout.bind(this));
-            },
-          })
+          View: ResendEmailView,
         }),
         // passcode input
         FormType.Input({
-          label: Okta.loc('enroll.activate.email.code.label', 'login'),
+          label: Okta.loc('email.code.label', 'login'),
           'label-top': true,
           name: 'passCode',
           type: 'text',

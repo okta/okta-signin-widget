@@ -15,9 +15,11 @@ define([
   'helpers/xhr/MFA_ENROLL_email',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_email',
   'helpers/xhr/SUCCESS',
-], function (Q, Okta, OktaAuth, LoginUtil, Util, AuthContainer,
+  'helpers/xhr/SMS_RESEND_error',
+], function (
+  Q, Okta, OktaAuth, LoginUtil, Util, AuthContainer,
   EnrollEmailForm, EnrollActivateEmailForm, Beacon, Expect, $sandbox, Router,
-  xhrEnrollEmail, xhrEnrollActivateEmail, xhrSUCCESS) {
+  xhrEnrollEmail, xhrEnrollActivateEmail, xhrSUCCESS, xhrResendError) {
 
   var { $ } = Okta;
   var itp = Expect.itp;
@@ -156,7 +158,6 @@ define([
           });
         });
     });
-
     itp('shall be able to resend email', function () {
       Util.speedUpDelay();
       return setup(xhrEnrollEmail)
@@ -199,6 +200,48 @@ define([
         .then(function (test) {
           expect(test.form.getResendEmailMessage().length).toBe(1);
           expect(test.form.getResendButton().length).toBe(1);
+        })
+      ;
+    });
+    itp('shall display resend email error', function () {
+      Util.speedUpDelay();
+      return setup(xhrEnrollEmail)
+        .then(function (test) {
+          // 1. click 'send to email' button
+          $.ajax.calls.reset();
+          test.setNextResponse(xhrEnrollActivateEmail);
+          test.form.submit();
+          return Expect.waitForEnrollActivateEmail(test);
+        })
+        .then(function (test) {
+          // 2. verify resend again view
+          const form = new EnrollActivateEmailForm($sandbox);
+          expect(form.getResendEmailMessage().length).toBe(1);
+          expect(form.getResendButton().length).toBe(1);
+
+          // 3. click resend link
+          $.ajax.calls.reset();
+          test.setNextResponse(xhrResendError);
+          form.clickResend();
+          expect(form.getResendEmailMessage().length).toBe(0);
+          expect(form.getResendButton().length).toBe(0);
+          expect(form.getResendEmailView().attr('class'))
+            .toBe('resend-email-infobox hide');
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorBox().length).toBe(1);
+          expect(test.form.errorMessage())
+            .toBe('You do not have permission to perform the requested action');
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            url: 'http://localhost:3000/api/v1/authn' +
+              '/factors/eml198rKSEWOSKRIVIFT/lifecycle/resend',
+            data: {
+              stateToken: 'dummy-token'
+            }
+          });
         })
       ;
     });

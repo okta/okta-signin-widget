@@ -39,7 +39,7 @@ function (Okta, FormController, Footer, FormType) {
       title: _.partial(Okta.loc, 'enroll.email.title', 'login'),
       noButtonBar: false,
       autoSave: true,
-      save: _.partial(Okta.loc, 'enroll.email.save', 'login'),
+      save: _.partial(Okta.loc, 'send.email.code.save', 'login'),
       formChildren: [
         FormType.View({
           View: Okta.View.extend({

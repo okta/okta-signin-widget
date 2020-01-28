@@ -33,21 +33,36 @@ const authn = {
 // email enroll
 const emailEnrollMocks = {
   '/api/v1/authn': [
-    'enroll-email-with-sms-enrolled'
+    'mfa-enroll-email-with-sms-enrolled'
   ],
   '/api/v1/authn/skip': [
-    'success-001'
+    'mfa-enroll-email-with-sms-enrolled'
   ],
   '/api/v1/authn/factors': [
-    'enroll-activate-email'
+    'mfa-enroll-activate-email'
   ],
   '/api/v1/authn/factors/:factorid/lifecycle/resend': [
-    'enroll-activate-email'
+    'mfa-enroll-activate-email'
   ],
   '/api/v1/authn/factors/:factorid/lifecycle/activate': [
     'success-001'
   ],
 };
+
+// email verification
+const emailVerificationMocks = {
+  '/api/v1/authn': [
+    'mfa-required-email'
+  ],
+  '/api/v1/authn/factors/:factorid/verify/resend': [
+    'mfa-challenge-email',
+  ],
+  '/api/v1/authn/factors/:factorid/verify': [
+    'mfa-challenge-email',
+    'success-001'
+  ],
+};
+
 
 // ===== IDX
 // Windows authenticator with loopback server

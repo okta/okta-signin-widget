@@ -1,0 +1,73 @@
+{
+  "stateToken": "00nRv2jyBoem8TLFWmvZkktQPRh0-XSESzzZZ62rXy",
+  "expiresAt": "2020-01-27T17:17:37.000Z",
+  "status": "MFA_CHALLENGE",
+  "factorResult": "CHALLENGE",
+  "_embedded": {
+    "user": {
+      "id": "00u13hcTl4F7w6M7e0g4",
+      "passwordChanged": "2020-01-24T21:23:46.000Z",
+      "profile": {
+        "login": "foo4@okta.com",
+        "firstName": "foo4",
+        "lastName": "bar",
+        "locale": "en",
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "factor": {
+      "id": "emf13hl9SsZijkPfn0g4",
+      "factorType": "email",
+      "provider": "OKTA",
+      "vendorName": "OKTA",
+      "profile": {
+        "email": "f...4@okta.com"
+      }
+    },
+    "policy": {
+      "allowRememberDevice": true,
+      "rememberDeviceLifetimeInMinutes": 0,
+      "rememberDeviceByDefault": false,
+      "factorsPolicyInfo": {
+      }
+    }
+  },
+  "_links": {
+    "next": {
+      "name": "verify",
+      "href": "http://localhost:3000/api/v1/authn/factors/emf13hl9SsZijkPfn0g4/verify",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    },
+    "resend": [
+      {
+        "name": "email",
+        "href": "http://localhost:3000/api/v1/authn/factors/emf13hl9SsZijkPfn0g4/verify/resend",
+        "hints": {
+          "allow": [
+            "POST"
+          ]
+        }
+      }
+    ],
+    "prev": {
+      "href": "http://localhost:3000/api/v1/authn/previous",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    },
+    "cancel": {
+      "href": "http://localhost:3000/api/v1/authn/cancel",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    }
+  }
+}
