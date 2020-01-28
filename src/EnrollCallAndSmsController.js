@@ -18,12 +18,11 @@ define([
   'views/shared/TextBox',
   'util/CountryUtil',
   'util/FormType',
-  'util/Util'
-],
-function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, FormType, Util) {
+  'util/Util',
+  'util/Enums'
+], function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, FormType, Util, Enums) {
 
   var _ = Okta._;
-  var API_RATE_LIMIT = 30000; //milliseconds
   var { Keys } = Okta.internal.util;
   var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning login-timeout-warning">\
                            <span class="icon warning-16"></span>\
@@ -97,7 +96,7 @@ function (Okta, FormController, Footer, PhoneTextBox, TextBox, CountryUtil, Form
       },
       limitResending: function () {
         this.set({ableToResend: false});
-        _.delay(_.bind(this.set, this), API_RATE_LIMIT, {ableToResend: true});
+        _.delay(_.bind(this.set, this), Enums.API_RATE_LIMIT, {ableToResend: true});
       },
       sendCode: function () {
         var self = this;
