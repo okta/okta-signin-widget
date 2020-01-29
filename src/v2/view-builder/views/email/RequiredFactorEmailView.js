@@ -20,7 +20,7 @@ const ResendView = View.extend(
         className: 'button',
         title: 'Resend Email',
         click () {
-          this.options.appState.trigger('invokeAction', 'factor.resend');
+          this.options.appState.trigger('invokeAction', 'factor-resend');
         }
       }));
     },

@@ -30,13 +30,15 @@ var OktaSignIn = (function () {
       }
       var Router = V1LoginRouter;
       if (widgetOptions.stateToken) {
-        Util.introspectToken(authClient, widgetOptions)
-          .then(_.bind(function (response) {
+        Util.introspectToken(widgetOptions)
+          .then(_.bind(function (data) {
+            var response = data.rawIdxState;
             var isNewPipeline = checkResponseVersion(response);
             if (isNewPipeline) {
               Router = require('v2/WidgetRouter');
             }
             router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
+            router.appState.set('idx', data);
             router.appState.set('introspectSuccess', response);
             router.start();
           }, this)).fail(_.bind(function (err) {

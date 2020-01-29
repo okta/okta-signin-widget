@@ -48,7 +48,19 @@ export default Controller.extend({
   },
 
   invokeAction (actionPath = '') {
-    const actionFn = this.options.appState.getActionByPath(actionPath);
+    const idx = this.options.appState.get('idx');
+    if (idx['neededToProceed'][actionPath]) {
+      idx.proceed(actionPath, {}).then((resp) => {
+        this.options.appState.set('idx', resp);
+        this.options.appState.trigger('remediationSuccess', resp.rawIdxState);
+      })
+        .catch(error => {
+          throw error;
+        });
+      return;
+    }
+
+    const actionFn = idx['actions'][actionPath];
 
     if (_.isFunction(actionFn)) {
       // TODO: OKTA-243167
@@ -56,9 +68,14 @@ export default Controller.extend({
       // 2. how to catch error?
       actionFn()
         .then(resp => {
-          this.options.appState.trigger('remediationSuccess', resp.response);
+          this.options.appState.set('idx', resp);
+          this.options.appState.trigger('remediationSuccess', resp.rawIdxState);
         })
-        .catch();
+        .catch(error => {
+          throw error;
+        });
+    } else {
+      throw 'Invalid action selected';
     }
   },
 
@@ -71,17 +88,19 @@ export default Controller.extend({
 
   handleFormSave (model) {
     const formName = model.get('formName');
-    const actionFn = this.options.appState.get('currentState')[formName];
-    if (!_.isFunction(actionFn)) {
+    const idx = this.options.appState.get('idx');
+    const actionFn = idx['neededToProceed'][formName];
+    if (!actionFn) {
       model.trigger('error', `Cannot find http action for "${formName}".`);
       return;
     }
 
     this.toggleFormButtonState(true);
     model.trigger('request');
-    return actionFn(model.toJSON())
+    return idx.proceed(formName, model.toJSON())
       .then(resp => {
-        this.options.appState.trigger('remediationSuccess', resp.response);
+        this.options.appState.set('idx', resp);
+        this.options.appState.trigger('remediationSuccess', resp.rawIdxState);
       })
       .catch(error => {
         model.trigger('error', model, {'responseJSON': error}, true);

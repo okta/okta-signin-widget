@@ -6,7 +6,7 @@ export default {
     const factorPollingInterval = factor && factor.poll && factor.poll.refresh;
     if (_.isNumber(factorPollingInterval)) {
       this.polling = setInterval(()=>{
-        this.options.appState.trigger('invokeAction', 'factor.poll');
+        this.options.appState.trigger('invokeAction', 'factor-poll');
       }, factorPollingInterval);
     }
   },

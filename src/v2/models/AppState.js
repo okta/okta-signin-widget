@@ -33,15 +33,15 @@ export default Model.extend({
       },
     },
     factorProfile: {
-      deps: ['factor'],
-      fn (factor = {}) {
-        return factor.profile || {};
+      deps: ['currentState'],
+      fn (currentState = {}) {
+        return currentState.factor && currentState.factor.value.profile || {};
       },
     },
     factorType: {
-      deps: ['factor'],
-      fn (factor = {}) {
-        return factor.factorType;
+      deps: ['currentState'],
+      fn (currentState = {}) {
+        return currentState.factor && currentState.factor.value.factorType;
       },
     },
     currentStep: {
@@ -61,7 +61,7 @@ export default Model.extend({
   },
 
   hasRemediationForm (formName) {
-    return this.get('currentState').remediation.filter(v => v.name === formName).length === 1;
+    return Object.keys(this.get('idx').neededToProceed).filter(name => name === formName).length === 1;
   },
 
   getActionByPath (actionPath) {
@@ -87,7 +87,11 @@ export default Model.extend({
 
     let currentViewState;
     if (!_.isEmpty(this.get('remediation'))) {
-      currentViewState = this.get('remediation').filter(r => r.name === currentFormName)[0];
+      currentViewState = this.get('remediation').filter(r => {
+        if (r.name === currentFormName) {
+          return r;
+        }
+      })[0];
     }
 
     if (!currentViewState) {
@@ -102,18 +106,20 @@ export default Model.extend({
   },
 
   setIonResponse (resp) {
+    const idx = this.get('idx');
     // Don't re-render view if new response is same as last.
     // Usually happening at polling and pipeline doesn't proceed to next step.
     // expiresAt will be different for each response, hence compare objects without that property
-    if (_.isEqual(_.omit(resp.__rawResponse, 'expiresAt'), _.omit(this.get('__rawResponse'), 'expiresAt'))) {
+    if (_.isEqual(_.omit(idx.rawIdxState, 'expiresAt'), _.omit(this.get('__rawResponse'), 'expiresAt'))) {
       return;
     }
 
     // `currentFormName` is default to first form of remediation object or nothing.
     resp.currentFormName = null;
 
-    if (!_.isEmpty(resp.currentState.remediation)) {
-      resp.currentFormName = resp.currentState.remediation[0].name;
+    if (idx.neededToProceed && idx.rawIdxState.remediation) {
+      // TODO change to look at the rawResponse from idx
+      resp.currentFormName = idx.rawIdxState.remediation.value[0].name;
     }
 
     // default terminal state for fall back
