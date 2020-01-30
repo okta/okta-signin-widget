@@ -1,0 +1,188 @@
+{
+    "stateHandle": "02M2crb7cM5t5rtgx3IrE1jjQ7K2FzNH_0GPT-KTlo",
+    "version": "1.0.0",
+    "expiresAt": "2020-01-23T21:29:08.000Z",
+    "step": "AUTHENTICATE",
+    "intent": "LOGIN",
+    "remediation": {
+      "type": "array",
+      "value": [
+        {
+          "rel": [
+            "create-form"
+          ],
+          "name": "challenge-factor",
+          "href": "https://idp.okta1.com:80/idp/idx/challenge/answer",
+          "method": "POST",
+          "accepts": "application/vnd.okta.v1+json",
+          "value": [
+            {
+              "name": "credentials",
+              "form": {
+                "value": [
+                  {
+                    "name": "clientData",
+                    "label": "Client Data",
+                    "visible": false
+                  },
+                  {
+                    "name": "authenticatorData",
+                    "label": "Authenticator Data",
+                    "visible": false
+                  },
+                  {
+                    "name": "signatureData",
+                    "label": "Signature Data",
+                    "visible": false
+                  }
+                ]
+              }
+            },
+            {
+              "name": "stateHandle",
+              "required": true,
+              "value": "02M2crb7cM5t5rtgx3IrE1jjQ7K2FzNH_0GPT-KTlo",
+              "visible": false,
+              "mutable": false
+            }
+          ]
+        },
+        {
+          "rel": [
+            "create-form"
+          ],
+          "name": "select-factor",
+          "href": "https://idp.okta1.com:80/idp/idx/challenge",
+          "method": "POST",
+          "accepts": "application/vnd.okta.v1+json",
+          "value": [
+            {
+              "name": "factorId",
+              "type": "set",
+              "options": [
+                {
+                  "label": "Email",
+                  "value": "emf2l3dQNerbaVZge0g4"
+                },
+                {
+                  "label": "Email",
+                  "value": "emf2l39lFQA7Lu6fo0g4"
+                },
+                {
+                  "label": "WebAuthn_N6ax6",
+                  "value": "fwf2l3a8EhFJYVXo80g4"
+                }
+              ]
+            },
+            {
+              "name": "stateHandle",
+              "required": true,
+              "value": "02M2crb7cM5t5rtgx3IrE1jjQ7K2FzNH_0GPT-KTlo",
+              "visible": false,
+              "mutable": false
+            }
+          ]
+        }
+      ]
+    },
+    "factor": {
+      "type": "object",
+      "value": {
+        "factorType": "webauthn",
+        "factorProfileId": "fpr2jwmgGmB2cWCvn0g4",
+        "factorId": "fwf2l3a8EhFJYVXo80g4",
+        "recover": {
+          "rel": [
+            "create-form"
+          ],
+          "name": "recover",
+          "href": "https://idp.okta1.com:80/idp/idx/recover",
+          "method": "POST",
+          "accepts": "application/vnd.okta.v1+json",
+          "value": [
+            {
+              "name": "stateHandle",
+              "required": true,
+              "value": "02M2crb7cM5t5rtgx3IrE1jjQ7K2FzNH_0GPT-KTlo",
+              "visible": false,
+              "mutable": false
+            }
+          ]
+        },
+        "contextualData": {
+          "challengeData": {
+            "challenge": "-Z-DmiGoI_QxWLYA52Bo",
+            "userVerification": "preferred",
+            "extensions": {}
+          },
+          "profile": {
+            "credentialId": "17lwnR1dSirrn0jXokTug_y92bEyiUWYeSW1px20AYB2Tdtby1TLlKuOHfuKnKmhRWzDo4u4Q3aSmM8qhumWFg",
+            "appId": null,
+            "version": null,
+            "authenticatorName": "YubiKey"
+          }
+        }
+      }
+    },
+    "factors": {
+      "type": "array",
+      "value": [
+        {
+          "factorType": "email",
+          "factorProfileId": "fpr2ibuGKdxOPT75r0g4",
+          "factorId": "emf2l3dQNerbaVZge0g4"
+        },
+        {
+          "factorType": "email",
+          "factorId": "emf2l39lFQA7Lu6fo0g4"
+        },
+        {
+          "factorType": "webauthn",
+          "factorProfileId": "fpr2jwmgGmB2cWCvn0g4",
+          "factorId": "fwf2l3a8EhFJYVXo80g4"
+        }
+      ]
+    },
+    "user": {
+      "type": "object",
+      "value": {
+        "id": "00u2i9upjr9rKYLx50g4"
+      }
+    },
+    "cancel": {
+      "rel": [
+        "create-form"
+      ],
+      "name": "cancel",
+      "href": "https://idp.okta1.com:80/idp/idx/cancel",
+      "method": "POST",
+      "accepts": "application/vnd.okta.v1+json",
+      "value": [
+        {
+          "name": "stateHandle",
+          "required": true,
+          "value": "02M2crb7cM5t5rtgx3IrE1jjQ7K2FzNH_0GPT-KTlo",
+          "visible": false,
+          "mutable": false
+        }
+      ]
+    },
+    "context": {
+      "rel": [
+        "create-form"
+      ],
+      "name": "context",
+      "href": "https://idp.okta1.com:80/idp/idx/context",
+      "method": "POST",
+      "accepts": "application/vnd.okta.v1+json",
+      "value": [
+        {
+          "name": "stateHandle",
+          "required": true,
+          "value": "02M2crb7cM5t5rtgx3IrE1jjQ7K2FzNH_0GPT-KTlo",
+          "visible": false,
+          "mutable": false
+        }
+      ]
+    }
+  }
