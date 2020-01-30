@@ -1955,7 +1955,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('Sign in failed!');
+            expect(test.form.errorMessage()).toBe('Unable to sign in');
           });
       });
       itp('shows the right throttle error message', function () {
@@ -1985,7 +1985,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('Sign in failed!');
+            expect(test.form.errorMessage()).toBe('Unable to sign in');
             expectErrorEvent(test, 401, 'Authentication failed');
           });
       });
