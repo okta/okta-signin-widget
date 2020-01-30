@@ -1,11 +1,8 @@
-import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
-import BaseFormObject from './components/BaseFormObject';
 
 export default class ChallengeFactorPageObject extends BasePageObject {
   constructor(t) {
     super(t);
-    this.form = new BaseFormObject(t);
   }
 
   verifyFactor(name, value) {
