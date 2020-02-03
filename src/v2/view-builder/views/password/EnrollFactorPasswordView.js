@@ -4,8 +4,8 @@ import BaseForm from '../../internals/BaseForm';
 import BaseFactorView from '../shared/BaseFactorView';
 
 const Body = BaseForm.extend({
-  title: loc('factor.password', 'login'),
-  save: loc('mfa.challenge.verify', 'login'),
+  title: loc('enroll.password.setup', 'login'),
+  save: loc('save.password', 'login'),
 
   getUISchema () {
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);

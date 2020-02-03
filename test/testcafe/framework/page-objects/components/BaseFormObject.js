@@ -25,6 +25,14 @@ export default class BaseFormObject {
     return this.form.find(selector);
   }
 
+  getTitle() {
+    return this.form.find('[data-se="o-form-head"]').textContent; 
+  }
+
+  getSubtitle() {
+    return this.form.find('[data-se="o-form-explain"]').textContent;
+  }
+
   getSelectFormButtonLabel(selector) {
     return this.form.find(selector).textContent;
   }

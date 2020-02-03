@@ -43,12 +43,10 @@ const Body = BaseForm.extend(Object.assign(
   {
     save: loc('mfa.challenge.verify', 'login'),
 
-    subtitle:
-    'An email has been sent to you. Please click the link in your email or enter the code from that email below.',
-
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
-
+      this.add(`<div class="email-verification-description">An email has been sent to you. 
+          Please click the link in your email or enter the code from that email below.</div>`);
       // polling has been killed when click save to avoid race conditions
       // hence resume if save failed.
       this.listenTo(this.options.model, 'error', this.startPolling.bind(this));
@@ -62,7 +60,7 @@ const Body = BaseForm.extend(Object.assign(
 
     postRender () {
       this.add(ResendView, {
-        selector: '.okta-form-subtitle',
+        selector: '.o-form-fieldset-container',
         prepend: true,
       });
 

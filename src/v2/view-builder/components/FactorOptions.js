@@ -57,10 +57,6 @@ export default ListView.extend({
     });
   },
 
-  template: `
-    <div class="list-title">
-    {{i18n code="enroll.choices.description" bundle="login"}}
-    </div>\
-    <div class="list-content"></div>`,
+  template: '<div class="list-content"></div>',
 
 });
