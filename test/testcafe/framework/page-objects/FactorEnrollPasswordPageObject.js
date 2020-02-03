@@ -8,7 +8,6 @@ const confirmPasswordFieldName = 'confirmPassword';
 export default class EnrollPasswordPageObject extends BasePageObject {
   constructor (t) {
     super(t);
-    this.form = new BaseFormObject(t);
   }
 
   fillPassword(value) {

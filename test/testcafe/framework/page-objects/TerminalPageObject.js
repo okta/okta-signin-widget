@@ -12,10 +12,6 @@ export default class TerminalPageObject extends BasePageObject {
     return this.body.find('[data-se="o-form-head"]').innerText;
   }
 
-  getSubtitle() {
-    return this.body.find('[data-se="o-form-explain"]').innerText;
-  }
-
   getFooterBackLink() {
     return this.footer.find('[data-se="back"]');
   }
