@@ -22,7 +22,7 @@ async function setup(t) {
 test(`should have the correct content`, async t => {
   const deviceChallengePollPageObject = await setup(t);
   await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verify account access');
-  await t.expect(deviceChallengePollPageObject.getSubtitle()).eql('Launching Okta Verify...');
+  await t.expect(deviceChallengePollPageObject.getFormSubtitle()).eql('Launching Okta Verify...');
   await t.expect(deviceChallengePollPageObject.getContent())
     .eql('If nothing prompts from the browser, click here to launch Okta Verify, or make sure Okta Verify is installed.');
   await t.expect(deviceChallengePollPageObject.getFooterLink().innerText).eql('Back to Sign In');

@@ -17,10 +17,6 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.getElement('.okta-form-title').textContent;
   }
 
-  getPageSubTitle(selector) {
-    return this.form.getElement(selector).textContent;
-  }
-
   waitForErrorBox() {
     return this.form.waitForErrorBox();
   }

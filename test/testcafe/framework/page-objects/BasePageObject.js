@@ -1,4 +1,5 @@
 import BaseFormObject from './components/BaseFormObject';
+import { Selector } from 'testcafe';
 
 export default class BasePageObject {
   constructor(t) {
@@ -17,5 +18,9 @@ export default class BasePageObject {
 
   getFormSubtitle() {
     return this.form.getSubtitle();
+  }
+
+  getTextContent(selector) {
+    return Selector(selector).innerText;
   }
 }
