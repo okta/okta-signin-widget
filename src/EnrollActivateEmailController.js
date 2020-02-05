@@ -43,7 +43,7 @@ define([
 
   const Form = function () {
     return {
-      title: _.partial(Okta.loc, 'enroll.email.title', 'login'),
+      title: _.partial(Okta.loc, 'email.enroll.title', 'login'),
       noButtonBar: false,
       autoSave: true,
       save: _.partial(Okta.loc, 'oform.verify', 'login'),
@@ -59,7 +59,7 @@ define([
             // Why use `{{{` for the description?
             // - factorEmail is actually an HTML fragment which
             //   is created via another handlebar template and used for bold the email address.
-            template: '{{{i18n code="check.email.and.enter.code.description" bundle="login" arguments="factorEmail"}}}',
+            template: '{{{i18n code="email.mfa.email.sent.description" bundle="login" arguments="factorEmail"}}}',
 
             getTemplateData: function () {
               const factor = this.options.appState.get('factor');

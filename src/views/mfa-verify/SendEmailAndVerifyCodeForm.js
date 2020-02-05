@@ -26,7 +26,7 @@ define([
   const VerifyEmailCodeForm = Okta.Form.extend({
     layout: 'o-form-theme',
     className: 'mfa-verify-email',
-    title: _.partial(Okta.loc, 'mfa.email.title', 'login'),
+    title: _.partial(Okta.loc, 'email.mfa.title', 'login'),
     noButtonBar: false,
     autoSave: true,
     noCancelButton: true,
@@ -34,9 +34,9 @@ define([
       'data-se': 'factor-email',
     },
     save: function () {
-      return this.state.get('isEmailChallengeStatus')
+      return this.options.appState.get('isMfaChallenge')
         ? Okta.loc('mfa.challenge.verify', 'login')
-        : Okta.loc('send.email.code.save', 'login');
+        : Okta.loc('email.button.send', 'login');
     },
 
     events: Object.assign({}, Okta.Form.prototype.events, {
@@ -44,18 +44,15 @@ define([
         e.preventDefault();
         this.clearErrors();
 
-        if (this.state.get('isEmailChallengeStatus')) {
+        if (this.options.appState.get('isMfaChallenge')) {
           if (this.isValid()) {
             this.model.save();
           }
         } else {
+          // Send email and switch to verification view
           this.model.set('answer', '');
           this.model.save()
-            .then(() => {
-              this.state.set('isEmailChallengeStatus', true);
-              this.removeChildren();
-              this.render();
-            });
+            .then(this.renderChallengView.bind(this));
         }
       }
     }),
@@ -63,55 +60,52 @@ define([
     initialize: function () {
       Okta.Form.prototype.initialize.apply(this, arguments);
 
-      this.state.set('isEmailChallengeStatus', false);
+      // render 'Send Email' page at first place
+      this.add(Okta.View.extend({
+        attributes: {
+          'data-se': 'mfa-send-email-content'
+        },
+        className: 'mfa-send-email-content',
+        template: '{{{i18n code="email.mfa.description" bundle="login" arguments="factorEmail"}}}',
+        getTemplateData: createEmailMaskElement,
+      }));
     },
 
-    postRender: function () {
-      Okta.Form.prototype.postRender.apply(this, arguments);
+    renderChallengView: function () {
+      this.removeChildren();
+      this.add(Okta.View.extend({
+        className: 'mfa-email-sent-content',
+        attributes: {
+          'data-se': 'mfa-email-sent-content',
+        },
+        // Why use `{{{` for the description?
+        // - factorEmail is actually an HTML fragment which
+        //   is created via another handlebar template and used for bold the email address.
+        template: '{{{i18n code="email.mfa.email.sent.description" bundle="login" arguments="factorEmail"}}}',
+        getTemplateData: createEmailMaskElement,
+      }));
 
-      if (this.state.get('isEmailChallengeStatus')) {
-        this.add(Okta.View.extend({
-          className: 'mfa-email-sent-content',
-          attributes: {
-            'data-se': 'mfa-email-sent-content',
-          },
-          // Why use `{{{` for the description?
-          // - factorEmail is actually an HTML fragment which
-          //   is created via another handlebar template and used for bold the email address.
-          template: '{{{i18n code="check.email.and.enter.code.description" bundle="login" arguments="factorEmail"}}}',
-          getTemplateData: createEmailMaskElement,
-        }));
+      this.add(ResendEmailView);
 
-        this.add(ResendEmailView);
-
+      this.addInput({
+        label: Okta.loc('email.code.label', 'login'),
+        'label-top': true,
+        name: 'answer',
+        input: TextBox,
+        wide: true,
+        type: 'tel'
+      });
+      if (this.options.appState.get('allowRememberDevice')) {
         this.addInput({
-          label: Okta.loc('email.code.label', 'login'),
+          label: false,
           'label-top': true,
-          name: 'answer',
-          input: TextBox,
-          wide: true,
-          type: 'tel'
+          placeholder: this.options.appState.get('rememberDeviceLabel'),
+          className: 'margin-btm-0',
+          name: 'rememberDevice',
+          type: 'checkbox'
         });
-        if (this.options.appState.get('allowRememberDevice')) {
-          this.addInput({
-            label: false,
-            'label-top': true,
-            placeholder: this.options.appState.get('rememberDeviceLabel'),
-            className: 'margin-btm-0',
-            name: 'rememberDevice',
-            type: 'checkbox'
-          });
-        }
-      } else {
-        this.add(Okta.View.extend({
-          attributes: {
-            'data-se': 'mfa-send-email-content'
-          },
-          className: 'mfa-send-email-content',
-          template: '{{{i18n code="mfa.email.send.description" bundle="login" arguments="factorEmail"}}}',
-          getTemplateData: createEmailMaskElement,
-        }));
       }
+      this.render();
     },
   });
 

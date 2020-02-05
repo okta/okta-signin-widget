@@ -36,17 +36,17 @@ function (Okta, FormController, Footer, FormType) {
 
   const Form = function () {
     return {
-      title: _.partial(Okta.loc, 'enroll.email.title', 'login'),
+      title: _.partial(Okta.loc, 'email.enroll.title', 'login'),
       noButtonBar: false,
       autoSave: true,
-      save: _.partial(Okta.loc, 'send.email.code.save', 'login'),
+      save: _.partial(Okta.loc, 'email.button.send', 'login'),
       formChildren: [
         FormType.View({
           View: Okta.View.extend({
             attributes: {
               'data-se': 'enroll-email-content'
             },
-            template: '{{i18n code="enroll.email.send.description" bundle="login"}}'
+            template: '{{i18n code="email.enroll.description" bundle="login"}}'
           })
         }),
       ]

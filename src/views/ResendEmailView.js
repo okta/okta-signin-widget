@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2015-2019, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -19,9 +19,9 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
     template: '<div class="infobox infobox-warning">' +
       '<span class="icon warning-16"></span>' +
       '<p>' +
-      '<span>{{i18n code="email.not.received" bundle="login"}}</span>'+
+      '<span>{{i18n code="email.code.not.received" bundle="login"}}</span>'+
       '<a href="#" class="resend-email-btn">' +
-      '{{i18n code="resend.email" bundle="login"}}'+
+      '{{i18n code="email.button.resend" bundle="login"}}'+
       '</a>' +
       '</p>' +
       '</div>',

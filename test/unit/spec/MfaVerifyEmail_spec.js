@@ -120,6 +120,7 @@ define([
             '<span class="mask-email">a...1@clouditude.net</span>.'
         );
         expect(test.form.submitButtonText()).toBe('Send me the code');
+        expect(test.form.answerField().length).toBe(0);
       });
     });
 
@@ -192,7 +193,7 @@ define([
           });
         });
     });
-    itp('calls verifyFactor', function () {
+    itp('calls verify endpoint when form is submitted with a passcode', function () {
       return setupEmailAndClickSend()
         .then(function (test) {
           $.ajax.calls.reset();
