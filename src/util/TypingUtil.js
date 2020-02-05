@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-define(['vendor/TypingDNA'], function (TypingDNA) {
+define(['typingdna'], function (TypingDNA) {
   var tdna;
   return {
     track: function (selectorId) {
