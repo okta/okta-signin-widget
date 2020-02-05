@@ -30,10 +30,8 @@ module.exports = function (outputFilename) {
         'handlebars': 'handlebars/dist/handlebars',
         'qtip': '@okta/qtip2/dist/jquery.qtip.min.js',
 
-        // Duo has an npm module, but the latest version does not expose the
-        // v2 version. Continue to use the vendor file that is checked into
-        // source.
-        'duo': 'vendor/Duo-Web-v2.6',
+        'duo': 'duo_web_sdk/index.js',
+        'typingdna': 'TypingDnaRecorder-JavaScript/typingdna',
       }
     },
 
