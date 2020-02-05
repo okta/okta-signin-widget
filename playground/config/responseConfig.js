@@ -73,13 +73,24 @@ const windowAuthnLoopback = {
   '/idp/idx/authenticators/poll': [
     'identify-with-device-probing-loopback', // 2
     'identify-with-device-probing-loopback', // 3
-    'identify-with-device-probing-loopback-challenge-not-received', // 4
-    'identify-with-device-launch-authenticator', // 6
-    'identify', // 7: as a signal of success
+    'identify', // 4: as a signal of success
+  ],
+};
+
+//Windows authenticator with loopback server failfast
+const windowAuthnLoopbackFailfast = {
+  '/idp/idx/introspect': [
+    'identify-with-device-probing-loopback',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify',
   ],
   '/idp/idx/authenticators/okta-verify/launch': [
-    'identify-with-device-launch-authenticator', // 5
-  ]
+    'identify-with-device-launch-authenticator',
+  ],
+  '/idp/idx/authenticators/poll/cancel': [
+    'identify-with-device-probing-loopback-challenge-not-received',
+  ],
 };
 
 // Windows/Android authenticator with custom URI
