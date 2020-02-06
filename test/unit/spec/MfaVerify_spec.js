@@ -44,7 +44,7 @@ define([
   'helpers/xhr/MFA_VERIFY_invalid_password',
   'helpers/xhr/MFA_VERIFY_totp_invalid_answer',
   'helpers/xhr/RSA_ERROR_change_pin',
-  'helpers/xhr/SMS_RESEND_error',
+  'helpers/xhr/MFA_RESEND_error',
   'helpers/xhr/NO_PERMISSION_error',
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS',
   'helpers/xhr/MFA_REQUIRED_policy_always',

@@ -300,6 +300,7 @@ define([
   // controller.
 
   var verifyClasses = {
+    VerifyEmail: 'mfa-verify-email',
     VerifyQuestion: 'mfa-verify-question',
     VerifyPassCode: 'mfa-verify-passcode',
     VerifyTotp: 'mfa-verify-totp',

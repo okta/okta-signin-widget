@@ -13,7 +13,7 @@ define([
   'helpers/xhr/MFA_CHALLENGE_email',
   'helpers/xhr/SUCCESS',
   'helpers/xhr/MFA_LOCKED_FAILED_ATEMPTS',
-  'helpers/xhr/SMS_RESEND_error',
+  'helpers/xhr/MFA_RESEND_error',
 ], function (
   Okta,
   OktaAuth,
@@ -67,9 +67,7 @@ define([
           router.verify(
             selectedFactor.get('provider'),
             selectedFactor.get('factorType'));
-          return Expect.wait(() => {
-            return $sandbox.find('.mfa-verify-email').length;
-          });
+          return Expect.waitForVerifyEmail();
         })
         .then(function () {
           var form = new MfaVerifyForm($sandbox);

@@ -15,7 +15,7 @@ define([
   'helpers/xhr/MFA_ENROLL_email',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_email',
   'helpers/xhr/SUCCESS',
-  'helpers/xhr/SMS_RESEND_error',
+  'helpers/xhr/MFA_RESEND_error',
 ], function (
   Q, Okta, OktaAuth, LoginUtil, Util, AuthContainer,
   EnrollEmailForm, EnrollActivateEmailForm, Beacon, Expect, $sandbox, Router,
