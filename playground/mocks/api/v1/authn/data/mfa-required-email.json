@@ -1,0 +1,75 @@
+{
+  "stateToken": "00nRv2jyBoem8TLFWmvZkktQPRh0-XSESzzZZ62rXy",
+  "expiresAt": "2020-01-27T17:17:10.000Z",
+  "status": "MFA_REQUIRED",
+  "_embedded": {
+    "user": {
+      "id": "00u13hcTl4F7w6M7e0g4",
+      "passwordChanged": "2020-01-24T21:23:46.000Z",
+      "profile": {
+        "login": "foo4@okta.com",
+        "firstName": "foo4",
+        "lastName": "bar",
+        "locale": "en",
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "factors": [
+      {
+        "id": "emf13hl9SsZijkPfn0g4",
+        "factorType": "email",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "profile": {
+          "email": "f...4@okta.com"
+        },
+        "_links": {
+          "verify": {
+            "href": "http://localhost:3000/api/v1/authn/factors/emf13hl9SsZijkPfn0g4/verify",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "ost13hkf34HvHm15l0g4",
+        "factorType": "token:software:totp",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "profile": {
+          "credentialId": "foo4@okta.com"
+        },
+        "_links": {
+          "verify": {
+            "href": "http://localhost:3000/api/v1/authn/factors/ost13hkf34HvHm15l0g4/verify",
+            "hints": {
+              "allow": [
+                "POST"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "policy": {
+      "allowRememberDevice": true,
+      "rememberDeviceLifetimeInMinutes": 0,
+      "rememberDeviceByDefault": false,
+      "factorsPolicyInfo": {
+      }
+    }
+  },
+  "_links": {
+    "cancel": {
+      "href": "http://localhost:3000/api/v1/authn/cancel",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    }
+  }
+}

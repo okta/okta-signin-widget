@@ -21,7 +21,7 @@ define(['./Form'], function (Form) {
     },
 
     getResendButton: function () {
-      return this.$('.resend-email-infobox:not(.hide) a.email-activate-send-again-btn');
+      return this.$('.resend-email-infobox:not(.hide) a.resend-email-btn');
     },
 
     clickResend: function () {

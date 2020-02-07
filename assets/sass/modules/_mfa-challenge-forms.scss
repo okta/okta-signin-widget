@@ -1,3 +1,5 @@
+@import './email-factor';
+
 // inline totp form //
 .mfa-verify-totp-inline {
   .inline-input {
@@ -65,6 +67,15 @@
   }
   .email-request-button {
     width: 100%;
+  }
+}
+
+//email
+.mfa-verify-email {
+  @include email-factor;
+
+  .mfa-email-sent-content {
+    margin-bottom: 15px;
   }
 }
 

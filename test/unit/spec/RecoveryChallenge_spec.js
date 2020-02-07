@@ -9,8 +9,8 @@ define([
   'LoginRouter',
   'sandbox',
   'helpers/xhr/RECOVERY_CHALLENGE',
-  'helpers/xhr/SMS_RESEND_error',
-  'helpers/xhr/SMS_VERIFY_error',
+  'helpers/xhr/MFA_RESEND_error',
+  'helpers/xhr/MFA_VERIFY_error',
   'helpers/xhr/200',
   'helpers/xhr/SUCCESS'
 ],

@@ -255,6 +255,14 @@ function (Okta, Q, factorUtil, Util, Errors, BaseLoginModel) {
       // we don't need passcode for email with magic link flow
       return !(this.options.appState.get('isIdxStateToken') && this.get('factorType') === 'email');
     },
+    resend: function () {
+      this.trigger('form:clear-errors');
+      return this.manageTransaction(function (transaction) {
+        var firstLink = transaction.data._links.resend[0];
+        return transaction.resend(firstLink.name);
+      });
+    },
+
     save: function () {
       var rememberDevice = !!this.get('rememberDevice');
       // Set/Remove the remember device cookie based on the remember device input.
