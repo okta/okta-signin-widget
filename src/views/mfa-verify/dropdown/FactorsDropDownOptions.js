@@ -16,7 +16,7 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
   var _ = Okta._;
 
   // deviceName is escaped on BaseForm (see BaseForm's template)
-  var pushTitleTpl = Okta.Handlebars.compile('{{factorName}} ({{{deviceName}}})');
+  var pushTitleTpl = Okta.tpl('{{factorName}} ({{{deviceName}}})');
   var action = function (model) {
 
     var factorIndex;
