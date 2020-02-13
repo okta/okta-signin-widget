@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 17], max-statements:[2, 70] */
 define([
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'helpers/mocks/Util',
   'helpers/util/Expect',
   'helpers/dom/Beacon',
@@ -111,7 +111,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
     settings || (settings = {});
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({url: baseUrl});
+    var authClient = new OktaAuth({issuer: baseUrl});
     var successSpy = jasmine.createSpy('success');
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
@@ -213,7 +213,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         return setup({
           relayState: '%2Fapp%2FUserHome'
         }).then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           var model = test.router.controller.model;
@@ -223,7 +223,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
       });
       itp('sends relay state as undefined string with registration post if not set', function () {
         return setup().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUserName('test@example.com');
           test.form.setPassword('Abcd1234');
           var model = test.router.controller.model;
@@ -594,7 +594,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         };
         return setup(setting)
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUserName('test@example.com');
             test.form.setPassword('Abcd1234');
             test.form.setFirstname('firstName');
@@ -624,7 +624,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         };
         return setup(setting)
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             expect(test.form.getFieldByName('zip').length).toBe(1);
             expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
           });
@@ -642,7 +642,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         };
         return setup(setting)
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUserName('test@example.com');
             test.form.setPassword('Abcd1234');
             test.form.setFirstname('firstName');
@@ -668,7 +668,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         };
         return setup(setting)
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUserName('test@example.com');
             test.form.setPassword('Abcd1234');
             test.form.setFirstname('firstName');
@@ -713,7 +713,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         };
         return setup(setting)
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             expect(test.form.getFieldByName('zip').length).toBe(1);
             expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
             expect(test.form.getFieldByName('countryCode').length).toBe(1);
@@ -756,7 +756,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         };
         return setup(setting)
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUserName('test@example.com');
             test.form.setPassword('Abcd1234');
             test.form.setFirstname('firstName');
@@ -790,7 +790,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         return setup(setting)
           .then(function (test) {
             spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUserName('test@example.com');
             test.form.setPassword('Abcd1234');
             test.form.setFirstname('firstName');
@@ -823,7 +823,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         };
         return setup(setting)
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUserName('test@example.com');
             test.form.setPassword('Abcd1234');
             test.form.setFirstname('firstName');
@@ -856,7 +856,7 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
         };
         return setup(setting)
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUserName('test');
             test.form.setPassword('Abcd1234');
             test.form.setFirstname('firstName');

@@ -2,7 +2,7 @@
 define([
   'q',
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'helpers/mocks/Util',
   'helpers/dom/Beacon',
   'helpers/dom/RecoveryQuestionForm',
@@ -16,13 +16,13 @@ define([
 function (Q, Okta, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView,
   Expect, Router, resRecovery, resError, $sandbox) {
 
-  var { _, $ } = Okta;
+  var { _ } = Okta;
   var itp = Expect.itp;
 
   function setup (settings, callRecoveryLoading, fail = false) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({url: baseUrl});
+    var authClient = new OktaAuth({issuer: baseUrl});
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
       el: $sandbox,
@@ -65,8 +65,8 @@ function (Q, Okta, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView
           return Expect.waitForRecoveryQuestion(test);
         })
         .then(function (test) {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/recovery/token',
             data: {
               recoveryToken: 'SOMETOKEN'
@@ -82,8 +82,8 @@ function (Q, Okta, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView
           return Expect.waitForRecoveryQuestion(test);
         })
         .then(function (test) {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/recovery/token',
             data: {
               recoveryToken: 'SETTINGSTOKEN'
@@ -117,8 +117,8 @@ function (Q, Okta, OktaAuth, Util, Beacon, RecoveryFormView, PrimaryAuthFormView
           return Expect.waitForSpyCall(test.afterErrorHandler, test);
         })
         .then(function (test) {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/recovery/token',
             data: {
               recoveryToken: 'foo'

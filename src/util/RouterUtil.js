@@ -241,7 +241,8 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       router.appState.get('transaction').prev()
         .then(function (trans) {
           router.appState.set('transaction', trans);
-        }).done();
+        });
+      // TODO: catch/handle error here?
       return;
     case 'MFA_ENROLL':
     case 'FACTOR_ENROLL':

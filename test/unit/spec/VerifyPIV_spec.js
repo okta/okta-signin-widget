@@ -2,7 +2,7 @@
 define([
   'q',
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'helpers/mocks/Util',
   'helpers/dom/PivForm',
   'helpers/dom/PrimaryAuthForm',
@@ -21,10 +21,10 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
   var { _ } = Okta;
   var itp = Expect.itp;
 
-  function setup (errorResponse, responseTextOnly) {
+  function setup (errorResponse) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({url: baseUrl});
+    var authClient = new OktaAuth({issuer: baseUrl});
     var successSpy = jasmine.createSpy('success');
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
@@ -43,7 +43,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     spyOn(SharedUtil, 'redirect');
-    setNextResponse(errorResponse ? [errorResponse] : [resGet, resPost], responseTextOnly);
+    setNextResponse(errorResponse ? [errorResponse] : [resGet, resPost]);
     router.verifyPIV();
     return Expect.waitForVerifyPIV({
       router: router,
@@ -148,7 +148,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         var res = deepClone(resError);
         res.responseType = 'text';
         res.response = '';
-        return setup(res, true).then(function (test) {
+        return setup(res).then(function (test) {
           return Expect.waitForFormError(test.form, test);
         }).then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -162,7 +162,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         res.responseType = 'text';
         res.response =
           '{"errorCode":"E0000004","errorSummary":"Authentication failed","errorLink":"E0000004","errorId":"oaeDtg9knyJR7agwMN-70SYgw","errorCauses":[]}';
-        return setup(res, true).then(function (test) {
+        return setup(res).then(function (test) {
           return Expect.waitForFormError(test.form, test);
         }).then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
