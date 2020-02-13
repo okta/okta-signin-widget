@@ -1,6 +1,9 @@
 {{#> cdnLayout}}
 var options = {
-  'baseUrl': '{{{WIDGET_TEST_SERVER}}}'
+  'baseUrl': '{{{WIDGET_TEST_SERVER}}}',
+  authParams: {
+    pkce: false
+  }
 };
 var oktaSignIn = new OktaSignIn(options);
 oktaSignIn.on('afterError', function () {

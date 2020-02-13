@@ -127,13 +127,13 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       }
 
       return primaryAuthPromise
-        .fail(_.bind(function () {
+        .catch(_.bind(function () {
           // Specific event handled by the Header for the case where the security image is not
           // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
           this.appState.trigger('removeLoading');
           CookieUtil.removeUsernameCookie();
         }, this))
-        .fin(_.bind(function () {
+        .finally(_.bind(function () {
           this.appState.trigger('loading', false);
         }, this));
     },
@@ -188,7 +188,7 @@ function (Okta, BaseLoginModel, CookieUtil, Enums) {
       }
       var self = this;
       return func(signInArgs)
-        .fin(function () {
+        .finally(function () {
           if (deviceFingerprintEnabled) {
             delete authClient.options.headers['X-Device-Fingerprint'];
             self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once

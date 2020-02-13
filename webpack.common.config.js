@@ -66,6 +66,12 @@ module.exports = function (outputFilename) {
           test: /\.json$/,
           loader: 'json-loader'
         },
+        // load external source maps
+        {
+          test: /\.js$/,
+          use: ['source-map-loader'],
+          enforce: 'pre'
+        }
       ]
     },
 
