@@ -1,6 +1,7 @@
 import { loc } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
+import Util from '../../../util/Util';
 
 const Body = BaseForm.extend({
   noButtonBar: true,
@@ -12,7 +13,7 @@ const Body = BaseForm.extend({
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
     this.add('<div class="spinner"></div>');
-    this.options.appState.trigger('saveForm', this.model);
+    setTimeout(() => Util.redirectWithFormGet(this.options.currentViewState.href), 500);
   }
 });
 
