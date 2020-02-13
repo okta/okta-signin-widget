@@ -1,13 +1,11 @@
 import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
-import BaseFormObject from './components/BaseFormObject';
 
 const CALLOUT_SELECTOR = '.infobox-warning > div';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor (t) {
     super(t);
-    this.form = new BaseFormObject(t);
   }
 
   getPageTitle() {

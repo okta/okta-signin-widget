@@ -22,6 +22,9 @@ async function setup(t) {
 test(`should have both password and confirmPassword fields and both are required`, async t => {
   const enrollPasswordPage = await setup(t);
 
+  // Check title 
+  await t.expect(enrollPasswordPage.getFormTitle()).eql('Select a password');
+
   // fields are required
   await enrollPasswordPage.clickNextButton();
   await enrollPasswordPage.waitForErrorBox();

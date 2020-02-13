@@ -4,6 +4,7 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import magicLinkReturnTab from '../../../playground/mocks/idp/idx/data/terminal-return-email';
 import magicLinkExpired from '../../../playground/mocks/idp/idx/data/terminal-return-expired-email';
 import magicLinkEmailSent from '../../../playground/mocks/idp/idx/data/factor-verification-email';
+import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 
 const magicLinkReturnTabMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx')
@@ -36,9 +37,9 @@ async function setup(t) {
 test
   .requestHooks(magicLinkReturnTabMock)
   (`challenge email factor with magic link`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    const pageSubTitle = challengeFactorPageObject.getPageSubTitle('.okta-form-subtitle');
-    await t.expect(pageSubTitle).eql('To finish signing in, return to the screen where you requested the email link.');
+    await setup(t);
+    const terminalPageObject = await new TerminalPageObject(t);
+    await t.expect(terminalPageObject.getFormSubtitle()).eql('To finish signing in, return to the screen where you requested the email link.');
   });
 
 test

@@ -1,8 +1,8 @@
-import { RequestLogger, RequestMock, Selector } from 'testcafe';
+import { RequestLogger, RequestMock } from 'testcafe';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import identify from '../../../playground/mocks/idp/idx/data/identify';
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/idp/idx/data/identify-with-device-probing-loopback';
-import loopbackChallengeNotReceived from '../../../playground/mocks/idp/idx/data/identify-with-device-probing-loopback-challenge-not-received';
 
 let failureCount = 0;
 
@@ -15,7 +15,7 @@ const mock = RequestMock()
   .respond((req, res) => {
     res.statusCode = '200';
     if (failureCount === 2) {
-      res.setBody(loopbackChallengeNotReceived);
+      res.setBody(identify);
     } else {
       res.setBody(identifyWithDeviceProbingLoopback);
     }
@@ -33,7 +33,7 @@ const mock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   })
 
-fixture(`Device Challenge Polling View`)
+fixture(`Device Challenge Polling View with Successful Loopback Server`)
   .requestHooks(logger, mock)
 
 async function setup(t) {

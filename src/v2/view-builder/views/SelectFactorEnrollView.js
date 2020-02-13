@@ -6,6 +6,7 @@ const Body = BaseForm.extend({
   title: function () {
     return loc('enroll.choices.setup', 'login');
   },
+  subtitle: loc('enroll.choices.description', 'login'),
   noButtonBar: true,
 });
 

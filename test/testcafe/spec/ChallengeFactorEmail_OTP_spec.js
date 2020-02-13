@@ -33,8 +33,8 @@ test
     const challengeFactorPageObject = await setup(t);
     const pageTitle = challengeFactorPageObject.getPageTitle();
     await t.expect(pageTitle).contains('Email link');
-    const pageSubTitle = challengeFactorPageObject.getPageSubTitle('.okta-form-subtitle');
-    await t.expect(pageSubTitle).contains('An email has been sent to you. Please click the link in your email or enter the code from that email below.');
+    await t.expect(challengeFactorPageObject.getTextContent('.email-verification-description'))
+        .contains('An email has been sent to you. Please click the link in your email or enter the code from that email below.');
   });
 
 test

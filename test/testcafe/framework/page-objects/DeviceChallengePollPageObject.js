@@ -12,12 +12,8 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.body.find('[data-se="o-form-head"]').innerText;
   }
 
-  getSubtitle() {
-    return this.body.find('[data-se="o-form-explain"]').innerText;
-  }
-
   getContent() {
-    return this.body.find('[data-se="o-form-fieldset-container"]').innerText;
+    return this.getTextContent('[data-se="o-form-fieldset-container"]');
   }
 
   getFooterLink() {

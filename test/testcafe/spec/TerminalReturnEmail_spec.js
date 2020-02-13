@@ -19,7 +19,7 @@ test
   (`show the correct content`, async t => {
     const terminalPageObject = await setup(t);
     await t.expect(terminalPageObject.getHeader()).eql('Email link (o*****m@abbott.dev)');
-    await t.expect(terminalPageObject.getSubtitle()).eql('To finish signing in, return to the screen where you requested the email link.');
+    await t.expect(terminalPageObject.getFormSubtitle()).eql('To finish signing in, return to the screen where you requested the email link.');
     await t.expect(terminalPageObject.getFooterBackLink().innerText).eql('Back to sign in');
     await t.expect(terminalPageObject.getFooterBackLink().getAttribute('href')).eql('/');
   });

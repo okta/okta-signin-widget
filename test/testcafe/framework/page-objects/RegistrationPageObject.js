@@ -1,12 +1,10 @@
 import BasePageObject from './BasePageObject';
-import BaseFormObject from './components/BaseFormObject';
 
 const FIRSTNAME_FIELD = 'userProfile\\.firstName';
 const LASTNAME_FIELD = 'userProfile\\.lastName';
 export default class RegistrationPageObject extends BasePageObject {
   constructor(t) {
     super(t);
-    this.form = new BaseFormObject(t);
   }
 
   fillFirstNameField(value) {
