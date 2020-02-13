@@ -93,13 +93,13 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       globalSuccessFn: successSpy
     }, settings));
     Util.registerRouter(router);
+    Util.mockRouterNavigate(router);
     var authContainer = new AuthContainer($sandbox);
     var form = new PrimaryAuthForm($sandbox);
     var beacon = new Beacon($sandbox);
     router.on('afterError', afterErrorHandler);
     if (refreshState) {
       var stateToken = 'dummy-token';
-      Util.mockRouterNavigate(router);
       setNextResponse(resUnauthenticated);
       return Util.mockIntrospectResponse(router, resUnauthenticated).then(function () {
         router.refreshAuthState(stateToken);
@@ -139,9 +139,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
   function setupPasswordlessAuth (requests, refreshState) {
     return setup({ 'features.passwordlessAuth': true }, requests, refreshState)
       .then(function (test){
-        if (!refreshState) {
-          Util.mockRouterNavigate(test.router);
-        }
         test.setNextResponse(resPasswordlessUnauthenticated);
         return Q(test);
       });
@@ -570,7 +567,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('navigates to forgot password page when click forgot password link', function () {
         return setup().then(function (test) {
-          spyOn(test.router, 'navigate');
           test.form.helpFooter().click();
           test.form.forgotPasswordLink().click();
           expect(test.router.navigate).toHaveBeenCalledWith('signin/forgot-password', {trigger: true});
@@ -578,7 +574,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('does not navigate to forgot password page when link disabled and clicked', function () {
         return setup().then(function (test) {
-          spyOn(test.router, 'navigate');
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
@@ -625,7 +620,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('navigates to unlock page when click unlock link', function () {
         return setup({'features.selfServiceUnlock': true}).then(function (test) {
-          spyOn(test.router, 'navigate');
           test.form.helpFooter().click();
           test.form.unlockLink().click();
           expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
@@ -633,7 +627,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('does not navigate to unlock page when link disabled and clicked', function () {
         return setup().then(function (test) {
-          spyOn(test.router, 'navigate');
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
@@ -1533,7 +1526,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function (test) {
           // Tooltip exists
             expect(test.form.isSecurityImageTooltipDestroyed()).toBe(false);
-            spyOn(test.router, 'navigate');
             test.form.helpFooter().click();
             test.form.unlockLink().click();
             expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', {trigger: true});
@@ -2037,7 +2029,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       itp('redirects to "unlock" if authClient returns with LOCKED_OUT response and selfServiceUnlock is on', function () {
         return setup({'features.selfServiceUnlock': true})
           .then(function (test) {
-            spyOn(test.router, 'navigate');
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.setNextResponse(resLockedOut);
@@ -2862,7 +2853,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     });
     itp('navigates to piv login flow when button is clicked', function () {
       return setupPIV(true).then(function (test){
-        spyOn(test.router, 'navigate');
         test.form.pivButton().click();
         expect(test.router.navigate).toHaveBeenCalledWith('signin/verify/piv', {trigger: true});
       });

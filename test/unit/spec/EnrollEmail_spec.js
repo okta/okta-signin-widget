@@ -46,6 +46,7 @@ define([
       setNextResponse(resp);
       return Util.mockIntrospectResponse(router)
         .then(function () {
+          setNextResponse(resp);
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();
         })
