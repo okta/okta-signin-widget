@@ -2,7 +2,7 @@
 define([
   'q',
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/AuthContainer',
@@ -33,7 +33,7 @@ define([
     function setup (resp, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var authClient = new OktaAuth({issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router({
         el: $sandbox,
@@ -174,14 +174,14 @@ define([
       itp('visits previous link if phone is enrolled, but not activated', function () {
         return sendValidCodeFn()
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.setNextResponse(resAllFactors);
             test.form.backLink().click();
             return Expect.waitForEnrollChoices();
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/previous',
               type: 'POST',
               data: {
@@ -265,12 +265,12 @@ define([
 
       itp('sends sms when return key is pressed in phoneNumber field', function () {
         return setup(allFactorsRes).then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           return sendCodeOnEnter(test, successRes, 'US', '4151111111');
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'sms',
@@ -317,7 +317,7 @@ define([
           })
           .then(function (test) {
             // Re-send will clear the warning
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.setNextResponse(successRes);
             test.form.sendCodeButton().click();
             expectSentButton(test);
@@ -337,14 +337,14 @@ define([
         return sendCodeFn(successRes, 'AQ', '12345678900')
           .then(waitForEnrollActivateSuccess)
           .then(function () {
-            expect($.ajax.calls.count()).toBe(2);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(2);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn',
               data: {
                 stateToken: 'dummy-token'
               }
             });
-            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+            Expect.isJsonPost(Util.getAjaxRequest(1), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'sms',
@@ -404,12 +404,12 @@ define([
       });
       itp('uses send code button with updatePhone=true, if user has an existing phone', function () {
         return setup(existingPhoneRes).then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           return sendCode(test, successRes, 'US', '4151234567');
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
               data: {
                 factorType: 'sms',
@@ -425,13 +425,13 @@ define([
       itp('uses send code button with validatePhone:false if user has retried with invalid phone number', function () {
         return setup(allFactorsRes)
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'sms',
@@ -447,13 +447,13 @@ define([
             expect(test.form.errorMessage())
               .toEqual('The number you entered seems invalid. If the number is correct, please try again.');
 
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
-            return Expect.waitForSpyCall($.ajax, test);
+            return Expect.waitForAjaxRequest(test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'sms',
@@ -470,13 +470,13 @@ define([
       itp('does not set validatePhone:false if the error is not a validation error (E0000098).', function () {
         return setup(allFactorsRes)
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             sendCode(test, resEnrollError, 'PF', '12345678');
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'sms',
@@ -492,13 +492,13 @@ define([
             expect(test.form.errorMessage())
               .toEqual('Invalid Phone Number.');
 
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             sendCode(test, resEnrollError, 'PF', '12345678');
-            return Expect.waitForSpyCall($.ajax, test);
+            return Expect.waitForAjaxRequest(test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'sms',
@@ -515,14 +515,14 @@ define([
         Util.speedUpDelay();
         return sendValidCodeFn()
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.setNextResponse(successRes);
             test.form.sendCodeButton().click();
-            return Expect.waitForSpyCall($.ajax);
+            return Expect.waitForAjaxRequest();
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/resend',
               data: {
                 stateToken: expectedStateToken
@@ -540,20 +540,20 @@ define([
               Expect.isVisible(test.form.codeField());
               enterCode(test, 'US', '4151112222');
               expectSendButton(test);
-              $.ajax.calls.reset();
+              Util.resetAjaxRequests();
               test.setNextResponse([allFactorsRes, successRes]);
               test.form.sendCodeButton().click();
               return Expect.wait(() => {
-                return $.ajax.calls.count() === 2;
+                return Util.numAjaxRequests() === 2;
               }, test);
             })
             .then(function (test) {
-              expect($.ajax.calls.count()).toBe(2);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              expect(Util.numAjaxRequests()).toBe(2);
+              Expect.isJsonPost(Util.getAjaxRequest(0), {
                 url: 'https://foo.com/api/v1/authn/previous',
                 data: { stateToken: expectedStateToken }
               });
-              Expect.isJsonPost($.ajax.calls.argsFor(1), {
+              Expect.isJsonPost(Util.getAjaxRequest(1), {
                 url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
                 data: {
                   factorType: 'sms',
@@ -594,15 +594,15 @@ define([
           })
           .then(function (test) {
             // resubmit the 'US' number
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.setNextResponse(successRes);
             test.form.sendCodeButton().click();
             expectSentButton(test);
-            return Expect.waitForSpyCall($.ajax);
+            return Expect.waitForAjaxRequest();
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/resend',
               data: {
                 'stateToken': expectedStateToken
@@ -627,25 +627,25 @@ define([
       });
       itp('does not send request and shows error if code is not entered', function () {
         return sendValidCodeFn().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.submit();
-          expect($.ajax).not.toHaveBeenCalled();
+          expect(Util.numAjaxRequests()).toBe(0);
           expect(test.form.hasErrors()).toBe(true);
         });
       });
       itp('calls activate with the right params if passes validation', function () {
         return sendValidCodeFn()
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             expect(test.form.codeField().attr('type')).toBe('tel');
             test.form.setCode(123456);
             test.setNextResponse(successRes);
             test.form.submit();
-            return Expect.waitForSpyCall($.ajax);
+            return Expect.waitForAjaxRequest();
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/activate',
               data: {
                 passCode: '123456',

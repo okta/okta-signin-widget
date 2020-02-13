@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 15], max-statements: [2, 18] */
+/* eslint max-params: [2, 16], max-statements: [2, 18] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
 define([
+  'q',
   'okta',
   './BrowserFeatures',
   'models/Settings',
@@ -31,7 +32,7 @@ define([
   'util/Bundles',
   'util/Logger'
 ],
-function (Okta, BrowserFeatures, Settings,
+function (Q, Okta, BrowserFeatures, Settings,
   Header, SecurityBeacon, AuthContainer, AppState, ColorsUtil, RouterUtil, Animations,
   Errors, Util, Enums, Bundles, Logger) {
 
@@ -225,7 +226,7 @@ function (Okta, BrowserFeatures, Settings,
       // First run fetchInitialData, in case the next controller needs data
       // before it's initial render. This will leave the current page in a
       // loading state.
-      this.controller.fetchInitialData()
+      return Q(this.controller.fetchInitialData())
         .then(_.bind(function () {
 
           // Beacon transition occurs in parallel to page swap
@@ -278,8 +279,7 @@ function (Okta, BrowserFeatures, Settings,
             oldController.remove();
             oldController.$el.remove();
           }
-        })
-        .done();
+        });
 
     },
 

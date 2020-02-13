@@ -2,7 +2,7 @@
 define([
   'okta',
   'q',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/EnrollWindowsHelloForm',
@@ -30,7 +30,6 @@ function (Okta,
   responseMfaEnrollActivateWindowsHello,
   responseSuccess) {
 
-  var { $ } = Okta;
   var itp = Expect.itp;
 
   Expect.describe('EnrollWindowsHello', function () {
@@ -38,7 +37,7 @@ function (Okta,
     function setup () {
       var setNextResponse = Util.mockAjax([responseMfaEnrollAll, responseMfaEnrollActivateWindowsHello]);
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var authClient = new OktaAuth({issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var successSpy = jasmine.createSpy('success');
       var router = new Router({
         el: $sandbox,
@@ -164,8 +163,8 @@ function (Okta,
             return Expect.waitForSpyCall(test.successSpy);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(2);
-            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+            expect(Util.numAjaxRequests()).toBe(2);
+            Expect.isJsonPost(Util.getAjaxRequest(1), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'webauthn',
@@ -186,8 +185,8 @@ function (Okta,
           })
           .then(function () {
             expect(webauthn.makeCredential).toHaveBeenCalled();
-            expect($.ajax.calls.count()).toBe(3);
-            Expect.isJsonPost($.ajax.calls.argsFor(2), {
+            expect(Util.numAjaxRequests()).toBe(3);
+            Expect.isJsonPost(Util.getAjaxRequest(2), {
               url: 'https://foo.com/api/v1/authn/factors/factorId1234/lifecycle/activate',
               data: {
                 credentialId: 'credentialId',
@@ -211,7 +210,7 @@ function (Okta,
             }, test);
           })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(2);
+            expect(Util.numAjaxRequests()).toBe(2);
             expect(test.form.subtitleText()).toBe('Click below to enroll Windows Hello as a second form of authentication');
             expect(test.form.hasErrorHtml()).toBe(false);
           });
@@ -229,7 +228,7 @@ function (Okta,
             }, test);
           })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(2);
+            expect(Util.numAjaxRequests()).toBe(2);
             expect(test.form.subtitleText()).toBe('Click below to enroll Windows Hello as a second form of authentication');
             expect(test.form.hasErrorHtml()).toBe(true);
           });

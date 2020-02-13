@@ -33,7 +33,7 @@ function (Okta, Q, Enums) {
           self.trigger('setTransaction', trans);
           return trans;
         })
-        .fail(function (err) {
+        .catch(function (err) {
         // Q may still consider AuthPollStopError to be unhandled
           if (err.name === 'AuthPollStopError' ||
             err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR ||
@@ -54,7 +54,7 @@ function (Okta, Q, Enums) {
 
       // If it's a promise, listen for failures
       if (Q.isPromiseAlike(res)) {
-        return res.fail(function (err) {
+        return res.catch(function (err) {
           if (err.name === 'AuthPollStopError' ||
               err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR ||
               err.name === Enums.WEBAUTHN_ABORT_ERROR) {
@@ -78,7 +78,7 @@ function (Okta, Q, Enums) {
           self.trigger('setTransaction', trans);
           return trans;
         })
-          .fail(function (err) {
+          .catch(function (err) {
             self.trigger('error', self, err.xhr);
             self.trigger('setTransactionError', err);
             throw err;
