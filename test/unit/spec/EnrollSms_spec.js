@@ -12,19 +12,16 @@ define([
   'sandbox',
   'LoginRouter',
   'helpers/xhr/MFA_ENROLL_allFactors',
-  'helpers/xhr/FACTOR_ENROLL_allFactors',
   'helpers/xhr/MFA_ENROLL_smsFactor_existingPhone',
-  'helpers/xhr/FACTOR_ENROLL_smsFactor_existingPhone',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_success',
-  'helpers/xhr/FACTOR_ENROLL_ACTIVATE_sms',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_error',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_errorActivate',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_invalid_phone',
   'helpers/xhr/SUCCESS'
 ], function (Q, Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, $sandbox, Router,
-  resAllFactors, resAllFactorsIdx,
-  resExistingPhone, resExistingPhoneIdx,
-  resEnrollSuccess, resEnrollSuccessIdx,
+  resAllFactors,
+  resExistingPhone,
+  resEnrollSuccess,
   resEnrollError, resEnrollActivateError, resEnrollInvalidPhoneError,
   resSuccess) {
 
@@ -47,32 +44,36 @@ define([
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
-      return Q()
-        .then(function () {
-          setNextResponse(resp || resAllFactors);
-          return Util.mockIntrospectResponse(router, resp || resAllFactors);
-        })
-        .then(function () {
-          setNextResponse(resp || resAllFactors);
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
-        .then(function () {
-          router.enrollSms();
-          return Expect.waitForEnrollSms({
-            router: router,
-            authContainer: new AuthContainer($sandbox),
-            beacon: new Beacon($sandbox),
-            form: new Form($sandbox),
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            afterErrorHandler: afterErrorHandler
+
+      var test = {
+        router: router,
+        authContainer: new AuthContainer($sandbox),
+        beacon: new Beacon($sandbox),
+        form: new Form($sandbox),
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        afterErrorHandler: afterErrorHandler
+      };
+
+      const enrollSms = (test) => {
+        setNextResponse(resp || resAllFactors);
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForEnrollChoices(test)
+          .then(function (test) {
+            router.enrollSms();
+            return Expect.waitForEnrollSms(test);
+          })
+          .then(test => {
+            spyOn(test.router.controller, 'trapAuthResponse').and.callThrough();
+            return test;
           });
-        })
-        .then(test => {
-          spyOn(test.router.controller, 'trapAuthResponse').and.callThrough();
-          return test;
-        });
+      };
+
+      if (startRouter) {
+        return Expect.waitForPrimaryAuth(test).then(enrollSms);
+      } else {
+        return enrollSms(test);
+      }
     }
 
     function enterCode (test, countryCode, phoneNumber) {
@@ -111,25 +112,10 @@ define([
         });
     }
 
-    function setupAndSendCodeIdx (res, countryCode, phoneNumber) {
-      return setup(resAllFactorsIdx)
-        .then(function (test) {
-          return sendCode(test, res, countryCode, phoneNumber);
-        });
-    }
-
     var setupAndSendValidCode = function () {
       return setup()
         .then(function (test) {
           sendCode(test, resEnrollSuccess, 'US', '4151234567');
-          return waitForEnrollActivateSuccess(test);
-        });
-    };
-
-    var setupAndSendValidCodeIdx = function () {
-      return setup()
-        .then(function (test) {
-          sendCode(test, resEnrollSuccessIdx, 'US', '4151234567');
           return waitForEnrollActivateSuccess(test);
         });
     };
@@ -353,7 +339,7 @@ define([
           .then(function () {
             expect($.ajax.calls.count()).toBe(2);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/idp/idx/introspect',
+              url: 'https://foo.com/api/v1/authn',
               data: {
                 stateToken: 'dummy-token'
               }
@@ -712,24 +698,12 @@ define([
       testHeaderAndFooter(resAllFactors, setupAndSendValidCode, 'testStateToken');
     });
 
-    describe('Header & Footer on Idx Pipeline', function () {
-      testHeaderAndFooter(resAllFactorsIdx, setupAndSendValidCodeIdx, '01testStateToken');
-    });
-
     describe('Enroll phone number', function () {
       testEnrollPhoneNumber(resAllFactors, resEnrollSuccess, setupAndSendCode, 'testStateToken');
     });
 
-    describe('Enroll phone number on Idx Pipeline', function () {
-      testEnrollPhoneNumber(resAllFactorsIdx, resEnrollSuccessIdx, setupAndSendCodeIdx, '01testStateToken');
-    });
-
     describe('Verify phone number', function () {
       testVerifyPhoneNumber(resAllFactors, resSuccess ,setupAndSendValidCode, resExistingPhone, 'testStateToken');
-    });
-
-    describe('Verify phone number on Idx Pipeline', function () {
-      testVerifyPhoneNumber(resAllFactorsIdx, resEnrollSuccessIdx ,setupAndSendValidCodeIdx, resExistingPhoneIdx, '01testStateToken');
     });
 
   });

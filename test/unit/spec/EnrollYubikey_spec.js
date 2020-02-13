@@ -34,10 +34,6 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       return tick()
         .then(function () {
           setNextResponse(resAllFactors);
-          return Util.mockIntrospectResponse(router, resAllFactors);
-        })
-        .then(function () {
-          setNextResponse(resAllFactors);
           router.refreshAuthState('dummy-token');
           return Expect.waitForEnrollChoices();
         })

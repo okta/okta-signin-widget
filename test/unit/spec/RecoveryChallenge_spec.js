@@ -47,11 +47,8 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
       setNextResponse: setNextResponse,
       afterErrorHandler: afterErrorHandler
     };
-    return Util.mockIntrospectResponse(router, resChallenge)
-      .then(function () {
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForRecoveryChallenge(testData);
-      });
+    router.refreshAuthState('dummy-token');
+    return Expect.waitForRecoveryChallenge(testData);
   }
 
   Expect.describe('RecoveryChallenge', function () {

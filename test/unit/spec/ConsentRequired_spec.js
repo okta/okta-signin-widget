@@ -41,17 +41,15 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
     setNextResponse(res || resConsentRequired);
-    return Util.mockIntrospectResponse(router, res || resConsentRequired).then(function () {
-      router.refreshAuthState('dummy-token');
-      settings = {
-        router: router,
-        successSpy: successSpy,
-        form: new ConsentRequiredForm($sandbox),
-        ac: authClient,
-        setNextResponse: setNextResponse
-      };
-      return Expect.waitForConsentRequired(settings);
-    });
+    router.refreshAuthState('dummy-token');
+    settings = {
+      router: router,
+      successSpy: successSpy,
+      form: new ConsentRequiredForm($sandbox),
+      ac: authClient,
+      setNextResponse: setNextResponse
+    };
+    return Expect.waitForConsentRequired(settings);
   }
 
   function setupClientLogo () {

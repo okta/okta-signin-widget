@@ -35,27 +35,31 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
       Util.mockDuo();
-      return tick()
-        .then(function () {
-          setNextResponse(resAllFactors);
-          return Util.mockIntrospectResponse(router, resAllFactors);
-        })
-        .then(function () {
-          setNextResponse(resAllFactors);
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
-        .then(function () {
-          setNextResponse(resActivateDuo);
-          router.enrollDuo();
-          return Expect.waitForEnrollDuo({
-            router: router,
-            beacon: new Beacon($sandbox),
-            form: new Form($sandbox),
-            ac: authClient,
-            setNextResponse: setNextResponse
+
+      var test = {
+        router: router,
+        beacon: new Beacon($sandbox),
+        form: new Form($sandbox),
+        ac: authClient,
+        setNextResponse: setNextResponse
+      };
+
+      const enrollDuo = (test) => {
+        setNextResponse(resAllFactors);
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForEnrollChoices(test)
+          .then(function (test) {
+            setNextResponse(resActivateDuo);
+            router.enrollDuo();
+            return Expect.waitForEnrollDuo(test);
           });
-        });
+      };
+
+      if (startRouter) {
+        return Expect.waitForPrimaryAuth(test).then(enrollDuo);
+      } else {
+        return enrollDuo(test);
+      }
     }
 
     itp('displays the correct factorBeacon', function () {

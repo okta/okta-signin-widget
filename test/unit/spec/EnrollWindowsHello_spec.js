@@ -32,7 +32,6 @@ function (Okta,
 
   var { $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   Expect.describe('EnrollWindowsHello', function () {
 
@@ -49,15 +48,8 @@ function (Okta,
       });
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
-      return tick()
-        .then(function () {
-          setNextResponse(responseMfaEnrollAll);
-          return Util.mockIntrospectResponse(router, responseMfaEnrollAll);
-        })
-        .then(function () {
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForEnrollChoices()
         .then(function () {
           router.enrollWebauthn();
           return Expect.waitForEnrollWindowsHello({

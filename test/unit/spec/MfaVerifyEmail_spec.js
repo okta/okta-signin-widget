@@ -58,31 +58,29 @@ define([
     router.on('afterError', afterErrorHandler);
 
     setNextResponse(resAllFactors);
-    return Util.mockIntrospectResponse(router).then(function () {
-      router.refreshAuthState('dummy-token');
-      return Expect.waitForMfaVerify()
-        .then(function () {
-          var factors = router.appState.get('factors'),
-              selectedFactor = factors.findWhere({ factorType: 'email' });
-          router.verify(
-            selectedFactor.get('provider'),
-            selectedFactor.get('factorType'));
-          return Expect.waitForVerifyEmail();
-        })
-        .then(function () {
-          var form = new MfaVerifyForm($sandbox);
-          var beacon = new Beacon($sandbox);
-          return {
-            router: router,
-            form: form,
-            beacon: beacon,
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            successSpy: successSpy,
-            afterErrorHandler: afterErrorHandler
-          };
-        });
-    });
+    router.refreshAuthState('dummy-token');
+    return Expect.waitForMfaVerify()
+      .then(function () {
+        var factors = router.appState.get('factors'),
+            selectedFactor = factors.findWhere({ factorType: 'email' });
+        router.verify(
+          selectedFactor.get('provider'),
+          selectedFactor.get('factorType'));
+        return Expect.waitForVerifyEmail();
+      })
+      .then(function () {
+        var form = new MfaVerifyForm($sandbox);
+        var beacon = new Beacon($sandbox);
+        return {
+          router: router,
+          form: form,
+          beacon: beacon,
+          ac: authClient,
+          setNextResponse: setNextResponse,
+          successSpy: successSpy,
+          afterErrorHandler: afterErrorHandler
+        };
+      });
   }
 
   function setupEmailAndClickSend () {

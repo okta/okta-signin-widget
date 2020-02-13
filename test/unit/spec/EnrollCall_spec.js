@@ -10,10 +10,7 @@ define([
   'helpers/util/Expect',
   'sandbox',
   'helpers/xhr/MFA_ENROLL_allFactors',
-  'helpers/xhr/FACTOR_ENROLL_allFactors',
   'helpers/xhr/MFA_ENROLL_callFactor_existingPhone',
-  'helpers/xhr/FACTOR_ENROLL_callFactor_existingPhone',
-  'helpers/xhr/FACTOR_ENROLL_call',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_call_success',
   'helpers/xhr/FACTOR_ENROLL_ACTIVATE_call',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_error',
@@ -22,7 +19,7 @@ define([
   'LoginRouter'
 ],
 function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
-  resAllFactors, resAllFactorsIdx, resExistingPhone, resFactorEnrollExistingPhone, resFactorEnrollCall, resEnrollSuccess, resFactorEnrollActivateCall, resEnrollError, resActivateError,
+  resAllFactors, resExistingPhone, resEnrollSuccess, resFactorEnrollActivateCall, resEnrollError, resActivateError,
   resEnrollInvalidPhoneError, Router) {
 
   var { _, $ } = Okta;
@@ -44,36 +41,37 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       router.on('afterError', afterRenderHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
-      return Q()
-        .then(function () {
-          setNextResponse(resp || resAllFactors);
-          return Util.mockIntrospectResponse(router, resp || resAllFactors);
-        })
-        .then(function () {
-          setNextResponse(resp || resAllFactors);
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
-        .then(function () {
-          router.enrollCall();
-          return Expect.waitForEnrollCall({
-            router: router,
-            beacon: new Beacon($sandbox),
-            form: new Form($sandbox),
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            afterRenderHandler: afterRenderHandler
+
+      var test = {
+        router: router,
+        beacon: new Beacon($sandbox),
+        form: new Form($sandbox),
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        afterRenderHandler: afterRenderHandler
+      };
+
+      const enrollCall = (test) => {
+        setNextResponse(resp || resAllFactors);
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForEnrollChoices(test)
+          .then(function (test) {
+            test.router.enrollCall();
+            return Expect.waitForEnrollCall(test);
+          })
+          .then(test => {
+            spyOn(test.router.controller, 'trapAuthResponse').and.callThrough();
+            return test;
           });
-        })
-        .then(test => {
-          spyOn(test.router.controller, 'trapAuthResponse').and.callThrough();
-          return test;
-        });
+      };
+
+      if (startRouter) {
+        return Expect.waitForPrimaryAuth(test).then(enrollCall);
+      } else {
+        return enrollCall(test);
+      }
     }
 
-    function setupWithFactorEnroll () {
-      return setup(resAllFactorsIdx);
-    }
 
     function waitForEnrollActivateSuccess (test) {
       test.router.controller.trapAuthResponse.calls.reset();
@@ -119,13 +117,6 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         });
     }
 
-    function setupAndSendValidCodeWithFactorEnroll (phoneExtension) {
-      return setup()
-        .then(function (test) {
-          sendCode(test, resFactorEnrollActivateCall, 'US', '6501231234', phoneExtension);
-          return waitForEnrollActivateSuccess(test);
-        });
-    }
 
     function setupAndSendInvalidCode (phoneExtension) {
       return setup().then(function (test) {
@@ -301,7 +292,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       });
     }
 
-    function testVerifyPhoneNumber (setupFn, setupAndSendCodeFn, enrollSuccess, existingPhone, expectedStateToken, ) {
+    function testVerifyPhoneNumber (setupFn, setupAndSendCodeFn, enrollSuccess, expectedStateToken, ) {
       itp('replaces button text from "call" to "calling", disables it and with no primary class', function () {
         return setupAndSendCodeFn().then(function (test) {
           expectCallingButton(test);
@@ -589,12 +580,8 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       testEnrollPhoneNumber(setup, resEnrollSuccess);
     });
 
-    describe('Enroll phone number on Idx Pipeline', function () {
-      testEnrollPhoneNumber(setupWithFactorEnroll, resFactorEnrollActivateCall);
-    });
-
     describe('Verify phone number', function () {
-      testVerifyPhoneNumber(setup, setupAndSendValidCode, resEnrollSuccess, resExistingPhone,  'testStateToken');
+      testVerifyPhoneNumber(setup, setupAndSendValidCode, resEnrollSuccess, 'testStateToken');
       itp('appends updatePhone=true to the request if user has an existing phone', function () {
         return setup(resExistingPhone).then(function (test) {
           $.ajax.calls.reset();
@@ -689,10 +676,6 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             Expect.isVisible(test.form.submitButton());
           });
       });
-    });
-
-    describe('Verify phone number on Idx Pipeline', function () {
-      testVerifyPhoneNumber(setupWithFactorEnroll, setupAndSendValidCodeWithFactorEnroll, resFactorEnrollActivateCall, resFactorEnrollExistingPhone, '01testStateToken');
     });
 
   });

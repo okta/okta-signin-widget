@@ -35,24 +35,22 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     router.on('afterError', afterErrorHandler);
     var form = new RecoveryQuestionForm($sandbox);
     var beacon = new Beacon($sandbox);
+    var test = {
+      router: router,
+      form: form,
+      beacon: beacon,
+      ac: authClient,
+      setNextResponse: setNextResponse,
+      afterErrorHandler: afterErrorHandler
+    };
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     Util.mockJqueryCss();
 
     resRecovery.response = _.extend(resRecovery.response, res);
     setNextResponse(resRecovery);
-    return Util.mockIntrospectResponse(router, resRecovery).then(function () {
-      router.refreshAuthState('dummy-token');
-
-      return Expect.waitForRecoveryQuestion({
-        router: router,
-        form: form,
-        beacon: beacon,
-        ac: authClient,
-        setNextResponse: setNextResponse,
-        afterErrorHandler: afterErrorHandler
-      });
-    });
+    router.refreshAuthState('dummy-token');
+    return Expect.waitForRecoveryQuestion(test);
 
   }
 
