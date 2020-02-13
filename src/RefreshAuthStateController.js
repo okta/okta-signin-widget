@@ -27,22 +27,20 @@ define(['q', 'okta', 'util/FormController'], function (Q, Okta, FormController) 
       var token = this.options.token;
       this.model.startTransaction(function (authClient) {
         appState.trigger('loading', true);
-        if (token && (token === this.settings.get('stateToken'))) {
-          // widget bootstrapped with statetoken via settings
-          // check if stateToken in url is same as settings
-          //unset stateToken to prevent the baseloginrouter controller from calling it again on render
+        if (this.options.appState.get('introspectSuccess') ||
+            this.options.appState.get('introspectError')) {
+          // Also handles the case when we hit introspect and are on the oldpipeline
           this.settings.unset('stateToken');
           var trans = this.options.appState.get('introspectSuccess');
           var transError = this.options.appState.get('introspectError');
-          if (trans || transError) {
-            if (trans && trans.data) {
-              return Q.resolve(trans);
-            } else {
-              return Q.reject(transError);
-            }
+          if (trans && trans.data) {
+            return Q.resolve(trans);
+          } else {
+            return Q.reject(transError);
           }
         } else if (token) {
           // widget bootstrapped with statetoken only in the url and not in settings
+          // used for mobile flows
           return authClient.tx.resume({
             stateToken: token
           });
@@ -54,7 +52,6 @@ define(['q', 'okta', 'util/FormController'], function (Q, Okta, FormController) 
           }
           appState.trigger('navigate', '');
         }
-
       });
     },
 
