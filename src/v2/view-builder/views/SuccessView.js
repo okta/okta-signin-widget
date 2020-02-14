@@ -8,10 +8,13 @@ const Body = BaseForm.extend({
   noButtonBar: true,
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
+    const currentViewState = this.options.appState.getCurrentViewState();
+    if (currentViewState.name === 'device-apple-sso-extension') {
+      document.cookie = `stateHandle=${this.options.appState.get('currentState').stateHandle};path=/`;
+    }
     // TODO OKTA-250473
     // Form post for success redirect
-    const url = this.options.appState.getCurrentViewState().href;
-    Util.redirectWithFormGet(url);
+    Util.redirectWithFormGet(currentViewState.href);
   },
 });
 
