@@ -71,8 +71,11 @@ module.exports = {
     open: true,
     before (app) {
       app.get('/app/UserHome', (req, res) => {
-        res.status(200)
-          .send('<h1>Mock User Dashboard</h1><a href="/">Back to Login</a>');
+        const respHtml = `
+          <h1>Mock User Dashboard</h1>
+          <pre id="preview-query">${JSON.stringify(req.query, null, 2)}</pre>
+          <a href="/">Back to Login</a>`;
+        res.status(200).send(respHtml);
       });
 
       // ================================= dyson mock setup

@@ -1,10 +1,13 @@
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import unknownUser from '../../../playground/mocks/idp/idx/data/unknown-user'
+import unknownUser from '../../../playground/mocks/idp/idx/data/unknown-user';
+import identify from '../../../playground/mocks/idp/idx/data/identify';
 import { RequestMock } from 'testcafe';
 
 const mock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identify)
   .onRequestTo('http://localhost:3000/idp/idx')
-  .respond(unknownUser)
+  .respond(unknownUser);
 
 fixture(`Unknown user form`)
   .requestHooks(mock);
@@ -18,6 +21,7 @@ async function setup(t) {
 test(`should show messages callout for unknown user`, async t => {
   const identityPage = await setup(t);
   await identityPage.fillIdentifierField('unknown');
-  await identityPage.clickNextButton();  
-  await t.expect(identityPage.getUnknownUserCalloutContent()).eql('There is no account with the email  test@rain.com .  Sign up  for an account');
+  await identityPage.clickNextButton();
+  await t.expect(identityPage.getUnknownUserCalloutContent())
+    .eql('There is no account with the email  test@rain.com .  Sign up  for an account');
 });

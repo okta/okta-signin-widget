@@ -1,8 +1,6 @@
-import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import SelectFactorPageObject from '../framework/page-objects/SelectFactorPageObject';
 import { RequestMock } from 'testcafe';
 import factorEnrollOptions from '../../../playground/mocks/idp/idx/data/factor-enroll-options';
-import identify from '../../../playground/mocks/idp/idx/data/identify';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

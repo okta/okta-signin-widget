@@ -6,8 +6,7 @@ export default class SuccessPageObject extends BasePageObject {
     super(t);
   }
   async getPageUrl() {
-    // success is redirect to httpbin.org
-    await this.t.expect(Selector('title').innerText).eql('httpbin.org');
+    await this.t.expect(Selector('h1').innerText).eql('Mock User Dashboard');
 
     const pageUrl = await ClientFunction(() => window.location.href)();
     return pageUrl;
