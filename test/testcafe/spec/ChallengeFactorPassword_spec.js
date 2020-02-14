@@ -1,31 +1,29 @@
-import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
-import { ClientFunction, RequestMock } from 'testcafe';
+import { RequestMock } from 'testcafe';
 import factorRequiredPassword from '../../../playground/mocks/idp/idx/data/factor-verification-password';
 import success from '../../../playground/mocks/idp/idx/data/success';
 
 const mock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx')
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(factorRequiredPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(success)
+  .respond(success);
 
 fixture(`Challenge Password Form`)
-  .requestHooks(mock)
+  .requestHooks(mock);
 
 async function setup(t) {
-  const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage();
-  await identityPage.fillIdentifierField('Challenge Password');
-  await identityPage.clickNextButton();
-  return new ChallengeFactorPageObject(t);
+  const challengeFactorPage = new ChallengeFactorPageObject(t);
+  await challengeFactorPage.navigateToPage();
+  return challengeFactorPage;
 }
-const getPageUrl = ClientFunction(() => window.location.href);
-test
-  (`challenge password factor`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.verifyFactor('credentials.passcode', 'test');
-    await challengeFactorPageObject.clickNextButton();
-    const pageUrl = getPageUrl();
-    await t.expect(pageUrl).contains('stateToken=abc123');
-  });
+test(`challenge password factor`, async t => {
+  const challengeFactorPageObject = await setup(t);
+  await challengeFactorPageObject.verifyFactor('credentials.passcode', 'test');
+  await challengeFactorPageObject.clickNextButton();
+  const successPage = new SuccessPageObject(t);
+  const pageUrl = await successPage.getPageUrl();
+  await t.expect(pageUrl)
+    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+});

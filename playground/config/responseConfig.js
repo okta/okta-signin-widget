@@ -25,7 +25,7 @@ const idx = {
 // ===== AUTHN
 const authn = {
   '/api/v1/authn': [
-    // 'consent-required',
+    'unauthenticated',
     'success-001'
   ],
 };
@@ -118,8 +118,5 @@ const appleSsoExtension = {
 };
 
 module.exports = {
-  // TODO: some testcafe test rely on setting mocks to idx
-  // which is apparently bad. ideally, testcafe test shall pass even
-  // no mocks has been config.
-  mocks: idx,
+  mocks: authn,
 };

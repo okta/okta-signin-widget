@@ -26,11 +26,11 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:6512/launch-okta-verify')
   .respond(null, 200, { 'access-control-allow-origin': '*' })
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
-  .respond(identify)
+  .respond(identify);
 
 
 fixture(`Device Challenge Polling View with Loopback Failfast and Launch Okta Verify`)
-  .requestHooks(logger, mock)
+  .requestHooks(logger, mock);
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -38,8 +38,7 @@ async function setup(t) {
   return deviceChallengePollPage;
 }
 
-test
-(`loopback fails and falls back to custom uri`, async t => {
+test(`loopback fails and falls back to custom uri`, async t => {
   const deviceChallengePollPageObject = await setup(t);
   await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign In');
   await t.expect(logger.count(
@@ -78,4 +77,4 @@ test
   const secondIdentityPage = new IdentityPageObject(t);
   await secondIdentityPage.fillIdentifierField('Test Identifier');
   await t.expect(secondIdentityPage.getIdentifierValue()).eql('Test Identifier');
-})
+});

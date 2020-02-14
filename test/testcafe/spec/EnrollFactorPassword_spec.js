@@ -7,8 +7,8 @@ import xhrSuccess from '../../../playground/mocks/idp/idx/data/success';
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrFactorEnrollPassword)
-      .onRequestTo('http://localhost:3000/idp/idx')
-      .respond(xhrSuccess);
+  .onRequestTo('http://localhost:3000/idp/idx')
+  .respond(xhrSuccess);
 
 fixture(`Factor Enroll Password`)
   .requestHooks(mock);
@@ -49,5 +49,6 @@ test(`should succeed when fill same value`, async t => {
   await enrollPasswordPage.clickNextButton();
 
   const pageUrl = await successPage.getPageUrl();
-  await t.expect(pageUrl).contains('stateToken=abc123');
+  await t.expect(pageUrl)
+    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
