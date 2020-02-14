@@ -102,8 +102,7 @@ const windowAuthnCustomUri = {
     'identify-with-device-launch-authenticator',
   ],
   '/idp/idx/authenticators/okta-verify/launch': [
-    'identify-with-device-launch-authenticator', // 5
-    'identify-with-device-probing-loopback-challenge-not-received' // 7
+    'identify-with-device-launch-authenticator',
   ]
 };
 

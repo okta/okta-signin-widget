@@ -67,7 +67,8 @@ test(`loopback fails and falls back to custom uri`, async t => {
       record.request.url.match(/\/okta-verify\/launch/)
   )).eql(1);
   await t.expect(logger.count(
-    record => record.request.url.match(/launch-okta-verify/)
+    record => record.request.url.match(/launch-okta-verify/) &&
+      record.request.method === 'get'
   )).eql(1);
   await t.expect(logger.count(
     record => record.response.statusCode === 200 &&

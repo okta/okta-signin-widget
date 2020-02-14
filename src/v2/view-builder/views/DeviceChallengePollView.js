@@ -116,7 +116,6 @@ const Body = BaseForm.extend({
   doCustomURI () {
     return request({
       url: this.customURI,
-      method: 'POST',
     });
   },
 
