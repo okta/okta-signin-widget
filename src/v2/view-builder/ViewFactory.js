@@ -4,6 +4,7 @@ import BaseView from './internals/BaseView';
 // factor ignostic views
 import IdentifierView from './views/IdentifierView';
 import DeviceChallengePollView from './views/DeviceChallengePollView';
+import SSOExtensionView from './views/SSOExtensionView';
 import SelectFactorEnrollView from './views/SelectFactorEnrollView';
 import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
 import EnrollProfileView from './views/EnrollProfileView';
@@ -33,7 +34,7 @@ const VIEWS_MAPPING = {
     [DEFAULT]: DeviceChallengePollView,
   },
   'device-apple-sso-extension': {
-    [DEFAULT]: SuccessView,
+    [DEFAULT]: SSOExtensionView,
   },
   'select-factor': { //DEPRECATED: temporary backwards compatibility
     authenticate: SelectFactorAuthenticateView,
