@@ -1,4 +1,5 @@
-import { RequestLogger, RequestMock, ClientFunction } from 'testcafe';
+import { RequestLogger, RequestMock } from 'testcafe';
+import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import identifyWithAppleSSOExtension from '../../../playground/mocks/idp/idx/data/identify-with-apple-sso-extension';
 import success from '../../../playground/mocks/idp/idx/data/success';
@@ -9,12 +10,11 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyWithAppleSSOExtension)
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify')
-  .respond(success)
+  .respond(success);
 
 fixture(`App SSO Extension View`)
-  .requestHooks(logger, mock)
+  .requestHooks(logger, mock);
 
-const getPageUrl = ClientFunction(() => window.location.href);
 test(`should have the correct content`, async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
@@ -27,6 +27,8 @@ test(`should have the correct content`, async t => {
     record.request.method === 'post' &&
     record.request.url.match(/authenticators\/sso_extension\/transactions\/123\/verify/)
   )).eql(1);
-  const pageUrl = getPageUrl();
-  await t.expect(pageUrl).contains('stateToken=abc123');
+  const successPage = new SuccessPageObject(t);
+  const pageUrl = await successPage.getPageUrl();
+  await t.expect(pageUrl)
+    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });

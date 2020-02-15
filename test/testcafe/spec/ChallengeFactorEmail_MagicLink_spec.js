@@ -1,57 +1,53 @@
-import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 import { RequestMock, RequestLogger } from 'testcafe';
 import magicLinkReturnTab from '../../../playground/mocks/idp/idx/data/terminal-return-email';
 import magicLinkExpired from '../../../playground/mocks/idp/idx/data/terminal-return-expired-email';
 import magicLinkEmailSent from '../../../playground/mocks/idp/idx/data/factor-verification-email';
+import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 
 const magicLinkReturnTabMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx')
-  .respond(magicLinkReturnTab)
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(magicLinkReturnTab);
 
 const magicLinkExpiredMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx')
-  .respond(magicLinkExpired)
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(magicLinkExpired);
 
 const magicLinkEmailSentMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx')
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(magicLinkEmailSent)
-
-const resendEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
   .respond(magicLinkEmailSent)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(magicLinkEmailSent)
+;
 
 const logger = RequestLogger(/poll|resend/);
 
-fixture(`Challenge Email Magic Link Form Content`)
+fixture(`Challenge Email Magic Link Form Content`);
 
 async function setup(t) {
-  const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage();
-  await identityPage.fillIdentifierField('Challenge Email');
-  await identityPage.clickNextButton();
-  return new ChallengeFactorPageObject(t);
+  const challengeFactorPageObject = new ChallengeFactorPageObject(t);
+  challengeFactorPageObject.navigateToPage();
+  return challengeFactorPageObject;
 }
 
 test
-  .requestHooks(magicLinkReturnTabMock)
-  (`challenge email factor with magic link`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    const pageSubTitle = challengeFactorPageObject.getPageSubTitle('.okta-form-subtitle');
-    await t.expect(pageSubTitle).eql('To finish signing in, return to the screen where you requested the email link.');
+  .requestHooks(magicLinkReturnTabMock)(`challenge email factor with magic link`, async t => {
+    await setup(t);
+    const terminalPageObject = await new TerminalPageObject(t);
+    await t.expect(terminalPageObject.getFormSubtitle()).eql('To finish signing in, return to the screen where you requested the email link.');
   });
 
 test
-  .requestHooks(magicLinkExpiredMock)
-  (`challenge email factor with expired magic link`, async t => {
+  .requestHooks(magicLinkExpiredMock)(`challenge email factor with expired magic link`, async t => {
     const challengeFactorPageObject = await setup(t);
     const pageTitle = challengeFactorPageObject.getPageTitle();
     await t.expect(pageTitle).eql('This email link has expired. To resend it, return to the screen where you requested it.');
   });
 
-  test
-  .requestHooks(logger, resendEmailMock, magicLinkEmailSentMock)
-  (`challenge email factor with magic link sent renders and has resend link`, async t => {
+test
+  .requestHooks(logger, magicLinkEmailSentMock)(`challenge email factor with magic link sent renders and has resend link`, async t => {
     const challengeFactorPageObject = await setup(t);
     await t.expect(challengeFactorPageObject.resendEmailView().getStyleProperty('display')).eql('none');
     // wait for resend button to appear
@@ -72,4 +68,3 @@ test
       record.request.url.match(/poll|resend/)
     )).eql(17);
   });
-

@@ -1,3 +1,9 @@
+/*
+ * Checking in as there is no npm module to consume. 
+ * Current version is 2.15.
+ * Repo - https://github.com/TypingDNA/TypingDnaRecorder-JavaScript
+ */
+
 /**
  * TypingDNA - Typing Biometrics JavaScript API
  * https://api.typingdna.com/scripts/typingdna.js

@@ -1,8 +1,8 @@
-import { RequestLogger, RequestMock, Selector } from 'testcafe';
+import { RequestLogger, RequestMock } from 'testcafe';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import identify from '../../../playground/mocks/idp/idx/data/identify';
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/idp/idx/data/identify-with-device-probing-loopback';
-import loopbackChallengeNotReceived from '../../../playground/mocks/idp/idx/data/identify-with-device-probing-loopback-challenge-not-received';
 
 let failureCount = 0;
 
@@ -15,7 +15,7 @@ const mock = RequestMock()
   .respond((req, res) => {
     res.statusCode = '200';
     if (failureCount === 2) {
-      res.setBody(loopbackChallengeNotReceived);
+      res.setBody(identify);
     } else {
       res.setBody(identifyWithDeviceProbingLoopback);
     }
@@ -31,10 +31,10 @@ const mock = RequestMock()
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept',
     'access-control-allow-methods': 'POST, OPTIONS'
-  })
+  });
 
-fixture(`Device Challenge Polling View`)
-  .requestHooks(logger, mock)
+fixture(`Device Challenge Polling View with Successful Loopback Server`)
+  .requestHooks(logger, mock);
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -42,27 +42,26 @@ async function setup(t) {
   return deviceChallengePollPage;
 }
 
-test
-  (`probing and polling APIs are sent and responded`, async t => {
-    const deviceChallengePollPageObject = await setup(t);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign In');
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
+test(`probing and polling APIs are sent and responded`, async t => {
+  const deviceChallengePollPageObject = await setup(t);
+  await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign In');
+  await t.expect(logger.count(
+    record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect|6512/)
-    )).eql(3);
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
+  )).eql(3);
+  await t.expect(logger.count(
+    record => record.response.statusCode === 200 &&
       record.request.url.match(/challenge/) &&
       record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
-    )).eql(1);
-    failureCount = 2;
-    await t.expect(logger.count(
-      record => record.response.statusCode === 500 &&
+  )).eql(1);
+  failureCount = 2;
+  await t.expect(logger.count(
+    record => record.response.statusCode === 500 &&
       record.request.url.match(/2000|6511/)
-    )).eql(2);
-    await t.expect(logger.contains(record => record.request.url.match(/6513/))).eql(false);
+  )).eql(2);
+  await t.expect(logger.contains(record => record.request.url.match(/6513/))).eql(false);
 
-    const identityPage = new IdentityPageObject(t);
-    await identityPage.fillIdentifierField('Test Identifier');
-    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
-  })
+  const identityPage = new IdentityPageObject(t);
+  await identityPage.fillIdentifierField('Test Identifier');
+  await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+});

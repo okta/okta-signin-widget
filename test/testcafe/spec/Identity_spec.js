@@ -1,6 +1,13 @@
+import { RequestMock } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import identify from '../../../playground/mocks/idp/idx/data/identify';
 
-fixture(`Identity Form`);
+const mock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identify);
+
+fixture(`Identity Form`)
+  .requestHooks(mock);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

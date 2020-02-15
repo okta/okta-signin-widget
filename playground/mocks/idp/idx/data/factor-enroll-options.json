@@ -16,16 +16,16 @@
         "method": "POST",
         "value": [
           {
-            "name": "factorType",
+            "name": "factorProfileId",
             "type": "set",
             "options": [
               {
-                "label": "Password",
-                "value": "password"
+                "label": "Password Label",
+                "value": "00u2j17ObFUsbGfLg0g4"
               },
               {
-                "label": "E-mail",
-                "value": "email"
+                "label": "Email Label",
+                "value": "emf2j1ccd6CF4IWFY0g3"
               }
             ]
           },
@@ -35,6 +35,19 @@
             "visible": false
           }
         ]
+      }
+    ]
+  },
+  "factors": {
+    "type": "array",
+    "value": [
+      {
+        "factorType": "password",
+        "factorId": "00u2j17ObFUsbGfLg0g4"
+      },
+      {
+        "factorType": "email",
+        "factorId": "emf2j1ccd6CF4IWFY0g3"
       }
     ]
   },

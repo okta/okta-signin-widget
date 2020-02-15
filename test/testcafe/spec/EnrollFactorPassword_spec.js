@@ -7,8 +7,8 @@ import xhrSuccess from '../../../playground/mocks/idp/idx/data/success';
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrFactorEnrollPassword)
-      .onRequestTo('http://localhost:3000/idp/idx')
-      .respond(xhrSuccess);
+  .onRequestTo('http://localhost:3000/idp/idx')
+  .respond(xhrSuccess);
 
 fixture(`Factor Enroll Password`)
   .requestHooks(mock);
@@ -21,6 +21,9 @@ async function setup(t) {
 
 test(`should have both password and confirmPassword fields and both are required`, async t => {
   const enrollPasswordPage = await setup(t);
+
+  // Check title 
+  await t.expect(enrollPasswordPage.getFormTitle()).eql('Select a password');
 
   // fields are required
   await enrollPasswordPage.clickNextButton();
@@ -46,5 +49,6 @@ test(`should succeed when fill same value`, async t => {
   await enrollPasswordPage.clickNextButton();
 
   const pageUrl = await successPage.getPageUrl();
-  await t.expect(pageUrl).contains('stateToken=abc123');
+  await t.expect(pageUrl)
+    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });

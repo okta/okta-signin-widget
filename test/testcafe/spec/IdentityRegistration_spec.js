@@ -1,7 +1,17 @@
+import { RequestMock } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
+import identify from '../../../playground/mocks/idp/idx/data/identify';
+import enrollProfile from '../../../playground/mocks/idp/idx/data/enroll-profile';
 
-fixture(`Registration Form`);
+const mock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(enrollProfile);
+
+fixture(`Registration Form`)
+  .requestHooks(mock);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

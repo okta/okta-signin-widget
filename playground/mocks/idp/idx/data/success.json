@@ -44,6 +44,6 @@
     },
     "success": {
       "name": "success-redirect",
-      "href": "https://httpbin.org?stateToken=abc123"
+      "href": "http://localhost:3000/app/UserHome?stateToken=mockedStateToken123"
     }
 }

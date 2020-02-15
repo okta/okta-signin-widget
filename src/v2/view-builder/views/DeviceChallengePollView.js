@@ -62,6 +62,7 @@ const Body = BaseForm.extend({
   doLoopback (authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
     let currentPort;
     let foundPort = false;
+    let countFailedPorts = 0;
 
     const getAuthenticatorUrl = (path) => {
       return `${authenticatorDomainUrl}:${currentPort}/${path}`;
@@ -102,7 +103,12 @@ const Body = BaseForm.extend({
           }
         })
         .catch(() => {
-          Logger.error('Something unexpected happened during device probing.');
+          countFailedPorts++;
+          Logger.error(`Authenticator is not listening on port ${currentPort}.`);
+          if (countFailedPorts === ports.length) {
+            Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+            this.options.appState.trigger('invokeAction', 'authenticatorChallenge.cancel-polling');
+          }
         });
     });
   },

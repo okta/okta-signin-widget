@@ -12,7 +12,7 @@ const mock = RequestMock()
   .respond(launchAuthenticatorOption);
 
 fixture(`Identity View with Okta Verify option`)
-  .requestHooks(logger, mock)
+  .requestHooks(logger, mock);
 
 async function setup(t) {
   const deviceChallengePollPage = new IdentityPageObject(t);
@@ -42,7 +42,7 @@ test(`should the correct title`, async t => {
   const identityPage = await setup(t);
   const pageTitle = identityPage.getPageTitle();
   await t.expect(pageTitle).eql('Sign In');
-})
+});
 
 test(`should the correct content`, async t => {
   const identityPage = await setup(t);
@@ -52,4 +52,4 @@ test(`should the correct content`, async t => {
   await identityPage.clickOktaVerifyButton();
   const header = new Selector('h2[data-se="o-form-head"]');
   await t.expect(header.textContent).eql('Verify account access');
-})
+});
