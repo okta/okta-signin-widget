@@ -13,15 +13,15 @@ define({
         "clientId": "8WUqrTzUG9RyJt2C6Gmm",
         "_links": {
           "about": {
-            "href": "https://example.com/about.html",
+            "href": "https://example.okta.com/about.html",
             "type": "text/html"
           },
           "terms-of-service": {
-            "href": "https://example.com/tos.html",
+            "href": "https://example.okta.com/tos.html",
             "type": "text/html"
           },
           "privacy-policy": {
-            "href": "https://example.com/policy.html",
+            "href": "https://example.okta.com/policy.html",
             "type": "text/html"
           }
         }

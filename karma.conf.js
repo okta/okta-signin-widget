@@ -17,6 +17,9 @@ module.exports = (config) => {
       { pattern: './target/css/*.css', watched: true, included: true, served: true },
       { pattern: './target/**/*', watched: false, included: false, served: true },
     ],
+    proxies: {
+      '/img/logos/': 'http://localhost:9876/base/test/unit/assets/'
+    },
     preprocessors: {
       'test/unit/main.js': ['webpack', 'sourcemap'],
     },
