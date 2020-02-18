@@ -12,7 +12,7 @@
                   "create-form"
               ],
               "name": "device-apple-sso-extension",
-              "href": "http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify",
+              "href": "http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?challengeRequest=eyJraWQiOiJCa2Y3LTVqa2d6eE1NYjBtS0pEX3hpaUxzZFNmLXZ6cks0MmFkcmcyWXEwIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2R0ZGVtby53aWRlcm9jay5jb20iLCJhdWQiOiJva3RhLjYzYzA4MWRiLTFmMTMtNTA4NC04ODJmLWU3OWUxZTVlMmRhNyIsImV4cCI6MTU3ODYxODEzMiwiaWF0IjoxNTc4NjE3ODMyLCJqdGkiOiJ0cmFuc2FjdGlvbklkIiwibm9uY2UiOiJzYW1wbGVOb25jZSIsInNpZ25hbHMiOlsic2NyZWVuTG9jayIsInJvb3RQcml2aWxlZ2VzIiwiZnVsbERpc2tFbmNyeXB0aW9uIiwiaWQiLCJwbGF0Zm9ybSIsIm9zVmVyc2lvbiIsIm1hbnVmYWN0dXJlciIsIm1vZGVsIiwiZGV2aWNlQXR0ZXN0YXRpb24iXSwidXNlclZlcmlmaWNhdGlvblJlcXVpcmVtZW50IjpmYWxzZSwidmVyaWZpY2F0aW9uVXJpIjoiaHR0cHM6Ly9kdGRlbW8ud2lkZXJvY2suY29tL2F1dGhlbnRpY2F0b3JzL3Nzb19leHRlbnNpb24vdHJhbnNhY3Rpb25zL3t0cmFuc2FjdGlvbklkfS92ZXJpZnkiLCJjYVN1YmplY3ROYW1lcyI6W10sImtleVR5cGUiOiJwcm9vZk9mUG9zc2Vzc2lvbiIsImZhY3RvclR5cGUiOiJjcnlwdG8iLCJ2ZXIiOjB9.aCsWAQHdU3MG6w7ZQl1csuw2UFb1yvH3es97McC6lFswAphkz6bIHNcagob2dhTwWMJ7_RbpZHqXcaZJ7skKZxYHEfdC9UwrRzdHpy_4Oeq477n4NGsJLvJNKDi_FOEulqAtCMnjh20vEJI6e4uNIxoSSCfxRCzp-0tdRIJ_7dGM-IsyFjefcnbDyFZT7s4l1tbeO7KYXmWXzP00bA8jmcGLb7i9bFwhjw9OBCgdNcqxKXMLmWQA0JZritRDR6u0ZcEjykca-eUCJtG5ISQOONs_lUBGL3Ezz6QsfWtW16E9QJAVEwf06gULnbw5n6wpiAiDqa4HlkKP6K5-v1Y0XQ",
               "method": "POST",
               "accepts": "application/vnd.okta.v1+json",
               "value": [
