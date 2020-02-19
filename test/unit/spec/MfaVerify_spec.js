@@ -156,74 +156,68 @@ function (Okta,
       var router = createRouter(baseUrl, authClient, successSpy, settings);
       router.on('afterError', afterErrorHandler);
       var resp = resAllFactors;
-      if (useResForIntrospect) {
-        resp = res;
+      setNextResponse(res);
+      if (languagesResponse) {
+        setNextResponse(languagesResponse);
       }
-      setNextResponse(resp);
-      return Util.mockIntrospectResponse(router, resp).then(function () {
-        setNextResponse(res);
-        if (languagesResponse) {
-          setNextResponse(languagesResponse);
-        }
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForMfaVerify()
-          .then(function () {
-            if (selectedFactorProps) {
-              var factors = router.appState.get('factors'),
-                  selectedFactor = factors.findWhere(selectedFactorProps),
-                  provider = selectedFactor.get('provider'),
-                  factorType = selectedFactor.get('factorType');
-              if (provider === 'DUO' && factorType === 'web') {
-                setNextResponse(resChallengeDuo);
-                router.verifyDuo();
-                return Expect.waitForVerifyDuo();
-              }
-              else if (provider === 'FIDO' && factorType === 'webauthn') {
-                setNextResponse(resChallengeWindowsHello);
-                router.verifyWebauthn();
-                return Expect.waitForVerifyWindowsHello();
-              }
-              else if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
-                setNextResponse(resChallengeCustomSAMLFactor);
-                router.verifySAMLFactor();
-                return Expect.waitForVerifyCustomFactor();
-              }
-              else if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
-                setNextResponse(resChallengeCustomOIDCFactor);
-                router.verifyOIDCFactor();
-                return Expect.waitForVerifyCustomFactor();
-              }
-              else if (provider === 'CUSTOM' && factorType === 'claims_provider') {
-                setNextResponse(resChallengeClaimsProvider);
-                router.verifyClaimsFactor();
-                return Expect.waitForVerifyCustomFactor();
-              }
-              else {
-                router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
-                return Expect.waitForMfaVerify();
-              }
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForMfaVerify()
+        .then(function () {
+          if (selectedFactorProps) {
+            var factors = router.appState.get('factors'),
+                selectedFactor = factors.findWhere(selectedFactorProps),
+                provider = selectedFactor.get('provider'),
+                factorType = selectedFactor.get('factorType');
+            if (provider === 'DUO' && factorType === 'web') {
+              setNextResponse(resChallengeDuo);
+              router.verifyDuo();
+              return Expect.waitForVerifyDuo();
             }
-          })
-          .then(function () {
-            var $forms = $sandbox.find('.o-form');
-            var forms = _.map($forms, function (form) {
-              return new MfaVerifyForm($(form));
-            });
-            if (forms.length === 1) {
-              forms = forms[0];
+            else if (provider === 'FIDO' && factorType === 'webauthn') {
+              setNextResponse(resChallengeWindowsHello);
+              router.verifyWebauthn();
+              return Expect.waitForVerifyWindowsHello();
             }
-            var beacon = new Beacon($sandbox);
-            return {
-              router: router,
-              form: forms,
-              beacon: beacon,
-              ac: authClient,
-              setNextResponse: setNextResponse,
-              successSpy: successSpy,
-              afterErrorHandler: afterErrorHandler
-            };
+            else if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
+              setNextResponse(resChallengeCustomSAMLFactor);
+              router.verifySAMLFactor();
+              return Expect.waitForVerifyCustomFactor();
+            }
+            else if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
+              setNextResponse(resChallengeCustomOIDCFactor);
+              router.verifyOIDCFactor();
+              return Expect.waitForVerifyCustomFactor();
+            }
+            else if (provider === 'CUSTOM' && factorType === 'claims_provider') {
+              setNextResponse(resChallengeClaimsProvider);
+              router.verifyClaimsFactor();
+              return Expect.waitForVerifyCustomFactor();
+            }
+            else {
+              router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
+              return Expect.waitForMfaVerify();
+            }
+          }
+        })
+        .then(function () {
+          var $forms = $sandbox.find('.o-form');
+          var forms = _.map($forms, function (form) {
+            return new MfaVerifyForm($(form));
           });
-      });
+          if (forms.length === 1) {
+            forms = forms[0];
+          }
+          var beacon = new Beacon($sandbox);
+          return {
+            router: router,
+            form: forms,
+            beacon: beacon,
+            ac: authClient,
+            setNextResponse: setNextResponse,
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
+          };
+        });
 
     }
 
@@ -236,38 +230,36 @@ function (Okta,
       var router = createRouter(baseUrl, authClient, successSpy, settings);
       router.on('afterError', afterErrorHandler);
       setNextResponse(res);
-      return Util.mockIntrospectResponse(router, res).then(function () {
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForMfaVerify()
-          .then(function () {
-            if (selectedFactorProps) {
-              var factors = router.appState.get('factors');
-              var selectedFactor = factors.findWhere(selectedFactorProps),
-                  factorType = selectedFactor.get('factorType');
-              router.verifyNoProvider(factorType);
-              return Expect.waitForMfaVerify();
-            }
-          })
-          .then(function () {
-            var $forms = $sandbox.find('.o-form');
-            var forms = _.map($forms, function (form) {
-              return new MfaVerifyForm($(form));
-            });
-            if (forms.length === 1) {
-              forms = forms[0];
-            }
-            var beacon = new Beacon($sandbox);
-            return {
-              router: router,
-              form: forms,
-              beacon: beacon,
-              ac: authClient,
-              setNextResponse: setNextResponse,
-              successSpy: successSpy,
-              afterErrorHandler: afterErrorHandler
-            };
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForMfaVerify()
+        .then(function () {
+          if (selectedFactorProps) {
+            var factors = router.appState.get('factors');
+            var selectedFactor = factors.findWhere(selectedFactorProps),
+                factorType = selectedFactor.get('factorType');
+            router.verifyNoProvider(factorType);
+            return Expect.waitForMfaVerify();
+          }
+        })
+        .then(function () {
+          var $forms = $sandbox.find('.o-form');
+          var forms = _.map($forms, function (form) {
+            return new MfaVerifyForm($(form));
           });
-      });
+          if (forms.length === 1) {
+            forms = forms[0];
+          }
+          var beacon = new Beacon($sandbox);
+          return {
+            router: router,
+            form: forms,
+            beacon: beacon,
+            ac: authClient,
+            setNextResponse: setNextResponse,
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
+          };
+        });
     }
 
     function setupWindowsHelloOnly () {
@@ -277,20 +269,16 @@ function (Okta,
       var successSpy = jasmine.createSpy('success');
       var router = createRouter(baseUrl, authClient, successSpy);
       setNextResponse([resRequiredWindowsHello, resChallengeWindowsHello, resSuccess]);
-      return Util.mockIntrospectResponse(router, resRequiredWindowsHello).then(function () {
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForVerifyWindowsHello()
-          .then(function () {
-            return Expect.waitForSpyCall(successSpy);
-          })
-          .then(function () {
-            return {
-              router: router
-            };
-          });
-      });
-
-
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForVerifyWindowsHello()
+        .then(function () {
+          return Expect.waitForSpyCall(successSpy);
+        })
+        .then(function () {
+          return {
+            router: router
+          };
+        });
     }
 
     function setupWithMfaPolicy (options) {
@@ -438,29 +426,27 @@ function (Okta,
         responses.push(options.res);
       }
       setNextResponse(responses);
-      return Util.mockIntrospectResponse(router, options.res).then(function () {
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForVerifyU2F()
-          .then(function () {
-            var $forms = $sandbox.find('.o-form');
-            var forms = _.map($forms, function (form) {
-              return new MfaVerifyForm($(form));
-            });
-            if (forms.length === 1) {
-              forms = forms[0];
-            }
-            var beacon = new Beacon($sandbox);
-            return {
-              router: router,
-              form: forms,
-              beacon: beacon,
-              ac: authClient,
-              setNextResponse: setNextResponse,
-              successSpy: successSpy,
-              afterErrorHandler: afterErrorHandler
-            };
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForVerifyU2F()
+        .then(function () {
+          var $forms = $sandbox.find('.o-form');
+          var forms = _.map($forms, function (form) {
+            return new MfaVerifyForm($(form));
           });
-      });
+          if (forms.length === 1) {
+            forms = forms[0];
+          }
+          var beacon = new Beacon($sandbox);
+          return {
+            router: router,
+            form: forms,
+            beacon: beacon,
+            ac: authClient,
+            setNextResponse: setNextResponse,
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
+          };
+        });
     }
 
     function setupMfaChallengeClaimsFactor (options) {
@@ -474,31 +460,29 @@ function (Okta,
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = createRouter(baseUrl, authClient, successSpy, options.settings);
       router.on('afterError', afterErrorHandler);
-      return Util.mockIntrospectResponse(router).then(function () {
-        router.refreshAuthState('dummy-token');
-        var verifyView = (options.factorResult === 'FAILED') ?
-          'waitForVerifyCustomFactor' : 'waitForMfaVerify';
-        return Expect[verifyView]()
-          .then(function () {
-            var $forms = $sandbox.find('.o-form');
-            var forms = _.map($forms, function (form) {
-              return new MfaVerifyForm($(form));
-            });
-            if (forms.length === 1) {
-              forms = forms[0];
-            }
-            var beacon = new Beacon($sandbox);
-            return {
-              router: router,
-              form: forms,
-              beacon: beacon,
-              ac: authClient,
-              setNextResponse: setNextResponse,
-              successSpy: successSpy,
-              afterErrorHandler: afterErrorHandler
-            };
+      router.refreshAuthState('dummy-token');
+      var verifyView = (options.factorResult === 'FAILED') ?
+        'waitForVerifyCustomFactor' : 'waitForMfaVerify';
+      return Expect[verifyView]()
+        .then(function () {
+          var $forms = $sandbox.find('.o-form');
+          var forms = _.map($forms, function (form) {
+            return new MfaVerifyForm($(form));
           });
-      });
+          if (forms.length === 1) {
+            forms = forms[0];
+          }
+          var beacon = new Beacon($sandbox);
+          return {
+            router: router,
+            form: forms,
+            beacon: beacon,
+            ac: authClient,
+            setNextResponse: setNextResponse,
+            successSpy: successSpy,
+            afterErrorHandler: afterErrorHandler
+          };
+        });
     }
 
     function getInitialChallengeResponse (options) {
@@ -2535,7 +2519,7 @@ function (Okta,
         }
         itp('has push without totp when totp is not in the factors list', function () {
           return setupOktaPushWithRefreshAuth().then(function (test) {
-            expect(test.form[0].isPush()).toBe(true);
+            expect(test.form.isPush()).toBe(true);
           });
         });
         itp('has push and an inline totp form when totp is available', function () {
@@ -2603,7 +2587,7 @@ function (Okta,
               $.ajax.calls.reset();
               setAutoPushCheckbox(test, true);
               test.setNextResponse(resSuccess);
-              test.form[0].submit();
+              test.form.submit();
               return Expect.wait(function () {
                 return $.ajax.calls.count() > 0;
               }, test);
@@ -2624,7 +2608,7 @@ function (Okta,
               $.ajax.calls.reset();
               setAutoPushCheckbox(test, false);
               test.setNextResponse(resSuccess);
-              test.form[0].submit();
+              test.form.submit();
               return Expect.wait(function () {
                 return $.ajax.calls.count() > 0;
               }, test);

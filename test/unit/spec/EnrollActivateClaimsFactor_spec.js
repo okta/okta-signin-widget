@@ -49,17 +49,15 @@ function (Okta,
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
-      return Util.mockIntrospectResponse(router, initResponse).then(function () {
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollCustomFactor({
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          successSpy: successSpy,
-          afterErrorHandler: afterErrorHandler
-        });
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForEnrollCustomFactor({
+        router: router,
+        beacon: new Beacon($sandbox),
+        form: new Form($sandbox),
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        successSpy: successSpy,
+        afterErrorHandler: afterErrorHandler
       });
     }
 

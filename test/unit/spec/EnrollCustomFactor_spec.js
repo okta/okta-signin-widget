@@ -1,6 +1,7 @@
-/* eslint max-params:[2, 15] */
+/* eslint max-params:[2, 16] */
 define([
   'okta',
+  'q',
   '@okta/okta-auth-js/jquery',
   'util/Util',
   'helpers/mocks/Util',
@@ -17,6 +18,7 @@ define([
   'helpers/xhr/SUCCESS'
 ],
 function (Okta,
+  Q,
   OktaAuth,
   LoginUtil,
   Util,
@@ -34,7 +36,6 @@ function (Okta,
 
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   Expect.describe('EnrollCustomFactor', function () {
 
@@ -53,15 +54,10 @@ function (Okta,
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
-      return tick()
-        .then(function () {
-          setNextResponse(responseMfaEnrollAll);
-          return Util.mockIntrospectResponse(router, responseMfaEnrollAll);
-        })
-        .then(function () {
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
+
+      setNextResponse(responseMfaEnrollAll);
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForEnrollChoices()
         .then(function () {
           switch (factorType) {
           case 'custom_oidc':

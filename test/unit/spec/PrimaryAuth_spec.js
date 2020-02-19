@@ -21,7 +21,6 @@ define([
   'helpers/xhr/SUCCESS',
   'helpers/xhr/CANCEL',
   'helpers/xhr/UNAUTHENTICATED',
-  'helpers/xhr/UNAUTHENTICATED_IDX',
   'helpers/xhr/FACTOR_REQUIRED',
   'helpers/xhr/ACCOUNT_LOCKED_OUT',
   'helpers/xhr/PASSWORD_EXPIRED',
@@ -35,7 +34,7 @@ define([
 ],
 function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Beacon, PrimaryAuth, PrimaryAuthController,
   Router, BrowserFeatures, Errors, DeviceFingerprint, TypingUtil, Expect, resSecurityImage,
-  resSecurityImageFail, resSuccess, resCancel, resUnauthenticated, resUnauthenticatedIdx,
+  resSecurityImageFail, resSuccess, resCancel, resUnauthenticated,
   resFactorRequired, resLockedOut, resPwdExpired, resUnauthorized, resErrorValid, resNonJson,
   resInvalidText, resThrottle, resPasswordlessUnauthenticated, $sandbox) {
 
@@ -101,19 +100,17 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     if (refreshState) {
       var stateToken = 'dummy-token';
       setNextResponse(resUnauthenticated);
-      return Util.mockIntrospectResponse(router, resUnauthenticated).then(function () {
-        router.refreshAuthState(stateToken);
-        Util.mockJqueryCss();
-        return Expect.waitForPrimaryAuth({
-          router: router,
-          authContainer: authContainer,
-          form: form,
-          beacon: beacon,
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          successSpy: successSpy,
-          afterErrorHandler: afterErrorHandler
-        });
+      router.refreshAuthState(stateToken);
+      Util.mockJqueryCss();
+      return Expect.waitForPrimaryAuth({
+        router: router,
+        authContainer: authContainer,
+        form: form,
+        beacon: beacon,
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        successSpy: successSpy,
+        afterErrorHandler: afterErrorHandler
       });
     } else {
       router.primaryAuth();
@@ -2987,21 +2984,4 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
     });
   });
 
-
-  /*Expect.describe('Enroll User', function () {
-    itp('does not show the sign up button if its not new pipeline flow with idxStateToken', function () {
-      return setup(null, null, true, false).then(function (test) {
-        expect(test.form.registrationContainer().length).toBe(0);
-      });
-    });
-    itp('shows the sign up button if its new pipeline flow with idxStateToken', function () {
-      return setup(null, null, true, true).then(function (test) {
-        expect(test.form.registrationContainer().length).toBe(1);
-        expect(test.form.registrationLabel().length).toBe(1);
-        expect(test.form.registrationLabel().text()).toBe('Don\'t have an account?');
-        expect(test.form.registrationLink().length).toBe(1);
-        expect(test.form.registrationLink().text()).toBe('Sign up');
-      });
-    });
-  });*/
 });

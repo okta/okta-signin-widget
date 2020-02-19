@@ -36,7 +36,6 @@ function (Okta,
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
   var testAttestationObject = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
   var testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
 
@@ -60,28 +59,31 @@ function (Okta,
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
-      return tick()
-        .then(function () {
-          setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
-          return Util.mockIntrospectResponse(router, onlyWebauthn ? resWebauthn : resAllFactors);
-        })
-        .then(function () {
-          setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
-        .then(function () {
-          router.enrollWebauthn();
-          return Expect.waitForEnrollWebauthn({
-            router: router,
-            beacon: new Beacon($sandbox),
-            form: new Form($sandbox),
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            successSpy: successSpy,
-            afterErrorHandler: afterErrorHandler
+
+      const test = {
+        router: router,
+        beacon: new Beacon($sandbox),
+        form: new Form($sandbox),
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        successSpy: successSpy,
+        afterErrorHandler: afterErrorHandler
+      };
+
+      const enrollWebAuthn = (test) => {
+        setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForEnrollChoices(test)
+          .then(function (test) {
+            router.enrollWebauthn();
+            return Expect.waitForEnrollWebauthn(test);
           });
-        });
+      };
+      if (startRouter) {
+        return Expect.waitForPrimaryAuth(test).then(enrollWebAuthn);
+      } else {
+        return enrollWebAuthn(test);
+      }
     }
 
     function mockWebauthn (){

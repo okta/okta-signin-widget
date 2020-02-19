@@ -91,29 +91,6 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
         });
     });
 
-    itp('calls status with token if initialized with token passed via settings', function () {
-      return setup({ stateToken: 'dummy-token' })
-        .then(function (test) {
-          test.setNextResponse(resEnroll);
-          return Util.mockIntrospectResponse(test.router).then(function () {
-            return test;
-          });
-        })
-        .then(function (test) {
-          test.router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
-        .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/idp/idx/introspect',
-            data: {
-              stateToken: 'dummy-token'
-            }
-          });
-        });
-    });
-
   });
 
 });

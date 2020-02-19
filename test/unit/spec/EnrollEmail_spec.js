@@ -39,17 +39,13 @@ define([
         baseUrl: baseUrl,
         authClient: authClient,
         globalSuccessFn: successSpy,
-        'features.router': true
+        'features.router': false
       });
       Util.registerRouter(router);
-      Util.mockRouterNavigate(router, true);
+      Util.mockRouterNavigate(router, false);
       setNextResponse(resp);
-      return Util.mockIntrospectResponse(router)
-        .then(function () {
-          setNextResponse(resp);
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForEnrollChoices()
         .then(function () {
           router.enrollEmail();
           return Expect.waitForEnrollEmail({

@@ -21,7 +21,6 @@ function (Okta,
   resEnrollAllFactors) {
 
   const itp = Expect.itp;
-  const tick = Expect.tick;
 
   Expect.describe('EnrollHotp', function () {
 
@@ -40,16 +39,10 @@ function (Okta,
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router);
-      return tick()
-        .then(function () {
-          setNextResponse(resEnrollAllFactors);
-          return Util.mockIntrospectResponse(router, resEnrollAllFactors);
-        })
-        .then(function () {
-          setNextResponse(resEnrollAllFactors);
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
+
+      setNextResponse(resEnrollAllFactors);
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForEnrollChoices()
         .then(function () {
           router.enrollHotpFactor('custom', 'token:hotp');
           return Expect.waitForEnrollHotp({

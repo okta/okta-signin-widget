@@ -91,28 +91,16 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
       router.on('afterError', afterErrorHandler);
       spyOn(authClient.token, 'getWithoutPrompt').and.callThrough();
       spyOn(authClient.token.getWithRedirect, '_setLocation');
-      if (resp) {
-        setNextResponse(resp);
-        return Util.mockIntrospectResponse(router, resp).then(function () {
-          return Q({
-            router: router,
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            eventSpy: eventSpy,
-            afterRenderHandler: afterRenderHandler,
-            afterErrorHandler: afterErrorHandler
-          });
-        });
-      } else {
-        return Q({
-          router: router,
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          eventSpy: eventSpy,
-          afterRenderHandler: afterRenderHandler,
-          afterErrorHandler: afterErrorHandler
-        });
-      }
+      setNextResponse(resp);
+
+      return Q({
+        router: router,
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        eventSpy: eventSpy,
+        afterRenderHandler: afterRenderHandler,
+        afterErrorHandler: afterErrorHandler
+      });
     }
 
     function setupOAuth2 (settings) {
@@ -176,21 +164,18 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           // and country bundles
           Util.mockRouterNavigate(test.router);
           test.setNextResponse(resMfaEnroll);
-          return Util.mockIntrospectResponse(test.router, resMfaEnroll).then(function () {
-            test.setNextResponse(resMfaEnroll);
-            if (options.mockLanguageRequest) {
-              switch (options.mockLanguageRequest) {
-              case 'ja':
-                test.setNextResponse([
-                  _.extend({ delay: delay }, labelsLoginJa),
-                  _.extend({ delay: delay }, labelsCountryJa)
-                ]);
-                break;
-              }
+          if (options.mockLanguageRequest) {
+            switch (options.mockLanguageRequest) {
+            case 'ja':
+              test.setNextResponse([
+                _.extend({ delay: delay }, labelsLoginJa),
+                _.extend({ delay: delay }, labelsCountryJa)
+              ]);
+              break;
             }
-            test.router.refreshAuthState('dummy-token');
-            return Expect.waitForEnrollChoices(test);
-          });
+          }
+          test.router.refreshAuthState('dummy-token');
+          return Expect.waitForEnrollChoices(test);
         })
         .then(function (test) {
           test.router.appState.off('loading');
@@ -708,11 +693,11 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           return Expect.waitForRecoveryQuestion();
         })
         .then(function () {
-          expect($.ajax.calls.count()).toBe(2);
+          expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/idp/idx/introspect',
+            url: 'https://foo.com/api/v1/authn',
             data: {
-              stateToken: 'dummy-token'
+              stateToken: 'testStateToken'
             }
           });
           var form = new RecoveryForm($sandbox);
@@ -728,9 +713,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           return Expect.waitForRecoveryQuestion();
         })
         .then(function () {
-          expect($.ajax.calls.count()).toBe(2);
+          expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/idp/idx/introspect',
+            url: 'https://foo.com/api/v1/authn',
             data: {
               stateToken: 'dummy-token'
             }
@@ -805,9 +790,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           return Expect.waitForPrimaryAuth(test);
         })
         .then(function (test) {
-          expect($.ajax.calls.count()).toBe(2);
+          expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/idp/idx/introspect',
+            url: 'https://foo.com/api/v1/authn',
             data: {
               stateToken: 'dummy-token'
             }
@@ -826,9 +811,9 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           return Expect.waitForIDPDiscovery(test);
         })
         .then(function (test) {
-          expect($.ajax.calls.count()).toBe(2);
+          expect($.ajax.calls.count()).toBe(1);
           Expect.isJsonPost($.ajax.calls.argsFor(0), {
-            url: 'https://foo.com/idp/idx/introspect',
+            url: 'https://foo.com/api/v1/authn',
             data: {
               stateToken: 'dummy-token'
             }
@@ -890,6 +875,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           expect(form.usernameField().length).toBe(1);
         });
     });
+
     itp('makes a call to previous if the page is refreshed in an MFA_CHALLENGE state', function () {
       return setup({}, resMfaChallengeDuo)
         .then(function (test) {
@@ -897,7 +883,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           Util.mockSDKCookie(test.ac);
           test.setNextResponse([resMfaChallengeDuo, resMfa]);
           test.router.navigate('signin/verify/duo/web', { trigger: true });
-          return Expect.waitForMfaVerify();
+          return Expect.waitForMfaVerify(test);
         })
         .then(function () {
         // Expect that we are on the MFA_CHALLENGE page (default is push for this
@@ -905,7 +891,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           var form = new MfaVerifyForm($sandbox);
           expect(form.isSecurityQuestion()).toBe(true);
           return Expect.wait(() => {
-            return $.ajax.calls.count() === 3;
+            return $.ajax.calls.count() === 2;
           });
         });
     });
@@ -1603,7 +1589,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             form.setUsername('testuser');
             form.setPassword('testpassword');
             form.submit();
-            expect($.ajax.calls.all()[0].args[0].headers['Accept-Language']).toBe('ja');
+            expect($.ajax.calls.mostRecent().args[0].headers['Accept-Language']).toBe('ja');
 
             // Wait for login success
             return Expect.waitForSpyCall(success, test);
@@ -1615,8 +1601,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
 
       function expectBundles (baseUrl, login, country) {
         expect($.ajax.calls.count()).toBe(3);
-        var loginCall = $.ajax.calls.argsFor(1)[0];
-        var countryCall = $.ajax.calls.argsFor(2)[0];
+        var loginCall = $.ajax.calls.argsFor(0)[0];
+        var countryCall = $.ajax.calls.argsFor(1)[0];
         expect(loginCall).toEqual({
           cache: true,
           dataType: 'jsonp',
@@ -1651,7 +1637,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           settings: {
             language: 'ja'
           }
-        }, true)
+        })
           .then(function () {
             expectDefaultPaths('https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99');
           });
@@ -1761,8 +1747,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             }
           })
             .then(function () {
-              var loginCall = $.ajax.calls.argsFor(1)[0];
-              var countryCall = $.ajax.calls.argsFor(2)[0];
+              var loginCall = $.ajax.calls.argsFor(0)[0];
+              var countryCall = $.ajax.calls.argsFor(1)[0];
               expect(loginCall.url).toBe('/assets/labels/jsonp/login_pt_BR.jsonp');
               expect(countryCall.url).toBe('/assets/labels/jsonp/country_pt_BR.jsonp');
             });
@@ -1779,8 +1765,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           })
             .then(function (test) {
               expectJa(test);
-              var loginCall = $.ajax.calls.argsFor(1)[0];
-              var countryCall = $.ajax.calls.argsFor(2)[0];
+              var loginCall = $.ajax.calls.argsFor(0)[0];
+              var countryCall = $.ajax.calls.argsFor(1)[0];
               expect(loginCall.url).toBe('/assets/labels/jsonp/login_ja.jsonp');
               expect(countryCall.url).toBe('/assets/labels/jsonp/country_ja.jsonp');
             });
@@ -1797,8 +1783,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           })
             .then(function (test) {
               expectJa(test);
-              var loginCall = $.ajax.calls.argsFor(1)[0];
-              var countryCall = $.ajax.calls.argsFor(2)[0];
+              var loginCall = $.ajax.calls.argsFor(0)[0];
+              var countryCall = $.ajax.calls.argsFor(1)[0];
               expect(loginCall.url).toBe('/assets/labels/jsonp/login_pt_BR.jsonp');
               expect(countryCall.url).toBe('/assets/labels/jsonp/country_pt_BR.jsonp');
             });

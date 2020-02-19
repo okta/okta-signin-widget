@@ -125,15 +125,13 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       Util.mockRouterNavigate(router);
       Util.mockJqueryCss();
       setNextResponse(res);
-      return Util.mockIntrospectResponse(router, res).then(function () {
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollChoices({
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new EnrollChoicesForm($sandbox)
-        });
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForEnrollChoices({
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        router: router,
+        beacon: new Beacon($sandbox),
+        form: new EnrollChoicesForm($sandbox)
       });
     }
 

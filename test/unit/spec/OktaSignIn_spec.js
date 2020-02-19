@@ -4,11 +4,14 @@ define([
   'helpers/util/Expect',
   'util/Logger',
   'sandbox',
+  'helpers/xhr/v2/INTROSPECT',
+  'okta',
+  'q',
   'jasmine-ajax',
 ],
-function (Widget, Expect, Logger, $sandbox) {
+function (Widget, Expect, Logger, $sandbox, introspectResponse, Okta, Q) {
   var url = 'https://foo.com';
-
+  const { $ } = Okta;
   Expect.describe('OktaSignIn initialization', function () {
     var signIn;
     beforeEach(function () {
@@ -218,6 +221,51 @@ function (Widget, Expect, Logger, $sandbox) {
           if (context.controller === 'forgot-password') {
             done();
           }
+        });
+      });
+    });
+  });
+
+
+  Expect.describe('OktaSignIn v2 initialization', function () {
+    let signIn;
+    beforeEach(function () {
+      spyOn(Logger, 'warn');
+      signIn = new Widget({
+        baseUrl: url,
+        stateToken: '01stateToken',
+        features: {
+          router: true
+        }
+      });
+      spyOn(signIn.authClient.tx, 'introspect').and.callFake(function () {
+        return Q(introspectResponse.response);
+      });
+    });
+
+    afterEach(function () {
+      signIn.remove();
+    });
+
+    function setupIntrospect () {
+      signIn.renderEl({ el: $sandbox });
+      return Expect.wait(() => {
+        return ($('.siw-main-body').length === 1);
+      });
+    }
+    Expect.describe('Introspects token and loads Identifier view for new pipeline', function () {
+      it('calls introspect API on page load', function () {
+        return setupIntrospect({
+          response: {
+            version: '1.0.0'
+          }
+        }).then(function () {
+          //TODO replace with idx js mock
+          expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '01stateToken'});
+          expect($('.siw-main-body .okta-form-title').text()).toBe('Sign In');
+          expect($('.siw-main-body .o-form-fieldset-container').length).toBe(1);
+          expect($('.siw-main-body .o-form-fieldset-container input').attr('name')).toBe('identifier');
+          expect($('.siw-main-body .o-form-button-bar .button-primary').attr('value')).toBe('Next');
         });
       });
     });

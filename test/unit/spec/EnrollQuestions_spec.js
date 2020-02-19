@@ -42,32 +42,34 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
     router.on('afterError', afterErrorHandler);
     Util.registerRouter(router);
     Util.mockRouterNavigate(router, startRouter);
-    return Q()
-      .then(function () {
-        setNextResponse(res);
-        return Util.mockIntrospectResponse(router, res);
-      })
-      .then(function () {
-        setNextResponse(res);
-        if (languagesResponse) {
-          setNextResponse(languagesResponse);
-        }
-        router.refreshAuthState('dummy-token');
-        return Expect.waitForEnrollChoices();
-      })
-      .then(function () {
-        setNextResponse(resQuestions);
-        router.enrollQuestion();
-        return Expect.waitForEnrollQuestion({
-          router: router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          successSpy: successSpy,
-          afterErrorHandler: afterErrorHandler
+    const test = {
+      router: router,
+      beacon: new Beacon($sandbox),
+      form: new Form($sandbox),
+      ac: authClient,
+      setNextResponse: setNextResponse,
+      successSpy: successSpy,
+      afterErrorHandler: afterErrorHandler
+    };
+
+    const enrollQuestion = (test) => {
+      setNextResponse(res);
+      if (languagesResponse) {
+        setNextResponse(languagesResponse);
+      }
+      router.refreshAuthState('dummy-token');
+      return Expect.waitForEnrollChoices(test)
+        .then(function (test) {
+          setNextResponse(resQuestions);
+          router.enrollQuestion();
+          return Expect.waitForEnrollQuestion(test);
         });
-      });
+    };
+    if (startRouter) {
+      return Expect.waitForPrimaryAuth(test).then(enrollQuestion);
+    } else {
+      return enrollQuestion(test);
+    }
   }
 
   function setupWithLanguage (res, options, startRouter) {
@@ -312,10 +314,6 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
 
   Expect.describe('EnrollQuestions', function () {
     testEnrollQuestion(resAllFactors, 'testStateToken');
-  });
-
-  Expect.describe('EnrollQuestions on Idx Pipeline', function () {
-    testEnrollQuestion(resFactorEnrollAllFactors, '01testStateToken');
   });
 
 });
