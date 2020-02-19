@@ -45,7 +45,7 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
           return Expect.waitForEnrollChoices();
         })
         .then(function () {
-          var test = {
+          const test = {
             router: router,
             beacon: new Beacon($sandbox),
             form: new Form($sandbox),

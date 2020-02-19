@@ -42,7 +42,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
 
-      var test = {
+      const test = {
         router: router,
         beacon: new Beacon($sandbox),
         form: new Form($sandbox),

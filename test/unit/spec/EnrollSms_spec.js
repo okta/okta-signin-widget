@@ -45,7 +45,7 @@ define([
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
 
-      var test = {
+      const test = {
         router: router,
         authContainer: new AuthContainer($sandbox),
         beacon: new Beacon($sandbox),

@@ -35,7 +35,7 @@ function (Okta, OktaAuth, Util, RecoveryQuestionForm, Beacon, Expect, Router,
     router.on('afterError', afterErrorHandler);
     var form = new RecoveryQuestionForm($sandbox);
     var beacon = new Beacon($sandbox);
-    var test = {
+    const test = {
       router: router,
       form: form,
       beacon: beacon,

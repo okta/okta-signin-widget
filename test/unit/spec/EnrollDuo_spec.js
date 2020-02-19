@@ -36,7 +36,7 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
       Util.mockRouterNavigate(router, startRouter);
       Util.mockDuo();
 
-      var test = {
+      const test = {
         router: router,
         beacon: new Beacon($sandbox),
         form: new Form($sandbox),

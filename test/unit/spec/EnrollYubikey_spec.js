@@ -31,22 +31,30 @@ function (Okta, OktaAuth, Util, Form, Beacon, Expect, $sandbox,
       });
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
-      return tick()
-        .then(function () {
-          setNextResponse(resAllFactors);
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
-        .then(function () {
-          router.enrollYubikey();
-          return Expect.waitForEnrollYubikey({
-            router: router,
-            beacon: new Beacon($sandbox),
-            form: new Form($sandbox),
-            ac: authClient,
-            setNextResponse: setNextResponse
+
+      const test = {
+        router: router,
+        beacon: new Beacon($sandbox),
+        form: new Form($sandbox),
+        ac: authClient,
+        setNextResponse: setNextResponse
+      };
+
+      const enrollYubikey = (test) => {
+        setNextResponse(resAllFactors);
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForEnrollChoices(test)
+          .then(function (test) {
+            router.enrollYubikey();
+            return Expect.waitForEnrollYubikey(test);
           });
-        });
+      };
+
+      if (startRouter) {
+        return Expect.waitForPrimaryAuth(test).then(enrollYubikey);
+      } else {
+        return enrollYubikey(test);
+      }
     }
 
     Expect.describe('Header & Footer', function () {

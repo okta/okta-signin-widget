@@ -18,7 +18,6 @@ function (Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
 
   var { $ } = Okta;
   var itp = Expect.itp;
-  var tick = Expect.tick;
 
   Expect.describe('EnrollSymantecVip', function () {
 
@@ -36,23 +35,31 @@ function (Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       router.on('afterError', afterErrorHandler);
       Util.registerRouter(router);
       Util.mockRouterNavigate(router, startRouter);
-      return tick()
-        .then(function () {
-          setNextResponse(resAllFactors);
-          router.refreshAuthState('dummy-token');
-          return Expect.waitForEnrollChoices();
-        })
-        .then(function () {
-          router.enrollSymantecVip();
-          return Expect.waitForEnrollSymantecVip({
-            router: router,
-            beacon: new Beacon($sandbox),
-            form: new Form($sandbox),
-            ac: authClient,
-            setNextResponse: setNextResponse,
-            afterErrorHandler: afterErrorHandler
+
+      const test = {
+        router: router,
+        beacon: new Beacon($sandbox),
+        form: new Form($sandbox),
+        ac: authClient,
+        setNextResponse: setNextResponse,
+        afterErrorHandler: afterErrorHandler
+      };
+
+      const enrollSymantecVip = (test) => {
+        setNextResponse(resAllFactors);
+        router.refreshAuthState('dummy-token');
+        return Expect.waitForEnrollChoices(test)
+          .then(function (test) {
+            router.enrollSymantecVip();
+            return Expect.waitForEnrollSymantecVip(test);
           });
-        });
+      };
+
+      if (startRouter) {
+        return Expect.waitForPrimaryAuth(test).then(enrollSymantecVip);
+      } else {
+        return enrollSymantecVip(test);
+      }
     }
 
     Expect.describe('Header & Footer', function () {
