@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, t } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class DeviceChallengePollViewPageObject extends BasePageObject {
@@ -18,6 +18,10 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
 
   getFooterLink() {
     return this.footer.find('[data-se="sign-in-options"]');
+  }
+
+  getSpinner() {
+    return this.body.find('.spinner');
   }
 
   async clickLaunchOktaVerifyLink() {
