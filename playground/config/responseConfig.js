@@ -53,9 +53,22 @@ const windowAuthnLoopback = {
     'identify-with-device-probing-loopback', // 1 (response order)
   ],
   '/idp/idx/authenticators/poll': [
-    'identify-with-device-probing-loopback', // 2
-    'identify-with-device-probing-loopback', // 3
+    'identify-with-device-probing-loopback-2', // 2
+    'identify-with-device-probing-loopback-3', // 3
     'identify', // 4: as a signal of success
+  ],
+};
+
+// Windows authenticator with loopback server polling error (device not registered deny access)
+const windowAuthnLoopbackPollingFail = {
+  '/idp/idx/introspect': [
+    'identify-with-device-probing-loopback', // 1 (response order)
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-device-probing-loopback-2', // 2
+    'identify-with-device-probing-loopback-3', // 3
+    'error-email-verify', // 4 as a signal of failure
+    'error-email-verify', // 5 should not come here as it has error out in step 4
   ],
 };
 

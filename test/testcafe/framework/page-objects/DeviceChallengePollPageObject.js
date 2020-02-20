@@ -20,6 +20,10 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.footer.find('[data-se="sign-in-options"]');
   }
 
+  getSpinner() {
+    return this.body.find('.spinner');
+  }
+
   async clickLaunchOktaVerifyLink() {
     await this.t.click(this.body.find('#launch-ov'));
   }
