@@ -463,6 +463,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(username.length).toBe(1);
           expect(username.attr('type')).toEqual('text');
           expect(username.attr('id')).toEqual('okta-signin-username');
+          expect(username.prop('required')).toEqual(true);
         });
       });
       itp('has a password field', function () {
@@ -471,6 +472,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(password.length).toBe(1);
           expect(password.attr('type')).toEqual('password');
           expect(password.attr('id')).toEqual('okta-signin-password');
+          expect(password.prop('required')).toEqual(true);
         });
       });
       itp('has a sign in button', function () {

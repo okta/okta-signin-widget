@@ -191,6 +191,22 @@ define([
       if (this.settings.get('features.trackTypingPattern')) {
         TypingUtil.track('okta-signin-username');
       }
-    }
+    },
+
+    // TODO: support a11y attrs in Courage - OKTA-279025
+    render: function () {
+      Okta.Form.prototype.render.call(this);
+
+      this.$el.attr('novalidate', 'novalidate');
+
+      [
+        this.getUsernameField().inputId, 
+        this.getPasswordField().inputId
+      ].forEach(inputId => {
+        const $el = this.$el.find(`#${inputId}`);
+        $el.prop('required', true);    
+      });
+    },
+
   });
 });
