@@ -21,7 +21,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyWithAppleSSOExtension)
   .onRequestTo(verifyUrl)
-  .respond('<html><h1>Sign in verified</h1></html>')
+  .respond('<html><h1>Sign in verified</h1></html>');
 
 fixture(`App SSO Extension View`)
   .requestHooks(logger, mock);

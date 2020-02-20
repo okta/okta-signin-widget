@@ -1,10 +1,11 @@
 /* global Promise */
-import { _, $, loc } from 'okta';
+import { $, loc } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals//BaseFooter';
 import Logger from '../../../util/Logger';
 import DeviceFingerprint from '../../../util/DeviceFingerprint';
+import polling from './shared/polling';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -14,130 +15,127 @@ const request = (opts) => {
   return $.ajax(ajaxOptions);
 };
 
-const Body = BaseForm.extend({
-  noButtonBar: true,
+const Body = BaseForm.extend(Object.assign(
+  {
+    noButtonBar: true,
 
-  className: 'ion-form device-challenge-poll',
+    className: 'ion-form device-challenge-poll',
 
-  initialize () {
-    BaseForm.prototype.initialize.apply(this, arguments);
-    this.deviceChallengePollRemediation = this.options.appState.getCurrentViewState();
-    this.doChallenge();
-    this.startPolling();
-  },
+    initialize () {
+      BaseForm.prototype.initialize.apply(this, arguments);
+      this.listenTo(this.model, 'error', this.onPollingFail);
+      this.deviceChallengePollRemediation = this.options.appState.getCurrentViewState();
+      this.doChallenge();
+      this.startDevicePolling();
+    },
 
-  remove () {
-    BaseForm.prototype.remove.apply(this, arguments);
-    this.stopPolling();
-  },
+    onPollingFail () {
+      this.$('.spinner').hide();
+      this.stopPolling();
+    },
 
-  doChallenge () {
-    const deviceChallenge = this.options.appState.get(
-      this.deviceChallengePollRemediation.relatesTo
-    );
-    switch (deviceChallenge.challengeMethod) {
-    case 'LOOPBACK':
-      this.title = loc('signin', 'login');
-      this.add('<div class="spinner"></div>');
-      this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
-      break;
-    case 'CUSTOM_URI':
-      this.title = 'Verify account access';
-      this.subtitle = 'Launching Okta Verify...';
-      this.add(`
-        If nothing prompts from the browser,  
-        <a href="#" id="launch-ov" class="link">click here</a> to launch Okta Verify, 
-        or make sure Okta Verify is installed.
-      `);
-      this.customURI = deviceChallenge.href;
-      this.doCustomURI();
-      break;
-    }
-  },
+    remove () {
+      BaseForm.prototype.remove.apply(this, arguments);
+      this.stopPolling();
+    },
 
-  postRender () {
-    BaseForm.prototype.postRender.apply(this, arguments);
-    this.$('#launch-ov').on('click', this.doCustomURI.bind(this));
-  },
+    doChallenge () {
+      const deviceChallenge = this.options.appState.get(
+        this.deviceChallengePollRemediation.relatesTo
+      );
+      switch (deviceChallenge.challengeMethod) {
+      case 'LOOPBACK':
+        this.title = loc('signin', 'login');
+        this.add('<div class="spinner"></div>');
+        this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
+        break;
+      case 'CUSTOM_URI':
+        this.title = 'Verify account access';
+        this.subtitle = 'Launching Okta Verify...';
+        this.add(`
+          If nothing prompts from the browser,  
+          <a href="#" id="launch-ov" class="link">click here</a> to launch Okta Verify, 
+          or make sure Okta Verify is installed.
+        `);
+        this.customURI = deviceChallenge.href;
+        this.doCustomURI();
+        break;
+      }
+    },
 
-  doLoopback (authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
-    let currentPort;
-    let foundPort = false;
-    let countFailedPorts = 0;
+    postRender () {
+      BaseForm.prototype.postRender.apply(this, arguments);
+      this.$('#launch-ov').on('click', this.doCustomURI.bind(this));
+    },
 
-    const getAuthenticatorUrl = (path) => {
-      return `${authenticatorDomainUrl}:${currentPort}/${path}`;
-    };
+    doLoopback (authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
+      let currentPort;
+      let foundPort = false;
+      let countFailedPorts = 0;
 
-    const checkPort = () => {
-      return request({
-        url: getAuthenticatorUrl('probe'),
-        // in loopback server, SSL handshake sometimes takes more than 1000 ms and thus needs additional timeout
-        // however, increasing timeout is a temporary solution since user will need to wait much longer in worst case
-        // TODO: OKTA-278573 Android timeout is temporarily set to 3000ms and needs optimization post-Beta
-        timeout: DeviceFingerprint.isAndroid() ? 3000 : 1000
-      });
-    };
+      const getAuthenticatorUrl = (path) => {
+        return `${authenticatorDomainUrl}:${currentPort}/${path}`;
+      };
 
-    const onPortFound = () => {
-      foundPort = true;
-      return request({
-        url: getAuthenticatorUrl('challenge'),
-        method: 'POST',
-        data: JSON.stringify({ challengeRequest }),
-        timeout: 3000 // authenticator should respond within 3000ms for challenge request
-      });
-    };
-
-    const onFailure = () => {};
-
-    const doProbing = () => {
-      return checkPort()
-        .done(onPortFound)
-        .fail(onFailure);
-    };
-
-    let probeChain = Promise.resolve();
-    ports.forEach(port => {
-      probeChain = probeChain
-        .then(() => {
-          if (!foundPort) {
-            currentPort = port;
-            return doProbing();
-          }
-        })
-        .catch(() => {
-          countFailedPorts++;
-          Logger.error(`Authenticator is not listening on port ${currentPort}.`);
-          if (countFailedPorts === ports.length) {
-            Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-            this.options.appState.trigger('invokeAction', 'authenticatorChallenge.cancel-polling');
-          }
+      const checkPort = () => {
+        return request({
+          url: getAuthenticatorUrl('probe'),
+          // in loopback server, SSL handshake sometimes takes more than 1000 ms and thus needs additional timeout
+          // however, increasing timeout is a temporary solution since user will need to wait much longer in worst case
+          // TODO: OKTA-278573 Android timeout is temporarily set to 3000ms and needs optimization post-Beta
+          timeout: DeviceFingerprint.isAndroid() ? 3000 : 1000
         });
-    });
+      };
+
+      const onPortFound = () => {
+        foundPort = true;
+        return request({
+          url: getAuthenticatorUrl('challenge'),
+          method: 'POST',
+          data: JSON.stringify({ challengeRequest }),
+          timeout: 3000 // authenticator should respond within 3000ms for challenge request
+        });
+      };
+
+      const onFailure = () => {
+        Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
+      };
+
+      const doProbing = () => {
+        return checkPort()
+          .done(onPortFound)
+          .fail(onFailure);
+      };
+
+      let probeChain = Promise.resolve();
+      ports.forEach(port => {
+        probeChain = probeChain
+          .then(() => {
+            if (!foundPort) {
+              currentPort = port;
+              return doProbing();
+            }
+          })
+          .catch(() => {
+            countFailedPorts++;
+            Logger.error(`Authenticator is not listening on port ${currentPort}.`);
+            if (countFailedPorts === ports.length) {
+              Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+              this.options.appState.trigger('invokeAction', 'authenticatorChallenge.cancel-polling');
+            }
+          });
+      });
+    },
+
+    doCustomURI () {
+      return request({
+        url: this.customURI,
+      });
+    },
   },
 
-  doCustomURI () {
-    return request({
-      url: this.customURI,
-    });
-  },
-
-  startPolling () {
-    const deviceChallengePollingInterval = this.deviceChallengePollRemediation.refresh;
-    if (_.isNumber(deviceChallengePollingInterval)) {
-      this.polling = setInterval(() => {
-        this.options.appState.trigger('saveForm', this.model);
-      }, deviceChallengePollingInterval);
-    }
-  },
-
-  stopPolling () {
-    if (this.polling) {
-      clearInterval(this.polling);
-    }
-  },
-});
+  polling,
+));
 
 const Footer = BaseFooter.extend({
   links () {
