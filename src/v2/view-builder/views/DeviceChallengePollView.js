@@ -6,6 +6,7 @@ import BaseFooter from '../internals//BaseFooter';
 import Logger from '../../../util/Logger';
 import DeviceFingerprint from '../../../util/DeviceFingerprint';
 import polling from './shared/polling';
+import Util from '../../../util/Util';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -128,9 +129,8 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     doCustomURI () {
-      return request({
-        url: this.customURI,
-      });
+      Util.redirectWithFormGet(this.customURI);
+
     },
   },
 
