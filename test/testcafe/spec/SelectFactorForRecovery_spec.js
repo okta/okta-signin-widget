@@ -1,3 +1,4 @@
+import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import SelectFactorPageObject from '../framework/page-objects/SelectFactorPageObject';
 import { RequestMock } from 'testcafe';
 import selectFactorForPasswordRecovery from '../../../playground/mocks/idp/idx/data/select-factor-for-password-recovery';

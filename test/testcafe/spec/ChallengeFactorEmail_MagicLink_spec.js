@@ -33,7 +33,8 @@ async function setup(t) {
 }
 
 test
-  .requestHooks(magicLinkReturnTabMock)(`challenge email factor with magic link`, async t => {
+  .requestHooks(magicLinkReturnTabMock)
+  (`challenge email factor with magic link`, async t => {
     await setup(t);
     const terminalPageObject = await new TerminalPageObject(t);
     await t.expect(terminalPageObject.getFormSubtitle()).eql('To finish signing in, return to the screen where you requested the email link.');
