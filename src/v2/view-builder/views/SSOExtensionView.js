@@ -14,7 +14,6 @@ const Body = BaseForm.extend({
 
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
-    document.cookie = `stateHandle=${this.options.appState.get('currentState').stateHandle};path=/`;
     Util.redirectWithFormGet(this.options.currentViewState.href);
   }
 });
