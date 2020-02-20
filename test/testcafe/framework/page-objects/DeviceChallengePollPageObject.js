@@ -23,8 +23,4 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   getSpinner() {
     return this.body.find('.spinner');
   }
-
-  async clickLaunchOktaVerifyLink() {
-    await this.t.click(this.body.find('#launch-ov'));
-  }
 }

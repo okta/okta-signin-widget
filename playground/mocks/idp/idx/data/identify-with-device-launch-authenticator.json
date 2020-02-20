@@ -67,7 +67,7 @@
         "type": "object",
         "value": {
             "challengeMethod": "CUSTOM_URI",
-            "href": "http://localhost:6512/launch-okta-verify",
+            "href": "com.verify.okta://open",
             "cancel": {
                 "rel": [
                     "create-form"
