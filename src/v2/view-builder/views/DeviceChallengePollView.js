@@ -98,7 +98,7 @@ const Body = BaseForm.extend(Object.assign(
       };
 
       const onFailure = () => {
-        Logger.error(`Something unexpected happens on checking port ${currentPort}.`);
+        Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
       };
 
       const doProbing = () => {
