@@ -1,4 +1,4 @@
-import { Selector, t } from 'testcafe';
+import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class DeviceChallengePollViewPageObject extends BasePageObject {
