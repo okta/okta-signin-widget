@@ -1,3 +1,4 @@
+
 const data = {
   "status": 200,
   "responseType": "json",
@@ -66,4 +67,6 @@ const data = {
     }
   }
 };
+
+
 module.exports = data;

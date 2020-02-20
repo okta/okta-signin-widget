@@ -11,10 +11,11 @@
  */
 
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
-define(['q', 'okta', './Logger', './Enums'], function (Q, Okta, Logger, Enums) {
+define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, Enums, idx) {
 
   var Util = {};
   var _ = Okta._;
+  var { start } = idx.default;
 
 
   var buildInputForParameter = function (name, value) {
@@ -198,15 +199,15 @@ define(['q', 'okta', './Logger', './Enums'], function (Q, Okta, Logger, Enums) {
     return explain;
   };
 
-  Util.introspectToken = function (authClient, widgetOptions) {
+  Util.introspectToken = function (widgetOptions) {
+    const domain = widgetOptions.baseUrl;
+    const stateHandle = widgetOptions.stateToken;
+    var trans = start({ domain, stateHandle });
     var deferred = Q.defer();
-    var trans = authClient.tx.introspect({
-      stateToken: widgetOptions.stateToken
-    });
     if (Q.isPromiseAlike(trans)) {
       trans.then(function (trans) {
         deferred.resolve(trans);
-      }).fail(function (err) {
+      }).catch(function (err) {
         deferred.reject(err);
       });
     }

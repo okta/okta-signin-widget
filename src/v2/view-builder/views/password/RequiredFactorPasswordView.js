@@ -3,7 +3,7 @@ import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
 import BaseFactorView from '../shared/BaseFactorView';
 
-const recoveryLinkAction = 'factor.recover';
+const recoveryLinkAction = 'factor-recover';
 
 const Body = BaseForm.extend({
 

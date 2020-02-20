@@ -3,13 +3,16 @@ define([
   'widget/OktaSignIn',
   'helpers/util/Expect',
   'util/Logger',
+  'util/Util',
   'sandbox',
-  'helpers/xhr/v2/INTROSPECT',
+  'helpers/xhr/v2/IDX_RESPONSE',
   'okta',
   'q',
+  'idx',
+  'helpers/dom/v2/IdentifierForm',
   'jasmine-ajax',
 ],
-function (Widget, Expect, Logger, $sandbox, introspectResponse, Okta, Q) {
+function (Widget, Expect, Logger, Util, $sandbox, idxResponse, Okta, Q, idx, IdentifierForm) {
   var url = 'https://foo.com';
   const { $ } = Okta;
   Expect.describe('OktaSignIn initialization', function () {
@@ -229,6 +232,7 @@ function (Widget, Expect, Logger, $sandbox, introspectResponse, Okta, Q) {
 
   Expect.describe('OktaSignIn v2 initialization', function () {
     let signIn;
+    const form  = new IdentifierForm($sandbox);
     beforeEach(function () {
       spyOn(Logger, 'warn');
       signIn = new Widget({
@@ -238,9 +242,6 @@ function (Widget, Expect, Logger, $sandbox, introspectResponse, Okta, Q) {
           router: true
         }
       });
-      spyOn(signIn.authClient.tx, 'introspect').and.callFake(function () {
-        return Q(introspectResponse.response);
-      });
     });
 
     afterEach(function () {
@@ -248,6 +249,9 @@ function (Widget, Expect, Logger, $sandbox, introspectResponse, Okta, Q) {
     });
 
     function setupIntrospect () {
+      spyOn(Util, 'introspectToken').and.callFake(function () {
+        return Q(idxResponse.response);
+      });
       signIn.renderEl({ el: $sandbox });
       return Expect.wait(() => {
         return ($('.siw-main-body').length === 1);
@@ -260,12 +264,10 @@ function (Widget, Expect, Logger, $sandbox, introspectResponse, Okta, Q) {
             version: '1.0.0'
           }
         }).then(function () {
-          //TODO replace with idx js mock
-          expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '01stateToken'});
-          expect($('.siw-main-body .okta-form-title').text()).toBe('Sign In');
-          expect($('.siw-main-body .o-form-fieldset-container').length).toBe(1);
-          expect($('.siw-main-body .o-form-fieldset-container input').attr('name')).toBe('identifier');
-          expect($('.siw-main-body .o-form-button-bar .button-primary').attr('value')).toBe('Next');
+          expect(form.getTitle()).toBe('Sign In');
+          expect(form.getIdentifierInput().length).toBe(1);
+          expect(form.getIdentifierInput().attr('name')).toBe('identifier');
+          expect(form.getFormSaveButton().attr('value')).toBe('Next');
         });
       });
     });
