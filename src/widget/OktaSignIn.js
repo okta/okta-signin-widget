@@ -45,7 +45,9 @@ var OktaSignIn = (function () {
           // Introspect API error.
           // Incase of an error we want to just load the LoginRouter
             router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
-            router.appState.set('introspectError', err);
+            /* idx-js sends an error object with the error response inside details
+            https://github.com/okta/okta-idx-js/blob/master/src/index.js#L14*/
+            router.appState.set('introspectError', err.details);
             router.start();
           }, this));
       } else {
