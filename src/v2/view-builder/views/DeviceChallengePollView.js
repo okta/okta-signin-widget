@@ -122,7 +122,7 @@ const Body = BaseForm.extend(Object.assign(
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
             if (countFailedPorts === ports.length) {
               Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              this.options.appState.trigger('invokeAction', 'authenticatorChallenge.cancel-polling');
+              this.options.appState.trigger('invokeAction', 'authenticatorChallenge-cancel');
             }
           });
       });
