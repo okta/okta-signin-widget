@@ -87,11 +87,7 @@ export default Model.extend({
 
     let currentViewState;
     if (!_.isEmpty(this.get('remediation'))) {
-      currentViewState = this.get('remediation').filter(r => {
-        if (r.name === currentFormName) {
-          return r;
-        }
-      })[0];
+      currentViewState = this.get('remediation').filter(r => r.name === currentFormName)[0];
     }
 
     if (!currentViewState) {

@@ -89,8 +89,7 @@ export default Controller.extend({
   handleFormSave (model) {
     const formName = model.get('formName');
     const idx = this.options.appState.get('idx');
-    const actionFn = idx['neededToProceed'][formName];
-    if (!actionFn) {
+    if (!idx['neededToProceed'][formName]) {
       model.trigger('error', `Cannot find http action for "${formName}".`);
       return;
     }
@@ -102,11 +101,9 @@ export default Controller.extend({
         this.options.appState.set('idx', resp);
         this.options.appState.trigger('remediationSuccess', resp.rawIdxState);
       })
-      .catch(errorTransaction => {
-        errorTransaction.then(error => {
-          model.trigger('error', model, {'responseJSON': error}, true);
-          this.toggleFormButtonState(false);
-        });
+      .catch(error => {
+        model.trigger('error', model, {'responseJSON': error}, true);
+        this.toggleFormButtonState(false);
       });
   },
 
