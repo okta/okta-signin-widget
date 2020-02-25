@@ -23,7 +23,7 @@ function setup (options) {
 describe('OIDC flows', function () {
   // TODO: Enable after fixing OKTA-244878
   if (process.env.SAUCE_PLATFORM_NAME === 'android') {
-    return 0;
+    //return 0;
   }
 
   var primaryAuth = new PrimaryAuthPage(),
