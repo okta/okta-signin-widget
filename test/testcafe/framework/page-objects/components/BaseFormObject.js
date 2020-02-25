@@ -73,7 +73,7 @@ export default class BaseFormObject {
   }
 
   getErrorBoxText() {
-    return this.form.find(`.okta-form-infobox-error`).textContent;
+    return this.form.find(`.okta-form-infobox-error`).innerText;
   }
 
 
