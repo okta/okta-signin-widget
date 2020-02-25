@@ -26,12 +26,12 @@ const Footer = BaseFooter.extend({
       });
     }
     // check if we have a select-factor form in remediation, if so add a link
-    if (this.options.appState.hasRemediationForm('select-factor')) {
+    if (this.options.appState.hasRemediationForm('select-factor-authenticate')) {
       links.push({
         'type': 'link',
         'label': 'Switch Factor',
         'name': 'switchFactor',
-        'formName': 'select-factor',
+        'formName': 'select-factor-authenticate',
       });
     }
     return links;

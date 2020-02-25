@@ -68,7 +68,7 @@ export default Model.extend({
     const paths = actionPath.split('.');
     let targetObject;
     if (paths.length === 1) {
-      targetObject = this.get('currentState');
+      targetObject = this.get('idx').actions;
     } else {
       targetObject = this.get(paths.shift());
     }
