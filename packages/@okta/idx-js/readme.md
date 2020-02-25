@@ -1,1 +1,1 @@
-idx-js commit ref: https://github.com/okta/okta-idx-js/pull/8/commits/ca3f8c81301f0a6f60a13573747dcc227d536d20
+idx-js commit ref: https://github.com/okta/okta-idx-js/pull/9/commits/d6a1a0272dd129244f3b3c7e6f63ff099e88ed75
