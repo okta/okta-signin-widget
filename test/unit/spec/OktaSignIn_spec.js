@@ -6,13 +6,15 @@ define([
   'util/Util',
   'sandbox',
   'helpers/xhr/v2/IDX_RESPONSE',
+  'helpers/xhr/UNAUTHENTICATED',
   'okta',
   'q',
   'idx',
   'helpers/dom/v2/IdentifierForm',
+  'helpers/dom/PrimaryAuthForm',
   'jasmine-ajax',
 ],
-function (Widget, Expect, Logger, Util, $sandbox, idxResponse, Okta, Q, idx, IdentifierForm) {
+function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectResponse, Okta, Q, idx, IdentifierForm, PrimaryAuthForm) {
   var url = 'https://foo.com';
   const { $ } = Okta;
   Expect.describe('OktaSignIn initialization', function () {
@@ -229,15 +231,65 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, Okta, Q, idx, Ide
     });
   });
 
+  Expect.describe('OktaSignIn v1 pipeline bootstrap ', function () {
+    let signIn;
+    const form  = new PrimaryAuthForm($sandbox);
+    beforeEach(function () {
+      spyOn(Logger, 'warn');
+      signIn = new Widget({
+        baseUrl: url,
+        stateToken: '00stateToken',
+        features: {
+          router: true
+        }
+      });
+    });
 
-  Expect.describe('OktaSignIn v2 initialization', function () {
+    afterEach(function () {
+      signIn.remove();
+    });
+
+    function setupIntrospect () {
+      spyOn(signIn.authClient.tx, 'introspect').and.callFake(function () {
+        return Q({
+          data: introspectResponse.response
+        });
+      });
+      signIn.renderEl({ el: $sandbox });
+      return Expect.wait(() => {
+        return ($('.primary-auth').length === 1);
+      });
+    }
+    Expect.describe('Introspects token and loads primary auth view for old pipeline', function () {
+      it('calls introspect API on page load using authjs as client', function () {
+        return setupIntrospect().then(function () {
+          expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '00stateToken'});
+          expect(form.isPrimaryAuth()).toBe(true);
+          var password = form.passwordField();
+          expect(password.length).toBe(1);
+          expect(password.attr('type')).toEqual('password');
+          expect(password.attr('id')).toEqual('okta-signin-password');
+          var username = form.usernameField();
+          expect(username.length).toBe(1);
+          expect(username.attr('type')).toEqual('text');
+          expect(username.attr('id')).toEqual('okta-signin-username');
+          var signInButton = form.signInButton();
+          expect(signInButton.length).toBe(1);
+          expect(signInButton.attr('type')).toEqual('submit');
+          expect(signInButton.attr('id')).toEqual('okta-signin-submit');
+        });
+      });
+    });
+  });
+
+  Expect.describe('OktaSignIn v2 bootstrap', function () {
     let signIn;
     const form  = new IdentifierForm($sandbox);
     beforeEach(function () {
       spyOn(Logger, 'warn');
       signIn = new Widget({
         baseUrl: url,
-        stateToken: '01stateToken',
+        stateToken: '02stateToken',
         features: {
           router: true
         }
@@ -258,12 +310,8 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, Okta, Q, idx, Ide
       });
     }
     Expect.describe('Introspects token and loads Identifier view for new pipeline', function () {
-      it('calls introspect API on page load', function () {
-        return setupIntrospect({
-          response: {
-            version: '1.0.0'
-          }
-        }).then(function () {
+      it('calls introspect API on page load using idx-js as client', function () {
+        return setupIntrospect().then(function () {
           expect(form.getTitle()).toBe('Sign In');
           expect(form.getIdentifierInput().length).toBe(1);
           expect(form.getIdentifierInput().attr('name')).toBe('identifier');
@@ -272,4 +320,5 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, Okta, Q, idx, Ide
       });
     });
   });
+
 });

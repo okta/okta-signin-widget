@@ -199,10 +199,23 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
     return explain;
   };
 
-  Util.introspectToken = function (widgetOptions) {
+  Util.isV1StateToken = function (token) {
+    return !!(token && _.isString(token) && token.startsWith('00'));
+  };
+
+  Util.introspectToken = function (authClient, widgetOptions) {
     const domain = widgetOptions.baseUrl;
     const stateHandle = widgetOptions.stateToken;
-    var trans = start({ domain, stateHandle });
+    var trans;
+    if (this.isV1StateToken(stateHandle)) {
+      // V1 pipeline uses authjs.introspect
+      trans = authClient.tx.introspect({
+        stateToken: widgetOptions.stateToken
+      });
+    } else {
+      // V2 pipeline uses idxjs.start
+      trans = start({ domain, stateHandle });
+    }
     var deferred = Q.defer();
     if (Q.isPromiseAlike(trans)) {
       trans.then(function (trans) {
