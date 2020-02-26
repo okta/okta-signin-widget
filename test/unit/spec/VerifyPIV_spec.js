@@ -18,11 +18,12 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
   Router, $sandbox, resError, resPost, resGet) {
 
   var SharedUtil = Okta.internal.util.Util;
-  var { _ } = Okta;
+  var { _, $ } = Okta;
   var itp = Expect.itp;
 
   function setup (errorResponse, responseTextOnly) {
     var setNextResponse = Util.mockAjax();
+    mockPost();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
     var successSpy = jasmine.createSpy('success');
@@ -32,8 +33,10 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
       baseUrl: baseUrl,
       authClient: authClient,
       globalSuccessFn: successSpy,
+      relayState: '%2Fapp%2FUserHome',
       piv: {
-        certAuthUrl: 'https://foo.com'
+        certAuthUrl: 'https://foo.com',
+        isCustomDomain: true
       }
     }));
     var form = new PivForm($sandbox);
@@ -44,6 +47,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
     Util.mockRouterNavigate(router);
     spyOn(SharedUtil, 'redirect');
     setNextResponse(errorResponse ? [errorResponse] : [resGet, resPost], responseTextOnly);
+    $.ajax.calls.reset();
     router.verifyPIV();
     return Expect.waitForVerifyPIV({
       router: router,
@@ -59,6 +63,20 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
 
   function deepClone (res) {
     return JSON.parse(JSON.stringify(res));
+  }
+
+  function mockPost () {
+    // Util.js assumes that post was called with url and data args
+    // whereas in the case of piv we are passing an object.
+    // Therefore, we need to override the spy in order for the
+    // test to be accurate.
+    $.post.and.callFake(function (args) {
+      return $.ajax({
+        url: args.url,
+        type: 'post',
+        data: args.data
+      });
+    });
   }
 
   Expect.describe('PIV', function () {
@@ -90,6 +108,25 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         return setup().then(function (test) {
           expect(test.form.instructions())
             .toBe('Please insert your PIV / CAC card and select the user certificate.');
+        });
+      });
+      itp('makes ajax get and post calls with correct data', function () {
+        return setup().then(function () {
+          return Expect.waitForSpyCall(SharedUtil.redirect);
+        }).then(function () {
+          expect($.ajax.calls.count()).toBe(2);
+
+          var argsForGet = $.ajax.calls.argsFor(0)[0];
+          expect(argsForGet.url).toBe('https://foo.com');
+          expect(argsForGet.type).toBe('get');
+
+          var argsForPost = $.ajax.calls.argsFor(1)[0];
+          expect(argsForPost.url).toBe('https://foo.com');
+          expect(argsForPost.type).toBe('post');
+          expect(JSON.parse(argsForPost.data)).toEqual({
+            fromURI: '%2Fapp%2FUserHome',
+            isCustomDomain: true
+          });
         });
       });
       itp('redirects on successful cert auth', function () {
