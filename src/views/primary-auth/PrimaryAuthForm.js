@@ -119,7 +119,10 @@ define([
         input: TextBox,
         inputId: 'okta-signin-username',
         type: 'text',
-        disabled: this.options.appState.get('disableUsername')
+        disabled: this.options.appState.get('disableUsername'),
+        params: {
+          required: true,
+        },
       };
 
       return userNameFieldObject;

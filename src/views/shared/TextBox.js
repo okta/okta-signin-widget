@@ -25,12 +25,15 @@ function (Okta, BrowserFeatures) {
 
   return TextBox.extend({
     postRender: function () {
+      var input = this.$('input');
       if (this.options.type === 'number') {
-        var input = this.$('input');
         input.attr({
           pattern: '[0-9]*',
           inputmode: 'numeric'
         });
+      }
+      if (this.options.params && this.options.params.required) {
+        input.prop('required', true);
       }
       TextBox.prototype.postRender.apply(this, arguments);
     },
