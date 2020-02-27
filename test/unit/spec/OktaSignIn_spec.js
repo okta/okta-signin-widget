@@ -7,6 +7,7 @@ define([
   'sandbox',
   'helpers/xhr/v2/IDX_RESPONSE',
   'helpers/xhr/UNAUTHENTICATED',
+  'helpers/xhr/ERROR_invalid_token',
   'okta',
   'q',
   'idx',
@@ -14,7 +15,7 @@ define([
   'helpers/dom/PrimaryAuthForm',
   'jasmine-ajax',
 ],
-function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectResponse, Okta, Q, idx, IdentifierForm, PrimaryAuthForm) {
+function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectResponse, errorResponse, Okta, Q, idx, IdentifierForm, PrimaryAuthForm) {
   var url = 'https://foo.com';
   const { $ } = Okta;
   Expect.describe('OktaSignIn initialization', function () {
@@ -249,11 +250,15 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
       signIn.remove();
     });
 
-    function setupIntrospect () {
+    function setupIntrospect (responseData) {
       spyOn(signIn.authClient.tx, 'introspect').and.callFake(function () {
-        return Q({
-          data: introspectResponse.response
-        });
+        if (responseData.status !== 200) {
+          return Q.reject(responseData.response);
+        } else {
+          return Q({
+            data: responseData.response
+          });
+        }
       });
       signIn.renderEl({ el: $sandbox });
       return Expect.wait(() => {
@@ -262,7 +267,26 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
     }
     Expect.describe('Introspects token and loads primary auth view for old pipeline', function () {
       it('calls introspect API on page load using authjs as client', function () {
-        return setupIntrospect().then(function () {
+        return setupIntrospect(introspectResponse).then(function () {
+          expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '00stateToken'});
+          expect(form.isPrimaryAuth()).toBe(true);
+          var password = form.passwordField();
+          expect(password.length).toBe(1);
+          expect(password.attr('type')).toEqual('password');
+          expect(password.attr('id')).toEqual('okta-signin-password');
+          var username = form.usernameField();
+          expect(username.length).toBe(1);
+          expect(username.attr('type')).toEqual('text');
+          expect(username.attr('id')).toEqual('okta-signin-username');
+          var signInButton = form.signInButton();
+          expect(signInButton.length).toBe(1);
+          expect(signInButton.attr('type')).toEqual('submit');
+          expect(signInButton.attr('id')).toEqual('okta-signin-submit');
+        });
+      });
+
+      it('calls introspect API on page load and handles error using authjs as client', function () {
+        return setupIntrospect(errorResponse).then(function () {
           expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '00stateToken'});
           expect(form.isPrimaryAuth()).toBe(true);
           var password = form.passwordField();
