@@ -28,22 +28,32 @@ var OktaSignIn = (function () {
           `
         );
       }
+      var isNewPipeline = !Util.isV1StateToken(widgetOptions.stateToken);
       var Router = V1LoginRouter;
+      if (widgetOptions.stateToken && isNewPipeline) {
+        /* add check for stateToken here because we dont want to end up on
+        new pipeline if there is no stateToken */
+        Router = require('v2/WidgetRouter');
+      }
       if (widgetOptions.stateToken) {
         Util.introspectToken(authClient, widgetOptions)
-          .then(_.bind(function (response) {
-            var isNewPipeline = checkResponseVersion(response);
-            if (isNewPipeline) {
-              Router = require('v2/WidgetRouter');
-            }
+          .then(_.bind(function (data) {
+            var response = data;
             router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
+            if (isNewPipeline) {
+              response = data.rawIdxState;
+              router.appState.set('idx', data);
+            }
             router.appState.set('introspectSuccess', response);
             router.start();
           }, this)).fail(_.bind(function (err) {
           // Introspect API error.
           // Incase of an error we want to just load the LoginRouter
             router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
-            router.appState.set('introspectError', err);
+            var introspectError = isNewPipeline ? err.details: err;
+            /* idx-js sends an error object with the error response inside details
+            https://github.com/okta/okta-idx-js/blob/master/src/index.js#L14*/
+            router.appState.set('introspectError', introspectError);
             router.start();
           }, this));
       } else {
@@ -100,10 +110,6 @@ var OktaSignIn = (function () {
       show: show,
       remove: remove
     };
-  }
-
-  function checkResponseVersion (response) {
-    return !!(response.version && response.version >= '1.0.0');
   }
 
   function bootstrapRouter (Router, authClient, widgetOptions, renderOptions, successFn, errorFn) {

@@ -61,14 +61,14 @@ export default Model.extend({
   },
 
   hasRemediationForm (formName) {
-    return this.get('currentState').remediation.filter(v => v.name === formName).length === 1;
+    return Object.keys(this.get('idx').neededToProceed).filter(name => name === formName).length === 1;
   },
 
   getActionByPath (actionPath) {
     const paths = actionPath.split('.');
     let targetObject;
     if (paths.length === 1) {
-      targetObject = this.get('currentState');
+      targetObject = this.get('idx').actions;
     } else {
       targetObject = this.get(paths.shift());
     }
@@ -102,18 +102,23 @@ export default Model.extend({
   },
 
   setIonResponse (resp) {
+    const idx = this.get('idx');
     // Don't re-render view if new response is same as last.
     // Usually happening at polling and pipeline doesn't proceed to next step.
     // expiresAt will be different for each response, hence compare objects without that property
-    if (_.isEqual(_.omit(resp.__rawResponse, 'expiresAt'), _.omit(this.get('__rawResponse'), 'expiresAt'))) {
+    if (_.isEqual(_.omit(idx.rawIdxState, 'expiresAt'), _.omit(this.get('__rawResponse'), 'expiresAt'))) {
       return;
     }
 
     // `currentFormName` is default to first form of remediation object or nothing.
     resp.currentFormName = null;
 
-    if (!_.isEmpty(resp.currentState.remediation)) {
-      resp.currentFormName = resp.currentState.remediation[0].name;
+    if (idx.neededToProceed && idx.rawIdxState.remediation) {
+      resp.currentFormName = idx.rawIdxState.remediation.value[0].name;
+    }
+
+    if (idx.rawIdxState.success) {
+      resp.currentFormName = idx.rawIdxState.success.name;
     }
 
     // default terminal state for fall back

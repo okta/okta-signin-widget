@@ -7,8 +7,14 @@ var testConfig    = commonConfig('main-tests.js');
 var rootDir       = path.resolve(__dirname);
 var RemoveStrictPlugin = require( 'remove-strict-webpack-plugin' );
 var plugins = createPlugins({ isProduction: false });
+var webpack = require('webpack');
+var SDK_VERSION = require('@okta/okta-auth-js').SDK_VERSION;
 
 plugins.unshift(new RemoveStrictPlugin());
+
+plugins.push(new webpack.DefinePlugin({
+  SDK_VERSION: JSON.stringify(SDK_VERSION)
+}));
 
 testConfig.module.rules.push({
   test: /\.js$/,

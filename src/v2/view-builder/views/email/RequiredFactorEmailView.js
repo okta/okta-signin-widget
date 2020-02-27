@@ -20,7 +20,7 @@ const ResendView = View.extend(
         className: 'button',
         title: 'Resend Email',
         click () {
-          this.options.appState.trigger('invokeAction', 'factor.resend');
+          this.options.appState.trigger('invokeAction', 'factor-resend');
         }
       }));
     },
@@ -84,12 +84,12 @@ const Footer = BaseFooter.extend({
       // email recovery not supported to LEA
     ];
     // check if we have a select-factor form in remediation, if so add a link
-    if (this.options.appState.hasRemediationForm('select-factor')) {
+    if (this.options.appState.hasRemediationForm('select-factor-authenticate')) {
       links.push({
         'type': 'link',
         'label': 'Switch Factor',
         'name': 'switchFactor',
-        'formName': 'select-factor',
+        'formName': 'select-factor-authenticate',
       });
     }
     return links;
