@@ -301,6 +301,7 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
           expect(signInButton.length).toBe(1);
           expect(signInButton.attr('type')).toEqual('submit');
           expect(signInButton.attr('id')).toEqual('okta-signin-submit');
+          Q.resetUnhandledRejections();
         });
       });
     });
