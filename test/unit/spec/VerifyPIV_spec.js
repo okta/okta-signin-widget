@@ -21,23 +21,24 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
   var { _, $ } = Okta;
   var itp = Expect.itp;
 
-  function setup (errorResponse, responseTextOnly) {
+  function setup (errorResponse, responseTextOnly, pivConfig) {
     var setNextResponse = Util.mockAjax();
     mockPost();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({url: baseUrl});
     var successSpy = jasmine.createSpy('success');
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    var defaultConfig = {
+      certAuthUrl: 'https://foo.com',
+      isCustomDomain: true
+    };
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
       globalSuccessFn: successSpy,
       relayState: '%2Fapp%2FUserHome',
-      piv: {
-        certAuthUrl: 'https://foo.com',
-        isCustomDomain: true
-      }
+      piv: pivConfig || defaultConfig,
     }));
     var form = new PivForm($sandbox);
     var loginForm = new PrimaryAuthForm($sandbox);
@@ -126,6 +127,37 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
           expect(JSON.parse(argsForPost.data)).toEqual({
             fromURI: '%2Fapp%2FUserHome',
             isCustomDomain: true
+          });
+        });
+      });
+      itp('makes post call with correct data when isCustomDomain is false', function () {
+        var config = {
+          certAuthUrl: 'https://foo.com',
+          isCustomDomain: false
+        };
+        return setup(null, null, config).then(function () {
+          return Expect.waitForSpyCall(SharedUtil.redirect);
+        }).then(function () {
+          expect($.ajax.calls.count()).toBe(2);
+          var argsForPost = $.ajax.calls.argsFor(1)[0];
+          expect(JSON.parse(argsForPost.data)).toEqual({
+            fromURI: '%2Fapp%2FUserHome',
+            isCustomDomain: false
+          });
+        });
+      });
+      itp('makes post call with correct data when isCustomDomain is undefined', function () {
+        var config = {
+          certAuthUrl: 'https://foo.com',
+          isCustomDomain: undefined
+        };
+        return setup(null, null, config).then(function () {
+          return Expect.waitForSpyCall(SharedUtil.redirect);
+        }).then(function () {
+          expect($.ajax.calls.count()).toBe(2);
+          var argsForPost = $.ajax.calls.argsFor(1)[0];
+          expect(JSON.parse(argsForPost.data)).toEqual({
+            fromURI: '%2Fapp%2FUserHome'
           });
         });
       });
