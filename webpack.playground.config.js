@@ -65,10 +65,16 @@ module.exports = {
   },
 
   devServer: {
-    contentBase: [PLAYGROUND, TARGET],
+    contentBase: [
+      PLAYGROUND, 
+      TARGET, 
+      // Since webpack only apply "watchContentBase" on level 0. We need to add sub folders explicitly
+      `${TARGET}/js`
+    ],
     compress: true,
     port: PORT,
     open: true,
+    watchContentBase: true,
     before (app) {
       app.get('/app/UserHome', (req, res) => {
         const respHtml = `

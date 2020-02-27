@@ -5,5 +5,6 @@ var plugins   = require('./buildtools/webpack/plugins');
 
 var devConfig = common('okta-sign-in.js');
 devConfig.plugins = plugins({ isProduction: false });
+devConfig.watch = true;
 
 module.exports = devConfig;
