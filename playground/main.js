@@ -3,6 +3,11 @@
 
 import { widgetOptions as signinWidgetOptions} from '../.widgetrc';
 
+if (typeof OktaSignIn === 'undefined') {
+  // Make sure OktaSignIn is available
+  setTimeout(() => window.location.reload(), 2 * 1000);
+}
+
 const signIn = new OktaSignIn(signinWidgetOptions);
 
 signIn.renderEl(

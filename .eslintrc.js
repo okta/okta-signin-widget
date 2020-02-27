@@ -6,6 +6,7 @@ module.exports = {
     'node': true,
     'amd': true
   },
+  'parser': 'babel-eslint',
   'parserOptions': {
     'sourceType': 'module',
     'ecmaVersion': 2017
