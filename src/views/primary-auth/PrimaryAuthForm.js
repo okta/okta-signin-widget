@@ -23,6 +23,7 @@ define([
   return Okta.Form.extend({
     className: 'primary-auth-form',
     noCancelButton: true,
+    attributes: { 'novalidate': 'novalidate' },
     save: function () {
       if (this.settings.get('features.passwordlessAuth')) {
         return Okta.loc('oform.next', 'login');
@@ -119,7 +120,11 @@ define([
         input: TextBox,
         inputId: 'okta-signin-username',
         type: 'text',
-        disabled: this.options.appState.get('disableUsername')
+        disabled: this.options.appState.get('disableUsername'),
+        // TODO: support a11y attrs in Courage - OKTA-279025
+        render: function () {
+          this.$(`input[name=${this.options.name}]`).prop('required', true);
+        }
       };
 
       return userNameFieldObject;
@@ -145,7 +150,11 @@ define([
         name: 'password',
         inputId: 'okta-signin-password',
         validateOnlyIfDirty: true,
-        type: 'password'
+        type: 'password',
+        // TODO: support a11y attrs in Courage - OKTA-279025
+        render: function () {
+          this.$(`input[name=${this.options.name}]`).prop('required', true);
+        }
       };
       if (this.settings.get('features.showPasswordToggleOnSignInPage')) {
         passwordFieldObject.params = {};
@@ -191,6 +200,7 @@ define([
       if (this.settings.get('features.trackTypingPattern')) {
         TypingUtil.track('okta-signin-username');
       }
-    }
+    },
+
   });
 });
