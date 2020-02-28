@@ -1231,6 +1231,10 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
     ```bash
     yarn start
     ```
+    or start local connect server in watch mode, changes in `src/` and `assets/sass/` folders will trigger browser auto reload.
+    ```bash
+    yarn start:playground
+    ```
 
 5. Finally, enable CORS support for our new server by [following these instructions](http://developer.okta.com/docs/guides/okta_sign-in_widget.html#configuring-cors-support-on-your-okta-organization). You can now authenticate to Okta using your very own, customizable widget!
 
@@ -1248,6 +1252,7 @@ The `.widgetrc` file is a configuration file that saves your local widget settin
 | Command              | Description                                                                                                                                            |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `yarn start`         | Build the widget, start the server, and open a browser window with the widget loaded                                                                   |
+| `yarn start:playground`         | Build the widget, start the server, and open a browser window with the widget loaded and watch on widget js and sass changes                                                                   |
 | `yarn build:dev`     | Build an unminified version of the widget                                                                                                              |
 | `yarn build:release` | Build a minified, uglified version of the widget (`okta-sign-in.min.js`) and a non-minified **development** version of the widget (`okta-sign-in.js`). |
 | `yarn test`          | Run unit tests                                                                                                                                         |
