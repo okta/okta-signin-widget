@@ -314,6 +314,17 @@ module.exports = function (grunt) {
       }
     },
 
+    watch: {
+      sass: {
+        files: ['assets/sass/**/*'],
+        tasks: [
+          'copy:app-to-target', 
+          'sass:build', 
+          'postcss:build'
+        ]
+      }
+    },
+
   });
 
   grunt.task.registerTask(
@@ -374,7 +385,7 @@ module.exports = function (grunt) {
       buildTasks.push('exec:build-release');
       postBuildTasks.push('copy:target-to-dist');
     } else {
-      let devTask = mode === 'watch' ? 'exec:build-dev-watch' : 'exec:build-dev';
+      const devTask = mode === 'watch' ? 'exec:build-dev-watch' : 'exec:build-dev';
       buildTasks.push(devTask);
     }
     grunt.task.run([
@@ -385,6 +396,8 @@ module.exports = function (grunt) {
       ...postBuildTasks,
     ]);
   });
+
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.task.registerTask('lint', ['search:noAbsoluteUrlsInCss']);
 };

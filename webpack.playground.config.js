@@ -68,8 +68,11 @@ module.exports = {
     contentBase: [
       PLAYGROUND, 
       TARGET, 
-      // Since webpack only apply "watchContentBase" on level 0. We need to add sub folders explicitly
-      `${TARGET}/js`
+      // webpack-dev-server v2 only watch contentbase on root level
+      // explicitly list folders to watch for browser auto reload
+      // sub-folders can be removed when upgrade to webpack-dev-server v3
+      `${TARGET}/js`,
+      `${TARGET}/css`,
     ],
     compress: true,
     port: PORT,
