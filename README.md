@@ -72,9 +72,16 @@ To use the CDN, include links to the JS and CSS files in your HTML:
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/3.1.0/js/okta-sign-in.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/3.8.0/js/okta-sign-in.min.js" type="text/javascript"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/3.1.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/3.8.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+```
+
+The standard JS asset served from our CDN includes polyfills via [`babel-polyfill`](https://babeljs.io/docs/en/babel-polyfill/) to ensure compatibility with older browsers. This may cause conflicts if your app already includes polyfills. For this case, we provide an alternate JS asset which does not include any polyfills.
+
+```html
+<!-- Latest CDN production Javascript without polyfills -->
+<script src="https://global.oktacdn.com/okta-signin-widget/3.8.0/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
 ```
 
 ### Using the npm module
@@ -114,8 +121,11 @@ node_modules/@okta/okta-signin-widget/dist/
 ├── js/
 │   │   # CDN JS file that exports the OktaSignIn object in UMD format. This is
 │   │   # packaged with everything needed to run the widget, including 3rd party
-│   │   # vendor files.
+│   │   # vendor files and polyfills.
 │   ├── okta-sign-in.min.js
+|   |
+│   │   # CDN JS file bundled without polyfills.
+│   ├── okta-sign-in.no-polyfill.min.js
 │   │
 │   │   # Main entry file that is used in the npm require(@okta/okta-signin-widget)
 │   │   # flow. This does not package 3rd party dependencies - these are pulled
