@@ -65,10 +65,19 @@ module.exports = {
   },
 
   devServer: {
-    contentBase: [PLAYGROUND, TARGET],
+    contentBase: [
+      PLAYGROUND, 
+      TARGET, 
+      // webpack-dev-server v2 only watch contentbase on root level
+      // explicitly list folders to watch for browser auto reload
+      // sub-folders can be removed when upgrade to webpack-dev-server v3
+      `${TARGET}/js`,
+      `${TARGET}/css`,
+    ],
     compress: true,
     port: PORT,
     open: true,
+    watchContentBase: true,
     before (app) {
       app.get('/app/UserHome', (req, res) => {
         const respHtml = `

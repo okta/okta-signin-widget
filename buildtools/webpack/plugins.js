@@ -104,24 +104,28 @@ function failOnBuildFail () {
 }
 
 function plugins (options = {}) {
-  if (options.isProduction) {
+  const { isProduction, skipAnalyzer } = options;
+  const list = isProduction ? 
     // Uglify and add license header
-    return [
+    [
       failOnBuildFail(),
       emptyModule(),
       prodMode(),
       uglify(),
       banner(),
-      webpackBundleAnalyzer(options.analyzerFile),
+    ] : 
+    // Use DEBUG/development environment w/ console warnings
+    [
+      failOnBuildFail(),
+      emptyModule(),
+      devMode(),
     ];
+
+  if (!skipAnalyzer) {
+    list.push(webpackBundleAnalyzer(options.analyzerFile));
   }
-  // Use DEBUG/development environment w/ console warnings
-  return [
-    failOnBuildFail(),
-    emptyModule(),
-    devMode(),
-    webpackBundleAnalyzer(options.analyzerFile),
-  ];
+
+  return list;
 }
 
 module.exports = plugins;

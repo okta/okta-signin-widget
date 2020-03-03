@@ -237,6 +237,7 @@ module.exports = function (grunt) {
       'clean': 'yarn clean',
       'retirejs': 'yarn retirejs',
       'build-dev': 'yarn build:webpack-dev',
+      'build-dev-watch': 'yarn build:webpack-dev --watch --env.skipAnalyzer',
       'build-release': 'yarn build:webpack-release',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',
@@ -313,6 +314,17 @@ module.exports = function (grunt) {
       }
     },
 
+    watch: {
+      sass: {
+        files: ['assets/sass/**/*'],
+        tasks: [
+          'copy:app-to-target', 
+          'sass:build', 
+          'postcss:build'
+        ]
+      }
+    },
+
   });
 
   grunt.task.registerTask(
@@ -364,7 +376,7 @@ module.exports = function (grunt) {
     grunt.task.run(buildTasks);
   });
 
-  grunt.task.registerTask('build', function (target) {
+  grunt.task.registerTask('build', function (target, mode) {
     const prodBuild = target === 'release';
     const buildTasks = [];
     const postBuildTasks = [];
@@ -373,7 +385,8 @@ module.exports = function (grunt) {
       buildTasks.push('exec:build-release');
       postBuildTasks.push('copy:target-to-dist');
     } else {
-      buildTasks.push('exec:build-dev');
+      const devTask = mode === 'watch' ? 'exec:build-dev-watch' : 'exec:build-dev';
+      buildTasks.push(devTask);
     }
     grunt.task.run([
       'exec:clean',
@@ -383,6 +396,8 @@ module.exports = function (grunt) {
       ...postBuildTasks,
     ]);
   });
+
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.task.registerTask('lint', ['search:noAbsoluteUrlsInCss']);
 };
