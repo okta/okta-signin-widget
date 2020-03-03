@@ -7,8 +7,8 @@ const idx = {
   '/idp/idx': ['select-factor-authenticate'],
   '/idp/idx/enroll': ['enroll-profile'],
   '/idp/idx/challenge/answer': [
-    // 'error-email-verify',
-    'terminal-return-expired-email',
+    'error-email-verify',
+    // 'terminal-return-expired-email',
   ],
   '/idp/idx/challenge/send': [
     'factor-verification-email',
@@ -66,7 +66,7 @@ const emailVerificationMocks = {
 
 // ===== IDX
 // Windows authenticator with loopback server
-const windowAuthnLoopback = {
+const windowsAuthnLoopback = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback', // 1 (response order)
   ],
@@ -78,7 +78,7 @@ const windowAuthnLoopback = {
 };
 
 // Windows authenticator with loopback server polling error (device not registered deny access)
-const windowAuthnLoopbackPollingFail = {
+const windowsAuthnLoopbackPollingFail = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback', // 1 (response order)
   ],
@@ -91,7 +91,7 @@ const windowAuthnLoopbackPollingFail = {
 };
 
 //Windows authenticator with loopback server failfast
-const windowAuthnLoopbackFailfast = {
+const windowsAuthnLoopbackFailfast = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback',
   ],
@@ -107,7 +107,7 @@ const windowAuthnLoopbackFailfast = {
 };
 
 // Windows/Android authenticator with custom URI
-const windowAuthnCustomUri = {
+const windowsAuthnCustomUri = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback-challenge-not-received',
   ],
@@ -119,16 +119,35 @@ const windowAuthnCustomUri = {
   ]
 };
 
-// Apple authenticator (SSO extension)
-const appleSsoExtension = {
+// Apple authenticator while redirect SSO extension is available
+const appleRedirectSsoExtension = {
   '/idp/idx/introspect': [
-    'identify-with-apple-sso-extension',
+    'identify-with-apple-redirect-sso-extension',
   ],
   '/idp/idx/authenticators/sso_extension/transactions/123/verify': [
     'identify', // as a signal of success
   ],
 };
 
+// Apple authenticator when credential SSO extension is NOT available
+const appleCredentialSsoExtension = {
+  '/idp/idx/introspect': [
+    'identify-with-apple-credential-sso-extension',
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/123/verify': [
+    'identify'
+  ],
+  '/idp/idx': [
+    'error-email-verify',
+  ],
+  // '/idp/idx/authenticators/okta-verify/launch': [
+  //   'identify-with-device-launch-authenticator',
+  // ]
+  // '/idp/idx/authenticators/sso_extension/transactions/123/verifies': [
+  //   'identify-with-device-probing-loopback-challenge-not-received'
+  // ],
+};
+
 module.exports = {
-  mocks: authn,
+  mocks: idx ,
 };
