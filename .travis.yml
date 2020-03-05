@@ -7,6 +7,7 @@ install:
 - TMPDIR=/tmp yarn install
 
 script:
+- export APPLITOOLS_BATCH_ID=`echo ${TRAVIS_PULL_REQUEST_SHA:=$TRAVIS_COMMIT}`
 - "./scripts/travis.sh"
 
 cache: false

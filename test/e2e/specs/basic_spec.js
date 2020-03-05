@@ -14,6 +14,10 @@ var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OktaHomePage = require('../page-objects/OktaHomePage'),
     util = require('../util/util');
 
+// Initialize the eyes SDK
+var Eyes = require('eyes.selenium').Eyes;
+var eyes = new Eyes();
+
 describe('Basic flows', function () {
   var primaryAuth = new PrimaryAuthPage();
 
@@ -23,23 +27,31 @@ describe('Basic flows', function () {
     util.loadTestPage('basic');
   });
 
-  it('can hide, show, remove, and start a widget', function () {
+  it('can hide, show, remove, and start a widget', async () => {
+    await eyes.open(browser, 'Widget-E2E', 'Basic Spec - Widget operations');
+
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
     var signInTitle = element(by.css('[data-se="o-form-head"]'));
     expect(el.isDisplayed()).toBe(true);
     expect(signInTitle.getText()).toBe('Sign In');
 
+    // Visual checkpoint #1
+    await eyes.checkWindow('Widget Exists');
+
     // Ensure the widget can hide
-    browser.executeScript('oktaSignIn.hide()');
+    await browser.executeScript('oktaSignIn.hide()');
     expect(el.isDisplayed()).toBe(false);
 
+    // Visual checkpoint #2
+    await eyes.checkWindow('Widget Hidden');
+
     // Ensure the widget can be unhidden
-    browser.executeScript('oktaSignIn.show()');
+    await browser.executeScript('oktaSignIn.show()');
     expect(el.isDisplayed()).toBe(true);
 
     // Ensure the widget can be removed
-    browser.executeScript('oktaSignIn.remove()');
+    await browser.executeScript('oktaSignIn.remove()');
     expect(el.isPresent()).toBe(false);
 
     // Ensure a new widget can be created
@@ -58,9 +70,17 @@ describe('Basic flows', function () {
     browser.executeScript(createWidget);
     expect(el.isDisplayed()).toBe(true);
     expect(signInTitle.getText()).toBe('Sign In to Acme');
+
+    // Visual checkpoint #2
+    await eyes.checkWindow('Widget Title');
+
+    // End the test.
+    await eyes.close();
   });
 
-  it('modifies the error banner using an afterError event', function () {
+  it('modifies the error banner using an afterError event', async () => {
+    await eyes.open(browser, 'Widget-E2E', 'Basic Spec - Widget error');
+
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
     expect(el.isDisplayed()).toBe(true);
@@ -69,11 +89,16 @@ describe('Basic flows', function () {
     var errorBox = element(by.className('okta-form-infobox-error'));
     util.waitForElement(errorBox);
     expect(errorBox.getText()).toBe('Custom Error!');
+
+    await eyes.checkWindow('Custom error');
+    await eyes.close();
   });
 
-  it('has the style from config.colors', function () {
+  it('has the style from config.colors', async () => {
+    await eyes.open(browser, 'Widget-E2E', 'Basic Spec - Widget config');
+
     // Create new widget with colors.brand
-    browser.executeScript('oktaSignIn.remove()');
+    await browser.executeScript('oktaSignIn.remove()');
     function createWidget () {
       options.colors = {
         brand: '#008000'
@@ -84,14 +109,17 @@ describe('Basic flows', function () {
         el: '#okta-login-container'
       }, function () {});
     }
-    browser.executeScript(createWidget);
+    await browser.executeScript(createWidget);
 
     // Check that the color has been applied
     var primaryButton = element(by.css('#okta-signin-submit'));
     expect(primaryButton.getCssValue('background')).toContain(('rgb(0, 128, 0)')); // #008000 in rgb
+
+    await eyes.checkWindow('Background color');
+    await eyes.close();
   });
 
-  it('redircts to successful page when features.redirectByFormSubmit is on', function () {
+  it('redirects to successful page when features.redirectByFormSubmit is on', async () => {
     browser.executeScript('oktaSignIn.remove()');
     function createWidget () {
       options.features = {

@@ -18,11 +18,6 @@
     "> 0.1%",
     "not ie <= 9"
   ],
-  "husky": {
-    "hooks": {
-      "pre-push": "commitlint --from=master 1>&2"
-    }
-  },
   "main": "./dist/js/okta-sign-in.entry.js",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
@@ -93,6 +88,7 @@
     "dyson": "^2.0.5",
     "eslint": "^5.9.0",
     "eslint-plugin-testcafe": "^0.2.1",
+    "eyes.selenium": "^3.8.9",
     "fs-extra": "^8.1.0",
     "glob": "^7.1.3",
     "grunt": "^1.0.3",

@@ -14,8 +14,14 @@
 var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage');
 var until = protractor.ExpectedConditions;
 
+// Initialize the eyes SDK
+var Eyes = require('eyes.selenium').Eyes;
+var eyes = new Eyes();
+
 describe('Angular flows', function () {
-  it('should allow logging in with the widget', function () {
+  it('should allow logging in with the widget', async () => {
+    await eyes.open(browser, 'Widget-E2E', 'Angular spec - Sign In');
+
     // open browser to a protected route
     browser.ignoreSynchronization = true;
     browser.driver.get('http://localhost:4200/protected');
@@ -23,6 +29,9 @@ describe('Angular flows', function () {
     // expect to see widget
     var widget = element(by.css('#okta-sign-in'));
     browser.wait(until.presenceOf(widget), 10000, 'Unable to find widget');
+
+    // Visual checkpoint #1
+    await eyes.checkWindow('Sign-in');
 
     // log in to widget
     var primaryAuth = new PrimaryAuthPage();
@@ -34,5 +43,8 @@ describe('Angular flows', function () {
 
     // log out of Okta session
     browser.get('{{{WIDGET_TEST_SERVER}}}/login/signout');
+
+    // End the test.
+    eyes.close();
   });
 });

@@ -16,6 +16,10 @@ var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     util = require('../util/util'),
     Expect = require('../util/Expect');
 
+// Initialize the eyes SDK
+var Eyes = require('eyes.selenium').Eyes;
+var eyes = new Eyes();
+
 function setup (options) {
   browser.executeScript('initialize(' + JSON.stringify(options) + ')');
 }
@@ -43,7 +47,8 @@ describe('OIDC flows', function () {
 
   describe('Okta as IDP', function () {
 
-    it('can login and exchange a sessionToken for an id_token', function () {
+    it('can login and exchange a sessionToken for an id_token', async () => {
+      await eyes.open(browser, 'Widget-E2E', 'OIDC Spec - Social login UI');
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: '{{{WIDGET_CLIENT_ID}}}',
@@ -60,11 +65,16 @@ describe('OIDC flows', function () {
         ]
       });
       Expect.toBeA11yCompliant();
+      await eyes.checkWindow('Facebook login');
+
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
       expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
+
+      await eyes.close();
     });
 
-    it('throws form error if auth client returns with OAuth error', function () {
+    it('throws form error if auth client returns with OAuth error', async () => {
+      await eyes.open(browser, 'Widget-E2E', 'OIDC Spec - Form Error');
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: '{{{WIDGET_CLIENT_ID}}}',
@@ -76,6 +86,9 @@ describe('OIDC flows', function () {
       });
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_5}}}', '{{{WIDGET_BASIC_PASSWORD_5}}}');
       expect(primaryAuth.getErrorMessage()).toBe('User is not assigned to the client application.');
+      await eyes.checkWindow('Error');
+
+      await eyes.close();
     });
 
     it('can login and get a token and id_token', function () {
