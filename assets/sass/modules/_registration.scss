@@ -63,11 +63,19 @@
 .registration-complete {
   margin-top: 20px;
 
-  h2 {
+  .container {
+    margin-bottom: 30px;
+  }
+
+  .title {
     color: #46b090;
     text-align: center;
     margin: 15px 0;
     font-size: 15px;
+  }
+
+  .desc {
+    text-align: center;
   }
 
   .back-btn {

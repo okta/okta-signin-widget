@@ -802,7 +802,8 @@ function (Okta, OktaAuth, Util, Expect, Beacon, RegForm, RegSchema,
           .then(function (test) {
             expect(test.router.navigate).toHaveBeenCalledWith('signin/register-complete', {trigger: true});
             expect(postSubmitSpy).toHaveBeenCalled();
-            expect($('div.registration-complete').text().includes('Verification email sent')).toBe(true);
+            expect($('div.registration-complete .title').text()).toBe('Verification email sent');
+            expect($('div.registration-complete .desc').text()).toBe('To finish signing in, check your email.');
           });
       });
       itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function () {
