@@ -29,6 +29,10 @@ define([
   var itp = Expect.itp;
 
   Expect.describe('EnrollSms', function () {
+    // Test fails in PhantomJS
+    if (window.top.callPhantom) {
+      return;
+    }
 
     function setup (resp, startRouter) {
       var setNextResponse = Util.mockAjax();

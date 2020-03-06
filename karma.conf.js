@@ -1,4 +1,5 @@
 /* global __dirname, module */
+/* eslint no-undef: 0 */
 
 const path = require('path');
 const webpackConfig = require('./webpack.test.config.js');
@@ -8,7 +9,7 @@ const rootDir = path.resolve(__dirname);
 module.exports = (config) => {
   const options = {
     basePath: './',
-    browsers: ['ChromeHeadlessNoSandbox'],
+    browsers: ['ChromeHeadlessNoSandbox', 'PhantomJSCustom'],
     frameworks: ['karma-overrides', 'jasmine-jquery', 'jasmine'],
     files: [
       './node_modules/babel-polyfill/dist/polyfill.js',
@@ -61,6 +62,16 @@ module.exports = (config) => {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
         flags: ['--no-sandbox']
+      },
+      PhantomJSCustom: {
+        base: 'PhantomJS',
+        options: {
+          onCallback: function (data) {
+            if (data.type === 'render' && data.fname !== undefined) {
+              page.render(data.fname);
+            }
+          }
+        }
       }
 
     },
