@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 15], max-statements: [2, 18] */
+/* eslint max-params: [2, 16], max-statements: [2, 18] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
@@ -204,8 +204,7 @@ function (Okta, BrowserFeatures, Settings,
           this.settings.get('assets.baseUrl'),
           this.settings.get('assets.rewrite')
         )
-          .then(_.bind(this.render, this, Controller, options))
-          .done();
+          .then(_.bind(this.render, this, Controller, options));
       }
 
       // Load the custom colors only on the first render
@@ -225,7 +224,7 @@ function (Okta, BrowserFeatures, Settings,
       // First run fetchInitialData, in case the next controller needs data
       // before it's initial render. This will leave the current page in a
       // loading state.
-      this.controller.fetchInitialData()
+      return this.controller.fetchInitialData()
         .then(_.bind(function () {
 
           // Beacon transition occurs in parallel to page swap
@@ -267,7 +266,7 @@ function (Okta, BrowserFeatures, Settings,
           });
 
         }, this))
-        .fail(function () {
+        .catch(function () {
         // OKTA-69665 - if an error occurs in fetchInitialData, we're left in
         // a state with two active controllers. Therefore, we clean up the
         // old one. Note: This explicitly handles the invalid token case -
@@ -278,8 +277,7 @@ function (Okta, BrowserFeatures, Settings,
             oldController.remove();
             oldController.$el.remove();
           }
-        })
-        .done();
+        });
 
     },
 

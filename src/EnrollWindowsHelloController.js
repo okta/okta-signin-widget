@@ -82,7 +82,7 @@ function (Okta, FormController, FormType, webauthn, Spinner, Footer, HtmlErrorMe
                 attestation: null
               });
             })
-            .fail(function (error) {
+            .catch(function (error) {
               switch (error.message) {
               case 'AbortError':
               case 'NotFoundError':

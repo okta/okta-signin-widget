@@ -121,7 +121,7 @@ function (Okta, Animations, LoadingBeacon) {
           .then(function () {
             removeBeacon(self);
           })
-          .done();
+          .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
       case 'fade':
         // Other transitions are performed on the beacon container,
         // but this transition is on the content inside the beacon.
@@ -139,7 +139,7 @@ function (Okta, Animations, LoadingBeacon) {
             removeBeacon(self);
             addBeacon(self, NextBeacon, selector, options);
           })
-          .done();
+          .done(); // TODO: can this be removed if fadeOut returns standard ES6 Promise?
       case 'swap':
         return Animations.swapBeacons({
           $el: container,
@@ -155,7 +155,7 @@ function (Okta, Animations, LoadingBeacon) {
             addBeacon(self, NextBeacon, selector, options);
           }
         })
-          .done();
+          .done(); // TODO: can this be removed if Animations.swapBeacons returns standard ES6 Promise?
       case 'load':
         // Show the loading beacon. Add a couple of classes
         // before triggering the add beacon code.
@@ -188,7 +188,7 @@ function (Okta, Animations, LoadingBeacon) {
           removeBeacon(self);
           container.removeClass(LOADING_BEACON_CLS);
         })
-        .done();
+        .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
     },
 
     getTemplateData: function () {

@@ -89,7 +89,7 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
               self.options.appState.set('deviceFingerprint', fingerprint);
               self.options.appState.set('username', self.model.get('username'));
             })
-            .fail(function () {
+            .catch(function () {
             // Keep going even if device fingerprint fails
               self.options.appState.set('username', self.model.get('username'));
             });

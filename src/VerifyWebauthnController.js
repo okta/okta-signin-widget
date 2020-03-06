@@ -110,7 +110,7 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
                   rememberDevice: rememberDevice
                 });
               })
-              .fail(function (error) {
+              .catch(function (error) {
                 self.trigger('errors:clear');
                 // Do not display if it is abort error triggered by code when switching.
                 // self.webauthnAbortController would be null if abort was triggered by code.

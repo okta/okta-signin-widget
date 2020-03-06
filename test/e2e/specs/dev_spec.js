@@ -94,7 +94,7 @@ describe('Dev Mode flows', function () {
     var el = element(by.css('#okta-sign-in'));
     expect(el.isDisplayed()).toBe(true);
 
-    // Reload the page with a token in the URL
+    // Reload the page with tokens in the URL
     browser.executeScript('window.location = window.location + "#id_token=abc"');
     browser.refresh(true);
 

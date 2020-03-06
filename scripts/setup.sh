@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Install required node version
+setup_service node v12.13.0
+
 cd ${OKTA_HOME}/${REPO}
 
 # ---------------------------------------------------------------------
