@@ -73,14 +73,14 @@ function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
             }
           }
         }, this))
-        .fail(_.bind(function () {
+        .catch(_.bind(function () {
           this.trigger('error');
           // Specific event handled by the Header for the case where the security image is not
           // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
           this.appState.trigger('removeLoading');
           CookieUtil.removeUsernameCookie();
         }, this))
-        .fin(_.bind(function () {
+        .finally(_.bind(function () {
           this.appState.trigger('loading', false);
         }, this));
     }

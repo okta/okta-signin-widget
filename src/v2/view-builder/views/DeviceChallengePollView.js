@@ -116,6 +116,7 @@ const Body = BaseForm.extend(Object.assign(
 
       const doProbing = () => {
         return checkPort()
+          // TODO: can we use standard ES6 promise methods, then/catch?
           .done(onPortFound)
           .fail(onFailure);
       };

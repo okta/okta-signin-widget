@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 define([
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/MfaVerifyForm',
@@ -30,7 +30,7 @@ define([
   resMfaLocked,
   resResendError,
 ) {
-  var { _, $ } = Okta;
+  var { _ } = Okta;
   var itp = Expect.itp;
 
   function createRouter (baseUrl, authClient, successSpy, settings) {
@@ -49,7 +49,7 @@ define([
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({
-      url: baseUrl,
+      issuer: baseUrl,
       transformErrorXHR: LoginUtil.transformErrorXHR
     });
     var successSpy = jasmine.createSpy('success');
@@ -86,7 +86,7 @@ define([
   function setupEmailAndClickSend () {
     return setupEmail()
       .then(function (test) {
-        $.ajax.calls.reset();
+        Util.resetAjaxRequests();
         test.setNextResponse(resChallengeEmail);
         test.form.submit();
         return waitForEmailVerificationPage(test);
@@ -99,7 +99,7 @@ define([
     }, test);
   }
 
-  Expect.describe('Mfy Verify (Email)', function () {
+  Expect.describe('MFA Verify (Email)', function () {
 
     itp('is email', function () {
       return setupEmail().then(function (test) {
@@ -123,8 +123,8 @@ define([
     itp('click send email will send request to factor endpoint', function () {
       return setupEmailAndClickSend()
         .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
             data: {
               passCode: '',
@@ -152,13 +152,13 @@ define([
     itp('shows errors if verify button is clicked and answer is empty', function () {
       return setupEmailAndClickSend()
         .then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resChallengeEmail);
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
-          expect($.ajax).not.toHaveBeenCalled();
+          expect(Util.numAjaxRequests()).toBe(0);
           expect(test.form.passCodeErrorField().length).toBe(1);
           expect(test.form.passCodeErrorField().text())
             .toBe('This field cannot be left blank');
@@ -171,7 +171,7 @@ define([
     itp('calls verifyFactor with rememberDevice URL param', function () {
       return setupEmailAndClickSend()
         .then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           test.form.setAnswer('456123');
           test.form.setRememberDevice(true);
@@ -179,8 +179,8 @@ define([
           return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
             data: {
               passCode: '456123',
@@ -192,15 +192,15 @@ define([
     itp('calls verify endpoint when form is submitted with a passcode', function () {
       return setupEmailAndClickSend()
         .then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           test.form.setAnswer('456123');
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
         .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
             data: {
               passCode: '456123',
@@ -249,10 +249,9 @@ define([
     });
 
     itp('posts to resend link when click the `send again` button', function () {
-      Util.speedUpPolling();
       return setupEmailAndClickSend()
         .then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resChallengeEmail);
           expect(test.form.$('.resend-email-infobox').length).toBe(1);
           test.form.$('.resend-email-btn').click();
@@ -261,8 +260,8 @@ define([
           }, test);
         })
         .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             data: { stateToken: 'testStateToken' },
             url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify/resend'
           });
@@ -273,7 +272,7 @@ define([
       Util.speedUpDelay();
       return setupEmailAndClickSend()
         .then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resResendError);
           expect(test.form.$('.resend-email-infobox:not(.hide)').length).toBe(1);
           test.form.$('.resend-email-btn').click();
@@ -284,8 +283,8 @@ define([
           expect(test.form.errorBox().length).toBe(1);
           expect(test.form.errorMessage())
             .toBe('You do not have permission to perform the requested action');
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             data: { stateToken: 'testStateToken' },
             url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify/resend'
           });

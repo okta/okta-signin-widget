@@ -66,7 +66,7 @@ define([
               .then(function (fingerprint) {
                 self.options.appState.set('deviceFingerprint', fingerprint);
               })
-              .fail(function () {
+              .catch(function () {
                 // Keep going even if device fingerprint fails
               });
           })

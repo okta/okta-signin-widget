@@ -41,7 +41,7 @@ function (Okta, FormController, Footer) {
                 Util.redirect(url);
               }
             })
-            .fail(function (err) {
+            .catch(function (err) {
               throw err;
             });
         });

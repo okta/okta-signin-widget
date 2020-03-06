@@ -96,7 +96,7 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
                   clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON)
                 });
               })
-              .fail(function (error) {
+              .catch(function (error) {
                 self.trigger('errors:clear');
                 // Do not display if it is abort error triggered by code when switching.
                 // self.webauthnAbortController would be null if abort was triggered by code. 

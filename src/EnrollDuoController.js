@@ -68,7 +68,7 @@ function (Okta, Duo, Q, FormController, Footer) {
               return transaction.poll();
             });
           })
-          .fail(function (err) {
+          .catch(function (err) {
             self.trigger('error', self, err.xhr);
           });
       }
