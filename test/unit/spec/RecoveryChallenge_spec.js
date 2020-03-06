@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 16] */
 define([
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'helpers/mocks/Util',
   'helpers/dom/RecoveryChallengeForm',
   'helpers/dom/Beacon',
@@ -17,14 +17,14 @@ define([
 function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
   $sandbox, resChallenge, resResendError, resVerifyError, res200, resSuccess) {
 
-  var { _, $ } = Okta;
+  var { _ } = Okta;
   var SharedUtil = Okta.internal.util.Util;
   var itp = Expect.itp;
 
   function setup (settings) {
     var setNextResponse = Util.mockAjax();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({url: baseUrl});
+    var authClient = new OktaAuth({issuer: baseUrl});
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var router = new Router(_.extend({
       el: $sandbox,
@@ -69,7 +69,7 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
       return setup()
         .then(function (test) {
           spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(res200);
           var $link = test.form.signoutLink();
           expect($link.length).toBe(1);
@@ -77,8 +77,8 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
           return Expect.waitForPrimaryAuth(test);
         })
         .then(function (test) {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/cancel',
             data: {
               stateToken: 'testStateToken'
@@ -103,7 +103,7 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
           .then(function (test) {
             spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
             spyOn(SharedUtil, 'redirect');
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.setNextResponse(res200);
             var $link = test.form.signoutLink();
             expect($link.length).toBe(1);
@@ -114,8 +114,8 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
             );
           })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/cancel',
               data: {
                 stateToken: 'testStateToken'
@@ -138,13 +138,13 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
     itp('has a disabled "Sent" button on initialize', function () {
       return setup()
         .then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           spyOn(test.router.controller.model, 'resendCode').and.callThrough();
           var button = test.form.resendButton();
           expect(button.text()).toBe('Sent');
           button.click();
           expect(test.router.controller.model.resendCode.calls.count()).toBe(0);
-          expect($.ajax.calls.count()).toBe(0);
+          expect(Util.numAjaxRequests()).toBe(0);
         });
     });
     itp('has a "Re-send" button after a short delay', function () {
@@ -163,17 +163,17 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
       });
       return setup()
         .then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resChallenge);
           test.button = test.form.resendButton();
           test.button.click();
           expect(test.button.text()).toBe('Sent');
           expect(test.button.attr('class')).toMatch('link-button-disabled');
-          return Expect.waitForSpyCall($.ajax);
+          return Expect.waitForAjaxRequest();
         })
         .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/recovery/factors/SMS/resend',
             data: {
               stateToken: 'testStateToken'
@@ -189,7 +189,7 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
       return setup()
         .then(function (test) {
           spyOn(test.router.controller.model, 'resendCode').and.callThrough();
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resResendError);
           test.form.resendButton().click();
           expect(test.router.controller.model.resendCode.calls.count()).toBe(1);
@@ -198,24 +198,24 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/recovery/factors/SMS/resend',
             data: {
               stateToken: 'testStateToken'
             }
           });
 
-          $.ajax.calls.reset();
-          expect($.ajax.calls.count()).toBe(0);
+          Util.resetAjaxRequests();
+          expect(Util.numAjaxRequests()).toBe(0);
 
           test.setNextResponse(resResendError);
           test.form.resendButton().click();
-          return Expect.waitForSpyCall($.ajax, test);
+          return Expect.waitForAjaxRequest(test);
         })
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/recovery/factors/SMS/resend',
             data: {
               stateToken: 'testStateToken'
@@ -225,15 +225,15 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
     });
     itp('makes the right auth request when form is submitted', function () {
       return setup().then(function (test) {
-        $.ajax.calls.reset();
+        Util.resetAjaxRequests();
         test.form.setCode('1234');
         test.setNextResponse(resSuccess);
         test.form.submit();
-        return Expect.waitForSpyCall($.ajax, test);
+        return Expect.waitForAjaxRequest(test);
       })
         .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/recovery/factors/SMS/verify',
             data: {
               passCode: '1234',
@@ -244,9 +244,9 @@ function (Okta, OktaAuth, Util, RecoveryChallengeForm, Beacon, Expect, Router,
     });
     itp('validates that the code is not empty before submitting', function () {
       return setup().then(function (test) {
-        $.ajax.calls.reset();
+        Util.resetAjaxRequests();
         test.form.submit();
-        expect($.ajax).not.toHaveBeenCalled();
+        expect(Util.numAjaxRequests()).toBe(0);
         expect(test.form.hasErrors()).toBe(true);
       });
     });

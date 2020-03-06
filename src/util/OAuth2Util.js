@@ -48,54 +48,50 @@ define(['okta', './Enums', './Errors', './Util'], function (Okta, Enums, Errors,
 
     var authClient = settings.getAuthClient(),
         options = settings.toJSON({ verbose: true }),
-        oauthParams = {},
-        extraOptions = {};
+        getTokenOptions = {};
 
     _.extend(
-      oauthParams,
+      getTokenOptions,
       _.pick(options, 'clientId', 'redirectUri'),
       _.pick(options.authParams,
         'pkce',
-        'grantType', // deprecated
         'responseType', 'responseMode',
         'display', 'scopes', 'state', 'nonce'),
       params
     );
 
     // Extra Options for Social Idp popup window title and id_token response timeout
-    extraOptions.popupTitle = Okta.loc('socialauth.popup.title', 'login');
-    extraOptions.timeout = options.oAuthTimeout;
+    getTokenOptions.popupTitle = Okta.loc('socialauth.popup.title', 'login');
+    getTokenOptions.timeout = options.oAuthTimeout;
 
     _.extend(
-      extraOptions,
+      getTokenOptions,
       _.pick(options.authParams, 'issuer', 'authorizeUrl')
     );
 
     // Redirect flow - this can be used when logging into an external IDP, or
     // converting the Okta sessionToken to an access_token, id_token, and/or
     // authorization code. Note: The authorization code flow will always redirect.
-    if (oauthParams.display === 'page' || hasResponseType(oauthParams, 'code')) {
-      authClient.token.getWithRedirect(oauthParams, extraOptions)
-        .fail(error);
+    if (getTokenOptions.display === 'page' || hasResponseType(getTokenOptions, 'code')) {
+      authClient.token.getWithRedirect(getTokenOptions)
+        .catch(error);
     }
 
     // Default flow if logging in with Okta as the IDP - convert sessionToken to
     // tokens in a hidden iframe. Used in Single Page Apps where the app does
     // not want to redirect away from the page to convert the token.
-    else if (oauthParams.sessionToken) {
-      authClient.token.getWithoutPrompt(oauthParams, extraOptions)
+    else if (getTokenOptions.sessionToken) {
+      authClient.token.getWithoutPrompt(getTokenOptions)
         .then(success)
-        .fail(error)
-        .done();
+        .catch(error);
     }
 
     // Default flow if logging in with an external IDP - opens a popup and
     // gets the token from a postMessage response.
     else {
-      authClient.token.getWithPopup(oauthParams, extraOptions)
+      authClient.token.getWithPopup(getTokenOptions)
         .then(success)
-        .fail(error)
-        .done();
+        .catch(error);
     }
   };
 
@@ -129,7 +125,7 @@ define(['okta', './Enums', './Errors', './Util'], function (Okta, Enums, Errors,
       responseType.push('id_token');
     }
 
-    if (options.getAccessToken) {
+    if (options.getAccessToken !== false) {
       responseType.push('token');
     }
 
@@ -146,11 +142,9 @@ define(['okta', './Enums', './Errors', './Util'], function (Okta, Enums, Errors,
       clientId: options.clientId,
       redirectUri: options.redirectUri,
       authParams: {
-        issuer: options.authorizationServerId || 'default',
         display: 'page',
-        responseMode: 'fragment',
         responseType: util.getResponseType(options),
-        scopes: options.scope || (config.authParams && config.authParams.scopes) || ['openid']
+        scopes: options.scope || (config.authParams && config.authParams.scopes) || ['openid', 'email']
       }
     };
 

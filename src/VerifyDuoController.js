@@ -58,11 +58,11 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
             factorType: 'web'
           });
           return factor.verify(data)
-            .fail(function (err) {
+            .catch(function (err) {
             // Clean up the cookie on failure.
               throw err;
             });
-        });
+        }, true /* rethrow errors */);
       },
 
       verify: function (signedResponse) {
@@ -92,7 +92,7 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
               return transaction.poll(data);
             });
           })
-          .fail(function (err) {
+          .catch(function (err) {
             self.trigger('error', self, err.xhr);
           });
       }

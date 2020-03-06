@@ -64,7 +64,7 @@ function (Okta, FormController, FormType, webauthn, Spinner, FooterSignout, Html
                   model.trigger('signIn');
                   return data;
                 })
-                .fail(function (error) {
+                .catch(function (error) {
                   switch (error.message) {
                   case 'AbortError':
                   case 'NotFoundError':

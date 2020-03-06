@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 13], max-len: [2, 160] */
 define([
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/ConsentRequiredForm',
@@ -15,7 +15,7 @@ define([
 function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
   $sandbox, resConsentRequired, resSuccess, resCancel) {
 
-  var { _, $ } = Okta;
+  var { _ } = Okta;
   var itp = Expect.itp;
 
   function deepClone (res) {
@@ -28,7 +28,7 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
     var setNextResponse = Util.mockAjax();
     var baseUrl = window.location.origin;
     var logoUrl = '/img/logos/default.png';
-    var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+    var authClient = new OktaAuth({issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -155,14 +155,14 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
       });
       itp('consent button click makes the correct consent post', function () {
         return setup().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           test.form.consentButton().click();
-          return Expect.waitForSpyCall($.ajax);
+          return Expect.waitForAjaxRequest();
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.lastAjaxRequest(), {
               url: 'https://example.okta.com/api/v1/authn/consent',
               data: {
                 consent: {
@@ -185,16 +185,14 @@ function (Okta, OktaAuth, LoginUtil, Util, ConsentRequiredForm, Expect, Router,
         var cancel = jasmine.createSpy('cancel');
         return setup({ consent: { cancel } }).then(function (test) {
           spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resCancel);
           test.form.cancelButton().click();
-          return Expect.wait(function () {
-            return $.ajax.calls.count() > 0;
-          }, test);
+          return Expect.waitForAjaxRequest(test);
         })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.lastAjaxRequest(), {
               url: 'https://example.okta.com/api/v1/authn/cancel',
               data: {
                 stateToken: 'testStateToken'

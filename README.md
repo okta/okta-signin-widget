@@ -185,11 +185,16 @@ You can also browse the full [API reference documentation](#api-reference).
 
 ## Usage examples
 
-## PKCE (Proof Key for Code Exchange) flow
+### OIDC login flow using PKCE (Proof Key for Code Exchange)
 
-- Configure your Single-page application in the Okta Admin UI to allow the `Authorization code` grant type.
-
-- To complete the flow, your client application must handle the code passed to `redirectUri`. This is most easily accomplished using [okta-auth-js](https://github.com/okta/okta-auth-js#pkce-oauth-20-flow) or with one of our [Javascript OIDC SDKs](https://github.com/okta/okta-oidc-js)
+- PKCE is enabled by default for new SPA (Single-page) applications
+- You can configure your existing Single-page application to use `PKCE` under the `General Settings` for your application in the Okta Admin UI.
+- To complete the flow, your client application should handle the code passed to `redirectUri` and use it to obtain tokens. You can test for a code in the URL using [hasTokensInUrl()](#hastokensinurl). The [okta-auth-js](https://github.com/okta/okta-auth-js#pkce-oauth-20-flow) library is used to retreive the code from the URL and exchange it for tokens. An instance of `okta-auth-js` is used by the Signin Widget and exposed as `authClient`.
+- We also provide higher-level [Javascript OIDC SDKs](https://github.com/okta/okta-oidc-js) for several frameworks, including [React](https://github.com/okta/okta-oidc-js/tree/master/packages/okta-react), [Angular](https://github.com/okta/okta-oidc-js/tree/master/packages/okta-angular) and [Vue](https://github.com/okta/okta-oidc-js/tree/master/packages/okta-vue). These SDKs are built on `okta-auth-js` and are fully compatible with the Signin Widget.
+- Complete samples are available for:
+  - [React](https://github.com/okta/samples-js-react/tree/master/custom-login)
+  - [Angular](https://github.com/okta/samples-js-angular/tree/master/custom-login)
+  - [Vue](https://github.com/okta/samples-js-vue/tree/master/custom-login).
 
 ```javascript
 var signIn = new OktaSignIn(
@@ -197,12 +202,39 @@ var signIn = new OktaSignIn(
     baseUrl: 'https://{yourOktaDomain}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
     authParams: {
-      display: 'page',
-      pkce: true
+      display: 'page'
     }
   }
 );
+
+if (signIn.hasTokensInUrl()) {
+  // The user has just successfully completed a redirect
+  // Retrieve tokens from the URL and store them in the internal TokenManager
+  // https://github.com/okta/okta-auth-js#tokenparsefromurloptions
+  signIn.authClient.token.parseFromUrl()
+    .then(function (res) {
+      oktaSignIn.authClient.tokenManager.add('idToken', res.tokens.idToken);
+      oktaSignIn.authClient.tokenManager.add('accessToken', res.tokens.accessToken);
+    })
+}
+else {
+  // There are no tokens in the URL, render the Sign-In Widget.
+}
 ```
+
+### OIDC login flow using Authorization Code
+
+- Available for Native and server-side Web applications
+- Samples are available for:
+  - [Asp.Net Core 2.x](https://github.com/okta/samples-aspnetcore/tree/master/samples-aspnetcore-2x/self-hosted-login)
+  - [ASP.Net Core 3.x](https://github.com/okta/samples-aspnetcore/tree/master/samples-aspnetcore-3x/self-hosted-login)
+  - [ASP.Net 4.x](https://github.com/okta/samples-aspnet/tree/master/self-hosted-login)
+  - [ASP.Net Webforms](https://github.com/okta/samples-aspnet-webforms/tree/master/self-hosted-login)
+  - [Golang](https://github.com/okta/samples-golang/tree/develop/custom-login)
+  - [Java/Spring Boot](https://github.com/okta/samples-java-spring/tree/master/custom-login)
+  - [NodeJS/Express](https://github.com/okta/samples-nodejs-express-4/tree/master/custom-login)
+  - [PHP](https://github.com/okta/samples-php/tree/develop/custom-login)
+  - [Python/Flask](https://github.com/okta/samples-python-flask/tree/master/custom-login)
 
 ## API Reference
 
@@ -310,10 +342,9 @@ signIn.renderEl(
 Renders the widget to the DOM to prompt the user to sign in. On successful authentication, users are redirected back to the application via the `redirectUri` with an Okta SSO session in the browser, and access and/or identity tokens in the fragment identifier.
 
 * `options`
-  * `authorizationServerId` *(optional)* - Specify a custom authorization server to perform the OIDC flow. Defaults to `default`.
   * `clientId` *(optional)* - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
   * `redirectUri` *(optional)* - The url that is redirected to after authentication. This must be pre-registered as part of client registration. Defaults to the current origin.
-  * `getAccessToken` *(optional)* - Return an access token from the authorization server. Defaults to `false`.
+  * `getAccessToken` *(optional)* - Return an access token from the authorization server. Defaults to `true`.
   * `getIdToken` *(optional)* - Return an ID token from the authorization server. Defaults to `true`.
   * `scope` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value passed in during construction of the Widget.
 
@@ -394,9 +425,7 @@ signIn.off('ready', onReady);
 
 ### authClient
 
-Returns the underlying [`@okta/okta-auth-js`](https://github.com/okta/okta-auth-js) object used by the Sign-in Widget.
-
-Before version 3.0, the Sign-in Widget contained `session` and `tokenManager` properties, and methods like `tokenManager.get`. These were just proxies to identical objects and methods in the [AuthJS](https://github.com/okta/okta-auth-js#api-reference) base library. These proxies have been removed in favor of direct access to the authClient object which allows you to call any of these methods. All the methods are documented in the [AuthJS](https://github.com/okta/okta-auth-js#api-reference) base library.
+Returns the underlying [`@okta/okta-auth-js`](https://github.com/okta/okta-auth-js) object used by the Sign-in Widget. All methods are documented in the [AuthJS](https://github.com/okta/okta-auth-js#api-reference) base library.
 
 ```javascript
 // Check for an existing authClient transaction
@@ -415,6 +444,13 @@ Synchronous method to check for access or ID Tokens in the url. This is used whe
 ```javascript
 if (signIn.hasTokensInUrl()) {
   // The user has just successfully completed a redirect
+  // Retrieve tokens from the URL and store them in the internal TokenManager
+  // https://github.com/okta/okta-auth-js#tokenparsefromurloptions
+  signIn.authClient.token.parseFromUrl()
+    .then(function (res) {
+      oktaSignIn.authClient.tokenManager.add('idToken', res.tokens.idToken);
+      oktaSignIn.authClient.tokenManager.add('accessToken', res.tokens.accessToken);
+    })
 }
 else {
   // There are no tokens in the URL, render the Sign-In Widget.
@@ -440,6 +476,9 @@ var config = {
   },
   helpLinks: {
     help: 'https://acme.com/help'
+  },
+  authParams: {
+    // Configuration for authClient. See https://github.com/okta/okta-auth-js#configuration-options
   }
 };
 
@@ -968,20 +1007,29 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     oAuthTimeout: 300000 // 5 minutes
     ```
 
-- **authParams.pkce:** Set to `true` to enable PKCE flow
+- **authParams:** An object containing configuration which is passed directly to the `authClient`. Selected options are described below. See the full set of [Configuration options](https://github.com/okta/okta-auth-js#configuration-options)
+
+- **authParams.pkce:** Set to `false` to disable PKCE flow
 
 - **authParams.display:** Specify how to display the authentication UI for External Identity Providers. Defaults to `popup`.
 
     - `popup` - Opens a popup to the authorization server when an External Identity Provider button is clicked. `responseMode` will be set to `okta_post_message` and cannot be overridden.
 
-    - `page` - Redirect to the authorization server when an External Identity Provider button is clicked. If `responseMode` is not specified, it will default to `query` if `responseType = 'code'`, and `fragment` for other values of `responseType`.
-
+    - `page` - Redirect to the authorization server when an External Identity Provider button is clicked.
+  
     ```javascript
     // Redirects to authorization server when the IDP button is clicked, and
-    // returns an access_token in the url hash
+    // returns an access_token in the url hash (Implicit flow)
     authParams: {
       display: 'page',
-      responseType: 'token'
+      responseType: 'token',
+      pkce: false
+    }
+
+    // With PKCE flow, you should leave responseType blank.
+    // An authorization code will be returned in the query which can be exchanged for tokens.
+    authParams: {
+      display: 'page'
     }
     ```
 
@@ -989,9 +1037,9 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
 
     - `okta_post_message` - Used when `authParams.display = 'popup'`. Uses [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to send the response from the popup to the origin window.
 
-    - `fragment` - Used when `authParams.display = 'page'`. Returns the authorization response in the hash fragment of the URL after the authorization redirect. `fragment` is the default for Single-page applications and for standard web applications where `responseType != 'code'`.
+    - `fragment` - Used when `authParams.display = 'page'`. Returns the authorization response in the hash fragment of the URL after the authorization redirect. `fragment` is the default for Single-page applications using the implicit OIDC flow and for standard web applications where `responseType != 'code'`. SPA Applications using PKCE flow can set `responseMode = 'fragment'` to receive the authorization code in the hash fragment instead of the query.
 
-    - `query` - Used when `authParams.display = 'page'`. Returns the authorization response in the query string of the URL after the authorization redirect. `query` is the default value for standard web applications where `authParams.responseType = 'code'`.
+    - `query` - Used when `authParams.display = 'page'`. Returns the authorization response in the query string of the URL after the authorization redirect. `query` is the default value for standard web applications where `authParams.responseType = 'code'`. For SPA applications, the default will be `query` if using PKCE, or `fragment` for implicit OIDC flow.
 
     - `form_post` - Returns the authorization response as a form POST after the authorization redirect. Use this when `authParams.display = page` and you do not want the response returned in the URL.
 
@@ -1004,7 +1052,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     }
     ```
 
-- **authParams.responseType:** Specify the response type for OIDC authentication. Defaults to `id_token`.
+- **authParams.responseType:** Specify the response type for OIDC authentication. Defaults to `['id_token', 'token']`.
 
     Valid response types are `id_token`, `access_token`, and `code`. Note that `code` goes through the Authorization Code flow, which requires the server to exchange the Authorization Code for tokens.
 
@@ -1031,7 +1079,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     }
     ```
 
-- **authParams.state:** Specify a state that will be validated in an OAuth response. This is usually only provided during redirect flows to obtain an authorization code. Defaults to a random string.
+- **authParams.state:** Specify a state that will be validated in an OAuth response. This is usually only provided during redirect flows to obtain an authorization code. Defaults to a random string. This value can be retrieved on the login callback. It will be returned along with tokens from [authClient.token.parseFromUrl()](https://github.com/okta/okta-auth-js#tokenparsefromurloptions)
 
     ```javascript
     authParams: {
@@ -1047,7 +1095,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     }
     ```
 
-- **authParams.issuer:** Specify a custom issuer to perform the OIDC flow. Defaults to the baseUrl.
+- **authParams.issuer:** Specify a custom issuer to perform the OIDC flow. Defaults to the baseUrl plus "/oauth2/default". See the guide on setting up an [Authourization Server](https://developer.okta.com/docs/guides/customize-authz-server/overview/) for more information.
 
     ```javascript
     authParams: {

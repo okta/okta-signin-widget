@@ -186,7 +186,7 @@ define([
         }
         return { login: loginJson, country: countryJson };
       })
-      .fail(function () {
+      .catch(function () {
       // If there is an error, this will default to the bundled language and
       // we will no longer try to load the language this session.
         Logger.warn('Unable to load language: ' + language);

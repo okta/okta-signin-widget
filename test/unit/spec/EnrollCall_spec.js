@@ -2,7 +2,7 @@
 define([
   'q',
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/EnrollCallForm',
@@ -30,7 +30,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
     function setup (resp, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var authClient = new OktaAuth({issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var afterRenderHandler = jasmine.createSpy('afterRenderHandler');
       var router = new Router({
         el: $sandbox,
@@ -240,8 +240,8 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       itp('enrolls with correct info when call button is clicked', function () {
         return setupAndSendCode(enrollSuccess, 'AQ', '12345678900')
           .then(function () {
-            expect($.ajax.calls.count()).toBe(2);
-            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+            expect(Util.numAjaxRequests()).toBe(2);
+            Expect.isJsonPost(Util.getAjaxRequest(1), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'call',
@@ -302,13 +302,13 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       itp('uses send code button with validatePhone:false if user has retried with invalid phone number', function () {
         return setupFn()
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'call',
@@ -325,13 +325,13 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             expect(test.form.errorMessage())
               .toEqual('The number you entered seems invalid. If the number is correct, please try again.');
 
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
-            return Expect.waitForSpyCall($.ajax);
+            return Expect.waitForAjaxRequest();
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'call',
@@ -349,13 +349,13 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       itp('does not set validatePhone:false if the error is not a validation error (E0000098).', function () {
         return setupFn()
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             sendCode(test, resEnrollError, 'PF', '12345678');
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'call',
@@ -372,13 +372,13 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
             expect(test.form.errorMessage())
               .toEqual('Invalid Phone Number.');
 
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             sendCode(test, resEnrollError, 'PF', '12345678');
-            return Expect.waitForSpyCall($.ajax);
+            return Expect.waitForAjaxRequest();
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'call',
@@ -396,14 +396,14 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
         Util.speedUpDelay();
         return setupAndSendCodeFn()
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.setNextResponse(enrollSuccess);
             test.form.sendCodeButton().click();
-            return Expect.waitForSpyCall($.ajax);
+            return Expect.waitForAjaxRequest();
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/resend',
               data: {
                 stateToken: expectedStateToken
@@ -431,15 +431,15 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           })
           .then(function (test) {
             // resubmit the 'US' number
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.setNextResponse(enrollSuccess);
             test.form.sendCodeButton().click();
             expectCallingButton(test);
-            return Expect.waitForSpyCall($.ajax);
+            return Expect.waitForAjaxRequest();
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/resend',
               data: {
                 'stateToken': expectedStateToken
@@ -465,24 +465,24 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       });
       itp('does not send request and shows error if code is not entered', function () {
         return setupAndSendCodeFn().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.submit();
-          expect($.ajax).not.toHaveBeenCalled();
+          expect(Util.numAjaxRequests()).toBe(0);
           expect(test.form.hasErrors()).toBe(true);
         });
       });
       itp('calls activate with the right params if passes validation', function () {
         return setupAndSendCodeFn()
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setCode(123456);
             test.setNextResponse(enrollSuccess);
             test.form.submit();
-            return Expect.waitForSpyCall($.ajax);
+            return Expect.waitForAjaxRequest();
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/activate',
               data: {
                 passCode: '123456',
@@ -558,14 +558,14 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       });
       itp('visits previous link if phone is enrolled, but not activated', function () {
         return setupAndSendValidCode().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resAllFactors);
           test.form.backLink().click();
           return Expect.waitForEnrollChoices(test);
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/previous',
               type: 'POST',
               data: {
@@ -584,12 +584,12 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       testVerifyPhoneNumber(setup, setupAndSendValidCode, resEnrollSuccess, 'testStateToken');
       itp('appends updatePhone=true to the request if user has an existing phone', function () {
         return setup(resExistingPhone).then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           return sendCode(test, resEnrollSuccess, 'US', '6501231234');
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
               data: {
                 factorType: 'call',
@@ -621,7 +621,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           })
           .then(function (test) {
             // redial will clear the warning
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.setNextResponse(resFactorEnrollActivateCall);
             test.form.sendCodeButton().click();
             expectCallingButton(test);
@@ -643,18 +643,18 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
           Expect.isVisible(test.form.codeField());
           enterPhone(test, 'US', '4151112222');
           expectCallButton(test);
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse([resAllFactors, resEnrollSuccess]);
           test.form.sendCodeButton().click();
           return waitForEnrollActivateSuccess(test);
         })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(2);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(2);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/previous',
               data: { stateToken: 'testStateToken' }
             });
-            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+            Expect.isJsonPost(Util.getAjaxRequest(1), {
               url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
               data: {
                 factorType: 'call',

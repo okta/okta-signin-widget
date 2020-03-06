@@ -1,6 +1,6 @@
 define([
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'helpers/mocks/Util',
   'helpers/dom/PollingForm',
   'helpers/util/Expect',
@@ -12,14 +12,14 @@ define([
 ],
 function (Okta, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPolling, resCancel, resSuccess) {
 
-  var { _, $ } = Okta;
+  var { _ } = Okta;
 
   function setup (settings, res) {
     settings || (settings = {});
     var successSpy = jasmine.createSpy('successSpy');
     var setNextResponse = Util.mockAjax();
     var baseUrl = window.location.origin;
-    var authClient = new OktaAuth({url: baseUrl});
+    var authClient = new OktaAuth({issuer: baseUrl});
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -60,16 +60,14 @@ function (Okta, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPollin
       });
       it('cancel button clicked cancels the current stateToken and calls the cancel function', function () {
         return setup({}, [resPolling, resPolling, resPolling, resCancel]).then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resCancel);
           test.form.cancelButton().click();
-          return Expect.wait(function () {
-            return $.ajax.calls.count() > 0;
-          }, test);
+          return Expect.waitForAjaxRequest(test);
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://example.okta.com/api/v1/authn/cancel',
               data: {
                 stateToken: '00caLtr2zn6rEXWaHyNNmTfczuToPNY2R8y3f0yAK_'
@@ -84,18 +82,19 @@ function (Okta, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPollin
     describe('called on load', function () {
       it('makes the request correctly', function (done) {
         setup({}, [resPolling, resPolling, resSuccess]).then(() => {
+          // TODO: refactor to use Util.callAllTimeouts() to remove long timeout value: https://oktainc.atlassian.net/browse/OKTA-291740
           setTimeout(function () {
-            expect($.ajax).toHaveBeenCalledTimes(3);
+            expect(Util.numAjaxRequests()).toBe(3);
             // first call is for refresh-auth
             // poll
-            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+            Expect.isJsonPost(Util.getAjaxRequest(1), {
               url: 'https://example.okta.com/api/v1/authn/poll',
               data: {
                 stateToken: '00caLtr2zn6rEXWaHyNNmTfczuToPNY2R8y3f0yAK_'
               }
             });
             // 2nd poll
-            Expect.isJsonPost($.ajax.calls.argsFor(2), {
+            Expect.isJsonPost(Util.getAjaxRequest(2), {
               url: 'https://example.okta.com/api/v1/authn/poll',
               data: {
                 stateToken: '00caLtr2zn6rEXWaHyNNmTfczuToPNY2R8y3f0yAK_'

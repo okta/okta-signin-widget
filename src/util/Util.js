@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /*!
  * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -54,6 +55,10 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
 
   Util.hasTokensInHash = function (hash) {
     return /((id|access)_token=)/i.test(hash);
+  };
+
+  Util.hasCodeInUrl = function (hashOrSearch) {
+    return /(code=)/i.test(hashOrSearch);
   };
 
   Util.transformErrorXHR = function (xhr) {
