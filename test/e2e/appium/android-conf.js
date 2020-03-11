@@ -23,7 +23,7 @@ module.exports = {
     'unicodeKeyboard': true,
     'resetKeyboard': true,
     'browserName': 'Chrome',
-    'appiumVersion': '1.9.1',
+    'appiumVersion': '1.16.0',
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'build': process.env.TRAVIS_BUILD_NUMBER
   }]
