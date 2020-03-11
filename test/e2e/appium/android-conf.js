@@ -26,17 +26,5 @@ module.exports = {
     'appiumVersion': '1.9.1',
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'build': process.env.TRAVIS_BUILD_NUMBER
-  },
-                        {
-    'deviceName': 'Samsung Galaxy S9 WQHD GoogleAPI Emulator',
-    'platformName': 'Android',
-    'platformVersion': '8.1',
-    'deviceOrientation': 'portrait',
-    'unicodeKeyboard': true,
-    'resetKeyboard': true,
-    'browserName': 'Chrome',
-    'appiumVersion': '1.9.1',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_BUILD_NUMBER
   }]
 };
