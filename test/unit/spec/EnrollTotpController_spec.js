@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 31] */
 define([
   'okta',
-  '@okta/okta-auth-js',
+  '@okta/okta-auth-js/jquery',
   'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTotpDeviceTypeForm',
@@ -29,7 +29,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
   $sandbox, resAllFactors, resFactorsWithPush, resTotpEnrollSuccess, resPushEnrollSuccess, resPushEnrollSuccessNewQR, resActivateError, resActivatePushEmail,
   resActivatePushSms, resActivatePushTimeout, resSuccess, Router) {
 
-  var { _ } = Okta;
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -38,7 +38,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
     function setup (res, selectedFactor, settings, startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router(_.extend({
         el: $sandbox,
@@ -216,8 +216,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       });
       itp('sends enroll request with correct params for Okta totp', function () {
         return setupAndEnrollOktaTotpFn().then(function () {
-          expect(Util.numAjaxRequests()).toBe(2);
-          Expect.isJsonPost(Util.getAjaxRequest(1), {
+          expect($.ajax.calls.count()).toBe(2);
+          Expect.isJsonPost($.ajax.calls.argsFor(1), {
             url: 'https://foo.com/api/v1/authn/factors',
             data: {
               factorType: 'token:software:totp',
@@ -229,8 +229,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       });
       itp('sends enroll request with correct params for Google totp', function () {
         return setupAndEnrollGoogleTotpFn().then(function () {
-          expect(Util.numAjaxRequests()).toBe(2);
-          Expect.isJsonPost(Util.getAjaxRequest(1), {
+          expect($.ajax.calls.count()).toBe(2);
+          Expect.isJsonPost($.ajax.calls.argsFor(1), {
             url: 'https://foo.com/api/v1/authn/factors',
             data: {
               factorType: 'token:software:totp',
@@ -245,7 +245,10 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
     function testOktaVerify (setupAndEnrollOktaPushFn, setupOktaPushFn, activatePushSmsRes, activatePushTimeoutRes, expectedStateToken) {
 
       function setupPolling (test, finalResponse) {
-        Util.resetAjaxRequests();
+        $.ajax.calls.reset();
+
+        // Mock calls to startVerifyFactorPoll to include a faster poll
+        Util.speedUpPolling(test.ac);
 
         // 1: Set for first enrollFactor
         // 2: Set for startEnrollFactorPoll
@@ -256,15 +259,9 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
         test.form.selectDeviceType('APPLE');
         test.form.submit();
 
-        return Expect.waitForAjaxRequests(1, test) // 1: submit enrollFactor
-          .then(() => {
-            Util.callAllTimeouts();
-            return Expect.waitForAjaxRequests(2, test); // 2: submit enrollFactor poll
-          })
-          .then(() => {
-            Util.callAllTimeouts();
-            return Expect.waitForAjaxRequests(3, test); // Final response tick
-          });
+        return tick(test)    // 1: submit enrollFactor
+          .then(function () { return tick(test); }) // 2: submit enrollFactor poll
+          .then(function () { return tick(test); }); // Final response tick
       }
       itp('has qrcode image', function () {
         return setupAndEnrollOktaPushFn().then(function (test) {
@@ -325,10 +322,10 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           return setupPolling(test, resSuccess);
         })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(3);
+            expect($.ajax.calls.count()).toBe(3);
 
             // initial enrollFactor call
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 'factorType': 'push',
@@ -338,7 +335,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             });
 
             // first startEnrollFactorPoll call
-            Expect.isJsonPost(Util.getAjaxRequest(1), {
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://foo.com/api/v1/authn/factors/opfiilf0vAdzHVmic0g3/lifecycle/activate/poll',
               data: {
                 stateToken: expectedStateToken
@@ -346,7 +343,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             });
 
             // last startEnrollFactorPoll call
-            Expect.isJsonPost(Util.getAjaxRequest(2), {
+            Expect.isJsonPost($.ajax.calls.argsFor(2), {
               url: 'https://foo.com/api/v1/authn/factors/opfiilf0vAdzHVmic0g3/lifecycle/activate/poll',
               data: {
                 stateToken: expectedStateToken
@@ -358,41 +355,15 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
         // Simulate polling with Auth SDK's exponential backoff (6 failed requests)
         function setupFailurePolling (test) {
           var failureResponse = { status: 0, response: {} };
-
-          Util.resetAjaxRequests();
+          Util.speedUpPolling(test.ac);
           test.setNextResponse([activatePushSmsRes, activatePushSmsRes,
             failureResponse, failureResponse, failureResponse, failureResponse, failureResponse, failureResponse]);
           test.form.selectDeviceType('APPLE');
           test.form.submit();
-          return Expect.waitForAjaxRequests(1, test) // 1: submit enrollFactor
-            .then(() => {
-              Util.callAllTimeouts();
-              return Expect.waitForAjaxRequests(2, test); // 2: submit enrollFactor poll
-            })
-            .then(() => {
-              Util.callAllTimeouts();
-              return Expect.waitForAjaxRequests(3, test); // Failure request
-            })
-            .then(() => {
-              Util.callAllTimeouts();
-              return Expect.waitForAjaxRequests(4, test); // Failure request
-            })
-            .then(() => {
-              Util.callAllTimeouts();
-              return Expect.waitForAjaxRequests(5, test); // Failure request
-            })
-            .then(() => {
-              Util.callAllTimeouts();
-              return Expect.waitForAjaxRequests(6, test); // Failure request
-            })
-            .then(() => {
-              Util.callAllTimeouts();
-              return Expect.waitForAjaxRequests(7, test); // Failure request
-            })
-            .then(() => {
-              Util.callAllTimeouts();
-              return Expect.waitForAjaxRequests(8, test); // 4: Error from Auth SDK
-            });
+          return tick(test)    // 1: submit enrollFactor
+            .then(function () { return tick(test); }) // 2: submit enrollFactor poll
+            .then(function () { return tick(test); }) // 3: Failure requests
+            .then(function () { return tick(test); }); // 4: Error from Auth SDK
         }
         return setupOktaPushFn().then(function (test) {
           spyOn(test.router.settings, 'callGlobalError');
@@ -402,7 +373,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             return test.scanCodeForm.waitForRefreshQrcodeLink(test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(8);
+            expect($.ajax.calls.count()).toBe(9);
             expect(test.scanCodeForm.hasManualSetupLink()).toBe(false);
             expect(test.scanCodeForm.hasRefreshQrcodeLink()).toBe(true);
             expect(test.scanCodeForm.hasErrors()).toBe(true);
@@ -411,10 +382,10 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
 
             // on "Refresh code" link click
             // it sends reactivation request and starts polling again
-            Util.resetAjaxRequests();
+            $.ajax.calls.reset();
             test.setNextResponse([activatePushSmsRes, resSuccess]);
             test.scanCodeForm.clickrefreshQrcodeLink();
-            return Expect.waitForAjaxRequests(2, test);
+            return tick(test);
           })
           .then(function (test) {
             // errors cleared
@@ -424,15 +395,15 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             expect(test.router.settings.callGlobalError.calls.count()).toBe(1);
 
             // polled until success
-            expect(Util.numAjaxRequests()).toBe(2);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors/opfiilf0vAdzHVmic0g3/lifecycle/activate/poll',
               data: {
                 'stateToken': expectedStateToken
               }
             });
 
-            Expect.isJsonPost(Util.getAjaxRequest(1), {
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://foo.com/api/v1/authn/factors/opfiilf0vAdzHVmic0g3/lifecycle/activate/poll',
               data: {
                 stateToken: expectedStateToken
@@ -442,7 +413,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       });
       itp('allows refresh after TIMEOUT', function () {
         return setupOktaPushFn().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
+          Util.speedUpPolling(test.ac);
 
           // 1: Set for first enrollFactor
           // 2: Set for activateFactor
@@ -453,23 +425,23 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           test.form.selectDeviceType('APPLE');
           test.form.submit();
 
-          return Expect.waitForAjaxRequests(1, test) // 1: submit enrollFactor
-            .then(() => {
-              Util.callAllTimeouts();
-              return Expect.waitForAjaxRequests(2, test); // 2: submit enrollFactor poll
+          return tick()       // 1: submit enrollFactor
+            .then(tick)   // 2: submit enrollFactor poll
+            .then(function () {
+              return test;
             });
         })
           .then(function (test) {
             // After TIMEOUT, refresh the QR code
             Expect.isVisible(test.scanCodeForm.refreshLink());
             test.scanCodeForm.clickRefreshLink();
-            return Expect.waitForAjaxRequests(3, test);
+            return tick();
           })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(3);
+            expect($.ajax.calls.count()).toBe(3);
 
             // initial enrollFactor call
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 'factorType': 'push',
@@ -479,7 +451,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             });
 
             // first startEnrollFactorPoll call
-            Expect.isJsonPost(Util.getAjaxRequest(1), {
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://foo.com/api/v1/authn/factors/opfiilf0vAdzHVmic0g3/lifecycle/activate/poll',
               data: {
                 stateToken: expectedStateToken
@@ -487,7 +459,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             });
 
             // last startEnrollFactorPoll call
-            Expect.isJsonPost(Util.getAjaxRequest(2), {
+            Expect.isJsonPost($.ajax.calls.argsFor(2), {
               url: 'https://foo.com/api/v1/authn/factors/opfiilf0vAdzHVmic0g3/lifecycle/activate',
               data: {
                 stateToken: expectedStateToken
@@ -572,12 +544,12 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       itp('goes to previous link and then enrolls in totp when choosing manual', function () {
         return enrollOktaPushUseManualTotpFn()
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(4);
-            Expect.isJsonPost(Util.getAjaxRequest(2), {
+            expect($.ajax.calls.count()).toBe(4);
+            Expect.isJsonPost($.ajax.calls.argsFor(2), {
               url: 'https://foo.com/api/v1/authn/previous',
               data: { stateToken: expectedStateToken }
             });
-            Expect.isJsonPost(Util.getAjaxRequest(3), {
+            Expect.isJsonPost($.ajax.calls.argsFor(3), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'token:software:totp',
@@ -590,19 +562,19 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       itp('goes to previous link and enrolls in push when coming from manual', function () {
         return enrollOktaPushUseManualTotpFn()
           .then(function (test) {
-            Util.resetAjaxRequests();
+            $.ajax.calls.reset();
             expect(test.manualSetupForm.sharedSecretFieldValue()).toEqual('superSecretSharedSecret');
             test.setNextResponse([factorsWithPushRes, pushEnrollSuccessRes]);
             test.manualSetupForm.selectSmsOption();
             return test.manualSetupForm.waitForSms(test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(2);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/previous',
               data: { stateToken: expectedStateToken }
             });
-            Expect.isJsonPost(Util.getAjaxRequest(1), {
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'push',
@@ -616,25 +588,25 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       itp('does not do re-enroll when switches between sms and email options', function () {
         return enrollOktaPushGoCannotScanFn()
           .then(function (test) {
-            Util.resetAjaxRequests();
+            $.ajax.calls.reset();
             test.manualSetupForm.selectEmailOption();
             return test.manualSetupForm.waitForEmail(test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(0);
+            expect($.ajax).not.toHaveBeenCalled();
             Expect.isNotVisible(test.manualSetupForm.phoneNumberField());
             test.manualSetupForm.selectSmsOption();
             return test.manualSetupForm.waitForSms(test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(0);
+            expect($.ajax).not.toHaveBeenCalled();
             Expect.isVisible(test.manualSetupForm.phoneNumberField());
           });
       });
       itp('sends sms activation link request with correct params and shows confirmation', function () {
         return enrollOktaPushGoCannotScanFn()
           .then(function (test) {
-            Util.resetAjaxRequests();
+            $.ajax.calls.reset();
             Expect.isVisible(test.manualSetupForm.form());
             test.manualSetupForm.setPhoneNumber('4152554668');
             test.setNextResponse(resActivatePushSms);
@@ -642,8 +614,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             return Expect.waitForEnrollmentLinkSent(test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(1);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/activate/sms',
               data: {
                 stateToken: expectedStateToken,
@@ -659,12 +631,13 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       itp('removes the sms activation form on successful activation response', function () {
         return enrollOktaPushGoCannotScanFn()
           .then(function (test) {
-            Util.resetAjaxRequests();
+            $.ajax.calls.reset();
             Expect.isVisible(test.manualSetupForm.form());
             test.manualSetupForm.setPhoneNumber('4152554668');
             test.setNextResponse(resActivatePushSms);
             test.manualSetupForm.submit();
 
+            Util.speedUpPolling(test.ac);
             test.originalAjax = Util.stallEnrollFactorPoll(test.ac, test.originalAjax);
             return Expect.waitForEnrollmentLinkSent(test);
           })
@@ -672,7 +645,6 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             Expect.isVisible(test.linkSentConfirmation.smsSentMsg());
             expect(test.linkSentConfirmation.getMsgText().indexOf('+14152554668') >= 0).toBe(true);
             test.originalAjax = Util.resumeEnrollFactorPoll(test.ac, test.originalAjax, resAllFactors);
-            Util.callAllTimeouts();
             return Expect.waitForEnrollChoices(test);
           })
           .then(function (test) {
@@ -682,7 +654,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       itp('sends email activation link request with correct params and shows confirmation', function () {
         return enrollOktaPushGoCannotScanFn()
           .then(function (test) {
-            Util.resetAjaxRequests();
+            $.ajax.calls.reset();
             Expect.isVisible(test.manualSetupForm.form());
             test.manualSetupForm.selectEmailOption();
             test.setNextResponse(resActivatePushEmail);
@@ -690,8 +662,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             return Expect.waitForEnrollmentLinkSent(test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(1);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/activate/email',
               data: {
                 stateToken: expectedStateToken
@@ -705,7 +677,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           and sends activation request with correct params on pass code submit', function () {
         return enrollOktaPushUseManualTotpFn()
           .then(function (test) {
-            Util.resetAjaxRequests();
+            $.ajax.calls.reset();
             test.manualSetupForm.nextButtonClick();
             return Expect.waitForEnterPasscodePushFlow(test);
           })
@@ -721,8 +693,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             return tick(test);
           })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(1);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors/id1234/lifecycle/activate',
               data: {
                 passCode: '1234',
@@ -735,7 +707,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       when Back link clicked on pass code step', function () {
         return enrollOktaPushUseManualTotpFn()
           .then(function (test) {
-            Util.resetAjaxRequests();
+            $.ajax.calls.reset();
             test.manualSetupForm.nextButtonClick();
             return Expect.waitForEnterPasscodePushFlow(test);
           })
@@ -748,7 +720,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             return test.manualSetupForm.waitForCountryCodeSelect(test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(0);
+            expect($.ajax.calls.count()).toBe(0);
             Expect.isVisible(test.manualSetupForm.form());
             Expect.isNotVisible(test.manualSetupForm.countryCodeSelect());
             Expect.isNotVisible(test.manualSetupForm.phoneNumberField());
@@ -766,7 +738,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             return Expect.waitForManualSetupPush(test);
           })
           .then(function (test) {
-            Util.resetAjaxRequests();
+            $.ajax.calls.reset();
             Expect.isVisible(test.manualSetupForm.form());
             test.setNextResponse(pushEnrollSuccessNewQRRes);
             Util.mockSDKCookie(test.ac);
@@ -774,8 +746,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             return Expect.waitForBarcodePush(test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(1);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn',
               data: {
                 stateToken: 'testStateToken'
@@ -882,7 +854,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       });
       itp('refreshes authStatus and goes back to scan barcode screen on "Scan barcode" link click', function () {
         return setupAndEnrollOktaTotpFn().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.scanCodeForm.clickManualSetupLink();
           return Expect.waitForManualSetupTotp(test);
         })
@@ -894,8 +866,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             return Expect.waitForBarcodeTotp(test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(1);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn',
               data: { stateToken: 'testStateToken' }
             });
@@ -958,7 +930,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       });
       itp('calls activate with the right params', function () {
         return setupAndEnrollOktaTotpFn().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.scanCodeForm.submit();
           return Expect.waitForActivateTotp(test);
         })
@@ -967,8 +939,8 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             test.passCodeForm.setCode(123456);
             test.setNextResponse(resSuccess);
             test.passCodeForm.submit();
-            expect(Util.numAjaxRequests()).toBe(1);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors/id1234/lifecycle/activate',
               data: {
                 passCode: '123456',

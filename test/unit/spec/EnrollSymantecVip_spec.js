@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 15] */
 define([
   'okta',
-  '@okta/okta-auth-js',
+  '@okta/okta-auth-js/jquery',
   'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/EnrollTokenFactorForm',
@@ -16,6 +16,7 @@ define([
 function (Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
   resAllFactors, resEnrollError, Router, resSuccess) {
 
+  var { $ } = Okta;
   var itp = Expect.itp;
 
   Expect.describe('EnrollSymantecVip', function () {
@@ -23,7 +24,7 @@ function (Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
     function setup (startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
+      var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router({
         el: $sandbox,
@@ -109,11 +110,11 @@ function (Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       });
       itp('does not send request and shows error if codes are not entered', function () {
         return setup().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.form.setCredentialId('Cred_Id');
           test.form.submit();
           expect(test.form.hasErrors()).toBe(true);
-          expect(Util.numAjaxRequests()).toBe(0);
+          expect($.ajax).not.toHaveBeenCalled();
         });
       });
       itp('shows error in case of an error response', function () {
@@ -158,14 +159,14 @@ function (Okta, OktaAuth, LoginUtil, Util, Form, Beacon, Expect, $sandbox,
       });
       itp('calls activate with the right params', function () {
         return setup().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.form.setCredentialId('Cred_Id');
           test.form.setCode(123456);
           test.form.setSecondCode(654321);
           test.setNextResponse(resSuccess);
           test.form.submit();
-          expect(Util.numAjaxRequests()).toBe(1);
-          Expect.isJsonPost(Util.getAjaxRequest(0), {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/factors',
             data: {
               factorType: 'token',

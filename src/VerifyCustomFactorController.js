@@ -57,7 +57,7 @@ function (Okta, FormController, FormType, FooterSignout, FactorUtil, HtmlErrorMe
                 Util.redirect(url);
               }
             })
-            .catch(function (err) {
+            .fail(function (err) {
               throw err;
             });
         });

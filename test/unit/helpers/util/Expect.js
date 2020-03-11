@@ -1,5 +1,3 @@
-import 'jasmine-ajax';
-
 define([
   'okta',
   'q',
@@ -17,30 +15,17 @@ define([
   var WAIT_MAX_TIME = 2000;
   var WAIT_INTERVAL = 20;
 
-  var unhandledRejectionListener = function (event) {
-    // We've thrown an unexpected error in the test - setup a fake
-    // expectation to expose it to the developer
-    expect('Unhandled promise rejection').toEqual(event.reason);
-  };
-
   function runTest (jasmineFn, desc, testFn) {
-    jasmineFn(desc, function () {
+    jasmineFn(desc, function (done) {
       var errListener = function (err) {
         // We've thrown an unexpected error in the test - setup a fake
         // expectation to expose it to the developer
         expect('Unexpected error thrown').toEqual(err.message);
       };
       window.addEventListener('error', errListener);
-      window.addEventListener('unhandledrejection', unhandledRejectionListener);
-      
-      return testFn.call(this)
+      testFn.call(this)
         .then(function () {
-          const unhandledFailures = Q.getUnhandledReasons();
-          if (unhandledFailures.length) {
-            // eslint-disable-next-line no-console
-            console.error('Unhandled Q failures: ', unhandledFailures);
-          }
-          expect(unhandledFailures).toEqual([]);
+          expect(Q.getUnhandledReasons()).toEqual([]);
           // Reset unhandled exceptions (which in the normal case come from the
           // error tests we're running) so that this array does not get
           // unreasonably large (and subsequently slow down our tests)
@@ -49,14 +34,11 @@ define([
           // back on.
           Q.resetUnhandledRejections();
           window.removeEventListener('error', errListener);
-          window.removeEventListener('unhandledrejection', unhandledRejectionListener);
-        });
+          done();
+        })
+        .done();
     });
   }
-
-  fn.allowUnhandledPromiseRejection = function () {
-    window.removeEventListener('unhandledrejection', unhandledRejectionListener);
-  };
 
   function wrapDescribe (_describe, desc, fn) {
     return _describe(desc, function () {
@@ -154,20 +136,6 @@ define([
     return fn.wait(condition, resolveValue);
   };
 
-  fn.waitForAjaxRequest = function (resolveValue) {
-    var condition = function () {
-      return jasmine.Ajax.requests.count() > 0;
-    };
-    return fn.wait(condition, resolveValue);
-  };
-
-  fn.waitForAjaxRequests = function (numRequests, resolveValue) {
-    var condition = function () {
-      return jasmine.Ajax.requests.count() === numRequests;
-    };
-    return fn.wait(condition, resolveValue);
-  };
-
   /**
    * Use this function to wait for an error view which has top level class '.okta-form-infobox-error'.
    */
@@ -247,9 +215,8 @@ define([
 
   // Convenience function to test a json post - pass in url and data, and it
   // will test the rest. Note: We JSON.stringify data here so you don't have to
-  // JSON posts are done using fetch
-  fn.isJsonPost = function (args, expected) {
-    // var args = ajaxArgs[0];
+  fn.isJsonPost = function (ajaxArgs, expected) {
+    var args = ajaxArgs[0];
 
     // Jasmine times out if args doesn't exist when we try to retrieve
     // its properties. This makes it fail faster.
@@ -258,29 +225,12 @@ define([
       return;
     }
     expect(args.url).toBe(expected.url);
-    expect(args.method).toBe('POST');
-    expect(args.requestHeaders).toEqual(jasmine.objectContaining({
-      'accept': 'application/json',
-      'content-type': 'application/json'
+    expect(args.type).toBe('POST');
+    expect(args.headers).toEqual(jasmine.objectContaining({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     }));
-    const data = args.data();
-    expect(data).toEqual(expected.data);
-  };
-
-  // Form post is done using $.post
-  fn.isFormPost = function (args, expected) {
-    if (!args) {
-      expect(args).not.toBeUndefined();
-      return;
-    }
-    expect(args.url).toBe(expected.url);
-    expect(args.method).toBe('POST');
-    expect(args.requestHeaders).toEqual(jasmine.objectContaining({
-      'Accept': '*/*',
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-    }));
-    const data = args.data();
-    expect(data).toEqual(expected.data);
+    expect(JSON.parse(args.data)).toEqual(expected.data);
   };
 
   // --------------------------------------------------------------------------

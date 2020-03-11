@@ -2,7 +2,7 @@
 define([
   'okta',
   'q',
-  '@okta/okta-auth-js',
+  '@okta/okta-auth-js/jquery',
   'util/CryptoUtil',
   'util/webauthn',
   'util/BrowserFeatures',
@@ -34,7 +34,7 @@ function (Okta,
   resEnrollActivateWebauthn,
   resSuccess) {
 
-  var { _ } = Okta;
+  var { _, $ } = Okta;
   var itp = Expect.itp;
   var testAttestationObject = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
   var testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
@@ -47,7 +47,7 @@ function (Okta,
 
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({issuer: baseUrl});
+      var authClient = new OktaAuth({url: baseUrl});
       var successSpy = jasmine.createSpy('success');
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router(_.extend({
@@ -215,12 +215,12 @@ function (Okta,
       itp('calls abort on appstate when switching to factor list after clicking enroll', function () {
         mockWebauthnSuccessRegistration(false);
         return setup().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.setNextResponse([resEnrollActivateWebauthn]);
           test.form.submit();
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         }).then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.webauthnAbortController = test.router.controller.model.webauthnAbortController;
           expect(test.webauthnAbortController).toBeDefined();
           spyOn(test.webauthnAbortController, 'abort').and.callThrough();
@@ -250,14 +250,14 @@ function (Okta,
       itp('sends enroll request after submitting the form', function () {
         mockWebauthnSuccessRegistration(true);
         return setup().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(2);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 stateToken: 'testStateToken',
@@ -271,7 +271,7 @@ function (Okta,
       itp('calls navigator.credentials.create and activates the factor', function () {
         mockWebauthnSuccessRegistration(true);
         return setup().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
@@ -307,8 +307,8 @@ function (Okta,
               },
               signal: jasmine.any(Object)
             });
-            expect(Util.numAjaxRequests()).toBe(2);
-            Expect.isJsonPost(Util.getAjaxRequest(1), {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
               data: {
                 attestation: testAttestationObject,
@@ -325,7 +325,7 @@ function (Okta,
 
         mockWebauthnFailureRegistration();
         return setup().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(navigator.credentials.create, test);

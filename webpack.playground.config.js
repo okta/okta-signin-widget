@@ -20,9 +20,6 @@ let widgetRc = {
       multiOptionalFactorEnroll: true
     },
     stateToken: 'dummy-state-token-wrc',
-    authParams: {
-      pkce: false // PKCE is enabled by default in okta-auth-js@3.0
-    },
     // Host the assets (i.e. jsonp files) locally
     assets: {
       baseUrl: '/'

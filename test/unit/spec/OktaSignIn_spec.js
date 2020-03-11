@@ -81,9 +81,9 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
         it('SIW passes all config within authParams to OktaAuth', function () {
           const authParams = {
             // known params
-            issuer: 'https://my-issuer',
+            issuer: 'my-issuer',
             authorizeUrl: 'fake-url',
-            pkce: false,
+            pkce: true,
           };
           signIn = new Widget({
             baseUrl: url,
@@ -251,7 +251,6 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
     });
 
     function setupIntrospect (responseData) {
-      spyOn(window.history, 'pushState');
       spyOn(signIn.authClient.tx, 'introspect').and.callFake(function () {
         if (responseData.status !== 200) {
           return Q.reject(responseData.response);
@@ -269,7 +268,6 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
     Expect.describe('Introspects token and loads primary auth view for old pipeline', function () {
       it('calls introspect API on page load using authjs as client', function () {
         return setupIntrospect(introspectResponse).then(function () {
-          expect(window.history.pushState.calls.argsFor(0)[2]).toBe('/signin/refresh-auth-state/00stateToken');
           expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '00stateToken'});
           expect(form.isPrimaryAuth()).toBe(true);
           var password = form.passwordField();
@@ -289,7 +287,6 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
 
       it('calls introspect API on page load and handles error using authjs as client', function () {
         return setupIntrospect(errorResponse).then(function () {
-          expect(window.history.pushState.calls.argsFor(0)[2]).toBe('/signin/refresh-auth-state/00stateToken');
           expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '00stateToken'});
           expect(form.isPrimaryAuth()).toBe(true);
           var password = form.passwordField();

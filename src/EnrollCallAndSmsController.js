@@ -132,7 +132,7 @@ define([
             return factor.enroll({
               profile: profileData
             })
-              .catch(function (error) {
+              .fail(function (error) {
                 if(error.errorCode === 'E0000098') { // E0000098: "This phone number is invalid."
                   self.set('skipPhoneValidation', true);
                   error.xhr.responseJSON.errorSummary = Okta.loc('enroll.sms.try_again', 'login');
@@ -161,7 +161,7 @@ define([
             self.set('lastEnrolledPhoneNumber', phoneNumber);
             self.limitResending();
           })
-          .catch(function () {
+          .fail(function () {
             self.set('ableToResend', true);
             self.set('trapEnrollment', false);
           });

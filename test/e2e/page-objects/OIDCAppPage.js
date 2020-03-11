@@ -19,8 +19,6 @@ class AppPage {
     this.pageEl = $('#page');
     this.idTokenUserEl = $('#idtoken_user');
     this.accessTokenTypeEl = $('#accesstoken_type');
-    this.locationSearch = $('#location_search');
-    this.locationHash = $('#location_hash');
   }
 
   getIdTokenUser () {
@@ -34,20 +32,13 @@ class AppPage {
   }
 
   getCodeFromQuery () {
-    browser.wait(EC.presenceOf(this.locationSearch));
-    return this.locationSearch.getText().then(function (search) {
-      var matches = search.match(/code=([^&]+)/i);
+    browser.wait(EC.presenceOf(this.pageEl));
+    return browser.getCurrentUrl().then(function (url) {
+      var matches = url.match(/code=([^&]+)/i);
       return matches && matches[1];
     });
   }
 
-  getCodeFromHash () {
-    browser.wait(EC.presenceOf(this.locationHash));
-    return this.locationHash.getText().then(function (hash) {
-      var matches = hash.match(/code=([^&]+)/i);
-      return matches && matches[1];
-    });
-  }
 }
 
 module.exports = AppPage;

@@ -2,7 +2,7 @@
 define([
   'q',
   'okta',
-  '@okta/okta-auth-js',
+  '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollQuestionsForm',
   'helpers/dom/Beacon',
@@ -23,14 +23,13 @@ define([
 function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, BrowserFeatures, LoginUtil,
   $sandbox, resAllFactors, resFactorEnrollAllFactors, resQuestions, resError, resSuccess, labelsLoginJa, labelsCountryJa) {
 
-  var { _ } = Okta;
+  var { _, $ } = Okta;
   var itp = Expect.itp;
 
   function setup (res, startRouter, languagesResponse) {
     var setNextResponse = Util.mockAjax();
-    var setNextJSONPResponse = Util.mockJSONP();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+    var authClient = new OktaAuth({ url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var successSpy = jasmine.createSpy('success');
     var router = new Router({
@@ -56,7 +55,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
     const enrollQuestion = (test) => {
       setNextResponse(res);
       if (languagesResponse) {
-        setNextJSONPResponse(languagesResponse);
+        setNextResponse(languagesResponse);
       }
       router.refreshAuthState('dummy-token');
       return Expect.waitForEnrollChoices(test)
@@ -187,19 +186,19 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
     });
     itp('calls enroll with the right arguments when save is clicked', function () {
       return setup(allFactors).then(function (test) {
-        Util.resetAjaxRequests();
+        $.ajax.calls.reset();
         test.form.selectQuestion('favorite_security_question');
         test.form.setAnswer('No question! Hah!');
         test.setNextResponse(resSuccess);
         spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callThrough();
         test.form.submit();
-        return Expect.waitForAjaxRequest();
+        return Expect.waitForSpyCall($.ajax);
       })
         .then(function () {
           // restrictRedirectToForeground Flag is not enabled
           expect(RouterUtil.isHostBackgroundChromeTab).not.toHaveBeenCalled();
-          expect(Util.numAjaxRequests()).toBe(1);
-          Expect.isJsonPost(Util.getAjaxRequest(0), {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/factors',
             data: {
               factorType: 'question',
@@ -217,7 +216,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
     itp('calls enroll with the right arguments when save is clicked in restrictRedirectToForeground flow', function () {
       return setup(allFactors).then(function (test) {
         test.successSpy.calls.reset();
-        Util.resetAjaxRequests();
+        $.ajax.calls.reset();
         test.form.selectQuestion('favorite_security_question');
         test.form.setAnswer('No question! Hah!');
         test.setNextResponse(resSuccess);
@@ -241,8 +240,8 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
           expect(RouterUtil.isDocumentVisible).toHaveBeenCalled();
           expect(document.removeEventListener).toHaveBeenCalled();
           expect(document.addEventListener).toHaveBeenCalled();
-          expect(Util.numAjaxRequests()).toBe(1);
-          Expect.isJsonPost(Util.getAjaxRequest(0), {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/factors',
             data: {
               factorType: 'question',
@@ -259,10 +258,10 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
 
     itp('validates answer field and errors before the request', function () {
       return setup(allFactors).then(function (test) {
-        Util.resetAjaxRequests();
+        $.ajax.calls.reset();
         test.form.submit();
         expect(test.form.hasErrors()).toBe(true);
-        expect(Util.numAjaxRequests()).toBe(0);
+        expect($.ajax).not.toHaveBeenCalled();
       });
     });
     itp('shows error if error response on enrollment', function () {

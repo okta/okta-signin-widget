@@ -1,7 +1,7 @@
 /* eslint max-params:[2, 28], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
 define([
   'q',
-  '@okta/okta-auth-js',
+  '@okta/okta-auth-js/jquery',
   'util/Util',
   'okta',
   'helpers/mocks/Util',
@@ -47,7 +47,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
 
     var setNextResponse = Util.mockAjax(requests);
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({issuer: baseUrl, pkce: false, transformErrorXHR: WidgetUtil.transformErrorXHR, headers: {}});
+    var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: WidgetUtil.transformErrorXHR, headers: {}});
     var successSpy = jasmine.createSpy('success');
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
 
@@ -627,8 +627,11 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           })
           .then(function (test) {
             expect(test.router.settings.transformUsername.calls.count()).toBe(0);
-            expect(Util.numAjaxRequests()).toBe(1);
-            expect(Util.getAjaxRequest(0).url).toBe('https://foo.com/login/getimage?username=testuser%40clouditude.net');
+            expect($.ajax.calls.count()).toBe(1);
+            expect($.ajax.calls.argsFor(0)[0]).toEqual({
+              url: 'https://foo.com/login/getimage?username=testuser%40clouditude.net',
+              dataType: 'json'
+            });
           });
       });
       itp('changs the suffix of the username', function () {
@@ -680,7 +683,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             });
           })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(0);
+            expect($.ajax.calls.count()).toBe(0);
             expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
           });
       });
@@ -698,10 +701,10 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(1);
+            expect($.ajax.calls.count()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-            var ajaxArgs = Util.getAjaxRequest(0);
-            expect(ajaxArgs.requestHeaders['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
           });
       });
       itp(`contains fingerprint header in get security image request if both features(
@@ -719,10 +722,10 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(1);
+            expect($.ajax.calls.count()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-            var ajaxArgs = Util.getAjaxRequest(0);
-            expect(ajaxArgs.requestHeaders['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
           });
       });
       itp(`does not contain fingerprint header in get security image request if deviceFingerprinting
@@ -736,10 +739,10 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(1);
+            expect($.ajax.calls.count()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
-            var ajaxArgs = Util.getAjaxRequest(0);
-            expect(ajaxArgs.requestHeaders['X-Device-Fingerprint']).toBeUndefined();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers).toBeUndefined();
           });
       });
       itp(`does not contain fingerprint header in get security image request if deviceFingerprinting
@@ -752,10 +755,10 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(1);
+            expect($.ajax.calls.count()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
-            var ajaxArgs = Util.getAjaxRequest(0);
-            expect(ajaxArgs.requestHeaders['X-Device-Fingerprint']).toBeUndefined();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers).toBeUndefined();
           });
       });
       itp('does not contain fingerprint header in get security image request if feature is disabled', function () {
@@ -767,10 +770,10 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(1);
+            expect($.ajax.calls.count()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
-            var ajaxArgs = Util.getAjaxRequest(0);
-            expect(ajaxArgs.requestHeaders['X-Device-Fingerprint']).toBeUndefined();
+            var ajaxArgs = $.ajax.calls.argsFor(0);
+            expect(ajaxArgs[0].headers).toBeUndefined();
           });
       });
     });
@@ -858,7 +861,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             });
           })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(0);
+            expect($.ajax.calls.count()).toBe(0);
           });
       });
       itp('has default security image on page load and no rememberMe', function () {
@@ -878,8 +881,11 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             return waitForBeaconChange(test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(1);
-            expect(Util.getAjaxRequest(0).url).toBe('https://foo.com/login/getimage?username=testuser%40clouditude.net');
+            expect($.ajax.calls.count()).toBe(1);
+            expect($.ajax.calls.argsFor(0)[0]).toEqual({
+              url: 'https://foo.com/login/getimage?username=testuser%40clouditude.net',
+              dataType: 'json'
+            });
             expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
             expect(test.form.accessibilityText()).toBe('a single pixel');
           });
@@ -894,7 +900,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(1);
+            expect($.ajax.calls.count()).toBe(1);
           });
       });
       itp('undefined username does not make API call', function () {
@@ -916,7 +922,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
             }, test);
           })
           .then(function (test) {
-            expect(Util.numAjaxRequests()).toBe(0);
+            expect($.ajax.calls.count()).toBe(0);
             expect(test.router.appState.get('securityImage')).toContain('/img/security/default.png');
             expect(test.router.appState.get('securityImageDescription')).toBe('');
             expect(test.form.securityBeacon()[0].className).toContain('undefined-user');
@@ -1039,7 +1045,7 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           }
         };
         return setup(options, [resSecurityImage])
-          .then(Expect.waitForAjaxRequest())
+          .then(Expect.waitForSpyCall($.ajax))
           .then(waitForSecurityBeaconLoaded)
           .then(function (test) {
             expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
@@ -1379,14 +1385,14 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
     describe('Passwordless Auth', function () {
       itp('automatically calls authClient.signIn when idp is Okta', function () {
         return setupPasswordlessAuth().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.form.setUsername('testuser@test.com');
           test.form.submit();
           return Expect.waitForMfaVerify(test);
         })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(1);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(1);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn',
               data: {
                 username: 'testuser@test.com',

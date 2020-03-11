@@ -2,7 +2,7 @@
 define([
   'q',
   'okta',
-  '@okta/okta-auth-js',
+  '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollPasswordForm',
   'helpers/dom/Beacon',
@@ -18,6 +18,7 @@ define([
 function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, LoginUtil, $sandbox,
   resAllFactors, resError, resSuccess) {
 
+  var { $ } = Okta;
   var itp = Expect.itp;
 
   Expect.describe('EnrollPassword', function () {
@@ -25,7 +26,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
     function setup (startRouter, restrictRedirectToForeground) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+      var authClient = new OktaAuth({ url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var successSpy = jasmine.createSpy('success');
       var router = new Router({
@@ -105,7 +106,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
     });
     itp('calls enroll with the right arguments when save is clicked', function () {
       return setup().then(function (test) {
-        Util.resetAjaxRequests();
+        $.ajax.calls.reset();
         test.form.setPassword('somepassword');
         test.form.setConfirmPassword('somepassword');
         test.setNextResponse(resSuccess);
@@ -116,8 +117,8 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
         .then(function () {
           // restrictRedirectToForeground Flag is not enabled
           expect(RouterUtil.isHostBackgroundChromeTab).not.toHaveBeenCalled();
-          expect(Util.numAjaxRequests()).toBe(1);
-          Expect.isJsonPost(Util.getAjaxRequest(0), {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/factors',
             data: {
               factorType: 'password',
@@ -134,7 +135,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
     itp(`calls enroll with the right arguments when save is clicked in android chrome
       in restrictRedirectToForeground flow`, function () {
       return setup(false, true).then(function (test) {
-        Util.resetAjaxRequests();
+        $.ajax.calls.reset();
         test.form.setPassword('somepassword');
         test.form.setConfirmPassword('somepassword');
         test.setNextResponse(resSuccess);
@@ -157,8 +158,8 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
           expect(RouterUtil.isDocumentVisible).toHaveBeenCalled();
           expect(document.removeEventListener).toHaveBeenCalled();
           expect(document.addEventListener).toHaveBeenCalled();
-          expect(Util.numAjaxRequests()).toBe(1);
-          Expect.isJsonPost(Util.getAjaxRequest(0), {
+          expect($.ajax.calls.count()).toBe(1);
+          Expect.isJsonPost($.ajax.calls.argsFor(0), {
             url: 'https://foo.com/api/v1/authn/factors',
             data: {
               factorType: 'password',
@@ -174,7 +175,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
 
     itp('validates password and confirmPassword cannot be empty', function () {
       return setup().then(function (test) {
-        Util.resetAjaxRequests();
+        $.ajax.calls.reset();
         test.form.submit();
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.hasPasswordFieldErrors()).toBe(true);
@@ -182,12 +183,12 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
         expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
         expect(test.form.passwordFieldErrorMessage()).toBe('This field cannot be left blank');
         expect(test.form.confirmPasswordFieldErrorMessage()).toBe('This field cannot be left blank');
-        expect(Util.numAjaxRequests()).toBe(0);
+        expect($.ajax).not.toHaveBeenCalled();
       });
     });
     itp('validates password and confirmPassword fields match and errors before the request', function () {
       return setup().then(function (test) {
-        Util.resetAjaxRequests();
+        $.ajax.calls.reset();
         test.form.setPassword('somepassword');
         test.form.setConfirmPassword('someotherpassword');
         test.form.submit();
@@ -196,7 +197,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
         expect(test.form.hasConfirmPasswordFieldErrors()).toBe(true);
         expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
         expect(test.form.confirmPasswordFieldErrorMessage()).toBe('Passwords must match');
-        expect(Util.numAjaxRequests()).toBe(0);
+        expect($.ajax).not.toHaveBeenCalled();
       });
     });
     itp('shows error if error response on enrollment', function () {

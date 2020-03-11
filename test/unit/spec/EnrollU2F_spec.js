@@ -2,7 +2,7 @@
 define([
   'okta',
   'q',
-  '@okta/okta-auth-js',
+  '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/EnrollU2FForm',
   'helpers/dom/Beacon',
@@ -27,6 +27,7 @@ function (Okta,
   resU2F,
   resEnrollActivateU2F,
   resSuccess) {
+  var { $ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -35,7 +36,7 @@ function (Okta,
     function setup (startRouter, onlyU2F) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({issuer: baseUrl});
+      var authClient = new OktaAuth({url: baseUrl});
       var successSpy = jasmine.createSpy('success');
       var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
       var router = new Router({
@@ -189,14 +190,14 @@ function (Okta,
       itp('sends enroll request after submitting the form', function () {
         mocku2fSuccessRegistration();
         return setup().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.setNextResponse([resEnrollActivateU2F, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
           .then(function () {
-            expect(Util.numAjaxRequests()).toBe(2);
-            Expect.isJsonPost(Util.getAjaxRequest(0), {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 stateToken: 'testStateToken',
@@ -210,15 +211,15 @@ function (Okta,
       itp('calls u2f.register and activates the factor', function () {
         mocku2fSuccessRegistration();
         return setup().then(function (test) {
-          Util.resetAjaxRequests();
+          $.ajax.calls.reset();
           test.setNextResponse([resEnrollActivateU2F, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
           .then(function () {
             expect(window.u2f.register).toHaveBeenCalled();
-            expect(Util.numAjaxRequests()).toBe(2);
-            Expect.isJsonPost(Util.getAjaxRequest(1), {
+            expect($.ajax.calls.count()).toBe(2);
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://test.okta.com/api/v1/authn/factors/u2fFactorId/lifecycle/activate',
               data: {
                 registrationData: 'someRegistrationData',

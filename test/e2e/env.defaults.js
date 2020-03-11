@@ -3,7 +3,6 @@ module.exports = {
   WIDGET_TEST_SERVER: '',
   WIDGET_AUTH_SERVER_ID: 'default',
   WIDGET_CLIENT_ID: 'rW47c465c1wc3MKzHznu',
-  WIDGET_IDP_FACEBOOK_ID: '0oa85bk5q6KOPeHCT0h7',
 
   // Basic user 1
   WIDGET_BASIC_USER: '',

@@ -2,53 +2,6 @@
 
 This library uses semantic versioning and follows Okta's [library version policy](https://developer.okta.com/code/library-versions/). In short, we don't make breaking changes unless the major version changes!
 
-## Migrating from 3.x to 4.x
-
-### PKCE is `true` by default
-
-For SPA OIDC applications, PKCE flow will now be used by default. Implicit flow can still be used by setting `pkce: false` in the `authParams`:
-
-```javascript
-var signIn = new OktaSignIn(
-  {
-    baseUrl: 'https://{yourOktaDomain}',
-    authParams: {
-      pkce: false
-    }
-  }
-);
-```
-
-The default `responseMode` for PKCE flow is `query`. By default, the authorization code will be returned as a query parameter, not a hash fragment. The code can be returned in a fragment by setting `responseMode` to `fragment`:
-
-```javascript
-var signIn = new OktaSignIn(
-  {
-    baseUrl: 'https://{yourOktaDomain}',
-    authParams: {
-      responseMode: 'fragment'
-    }
-  }
-);
-```
-
-### showSignInToGetTokens() options changed
-
-See [showSignInToGetTokens](README.md#showsignintogettokens) for updated documentation on this method.
-
-- getAccessToken is now `true` by default
-- `authorizationServerId` option has been removed from To specificy a custom authorization server, use `authParams.issuer`. The issuer should be specified as a full URI, not just the server ID.
-
-### @okta/okta-auth-js has been upgraded to version 3.0.0
-
-See the [okta-auth-js CHANGELOG](https://github.com/okta/okta-auth-js/blob/master/CHANGELOG.md#300) for details on all the changes.
-
-- [authClient.token.parseFromUrl()](https://github.com/okta/okta-auth-js#tokenparsefromurloptions) now returns tokens in an object hash, not an array.
-
-### Other changes
-
-- `authParams.grantType` has been removed
-
 ## Migrating From 2.x to 3.x
 
 ### Consolidated CSS Files

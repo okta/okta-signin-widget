@@ -18,7 +18,7 @@ var CONFIG = {
   idps: [
     {
       'type': 'FACEBOOK',
-      'id': '{{WIDGET_IDP_FACEBOOK_ID}}'
+      'id': '0oa85bk5q6KOPeHCT0h7'
     }
   ]
 }
@@ -61,17 +61,21 @@ function initialize(options) {
       if (res.status !== 'SUCCESS') {
         return;
       }
-      
-      var idToken = res.tokens.idToken;
-      var accessToken = res.tokens.accessToken;
 
-      if (idToken) {
-        addMessageToPage('idtoken_user', idToken.claims.name);
-      } 
-      
-      if (accessToken) {
-        addMessageToPage('accesstoken_type', accessToken.tokenType);
+      if (Array.isArray(res)) {
+        res.forEach(function(token) {
+          if (token.idToken) {
+            addMessageToPage('idtoken_user', token.claims.name);
+          } else if (token.accessToken) {
+            addMessageToPage('accesstoken_type', token.tokenType);
+          }
+        });
+      } else {
+        // Simple idToken test case will just unpack the name and add it
+        // to the page
+        addMessageToPage('idtoken_user', res.claims.name);
       }
+
     },
     function (err) {
       addMessageToPage('oidc_error', JSON.stringify(err));

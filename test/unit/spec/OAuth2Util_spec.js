@@ -4,9 +4,10 @@ define(['util/OAuth2Util'], function (Util) {
   function assertAuthParams (response, extras) {
     // Contains default key/value pairs
     var defaults = {
+      issuer: 'default',
       display: 'page',
-      responseType: ['id_token', 'token'],
-      scopes: ['email', 'openid']
+      responseMode: 'fragment',
+      responseType: ['id_token']
     };
 
     expect(response.authParams).toEqual(jasmine.objectContaining(Object.assign(defaults, extras)));
@@ -55,25 +56,29 @@ define(['util/OAuth2Util'], function (Util) {
     });
 
     describe('getResponseType', function () {
-      it('returns an array containing "id_token" and "token" by deault', function () {
+      it('returns an array containing "id_token" when getIdToken is set to true', function () {
         expect(Util.getResponseType({
-        })).toEqual(['id_token', 'token']);
-      });
-      it('returns an array containing "token" when getIdToken is set to false', function () {
-        expect(Util.getResponseType({
-          getIdToken: false
-        })).toEqual(['token']);
-      });
-      it('returns an array containing "id_token" when getAccessToken is set to false', function () {
-        expect(Util.getResponseType({
-          getAccessToken: false
+          getIdToken: true
         })).toEqual(['id_token']);
       });
-      it('returns an empty array when getAccessToken is set to false and getIdToken is false', function () {
+      it('returns an array containing "id_token" by default', function () {
+        expect(Util.getResponseType({})).toEqual(['id_token']);
+      });
+      it('returns an empty Array when getIdToken is set to false', function () {
         expect(Util.getResponseType({
-          getAccessToken: false,
           getIdToken: false
         })).toEqual([]);
+      });
+      it('returns an array containing "id_token" and "token" when getAccessToken is set to true', function () {
+        expect(Util.getResponseType({
+          getAccessToken: true
+        })).toEqual(['id_token', 'token']);
+      });
+      it('returns an array containing "token" when getAccessToken is set to true and getIdToken is false', function () {
+        expect(Util.getResponseType({
+          getAccessToken: true,
+          getIdToken: false
+        })).toEqual(['token']);
       });
     });
 
@@ -113,22 +118,32 @@ define(['util/OAuth2Util'], function (Util) {
         assertAuthParams(renderOptions, { scopes: ['foo', 'openid'] });
       });
 
-      it('updates the responseType if getAccessToken=false', function () {
+      it('updates the responseType given getAccessToken key', function () {
         var options = {
           clientId: 'foo',
-          getAccessToken: false
+          getAccessToken: true
         };
         var renderOptions = Util.transformShowSignInToGetTokensOptions(options);
-        assertAuthParams(renderOptions, { responseType: ['id_token'] });
+        assertAuthParams(renderOptions, { responseType: ['id_token', 'token'], scopes: ['openid'] });
       });
 
-      it('updates the responseType and scope if getIdToken is falsey', function () {
+      it('updates the responseType given getAccessToken is truthy and getIdToken is falsey', function () {
         var options = {
           clientId: 'foo',
+          getAccessToken: true,
           getIdToken: false
         };
         var renderOptions = Util.transformShowSignInToGetTokensOptions(options);
-        assertAuthParams(renderOptions, { responseType: ['token'], scopes: ['email'] });
+        assertAuthParams(renderOptions, { responseType: ['token'] });
+      });
+
+      it('maps the authorizationServerId key to issuer', function () {
+        var options = {
+          clientId: 'foo',
+          authorizationServerId: 'abc123'
+        };
+        var renderOptions = Util.transformShowSignInToGetTokensOptions(options);
+        assertAuthParams(renderOptions, { issuer: 'abc123' });
       });
 
       it('returns a complex object, overriding the basic Widget configuration options', function () {

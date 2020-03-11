@@ -9,10 +9,6 @@
 // grunt copy:e2e
 // - then webpack
 // yarn build:webpack-e2e-app
-//
-// To run locally, outside of tests, run
-// grunt connect:dev
-//
 
 var OktaSignIn = require('../../js/okta-sign-in.entry');
 

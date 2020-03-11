@@ -58,11 +58,11 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
             factorType: 'web'
           });
           return factor.verify(data)
-            .catch(function (err) {
+            .fail(function (err) {
             // Clean up the cookie on failure.
               throw err;
             });
-        }, true /* rethrow errors */);
+        });
       },
 
       verify: function (signedResponse) {
