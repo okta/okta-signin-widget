@@ -56,6 +56,10 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
     return /((id|access)_token=)/i.test(hash);
   };
 
+  Util.hasPKCECode = function (hashOrSearch) {
+    return /(code=)/i.test(hashOrSearch);
+  };
+
   Util.transformErrorXHR = function (xhr) {
     // Handle network connection error
     if (xhr.status === 0 && _.isEmpty(xhr.responseJSON)) {

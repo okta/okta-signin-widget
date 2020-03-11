@@ -2,7 +2,7 @@
 /*global JSON */
 define([
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'helpers/mocks/Util',
   'helpers/dom/EnrollChoicesForm',
   'helpers/dom/Beacon',
@@ -27,7 +27,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
   resMultipleOktaVerify, resMultipleWebauthn, resMultipleWebauthnProfile, resEnrolledHotp,
   resSuccess) {
 
-  var { $, _ } = Okta;
+  var { _ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
   var factorEnrollList = {
@@ -109,7 +109,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({
-        url: baseUrl
+        issuer: baseUrl
       });
       var router = new Router(_.extend({
         el: $sandbox,
@@ -566,14 +566,14 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         });
         itp('it uses the finish link to finish enrollment if Finish is clicked', function () {
           return setupWithAllOptionalSomeEnrolled().then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.setNextResponse(resAllFactors);
             test.form.submit();
             return tick();
           })
             .then(function () {
-              expect($.ajax.calls.count()).toBe(1);
-              Expect.isJsonPost($.ajax.calls.argsFor(0), {
+              expect(Util.numAjaxRequests()).toBe(1);
+              Expect.isJsonPost(Util.getAjaxRequest(0), {
                 url: 'https://foo.com/api/v1/authn/skip',
                 data: {
                   stateToken: 'testStateToken'
@@ -715,7 +715,7 @@ function (Okta, OktaAuth, Util, EnrollChoicesForm, Beacon, Expect, FactorUtil, R
         itp('redirects straight to finish link when all factors are enrolled \
           and OktaVerify softtoken factor enrolled while push is on', function () {
           return setupWithAllEnrolledButOktaVerifyPushWithSofttokenEnrolled().then(function () {
-            Expect.isJsonPost($.ajax.calls.mostRecent().args, {
+            Expect.isJsonPost(Util.lastAjaxRequest(), {
               url: 'https://foo.com/api/v1/authn/skip',
               data: {
                 stateToken: 'testStateToken'

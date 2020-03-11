@@ -20,11 +20,11 @@ var OktaSignIn = (function () {
        * When the page loads, provide a helpful message to remind the developer that
        * tokens have not been removed from the hash fragment.
        */
-      if (hasTokensInUrl()) {
+      if (this.hasTokensInUrl()) {
         Util.debugMessage(
           `
             Looks like there are still tokens in the URL! Don't forget to parse and store them.
-            See: https://github.com/okta/okta-signin-widget/#oidc-tokenparsetokensfromurlsuccess-error.
+            See: https://github.com/okta/okta-signin-widget/#hastokensinurl
           `
         );
       }
@@ -87,6 +87,12 @@ var OktaSignIn = (function () {
      * the social auth IDP redirect flow.
      */
     function hasTokensInUrl () {
+      var authParams = this.authClient.options;
+      if (authParams.pkce) {
+        return authParams.responseMode === 'fragment' ? 
+          Util.hasPKCECode(window.location.hash) :
+          Util.hasPKCECode(window.location.search);
+      }
       return Util.hasTokensInHash(window.location.hash);
     }
 
@@ -144,7 +150,6 @@ var OktaSignIn = (function () {
     var OktaAuth = require('@okta/okta-auth-js');
 
     var authParams = _.extend({
-      url: options.baseUrl,
       transformErrorXHR: Util.transformErrorXHR,
       headers: {
         'X-Okta-User-Agent-Extended': 'okta-signin-widget-' + config.version
@@ -152,6 +157,10 @@ var OktaSignIn = (function () {
       clientId: options.clientId,
       redirectUri: options.redirectUri
     }, options.authParams);
+
+    if (!authParams.issuer) {
+      authParams.issuer = options.baseUrl + '/oauth2/default';
+    }
 
     var authClient = new OktaAuth(authParams);
 

@@ -9,20 +9,29 @@ function addMessageToPage(id, msg) {
   document.body.appendChild(appNode);
 }
 
+// auto-detect responseMode
+var responseMode = 'query';
+if (window.location.hash.indexOf('code') >= 0) {
+  responseMode = 'fragment';
+}
+
 var oktaSignIn = new OktaSignIn({
   'baseUrl': '{{{WIDGET_TEST_SERVER}}}',
-  'clientId': '{{{WIDGET_CLIENT_ID}}}'
+  'clientId': '{{{WIDGET_CLIENT_ID}}}',
+  authParams: {
+    responseMode: responseMode
+  }
 });
 addMessageToPage('page', 'oidc_app');
 
 if (oktaSignIn.hasTokensInUrl()) {
+  addMessageToPage('location_hash', window.location.hash);
+  addMessageToPage('location_search', window.location.search);
   oktaSignIn.authClient.token.parseFromUrl()
     .then(function (res) {
-      var tokens = Array.isArray(res) ? res : [res];
-      for (var i = 0; i < tokens.length; ++i) {
-        if (tokens[i].idToken) {
-          addMessageToPage('idtoken_user', tokens[i].claims.name);
-        }
+      var idToken = res.tokens.idToken;
+      if (idToken) {
+        addMessageToPage('idtoken_user', idToken.claims.name);
       }
     })
     .catch(function (err) {
