@@ -10,11 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
+define([
+  'okta',
+  'views/shared/Form',
+  'views/shared/TextBox'
+], function (Okta, Form, TextBox) {
 
   var _ = Okta._;
 
-  return Okta.Form.extend({
+  return Form.extend({
     className: 'mfa-verify-totp',
     autoSave: true,
     noCancelButton: true,

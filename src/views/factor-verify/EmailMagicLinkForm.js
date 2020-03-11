@@ -10,10 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* eslint complexity: [2, 7] */
-define(['okta', 'q', 'util/Enums'], function (Okta, Q, Enums) {
+define([
+  'okta', 
+  'q', 
+  'views/shared/Form', 
+  'util/Enums'
+], function (Okta, Q, Form, Enums) {
   var _ = Okta._;
 
-  return Okta.Form.extend({
+  return Form.extend({
     layout: 'o-form-theme',
     className: 'factor-verify-magiclink',
     autoSave: true,

@@ -11,6 +11,7 @@
  */
 define([
   'okta',
+  'views/shared/Form',
   'models/RegistrationSchema',
   'models/LoginModel',
   'util/BaseLoginController',
@@ -22,6 +23,7 @@ define([
 ],
 function (
   Okta,
+  Form,
   RegistrationSchema,
   LoginModel,
   BaseLoginController,
@@ -177,14 +179,14 @@ function (
         // create model
         self.model = self.createRegistrationModel(modelProperties);
         // create form
-        var Form = Okta.Form.extend({
+        var ExtendedForm = Form.extend({
           layout: 'o-form-theme',
           autoSave: true,
           noCancelButton: true,
           title: Okta.loc('registration.form.title', 'login'),
           save: Okta.loc('registration.form.submit', 'login')
         });
-        var form = new Form(self.toJSON());
+        var form = new ExtendedForm(self.toJSON());
         // add form
         self.add(form);
         // add footer

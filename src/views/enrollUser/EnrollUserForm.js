@@ -12,10 +12,11 @@
 /* eslint max-len: [2, 130] */
 define([
   'okta',
+  'views/shared/Form',
   'util/RegistrationFormFactory',
   'models/ProfileSchema',
-], function (Okta, RegistrationFormFactory, ProfileSchema) {
-  return Okta.Form.extend({
+], function (Okta, Form, RegistrationFormFactory, ProfileSchema) {
+  return Form.extend({
     layout: 'o-form-theme',
     autoSave: true,
     noCancelButton: true,

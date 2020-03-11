@@ -13,9 +13,10 @@
 define([
   'okta',
   'q',
+  'views/shared/Form',
   'views/shared/TextBox',
   'util/Enums'
-], function (Okta, Q, TextBox, Enums) {
+], function (Okta, Q, Form, TextBox, Enums) {
 
   var subtitleTpl = Okta.tpl('({{subtitle}})');
   var _ = Okta._;
@@ -67,7 +68,7 @@ define([
     }
   }
 
-  return Okta.Form.extend({
+  return Form.extend({
     className: 'mfa-verify-passcode',
     autoSave: true,
     noCancelButton: true,

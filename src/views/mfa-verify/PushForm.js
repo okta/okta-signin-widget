@@ -12,11 +12,11 @@
 
 define([
   'okta',
-  'util/CookieUtil',
+  'views/shared/Form',
   'util/Util',
   './NumberChallengeView',
 ],
-function (Okta, CookieUtil, Util, NumberChallengeView) {
+function (Okta, Form, Util, NumberChallengeView) {
 
   var _ = Okta._;
   // deviceName is escaped on BaseForm (see BaseForm's template)
@@ -27,7 +27,7 @@ function (Okta, CookieUtil, Util, NumberChallengeView) {
                            <p>{{warning}}</p>\
                          </div>';
 
-  return Okta.Form.extend({
+  return Form.extend({
     className: 'mfa-verify-push',
     autoSave: true,
     noCancelButton: true,

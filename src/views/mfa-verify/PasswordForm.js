@@ -10,11 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
+define([
+  'okta', 
+  'views/shared/Form'
+], function (Okta, Form) {
 
   var _ = Okta._;
 
-  return Okta.Form.extend({
+  return Form.extend({
     className: 'mfa-verify-password',
     autoSave: true,
     noCancelButton: true,

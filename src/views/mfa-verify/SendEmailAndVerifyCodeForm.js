@@ -12,9 +12,10 @@
 
 define([
   'okta',
+  'views/shared/Form',
   'views/shared/TextBox',
   'views/ResendEmailView'
-], function (Okta, TextBox,  ResendEmailView) {
+], function (Okta, Form, TextBox,  ResendEmailView) {
 
   const _ = Okta._;
   const createEmailMaskElement = function () {
@@ -23,7 +24,7 @@ define([
     return {factorEmail: emailTpl({email})};
   };
 
-  const VerifyEmailCodeForm = Okta.Form.extend({
+  const VerifyEmailCodeForm = Form.extend({
     layout: 'o-form-theme',
     className: 'mfa-verify-email',
     title: _.partial(Okta.loc, 'email.mfa.title', 'login'),

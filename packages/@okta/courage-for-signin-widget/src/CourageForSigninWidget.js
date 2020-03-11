@@ -23,6 +23,10 @@ import BaseForm from '@okta/courage/src/views/forms/BaseForm';
 import Toolbar from '@okta/courage/src/views/forms/components/Toolbar';
 import FormUtil from '@okta/courage/src/views/forms/helpers/FormUtil';
 import InputRegistry from '@okta/courage/src/views/forms/helpers/InputRegistry';
+import InputContainer from '@okta/courage/src/views/forms/helpers/InputContainer';
+import InputWrapper from '@okta/courage/src/views/forms/helpers/InputWrapper';
+import InputLabel from '@okta/courage/src/views/forms/helpers/InputLabel';
+import InputFactory from '@okta/courage/src/views/forms/helpers/InputFactory';
 import SchemaFormFactory from '@okta/courage/src/views/forms/helpers/SchemaFormFactory';
 import CheckBox from '@okta/courage/src/views/forms/inputs/CheckBox';
 import PasswordBox from '@okta/courage/src/views/forms/inputs/PasswordBox';
@@ -85,6 +89,10 @@ const Okta = {
         helpers: {
           FormUtil,
           SchemaFormFactory,
+          InputContainer,
+          InputWrapper,
+          InputLabel,
+          InputFactory,
         },
 
         components: {

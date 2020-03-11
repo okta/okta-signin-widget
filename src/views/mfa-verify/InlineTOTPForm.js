@@ -10,7 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
+define([
+  'okta', 
+  'views/shared/Form', 
+  'views/shared/TextBox'
+], function (Okta, Form, TextBox) {
 
   function addInlineTotp (form) {
     form.addDivider();
@@ -51,7 +55,7 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
     form.at(1).focus();
   }
 
-  return Okta.Form.extend({
+  return Form.extend({
     autoSave: true,
     noButtonBar: true,
     scrollOnError: false,

@@ -12,15 +12,16 @@
 
 define([
   'okta',
+  'views/shared/Form',
   'views/shared/TextBox',
   'util/DeviceFingerprint',
   'util/TypingUtil',
   'util/Util'
-], function (Okta, TextBox, DeviceFingerprint, TypingUtil, Util) {
+], function (Okta, Form, TextBox, DeviceFingerprint, TypingUtil, Util) {
 
   var _ = Okta._;
 
-  return Okta.Form.extend({
+  return Form.extend({
     className: 'primary-auth-form',
     noCancelButton: true,
     attributes: { 'novalidate': 'novalidate' },

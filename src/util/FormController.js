@@ -12,17 +12,18 @@
 
 define([
   'okta',
+  'views/shared/Form',
   './FormType',
   './BaseLoginController',
   'models/BaseLoginModel'
 ],
-function (Okta, FormType, BaseLoginController, BaseLoginModel) {
+function (Okta, Form, FormType, BaseLoginController, BaseLoginModel) {
 
   var { Toolbar } = Okta.internal.views.forms.components;
   var { FormUtil } = Okta.internal.views.forms.helpers;
   var _ = Okta._;
 
-  var SimpleForm = Okta.Form.extend({
+  var SimpleForm = Form.extend({
     layout: 'o-form-theme',
     noCancelButton: true,
     constructor: function (options) {

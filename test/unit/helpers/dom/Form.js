@@ -62,27 +62,17 @@ define(['okta', './Dom'], function (Okta, Dom) {
     },
 
     error: function (field) {
-      // container holds input and error description
-      var $container = this.inputWrap(field).parent();
-      var errorId = $container.attr('aria-describedby');
+      var errorId = this.input(field).attr('aria-describedby');
       if (!errorId) {
-        throw new Error('Expected "aria-describedby" attribute for the error container on field: ' + field);
+        throw new Error('Expected "aria-describedby" attribute for the input element on field: ' + field);
       }
-      var $error = $container.find('.o-form-input-error');
+      var $error = this.inputWrap(field).siblings('.o-form-input-error');
       if ($error.length !== 1) {
         throw new Error('"o-form-input-error": Expected 1, got ' + $error.length + ' for field: ' + field);
       }    
 
       if ($error.attr('id') !== errorId) {
         throw new Error('"o-form-input-error" element should have an ID matching the "aria-describedby" attribute of the container. For field: ' + field);
-      }
-
-      // Validate accessibility on error
-      if (!$error.attr('role')) {
-        throw new Error('No "role" attribute for error on field: ' + field);
-      }
-      if ($error.attr('role') !== 'alert') {
-        throw new Error(`"role" should be "alert" (not  "${$error.attr('role')}" for error on field: ${field}`);
       }
 
       var $icon = $error.children().first();
