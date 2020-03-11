@@ -9,7 +9,11 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-define(['okta'], function (Okta) {
+
+define([
+  'okta',
+  'util/Logger'
+], function (Okta, Logger) {
 
   const { InputContainer } = Okta.internal.views.forms.helpers;
   const { _, loc, tpl } = Okta;
