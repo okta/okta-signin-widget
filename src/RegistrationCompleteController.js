@@ -44,17 +44,18 @@ function (Okta, Enums, FormController, FormType) {
           FormType.View({
             View: Okta.View.extend({
               template: '\
+              <div class="container">\
               <span class="title-icon icon icon-16 confirm-16-green"></span>\
-              <h2>{{title}}</h2>\
-              <span>{{desc}}</span>\
-              <a href="#" class="button button-primary button-wide back-btn" data-se="back-link">\
+              <h2 class="title">{{title}}</h2>\
+              <div class="desc">{{desc}}</div>\
+              </div>\
+              <a href="#" class="back-btn" data-se="back-link">\
                 {{i18n code="goback" bundle="login"}}\
               </a>\
               ',
               getTemplateData: function () {
-                var email = this.options.appState.get('username');
                 return { 
-                  'desc': Okta.loc('registration.complete.desc', 'login', [email]),
+                  'desc': Okta.loc('registration.complete.confirm.text', 'login'),
                   'title': Okta.loc('registration.complete.title', 'login')
                 };
               }
