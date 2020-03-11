@@ -123,7 +123,7 @@ describe('OIDC flows', function () {
         clientId: '{{{WIDGET_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
-          pkce: true,
+          display: 'page',
           scope: ['openid', 'email', 'profile', 'address', 'phone']
         }
       });
@@ -132,6 +132,22 @@ describe('OIDC flows', function () {
       expect(oidcApp.getCodeFromQuery()).not.toBeNull();
     });
 
+
+    it('PKCE login flow (fragment)', function () {
+      setup({
+        baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+        clientId: '{{{WIDGET_CLIENT_ID}}}',
+        redirectUri: 'http://localhost:3000/done',
+        authParams: {
+          display: 'page',
+          responseMode: 'fragment',
+          scope: ['openid', 'email', 'profile', 'address', 'phone']
+        }
+      });
+      Expect.toBeA11yCompliant();
+      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_4}}}', '{{{WIDGET_BASIC_PASSWORD_4}}}');
+      expect(oidcApp.getCodeFromHash()).not.toBeNull();
+    });
 
   });
 
