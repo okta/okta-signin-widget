@@ -4,7 +4,8 @@
   "description": "generates a Courage version for Sign-In Widget",
   "main": "src/CourageForSigninWidget.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "dev": "webpack --watch"
   },
   "devDependencies": {
     "@okta/courage": "4.6.0-beta.3045.gbd4a3b0",
