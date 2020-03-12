@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 /* eslint max-len: [2, 160] */
 define([
   'okta',
@@ -71,7 +73,7 @@ function (Okta, FormController, FormType, ScopeList) {
           FormType.View({
             View: Okta.View.extend({
               className: 'consent-title detail-row',
-              template: '\
+              template: hbs('\
                 {{#if clientURI}}\
                   <a href="{{clientURI}}" class="client-logo-link" target="_blank">\
                 {{/if}}\
@@ -84,7 +86,7 @@ function (Okta, FormController, FormType, ScopeList) {
                   </a>\
                 {{/if}}\
                 <span>{{{i18n code="consent.required.text" bundle="login" arguments="appName"}}}</span>\
-              ',
+              '),
               getTemplateData: function () {
                 var appState = this.options.appState;
                 return {
@@ -102,9 +104,9 @@ function (Okta, FormController, FormType, ScopeList) {
           FormType.View({
             View: Okta.View.extend({
               className: 'consent-description detail-row',
-              template: '\
+              template: hbs('\
                 <p>{{i18n code="consent.required.description" bundle="login"}}</p>\
-              ',
+              '),
             })
           })
         ];
@@ -112,7 +114,7 @@ function (Okta, FormController, FormType, ScopeList) {
     },
     Footer: Okta.View.extend({
       className: 'consent-footer',
-      template: '\
+      template: hbs('\
         {{#if termsOfService}}\
           <a class="terms-of-service" href="{{termsOfService}}" target="_blank">{{i18n code="consent.required.termsOfService" bundle="login"}}</a>\
           {{#if privacyPolicy}}\
@@ -122,7 +124,7 @@ function (Okta, FormController, FormType, ScopeList) {
         {{#if privacyPolicy}}\
           <a class="privacy-policy" href="{{privacyPolicy}}" target="_blank">{{i18n code="consent.required.privacyPolicy" bundle="login"}}</a>\
         {{/if}}\
-      ',
+      '),
       getTemplateData: function () {
         var appState = this.options.appState;
         return {

@@ -2,6 +2,7 @@ import { View, loc, createButton } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
+import hbs from 'handlebars-inline-precompile';
 
 const Body = BaseForm.extend({
 
@@ -12,7 +13,7 @@ const Body = BaseForm.extend({
     if (this.options.appState.hasRemediationForm('launch-authenticator')) {
       this.add(View.extend({
         className: 'sign-in-with-device-option',
-        template: `
+        template: hbs`
           <div class="okta-verify-container"></div>
           <div class="separation-line"><span>OR</span></div>
         `,

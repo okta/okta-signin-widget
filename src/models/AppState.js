@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'q',
@@ -35,7 +37,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
   var UNDEFINED_USER_IMAGE_DESCRIPTION = '';
   var UNKNOWN_IMAGE_DESCRIPTION = '';
 
-  var securityImageUrlTpl = Okta.tpl('{{baseUrl}}/login/getimage?username={{username}}');
+  var securityImageUrlTpl = hbs('{{baseUrl}}/login/getimage?username={{username}}');
 
   function getSecurityImage (baseUrl, username, deviceFingerprint) {
     // When the username is empty, we want to show the default image.

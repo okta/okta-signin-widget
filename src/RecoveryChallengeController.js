@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
 define([
   'okta',
   'util/FormController',
@@ -135,23 +136,25 @@ function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
 
       switch (recoveryType) {
       case Enums.RECOVERY_TYPE_PASSWORD:
-        sendEmailLink = '\
+        sendEmailLink = hbs('\
           <a href="#" class="link send-email-link" data-se="send-email-link">\
             {{i18n code="password.forgot.code.notReceived" bundle="login"}}\
-          </a>';
+          </a>');
         break;
       case Enums.RECOVERY_TYPE_UNLOCK:
-        sendEmailLink = '\
+        sendEmailLink = hbs('\
           <a href="#" class="link send-email-link" data-se="send-email-link">\
             {{i18n code="account.unlock.code.notReceived" bundle="login"}}\
-          </a>';
+          </a>');
         break;
       default:
         break;
       }
 
       if (sendEmailLink && this.settings.get('features.emailRecovery')) {
-        this.add(sendEmailLink);
+        this.add(Okta.View.extend({
+          template: sendEmailLink
+        }));
       }
 
       if (!this.settings.get('features.hideBackToSignInForReset')) {

@@ -9,6 +9,8 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/FormController',
@@ -46,7 +48,7 @@ function (Okta, FormController, Footer, FormType) {
             attributes: {
               'data-se': 'enroll-email-content'
             },
-            template: '{{i18n code="email.enroll.description" bundle="login"}}'
+            template: hbs('{{i18n code="email.enroll.description" bundle="login"}}')
           })
         }),
       ]

@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/CountryUtil',
@@ -26,11 +28,11 @@ function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
   var PUSH_INTERVAL = 6000;
 
   var Footer = Okta.View.extend({
-    template: '\
+    template: hbs('\
       <a href="#" class="link help js-back" data-se="back-link">\
         {{i18n code="oform.back" bundle="login"}}\
       </a>\
-    ',
+    '),
     className: 'auth-footer',
     events: {
       'click .js-back' : function (e) {
@@ -52,10 +54,10 @@ function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
     formChildren: [
       FormType.View({
         View: Okta.View.extend({
-          template: '\
+          template: hbs('\
             <p>{{i18n code="enroll.totp.enrollViaEmail.msg" bundle="login"}}</p>\
             <p class="email-address">{{email}}</p>\
-          ',
+          '),
           getTemplateData: function () {
             return {email: this.options.appState.get('userEmail')};
           }
@@ -71,10 +73,10 @@ function (Okta, CountryUtil, FormController, FormType, RouterUtil) {
     formChildren: [
       FormType.View({
         View: Okta.View.extend({
-          template: '\
+          template: hbs('\
             <p>{{i18n code="enroll.totp.enrollViaSms.msg" bundle="login"}}</p>\
             <p class="phone-number">{{phoneNumber}}</p>\
-          ',
+          '),
           getTemplateData: function () {
             return {phoneNumber: this.model.get('fullPhoneNumber')};
           }

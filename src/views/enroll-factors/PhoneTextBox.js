@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta'
 ],
@@ -20,7 +22,7 @@ function (Okta, ) {
 
   return TextBox.extend({
 
-    template: Okta.tpl('\
+    template: hbs('\
       <span class="okta-form-label-inline o-form-label-inline">{{countryCallingCode}}</span>\
       <span class="okta-form-input-field input-fix o-form-control">\
         <input type="{{type}}" placeholder="{{placeholder}}" name="{{name}}" \

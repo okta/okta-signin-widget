@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/CookieUtil',
@@ -20,12 +22,14 @@ function (Okta, CookieUtil, Util, NumberChallengeView) {
 
   var _ = Okta._;
   // deviceName is escaped on BaseForm (see BaseForm's template)
-  var titleTpl = Okta.tpl('{{factorName}} ({{{deviceName}}})');
+  var titleTpl = hbs('{{factorName}} ({{{deviceName}}})');
   var WARNING_TIMEOUT = 30000; //milliseconds
-  var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning">\
+  var warningTemplate = Okta.View.extend({
+    template: hbs('<div class="okta-form-infobox-warning infobox infobox-warning">\
                            <span class="icon warning-16"></span>\
                            <p>{{warning}}</p>\
-                         </div>';
+                         </div>')
+  });
 
   return Okta.Form.extend({
     className: 'mfa-verify-push',

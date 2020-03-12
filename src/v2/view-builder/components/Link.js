@@ -11,10 +11,11 @@
  */
 
 import { View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 
 const Link = View.extend({
 
-  template: '{{label}}',
+  template: hbs('{{label}}'),
 
   tagName: 'a',
 

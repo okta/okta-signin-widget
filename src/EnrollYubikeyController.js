@@ -9,6 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+import hbs from 'handlebars-inline-precompile';
 
 define([
   'okta',
@@ -50,7 +51,9 @@ function (Okta, FormType, FormController, Footer, TextBox) {
       className: 'enroll-yubikey',
       formChildren: [
         FormType.View({
-          View: '<div class="yubikey-demo" data-type="yubikey-example"></div>'
+          View: Okta.View.extend({
+            template: '<div class="yubikey-demo" data-type="yubikey-example"></div>'
+          })
         }),
         FormType.Input({
           name: 'passCode',

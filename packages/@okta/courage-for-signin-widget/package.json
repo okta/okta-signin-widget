@@ -8,7 +8,9 @@
   },
   "devDependencies": {
     "@okta/courage": "4.6.0-beta.3298.g75d547c",
+    "@roundingwellos/babel-plugin-handlebars-inline-precompile": "^3.0.1",
     "copy-webpack-plugin": "4.6.0",
+    "handlebars": "4.5.1",
     "webpack": "3.12.0",
     "webpack-bundle-analyzer": "3.0.2"
   }

@@ -237,7 +237,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.form.setUsername(Util.LoremIpsum);
           test.form.sendEmail();
           expect(test.form.usernameErrorField().length).toBe(1);
-          expect(test.form.usernameErrorField().text()).toBe('Please check your username');
+          expect(test.form.usernameErrorField().text().trim()).toBe('Please check your username');
         });
       });
       itp('does not send email and show error when username is all whitespace', function () {
@@ -247,7 +247,7 @@ function (Q, Okta, OktaAuth, Util, AccountRecoveryForm, PrimaryAuthForm, Beacon,
           test.form.sendEmail();
           expect($.ajax.calls.count()).toBe(0);
           expect(test.form.usernameErrorField().length).toBe(1);
-          expect(test.form.usernameErrorField().text()).toBe('This field cannot be left blank');
+          expect(test.form.usernameErrorField().text().trim()).toBe('This field cannot be left blank');
         });
       });
       itp('sends email', function () {

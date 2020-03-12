@@ -1,9 +1,10 @@
-import { loc, _, createButton } from 'okta';
+import { loc, _, createButton, View } from 'okta';
 import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
 import BaseFactorView from '../shared/BaseFactorView';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import webauthn from '../../../../util/webauthn';
+import hbs from 'handlebars-inline-precompile';
 
 const Body = BaseForm.extend({
 
@@ -22,11 +23,12 @@ const Body = BaseForm.extend({
       });
 
       schema.push({
-        View:
-            '<div class="webauthn-verify-text idx-webauthn-verify-text">\
+        View: View.extend({
+          template: hbs('<div class="webauthn-verify-text idx-webauthn-verify-text">\
               <p>{{i18n code="verify.webauthn.biometric.instructions" bundle="login"}}</p>\
               <div data-se="webauthn-waiting" class="okta-waiting-spinner"></div>\
-            </div>'
+            </div>')
+        })
       }, {
         View: retryButton,
       });

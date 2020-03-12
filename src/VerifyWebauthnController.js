@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity:[2, 10], max-params: [2, 11] */
-
+import hbs from 'handlebars-inline-precompile';
 define([
   'okta',
   'util/Errors',
@@ -150,11 +150,12 @@ function (Okta, Errors, FormController, FormType, CryptoUtil, webauthn, FooterSi
 
         if (webauthn.isNewApiAvailable()) {
           children.push(FormType.View({
-            View:
-               '<div class="webauthn-verify-text">\
+            View: Okta.View.extend({
+              template: hbs('<div class="webauthn-verify-text">\
                  <p>{{i18n code="verify.webauthn.biometric.instructions" bundle="login"}}</p>\
                  <div data-se="webauthn-waiting" class="okta-waiting-spinner"></div>\
-               </div>'
+               </div>')
+            })
           }));
         }
         else {

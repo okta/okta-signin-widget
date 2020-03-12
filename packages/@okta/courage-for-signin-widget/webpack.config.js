@@ -18,6 +18,7 @@ const EXTERNAL_PATHS = [
   'backbone',
   'underscore',
   'handlebars',
+  'handlebars/runtime',
   'okta-i18n-bundles'
 ];
 
@@ -65,6 +66,10 @@ const webpackConfig = {
         loader: 'babel-loader',
         query: {
           presets: ['env'],
+          plugins: [
+            '@roundingwellos/babel-plugin-handlebars-inline-precompile'
+          ],
+          cacheDirectory: false
         }
       },
     ]

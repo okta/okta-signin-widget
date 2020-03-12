@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/FactorUtil',
@@ -20,7 +22,7 @@ define([
 
   return Okta.View.extend({
     className: 'scan-instructions clearfix',
-    template: '\
+    template: hbs('\
       <div class="scan-instructions-details-wrapper">\
           <div class="scan-instructions-details">\
               <p>{{instructions}}</p>\
@@ -39,7 +41,7 @@ define([
             {{i18n code="enroll.totp.refreshBarcode" bundle="login"}}\
           </a>\
       </div>\
-    ',
+    '),
 
     events: {
       'click [data-type="manual-setup"]': function (e) {

@@ -9,6 +9,9 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+
+import hbs from 'handlebars-inline-precompile';
+
 /* eslint complexity: [2, 7] */
 define([
   'okta',
@@ -17,13 +20,15 @@ define([
   'util/Enums'
 ], function (Okta, Q, TextBox, Enums) {
 
-  var subtitleTpl = Okta.tpl('({{subtitle}})');
+  var subtitleTpl = hbs('({{subtitle}})');
   var _ = Okta._;
-  var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning login-timeout-warning">\
+  var warningTemplate = Okta.View.extend({
+    template: hbs('<div class="okta-form-infobox-warning infobox infobox-warning login-timeout-warning">\
                            <span class="icon warning-16"></span>\
                            <p>{{{warning}}}</p>\
                          </div>\
-                         ';
+                         ')
+  });
 
   function getFormAndButtonDetails (factorType) {
     switch(factorType) {

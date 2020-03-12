@@ -79,6 +79,11 @@ module.exports = {
     open: true,
     watchContentBase: true,
     before (app) {
+      app.use('/*', function (req, res, next){
+        res.header('Content-Security-Policy', 'script-src http://localhost:3000');
+        next();
+      });
+  
       app.get('/app/UserHome', (req, res) => {
         const respHtml = `
           <h1>Mock User Dashboard</h1>

@@ -10,10 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { createButton, View, ListView } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 
 const FactorRow = View.extend({
   className: 'enroll-factor-row clearfix',
-  template: '\
+  template: hbs('\
       <div class="enroll-factor-icon-container">\
         <div class="factor-icon enroll-factor-icon {{iconClassName}}">\
         </div>\
@@ -25,7 +26,7 @@ const FactorRow = View.extend({
         {{/if}}\
         <div class="enroll-factor-button"></div>\
       </div>\
-    ',
+    '),
   children: function (){
     return [[createButton({
       className: 'button select-factor',
@@ -57,6 +58,6 @@ export default ListView.extend({
     });
   },
 
-  template: '<div class="list-content"></div>',
+  template: hbs('<div class="list-content"></div>'),
 
 });

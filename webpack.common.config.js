@@ -28,7 +28,8 @@ module.exports = function (outputFilename) {
 
         // Vendor files from courage that are remapped in OSW to point to an npm
         // module in our package.json dependencies
-        'handlebars': 'handlebars/dist/handlebars',
+        'handlebars/runtime': 'handlebars/dist/cjs/handlebars.runtime',
+        'handlebars$': 'handlebars/dist/cjs/handlebars.runtime',
         'qtip': '@okta/qtip2/dist/jquery.qtip.min.js',
 
         'duo': 'duo_web_sdk/index.js',
@@ -59,13 +60,22 @@ module.exports = function (outputFilename) {
           loader: 'babel-loader',
           query: {
             presets: ['env'],
-            plugins: ['transform-runtime']
+            plugins: [
+              'transform-runtime',
+              '@roundingwellos/babel-plugin-handlebars-inline-precompile'
+            ],
+            cacheDirectory: false
           }
         },
         {
           test: /\.json$/,
           loader: 'json-loader'
         },
+        {
+          test: /\.js$/,
+          use: ['source-map-loader'],
+          enforce: 'pre'
+        }
       ]
     },
 

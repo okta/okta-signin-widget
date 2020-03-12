@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'views/shared/TextBox',
@@ -19,7 +21,7 @@ define([
   const _ = Okta._;
   const createEmailMaskElement = function () {
     const email = this.model.get('email');
-    const emailTpl = Okta.tpl('<span class="mask-email">{{email}}</span>');
+    const emailTpl = hbs('<span class="mask-email">{{email}}</span>');
     return {factorEmail: emailTpl({email})};
   };
 
@@ -66,7 +68,7 @@ define([
           'data-se': 'mfa-send-email-content'
         },
         className: 'mfa-send-email-content',
-        template: '{{{i18n code="email.mfa.description" bundle="login" arguments="factorEmail"}}}',
+        template: hbs('{{{i18n code="email.mfa.description" bundle="login" arguments="factorEmail"}}}'),
         getTemplateData: createEmailMaskElement,
       }));
     },
@@ -81,7 +83,7 @@ define([
         // Why use `{{{` for the description?
         // - factorEmail is actually an HTML fragment which
         //   is created via another handlebar template and used for bold the email address.
-        template: '{{{i18n code="email.mfa.email.sent.description" bundle="login" arguments="factorEmail"}}}',
+        template: hbs('{{{i18n code="email.mfa.email.sent.description" bundle="login" arguments="factorEmail"}}}'),
         getTemplateData: createEmailMaskElement,
       }));
 

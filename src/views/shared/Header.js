@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/Animations',
@@ -76,7 +78,7 @@ function (Okta, Animations, LoadingBeacon) {
 
     currentBeacon: null,
 
-    template: '\
+    template: hbs('\
       <div class="okta-sign-in-header auth-header">\
         {{#if logo}}\
         <img src="{{logo}}" class="auth-org-logo" alt="{{logoText}}"/>\
@@ -84,7 +86,7 @@ function (Okta, Animations, LoadingBeacon) {
         <div data-type="beacon-container" class="beacon-container"></div>\
       </div>\
       <div class="auth-content"><div class="auth-content-inner"></div></div>\
-    ',
+    '),
 
     // Attach a 'no-beacon' class if the security image feature
     // is not passed in to prevent the beacon from jumping.

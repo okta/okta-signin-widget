@@ -9,6 +9,9 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+
+import hbs from 'handlebars-inline-precompile';
+
 /* eslint complexity: [2, 8] */
 define([
   'okta',
@@ -24,11 +27,13 @@ define([
 
   var _ = Okta._;
   var { Keys } = Okta.internal.util;
-  var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning login-timeout-warning">\
+  var warningTemplate = Okta.View.extend({
+    template: hbs('<div class="okta-form-infobox-warning infobox infobox-warning login-timeout-warning">\
                            <span class="icon warning-16"></span>\
                            <p>{{{warning}}}</p>\
                          </div>\
-                         ';
+                         ')
+  });                    
 
   var factorIdIsDefined = {
     factorId: function (val) {
