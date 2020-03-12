@@ -25,7 +25,7 @@ define([
   var _ = Okta._;
   var { Keys } = Okta.internal.util;
   var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning login-timeout-warning">\
-                           <span class="icon warning-16"></span>\
+                           <span class="icon warning-16" aria-hidden="true"></span>\
                            <p>{{{warning}}}</p>\
                          </div>\
                          ';

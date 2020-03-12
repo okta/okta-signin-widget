@@ -59,10 +59,10 @@ define([
         }), '.enroll-factor-button']];
       }
       else if (enrolled) {
-        children.push(['<span class="icon success-16-green"></span>', '.enroll-factor-label']);
+        children.push(['<span class="icon success-16-green" aria-hidden="true"></span>', '.enroll-factor-label']);
       }
       else if (required) {
-        children.push(['<span class="icon success-16-gray"></span>', '.enroll-factor-label']);
+        children.push(['<span class="icon success-16-gray" aria-hidden="true"></span>', '.enroll-factor-label']);
       }
 
       var cardinalityText = FactorUtil.getCardinalityText(enrolled, required, cardinality);

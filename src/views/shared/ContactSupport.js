@@ -18,7 +18,7 @@ function (Okta) {
   return Okta.View.extend({
     template: '\
       <div class="infobox">\
-        <span class="icon info-16"></span>\
+        <span class="icon info-16" aria-hidden="true"></span>\
         <p>{{i18n code="contact.support" bundle="login" arguments="helpSupportNumber"}}</p>\
       </div>',
     className: 'contact-support',

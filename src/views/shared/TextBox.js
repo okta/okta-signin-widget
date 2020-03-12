@@ -22,8 +22,24 @@ define([
 function (Okta, BrowserFeatures) {
 
   var { TextBox } = Okta.internal.views.forms.inputs;
+  var { tpl } = Okta;
 
   return TextBox.extend({
+    template: tpl(
+      '\
+        {{#if params.innerTooltip}}\
+          <span class="input-tooltip icon form-help-16" aria-hidden="true"></span>\
+        {{/if}}\
+        {{#if params.icon}}\
+          <span class="icon input-icon {{params.icon}}" aria-hidden="true"></span>\
+        {{/if}}\
+        <input type="{{type}}" placeholder="{{placeholder}}" name="{{name}}" id="{{inputId}}"\
+         value="{{value}}" aria-label="{{placeholder}}" autocomplete="off"/>\
+        {{#if params.iconDivider}}\
+          <span class="input-icon-divider"></span>\
+        {{/if}}\
+        '
+    ),
     postRender: function () {
       if (this.options.type === 'number') {
         var input = this.$('input');

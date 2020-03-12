@@ -17,7 +17,7 @@ function (Okta) {
 
   // Have to be unescaped for the html in enroll.windowsHello.error.notConfiguredHtml
   var template = '\
-    <span class="icon error-24"></span>\
+    <span class="icon error-24" aria-hidden="true"></span>\
     <h4><strong>{{{message}}}</strong></h4>\
   ';
 

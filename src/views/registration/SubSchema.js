@@ -22,7 +22,7 @@ define(['okta'], function (Okta) {
     },
     template: '\
       <p class="default-schema">\
-        <span class="icon icon-16"/>\
+        <span class="icon icon-16" aria-hidden="true"/>\
         {{message}}\
       </p>\
     ',
