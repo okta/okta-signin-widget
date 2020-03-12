@@ -11,7 +11,7 @@
  */
 
 /* global u2f */
-
+import hbs from 'handlebars-inline-precompile';
 define([
   'okta',
   'util/Errors',
@@ -147,12 +147,14 @@ function (Okta, Errors, FormController, FormType, FooterSignout, Q, FactorUtil, 
         }
         else {
           result.push(FormType.View({
-            View: '\
+            View: Okta.View.extend({
+              template: hbs('\
             <div class="u2f-verify-text">\
               <p>{{i18n code="verify.u2f.instructions" bundle="login"}}</p>\
               <p>{{i18n code="verify.u2f.instructionsBluetooth" bundle="login"}}</p>\
               <div data-se="u2f-waiting" class="okta-waiting-spinner"></div>\
-            </div>'
+            </div>')
+            })
           }));
         }
 

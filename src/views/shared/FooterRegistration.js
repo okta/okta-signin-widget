@@ -10,17 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta'
 ], function (Okta) {
 
   return Okta.View.extend({
-    template: '\
+    template: hbs('\
         <div class="content-container">\
           <span class="registration-label">{{label}}</span>\
           <a title="{{text}}" aria-label="{{text}}" class="registration-link" href="#">{{text}}</a>\
         </div>\
-        ',
+        '),
     className: 'registration-container',
 
     events: {

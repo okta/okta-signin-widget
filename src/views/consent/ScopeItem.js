@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'qtip'
@@ -17,14 +19,14 @@ define([
 
   return Okta.View.extend({
     className: 'scope-item',
-    template: '\
+    template: hbs('\
       <div class="scope-item-text">\
         <p>{{name}}</p>\
       </div>\
       {{#if description}}\
         <span class="scope-item-tooltip icon form-help-16" />\
       {{/if}}\
-    ',
+    '),
 
     postRender: function () {
       this.$('.scope-item-tooltip').qtip({

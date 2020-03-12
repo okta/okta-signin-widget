@@ -10,10 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { ListView, View, createButton, loc } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
-  template: '\
+  template: hbs('\
         <div class="authenticator-icon-container">\
           <div class="factor-icon authenticator-icon {{iconClassName}}">\
           </div>\
@@ -22,7 +23,7 @@ const AuthenticatorRow = View.extend({
           <h3 class="authenticator-label">{{label}}</h3>\
           <div class="authenticator-button"></div>\
         </div>\
-      ',
+      '),
   children: function (){
     return [[createButton({
       className: 'button select-factor',
@@ -54,6 +55,6 @@ export default ListView.extend({
     });
   },
 
-  template: '<div class="list-content"> </div>',
+  template: hbs`<div class="list-content"> </div>`,
 
 });
