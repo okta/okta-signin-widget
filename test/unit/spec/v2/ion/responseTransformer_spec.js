@@ -1,7 +1,5 @@
 import transformResponse from 'v2/ion/responseTransformer';
 import XHRFactorRequiredEmail from '../../../helpers/xhr/v2/FACTOR_REQUIRED_EMAIL';
-import XHRFactorVerificationRequiredEmail from '../../../helpers/xhr/v2/FACTOR_VERIFICATION_REQUIRED_EMAIL';
-import XHRTerminalTransfered from '../../../helpers/xhr/v2/TERMINAL_TRANSFERED';
 
 describe('v2/ion/responseTransformer', function () {
   it('returns result when invokes with invalid resp', () => {
@@ -9,229 +7,419 @@ describe('v2/ion/responseTransformer', function () {
     expect(transformResponse('hello')).toBeNull();
   });
 
-  it('converts factor require email', () => {
-    const result = transformResponse(XHRFactorRequiredEmail.response);
-    expect(result).toEqual({
-      'factor': {
-        'id': 'emf1axecbKovLJPWl0g4',
-        'factorType': 'email',
-        'provider': 'OKTA',
-        'vendorName': 'OKTA',
-        'profile': {
-          'email': 'e...a@rain.com'
-        }
-      },
-      'user': {
-        'id': 'I9bvFiq01cRFgbn',
-        'passwordChanged': '2019-05-03T19:00:00.000Z',
-        'profile': {
-          'login': 'foo@example.com',
-          'firstName': 'Foo',
-          'lastName': 'Bar',
-          'locale': 'en-us',
-          'timeZone': 'UTC'
-        }
-      },
-      'currentState': {
-        'version': '1.0.0',
-        'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
-        'expiresAt': '2018-09-17T23:08:56.000Z',
-        'step': 'FACTOR_REQUIRED',
-        'intent': 'login',
-        'submit-factor': jasmine.any(Function),
-        'cancel': jasmine.any(Function),
-        'context': jasmine.any(Function),
-        'remediation': [
+  it('converts factor required email idx object', () => {
+    const idxObjectFactorRequiredEmail  = {
+      'proceed': jasmine.any(Function),
+      'neededToProceed':{
+        'challenge-factor':[
           {
-            'name': 'submit-factor',
-            'href': 'http://localhost:3000/idp/idx/',
-            'value': [
+            'name':'credentials',
+            'form':{
+              'value':[
+                {
+                  'name':'passcode',
+                  'label':'One-time verification code',
+                  'secret':true,
+                  'method':'post'
+                }
+              ],
+              'method':'post'
+            },
+            'method':'post'
+          }
+        ],
+        'select-factor':[
+          {
+            'name':'factorId',
+            'type':'set',
+            'options':[
               {
-                'name': 'email',
-                'placeholder': 'Enter code',
-                'required': true,
-                'type': 'text'
+                'label':'Password',
+                'value':'00u2j17ObFUsbGfLg0g4',
+                'method':'options'
+              },
+              {
+                'label':'Email',
+                'value':'emf2j1ccd6CF4IWFY0g3',
+                'method':'options'
               }
-            ]
+            ],
+            'method':'post'
           }
         ]
       },
-      __rawResponse: XHRFactorRequiredEmail.response,
-    });
-
-    expect(result.currentState['submit-factor']()).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
-    expect(result.currentState['submit-factor']({foo: 'bar'})).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
-        foo: 'bar',
-      }
-    });
-
-    expect(result.currentState['cancel']()).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/cancel',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
-    // cancel doesn't take additional data for http request
-    expect(result.currentState['cancel']({ foo: 'bar' })).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/cancel',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
-    expect(result.currentState['context']()).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/context',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
-    // context doesn't take additional data for http request
-    expect(result.currentState['context']({ foo: 'bar' })).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/context',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-  });
-
-  it('converts factor verification require email', () => {
-    const result = transformResponse(XHRFactorVerificationRequiredEmail.response);
-    expect(result).toEqual({
-      'factor': {
-        'factorType': 'email',
-        'provider': 'okta',
-        'profile': {
-          'email': 'o*****m@abbott.dev'
+      'actions':{
+        'factor-resend': {},
+        'factor-poll': {},
+        'cancel': {},
+      },
+      'context':{
+        'stateHandle':'02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
+        'version':'1.0.0',
+        'expiresAt':'2019-09-30T22:19:25.000Z',
+        'step':'AUTHENTICATE',
+        'intent':'LOGIN',
+        'factors':{
+          'type':'array',
+          'value':[
+            {
+              'factorType':'password',
+              'factorProfileId':'00u2j17ObFUsbGfLg0g4'
+            },
+            {
+              'factorType':'email',
+              'factorProfileId':'emf2j1ccd6CF4IWFY0g3'
+            }
+          ]
         },
-        'poll': jasmine.any(Function),
-        'resend': jasmine.any(Function),
-      },
-      'user': {
-        'id': 'I9bvFiq01cRFgbn',
-        'passwordChanged': '2019-05-03T19:00:00.000Z',
-        'profile': {
-          'login': 'foo@example.com',
-          'firstName': 'Foo',
-          'lastName': 'Bar',
-          'locale': 'en-us',
-          'timeZone': 'UTC'
+        'factor':{
+          'type':'object',
+          'value':{
+            'factorType':'email',
+            'factorProfileId':'emf1axecbKovLJPWl0g4',
+            'factorId':'emfv6q1VxHR52T9az0g3',
+            'profile':{
+              'email':'inca@clouditude.net'
+            }
+          }
+        },
+        'user':{
+          'type':'object',
+          'value':{
+            'id':'00usip1dptbE7NiLa0g3'
+          }
         }
       },
-      'currentState': {
-        'version': '1.0.0',
-        'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
-        'expiresAt': '2018-09-17T23:08:56.000Z',
-        'step': 'FACTOR_VERIFICATION_REQUIRED',
-        'intent': 'login',
-        'cancel': jasmine.any(Function),
-        'context': jasmine.any(Function),
-        'otp': jasmine.any(Function),
-        'remediation': [
+
+      'rawIdxState':{
+        'stateHandle':'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw',
+        'version':'1.0.0',
+        'expiresAt':'2020-03-16T21:00:26.000Z',
+        'step':'IDENTIFY',
+        'intent':'LOGIN',
+        'remediation':{
+          'type':'array',
+          'value':[
+            {
+              'rel':[
+                'create-form'
+              ],
+              'name':'identify',
+              'href':'http://rain.okta1.com:1802/idp/idx/identify',
+              'method':'POST',
+              'accepts':'application/vnd.okta.v1+json',
+              'value':[
+                {
+                  'name':'identifier',
+                  'label':'Username'
+                },
+                {
+                  'name':'stateHandle',
+                  'required':true,
+                  'value':'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw',
+                  'visible':false,
+                  'mutable':false
+                }
+              ]
+            },
+            {
+              'rel':[
+                'create-form'
+              ],
+              'name':'select-enroll-profile',
+              'href':'http://rain.okta1.com:1802/idp/idx/enroll',
+              'method':'POST',
+              'accepts':'application/vnd.okta.v1+json',
+              'value':[
+                {
+                  'name':'stateHandle',
+                  'required':true,
+                  'value':'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw',
+                  'visible':false,
+                  'mutable':false
+                }
+              ]
+            }
+          ]
+        },
+        'cancel':{
+          'rel':[
+            'create-form'
+          ],
+          'name':'cancel',
+          'href':'http://rain.okta1.com:1802/idp/idx/cancel',
+          'method':'POST',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'stateHandle',
+              'required':true,
+              'value':'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw',
+              'visible':false,
+              'mutable':false
+            }
+          ]
+        },
+        'context':{
+          'rel':[
+            'create-form'
+          ],
+          'name':'context',
+          'href':'http://rain.okta1.com:1802/idp/idx/context',
+          'method':'POST',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'stateHandle',
+              'required':true,
+              'value':'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw',
+              'visible':false,
+              'mutable':false
+            }
+          ]
+        }
+      }
+    };
+    const rawFactorRequiredEmailResponse = XHRFactorRequiredEmail.response;
+    const result = transformResponse(idxObjectFactorRequiredEmail);
+    expect(result).toEqual({
+      'proceed': jasmine.any(Function),
+      'neededToProceed':{
+        'challenge-factor':[
           {
-            'name': 'otp',
-            'href': 'http://localhost:3000/idp/idx/',
-            'value': [
+            'name':'credentials',
+            'form':{
+              'value':[
+                {
+                  'name':'passcode',
+                  'label':'One-time verification code',
+                  'secret':true,
+                  'method':'post'
+                }
+              ],
+              'method':'post'
+            },
+            'method':'post'
+          }
+        ],
+        'select-factor':[
+          {
+            'name':'factorId',
+            'type':'set',
+            'options':[
               {
-                'name': 'otp',
-                'label': 'Passcode',
-                'minLength': 4
+                'label':'Password',
+                'value':'00u2j17ObFUsbGfLg0g4',
+                'method':'options'
+              },
+              {
+                'label':'Email',
+                'value':'emf2j1ccd6CF4IWFY0g3',
+                'method':'options'
               }
-            ]
+            ],
+            'method':'post'
           }
         ]
       },
-      __rawResponse: XHRFactorVerificationRequiredEmail.response,
+      'actions':{
+        'factor-resend':{},
+        'factor-poll':{},
+        'cancel':{}
+      },
+      'context':{
+        'stateHandle':'02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
+        'version':'1.0.0',
+        'expiresAt':'2019-09-30T22:19:25.000Z',
+        'step':'AUTHENTICATE',
+        'intent':'LOGIN',
+        'factors':{
+          'type':'array',
+          'value':[
+            {
+              'factorType':'password',
+              'factorProfileId':'00u2j17ObFUsbGfLg0g4'
+            },
+            {
+              'factorType':'email',
+              'factorProfileId':'emf2j1ccd6CF4IWFY0g3'
+            }
+          ]
+        },
+        'factor':{
+          'type':'object',
+          'value':{
+            'factorType':'email',
+            'factorProfileId':'emf1axecbKovLJPWl0g4',
+            'factorId':'emfv6q1VxHR52T9az0g3',
+            'profile':{
+              'email':'inca@clouditude.net'
+            }
+          }
+        },
+        'user':{
+          'type':'object',
+          'value':{
+            'id':'00usip1dptbE7NiLa0g3'
+          }
+        }
+      },
+      'rawIdxState':rawFactorRequiredEmailResponse
     });
-
-    expect(result.factor['resend']()).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/resend',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
-    expect(result.factor['poll']()).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/poll',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
-    expect(result.factor['poll']({foo: 'bar'})).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/poll',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
-      }
-    });
-
-    expect(result.currentState['cancel']()).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/cancel',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
-    // cancel doesn't take additional data for http request
-    expect(result.currentState['cancel']({ foo: 'bar' })).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/cancel',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
-    expect(result.currentState['context']()).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/context',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
-    // context doesn't take additional data for http request
-    expect(result.currentState['context']({ foo: 'bar' })).toEqual({
-      method: 'POST',
-      url: 'http://localhost:3000/idp/idx/context',
-      data: {
-        stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-      }
-    });
-
   });
 
   it('converts terminal transfered', () => {
-    const result = transformResponse(XHRTerminalTransfered.response);
+    const idxObjectTerminalTransfered  = {
+      'proceed': jasmine.any(Function),
+      'neededToProceed':{
+      },
+      'actions':{
+      },
+      'context':{
+        'version':'1.0.0',
+        'stateHandle':'01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+        'terminal':{
+          'type':'object',
+          'value':{
+            'name':'terminal-transfered',
+            'message':{
+              'message':'Flow continued in a new tab.',
+              'i18n':{
+                'key':'idx.session.expired',
+                'params':[
+     
+                ]
+              }
+            }
+          }
+        },
+        'factor':{
+          'type':'object',
+          'value':{
+            'factorType':'email',
+            'provider':'okta',
+            'profile':{
+              'email':'o*****m@abbott.dev'
+            }
+          }
+        }
+      },
+      'rawIdxState': {
+        'version':'1.0.0',
+        'stateHandle':'01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+        'terminal':{
+          'type':'object',
+          'value':{
+            'name':'terminal-transfered',
+            'message':{
+              'message':'Flow continued in a new tab.',
+              'i18n':{
+                'key':'idx.session.expired',
+                'params':[
+    
+                ]
+              }
+            }
+          }
+        },
+        'factor':{
+          'type':'object',
+          'value':{
+            'factorType':'email',
+            'provider':'okta',
+            'profile':{
+              'email':'o*****m@abbott.dev'
+            }
+          }
+        }
+      }
+    };
+    const result = transformResponse(idxObjectTerminalTransfered);
     expect(result).toEqual({
-      'terminal': {
-        'name': 'terminal-transfered',
-        'message': 'Flow continued in a new tab.',
+      'terminal':{
+        'name':'terminal-transfered',
+        'message':{
+          'message':'Flow continued in a new tab.',
+          'i18n':{
+            'key':'idx.session.expired',
+            'params':[
+   
+            ]
+          }
+        }
       },
-      'currentState': {
-        'version': '1.0.0',
-        'remediation': [],
+      'factor':{
+        'factorType':'email',
+        'provider':'okta',
+        'profile':{
+          'email':'o*****m@abbott.dev'
+        }
       },
-      __rawResponse: XHRTerminalTransfered.response,
+      'proceed': jasmine.any(Function),
+      'neededToProceed':{
+   
+      },
+      'actions':{
+   
+      },
+      'context':{
+        'version':'1.0.0',
+        'stateHandle':'01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+        'terminal':{
+          'type':'object',
+          'value':{
+            'name':'terminal-transfered',
+            'message':{
+              'message':'Flow continued in a new tab.',
+              'i18n':{
+                'key':'idx.session.expired',
+                'params':[
+   
+                ]
+              }
+            }
+          }
+        },
+        'factor':{
+          'type':'object',
+          'value':{
+            'factorType':'email',
+            'provider':'okta',
+            'profile':{
+              'email':'o*****m@abbott.dev'
+            }
+          }
+        }
+      },
+      'rawIdxState':{
+        'version':'1.0.0',
+        'stateHandle':'01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+        'terminal':{
+          'type':'object',
+          'value':{
+            'name':'terminal-transfered',
+            'message':{
+              'message':'Flow continued in a new tab.',
+              'i18n':{
+                'key':'idx.session.expired',
+                'params':[
+   
+                ]
+              }
+            }
+          }
+        },
+        'factor':{
+          'type':'object',
+          'value':{
+            'factorType':'email',
+            'provider':'okta',
+            'profile':{
+              'email':'o*****m@abbott.dev'
+            }
+          }
+        }
+      }
     });
   });
 });

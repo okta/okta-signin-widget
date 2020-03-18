@@ -93,10 +93,30 @@ const createUISchema = (remediationValue = [], factors = []) => {
  * @param {AuthResult} transformedResp (after `actionsTransformer`)
  */
 const insertUISchema = (transformedResp) => {
-  if (transformedResp.currentState) {
-    const remediation = transformedResp.currentState.remediation || [];
+  if (transformedResp) {
     const factors = transformedResp.factors && transformedResp.factors.value || [];
-    transformedResp.currentState.remediation = remediation.map(obj => {
+    const remediationValues = [];
+    // handle success case
+    if (_.isEmpty(transformedResp.neededToProceed) && transformedResp.context.success) {
+      remediationValues.push({
+        name: transformedResp.context.success.name,
+        href: transformedResp.context.success.href,
+        value: []
+      });
+    }
+    _.each(transformedResp.neededToProceed, (value, key) => {
+      if (value && value.length) {
+        remediationValues.push({
+          value: value,
+          name: key,
+        });
+      } else {
+        remediationValues.push(_.omit(transformedResp.rawIdxState.remediation.value[0], 'rel', 'method', 'value'));
+      }
+    });
+
+    transformedResp.remediations = [];
+    transformedResp.remediations = remediationValues.map(obj => {
       obj.uiSchema = createUISchema(obj.value, factors);
       return obj;
     });
