@@ -14,11 +14,11 @@ const Body = BaseForm.extend({
 
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
-    const method = this.options.appState.get('__rawResponse').remediation.value
-      .filter(v => v.name === 'device-apple-sso-extension')[0].method;
+    // const method = this.options.appState.get('__rawResponse').remediation.value
+    //   .filter(v => v.name === 'device-apple-sso-extension')[0].method;
     // if (method === 'post') {
-      this.add('<div class="spinner"></div>');
-      this.options.appState.trigger('saveForm', this.model);
+    this.add('<div class="spinner"></div>');
+    this.options.appState.trigger('saveForm', this.model);
     // } else {
     //   Util.redirectWithFormGet(this.options.currentViewState.href);
     // }

@@ -7692,7 +7692,7 @@ var generateDirectFetch = function generateDirectFetch(actionDefinition) {
                 .then(function (response) {
                   var respJson = response.json();
 
-                  if (response.headers.get('Access-Control-Allow-Credentials')) {
+                  if (response.ok || response.headers.get('www-authenticate')) {
                     return respJson;
                   }
 
@@ -8007,12 +8007,11 @@ function () {
 
           case 7:
             idxResponse = _context.sent;
-            console.log('======----=========');
             idxState = Object(_makeIdxState__WEBPACK_IMPORTED_MODULE_4__["default"])(idxResponse);
             console.debug();
             return _context.abrupt("return", idxState);
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
@@ -8165,20 +8164,19 @@ var makeIdxState = function makeIdxState(idxResponse) {
           switch (_context2.prev = _context2.next) {
             case 0:
               paramsFromUser = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
-              console.log('entering proceed');
 
               if (remediations[remediationChoice]) {
-                _context2.next = 5;
+                _context2.next = 4;
                 break;
               }
 
               console.log("Unknown remediation choice: [".concat(remediationChoice, "]"));
               return _context2.abrupt("return", _babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_1___default.a.reject("Unknown remediation choice: [".concat(remediationChoice, "]")));
 
-            case 5:
+            case 4:
               return _context2.abrupt("return", remediations[remediationChoice](paramsFromUser));
 
-            case 6:
+            case 5:
             case "end":
               return _context2.stop();
           }
