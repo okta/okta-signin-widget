@@ -129,8 +129,12 @@ export default Model.extend({
         uiSchema: [],
       };
     }
-
+    //clear appState before setting new values
+    this.clear({silent: true});
+    // set new app state properties
     this.set(resp);
+    // reset idx
+    this.set('idx', idx);
     this.set('__previousResponse', idx.rawIdxState);
 
     // broadcast idxResponseUpdated to re-render the view

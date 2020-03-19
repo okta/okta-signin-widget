@@ -58,8 +58,8 @@ const convertObjectType = (resp) => {
 
 /**
  *
- * @param {AuthnResponse} resp authn v2 response
- * @returns {AuthnResult} transformed result
+ * @param {idx} idx object
+ * @returns {idx} transformed idx object with firstlevel objects
  */
 const convert = (idx) => {
   if (!isObject(idx && idx.rawIdxState)) {
