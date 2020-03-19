@@ -46,7 +46,7 @@ var OktaSignIn = (function () {
             }
             router.appState.set('introspectSuccess', response);
             router.start();
-          }, this)).fail(_.bind(function (err) {
+          }, this)).catch(_.bind(function (err) {
           // Introspect API error.
           // Incase of an error we want to just load the LoginRouter
             router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);

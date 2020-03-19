@@ -92,7 +92,7 @@ function (Okta, Duo, Q, FactorUtil, FormController, Enums, FormType, FooterSigno
               return transaction.poll(data);
             });
           })
-          .fail(function (err) {
+          .catch(function (err) {
             self.trigger('error', self, err.xhr);
           });
       }

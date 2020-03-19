@@ -26,6 +26,7 @@ function (Okta, Q, Enums) {
   ];
 
   return Okta.Model.extend({
+    // May return either a "standard" promise or a Q promise
     doTransaction: function (fn, rethrow) {
       var self = this;
       return fn.call(this, this.appState.get('transaction'))
