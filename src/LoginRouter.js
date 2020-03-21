@@ -64,7 +64,8 @@ define([
   'EnrollUserController',
   'views/shared/SecurityBeacon',
   'views/shared/FactorBeacon',
-  'views/shared/PIVBeacon'
+  'views/shared/PIVBeacon',
+  'PollController',
 ],
 function (BaseLoginRouter,
   IDPDiscoveryController,
@@ -118,7 +119,8 @@ function (BaseLoginRouter,
   EnrollUserController,
   SecurityBeacon,
   FactorBeacon,
-  PIVBeacon) {
+  PIVBeacon,
+  PollController) {
   return BaseLoginRouter.extend({
 
     routes: {
@@ -126,6 +128,7 @@ function (BaseLoginRouter,
       'signin': 'primaryAuth',
       'signin/verify/duo/web': 'verifyDuo',
       'signin/verify/piv': 'verifyPIV',
+      'signin/poll': 'poll',
       'signin/verify/fido/webauthn': 'verifyWebauthn',
       'signin/verify/webauthn': 'verifyWebauthn',
       'signin/verify/fido/u2f': 'verifyU2F',
@@ -218,6 +221,10 @@ function (BaseLoginRouter,
 
     verifyPIV: function () {
       this.render(VerifyPIVController, { Beacon: PIVBeacon });
+    },
+
+    poll: function () {
+      this.render(PollController);
     },
 
     verifyWebauthn: function () {
