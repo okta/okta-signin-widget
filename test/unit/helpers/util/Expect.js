@@ -287,6 +287,7 @@ define([
     VerifyCustomFactor: 'verify-custom-factor',
     EnrollUser: 'enroll-user',
     VerifyPIV: 'piv-cac-card',
+    Poll: 'poll',
   };
 
   _.each(controllerClasses, function (className, controller) {
