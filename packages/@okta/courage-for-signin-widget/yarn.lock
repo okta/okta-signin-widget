@@ -2,17 +2,16 @@
 # yarn lockfile v1
 
 
-"@okta/courage@4.6.0-beta.3045.gbd4a3b0":
-  version "4.6.0-beta.3045.gbd4a3b0"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.6.0-beta.3045+bd4a3b0.tgz#3809b4ce49e419587420f159712e1debec13f729"
-  integrity sha1-OAm0zknkGVh0IPFZcS4d6+wT9yk=
+"@okta/courage@4.6.0-beta.3298.g75d547c":
+  version "4.6.0-beta.3298.g75d547c"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/courage/-/@okta/courage-4.6.0-beta.3298+75d547c.tgz#1b138d8b3e03a7890eceec0679c12d3c3e93c4cc"
+  integrity sha1-GxONiz4Dp4kOzuwGecEtPD6TxMw=
   dependencies:
     "@okta/jquery.simplemodal" "1.4.18"
     "@okta/moment" "1.0.5"
     backbone "^1.3.3"
     clipboard "^1.5.16"
     handlebars "2.0.0"
-    mixpanel-browser "^2.18.0"
     selectize "0.12.4"
     underscore "1.8.3"
 
@@ -1727,10 +1726,6 @@ mixin-deep@^1.2.0:
   dependencies:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
-
-mixpanel-browser@^2.18.0:
-  version "2.29.0"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/mixpanel-browser/-/mixpanel-browser-2.29.0.tgz#07c8e25d289de308acff67971e6b393451f65e77"
 
 mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0:
   version "0.5.1"
