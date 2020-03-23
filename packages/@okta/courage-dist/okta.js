@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.3045.gbd4a3b0 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.3298.g75d547c */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -4658,7 +4658,8 @@ function fixChosenModal($select) {
       this.$select.chosen({
         width: width,
         disable_search_threshold: searchThreshold, //eslint-disable-line camelcase
-        placeholder_text: this.options['placeholder'] //eslint-disable-line camelcase
+        placeholder_text: this.options['placeholder'], //eslint-disable-line camelcase
+        search_contains: true //eslint-disable-line camelcase
       });
       fixChosenModal(this.$select);
 
@@ -6725,7 +6726,7 @@ const disabledEvents = {
 };
 
 /**
- * A configurable button.
+ * A configurable button
  * @class module:Okta.internal.views.components.BaseButtonLink
  * @extends module:Okta.View
  * @example
@@ -7461,6 +7462,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      */
   addItem: function (model) {
     var view = this.add(this.item, this.itemSelector, {options: {model: model}}).last();
+    if (this.state && this.state.get('trackItemAdded')) {
+      this.state.trigger('itemAdded', view);
+    }
     view.listenTo(model, 'destroy remove', view.remove);
     return this;
   },
@@ -8443,7 +8447,7 @@ const getErrorSummary = function (responseJSON = {}) {
      * @param {Object} options Options to describe the input
      * @param {String} options.type The input type.
      * The options are: `text`, `textarea`, `select`, `checkbox`, `radio`, `switch`,
-     * `password`, `number`, `textselect`, `date`, `grouppicker`, `su-orgspicker`
+     * `password`, `number`, `textselect`, `date`, `grouppicker`, `admingrouppicker`, `su-orgspicker`
      * `file/image`, `file/cert`, `checkboxset`, `list`, `group`, `zonepicker`
      * @param {String} options.name The name of the model field this input mutates
      * @param {String|Function} [options.label]
@@ -8557,7 +8561,7 @@ const getErrorSummary = function (responseJSON = {}) {
       inputWrapper.add(this._createContainer(options));
       inputWrapper.type = options.type || options.input.type || 'custom';
 
-      const args = [inputWrapper].concat(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].drop(arguments, 1));
+      const args = [inputWrapper].concat(__WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__["default"].rest(arguments));
 
       return this.add.apply(this, args);
     },
@@ -11024,8 +11028,8 @@ const template = __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__["default"].tpl
         <input type="text" class="o-form-text" name="{{key}}" id="{{key}}" value="{{value}}" \
         placeholder="{{placeholder}}"/>\
       </span>\
-      <a href="#" class="link-button link-button-icon icon-only clear-input-16">\
-        <span class="icon "></span>\
+      <a href="#" class="link-button link-button-icon icon-only">\
+        <span class="icon clear-input-16 "></span>\
       </a>\
     </div>\
     <p class="o-form-input-error o-form-explain">\
