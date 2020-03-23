@@ -61,7 +61,7 @@ async function setupLoopbackFallback(t) {
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)(`in loopback server approach, probing and polling requests are sent and responded`, async t => {
     const deviceChallengePollPageObject = await setupLoopbackSuccess(t);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign In');
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Signing in using Okta FastPass');
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect|6512/)
@@ -87,7 +87,7 @@ test
   .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)(`loopback fails and falls back to custom uri`, async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
-    await t.expect(deviceChallengeFalllbackPage.getPageTitle()).eql('Sign In');
+    await t.expect(deviceChallengeFalllbackPage.getPageTitle()).eql('Signing in using Okta FastPass');
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)

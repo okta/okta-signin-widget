@@ -31,10 +31,11 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
       save: async function () {
         this.trigger('request');
         var self = this,
+            pivConfig = this.settings.get('piv'),
             data = {
-              fromURI: this.settings.get('relayState')
-            },
-            pivConfig = this.settings.get('piv');
+              fromURI: this.settings.get('relayState'),
+              isCustomDomain: pivConfig.isCustomDomain
+            };
 
         try {
           await this.getCert(pivConfig.certAuthUrl);

@@ -46,7 +46,7 @@ const Body = BaseForm.extend(Object.assign(
       );
       switch (deviceChallenge.challengeMethod) {
       case 'LOOPBACK':
-        this.title = loc('signin', 'login');
+        this.title = loc('signin.with.fastpass', 'login');
         this.add('<div class="spinner"></div>');
         this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
         break;
