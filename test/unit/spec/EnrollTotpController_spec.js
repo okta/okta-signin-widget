@@ -740,17 +740,22 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           .then(function (test) {
             $.ajax.calls.reset();
             Expect.isVisible(test.manualSetupForm.form());
-            test.setNextResponse(pushEnrollSuccessNewQRRes);
-            Util.mockSDKCookie(test.ac);
+            test.setNextResponse([factorsWithPushRes, pushEnrollSuccessNewQRRes]);
             test.manualSetupForm.gotoScanBarcode();
             return Expect.waitForBarcodePush(test);
           })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(1);
+            expect($.ajax.calls.count()).toBe(2);
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
-              url: 'https://foo.com/api/v1/authn',
+              url: 'https://foo.com/api/v1/authn/previous',
+              data: { stateToken: expectedStateToken }
+            });
+            Expect.isJsonPost($.ajax.calls.argsFor(1), {
+              url: 'https://foo.com/api/v1/authn/factors',
               data: {
-                stateToken: 'testStateToken'
+                factorType: 'push',
+                provider: 'OKTA',
+                stateToken: expectedStateToken
               }
             });
             Expect.isVisible(test.scanCodeForm.form());
