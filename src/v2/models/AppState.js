@@ -19,7 +19,6 @@ export default Model.extend({
     introspectSuccess: 'object', // only set during introspection
     introspectError: 'object', // only set during introspection
 
-    currentState: 'object',
     factor: 'object',      // optional
     user: 'object',        // optional
     currentFormName: 'string',

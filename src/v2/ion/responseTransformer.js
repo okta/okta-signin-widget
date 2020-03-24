@@ -30,9 +30,9 @@ import { _ } from 'okta';
 const isObject = x => _.isObject(x);
 
 /**
- * Transform 'type: "object"' by converting "rel: form" to be a function.
+ * Flatten first level objects from response
  */
-const convertObjectType = (resp) => {
+const getFirstLevelObjects = (resp) => {
   const result = {};
   _.each(resp, (val, key) => {
     // if key is remediation we dont do any transformation
@@ -48,7 +48,7 @@ const convertObjectType = (resp) => {
       };
     }
 
-    // for objects like factor
+    // for handling attributes with type object
     if (val.type === 'object') {
       result[key] = val.value;
     }
@@ -56,10 +56,46 @@ const convertObjectType = (resp) => {
   return result;
 };
 
+const getRemediationValues = (idx) => {
+  const remediationValues = [];
+  // handle success case
+  if (_.isEmpty(idx.neededToProceed) && idx.context.success) {
+    remediationValues.push({
+      name: idx.context.success.name,
+      href: idx.context.success.href,
+      value: []
+    });
+  }
+  _.each(idx.neededToProceed, (value, key) => {
+    if (value && value.length) {
+      remediationValues.push({
+        value: value,
+        name: key,
+      });
+    } else {
+      remediationValues.push(_.omit(idx.rawIdxState.remediation.value[0], 'rel', 'method', 'value'));
+    }
+  });
+  return {
+    remediations: remediationValues
+  };
+};
+
 /**
  *
  * @param {idx} idx object
- * @returns {idx} transformed idx object with firstlevel objects
+ * @returns {} transformed object with flattened firstlevel objects, idx and remediations array
+ * Example: {
+ *  remediations: [],
+ *  proceed: ƒ(),
+ *  neededToProceed: {},
+ *  actions: {cancel: ƒ()},
+ *  context: {},
+ *  rawIdxState:{},
+ *  factors: {},
+ *  factor: {},
+ *  messages: {},
+ * }
  */
 const convert = (idx) => {
   if (!isObject(idx && idx.rawIdxState)) {
@@ -67,10 +103,13 @@ const convert = (idx) => {
   }
   const resp = idx.rawIdxState;
 
-  const firstLevelObjects = convertObjectType(resp);
+  const firstLevelObjects = getFirstLevelObjects(resp);
+
+  const remediationValues = getRemediationValues(idx);
 
   const result = Object.assign({},
     firstLevelObjects,
+    remediationValues,
     idx
   );
   return result;

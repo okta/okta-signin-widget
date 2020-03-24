@@ -8,6 +8,7 @@ describe('v2/ion/responseTransformer', function () {
   });
 
   it('converts factor required email idx object', () => {
+    const rawFactorRequiredEmailResponse = XHRFactorRequiredEmail.response;
     const idxObjectFactorRequiredEmail  = {
       'proceed': jasmine.any(Function),
       'neededToProceed':{
@@ -91,99 +92,56 @@ describe('v2/ion/responseTransformer', function () {
         }
       },
 
-      'rawIdxState':{
-        'stateHandle':'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw',
-        'version':'1.0.0',
-        'expiresAt':'2020-03-16T21:00:26.000Z',
-        'step':'IDENTIFY',
-        'intent':'LOGIN',
-        'remediation':{
-          'type':'array',
-          'value':[
-            {
-              'rel':[
-                'create-form'
-              ],
-              'name':'identify',
-              'href':'http://rain.okta1.com:1802/idp/idx/identify',
-              'method':'POST',
-              'accepts':'application/vnd.okta.v1+json',
-              'value':[
-                {
-                  'name':'identifier',
-                  'label':'Username'
-                },
-                {
-                  'name':'stateHandle',
-                  'required':true,
-                  'value':'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw',
-                  'visible':false,
-                  'mutable':false
-                }
-              ]
-            },
-            {
-              'rel':[
-                'create-form'
-              ],
-              'name':'select-enroll-profile',
-              'href':'http://rain.okta1.com:1802/idp/idx/enroll',
-              'method':'POST',
-              'accepts':'application/vnd.okta.v1+json',
-              'value':[
-                {
-                  'name':'stateHandle',
-                  'required':true,
-                  'value':'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw',
-                  'visible':false,
-                  'mutable':false
-                }
-              ]
-            }
-          ]
-        },
-        'cancel':{
-          'rel':[
-            'create-form'
-          ],
-          'name':'cancel',
-          'href':'http://rain.okta1.com:1802/idp/idx/cancel',
-          'method':'POST',
-          'accepts':'application/vnd.okta.v1+json',
-          'value':[
-            {
-              'name':'stateHandle',
-              'required':true,
-              'value':'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw',
-              'visible':false,
-              'mutable':false
-            }
-          ]
-        },
-        'context':{
-          'rel':[
-            'create-form'
-          ],
-          'name':'context',
-          'href':'http://rain.okta1.com:1802/idp/idx/context',
-          'method':'POST',
-          'accepts':'application/vnd.okta.v1+json',
-          'value':[
-            {
-              'name':'stateHandle',
-              'required':true,
-              'value':'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw',
-              'visible':false,
-              'mutable':false
-            }
-          ]
-        }
-      }
+      'rawIdxState':rawFactorRequiredEmailResponse
     };
-    const rawFactorRequiredEmailResponse = XHRFactorRequiredEmail.response;
+    
     const result = transformResponse(idxObjectFactorRequiredEmail);
     expect(result).toEqual({
       'proceed': jasmine.any(Function),
+      'remediations': [
+        {
+          'value':[
+            {
+              'name':'credentials',
+              'form':{
+                'value':[
+                  {
+                    'name':'passcode',
+                    'label':'One-time verification code',
+                    'secret':true,
+                    'method':'post'
+                  }
+                ],
+                'method':'post'
+              },
+              'method':'post'
+            }
+          ],
+          'name':'challenge-factor'
+        },
+        {
+          'value':[
+            {
+              'name':'factorId',
+              'type':'set',
+              'options':[
+                {
+                  'label':'Password',
+                  'value':'00u2j17ObFUsbGfLg0g4',
+                  'method':'options'
+                },
+                {
+                  'label':'Email',
+                  'value':'emf2j1ccd6CF4IWFY0g3',
+                  'method':'options'
+                }
+              ],
+              'method':'post'
+            }
+          ],
+          'name':'select-factor'
+        }
+      ],
       'neededToProceed':{
         'challenge-factor':[
           {
@@ -348,6 +306,7 @@ describe('v2/ion/responseTransformer', function () {
           }
         }
       },
+      'remediations': [],
       'factor':{
         'factorType':'email',
         'provider':'okta',
