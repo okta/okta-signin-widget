@@ -39,28 +39,17 @@ define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
         e.preventDefault();
         var goToFactor = _.partial(goToFactorActivation, this.options.appState);
         this.options.appState.unset('factorActivationType');
-        if (this.options.appState.get('activatedFactorType') !== 'push') {
-          this.model.doTransaction(function (transaction) {
-            return transaction.prev()
-              .then(function (trans) {
-                var factor = _.findWhere(trans.factors, {
-                  factorType: 'push',
-                  provider: 'OKTA'
-                });
-                return factor.enroll();
+        this.model.doTransaction(function (transaction) {
+          return transaction.prev()
+            .then(function (trans) {
+              var factor = _.findWhere(trans.factors, {
+                factorType: 'push',
+                provider: 'OKTA'
               });
-          })
-            .then(goToFactor);
-        } else {
-          this.model.startTransaction(function (authClient) {
-            return authClient.tx.resume();
-          })
-            .then(function () {
-            // Sets to trigger on a tick after the appState has been set.
-            // This is due to calling the globalSuccessFn in a callback
-              setTimeout(goToFactor);
+              return factor.enroll();
             });
-        }
+        })
+          .then(goToFactor);
       }
     },
     back: function () {
