@@ -109,12 +109,12 @@ export default Router.extend({
 
   },
 
-  handleRemediationSuccess: function (trans) {
+  handleRemediationSuccess: function () {
     // transform response
     const ionResponse = _.compose(
       uiSchemaTransformer,
       responseTransformer
-    )(trans);
+    )(this.appState.get('idx'));
     this.appState.setIonResponse(ionResponse);
   },
 
