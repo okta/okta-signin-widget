@@ -73,7 +73,7 @@ const getRemediationValues = (idx) => {
         name: key,
       });
     } else {
-      remediationValues.push(_.omit(idx.rawIdxState.remediation.value[0], 'rel', 'method', 'value'));
+      remediationValues.push(_.omit(idx.rawIdxState.remediation.value[0], 'rel', 'value'));
     }
   });
   return {

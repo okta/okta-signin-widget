@@ -119,13 +119,23 @@ const windowAuthnCustomUri = {
   ]
 };
 
-// Apple authenticator (SSO extension)
+// Apple authenticator with Redirect SSO extension
 const appleSsoExtension = {
   '/idp/idx/introspect': [
     'identify-with-apple-sso-extension',
   ],
+};
+
+// Apple authenticator when Credential SSO extension
+const appleCredentialSsoExtension = {
+  '/idp/idx/introspect': [
+    'identify-with-apple-credential-sso-extension',
+  ],
   '/idp/idx/authenticators/sso_extension/transactions/123/verify': [
-    'identify', // as a signal of success
+    'identify'
+  ],
+  '/idp/idx': [
+    'error-email-verify',
   ],
 };
 
