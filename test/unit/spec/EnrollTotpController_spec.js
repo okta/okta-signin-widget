@@ -132,6 +132,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
     function enrollOktaPushGoCannotScan () {
       return setupAndEnrollOktaPush()
         .then(function (test) {
+          test.setNextResponse([resFactorsWithPush, resPushEnrollSuccess]);
           test.scanCodeForm.clickManualSetupLink();
           return Expect.waitForManualSetupPush(test);
         });
@@ -257,11 +258,10 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
 
         // Start the enrollment
         test.form.selectDeviceType('APPLE');
+        // Submit would trigger enroll activate call and 1 poll.
         test.form.submit();
 
-        return tick(test)    // 1: submit enrollFactor
-          .then(function () { return tick(test); }) // 2: submit enrollFactor poll
-          .then(function () { return tick(test); }); // Final response tick
+        return tick(test); // To trigger next poll.
       }
       itp('has qrcode image', function () {
         return setupAndEnrollOktaPushFn().then(function (test) {
@@ -285,6 +285,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           return setupPolling(test, resSuccess);
         })
           .then(function (test) {
+            test.setNextResponse([resFactorsWithPush]);
             test.scanCodeForm.clickBackLink();
             return Expect.waitForEnrollChoices(test);
           })
@@ -294,9 +295,10 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       });
       itp('removes the scan code form on clicking "Can\'t scan" link', function () {
         return setupOktaPushFn().then(function (test) {
-          return setupPolling(test, resSuccess);
+          return setupPolling(test, activatePushSmsRes);
         })
           .then(function (test) {
+            test.setNextResponse([resFactorsWithPush, resPushEnrollSuccess]);
             test.scanCodeForm.clickManualSetupLink();
             return Expect.waitForManualSetupPush(test);
           })
@@ -309,6 +311,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           return setupPolling(test, resSuccess);
         })
           .then(function (test) {
+            test.setNextResponse([resFactorsWithPush]);
             Util.triggerBrowserBackButton();
             return Expect.waitForEnrollChoices(test);
           })
@@ -528,6 +531,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
             return Expect.waitForBarcodePush(test);
           })
           .then(function (test) {
+            test.setNextResponse([factorsWithPushRes, pushEnrollSuccessRes]);
             test.scanCodeForm.clickManualSetupLink();
             return Expect.waitForManualSetupPush(test);
           })
@@ -544,12 +548,12 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
       itp('goes to previous link and then enrolls in totp when choosing manual', function () {
         return enrollOktaPushUseManualTotpFn()
           .then(function () {
-            expect($.ajax.calls.count()).toBe(4);
-            Expect.isJsonPost($.ajax.calls.argsFor(2), {
+            expect($.ajax.calls.count()).toBe(6);
+            Expect.isJsonPost($.ajax.calls.argsFor(4), {
               url: 'https://foo.com/api/v1/authn/previous',
               data: { stateToken: expectedStateToken }
             });
-            Expect.isJsonPost($.ajax.calls.argsFor(3), {
+            Expect.isJsonPost($.ajax.calls.argsFor(5), {
               url: 'https://foo.com/api/v1/authn/factors',
               data: {
                 factorType: 'token:software:totp',
@@ -734,6 +738,7 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
           .then(function (test) {
             var oldQrCodeSrc = test.scanCodeForm.qrcodeImg().attr('src');
             expect(oldQrCodeSrc).toBe('/base/test/unit/assets/1x1.gif');
+            test.setNextResponse([factorsWithPushRes, pushEnrollSuccessRes]);
             test.scanCodeForm.clickManualSetupLink();
             return Expect.waitForManualSetupPush(test);
           })

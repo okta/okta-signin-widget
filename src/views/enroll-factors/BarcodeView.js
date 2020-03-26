@@ -44,9 +44,25 @@ define([
     events: {
       'click [data-type="manual-setup"]': function (e) {
         e.preventDefault();
-        var url = RouterUtil.createActivateFactorUrl(this.model.get('__provider__'),
+        const url = RouterUtil.createActivateFactorUrl(this.model.get('__provider__'),
           this.model.get('__factorType__'), 'manual');
-        this.options.appState.trigger('navigate', url);
+        if (this.model.get('__factorType__') === 'push') {
+          // cancel the poll and navigate to manual setup.
+          this.model.doTransaction(function (transaction) {
+            return transaction.prev()
+              .then(function (trans) {
+                var factor = _.findWhere(trans.factors, {
+                  factorType: 'push',
+                  provider: 'OKTA'
+                });
+                return factor.enroll();
+              });
+          }).then(() => {
+            this.options.appState.trigger('navigate', url);
+          });
+        } else {
+          this.options.appState.trigger('navigate', url);
+        }
       },
       'click [data-type="refresh-qrcode"]': function (e) {
         e.preventDefault();
