@@ -1605,16 +1605,14 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
         var countryCall = $.ajax.calls.argsFor(1)[0];
         expect(loginCall).toEqual({
           cache: true,
-          dataType: 'jsonp',
-          jsonpCallback: 'jsonp_login',
-          timeout: 5000,
+          method: 'GET',
+          contentType: 'application/json',
           url: baseUrl + login
         });
         expect(countryCall).toEqual({
           cache: true,
-          dataType: 'jsonp',
-          jsonpCallback: 'jsonp_country',
-          timeout: 5000,
+          method: 'GET',
+          contentType: 'application/json',
           url: baseUrl + country
         });
       }
@@ -1622,8 +1620,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
       var expectDefaultPaths = _.partial(
         expectBundles,
         _,
-        '/labels/jsonp/login_ja.jsonp',
-        '/labels/jsonp/country_ja.jsonp'
+        '/labels/json/login_ja.json',
+        '/labels/json/country_ja.json'
       );
 
       var expectDefaultCdn = _.partial(
@@ -1677,13 +1675,13 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             language: 'ja',
             assets: {
               rewrite: function (file) {
-                return file.replace('.jsonp', '.sha.jsonp');
+                return file.replace('.json', '.sha.json');
               }
             }
           }
         })
           .then(function () {
-            expectDefaultCdn('/labels/jsonp/login_ja.sha.jsonp', '/labels/jsonp/country_ja.sha.jsonp');
+            expectDefaultCdn('/labels/json/login_ja.sha.json', '/labels/json/country_ja.sha.json');
           });
       });
       itp('can override bundles with both baseUrl and rewrite', function () {
@@ -1694,7 +1692,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             assets: {
               baseUrl: 'http://foo.com',
               rewrite: function (file) {
-                return file.replace('.jsonp', '.1.jsonp');
+                return file.replace('.json', '.1.json');
               }
             }
           }
@@ -1702,8 +1700,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           .then(function () {
             expectBundles(
               'http://foo.com',
-              '/labels/jsonp/login_ja.1.jsonp',
-              '/labels/jsonp/country_ja.1.jsonp'
+              '/labels/json/login_ja.1.json',
+              '/labels/json/country_ja.1.json'
             );
           });
       });
@@ -1749,8 +1747,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             .then(function () {
               var loginCall = $.ajax.calls.argsFor(0)[0];
               var countryCall = $.ajax.calls.argsFor(1)[0];
-              expect(loginCall.url).toBe('/assets/labels/jsonp/login_pt_BR.jsonp');
-              expect(countryCall.url).toBe('/assets/labels/jsonp/country_pt_BR.jsonp');
+              expect(loginCall.url).toBe('/assets/labels/json/login_pt_BR.json');
+              expect(countryCall.url).toBe('/assets/labels/json/country_pt_BR.json');
             });
         });
         itp('will use base languageCode even if region is not supported', function () {
@@ -1767,8 +1765,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
               expectJa(test);
               var loginCall = $.ajax.calls.argsFor(0)[0];
               var countryCall = $.ajax.calls.argsFor(1)[0];
-              expect(loginCall.url).toBe('/assets/labels/jsonp/login_ja.jsonp');
-              expect(countryCall.url).toBe('/assets/labels/jsonp/country_ja.jsonp');
+              expect(loginCall.url).toBe('/assets/labels/json/login_ja.json');
+              expect(countryCall.url).toBe('/assets/labels/json/country_ja.json');
             });
         });
         itp('will use base languageCode with region even if dialect is not supported', function () {
@@ -1785,8 +1783,8 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
               expectJa(test);
               var loginCall = $.ajax.calls.argsFor(0)[0];
               var countryCall = $.ajax.calls.argsFor(1)[0];
-              expect(loginCall.url).toBe('/assets/labels/jsonp/login_pt_BR.jsonp');
-              expect(countryCall.url).toBe('/assets/labels/jsonp/country_pt_BR.jsonp');
+              expect(loginCall.url).toBe('/assets/labels/json/login_pt_BR.json');
+              expect(countryCall.url).toBe('/assets/labels/json/country_pt_BR.json');
             });
         });
         itp('accepts a language code string as "language"', function () {
