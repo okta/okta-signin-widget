@@ -97,14 +97,25 @@ export default Controller.extend({
     this.toggleFormButtonState(true);
     model.trigger('request');
     return idx.proceed(formName, model.toJSON())
-      .then(resp => {
-        this.options.appState.set('idx', resp);
-        this.options.appState.trigger('remediationSuccess', resp.rawIdxState);
-      })
+      .then(resp => this.updateAppStateWithNewIdx(resp))
       .catch(error => {
-        model.trigger('error', model, {'responseJSON': error}, true);
-        this.toggleFormButtonState(false);
+        if (error.proceed && error.rawIdxState) {
+          // Okta server responds 401 status code with WWW-Authenticate header and new remediation
+          // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
+          // the response reaches here when Okta Verify is not installed
+          // we need to return an idx object so that
+          // the SIW can proceed to the next step without showing error
+          this.updateAppStateWithNewIdx(error);
+        } else {
+          model.trigger('error', model, {'responseJSON': error}, true);
+          this.toggleFormButtonState(false);
+        }
       });
+  },
+
+  updateAppStateWithNewIdx: function (idxResp) {
+    this.options.appState.set('idx', idxResp);
+    this.options.appState.trigger('remediationSuccess', idxResp.rawIdxState);
   },
 
   /**
