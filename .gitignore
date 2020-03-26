@@ -18,3 +18,4 @@ packages/@okta/courage-dist/*.html
 testenv
 packages/@okta/i18n/src/json/
 packages/@okta/i18n/src/properties/*_in.*
+packages/@okta/i18n/dist/

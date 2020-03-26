@@ -5,7 +5,7 @@ const data = {
     "version": "1.0.0",
     "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
     "expiresAt": "2018-09-17T23:08:56.000Z",
-    "step": "FACTOR_ENROLL",
+    "step": "ENROLL",
     "intent": "login",
     "remediation": {
       "type": "array",
@@ -23,11 +23,11 @@ const data = {
               "type": "set",
               "options": [
                 {
-                  "label": "Password",
+                  "label": "Password Label",
                   "value": "00u2j17ObFUsbGfLg0g4"
                 },
                 {
-                  "label": "E-mail",
+                  "label": "Email Label",
                   "value": "emf2j1ccd6CF4IWFY0g3"
                 }
               ]
@@ -46,11 +46,11 @@ const data = {
       "value": [
         {
           "factorType": "password",
-          "factorProfileId": "00u2j17ObFUsbGfLg0g4"
+          "factorId": "00u2j17ObFUsbGfLg0g4"
         },
         {
           "factorType": "email",
-          "factorProfileId": "emf2j1ccd6CF4IWFY0g3"
+          "factorId": "emf2j1ccd6CF4IWFY0g3"
         }
       ]
     },
@@ -99,6 +99,7 @@ const data = {
       ]
     }
   }
+
 };
 
 module.exports = data;

@@ -210,7 +210,9 @@ jQuery.extend = jQuery.fn.extend = function() {
 				copy = options[ name ];
 
 				// Prevent never-ending loop
-				if ( target === copy ) {
+				// Prevent Object.prototype pollution to avoid CVE-2019-11358 vulnerability
+				// https://oktainc.atlassian.net/browse/OKTA-277796
+				if ( name === "__proto__" || target === copy ) {
 					continue;
 				}
 

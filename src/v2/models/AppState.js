@@ -19,19 +19,15 @@ export default Model.extend({
     introspectSuccess: 'object', // only set during introspection
     introspectError: 'object', // only set during introspection
 
-    currentState: 'object',
     factor: 'object',      // optional
     user: 'object',        // optional
     currentFormName: 'string',
+    idx: 'object',
+    remediations: 'array',
+    __previousResponse: 'object'
   },
 
   derived: {
-    remediation: {
-      deps: ['currentState'],
-      fn (currentState = {}) {
-        return Array.isArray(currentState.remediation) ? currentState.remediation : [];
-      },
-    },
     factorProfile: {
       deps: ['factor'],
       fn (factor = {}) {
@@ -45,17 +41,20 @@ export default Model.extend({
       },
     },
     currentStep: {
-      deps: ['currentState'],
-      fn: function (currentState = {}) {
-        return currentState.step && currentState.step.toLowerCase();
+      deps: ['idx'],
+      fn: function (idx = {}) {
+        if (idx && idx.context && idx.context.step) {
+          return idx.context.step.toLowerCase();
+        }
       },
     },
     showSignoutLink: {
-      deps: ['currentState'],
-      fn: function (currentState = {}) {
+      deps: ['idx'],
+      fn: function (idx = {}) {
         const invalidSignOutSteps = ['IDENTIFY', 'ENROLL', 'SUCCESS'];
         // hide signout for IDENTIFY, ENROLL & SUCCESS step
-        return _.isFunction(currentState.cancel) && !invalidSignOutSteps.includes(currentState.step);
+        return idx.actions
+          && _.isFunction(idx.actions.cancel) && !invalidSignOutSteps.includes(idx.context.step);
       },
     },
   },
@@ -86,8 +85,8 @@ export default Model.extend({
     const currentFormName = this.get('currentFormName');
 
     let currentViewState;
-    if (!_.isEmpty(this.get('remediation'))) {
-      currentViewState = this.get('remediation').filter(r => r.name === currentFormName)[0];
+    if (!_.isEmpty(this.get('remediations'))) {
+      currentViewState = this.get('remediations').filter(r => r.name === currentFormName)[0];
     }
 
     if (!currentViewState) {
@@ -106,7 +105,7 @@ export default Model.extend({
     // Don't re-render view if new response is same as last.
     // Usually happening at polling and pipeline doesn't proceed to next step.
     // expiresAt will be different for each response, hence compare objects without that property
-    if (_.isEqual(_.omit(idx.rawIdxState, 'expiresAt'), _.omit(this.get('__rawResponse'), 'expiresAt'))) {
+    if (_.isEqual(_.omit(idx.rawIdxState, 'expiresAt'), _.omit(this.get('__previousResponse'), 'expiresAt'))) {
       return;
     }
 
@@ -122,15 +121,20 @@ export default Model.extend({
     }
 
     // default terminal state for fall back
-    if (_.isEmpty(resp.terminal)) {
+    if (idx.context.terminal && _.isEmpty(idx.context.terminal.value)) {
       resp.terminal = {
         name: 'terminal',
         value: [],
         uiSchema: [],
       };
     }
-
+    //clear appState before setting new values
+    this.clear({silent: true});
+    // set new app state properties
     this.set(resp);
+    // reset idx
+    this.set('idx', idx);
+    this.set('__previousResponse', idx.rawIdxState);
 
     // broadcast idxResponseUpdated to re-render the view
     this.trigger('idxResponseUpdated', resp);
