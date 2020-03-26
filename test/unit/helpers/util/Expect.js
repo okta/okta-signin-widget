@@ -249,8 +249,6 @@ define([
   // will test the rest. Note: We JSON.stringify data here so you don't have to
   // JSON posts are done using fetch
   fn.isJsonPost = function (args, expected) {
-    // var args = ajaxArgs[0];
-
     // Jasmine times out if args doesn't exist when we try to retrieve
     // its properties. This makes it fail faster.
     if (!args) {
@@ -281,6 +279,22 @@ define([
     }));
     const data = args.data();
     expect(data).toEqual(expected.data);
+  };
+
+  // For JSON assets such as language files
+  fn.isJsonAssetRequest = function (args, expected) {
+    // Jasmine times out if args doesn't exist when we try to retrieve
+    // its properties. This makes it fail faster.
+    if (!args) {
+      expect(args).not.toBeUndefined();
+      return;
+    }
+    expect(args.url).toBe(expected.url);
+    expect(args.method).toBe('GET');
+    expect(args.requestHeaders).toEqual(jasmine.objectContaining({
+      'Accept': '*/*',
+      'Content-Type': 'application/json'
+    }));
   };
 
   // --------------------------------------------------------------------------
