@@ -1,4 +1,4 @@
-import { Form, loc } from 'okta' ;
+import { Form, loc, createCallout } from 'okta' ;
 import FormInputFactory from './FormInputFactory';
 
 export default Form.extend({
@@ -15,6 +15,9 @@ export default Form.extend({
     const uiSchemas = this.getUISchema();
     const inputOptions = uiSchemas.map(FormInputFactory.create);
 
+    //should be used before adding any other input components
+    this.addCallouts();
+
     inputOptions.forEach(input => {
       this.addInputOrView(input);
     });
@@ -23,6 +26,8 @@ export default Form.extend({
   },
 
   saveForm (model) {
+    //remove any existing warnings or messages before saving form
+    this.$el.find('.o-form-error-container').empty();
     this.options.appState.trigger('saveForm', model);
   },
 
@@ -43,5 +48,16 @@ export default Form.extend({
       this.addInput(input);
     }
   },
+
+  addCallouts () {
+    const warningMsgs = this.options.appState.get('messages');
+    if (warningMsgs && warningMsgs.value.length) {
+      const messageCallout = createCallout({
+        content: warningMsgs.value[0].message,
+        type: 'warning',
+      });
+      this.add(messageCallout, '.o-form-error-container');
+    }
+  }
 
 });

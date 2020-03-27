@@ -2,8 +2,7 @@
 // TODO: Remove this disable line!!
 /* stylelint-disable */
 @function unicode($str) {
-  @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
-}
+  @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\""); }
 
 $facebook:                 unicode("e005");
 $google:                   unicode("e004");

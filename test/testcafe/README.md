@@ -2,16 +2,44 @@
 
 At root directory of okta-signin-widget
 
-All in once
+Use following commands to run testcafe tests. Make sure playground is not running and consuming the localhost port.
+Also make sure your .widgetrc file points to localhost:3000 instead of rain.
 
-- `yarn test:testcafe-run chrome`
+Run All
 
-Or start playground at one terminal and run the test in another terminal.
+- `yarn test:testcafe chrome`
+
+Run single Fixture
+
+- `yarn test:testcafe chrome -f "Unknown user form"`
+
+Run all similar Fixtures that matches the pattern
+
+- `yarn test:testcafe chrome -F "Unknown.*"`
+
+Run a single test
+
+- `yarn test:testcafe chrome -t "should have editable fields"`
+
+Run all similar tests that matches the pattern
+
+- `yarn test:testcafe chrome -T "should.*"`
+
+### To run testcafe without building playground each time you run test
+
+Start playground at one terminal and run the test in another terminal.
 Useful at development time in order to get quicker feedback.
 
 - `yarn test:testcafe-setup`
-- `yarn testcafe chrome test/testcafe/spec`
 
+- `yarn testcafe chrome test/testcafe/spec`
+- `yarn testcafe chrome test/testcafe/spec -T "should.*`
+
+Note: Above command directly runs testcafe which is different then test:testcafe
+
+Live reload test for faster development
+
+- `yarn testcafe chrome test/testcafe/spec -f "Unknown user form" --live`
 
 ## Guideline for writting test
 

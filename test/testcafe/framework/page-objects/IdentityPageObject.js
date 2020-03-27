@@ -52,6 +52,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.hasTextBoxErrorMessage('identifier');
   }
 
+  hasCallout() {
+    return !this.form.getCallout(CALLOUT_SELECTOR);
+  }
+
   getUnknownUserCalloutContent() {
     return this.form.getCallout(CALLOUT_SELECTOR).textContent;
   }
