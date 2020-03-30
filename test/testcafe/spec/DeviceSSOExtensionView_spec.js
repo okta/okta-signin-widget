@@ -1,6 +1,9 @@
 import { RequestLogger, RequestMock, ClientFunction, Selector } from 'testcafe';
 import BasePageObject from '../framework/page-objects/BasePageObject';
-import identifyWithAppleSSOExtension from '../../../playground/mocks/idp/idx/data/identify-with-apple-sso-extension';
+import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import identifyWithAppleRedirectSSOExtension from '../../../playground/mocks/idp/idx/data/identify-with-apple-redirect-sso-extension';
+import identifyWithAppleCredentialSSOExtension from '../../../playground/mocks/idp/idx/data/identify-with-apple-credential-sso-extension';
+import identify from '../../../playground/mocks/idp/idx/data/identify';
 
 const logger = RequestLogger(/introspect/);
 const verifyUrl = `http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?\
@@ -17,17 +20,23 @@ RzdHpy_4Oeq477n4NGsJLvJNKDi_FOEulqAtCMnjh20vEJI6e4uNIxoSSCfxRCzp-0tdRIJ_7dGM-Isy
 7KYXmWXzP00bA8jmcGLb7i9bFwhjw9OBCgdNcqxKXMLmWQA0JZritRDR6u0ZcEjykca-eUCJtG5ISQOONs_lUBGL3Ezz6QsfWtW16\
 E9QJAVEwf06gULnbw5n6wpiAiDqa4HlkKP6K5-v1Y0XQ`;
 
-const mock = RequestMock()
+const redirectSSOExtensionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(identifyWithAppleSSOExtension)
+  .respond(identifyWithAppleRedirectSSOExtension)
   .onRequestTo(verifyUrl)
   .respond('<html><h1>Sign in verified</h1></html>');
 
-fixture(`App SSO Extension View`)
-  .requestHooks(logger, mock);
+const credentialSSOExtensionMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identifyWithAppleCredentialSSOExtension)
+  .onRequestTo(verifyUrl)
+  .respond(identify);
+
+fixture(`App SSO Extension View`);
 
 const getPageUrl = ClientFunction(() => window.location.href);
-test(`opens the verify URL`, async t => {
+test
+  .requestHooks(logger, redirectSSOExtensionMock)(`with redirect SSO Extension approach, opens the verify URL`, async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
   await t.expect(logger.count(
@@ -36,4 +45,17 @@ test(`opens the verify URL`, async t => {
   )).eql(1);
   await t.expect(getPageUrl()).eql(verifyUrl);
   await t.expect(Selector('h1').innerText).eql('Sign in verified');
+});
+
+test
+.requestHooks(logger, credentialSSOExtensionMock)(`with credential SSO Extension approach, opens the verify URL`, async t => {
+  const ssoExtensionPage = new BasePageObject(t);
+  await ssoExtensionPage.navigateToPage();
+  await t.expect(logger.count(
+    record => record.response.statusCode === 200 &&
+    record.request.url.match(/introspect/)
+  )).eql(1);
+  const identityPage = new IdentityPageObject(t);
+  await identityPage.fillIdentifierField('Test Identifier');
+  await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
 });

@@ -70,21 +70,6 @@ const data = {
         }
       ]
     },
-    "cancel": {
-      "rel": [
-        "create-form"
-      ],
-      "name": "cancel",
-      "href": "http://localhost:3000/idp/idx/cancel",
-      "method": "POST",
-      "value": [
-        {
-          "name": "stateHandle",
-          "value": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
-          "visible": false
-        }
-      ]
-    },
     "context": {
       "rel": [
         "create-form"
@@ -102,6 +87,7 @@ const data = {
       ]
     }
   }
+
 };
 
 module.exports = data;

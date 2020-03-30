@@ -2,89 +2,93 @@ const data = {
   "status": 200,
   "responseType": "json",
   "response": {
-    "version": "1.0.0",
-    "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-    "expiresAt": "2018-09-17T23:08:56.000Z",
-    "step": "FACTOR_REQUIRED",
-    "intent": "login",
-    "remediation": {
-      "type": "array",
-      "value": [
-        {
-
-          "rel": ["create-form"],
-          "name": "submit-factor",
-          "href": "http://localhost:3000/idp/idx/",
-          "method": "POST",
-          "value": [
-            {
-              "name": "email",
-              "placeholder": "Enter code",
-              "required": true,
-              "type": "text"
-            },
-            {
-              "name": "stateHandle",
-              "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-              "visible": false
-            }
-          ]
-        }
-      ]
+    "stateHandle":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw",
+    "version":"1.0.0",
+    "expiresAt":"2020-03-16T21:00:26.000Z",
+    "step":"IDENTIFY",
+    "intent":"LOGIN",
+    "remediation":{
+       "type":"array",
+       "value":[
+          {
+             "rel":[
+                "create-form"
+             ],
+             "name":"identify",
+             "href":"http://rain.okta1.com:1802/idp/idx/identify",
+             "method":"POST",
+             "accepts":"application/vnd.okta.v1+json",
+             "value":[
+                {
+                   "name":"identifier",
+                   "label":"Username"
+                },
+                {
+                   "name":"stateHandle",
+                   "required":true,
+                   "value":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw",
+                   "visible":false,
+                   "mutable":false
+                }
+             ]
+          },
+          {
+             "rel":[
+                "create-form"
+             ],
+             "name":"select-enroll-profile",
+             "href":"http://rain.okta1.com:1802/idp/idx/enroll",
+             "method":"POST",
+             "accepts":"application/vnd.okta.v1+json",
+             "value":[
+                {
+                   "name":"stateHandle",
+                   "required":true,
+                   "value":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw",
+                   "visible":false,
+                   "mutable":false
+                }
+             ]
+          }
+       ]
     },
-    "factor": {
-      "type": "object",
-      "value": {
-        "id": "emf1axecbKovLJPWl0g4",
-        "factorType": "email",
-        "provider": "OKTA",
-        "vendorName": "OKTA",
-        "profile": {
-          "email": "e...a@rain.com"
-        }
-      }
+    "cancel":{
+       "rel":[
+          "create-form"
+       ],
+       "name":"cancel",
+       "href":"http://rain.okta1.com:1802/idp/idx/cancel",
+       "method":"POST",
+       "accepts":"application/vnd.okta.v1+json",
+       "value":[
+          {
+             "name":"stateHandle",
+             "required":true,
+             "value":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw",
+             "visible":false,
+             "mutable":false
+          }
+       ]
     },
-    "user": {
-      "type": "object",
-      "value": {
-        "id": "I9bvFiq01cRFgbn",
-        "passwordChanged": "2019-05-03T19:00:00.000Z",
-        "profile": {
-          "login": "foo@example.com",
-          "firstName": "Foo",
-          "lastName": "Bar",
-          "locale": "en-us",
-          "timeZone": "UTC"
-        }
-      }
-    },
-    "cancel": {
-      "rel": ["create-form"],
-      "name": "cancel",
-      "href": "http://localhost:3000/idp/idx/cancel",
-      "method": "POST",
-      "value": [
-        {
-          "name": "stateHandle",
-          "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-          "visible": false
-        }
-      ]
-    },
-    "context": {
-      "rel": ["create-form"],
-      "name": "context",
-      "href": "http://localhost:3000/idp/idx/context",
-      "method": "POST",
-      "value": [
-        {
-          "name": "stateHandle",
-          "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-          "visible": false
-        }
-      ]
+    "context":{
+       "rel":[
+          "create-form"
+       ],
+       "name":"context",
+       "href":"http://rain.okta1.com:1802/idp/idx/context",
+       "method":"POST",
+       "accepts":"application/vnd.okta.v1+json",
+       "value":[
+          {
+             "name":"stateHandle",
+             "required":true,
+             "value":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..-rltUuvhZgmMFFpS.Hg6iqCkAnVmTou1Nonde81sqNgA5lBtYwdkKmuTXQBm3MvWU1YvL2uj5iqJDzk7ewxQRJLtlKZ20p4-m5aft-c4TEPZG9IeM0izo7kmksltr3zrmrzM1E_pWFHVq-1B6NoEivWqE3M4rXRvq3DSM0eWV8zNtadhxm0YT2KPzzu1wfR47azpGl6cMWUtABcnx_OaKEcGvlmFuypHglVf9Moza0Fbk-ywWHmGkMPcAsqQ6XYi6ovhyClzIFjkI515oYpLKpbzP6wr0UOceRcoHfPqLDPPCP1J_RyGzTp5yD3_gmZfTqcHRqTgTG7rYDTmjFu7EC6YhtlkQzEDp0aONdNS-vAO1oiPESG6sWXIX0ZMHIIF_8dtswnYQt9-cr-pD2lW1NILivtbv6qPGqWfi80GIQSs-Fp2Am4a_Z-Cvio85rajXHJRO_5bSMYvqazAx1oFast0BeHaiTDOanF73QWdfT1sDv_TiqbqWD7H5QU3RFMHtwYTyP99BVq1kPm3lnGzejBNh_vagUeF2dmhNl8QjF4QfeibBepsiX77LCrJGdTua5HgGeGpD2dH8DzW5JpR5jR4fUVw1hY6GxM28rOhjtRHDUZAdhRqE-D88IAPxX1kaqggGFXOYGM4EwgnQdgThj593cItRe6Yx5AdsW5A2NNh08ezEtoSVXSRD-nkug-aQptK7pIfPAxy18JEW_6eKJmsDJWG-XyR5SBEi2dtqq4PG-LVNBJzPdPXSBJ17uth0wrL_F3lKzUgLNmRXzcayD0T7BhZDRoMqgJPDrDI047gfoN7sV0zhOihuNTdVEOjpSzGCNnmXTUbmlOCESgOWNq7wJc_Q09qmyKdY5kjZRuGo2JWFnGrjOsAEVMYdNxIQGdizZxlP2OMr2h_rqKklgidhkFLn-EY0ig2uCYh6I3FHF5qHajaGjfgKh7ClgMN1lLuHrizwLt5uSCk_1QIbVwDELAVAQT8FhiZovB-AYZM-AB3uFfuJBXqT26n_dNsECrKmrSnT2BBc4pHhaKruoX_XX6j0EhXXuiEQIw.0hFF_OMVB-29RgUxmN7tHw",
+             "visible":false,
+             "mutable":false
+          }
+       ]
     }
-  }
+ }
 };
 
 module.exports = data;

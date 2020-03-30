@@ -90,13 +90,13 @@ const createUISchema = (remediationValue = [], factors = []) => {
 
 /**
  *
- * @param {AuthResult} transformedResp (after `actionsTransformer`)
+ * @param {AuthResult} transformedResp
  */
 const insertUISchema = (transformedResp) => {
-  if (transformedResp.currentState) {
-    const remediation = transformedResp.currentState.remediation || [];
+  if (transformedResp) {
     const factors = transformedResp.factors && transformedResp.factors.value || [];
-    transformedResp.currentState.remediation = remediation.map(obj => {
+    
+    transformedResp.remediations = transformedResp.remediations.map(obj => {
       obj.uiSchema = createUISchema(obj.value, factors);
       return obj;
     });
