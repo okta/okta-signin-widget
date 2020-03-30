@@ -14,7 +14,7 @@ const Body = BaseForm.extend({
 
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
-
+    document.cookie = `stateHandle=${this.options.appState.get('context').stateHandle};path=/`;
     // TODO: OKTA-286547
     // this should be handle by the foundation, not on the view level
     const method = this.options.appState.get('remediations')
