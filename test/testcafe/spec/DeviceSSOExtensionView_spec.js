@@ -21,13 +21,13 @@ RzdHpy_4Oeq477n4NGsJLvJNKDi_FOEulqAtCMnjh20vEJI6e4uNIxoSSCfxRCzp-0tdRIJ_7dGM-Isy
 E9QJAVEwf06gULnbw5n6wpiAiDqa4HlkKP6K5-v1Y0XQ`;
 
 const redirectSSOExtensionMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithAppleRedirectSSOExtension)
   .onRequestTo(verifyUrl)
   .respond('<html><h1>Sign in verified</h1></html>');
 
 const credentialSSOExtensionMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithAppleCredentialSSOExtension)
   .onRequestTo(verifyUrl)
   .respond(identify);
