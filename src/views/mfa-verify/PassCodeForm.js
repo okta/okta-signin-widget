@@ -20,7 +20,7 @@ define([
   var subtitleTpl = Okta.tpl('({{subtitle}})');
   var _ = Okta._;
   var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning login-timeout-warning">\
-                           <span class="icon warning-16" aria-hidden="true"></span>\
+                           <span class="icon warning-16"></span>\
                            <p>{{{warning}}}</p>\
                          </div>\
                          ';
