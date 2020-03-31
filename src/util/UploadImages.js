@@ -30,16 +30,17 @@ fs.readdir(screenshotsDir, function ( err, files ) {
 
       await waitFor(50);
       var image = fs.readFileSync(screenshotsDir + file);
+      var specName = file.substring(0, file.indexOf('_'));
 
-      var firstTestPromise = eyes.open('Okta Sign-in Widget', file).then(function () {
+      var testPromise = eyes.open(specName, file).then(function () {
         return eyes.checkImage(image, file);
       }).then(function () {
-        return eyes.close(false);
+        return eyes.close(true);
       }, function () {
         return eyes.abortIfNotClosed();
       });
 
-      await firstTestPromise.then(function (results) {
+      await testPromise.then(function (results) {
         var testResultsFormatter = new TestResultsFormatter();
         testResultsFormatter.addResults(results);
       });

@@ -81,11 +81,15 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
     ]);
   }
 
+  const testName = 'EnrollQuestions_spec';
+  var renderId = 0;
+
   function testEnrollQuestion (allFactors, expectedStateToken) {
     itp('displays the correct factorBeacon', function () {
       return setup(allFactors).then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-okta-security-question')).toBe(true);
+        Util.takeScreenshot(testName + (renderId++) + '.png');
       });
     });
     itp('does not allow autocomplete', function () {
@@ -115,6 +119,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
           text: 'JA: What is the food you least liked as a child?',
           val: 'disliked_food'
         });
+        Util.takeScreenshot(testName + (renderId++) + '.png');
       });
     });
     itp('has a localized list of questions if language is specified', function () {
@@ -181,6 +186,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
       })
         .then(function (test) {
           Expect.isEnrollChoices(test.router.controller);
+          Util.takeScreenshot(testName + (renderId++) + '.png');
           Util.stopRouter();
         });
     });
@@ -276,6 +282,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
         .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Profile.');
+          Util.takeScreenshot(testName + (renderId++) + '.png');
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {

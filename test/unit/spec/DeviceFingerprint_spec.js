@@ -42,10 +42,6 @@ function (Expect, $sandbox, DeviceFingerprint) {
     });
 
     it('returns a fingerprint if the communication with the iframe is successfull', function () {
-      // Test fails in PhantomJS
-      if (window.top.callPhantom) {
-        return;
-      }
       mockIFrameMessages(true);
       bypassMessageSourceCheck();
       return DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)

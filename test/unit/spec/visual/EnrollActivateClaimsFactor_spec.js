@@ -70,12 +70,16 @@ function (Okta,
       return initResponse;
     }
 
+    const testName = 'EnrollActivateClaimsFactor_spec';
+    var renderId = 0;
+
     describe('Enroll Activate CUSTOM_CLAIMS', function () {
 
       itp('displays the correct factorBeacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-custom-factor')).toBe(true);
+          Util.takeScreenshot(testName + (renderId++) + '.png');
         });
       });
 
@@ -90,6 +94,7 @@ function (Okta,
           test.setNextResponse(responseSuccess);
           expect(test.form.titleText()).toBe('IDP factor');
           expect(test.form.buttonBar().hasClass('hide')).toBe(false);
+          Util.takeScreenshot(testName + (renderId++) + '.png');
         });
       });
 
@@ -131,6 +136,7 @@ function (Okta,
         return setup(options).then(function (test) {
           expect(test.form.hasErrorBox()).toBe(true);
           expect(test.form.errorBoxMessage()).toBe('Enroll failed.');
+          Util.takeScreenshot(testName + (renderId++) + '.png');
         });
       });
 
@@ -164,6 +170,7 @@ function (Okta,
           expect(test.form.hasErrorBox()).toBe(true);
           expect(test.form.errorBoxMessage())
             .toBe('There was an unexpected internal error. Please try again.');
+          Util.takeScreenshot(testName + (renderId++) + '.png');
         });
       });
     });

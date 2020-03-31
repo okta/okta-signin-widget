@@ -67,14 +67,14 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
       }
     }
 
-    const screenshotPath = './.tmp/screenshots/EnrollPassword_spec';
+    const testName = 'EnrollPassword_spec';
     var renderId = 0;
 
     itp('displays the correct factorBeacon', function () {
       return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-okta-password')).toBe(true);
-        Util.takeScreenshot(screenshotPath + (renderId++) + '.png');
+        Util.takeScreenshot(testName + (renderId++) + '.png');
       });
     });
     itp('does not allow autocomplete', function () {
@@ -105,7 +105,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
         .then(function (test) {
           Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
-          Util.takeScreenshot(screenshotPath + (renderId++) + '.png');
+          Util.takeScreenshot(testName + (renderId++) + '.png');
         });
     });
     itp('calls enroll with the right arguments when save is clicked', function () {
@@ -155,7 +155,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
         spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function () {
           return true;
         });
-        Util.takeScreenshot(screenshotPath + (renderId++) + '.png');
+        Util.takeScreenshot(testName + (renderId++) + '.png');
         return Expect.waitForSpyCall(test.successSpy, test);
       })
         .then(function () {
@@ -189,7 +189,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
         expect(test.form.passwordFieldErrorMessage()).toBe('This field cannot be left blank');
         expect(test.form.confirmPasswordFieldErrorMessage()).toBe('This field cannot be left blank');
         expect(Util.numAjaxRequests()).toBe(0);
-        Util.takeScreenshot(screenshotPath + (renderId++) + '.png');
+        Util.takeScreenshot(testName + (renderId++) + '.png');
       });
     });
     itp('validates password and confirmPassword fields match and errors before the request', function () {
@@ -204,7 +204,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
         expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
         expect(test.form.confirmPasswordFieldErrorMessage()).toBe('Passwords must match');
         expect(Util.numAjaxRequests()).toBe(0);
-        Util.takeScreenshot(screenshotPath + (renderId++) + '.png');
+        Util.takeScreenshot(testName + (renderId++) + '.png');
       });
     });
     itp('shows error if error response on enrollment', function () {
@@ -224,7 +224,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
           expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
           expect(test.form.passwordFieldErrorMessage()).toBe('Password cannot be your current password');
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-          Util.takeScreenshot(screenshotPath + (renderId++) + '.png');
+          Util.takeScreenshot(testName + (renderId++) + '.png');
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {
               controller: 'enroll-password'

@@ -26,7 +26,6 @@ env:
   - TEST_SUITE=test:e2e
   - TEST_SUITE=test:testcafe-ci
   - TEST_SUITE=commitlint-travis
-  - TEST_SUITE=test:applitools
   global:
   - SAUCE_BROWSER_NAME="chrome"
   - SAUCE_BROWSER_VERSION=""

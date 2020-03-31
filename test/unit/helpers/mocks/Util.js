@@ -362,14 +362,16 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
     return responseCopy;
   };
 
-  fn.takeScreenshot = function (file) {
+  fn.takeScreenshot = function (name) {
+    const screenshotPath = './.tmp/screenshots/';
+
     // check if we are in PhantomJS
     if (window.top.callPhantom === undefined) {
       return;
     }
 
     var options = {type: 'render'};
-    options.fname = file;
+    options.fname = screenshotPath + name;
 
     // this calls the onCallback function of PhantomJS, the type: 'render' will trigger the screenshot script
     window.top.callPhantom(options);
