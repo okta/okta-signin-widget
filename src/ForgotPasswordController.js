@@ -24,7 +24,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, Util, ContactSu
 
   var _ = Okta._;
   var noFactorsError = '<div class="okta-form-infobox-error infobox infobox-error" role="alert">\
-    <span class="icon error-16" aria-hidden="true"></span>\
+    <span class="icon error-16"></span>\
     <p>{{i18n code="password.forgot.noFactorsEnabled" bundle="login"}}</p>\
   </div>';
 

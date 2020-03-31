@@ -17,7 +17,7 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
   return Okta.View.extend({
     className: 'hide resend-email-infobox',
     template: '<div class="infobox infobox-warning">' +
-      '<span class="icon warning-16" aria-hidden="true"></span>' +
+      '<span class="icon warning-16"></span>' +
       '<p>' +
       '<span>{{i18n code="email.code.not.received" bundle="login"}}</span>'+
       '<a href="#" class="resend-email-btn">' +

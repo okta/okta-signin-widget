@@ -23,7 +23,7 @@ function (Okta, CookieUtil, Util, NumberChallengeView) {
   var titleTpl = Okta.tpl('{{factorName}} ({{{deviceName}}})');
   var WARNING_TIMEOUT = 30000; //milliseconds
   var warningTemplate = '<div class="okta-form-infobox-warning infobox infobox-warning">\
-                           <span class="icon warning-16" aria-hidden="true"></span>\
+                           <span class="icon warning-16"></span>\
                            <p>{{warning}}</p>\
                          </div>';
 
