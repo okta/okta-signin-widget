@@ -47,8 +47,8 @@ function (Okta, Q, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPol
     describe('PollingForm Content', function () {
       itp('shows the correct content on load', function () {
         return setup().then(function (test) {
-          const title = 'There are too many users trying to sign in right now. We will automatically retry in';
-          expect(test.form.pageTitle().text().trim()).toContain(title);
+          const title = 'There are too many users trying to sign in right now. We will automatically retry in 2 seconds.';
+          expect(test.form.pageTitle().text().trim()).toBe(title);
         });
       });
       itp('has the cancel button', function () {

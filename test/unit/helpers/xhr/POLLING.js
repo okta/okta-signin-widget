@@ -12,7 +12,7 @@ define({
           "factorType":"okta-poll",
           "provider":"OKTA",
           "profile":{
-             "refresh": 1000
+             "refresh": 2000
           }
        }
     },
