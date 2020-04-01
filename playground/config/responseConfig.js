@@ -140,5 +140,5 @@ const appleCredentialSsoExtension = {
 };
 
 module.exports = {
-  mocks: authn,
+  mocks: idx,
 };
