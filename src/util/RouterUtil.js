@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 45], max-statements: [2, 30] */
+/* eslint complexity: [2, 46], max-statements: [2, 40] */
 define([
   'okta',
   './OAuth2Util',
@@ -230,6 +230,12 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       router.navigate(url, { trigger: true });
       router.appState.clearLastFailedChallengeFactorData();
       return;
+
+    case 'POLL':
+      var pollUrl = 'signin/poll';
+      router.navigate(pollUrl, { trigger: true });
+      return;
+
     case 'MFA_CHALLENGE':
       // Since we normally trap MFA_CHALLENGE, this will only get called on a
       // page refresh or when an error is returned on verification with an IdP.
