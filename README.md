@@ -430,6 +430,7 @@ The only required configuration option is `baseUrl`. All others are optional.
 var config = {
   baseUrl: 'https://{yourOktaDomain}',
   logo: '/path/to/logo.png',
+  logoText: 'logo text',
   helpSupportNumber: '(123) 456-7890',
   language: 'en',
   i18n: {
@@ -465,6 +466,13 @@ var signIn = new OktaSignIn(config);
 
     // Can also be a full url
     logo: 'https://acme.com/img/logo.png'
+    ```
+
+- **logoText:** Text for `alt` attribute of the logo image
+
+    ```javascript
+    // Text to describe the logo
+    logoText: 'logo text'
     ```
 
 - **helpSupportNumber:** Support phone number that is displayed in the Password Reset and Unlock Account flows. If no number is provided, no support screen is shown to the user.
