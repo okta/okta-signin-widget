@@ -15,6 +15,7 @@ packages/@okta/courage-dist/*.html
 /dist
 .yalc
 .env
+.eslintcache
 testenv
 packages/@okta/i18n/src/json/
 packages/@okta/i18n/src/properties/*_in.*

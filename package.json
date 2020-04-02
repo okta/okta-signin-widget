@@ -68,7 +68,8 @@
     "build:webpack-e2e-app": "webpack target/e2e/app/app-using-osw-entry.js target/js/app-bundle.js",
     "prestart": "yarn build:dev",
     "prepublishOnly": "yarn build:release",
-    "mock:authenticator": "dyson playground/mocks/authenticator/ 6512"
+    "mock:authenticator": "dyson playground/mocks/authenticator/ 6512",
+    "prepush": "yarn lint:eslint --cache && yarn lint:stylelint --cache"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
