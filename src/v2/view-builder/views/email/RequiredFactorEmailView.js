@@ -49,8 +49,7 @@ const ResendView = View.extend(
 const Body = BaseForm.extend(Object.assign(
   {
     save: loc('mfa.challenge.verify', 'login'),
-    subtitle:'subtitle',
-
+    subtitle:'A verification code was sent to your email.',
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
       // polling has been killed when click save to avoid race conditions hence resume if save failed.
@@ -64,8 +63,8 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     postRender () {
-      //To add message above the warning callouts, we are adding it to the subtitle class that comes from
-      //baseForm if subtitle property exists, hence we first empty the content and then add the relevant message
+      //Override message in form subtitle so that we can add html content to it. Courage form subtitle doesn't
+      //support html tags.
       this.$el.find('.okta-form-subtitle').empty();
       this.add(`<div>A verification code was sent to <span class='strong'>
         ${this.options.appState.get('factorProfile').email}</span>.
