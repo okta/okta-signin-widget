@@ -1,4 +1,16 @@
 .siw-main-view {
+  .siw-main-body {
+    a.resend-link {
+      cursor: pointer;
+    }
+
+    span.strong {
+      font-weight: bold;
+      color: $dark-text-color;
+      word-break: break-all;
+    }
+  }
+
   .siw-main-footer {
     .auth-footer {
       .js-enroll {

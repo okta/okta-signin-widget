@@ -1,5 +1,9 @@
 export default {
   title () {
-    return `Email link (${this.options.appState.get('factorProfile').email})`;
+    if(this.options.appState.getCurrentViewState().name === 'enroll-factor') {
+      return 'Set up Email Authentication';
+    } else {
+      return 'Verify with Email Authentication';      
+    }
   }
 };
