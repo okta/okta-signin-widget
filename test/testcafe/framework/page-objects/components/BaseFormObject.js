@@ -26,15 +26,15 @@ export default class BaseFormObject {
   }
 
   getTitle() {
-    return this.form.find('[data-se="o-form-head"]').textContent; 
+    return this.form.find('[data-se="o-form-head"]').innerText;
   }
 
   getSubtitle() {
-    return this.form.find('[data-se="o-form-explain"]').textContent;
+    return this.form.find('[data-se="o-form-explain"]').innerText;
   }
 
   getSelectFormButtonLabel(selector) {
-    return this.form.find(selector).textContent;
+    return this.form.find(selector).innerText;
   }
 
   getTextBoxValue(name) {
@@ -86,7 +86,7 @@ export default class BaseFormObject {
   }
 
   getTextBoxErrorMessage(name) {
-    return this.form.find(`.o-form-input-name-${name} + .o-form-input-error`).textContent;
+    return this.form.find(`.o-form-input-name-${name} + .o-form-input-error`).innerText;
   }
 
   getCallout(selector) {

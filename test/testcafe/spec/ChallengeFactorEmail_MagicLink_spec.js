@@ -36,6 +36,7 @@ test
   .requestHooks(magicLinkReturnTabMock)(`challenge email factor with magic link`, async t => {
     await setup(t);
     const terminalPageObject = await new TerminalPageObject(t);
+    await t.expect(terminalPageObject.getFormTitle()).eql('Verify with Email Authentication');
     await t.expect(terminalPageObject.getFormSubtitle()).eql('To finish signing in, return to the screen where you requested the email link.');
   });
 
@@ -60,9 +61,9 @@ test
       record.request.url.match(/poll/)
     )).eql(16);
     await t.expect(challengeFactorPageObject.resendEmailView().getStyleProperty('display')).eql('block');
-    const resendEmailViewCallout = challengeFactorPageObject.getResendEmailViewCallout();
-    await t.expect(resendEmailViewCallout).eql('Haven\'t received an email? To try again, click "Resend Email"');
-    await challengeFactorPageObject.clickResendEmailButton();
+    const resendEmailView = challengeFactorPageObject.resendEmailView();
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
+    await challengeFactorPageObject.clickSendAgainLink();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll|resend/)

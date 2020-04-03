@@ -13,6 +13,9 @@ const idx = {
   '/idp/idx/challenge/send': [
     'factor-verification-email',
   ],
+  '/idp/idx/challenge/resend': [
+    'factor-verification-email',
+  ],
   '/idp/idx/challenge/poll': [
     'factor-verification-email',
   ],

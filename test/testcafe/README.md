@@ -9,6 +9,10 @@ Run All
 
 - `yarn test:testcafe chrome`
 
+Run All in headless chrome
+
+- `yarn test:testcafe chrome:headless`
+
 Run single Fixture
 
 - `yarn test:testcafe chrome -f "Unknown user form"`

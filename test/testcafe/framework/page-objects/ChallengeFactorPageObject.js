@@ -25,16 +25,12 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.getErrorBoxText();
   }
 
-  getResendEmailViewCallout() {
-    return this.form.getElement('.resend-email-view p').textContent;
-  }
-
   resendEmailView() {
     return this.form.getElement('.resend-email-view');
   }
 
-  async clickResendEmailButton() {
-    await this.form.clickElement('.resend-email-view a.button');
+  async clickSendAgainLink() {
+    await this.form.clickElement('.resend-email-view a.resend-link');
   }
 
 }

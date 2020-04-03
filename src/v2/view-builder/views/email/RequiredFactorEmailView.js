@@ -1,4 +1,4 @@
-import { loc, View, createCallout, createButton, _ } from 'okta';
+import { loc, View, createCallout, _ } from 'okta';
 import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
 import email from '../shared/email';
@@ -9,23 +9,31 @@ const SHOW_RESEND_TIMEOUT = 60000;
 
 const ResendView = View.extend(
   {
-  // by default is hide after one minute polling
+    //only show after certain threshold of polling
     className: 'hide resend-email-view',
+    events: {
+      'click a.resend-link' : 'handelResendLink'
+    },
+
     initialize () {
       this.add(createCallout({
-        subtitle: 'Haven\'t received an email? To try again, click "Resend Email"',
+        content: 'Haven\'t received an email? <a class=\'resend-link\'>Send again</a>',
         type: 'warning',
-      }));
-      this.add(createButton({
-        className: 'button',
-        title: 'Resend Email',
-        click () {
-          this.options.appState.trigger('invokeAction', 'factor-resend');
-        }
       }));
     },
 
+    handelResendLink () {
+      this.options.appState.trigger('invokeAction', 'factor-resend');
+      //hide warning, but reinitiate to show warning again after some threshold of polling
+      this.$el.addClass('hide');
+      this.showCalloutWithDelay();
+    },
+
     postRender () {
+      this.showCalloutWithDelay();
+    },
+
+    showCalloutWithDelay () {
       this.showMeTimeout = _.delay(() => {
         this.$el.removeClass('hide');
       }, SHOW_RESEND_TIMEOUT);
@@ -39,16 +47,12 @@ const ResendView = View.extend(
 );
 
 const Body = BaseForm.extend(Object.assign(
-
   {
     save: loc('mfa.challenge.verify', 'login'),
-
+    subtitle:'A verification code was sent to your email.',
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
-      this.add(`<div class="email-verification-description">An email has been sent to you. 
-          Please click the link in your email or enter the code from that email below.</div>`);
-      // polling has been killed when click save to avoid race conditions
-      // hence resume if save failed.
+      // polling has been killed when click save to avoid race conditions hence resume if save failed.
       this.listenTo(this.options.model, 'error', this.startPolling.bind(this));
     },
 
@@ -59,8 +63,15 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     postRender () {
+      //Override message in form subtitle so that we can add html content to it. Courage form subtitle doesn't
+      //support html tags.
+      this.$el.find('.okta-form-subtitle').empty();
+      this.add(`<div>A verification code was sent to <span class='strong'>
+        ${this.options.appState.get('factorProfile').email}</span>.
+        Check your email and enter the code below.</div>`, '.okta-form-subtitle');
+
       this.add(ResendView, {
-        selector: '.o-form-fieldset-container',
+        selector: '.o-form-error-container',
         prepend: true,
       });
 
