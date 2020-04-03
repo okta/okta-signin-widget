@@ -468,7 +468,7 @@ var signIn = new OktaSignIn(config);
     logo: 'https://acme.com/img/logo.png'
     ```
 
-- **logoText:** Text for `alt` attribute of the logo image
+- **logoText:** Text for `alt` attribute of the logo image, logo text will only show up when logo image is not avaiable
 
     ```javascript
     // Text to describe the logo
