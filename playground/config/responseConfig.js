@@ -131,11 +131,8 @@ const appleCredentialSsoExtension = {
   '/idp/idx/introspect': [
     'identify-with-apple-credential-sso-extension',
   ],
-  '/idp/idx/authenticators/sso_extension/transactions/123/verify': [
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
     'identify'
-  ],
-  '/idp/idx': [
-    'error-email-verify',
   ],
 };
 
