@@ -69,7 +69,8 @@ const Body = BaseForm.extend(Object.assign(
           title: loc('universalLink.button', 'login'),
           click () {
             const universalLink = deviceChallenge.href;
-            universalLink && Util.redirectWithForm(universalLink);
+            window.location.href = universalLink;
+            // universalLink && Util.redirectWithForm(universalLink);
           }
         }));
       }

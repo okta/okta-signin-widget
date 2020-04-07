@@ -104,9 +104,9 @@
 
 .button-secondary.link-button {
   @extend .button-wide;
-  color: $od-secondary-button-text-color;
-  border: 1px solid $od-secondary-button-text-color;
-  background-color: $od-secondary-button-bg-color;
+  // color: $od-secondary-button-text-color;
+  // border: 1px solid $od-secondary-button-text-color;
+  // background-color: $od-secondary-button-bg-color;
   border-radius: $border-radius-default;
   box-sizing: border-box;
 
@@ -118,13 +118,13 @@
   &:last-of-type {
     margin-bottom: 25px;
   }
-  &:active,
-  &:focus,
-  &:hover {
-    color: $od-secondary-button-action-text-color;
-    border-color: $od-secondary-button-action-text-color;
-    background-color: $od-secondary-button-action-bg-color;
-  }
+  // &:active,
+  // &:focus,
+  // &:hover {
+  //   color: $od-secondary-button-action-text-color;
+  //   border-color: $od-secondary-button-action-text-color;
+  //   background-color: $od-secondary-button-action-bg-color;
+  // }
 
   &:active,
   &:focus,
