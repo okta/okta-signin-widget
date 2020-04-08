@@ -22,6 +22,13 @@ const Body = BaseForm.extend(Object.assign(
 
     className: 'ion-form device-challenge-poll',
 
+    events: {
+      'click #launch-ov': function (e) {
+        e.preventDefault();
+        this.doCustomURI();
+      }
+    },
+
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
@@ -74,11 +81,6 @@ const Body = BaseForm.extend(Object.assign(
           }
         }));
       }
-    },
-
-    postRender () {
-      BaseForm.prototype.postRender.apply(this, arguments);
-      this.$('#launch-ov').on('click', this.doCustomURI.bind(this));
     },
 
     doLoopback (authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
@@ -141,7 +143,10 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     doCustomURI () {
-      this.customURI && Util.redirectWithFormGet(this.customURI);
+      this.ulDom && this.ulDom.remove();
+      this.ulDom = this.add(`
+        <iframe src="${this.customURI}" id="custom-uri-container" style="display:none;"></iframe>
+      `).last();
     },
   },
 
