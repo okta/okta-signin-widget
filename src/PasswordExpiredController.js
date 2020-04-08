@@ -68,7 +68,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Uti
       },
       subtitle: function () {
         if (this.options.appState.get('isPwdExpiringSoon') && 
-            !this.settings.get('features.alwaysDisplayPasswordRules')) {
+          !this.settings.get('features.alwaysDisplayPasswordRules')) {
           return this.settings.get('brandName') ?
             Okta.loc('password.expiring.subtitle.specific', 'login', [this.settings.get('brandName')]) :
             Okta.loc('password.expiring.subtitle.generic', 'login');
