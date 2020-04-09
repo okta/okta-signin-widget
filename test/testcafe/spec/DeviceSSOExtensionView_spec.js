@@ -3,6 +3,7 @@ import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identifyWithAppleRedirectSSOExtension from '../../../playground/mocks/idp/idx/data/identify-with-apple-redirect-sso-extension';
 import identifyWithAppleCredentialSSOExtension from '../../../playground/mocks/idp/idx/data/identify-with-apple-credential-sso-extension';
+import identifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/idp/idx/data/identify-with-no-sso-extension';
 import identify from '../../../playground/mocks/idp/idx/data/identify';
 
 const logger = RequestLogger(/introspect/);
@@ -21,15 +22,22 @@ RzdHpy_4Oeq477n4NGsJLvJNKDi_FOEulqAtCMnjh20vEJI6e4uNIxoSSCfxRCzp-0tdRIJ_7dGM-Isy
 E9QJAVEwf06gULnbw5n6wpiAiDqa4HlkKP6K5-v1Y0XQ`;
 
 const redirectSSOExtensionMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithAppleRedirectSSOExtension)
   .onRequestTo(verifyUrl)
   .respond('<html><h1>Sign in verified</h1></html>');
 
 const credentialSSOExtensionMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithAppleCredentialSSOExtension)
   .onRequestTo(verifyUrl)
+  .respond(identify);
+
+const credentialSSONotExistLogger = RequestLogger(/introspect|verify\/cancel/); 
+const credentialSSONotExistMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyWithNoAppleCredentialSSOExtension)
+  .onRequestTo(/idp\/idx\/authenticators\/sso_extension\/transactions\/456\/verify\/cancel/)
   .respond(identify);
 
 fixture(`App SSO Extension View`);
@@ -54,6 +62,23 @@ test
   await t.expect(logger.count(
     record => record.response.statusCode === 200 &&
     record.request.url.match(/introspect/)
+  )).eql(1);
+  const identityPage = new IdentityPageObject(t);
+  await identityPage.fillIdentifierField('Test Identifier');
+  await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+});
+
+test
+.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)(`cancels transaction when the authenticator does not exist`, async t => {
+  const ssoExtensionPage = new BasePageObject(t);
+  await ssoExtensionPage.navigateToPage();
+  await t.expect(credentialSSONotExistLogger.count(
+    record => record.response.statusCode === 200 &&
+    record.request.url.match(/introspect/)
+  )).eql(1);
+  await t.expect(credentialSSONotExistLogger.count(
+    record => record.response.statusCode === 200 &&
+    record.request.url.match(/verify\/cancel/)
   )).eql(1);
   const identityPage = new IdentityPageObject(t);
   await identityPage.fillIdentifierField('Test Identifier');
