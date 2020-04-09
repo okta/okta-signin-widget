@@ -68,8 +68,7 @@ const Body = BaseForm.extend(Object.assign(
           className: 'ul-button button button-wide button-primary',
           title: loc('universalLink.button', 'login'),
           click () {
-            const universalLink = deviceChallenge.href;
-            universalLink && Util.redirectWithForm(universalLink);
+            window.location.href = deviceChallenge.href;
           }
         }));
       }
