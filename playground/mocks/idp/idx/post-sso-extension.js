@@ -1,5 +1,5 @@
 const templateHelper = require('../../../config/templateHelper');
-const identify = require('./data/identify');
+const cancelTransaction = require('./data/identify-with-no-sso-extension');
 
 module.exports = templateHelper({
   path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',
@@ -9,6 +9,6 @@ module.exports = templateHelper({
     res.append('WWW-Authenticate', 'Oktadevicejwt realm="Okta Device"');
     next();
   },
-  template: identify, // TODO: find a way to improve this, now the mock config is not always on responseConfig
+  template: cancelTransaction, // TODO: find a way to improve this, now the mock config is not always on responseConfig
 });
 
