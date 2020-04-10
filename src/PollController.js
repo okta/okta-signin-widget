@@ -13,8 +13,9 @@
 define([
   'okta',
   'util/FormController',
+  'util/FormType',
 ],
-function (Okta, FormController) {
+function (Okta, FormController, FormType) {
   return FormController.extend({
     className: 'poll',
     Model: {
@@ -42,23 +43,38 @@ function (Okta, FormController) {
       modelEvents: {
         'cancelRequest': '_stopPolling'
       },
-
+      formChildren: [
+        FormType.View({
+          View:
+             '<div >\
+               <div data-se="poll-waiting" class="hide okta-waiting-spinner"></div>\
+             </div>'
+        })
+      ],
       _startPolling: function () {
         // start polling request 
-        this.transaction.poll()
+        this.transactionObject.poll()
           .then((resp) => {
-            this.options.appState.set('transaction', resp);
-            const factorPollingInterval = resp.factor.profile.refresh;
+            this.options.appState.trigger('setTransaction', resp);
+            const factorPollingInterval = resp.transaction.profile.refresh;
             let factorPollingIntervalSeconds = Math.floor(factorPollingInterval/1000);
             // start one second countdown for next poll request
             this.countDown  = setInterval(() => {
               // update title after every second and check if countdown == 1 to poll again
               const title = Okta.loc('polling.title','login', [factorPollingIntervalSeconds]);
               this.$el.find('.okta-form-title').text(title);
-              if (factorPollingIntervalSeconds === 1) {
-                // restart poll after countdown hits 1
+              this.$('.okta-waiting-spinner').hide();
+              if (factorPollingIntervalSeconds === 0) {
+                /* when countdown hits 0
+                 - stop current poll
+                 - show spinner
+                 - start next poll
+                */
                 this._stopPolling();
-                this._startPolling();
+                this.$('.okta-waiting-spinner').show();
+                setTimeout(() => {
+                  this._startPolling();
+                }, 200);
               } else {
                 // reduce countdown after every second
                 factorPollingIntervalSeconds = factorPollingIntervalSeconds-1;
@@ -78,8 +94,8 @@ function (Okta, FormController) {
       },
 
       initialize: function (options) {
-        this.transaction = options.appState.get('transaction');
-        this.factorPollingInterval = this.transaction.factor.profile.refresh;
+        this.transactionObject = options.appState.get('transaction');
+        this.factorPollingInterval = this.transactionObject.transaction.profile.refresh;
         const factorPollingIntervalSeconds = Math.floor(this.factorPollingInterval/1000);
         this.title = Okta.loc('polling.title','login', [factorPollingIntervalSeconds]);
       },

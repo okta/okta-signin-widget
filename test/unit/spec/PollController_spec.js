@@ -47,7 +47,7 @@ function (Okta, Q, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPol
     describe('PollingForm Content', function () {
       itp('shows the correct content on load', function () {
         return setup().then(function (test) {
-          const title = 'There are too many users trying to sign in right now. We will automatically retry in 2 seconds.';
+          const title = 'There are too many users trying to sign in right now. We will automatically retry in 0 seconds.';
           expect(test.form.pageTitle().text().trim()).toBe(title);
         });
       });
@@ -72,7 +72,7 @@ function (Okta, Q, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPol
             Expect.isJsonPost($.ajax.calls.argsFor(0), {
               url: 'https://example.okta.com/api/v1/authn/cancel',
               data: {
-                stateToken: '00_J1qxqyLs-6ZutUUWfbqm-1nqnW6n2o5z2wnBRHs'
+                stateToken: '00caLtr2zn6rEXWaHyNNmTfczuToPNY2R8y3f0yAK_'
               }
             });
           });
@@ -82,37 +82,40 @@ function (Okta, Q, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPol
 
   Expect.describe('Polling', function () {
     describe('API', function () {
+      var originalTimeout;
+      beforeEach(function () {
+        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
+      });
+
       itp('starts polling on load', function () {
-        return setup({}, [resPolling, resPolling, resPolling, resSuccess]).then(function (test) {
+        return setup({}, [resPolling, resPolling, resSuccess]).then((test) => {
+          //DEFAULT_TIMEOUT_INTERVAL is adjusted to give the test time to execute 2 polling requests
           return Expect.wait(function () {
-            return $.ajax.calls.count() > 3;
+            return $.ajax.calls.count() === 3;
           }, test);
         })
           .then(function () {
             // first call is for refresh-auth
-            expect($.ajax).toHaveBeenCalledTimes(4);
-            // 1st poll
+            expect($.ajax).toHaveBeenCalledTimes(3);
+            // poll
             Expect.isJsonPost($.ajax.calls.argsFor(1), {
-              url: 'https://example.okta.com/api/v1/authn/factors/okta-poll/poll',
+              url: 'https://example.okta.com/api/v1/authn/poll',
               data: {
-                stateToken: '00_J1qxqyLs-6ZutUUWfbqm-1nqnW6n2o5z2wnBRHs'
+                stateToken: '00caLtr2zn6rEXWaHyNNmTfczuToPNY2R8y3f0yAK_'
               }
             });
             // 2nd poll
             Expect.isJsonPost($.ajax.calls.argsFor(2), {
-              url: 'https://example.okta.com/api/v1/authn/factors/okta-poll/poll',
+              url: 'https://example.okta.com/api/v1/authn/poll',
               data: {
-                stateToken: '00_J1qxqyLs-6ZutUUWfbqm-1nqnW6n2o5z2wnBRHs'
-              }
-            });
-            // 3rd poll
-            Expect.isJsonPost($.ajax.calls.argsFor(3), {
-              url: 'https://example.okta.com/api/v1/authn/factors/okta-poll/poll',
-              data: {
-                stateToken: '00_J1qxqyLs-6ZutUUWfbqm-1nqnW6n2o5z2wnBRHs'
+                stateToken: '00caLtr2zn6rEXWaHyNNmTfczuToPNY2R8y3f0yAK_'
               }
             });
           });
+      });
+      afterEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
       });
     });
   });
