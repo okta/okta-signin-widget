@@ -136,7 +136,7 @@ const appleCredentialSsoExtension = {
   ],
 };
 
-const appleSSOExtensionFallback = {
+const appleUniversalLink = {
   '/idp/idx/introspect': [
     'identify-with-apple-sso-extension-fallback'
   ],

@@ -139,6 +139,24 @@ define([
       });
     });
 
+    describe('redirect', function () {
+      beforeEach(function () {
+        spyOn(Logger, 'error');
+      });
+      it('should load the URL', function () {
+        const win = jasmine.createSpyObj('window', {'location': 'href'});
+        Util.redirect('http://example.com/idp/123', win);
+        expect(win.location.href).toEqual('http://example.com/idp/123');
+      });
+      it('should not load an empty URL', function () {
+        Util.redirect('');
+        expect(Logger.error.calls.count()).toBe(1);
+        expect(Logger.error).toHaveBeenCalledWith(
+          'Cannot redirect to empty URL: ()'
+        );
+      });
+    });
+
     describe('redirectWithFormGet', function () {
 
       beforeEach(function () {
