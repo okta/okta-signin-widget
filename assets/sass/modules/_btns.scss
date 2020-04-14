@@ -1,3 +1,11 @@
+// TODO:
+// move to _variables.scss
+// once the file can be copied to target folder in okta-core/clients/loginpage
+$od-secondary-button-bg-color: #fff;
+$od-secondary-button-text-color: #1662dd;
+$od-secondary-button-action-bg-color: #e5edfb;
+$od-secondary-button-action-text-color: #124a94;
+
 /* ======= Buttons ======= */
 
 .button,
@@ -92,6 +100,38 @@
 
   &:last-of-type {
     margin-bottom: 25px;
+  }
+
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited {
+    text-decoration: none;
+  }
+}
+
+.button-secondary.link-button {
+  @extend .button-wide;
+  color: $od-secondary-button-text-color;
+  border: 1px solid $od-secondary-button-text-color;
+  background-color: $od-secondary-button-bg-color;
+  border-radius: $border-radius-default;
+  box-sizing: border-box;
+
+  display: block;
+  font-size: $font-size;
+  margin-top: 15px;
+  text-align: center;
+
+  &:last-of-type {
+    margin-bottom: 25px;
+  }
+  &:active,
+  &:focus,
+  &:hover {
+    color: $od-secondary-button-action-text-color;
+    border-color: $od-secondary-button-action-text-color;
+    background-color: $od-secondary-button-action-bg-color;
   }
 
   &:active,
