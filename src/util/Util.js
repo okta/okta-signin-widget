@@ -150,6 +150,14 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
     Logger.warn('controller: ' + className + ', error: ' + error);
   };
 
+  Util.redirect = function (url, win = window) {
+    if (!url) {
+      Logger.error(`Cannot redirect to empty URL: (${url})`);
+      return;
+    }
+    win.location.href = url;
+  };
+
   /**
    * Why redirect via Form get rather using `window.location.href`?
    * At the time of writing, Chrome (<72) in Android would block window location change
