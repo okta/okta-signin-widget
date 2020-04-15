@@ -60,7 +60,7 @@ export default Model.extend({
   },
 
   hasRemediationForm (formName) {
-    return Object.keys(this.get('idx').neededToProceed).filter(name => name === formName).length === 1;
+    return !_.isEmpty(this.get('idx').neededToProceed.find((remediation) => remediation.name === formName));
   },
 
   getActionByPath (actionPath) {
@@ -105,7 +105,9 @@ export default Model.extend({
     // Don't re-render view if new response is same as last.
     // Usually happening at polling and pipeline doesn't proceed to next step.
     // expiresAt will be different for each response, hence compare objects without that property
-    if (_.isEqual(_.omit(idx.rawIdxState, 'expiresAt'), _.omit(this.get('__previousResponse'), 'expiresAt'))) {
+    const currentState = _.omit(idx.rawIdxState, 'expiresAt');
+    const previousState = _.omit(this.get('__previousResponse'), 'expiresAt');
+    if (currentState.stateHandle === previousState.stateHandle) {
       return;
     }
 

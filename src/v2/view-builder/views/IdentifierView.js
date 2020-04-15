@@ -2,6 +2,7 @@ import { View, loc, createButton } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
+import { getIdpButtons } from '../utils/RemediationUtil';
 
 const Body = BaseForm.extend({
 
@@ -28,6 +29,16 @@ const Body = BaseForm.extend({
         }
       }), '.o-form-fieldset-container', false, true);
     }
+
+    //add idps
+    if (this.options.appState.get('idps')) {
+      this.title = loc('primaryauth.title');
+      const idpButtons = getIdpButtons(this.options.appState.get('idx').neededToProceed);
+      idpButtons.forEach((idpButton) => {
+        this.add(idpButton);
+      });
+    }
+
   }
 });
 

@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, ClientFunction } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '.infobox-warning > div';
@@ -6,6 +6,12 @@ const CALLOUT_SELECTOR = '.infobox-warning > div';
 export default class IdentityPageObject extends BasePageObject {
   constructor (t) {
     super(t);
+  }
+
+  async getPageUrl() {
+
+    const pageUrl = await ClientFunction(() => window.location.href)();
+    return pageUrl;
   }
 
   getPageTitle() {
@@ -58,6 +64,18 @@ export default class IdentityPageObject extends BasePageObject {
 
   getUnknownUserCalloutContent() {
     return this.form.getCallout(CALLOUT_SELECTOR).textContent;
+  }
+
+  getIdpButton(selector) {
+    return this.form.getCallout(selector);
+  }
+
+  clickIdpButton(selector) {
+    return this.form.clickElement(selector);
+  }
+
+  identifierFieldExists(selector) {
+    return this.form.elementExist(selector);
   }
 
   async clickRegistrationButton() {

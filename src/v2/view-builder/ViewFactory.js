@@ -22,7 +22,7 @@ import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnV
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
 import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
-
+import RedirectView from './views/RedirectView';
 
 const DEFAULT = '_';
 
@@ -71,6 +71,9 @@ const VIEWS_MAPPING = {
   },
   'success-redirect': {
     [DEFAULT]: SuccessView,
+  },
+  'redirect': {
+    [DEFAULT]: RedirectView,
   },
 };
 

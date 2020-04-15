@@ -51,5 +51,6 @@ test(`should the correct content`, async t => {
   await t.expect(identityPage.getSeparationLineText()).eql('OR');
   await identityPage.clickOktaVerifyButton();
   const header = new Selector('h2[data-se="o-form-head"]');
+  // TODO: OKTA-293678
   await t.expect(header.textContent).eql('Verify account access');
 });

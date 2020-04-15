@@ -235,6 +235,8 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
         deferred.resolve(trans);
       }).catch(function (err) {
         deferred.reject(err);
+        //throw errors at the idx-js layer
+        throw err;
       });
     }
     return deferred.promise;

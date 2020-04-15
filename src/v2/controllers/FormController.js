@@ -49,7 +49,7 @@ export default Controller.extend({
 
   invokeAction (actionPath = '') {
     const idx = this.options.appState.get('idx');
-    if (idx['neededToProceed'][actionPath]) {
+    if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {}).then((resp) => {
         this.options.appState.set('idx', resp);
         this.options.appState.trigger('remediationSuccess', resp.rawIdxState);
@@ -89,7 +89,7 @@ export default Controller.extend({
   handleFormSave (model) {
     const formName = model.get('formName');
     const idx = this.options.appState.get('idx');
-    if (!idx['neededToProceed'][formName]) {
+    if (!idx['neededToProceed'].find(item => item.name === formName)) {
       model.trigger('error', `Cannot find http action for "${formName}".`);
       return;
     }
