@@ -51,39 +51,50 @@ function (Okta, FormController, FormType) {
              </div>'
         })
       ],
-      _startPolling: function () {
+      _doPoll: function () {
         // start polling request 
         this.transactionObject.poll()
           .then((resp) => {
-            this.options.appState.trigger('setTransaction', resp);
-            const factorPollingInterval = resp.transaction.profile.refresh;
-            let factorPollingIntervalSeconds = Math.floor(factorPollingInterval/1000);
-            // start one second countdown for next poll request
-            this.countDown  = setInterval(() => {
-              // update title after every second and check if countdown == 1 to poll again
-              const title = Okta.loc('polling.title','login', [factorPollingIntervalSeconds]);
-              this.$el.find('.okta-form-title').text(title);
-              this.$('.okta-waiting-spinner').hide();
-              if (factorPollingIntervalSeconds === 0) {
-                /* when countdown hits 0
-                 - stop current poll
-                 - show spinner
-                 - start next poll
-                */
-                this._stopPolling();
-                this.$('.okta-waiting-spinner').show();
-                setTimeout(() => {
-                  this._startPolling();
-                }, 200);
-              } else {
-                // reduce countdown after every second
-                factorPollingIntervalSeconds = factorPollingIntervalSeconds-1;
-              }
-            }, 1000);
+            if (resp.data && resp.status !== 'POLL') {
+              this.options.appState.set('transaction', resp);
+              return;
+            }
+            this.$('.okta-waiting-spinner').hide();
+            let factorPollingIntervalSeconds = Math.ceil(resp.transaction.profile.refresh/1000);
+            this._startCountDown(factorPollingIntervalSeconds);
           })
           .fail(()=> {
             this._stopPolling();
           });
+      },
+
+      _startCountDown: function (factorPollingIntervalSeconds) {
+        // start one second countdown for next poll request
+        this.countDown  = setInterval(() => {
+          // update title after every second and check if countdown == 1 to poll again
+          this._updateTitle(factorPollingIntervalSeconds);
+          if (factorPollingIntervalSeconds === 0) {
+            /* when countdown hits 0
+                         - stop current poll
+                         - show spinner
+                         - start next poll
+                        */
+            this._stopPolling();
+            this.$('.okta-waiting-spinner').show();
+            // start after a small delay so that the spinner does not get hidden too soon
+            setTimeout(() => {
+              this._doPoll();
+            }, 200);
+          } else {
+            // reduce countdown after every second
+            factorPollingIntervalSeconds = factorPollingIntervalSeconds-1;
+          }
+        }, 1000);
+      },
+
+      _updateTitle: function (factorPollingIntervalSeconds) {
+        this.title = Okta.loc('polling.title','login', [factorPollingIntervalSeconds]);
+        this.$el.find('.okta-form-title').text(this.title);
       },
 
       _stopPolling: function () {
@@ -95,13 +106,14 @@ function (Okta, FormController, FormType) {
 
       initialize: function (options) {
         this.transactionObject = options.appState.get('transaction');
-        this.factorPollingInterval = this.transactionObject.transaction.profile.refresh;
-        const factorPollingIntervalSeconds = Math.floor(this.factorPollingInterval/1000);
-        this.title = Okta.loc('polling.title','login', [factorPollingIntervalSeconds]);
+        this.factorPollingIntervalSeconds = Math.ceil(this.transactionObject.transaction.profile.refresh/1000);
+        this._updateTitle(this.factorPollingIntervalSeconds);
       },
   
       postRender: function () {
-        this._startPolling(this.factorPollingInterval);
+        setTimeout(() => {
+          this._startCountDown(this.factorPollingIntervalSeconds);
+        }, this.factorPollingIntervalSeconds);
       },
     },
   

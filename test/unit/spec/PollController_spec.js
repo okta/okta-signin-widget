@@ -1,6 +1,5 @@
 define([
   'okta',
-  'q',
   '@okta/okta-auth-js/jquery',
   'helpers/mocks/Util',
   'helpers/dom/PollingForm',
@@ -11,10 +10,9 @@ define([
   'helpers/xhr/CANCEL',
   'helpers/xhr/SUCCESS'
 ],
-function (Okta, Q, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPolling, resCancel, resSuccess) {
+function (Okta, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPolling, resCancel, resSuccess) {
 
   var { _, $ } = Okta;
-  var itp = Expect.itp;
 
   function setup (settings, res) {
     settings || (settings = {});
@@ -44,21 +42,23 @@ function (Okta, Q, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPol
   }
 
   Expect.describe('Polling', function () {
-    describe('PollingForm Content', function () {
-      itp('shows the correct content on load', function () {
+    describe('Form Content', function () {
+      it('shows the correct content on load', function (done) {
         return setup().then(function (test) {
-          const title = 'There are too many users trying to sign in right now. We will automatically retry in 0 seconds.';
+          const title = 'There are too many users trying to sign in right now. We will automatically retry in 1 seconds.';
           expect(test.form.pageTitle().text().trim()).toBe(title);
-        });
+          done();
+        }).catch(done.fail);
       });
-      itp('has the cancel button', function () {
+      it('has the cancel button', function (done) {
         return setup().then(function (test) {
           expect(test.form.cancelButton()).toExist();
           expect(test.form.cancelButton().attr('value')).toBe('Cancel');
           expect(test.form.cancelButton().attr('class')).toBe('button button-primary');
-        });
+          done();
+        }).catch(done.fail);
       });
-      itp('cancel button click cancels the current stateToken and calls the cancel function', function () {
+      it('cancel button clicked cancels the current stateToken and calls the cancel function', function () {
         return setup({}, [resPolling, resPolling, resPolling, resCancel]).then(function (test) {
           $.ajax.calls.reset();
           test.setNextResponse(resCancel);
@@ -80,24 +80,19 @@ function (Okta, Q, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPol
     });
   });
 
-  Expect.describe('Polling', function () {
-    describe('API', function () {
+  Expect.describe('Polling API', function () {
+    describe('called on load', function () {
       var originalTimeout;
       beforeEach(function () {
         originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
       });
 
-      itp('starts polling on load', function () {
-        return setup({}, [resPolling, resPolling, resSuccess]).then((test) => {
-          //DEFAULT_TIMEOUT_INTERVAL is adjusted to give the test time to execute 2 polling requests
-          return Expect.wait(function () {
-            return $.ajax.calls.count() === 3;
-          }, test);
-        })
-          .then(function () {
-            // first call is for refresh-auth
+      it('makes the request correctly', function (done) {
+        setup({}, [resPolling, resPolling, resSuccess]).then(() => {
+          setTimeout(function () {
             expect($.ajax).toHaveBeenCalledTimes(3);
+            // first call is for refresh-auth
             // poll
             Expect.isJsonPost($.ajax.calls.argsFor(1), {
               url: 'https://example.okta.com/api/v1/authn/poll',
@@ -112,8 +107,12 @@ function (Okta, Q, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPol
                 stateToken: '00caLtr2zn6rEXWaHyNNmTfczuToPNY2R8y3f0yAK_'
               }
             });
-          });
+            done();
+          }, 9000);
+        }).catch(done.fail);
+
       });
+
       afterEach(function () {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
       });

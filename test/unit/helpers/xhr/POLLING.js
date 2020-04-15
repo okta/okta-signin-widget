@@ -9,7 +9,7 @@ define({
    "_embedded":{
       "transaction":{
          "profile":{
-            "refresh": 800
+            "refresh": 1000
          }
       }
    },
