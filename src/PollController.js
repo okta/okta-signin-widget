@@ -26,7 +26,7 @@ function (Okta, FormController, FormType) {
             this.options.appState.trigger('navigate', '');
           })
           .fail(() => {
-            this._stopPolling();
+            this._stopCountDown();
           });
       },
     },
@@ -41,7 +41,7 @@ function (Okta, FormController, FormType) {
       noCancelButton: true,
       save: Okta.loc('oform.cancel', 'login'),
       modelEvents: {
-        'cancelRequest': '_stopPolling'
+        'cancelRequest': '_stopCountDown'
       },
       formChildren: [
         FormType.View({
@@ -51,7 +51,7 @@ function (Okta, FormController, FormType) {
              </div>'
         })
       ],
-      _doPoll: function () {
+      _checkStatus: function () {
         // start polling request 
         this.transactionObject.poll()
           .then((resp) => {
@@ -64,7 +64,7 @@ function (Okta, FormController, FormType) {
             this._startCountDown(factorPollingIntervalSeconds);
           })
           .fail(()=> {
-            this._stopPolling();
+            this._stopCountDown();
           });
       },
 
@@ -77,13 +77,13 @@ function (Okta, FormController, FormType) {
             /* when countdown hits 0
                          - stop current poll
                          - show spinner
-                         - start next poll
+                         - check status
                         */
-            this._stopPolling();
+            this._stopCountDown();
             this.$('.okta-waiting-spinner').show();
             // start after a small delay so that the spinner does not get hidden too soon
-            setTimeout(() => {
-              this._doPoll();
+            this.checkStatusTimeout = setTimeout(() => {
+              this._checkStatus();
             }, 200);
           } else {
             // reduce countdown after every second
@@ -97,10 +97,14 @@ function (Okta, FormController, FormType) {
         this.$el.find('.okta-form-title').text(this.title);
       },
 
-      _stopPolling: function () {
-        // clear polling
+      _stopCountDown: function () {
+        // clear countdown setInterval
         if (this.countDown) {
           clearInterval(this.countDown);
+        }
+        // clear checkstatus setTimeout
+        if (this.checkStatusTimeout) {
+          clearInterval(this.checkStatusTimeout);
         }
       },
 
@@ -108,13 +112,9 @@ function (Okta, FormController, FormType) {
         this.transactionObject = options.appState.get('transaction');
         this.factorPollingIntervalSeconds = Math.ceil(this.transactionObject.transaction.profile.refresh/1000);
         this._updateTitle(this.factorPollingIntervalSeconds);
+        this._startCountDown(this.factorPollingIntervalSeconds);
       },
-  
-      postRender: function () {
-        setTimeout(() => {
-          this._startCountDown(this.factorPollingIntervalSeconds);
-        }, this.factorPollingIntervalSeconds);
-      },
+
     },
   
     back: function () {

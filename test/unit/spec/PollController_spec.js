@@ -82,12 +82,6 @@ function (Okta, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPollin
 
   Expect.describe('Polling API', function () {
     describe('called on load', function () {
-      var originalTimeout;
-      beforeEach(function () {
-        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
-      });
-
       it('makes the request correctly', function (done) {
         setup({}, [resPolling, resPolling, resSuccess]).then(() => {
           setTimeout(function () {
@@ -108,13 +102,8 @@ function (Okta, OktaAuth, Util, PollingForm, Expect, Router, $sandbox, resPollin
               }
             });
             done();
-          }, 9000);
+          }, 5000);
         }).catch(done.fail);
-
-      });
-
-      afterEach(function () {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
       });
     });
   });
