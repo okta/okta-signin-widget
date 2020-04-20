@@ -36,6 +36,9 @@ const VIEWS_MAPPING = {
   'device-apple-sso-extension': {
     [DEFAULT]: SSOExtensionView,
   },
+  'cancel-transaction': {
+    [DEFAULT]: SSOExtensionView,
+  },
   'select-factor': { //DEPRECATED: temporary backwards compatibility
     authenticate: SelectFactorAuthenticateView,
     enroll: SelectFactorEnrollView

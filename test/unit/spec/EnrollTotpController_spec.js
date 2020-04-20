@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 31] */
+/* eslint max-params: [2, 24] */
 define([
   'okta',
   '@okta/okta-auth-js/jquery',
@@ -21,13 +21,14 @@ define([
   'helpers/xhr/MFA_ENROLL_ACTIVATE_push_email',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_push_sms',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_push_timeout',
+  'helpers/xhr/ERROR_OPERATION_NOT_ALLOWED',
   'helpers/xhr/SUCCESS',
   'LoginRouter'
 ],
 function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
   ManualSetupForm, PassCodeForm, LinkSentConfirmation,  Beacon, Expect,
   $sandbox, resAllFactors, resFactorsWithPush, resTotpEnrollSuccess, resPushEnrollSuccess, resPushEnrollSuccessNewQR, resActivateError, resActivatePushEmail,
-  resActivatePushSms, resActivatePushTimeout, resSuccess, Router) {
+  resActivatePushSms, resActivatePushTimeout, resOperationNotAllowed, resSuccess, Router) {
 
   var { _, $ } = Okta;
   var itp = Expect.itp;
@@ -936,6 +937,23 @@ function (Okta, OktaAuth, LoginUtil, Util, DeviceTypeForm, BarcodeForm,
                 }
               }
             ]);
+          });
+      });
+      itp('shows modified error in case of E0000079 operation not allowed error response', function () {
+        return setupAndEnrollOktaTotpFn().then(function (test) {
+          test.scanCodeForm.submit();
+          return Expect.waitForActivateTotp(test);
+        })
+          .then(function (test) {
+            Expect.isVisible(test.passCodeForm.form());
+            test.setNextResponse(resOperationNotAllowed);
+            test.passCodeForm.setCode(123);
+            test.passCodeForm.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.passCodeForm.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('The operation is not allowed. Please refresh the page to proceed.');
           });
       });
       itp('calls activate with the right params', function () {
