@@ -50,6 +50,15 @@ function (Okta, CookieUtil, Util, NumberChallengeView) {
         }
       );
 
+      this.listenTo(this.options.appState, 'change:isMfaRejectedDueToOutdatedApp',
+        function (state, isMfaRejectedDueToOutdatedApp) {
+          this.setSubmitState(isMfaRejectedDueToOutdatedApp);
+          if (isMfaRejectedDueToOutdatedApp) {
+            this.showError(Okta.loc('oktaverify.rejected.upgradeRequired', 'login'));
+          }
+        }
+      );
+
       this.numberChallengeView = this.add(NumberChallengeView).last();
       this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge',
         function (state, isWaitingForNumberChallenge) {
