@@ -64,15 +64,9 @@ const Body = BaseForm.extend(Object.assign(
         this.add(`
           {{{i18n code="universalLink.content" bundle="login"}}}
         `);
-        this.add(createButton({
-          className: 'ul-button button button-wide button-primary',
-          title: loc('universalLink.button', 'login'),
-          click () {
-            // only window.location.href can open universal link in iOS/MacOS
-            // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
-            Util.redirect(deviceChallenge.href);
-          }
-        }));
+        this.add(`
+          <iframe src="${deviceChallenge.href}"></iframe>
+        `);
       }
     },
 
