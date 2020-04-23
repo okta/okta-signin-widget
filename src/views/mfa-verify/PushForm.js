@@ -54,7 +54,11 @@ function (Okta, CookieUtil, Util, NumberChallengeView) {
         function (state, isMfaRejectedDueToOutdatedApp) {
           this.setSubmitState(isMfaRejectedDueToOutdatedApp);
           if (isMfaRejectedDueToOutdatedApp) {
-            this.showError(Okta.loc('oktaverify.rejected.upgradeRequired', 'login'));
+            if (this.options.appState.get('factor').profile.platform === 'IOS') {
+              this.showError(Okta.loc('oktaverify.rejected.upgradeRequired.ios', 'login'));
+            } else {
+              this.showError(Okta.loc('oktaverify.rejected.upgradeRequired.android', 'login'));
+            }
           }
         }
       );
