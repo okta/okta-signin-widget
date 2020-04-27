@@ -1,5 +1,5 @@
 /* global Promise */
-import { $, loc } from 'okta';
+import { $, loc, createButton } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals//BaseFooter';
@@ -51,16 +51,28 @@ const Body = BaseForm.extend(Object.assign(
         this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
         break;
       case 'CUSTOM_URI':
-        this.title = 'Verify account access';
-        this.subtitle = 'Launching Okta Verify...';
+        this.title = loc('customUri.title', 'login');
+        this.subtitle = loc('customUri.subtitle', 'login');
         this.add(`
-          If nothing prompts from the browser,  
-          <a href="#" id="launch-ov" class="link">click here</a> to launch Okta Verify, 
-          or make sure Okta Verify is installed.
+          {{{i18n code="customUri.content" bundle="login"}}}
         `);
         this.customURI = deviceChallenge.href;
         this.doCustomURI();
         break;
+      case 'UNIVERSAL_LINK':
+        this.title = loc('universalLink.title', 'login');
+        this.add(`
+          {{{i18n code="universalLink.content" bundle="login"}}}
+        `);
+        this.add(createButton({
+          className: 'ul-button button button-wide button-primary',
+          title: loc('universalLink.button', 'login'),
+          click () {
+            // only window.location.href can open universal link in iOS/MacOS
+            // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
+            Util.redirect(deviceChallenge.href);
+          }
+        }));
       }
     },
 

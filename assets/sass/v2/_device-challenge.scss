@@ -19,12 +19,19 @@
         text-align: center;
       }
     }
-    .o-form-fieldset-container {
+    .skinny-content {
       width: 88%;
+      margin: 0 auto;
 
       .link {
         color: $primary-color;
       }
+    }
+    .ul-button {
+      margin-top: 20px;
+    }
+    .highlight-text {
+      font-weight: bold;
     }
   }
 }
