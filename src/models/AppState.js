@@ -254,22 +254,14 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return res.status === 'UNAUTHENTICATED';
         }
       },
-      'isMfaRejectedByUser': {
+      'isMfaRejected': {
         // MFA failures are usually error responses
         // except in the case of Okta Push, when a
-        // user clicks 'deny' on his phone.
+        // user clicks 'deny' on his phone or OV app
+        // version is below a required version no.
         deps: ['lastAuthResponse'],
         fn: function (res) {
-          return res.factorResult === 'REJECTED' && !res.factorResultMessage;
-        }
-      },
-      'isMfaRejectedDueToOutdatedApp': {
-        // MFA failures are usually error responses
-        // except in the case of Okta Push, when a
-        // user clicks 'deny' on his phone.
-        deps: ['lastAuthResponse'],
-        fn: function (res) {
-          return res.factorResult === 'REJECTED' && res.factorResultMessage === 'OKTA_VERIFY_UPGRADE_REQUIRED';
+          return res.factorResult === 'REJECTED';
         }
       },
       'isMfaTimeout': {

@@ -41,27 +41,7 @@ function (Okta, CookieUtil, Util, NumberChallengeView) {
 
     initialize: function () {
       this.enabled = true;
-      this.listenTo(this.options.appState, 'change:isMfaRejectedByUser',
-        function (state, isMfaRejectedByUser) {
-          this.setSubmitState(isMfaRejectedByUser);
-          if (isMfaRejectedByUser) {
-            this.showError(Okta.loc('oktaverify.rejected', 'login'));
-          }
-        }
-      );
-
-      this.listenTo(this.options.appState, 'change:isMfaRejectedDueToOutdatedApp',
-        function (state, isMfaRejectedDueToOutdatedApp) {
-          this.setSubmitState(isMfaRejectedDueToOutdatedApp);
-          if (isMfaRejectedDueToOutdatedApp) {
-            if (this.options.appState.get('factor').profile.platform === 'IOS') {
-              this.showError(Okta.loc('oktaverify.rejected.upgradeRequired.ios', 'login'));
-            } else {
-              this.showError(Okta.loc('oktaverify.rejected.upgradeRequired.android', 'login'));
-            }
-          }
-        }
-      );
+      this.listenTo(this.options.appState, 'change:isMfaRejected', this.handleRejectStateChange);
 
       this.numberChallengeView = this.add(NumberChallengeView).last();
       this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge',
@@ -159,6 +139,26 @@ function (Okta, CookieUtil, Util, NumberChallengeView) {
     },
     clearWarnings: function () {
       this.$('.okta-form-infobox-warning').remove();
+    },
+    handleRejectStateChange: function (state, isMfaRejected) {
+      if (isMfaRejected) {
+        this.setSubmitState(isMfaRejected);
+        this.setRejectedErrorMessage();
+      }
+    },
+    setRejectedErrorMessage: function () {
+      // If rejection is due to outdated app, show error message per platform
+      // else show user rejected message.
+      if (this.options.appState.get('lastAuthResponse').factorResultMessage
+        === 'OKTA_VERIFY_UPGRADE_REQUIRED') {
+        if (this.options.appState.get('factor').profile.platform === 'IOS') {
+          this.showError(Okta.loc('oktaverify.rejected.upgradeRequired.ios', 'login'));
+        } else {
+          this.showError(Okta.loc('oktaverify.rejected.upgradeRequired.android', 'login'));
+        }
+      } else {
+        this.showError(Okta.loc('oktaverify.rejected', 'login'));
+      }
     }
   });
 });
