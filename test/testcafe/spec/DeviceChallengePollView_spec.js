@@ -33,7 +33,7 @@ const loopbackSuccesskMock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
-const loopbackFallbackLogger = RequestLogger(/introspect|probe|cancel|launch|launch-okta-verify|poll/);
+const loopbackFallbackLogger = RequestLogger(/introspect|probe|cancel|launch|poll/);
 const loopbackFallbackMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
@@ -51,6 +51,7 @@ const mockHttpCustomUri = 'http://localhost:3000/launch-okta-verify';
 // replace custom URI with http URL so that we can mock and verify
 identifyWithLaunchAuthenticatorHttpCustomUri.authenticatorChallenge.value.href = mockHttpCustomUri;
 
+const customURILogger = RequestLogger(/launch-okta-verify/);
 const customURIMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithLaunchAuthenticatorHttpCustomUri)
@@ -59,7 +60,7 @@ const customURIMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchAuthenticatorHttpCustomUri);
 
-// replace custom URI with http URL so that we can mock and verify
+// replace universal link with http URL so that we can mock and verify
 identifyWithLaunchUniversalLink.authenticatorChallenge.value.href = mockHttpCustomUri;
 const universalLinkMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
@@ -139,9 +140,15 @@ test
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
-  .requestHooks(customURIMock)(`in custom URI approach, Okta Verify is launched`, async t => {
-    await setup(t);
-    await t.expect(getPageUrl()).contains(mockHttpCustomUri);
+  .requestHooks(customURILogger, customURIMock)(`in custom URI approach, Okta Verify is launched`, async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await t.expect(customURILogger.count(
+      record => record.request.url.match(/launch-okta-verify/)
+    )).eql(1);
+    await deviceChallengePollPageObject.clickLaunchOktaVerifyLink();
+    await t.expect(customURILogger.count(
+      record => record.request.url.match(/launch-okta-verify/)
+    )).eql(2);
   });
 
 test
