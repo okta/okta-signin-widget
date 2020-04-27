@@ -292,8 +292,9 @@ define([
     expect(args.url).toBe(expected.url);
     expect(args.method).toBe('GET');
     expect(args.requestHeaders).toEqual(jasmine.objectContaining({
-      'Accept': '*/*',
-      'Content-Type': 'application/json'
+      'accept': 'application/json',
+      'content-type': 'application/json',
+      'x-okta-user-agent-extended': 'okta-signin-widget-' + config.version
     }));
   };
 

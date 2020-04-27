@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import fetch from 'cross-fetch';
+
 define([
   'jquery',
   'underscore',
@@ -144,12 +146,16 @@ define([
       languageCode: languageCode
     }));
 
-    return $.ajax({
-      url: assets.baseUrl + path,
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-Okta-User-Agent-Extended': 'okta-signin-widget-' + config.version
+    };
+
+    return fetch(assets.baseUrl + path, {
       method: 'GET',
-      contentType: 'application/json',
-      cache: true,
-    });
+      headers
+    }).then(res => res.json());
   }
 
   function getBundles (language, assets) {

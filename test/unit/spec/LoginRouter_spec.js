@@ -227,12 +227,11 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
             language: lang,
             assets: {
               baseUrl: '/base/target', // local json bundles are served to us through karma
-            }
+            },
           })
             .then(function (test) {
               test.router.appState.on('loading', loadingSpy);
               spyOn(Bundles, 'loadLanguage').and.callThrough();
-              spyOn($, 'ajax').and.callThrough();
               test.router.passwordExpired(); // choosing a simple view with text
               return Expect.wait(function () {
                 var call = loadingSpy.calls.mostRecent();
@@ -240,16 +239,10 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
               }, test);
             })
             .then(function () {
-              expect($.ajax).toHaveBeenCalledTimes(2); // login, country
               expect(Bundles.loadLanguage).toHaveBeenCalled();
               expect(Bundles.currentLanguage).toBe(lang);
-              $.ajax.calls.all().forEach(function (call) {
-                expect(call.returnValue.status).toBe(200);
-                expect(call.returnValue.responseJSON).toBeTruthy();
-              });
-
               // Verify that the translation is being applied
-              var loginBundle = $.ajax.calls.all()[0].returnValue.responseJSON;
+              var loginBundle = require('@okta/i18n/src/json/login_' + (lang.replace(/-/g, '_')) + '.json');
               var title = loginBundle['password.expired.title.generic'];
               var $title = $sandbox.find('.password-expired .okta-form-title');
               expect($title.length).toBe(1);
