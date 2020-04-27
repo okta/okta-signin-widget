@@ -23,4 +23,8 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   getSpinner() {
     return this.body.find('.spinner');
   }
+
+  async clickUniversalLink() {
+    await this.t.click(Selector('.ul-button'));
+  }
 }

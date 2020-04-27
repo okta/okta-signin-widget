@@ -139,6 +139,21 @@ const appleCredentialSsoExtension = {
   ],
 };
 
+const appleUniversalLink = {
+  '/idp/idx/introspect': [
+    'identify-with-apple-sso-extension-fallback'
+  ],
+  '/idp/idx/authenticators/okta-verify/launch': [
+    'identify-with-universal-link',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-universal-link',
+    'identify-with-universal-link',
+    'identify-with-universal-link',
+    'success',
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };

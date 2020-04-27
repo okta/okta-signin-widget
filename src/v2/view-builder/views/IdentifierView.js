@@ -19,7 +19,7 @@ const Body = BaseForm.extend({
         initialize () {
           const appState = this.options.appState;
           this.add(createButton({
-            className: 'button',
+            className: 'button-secondary',
             title: 'Sign in using Okta Verify',
             click () { 
               appState.trigger('invokeAction', 'launch-authenticator');
