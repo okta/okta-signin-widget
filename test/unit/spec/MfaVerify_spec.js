@@ -124,6 +124,10 @@ function (Okta,
     'GENERIC_SAML': 15,
     'GENERIC_OIDC': 16,
   };
+
+  const resRejectedPushAppUpgrade = deepClone(resRejectedPush);
+  resRejectedPushAppUpgrade.response.factorResultMessage = 'OKTA_VERIFY_UPGRADE_REQUIRED';
+
   function clickFactorInDropdown (test, factorName) {
     //assumes dropdown has all factors
     test.beacon.getOptionsLinks().eq(factors[factorName]).click();
@@ -2932,6 +2936,111 @@ function (Okta,
                   // Final response - REJECTED
                   .then(function (test) {
                     expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
+                    expect(test.form.submitButton().prop('disabled')).toBe(false);
+
+                    // Setup responses
+                    $.ajax.calls.reset();
+                    test.setNextResponse([resChallengePush, resChallengePush, resSuccess]);
+
+                    // Click submit
+                    test.form.submit();
+                  })
+                  .then(function () {
+                    return Expect.wait(function () {
+                      return $.ajax.calls.count() === 3;
+                    }, test);
+                  })
+                  .then(function () {
+                    expect($.ajax.calls.count()).toBe(3);
+
+                    // initial resendByName call
+                    Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                      url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify/resend',
+                      data: {
+                        stateToken: 'testStateToken'
+                      }
+                    });
+
+                    // first startVerifyFactorPoll call
+                    Expect.isJsonPost($.ajax.calls.argsFor(1), {
+                      url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify',
+                      data: {
+                        stateToken: 'testStateToken'
+                      }
+                    });
+
+                    // last startVerifyFactorPoll call
+                    Expect.isJsonPost($.ajax.calls.argsFor(2), {
+                      url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify',
+                      data: {
+                        stateToken: 'testStateToken'
+                      }
+                    });
+                  });
+              });
+            });
+            itp('on REJECTED requiring app upgrade on ios, re-enables submit, displays an error, and allows resending', function () {
+              return setupOktaPush().then(function (test) {
+                return setupPolling(test, resRejectedPushAppUpgrade)
+                  // Final response - REJECTED - requires app upgrade 
+                  .then(function (test) {
+                    expect(test.form.errorMessage()).toBe(
+                      'Verification failed because your Okta Verify version is no longer supported. To sign in, please update Okta Verify on the App Store, then try again.');
+                    expect(test.form.submitButton().prop('disabled')).toBe(false);
+
+                    // Setup responses
+                    $.ajax.calls.reset();
+                    test.setNextResponse([resChallengePush, resChallengePush, resSuccess]);
+
+                    // Click submit
+                    test.form.submit();
+                  })
+                  .then(function () {
+                    return Expect.wait(function () {
+                      return $.ajax.calls.count() === 3;
+                    }, test);
+                  })
+                  .then(function () {
+                    expect($.ajax.calls.count()).toBe(3);
+
+                    // initial resendByName call
+                    Expect.isJsonPost($.ajax.calls.argsFor(0), {
+                      url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify/resend',
+                      data: {
+                        stateToken: 'testStateToken'
+                      }
+                    });
+
+                    // first startVerifyFactorPoll call
+                    Expect.isJsonPost($.ajax.calls.argsFor(1), {
+                      url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify',
+                      data: {
+                        stateToken: 'testStateToken'
+                      }
+                    });
+
+                    // last startVerifyFactorPoll call
+                    Expect.isJsonPost($.ajax.calls.argsFor(2), {
+                      url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify',
+                      data: {
+                        stateToken: 'testStateToken'
+                      }
+                    });
+                  });
+              });
+            });
+            itp('on REJECTED requiring app upgrade on android, re-enables submit, displays an error, and allows resending', function () {
+              const resRejectedPushAppUpgradeAndroid = deepClone(resRejectedPushAppUpgrade);
+              resRejectedPushAppUpgradeAndroid.response._embedded.factor.profile.platform = 'ANDROID';
+              return setupOktaPush().then(function (test) {
+                // setting the platform as android in intial poll response too.
+                const resChallengePushAndroid = deepClone(resChallengePush);
+                resChallengePushAndroid.response._embedded.factor.profile.platform = 'ANDROID';
+                return setupPolling(test, resRejectedPushAppUpgradeAndroid, resChallengePushAndroid)
+                  // Final response - REJECTED - requires app upgrade 
+                  .then(function (test) {
+                    expect(test.form.errorMessage()).toBe(
+                      'Verification failed because your Okta Verify version is no longer supported. To sign in, please update Okta Verify on Google Play, then try again.');
                     expect(test.form.submitButton().prop('disabled')).toBe(false);
 
                     // Setup responses
