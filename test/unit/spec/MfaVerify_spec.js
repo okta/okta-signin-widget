@@ -153,7 +153,6 @@ function (Okta,
 
     function setup (res, selectedFactorProps, settings, languagesResponse, useResForIntrospect) {
       var setNextResponse = Util.mockAjax();
-      var setNextJSONPResponse = Util.mockJSONP();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
       var successSpy = jasmine.createSpy('success');
@@ -163,7 +162,7 @@ function (Okta,
       var resp = resAllFactors;
       setNextResponse(res);
       if (languagesResponse) {
-        setNextJSONPResponse(languagesResponse);
+        setNextResponse(languagesResponse);
       }
       router.refreshAuthState('dummy-token');
       return Expect.waitForMfaVerify()

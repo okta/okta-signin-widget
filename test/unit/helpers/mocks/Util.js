@@ -77,6 +77,13 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
       allResponses = allResponses.concat(responses);
     }
 
+    function respond (request, xhr) {
+      request.respondWith({
+        status: xhr.status,
+        responseText: (typeof xhr.response === 'string') ? xhr.response : JSON.stringify(xhr.response),
+      });
+    }
+  
     jasmine.Ajax.stubRequest(
       /.*/
     ).andCallFunction(request => {
@@ -88,10 +95,11 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
       if (typeof xhr === 'function') {
         xhr = xhr();
       }
-      request.respondWith({
-        status: xhr.status,
-        responseText: (typeof xhr.response === 'string') ? xhr.response : JSON.stringify(xhr.response),
-      });
+      if (xhr.delay) { // TODO: remove delay from tests
+        setTimeout(respond.bind(null, request, xhr), xhr.delay);
+        return;
+      }
+      respond(request, xhr);
     });
 
     function setNextResponse (response, responseTextOnly) {
@@ -125,52 +133,6 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
 
   fn.unmockAjax = function () {
     jasmine.Ajax.uninstall();
-  };
-
-  fn.mockJSONP = function (responses) {
-    let allResponses = [];
-    if (responses) {
-      allResponses = allResponses.concat(responses);
-    }
-
-    const origMethod = $.ajax;
-    spyOn($, 'ajax').and.callFake(function (req) {
-      // Only mock JSONP requests, pass others through
-      if (req.dataType !== 'jsonp') {
-        return origMethod(req);
-      }
-      const xhr = allResponses.shift();
-      if (!xhr) {
-        throw new Error(
-          'We are making a request that we have not anticipated: ' +
-          req.type.toUpperCase() + ' ' + req.url
-        );
-      }
-
-      var deferred = $.Deferred();
-      setTimeout(function () {
-        if (xhr.status > 0 && xhr.status < 300) {
-          // $.ajax send (data, textStatus, jqXHR) on success
-          deferred.resolve(xhr.response, null, xhr);
-        } else {
-          // $.ajax send (jqXHR, textStatus, errorThrown) on failure
-          const err = _.omit(xhr, 'response');
-          err.responseText = JSON.stringify(xhr.response);
-          deferred.reject(err, null, xhr.responseJSON);
-        }
-      }, xhr.delay || 0);
-      return deferred;
-    });
-
-    function setNextJSONPResponse (response) {
-      if (_.isArray(response)) {
-        allResponses = response.concat(allResponses);
-      } else {
-        allResponses.unshift(response);
-      }
-    }
-
-    return setNextJSONPResponse;
   };
 
   // Useful for overriding setting of security image (which tries to load

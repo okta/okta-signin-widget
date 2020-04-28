@@ -138,7 +138,7 @@ node_modules/@okta/okta-signin-widget/dist/
 │   └── okta-sign-in.js
 │
 │    # Localized strings that are used to display all text and labels in the
-│    # widget. Three output formats are included - json, jsonp, and properties
+│    # widget. Three output formats are included - json and properties
 ├── labels/
 │
 │   # Sass files that are used to generate the widget css. If you are already
@@ -689,7 +689,7 @@ var signIn = new OktaSignIn(config);
     }
     ```
 
-    **Note:** The jsonp files can be accessed from the `dist/labels/jsonp` folder that is published in the [npm module](https://www.npmjs.com/package/@okta/okta-signin-widget).
+    **Note:** The json files can be accessed from the `dist/labels/json` folder that is published in the [npm module](https://www.npmjs.com/package/@okta/okta-signin-widget).
 
 - **assets.rewrite:** You can use this function to rewrite the asset path and filename. Use this function if you will host the asset files on your own host, and plan to change the path or filename of the assets. This is useful, for example, if you want to cachebust the files.
 
@@ -700,7 +700,7 @@ var signIn = new OktaSignIn(config);
 
       rewrite: function (assetPath) {
         // assetPath is relative to baseUrl
-        // Example assetPath to load login for 'ja': "/labels/jsonp/login_ja.jsonp"
+        // Example assetPath to load login for 'ja': "/labels/json/login_ja.json"
         return someCacheBustFunction(assetPath);
       }
     }
