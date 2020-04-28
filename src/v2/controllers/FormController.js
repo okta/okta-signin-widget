@@ -19,7 +19,14 @@ export default Controller.extend({
   initialize: function () {
     Controller.prototype.initialize.call(this);
 
-    this.listenTo(this.options.appState, 'idxResponseUpdated', this.render);
+    this.listenTo(this.options.appState, 'idxResponseUpdated', () => {
+      // trigger an event if it is universal link approach
+      // need to find a better way to identify the universal link approach
+      if (this.options.appState.getCurrentViewState().name === 'device-challenge-poll') {
+        this.options.appState.trigger('launch-universal-link');
+      }
+      this.render();
+    });
     this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
     this.listenTo(this.options.appState, 'switchForm', this.switchForm);
     this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);

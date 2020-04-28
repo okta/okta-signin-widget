@@ -2,6 +2,7 @@ import { View, loc, createButton } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
+import Util from '../../../util/Util';
 
 const Body = BaseForm.extend({
 
@@ -18,6 +19,13 @@ const Body = BaseForm.extend({
         `,
         initialize () {
           const appState = this.options.appState;
+          this.listenTo(this.options.appState, 'launch-universal-link', () => {
+            const deviceChallenge = this.options.appState.get(
+              this.options.appState.getCurrentViewState().relatesTo
+            );
+            Util.redirect(deviceChallenge.href); 
+            // Util.redirect('https://z9pm.adj.st/my/path?adjust_t=klm012&adjust_campaign=Getaway_Vacation_Campaign_2-0&adjust_adgroup=35-42&adjust_creative=island_sunset');
+          });
           this.add(createButton({
             className: 'button-secondary',
             title: 'Sign in using Okta Verify',
