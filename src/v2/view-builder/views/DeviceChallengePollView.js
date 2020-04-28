@@ -70,7 +70,11 @@ const Body = BaseForm.extend(Object.assign(
           click () {
             // only window.location.href can open universal link in iOS/MacOS
             // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
-            Util.redirect(deviceChallenge.href);
+            let probeChain = Promise.resolve();
+            probeChain
+              .then(() => {
+                Util.redirect(deviceChallenge.href);
+              });
           }
         }));
       }
