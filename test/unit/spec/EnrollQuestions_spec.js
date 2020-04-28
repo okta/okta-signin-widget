@@ -28,7 +28,6 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
 
   function setup (res, startRouter, languagesResponse) {
     var setNextResponse = Util.mockAjax();
-    var setNextJSONPResponse = Util.mockJSONP();
     var baseUrl = 'https://foo.com';
     var authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
@@ -56,7 +55,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
     const enrollQuestion = (test) => {
       setNextResponse(res);
       if (languagesResponse) {
-        setNextJSONPResponse(languagesResponse);
+        setNextResponse(languagesResponse);
       }
       router.refreshAuthState('dummy-token');
       return Expect.waitForEnrollChoices(test)

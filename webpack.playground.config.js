@@ -23,7 +23,7 @@ let widgetRc = {
     authParams: {
       pkce: false // PKCE is enabled by default in okta-auth-js@3.0
     },
-    // Host the assets (i.e. jsonp files) locally
+    // Host the assets (i.e. json files) locally
     assets: {
       baseUrl: '/'
     }
