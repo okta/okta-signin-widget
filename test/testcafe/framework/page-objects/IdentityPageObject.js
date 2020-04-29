@@ -55,6 +55,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.waitForErrorBox();
   }
 
+  getGlobalErrors() {
+    return this.form.getErrorBoxText();
+  }
+
   waitForIdentifierError(){
     return this.form.waitForTextBoxError('identifier');
   }
@@ -87,7 +91,7 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.elementExist(selector);
   }
 
-  async clickRegistrationButton() {
+  async clickSignUpLink() {
     await this.t.click(Selector(ENROLL_SELECTOR));
   }
 }

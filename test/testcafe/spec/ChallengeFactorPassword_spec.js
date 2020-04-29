@@ -4,6 +4,7 @@ import { RequestMock } from 'testcafe';
 import factorRequiredPassword from '../../../playground/mocks/idp/idx/data/factor-verification-password';
 import authenticatorRequiredPassword from '../../../playground/mocks/idp/idx/data/authenticator-verification-password';
 import success from '../../../playground/mocks/idp/idx/data/success';
+import invalidPassword from '../../../playground/mocks/idp/idx/data/error-answer-passcode-invalid';
 
 const factorRequiredPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -16,6 +17,12 @@ const authenticatorRequiredPasswordMock = RequestMock()
   .respond(authenticatorRequiredPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
+
+const invalidPasswordMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(authenticatorRequiredPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(invalidPassword, 403);
 
 fixture(`Challenge Password Form`);
 
@@ -44,4 +51,15 @@ test.requestHooks(authenticatorRequiredPasswordMock)(`challenge password authent
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+});
+
+test.requestHooks(invalidPasswordMock)(`challege password authenticator with invalid password`, async t => {
+  const challengeFactorPageObject = await setup(t);
+  await challengeFactorPageObject.verifyFactor('credentials.passcode', 'test');
+  await challengeFactorPageObject.clickNextButton();
+  await challengeFactorPageObject.waitForPasswordError();
+  await t.expect(challengeFactorPageObject.hasPasswordError()).eql(true);
+  await t.expect(challengeFactorPageObject.hasPasswordErrorMessage()).eql(true);
+  await t.expect(challengeFactorPageObject.getPasswordErrorMessage()).contains('The passcode is absent or invalid');
+
 });

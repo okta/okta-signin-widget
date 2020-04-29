@@ -2,6 +2,8 @@ import BasePageObject from './BasePageObject';
 
 const SWITCH_FACTOR_SELECTOR = '.auth-footer .js-switchFactor';
 const FORGOT_PASSWORD_SELECTOR = '.auth-footer .js-forgot-password';
+const PASSWORD_FIELD = 'credentials\\.passcode';
+
 export default class ChallengeFactorPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -37,6 +39,22 @@ export default class ChallengeFactorPageObject extends BasePageObject {
 
   resendEmailView() {
     return this.form.getElement('.resend-email-view');
+  }
+
+  hasPasswordError() {
+    return this.form.hasTextBoxError(PASSWORD_FIELD);
+  }
+
+  hasPasswordErrorMessage() {
+    return this.form.hasTextBoxErrorMessage(PASSWORD_FIELD);
+  }
+
+  waitForPasswordError() {
+    return this.form.waitForTextBoxError(PASSWORD_FIELD);
+  }
+
+  getPasswordErrorMessage() {
+    return this.form.getTextBoxErrorMessage(PASSWORD_FIELD);
   }
 
   async clickSendAgainLink() {

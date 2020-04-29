@@ -123,10 +123,20 @@ export default Model.extend({
     }
 
     // default terminal state for fall back
+    //TODO: This is a FailSafe, it needs to be removed later by this Jira: OKTA-300044
     if (idxResp.context.terminal && _.isEmpty(idxResp.context.terminal.value)) {
       idxResp.terminal = {
         name: 'terminal',
         value: [],
+        uiSchema: [],
+      };
+    }
+
+    // default terminal state for fall back
+    if (idxResp.context.messages) {
+      idxResp.terminal = {
+        name: 'terminal',
+        value: idxResp.context.messages.value.length ? idxResp.context.messages.value : [],
         uiSchema: [],
       };
     }

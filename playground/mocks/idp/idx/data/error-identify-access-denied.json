@@ -8,7 +8,7 @@
     "type": "array",
     "value": [
       {
-        "message": "Authentication failed",
+        "message": "You do not have permission to perform the requested action.",
         "i18n": {
           "key": "security.access_denied"
         },
