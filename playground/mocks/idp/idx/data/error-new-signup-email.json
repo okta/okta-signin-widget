@@ -1,0 +1,131 @@
+{
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "version": "1.0.0",
+  "expiresAt": "2020-05-06T00:42:17.000Z",
+  "step": "ENROLL",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-profile",
+        "href": "http://rain.okta1.com:1802/idp/idx/enroll/new",
+        "method": "POST",
+        "accepts": "json",
+        "value": [
+          {
+            "name": "userProfile",
+            "form": {
+              "value": [
+                {
+                  "name": "lastName",
+                  "label": "Last name",
+                  "required": true
+                },
+                {
+                  "name": "firstName",
+                  "label": "First name",
+                  "required": true
+                },
+                {
+                  "name": "email",
+                  "label": "Email",
+                  "required": true,
+                  "messages": {
+                    "type": "array",
+                    "value": [
+                      {
+                        "message": "'Email' must be in the form of an email address",
+                        "i18n": {
+                          "key": "registration.error.invalidLoginEmail",
+                          "params": [
+                            "Email"
+                          ]
+                        },
+                        "class": "ERROR"
+                      },
+                      {
+                        "message": "Provided value for property 'Email' does not match required pattern",
+                        "i18n": {
+                          "key": "registration.error.doesNotMatchPattern",
+                          "params": [
+                            "Email"
+                          ]
+                        },
+                        "class": "ERROR"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-identify",
+        "href": "http://rain.okta1.com:1802/idp/idx/identify/select",
+        "method": "POST",
+        "accepts": "json",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://rain.okta1.com:1802/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "context": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "context",
+    "href": "http://rain.okta1.com:1802/idp/idx/context",
+    "method": "POST",
+    "accepts": "json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  }
+}

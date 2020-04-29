@@ -1,4 +1,4 @@
-import { Form, loc, createCallout } from 'okta' ;
+import { Form, loc, createCallout } from 'okta';
 import FormInputFactory from './FormInputFactory';
 
 export default Form.extend({
@@ -13,7 +13,7 @@ export default Form.extend({
   },
   save: loc('oform.next', 'login'),
 
-  initialize: function () {
+  initialize () {
     const uiSchemas = this.getUISchema();
     const inputOptions = uiSchemas.map(FormInputFactory.create);
 
@@ -60,6 +60,5 @@ export default Form.extend({
       });
       this.add(messageCallout, '.o-form-error-container');
     }
-  }
-
+  },
 });

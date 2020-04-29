@@ -4,19 +4,29 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    // 'authenticator-select-verify-options'
-    'authenticator-select-enroll-options'
+    // 'authenticator-select-verify-options',
+    // 'authenticator-select-enroll-options',
+    // 'identify',
+    'identify-locked-user'
   ],
   '/idp/idx': [
     'select-factor-authenticate'
   ],
-  '/idp/idx/enroll': ['enroll-profile'],
+  '/idp/idx/enroll': [
+    // 'enroll-profile',
+    'enroll-profile-new'
+  ],
   '/idp/idx/credential/enroll': [
     'authenticator-enroll-password',
+  ],
+  '/idp/idx/identify': [
+    'error-identify-access-denied',
+    'error-identify-user-locked-unable-challenge'
   ],
   '/idp/idx/challenge/answer': [
     // 'error-email-verify',
     'terminal-return-expired-email',
+    // 'error-answer-passcode-invalid'
   ],
   '/idp/idx/challenge/send': [
     'factor-verification-email',
@@ -33,6 +43,10 @@ const idx = {
     // 'factor-verification-password',
     // 'factor-verification-email',
   ],
+  '/idp/idx/enroll/new': [
+    'error-new-signup-email',
+    'error-new-signup-email-exists'
+  ]
 };
 
 // ===== AUTHN
