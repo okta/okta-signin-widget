@@ -148,14 +148,18 @@ define([
 
     const headers = {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-Okta-User-Agent-Extended': 'okta-signin-widget-' + config.version
+      'Content-Type': 'text/plain'
     };
+
+    const mode = 'no-cors';
 
     return fetch(assets.baseUrl + path, {
       method: 'GET',
-      headers
-    }).then(res => res.json());
+      headers,
+      mode
+    })
+      .then(res => res.text())
+      .then(txt => JSON.parse(txt));
   }
 
   function getBundles (language, assets) {
