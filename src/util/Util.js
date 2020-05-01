@@ -233,10 +233,10 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
     if (Q.isPromiseAlike(trans)) {
       trans.then(function (trans) {
         deferred.resolve(trans);
-      }).catch(function (err) {
-        deferred.reject(err);
+      }).catch(function (errObj) {
+        deferred.reject(errObj);
         //throw errors at the idx-js layer
-        throw err;
+        Logger.error(`Introspection Error at idx-js layer: ${errObj.error}`);
       });
     }
     return deferred.promise;

@@ -103,8 +103,8 @@ export default Model.extend({
   setIonResponse (resp) {
     const idx = this.get('idx');
     // Don't re-render view if new response is same as last.
-    // Usually happening at polling and pipeline doesn't proceed to next step.
-    // expiresAt will be different for each response, hence compare objects without that property
+    // if stateHandle changes re-render view.
+    // stateHandle does not change for instrospect/poll calls
     const currentState = _.omit(idx.rawIdxState, 'expiresAt');
     const previousState = _.omit(this.get('__previousResponse'), 'expiresAt');
     if (currentState.stateHandle === previousState.stateHandle) {

@@ -102,7 +102,6 @@ const insertUISchema = (transformedResp) => {
     const factors = transformedResp.factors && transformedResp.factors.value || [];
     
     transformedResp.remediations = transformedResp.remediations.map(obj => {
-      // ignore stateHandle
       obj.uiSchema = createUISchema(obj.value, factors);
       return obj;
     });

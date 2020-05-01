@@ -68,10 +68,11 @@ const getRemediationValues = (idx) => {
   }
   _.each(idx.neededToProceed, (data) => {
     if (data && data.name) {
+      // remove stateHandle field
       if (data.value) {
         data.value = data.value.filter((formField) => { return !! (formField.visible !== false); } );
       }
-      remediationValues.push(_.omit(data, 'rel', 'accepts', 'method'));
+      remediationValues.push(_.omit(data, 'rel', 'accepts'));
     }
   });
   return {

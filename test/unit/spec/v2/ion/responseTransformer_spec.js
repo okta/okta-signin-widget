@@ -1,4 +1,3 @@
-
 import transformResponse from 'v2/ion/responseTransformer';
 import XHRFactorRequiredEmail from '../../../helpers/xhr/v2/FACTOR_REQUIRED_EMAIL';
 
@@ -137,6 +136,7 @@ describe('v2/ion/responseTransformer', function () {
           ],
           'name':'challenge-factor',
           'href': 'http://localhost:3000/idp/idx/challenge/answer',
+          'method':'post'
         },
         {
           'value':[
@@ -159,7 +159,8 @@ describe('v2/ion/responseTransformer', function () {
             }
           ],
           'name':'select-factor',
-          'href': 'http://localhost:3000/idp/idx/challenge'
+          'href': 'http://localhost:3000/idp/idx/challenge',
+          'method':'post'
         }
       ],
       'neededToProceed': [

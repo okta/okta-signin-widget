@@ -1,5 +1,3 @@
-import { createButton } from 'okta';
-
 const getIdpButtons = (idps) => {
   const idpButtons = [];
   if (idps && idps.length) {
@@ -9,7 +7,7 @@ const getIdpButtons = (idps) => {
         let classes = ['social-auth-button'];
         const idpClass = `social-auth-${idpButton.relatesTo.type.toLowerCase()}-button`;
         classes.push(idpClass);
-        const button = createButton({
+        const button = {
           attributes: {
             'data-se': 'social-auth-button'
           },
@@ -17,11 +15,8 @@ const getIdpButtons = (idps) => {
           title: function () {
             return `Sign in with ${idpButton.relatesTo.name}`;
           },
-          click: function (e) {
-            e.preventDefault();
-            window.location.href = idpButton.href;
-          }
-        });
+          href: idpButton.href,
+        };
         idpButtons.push(button);
       }
     });

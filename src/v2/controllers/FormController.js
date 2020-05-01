@@ -45,6 +45,9 @@ export default Controller.extend({
     }).last();
 
     this.listenTo(this.formView, 'save', this.handleFormSave);
+
+    //make sure entire form including buttons are rendered
+    this.options.appState.trigger('formRendered', true);
   },
 
   invokeAction (actionPath = '') {

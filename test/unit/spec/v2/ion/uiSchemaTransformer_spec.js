@@ -373,6 +373,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
           ],
           'href': 'http://localhost:3000/idp/idx/challenge/answer',
           'name':'challenge-factor',
+          'method':'post',
           'uiSchema':[
             {
               'name':'credentials.passcode',
@@ -410,6 +411,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
           ],
           'href': 'http://localhost:3000/idp/idx/challenge',
           'name':'select-factor',
+          'method':'post',
           'uiSchema':[
             {
               'name':'factorId',
@@ -654,6 +656,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
           ],
           'href': 'http://localhost:3000/idp/idx/challenge',
           'name':'select-factor',
+          'method':'post',
           'uiSchema':[
             {
               'name':'factorProfileId',
@@ -855,6 +858,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
           ],
           'href': 'http://localhost:3000/idp/idx/enroll',
           'name':'enroll-profile',
+          'method':'post',
           'uiSchema':[
             {
               'name':'userProfile.lastName',
@@ -889,6 +893,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
           ],
           'href': 'http://localhost:3000/idp/idx',
           'name':'select-identify',
+          'method':'post',
           'uiSchema':[
             {
               'name':'identifier',
