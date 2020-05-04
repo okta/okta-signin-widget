@@ -2,7 +2,7 @@
 define([
   'q',
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'util/Util',
   'helpers/mocks/Util',
   'helpers/dom/AuthContainer',
@@ -21,7 +21,6 @@ define([
   EnrollEmailForm, EnrollActivateEmailForm, Beacon, Expect, $sandbox, Router,
   xhrEnrollEmail, xhrEnrollActivateEmail, xhrSUCCESS, xhrResendError) {
 
-  var { $ } = Okta;
   var itp = Expect.itp;
 
   Expect.describe('EnrollEmail', function () {
@@ -30,7 +29,7 @@ define([
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'http://localhost:3000';
       var authClient = new OktaAuth({
-        url: baseUrl,
+        issuer: baseUrl,
         transformErrorXHR: LoginUtil.transformErrorXHR
       });
       var successSpy = jasmine.createSpy('successSpy');
@@ -73,15 +72,15 @@ define([
         })
         .then(function (test) {
           // 2. mock data and click send button.
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(xhrEnrollActivateEmail);
           test.form.submit();
-          return Expect.waitForSpyCall($.ajax);
+          return Expect.waitForAjaxRequest();
         })
         .then(function () {
           // 3. verify request has been made
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'http://localhost:3000/api/v1/authn/factors',
             data: {
               provider: 'OKTA',
@@ -96,7 +95,7 @@ define([
       return setup(xhrEnrollEmail)
         .then(function (test) {
           // 1. click 'send to email' button
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(xhrEnrollActivateEmail);
           test.form.submit();
           return Expect.waitForEnrollActivateEmail(test);
@@ -118,7 +117,7 @@ define([
         })
         .then(function (test) {
           // 3. submit verification code
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(xhrSUCCESS);
           test.form.setVerificationCode('1209876');
           test.form.submit();
@@ -126,8 +125,8 @@ define([
         })
         .then(function (test) {
           // 4. enroll successfully
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'http://localhost:3000/api/v1/authn/factors/eml198rKSEWOSKRIVIFT/lifecycle/activate',
             data: {
               passCode: '1209876',
@@ -160,7 +159,7 @@ define([
       return setup(xhrEnrollEmail)
         .then(function (test) {
           // 1. click 'send to email' button
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(xhrEnrollActivateEmail);
           test.form.submit();
           return Expect.waitForEnrollActivateEmail(test);
@@ -172,18 +171,18 @@ define([
           expect(form.getResendButton().length).toBe(1);
 
           // 3. click resend link
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(xhrEnrollActivateEmail);
           form.clickResend();
           expect(form.getResendEmailMessage().length).toBe(0);
           expect(form.getResendButton().length).toBe(0);
           expect(form.getResendEmailView().attr('class'))
             .toBe('resend-email-infobox hide');
-          return Expect.waitForSpyCall($.ajax, Object.assign(test, {form}));
+          return Expect.waitForAjaxRequest(Object.assign(test, {form}));
         })
         .then(function (test) {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'http://localhost:3000/api/v1/authn' +
               '/factors/eml198rKSEWOSKRIVIFT/lifecycle/resend',
             data: {
@@ -205,7 +204,7 @@ define([
       return setup(xhrEnrollEmail)
         .then(function (test) {
           // 1. click 'send to email' button
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(xhrEnrollActivateEmail);
           test.form.submit();
           return Expect.waitForEnrollActivateEmail(test);
@@ -217,7 +216,7 @@ define([
           expect(form.getResendButton().length).toBe(1);
 
           // 3. click resend link
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(xhrResendError);
           form.clickResend();
           expect(form.getResendEmailMessage().length).toBe(0);
@@ -231,8 +230,8 @@ define([
           expect(test.form.errorBox().length).toBe(1);
           expect(test.form.errorMessage())
             .toBe('You do not have permission to perform the requested action');
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'http://localhost:3000/api/v1/authn' +
               '/factors/eml198rKSEWOSKRIVIFT/lifecycle/resend',
             data: {

@@ -25,7 +25,7 @@ function (Okta, FormController, FormType) {
           .then(() => {
             this.options.appState.trigger('navigate', '');
           })
-          .fail(() => {
+          .catch(() => {
             this._stopCountDown();
           });
       },
@@ -63,7 +63,7 @@ function (Okta, FormController, FormType) {
             let factorPollingIntervalSeconds = Math.ceil(resp.transaction.profile.refresh/1000);
             this._startCountDown(factorPollingIntervalSeconds);
           })
-          .fail(()=> {
+          .catch(()=> {
             this._stopCountDown();
           });
       },
@@ -124,6 +124,9 @@ function (Okta, FormController, FormType) {
       // More details in OKTA-135060.
     },
   
+    remove: function () {
+      this.form._stopCountDown();
+    }
   });
   
 });

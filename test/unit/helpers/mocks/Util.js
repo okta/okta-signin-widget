@@ -1,4 +1,7 @@
 /* eslint no-global-assign: 0, max-statements: 0 */
+/* global Promise */
+import 'jasmine-ajax';
+
 define([
   'okta',
   'q',
@@ -13,6 +16,13 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
   var { Cookie } = Okta.internal.util;
 
   var fn = {};
+  var isAjaxMocked = false;
+  afterEach(() => {
+    if (isAjaxMocked) {
+      fn.unmockAjax();
+      isAjaxMocked = false;
+    }
+  });
 
   fn.LoremIpsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
       'Sed lacinia neque at ligula ornare accumsan. Nullam interdum pellentesque nisl, ' +
@@ -49,7 +59,7 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
     });
 
     if (start) {
-      spyOn(window, 'addEventListener');
+      spyOn(window, 'addEventListener'); // tracking 'popstate' handler
       router.start();
     }
   };
@@ -59,75 +69,70 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
   };
 
   fn.mockAjax = function (responses) {
+    jasmine.Ajax.install();
+    isAjaxMocked = true;
 
     var allResponses = [];
-    var textOnly = false;
-
     if (responses) {
       allResponses = allResponses.concat(responses);
     }
 
-    spyOn($, 'post').and.callFake(function (url, data) {
-      return $.ajax({
-        url: url,
-        type: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        data: JSON.stringify(data)
+    function respond (request, xhr) {
+      request.respondWith({
+        status: xhr.status,
+        responseText: (typeof xhr.response === 'string') ? xhr.response : JSON.stringify(xhr.response),
       });
-    });
-
-    spyOn($, 'ajax').and.callFake(function (req) {
-
-      var xhr = allResponses.shift();
-      if (!xhr) {
-        throw new Error(
-          'We are making a request that we have not anticipated: ' +
-          req.type.toUpperCase() + ' ' + req.url
-        );
+    }
+  
+    jasmine.Ajax.stubRequest(
+      /.*/
+    ).andCallFunction(request => {
+      if (!allResponses.length) {
+        expect(`Received an unexpected AJAX request: ${request.url}`).toBe(false);
+        return;
       }
-
-      // Place response into responseText (AuthClient SDK depends on this)
-      if (textOnly) {
-        xhr.responseText = xhr.response;
-      } else {
-        xhr.responseText = JSON.stringify(xhr.response);
+      let xhr = allResponses.shift();
+      if (typeof xhr === 'function') {
+        xhr = xhr();
       }
-
-      var deferred = $.Deferred();
-
-      (function (textOnly) {
-        setTimeout(function () {
-          if (xhr.status > 0 && xhr.status < 300) {
-            // $.ajax send (data, textStatus, jqXHR) on success
-            deferred.resolve(xhr.response, null, xhr);
-          } else {
-            // $.ajax send (jqXHR, textStatus, errorThrown) on failure
-            if (!textOnly) {
-              xhr.responseJSON = xhr.response;
-              xhr = _.omit(xhr, 'response');
-            }
-            deferred.reject(xhr, null, xhr.responseJSON);
-          }
-        }, xhr.delay || 0);
-      })(textOnly);
-
-      textOnly = false;
-      return deferred;
+      if (xhr.delay) { // TODO: remove delay from tests
+        setTimeout(respond.bind(null, request, xhr), xhr.delay);
+        return;
+      }
+      respond(request, xhr);
     });
 
     function setNextResponse (response, responseTextOnly) {
+      expect(responseTextOnly).toBe(undefined);
+
       if (_.isArray(response)) {
         allResponses = response.concat(allResponses);
       } else {
         allResponses.unshift(response);
       }
-      textOnly = responseTextOnly;
     }
 
     return setNextResponse;
+  };
+
+  fn.numAjaxRequests = function () {
+    return jasmine.Ajax.requests.count();
+  };
+
+  fn.resetAjaxRequests = function () {
+    jasmine.Ajax.requests.reset();
+  };
+
+  fn.lastAjaxRequest = function () {
+    return jasmine.Ajax.requests.mostRecent();
+  };
+
+  fn.getAjaxRequest = function (index) {
+    return jasmine.Ajax.requests.at(index);
+  };
+
+  fn.unmockAjax = function () {
+    jasmine.Ajax.uninstall();
   };
 
   // Useful for overriding setting of security image (which tries to load
@@ -147,7 +152,7 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
     });
   };
 
-  fn.speedUpPolling = function () {
+  fn.mockQDelay = function () {
     var original = Q.delay;
     spyOn(Q, 'delay').and.callFake(function () {
       return original.call(this, 0);
@@ -208,7 +213,7 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
       var isPollFn = uri.indexOf('/lifecycle/activate') !== -1;
       if (isPollFn) {
         // return waiting xhr
-        return Q.resolve({
+        return Promise.resolve({
           status: 200,
           responseText: JSON.stringify({
             'stateToken': 'testStateToken',
@@ -235,7 +240,7 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
       var isPollFn = uri.indexOf('/activate') !== -1;
       if (isPollFn) {
         authClient.options.httpRequestClient = originalAjax;
-        return Q.resolve(response);
+        return Promise.resolve(response);
       }
       return originalAjax.apply(this, arguments);
     });
@@ -249,6 +254,7 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
   // Needs to be preceded by a call to mockRouterNavigate() with startRouter as true.
   fn.triggerBrowserBackButton = function () {
     var args = window.addEventListener.calls.argsFor(0);
+    expect(args[0]).toBe('popstate');
     var callback = args[1];
     callback.call(null, {
       preventDefault: function () {},
@@ -272,17 +278,32 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
   fn.mockSetTimeout = function () {
     if (isNative(setTimeout)) {
       originalSetTimeout = setTimeout;
-      setTimeout = function () {
-        var id = originalSetTimeout.apply(this, arguments);
-        timeouts.push(id);
-        return id;
+      setTimeout = function (fn, delay) {
+        const entry = {
+          fn,
+          delay
+        };
+        entry.id = originalSetTimeout(() => {
+          timeouts.splice(timeouts.indexOf(entry), 1);
+          fn();
+        }, delay);
+        timeouts.push(entry);
+        return entry.id;
       };
     }
   };
 
   fn.clearAllTimeouts = function () {
     while (timeouts.length) {
-      clearTimeout(timeouts.pop());
+      clearTimeout(timeouts.pop().id);
+    }
+  };
+
+  fn.callAllTimeouts = function () {
+    while (timeouts.length) {
+      const entry = timeouts.pop();
+      clearTimeout(entry.id);
+      entry.fn();
     }
   };
 
