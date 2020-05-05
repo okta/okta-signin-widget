@@ -7,7 +7,7 @@ import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 
 const Body = BaseForm.extend({
 
-  title: loc('primaryauth.title'),
+  title: loc('primaryauth.title', 'login'),
   save: loc('oform.next', 'login'),
   render () {
     BaseForm.prototype.render.apply(this, arguments);
@@ -34,14 +34,14 @@ const Footer = BaseFooter.extend({
     }
     const signupLinkObj = {
       'type': 'link',
-      'label': 'Sign up',
+      'label': loc('signup', 'login'),
       'name': 'enroll',
       'actionPath': 'select-enroll-profile',
     };
     const links = [
       {
         'name': 'help',
-        'label': 'Need help signing in?',
+        'label': loc('needhelp', 'login'),
         'href': href,
       },
     ];
