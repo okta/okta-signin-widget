@@ -51,10 +51,6 @@ const createUISchema = (remediationValue = [], factors = []) => {
   // For simplicity we are assuming that when field itself is a form its only one level deep
   remediationValue = _.chain(remediationValue)
     .map(v => {
-      // return empty array for idps object
-      if (v.relatesTo) {
-        return [];
-      }
       if (v.form) {
         const inputGroupName = v.name;
         return v.form.value.map(input => {

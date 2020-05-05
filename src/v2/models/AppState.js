@@ -105,8 +105,8 @@ export default Model.extend({
     // Don't re-render view if new response is same as last.
     // if stateHandle changes re-render view.
     // stateHandle does not change for instrospect/poll calls
-    if (_.omit(idx.rawIdxState, 'expiresAt').stateHandle ===
-      _.omit(this.get('__previousResponse'), 'expiresAt').stateHandle) {
+    if (idx.rawIdxState.stateHandle ===
+      (this.get('__previousResponse') && this.get('__previousResponse').stateHandle)) {
       return;
     }
 

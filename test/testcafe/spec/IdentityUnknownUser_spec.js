@@ -7,9 +7,9 @@ import { RequestMock } from 'testcafe';
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identify)
-  .onRequestTo('http://localhost:3000/idp/idx')
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(unknownUser)
-  .onRequestTo('http://localhost:3000/idp/idx')
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(registeredUser);
 
 fixture(`Unknown user form`)

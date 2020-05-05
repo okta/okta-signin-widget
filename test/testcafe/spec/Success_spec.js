@@ -7,7 +7,7 @@ import identify from '../../../playground/mocks/idp/idx/data/identify';
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identify)
-  .onRequestTo('http://localhost:3000/idp/idx')
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(success);
 
 fixture(`Success Form`)

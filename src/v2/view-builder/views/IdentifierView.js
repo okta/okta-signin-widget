@@ -9,22 +9,20 @@ const Body = BaseForm.extend({
 
   title: loc('primaryauth.title'),
   save: loc('oform.next', 'login'),
-  initialize () {
-    BaseForm.prototype.initialize.apply(this, arguments);
-    this.listenTo(this.options.appState, 'formRendered', () => {
-      if (this.options.appState.hasRemediationObject('launch-authenticator')) {
-        this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true);
-      }
-      //add idps
-      if (this.options.appState.hasRemediationObject('redirect')) {
-        this.add(signInWithIdps, '.o-form-button-bar');
-      }
-      if (this.options.appState.get('currentFormName') !== 'identify') {
-        this.$el.find('.button-primary').hide();
-        this.$el.find('.separation-line').hide();
-      }
-    });
-  },
+  render () {
+    BaseForm.prototype.render.apply(this, arguments);
+    if (this.options.appState.hasRemediationObject('launch-authenticator')) {
+      this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true);
+    }
+    //add idps
+    if (this.options.appState.hasRemediationObject('redirect')) {
+      this.add(signInWithIdps, '.o-form-button-bar');
+    }
+    if (this.options.appState.get('currentFormName') !== 'identify') {
+      this.$el.find('.button-primary').hide();
+      this.$el.find('.separation-line').hide();
+    }
+  }
 });
 
 const Footer = BaseFooter.extend({

@@ -16,7 +16,7 @@ const data = {
             "create-form"
           ],
           "name": "identify",
-          "href": "http://rain.okta1.com:1802/idp/idx",
+          "href": "http://localhost:3000/idp/idx/identify",
           "method": "POST",
           "accepts": "application/vnd.okta.v1+json",
           "value": [
