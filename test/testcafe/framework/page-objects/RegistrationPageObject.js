@@ -1,4 +1,5 @@
 import BasePageObject from './BasePageObject';
+import { Selector } from 'testcafe';
 
 const FIRSTNAME_FIELD = 'userProfile\\.firstName';
 const LASTNAME_FIELD = 'userProfile\\.lastName';
@@ -61,5 +62,9 @@ export default class RegistrationPageObject extends BasePageObject {
 
   waitForLastNameError() {
     return this.form.waitForTextBoxError(LASTNAME_FIELD);
+  }
+
+  getHaveAccountLabel() {
+    return Selector('a[data-se="back"]').textContent;
   }
 }

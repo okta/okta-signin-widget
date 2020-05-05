@@ -20,6 +20,12 @@ async function setup(t) {
   return new RegistrationPageObject(t);
 }
 
+/* i18n tests */
+test(`should have the right labels for the fields`, async t => {
+  const registrationPage = await setup(t);
+  await t.expect(registrationPage.getHaveAccountLabel()).eql('Already have an account ?');
+});
+
 test(`should have editable fields`, async t => {
   const registrationPage = await setup(t);
 
