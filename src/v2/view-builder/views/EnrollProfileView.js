@@ -17,7 +17,7 @@ const Footer = BaseFooter.extend({
     if (this.options.appState.hasRemediationObject('select-identify')) {
       links.push({
         'type': 'link',
-        'label': 'Already have an account ?',
+        'label': loc('haveaccount', 'login'),
         'name': 'back',
         'actionPath': 'select-identify',
       });
