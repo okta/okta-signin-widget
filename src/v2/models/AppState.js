@@ -59,8 +59,8 @@ export default Model.extend({
     },
   },
 
-  hasRemediationForm (formName) {
-    return Object.keys(this.get('idx').neededToProceed).filter(name => name === formName).length === 1;
+  hasRemediationObject (formName) {
+    return this.get('idx').neededToProceed.find((remediation) => remediation.name === formName);
   },
 
   getActionByPath (actionPath) {
@@ -103,9 +103,10 @@ export default Model.extend({
   setIonResponse (resp) {
     const idx = this.get('idx');
     // Don't re-render view if new response is same as last.
-    // Usually happening at polling and pipeline doesn't proceed to next step.
-    // expiresAt will be different for each response, hence compare objects without that property
-    if (_.isEqual(_.omit(idx.rawIdxState, 'expiresAt'), _.omit(this.get('__previousResponse'), 'expiresAt'))) {
+    // if stateHandle changes re-render view.
+    // stateHandle does not change for instrospect/poll calls
+    if (idx.rawIdxState.stateHandle ===
+      (this.get('__previousResponse') && this.get('__previousResponse').stateHandle)) {
       return;
     }
 

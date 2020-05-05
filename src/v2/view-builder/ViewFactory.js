@@ -23,7 +23,6 @@ import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
 import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
 
-
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -71,6 +70,10 @@ const VIEWS_MAPPING = {
   },
   'success-redirect': {
     [DEFAULT]: SuccessView,
+  },
+  // redirect remediation object looks similar to identifier view
+  'redirect': {
+    [DEFAULT]: IdentifierView,
   },
 };
 

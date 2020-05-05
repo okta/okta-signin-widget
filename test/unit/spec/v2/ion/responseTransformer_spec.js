@@ -11,44 +11,62 @@ describe('v2/ion/responseTransformer', function () {
     const rawFactorRequiredEmailResponse = XHRFactorRequiredEmail.response;
     const idxObjectFactorRequiredEmail  = {
       'proceed': jasmine.any(Function),
-      'neededToProceed':{
-        'challenge-factor':[
-          {
-            'name':'credentials',
-            'form':{
-              'value':[
+      'neededToProceed': [
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'challenge-factor',
+          'href':'http://localhost:3000/idp/idx/challenge/answer',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'credentials',
+              'form':{
+                'value':[
+                  {
+                    'name':'passcode',
+                    'label':'One-time verification code',
+                    'secret':true,
+                    'method':'post'
+                  }
+                ],
+                'method':'post'
+              },
+              'method':'post'
+            }
+          ]
+        },
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'select-factor',
+          'href':'http://localhost:3000/idp/idx/challenge',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'factorId',
+              'type':'set',
+              'options':[
                 {
-                  'name':'passcode',
-                  'label':'One-time verification code',
-                  'secret':true,
-                  'method':'post'
+                  'label':'Password',
+                  'value':'00u2j17ObFUsbGfLg0g4',
+                  'method':'options'
+                },
+                {
+                  'label':'Email',
+                  'value':'emf2j1ccd6CF4IWFY0g3',
+                  'method':'options'
                 }
               ],
               'method':'post'
-            },
-            'method':'post'
-          }
-        ],
-        'select-factor':[
-          {
-            'name':'factorId',
-            'type':'set',
-            'options':[
-              {
-                'label':'Password',
-                'value':'00u2j17ObFUsbGfLg0g4',
-                'method':'options'
-              },
-              {
-                'label':'Email',
-                'value':'emf2j1ccd6CF4IWFY0g3',
-                'method':'options'
-              }
-            ],
-            'method':'post'
-          }
-        ]
-      },
+            }
+          ]
+        }
+      ],
       'actions':{
         'factor-resend': {},
         'factor-poll': {},
@@ -91,7 +109,6 @@ describe('v2/ion/responseTransformer', function () {
           }
         }
       },
-
       'rawIdxState':rawFactorRequiredEmailResponse
     };
     
@@ -117,7 +134,9 @@ describe('v2/ion/responseTransformer', function () {
               'method':'post'
             }
           ],
-          'name':'challenge-factor'
+          'name':'challenge-factor',
+          'href': 'http://localhost:3000/idp/idx/challenge/answer',
+          'method':'post'
         },
         {
           'value':[
@@ -139,47 +158,67 @@ describe('v2/ion/responseTransformer', function () {
               'method':'post'
             }
           ],
-          'name':'select-factor'
+          'name':'select-factor',
+          'href': 'http://localhost:3000/idp/idx/challenge',
+          'method':'post'
         }
       ],
-      'neededToProceed':{
-        'challenge-factor':[
-          {
-            'name':'credentials',
-            'form':{
-              'value':[
+      'neededToProceed': [
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'challenge-factor',
+          'href':'http://localhost:3000/idp/idx/challenge/answer',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'credentials',
+              'form':{
+                'value':[
+                  {
+                    'name':'passcode',
+                    'label':'One-time verification code',
+                    'secret':true,
+                    'method':'post'
+                  }
+                ],
+                'method':'post'
+              },
+              'method':'post'
+            }
+          ]
+        },
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'select-factor',
+          'href':'http://localhost:3000/idp/idx/challenge',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'factorId',
+              'type':'set',
+              'options':[
                 {
-                  'name':'passcode',
-                  'label':'One-time verification code',
-                  'secret':true,
-                  'method':'post'
+                  'label':'Password',
+                  'value':'00u2j17ObFUsbGfLg0g4',
+                  'method':'options'
+                },
+                {
+                  'label':'Email',
+                  'value':'emf2j1ccd6CF4IWFY0g3',
+                  'method':'options'
                 }
               ],
               'method':'post'
-            },
-            'method':'post'
-          }
-        ],
-        'select-factor':[
-          {
-            'name':'factorId',
-            'type':'set',
-            'options':[
-              {
-                'label':'Password',
-                'value':'00u2j17ObFUsbGfLg0g4',
-                'method':'options'
-              },
-              {
-                'label':'Email',
-                'value':'emf2j1ccd6CF4IWFY0g3',
-                'method':'options'
-              }
-            ],
-            'method':'post'
-          }
-        ]
-      },
+            }
+          ]
+        }
+      ],
       'actions':{
         'factor-resend':{},
         'factor-poll':{},
@@ -229,10 +268,8 @@ describe('v2/ion/responseTransformer', function () {
   it('converts terminal transfered', () => {
     const idxObjectTerminalTransfered  = {
       'proceed': jasmine.any(Function),
-      'neededToProceed':{
-      },
-      'actions':{
-      },
+      'neededToProceed':[],
+      'actions':{},
       'context':{
         'version':'1.0.0',
         'stateHandle':'01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
@@ -315,9 +352,7 @@ describe('v2/ion/responseTransformer', function () {
         }
       },
       'proceed': jasmine.any(Function),
-      'neededToProceed':{
-   
-      },
+      'neededToProceed':[],
       'actions':{
    
       },

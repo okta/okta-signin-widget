@@ -2,17 +2,30 @@ const data = {
     "state": 200,
     "responseType": "json",
     "response": { 
-        "neededToProceed":{ 
-           "identify":[ 
-              { 
-                 "name":"identifier",
-                 "label":"Username"
-              }
-           ],
-           "select-enroll-profile":[ 
-     
-           ]
-        },
+        "neededToProceed":[
+           {
+            "accepts": "application/vnd.okta.v1+json",
+            "action": "ƒ (_x)",
+            "href": "http://rain.okta1.com:1802/idp/idx/identify",
+            "method": "post",
+            "name": "identify",
+            "rel": ["create-form"],
+            "value": [{
+               "label": "Username",
+               "method": "post",
+               "name": "identifier"
+            }]
+           },
+           {
+            "accepts": "application/vnd.okta.v1+json",
+            "action": "ƒ (_x)",
+            "href": "http://rain.okta1.com:1802/idp/idx/enroll",
+            "method": "post",
+            "name": "select-enroll-profile",
+            "rel": ["create-form"],
+            "value": []
+           }
+         ],
         "actions":{ 
      
         },

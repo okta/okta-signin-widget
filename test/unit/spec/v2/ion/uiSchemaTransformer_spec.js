@@ -73,44 +73,78 @@ describe('v2/ion/uiSchemaTransformer', function () {
       },
       '__rawResponse': rawFactorRequiredEmailResponse,
       'proceed': jasmine.any(Function),
-      'neededToProceed':{
-        'challenge-factor':[
-          {
-            'name':'credentials',
-            'form':{
-              'value':[
+      'neededToProceed':[
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'challenge-factor',
+          'href':'http://localhost:3000/idp/idx/challenge/answer',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'credentials',
+              'form':{
+                'value':[
+                  {
+                    'name':'passcode',
+                    'label':'One-time verification code',
+                    'secret':true,
+                    'method':'post'
+                  }
+                ],
+                'method':'post'
+              },
+              'method':'post'
+            },
+            {
+              'name':'stateHandle',
+              'required':true,
+              'value':'02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
+              'visible':false,
+              'mutable':false,
+              'method':'post'
+            }
+          ]
+        },
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'select-factor',
+          'href':'http://localhost:3000/idp/idx/challenge',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'factorId',
+              'type':'set',
+              'options':[
                 {
-                  'name':'passcode',
-                  'label':'One-time verification code',
-                  'secret':true,
-                  'method':'post'
+                  'label':'Password',
+                  'value':'00u2j17ObFUsbGfLg0g4',
+                  'method':'options'
+                },
+                {
+                  'label':'Email',
+                  'value':'emf2j1ccd6CF4IWFY0g3',
+                  'method':'options'
                 }
               ],
               'method':'post'
             },
-            'method':'post'
-          }
-        ],
-        'select-factor':[
-          {
-            'name':'factorId',
-            'type':'set',
-            'options':[
-              {
-                'label':'Password',
-                'value':'00u2j17ObFUsbGfLg0g4',
-                'method':'options'
-              },
-              {
-                'label':'Email',
-                'value':'emf2j1ccd6CF4IWFY0g3',
-                'method':'options'
-              }
-            ],
-            'method':'post'
-          }
-        ]
-      },
+            {
+              'name':'stateHandle',
+              'required':true,
+              'value':'02h50hMLvmuZUuoKCShHKZytlDeFRnn8KG-rcd8Ay5',
+              'visible':false,
+              'mutable':false,
+              'method':'post'
+            }
+          ]
+        }
+      ],
       'actions':{
    
       },
@@ -219,46 +253,64 @@ describe('v2/ion/uiSchemaTransformer', function () {
         'id':'00usip1dptbE7NiLa0g3'
       },
       'proceed': jasmine.any(Function),
-      'neededToProceed':{
-        'challenge-factor':[
-          {
-            'name':'credentials',
-            'form':{
-              'value':[
+      'neededToProceed':[
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'challenge-factor',
+          'href':'http://localhost:3000/idp/idx/challenge/answer',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'credentials',
+              'form':{
+                'value':[
+                  {
+                    'name':'passcode',
+                    'label':'One-time verification code',
+                    'secret':true,
+                    'method':'post'
+                  }
+                ],
+                'method':'post'
+              },
+              'method':'post'
+            },
+          ]
+        },
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'select-factor',
+          'href':'http://localhost:3000/idp/idx/challenge',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'factorId',
+              'type':'set',
+              'options':[
                 {
-                  'name':'passcode',
-                  'label':'One-time verification code',
-                  'secret':true,
-                  'method':'post'
+                  'label':'Password',
+                  'value':'00u2j17ObFUsbGfLg0g4',
+                  'method':'options',
+                  'factorType': 'password'
+                },
+                {
+                  'label':'Email',
+                  'value':'emf2j1ccd6CF4IWFY0g3',
+                  'method':'options',
+                  'factorType': 'email'
                 }
               ],
               'method':'post'
             },
-            'method':'post'
-          }
-        ],
-        'select-factor':[
-          {
-            'name':'factorId',
-            'type':'set',
-            'options':[
-              {
-                'label':'Password',
-                'value':'00u2j17ObFUsbGfLg0g4',
-                'method':'options',
-                'factorType':'password'
-              },
-              {
-                'label':'Email',
-                'value':'emf2j1ccd6CF4IWFY0g3',
-                'method':'options',
-                'factorType':'email'
-              }
-            ],
-            'method':'post'
-          }
-        ]
-      },
+          ]
+        }
+      ],
       'actions':{
    
       },
@@ -312,14 +364,16 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'label':'One-time verification code',
                     'secret':true,
                     'method':'post'
-                  }
+                  },
                 ],
                 'method':'post'
               },
               'method':'post'
             }
           ],
+          'href': 'http://localhost:3000/idp/idx/challenge/answer',
           'name':'challenge-factor',
+          'method':'post',
           'uiSchema':[
             {
               'name':'credentials.passcode',
@@ -355,7 +409,9 @@ describe('v2/ion/uiSchemaTransformer', function () {
               'method':'post'
             }
           ],
+          'href': 'http://localhost:3000/idp/idx/challenge',
           'name':'select-factor',
+          'method':'post',
           'uiSchema':[
             {
               'name':'factorId',
@@ -409,27 +465,36 @@ describe('v2/ion/uiSchemaTransformer', function () {
         }
       },
       '__rawResponse':rawFactorEnrollResponse,
-      'neededToProceed':{
-        'select-factor':[
-          {
-            'name':'factorProfileId',
-            'type':'set',
-            'options':[
-              {
-                'label':'Password Label',
-                'value':'00u2j17ObFUsbGfLg0g4',
-                'method':'options'
-              },
-              {
-                'label':'Email Label',
-                'value':'emf2j1ccd6CF4IWFY0g3',
-                'method':'options'
-              }
-            ],
-            'method':'post'
-          }
-        ]
-      },
+      'neededToProceed':[
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'select-factor',
+          'href':'http://localhost:3000/idp/idx/challenge',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'factorProfileId',
+              'type':'set',
+              'options':[
+                {
+                  'label':'Password Label',
+                  'value':'00u2j17ObFUsbGfLg0g4',
+                  'method':'options'
+                },
+                {
+                  'label':'Email Label',
+                  'value':'emf2j1ccd6CF4IWFY0g3',
+                  'method':'options'
+                }
+              ],
+              'method':'post'
+            }
+          ]
+        }
+      ],
       'actions':{
    
       },
@@ -495,29 +560,39 @@ describe('v2/ion/uiSchemaTransformer', function () {
         }
       },
       '__rawResponse':rawFactorEnrollResponse,
-      'neededToProceed':{
-        'select-factor':[
+      'neededToProceed':
+        [
           {
-            'name':'factorProfileId',
-            'type':'set',
-            'options':[
-              {
-                'label':'Password Label',
-                'value':'00u2j17ObFUsbGfLg0g4',
-                'method':'options',
-                'factorType':'password'
-              },
-              {
-                'label':'Email Label',
-                'value':'emf2j1ccd6CF4IWFY0g3',
-                'method':'options',
-                'factorType':'email'
-              }
+            'rel':[
+              'create-form'
             ],
-            'method':'post'
+            'name':'select-factor',
+            'href':'http://localhost:3000/idp/idx/challenge',
+            'method':'post',
+            'accepts':'application/vnd.okta.v1+json',
+            'value':[
+              {
+                'name':'factorProfileId',
+                'type':'set',
+                'options':[
+                  {
+                    'label':'Password Label',
+                    'value':'00u2j17ObFUsbGfLg0g4',
+                    'method':'options',
+                    'factorType': 'password'
+                  },
+                  {
+                    'label':'Email Label',
+                    'value':'emf2j1ccd6CF4IWFY0g3',
+                    'method':'options',
+                    'factorType': 'email'
+                  }
+                ],
+                'method':'post'
+              }
+            ]
           }
-        ]
-      },
+        ],
       'actions':{
    
       },
@@ -579,7 +654,9 @@ describe('v2/ion/uiSchemaTransformer', function () {
               'method':'post'
             }
           ],
+          'href': 'http://localhost:3000/idp/idx/challenge',
           'name':'select-factor',
+          'method':'post',
           'uiSchema':[
             {
               'name':'factorProfileId',
@@ -610,44 +687,62 @@ describe('v2/ion/uiSchemaTransformer', function () {
     const rawUserEnrollResponse = XHREnrollProfile.response;
     const transformedResponse  = {
       '__rawResponse':rawUserEnrollResponse,
-      'neededToProceed':{
-        'enroll-profile':[
-          {
-            'name':'userProfile',
-            'form':{
-              'value':[
-                {
-                  'name':'lastName',
-                  'label':'Last name',
-                  'required':true,
-                  'method':'post'
-                },
-                {
-                  'name':'firstName',
-                  'label':'First name',
-                  'required':true,
-                  'method':'post'
-                },
-                {
-                  'name':'email',
-                  'label':'Primary email',
-                  'required':true,
-                  'method':'post'
-                }
-              ],
+      'neededToProceed':[
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'enroll-profile',
+          'href':'http://localhost:3000/idp/idx/enroll',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'userProfile',
+              'form':{
+                'value':[
+                  {
+                    'name':'lastName',
+                    'label':'Last name',
+                    'required':true,
+                    'method':'post'
+                  },
+                  {
+                    'name':'firstName',
+                    'label':'First name',
+                    'required':true,
+                    'method':'post'
+                  },
+                  {
+                    'name':'email',
+                    'label':'Primary email',
+                    'required':true,
+                    'method':'post'
+                  }
+                ],
+                'method':'post'
+              },
               'method':'post'
-            },
-            'method':'post'
-          }
-        ],
-        'select-identify':[
-          {
-            'name':'identifier',
-            'label':'identifier',
-            'method':'post'
-          }
-        ]
-      },
+            }
+          ]
+        },
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'select-identify',
+          'href':'http://localhost:3000/idp/idx',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'identifier',
+              'label':'identifier',
+              'method':'post'
+            }
+          ]
+        }
+      ],
       'actions':{
    
       },
@@ -663,44 +758,62 @@ describe('v2/ion/uiSchemaTransformer', function () {
     const result = _.compose(uiSchemaTransformer, responseTransformer)(transformedResponse);
     expect(result).toEqual({
       '__rawResponse':rawUserEnrollResponse,
-      'neededToProceed':{
-        'enroll-profile':[
-          {
-            'name':'userProfile',
-            'form':{
-              'value':[
-                {
-                  'name':'lastName',
-                  'label':'Last name',
-                  'required':true,
-                  'method':'post'
-                },
-                {
-                  'name':'firstName',
-                  'label':'First name',
-                  'required':true,
-                  'method':'post'
-                },
-                {
-                  'name':'email',
-                  'label':'Primary email',
-                  'required':true,
-                  'method':'post'
-                }
-              ],
+      'neededToProceed':[
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'enroll-profile',
+          'href':'http://localhost:3000/idp/idx/enroll',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'userProfile',
+              'form':{
+                'value':[
+                  {
+                    'name':'lastName',
+                    'label':'Last name',
+                    'required':true,
+                    'method':'post'
+                  },
+                  {
+                    'name':'firstName',
+                    'label':'First name',
+                    'required':true,
+                    'method':'post'
+                  },
+                  {
+                    'name':'email',
+                    'label':'Primary email',
+                    'required':true,
+                    'method':'post'
+                  }
+                ],
+                'method':'post'
+              },
               'method':'post'
-            },
-            'method':'post'
-          }
-        ],
-        'select-identify':[
-          {
-            'name':'identifier',
-            'label':'identifier',
-            'method':'post'
-          }
-        ]
-      },
+            }
+          ]
+        },
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'select-identify',
+          'href':'http://localhost:3000/idp/idx',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'identifier',
+              'label':'identifier',
+              'method':'post'
+            }
+          ]
+        }
+      ],
       'actions':{
    
       },
@@ -743,7 +856,9 @@ describe('v2/ion/uiSchemaTransformer', function () {
               'method':'post'
             }
           ],
+          'href': 'http://localhost:3000/idp/idx/enroll',
           'name':'enroll-profile',
+          'method':'post',
           'uiSchema':[
             {
               'name':'userProfile.lastName',
@@ -776,7 +891,9 @@ describe('v2/ion/uiSchemaTransformer', function () {
               'method':'post'
             }
           ],
+          'href': 'http://localhost:3000/idp/idx',
           'name':'select-identify',
+          'method':'post',
           'uiSchema':[
             {
               'name':'identifier',

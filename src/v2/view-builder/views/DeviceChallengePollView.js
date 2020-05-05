@@ -48,9 +48,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     doChallenge () {
-      const deviceChallenge = this.options.appState.get(
-        this.deviceChallengePollRemediation.relatesTo
-      );
+      const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
       switch (deviceChallenge.challengeMethod) {
       case 'LOOPBACK':
         this.title = loc('signin.with.fastpass', 'login');
@@ -157,9 +155,8 @@ const Body = BaseForm.extend(Object.assign(
 const Footer = BaseFooter.extend({
   links () {
     let links = [];
-    const deviceChallenge = this.options.appState.get(
-      this.options.appState.getCurrentViewState().relatesTo
-    );
+    const deviceChallenge = this.options.appState.getCurrentViewState().relatesTo.value;
+
     if (deviceChallenge.challengeMethod === 'CUSTOM_URI') {
       links = [
         {

@@ -95,7 +95,7 @@ const Footer = BaseFooter.extend({
       // email recovery not supported to LEA
     ];
     // check if we have a select-factor form in remediation, if so add a link
-    if (this.options.appState.hasRemediationForm('select-factor-authenticate')) {
+    if (this.options.appState.hasRemediationObject('select-factor-authenticate')) {
       links.push({
         'type': 'link',
         'label': 'Switch Factor',

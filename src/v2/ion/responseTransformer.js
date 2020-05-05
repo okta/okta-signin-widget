@@ -66,14 +66,13 @@ const getRemediationValues = (idx) => {
       value: []
     });
   }
-  _.each(idx.neededToProceed, (value, key) => {
-    if (value && value.length) {
-      remediationValues.push({
-        value: value,
-        name: key,
-      });
-    } else {
-      remediationValues.push(_.omit(idx.rawIdxState.remediation.value[0], 'rel', 'value'));
+  _.each(idx.neededToProceed, (data) => {
+    if (data && data.name) {
+      // remove stateHandle field
+      if (data.value) {
+        data.value = data.value.filter((formField) => { return !! (formField.visible !== false); } );
+      }
+      remediationValues.push(_.omit(data, 'rel', 'accepts'));
     }
   });
   return {
@@ -88,7 +87,7 @@ const getRemediationValues = (idx) => {
  * Example: {
  *  remediations: [],
  *  proceed: ƒ(),
- *  neededToProceed: {},
+ *  neededToProceed: [],
  *  actions: {cancel: ƒ()},
  *  context: {},
  *  rawIdxState:{},
@@ -104,7 +103,7 @@ const convert = (idx) => {
   const resp = idx.rawIdxState;
 
   const firstLevelObjects = getFirstLevelObjects(resp);
-
+  
   const remediationValues = getRemediationValues(idx);
 
   const result = Object.assign({},

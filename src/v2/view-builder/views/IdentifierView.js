@@ -1,32 +1,26 @@
-import { View, loc, createButton } from 'okta';
+import { loc } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
+import signInWithIdps from './signin/SignInWithIdps';
+import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 
 const Body = BaseForm.extend({
 
   title: loc('primaryauth.title'),
   save: loc('oform.next', 'login'),
-  initialize () {
-    BaseForm.prototype.initialize.apply(this, arguments);
-    if (this.options.appState.hasRemediationForm('launch-authenticator')) {
-      this.add(View.extend({
-        className: 'sign-in-with-device-option',
-        template: `
-          <div class="okta-verify-container"></div>
-          <div class="separation-line"><span>OR</span></div>
-        `,
-        initialize () {
-          const appState = this.options.appState;
-          this.add(createButton({
-            className: 'button-secondary',
-            title: 'Sign in using Okta Verify',
-            click () { 
-              appState.trigger('invokeAction', 'launch-authenticator');
-            }
-          }), '.okta-verify-container');
-        }
-      }), '.o-form-fieldset-container', false, true);
+  render () {
+    BaseForm.prototype.render.apply(this, arguments);
+    if (this.options.appState.hasRemediationObject('launch-authenticator')) {
+      this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true);
+    }
+    //add idps
+    if (this.options.appState.hasRemediationObject('redirect')) {
+      this.add(signInWithIdps, '.o-form-button-bar');
+    }
+    if (this.options.appState.get('currentFormName') !== 'identify') {
+      this.$el.find('.button-primary').hide();
+      this.$el.find('.separation-line').hide();
     }
   }
 });
@@ -51,7 +45,7 @@ const Footer = BaseFooter.extend({
         'href': href,
       },
     ];
-    if (this.options.appState.hasRemediationForm('select-enroll-profile')) {
+    if (this.options.appState.hasRemediationObject('select-enroll-profile')) {
       links.push(signupLinkObj);
     }
     return links;
