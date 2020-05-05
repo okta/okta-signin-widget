@@ -32,3 +32,17 @@ test(`should show errors if required fields are empty`, async t => {
   await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
 });
+
+test(`should have correct display texts`, async t => {
+  // i18n values can be tested here.
+  const identityPage = await setup(t);
+
+  const identityPageTitle = identityPage.getPageTitle();
+  await t.expect(identityPageTitle).eql('Sign In');
+
+  const signupLinkText = identityPage.getSignupLinkText();
+  await t.expect(signupLinkText).eql('Sign Up');
+
+  const needhelpLinkText = identityPage.getNeedhelpLinkText();
+  await t.expect(needhelpLinkText).eql('Need help signing in?');
+});

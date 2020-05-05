@@ -2,7 +2,8 @@ import { Selector, ClientFunction } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '.infobox-warning > div';
-
+const ENROLL_SELECTOR = 'a[data-se="enroll"]';
+const NEEDHELP_SELECTOR = 'a[data-se="help"]';
 export default class IdentityPageObject extends BasePageObject {
   constructor (t) {
     super(t);
@@ -20,6 +21,14 @@ export default class IdentityPageObject extends BasePageObject {
 
   getOktaVerifyButtonText() {
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
+  }
+
+  getSignupLinkText() {
+    return Selector(ENROLL_SELECTOR).textContent;
+  }
+
+  getNeedhelpLinkText() {
+    return Selector(NEEDHELP_SELECTOR).textContent;
   }
 
   async clickOktaVerifyButton() {
@@ -79,6 +88,6 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async clickRegistrationButton() {
-    await this.t.click(Selector('a[data-se="enroll"]'));
+    await this.t.click(Selector(ENROLL_SELECTOR));
   }
 }
