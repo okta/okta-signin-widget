@@ -1,12 +1,15 @@
-const getIdpButtons = (idps) => {
-  const idpButtons = [];
-  if (idps && idps.length) {
+const getIdpButtons = (idx) => {
+  const redirectObjets = idx.neededToProceed.filter( idp => idp.name === 'redirect');
+  //const idpButtons = [];
+  if (redirectObjets && redirectObjets.length) {
     //add buttons from idp object
-    idps.forEach((idpButton) => {
+    return redirectObjets.map((idpButton) => {
       if (idpButton.relatesTo) {
         let classes = ['social-auth-button'];
-        const idpClass = `social-auth-${idpButton.relatesTo.type.toLowerCase()}-button`;
-        classes.push(idpClass);
+        if (idpButton.relatesTo.type) {
+          const idpClass = `social-auth-${idpButton.relatesTo.type.toLowerCase()}-button`;
+          classes.push(idpClass);
+        }
         const button = {
           attributes: {
             'data-se': 'social-auth-button'
@@ -17,11 +20,10 @@ const getIdpButtons = (idps) => {
           },
           href: idpButton.href,
         };
-        idpButtons.push(button);
+        return button;
       }
     });
   }
-  return idpButtons;
 };
 
 export {

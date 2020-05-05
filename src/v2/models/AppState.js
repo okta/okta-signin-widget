@@ -59,8 +59,8 @@ export default Model.extend({
     },
   },
 
-  hasRemediationForm (formName) {
-    return !_.isEmpty(this.get('idx').neededToProceed.find((remediation) => remediation.name === formName));
+  hasRemediationObject (formName) {
+    return this.get('idx').neededToProceed.find((remediation) => remediation.name === formName);
   },
 
   getActionByPath (actionPath) {
@@ -105,9 +105,8 @@ export default Model.extend({
     // Don't re-render view if new response is same as last.
     // if stateHandle changes re-render view.
     // stateHandle does not change for instrospect/poll calls
-    const currentState = _.omit(idx.rawIdxState, 'expiresAt');
-    const previousState = _.omit(this.get('__previousResponse'), 'expiresAt');
-    if (currentState.stateHandle === previousState.stateHandle) {
+    if (_.omit(idx.rawIdxState, 'expiresAt').stateHandle ===
+      _.omit(this.get('__previousResponse'), 'expiresAt').stateHandle) {
       return;
     }
 

@@ -8,7 +8,7 @@ export default View.extend({
       <div class="okta-idps-container"></div>
     `,
   initialize () {
-    this.idpButtons = getIdpButtons(this.options.appState.get('idx').neededToProceed);
+    this.idpButtons = getIdpButtons(this.options.appState.get('idx'));
     this.idpButtons.forEach((idpButton) => {
       this.add(createButton(idpButton), '.okta-idps-container');
     });

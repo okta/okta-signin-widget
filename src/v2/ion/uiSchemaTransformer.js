@@ -49,7 +49,6 @@ const createUISchema = (remediationValue = [], factors = []) => {
   // For cases where field itself is a form, it has a formname and we are appending the formname to each field
   // This is so that while making the request we can bundle these key:value pairs under the same key name
   // For simplicity we are assuming that when field itself is a form its only one level deep
-  remediationValue = remediationValue.filter((formField) => { return !! (formField.visible !== false); } );
   remediationValue = _.chain(remediationValue)
     .map(v => {
       // return empty array for idps object

@@ -5,7 +5,7 @@ define([
   'util/Logger',
   'util/Util',
   'sandbox',
-  'helpers/xhr/v2/IDX_RESPONSE',
+  'helpers/xhr/v2/IDX_JS_RESPONSE',
   'helpers/xhr/UNAUTHENTICATED',
   'helpers/xhr/ERROR_invalid_token',
   'okta',

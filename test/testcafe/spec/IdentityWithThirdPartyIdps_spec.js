@@ -1,7 +1,7 @@
 import { RequestMock } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import identifyWithIdpsIdentify from '../../../playground/mocks/idp/idx/data/third-party-idp-with-identify';
-import identifyWithIdpsNoIdentify from '../../../playground/mocks/idp/idx/data/third-party-idp-without-identify';
+import identifyWithIdpsIdentify from '../../../playground/mocks/idp/idx/data/identify-with-third-party-idps';
+import identifyWithIdpsNoIdentify from '../../../playground/mocks/idp/idx/data/identify-with-only-third-party-idps';
 
 const mockWithIdentify = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

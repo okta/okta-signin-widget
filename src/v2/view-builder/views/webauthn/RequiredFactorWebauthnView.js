@@ -118,7 +118,7 @@ const Footer = BaseFooter.extend({
     const links = [];
 
     // check if we have a select-factor form in remediation, if so add a link
-    if (this.options.appState.hasRemediationForm('select-factor')) {
+    if (this.options.appState.hasRemediationObject('select-factor')) {
       links.push({
         'type': 'link',
         'label': 'Switch Factor',

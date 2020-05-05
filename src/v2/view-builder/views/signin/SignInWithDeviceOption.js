@@ -11,7 +11,7 @@ export default View.extend({
     this.add(createButton({
       className: 'button-secondary',
       title: 'Sign in using Okta Verify',
-      click () { 
+      click () {
         appState.trigger('invokeAction', 'launch-authenticator');
       }
     }), '.okta-verify-container');
