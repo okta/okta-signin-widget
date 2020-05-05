@@ -29,15 +29,19 @@ export default Model.extend({
 
   derived: {
     factorProfile: {
-      deps: ['factor'],
-      fn (factor = {}) {
-        return factor.profile || {};
+      // While we're moving toward `authenticator` platform, but still
+      // need to support `factor` for certain period.
+      // Could remove `factor` after it's deprecated completely.
+      deps: ['factor', 'authenticator'],
+      fn (factor = {}, authenticator = {}) {
+        return factor.profile || authenticator.profile || {};
       },
     },
     factorType: {
-      deps: ['factor'],
-      fn (factor = {}) {
-        return factor.factorType;
+      deps: ['factor', 'authenticator'],
+      fn (factor = {}, authenticator = {}) {
+        // TODO: OKTA-296497 shall use `authenticatorMethod` when it's added.
+        return factor.factorType || authenticator.authenticatorType;
       },
     },
     currentStep: {

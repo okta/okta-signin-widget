@@ -16,7 +16,24 @@
 import { _ } from 'okta';
 
 /**
- * Adds factorType metadata to each select-factor option item using factors array
+ * @typedef {Object} FactorOption
+ * @property {string} label Factor label
+ * @property {string} value Factor ID
+ */
+/**
+ * @typedef {Object} Factor
+ * @property {string} factorType
+ * @property {string} factorId
+ */
+
+/**
+ * Adds `factorType` metadata to each select-factor option item using factors array
+ * @param {FactorOption[]} options
+ * @param {Factor[]} factors
+ * @returns {Object} option
+ * @returns {string} option.label
+ * @returns {string} option.value
+ * @returns {string} option.factorType
  */
 const createFactorTypeOptions = (options, factors) => {
   _.each(options, function (optionItem) {
@@ -30,6 +47,35 @@ const createFactorTypeOptions = (options, factors) => {
   return options;
 };
 
+
+/**
+ * @typedef {Object} AuthenticatorOption
+ * @property {string} label
+ * @property {Object} form
+ * @property {AuthenticatorOption[]} form.value
+ */
+/**
+ * @typedef {Object} AuthenticatorOptionValue
+ * @property {string} name
+ * @property {boolean} required
+ * @property {string} value
+ * @property {boolean} mutable
+ */
+/**
+ * Example of the option like
+ * @param {AuthenticatorOption[]} options
+ */
+const createAuthenticatorOptions = (options = []) => {
+  return options.map(option => {
+    const value = option.form && option.form.value || [];
+    const valueObject = value.reduce((init, v) => {
+      return Object.assign(init, {[v.name]: v.value});
+    }, {});
+
+    return {label: option.label, value: valueObject};
+  });
+};
+
 /**
  * @typedef {Object} IONFormField
  * @property {string} name
@@ -38,6 +84,8 @@ const createFactorTypeOptions = (options, factors) => {
  * @property {string=} secret
  * @property {string=} label
  * @property {Object[]} options
+ * @property {Object=} form
+ * @property {IONFormField[]} form.value
  */
 
 /**
@@ -80,6 +128,14 @@ const createUISchema = (remediationValue = [], factors = []) => {
       uiSchema.type = 'factorType';
       uiSchema.options = createFactorTypeOptions(ionFormField.options, factors);
     }
+
+    // similar to `factorId` but `authenticator` is a new way to model factors
+    // hence it has different structure
+    if (ionFormField.name === 'authenticator') {
+      uiSchema.type = 'authenticatorSelect';
+      uiSchema.options = createAuthenticatorOptions(ionFormField.options);
+    }
+
     return Object.assign(
       {},
       ionFormField,
@@ -95,7 +151,7 @@ const createUISchema = (remediationValue = [], factors = []) => {
 const insertUISchema = (transformedResp) => {
   if (transformedResp) {
     const factors = transformedResp.factors && transformedResp.factors.value || [];
-    
+
     transformedResp.remediations = transformedResp.remediations.map(obj => {
       obj.uiSchema = createUISchema(obj.value, factors);
       return obj;

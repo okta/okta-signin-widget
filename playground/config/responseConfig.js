@@ -3,7 +3,11 @@
 const idx = {
   // ===== IDX
 
-  '/idp/idx/introspect': ['identify'],
+  '/idp/idx/introspect': [
+    // 'authenticator-verification-password'
+    'select-factor-authenticate-authenticators'
+    // 'select-factor-authenticate'
+  ],
   '/idp/idx': ['select-factor-authenticate'],
   '/idp/idx/enroll': ['enroll-profile'],
   '/idp/idx/challenge/answer': [

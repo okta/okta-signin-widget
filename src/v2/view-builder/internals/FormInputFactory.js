@@ -19,10 +19,27 @@ const createFactorTypeView = (opt) => {
     }
   };
 };
+
+const createAuthenticatorSelectView = (opt) => {
+  var optionItems = (opt.options || [])
+    .map(opt => {
+      const methodType = opt.value && opt.value.methodType;
+      return Object.assign({}, FactorUtil.getFactorData(methodType), opt);
+    });
+  return {
+    View: FactorOptions,
+    options: {
+      name: opt.name,
+      collection: new Collection(optionItems),
+    }
+  };
+};
+
 const inputCreationStrategy = {
   text: changeLabelToTop,
   password: changeLabelToTop,
   factorType: createFactorTypeView,
+  authenticatorSelect: createAuthenticatorSelectView,
 };
 
 const create = function (uiSchemaObj) {

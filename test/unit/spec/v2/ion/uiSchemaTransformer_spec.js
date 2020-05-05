@@ -1,13 +1,13 @@
 import { _ } from 'okta';
 import responseTransformer from 'v2/ion/responseTransformer';
 import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';
-import XHRFactorRequiredEmail from '../../../helpers/xhr/v2/FACTOR_REQUIRED_EMAIL';
-import XHREnrollProfile from '../../../helpers/xhr/v2/ENROLL_PROFILE';
-import XHRFactorEnrollOptions from '../../../helpers/xhr/v2/FACTOR_ENROLL_OPTIONS';
+import XHRFactorRequiredEmail  from '../../../../../playground/mocks/idp/idx/data/factor-verification-email.json';
+import XHREnrollProfile from '../../../../../playground/mocks/idp/idx/data/enroll-profile.json';
+import XHRFactorEnrollOptions from '../../../../../playground/mocks/idp/idx/data/factor-enroll-options.json';
 
 describe('v2/ion/uiSchemaTransformer', function () {
   it('converts factor require email', () => {
-    const rawFactorRequiredEmailResponse = XHRFactorRequiredEmail.response;
+    const rawFactorRequiredEmailResponse = XHRFactorRequiredEmail;
     const transformedResponse  = {
       'factors':{
         'value':[
@@ -146,7 +146,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
         }
       ],
       'actions':{
-   
+
       },
       'context':{
         'stateHandle':'02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
@@ -312,7 +312,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
         }
       ],
       'actions':{
-   
+
       },
       'context':{
         'stateHandle':'02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
@@ -439,7 +439,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
   });
 
   it('converts factor enroll options', () => {
-    const rawFactorEnrollResponse = XHRFactorEnrollOptions.response;
+    const rawFactorEnrollResponse = XHRFactorEnrollOptions;
     const transformedResponse  = {
       'factors':{
         'value':[
@@ -496,7 +496,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
         }
       ],
       'actions':{
-   
+
       },
       'context':{
         'version':'1.0.0',
@@ -594,7 +594,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
           }
         ],
       'actions':{
-   
+
       },
       'context':{
         'version':'1.0.0',
@@ -684,7 +684,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
   });
 
   it('converts response with fields as form for ENROLL_PROFILE', () => {
-    const rawUserEnrollResponse = XHREnrollProfile.response;
+    const rawUserEnrollResponse = XHREnrollProfile;
     const transformedResponse  = {
       '__rawResponse':rawUserEnrollResponse,
       'neededToProceed':[
@@ -744,7 +744,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
         }
       ],
       'actions':{
-   
+
       },
       'context':{
         'stateHandle':'01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB',
@@ -815,7 +815,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
         }
       ],
       'actions':{
-   
+
       },
       'context':{
         'stateHandle':'01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB',

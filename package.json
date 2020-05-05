@@ -60,13 +60,12 @@
     "build:dev": "grunt build:dev",
     "build:release": "grunt build:release",
     "build:webpack-dev": "webpack --config webpack.dev.config.js",
-    "start": "yarn start:only",
-    "start:only": "webpack-dev-server --config webpack.playground.config.js",
-    "start:playground": "concurrently \"grunt build:dev:watch\" \"grunt watch:sass\" \"webpack-dev-server --config webpack.playground.config.js\" --kill-others",
     "build:webpack-release": "webpack --config webpack.release.config.js",
     "build:webpack-e2e-app": "webpack target/e2e/app/app-using-osw-entry.js target/js/app-bundle.js",
-    "prestart": "yarn build:dev",
     "prepublishOnly": "yarn build:release",
+    "start": "yarn build:dev && yarn start:dev-server",
+    "start:playground": "concurrently \"grunt build:dev:watch\" \"grunt watch:sass\" \"yarn start:dev-server\" --kill-others",
+    "start:dev-server": "webpack-dev-server --config webpack.playground.config.js",
     "mock:authenticator": "dyson playground/mocks/authenticator/ 6512"
   },
   "devDependencies": {

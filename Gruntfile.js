@@ -317,8 +317,8 @@ module.exports = function (grunt) {
       sass: {
         files: ['assets/sass/**/*'],
         tasks: [
-          'copy:app-to-target', 
-          'sass:build', 
+          'copy:app-to-target',
+          'sass:build',
           'postcss:build'
         ]
       }

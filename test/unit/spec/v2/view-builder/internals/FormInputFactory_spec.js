@@ -34,16 +34,14 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       type: 'factorType',
       options: [
         {
-          'label': 'Password',
-          'value': 'password',
-          'iconClassName': 'mfa-okta-password',
-          'description': ''
+          'label': 'Okta Password',
+          'value': 'password-id-123',
+          'factorType': 'password'
         },
         {
-          'label': 'E-mail',
-          'value': 'email',
-          'iconClassName': 'mfa-okta-email',
-          'description': ''
+          'label': 'Okta E-mail',
+          'value': 'email-id-123',
+          'factorType': 'email'
         }
       ],
       name: 'factorType'
@@ -59,14 +57,16 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     expect(result.options.collection instanceof Collection).toBe(true);
     expect(result.options.collection.toJSON()).toEqual([
       {
-        'label': 'Password',
-        'value': 'password',
+        'label': 'Okta Password',
+        'value': 'password-id-123',
+        'factorType': 'password',
         'iconClassName': 'mfa-okta-password',
         'description': ''
       },
       {
-        'label': 'E-mail',
-        'value': 'email',
+        'label': 'Okta E-mail',
+        'value': 'email-id-123',
+        'factorType': 'email',
         'iconClassName': 'mfa-okta-email',
         'description': ''
       }
@@ -75,19 +75,90 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       type: 'factorType',
       options: [
         {
-          'label': 'Password',
-          'value': 'password',
-          'iconClassName': 'mfa-okta-password',
-          'description': ''
+          'label': 'Okta Password',
+          'value': 'password-id-123',
+          'factorType': 'password'
         },
         {
-          'label': 'E-mail',
-          'value': 'email',
-          'iconClassName': 'mfa-okta-email',
-          'description': ''
+          'label': 'Okta E-mail',
+          'value': 'email-id-123',
+          'factorType': 'email'
         }
       ],
       name: 'factorType'
+    });
+  });
+
+  it('handles authenticatorSelect type', function () {
+    const opt = {
+      type: 'authenticatorSelect',
+      options: [
+        {
+          'label': 'Okta Password',
+          'value': {
+            methodType: 'password',
+            id: 'autwa6eD9o02iBbtv0g3'
+          }
+        },
+        {
+          'label': 'Okta E-mail',
+          'value': {
+            methodType: 'email',
+            id: 'autwa6eDxxx2iBbtv0g3'
+          }
+        }
+      ],
+      name: 'authenticator'
+    };
+    const result = FormInputFactory.create(opt);
+    expect(result).toEqual({
+      View: FactorEnrollOptions,
+      options: {
+        collection: jasmine.anything(),
+        name: 'authenticator'
+      },
+    });
+    expect(result.options.collection instanceof Collection).toBe(true);
+    expect(result.options.collection.toJSON()).toEqual([
+      {
+        'label': 'Okta Password',
+        'value': {
+          methodType: 'password',
+          id: 'autwa6eD9o02iBbtv0g3'
+        },
+        'iconClassName': 'mfa-okta-password',
+        'description': ''
+      },
+      {
+        'label': 'Okta E-mail',
+        'value': {
+          methodType: 'email',
+          id: 'autwa6eDxxx2iBbtv0g3'
+        },
+        'iconClassName': 'mfa-okta-email',
+        'description': ''
+      }
+    ]);
+    // make sure input parameter is not mutated.
+    expect(opt).toEqual({
+      type: 'authenticatorSelect',
+      options: [
+        {
+          'label': 'Okta Password',
+          'value': {
+            methodType: 'password',
+            id: 'autwa6eD9o02iBbtv0g3'
+          }
+        },
+        {
+          'label': 'Okta E-mail',
+          'value': {
+            methodType: 'email',
+            id: 'autwa6eDxxx2iBbtv0g3'
+          }
+        }
+      ],
+      name: 'authenticator'
     });
   });
 });
