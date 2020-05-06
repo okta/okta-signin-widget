@@ -17,7 +17,7 @@ const ResendView = View.extend(
 
     initialize () {
       this.add(createCallout({
-        content: 'Haven\'t received an email? <a class=\'resend-link\'>Send again</a>',
+        content: `${loc('email.code.not.received', 'login')} <a class=\'resend-link\'>${loc('email.button.resend', 'login')}</a>`,
         type: 'warning',
       }));
     },
@@ -48,7 +48,9 @@ const ResendView = View.extend(
 
 const Body = BaseForm.extend(Object.assign(
   {
-    save: loc('mfa.challenge.verify', 'login'),
+    save() {
+      return loc('mfa.challenge.verify', 'login');
+    },
     subtitle:'A verification code was sent to your email.',
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
@@ -66,9 +68,9 @@ const Body = BaseForm.extend(Object.assign(
       //Override message in form subtitle so that we can add html content to it. Courage form subtitle doesn't
       //support html tags.
       this.$el.find('.okta-form-subtitle').empty();
-      this.add(`<div>A verification code was sent to <span class='strong'>
+      this.add(`<div>${loc('email.mfa.email.sent.description.sentText', 'login')}<span class='strong'>
         ${this.options.appState.get('factorProfile').email}</span>.
-        Check your email and enter the code below.</div>`, '.okta-form-subtitle');
+        ${loc('email.mfa.email.sent.description.emailCodeText', 'login')}</div>`, '.okta-form-subtitle');
 
       this.add(ResendView, {
         selector: '.o-form-error-container',
@@ -90,7 +92,7 @@ const Body = BaseForm.extend(Object.assign(
 ));
 
 const Footer = BaseFooter.extend({
-  links: function () {
+  links() {
     var links = [
       // email recovery not supported to LEA
     ];
@@ -98,7 +100,7 @@ const Footer = BaseFooter.extend({
     if (this.options.appState.hasRemediationObject('select-factor-authenticate')) {
       links.push({
         'type': 'link',
-        'label': 'Switch Factor',
+        'label': loc('mfa.switch', 'login'),
         'name': 'switchFactor',
         'formName': 'select-factor-authenticate',
       });
