@@ -1,6 +1,7 @@
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import Util from '../../../util/Util';
+import { loc } from 'okta';
 
 // for BETA,
 // redirect is needed for Apple SSO Extension to intercept the request, because
@@ -10,7 +11,7 @@ import Util from '../../../util/Util';
 const Body = BaseForm.extend({
   noButtonBar: true,
 
-  title: 'You are being redirected',
+  title: loc('deviceTrust.sso.redirectText', 'login'),
 
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
