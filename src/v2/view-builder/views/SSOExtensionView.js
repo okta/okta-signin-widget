@@ -11,7 +11,9 @@ import { loc } from 'okta';
 const Body = BaseForm.extend({
   noButtonBar: true,
 
-  title: loc('deviceTrust.sso.redirectText', 'login'),
+  title () {
+    return loc('deviceTrust.sso.redirectText', 'login');
+  },
 
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
