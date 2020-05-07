@@ -17,7 +17,8 @@ const ResendView = View.extend(
 
     initialize () {
       this.add(createCallout({
-        content: `${loc('email.code.not.received', 'login')} <a class=\'resend-link\'>${loc('email.button.resend', 'login')}</a>`,
+        content: `${loc('email.code.not.received', 'login')} 
+        <a class='resend-link'>${loc('email.button.resend', 'login')}</a>`,
         type: 'warning',
       }));
     },
@@ -48,7 +49,7 @@ const ResendView = View.extend(
 
 const Body = BaseForm.extend(Object.assign(
   {
-    save() {
+    save () {
       return loc('mfa.challenge.verify', 'login');
     },
     subtitle:'A verification code was sent to your email.',
@@ -92,7 +93,7 @@ const Body = BaseForm.extend(Object.assign(
 ));
 
 const Footer = BaseFooter.extend({
-  links() {
+  links () {
     var links = [
       // email recovery not supported to LEA
     ];

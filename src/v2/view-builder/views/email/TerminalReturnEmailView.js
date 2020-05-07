@@ -4,7 +4,7 @@ import { loc } from 'okta';
 
 const Body = BaseFactorTerminalView.prototype.Body.extend(Object.assign(
   {
-    subtitle() {
+    subtitle () {
       return loc('email.link.terminal.msg', 'login');
     }
   },

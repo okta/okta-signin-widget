@@ -7,7 +7,7 @@ import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 
 const Body = BaseForm.extend({
 
-  title() {
+  title () {
     return loc('primaryauth.title', 'login');
   },
   save: loc('oform.next', 'login'),
