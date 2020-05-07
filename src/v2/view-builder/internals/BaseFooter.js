@@ -1,4 +1,4 @@
-import { View, _ } from 'okta';
+import { View, _, loc } from 'okta';
 import Link from '../components/Link';
 
 /**
@@ -29,7 +29,7 @@ export default View.extend({
       links = links.concat([
         {
           'actionPath': 'cancel',
-          'label': 'Sign out',
+          'label': loc('signout', 'login'),
           'name': 'cancel',
           'type': 'link'
         },

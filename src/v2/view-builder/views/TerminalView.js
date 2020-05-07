@@ -1,11 +1,12 @@
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
+import { loc } from 'okta';
 
 const Body = BaseForm.extend({
   title () {
     const msg = this.options.appState.get('terminal').message || {};
-    return msg.message || 'You can close this window';
+    return msg.message || loc('closeWindow', 'login');
   },
   noButtonBar: true,
   postRender () {
@@ -19,7 +20,7 @@ const Footer = BaseFooter.extend({
     return [
       {
         'type': 'link',
-        'label': 'Back to sign in',
+        'label': loc('backToSignin', 'login'),
         'name': 'back',
         'href': '/'
       }
