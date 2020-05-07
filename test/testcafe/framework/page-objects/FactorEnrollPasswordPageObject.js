@@ -8,6 +8,14 @@ export default class EnrollPasswordPageObject extends BasePageObject {
     super(t);
   }
 
+  passwordFieldExists() {
+    return this.form.elementExist(`input[name="${passwordFieldName}"]`);
+  }
+
+  confirmPasswordFieldExists() {
+    return this.form.elementExist(`input[name="${confirmPasswordFieldName}"]`);
+  }
+
   fillPassword(value) {
     return this.form.setTextBoxValue(passwordFieldName, value);
   }

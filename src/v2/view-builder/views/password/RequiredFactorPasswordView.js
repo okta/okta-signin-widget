@@ -7,9 +7,13 @@ const recoveryLinkAction = 'factor-recover';
 
 const Body = BaseForm.extend({
 
-  title: loc('factor.password', 'login'),
+  title: function () {
+    return loc('factor.password', 'login');
+  },
 
-  save: loc('mfa.challenge.verify', 'login'),
+  save: function () {
+    return loc('mfa.challenge.verify', 'login');
+  },
 });
 
 const Footer = BaseFooter.extend({
@@ -20,7 +24,7 @@ const Footer = BaseFooter.extend({
     if (this.options.appState.getActionByPath(recoveryLinkAction)) {
       links.push({
         'type': 'link',
-        'label': 'Forgot Password',
+        'label': loc('forgotpassword', 'login'),
         'name': 'forgot-password',
         'actionPath': recoveryLinkAction,
       });
@@ -29,7 +33,7 @@ const Footer = BaseFooter.extend({
     if (this.options.appState.hasRemediationObject('select-factor-authenticate')) {
       links.push({
         'type': 'link',
-        'label': 'Switch Factor',
+        'label':  loc('mfa.switch', 'login'),
         'name': 'switchFactor',
         'formName': 'select-factor-authenticate',
       });
