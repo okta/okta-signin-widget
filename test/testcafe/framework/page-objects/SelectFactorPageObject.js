@@ -1,6 +1,9 @@
 import BasePageObject from './BasePageObject';
 
-const buttonSelector = '.enroll-factor-list .enroll-factor-row .enroll-factor-button .button';
+const factorListRowSelector = '.enroll-factor-list .enroll-factor-row';
+const factorLabelSelector = `${factorListRowSelector} .enroll-factor-label`;
+const factorIconSelector = `${factorListRowSelector} .enroll-factor-icon-container .factor-icon`;
+const factorSelectButtonSelector = `${factorListRowSelector} .enroll-factor-button .button`;
 
 export default class SelectFactorPageObject extends BasePageObject {
   constructor(t) {
@@ -8,23 +11,23 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorsCount() {
-    return this.form.getElement('.enroll-factor-list .enroll-factor-row').count;
+    return this.form.getElement(factorListRowSelector).count;
   }
 
   getFactorLabelByIndex(index) {
-    return this.form.getElement('.enroll-factor-list .enroll-factor-row .enroll-factor-label').nth(index).textContent;
+    return this.form.getElement(factorLabelSelector).nth(index).textContent;
   }
 
   getFactorIconClassByIndex(index) {
-    return this.form.getElement('.enroll-factor-list .enroll-factor-icon-container .factor-icon').nth(index).getAttribute('class');
+    return this.form.getElement(factorIconSelector).nth(index).getAttribute('class');
   }
 
   getFactorSelectButtonByIndex(index) {
-    return this.form.getElement(buttonSelector).nth(index).textContent;
+    return this.form.getElement(factorSelectButtonSelector).nth(index).textContent;
   }
 
   async selectFactorByIndex(index) {
-    await this.t.click(this.form.getElement(buttonSelector).nth(index));
+    await this.t.click(this.form.getElement(factorSelectButtonSelector).nth(index));
   }
 
   /**

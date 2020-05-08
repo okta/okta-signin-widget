@@ -18,22 +18,22 @@
                     {
                        "name": "identifier",
                        "label": "Enter your username",
-                       "required": true                        
+                       "required": true
                     },
                     {
                        "name": "stateHandle",
                        "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cD",
                        "required": true,
                        "visible": false
-                    }      
-                ]      
+                    }
+                ]
           },
           {
               "rel": [
                   "create-form"
               ],
               "name": "select-enroll-profile",
-              "href": "https://santoshmale.okta1.com/idp/idx/enroll",
+              "href": "http://localhost:3000/idp/idx/enroll",
               "method": "POST",
               "accepts": "application/vnd.okta.v1+json",
               "value": [
@@ -47,7 +47,7 @@
               ]
           },
           {
-                "rel": ["create-form"],  
+                "rel": ["create-form"],
                 "name": "launch-authenticator",
                 "href": "http://localhost:3000/idp/idx/authenticators/okta-verify/launch",
                 "method": "POST",
@@ -59,8 +59,8 @@
                         "value": "02vQULJDA20fnlkloDn2swWJkaxVTPQ10lyJH6I5cD",
                         "required": true,
                         "visible": false
-                    }        
-                ]      
+                    }
+                ]
           }
       ]
   },

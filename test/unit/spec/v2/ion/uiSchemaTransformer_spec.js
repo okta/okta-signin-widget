@@ -415,7 +415,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
           'uiSchema':[
             {
               'name':'factorId',
-              'type':'factorType',
+              'type':'factorSelect',
               'options':[
                 {
                   'label':'Password',
@@ -660,7 +660,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
           'uiSchema':[
             {
               'name':'factorProfileId',
-              'type':'factorType',
+              'type':'factorSelect',
               'options':[
                 {
                   'label':'Password Label',

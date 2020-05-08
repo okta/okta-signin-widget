@@ -7,7 +7,7 @@ import xhrSuccess from '../../../playground/mocks/idp/idx/data/success';
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrFactorEnrollPassword)
-  .onRequestTo('http://localhost:3000/idp/idx')
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
 fixture(`Factor Enroll Password`)
@@ -22,7 +22,7 @@ async function setup(t) {
 test(`should have both password and confirmPassword fields and both are required`, async t => {
   const enrollPasswordPage = await setup(t);
 
-  // Check title 
+  // Check title
   await t.expect(enrollPasswordPage.getFormTitle()).eql('Select a password');
   await t.expect(enrollPasswordPage.getSaveButtonLabel()).eql('Save password');
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);

@@ -2,6 +2,7 @@ import { loc } from 'okta';
 import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
 import BaseFactorView from '../shared/BaseFactorView';
+import { addSwitchAuthenticatorLink } from '../../utils/AuthenticatorUtil';
 
 const recoveryLinkAction = 'factor-recover';
 
@@ -29,15 +30,9 @@ const Footer = BaseFooter.extend({
         'actionPath': recoveryLinkAction,
       });
     }
-    // check if we have a select-factor form in remediation, if so add a link
-    if (this.options.appState.hasRemediationObject('select-factor-authenticate')) {
-      links.push({
-        'type': 'link',
-        'label':  loc('mfa.switch', 'login'),
-        'name': 'switchFactor',
-        'formName': 'select-factor-authenticate',
-      });
-    }
+
+    addSwitchAuthenticatorLink(this.options.appState, links);
+
     return links;
   }
 });

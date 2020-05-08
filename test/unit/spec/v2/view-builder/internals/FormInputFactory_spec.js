@@ -31,7 +31,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
 
   it('handles factorType type', function () {
     const opt = {
-      type: 'factorType',
+      type: 'factorSelect',
       options: [
         {
           'label': 'Okta Password',
@@ -72,7 +72,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       }
     ]);
     expect(opt).toEqual({
-      type: 'factorType',
+      type: 'factorSelect',
       options: [
         {
           'label': 'Okta Password',
@@ -95,15 +95,15 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       options: [
         {
           'label': 'Okta Password',
+          'authenticatorType': 'password',
           'value': {
-            methodType: 'password',
             id: 'autwa6eD9o02iBbtv0g3'
           }
         },
         {
           'label': 'Okta E-mail',
+          'authenticatorType': 'email',
           'value': {
-            methodType: 'email',
             id: 'autwa6eDxxx2iBbtv0g3'
           }
         }
@@ -122,8 +122,8 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     expect(result.options.collection.toJSON()).toEqual([
       {
         'label': 'Okta Password',
+        'authenticatorType': 'password',
         'value': {
-          methodType: 'password',
           id: 'autwa6eD9o02iBbtv0g3'
         },
         'iconClassName': 'mfa-okta-password',
@@ -131,8 +131,8 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       },
       {
         'label': 'Okta E-mail',
+        'authenticatorType': 'email',
         'value': {
-          methodType: 'email',
           id: 'autwa6eDxxx2iBbtv0g3'
         },
         'iconClassName': 'mfa-okta-email',
@@ -145,15 +145,15 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       options: [
         {
           'label': 'Okta Password',
+          'authenticatorType': 'password',
           'value': {
-            methodType: 'password',
             id: 'autwa6eD9o02iBbtv0g3'
           }
         },
         {
           'label': 'Okta E-mail',
+          'authenticatorType': 'email',
           'value': {
-            methodType: 'email',
             id: 'autwa6eDxxx2iBbtv0g3'
           }
         }

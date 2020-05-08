@@ -4,6 +4,7 @@ import BaseFooter from '../../internals/BaseFooter';
 import email from '../shared/email';
 import polling from '../shared/polling';
 import BaseFactorView from '../shared/BaseFactorView';
+import { addSwitchAuthenticatorLink } from '../../utils/AuthenticatorUtil';
 
 const SHOW_RESEND_TIMEOUT = 60000;
 
@@ -17,7 +18,7 @@ const ResendView = View.extend(
 
     initialize () {
       this.add(createCallout({
-        content: `${loc('email.code.not.received', 'login')} 
+        content: `${loc('email.code.not.received', 'login')}
         <a class='resend-link'>${loc('email.button.resend', 'login')}</a>`,
         type: 'warning',
       }));
@@ -70,7 +71,7 @@ const Body = BaseForm.extend(Object.assign(
       //support html tags.
       this.$el.find('.okta-form-subtitle').empty();
       this.add(`<div>${loc('email.mfa.email.sent.description.sentText', 'login')}<span class='strong'>
-        ${this.options.appState.get('factorProfile').email}</span>.
+        ${this.options.appState.get('authenticatorProfile').email}</span>.
         ${loc('email.mfa.email.sent.description.emailCodeText', 'login')}</div>`, '.okta-form-subtitle');
 
       this.add(ResendView, {
@@ -97,15 +98,9 @@ const Footer = BaseFooter.extend({
     var links = [
       // email recovery not supported to LEA
     ];
-    // check if we have a select-factor form in remediation, if so add a link
-    if (this.options.appState.hasRemediationObject('select-factor-authenticate')) {
-      links.push({
-        'type': 'link',
-        'label': loc('mfa.switch', 'login'),
-        'name': 'switchFactor',
-        'formName': 'select-factor-authenticate',
-      });
-    }
+
+    addSwitchAuthenticatorLink(this.options.appState, links);
+
     return links;
   }
 });

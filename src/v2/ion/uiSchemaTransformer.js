@@ -49,6 +49,12 @@ const createFactorTypeOptions = (options, factors) => {
 
 
 /**
+ * @typedef {Object} AuthenticatorInstance
+ * @property {string} authenticatorId
+ * @property {string} authenticatorType
+ * @property {string} authenticatorEnrollmentId
+ */
+/**
  * @typedef {Object} AuthenticatorOption
  * @property {string} label
  * @property {Object} form
@@ -64,15 +70,29 @@ const createFactorTypeOptions = (options, factors) => {
 /**
  * Example of the option like
  * @param {AuthenticatorOption[]} options
+ * @param {AuthenticatorInstance[]} authenticators
  */
-const createAuthenticatorOptions = (options = []) => {
+const createAuthenticatorOptions = (options = [], authenticators = []) => {
   return options.map(option => {
-    const value = option.form && option.form.value || [];
-    const valueObject = value.reduce((init, v) => {
-      return Object.assign(init, {[v.name]: v.value});
-    }, {});
+    const value = option.value && option.value.form && option.value.form.value || [];
+    const valueObject = value
+      // TODO:
+      // base on current API design, there maybe field that has
+      // required is true && muable is true, need to figure out
+      // later how to surface up to UI.
+      .filter(v => v.required === true && v.mutable === false)
+      .reduce((init, v) => {
+        return Object.assign(init, {[v.name]: v.value});
+      }, {});
+    const authenticator = authenticators.find(auth => {
+      return auth.authenticatorId === valueObject.id;
+    }) || {};
 
-    return {label: option.label, value: valueObject};
+    return {
+      label: option.label,
+      value: valueObject,
+      authenticatorType: authenticator.authenticatorType
+    };
   });
 };
 
@@ -93,7 +113,7 @@ const createAuthenticatorOptions = (options = []) => {
  * @param {IONFormField[]} remediationValue
  * @param {factor[]} factors
  */
-const createUISchema = (remediationValue = [], factors = []) => {
+const createUISchema = (remediationValue = [], factors = [], authenticators = []) => {
   // For cases where field itself is a form, it has a formname and we are appending the formname to each field
   // This is so that while making the request we can bundle these key:value pairs under the same key name
   // For simplicity we are assuming that when field itself is a form its only one level deep
@@ -125,7 +145,7 @@ const createUISchema = (remediationValue = [], factors = []) => {
     // we get back factorId
     if (ionFormField.name === 'factorId' ||
       ionFormField.name === 'factorProfileId') {
-      uiSchema.type = 'factorType';
+      uiSchema.type = 'factorSelect';
       uiSchema.options = createFactorTypeOptions(ionFormField.options, factors);
     }
 
@@ -133,7 +153,7 @@ const createUISchema = (remediationValue = [], factors = []) => {
     // hence it has different structure
     if (ionFormField.name === 'authenticator') {
       uiSchema.type = 'authenticatorSelect';
-      uiSchema.options = createAuthenticatorOptions(ionFormField.options);
+      uiSchema.options = createAuthenticatorOptions(ionFormField.options, authenticators);
     }
 
     return Object.assign(
@@ -151,9 +171,10 @@ const createUISchema = (remediationValue = [], factors = []) => {
 const insertUISchema = (transformedResp) => {
   if (transformedResp) {
     const factors = transformedResp.factors && transformedResp.factors.value || [];
+    const authenticators = transformedResp.authenticators && transformedResp.authenticators.value || [];
 
     transformedResp.remediations = transformedResp.remediations.map(obj => {
-      obj.uiSchema = createUISchema(obj.value, factors);
+      obj.uiSchema = createUISchema(obj.value, factors, authenticators);
       return obj;
     });
   }

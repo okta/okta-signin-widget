@@ -12,7 +12,7 @@
             "create-form"
           ],
           "name": "challenge-factor",
-          "href": "https://idp.okta1.com:80/idp/idx/challenge/answer",
+          "href": "http://localhost:3000:80/idp/idx/challenge/answer",
           "method": "POST",
           "accepts": "application/vnd.okta.v1+json",
           "value": [
@@ -51,8 +51,8 @@
           "rel": [
             "create-form"
           ],
-          "name": "select-factor",
-          "href": "https://idp.okta1.com:80/idp/idx/challenge",
+          "name": "select-factor-authenticate",
+          "href": "http://localhost:3000:80/idp/idx/challenge",
           "method": "POST",
           "accepts": "application/vnd.okta.v1+json",
           "value": [
@@ -96,7 +96,7 @@
             "create-form"
           ],
           "name": "recover",
-          "href": "https://idp.okta1.com:80/idp/idx/recover",
+          "href": "http://localhost:3000:80/idp/idx/recover",
           "method": "POST",
           "accepts": "application/vnd.okta.v1+json",
           "value": [
@@ -154,7 +154,7 @@
         "create-form"
       ],
       "name": "cancel",
-      "href": "https://idp.okta1.com:80/idp/idx/cancel",
+      "href": "http://localhost:3000:80/idp/idx/cancel",
       "method": "POST",
       "accepts": "application/vnd.okta.v1+json",
       "value": [
@@ -172,7 +172,7 @@
         "create-form"
       ],
       "name": "context",
-      "href": "https://idp.okta1.com:80/idp/idx/context",
+      "href": "http://localhost:3000:80/idp/idx/context",
       "method": "POST",
       "accepts": "application/vnd.okta.v1+json",
       "value": [
