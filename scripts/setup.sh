@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Install required node version
+export REGISTRY_REPO="npm-topic"
+export REGISTRY="{ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
 setup_service node v12.13.0
 
 cd ${OKTA_HOME}/${REPO}

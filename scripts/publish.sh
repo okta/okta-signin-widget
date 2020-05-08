@@ -3,7 +3,7 @@
 source $OKTA_HOME/$REPO/scripts/setup.sh
 
 # Install required dependencies
-yarn global add @okta/ci-update-package
+yarn global add @okta/ci-append-sha
 yarn global add @okta/ci-pkginfo
 
 export PATH="${PATH}:$(yarn global bin)"
@@ -18,8 +18,8 @@ else
   TARGET_BRANCH=$BRANCH
 fi
 
-if ! ci-update-package --branch ${TARGET_BRANCH}; then
-  echo "ci-update-package failed! Exiting..."
+if ! ci-append-sha; then
+  echo "ci-append-sha failed! Exiting..."
   exit $FAILED_SETUP
 fi
 
