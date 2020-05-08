@@ -7,7 +7,9 @@ import webauthn from '../../../../util/webauthn';
 
 const Body = BaseForm.extend({
 
-  title: loc('factor.webauthn.biometric', 'login'),
+  title () {
+    return loc('factor.webauthn.biometric', 'login');
+  },
 
   getUISchema () {
     const schema = [];
@@ -121,7 +123,7 @@ const Footer = BaseFooter.extend({
     if (this.options.appState.hasRemediationObject('select-factor')) {
       links.push({
         'type': 'link',
-        'label': 'Switch Factor',
+        'label': loc('mfa.switch', 'login'),
         'name': 'switchFactor',
         'formName': 'select-factor',
       });
