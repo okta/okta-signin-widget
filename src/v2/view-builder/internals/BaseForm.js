@@ -8,7 +8,9 @@ export default Form.extend({
   hasSavingState: true,
   autoSave: false,
   noCancelButton: true,
-  title: 'Authenticate',
+  title () {
+    return loc('oform.title.authenticate', 'login');
+  },
   save: loc('oform.next', 'login'),
 
   initialize: function () {

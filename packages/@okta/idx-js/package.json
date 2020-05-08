@@ -1,0 +1,11 @@
+{
+  "name": "idx-for-signin-widget",
+  "version": "1.0.0",
+  "description": "copies dist folder of idx-js into idx-dist for consumption in widget",
+  "scripts": {
+    "build": "cp -R node_modules/@okta/okta-idx-js/dist/. ../idx-dist/"
+  },
+  "devDependencies": {
+    "@okta/okta-idx-js": "0.2.1-beta.g3565b17"
+  }
+}
