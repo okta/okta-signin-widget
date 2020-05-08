@@ -33,4 +33,7 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     await this.form.clickElement('.resend-email-view a.resend-link');
   }
 
+  getSaveButtonLabel() {
+    return this.form.getElement('.button-primary').value;
+  }
 }
