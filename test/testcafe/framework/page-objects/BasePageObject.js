@@ -16,6 +16,10 @@ export default class BasePageObject {
     return this.form.getTitle();
   }
 
+  getSaveButtonLabel() {
+    return this.form.getElement('.button-primary').value;
+  }
+
   getFormSubtitle() {
     return this.form.getSubtitle();
   }

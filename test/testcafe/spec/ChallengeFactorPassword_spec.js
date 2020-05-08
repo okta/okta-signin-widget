@@ -20,6 +20,8 @@ async function setup(t) {
 }
 test(`challenge password factor`, async t => {
   const challengeFactorPageObject = await setup(t);
+  await challengeFactorPageObject.switchFactorExists();
+  await challengeFactorPageObject.forgotPasswordExists();
   await challengeFactorPageObject.verifyFactor('credentials.passcode', 'test');
   await challengeFactorPageObject.clickNextButton();
   const successPage = new SuccessPageObject(t);
