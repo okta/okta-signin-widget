@@ -327,6 +327,232 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
       });
     });
 
+    Expect.describe('Password description in HTML', function () {
+      itp('does not have subtitle', function () {
+        return setup({ 'features.showPasswordRequirementsAsHtmlList': true }).then(function (test) {
+          expect(test.form.subtitle().length).toEqual(0);
+        });
+      });
+
+      itp('has a valid subtitle if only password complexity "minLength" defined', function () {
+        return setup({
+          policyComplexity: 'minLength',
+          'features.showPasswordRequirementsAsHtmlList': true
+        }).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
+        });
+      });
+
+      itp('has a valid subtitle if only password complexity "minLowerCase" defined', function () {
+        return setup({
+          policyComplexity: 'minLowerCase',
+          'features.showPasswordRequirementsAsHtmlList': true
+        }).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('A lowercase letter');
+        });
+      });
+
+      itp('has a valid subtitle if only password complexity "minUpperCase" defined', function () {
+        return setup({policyComplexity: 'minUpperCase', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('An uppercase letter');
+        });
+      });
+
+      itp('has a valid subtitle if only password complexity "minNumber" defined', function () {
+        return setup({policyComplexity: 'minNumber', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('A number');
+        });
+      });
+
+      itp('has a valid subtitle if only password complexity "minSymbol" defined', function () {
+        return setup({policyComplexity: 'minSymbol', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('A symbol');
+        });
+      });
+
+      itp('has a valid subtitle if only password complexity "excludeUsername" defined', function () {
+        return setup({policyComplexity: 'excludeUsername', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('No parts of your username');
+        });
+      });
+
+      itp('has a valid subtitle if only excludeAttributes["firstName","lastName"] is defined', function () {
+        return setup({policyComplexity: 'excludeAttributes', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(2);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('Does not include your first name');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual('Does not include your last name');
+        });
+      });
+
+      itp('has a valid subtitle if only excludeAttributes["firstName"] is defined', function () {
+        return setup({
+          policyComplexity: 'excludeAttributes',
+          excludeAttributes: ['firstName'],
+          'features.showPasswordRequirementsAsHtmlList': true
+        }).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('Does not include your first name');
+        });
+      });
+
+      itp('has a valid subtitle if only excludeAttributes["lastName"] is defined', function () {
+        return setup({
+          policyComplexity: 'excludeAttributes',
+          excludeAttributes: ['lastName'],
+          'features.showPasswordRequirementsAsHtmlList': true
+        }).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('Does not include your last name');
+        });
+      });
+
+      itp('has a valid subtitle if only excludeAttributes[] is defined', function () {
+        return setup({
+          policyComplexity: 'all',
+          excludeAttributes: [],
+          'features.showPasswordRequirementsAsHtmlList': true
+        }).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(6);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual('A lowercase letter');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(2).text()).toEqual('An uppercase letter');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(3).text()).toEqual('A number');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(4).text()).toEqual('A symbol');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(5).text()).toEqual('No parts of your username');
+        });
+      });
+
+      itp('has a valid subtitle if only password age "historyCount" defined', function () {
+        return setup({policyAge: 'historyCount', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text())
+            .toEqual('Your password cannot be any of your last 7 passwords');
+        });
+      });
+
+      itp('has a valid subtitle in minutes if only password age "minAgeMinutes" defined', function () {
+        return setup({policyAge: 'minAgeMinutes', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text())
+            .toEqual('At least 30 minute(s) must have elapsed since you last changed your password');
+        });
+      });
+
+      itp('has a valid subtitle in hours if only password age "minAgeMinutesinHours" defined', function () {
+        return setup({policyAge: 'minAgeMinutesinHours', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text())
+            .toEqual('At least 2 hour(s) must have elapsed since you last changed your password');
+        });
+      });
+
+      itp('has a valid subtitle in days if only password age "minAgeMinutesinDays" defined', function () {
+        return setup({policyAge: 'minAgeMinutesinDays', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text())
+            .toEqual('At least 2 day(s) must have elapsed since you last changed your password');
+        });
+      });
+
+      itp('has a valid subtitle if password complexity "excludeUsername" and password age "historyCount" defined',
+        function () {
+          return setup({
+            policyComplexity: 'excludeUsername',
+            policyAge: 'historyCount',
+            'features.showPasswordRequirementsAsHtmlList': true
+          }).then(function (test) {
+            expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+            expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(2);
+            expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('No parts of your username');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(1).text())
+              .toEqual('Your password cannot be any of your last 7 passwords');
+          });
+        }
+      );
+
+      itp('has a valid subtitle if password complexity is defined with all options', function () {
+        return setup({policyComplexity: 'all', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(8);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual('A lowercase letter');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(2).text()).toEqual('An uppercase letter');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(3).text()).toEqual('A number');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(4).text()).toEqual('A symbol');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(5).text()).toEqual('No parts of your username');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(6).text()).toEqual('Does not include your first name');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(7).text()).toEqual('Does not include your last name');
+        });
+      });
+
+      itp('has a valid subtitle in minutes if password age is defined with all options', function () {
+        return setup({policyAge: 'all', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(2);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('Your password cannot be any of your last 7 passwords');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual('At least 30 minute(s) must have elapsed since you last changed your password');
+        });
+      });
+
+      itp('has a valid subtitle if password complexity is defined with all options and password age "historyCount" defined',
+        function () {
+          return setup({
+            policyComplexity: 'all',
+            policyAge: 'historyCount',
+            'features.showPasswordRequirementsAsHtmlList': true
+          }).then(function (test) {
+            expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+            expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(9);
+            expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual('A lowercase letter');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(2).text()).toEqual('An uppercase letter');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(3).text()).toEqual('A number');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(4).text()).toEqual('A symbol');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(5).text()).toEqual('No parts of your username');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(6).text()).toEqual('Does not include your first name');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(7).text()).toEqual('Does not include your last name');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(8).text()).toEqual('Your password cannot be any of your last 7 passwords');
+          });
+        });
+
+      itp('has a valid subtitle if password age and complexity are defined with all options', function () {
+        return setup({policyComplexity: 'all', policyAge: 'all', 'features.showPasswordRequirementsAsHtmlList': true}).then(function (test) {
+          expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+          expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(10);
+          expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual('A lowercase letter');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(2).text()).toEqual('An uppercase letter');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(3).text()).toEqual('A number');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(4).text()).toEqual('A symbol');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(5).text()).toEqual('No parts of your username');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(6).text()).toEqual('Does not include your first name');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(7).text()).toEqual('Does not include your last name');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(8).text()).toEqual('Your password cannot be any of your last 7 passwords');
+          expect(test.form.passwordRequirementsHtmlListItems().eq(9).text()).toEqual('At least 30 minute(s) must have elapsed since you last changed your password');
+        });
+      });
+    });
+
     itp('has a password field to enter the new password', function () {
       return setup().then(function (test) {
         Expect.isPasswordField(test.form.newPasswordField());
