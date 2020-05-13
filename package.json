@@ -28,7 +28,7 @@
     "clean": "rimraf target && rimraf dist && rimraf build2",
     "generate-phone-codes": "node buildtools generate-phone-codes",
     "generate-config": "node buildtools generate-language-config",
-    "retirejs": "retire --jspath src --package",
+    "retirejs": "retire --jspath target/js --package",
     "lint:eslint": "eslint .",
     "lint:eslint:report": "eslint -f checkstyle -o build2/OSW-eslint-checkstyle-result.xml .",
     "lint:stylelint": "stylelint assets/sass/",
