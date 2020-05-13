@@ -41,7 +41,7 @@ const createFactorTypeOptions = (options, factors) => {
     const factor = factors.find(function (item) {
       return (item.factorProfileId === factorValue
         || item.factorId === factorValue);
-    });
+    }) || {};
     optionItem.factorType = factor.factorType;
   });
   return options;
