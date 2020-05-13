@@ -92,6 +92,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
       'features.restrictRedirectToForeground': ['boolean', true, false],
       'features.hideDefaultTip': ['boolean', false, true],
+      'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function
@@ -267,7 +268,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       configuredSocialIdps: {
         deps: ['idps'],
         fn: function (idps) {
-          return _.map(idps, function (idp) { 
+          return _.map(idps, function (idp) {
             var type = idp.type && idp.type.toLowerCase();
             if ( !( type && _.contains(supportedIdps, type) ) ) {
               type = 'general-idp';

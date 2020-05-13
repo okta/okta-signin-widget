@@ -268,24 +268,7 @@ function (Okta, TimeUtil) {
     return localizedQuestion.indexOf('L10N_ERROR') < 0 ? localizedQuestion : questionObj.questionText;
   };
 
-  fn.getPasswordComplexityDescription = function (policy) {
-    var result = [];
-
-    var getPasswordAgeRequirement = function (displayableTime) {
-      var propertiesString;
-      switch (displayableTime.unit) {
-      case 'DAY':
-        propertiesString = 'password.complexity.minAgeDays';
-        break;
-      case 'HOUR':
-        propertiesString = 'password.complexity.minAgeHours';
-        break;
-      case 'MINUTE':
-        propertiesString = 'password.complexity.minAgeMinutes';
-      }
-      return Okta.loc(propertiesString, 'login', [displayableTime.time]);
-    };
-
+  fn.getPasswordComplexityRequirementsAsArray = function (policy, isHtmlList) {
     var setExcludeAttributes = function (policyComplexity) {
       var excludeAttributes = policyComplexity.excludeAttributes;
       policyComplexity.excludeFirstName = _.contains(excludeAttributes, 'firstName');
@@ -313,29 +296,66 @@ function (Okta, TimeUtil) {
         }
 
         var params = complexityFields[complexityType];
-        return params.args ?
-          Okta.loc(params.i18n, 'login', [complexityValue]) : Okta.loc(params.i18n, 'login');
+        var requirementKey = isHtmlList? params.i18n + '.html' : params.i18n;
+        return params.args ? Okta.loc(requirementKey, 'login', [complexityValue]) : Okta.loc(requirementKey, 'login');
       });
 
-      requirements = _.compact(requirements);
-
-      if (requirements.length) {
-        requirements = _.reduce(requirements, function (result, requirement) {
-          return result ? (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) : requirement;
-        });
-
-        result.push(Okta.loc('password.complexity.requirements', 'login', [requirements]));
-      }
+      return _.compact(requirements);
     }
+    return [];
+  };
 
+  fn.getPasswordHistoryRequirementDescription = function (policy, isHtmlList) {
     if (policy.age && policy.age.historyCount > 0) {
-      result.push(Okta.loc('password.complexity.history', 'login', [policy.age.historyCount]));
+      var requirementKey = isHtmlList ? 'password.complexity.history.html' : 'password.complexity.history';
+      return Okta.loc(requirementKey, 'login', [policy.age.historyCount]);
     }
+    return null;
+  };
+
+  fn.getPasswordAgeRequirementDescription = function (policy, isHtmlList) {
+    var getPasswordAgeRequirement = function (displayableTime) {
+      var propertiesString;
+      switch (displayableTime.unit) {
+      case 'DAY':
+        propertiesString = 'password.complexity.minAgeDays';
+        break;
+      case 'HOUR':
+        propertiesString = 'password.complexity.minAgeHours';
+        break;
+      case 'MINUTE':
+        propertiesString = 'password.complexity.minAgeMinutes';
+      }
+      propertiesString = isHtmlList ? propertiesString + '.html' : propertiesString;
+      return Okta.loc(propertiesString, 'login', [displayableTime.time]);
+    };
 
     if (policy.age && policy.age.minAgeMinutes > 0) {
       var displayableTime = TimeUtil.getTimeInHighestRelevantUnit(policy.age.minAgeMinutes, 'MINUTE');
-      var minAgeDescription = getPasswordAgeRequirement(displayableTime);
-      result.push(minAgeDescription);
+      return getPasswordAgeRequirement(displayableTime);
+    }
+    return null;
+  };
+
+  fn.getPasswordComplexityDescription = function (policy) {
+    var result = [];
+    var requirements = this.getPasswordComplexityRequirementsAsArray(policy, false);
+    if (requirements.length) {
+      requirements = _.reduce(requirements, function (result, requirement) {
+        return result ? (result + Okta.loc('password.complexity.list.element', 'login', [requirement])) : requirement;
+      });
+
+      result.push(Okta.loc('password.complexity.requirements', 'login', [requirements]));
+    }
+
+    var historyRequirement = this.getPasswordHistoryRequirementDescription(policy, false);
+    if (historyRequirement) {
+      result.push(historyRequirement);
+    }
+
+    var ageRequirement = this.getPasswordAgeRequirementDescription(policy, false);
+    if (ageRequirement) {
+      result.push(ageRequirement);
     }
 
     return result.join(' ');
