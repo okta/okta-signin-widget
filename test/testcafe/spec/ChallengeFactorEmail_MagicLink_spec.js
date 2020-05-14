@@ -50,7 +50,8 @@ test
 test
   .requestHooks(logger, magicLinkEmailSentMock)(`challenge email factor with magic link sent renders and has resend link`, async t => {
     const challengeFactorPageObject = await setup(t);
-    await t.expect(challengeFactorPageObject.resendEmailView().getStyleProperty('display')).eql('none');
+    await t.expect(challengeFactorPageObject.resendEmailView().hasClass('hide')).ok();
+
     // wait for resend button to appear
     await t.wait(65000);
     // Making sure we keep polling while we wait for the resend view to appear
@@ -60,10 +61,11 @@ test
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
     )).eql(16);
-    await t.expect(challengeFactorPageObject.resendEmailView().getStyleProperty('display')).eql('block');
+    await t.expect(challengeFactorPageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengeFactorPageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
     await challengeFactorPageObject.clickSendAgainLink();
+    await t.expect(challengeFactorPageObject.resendEmailView().hasClass('hide')).ok();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll|resend/)
