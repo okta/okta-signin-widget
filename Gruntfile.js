@@ -388,9 +388,9 @@ module.exports = function (grunt) {
     }
     grunt.task.run([
       'exec:clean',
-      'exec:retirejs',
       `assets:${target}`,
       ...buildTasks,
+      'exec:retirejs',
       ...postBuildTasks,
     ]);
   });
