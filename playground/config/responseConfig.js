@@ -3,9 +3,17 @@
 const idx = {
   // ===== IDX
 
-  '/idp/idx/introspect': ['identify'],
-  '/idp/idx': ['select-factor-authenticate'],
+  '/idp/idx/introspect': [
+    // 'authenticator-select-verify-options'
+    'authenticator-select-enroll-options'
+  ],
+  '/idp/idx': [
+    'select-factor-authenticate'
+  ],
   '/idp/idx/enroll': ['enroll-profile'],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-password',
+  ],
   '/idp/idx/challenge/answer': [
     // 'error-email-verify',
     'terminal-return-expired-email',
@@ -17,11 +25,13 @@ const idx = {
     'factor-verification-email',
   ],
   '/idp/idx/challenge/poll': [
-    'factor-verification-email',
+    'authenticator-enroll-email',
   ],
   '/idp/idx/challenge': [
-    'factor-verification-password',
-    'factor-verification-email',
+    'authenticator-verification-webauthn',
+    // 'authenticator-verification-password',
+    // 'factor-verification-password',
+    // 'factor-verification-email',
   ],
 };
 

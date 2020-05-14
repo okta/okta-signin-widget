@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { loc } from 'okta';
+import { loc, _ } from 'okta';
 
 const factorData = {
   'email': {
@@ -32,7 +32,8 @@ const factorData = {
 };
 
 const getFactorData = function (factorName) {
-  return factorData[factorName];
+  const key = _.isString(factorName) ? factorName.toLowerCase() : '';
+  return factorData[key];
 };
 
 module.exports = {

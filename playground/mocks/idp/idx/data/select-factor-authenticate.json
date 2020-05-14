@@ -11,7 +11,7 @@
         "rel": [
           "create-form"
         ],
-        "name": "select-factor",
+        "name": "select-factor-authenticate",
         "href": "http://localhost:3000/idp/idx/challenge",
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",

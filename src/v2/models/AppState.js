@@ -28,16 +28,19 @@ export default Model.extend({
   },
 
   derived: {
-    factorProfile: {
-      deps: ['factor'],
-      fn (factor = {}) {
-        return factor.profile || {};
+    authenticatorProfile: {
+      // While we're moving toward `authenticator` platform, but still
+      // need to support `factor` for certain period.
+      // Could remove `factor` after it's deprecated completely.
+      deps: ['authenticator', 'factor'],
+      fn (authenticator = {}, factor = {}, ) {
+        return authenticator.profile || factor.profile || {};
       },
     },
-    factorType: {
-      deps: ['factor'],
-      fn (factor = {}) {
-        return factor.factorType;
+    authenticatorType: {
+      deps: ['authenticator', 'factor'],
+      fn (authenticator = {}, factor = {}) {
+        return authenticator.authenticatorType || factor.factorType || '';
       },
     },
     currentStep: {

@@ -60,6 +60,26 @@ const VIEWS_MAPPING = {
     password: RequiredFactorPasswordView,
     webauthn: RequiredFactorWebauthnView,
   },
+  // TODO: rename file name by replacing `factor` with `authenticator`.
+  'select-authenticator-authenticate': {
+    [DEFAULT]: SelectFactorAuthenticateView,
+  },
+  'select-authenticator-enroll': {
+    [DEFAULT]: SelectFactorEnrollView,
+  },
+  'enroll-authenticator': {
+    password: EnrollFactorPasswordView,
+    webauthn: null,
+    phone: null,
+    'security_question': null
+  },
+  'challenge-authenticator': {
+    email: RequiredFactorEmailView,
+    password: RequiredFactorPasswordView,
+    webauthn: RequiredFactorWebauthnView,
+    phone: null,
+    'security_question': null
+  },
   'terminal-transferred': {
     [DEFAULT]: TerminalView,
     'email': TerminalTransferedEmailView,

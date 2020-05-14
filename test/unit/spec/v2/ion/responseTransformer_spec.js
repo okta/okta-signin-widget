@@ -1,5 +1,5 @@
 import transformResponse from 'v2/ion/responseTransformer';
-import XHRFactorRequiredEmail from '../../../helpers/xhr/v2/FACTOR_REQUIRED_EMAIL';
+import XHRFactorRequiredEmail from '../../../../../playground/mocks/idp/idx/data/factor-verification-email.json';
 
 describe('v2/ion/responseTransformer', function () {
   it('returns result when invokes with invalid resp', () => {
@@ -8,7 +8,7 @@ describe('v2/ion/responseTransformer', function () {
   });
 
   it('converts factor required email idx object', () => {
-    const rawFactorRequiredEmailResponse = XHRFactorRequiredEmail.response;
+    const rawFactorRequiredEmailResponse = XHRFactorRequiredEmail;
     const idxObjectFactorRequiredEmail  = {
       'proceed': jasmine.any(Function),
       'neededToProceed': [
@@ -111,7 +111,7 @@ describe('v2/ion/responseTransformer', function () {
       },
       'rawIdxState':rawFactorRequiredEmailResponse
     };
-    
+
     const result = transformResponse(idxObjectFactorRequiredEmail);
     expect(result).toEqual({
       'proceed': jasmine.any(Function),
@@ -261,6 +261,66 @@ describe('v2/ion/responseTransformer', function () {
           }
         }
       },
+      'factors':{
+        'value':[
+          {
+            'factorType':'password',
+            'factorProfileId':'00u2j17ObFUsbGfLg0g4'
+          },
+          {
+            'factorType':'email',
+            'factorProfileId':'emf2j1ccd6CF4IWFY0g3'
+          }
+        ]
+      },
+      'factor':{
+        'factorType':'email',
+        'factorProfileId':'emf2j1ccd6CF4IWFY0g3',
+        'factorId':'emfv6q1VxHR52T9az0g3',
+        'profile':{
+          'email':'inca@clouditude.net'
+        },
+        'resend': {
+          'rel': [
+            'create-form'
+          ],
+          'name': 'resend',
+          'href': 'http://localhost:3000/idp/idx/challenge/resend',
+          'method': 'POST',
+          'accepts': 'application/vnd.okta.v1+json',
+          'value': [
+            {
+              'name': 'stateHandle',
+              'required': true,
+              'value': '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
+              'visible': false,
+              'mutable': false
+            }
+          ]
+        },
+        'poll': {
+          'rel': [
+            'create-form'
+          ],
+          'name': 'poll',
+          'href': 'http://localhost:3000/idp/idx/challenge/poll',
+          'method': 'POST',
+          'accepts': 'application/vnd.okta.v1+json',
+          'refresh': 4000,
+          'value': [
+            {
+              'name': 'stateHandle',
+              'required': true,
+              'value': '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
+              'visible': false,
+              'mutable': false
+            }
+          ]
+        }
+      },
+      'user':{
+        'id':'00usip1dptbE7NiLa0g3'
+      },
       'rawIdxState':rawFactorRequiredEmailResponse
     });
   });
@@ -282,7 +342,7 @@ describe('v2/ion/responseTransformer', function () {
               'i18n':{
                 'key':'idx.session.expired',
                 'params':[
-     
+
                 ]
               }
             }
@@ -311,7 +371,7 @@ describe('v2/ion/responseTransformer', function () {
               'i18n':{
                 'key':'idx.session.expired',
                 'params':[
-    
+
                 ]
               }
             }
@@ -338,7 +398,7 @@ describe('v2/ion/responseTransformer', function () {
           'i18n':{
             'key':'idx.session.expired',
             'params':[
-   
+
             ]
           }
         }
@@ -354,7 +414,7 @@ describe('v2/ion/responseTransformer', function () {
       'proceed': jasmine.any(Function),
       'neededToProceed':[],
       'actions':{
-   
+
       },
       'context':{
         'version':'1.0.0',
@@ -368,7 +428,7 @@ describe('v2/ion/responseTransformer', function () {
               'i18n':{
                 'key':'idx.session.expired',
                 'params':[
-   
+
                 ]
               }
             }
@@ -397,7 +457,7 @@ describe('v2/ion/responseTransformer', function () {
               'i18n':{
                 'key':'idx.session.expired',
                 'params':[
-   
+
                 ]
               }
             }
