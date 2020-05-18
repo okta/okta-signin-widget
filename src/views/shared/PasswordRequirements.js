@@ -17,7 +17,9 @@ define([
 function (Okta, FactorUtil) {
   return Okta.View.extend({
     template: `{{#if requirements}}
-      <div class="password-requirements--header">Password requirements: </div>
+      <div class="password-requirements--header">
+        {{i18n code="password.complexity.requirements.header" bundle="login"}}
+      </div>
       <ul class="password-requirements--list">
           {{#each requirements}}<li class="password-requirements--list-item">{{this}}</li>{{/each}}
       </ul>
@@ -35,17 +37,7 @@ function (Okta, FactorUtil) {
         return;
       }
 
-      this.allRequirements = FactorUtil.getPasswordComplexityRequirementsAsArray(policy, true);
-
-      var historyRequirement = FactorUtil.getPasswordHistoryRequirementDescription(policy, true);
-      if (historyRequirement) {
-        this.allRequirements.push(historyRequirement);
-      }
-
-      var ageRequirement = FactorUtil.getPasswordAgeRequirementDescription(policy, true);
-      if (ageRequirement) {
-        this.allRequirements.push(ageRequirement);
-      }
+      this.allRequirements = FactorUtil.getPasswordComplexityDescriptionForHtmlList(policy);
     },
 
     getTemplateData: function () {
