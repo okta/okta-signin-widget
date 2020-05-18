@@ -31,6 +31,8 @@ test
   .requestHooks(validOTPmock)(`challenge email factor with valid OTP form has right labels`, async t => {
     const challengeFactorPageObject = await setup(t);
     const pageTitle = challengeFactorPageObject.getPageTitle();
+    const saveBtnText = challengeFactorPageObject.getSaveButtonLabel();
+    await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with Email Authentication');
     await t.expect(challengeFactorPageObject.getFormSubtitle())
         .contains('A verification code was sent to inca@clouditude.net. Check your email and enter the code below.');

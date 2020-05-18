@@ -6,7 +6,7 @@ const changeLabelToTop = (opt) => {
   return Object.assign({}, opt, { 'label-top': true });
 };
 
-const createFactorTypeView = (opt) => {
+const createFactorSelectView = (opt) => {
   var optionItems = (opt.options || [])
     .map(opt => {
       return Object.assign({}, FactorUtil.getFactorData(opt.factorType), opt);
@@ -19,10 +19,26 @@ const createFactorTypeView = (opt) => {
     }
   };
 };
+
+const createAuthenticatorSelectView = (opt) => {
+  var optionItems = (opt.options || [])
+    .map(opt => {
+      return Object.assign({}, FactorUtil.getFactorData(opt.authenticatorType), opt);
+    });
+  return {
+    View: FactorOptions,
+    options: {
+      name: opt.name,
+      collection: new Collection(optionItems),
+    }
+  };
+};
+
 const inputCreationStrategy = {
   text: changeLabelToTop,
   password: changeLabelToTop,
-  factorType: createFactorTypeView,
+  factorSelect: createFactorSelectView,
+  authenticatorSelect: createAuthenticatorSelectView,
 };
 
 const create = function (uiSchemaObj) {

@@ -1,0 +1,61 @@
+{
+  "stateHandle": "02IAickZV0j0TL0JaJJUxe4GnX7YHTeZY9pCYe-pBZ",
+  "version": "1.0.0",
+  "expiresAt": "2020-15T17:28:11.000Z",
+  "step": "IDENTIFY",
+  "intent": "LOGIN",
+  "remediation": {
+      "type": "array",
+      "value": [
+          {
+                "rel": ["create-form"],
+                "name": "cancel-transaction",
+                "href": "http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify/cancel",
+                "method": "POST",
+                "accepts": "application/ion+json;okta-version=1",
+                "produces": "application/ion+json;okta-version=1",
+                "value": [
+                    {
+                       "name": "stateHandle",
+                       "value": "02IAickZV0j0TL0JaJJUxe4GnX7YHTeZY9pCYe-pBZ",
+                       "required": true,
+                       "visible": false
+                    }      
+                ]      
+          }
+      ]
+  },
+  "cancel": {
+      "rel": ["create-form"],
+      "name": "cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
+      "method": "POST",
+      "accepts": "application/ion+json;okta-version=1",
+      "produces": "application/ion+json;okta-version=1",
+      "value": [
+          {
+              "name": "stateHandle",
+              "value": "02IAickZV0j0TL0JaJJUxe4GnX7YHTeZY9pCYe-pBZ",
+              "required": true,
+              "visible": false
+          }
+      ]
+  },
+  "context": {
+      "rel": ["create-form"],
+      "name": "context",
+      "href": "http://localhost:3000/idp/idx/context",
+      "method": "POST",
+      "accepts": "application/ion+json;okta-version=1",
+      "produces": "application/ion+json;okta-version=1",
+      "value": [
+          {
+              "name": "stateHandle",
+              "value": "02IAickZV0j0TL0JaJJUxe4GnX7YHTeZY9pCYe-pBZ",
+              "required": true,
+              "visible": false,
+              "mutable": false
+          }
+      ]
+  }
+}

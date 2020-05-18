@@ -4,6 +4,7 @@ import BasePageObject from './BasePageObject';
 export default class DeviceChallengePollViewPageObject extends BasePageObject {
   constructor(t) {
     super(t);
+    this.t = t;
     this.body = new Selector('.device-challenge-poll');
     this.footer = new Selector('.auth-footer');
   }
@@ -22,5 +23,13 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
 
   getSpinner() {
     return this.body.find('.spinner');
+  }
+
+  async clickUniversalLink() {
+    await this.t.click(Selector('.ul-button'));
+  }
+
+  async clickLaunchOktaVerifyLink() {
+    await this.t.click(this.body.find('#launch-ov'));
   }
 }

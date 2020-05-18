@@ -11,8 +11,8 @@
         "rel": [
           "create-form"
         ],
-        "name": "select-factor",
-        "href": "http://localhost:3000/idp/idx",
+        "name": "select-factor-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
         "method": "POST",
         "value": [
           {

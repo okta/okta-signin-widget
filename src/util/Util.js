@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /*!
  * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -54,6 +55,10 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
 
   Util.hasTokensInHash = function (hash) {
     return /((id|access)_token=)/i.test(hash);
+  };
+
+  Util.hasCodeInUrl = function (hashOrSearch) {
+    return /(code=)/i.test(hashOrSearch);
   };
 
   Util.transformErrorXHR = function (xhr) {
@@ -150,6 +155,14 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
     Logger.warn('controller: ' + className + ', error: ' + error);
   };
 
+  Util.redirect = function (url, win = window) {
+    if (!url) {
+      Logger.error(`Cannot redirect to empty URL: (${url})`);
+      return;
+    }
+    win.location.href = url;
+  };
+
   /**
    * Why redirect via Form get rather using `window.location.href`?
    * At the time of writing, Chrome (<72) in Android would block window location change
@@ -220,8 +233,10 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
     if (Q.isPromiseAlike(trans)) {
       trans.then(function (trans) {
         deferred.resolve(trans);
-      }).catch(function (err) {
-        deferred.reject(err);
+      }).catch(function (errObj) {
+        deferred.reject(errObj);
+        //throw errors at the idx-js layer
+        Logger.error(`Introspection Error at idx-js layer: ${errObj.error}`);
       });
     }
     return deferred.promise;

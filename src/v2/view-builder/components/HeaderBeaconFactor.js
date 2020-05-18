@@ -15,7 +15,7 @@ import { getFactorData } from '../../util/FactorUtil';
 const BeaconView = HeaderBeacon.extend({
 
   getBeaconClassName: function () {
-    const factorType = this.options.appState.get('factorType');
+    const factorType = this.options.appState.get('authenticatorType');
     return getFactorData(factorType).iconClassName;
   },
 });

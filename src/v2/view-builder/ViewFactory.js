@@ -23,7 +23,6 @@ import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
 import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
 
-
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -34,6 +33,9 @@ const VIEWS_MAPPING = {
     [DEFAULT]: DeviceChallengePollView,
   },
   'device-apple-sso-extension': {
+    [DEFAULT]: SSOExtensionView,
+  },
+  'cancel-transaction': {
     [DEFAULT]: SSOExtensionView,
   },
   'select-factor': { //DEPRECATED: temporary backwards compatibility
@@ -58,6 +60,26 @@ const VIEWS_MAPPING = {
     password: RequiredFactorPasswordView,
     webauthn: RequiredFactorWebauthnView,
   },
+  // TODO: rename file name by replacing `factor` with `authenticator`.
+  'select-authenticator-authenticate': {
+    [DEFAULT]: SelectFactorAuthenticateView,
+  },
+  'select-authenticator-enroll': {
+    [DEFAULT]: SelectFactorEnrollView,
+  },
+  'enroll-authenticator': {
+    password: EnrollFactorPasswordView,
+    webauthn: null,
+    phone: null,
+    'security_question': null
+  },
+  'challenge-authenticator': {
+    email: RequiredFactorEmailView,
+    password: RequiredFactorPasswordView,
+    webauthn: RequiredFactorWebauthnView,
+    phone: null,
+    'security_question': null
+  },
   'terminal-transferred': {
     [DEFAULT]: TerminalView,
     'email': TerminalTransferedEmailView,
@@ -68,6 +90,10 @@ const VIEWS_MAPPING = {
   },
   'success-redirect': {
     [DEFAULT]: SuccessView,
+  },
+  // redirect remediation object looks similar to identifier view
+  'redirect': {
+    [DEFAULT]: IdentifierView,
   },
 };
 

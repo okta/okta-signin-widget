@@ -1,5 +1,7 @@
 import BasePageObject from './BasePageObject';
 
+const SWITCH_FACTOR_SELECTOR = '.auth-footer .js-switchFactor';
+const FORGOT_PASSWORD_SELECTOR = '.auth-footer .js-forgot-password';
 export default class ChallengeFactorPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -7,6 +9,14 @@ export default class ChallengeFactorPageObject extends BasePageObject {
 
   verifyFactor(name, value) {
     return this.form.setTextBoxValue(name, value);
+  }
+
+  switchFactorExists() {
+    return this.form.elementExist(SWITCH_FACTOR_SELECTOR);
+  }
+
+  forgotPasswordExists() {
+    return this.form.elementExist(FORGOT_PASSWORD_SELECTOR);
   }
 
   clickNextButton() {
@@ -33,4 +43,7 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     await this.form.clickElement('.resend-email-view a.resend-link');
   }
 
+  getSaveButtonLabel() {
+    return this.form.getElement('.button-primary').value;
+  }
 }

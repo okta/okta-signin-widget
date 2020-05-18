@@ -2,7 +2,7 @@
 define([
   'okta',
   'duo',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'helpers/mocks/Util',
   'helpers/dom/Beacon',
   'helpers/util/Expect',
@@ -16,7 +16,7 @@ define([
 function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
   resAllFactors, resActivateDuo, resSuccess) {
 
-  var { _, $ } = Okta;
+  var { _ } = Okta;
   var itp = Expect.itp;
   var tick = Expect.tick;
 
@@ -25,7 +25,7 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
     function setup (startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
-      var authClient = new OktaAuth({url: baseUrl});
+      var authClient = new OktaAuth({issuer: baseUrl});
       var router = new Router({
         el: $sandbox,
         baseUrl: baseUrl,
@@ -75,14 +75,14 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
     });
     itp('visits previous link when back link is clicked', function () {
       return setup().then(function (test) {
-        $.ajax.calls.reset();
+        Util.resetAjaxRequests();
         test.setNextResponse(resAllFactors);
         test.form.backLink().click();
         return Expect.waitForEnrollChoices();
       })
         .then(function () {
-          expect($.ajax.calls.count()).toBe(1);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/previous',
             data: {
               stateToken: 'testStateToken'
@@ -103,8 +103,8 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
     });
     itp('makes the right init request', function () {
       return setup().then(function () {
-        expect($.ajax.calls.count()).toBe(2);
-        Expect.isJsonPost($.ajax.calls.argsFor(1), {
+        expect(Util.numAjaxRequests()).toBe(2);
+        Expect.isJsonPost(Util.getAjaxRequest(1), {
           url: 'https://foo.com/api/v1/authn/factors',
           data: {
             factorType: 'web',
@@ -126,7 +126,7 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
     itp('notifies okta when duo is done, and completes enrollment', function () {
       return setup()
         .then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           // Duo callback (returns an empty response)
           test.setNextResponse({
@@ -139,16 +139,16 @@ function (Okta, Duo, OktaAuth, Util, Beacon, Expect, Form, Router, $sandbox,
           return tick();
         })
         .then(function () {
-          expect($.ajax.calls.count()).toBe(2);
-          Expect.isJsonPost($.ajax.calls.argsFor(0), {
+          expect(Util.numAjaxRequests()).toBe(2);
+          Expect.isFormPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/lifecycle/activate/response',
             data: {
-              id: 'ost947vv5GOSPjt9C0g4',
-              stateToken: 'testStateToken',
-              sig_response: 'someSignedResponse'
+              id: ['ost947vv5GOSPjt9C0g4'],
+              stateToken: ['testStateToken'],
+              sig_response: ['someSignedResponse']
             }
           });
-          Expect.isJsonPost($.ajax.calls.argsFor(1), {
+          Expect.isJsonPost(Util.getAjaxRequest(1), {
             url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/lifecycle/activate/poll',
             data: {
               stateToken: 'testStateToken'

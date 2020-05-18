@@ -1,1 +1,2 @@
-idx-js commit ref: https://github.com/okta/okta-idx-js/pull/9/commits/d6a1a0272dd129244f3b3c7e6f63ff099e88ed75
+1: Update package json to bump version : `yarn update @okta/okta-idx-js@0.2.1-beta.g3565b17`
+2: Run `yarn build`

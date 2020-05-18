@@ -16,7 +16,7 @@ define(['q'], function (Q) {
         });
       }
       else if (mock.__nextRes.isRejected() && mock.__globalSubscribeFn) {
-        mock.__nextRes.fail(function (err) {
+        mock.__nextRes.catch(function (err) {
           mock.__globalSubscribeFn(err, null);
         });
       }

@@ -4,15 +4,19 @@ import BaseForm from '../../internals/BaseForm';
 import BaseFactorView from '../shared/BaseFactorView';
 
 const Body = BaseForm.extend({
-  title: loc('enroll.password.setup', 'login'),
-  save: loc('save.password', 'login'),
+  title: function () {
+    return loc('enroll.password.setup', 'login');
+  },
+  save: function () {
+    return loc('save.password', 'login');
+  },
 
   getUISchema () {
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     return uiSchemas.concat([
       {
         name: 'confirmPassword',
-        label: 'Repeat Password',
+        label: loc('password.confirmPassword.placeholder','login'),
         type: 'password',
         params: {
           showPasswordToggle: true

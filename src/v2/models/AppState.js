@@ -28,16 +28,19 @@ export default Model.extend({
   },
 
   derived: {
-    factorProfile: {
-      deps: ['factor'],
-      fn (factor = {}) {
-        return factor.profile || {};
+    authenticatorProfile: {
+      // While we're moving toward `authenticator` platform, but still
+      // need to support `factor` for certain period.
+      // Could remove `factor` after it's deprecated completely.
+      deps: ['authenticator', 'factor'],
+      fn (authenticator = {}, factor = {}, ) {
+        return authenticator.profile || factor.profile || {};
       },
     },
-    factorType: {
-      deps: ['factor'],
-      fn (factor = {}) {
-        return factor.factorType;
+    authenticatorType: {
+      deps: ['authenticator', 'factor'],
+      fn (authenticator = {}, factor = {}) {
+        return authenticator.authenticatorType || factor.factorType || '';
       },
     },
     currentStep: {
@@ -59,8 +62,8 @@ export default Model.extend({
     },
   },
 
-  hasRemediationForm (formName) {
-    return Object.keys(this.get('idx').neededToProceed).filter(name => name === formName).length === 1;
+  hasRemediationObject (formName) {
+    return this.get('idx').neededToProceed.find((remediation) => remediation.name === formName);
   },
 
   getActionByPath (actionPath) {
@@ -100,29 +103,28 @@ export default Model.extend({
     return currentViewState;
   },
 
-  setIonResponse (resp) {
-    const idx = this.get('idx');
+  setIonResponse (idxResp) {
     // Don't re-render view if new response is same as last.
     // Usually happening at polling and pipeline doesn't proceed to next step.
     // expiresAt will be different for each response, hence compare objects without that property
-    if (_.isEqual(_.omit(idx.rawIdxState, 'expiresAt'), _.omit(this.get('__previousResponse'), 'expiresAt'))) {
+    if (_.isEqual(_.omit(idxResp.rawIdxState, 'expiresAt'), _.omit(this.get('__previousResponse'), 'expiresAt'))) {
       return;
     }
 
     // `currentFormName` is default to first form of remediation object or nothing.
-    resp.currentFormName = null;
+    idxResp.currentFormName = null;
 
-    if (idx.neededToProceed && idx.rawIdxState.remediation) {
-      resp.currentFormName = idx.rawIdxState.remediation.value[0].name;
+    if (idxResp.neededToProceed && idxResp.rawIdxState.remediation) {
+      idxResp.currentFormName = idxResp.rawIdxState.remediation.value[0].name;
     }
 
-    if (idx.rawIdxState.success) {
-      resp.currentFormName = idx.rawIdxState.success.name;
+    if (idxResp.rawIdxState.success) {
+      idxResp.currentFormName = idxResp.rawIdxState.success.name;
     }
 
     // default terminal state for fall back
-    if (idx.context.terminal && _.isEmpty(idx.context.terminal.value)) {
-      resp.terminal = {
+    if (idxResp.context.terminal && _.isEmpty(idxResp.context.terminal.value)) {
+      idxResp.terminal = {
         name: 'terminal',
         value: [],
         uiSchema: [],
@@ -131,13 +133,13 @@ export default Model.extend({
     //clear appState before setting new values
     this.clear({silent: true});
     // set new app state properties
-    this.set(resp);
+    this.set(idxResp);
     // reset idx
-    this.set('idx', idx);
-    this.set('__previousResponse', idx.rawIdxState);
+    this.set('idx', idxResp);
+    this.set('__previousResponse', idxResp.rawIdxState);
 
     // broadcast idxResponseUpdated to re-render the view
-    this.trigger('idxResponseUpdated', resp);
+    this.trigger('idxResponseUpdated', idxResp);
   }
 
 });

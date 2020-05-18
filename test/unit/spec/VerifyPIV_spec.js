@@ -1,8 +1,7 @@
 /* eslint max-params: [2, 18], max-statements: 0 */
 define([
-  'q',
   'okta',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'helpers/mocks/Util',
   'helpers/dom/PivForm',
   'helpers/dom/PrimaryAuthForm',
@@ -14,18 +13,17 @@ define([
   'helpers/xhr/PIV_POST',
   'helpers/xhr/PIV_GET'
 ],
-function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
+function (Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
   Router, $sandbox, resError, resPost, resGet) {
 
   var SharedUtil = Okta.internal.util.Util;
-  var { _, $ } = Okta;
+  var { _ } = Okta;
   var itp = Expect.itp;
 
-  function setup (errorResponse, responseTextOnly, pivConfig) {
+  function setup (errorResponse, pivConfig) {
     var setNextResponse = Util.mockAjax();
-    mockPost();
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({url: baseUrl});
+    var authClient = new OktaAuth({issuer: baseUrl});
     var successSpy = jasmine.createSpy('success');
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     var defaultConfig = {
@@ -47,8 +45,8 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     spyOn(SharedUtil, 'redirect');
-    setNextResponse(errorResponse ? [errorResponse] : [resGet, resPost], responseTextOnly);
-    $.ajax.calls.reset();
+    setNextResponse(errorResponse ? [errorResponse] : [resGet, resPost]);
+    Util.resetAjaxRequests();
     router.verifyPIV();
     return Expect.waitForVerifyPIV({
       router: router,
@@ -64,20 +62,6 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
 
   function deepClone (res) {
     return JSON.parse(JSON.stringify(res));
-  }
-
-  function mockPost () {
-    // Util.js assumes that post was called with url and data args
-    // whereas in the case of piv we are passing an object.
-    // Therefore, we need to override the spy in order for the
-    // test to be accurate.
-    $.post.and.callFake(function (args) {
-      return $.ajax({
-        url: args.url,
-        type: 'post',
-        data: args.data
-      });
-    });
   }
 
   Expect.describe('PIV', function () {
@@ -115,16 +99,16 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         return setup().then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         }).then(function () {
-          expect($.ajax.calls.count()).toBe(2);
+          expect(Util.numAjaxRequests()).toBe(2);
 
-          var argsForGet = $.ajax.calls.argsFor(0)[0];
+          var argsForGet = Util.getAjaxRequest(0);
           expect(argsForGet.url).toBe('https://foo.com');
-          expect(argsForGet.type).toBe('get');
+          expect(argsForGet.method).toBe('GET');
 
-          var argsForPost = $.ajax.calls.argsFor(1)[0];
+          var argsForPost = Util.getAjaxRequest(1);
           expect(argsForPost.url).toBe('https://foo.com');
-          expect(argsForPost.type).toBe('post');
-          expect(JSON.parse(argsForPost.data)).toEqual({
+          expect(argsForPost.method).toBe('POST');
+          expect(JSON.parse(argsForPost.params)).toEqual({
             fromURI: '%2Fapp%2FUserHome',
             isCustomDomain: true
           });
@@ -135,12 +119,12 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
           certAuthUrl: 'https://foo.com',
           isCustomDomain: false
         };
-        return setup(null, null, config).then(function () {
+        return setup(null, config).then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         }).then(function () {
-          expect($.ajax.calls.count()).toBe(2);
-          var argsForPost = $.ajax.calls.argsFor(1)[0];
-          expect(JSON.parse(argsForPost.data)).toEqual({
+          expect(Util.numAjaxRequests()).toBe(2);
+          var argsForPost = Util.getAjaxRequest(1);
+          expect(JSON.parse(argsForPost.params)).toEqual({
             fromURI: '%2Fapp%2FUserHome',
             isCustomDomain: false
           });
@@ -151,12 +135,12 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
           certAuthUrl: 'https://foo.com',
           isCustomDomain: undefined
         };
-        return setup(null, null, config).then(function () {
+        return setup(null, config).then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         }).then(function () {
-          expect($.ajax.calls.count()).toBe(2);
-          var argsForPost = $.ajax.calls.argsFor(1)[0];
-          expect(JSON.parse(argsForPost.data)).toEqual({
+          expect(Util.numAjaxRequests()).toBe(2);
+          var argsForPost = Util.getAjaxRequest(1);
+          expect(JSON.parse(argsForPost.params)).toEqual({
             fromURI: '%2Fapp%2FUserHome'
           });
         });
@@ -217,7 +201,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         var res = deepClone(resError);
         res.responseType = 'text';
         res.response = '';
-        return setup(res, true).then(function (test) {
+        return setup(res).then(function (test) {
           return Expect.waitForFormError(test.form, test);
         }).then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
@@ -231,7 +215,7 @@ function (Q, Okta, OktaAuth, Util, PivForm, PrimaryAuthForm, Beacon, Expect,
         res.responseType = 'text';
         res.response =
           '{"errorCode":"E0000004","errorSummary":"Authentication failed","errorLink":"E0000004","errorId":"oaeDtg9knyJR7agwMN-70SYgw","errorCauses":[]}';
-        return setup(res, true).then(function (test) {
+        return setup(res).then(function (test) {
           return Expect.waitForFormError(test.form, test);
         }).then(function (test) {
           expect(test.form.hasErrors()).toBe(true);

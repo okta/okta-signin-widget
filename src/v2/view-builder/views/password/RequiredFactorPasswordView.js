@@ -2,14 +2,19 @@ import { loc } from 'okta';
 import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
 import BaseFactorView from '../shared/BaseFactorView';
+import { addSwitchAuthenticatorLink } from '../../utils/AuthenticatorUtil';
 
 const recoveryLinkAction = 'factor-recover';
 
 const Body = BaseForm.extend({
 
-  title: loc('factor.password', 'login'),
+  title: function () {
+    return loc('factor.password', 'login');
+  },
 
-  save: loc('mfa.challenge.verify', 'login'),
+  save: function () {
+    return loc('mfa.challenge.verify', 'login');
+  },
 });
 
 const Footer = BaseFooter.extend({
@@ -20,20 +25,14 @@ const Footer = BaseFooter.extend({
     if (this.options.appState.getActionByPath(recoveryLinkAction)) {
       links.push({
         'type': 'link',
-        'label': 'Forgot Password',
+        'label': loc('forgotpassword', 'login'),
         'name': 'forgot-password',
         'actionPath': recoveryLinkAction,
       });
     }
-    // check if we have a select-factor form in remediation, if so add a link
-    if (this.options.appState.hasRemediationForm('select-factor-authenticate')) {
-      links.push({
-        'type': 'link',
-        'label': 'Switch Factor',
-        'name': 'switchFactor',
-        'formName': 'select-factor-authenticate',
-      });
-    }
+
+    addSwitchAuthenticatorLink(this.options.appState, links);
+
     return links;
   }
 });

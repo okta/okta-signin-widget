@@ -241,7 +241,6 @@ module.exports = function (grunt) {
       'build-release': 'yarn build:webpack-release',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',
-      'generate-jsonp': 'yarn generate-jsonp',
       'run-protractor': 'yarn protractor'
     },
 
@@ -318,8 +317,8 @@ module.exports = function (grunt) {
       sass: {
         files: ['assets/sass/**/*'],
         tasks: [
-          'copy:app-to-target', 
-          'sass:build', 
+          'copy:app-to-target',
+          'sass:build',
           'postcss:build'
         ]
       }
@@ -362,7 +361,6 @@ module.exports = function (grunt) {
       'copy:generate-in-translation',
       'propertiesToJSON',
       'copy:app-to-target',
-      'exec:generate-jsonp', // generates jsonp wrappers for json files in target dir
       'exec:generate-config', // populates src/config.json with supported languages
       'sass:build',
     ];
@@ -390,9 +388,9 @@ module.exports = function (grunt) {
     }
     grunt.task.run([
       'exec:clean',
-      'exec:retirejs',
       `assets:${target}`,
       ...buildTasks,
+      'exec:retirejs',
       ...postBuildTasks,
     ]);
   });

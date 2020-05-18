@@ -11,6 +11,7 @@
  */
 define([
   'okta',
+  'q',
   'models/RegistrationSchema',
   'models/LoginModel',
   'util/BaseLoginController',
@@ -22,6 +23,7 @@ define([
 ],
 function (
   Okta,
+  Q,
   RegistrationSchema,
   LoginModel,
   BaseLoginController,
@@ -100,6 +102,7 @@ function (
     registerUser: function (postData) {
       var self = this;
       this.model.attributes = postData;
+      // Model.save returns a jqXHR
       Backbone.Model.prototype.save.call(this.model).then(function () {
         var activationToken = self.model.get('activationToken');
         var postSubmitData = activationToken ? activationToken : self.model.get('email');
@@ -210,8 +213,8 @@ function (
           form.add(requiredFieldsLabel);
         }
       });
-      // fetch schema from API
-      return this.state.get('schema').fetch();
+      // fetch schema from API, returns a jqXHR. Wrap it in a Q
+      return Q(this.state.get('schema').fetch());
     },
     Footer: Footer,
   });

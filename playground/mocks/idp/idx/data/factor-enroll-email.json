@@ -12,9 +12,21 @@
           "create-form"
         ],
         "name": "enroll-factor",
-        "href": "http://localhost:3000/idp/idx/",
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
         "method": "POST",
         "value": [
+          {
+            "name": "credentials",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "One-time verification code",
+                  "secret": true
+                }
+              ]
+            }
+          },
           {
             "name": "stateHandle",
             "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",

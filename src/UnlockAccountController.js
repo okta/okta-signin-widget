@@ -78,7 +78,7 @@ function (Okta, FormController, Enums, FormType, Util, ValidationUtil, ContactSu
             factorType: self.get('factorType')
           });
         })
-          .fail(function () {
+          .catch(function () {
           //need empty fail handler on model to display errors on form
           });
       }

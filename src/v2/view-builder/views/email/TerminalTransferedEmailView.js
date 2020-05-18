@@ -1,8 +1,9 @@
+import { loc } from 'okta';
 import BaseFactorTerminalView from '../shared/BaseFactorTerminalView';
 
 const Body = BaseFactorTerminalView.prototype.Body.extend({
   title () {
-    return 'You can close this window';
+    return loc('closeWindow', 'login');
   },
 });
 

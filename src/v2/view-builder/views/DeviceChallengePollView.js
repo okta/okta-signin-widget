@@ -1,5 +1,5 @@
 /* global Promise */
-import { $, loc } from 'okta';
+import { $, loc, createButton } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals//BaseFooter';
@@ -22,6 +22,13 @@ const Body = BaseForm.extend(Object.assign(
 
     className: 'ion-form device-challenge-poll',
 
+    events: {
+      'click #launch-ov': function (e) {
+        e.preventDefault();
+        this.doCustomURI();
+      }
+    },
+
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
@@ -41,9 +48,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     doChallenge () {
-      const deviceChallenge = this.options.appState.get(
-        this.deviceChallengePollRemediation.relatesTo
-      );
+      const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
       switch (deviceChallenge.challengeMethod) {
       case 'LOOPBACK':
         this.title = loc('signin.with.fastpass', 'login');
@@ -51,22 +56,29 @@ const Body = BaseForm.extend(Object.assign(
         this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
         break;
       case 'CUSTOM_URI':
-        this.title = 'Verify account access';
-        this.subtitle = 'Launching Okta Verify...';
+        this.title = loc('customUri.title', 'login');
+        this.subtitle = loc('customUri.subtitle', 'login');
         this.add(`
-          If nothing prompts from the browser,  
-          <a href="#" id="launch-ov" class="link">click here</a> to launch Okta Verify, 
-          or make sure Okta Verify is installed.
+          {{{i18n code="customUri.content" bundle="login"}}}
         `);
         this.customURI = deviceChallenge.href;
         this.doCustomURI();
         break;
+      case 'UNIVERSAL_LINK':
+        this.title = loc('universalLink.title', 'login');
+        this.add(`
+          {{{i18n code="universalLink.content" bundle="login"}}}
+        `);
+        this.add(createButton({
+          className: 'ul-button button button-wide button-primary',
+          title: loc('universalLink.button', 'login'),
+          click () {
+            // only window.location.href can open universal link in iOS/MacOS
+            // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
+            Util.redirect(deviceChallenge.href);
+          }
+        }));
       }
-    },
-
-    postRender () {
-      BaseForm.prototype.postRender.apply(this, arguments);
-      this.$('#launch-ov').on('click', this.doCustomURI.bind(this));
     },
 
     doLoopback (authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
@@ -104,6 +116,7 @@ const Body = BaseForm.extend(Object.assign(
 
       const doProbing = () => {
         return checkPort()
+          // TODO: can we use standard ES6 promise methods, then/catch?
           .done(onPortFound)
           .fail(onFailure);
       };
@@ -129,7 +142,10 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     doCustomURI () {
-      this.customURI && Util.redirectWithFormGet(this.customURI);
+      this.ulDom && this.ulDom.remove();
+      this.ulDom = this.add(`
+        <iframe src="${this.customURI}" id="custom-uri-container" style="display:none;"></iframe>
+      `).last();
     },
   },
 
@@ -139,9 +155,8 @@ const Body = BaseForm.extend(Object.assign(
 const Footer = BaseFooter.extend({
   links () {
     let links = [];
-    const deviceChallenge = this.options.appState.get(
-      this.options.appState.getCurrentViewState().relatesTo
-    );
+    const deviceChallenge = this.options.appState.getCurrentViewState().relatesTo.value;
+
     if (deviceChallenge.challengeMethod === 'CUSTOM_URI') {
       links = [
         {

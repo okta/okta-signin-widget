@@ -1,7 +1,7 @@
 [
   {
     "component": "jquery",
-    "version": "1.12.1",
-    "justification": "This CVE (CVE-2019-11358) deals with pollution of prototype. The CVE is a blocker and should be solved with the release of SIW 3.0"
+    "version": "1.12.4",
+    "justification": "This CVE (CVE-2019-11358) deals with pollution of prototype. We are mitigating this by using a patched version of jQuery (packages/@okta/courage-dist/jquery.js) The patch begins at line 213"
   }
 ]

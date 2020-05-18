@@ -24,7 +24,7 @@ module.exports = function (outputFilename) {
         'okta': `${LOCAL_PACKAGES}/@okta/courage-dist/okta.js`,
         'okta-i18n-bundles': 'util/Bundles',
         'jquery': `${LOCAL_PACKAGES}/@okta/courage-dist/jquery.js`,
-        'idx': `${LOCAL_PACKAGES}/@okta/idx-js/idx.js`,
+        'idx': `${LOCAL_PACKAGES}/@okta/idx-dist/idx.js`,
 
         // Vendor files from courage that are remapped in OSW to point to an npm
         // module in our package.json dependencies
@@ -66,6 +66,12 @@ module.exports = function (outputFilename) {
           test: /\.json$/,
           loader: 'json-loader'
         },
+        // load external source maps
+        {
+          test: /\.js$/,
+          use: ['source-map-loader'],
+          enforce: 'pre'
+        }
       ]
     },
 

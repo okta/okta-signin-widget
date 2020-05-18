@@ -129,8 +129,7 @@ export default Router.extend({
         this.settings.get('assets.baseUrl'),
         this.settings.get('assets.rewrite')
       )
-        .then(_.bind(this.render, this, Controller, options))
-        .done();
+        .then(_.bind(this.render, this, Controller, options));
     }
 
     // Load the custom colors only on the first render

@@ -1,7 +1,7 @@
 {
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "3.10.0",
+  "version": "4.1.0",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
@@ -28,8 +28,7 @@
     "clean": "rimraf target && rimraf dist && rimraf build2",
     "generate-phone-codes": "node buildtools generate-phone-codes",
     "generate-config": "node buildtools generate-language-config",
-    "generate-jsonp": "node buildtools generate-language-jsonp",
-    "retirejs": "retire --jspath src --package",
+    "retirejs": "retire --jspath target/js --package",
     "lint:eslint": "eslint .",
     "lint:eslint:report": "eslint -f checkstyle -o build2/OSW-eslint-checkstyle-result.xml .",
     "lint:stylelint": "stylelint assets/sass/",
@@ -61,20 +60,19 @@
     "build:dev": "grunt build:dev",
     "build:release": "grunt build:release",
     "build:webpack-dev": "webpack --config webpack.dev.config.js",
-    "start": "yarn start:only",
-    "start:only": "webpack-dev-server --config webpack.playground.config.js",
-    "start:playground": "concurrently \"grunt build:dev:watch\" \"grunt watch:sass\" \"webpack-dev-server --config webpack.playground.config.js\" --kill-others",
     "build:webpack-release": "webpack --config webpack.release.config.js",
     "build:webpack-e2e-app": "webpack target/e2e/app/app-using-osw-entry.js target/js/app-bundle.js",
-    "prestart": "yarn build:dev",
     "prepublishOnly": "yarn build:release",
-    "mock:authenticator": "dyson playground/mocks/authenticator/ 6512"
+    "start": "yarn build:dev && yarn start:dev-server",
+    "start:playground": "concurrently \"grunt build:dev:watch\" \"grunt watch:sass\" \"yarn start:dev-server\" --kill-others",
+    "start:dev-server": "webpack-dev-server --config webpack.playground.config.js",
+    "mock:device-authenticator": "dyson playground/mocks-device-authenticator/ 6512"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
     "@commitlint/travis-cli": "^8.1.0",
-    "@okta/okta-auth-js": "2.13.2",
+    "@okta/okta-auth-js": "^3.1.1",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "autoprefixer": "^9.6.1",
     "axe-core": "^3.3.1",
@@ -146,7 +144,7 @@
     "babel-runtime": "^6.26.0",
     "cross-fetch": "^3.0.4",
     "eslint-plugin-jasmine": "^4.1.0",
-    "handlebars": "^4.5.1",
+    "handlebars": "^4.5.3",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.3",
     "underscore": "1.8.3"

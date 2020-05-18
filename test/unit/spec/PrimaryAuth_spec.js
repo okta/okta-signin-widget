@@ -1,7 +1,7 @@
 /* eslint max-params:[2, 32], max-statements:[2, 45], camelcase:0, max-len:[2, 180] */
 define([
   'q',
-  '@okta/okta-auth-js/jquery',
+  '@okta/okta-auth-js',
   'util/Util',
   'okta',
   'helpers/mocks/Util',
@@ -81,7 +81,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
 
     var setNextResponse = Util.mockAjax(requests);
     var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({url: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR, headers: {}});
+    var authClient = new OktaAuth({issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR, headers: {}});
     var successSpy = jasmine.createSpy('success');
     var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
 
@@ -143,6 +143,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
 
   function setupSocial (settings) {
     Util.mockOIDCStateGenerator();
+    Util.loadWellKnownAndKeysCache();
     return setup(_.extend({
       clientId: 'someClientId',
       redirectUri: 'https://0.0.0.0:9999',
@@ -150,6 +151,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       authParams: {
         responseType: 'id_token',
         display: 'popup',
+        pkce: false,
         scopes: [
           'openid',
           'email',
@@ -864,16 +866,13 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           })
           .then(function (test) {
             expect(test.router.settings.transformUsername.calls.count()).toBe(0);
-            expect($.ajax.calls.count()).toBe(1);
-            expect($.ajax.calls.argsFor(0)[0]).toEqual({
-              url: 'https://foo.com/login/getimage?username=testuser',
-              dataType: 'json'
-            });
+            expect(Util.numAjaxRequests()).toBe(1);
+            expect(Util.getAjaxRequest(0).url).toBe('https://foo.com/login/getimage?username=testuser');
           });
       });
       itp('adds the suffix to the username if the username does not have it', function () {
         return setupWithTransformUsername().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
@@ -881,8 +880,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return Expect.waitForSpyCall(test.successSpy, test);
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn',
               data: {
                 username: 'testuser@example.com',
@@ -897,15 +896,15 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('adds the suffix to the inital username if it is provided', function () {
         return setupWithTransformUsername().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn',
               data: {
                 username: 'foobar@example.com',
@@ -920,7 +919,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('does not add the suffix to the username if the username already has it', function () {
         return setupWithTransformUsername().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUsername('testuser@example.com');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
@@ -928,8 +927,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return Expect.waitForSpyCall(test.successSpy, test);
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn',
               data: {
                 username: 'testuser@example.com',
@@ -944,7 +943,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('does not add the suffix to the username if "PRIMARY_AUTH" operation is not handled', function () {
         return setupWithTransformUsernameOnUnlock().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
@@ -952,8 +951,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return Expect.waitForSpyCall(test.successSpy, test);
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn',
               data: {
                 username: 'testuser',
@@ -972,7 +971,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       itp('does not contain typing pattern header in primary auth request if feature is disabled', function () {
         return setup({ features: { trackTypingPattern: false }})
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.setNextResponse(resSuccess);
@@ -984,16 +983,16 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           })
           .then(function () {
             expect(TypingUtil.track).not.toHaveBeenCalled();
-            expect($.ajax.calls.count()).toBe(1);
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(undefined);
+            expect(Util.numAjaxRequests()).toBe(1);
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-typing-pattern']).toBe(undefined);
           });
       });
 
       itp('contains typing pattern header in primary auth request if feature is enabled', function () {
         return setup({ features: { trackTypingPattern: true }})
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.setNextResponse(resSuccess);
@@ -1007,29 +1006,29 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(typingPattern);
+            expect(Util.numAjaxRequests()).toBe(1);
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-typing-pattern']).toBe(typingPattern);
           });
       });
 
       itp('continues with primary auth if typing pattern cannot be computed', function () {
         return setup({ features: { trackTypingPattern: true }})
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.setNextResponse(resSuccess);
             spyOn(TypingUtil, 'getTypingPattern').and.callFake(function () {
-              return null;
+              return;
             });
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(null);
+            expect(Util.numAjaxRequests()).toBe(1);
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-typing-pattern']).toBeUndefined();
           });
       });
     });
@@ -1047,7 +1046,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return Expect.waitForSpyCall(PrimaryAuthController.prototype.shouldComputeDeviceFingerprint, test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(0);
+            expect(Util.numAjaxRequests()).toBe(0);
             expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
           });
       });
@@ -1065,10 +1064,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
           });
       });
       itp(`contains fingerprint header in get security image request if both features
@@ -1086,10 +1085,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
           });
       });
       itp(`does not contain fingerprint header in get security image request if deviceFingerprinting
@@ -1103,10 +1102,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers).toBeUndefined();
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBeUndefined();
           });
       });
       itp(`does not contain fingerprint header in get security image request if deviceFingerprinting
@@ -1119,16 +1118,16 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers).toBeUndefined();
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBeUndefined();
           });
       });
       itp('does not contain device fingerprint header in primaryAuth if feature is disabled', function () {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint');
         return setup().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse(resSuccess);
@@ -1136,10 +1135,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           return Expect.waitForSpyCall(test.successSpy, test);
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBeUndefined();
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBeUndefined();
           });
       });
       itp('contains device fingerprint header in primaryAuth if feature is enabled', function () {
@@ -1150,7 +1149,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         });
         return setup({ features: { deviceFingerprinting: true }})
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.setNextResponse(resSuccess);
@@ -1158,10 +1157,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBe('thisIsTheDeviceFingerprint');
           });
       });
       itp('continues with primary auth if there is an error getting fingerprint when feature is enabled', function () {
@@ -1172,7 +1171,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         });
         return setup({ features: { deviceFingerprinting: true }})
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.setNextResponse(resSuccess);
@@ -1180,10 +1179,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBeUndefined();
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBeUndefined();
             Expect.isJsonPost(ajaxArgs, {
               url: 'https://foo.com/api/v1/authn',
               data: {
@@ -1211,7 +1210,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         });
         return setup({ features: { deviceFingerprinting: true, trackTypingPattern: true }})
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.setNextResponse(resSuccess);
@@ -1219,11 +1218,11 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
             expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-            var ajaxArgs = $.ajax.calls.argsFor(0);
-            expect(ajaxArgs[0].headers['X-Device-Fingerprint']).toBe('thisIsTheDeviceFingerprint');
-            expect(ajaxArgs[0].headers['X-Typing-Pattern']).toBe(typingPattern);
+            var ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBe('thisIsTheDeviceFingerprint');
+            expect(ajaxArgs.requestHeaders['x-typing-pattern']).toBe(typingPattern);
           });
       });
     });
@@ -1384,7 +1383,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return Expect.waitForSpyCall(PrimaryAuthController.prototype.shouldComputeDeviceFingerprint, test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(0);
+            expect(Util.numAjaxRequests()).toBe(0);
           });
       });
       itp('has default security image on page load and no rememberMe', function () {
@@ -1403,12 +1402,9 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return waitForBeaconChange(test);
           })
           .then(function (test) {
-            expect($.ajax.calls.count()).toBe(1);
-            expect($.ajax.calls.argsFor(0)[0]).toEqual({
-              // reserved characters in the username (like "+") should be escaped, since it's in the query
-              url: 'https://foo.com/login/getimage?username=test%2Buser',
-              dataType: 'json'
-            });
+            expect(Util.numAjaxRequests()).toBe(1);
+            // reserved characters in the username (like "+") should be escaped, since it's in the query
+            expect(Util.getAjaxRequest(0).url).toEqual('https://foo.com/login/getimage?username=test%2Buser');
             expect($.fn.css).toHaveBeenCalledWith('background-image', 'url(/base/test/unit/assets/1x1.gif)');
             expect(test.form.accessibilityText()).toBe('a single pixel');
           });
@@ -1423,7 +1419,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             return waitForBeaconChange(test);
           })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
           });
       });
       itp('updates security beacon to show the new user image when user enters unfamiliar username', function () {
@@ -1667,36 +1663,36 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('shows an error if username is empty and submitted', function () {
         return setup().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.submit();
           expect(test.form.usernameErrorField().length).toBe(1);
           var button = test.form.submitButton();
           var buttonClass = button.attr('class');
           expect(buttonClass).not.toContain('link-button-disabled');
           expect(test.form.isDisabled()).toBe(false);
-          expect($.ajax).not.toHaveBeenCalled();
+          expect(Util.numAjaxRequests()).toBe(0);
         });
       });
       itp('shows an error if password is empty and submitted', function () {
         return setup().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.submit();
           expect(test.form.passwordErrorField().length).toBe(1);
           var button = test.form.submitButton();
           var buttonClass = button.attr('class');
           expect(buttonClass).not.toContain('link-button-disabled');
           expect(test.form.isDisabled()).toBe(false);
-          expect($.ajax).not.toHaveBeenCalled();
+          expect(Util.numAjaxRequests()).toBe(0);
         });
       });
       itp('reenables button and fields after a CORS error', function () {
         return setup().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
           test.setNextResponse({status: 0, response: {}});
           test.form.submit();
-          return Expect.waitForSpyCall($.ajax, test);
+          return Expect.waitForAjaxRequest(test);
         })
           .then(function (test) {
             var button = test.form.submitButton();
@@ -1720,7 +1716,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
        */
       // itp('disables the "sign in" button when clicked', function () {
       //   return setup().then(function (test) {
-      //     $.ajax.calls.reset();
+      //     Util.resetAjaxRequests();
       //     test.form.setUsername('testuser');
       //     test.form.setPassword('pass');
       //     test.setNextResponse(resUnauthorized);
@@ -1740,7 +1736,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       // });
       itp('calls authClient primaryAuth with form values when submitted', function () {
         return setup().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.successSpy.calls.reset();
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
@@ -1752,8 +1748,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             // Form is kept disabling until `globalSuccessFn` does something else,
             // change the DOM or redirect. Widget will not re-enable form when success.
             expect(test.form.isDisabled()).toBe(true);
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn',
               data: {
                 username: 'testuser',
@@ -1770,15 +1766,15 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setupUnauthenticated().then(function (test) {
           test.form.setUsername('testuser');
           test.form.setPassword('pass');
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
           .then(function (test) {
             expect(test.form.isDisabled()).toBe(true);
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.okta.com/api/v1/authn',
               data: {
                 username: 'testuser',
@@ -1798,7 +1794,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           processCreds: processCredsSpy
         })
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.setNextResponse(resSuccess);
@@ -1811,7 +1807,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               username: 'testuser',
               password: 'pass'
             });
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
           });
       });
       itp('calls async processCreds function before saving a model', function () {
@@ -1823,7 +1819,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           }
         })
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.setNextResponse(resSuccess);
@@ -1836,7 +1832,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               username: 'testuser',
               password: 'pass'
             }, jasmine.any(Function));
-            expect($.ajax.calls.count()).toBe(1);
+            expect(Util.numAjaxRequests()).toBe(1);
           });
       });
       itp('calls async processCreds function and can prevent saving a model', function () {
@@ -1847,7 +1843,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           }
         })
           .then(function (test) {
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser');
             test.form.setPassword('pass');
             test.setNextResponse(resSuccess);
@@ -1860,7 +1856,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               username: 'testuser',
               password: 'pass'
             }, jasmine.any(Function));
-            expect($.ajax.calls.count()).toBe(0);
+            expect(Util.numAjaxRequests()).toBe(0);
           });
       });
       itp('calls authClient with multiOptionalFactorEnroll=true if feature is true', function () {
@@ -1873,8 +1869,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         })
           .then(function (test) {
             expect(test.form.isDisabled()).toBe(true);
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn',
               data: {
                 username: 'testuser',
@@ -1968,7 +1964,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       itp('shows the correct error if authClient returns with a correct error object', function () {
         return setup()
           .then(function (test) {
-            test.setNextResponse(resErrorValid, true);
+            test.setNextResponse(resErrorValid);
             test.form.setUsername('testuser');
             test.form.setPassword('invalidpass');
             test.form.submit();
@@ -1983,7 +1979,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       itp('shows a form error if authClient returns with an error that is plain text', function () {
         return setup()
           .then(function (test) {
-            test.setNextResponse(resNonJson, true);
+            test.setNextResponse(resNonJson);
             test.form.setUsername('testuser');
             test.form.setPassword('invalidpass');
             test.form.submit();
@@ -1991,7 +1987,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+            expect(test.form.errorMessage()).toBe('Unable to sign in');
             expectErrorEvent(test, 401, 'Authentication failed');
           });
       });
@@ -2000,14 +1996,14 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           .then(function (test) {
             test.form.setUsername('testuser');
             test.form.setPassword('invalidpass');
-            test.setNextResponse(resInvalidText, true);
+            test.setNextResponse(resInvalidText);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
           .then(function (test) {
             expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
-            expectErrorEvent(test, 401, 'Unknown error');
+            expect(test.form.errorMessage()).toBe('Could not parse server response');
+            expectErrorEvent(test, 401, 'Could not parse server response');
           });
       });
       itp('shows an error if authClient returns with LOCKED_OUT response and selfServiceUnlock is off', function () {
@@ -2070,14 +2066,14 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
       });
       itp('calls authClient.signIn with username only', function () {
         return setupPasswordlessAuth().then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUsername('testuser@test.com');
           test.form.submit();
           return Expect.waitForMfaVerify(test);
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn',
               data: {
                 username: 'testuser@test.com',
@@ -2102,14 +2098,14 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
 
       itp('calls transaction.authenticate with the same stateToken that the widget was bootstrapped with, in the config object', function () {
         return setupPasswordlessAuth(null, true).then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUsername('testuser@test.com');
           test.form.submit();
           return Expect.waitForMfaVerify(test);
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.okta.com/api/v1/authn',
               data: {
                 username: 'testuser@test.com',
@@ -2125,7 +2121,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
 
       itp('can sign in again when sign out is clicked on mfa and no Idx state token', function () {
         return setupPasswordlessAuth(null, true, false).then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUsername('testuser@test.com');
           test.form.submit();
           return Expect.waitForMfaVerify(test);
@@ -2141,7 +2137,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             // try to log back in
             expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
             Expect.isPrimaryAuth(test.router.controller);
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser@test.com');
             test.setNextResponse(resPasswordlessUnauthenticated);
             test.form.submit();
@@ -2155,14 +2151,14 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
 
       itp('calls transaction.login with the same stateToken that the widget was bootstrapped with, in the config object', function () {
         return setupPasswordlessAuth(null, true, true).then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUsername('testuser@test.com');
           test.form.submit();
           return Expect.waitForMfaVerify(test);
         })
           .then(function () {
-            expect($.ajax.calls.count()).toBe(1);
-            Expect.isJsonPost($.ajax.calls.argsFor(0), {
+            expect(Util.numAjaxRequests()).toBe(1);
+            Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.okta.com/api/v1/authn',
               data: {
                 username: 'testuser@test.com',
@@ -2178,7 +2174,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
 
       itp('can sign in again when sign out is clicked on mfa and there is Idx state token', function () {
         return setupPasswordlessAuth(null, true, true).then(function (test) {
-          $.ajax.calls.reset();
+          Util.resetAjaxRequests();
           test.form.setUsername('testuser@test.com');
           test.form.submit();
           return Expect.waitForMfaVerify(test);
@@ -2194,7 +2190,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             // try to log back in
             expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
             Expect.isPrimaryAuth(test.router.controller);
-            $.ajax.calls.reset();
+            Util.resetAjaxRequests();
             test.form.setUsername('testuser@test.com');
             test.setNextResponse(resFactorRequired);
             test.form.submit();
@@ -2551,8 +2547,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(test.successSpy.calls.count()).toBe(1);
             var data = test.successSpy.calls.argsFor(0)[0];
             expect(data.status).toBe('SUCCESS');
-            expect(data.idToken).toBe(VALID_ID_TOKEN);
-            expect(data.claims).toEqual({
+            expect(data.tokens.idToken.value).toBe(VALID_ID_TOKEN);
+            expect(data.tokens.idToken.claims).toEqual({
               amr: ['pwd'],
               aud: 'someClientId',
               auth_time: 1451606400,
@@ -2604,11 +2600,11 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(test.successSpy.calls.count()).toBe(1);
             var data = test.successSpy.calls.argsFor(0)[0];
             expect(data.status).toBe('SUCCESS');
-            expect(data[0].idToken).toBe(VALID_ID_TOKEN);
+            expect(data.tokens.idToken.value).toBe(VALID_ID_TOKEN);
 
-            expect(data[1].accessToken).toBe(VALID_ACCESS_TOKEN);
-            expect(data[1].scopes).toEqual(['openid', 'email', 'profile']);
-            expect(data[1].tokenType).toBe('Bearer');
+            expect(data.tokens.accessToken.value).toBe(VALID_ACCESS_TOKEN);
+            expect(data.tokens.accessToken.scopes).toEqual(['openid', 'email', 'profile']);
+            expect(data.tokens.accessToken.tokenType).toBe('Bearer');
           });
       });
       itp('triggers the afterError event if there is no valid id token returned', function () {

@@ -1,9 +1,11 @@
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import Util from '../../../util/Util';
+import { loc } from 'okta';
+
 const Body = BaseForm.extend({
   title () {
-    return  'You will be redirected';
+    return  loc('success.redirect', 'login');
   },
   noButtonBar: true,
   initialize () {
