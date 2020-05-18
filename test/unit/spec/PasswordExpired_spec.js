@@ -71,6 +71,12 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
     return setup(settings, resPassWarn);
   }
 
+  function setupWarnExcludeAttributes (excludeAttributesArray, settings) {
+    var policyComplexity = resPassWarn.response._embedded.policy.complexity;
+    policyComplexity.excludeAttributes = excludeAttributesArray;
+    return setup(settings, resPassWarn);
+  }
+
   function setupCustomExpiredPassword (settings, res) {
     return setup(settings, res || resCustomPassExpired, true);
   }
@@ -524,6 +530,12 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
       itp('has the correct subtitle if config has a brandName', function () {
         return setupWarn(4, { brandName: 'Spaghetti Inc.' }).then(function (test) {
           expect(test.form.subtitleText()).toBe('When password expires you will be locked out of your Spaghetti Inc. account.');
+        });
+      });
+      itp('has a valid subtitle if alwaysDisplayPasswordRules is True', function () {
+        return setupWarnExcludeAttributes([], { features: {alwaysDisplayPasswordRules: true} }).then(function (test) {
+          expect(test.form.subtitleText()).toEqual('Password requirements: at least 8 characters,' +
+            ' a lowercase letter, an uppercase letter, a number.');
         });
       });
       itp('has a sign out link', function () {
