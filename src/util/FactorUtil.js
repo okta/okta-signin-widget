@@ -160,7 +160,7 @@ function (Okta, TimeUtil) {
     }
   };
 
-  var getPasswordComplexityRequirementsAsArray = function (policy, isHtmlList) {
+  var getPasswordComplexityRequirementsAsArray = function (policy, i18nKeys) {
     var setExcludeAttributes = function (policyComplexity) {
       var excludeAttributes = policyComplexity.excludeAttributes;
       policyComplexity.excludeFirstName = _.contains(excludeAttributes, 'firstName');
@@ -169,17 +169,7 @@ function (Okta, TimeUtil) {
     };
 
     if (policy.complexity) {
-      var complexityFields = {
-        minLength: {i18n: 'password.complexity.length', args: true},
-        minLowerCase: {i18n: 'password.complexity.lowercase'},
-        minUpperCase: {i18n: 'password.complexity.uppercase'},
-        minNumber: {i18n: 'password.complexity.number'},
-        minSymbol: {i18n: 'password.complexity.symbol'},
-        excludeUsername: {i18n: 'password.complexity.no_username'},
-        excludeFirstName: {i18n: 'password.complexity.no_first_name'},
-        excludeLastName: {i18n: 'password.complexity.no_last_name'}
-      };
-
+      var complexityFields = i18nKeys.complexity;
       var policyComplexity = setExcludeAttributes(policy.complexity);
 
       var requirements = _.map(policyComplexity, function (complexityValue, complexityType) {
@@ -188,8 +178,7 @@ function (Okta, TimeUtil) {
         }
 
         var params = complexityFields[complexityType];
-        var requirementKey = isHtmlList? params.i18n + '.description' : params.i18n;
-        return params.args ? Okta.loc(requirementKey, 'login', [complexityValue]) : Okta.loc(requirementKey, 'login');
+        return params.args ? Okta.loc(params.i18n, 'login', [complexityValue]) : Okta.loc(params.i18n, 'login');
       });
 
       return _.compact(requirements);
@@ -197,28 +186,26 @@ function (Okta, TimeUtil) {
     return [];
   };
 
-  var getPasswordHistoryRequirementDescription = function (policy, isHtmlList) {
+  var getPasswordHistoryRequirementDescription = function (policy, i18nKeys) {
     if (policy.age && policy.age.historyCount > 0) {
-      var requirementKey = isHtmlList ? 'password.complexity.history.description' : 'password.complexity.history';
-      return Okta.loc(requirementKey, 'login', [policy.age.historyCount]);
+      return Okta.loc(i18nKeys.history.i18n, 'login', [policy.age.historyCount]);
     }
     return null;
   };
 
-  var getPasswordAgeRequirementDescription = function (policy, isHtmlList) {
+  var getPasswordAgeRequirementDescription = function (policy, i18nKeys) {
     var getPasswordAgeRequirement = function (displayableTime) {
       var propertiesString;
       switch (displayableTime.unit) {
         case 'DAY':
-          propertiesString = 'password.complexity.minAgeDays';
+          propertiesString = i18nKeys.age.days.i18n;
           break;
         case 'HOUR':
-          propertiesString = 'password.complexity.minAgeHours';
+          propertiesString = i18nKeys.age.hours.i18n;
           break;
         case 'MINUTE':
-          propertiesString = 'password.complexity.minAgeMinutes';
+          propertiesString = i18nKeys.age.minutes.i18n;
       }
-      propertiesString = isHtmlList ? propertiesString + '.description' : propertiesString;
       return Okta.loc(propertiesString, 'login', [displayableTime.time]);
     };
 
@@ -229,21 +216,21 @@ function (Okta, TimeUtil) {
     return null;
   };
 
-  var getPasswordRequirements = function (policy, isHtmlList) {
+  var getPasswordRequirements = function (policy, i18nKeys) {
     var passwordRequirements = {
       complexity: [],
       history: [],
       age: []
     };
 
-    passwordRequirements.complexity = getPasswordComplexityRequirementsAsArray(policy, isHtmlList);
+    passwordRequirements.complexity = getPasswordComplexityRequirementsAsArray(policy, i18nKeys);
 
-    var historyRequirement = getPasswordHistoryRequirementDescription(policy, isHtmlList);
+    var historyRequirement = getPasswordHistoryRequirementDescription(policy, i18nKeys);
     if (historyRequirement) {
       passwordRequirements.history.push(historyRequirement);
     }
 
-    var ageRequirement = getPasswordAgeRequirementDescription(policy, isHtmlList);
+    var ageRequirement = getPasswordAgeRequirementDescription(policy, i18nKeys);
     if (ageRequirement) {
       passwordRequirements.age.push(ageRequirement);
     }
@@ -360,13 +347,49 @@ function (Okta, TimeUtil) {
   };
 
   fn.getPasswordComplexityDescriptionForHtmlList = function (policy) {
-    var passwordRequirements = getPasswordRequirements(policy, true);
+    var passwordRequirementHtmlI18nKeys = {
+      complexity: {
+        minLength: {i18n: 'password.complexity.length.description', args: true},
+        minLowerCase: {i18n: 'password.complexity.lowercase.description'},
+        minUpperCase: {i18n: 'password.complexity.uppercase.description'},
+        minNumber: {i18n: 'password.complexity.number.description'},
+        minSymbol: {i18n: 'password.complexity.symbol.description'},
+        excludeUsername: {i18n: 'password.complexity.no_username.description'},
+        excludeFirstName: {i18n: 'password.complexity.no_first_name.description'},
+        excludeLastName: {i18n: 'password.complexity.no_last_name.description'},
+      },
+      history: {i18n: 'password.complexity.history.description'},
+      age: {
+        minutes: {i18n: 'password.complexity.minAgeMinutes.description'},
+        hours: {i18n: 'password.complexity.minAgeHours.description'},
+        days: {i18n: 'password.complexity.minAgeDays.description'}
+      }
+    };
+    var passwordRequirements = getPasswordRequirements(policy, passwordRequirementHtmlI18nKeys);
     return _.union(passwordRequirements.complexity, passwordRequirements.history, passwordRequirements.age);
   };
 
   fn.getPasswordComplexityDescription = function (policy) {
+    var passwordRequirementI18nKeys = {
+      complexity: {
+        minLength: {i18n: 'password.complexity.length', args: true},
+        minLowerCase: {i18n: 'password.complexity.lowercase'},
+        minUpperCase: {i18n: 'password.complexity.uppercase'},
+        minNumber: {i18n: 'password.complexity.number'},
+        minSymbol: {i18n: 'password.complexity.symbol'},
+        excludeUsername: {i18n: 'password.complexity.no_username'},
+        excludeFirstName: {i18n: 'password.complexity.no_first_name'},
+        excludeLastName: {i18n: 'password.complexity.no_last_name'},
+      },
+      history: {i18n: 'password.complexity.history'},
+      age: {
+        minutes: {i18n: 'password.complexity.minAgeMinutes'},
+        hours: {i18n: 'password.complexity.minAgeHours'},
+        days: {i18n: 'password.complexity.minAgeDays'}
+      }
+    };
     var result = [];
-    var passwordRequirements = getPasswordRequirements(policy, false);
+    var passwordRequirements = getPasswordRequirements(policy, passwordRequirementI18nKeys);
     var requirements = passwordRequirements.complexity;
 
     // Generate and add complexity string to result
