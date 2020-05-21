@@ -27,7 +27,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
 
   var DEFAULT_LANGUAGE = 'en';
 
-  var supportedIdps = ['facebook', 'google', 'linkedin', 'microsoft'],
+  var supportedIdps = ['facebook', 'google', 'linkedin', 'microsoft', 'apple'],
       supportedResponseTypes = ['token', 'id_token', 'code'],
       oauthRedirectTpl = Okta.tpl('{{origin}}');
 
@@ -267,7 +267,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       configuredSocialIdps: {
         deps: ['idps'],
         fn: function (idps) {
-          return _.map(idps, function (idp) { 
+          return _.map(idps, function (idp) {
             var type = idp.type && idp.type.toLowerCase();
             if ( !( type && _.contains(supportedIdps, type) ) ) {
               type = 'general-idp';
