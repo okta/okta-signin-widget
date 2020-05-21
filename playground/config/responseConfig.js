@@ -164,6 +164,12 @@ const appleUniversalLink = {
   ],
 };
 
+const oktaVerifyOIDCSuccess = {
+  '/idp/idx/introspect': [
+    'oktaverify-oidc-success'
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };

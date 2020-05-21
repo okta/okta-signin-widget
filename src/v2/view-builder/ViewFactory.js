@@ -23,6 +23,9 @@ import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
 import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
 
+// oidc success view
+import OktaVerifyOIDCSuccessView from './views/OktaVerifyOIDCSuccessView';
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -95,6 +98,9 @@ const VIEWS_MAPPING = {
   'redirect': {
     [DEFAULT]: IdentifierView,
   },
+  'oktaverify-oidc-success': {
+    [DEFAULT]: OktaVerifyOIDCSuccessView,
+  }
 };
 
 module.exports = {
