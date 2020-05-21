@@ -19,9 +19,11 @@ define([
   'util/FactorUtil',
   'util/Util',
   'views/expired-password/Footer',
-  'views/shared/TextBox'
+  'views/shared/TextBox',
+  'views/shared/PasswordRequirements'
 ],
-function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Util, Footer, TextBox) {
+function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Util, Footer, TextBox,
+  PasswordRequirements) {
 
   var _ = Okta._;
 
@@ -74,14 +76,22 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Uti
         }
 
         var policy = this.options.appState.get('policy');
-        if (!policy) {
+        if (!policy || this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
           return;
         }
 
         return FactorUtil.getPasswordComplexityDescription(policy);
       },
       formChildren: function () {
-        return [
+        var children = [];
+
+        if (this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
+          children.push(FormType.View({
+            View: new PasswordRequirements({ policy: this.options.appState.get('policy') }),
+          }));
+        }
+
+        children = children.concat([
           FormType.Input({
             'label-top': true,
             label: Okta.loc('password.oldPassword.placeholder', 'login'),
@@ -120,7 +130,9 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Uti
             input: TextBox,
             type: 'password'
           })
-        ];
+        ]);
+
+        return children;
       }
     },
     Footer: Footer,

@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 19], max-statements: [2, 25] */
+/* eslint max-params: [2, 19] */
 define([
   'okta',
   '@okta/okta-auth-js',
@@ -40,7 +40,10 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
     var router = new Router(_.extend({
       el: $sandbox,
       baseUrl: baseUrl,
-      features: { securityImage: true, customExpiredPassword: custom },
+      features: {
+        securityImage: true,
+        customExpiredPassword: custom
+      },
       authClient: authClient,
       globalSuccessFn: successSpy,
       processCreds: settings.processCreds
@@ -87,17 +90,16 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
     test.form.submit();
   }
 
-  function setupExcludeAttributes (excludeAttributesArray) {
+  function setupExcludeAttributes (excludeAttributesArray, showPasswordRequirementsAsHtmlList = false) {
     var passwordExpiredResponse = deepClone(resPassExpired);
     var policyComplexity = passwordExpiredResponse.response._embedded.policy.complexity;
     policyComplexity.excludeAttributes = excludeAttributesArray;
-    return setup(undefined, passwordExpiredResponse);
+    return setup({ 'features.showPasswordRequirementsAsHtmlList': showPasswordRequirementsAsHtmlList }, passwordExpiredResponse, null);
   }
 
   Expect.describe('PasswordExpiration', function () {
 
     Expect.describe('PasswordExpired', function () {
-
       itp('shows security beacon', function () {
         return setup().then(function (test) {
           expect(test.beacon.isSecurityBeacon()).toBe(true);
@@ -140,6 +142,67 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username.');
         });
       });
+
+      Expect.describe('Password description in HTML', function () {
+        itp('does not have a subtitle if password requirements as HTML FF is on', function () {
+          return setup({ 'features.showPasswordRequirementsAsHtmlList': true }).then(function (test) {
+            expect(test.form.subtitle().length).toEqual(0);
+          });
+        });
+        itp('shows password requirements as HTML list if FF is on', function () {
+          return setup({ 'features.showPasswordRequirementsAsHtmlList': true }).then(function (test) {
+            expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+            expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(8);
+            expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual('A lowercase letter');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(2).text()).toEqual('An uppercase letter');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(3).text()).toEqual('A number');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(4).text()).toEqual('A symbol');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(5).text()).toEqual('No parts of your username');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(6).text()).toEqual('Does not include your first name');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(7).text()).toEqual('Does not include your last name');
+          });
+        });
+        itp('shows password requirements as HTML list if FF is on and if only excludeAttributes["firstName"] is defined', function () {
+          return setupExcludeAttributes(['firstName'], true).then(function (test) {
+            expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+            expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(7);
+            expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual('A lowercase letter');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(2).text()).toEqual('An uppercase letter');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(3).text()).toEqual('A number');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(4).text()).toEqual('A symbol');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(5).text()).toEqual('No parts of your username');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(6).text()).toEqual('Does not include your first name');
+          });
+        });
+        itp('shows password requirements as HTML list if FF is on and if only excludeAttributes["lastName"] is defined', function () {
+          return setupExcludeAttributes(['lastName'], true).then(function (test) {
+            expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+            expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(7);
+            expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual('A lowercase letter');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(2).text()).toEqual('An uppercase letter');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(3).text()).toEqual('A number');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(4).text()).toEqual('A symbol');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(5).text()).toEqual('No parts of your username');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(6).text()).toEqual('Does not include your last name');
+          });
+        });
+        itp('shows password requirements as HTML list if FF is on and if excludeAttributes is empty', function () {
+          return setupExcludeAttributes([], true).then(function (test) {
+            expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
+            expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(6);
+            expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual('A lowercase letter');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(2).text()).toEqual('An uppercase letter');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(3).text()).toEqual('A number');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(4).text()).toEqual('A symbol');
+            expect(test.form.passwordRequirementsHtmlListItems().eq(5).text()).toEqual('No parts of your username');
+          });
+        });
+      });
+
       itp('has an old password field', function () {
         return setup().then(function (test) {
           Expect.isPasswordField(test.form.oldPassField());
