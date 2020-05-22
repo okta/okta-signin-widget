@@ -205,6 +205,10 @@ define(['okta', './Form'], function (Okta, Form) {
       return this.socialAuthButton('google');
     },
 
+    appleButton: function () {
+      return this.socialAuthButton('apple');
+    },
+
     linkedInButton: function () {
       return this.socialAuthButton('linkedin');
     },
