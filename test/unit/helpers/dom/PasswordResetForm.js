@@ -4,6 +4,17 @@ define(['./Form'], function (Form) {
   var CONFIRM_PASSWORD_FIELD = 'confirmPassword';
 
   return Form.extend({
+    passwordRequirementsHtmlList: function () {
+      return this.el('password-requirements-html');
+    },
+
+    passwordRequirementsHtmlHeader: function () {
+      return this.passwordRequirementsHtmlList().find('.password-requirements--header');
+    },
+
+    passwordRequirementsHtmlListItems: function () {
+      return this.passwordRequirementsHtmlList().find('.password-requirements--list-item');
+    },
 
     newPasswordField: function () {
       return this.input(NEW_PASSWORD_FIELD);
