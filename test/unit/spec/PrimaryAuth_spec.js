@@ -360,25 +360,6 @@ Expect.describe('PrimaryAuth', function () {
         expect(explain.length).toBe(0);
       });
     });
-    itp('username field does have explain when label is customized and features.hideDefaultTip is false', function () {
-      const options = {
-        language: 'en',
-        i18n: {
-          en: {
-            'primaryauth.username.placeholder': 'Custom Username Label',
-          },
-        },
-        features: {
-          hideDefaultTip: false,
-        },
-      };
-
-      return setup(options).then(function (test) {
-        const explain = test.form.usernameExplain();
-
-        expect(explain.text()).toEqual('Username');
-      });
-    });
     itp('username field does have explain when is customized', function () {
       const options = {
         language: 'en',
@@ -416,25 +397,6 @@ Expect.describe('PrimaryAuth', function () {
         const explain = test.form.passwordExplain();
 
         expect(explain.length).toBe(0);
-      });
-    });
-    itp('password field does have explain when label is customized and features.hideDefaultTip is false', function () {
-      const options = {
-        language: 'en',
-        i18n: {
-          en: {
-            'primaryauth.password.placeholder': 'Custom Password Explain',
-          },
-        },
-        features: {
-          hideDefaultTip: false,
-        },
-      };
-
-      return setup(options).then(function (test) {
-        const explain = test.form.passwordExplain();
-
-        expect(explain.text()).toEqual('Password');
       });
     });
     itp('password field does have explain when is customized', function () {
