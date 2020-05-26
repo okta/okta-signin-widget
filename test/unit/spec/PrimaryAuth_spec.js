@@ -1447,7 +1447,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           });
       });
       itp('does not show anti-phishing message if security image is hidden', function () {
-        
+
         return setup({ features: { securityImage: true }})
           .then(function (test) {
             test.setNextResponse(resSecurityImageFail);
@@ -2247,9 +2247,13 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               id: '0oaidiw9udOSceD5678'
             },
             {
+              type: 'APPLE',
+              id: '0oaz2emOZGUKjuZwX0g3'
+            },
+            {
               type: 'MICROSOFT',
               id: '0oaidiw9udOSceD3333'
-            }
+            },
           ]
         };
         return setup(settings).then(function (test) {
@@ -2257,7 +2261,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(buttons.eq(0)).toHaveClass('social-auth-linkedin-button');
           expect(buttons.eq(1)).toHaveClass('social-auth-facebook-button');
           expect(buttons.eq(2)).toHaveClass('social-auth-google-button');
-          expect(buttons.eq(3)).toHaveClass('social-auth-microsoft-button');
+          expect(buttons.eq(3)).toHaveClass('social-auth-apple-button');
+          expect(buttons.eq(4)).toHaveClass('social-auth-microsoft-button');
         });
       });
       itp('optionally adds a class for idp buttons', function () {
@@ -2313,6 +2318,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(buttons.eq(0)).not.toHaveClass('social-auth-linkedin-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-facebook-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-google-button');
+          expect(buttons.eq(0)).not.toHaveClass('social-auth-apple-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-microsoft-button');
           expect(buttons.eq(0)).toHaveClass('social-auth-general-idp-button');
         });
@@ -2331,6 +2337,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(buttons.eq(0)).not.toHaveClass('social-auth-linkedin-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-facebook-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-google-button');
+          expect(buttons.eq(0)).not.toHaveClass('social-auth-apple-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-microsoft-button');
           expect(buttons.eq(0)).toHaveClass('social-auth-general-idp-button');
         });
@@ -2378,6 +2385,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               id: '0oaidiw9udOSceD5678'
             },
             {
+              type: 'APPLE',
+              id: '0oaz2emOZGUKjuZwX0g3'
+            },
+            {
               type: 'MICROSOFT',
               id: '0oaidiw9udOSceD3333'
             }
@@ -2386,9 +2397,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setup(settings).then(function (test) {
           expect(test.form.primaryAuthForm().index()).toBe(0);
           expect(test.form.primaryAuthContainer().index()).toBe(1);
-          expect(test.form.socialAuthButtons().length).toBe(4);
+          expect(test.form.socialAuthButtons().length).toBe(5);
           expect(test.form.facebookButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
+          expect(test.form.appleButton().length).toBe(1);
           expect(test.form.linkedInButton().length).toBe(1);
           expect(test.form.microsoftButton().length).toBe(1);
         });
@@ -2404,15 +2416,20 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             {
               type: 'GOOGLE',
               id: '0oaidiw9udOSceD5678'
-            }
+            },
+            {
+              type: 'APPLE',
+              id: '0oaz2emOZGUKjuZwX0g3'
+            },
           ]
         };
         return setup(settings).then(function (test) {
           expect(test.form.primaryAuthContainer().index()).toBe(0);
           expect(test.form.primaryAuthForm().index()).toBe(1);
-          expect(test.form.socialAuthButtons().length).toBe(2);
+          expect(test.form.socialAuthButtons().length).toBe(3);
           expect(test.form.linkedInButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
+          expect(test.form.appleButton().length).toBe(1);
         });
       });
       itp('shows the buttons below the primary auth form when "idpDisplay" is passed as "SECONDARY"', function () {
@@ -2426,15 +2443,20 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             {
               type: 'GOOGLE',
               id: '0oaidiw9udOSceD5678'
-            }
+            },
+            {
+              type: 'APPLE',
+              id: '0oaz2emOZGUKjuZwX0g3'
+            },
           ]
         };
         return setup(settings).then(function (test) {
           expect(test.form.primaryAuthForm().index()).toBe(0);
           expect(test.form.primaryAuthContainer().index()).toBe(1);
-          expect(test.form.socialAuthButtons().length).toBe(2);
+          expect(test.form.socialAuthButtons().length).toBe(3);
           expect(test.form.facebookButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
+          expect(test.form.appleButton().length).toBe(1);
         });
       });
       itp('opens a popup with the correct url when an idp button is clicked', function () {

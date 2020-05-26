@@ -226,6 +226,26 @@ $od-secondary-button-action-text-color: #124a94;
   color: $dark-text-color;
 }
 
+.social-auth-apple-button {
+  @include social-auth-button-template(
+    url('../img/icons/login/apple_logo.png'),
+    $apple-icon-bg-color,
+    $apple-label-bg-color,
+    $apple-border-color
+  );
+
+  background-position: 15px 50%, 0% 0%;
+
+  &:active,
+  &:focus,
+  &:hover {
+    background-position: 15px 50%, 0% 0%;
+  }
+}
+.social-auth-apple-button.link-button {
+  color: $dark-text-color;
+}
+
 .social-auth-linkedin-button {
   @include social-auth-button-template(url('../img/icons/login/linkedin_logo.png'),
   $linkedin-icon-bg-color, $linkedin-label-bg-color, $linkedin-border-color);
