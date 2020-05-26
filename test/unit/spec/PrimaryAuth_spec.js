@@ -343,23 +343,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(explain.length).toBe(0);
         });
       });
-      itp('username field does have explain when label is customized and features.hideDefaultTip is false', function () {
-        var options = {
-          'language': 'en',
-          'i18n': {
-            'en': {
-              'primaryauth.username.placeholder': 'Custom Username Label'
-            }
-          },
-          'features' : {
-            'hideDefaultTip': false
-          }
-        };
-        return setup(options).then(function (test) {
-          var explain = test.form.usernameExplain();
-          expect(explain.text()).toEqual('Username');
-        });
-      });
       itp('username field does have explain when is customized', function () {
         var options = {
           'language': 'en',
@@ -392,23 +375,6 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setup(options).then(function (test) {
           var explain = test.form.passwordExplain();
           expect(explain.length).toBe(0);
-        });
-      });
-      itp('password field does have explain when label is customized and features.hideDefaultTip is false', function () {
-        var options = {
-          'language': 'en',
-          'i18n': {
-            'en': {
-              'primaryauth.password.placeholder': 'Custom Password Explain'
-            }
-          },
-          'features' : {
-            'hideDefaultTip': false
-          }
-        };
-        return setup(options).then(function (test) {
-          var explain = test.form.passwordExplain();
-          expect(explain.text()).toEqual('Password');
         });
       });
       itp('password field does have explain when is customized', function () {

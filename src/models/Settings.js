@@ -91,7 +91,6 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'features.redirectByFormSubmit': ['boolean', false, false],
       'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
       'features.restrictRedirectToForeground': ['boolean', true, false],
-      'features.hideDefaultTip': ['boolean', false, true],
       'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
 
       // I18N
