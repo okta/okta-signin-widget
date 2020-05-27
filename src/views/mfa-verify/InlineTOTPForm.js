@@ -27,6 +27,7 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
       className: 'button inline-totp-verify margin-top-30',
       title: Okta.loc('mfa.challenge.verify', 'login'),
       click: function () {
+        form.clearErrors();
         if (!form.isValid()) {
           return;
         }

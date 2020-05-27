@@ -3381,6 +3381,35 @@ function (Okta,
                 expect(form.passCodeErrorField().text()).toBe('This field cannot be left blank');
               });
           });
+          itp('clears previous error when submitting empty totp', function () {
+            return setupOktaPushWithTOTP()
+              .then(function (test) {
+                var form = test.form[1];
+                form.inlineTOTPAdd().click();
+                Q.stopUnhandledRejectionTracking();
+                test.setNextResponse(resInvalidTotp);
+                form.setAnswer('wrong');
+                form.inlineTOTPVerify().click();
+                return Expect.waitForFormError(form, form);
+              })
+              .then(function (form) {
+                form.setAnswer('');
+                // clicks are throttled with 100ms.
+                // _.thrrottle cannot be mocked by jasmine.clock.tick
+                // hence using real timeout of 100ms.
+                setTimeout(() => {
+                  form.inlineTOTPVerify().click();
+                }, 100);
+                return Expect.wait(function () {
+                  // Not waiting for form error but rather wait for a specific error to differentiate
+                  // between two errors.
+                  return form.errorMessage() === 'We found some errors. Please review the form and make corrections.';
+                }, form);
+              })
+              .then(function (form) {
+                expect(form.getErrors().length).toBe(1);
+              });
+          });
           itp('sets the transaction on the appState on success response', function () {
             return setupOktaPushWithTOTP().then(function (test) {
               mockTransactions(test.router.controller, true);
