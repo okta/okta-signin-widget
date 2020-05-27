@@ -346,6 +346,13 @@ function (Okta, TimeUtil) {
     return localizedQuestion.indexOf('L10N_ERROR') < 0 ? localizedQuestion : questionObj.questionText;
   };
 
+  fn.removeRequirementsFromError = function (responseJSON, policy) {
+    var passwordRequirementsAsString = this.getPasswordComplexityDescription(policy);
+    responseJSON.errorCauses[0].errorSummary = responseJSON.errorCauses[0].errorSummary
+        .replace(passwordRequirementsAsString, '').trim();
+    return responseJSON;
+  };
+
   fn.getPasswordComplexityDescriptionForHtmlList = function (policy) {
     var passwordRequirementHtmlI18nKeys = {
       complexity: {

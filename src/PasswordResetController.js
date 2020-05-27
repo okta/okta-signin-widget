@@ -62,6 +62,21 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, Util, Foot
 
         return FactorUtil.getPasswordComplexityDescription(policy);
       },
+      parseErrorMessage: function(responseJSON) {
+        var policy = this.options.appState.get('policy');
+        if (!!policy && this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
+          /*
+            - This is a specific case where don't want to repeat the requirements again in the error message, since this
+              is already shown in the description. The description as bullet-points itself should give an indication
+              of the requirements.
+            - We cannot check for error code this in this case, as the error code is shared between
+              requirements not met message, common password message, etc. So error summary is the only differentiating
+              factor. Replace the password requirements string with empty string in this case.
+          */
+          responseJSON = FactorUtil.removeRequirementsFromError(responseJSON, policy);
+        }
+        return responseJSON;
+      },
       formChildren: function () {
         var children = [];
 
