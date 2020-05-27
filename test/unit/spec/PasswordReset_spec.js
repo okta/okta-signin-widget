@@ -738,7 +738,7 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe(
             'Password requirements were not met. Password requirements: at least 8 characters,' +
-          ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
+          ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
           ' does not include your first name, does not include your last name.'
           );
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -753,20 +753,63 @@ function (Q, Okta, OktaAuth, LoginUtil, Util, PasswordResetForm, Beacon, Expect,
               xhr: {
                 status: 403,
                 responseType: 'json',
-                responseText: '{"errorCode":"E0000080","errorSummary":"The password does not meet the complexity requirements of the current password policy.","errorLink":"E0000080","errorId":"oaeZL71b-kLQyae-eG7rzghzQ","errorCauses":[{"errorSummary":"Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name."}]}',
+                responseText: '{"errorCode":"E0000080","errorSummary":"The password does not meet the complexity requirements of the current password policy.","errorLink":"E0000080","errorId":"oaeZL71b-kLQyae-eG7rzghzQ","errorCauses":[{"errorSummary":"Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name."}]}',
                 responseJSON: {
                   errorCode: 'E0000080',
-                  errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name.',
+                  errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name.',
                   errorLink: 'E0000080',
                   errorId: 'oaeZL71b-kLQyae-eG7rzghzQ',
                   errorCauses: [{
-                    errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name.'
+                    errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name.'
                   }]
                 }
               }
             }
           ]);
         });
+    });
+
+    itp('shows an error msg if there is an error submitting', function () {
+      return setup({policyComplexity: 'all', 'features.showPasswordRequirementsAsHtmlList': true})
+          .then(function (test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse(resError);
+            test.form.setNewPassword('a');
+            test.form.setConfirmPassword('a');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function (test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe(
+                'Password requirements were not met.'
+            );
+            expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+              {
+                controller: 'password-reset'
+              },
+              {
+                name: 'AuthApiError',
+                message: 'The password does not meet the complexity requirements of the current password policy.',
+                statusCode: 403,
+                xhr: {
+                  status: 403,
+                  responseType: 'json',
+                  responseText: '{"errorCode":"E0000080","errorSummary":"The password does not meet the complexity requirements of the current password policy.","errorLink":"E0000080","errorId":"oaeZL71b-kLQyae-eG7rzghzQ","errorCauses":[{"errorSummary":"Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name."}]}',
+                  responseJSON: {
+                    errorCode: 'E0000080',
+                    errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name.',
+                    errorLink: 'E0000080',
+                    errorId: 'oaeZL71b-kLQyae-eG7rzghzQ',
+                    errorCauses: [{
+                      errorSummary: 'Password requirements were not met.'
+                    }]
+                  }
+                }
+              }
+            ]);
+          });
     });
   });
 
