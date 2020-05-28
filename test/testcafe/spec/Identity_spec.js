@@ -1,10 +1,17 @@
 import { RequestMock } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/idp/idx/data/identify';
+import errorIdentify from '../../../playground/mocks/idp/idx/data/error-identify-access-denied';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identify);
+
+const identifyLockedUserMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(errorIdentify, 403);
 
 fixture(`Identity Form`)
   .requestHooks(mock);
@@ -45,4 +52,19 @@ test(`should have correct display texts`, async t => {
 
   const needhelpLinkText = identityPage.getNeedhelpLinkText();
   await t.expect(needhelpLinkText).eql('Need help signing in?');
+});
+
+test(`should show global error for invalid user`, async t => {
+  await t
+    .removeRequestHooks(mock)
+    .addRequestHooks(identifyLockedUserMock);
+
+  const identityPage = await setup(t);
+  await identityPage.fillIdentifierField('Test Identifier');
+
+  await identityPage.clickNextButton();
+
+  await identityPage.waitForErrorBox();
+
+  await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action.');
 });

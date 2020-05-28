@@ -3,6 +3,7 @@ import { Selector } from 'testcafe';
 
 const FIRSTNAME_FIELD = 'userProfile\\.firstName';
 const LASTNAME_FIELD = 'userProfile\\.lastName';
+const EMAIL_FIELD = 'userProfile\\.email';
 export default class RegistrationPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -14,6 +15,10 @@ export default class RegistrationPageObject extends BasePageObject {
 
   fillLastNameField(value) {
     return this.form.setTextBoxValue(LASTNAME_FIELD, value);
+  }
+
+  fillEmailField(value) {
+    return this.form.setTextBoxValue(EMAIL_FIELD, value);
   }
 
   setRememberMeField(value) {
@@ -28,15 +33,19 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.getTextBoxValue(LASTNAME_FIELD);
   }
 
+  getEmail() {
+    return this.form.getTextBoxValue(EMAIL_FIELD);
+  }
+
   getRememberMeValue() {
     return this.form.getCheckboxValue('remember');
   }
 
-  focusSignInButton() {
+  focusRegisterButton() {
     return this.form.focusSaveButton();
   }
 
-  clickSignInButton() {
+  clickRegisterButton() {
     return this.form.clickSaveButton();
   }
 
@@ -60,8 +69,24 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.hasTextBoxErrorMessage(LASTNAME_FIELD);
   }
 
+  hasEmailError() {
+    return this.form.hasTextBoxError(EMAIL_FIELD);
+  }
+
+  hasEmailErrorMessage() {
+    return this.form.hasTextBoxErrorMessage(EMAIL_FIELD);
+  }
+
   waitForLastNameError() {
     return this.form.waitForTextBoxError(LASTNAME_FIELD);
+  }
+
+  waitForEmailError() {
+    return this.form.waitForTextBoxError(EMAIL_FIELD);
+  }
+
+  getEmailErrorMessage() {
+    return this.form.getTextBoxErrorMessage(EMAIL_FIELD);
   }
 
   getHaveAccountLabel() {

@@ -12,6 +12,8 @@
 import { _, Controller } from 'okta';
 import '../../views/shared/FooterWithBackLink';
 import ViewFactory from '../view-builder/ViewFactory';
+import IonResponseHelper from '../ion/IonResponseHelper';
+
 
 export default Controller.extend({
   className: 'form-controller',
@@ -83,7 +85,6 @@ export default Controller.extend({
     // trigger formname change to change view
     this.options.appState.set('currentFormName', formName);
     this.options.appState.trigger('idxResponseUpdated', formName);
-
   },
 
   handleFormSave (model) {
@@ -93,7 +94,6 @@ export default Controller.extend({
       model.trigger('error', model, { errorSummary: `Cannot find http action for "${formName}".`});
       return;
     }
-
     this.toggleFormButtonState(true);
     model.trigger('request');
     return idx.proceed(formName, model.toJSON())
@@ -107,10 +107,20 @@ export default Controller.extend({
           // the SIW can proceed to the next step without showing error
           this.updateAppStateWithNewIdx(error);
         } else {
-          model.trigger('error', model, {'responseJSON': error}, true);
-          this.toggleFormButtonState(false);
+          this.showFormErrors(model, error);
         }
       });
+  },
+
+  showFormErrors (model, error) {
+    //check if error format is an ION response by looking for version attribute. To handle both types of responses.
+    if(error.version) {
+      const convertedErrors = IonResponseHelper.convertFormErrors(error);
+      model.trigger('error', model, convertedErrors, convertedErrors.responseJSON.errorCauses.length ? false : true);
+    } else {
+      model.trigger('error', model, {'responseJSON': error}, true);
+    }
+    this.toggleFormButtonState(false);
   },
 
   updateAppStateWithNewIdx: function (idxResp) {
