@@ -32,23 +32,21 @@ export default Model.extend({
       // While we're moving toward `authenticator` platform, but still
       // need to support `factor` for certain period.
       // Could remove `factor` after it's deprecated completely.
-      deps: ['authenticator', 'factor'],
-      fn (authenticator = {}, factor = {}, ) {
-        return authenticator.profile || factor.profile || {};
+      deps: ['currentAuthenticatorEnrollment', 'factor'],
+      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}, factor = {}) {
+        return currentAuthenticator.profile
+          || currentAuthenticatorEnrollment.profile
+          || factor.profile
+          || {};
       },
     },
     authenticatorType: {
-      deps: ['authenticator', 'factor'],
-      fn (authenticator = {}, factor = {}) {
-        return authenticator.authenticatorType || factor.factorType || '';
-      },
-    },
-    currentStep: {
-      deps: ['idx'],
-      fn: function (idx = {}) {
-        if (idx && idx.context && idx.context.step) {
-          return idx.context.step.toLowerCase();
-        }
+      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment', 'factor'],
+      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}, factor = {}) {
+        return currentAuthenticator.type
+          || currentAuthenticatorEnrollment.type
+          || factor.factorType
+          || '';
       },
     },
     showSignoutLink: {

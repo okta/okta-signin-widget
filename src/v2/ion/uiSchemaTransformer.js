@@ -49,11 +49,35 @@ const createFactorTypeOptions = (options, factors) => {
 
 
 /**
- * @typedef {Object} AuthenticatorInstance
- * @property {string} authenticatorId
- * @property {string} authenticatorType
- * @property {string} authenticatorEnrollmentId
+ * @typedef {Object} Authenticator
+ * @property {string} label
+ * @property {AuthenticatorValue} value
  */
+/**
+ * @typedef {Object} AuthenticatorValue
+ * @property {string} type Authenticator Type
+ * @property {string} id Authenticator Org Authenticator ID
+ * @property {AuthenticatorMethod[]} methods
+ */
+
+/**
+ * @typedef {Object} AuthenticatorEnrollment
+ * @property {string} label
+ * @property {AuthenticatorEnrollmentValue} value
+ */
+/**
+ * @typedef {Object} AuthenticatorEnrollmentValue
+ * @property {string} authenticatorId Org Authenticator ID
+ * @property {string} type Authenticator Type
+ * @property {string} id Authenticator Enrollment ID
+ * @property {AuthenticatorMethod[]} methods
+ */
+/**
+ * @typedef {Object} AuthenticatorMethod
+ * @property {string} type Authenticator method type
+ */
+
+
 /**
  * @typedef {Object} AuthenticatorOption
  * @property {string} label
@@ -70,32 +94,48 @@ const createFactorTypeOptions = (options, factors) => {
 /**
  * Example of the option like
  * @param {AuthenticatorOption[]} options
- * @param {AuthenticatorInstance[]} authenticators
+ * @param {( AuthenticatorEnrollment[] || Authenticator[] )} authenticators
  */
 const createAuthenticatorOptions = (options = [], authenticators = []) => {
+  const authenticatorValues = authenticators.map(_.property('value'));
+
   return options.map(option => {
     const value = option.value && option.value.form && option.value.form.value || [];
+
+    // Each authenticator option has list of ION field.
+    // Currently we are only support merely selecting one of options
+    // rather than pop up another page to collection extra data
+    // (in order to fill value for `mutable: true; value: null` fields).
+    // The only reason of such design is to simplify widget implementation
+    // but could subject to change in later releases.
+    // Thus only surface up fields that are `required: true; mutable: false`
+    // which implies it already has `value`.
     const valueObject = value
-      // TODO:
-      // base on current API design, there maybe field that has
-      // required is true && muable is true, need to figure out
-      // later how to surface up to UI.
       .filter(v => v.required === true && v.mutable === false)
       .reduce((init, v) => {
         return Object.assign(init, {[v.name]: v.value});
       }, {});
-    const authenticator = authenticators.find(auth => {
-      return auth.authenticatorId === valueObject.id;
+    const authenticator = authenticatorValues.find(auth => {
+      return auth.id === valueObject.id;
     }) || {};
 
     return {
       label: option.label,
       value: valueObject,
-      authenticatorType: authenticator.authenticatorType
+      authenticatorType: authenticator.type,
     };
   });
 };
 
+/**
+ * @typedef {Object} IONForm
+ * @property {string} name
+ * @property {string[]} rel
+ * @property {string} method
+ * @property {string} href
+ * @property {string} accepts
+ * @property {IONFormField[]} value
+ */
 /**
  * @typedef {Object} IONFormField
  * @property {string} name
@@ -110,14 +150,16 @@ const createAuthenticatorOptions = (options = [], authenticators = []) => {
 
 /**
  *
- * @param {IONFormField[]} remediationValue
- * @param {factor[]} factors
+ * @param {AuthResult} transformedResp
+ * @param {IONForm} remeditationForml
  */
-const createUISchema = (remediationValue = [], factors = [], authenticators = []) => {
+const createUISchema = (transformedResp, remediationForm) => {
+  /* eslint complexity: [2, 14] */
+
   // For cases where field itself is a form, it has a formname and we are appending the formname to each field
   // This is so that while making the request we can bundle these key:value pairs under the same key name
   // For simplicity we are assuming that when field itself is a form its only one level deep
-  remediationValue = _.chain(remediationValue)
+  const remediationValue = _.chain(remediationForm.value || [])
     .map(v => {
       if (v.form) {
         const inputGroupName = v.name;
@@ -132,6 +174,7 @@ const createUISchema = (remediationValue = [], factors = [], authenticators = []
     .value();
   return remediationValue.map(ionFormField => {
     const uiSchema = {
+      'label-top': true,
       type: 'text',
     };
     if (ionFormField.secret === true) {
@@ -145,13 +188,27 @@ const createUISchema = (remediationValue = [], factors = [], authenticators = []
     // we get back factorId
     if (ionFormField.name === 'factorId' ||
       ionFormField.name === 'factorProfileId') {
+      const factors = transformedResp.factors && transformedResp.factors.value || [];
       uiSchema.type = 'factorSelect';
       uiSchema.options = createFactorTypeOptions(ionFormField.options, factors);
     }
 
     // similar to `factorId` but `authenticator` is a new way to model factors
     // hence it has different structure
-    if (ionFormField.name === 'authenticator') {
+    if (ionFormField.name === 'authenticator'
+        && remediationForm.name === 'select-authenticator-authenticate') {
+      const authenticators = transformedResp.authenticatorEnrollments
+            && transformedResp.authenticatorEnrollments.value || [];
+
+      uiSchema.type = 'authenticatorSelect';
+      uiSchema.options = createAuthenticatorOptions(ionFormField.options, authenticators);
+    }
+
+    if (ionFormField.name === 'authenticator'
+        && remediationForm.name === 'select-authenticator-enroll') {
+      const authenticators = transformedResp.authenticators
+            && transformedResp.authenticators.value || [];
+      // TODO: OKTA-302497: use different type for enrollment flow.
       uiSchema.type = 'authenticatorSelect';
       uiSchema.options = createAuthenticatorOptions(ionFormField.options, authenticators);
     }
@@ -170,11 +227,8 @@ const createUISchema = (remediationValue = [], factors = [], authenticators = []
  */
 const insertUISchema = (transformedResp) => {
   if (transformedResp) {
-    const factors = transformedResp.factors && transformedResp.factors.value || [];
-    const authenticators = transformedResp.authenticators && transformedResp.authenticators.value || [];
-
     transformedResp.remediations = transformedResp.remediations.map(obj => {
-      obj.uiSchema = createUISchema(obj.value, factors, authenticators);
+      obj.uiSchema = createUISchema(transformedResp, obj);
       return obj;
     });
   }
