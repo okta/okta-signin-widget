@@ -82,7 +82,7 @@ function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Uti
 
         return FactorUtil.getPasswordComplexityDescription(policy);
       },
-      parseErrorMessage: function(responseJSON) {
+      parseErrorMessage: function (responseJSON) {
         var policy = this.options.appState.get('policy');
         if (!!policy && this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
           /*

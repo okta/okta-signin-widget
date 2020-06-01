@@ -62,7 +62,7 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, Util, Foot
 
         return FactorUtil.getPasswordComplexityDescription(policy);
       },
-      parseErrorMessage: function(responseJSON) {
+      parseErrorMessage: function (responseJSON) {
         var policy = this.options.appState.get('policy');
         if (!!policy && this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
           /*

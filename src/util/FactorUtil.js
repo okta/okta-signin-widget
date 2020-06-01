@@ -348,8 +348,12 @@ function (Okta, TimeUtil) {
 
   fn.removeRequirementsFromError = function (responseJSON, policy) {
     var passwordRequirementsAsString = this.getPasswordComplexityDescription(policy);
-    responseJSON.errorCauses[0].errorSummary = responseJSON.errorCauses[0].errorSummary
+    if (responseJSON.errorCauses
+        && responseJSON.errorCauses.length > 0
+        && _.isString(responseJSON.errorCauses[0].errorSummary)) {
+      responseJSON.errorCauses[0].errorSummary = responseJSON.errorCauses[0].errorSummary
         .replace(passwordRequirementsAsString, '').trim();
+    }
     return responseJSON;
   };
 
