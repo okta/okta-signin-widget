@@ -151,7 +151,7 @@ const createAuthenticatorOptions = (options = [], authenticators = []) => {
 /**
  *
  * @param {AuthResult} transformedResp
- * @param {IONForm} remeditationForml
+ * @param {IONForm} remeditationForm
  */
 const createUISchema = (transformedResp, remediationForm) => {
   /* eslint complexity: [2, 14] */
