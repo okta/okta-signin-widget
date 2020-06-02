@@ -81,19 +81,17 @@
     "type": "array",
     "value": [
       {
-        "label": "aaaaa",
+        "label": "Okta Password",
         "value": {
           "type": "password",
-          "id": "autwa6eD9o02iBbtv0g3",
-          "name": "Okta Password"
+          "id": "autwa6eD9o02iBbtv0g3"
         }
       },
       {
-        "label": "bbb",
+        "label": "Security Key or Biometric Authenticator (FIDO2)",
         "value": {
           "type": "webauthn",
-          "id": "aidtheidkwh282hv8g3",
-          "name": "Security Key or Biometric Authenticator (FIDO2)"
+          "id": "aidtheidkwh282hv8g3"
         }
       }
     ]

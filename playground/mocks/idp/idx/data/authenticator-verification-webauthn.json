@@ -142,30 +142,27 @@
     "type": "array",
     "value": [
       {
-        "label": "aaa",
+        "label": "Okta Password",
         "value": {
           "type": "password",
           "authenticatorId": "autwa6eD9o02iBbtv0g1",
-          "id": "aidwboITrg4b4yAYd0g3",
-          "name": "Okta Password"
+          "id": "aidwboITrg4b4yAYd0g3"
         }
       },
       {
-        "label": "bbb",
+        "label": "Security Key or Biometric Authenticator (FIDO2)",
         "value": {
           "type": "webauthn",
           "authenticatorId": "autwa6eD9o02iBbtv0g2",
-          "id": "aidtheidkwh282hv8g3",
-          "name": "Security Key or Biometric Authenticator (FIDO2)"
+          "id": "aidtheidkwh282hv8g3"
         }
       },
       {
-        "label": "ccc",
+        "label": "Okta Email",
         "value": {
           "type": "email",
           "id": "aidtm56L8gXXHI1SD0g3",
           "authenticatorId": "autwa6eD9o02iBbtv0g3",
-          "name": "Okta Email",
           "methods": [
             {
               "methodType": "email"
@@ -177,7 +174,7 @@
   },
   "currentAuthenticator": {
     "type": "object",
-    "label": "bbb",
+    "label": "Security Key or Biometric Authenticator (FIDO2)",
     "value": {
       "profile": {
         "name": "Security Key or Biometric Authenticator (FIDO2)"
