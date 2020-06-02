@@ -86,7 +86,7 @@ export default Router.extend({
     // TODO: OKTA-244631 How to suface up the CORS error in IDX?
     // Since in new pipeline, it invokes introspect API first
     // hence no way to call GlobalError when CORS failure.
-    this.listenTo(this.appState, 'change:remediationFailure', function (appState, err) {
+    this.listenTo(this.appState, 'change:introspectError', function (appState, err) {
       // Global error handling for CORS enabled errors
       if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
         this.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
@@ -97,24 +97,20 @@ export default Router.extend({
       this.defaultAuth();
     });
 
-    this.listenTo(this.appState, 'change:introspectSuccess', function (appState, trans) {
-      //transfer introspectSuccess into remediationSuccess response
-      // `data` attribute is added by auth-js Transaction Class as the 'original response'
-      // but it's not useful in idx pipeline which has own way to keep the
-      // original response in AppState(`__rawResponse`)
-      this.appState.trigger('remediationSuccess', _.omit(trans, 'data'));
+    this.listenTo(this.appState, 'change:introspectSuccess', function (appState, idxResponse) {
+      this.appState.trigger('remediationSuccess', idxResponse);
     });
 
     this.listenTo(this.appState, 'remediationSuccess', this.handleRemediationSuccess);
 
   },
 
-  handleRemediationSuccess: function () {
+  handleRemediationSuccess: function (idxResponse) {
     // transform response
     const ionResponse = _.compose(
       uiSchemaTransformer,
       responseTransformer
-    )(this.appState.get('idx'));
+    )(idxResponse);
     this.appState.setIonResponse(ionResponse);
   },
 

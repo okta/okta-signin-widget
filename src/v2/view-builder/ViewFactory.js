@@ -15,6 +15,9 @@ import SuccessView from './views/SuccessView';
 import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
 import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
 
+// phone
+import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
+
 //webauthn
 import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnView';
 
@@ -63,6 +66,9 @@ const VIEWS_MAPPING = {
   },
   'select-authenticator-enroll': {
     [DEFAULT]: SelectFactorEnrollView,
+  },
+  'select-authenticator-enroll-data': {
+    phone: EnrollAuthenticatorPhoneView,
   },
   'enroll-authenticator': {
     password: EnrollFactorPasswordView,

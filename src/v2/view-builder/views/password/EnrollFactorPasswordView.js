@@ -18,6 +18,7 @@ const Body = BaseForm.extend({
         name: 'confirmPassword',
         label: loc('password.confirmPassword.placeholder','login'),
         type: 'password',
+        'label-top': true,
         params: {
           showPasswordToggle: true
         }
@@ -46,7 +47,7 @@ export default BaseFactorView.extend({
       validate: function () {
         if (this.get('credentials.passcode') !== this.get('confirmPassword') &&
           this.get('credential.value') !== this.get('confirmPassword')) {
-          
+
           var ret = {};
           ret['confirmPassword'] = loc('password.error.match', 'login');
           return ret;

@@ -14,14 +14,13 @@ import '../../views/shared/FooterWithBackLink';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 
-
 export default Controller.extend({
   className: 'form-controller',
 
   initialize: function () {
     Controller.prototype.initialize.call(this);
 
-    this.listenTo(this.options.appState, 'idxResponseUpdated', this.render);
+    this.listenTo(this.options.appState, 'change:currentFormName', this.render);
     this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
     this.listenTo(this.options.appState, 'switchForm', this.switchForm);
     this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
@@ -41,7 +40,6 @@ export default Controller.extend({
     this.formView = this.add(TheView, {
       options: {
         currentViewState,
-        messages: this.options.appState.get('messages'),
       }
     }).last();
 
@@ -51,10 +49,8 @@ export default Controller.extend({
   invokeAction (actionPath = '') {
     const idx = this.options.appState.get('idx');
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
-      idx.proceed(actionPath, {}).then((resp) => {
-        this.options.appState.set('idx', resp);
-        this.options.appState.trigger('remediationSuccess', resp.rawIdxState);
-      })
+      idx.proceed(actionPath, {})
+        .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
           throw error;
         });
@@ -68,10 +64,7 @@ export default Controller.extend({
       // 1. what's the approach to show spinner indicating API in fligh?
       // 2. how to catch error?
       actionFn()
-        .then(resp => {
-          this.options.appState.set('idx', resp);
-          this.options.appState.trigger('remediationSuccess', resp.rawIdxState);
-        })
+        .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
           throw error;
         });
@@ -83,7 +76,6 @@ export default Controller.extend({
   switchForm (formName) {
     // trigger formname change to change view
     this.options.appState.set('currentFormName', formName);
-    this.options.appState.trigger('idxResponseUpdated', formName);
   },
 
   handleFormSave (model) {
@@ -96,7 +88,7 @@ export default Controller.extend({
     this.toggleFormButtonState(true);
     model.trigger('request');
     return idx.proceed(formName, model.toJSON())
-      .then(resp => this.updateAppStateWithNewIdx(resp))
+      .then(this.handleIdxSuccess.bind(this))
       .catch(error => {
         if (error.proceed && error.rawIdxState) {
           // Okta server responds 401 status code with WWW-Authenticate header and new remediation
@@ -104,7 +96,7 @@ export default Controller.extend({
           // the response reaches here when Okta Verify is not installed
           // we need to return an idx object so that
           // the SIW can proceed to the next step without showing error
-          this.updateAppStateWithNewIdx(error);
+          this.handleIdxSuccess(error);
         } else {
           this.showFormErrors(model, error);
         }
@@ -122,9 +114,8 @@ export default Controller.extend({
     this.toggleFormButtonState(false);
   },
 
-  updateAppStateWithNewIdx: function (idxResp) {
-    this.options.appState.set('idx', idxResp);
-    this.options.appState.trigger('remediationSuccess', idxResp.rawIdxState);
+  handleIdxSuccess: function (idxResp) {
+    this.options.appState.trigger('remediationSuccess', idxResp);
   },
 
   /**

@@ -154,7 +154,7 @@ const createAuthenticatorOptions = (options = [], authenticators = []) => {
  * @param {IONForm} remeditationForm
  */
 const createUISchema = (transformedResp, remediationForm) => {
-  /* eslint complexity: [2, 15] */
+  /* eslint complexity: [2, 16] */
 
   // For cases where field itself is a form, it has a formname and we are appending the formname to each field.
   // Sort of flat the structure in order to align Courage flatten Model. The flatten structure will be converted
@@ -162,9 +162,16 @@ const createUISchema = (transformedResp, remediationForm) => {
   // For simplicity we are assuming that when field itself is a form its only one level deep.
   const remediationValue = _.chain(remediationForm.value || [])
     .map(v => {
+      // `v.form` is probably not right structure but `v.value.form`
+      // TODO: clean up after API stablization.
       if (v.form) {
         const inputGroupName = v.name;
         return v.form.value.map(input => {
+          return Object.assign({}, input, { name: inputGroupName + '.' + input.name });
+        });
+      } else if (v.value && v.value.form) {
+        const inputGroupName = v.name;
+        return v.value.form.value.map(input => {
           return Object.assign({}, input, { name: inputGroupName + '.' + input.name });
         });
       } else {
@@ -216,6 +223,11 @@ const createUISchema = (transformedResp, remediationForm) => {
     if (ionFormField.secret === true) {
       Object.assign(uiSchema, getPasswordUiSchema());
     }
+
+    if (Array.isArray(ionFormField.options)) {
+      uiSchema.type = 'radio';
+    }
+
     // select factor form for multiple factor enroll and multiple factor verify
     // when factor has not been enrolled we get back factorProfileId, and once its enrolled
     // we get back factorId
