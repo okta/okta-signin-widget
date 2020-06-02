@@ -7,7 +7,7 @@
   "remediation":{
      "type":"array",
      "value":[
-          {
+        {
             "rel":[
               "create-form"
             ],

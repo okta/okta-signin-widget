@@ -1,7 +1,7 @@
 import { _ } from 'okta';
 import responseTransformer from 'v2/ion/responseTransformer';
 import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';
-import identifyResponse from '../../../../../playground/mocks/idp/idx/data/identify.json';
+import XHRIdentifyResponse from '../../../../../playground/mocks/idp/idx/data/identify.json';
 import XHREnrollProfile from '../../../../../playground/mocks/idp/idx/data/enroll-profile.json';
 import XHRFactorRequiredEmail  from '../../../../../playground/mocks/idp/idx/data/factor-verification-email.json';
 import XHRFactorEnrollOptions from '../../../../../playground/mocks/idp/idx/data/factor-enroll-options.json';
@@ -681,139 +681,60 @@ describe('v2/ion/uiSchemaTransformer', function () {
   });
 
   it('converts identify remidiation response', () => {
-    const rawIdentifyResponse = identifyResponse;
+    const rawIdentifyResponse = XHRIdentifyResponse;
     const transformedResponse  = {
-      'remediations': [
-        {
-          'name': 'identify',
-          'href': 'http://localhost:3000/idp/idx/identify',
-          'method': 'post',
-          'value': [
-            {
-              'name': 'identifier',
-              'label': 'Username',
-              'method': 'post'
-            },
-            {
-              'name': 'rememberMe',
-              'label': 'Remember Me',
-              'type': 'boolean',
-              'method': 'post'
-            }
-          ]
-        },
-        {
-          'name': 'select-enroll-profile',
-          'href': 'http://localhost:3000/idp/idx/enroll',
-          'method': 'post',
-          'value': []
-        }
-      ],
-      'neededToProceed': identifyResponse.remediation.value,
+      'neededToProceed': XHRIdentifyResponse.remediation.value,
       'actions': {},
-      'context': identifyResponse.context,
-      'rawIdxState': rawIdentifyResponse
+      'context': _.omit(XHRIdentifyResponse, 'remediation', 'cancel'),
+      'rawIdxState': rawIdentifyResponse,
     };
-
-    // Overriding to a smaller string locally for easy testing.
-    transformedResponse.context.value[0].value = 'asdf97987asdfasdf';
 
     const result = _.compose(uiSchemaTransformer, responseTransformer)(transformedResponse);
     expect(result).toEqual({
-      'remediations':[
+      'neededToProceed': XHRIdentifyResponse.remediation.value,
+      'actions': {},
+      'context': _.omit(XHRIdentifyResponse, 'remediation', 'cancel'),
+      'rawIdxState': rawIdentifyResponse,
+      'remediations': [
         {
           'name':'identify',
           'href':'http://localhost:3000/idp/idx/identify',
-          'method':'post',
+          'method':'POST',
           'value':[
             {
               'name':'identifier',
-              'label':'Username',
-              'method':'post'
+              'label':'Username'
             },
             {
               'name':'rememberMe',
               'label':'Remember Me',
-              'type':'boolean',
-              'method':'post'
+              'type':'boolean'
             }
           ],
           'uiSchema':[
             {
               'name':'identifier',
               'label':'Username',
-              'method':'post',
-              'type':'text',
+              'type':'text'
             },
             {
               'name':'rememberMe',
               'label':false,
               'type':'checkbox',
-              'method':'post',
-              'modelType':'boolean',
               'placeholder':'Remember Me',
-              'required': false,
+              'modelType':'boolean',
+              'required':false
             }
           ]
         },
         {
           'name':'select-enroll-profile',
           'href':'http://localhost:3000/idp/idx/enroll',
-          'method':'post',
-          'value':[
-    
-          ],
-          'uiSchema':[
-    
-          ]
-        }
-      ],
-      'neededToProceed':[
-        {
-          'rel':[ 'create-form'],
-          'name':'identify',
-          'href':'http://localhost:3000/idp/idx/identify',
           'method':'POST',
-          'accepts':'application/vnd.okta.v1+json',
-          'value':[
-            {
-              'name':'identifier',
-              'label':'Username',
-            },
-            {
-              'name':'rememberMe',
-              'label':'Remember Me',
-              'type':'boolean',
-            }
-          ]
-        },
-        {
-          'rel':[ 'create-form' ],
-          'name':'select-enroll-profile',
-          'href':'http://localhost:3000/idp/idx/enroll',
-          'method':'POST',
-          'accepts':'application/vnd.okta.v1+json',
           'value':[],
+          'uiSchema':[]
         }
-      ],
-      'actions':{},
-      'context':{
-        'rel': [ 'create-form' ],
-        'name': 'context',
-        'href': 'http://localhost:3000/idp/idx/context',
-        'method': 'POST',
-        'accepts': 'application/vnd.okta.v1+json',
-        'value': [
-          {
-            'name': 'stateHandle',
-            'required': true,
-            'value': 'asdf97987asdfasdf',
-            'visible': false,
-            'mutable': false,
-          }
-        ],
-      },
-      'rawIdxState': rawIdentifyResponse
+      ]
     });
   });
 });
