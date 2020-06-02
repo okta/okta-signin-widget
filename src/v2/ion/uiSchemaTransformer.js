@@ -178,6 +178,19 @@ const createUISchema = (transformedResp, remediationForm) => {
       'label-top': true,
       type: 'text',
     };
+
+    if (ionFormField.name === 'rememberMe') { 
+      // For Remember Me checkbox, we need the label only on the right side of it.
+      uiSchema.placeholder = ionFormField.label;
+      uiSchema.label = false;
+      // Separating prop type for Backbone.Model
+      // from html input type
+      uiSchema.modelType = ionFormField.type;
+      // uiSchema type is the html input type desired.
+      uiSchema.type = 'checkbox';
+      
+    }
+
     if (ionFormField.secret === true) {
       uiSchema.type = 'password';
       uiSchema.params = {

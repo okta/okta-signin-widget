@@ -1,7 +1,7 @@
 import { _ } from 'okta';
 import responseTransformer from 'v2/ion/responseTransformer';
 import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';
-
+import identifyResponse from '../../../../../playground/mocks/idp/idx/data/identify.json';
 import XHREnrollProfile from '../../../../../playground/mocks/idp/idx/data/enroll-profile.json';
 import XHRFactorRequiredEmail  from '../../../../../playground/mocks/idp/idx/data/factor-verification-email.json';
 import XHRFactorEnrollOptions from '../../../../../playground/mocks/idp/idx/data/factor-enroll-options.json';
@@ -10,6 +10,178 @@ import XHRAuthenticatorEnrollOptions  from '../../../../../playground/mocks/idp/
 
 
 describe('v2/ion/uiSchemaTransformer', function () {
+  it('converts identify remidiation response', () => {
+    const rawIdentifyResponse = identifyResponse;
+    const transformedResponse  = {
+      'remediations': [
+        {
+          'name': 'identify',
+          'href': 'http://localhost:3000/idp/idx/identify',
+          'method': 'post',
+          'value': [
+            {
+              'name': 'identifier',
+              'label': 'Username',
+              'method': 'post'
+            },
+            {
+              'name': 'rememberMe',
+              'label': 'Remember Me',
+              'type': 'boolean',
+              'method': 'post'
+            }
+          ]
+        },
+        {
+          'name': 'select-enroll-profile',
+          'href': 'http://localhost:3000/idp/idx/enroll',
+          'method': 'post',
+          'value': []
+        }
+      ],
+      'neededToProceed': [
+        {
+          'rel': [
+            'create-form'
+          ],
+          'name': 'identify',
+          'href': 'http://localhost:3000/idp/idx/identify',
+          'method': 'post',
+          'accepts': 'application/vnd.okta.v1+json',
+          'value': [
+            {
+              'name': 'identifier',
+              'label': 'Username',
+              'method': 'post'
+            },
+            {
+              'name': 'rememberMe',
+              'label': 'Remember Me',
+              'type': 'boolean',
+              'method': 'post'
+            }
+          ]
+        },
+        {
+          'rel': [
+            'create-form'
+          ],
+          'name': 'select-enroll-profile',
+          'href': 'http://localhost:3000/idp/idx/enroll',
+          'method': 'post',
+          'accepts': 'application/vnd.okta.v1+json',
+          'value': []
+        }
+      ],
+      'actions': {},
+      'context': {
+        'stateHandle': 'asdf97987asdfasdf',
+        'version': '1.0.0',
+        'expiresAt': '2020-04-13T20:30:53.000Z',
+        'step': 'IDENTIFY',
+        'intent': 'LOGIN'
+      },
+      'rawIdxState': rawIdentifyResponse
+    };
+    const result = _.compose(uiSchemaTransformer, responseTransformer)(transformedResponse);
+    expect(result).toEqual({
+      'remediations':[
+        {
+          'name':'identify',
+          'href':'http://localhost:3000/idp/idx/identify',
+          'method':'post',
+          'value':[
+            {
+              'name':'identifier',
+              'label':'Username',
+              'method':'post'
+            },
+            {
+              'name':'rememberMe',
+              'label':'Remember Me',
+              'type':'boolean',
+              'method':'post'
+            }
+          ],
+          'uiSchema':[
+            {
+              'name':'identifier',
+              'label':'Username',
+              'method':'post',
+              'type':'text',
+            },
+            {
+              'name':'rememberMe',
+              'label':false,
+              'type':'checkbox',
+              'method':'post',
+              'modelType':'boolean',
+              'placeholder':'Remember Me'
+            }
+          ]
+        },
+        {
+          'name':'select-enroll-profile',
+          'href':'http://localhost:3000/idp/idx/enroll',
+          'method':'post',
+          'value':[
+    
+          ],
+          'uiSchema':[
+    
+          ]
+        }
+      ],
+      'neededToProceed':[
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'identify',
+          'href':'http://localhost:3000/idp/idx/identify',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+            {
+              'name':'identifier',
+              'label':'Username',
+              'method':'post'
+            },
+            {
+              'name':'rememberMe',
+              'label':'Remember Me',
+              'type':'boolean',
+              'method':'post'
+            }
+          ]
+        },
+        {
+          'rel':[
+            'create-form'
+          ],
+          'name':'select-enroll-profile',
+          'href':'http://localhost:3000/idp/idx/enroll',
+          'method':'post',
+          'accepts':'application/vnd.okta.v1+json',
+          'value':[
+    
+          ]
+        }
+      ],
+      'actions':{
+    
+      },
+      'context':{
+        'stateHandle':'asdf97987asdfasdf',
+        'version':'1.0.0',
+        'expiresAt':'2020-04-13T20:30:53.000Z',
+        'step':'IDENTIFY',
+        'intent':'LOGIN'
+      },
+      'rawIdxState': rawIdentifyResponse
+    });
+  });
+
   it('converts factor require email', () => {
     const rawFactorRequiredEmailResponse = XHRFactorRequiredEmail;
     const transformedResponse  = {
