@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 46], max-statements: [2, 40] */
+/* eslint complexity: [2, 47], max-statements: [2, 40] */
 define([
   'okta',
   './OAuth2Util',
@@ -207,6 +207,9 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       } else {
         router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
       }
+      return;
+    case 'ADMIN_CONSENT_REQUIRED':
+      router.navigate('signin/consent', {trigger: true});
       return;
     case 'CONSENT_REQUIRED':
       if (router.settings.get('features.consent')) {
