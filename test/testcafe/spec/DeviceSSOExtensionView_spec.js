@@ -1,10 +1,10 @@
 import { RequestLogger, RequestMock, ClientFunction, Selector } from 'testcafe';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import identifyWithAppleRedirectSSOExtension from '../../../playground/mocks/idp/idx/data/identify-with-apple-redirect-sso-extension';
-import identifyWithAppleCredentialSSOExtension from '../../../playground/mocks/idp/idx/data/identify-with-apple-credential-sso-extension';
-import identifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/idp/idx/data/identify-with-no-sso-extension';
-import identify from '../../../playground/mocks/idp/idx/data/identify';
+import identifyWithAppleRedirectSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-apple-redirect-sso-extension';
+import identifyWithAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-apple-credential-sso-extension';
+import identifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-no-sso-extension';
+import identify from '../../../playground/mocks/data/idp/idx/identify';
 
 const logger = RequestLogger(/introspect/);
 const verifyUrl = `http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?\
@@ -33,7 +33,7 @@ const credentialSSOExtensionMock = RequestMock()
   .onRequestTo(verifyUrl)
   .respond(identify);
 
-const credentialSSONotExistLogger = RequestLogger(/introspect|verify\/cancel/); 
+const credentialSSONotExistLogger = RequestLogger(/introspect|verify\/cancel/);
 const credentialSSONotExistMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithNoAppleCredentialSSOExtension)
