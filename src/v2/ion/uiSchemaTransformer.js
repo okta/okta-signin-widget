@@ -156,9 +156,10 @@ const createAuthenticatorOptions = (options = [], authenticators = []) => {
 const createUISchema = (transformedResp, remediationForm) => {
   /* eslint complexity: [2, 14] */
 
-  // For cases where field itself is a form, it has a formname and we are appending the formname to each field
-  // This is so that while making the request we can bundle these key:value pairs under the same key name
-  // For simplicity we are assuming that when field itself is a form its only one level deep
+  // For cases where field itself is a form, it has a formname and we are appending the formname to each field.
+  // Sort of flat the structure in order to align Courage flatten Model. The flatten structure will be converted
+  // back to object hierarchy through `Model.toJSON`.
+  // For simplicity we are assuming that when field itself is a form its only one level deep.
   const remediationValue = _.chain(remediationForm.value || [])
     .map(v => {
       if (v.form) {
