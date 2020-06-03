@@ -2,10 +2,6 @@ import { Collection, _ } from 'okta';
 import FactorOptions from '../components/FactorOptions';
 import FactorUtil from '../../util/FactorUtil';
 
-const changeLabelToTop = (opt) => {
-  return Object.assign({}, opt, { 'label-top': true });
-};
-
 const createFactorSelectView = (opt) => {
   var optionItems = (opt.options || [])
     .map(opt => {
@@ -35,8 +31,6 @@ const createAuthenticatorSelectView = (opt) => {
 };
 
 const inputCreationStrategy = {
-  text: changeLabelToTop,
-  password: changeLabelToTop,
   factorSelect: createFactorSelectView,
   authenticatorSelect: createAuthenticatorSelectView,
 };

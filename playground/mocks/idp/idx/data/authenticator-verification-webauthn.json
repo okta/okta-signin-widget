@@ -2,7 +2,6 @@
   "stateHandle": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
   "version": "1.0.0",
   "expiresAt": "2020-05-05T16:58:36.000Z",
-  "step": "AUTHENTICATE",
   "intent": "LOGIN",
   "remediation": {
     "type": "array",
@@ -139,40 +138,49 @@
       }
     ]
   },
-  "authenticators": {
+  "authenticatorEnrollments": {
     "type": "array",
     "value": [
       {
-        "authenticatorType": "password",
-        "authenticatorId": "autwa6eD9o02iBbtv0g3",
-        "authenticatorEnrollmentId": "aenwboITrg4b4yAYd0g3",
-        "authenticatorName": "Okta Password"
+        "label": "Okta Password",
+        "value": {
+          "type": "password",
+          "authenticatorId": "autwa6eD9o02iBbtv0g1",
+          "id": "aidwboITrg4b4yAYd0g3"
+        }
       },
       {
-        "authenticatorType": "webauthn",
-        "authenticatorId": "aidtheidkwh282hv8g3",
-        "authenticatorName": "Security Key or Biometric Authenticator (FIDO2)"
+        "label": "Security Key or Biometric Authenticator (FIDO2)",
+        "value": {
+          "type": "webauthn",
+          "authenticatorId": "autwa6eD9o02iBbtv0g2",
+          "id": "aidtheidkwh282hv8g3"
+        }
       },
       {
-        "authenticatorType": "email",
-        "authenticatorId": "aidtm56L8gXXHI1SD0g3",
-        "authenticatorName": "Okta Email",
-        "methods": [
-          {
-            "methodType": "email"
-          }
-        ]
+        "label": "Okta Email",
+        "value": {
+          "type": "email",
+          "id": "aidtm56L8gXXHI1SD0g3",
+          "authenticatorId": "autwa6eD9o02iBbtv0g3",
+          "methods": [
+            {
+              "methodType": "email"
+            }
+          ]
+        }
       }
     ]
   },
-  "authenticator": {
+  "currentAuthenticator": {
     "type": "object",
+    "label": "Security Key or Biometric Authenticator (FIDO2)",
     "value": {
       "profile": {
         "name": "Security Key or Biometric Authenticator (FIDO2)"
       },
-      "authenticatorType": "webauthn",
-      "authenticatorId": "aidtheidkwh282hv8g3"
+      "type": "webauthn",
+      "id": "aidtm56L8gXXHI1SD0g3"
     }
   },
   "user": {
@@ -187,24 +195,6 @@
     ],
     "name": "cancel",
     "href": "http://localhost:3000/idp/idx/cancel",
-    "method": "POST",
-    "accepts": "application/vnd.okta.v1+json",
-    "value": [
-      {
-        "name": "stateHandle",
-        "required": true,
-        "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
-        "visible": false,
-        "mutable": false
-      }
-    ]
-  },
-  "context": {
-    "rel": [
-      "create-form"
-    ],
-    "name": "context",
-    "href": "http://localhost:3000/idp/idx/context",
     "method": "POST",
     "accepts": "application/vnd.okta.v1+json",
     "value": [
