@@ -37,7 +37,6 @@ export default Controller.extend({
     const TheView = ViewFactory.create(
       currentViewState.name,
       this.options.appState.get('authenticatorType'),
-      this.options.appState.get('currentStep'),
     );
     this.formView = this.add(TheView, {
       options: {
