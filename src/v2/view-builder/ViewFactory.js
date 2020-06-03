@@ -10,6 +10,7 @@ import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
 import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
 import SuccessView from './views/SuccessView';
+
 // password
 import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
 import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
@@ -37,10 +38,6 @@ const VIEWS_MAPPING = {
   },
   'cancel-transaction': {
     [DEFAULT]: SSOExtensionView,
-  },
-  'select-factor': { //DEPRECATED: temporary backwards compatibility
-    authenticate: SelectFactorAuthenticateView,
-    enroll: SelectFactorEnrollView
   },
   'select-factor-authenticate': {
     [DEFAULT]: SelectFactorAuthenticateView,
@@ -98,7 +95,7 @@ const VIEWS_MAPPING = {
 };
 
 module.exports = {
-  create (formName, factorType = DEFAULT, step) {
+  create (formName, factorType = DEFAULT) {
     const config = VIEWS_MAPPING[formName];
     if (!config) {
       Logger.warn(`Cannot find customized View (form: ${formName}). Fallback to default configuration.`);
@@ -108,8 +105,7 @@ module.exports = {
         return BaseView;
       }
     }
-    // look for customized view by step, then by factor, if not found then use DEFAULT
-    const View = config[step] || config[factorType] || config[DEFAULT];
+    const View = config[factorType] || config[DEFAULT];
 
     if (!View) {
       Logger.warn(`Cannot find customized View (form: ${formName}, factor: ${factorType}). Fallback to BaseView.`);
