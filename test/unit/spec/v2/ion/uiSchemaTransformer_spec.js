@@ -3,13 +3,13 @@ import responseTransformer from 'v2/ion/responseTransformer';
 import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';
 import MockUtil from '../../../helpers/v2/MockUtil';
 
-import XHREnrollProfile from '../../../../../playground/mocks/idp/idx/data/enroll-profile.json';
-import XHRFactorRequiredEmail  from '../../../../../playground/mocks/idp/idx/data/factor-verification-email.json';
-import XHRFactorEnrollOptions from '../../../../../playground/mocks/idp/idx/data/factor-enroll-options.json';
-import XHRAuthenticatorRequiredEmail  from '../../../../../playground/mocks/idp/idx/data/authenticator-verification-email.json';
-import XHRAuthenticatorEnrollOptions  from '../../../../../playground/mocks/idp/idx/data/authenticator-select-enroll-options.json';
-import XHRAuthenticatorEnrollPhone  from '../../../../../playground/mocks/idp/idx/data/authenticator-enroll-phone.json';
-import XHRIdentifyResponse from '../../../../../playground/mocks/idp/idx/data/identify.json';
+import XHREnrollProfile from '../../../../../playground/mocks/data/idp/idx/enroll-profile.json';
+import XHRFactorRequiredEmail  from '../../../../../playground/mocks/data/idp/idx/factor-verification-email.json';
+import XHRFactorEnrollOptions from '../../../../../playground/mocks/data/idp/idx/factor-enroll-options.json';
+import XHRAuthenticatorRequiredEmail  from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-email.json';
+import XHRAuthenticatorEnrollOptions  from '../../../../../playground/mocks/data/idp/idx/authenticator-select-enroll-options.json';
+import XHRAuthenticatorEnrollPhone  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-phone.json';
+import XHRIdentifyResponse from '../../../../../playground/mocks/data/idp/idx/identify.json';
 
 describe('v2/ion/uiSchemaTransformer', function () {
   it('converts factor require email', (done) => {

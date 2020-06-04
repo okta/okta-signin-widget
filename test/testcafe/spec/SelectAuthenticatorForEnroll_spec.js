@@ -3,8 +3,8 @@ import { RequestMock } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectFactorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 
-import xhrSelectAuthenticators from '../../../playground/mocks/idp/idx/data/authenticator-select-enroll-options';
-import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/idp/idx/data/authenticator-enroll-password';
+import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-select-enroll-options';
+import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
 
 const mockEnrollAuthenticatorPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
