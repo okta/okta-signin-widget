@@ -11,21 +11,27 @@
  */
 import { _, Model} from 'okta';
 
-const covertIonFieldToProp = (ionField) => {
+// change the param to uiSchemaField instead..
+const convertUiSchemaFieldToProp = (uiSchemaField) => {
   const config = Object.assign(
     {},
-    _.chain(ionField)
+    _.chain(uiSchemaField)
       .pick('minLength', 'maxLength', 'required')
       .defaults({ type: 'string', required: true })
       .value()
   );
-  return { [ionField.name]: config };
+
+  if (uiSchemaField.modelType) {
+    config.type = uiSchemaField.modelType;
+  }
+
+  return { [uiSchemaField.name]: config };
 };
 
 const create = function (remediation = {}) {
   const value = remediation.uiSchema;
   const props = _.chain(value)
-    .map(covertIonFieldToProp)
+    .map(convertUiSchemaFieldToProp)
     .reduce((init, field) => {
       return Object.assign({}, init, field);
     })

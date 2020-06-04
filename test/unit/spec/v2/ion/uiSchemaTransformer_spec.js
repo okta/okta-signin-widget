@@ -1,7 +1,7 @@
 import { _ } from 'okta';
 import responseTransformer from 'v2/ion/responseTransformer';
 import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';
-
+import XHRIdentifyResponse from '../../../../../playground/mocks/idp/idx/data/identify.json';
 import XHREnrollProfile from '../../../../../playground/mocks/idp/idx/data/enroll-profile.json';
 import XHRFactorRequiredEmail  from '../../../../../playground/mocks/idp/idx/data/factor-verification-email.json';
 import XHRFactorEnrollOptions from '../../../../../playground/mocks/idp/idx/data/factor-enroll-options.json';
@@ -680,4 +680,63 @@ describe('v2/ion/uiSchemaTransformer', function () {
     });
   });
 
+  it('converts identify remidiation response', () => {
+    const rawIdentifyResponse = XHRIdentifyResponse;
+    const transformedResponse  = {
+      'neededToProceed': XHRIdentifyResponse.remediation.value,
+      'actions': {},
+      'context': _.omit(XHRIdentifyResponse, 'remediation', 'cancel'),
+      'rawIdxState': rawIdentifyResponse,
+    };
+
+    const result = _.compose(uiSchemaTransformer, responseTransformer)(transformedResponse);
+    expect(result).toEqual({
+      'neededToProceed': XHRIdentifyResponse.remediation.value,
+      'actions': {},
+      'context': _.omit(XHRIdentifyResponse, 'remediation', 'cancel'),
+      'rawIdxState': rawIdentifyResponse,
+      'remediations': [
+        {
+          'name':'identify',
+          'href':'http://localhost:3000/idp/idx/identify',
+          'method':'POST',
+          'value':[
+            {
+              'name':'identifier',
+              'label':'Username'
+            },
+            {
+              'name':'rememberMe',
+              'label':'Remember Me',
+              'type':'boolean'
+            }
+          ],
+          'uiSchema':[
+            {
+              'name':'identifier',
+              'label':'Username',
+              'type':'text',
+              'label-top': true,
+            },
+            {
+              'name':'rememberMe',
+              'label':false,
+              'type':'checkbox',
+              'placeholder':'Remember Me',
+              'modelType':'boolean',
+              'required':false,
+              'label-top': true,
+            }
+          ]
+        },
+        {
+          'name':'select-enroll-profile',
+          'href':'http://localhost:3000/idp/idx/enroll',
+          'method':'POST',
+          'value':[],
+          'uiSchema':[]
+        }
+      ]
+    });
+  });
 });
