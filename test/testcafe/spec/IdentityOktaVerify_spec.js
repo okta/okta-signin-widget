@@ -1,7 +1,7 @@
 import { RequestLogger, RequestMock, Selector } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import loopbackChallengeNotReceived from '../../../playground/mocks/idp/idx/data/identify-with-device-probing-loopback-challenge-not-received';
-import launchAuthenticatorOption from '../../../playground/mocks/idp/idx/data/identify-with-device-launch-authenticator';
+import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
+import launchAuthenticatorOption from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
 
 const logger = RequestLogger(/introspect/);
 

@@ -1,5 +1,5 @@
 const templateHelper = require('../../../config/templateHelper');
-const cancelTransaction = require('./data/identify-with-no-sso-extension');
+const cancelTransaction = require('../../../data/idp/idx/identify-with-no-sso-extension');
 
 const idx = [
   '/idp/idx',

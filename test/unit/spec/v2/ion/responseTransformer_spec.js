@@ -2,9 +2,9 @@ import 'jasmine-ajax';
 import transformResponse from 'v2/ion/responseTransformer';
 
 import MockUtil from '../../../helpers/v2/MockUtil';
-import XHRAuthenticatorRequiredEmail from '../../../../../playground/mocks/idp/idx/data/authenticator-verification-email.json';
-import XHRErrorIdentifyAccessDenied from '../../../../../playground/mocks/idp/idx/data/error-identify-access-denied.json';
-import XHRSuccess from '../../../../../playground/mocks/idp/idx/data/success.json';
+import XHRAuthenticatorRequiredEmail from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-email.json';
+import XHRErrorIdentifyAccessDenied from '../../../../../playground/mocks/data/idp/idx/error-identify-access-denied.json';
+import XHRSuccess from '../../../../../playground/mocks/data/idp/idx/success.json';
 
 describe('v2/ion/responseTransformer', function () {
 

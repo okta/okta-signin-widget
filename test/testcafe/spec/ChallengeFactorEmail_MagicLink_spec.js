@@ -1,8 +1,8 @@
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 import { RequestMock, RequestLogger } from 'testcafe';
-import magicLinkReturnTab from '../../../playground/mocks/idp/idx/data/terminal-return-email';
-import magicLinkExpired from '../../../playground/mocks/idp/idx/data/terminal-return-expired-email';
-import magicLinkEmailSent from '../../../playground/mocks/idp/idx/data/factor-verification-email';
+import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-return-email';
+import magicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
+import magicLinkEmailSent from '../../../playground/mocks/data/idp/idx/factor-verification-email';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 
 const magicLinkReturnTabMock = RequestMock()

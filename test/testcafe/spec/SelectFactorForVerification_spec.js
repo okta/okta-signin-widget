@@ -3,8 +3,8 @@ import { RequestMock } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectFactorPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
-import xhrSelectFactors from '../../../playground/mocks/idp/idx/data/select-factor-authenticate';
-import xhrFactorRequiredEmail from '../../../playground/mocks/idp/idx/data/factor-verification-email';
+import xhrSelectFactors from '../../../playground/mocks/data/idp/idx/select-factor-authenticate';
+import xhrFactorRequiredEmail from '../../../playground/mocks/data/idp/idx/factor-verification-email';
 
 const selectFactorsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
