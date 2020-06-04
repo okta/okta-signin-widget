@@ -13,6 +13,9 @@
 import { _, Model } from 'okta';
 import Logger from 'util/Logger';
 
+/**
+ * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
+ */
 export default Model.extend({
 
   local: {
@@ -24,7 +27,6 @@ export default Model.extend({
     currentFormName: 'string',
     idx: 'object',
     remediations: 'array',
-    __previousResponse: 'object'
   },
 
   derived: {
@@ -32,19 +34,19 @@ export default Model.extend({
       // While we're moving toward `authenticator` platform, but still
       // need to support `factor` for certain period.
       // Could remove `factor` after it's deprecated completely.
-      deps: ['currentAuthenticator', 'authenticatorEnrollment', 'factor'],
-      fn (currentAuthenticator = {}, authenticatorEnrollment = {}, factor = {}) {
+      deps: ['currentAuthenticator', 'enrollmentAuthenticator', 'factor'],
+      fn (currentAuthenticator = {}, enrollmentAuthenticator = {}, factor = {}) {
         return currentAuthenticator.profile
-          || authenticatorEnrollment.profile
+          || enrollmentAuthenticator.profile
           || factor.profile
           || {};
       },
     },
     authenticatorType: {
-      deps: ['currentAuthenticator', 'authenticatorEnrollment', 'factor'],
-      fn (currentAuthenticator = {}, authenticatorEnrollment = {}, factor = {}) {
+      deps: ['currentAuthenticator', 'enrollmentAuthenticator', 'factor'],
+      fn (currentAuthenticator = {}, enrollmentAuthenticator = {}, factor = {}) {
         return currentAuthenticator.type
-          || authenticatorEnrollment.type
+          || enrollmentAuthenticator.type
           || factor.factorType
           || '';
       },
@@ -101,29 +103,30 @@ export default Model.extend({
     return currentViewState;
   },
 
-  setIonResponse (idxResp) {
+  setIonResponse (transformedResponse) {
     // Don't re-render view if new response is same as last.
     // Usually happening at polling and pipeline doesn't proceed to next step.
     // expiresAt will be different for each response, hence compare objects without that property
-    if (_.isEqual(_.omit(idxResp.rawIdxState, 'expiresAt'), _.omit(this.get('__previousResponse'), 'expiresAt'))) {
+    const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
+    if (_.isEqual(_.omit(transformedResponse.idx.rawIdxState, 'expiresAt'), _.omit(previousRawState, 'expiresAt') )) {
       return;
     }
 
     // `currentFormName` is default to first form of remediation object or nothing.
-    idxResp.currentFormName = null;
+    transformedResponse.currentFormName = null;
 
-    if (idxResp.neededToProceed && idxResp.rawIdxState.remediation) {
-      idxResp.currentFormName = idxResp.rawIdxState.remediation.value[0].name;
+    if (!_.isEmpty(transformedResponse.remediations)) {
+      transformedResponse.currentFormName = transformedResponse.remediations[0].name;
     }
 
-    if (idxResp.rawIdxState.success) {
-      idxResp.currentFormName = idxResp.rawIdxState.success.name;
+    if (transformedResponse.success) {
+      transformedResponse.currentFormName = transformedResponse.success.name;
     }
 
     // default terminal state for fall back
     //TODO: This is a FailSafe, it needs to be removed later by this Jira: OKTA-300044
-    if (idxResp.context.terminal && _.isEmpty(idxResp.context.terminal.value)) {
-      idxResp.terminal = {
+    if (transformedResponse.idx.context.terminal && _.isEmpty(transformedResponse.idx.context.terminal.value)) {
+      transformedResponse.terminal = {
         name: 'terminal',
         value: [],
         uiSchema: [],
@@ -131,25 +134,19 @@ export default Model.extend({
     }
 
     // default terminal state for fall back
-    if (idxResp.context.messages) {
-      idxResp.terminal = {
+    if (transformedResponse.idx.context.messages) {
+      transformedResponse.terminal = {
         name: 'terminal',
-        value: idxResp.context.messages.value.length ? idxResp.context.messages.value : [],
+        value: transformedResponse.idx.context.messages.value && transformedResponse.idx.context.messages.value.length
+          ? transformedResponse.idx.context.messages.value
+          : [],
         uiSchema: [],
       };
     }
     //clear appState before setting new values
     this.clear({silent: true});
     // set new app state properties
-    this.set(idxResp);
-    // reset idx
-    this.set('idx', idxResp);
-    this.set('__previousResponse', idxResp.rawIdxState);
-
-    // broadcast idxResponseUpdated to re-render the view
-    this.trigger('idxResponseUpdated', idxResp);
+    this.set(transformedResponse);
   }
 
 });
-
-// Keep track of stateMachine with this special model. Similar to Appstate.js
