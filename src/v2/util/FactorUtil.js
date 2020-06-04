@@ -24,6 +24,13 @@ const factorData = {
     iconClassName: 'mfa-okta-password',
   },
 
+  'phone': {
+    label: loc('factor.phone', 'login'),
+    description: '',
+    // TODO: need new icon for `mfa-okta-phone`
+    iconClassName: 'mfa-okta-call',
+  },
+
   'webauthn': {
     label: loc('factor.webauthn', 'login'),
     description: '',
