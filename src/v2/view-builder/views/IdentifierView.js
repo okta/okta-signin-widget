@@ -57,4 +57,16 @@ const Footer = BaseFooter.extend({
 export default BaseView.extend({
   Body,
   Footer,
+
+  postRender () {
+    BaseView.prototype.postRender.apply(this, arguments);
+
+    // If user enterted identifier is not found, API sends back a message with a link to sign up
+    // This is the click handler for that link
+    const appState = this.options.appState;
+    this.$el.find('.js-sign-up').click(function () {
+      appState.trigger('invokeAction', 'select-enroll-profile');
+      return false;
+    });
+  },
 });

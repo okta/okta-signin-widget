@@ -47,7 +47,7 @@
         "value": [
           {
             "name": "factorId",
-            "type": "set",
+            "type": "string",
             "options": [
               {
                 "label": "Password",

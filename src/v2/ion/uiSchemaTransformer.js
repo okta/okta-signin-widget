@@ -15,16 +15,13 @@
  */
 import { _ } from 'okta';
 
-/**
- * @typedef {Object} FactorOption
- * @property {string} label Factor label
- * @property {string} value Factor ID
- */
-/**
- * @typedef {Object} Factor
- * @property {string} factorType
- * @property {string} factorId
- */
+const ionOptionsToUiOptions = (options) => {
+  const result = {};
+  options.forEach(({ value, label }) => {
+    result[value] = label;
+  });
+  return result;
+};
 
 /**
  * Adds `factorType` metadata to each select-factor option item using factors array
@@ -47,50 +44,6 @@ const createFactorTypeOptions = (options, factors) => {
   return options;
 };
 
-
-/**
- * @typedef {Object} Authenticator
- * @property {string} label
- * @property {AuthenticatorValue} value
- */
-/**
- * @typedef {Object} AuthenticatorValue
- * @property {string} type Authenticator Type
- * @property {string} id Authenticator Org Authenticator ID
- * @property {AuthenticatorMethod[]} methods
- */
-
-/**
- * @typedef {Object} AuthenticatorEnrollment
- * @property {string} label
- * @property {AuthenticatorEnrollmentValue} value
- */
-/**
- * @typedef {Object} AuthenticatorEnrollmentValue
- * @property {string} authenticatorId Org Authenticator ID
- * @property {string} type Authenticator Type
- * @property {string} id Authenticator Enrollment ID
- * @property {AuthenticatorMethod[]} methods
- */
-/**
- * @typedef {Object} AuthenticatorMethod
- * @property {string} type Authenticator method type
- */
-
-
-/**
- * @typedef {Object} AuthenticatorOption
- * @property {string} label
- * @property {Object} form
- * @property {AuthenticatorOption[]} form.value
- */
-/**
- * @typedef {Object} AuthenticatorOptionValue
- * @property {string} name
- * @property {boolean} required
- * @property {string} value
- * @property {boolean} mutable
- */
 /**
  * Example of the option like
  * @param {AuthenticatorOption[]} options
@@ -113,7 +66,7 @@ const createAuthenticatorOptions = (options = [], authenticators = []) => {
     const valueObject = value
       .filter(v => v.required === true && v.mutable === false)
       .reduce((init, v) => {
-        return Object.assign(init, {[v.name]: v.value});
+        return Object.assign(init, { [v.name]: v.value });
       }, {});
     const authenticator = authenticatorValues.find(auth => {
       return auth.id === valueObject.id;
@@ -127,26 +80,34 @@ const createAuthenticatorOptions = (options = [], authenticators = []) => {
   });
 };
 
-/**
- * @typedef {Object} IONForm
- * @property {string} name
- * @property {string[]} rel
- * @property {string} method
- * @property {string} href
- * @property {string} accepts
- * @property {IONFormField[]} value
- */
-/**
- * @typedef {Object} IONFormField
- * @property {string} name
- * @property {string=} type
- * @property {string=} required
- * @property {string=} secret
- * @property {string=} label
- * @property {Object[]} options
- * @property {Object=} form
- * @property {IONFormField[]} form.value
- */
+const getCheckboxUiSchema = ({ label, type, required }) => ({
+  // For Remember Me checkbox, we need the label only on the right side of it.
+  placeholder: label,
+  label: false,
+  // Separating prop type for Backbone.Model
+  // from html input type
+  modelType: type,
+  // uiSchema type is the html input type desired.
+  type: 'checkbox',
+  required: required || false,
+});
+
+const getPasswordUiSchema = () => ({
+  type: 'password',
+  params: {
+    showPasswordToggle: true,
+  },
+});
+
+const getFactorsUiSchema = ({ options }, factors) => ({
+  type: 'factorSelect',
+  options: createFactorTypeOptions(options, factors),
+});
+
+const getAuthenticatorsUiSchema = ({ options }, authenticators) => ({
+  type: 'authenticatorSelect',
+  options: createAuthenticatorOptions(options, authenticators),
+});
 
 /**
  *
@@ -154,13 +115,14 @@ const createAuthenticatorOptions = (options = [], authenticators = []) => {
  * @param {IONForm} remeditationForm
  */
 const createUISchema = (transformedResp, remediationForm) => {
-  /* eslint complexity: [2, 16] */
+  /* eslint complexity: 0, max-statements: 0, max-depth: [2, 3] */
 
   // For cases where field itself is a form, it has a formname and we are appending the formname to each field.
   // Sort of flat the structure in order to align Courage flatten Model. The flatten structure will be converted
   // back to object hierarchy through `Model.toJSON`.
   // For simplicity we are assuming that when field itself is a form its only one level deep.
   const remediationValue = _.chain(remediationForm.value || [])
+    .filter(v => v.visible !== false)
     .map(v => {
       // `v.form` is probably not right structure but `v.value.form`
       // TODO: clean up after API stablization.
@@ -181,77 +143,79 @@ const createUISchema = (transformedResp, remediationForm) => {
     .flatten()
     .value();
 
-  const getCheckboxUiSchema = ({ label, type, required }) => ({
-    // For Remember Me checkbox, we need the label only on the right side of it.
-    placeholder: label,
-    label: false,
-    // Separating prop type for Backbone.Model
-    // from html input type
-    modelType: type,
-    // uiSchema type is the html input type desired.
-    type: 'checkbox',
-    required: required || false,
-  });
-
-  const getPasswordUiSchema = () => ({
-    type: 'password',
-    params: {
-      showPasswordToggle: true,
-    },
-  });
-
-  const getFactorsUiSchema = ({ options }, factors) => ({
-    type: 'factorSelect',
-    options: createFactorTypeOptions(options, factors),
-  });
-
-  const getAuthenticatorsUiSchema = ({ options }, authenticators) => ({
-    type: 'authenticatorSelect',
-    options: createAuthenticatorOptions(options, authenticators),
-  });
-
   return remediationValue.map(ionFormField => {
     const uiSchema = {
       'label-top': true,
-      type: 'text',
     };
+
+    if (ionFormField.type === 'string' || !ionFormField.type) {
+      uiSchema.type = 'text';
+
+      // { name: 'password', secret: true }
+      if (ionFormField.secret === true) {
+        Object.assign(uiSchema, getPasswordUiSchema());
+      }
+
+      //
+      if (Array.isArray(ionFormField.options)) {
+        if (ionFormField.name === 'factorId'
+          || ionFormField.name === 'factorProfileId') {
+          // { name: 'factorId' | 'factorProfileId', type: 'string', options: [ {label: 'xxx', value: 'yyy'} ]}
+          //
+          // select factor form for multiple factor enroll and multiple factor verify
+          // when factor has not been enrolled we get back factorProfileId, and once its enrolled
+          // we get back factorId
+          const factors = transformedResp.factors && transformedResp.factors.value || [];
+          Object.assign(uiSchema, getFactorsUiSchema(ionFormField, factors));
+        } else if (ionFormField.name.indexOf('methodType') >= 0) {
+          // { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
+          uiSchema.type = 'radio';
+        } else {
+          // default to select (dropdown). no particular reason (certainly can default to radio.)
+          //
+          // { name: 'questionKey', options: [], type: 'string' | null }
+          uiSchema.type = 'select';
+          uiSchema.wide = true;
+          uiSchema.options = ionOptionsToUiOptions(ionFormField.options);
+        }
+      }
+    }
 
     if (ionFormField.type === 'boolean') {
       Object.assign(uiSchema, getCheckboxUiSchema(ionFormField));
     }
 
-    if (ionFormField.secret === true) {
-      Object.assign(uiSchema, getPasswordUiSchema());
-    }
-
-    if (Array.isArray(ionFormField.options)) {
-      uiSchema.type = 'radio';
-    }
-
-    // select factor form for multiple factor enroll and multiple factor verify
-    // when factor has not been enrolled we get back factorProfileId, and once its enrolled
-    // we get back factorId
-    if (ionFormField.name === 'factorId' ||
-      ionFormField.name === 'factorProfileId') {
-      const factors = transformedResp.factors && transformedResp.factors.value || [];
-      Object.assign(uiSchema, getFactorsUiSchema(ionFormField, factors));
-    }
-
-    // similar to `factorId` but `authenticator` is a new way to model factors
-    // hence it has different structure
-    if (ionFormField.name === 'authenticator'
-      && remediationForm.name === 'select-authenticator-authenticate') {
-      const authenticators = transformedResp.authenticatorEnrollments
-        && transformedResp.authenticatorEnrollments.value || [];
-      Object.assign(uiSchema, getAuthenticatorsUiSchema(ionFormField, authenticators));
-    }
-
-    if (ionFormField.name === 'authenticator'
-      && remediationForm.name === 'select-authenticator-enroll') {
-      const authenticators = transformedResp.authenticators
-        && transformedResp.authenticators.value || [];
-      // TODO: OKTA-302497: use different type for enrollment flow.
-      Object.assign(uiSchema, getAuthenticatorsUiSchema(ionFormField, authenticators));
+    if (ionFormField.type === 'object') {
+      if (ionFormField.name === 'authenticator' && remediationForm.name === 'select-authenticator-authenticate') {
+        // similar to `factorId` but `authenticator` is a new way to model factors
+        // hence it has different structure
+        const authenticators = transformedResp.authenticatorEnrollments
+          && transformedResp.authenticatorEnrollments.value || [];
+        Object.assign(uiSchema, getAuthenticatorsUiSchema(ionFormField, authenticators));
+      } else if (ionFormField.name === 'authenticator' && remediationForm.name === 'select-authenticator-enroll') {
+        const authenticators = transformedResp.authenticators && transformedResp.authenticators.value || [];
+        // TODO: OKTA-302497: use different type for enrollment flow.
+        Object.assign(uiSchema, getAuthenticatorsUiSchema(ionFormField, authenticators));
+      } else {
+        // { "name": "credentials", "type": "object", options: [ {value: {form: value:[]} ]
+        uiSchema.optionsUiSchemas = ionFormField.options.map(opt => {
+          return createUISchema(transformedResp, {
+            value: [
+              {
+                name: ionFormField.name,
+                value: opt.value,
+              }
+            ]
+          });
+        });
+        uiSchema.options = ionFormField.options.map((opt, index) => {
+          return { label: opt.label, value: index };
+        });
+        // assume (default to) use radio buttons to switch sub-schema.
+        uiSchema.type = 'radio';
+        uiSchema.value = '0';
+        uiSchema.name = `sub_schema_local_${ionFormField.name}`;
+      }
     }
 
     return Object.assign(
@@ -278,3 +242,75 @@ const insertUISchema = (transformedResp) => {
 };
 
 module.exports = insertUISchema;
+
+
+/**
+ * @typedef {Object} FactorOption
+ * @property {string} label Factor label
+ * @property {string} value Factor ID
+ */
+/**
+ * @typedef {Object} Factor
+ * @property {string} factorType
+ * @property {string} factorId
+ */
+/**
+ * @typedef {Object} Authenticator
+ * @property {string} label
+ * @property {AuthenticatorValue} value
+ */
+/**
+ * @typedef {Object} AuthenticatorValue
+ * @property {string} type Authenticator Type
+ * @property {string} id Authenticator Org Authenticator ID
+ * @property {AuthenticatorMethod[]} methods
+ */
+/**
+ * @typedef {Object} AuthenticatorEnrollment
+ * @property {string} label
+ * @property {AuthenticatorEnrollmentValue} value
+ */
+/**
+ * @typedef {Object} AuthenticatorEnrollmentValue
+ * @property {string} authenticatorId Org Authenticator ID
+ * @property {string} type Authenticator Type
+ * @property {string} id Authenticator Enrollment ID
+ * @property {AuthenticatorMethod[]} methods
+ */
+/**
+ * @typedef {Object} AuthenticatorMethod
+ * @property {string} type Authenticator method type
+ */
+/**
+ * @typedef {Object} AuthenticatorOption
+ * @property {string} label
+ * @property {Object} form
+ * @property {AuthenticatorOption[]} form.value
+ */
+/**
+ * @typedef {Object} AuthenticatorOptionValue
+ * @property {string} name
+ * @property {boolean} required
+ * @property {string} value
+ * @property {boolean} mutable
+ */
+/**
+ * @typedef {Object} IONForm
+ * @property {string} name
+ * @property {string[]} rel
+ * @property {string} method
+ * @property {string} href
+ * @property {string} accepts
+ * @property {IONFormField[]} value
+ */
+/**
+ * @typedef {Object} IONFormField
+ * @property {string} name
+ * @property {string=} type
+ * @property {string=} required
+ * @property {string=} secret
+ * @property {string=} label
+ * @property {Object[]} options
+ * @property {Object=} form
+ * @property {IONFormField[]} form.value
+ */

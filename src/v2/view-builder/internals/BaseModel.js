@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { _, Model} from 'okta';
+import { _, Model } from 'okta';
 
 // change the param to uiSchemaField instead..
 const convertUiSchemaFieldToProp = (uiSchemaField) => {
@@ -28,22 +28,59 @@ const convertUiSchemaFieldToProp = (uiSchemaField) => {
   return { [uiSchemaField.name]: config };
 };
 
-const create = function (remediation = {}) {
-  const value = remediation.uiSchema;
-  // NOTE: consider moving logic to uiSchemaTransformer as well.
-  const props = _.chain(value)
-    .map(convertUiSchemaFieldToProp)
-    .reduce((init, field) => {
-      return Object.assign({}, init, field);
-    })
-    .value();
+const createPropsAndLocals = function (
+  remediation = {},
+  subSchemaConfig = {},
+  props = {},
+  local = {}) {
+
+  const uiSchemas = remediation.uiSchema || [];
+
+  uiSchemas.forEach(schema => {
+    if (Array.isArray(schema.optionsUiSchemas)) {
+      let subSchemaIndex;
+      let subSchemaValue = {};
+
+      if (Number(schema.value) >= 0) {
+        subSchemaIndex = schema.value;
+      }
+      if (subSchemaConfig[schema.name]) {
+        subSchemaValue = {value: subSchemaConfig[schema.name]};
+        subSchemaIndex = Number(subSchemaValue.value);
+      }
+
+      Object.assign(
+        local,
+        convertUiSchemaFieldToProp(Object.assign({}, schema, subSchemaValue)));
+
+      if (subSchemaIndex) {
+        createPropsAndLocals(
+          { uiSchema: schema.optionsUiSchemas[subSchemaIndex] },
+          subSchemaConfig,
+          props,
+          local,
+        );
+      }
+    } else {
+      Object.assign(props, convertUiSchemaFieldToProp(schema));
+    }
+  });
+};
+
+const create = function (remediation = {}, subSchemaConfig = {}) {
+  const props = {};
+  const local = {
+    formName: 'string',
+  };
+  createPropsAndLocals(
+    remediation,
+    subSchemaConfig,
+    props,
+    local);
 
   const BaseModel = Model.extend({
     props,
-
-    local: {
-      formName: 'string',
-    },
+    local,
   });
 
   return BaseModel;
