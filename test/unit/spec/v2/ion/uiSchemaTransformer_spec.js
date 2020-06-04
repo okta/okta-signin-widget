@@ -715,7 +715,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
             {
               'name':'identifier',
               'label':'Username',
-              'type':'text'
+              'type':'text',
+              'label-top': true,
             },
             {
               'name':'rememberMe',
@@ -723,7 +724,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
               'type':'checkbox',
               'placeholder':'Remember Me',
               'modelType':'boolean',
-              'required':false
+              'required':false,
+              'label-top': true,
             }
           ]
         },

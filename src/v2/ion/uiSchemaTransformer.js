@@ -173,6 +173,48 @@ const createUISchema = (transformedResp, remediationForm) => {
     })
     .flatten()
     .value();
+
+  const getCheckboxUiSchema = (ionFormField, uiSchema) => {
+    // For Remember Me checkbox, we need the label only on the right side of it.
+    uiSchema.placeholder = ionFormField.label;
+    uiSchema.label = false;
+    // Separating prop type for Backbone.Model
+    // from html input type
+    uiSchema.modelType = ionFormField.type;
+    // uiSchema type is the html input type desired.
+    uiSchema.type = 'checkbox';
+    uiSchema.required = ionFormField.required || false;
+  };
+
+  const getPasswordUiSchema = (uiSchema) => {
+    uiSchema.type = 'password';
+    uiSchema.params = {
+      showPasswordToggle: true,
+    };
+  };
+
+  const getFactorsUiSchema = (ionFormField, uiSchema) => {
+    const factors = transformedResp.factors && transformedResp.factors.value || [];
+    uiSchema.type = 'factorSelect';
+    uiSchema.options = createFactorTypeOptions(ionFormField.options, factors);
+  };
+
+  const getAuthenticatorSelectUiSchema = (ionFormField, uiSchema) => {
+    const authenticators = transformedResp.authenticatorEnrollments
+      && transformedResp.authenticatorEnrollments.value || [];
+
+    uiSchema.type = 'authenticatorSelect';
+    uiSchema.options = createAuthenticatorOptions(ionFormField.options, authenticators);
+  };
+
+  const getAuthenticatorEnrollUiSchema = (ionFormField, uiSchema) => {
+    const authenticators = transformedResp.authenticators
+    && transformedResp.authenticators.value || [];
+    // TODO: OKTA-302497: use different type for enrollment flow.
+    uiSchema.type = 'authenticatorSelect';
+    uiSchema.options = createAuthenticatorOptions(ionFormField.options, authenticators);
+  };
+
   return remediationValue.map(ionFormField => {
     const uiSchema = {
       'label-top': true,
@@ -180,51 +222,30 @@ const createUISchema = (transformedResp, remediationForm) => {
     };
 
     if (ionFormField.type === 'boolean') {
-      // For Remember Me checkbox, we need the label only on the right side of it.
-      uiSchema.placeholder = ionFormField.label;
-      uiSchema.label = false;
-      // Separating prop type for Backbone.Model
-      // from html input type
-      uiSchema.modelType = ionFormField.type;
-      // uiSchema type is the html input type desired.
-      uiSchema.type = 'checkbox';
-      uiSchema.required = ionFormField.required || false;
+      getCheckboxUiSchema(ionFormField, uiSchema);
     }
 
     if (ionFormField.secret === true) {
-      uiSchema.type = 'password';
-      uiSchema.params = {
-        showPasswordToggle: true,
-      };
+      getPasswordUiSchema(uiSchema);
     }
     // select factor form for multiple factor enroll and multiple factor verify
     // when factor has not been enrolled we get back factorProfileId, and once its enrolled
     // we get back factorId
     if (ionFormField.name === 'factorId' ||
       ionFormField.name === 'factorProfileId') {
-      const factors = transformedResp.factors && transformedResp.factors.value || [];
-      uiSchema.type = 'factorSelect';
-      uiSchema.options = createFactorTypeOptions(ionFormField.options, factors);
+      getFactorsUiSchema(ionFormField, uiSchema);
     }
 
     // similar to `factorId` but `authenticator` is a new way to model factors
     // hence it has different structure
     if (ionFormField.name === 'authenticator'
-        && remediationForm.name === 'select-authenticator-authenticate') {
-      const authenticators = transformedResp.authenticatorEnrollments
-            && transformedResp.authenticatorEnrollments.value || [];
-
-      uiSchema.type = 'authenticatorSelect';
-      uiSchema.options = createAuthenticatorOptions(ionFormField.options, authenticators);
+      && remediationForm.name === 'select-authenticator-authenticate') {
+      getAuthenticatorSelectUiSchema(ionFormField, uiSchema);
     }
 
     if (ionFormField.name === 'authenticator'
         && remediationForm.name === 'select-authenticator-enroll') {
-      const authenticators = transformedResp.authenticators
-            && transformedResp.authenticators.value || [];
-      // TODO: OKTA-302497: use different type for enrollment flow.
-      uiSchema.type = 'authenticatorSelect';
-      uiSchema.options = createAuthenticatorOptions(ionFormField.options, authenticators);
+      getAuthenticatorEnrollUiSchema(ionFormField, uiSchema);
     }
 
     return Object.assign(
