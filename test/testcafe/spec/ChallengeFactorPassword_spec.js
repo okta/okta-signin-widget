@@ -1,10 +1,10 @@
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 import { RequestMock } from 'testcafe';
-import factorRequiredPassword from '../../../playground/mocks/idp/idx/data/factor-verification-password';
-import authenticatorRequiredPassword from '../../../playground/mocks/idp/idx/data/authenticator-verification-password';
-import success from '../../../playground/mocks/idp/idx/data/success';
-import invalidPassword from '../../../playground/mocks/idp/idx/data/error-answer-passcode-invalid';
+import factorRequiredPassword from '../../../playground/mocks/data/idp/idx/factor-verification-password';
+import authenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
+import success from '../../../playground/mocks/data/idp/idx/success';
+import invalidPassword from '../../../playground/mocks/data/idp/idx/error-answer-passcode-invalid';
 
 const factorRequiredPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

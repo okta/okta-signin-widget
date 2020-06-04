@@ -11,7 +11,7 @@ const getDataDir = (apiPath) => {
   });
 
   if (xs.length === 1) {
-    return `${__dirname}/../mocks/${xs[0]}/data`;
+    return `${__dirname}/../data/${xs[0]}`;
   } else {
     return __dirname;
   }
