@@ -50,6 +50,12 @@ test(`should have correct display texts`, async t => {
   const signupLinkText = identityPage.getSignupLinkText();
   await t.expect(signupLinkText).eql('Sign Up');
 
+  const rememberMeText = identityPage.getRememberMeText();
+  await t.expect(rememberMeText).eql('Remember Me');
+
+  const rememberMeValue = identityPage.getRememberMeValue();
+  await t.expect(rememberMeValue).eql(false);
+
   const needhelpLinkText = identityPage.getNeedhelpLinkText();
   await t.expect(needhelpLinkText).eql('Need help signing in?');
 });

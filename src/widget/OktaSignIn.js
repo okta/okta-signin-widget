@@ -37,13 +37,8 @@ var OktaSignIn = (function () {
       }
       if (widgetOptions.stateToken) {
         Util.introspectToken(authClient, widgetOptions)
-          .then(_.bind(function (data) {
-            var response = data;
+          .then(_.bind(function (response) {
             router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
-            if (isNewPipeline) {
-              response = data.rawIdxState;
-              router.appState.set('idx', data);
-            }
             router.appState.set('introspectSuccess', response);
             router.start();
           }, this)).catch(_.bind(function (err) {
@@ -90,7 +85,7 @@ var OktaSignIn = (function () {
       var authParams = this.authClient.options;
       if (authParams.pkce || authParams.responseType === 'code' || authParams.responseMode === 'query') {
         // Look for code
-        return authParams.responseMode === 'fragment' ? 
+        return authParams.responseMode === 'fragment' ?
           Util.hasCodeInUrl(window.location.hash) :
           Util.hasCodeInUrl(window.location.search);
       }

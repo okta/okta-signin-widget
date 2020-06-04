@@ -103,13 +103,13 @@ const convert = (idx) => {
   const resp = idx.rawIdxState;
 
   const firstLevelObjects = getFirstLevelObjects(resp);
-  
+
   const remediationValues = getRemediationValues(idx);
 
   const result = Object.assign({},
     firstLevelObjects,
     remediationValues,
-    idx
+    { idx }
   );
   return result;
 };
