@@ -20,9 +20,11 @@ export default Form.extend({
     //should be used before adding any other input components
     this.addCallouts();
 
-    inputOptions.forEach(input => {
-      this.addInputOrView(input);
-    });
+    inputOptions
+      .filter(input => input.visible !== false)
+      .forEach(input => {
+        this.addInputOrView(input);
+      });
 
     this.listenTo(this, 'save', this.saveForm);
   },

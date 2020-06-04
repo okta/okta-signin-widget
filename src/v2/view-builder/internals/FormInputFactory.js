@@ -35,6 +35,7 @@ const inputCreationStrategy = {
   authenticatorSelect: createAuthenticatorSelectView,
 };
 
+// TODO: move logic to uiSchemaTransformer
 const create = function (uiSchemaObj) {
   const strategyFn = inputCreationStrategy[uiSchemaObj.type] || _.identity;
   return strategyFn(uiSchemaObj);
