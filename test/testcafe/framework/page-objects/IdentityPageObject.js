@@ -4,6 +4,7 @@ import BasePageObject from './BasePageObject';
 const CALLOUT_SELECTOR = '.infobox-warning > div';
 const ENROLL_SELECTOR = 'a[data-se="enroll"]';
 const NEEDHELP_SELECTOR = 'a[data-se="help"]';
+const CUSTOM_CHECKBOX_SELECTOR = '.custom-checkbox';
 export default class IdentityPageObject extends BasePageObject {
   constructor (t) {
     super(t);
@@ -21,6 +22,14 @@ export default class IdentityPageObject extends BasePageObject {
 
   getOktaVerifyButtonText() {
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
+  }
+
+  getRememberMeText() {
+    return this.form.getElement(CUSTOM_CHECKBOX_SELECTOR).textContent;
+  }
+
+  getRememberMeValue() {
+    return this.form.getCheckboxValue('rememberMe');
   }
 
   getSignupLinkText() {
