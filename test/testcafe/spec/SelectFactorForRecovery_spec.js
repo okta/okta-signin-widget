@@ -1,6 +1,6 @@
 import SelectFactorPageObject from '../framework/page-objects/SelectFactorPageObject';
 import { RequestMock } from 'testcafe';
-import selectFactorForPasswordRecovery from '../../../playground/mocks/idp/idx/data/select-factor-for-password-recovery';
+import selectFactorForPasswordRecovery from '../../../playground/mocks/data/idp/idx/select-factor-for-password-recovery';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

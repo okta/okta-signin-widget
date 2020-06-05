@@ -3,10 +3,10 @@ import { RequestMock } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectFactorPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
-import xhrSelectAuthenticators from '../../../playground/mocks/idp/idx/data/authenticator-select-verify-options';
-import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/idp/idx/data/authenticator-verification-password';
-import xhrAuthenticatorRequiredEmail from '../../../playground/mocks/idp/idx/data/authenticator-verification-email';
-import xhrAuthenticatorRequiredWebauthn from '../../../playground/mocks/idp/idx/data/authenticator-verification-webauthn';
+import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-select-verify-options';
+import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
+import xhrAuthenticatorRequiredEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import xhrAuthenticatorRequiredWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn';
 
 const mockChallengePassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
