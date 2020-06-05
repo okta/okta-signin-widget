@@ -1,7 +1,7 @@
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { RequestMock } from 'testcafe';
-import terminalReturnEmail from '../../../playground/mocks/idp/idx/data/terminal-return-email';
-import terminalTransferedEmail from '../../../playground/mocks/idp/idx/data/terminal-transfered-email';
+import terminalReturnEmail from '../../../playground/mocks/data/idp/idx/terminal-return-email';
+import terminalTransferedEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

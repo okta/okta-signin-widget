@@ -1,6 +1,6 @@
 import SelectFactorPageObject from '../framework/page-objects/SelectFactorPageObject';
 import { RequestMock } from 'testcafe';
-import factorEnrollOptions from '../../../playground/mocks/idp/idx/data/factor-enroll-options';
+import factorEnrollOptions from '../../../playground/mocks/data/idp/idx/factor-enroll-options';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

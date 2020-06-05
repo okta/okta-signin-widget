@@ -95,7 +95,7 @@ module.exports = {
         multiRequest: false,
         proxy: false,
         quiet: false,
-        configDir: `${PLAYGROUND}/mocks`,
+        configDir: `${PLAYGROUND}/mocks/spec-okta-api`,
       };
       dyson.registerServices(
         app,

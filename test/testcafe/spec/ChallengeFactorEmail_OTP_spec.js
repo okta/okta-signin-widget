@@ -1,9 +1,9 @@
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 import { RequestMock } from 'testcafe';
-import factorRequiredEmail from '../../../playground/mocks/idp/idx/data/factor-verification-email';
-import success from '../../../playground/mocks/idp/idx/data/success';
-import invalidOTP from '../../../playground/mocks/idp/idx/data/error-email-verify';
+import factorRequiredEmail from '../../../playground/mocks/data/idp/idx/factor-verification-email';
+import success from '../../../playground/mocks/data/idp/idx/success';
+import invalidOTP from '../../../playground/mocks/data/idp/idx/error-email-verify';
 
 const validOTPmock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

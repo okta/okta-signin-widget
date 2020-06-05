@@ -1,7 +1,7 @@
 import { RequestMock } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import identify from '../../../playground/mocks/idp/idx/data/identify';
-import errorIdentify from '../../../playground/mocks/idp/idx/data/error-identify-access-denied';
+import identify from '../../../playground/mocks/data/idp/idx/identify';
+import errorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
