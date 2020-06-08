@@ -93,6 +93,9 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'features.restrictRedirectToForeground': ['boolean', true, false],
       'features.hideDefaultTip': ['boolean', false, true],
       'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
+      'features.hideConfirmPasswordOnResetPage': ['boolean', false, false],
+      'features.showPasswordToggleOnResetPage': ['boolean', false, false],
+      'features.showPasswordSubschemaOnResetPage': ['boolean', false, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function
