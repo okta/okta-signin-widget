@@ -2,7 +2,7 @@ import BasePageObject from './BasePageObject';
 
 const factorListRowSelector = '.enroll-factor-list .enroll-factor-row';
 const factorLabelSelector = `${factorListRowSelector} .enroll-factor-label`;
-const factorDescriptionSelector = `${factorListRowSelector} .enroll-factor-description`;
+const factorDescriptionSelector = '.factor-description';
 const factorIconSelector = `${factorListRowSelector} .enroll-factor-icon-container .factor-icon`;
 const factorSelectButtonSelector = `${factorListRowSelector} .enroll-factor-button .button`;
 
@@ -20,7 +20,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorDescriptionByIndex(index) {
-    return this.form.getElement(factorDescriptionSelector).nth(index).textContent;
+    return this.form.getElement(factorListRowSelector).nth(index).find(factorDescriptionSelector).textContent;
   }
 
   getFactorIconClassByIndex(index) {

@@ -2,16 +2,19 @@
   .oie-webauthn {
     .uv-required-callout {
       margin: 20px 0;
-      // TODO - clean up after this task 
+      // TODO - clean up after this task
       // https://oktainc.atlassian.net/browse/OKTA-303528
+      /* stylelint-disable declaration-no-important */
       padding: 7px 9px 7px 20px !important;
+      /* stylelint-enable declaration-no-important */
       border: none;
       &:before {
         width: 10px;
       }
     }
   }
-  .idx-webauthn-verify-text, .idx-webauthn-enroll-text  {
+  .idx-webauthn-verify-text,
+  .idx-webauthn-enroll-text {
     margin-bottom: 20px;
   }
   .okta-waiting-spinner {

@@ -29,11 +29,11 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
     'security when signing in to your Okta account');
   await t.expect(selectFactorPage.getFactorsCount()).eql(3);
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Okta Password');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Okta Phone');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-call');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
 

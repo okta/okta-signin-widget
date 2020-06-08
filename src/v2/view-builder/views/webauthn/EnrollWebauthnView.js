@@ -2,8 +2,8 @@ import { _, loc, createCallout, createButton } from 'okta';
 import BaseForm from '../../internals/BaseForm';
 import BaseFactorView from '../shared/BaseFactorView';
 import webauthn from '../../../../util/webauthn';
-import BrowserFeatures from 'util/BrowserFeatures';
 import CryptoUtil from '../../../../util/CryptoUtil';
+import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
 
 function getExcludeCredentials (credentials = []) {
   return credentials.map((credential) => {
@@ -22,36 +22,10 @@ const Body = BaseForm.extend({
   },
   getUISchema () {
     const schema = [];
-    const activationData = this.options.appState.get('currentAuthenticator').contextualData.activationData;
     // Returning custom array so no input fields are displayed for webauthn
     if (webauthn.isNewApiAvailable()) {
       schema.push({
-        View: `
-          <p class="idx-webauthn-enroll-text">{{i18n code="oie.enroll.webauthn.instructions" bundle="login"}}</p>`,
-      });
-
-      if (BrowserFeatures.isEdge()) {
-        schema.push({
-          View: `
-            <p class="idx-webauthn-enroll-text-edge">
-              {{i18n code="oie.enroll.webauthn.instructions.edge" bundle="login"}}
-            </p>`,
-        });
-      }
-
-      if (activationData.authenticatorSelection.userVerification === 'required') {
-        schema.push({
-          View: createCallout({
-            className: 'uv-required-callout',
-            size: 'slim',
-            type: 'warning',
-            subtitle: loc('oie.enroll.webauthn.uv.required.instructions', 'login'),
-          }),
-        });
-      }
-
-      schema.push({
-        View: '<div data-se="webauthn-waiting" class="okta-waiting-spinner"></div>'
+        View: EnrollWebauthnInfoView,
       });
       schema.push({
         View: createButton({
@@ -59,7 +33,7 @@ const Body = BaseForm.extend({
           title: loc('oie.enroll.webauthn.save', 'login'),
           click: () => {
             this.triggerWebauthnPrompt();
-          }
+          },
         }),
       });
     } else {
@@ -121,6 +95,7 @@ const Body = BaseForm.extend({
 export default BaseFactorView.extend({
   Body,
   postRender () {
+    BaseFactorView.prototype.postRender.apply(this, arguments);
     this.$el.find('.o-form-button-bar [type="submit"]').remove();
   }, 
 });

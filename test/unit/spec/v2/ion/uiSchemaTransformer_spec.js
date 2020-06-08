@@ -517,7 +517,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'value': {
                       'id': 'aidtheidkwh282hv8g3'
                     },
-                    'authenticatorType': 'webauthn'
+                    'authenticatorType': 'security_key'
                   },
                 ]
               }

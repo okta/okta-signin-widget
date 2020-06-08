@@ -1,6 +1,6 @@
 import BasePageObject from './BasePageObject';
 
-export default class EnrollPasswordPageObject extends BasePageObject {
+export default class EnrollWebauthnPageObject extends BasePageObject {
   constructor (t) {
     super(t);
   }
