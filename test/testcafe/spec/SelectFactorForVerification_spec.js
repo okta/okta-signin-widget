@@ -36,6 +36,6 @@ test.requestHooks(selectFactorsMock)(`should load select factor list`, async t =
 
   selectFactorPage.selectFactorByIndex(1);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with Email Authentication');
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with your email');
 });
 
