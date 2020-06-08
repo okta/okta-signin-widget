@@ -78,5 +78,5 @@ test.requestHooks(mockChallengeEmail)(`should navigate to email challenge page`,
 
   selectFactorPage.selectFactorByIndex(2);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with Email Authentication');
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with your email');
 });

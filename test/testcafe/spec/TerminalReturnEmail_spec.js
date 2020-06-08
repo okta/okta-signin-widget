@@ -22,7 +22,7 @@ async function setup(t) {
 test
   .requestHooks(mock)(`show the correct content when return email`, async t => {
     const terminalPageObject = await setup(t);
-    await t.expect(terminalPageObject.getHeader()).eql('Verify with Email Authentication');
+    await t.expect(terminalPageObject.getHeader()).eql('Verify with your email');
     await t.expect(terminalPageObject.getFormSubtitle()).eql('To finish signing in, return to the screen where you requested the email link.');
     await t.expect(terminalPageObject.getFooterBackLink().innerText).eql('Back to sign in');
     await t.expect(terminalPageObject.getFooterBackLink().getAttribute('href')).eql('/');
