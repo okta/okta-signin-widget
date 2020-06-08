@@ -16,7 +16,12 @@ require('./env').config();
 var config = {
   framework: 'jasmine2',
   specs: ['specs/*.js'],
-  restartBrowserBetweenTests: false
+  restartBrowserBetweenTests: false,
+  onPrepare: function () {
+    return browser.getProcessedConfig().then(data => {
+      global.browserName = data.capabilities.browserName;
+    });
+  }
 };
 
 // Travis sauceLabs tests
@@ -25,8 +30,6 @@ if (process.env.TRAVIS) {
     // Mobile emulators on sauce labs
     config.sauceUser = process.env.SAUCE_USERNAME;
     config.sauceKey = process.env.SAUCE_ACCESS_KEY;
-    // Default port for Appium
-    config.port = 4723;
   } else {
     // Desktop browser
     config.capabilities = {
@@ -39,12 +42,34 @@ if (process.env.TRAVIS) {
 
   if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
     var appiumiOS = require('./appium/ios-conf.js');
+    config.port = 4723;
     config.multiCapabilities = appiumiOS.iosCapabilities;
   }
 
   else if (process.env.SAUCE_PLATFORM_NAME === 'android') {
     var appiumAndroid = require('./appium/android-conf.js');
+    config.port = 4723;
     config.multiCapabilities = appiumAndroid.androidCapabilities;
+  }
+
+  if (process.env.SAUCE_PLATFORM_NAME === 'windows') {
+    config.multiCapabilities =
+    [{
+      'browserName': 'internet explorer',
+      'browserVersion': 'latest',
+      'platformName': 'Windows 10',
+      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+      'build': process.env.TRAVIS_BUILD_NUMBER
+    },
+    {
+      'browserName': 'MicrosoftEdge',
+      'browserVersion': 'latest',
+      'platformName': 'Windows 10',
+      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+      'build': process.env.TRAVIS_BUILD_NUMBER
+    }];
+    config.exclude = ['specs/angular_spec.js', 'specs/dev_spec.js',
+      'specs/npm_spec.js', 'specs/OIDC_spec.js', 'specs/react_spec.js'];
   }
 }
 // Local tests, required:
