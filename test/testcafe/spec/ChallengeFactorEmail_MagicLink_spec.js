@@ -53,14 +53,14 @@ test
     await t.expect(challengeFactorPageObject.resendEmailView().hasClass('hide')).ok();
 
     // wait for resend button to appear
-    await t.wait(65000);
+    await t.wait(32000);
     // Making sure we keep polling while we wait for the resend view to appear
     // Widget will poll with a refresh interval of 4000(comes from API).
-    // In 65000 seconds it will poll Math.floor(65000/4000) = 16 times
+    // In 32000 seconds it will poll Math.floor(32000/4000) = 8 times
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
-    )).eql(16);
+    )).eql(8);
     await t.expect(challengeFactorPageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengeFactorPageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
@@ -69,5 +69,5 @@ test
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll|resend/)
-    )).eql(17);
+    )).eql(9);
   });

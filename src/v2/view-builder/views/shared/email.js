@@ -4,7 +4,7 @@ export default {
     if(this.options.appState.getCurrentViewState().name === 'enroll-factor') {
       return loc('email.enroll.title', 'login');
     } else {
-      return loc('email.mfa.title.alternate', 'login');
+      return loc('oie.email.mfa.title', 'login');
     }
   }
 };
