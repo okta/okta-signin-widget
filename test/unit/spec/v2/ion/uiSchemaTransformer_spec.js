@@ -34,8 +34,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                   'value':[
                     {
                       'name':'passcode',
-                      'label':'One-time verification code',
-                      'secret':true,
+                      'label':'Enter code',
                     },
                   ]
                 }
@@ -44,13 +43,9 @@ describe('v2/ion/uiSchemaTransformer', function () {
             'uiSchema':[
               {
                 'name':'credentials.passcode',
-                'label':'One-time verification code',
+                'label': 'Enter code',
                 'label-top': true,
-                'secret':true,
-                'type':'password',
-                'params':{
-                  'showPasswordToggle':true
-                }
+                'type': 'text'
               }
             ]
           },
