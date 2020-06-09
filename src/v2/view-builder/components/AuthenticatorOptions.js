@@ -9,7 +9,8 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { ListView } from 'okta';
+import { ListView, loc } from 'okta';
+import skipAll from './views/SkipOptionalEnrollmentButton';
 import FactorRow from './views/FactorRow';
 
 export default ListView.extend({
@@ -25,8 +26,24 @@ export default ListView.extend({
       this.model.set(this.options.name, data);
       this.options.appState.trigger('saveForm', this.model);
     });
+    this.hasOptionalFactors = this.options.appState.hasRemediationObject('skip');
+    if (this.hasOptionalFactors) {
+      this.model.set('formName', 'skip');
+      this.add(skipAll);
+    }
   },
 
-  template: '<div class="list-content"></div>',
+  template: '<div class="list-content"> <div class="authenticator-list-title"> {{title}} </div> </div>',
+
+  getTemplateData () {
+    // presence of the skip remediation form tells us that the authenticators are all optional
+    let title = '';
+    if(this.options.appState.get('currentFormName') === 'select-authenticator-enroll') {
+      title = this.hasOptionalFactors? loc('oie.setup.optional', 'login'):loc('oie.setup.required', 'login');
+    }
+    return {
+      title
+    };
+  }
 
 });

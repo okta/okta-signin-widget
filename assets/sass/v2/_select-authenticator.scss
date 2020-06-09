@@ -1,0 +1,19 @@
+
+.siw-main-view {
+  .okta-form-subtitle {
+    text-align: center;
+  }
+}
+
+.enroll-factor-list {
+  .list-content {
+    .authenticator-list-title {
+      margin-bottom: $font-size-header;
+      font-weight: $font-weight-labels;
+    }
+  }
+  .skip-all {
+    width: 100%;
+    text-align: center;
+  }
+}

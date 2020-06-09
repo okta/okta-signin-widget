@@ -7,13 +7,13 @@ const Body = BaseForm.extend({
     if (this.isPasswordRecoveryFlow())  {
       return loc('password.reset.title.generic', 'login');
     }
-    return loc('mfa.factors.dropdown.title', 'login');
+    return loc('oie.select.authenticators.verify.title', 'login');
   },
   subtitle: function () {
     if (this.isPasswordRecoveryFlow())  {
       return loc('password.reset.verification', 'login');
     }
-    return loc('verify.choices.description', 'login');
+    return loc('oie.select.authenticators.verify.subtitle', 'login');
   },
   isPasswordRecoveryFlow () {
     const recoveryFactor = this.options.appState.get('recoveryFactor');

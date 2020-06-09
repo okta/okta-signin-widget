@@ -36,8 +36,8 @@ async function setup(t) {
 
 test.requestHooks(mockChallengePassword)(`should load select authenticator list`, async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Select an authentication factor');
-  await t.expect(selectFactorPage.getFormSubtitle()).eql('Verify with one of the following factors.');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
   await t.expect(selectFactorPage.getFactorsCount()).eql(3);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
@@ -56,7 +56,7 @@ test.requestHooks(mockChallengePassword)(`should load select authenticator list`
 
 test.requestHooks(mockChallengePassword)(`should navigate to password challenge page`, async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Select an authentication factor');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
   selectFactorPage.selectFactorByIndex(0);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
@@ -65,7 +65,7 @@ test.requestHooks(mockChallengePassword)(`should navigate to password challenge 
 
 test.requestHooks(mockChallengeWebauthn)(`should navigate to webauthn challenge page`, async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Select an authentication factor');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
   selectFactorPage.selectFactorByIndex(1);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
@@ -74,7 +74,7 @@ test.requestHooks(mockChallengeWebauthn)(`should navigate to webauthn challenge 
 
 test.requestHooks(mockChallengeEmail)(`should navigate to email challenge page`, async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Select an authentication factor');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
   selectFactorPage.selectFactorByIndex(2);
   const challengeFactorPage = new ChallengeFactorPageObject(t);

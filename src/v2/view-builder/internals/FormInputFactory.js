@@ -1,5 +1,6 @@
 import { Collection, _ } from 'okta';
 import FactorOptions from '../components/FactorOptions';
+import AuthenticatorOptions from '../components/AuthenticatorOptions';
 import FactorUtil from '../../util/FactorUtil';
 
 const createFactorSelectView = (opt) => {
@@ -22,7 +23,7 @@ const createAuthenticatorSelectView = (opt) => {
       return Object.assign({}, opt, FactorUtil.getFactorData(opt.authenticatorType));
     });
   return {
-    View: FactorOptions,
+    View: AuthenticatorOptions,
     options: {
       name: opt.name,
       collection: new Collection(optionItems),
