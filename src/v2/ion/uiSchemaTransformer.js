@@ -151,29 +151,26 @@ const createUISchema = (transformedResp, remediationForm) => {
     if (ionFormField.type === 'string' || !ionFormField.type) {
       uiSchema.type = 'text';
 
-      // { name: 'password', secret: true }
+      // e.g. { name: 'password', secret: true }
       if (ionFormField.secret === true) {
         Object.assign(uiSchema, getPasswordUiSchema());
       }
 
-      //
       if (Array.isArray(ionFormField.options)) {
         if (ionFormField.name === 'factorId'
           || ionFormField.name === 'factorProfileId') {
-          // { name: 'factorId' | 'factorProfileId', type: 'string', options: [ {label: 'xxx', value: 'yyy'} ]}
-          //
           // select factor form for multiple factor enroll and multiple factor verify
           // when factor has not been enrolled we get back factorProfileId, and once its enrolled
           // we get back factorId
+          // e.g. { name: 'factorId' | 'factorProfileId', type: 'string', options: [ {label: 'xxx', value: 'yyy'} ]}
           const factors = transformedResp.factors && transformedResp.factors.value || [];
           Object.assign(uiSchema, getFactorsUiSchema(ionFormField, factors));
         } else if (ionFormField.name.indexOf('methodType') >= 0) {
-          // { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
+          // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
           uiSchema.type = 'radio';
         } else {
           // default to select (dropdown). no particular reason (certainly can default to radio.)
-          //
-          // { name: 'questionKey', options: [], type: 'string' | null }
+          // e.g. { name: 'questionKey', options: [], type: 'string' | null }
           uiSchema.type = 'select';
           uiSchema.wide = true;
           uiSchema.options = ionOptionsToUiOptions(ionFormField.options);
@@ -197,7 +194,7 @@ const createUISchema = (transformedResp, remediationForm) => {
         // TODO: OKTA-302497: use different type for enrollment flow.
         Object.assign(uiSchema, getAuthenticatorsUiSchema(ionFormField, authenticators));
       } else {
-        // { "name": "credentials", "type": "object", options: [ {value: {form: value:[]} ]
+        // e.g. { "name": "credentials", "type": "object", options: [ {value: {form: value:[]} ]
         uiSchema.optionsUiSchemas = ionFormField.options.map(opt => {
           return createUISchema(transformedResp, {
             value: [

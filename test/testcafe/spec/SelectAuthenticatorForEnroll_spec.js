@@ -43,7 +43,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
   await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Okta Security Question');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Security Question');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-security-question');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
 });

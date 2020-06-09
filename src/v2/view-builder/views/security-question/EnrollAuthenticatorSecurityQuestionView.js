@@ -3,7 +3,7 @@ import BaseForm from '../../internals/BaseForm';
 import BaseFactorView from '../shared/BaseFactorView';
 
 const Body = BaseForm.extend({
-  title() {
+  title () {
     return loc('oie.security.question.enroll.title', 'login');
   }
 });
