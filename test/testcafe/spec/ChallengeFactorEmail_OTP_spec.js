@@ -33,9 +33,9 @@ test
     const pageTitle = challengeFactorPageObject.getPageTitle();
     const saveBtnText = challengeFactorPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
-    await t.expect(pageTitle).contains('Verify with Email Authentication');
+    await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeFactorPageObject.getFormSubtitle())
-        .contains('A verification code was sent to inca@clouditude.net. Check your email and enter the code below.');
+        .contains('An email was sent to inca@clouditude.net. Check your email and enter the code below.');
   });
 
 test
