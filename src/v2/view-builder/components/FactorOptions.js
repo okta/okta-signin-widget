@@ -20,8 +20,8 @@ const FactorRow = View.extend({
       </div>\
       <div class="enroll-factor-description">\
         <h3 class="enroll-factor-label">{{label}}</h3>\
-        {{#if factorDescription}}\
-          <p>{{factorDescription}} </p>\
+        {{#if description}}\
+          <p class="factor-description">{{description}}</p>\
         {{/if}}\
         <div class="enroll-factor-button"></div>\
       </div>\

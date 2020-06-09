@@ -1,0 +1,28 @@
+import { RequestMock } from 'testcafe';
+import EnrollWebauthnAuthenticatorPageObject from '../framework/page-objects/EnrollWebauthnAuthenticatorPageObject';
+import xhrAuthenticatorEnrollWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-enroll-webauthn';
+import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
+
+const mock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollWebauthn)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrSuccess);
+
+fixture(`Enroll Webauthn Authenticator`)
+  .requestHooks(mock);
+
+async function setup(t) {
+  const enrollWebauthnPage = new EnrollWebauthnAuthenticatorPageObject(t);
+  await enrollWebauthnPage.navigateToPage();
+  return enrollWebauthnPage;
+}
+
+// This is the only test we can perfrom in testcafe as webauthn api is not available in the version of chrome/chromeheadless
+// that testcafe loads.
+test(`should have webauthn not supported error if browser doesnt support`, async t => {
+  const enrollWebauthnPage = await setup(t);
+  await t.expect(enrollWebauthnPage.getFormTitle()).eql('Set up security key or biometric authenticator');
+  await t.expect(enrollWebauthnPage.hasEnrollInstruction()).eql(false);
+  await t.expect(enrollWebauthnPage.hasWebauthnNotSupportedError()).eql(true);
+});

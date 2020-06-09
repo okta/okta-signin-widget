@@ -25,15 +25,22 @@ const factorData = {
   },
 
   'phone': {
-    label: loc('factor.phone', 'login'),
+    label: loc('oie.phone', 'login'),
     description: '',
     // TODO: need new icon for `mfa-okta-phone`
     iconClassName: 'mfa-okta-call',
   },
 
+  // Will get rid of this after fully implementing verify. OKTA-301557
   'webauthn': {
-    label: loc('factor.webauthn', 'login'),
-    description: '',
+    label: loc('oie.webauthn', 'login'),
+    description: loc('oie.webauthn.description', 'login'),
+    iconClassName: 'mfa-webauthn',
+  },
+
+  'security_key': {
+    label: loc('oie.webauthn', 'login'),
+    description: loc('oie.webauthn.description', 'login'),
     iconClassName: 'mfa-webauthn',
   },
 };

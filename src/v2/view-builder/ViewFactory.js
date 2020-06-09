@@ -20,6 +20,7 @@ import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhone
 
 //webauthn
 import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnView';
+import EnrollWebauthnView from './views/webauthn/EnrollWebauthnView';
 
 // email
 // import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
@@ -72,7 +73,7 @@ const VIEWS_MAPPING = {
   },
   'enroll-authenticator': {
     password: EnrollFactorPasswordView,
-    webauthn: null,
+    'security_key': EnrollWebauthnView,
     phone: null,
     'security_question': null
   },
