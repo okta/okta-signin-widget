@@ -118,7 +118,7 @@
       {
         "label": "Security Key or Biometric Authenticator (FIDO2)",
         "value": {
-          "type": "webauthn",
+          "type": "security_key",
           "id": "aidtheidkwh282hv8g3"
         }
       },
