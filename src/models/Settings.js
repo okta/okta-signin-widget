@@ -36,7 +36,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       UnsupportedBrowserError = Errors.UnsupportedBrowserError;
 
   var assetBaseUrlTpl = Okta.tpl(
-    'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/{{version}}'
+    'https://global.oktacdn.com/okta-signin-widget/{{version}}'
   );
 
   return Okta.Model.extend({

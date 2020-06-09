@@ -1622,7 +1622,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
 
       var expectDefaultCdn = _.partial(
         expectBundles,
-        'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99'
+        'https://global.oktacdn.com/okta-signin-widget/9.9.99'
       );
 
       itp('loads properties from the cdn if no baseUrl and path overrides are supplied', function () {
@@ -1633,7 +1633,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           }
         })
           .then(function () {
-            expectDefaultPaths('https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99');
+            expectDefaultPaths('https://global.oktacdn.com/okta-signin-widget/9.9.99');
           });
       });
       itp('loads properties from the given baseUrl', function () {
