@@ -5,7 +5,7 @@
   }
 }
 
-.enroll-factor-list {
+.authenticator-enroll-list {
   .list-content {
     .authenticator-list-title {
       margin-bottom: $font-size-header;
@@ -15,5 +15,62 @@
   .skip-all {
     width: 100%;
     text-align: center;
+    margin-bottom: 15px;
   }
 }
+
+.authenticator-enroll-list .authenticator-verify-list {
+  .authenticator-button {
+    padding-top: 10px;
+    @include device-mq(x-small) {
+      width: 100%;
+      margin-top: 10px;
+    }
+    .button {
+      margin-top: 0;
+      height: 30px;
+      line-height: 28px;
+      padding: 0 10px;
+      @include device-mq(x-small) {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.authenticator-verify-list {
+  .enroll-factor-description {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .authenticator-button {
+      padding: 0;
+    }
+
+    .authenticator-label {
+      width: 175px;
+    }
+  }
+}
+
+.authenticator-button {
+  padding-top: 10px;
+  @include device-mq(x-small) {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .button {
+    margin-top: 0;
+    height: 30px;
+    line-height: 28px;
+    padding: 0 10px;
+
+    @include device-mq(x-small) {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
+

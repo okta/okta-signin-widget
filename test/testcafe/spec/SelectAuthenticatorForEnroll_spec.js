@@ -1,6 +1,6 @@
 import { RequestMock } from 'testcafe';
 
-import SelectFactorPageObject from '../framework/page-objects/SelectFactorPageObject';
+import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
@@ -50,7 +50,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(2))
-    .eql('Use a security key or a biometric authenticator to sign in');
+    .eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
 

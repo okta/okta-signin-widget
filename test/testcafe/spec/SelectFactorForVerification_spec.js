@@ -23,8 +23,8 @@ async function setup(t) {
 
 test.requestHooks(selectFactorsMock)(`should load select factor list`, async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
-  await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Select an authentication factor');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Verify with one of the following factors.');
   await t.expect(selectFactorPage.getFactorsCount()).eql(2);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password Label');

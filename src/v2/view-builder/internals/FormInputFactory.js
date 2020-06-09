@@ -1,6 +1,7 @@
 import { Collection, _ } from 'okta';
 import FactorOptions from '../components/FactorOptions';
-import AuthenticatorOptions from '../components/AuthenticatorOptions';
+import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
+import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
 import FactorUtil from '../../util/FactorUtil';
 
 const createFactorSelectView = (opt) => {
@@ -17,13 +18,27 @@ const createFactorSelectView = (opt) => {
   };
 };
 
-const createAuthenticatorSelectView = (opt) => {
+const createAuthenticatorEnrollSelectView = (opt) => {
   var optionItems = (opt.options || [])
     .map(opt => {
       return Object.assign({}, opt, FactorUtil.getFactorData(opt.authenticatorType));
     });
   return {
-    View: AuthenticatorOptions,
+    View: AuthenticatorEnrollOptions,
+    options: {
+      name: opt.name,
+      collection: new Collection(optionItems),
+    }
+  };
+};
+
+const createAuthenticatorVerifySelectView = (opt) => {
+  var optionItems = (opt.options || [])
+    .map(opt => {
+      return Object.assign({}, FactorUtil.getFactorData(opt.authenticatorType), opt);
+    });
+  return {
+    View: AuthenticatorVerifyOptions,
     options: {
       name: opt.name,
       collection: new Collection(optionItems),
@@ -33,7 +48,8 @@ const createAuthenticatorSelectView = (opt) => {
 
 const inputCreationStrategy = {
   factorSelect: createFactorSelectView,
-  authenticatorSelect: createAuthenticatorSelectView,
+  authenticatorEnrollSelect: createAuthenticatorEnrollSelectView,
+  authenticatorVerifySelect: createAuthenticatorVerifySelectView
 };
 
 // TODO: move logic to uiSchemaTransformer

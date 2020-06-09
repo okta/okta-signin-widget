@@ -1,5 +1,4 @@
 import { Collection } from 'okta';
-import FactorEnrollOptions from 'v2/view-builder/components/FactorOptions';
 import FormInputFactory from 'v2/view-builder/internals/FormInputFactory';
 
 describe('v2/view-builder/internals/FormInputFactory', function () {
@@ -22,7 +21,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     };
     const result = FormInputFactory.create(opt);
     expect(result).toEqual({
-      View: FactorEnrollOptions,
+      View: jasmine.any(Function),
       options: {
         collection: jasmine.anything(),
         name: 'factorType'
@@ -65,7 +64,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
 
   it('handles authenticatorSelect type', function () {
     const opt = {
-      type: 'authenticatorSelect',
+      type: 'authenticatorVerifySelect',
       options: [
         {
           'label': 'Okta Password',
@@ -86,7 +85,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     };
     const result = FormInputFactory.create(opt);
     expect(result).toEqual({
-      View: FactorEnrollOptions,
+      View: jasmine.any(Function),
       options: {
         collection: jasmine.anything(),
         name: 'authenticator'
@@ -95,7 +94,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     expect(result.options.collection instanceof Collection).toBe(true);
     expect(result.options.collection.toJSON()).toEqual([
       {
-        'label': 'Password',
+        'label': 'Okta Password',
         'authenticatorType': 'password',
         'value': {
           id: 'autwa6eD9o02iBbtv0g3'
@@ -104,7 +103,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         'description': ''
       },
       {
-        'label': 'Email Authentication',
+        'label': 'Okta E-mail',
         'authenticatorType': 'email',
         'value': {
           id: 'autwa6eDxxx2iBbtv0g3'
@@ -115,7 +114,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     ]);
     // make sure input parameter is not mutated.
     expect(opt).toEqual({
-      type: 'authenticatorSelect',
+      type: 'authenticatorVerifySelect',
       options: [
         {
           'label': 'Okta Password',

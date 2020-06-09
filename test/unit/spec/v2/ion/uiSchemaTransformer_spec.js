@@ -417,7 +417,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
             'uiSchema': [
               {
                 'name': 'authenticator',
-                'type': 'authenticatorSelect',
+                'type': 'authenticatorVerifySelect',
                 'label-top': true,
                 'modelType': 'object',
                 'options': [
@@ -575,7 +575,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
             'uiSchema': [
               {
                 'name': 'authenticator',
-                'type': 'authenticatorSelect',
+                'type': 'authenticatorEnrollSelect',
                 'required': true,
                 'label-top': true,
                 'modelType': 'object',

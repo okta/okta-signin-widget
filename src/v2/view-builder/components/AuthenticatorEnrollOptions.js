@@ -11,18 +11,18 @@
  */
 import { ListView, loc } from 'okta';
 import skipAll from './views/SkipOptionalEnrollmentButton';
-import FactorRow from './views/FactorRow';
+import AuthenticatorRow from './views/AuthenticatorRow';
 
 export default ListView.extend({
 
-  className: 'enroll-factor-list',
+  className: 'authenticator-enroll-list authenticator-list',
 
-  item: FactorRow,
+  item: AuthenticatorRow,
 
   itemSelector: '.list-content',
 
   initialize: function () {
-    this.listenTo(this.collection,'selectFactor', function (data) {
+    this.listenTo(this.collection,'selectAutheticator', function (data) {
       this.model.set(this.options.name, data);
       this.options.appState.trigger('saveForm', this.model);
     });
@@ -37,10 +37,8 @@ export default ListView.extend({
 
   getTemplateData () {
     // presence of the skip remediation form tells us that the authenticators are all optional
-    let title = '';
-    if(this.options.appState.get('currentFormName') === 'select-authenticator-enroll') {
-      title = this.hasOptionalFactors? loc('oie.setup.optional', 'login'):loc('oie.setup.required', 'login');
-    }
+    const title = this.hasOptionalFactors? loc('oie.setup.optional', 'login'):loc('oie.setup.required', 'login');
+
     return {
       title
     };
