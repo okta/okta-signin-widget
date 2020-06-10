@@ -28,6 +28,7 @@ import CheckBox from '@okta/courage/src/views/forms/inputs/CheckBox';
 import PasswordBox from '@okta/courage/src/views/forms/inputs/PasswordBox';
 import Radio from '@okta/courage/src/views/forms/inputs/Radio';
 import Select from '@okta/courage/src/views/forms/inputs/Select';
+import InputGroup from '@okta/courage/src/views/forms/inputs/InputGroup';
 import TextBox from '@okta/courage/src/views/forms/inputs/TextBox';
 import Callout from '@okta/courage/src/views/components/Callout';
 import Backbone from 'backbone';
@@ -97,6 +98,7 @@ const Okta = {
           CheckBox,
           Radio,
           Select,
+          InputGroup,
         },
       },
     },
@@ -113,5 +115,6 @@ Okta.registerInput('password', PasswordBox);
 Okta.registerInput('checkbox', CheckBox);
 Okta.registerInput('radio', Radio);
 Okta.registerInput('select', Select);
+Okta.registerInput('group', InputGroup);
 
 module.exports = Okta;

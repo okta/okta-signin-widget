@@ -40,7 +40,7 @@
                         "value": "sms"
                       },
                       {
-                        "label": "VOICE",
+                        "label": "Voice call",
                         "value": "voice"
                       }
                     ]
@@ -48,7 +48,8 @@
                   {
                     "name": "phoneNumber",
                     "required": true,
-                    "type": "string"
+                    "type": "string",
+                    "label": "Phone number"
                   }
                 ]
               }
