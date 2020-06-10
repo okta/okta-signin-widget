@@ -81,6 +81,11 @@ const Body = BaseForm.extend(Object.assign(
       'click #launch-ov': function (e) {
         e.preventDefault();
         this.doCustomURI();
+      },
+      'click #launch-ble': function (e) {
+        e.preventDefault();
+        const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
+        this.doBLE(deviceChallenge.challengeRequest);
       }
     },
 
@@ -88,8 +93,15 @@ const Body = BaseForm.extend(Object.assign(
       BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
       this.deviceChallengePollRemediation = this.options.appState.getCurrentViewState();
-      this.doChallenge();
-      this.startDevicePolling();
+      const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
+      const self = this;
+      this.add(createButton({
+        className: 'button button-wide button-primary',
+        title: 'Sign in with BluePass',
+        click () {
+          self.doBLE(deviceChallenge.challengeRequest);
+        }
+      }));
     },
 
     onPollingFail () {
@@ -104,8 +116,11 @@ const Body = BaseForm.extend(Object.assign(
 
     doChallenge () {
       const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
-      this.title = 'Verifying with Okta Verify through bluetooth';
+      this.title = 'Verifying with BluePass';
       this.add('<div class="spinner"></div>');
+      this.add(`
+        <div class="skinny-content"> If nothing prompts from the browser, <a href="#" id="launch-ble" class="link">click here</a> to launch Okta Verify, or make sure Okta Verify is installed.</div>
+      `);
       this.doBLE(deviceChallenge.challengeRequest);
       // switch (deviceChallenge.challengeMethod) {
       // case 'LOOPBACK':
@@ -146,6 +161,8 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     doBLE (challengeRequest) {
+      // this.doChallenge();
+      this.startDevicePolling();
       if (navigator.bluetooth) {
         this.probe(challengeRequest);
       }
