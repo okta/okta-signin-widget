@@ -77,7 +77,7 @@
           "create-form"
         ],
         "name": "select-identify",
-        "href": "http://rain.okta1.com:1802/idp/idx/identify/select",
+        "href": "http://localhost:3000/idp/idx/identify/select",
         "method": "POST",
         "accepts": "json",
         "value": [
@@ -97,7 +97,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "http://rain.okta1.com:1802/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "accepts": "json",
     "value": [
@@ -115,7 +115,7 @@
       "create-form"
     ],
     "name": "context",
-    "href": "http://rain.okta1.com:1802/idp/idx/context",
+    "href": "http://localhost:3000/idp/idx/context",
     "method": "POST",
     "accepts": "json",
     "value": [

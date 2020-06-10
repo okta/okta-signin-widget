@@ -21,6 +21,8 @@ describe('v2/ion/responseTransformer', function () {
           {
             'action': jasmine.any(Function),
             'name': 'challenge-authenticator',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'href': 'http://localhost:3000/idp/idx/challenge/answer',
             'method': 'POST',
             'value': [
@@ -35,7 +37,8 @@ describe('v2/ion/responseTransformer', function () {
                     }
                   ]
                 }
-              }
+              },
+              { name: 'stateHandle', required: true, value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8', visible: false, mutable: false }
             ]
           },
           {
@@ -43,6 +46,8 @@ describe('v2/ion/responseTransformer', function () {
             'name': 'select-authenticator-authenticate',
             'href': 'http://localhost:3000/idp/idx/challenge',
             'method': 'POST',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'value': [
               {
                 'name': 'authenticator',
@@ -115,7 +120,8 @@ describe('v2/ion/responseTransformer', function () {
                     }
                   }
                 ]
-              }
+              },
+              { name: 'stateHandle', required: true, value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8', visible: false, mutable: false }
             ]
           }
         ],

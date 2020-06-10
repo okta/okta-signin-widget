@@ -1,0 +1,134 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "expiresAt": "2018-09-17T23:08:56.000Z",
+  "intent": "login",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-authenticator",
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "required": true,
+            "options": [
+              {
+                "label": "Choose a security question",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "questionKey",
+                        "type": "string",
+                        "required": true,
+                        "label": "Choose a security question",
+                        "options": [
+                          {
+                            "label": "What is the food you least liked as a child?",
+                            "value": "disliked_food"
+                          },
+                          {
+                            "label": "What is the name of your first stuffed animal?",
+                            "value": "name_of_first_plush_toy"
+                          },
+                          {
+                            "label": "Where did you go for your favorite vacation?",
+                            "value": "favorite_vacation_location"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "answer",
+                        "label": "Answer",
+                        "required": true,
+                        "secret": true
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "label": "Create my own security question",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "questionKey",
+                        "required": true,
+                        "value": "custom",
+                        "mutable": false
+                      },
+                      {
+                        "name": "question",
+                        "label": "Create a security question",
+                        "required": true
+                      },
+                      {
+                        "name": "answer",
+                        "label": "Answer",
+                        "required": true,
+                        "secret": true
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "label": "Okta Security Question",
+    "value": {
+      "type": "security_question",
+      "id": "aid568g3mXgtID0X1GGG"
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "I9bvFiq01cRFgbn",
+      "passwordChanged": "2019-05-03T19:00:00.000Z",
+      "profile": {
+        "login": "foo@example.com",
+        "firstName": "Foo",
+        "lastName": "Bar",
+        "locale": "en-us",
+        "timeZone": "UTC"
+      }
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "value": [
+      {
+        "name": "stateHandle",
+        "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+        "visible": false
+      }
+    ]
+  }
+}

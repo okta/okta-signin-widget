@@ -27,7 +27,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
     'Your company requires multifactor authentication to add an additional layer of ' +
     'security when signing in to your Okta account');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(4);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
@@ -43,6 +43,9 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
   await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
 
+  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Security Question');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-security-question');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
 });
 
 test.requestHooks(mockEnrollAuthenticatorPassword)(`should navigate to password enrollment page`, async t => {
@@ -54,4 +57,3 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should navigate to password 
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 });
-

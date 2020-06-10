@@ -1,4 +1,4 @@
-import { View } from 'okta';
+import { _, View } from 'okta';
 import BaseForm from './BaseForm';
 import BaseModel from './BaseModel';
 import BaseHeader from './BaseHeader';
@@ -19,36 +19,52 @@ export default View.extend({
       '<div class="siw-main-footer"></div>',
 
   initialize () {
+    // Add Views
+    this.add(this.Header, { selector: '.siw-main-header' });
+    this.renderForm();
+    this.add(this.Footer, { selector : '.siw-main-footer' });
+  },
+
+  renderForm () {
+    let optionUiSchemaConfig;
+
+    if (this.form) {
+      this.form.remove();
+      optionUiSchemaConfig = this.form.model.toJSON({verbose: true});
+    }
+
     // Create Model
-    const IonModel = this.createModelClass();
+    const IonModel = this.createModelClass(
+      this.options.currentViewState,
+      optionUiSchemaConfig);
     const model = new IonModel ({
       formName: this.options.currentViewState.name,
     });
 
-    // Add Views
-    this.add(this.Header, { selector: '.siw-main-header' });
-    this.add(this.Body, {
+    if (!optionUiSchemaConfig) {
+      optionUiSchemaConfig = model.toJSON({verbose: true});
+    }
+
+    this.form = this.add(this.Body, {
       selector : '.siw-main-body',
       options: {
         model,
+        optionUiSchemaConfig,
       },
+    }).last();
+
+    _.each(model.attributes, (value, key) => {
+      if (key.match(/sub_schema_local_[^ ]+/)) {
+        // in order to render different sub-schema
+        this.listenTo(model, `change:${key}`, () => {
+          this.renderForm();
+        });
+      }
     });
-    this.add(this.Footer, { selector : '.siw-main-footer' });
   },
 
-  postRender () {
-    // If user enterted identifier is not found, API sends back a message with a link to sign up
-    // This is the click handler for that link
-    const appState = this.options.appState;
-    this.$el.find('.js-sign-up').click(function () {
-      appState.trigger('invokeAction', 'select-enroll-profile');
-      return false;
-    });
-
+  createModelClass (currentViewState, optionUiSchemaConfig = {}) {
+    return BaseModel.create(currentViewState, optionUiSchemaConfig);
   },
-
-  createModelClass () {
-    return BaseModel.create(this.options.currentViewState);
-  }
 
 });

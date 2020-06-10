@@ -12,7 +12,7 @@
           "create-form"
         ],
         "name": "select-factor-authenticate",
-        "href": "http://rain.okta1.com:1802/idp/idx/challenge",
+        "href": "http://localhost:3000/idp/idx/challenge",
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",
         "value": [
@@ -67,7 +67,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "http://rain.okta1.com:1802/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "accepts": "application/vnd.okta.v1+json",
     "value": [
@@ -85,7 +85,7 @@
       "create-form"
     ],
     "name": "context",
-    "href": "http://rain.okta1.com:1802/idp/idx/context",
+    "href": "http://localhost:3000/idp/idx/context",
     "method": "POST",
     "accepts": "application/vnd.okta.v1+json",
     "value": [
