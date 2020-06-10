@@ -20,11 +20,9 @@ export default Form.extend({
     //should be used before adding any other input components
     this.addCallouts();
 
-    inputOptions
-      .filter(input => input.visible !== false)
-      .forEach(input => {
-        this.addInputOrView(input);
-      });
+    inputOptions.forEach(input => {
+      this.addInputOrView(input);
+    });
 
     this.listenTo(this, 'save', this.saveForm);
   },
@@ -44,12 +42,23 @@ export default Form.extend({
   },
 
   addInputOrView (input) {
+    if (input.visible === false || input.mutable === false) {
+      return;
+    }
     if (input.View) {
       this.add(input.View, {
         options: input.options
       });
     } else {
       this.addInput(input);
+    }
+
+    if (Array.isArray(input.optionsUiSchemas)) {
+      if (this.options.optionUiSchemaConfig[input.name]) {
+        const optionUiSchemaIndex = Number(this.options.optionUiSchemaConfig[input.name]);
+        const optionUiSchemas = input.optionsUiSchemas[optionUiSchemaIndex] || [];
+        optionUiSchemas.forEach(this.addInputOrView.bind(this));
+      }
     }
   },
 

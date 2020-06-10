@@ -21,7 +21,6 @@ const BeaconView = View.extend({
       <div class="bg-helper auth-beacon auth-beacon-factor {{className}}" data-se="factor-beacon">\
         <div class="okta-sign-in-beacon-border auth-beacon-border"></div>\
       </div>\
-      <div data-type="factor-types-dropdown" class="factors-dropdown-wrap"></div>\
     </div >\
     ',
 

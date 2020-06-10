@@ -66,17 +66,11 @@ const getRemediationValues = (idx) => {
       value: []
     });
   }
-  _.each(idx.neededToProceed, (data) => {
-    if (data && data.name) {
-      // remove stateHandle field
-      if (data.value) {
-        data.value = data.value.filter((formField) => { return !! (formField.visible !== false); } );
-      }
-      remediationValues.push(_.omit(data, 'rel', 'accepts'));
-    }
-  });
   return {
-    remediations: remediationValues
+    remediations: [
+      ...remediationValues,
+      ...idx.neededToProceed,
+    ]
   };
 };
 
@@ -96,8 +90,8 @@ const getRemediationValues = (idx) => {
  *  messages: {},
  * }
  */
-const convert = (idx) => {
-  if (!isObject(idx && idx.rawIdxState)) {
+const convert = (idx = {}) => {
+  if (!isObject(idx.rawIdxState)) {
     return null;
   }
   const resp = idx.rawIdxState;
