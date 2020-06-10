@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* global Promise */
 import { $, loc, createButton } from 'okta';
 import BaseView from '../internals/BaseView';
@@ -14,6 +15,60 @@ const request = (opts) => {
     contentType: 'application/json',
   }, opts);
   return $.ajax(ajaxOptions);
+};
+
+const deviceName = 'Galaxy S10e'; // Replace this with your Phone Name
+const bleService = 'environmental_sensing';
+const bleCharacteristic = 'uv_index';
+let bluetoothDeviceDetected;
+let gattCharacteristics;
+
+const handleChangedValue = function (event) {
+  // (2) The BLE Server can send multiple events with Changed Values here
+  console.log('Event Arrived :' + event);
+};
+
+const connectGATT = function (challengeRequest) {
+  if (bluetoothDeviceDetected.gatt.connect && gattCharacteristics) {
+    return Promise.resolve();
+  }
+
+  return bluetoothDeviceDetected.gatt.connect()
+    .then(server => {
+      console.log('Getting GATT Service...');
+      return server.getPrimaryService(bleService);
+    })
+    .then(service => {
+      console.log('Getting GATT Characteristic...');
+      return service.getCharacteristic(bleCharacteristic);
+    })
+    .then(characteristic => {
+      let queue = Promise.resolve();
+      gattCharacteristics = characteristic;
+      console.log('Characteristic...' + characteristic);
+      let decoder = new TextDecoder('utf-8');
+      queue = queue.then(() => characteristic.readValue()).then(value => {
+        console.log('Manufacturer Name String: ' + decoder.decode(value));
+        // (1) Implement Retry of Challenge here to be Synchronized with (2) with some State
+        // TODO: Replace this string with Challenge JWT Exactly identical to FastPass format
+        gattCharacteristics.writeValue(challengeRequest);
+      });
+      gattCharacteristics.addEventListener('characteristicvaluechanged', handleChangedValue);
+    });
+};
+
+const read = function (challengeRequest) {
+  if (bluetoothDeviceDetected) {
+    return Promise.resolve()
+      .then(() => connectGATT(challengeRequest))
+      .then(() => {
+        console.log('Reading Data....');
+        return gattCharacteristics.readValue();
+      })
+      .catch(error => {
+        console.log('Waiting to start reading:' + error);
+      });
+  }
 };
 
 const Body = BaseForm.extend(Object.assign(
@@ -49,37 +104,88 @@ const Body = BaseForm.extend(Object.assign(
 
     doChallenge () {
       const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
-      switch (deviceChallenge.challengeMethod) {
-      case 'LOOPBACK':
-        this.title = loc('signin.with.fastpass', 'login');
-        this.add('<div class="spinner"></div>');
-        this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
-        break;
-      case 'CUSTOM_URI':
-        this.title = loc('customUri.title', 'login');
-        this.subtitle = loc('customUri.subtitle', 'login');
-        this.add(`
-          {{{i18n code="customUri.content" bundle="login"}}}
-        `);
-        this.customURI = deviceChallenge.href;
-        this.doCustomURI();
-        break;
-      case 'UNIVERSAL_LINK':
-        this.title = loc('universalLink.title', 'login');
-        this.add(`
-          {{{i18n code="universalLink.content" bundle="login"}}}
-        `);
-        this.add(createButton({
-          className: 'ul-button button button-wide button-primary',
-          title: loc('universalLink.button', 'login'),
-          click () {
-            // only window.location.href can open universal link in iOS/MacOS
-            // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
-            Util.redirect(deviceChallenge.href);
-          }
-        }));
+      this.title = 'Verifying with Okta Verify through bluetooth';
+      this.add('<div class="spinner"></div>');
+      this.doBLE(deviceChallenge.challengeRequest);
+      // switch (deviceChallenge.challengeMethod) {
+      // case 'LOOPBACK':
+      // case 'CUSTOM_URI':
+      // case 'UNIVERSAL_LINK':
+      //   this.title = 'Verifying with Okta Verify through bluetooth';
+      //   this.add('<div class="spinner"></div>');
+      //   this.doBLE(deviceChallenge.challengeRequest);
+      // case 'LOOPBACK':
+      //   this.title = loc('signin.with.fastpass', 'login');
+      //   this.add('<div class="spinner"></div>');
+      //   this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
+      //   break;
+      // case 'CUSTOM_URI':
+      //   this.title = loc('customUri.title', 'login');
+      //   this.subtitle = loc('customUri.subtitle', 'login');
+      //   this.add(`
+      //     {{{i18n code="customUri.content" bundle="login"}}}
+      //   `);
+      //   this.customURI = deviceChallenge.href;
+      //   this.doCustomURI();
+      //   break;
+      // case 'UNIVERSAL_LINK':
+      //   this.title = loc('universalLink.title', 'login');
+      //   this.add(`
+      //     {{{i18n code="universalLink.content" bundle="login"}}}
+      //   `);
+      //   this.add(createButton({
+      //     className: 'ul-button button button-wide button-primary',
+      //     title: loc('universalLink.button', 'login'),
+      //     click () {
+      //       // only window.location.href can open universal link in iOS/MacOS
+      //       // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
+      //       Util.redirect(deviceChallenge.href);
+      //     }
+      //   }));
+      // }
+    },
+
+    doBLE (challengeRequest) {
+      if (navigator.bluetooth) {
+        this.probe(challengeRequest);
       }
     },
+
+    probe (challengeRequest) {
+      /*
+       * For DEMO we can have a whitelist of all the Phones used for testing.
+       * This is a major user fiction that will be addressed when caBLE v2 is standardized
+      */
+      // let options = {
+      //   'filters': [
+      //     { 'name': deviceName }
+      //   ],
+      //   'optionalServices' : [bleService]
+      // };
+      // let options = {
+      //   'filters': [
+      //     {
+      //       'services': ['environmental_sensing']
+      //     }
+      //   ],
+      //   'optionalServices' : [bleService]
+      // };
+      const options = {
+        'acceptAllDevices': true,
+        'optionalServices' : [bleService]
+      };
+      console.log('Requesting Bluetooth Device...');
+      navigator.bluetooth.requestDevice(options).then(device => {
+        console.log('> Name: ' + device.name);
+        bluetoothDeviceDetected = device;
+        const data = read(challengeRequest);
+        console.log('Data is ' + data);
+      }).catch(error => {
+        console.log('Argh! ' + error);
+      });
+    },
+
+
 
     doLoopback (authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
       let currentPort;
