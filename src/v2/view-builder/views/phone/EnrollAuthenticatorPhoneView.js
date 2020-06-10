@@ -1,4 +1,4 @@
-import { loc, Model } from 'okta';
+import { _, loc, Model } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseFactorView from '../shared/BaseFactorView';
@@ -16,18 +16,15 @@ const Body = BaseForm.extend({
     return loc('oie.phone.enroll.subtitle', 'login');
   },
 
-  handleMethodTypeChange ({ changed }) {
+  handleMethodTypeChange (e, selectedMethod) {
     // Update the button label and value..
     const btn = this.el.querySelector('.o-form-button-bar .button-primary');
     const phoneField = this.el.querySelector('.phone-authenticator-enroll__phone');
     const extensionField = this.el.querySelector('.phone-authenticator-enroll__phone-ext');
-
-    const voiceSelected = changed['authenticator.methodType'] === 'voice';
-    const smsSelected = changed['authenticator.methodType'] === 'sms';
     const smsBtnText = loc('oie.phone.enroll.smsButton', 'login');
     const voiceBtnText = loc('oie.phone.enroll.voiceButton', 'login');
 
-    if (voiceSelected) {
+    if (selectedMethod === 'voice') {
       btn.innerText = voiceBtnText;
       btn.value = voiceBtnText;
       if (!phoneField.classList.contains('phone-authenticator-enroll__phone--small')) {
@@ -36,7 +33,7 @@ const Body = BaseForm.extend({
       extensionField.classList.remove('hide');
     }
 
-    if (smsSelected) {
+    if (selectedMethod === 'sms') {
       btn.innerText = smsBtnText;
       btn.value = smsBtnText;
       phoneField.classList.remove('phone-authenticator-enroll__phone--small');
@@ -46,9 +43,9 @@ const Body = BaseForm.extend({
     }
   },
 
-  handleCountryChange ({ changed }) {
+  handleCountryChange (e, selectedCountry) {
     const countryCodeField = this.el.querySelector('.phone-authenticator-enroll__phone-code');
-    countryCodeField.innerText = `+${CountryUtil.getCallingCodeForCountry(changed.country)}`;
+    countryCodeField.innerText = `+${CountryUtil.getCallingCodeForCountry(selectedCountry)}`;
   },
 
   save () {
@@ -58,9 +55,11 @@ const Body = BaseForm.extend({
   getUISchema () {
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
 
-    const authenticatorIdUISchema = uiSchemas.find(({name}) => name === 'authenticator.id');
-    const methodTypeUISchema = uiSchemas.find(({name}) => name === 'authenticator.methodType');
-    const phoneNumberUISchema = uiSchemas.find(({ name }) => name === 'authenticator.phoneNumber');
+    // TODO: Using underscore to support IE, replace with Array.prototype methods (find, findIndex) when IE
+    // support is removed
+    const phoneNumberUISchema = _.find(uiSchemas, ({ name }) => name === 'authenticator.phoneNumber');
+    const phoneNumberUISchemaIndex = _.findIndex(uiSchemas, ({ name }) => name === 'authenticator.phoneNumber');
+
     const countryUISchema = {
       'label-top': true,
       label: loc('oie.phone.enroll.countryLabel', 'login'),
@@ -100,13 +99,15 @@ const Body = BaseForm.extend({
       name: 'extension',
     };
 
-    return [
-      authenticatorIdUISchema,
-      methodTypeUISchema,
-      countryUISchema,
-      phoneNumberWithCodeUISchema,
-      extensionUISchema
-    ];
+    if (phoneNumberUISchemaIndex !== -1) {
+      // Replace phoneNumberUISchema..
+      uiSchemas.splice(phoneNumberUISchemaIndex, 1, phoneNumberWithCodeUISchema);
+      // Add countryUISchema before & extensionUISchema after phone..
+      uiSchemas.splice(phoneNumberUISchemaIndex, 0, countryUISchema);
+      uiSchemas.splice(phoneNumberUISchemaIndex + 2, 0, extensionUISchema);
+    }
+
+    return uiSchemas;
   },
 
   initialize () {
@@ -122,47 +123,56 @@ export default BaseFactorView.extend({
 
   createModelClass () {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
+    const local = Object.assign(
+      {
+        country: {
+          // Set default country to "US"
+          'value': 'US',
+          'type': 'string',
+        },
+        extension: {
+          'type': 'string',
+        },
+      },
+      ModelClass.prototype.local,
+    );
+
+    const derived = Object.assign(
+      {
+        phoneWithCode: {
+          deps: ['extension', 'country', 'authenticator.methodType', 'authenticator.phoneNumber'],
+          fn: function (extension, country, methodType, phoneNumber) {
+            // Add country code..
+            let formattedPhoneNumber =
+              `+${CountryUtil.getCallingCodeForCountry(country)}${phoneNumber}`;  
+    
+            // Add extension if present..
+            if (methodType === 'voice'
+              && extension && extension.trim().length) {
+              formattedPhoneNumber = `${formattedPhoneNumber}x${extension}`;
+            }
+            return formattedPhoneNumber;
+          }
+        }
+      },
+      ModelClass.prototype.derived
+    )
 
     // Default value for authenticator.methodType
     Object.assign(
       ModelClass.prototype.props['authenticator.methodType'], {
         'value': 'sms'
       },
-    );
-    
-    // Set default country to "US"    
-    Object.assign(
-      ModelClass.prototype.props, {
-        'country': {
-          'value': 'US',
-          'type': 'string',
-        }
-      }
-    );
+    );  
 
     return ModelClass.extend({
+      local,
+      derived,
       toJSON: function () {
-        const country = this.get('country');
-        this.unset('country', { silent: true });
-
-        // Add country code..
-        let formattedPhoneNumber = `+${CountryUtil.getCallingCodeForCountry(country)}${this.get('authenticator.phoneNumber')}`;
-        const extension = this.get('extension');
-        this.unset('extension', { silent: true });
-
-        // Add extension if present..
-        if (this.get('authenticator.methodType') === 'voice'
-          && extension && extension.trim().length) {
-          formattedPhoneNumber = `${formattedPhoneNumber}x${extension}`;
-        }
-
-        this.set('authenticator.phoneNumber',
-          formattedPhoneNumber, {
-            silent: true
-          }
-        );
-
-        return Model.prototype.toJSON.call(this, arguments);
+        const modelJSON = Model.prototype.toJSON.call(this, arguments);
+        // Override phone with formatted number..
+        modelJSON.authenticator.phoneNumber = this.get('phoneWithCode');
+        return modelJSON;
       },
     });
   },
