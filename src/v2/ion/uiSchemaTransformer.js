@@ -170,7 +170,7 @@ const createUISchema = (transformedResp, remediationForm) => {
           // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
           uiSchema.type = 'radio';
           // set the default value to the first value..
-          if (ionFormField.options && ionFormField.options[0] && ionFormField.options[0].value) {
+          if (ionFormField.options[0] && ionFormField.options[0].value) {
             ionFormField.value = ionFormField.options[0].value;
           }
         } else {
