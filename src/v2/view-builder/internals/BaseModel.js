@@ -11,7 +11,6 @@
  */
 import { _, Model } from 'okta';
 
-// change the param to uiSchemaField instead..
 const convertUiSchemaFieldToProp = (uiSchemaField) => {
   const config = Object.assign(
     {},
@@ -30,7 +29,7 @@ const convertUiSchemaFieldToProp = (uiSchemaField) => {
 
 const createPropsAndLocals = function (
   remediation = {},
-  subSchemaConfig = {},
+  optionUiSchemaConfig = {},
   props = {},
   local = {}) {
 
@@ -38,25 +37,25 @@ const createPropsAndLocals = function (
 
   uiSchemas.forEach(schema => {
     if (Array.isArray(schema.optionsUiSchemas)) {
-      let subSchemaIndex;
-      let subSchemaValue = {};
+      let optionUiSchemaIndex;
+      let optionUiSchemaValue = {};
 
       if (Number(schema.value) >= 0) {
-        subSchemaIndex = schema.value;
+        optionUiSchemaIndex = schema.value;
       }
-      if (subSchemaConfig[schema.name]) {
-        subSchemaValue = {value: subSchemaConfig[schema.name]};
-        subSchemaIndex = Number(subSchemaValue.value);
+      if (optionUiSchemaConfig[schema.name]) {
+        optionUiSchemaValue = {value: optionUiSchemaConfig[schema.name]};
+        optionUiSchemaIndex = Number(optionUiSchemaValue.value);
       }
 
       Object.assign(
         local,
-        convertUiSchemaFieldToProp(Object.assign({}, schema, subSchemaValue)));
+        convertUiSchemaFieldToProp(Object.assign({}, schema, optionUiSchemaValue)));
 
-      if (subSchemaIndex) {
+      if (optionUiSchemaIndex) {
         createPropsAndLocals(
-          { uiSchema: schema.optionsUiSchemas[subSchemaIndex] },
-          subSchemaConfig,
+          { uiSchema: schema.optionsUiSchemas[optionUiSchemaIndex] },
+          optionUiSchemaConfig,
           props,
           local,
         );
@@ -67,14 +66,14 @@ const createPropsAndLocals = function (
   });
 };
 
-const create = function (remediation = {}, subSchemaConfig = {}) {
+const create = function (remediation = {}, optionUiSchemaConfig = {}) {
   const props = {};
   const local = {
     formName: 'string',
   };
   createPropsAndLocals(
     remediation,
-    subSchemaConfig,
+    optionUiSchemaConfig,
     props,
     local);
 

@@ -54,10 +54,10 @@ export default Form.extend({
     }
 
     if (Array.isArray(input.optionsUiSchemas)) {
-      if (this.options.subSchemaConfig[input.name]) {
-        const subSchemaIndex = Number(this.options.subSchemaConfig[input.name]);
-        const subSchemas = input.optionsUiSchemas[subSchemaIndex] || [];
-        subSchemas.forEach(this.addInputOrView.bind(this));
+      if (this.options.optionUiSchemaConfig[input.name]) {
+        const optionUiSchemaIndex = Number(this.options.optionUiSchemaConfig[input.name]);
+        const optionUiSchemas = input.optionsUiSchemas[optionUiSchemaIndex] || [];
+        optionUiSchemas.forEach(this.addInputOrView.bind(this));
       }
     }
   },

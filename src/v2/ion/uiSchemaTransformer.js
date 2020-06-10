@@ -104,8 +104,9 @@ const getFactorsUiSchema = ({ options }, factors) => ({
   options: createFactorTypeOptions(options, factors),
 });
 
-const getAuthenticatorsUiSchema = ({ options }, authenticators) => ({
+const getAuthenticatorsUiSchema = ({ options, type }, authenticators) => ({
   type: 'authenticatorSelect',
+  modelType: type, // is 'object'
   options: createAuthenticatorOptions(options, authenticators),
 });
 

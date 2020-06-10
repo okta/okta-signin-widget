@@ -26,30 +26,30 @@ export default View.extend({
   },
 
   renderForm () {
-    let subSchemaConfig;
+    let optionUiSchemaConfig;
 
     if (this.form) {
       this.form.remove();
-      subSchemaConfig = this.form.model.toJSON({verbose: true});
+      optionUiSchemaConfig = this.form.model.toJSON({verbose: true});
     }
 
     // Create Model
     const IonModel = this.createModelClass(
       this.options.currentViewState,
-      subSchemaConfig);
+      optionUiSchemaConfig);
     const model = new IonModel ({
       formName: this.options.currentViewState.name,
     });
 
-    if (!subSchemaConfig) {
-      subSchemaConfig = model.toJSON({verbose: true});
+    if (!optionUiSchemaConfig) {
+      optionUiSchemaConfig = model.toJSON({verbose: true});
     }
 
     this.form = this.add(this.Body, {
       selector : '.siw-main-body',
       options: {
         model,
-        subSchemaConfig,
+        optionUiSchemaConfig,
       },
     }).last();
 
@@ -63,8 +63,8 @@ export default View.extend({
     });
   },
 
-  createModelClass (currentViewState, subSchemaConfig = {}) {
-    return BaseModel.create(currentViewState, subSchemaConfig);
+  createModelClass (currentViewState, optionUiSchemaConfig = {}) {
+    return BaseModel.create(currentViewState, optionUiSchemaConfig);
   },
 
 });
