@@ -89,6 +89,12 @@ const Body = BaseForm.extend({
     const extensionUISchema = {
       label: loc('oie.phone.enroll.phoneExtensionLabel', 'login'),
       type: 'text',
+      // Need to manually hide and show
+      // - toggleWhen puts display: block on the element when it unhides hence can't be used.
+      //   Because in this case, the element needs to be rendered as an inline-block.
+      // - showWhen has an animation on the element when unhiding
+      //   The animation makes the element look weird because of the way it is positioned,
+      //   hence can't be used
       className: 'phone-authenticator-enroll__phone-ext hide',
       'label-top': true,
       name: 'extension',
