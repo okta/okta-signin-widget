@@ -16,7 +16,9 @@ const Body = BaseForm.extend({
     return loc('oie.phone.enroll.subtitle', 'login');
   },
 
-  handleMethodTypeChange (e, selectedMethod) {
+  render () {
+    BaseForm.prototype.render.apply(this, arguments);
+    const selectedMethod = this.model.get('authenticator.methodType');
     // Update the button label and value..
     const btn = this.el.querySelector('.o-form-button-bar .button-primary');
     const phoneField = this.el.querySelector('.phone-authenticator-enroll__phone');
@@ -49,7 +51,9 @@ const Body = BaseForm.extend({
   },
 
   save () {
-    return loc('oie.phone.enroll.smsButton', 'login');
+    return this.model.get('authenticator.methodType') === 'voice'
+      ? loc('oie.phone.enroll.voiceButton', 'login')
+      : loc('oie.phone.enroll.smsButton', 'login');
   },
 
   getUISchema () {
@@ -112,16 +116,9 @@ const Body = BaseForm.extend({
 
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
-    this.listenTo(this.model, 'change:authenticator.methodType', this.handleMethodTypeChange.bind(this));
+    this.listenTo(this.model, 'change:authenticator.methodType', this.render.bind(this));
     this.listenTo(this.model, 'change:country', this.handleCountryChange.bind(this));
   },
-
-  postRender () {
-    // If voice is the only option switch to voice mode.
-    setTimeout(() => {
-      this.model.trigger('change:authenticator.methodType', {}, this.model.get('authenticator.methodType'));
-    }, 200);
-  }
 });
 
 export default BaseFactorView.extend({
@@ -144,44 +141,24 @@ export default BaseFactorView.extend({
       ModelClass.prototype.local,
     );
 
-    const derived = Object.assign(
-      {
-        phoneWithCode: {
-          deps: ['extension', 'country', 'authenticator.methodType', 'authenticator.phoneNumber'],
-          fn: function (extension, country, methodType, phoneNumber) {
-            // Add country code..
-            let formattedPhoneNumber =
-              `+${CountryUtil.getCallingCodeForCountry(country)}${phoneNumber}`;  
-    
-            // Add extension if present..
-            if (methodType === 'voice'
-              && extension && extension.trim().length) {
-              formattedPhoneNumber = `${formattedPhoneNumber}x${extension}`;
-            }
-            return formattedPhoneNumber;
-          }
-        }
-      },
-      ModelClass.prototype.derived
-    );
-
-    const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
-    const { options } = _.find(uiSchemas, ({ name }) => name === 'authenticator.methodType');
-
-    // Default value for authenticator.methodType
-    Object.assign(
-      ModelClass.prototype.props['authenticator.methodType'], {
-        'value': options[0] && options[0].value,
-      },
-    );  
-
     return ModelClass.extend({
       local,
-      derived,
       toJSON: function () {
         const modelJSON = Model.prototype.toJSON.call(this, arguments);
+        const extension = this.get('extension');
+        const country = this.get('country');
+
+        // Add country code..
+        let formattedPhoneNumber =
+          `+${CountryUtil.getCallingCodeForCountry(country)}${modelJSON.authenticator.phoneNumber}`;
+
+        // Add extension if present..
+        if (modelJSON.authenticator.methodType === 'voice'
+          && extension && extension.trim().length) {
+          formattedPhoneNumber = `${formattedPhoneNumber}x${extension}`;
+        }
         // Override phone with formatted number..
-        modelJSON.authenticator.phoneNumber = this.get('phoneWithCode');
+        modelJSON.authenticator.phoneNumber = formattedPhoneNumber;
         return modelJSON;
       },
     });
