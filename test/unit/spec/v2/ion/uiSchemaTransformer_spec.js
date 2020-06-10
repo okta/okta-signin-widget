@@ -9,6 +9,7 @@ import XHRFactorEnrollOptions from '../../../../../playground/mocks/data/idp/idx
 import XHRAuthenticatorRequiredEmail  from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-email.json';
 import XHRAuthenticatorEnrollOptions  from '../../../../../playground/mocks/data/idp/idx/authenticator-select-enroll-options.json';
 import XHRAuthenticatorEnrollPhone  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-phone.json';
+import XHRAuthenticatorEnrollSecurityQuestion  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-security-question.json';
 import XHRIdentifyResponse from '../../../../../playground/mocks/data/idp/idx/identify.json';
 
 describe('v2/ion/uiSchemaTransformer', function () {
@@ -26,6 +27,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
             'href': 'http://localhost:3000/idp/idx/challenge/answer',
             'name':'challenge-factor',
             'method':'POST',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'action': jasmine.any(Function),
             'value':[
               {
@@ -38,6 +41,13 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     },
                   ]
                 }
+              },
+              {
+                name: 'stateHandle',
+                required: true,
+                value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
+                visible: false,
+                mutable: false
               }
             ],
             'uiSchema':[
@@ -53,11 +63,13 @@ describe('v2/ion/uiSchemaTransformer', function () {
             'href': 'http://localhost:3000/idp/idx/challenge',
             'name':'select-factor-authenticate',
             'method':'POST',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'action': jasmine.any(Function),
             'value':[
               {
                 'name':'factorId',
-                'type':'set',
+                'type':'string',
                 'options':[
                   {
                     'label':'Password',
@@ -70,6 +82,13 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'factorType':'email'
                   }
                 ]
+              },
+              {
+                name: 'stateHandle',
+                required: true,
+                value: '02h50hMLvmuZUuoKCShHKZytlDeFRnn8KG-rcd8Ay5',
+                visible: false,
+                mutable: false
               }
             ],
             'uiSchema':[
@@ -108,12 +127,14 @@ describe('v2/ion/uiSchemaTransformer', function () {
           {
             'href': 'http://localhost:3000/idp/idx/credential/enroll',
             'name':'select-factor-enroll',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'method':'POST',
             'action': jasmine.any(Function),
             'value':[
               {
                 'name':'factorProfileId',
-                'type':'set',
+                'type':'string',
                 'options':[
                   {
                     'label':'Password Label',
@@ -126,6 +147,11 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'factorType':'email'
                   }
                 ]
+              },
+              {
+                name: 'stateHandle',
+                value: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+                visible: false
               }
             ],
             'uiSchema':[
@@ -163,6 +189,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
             'href': 'http://localhost:3000/idp/idx/enroll',
             'name':'enroll-profile',
             'method':'POST',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'action': jasmine.any(Function),
             'value':[
               {
@@ -186,6 +214,11 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     }
                   ],
                 },
+              },
+              {
+                name: 'stateHandle',
+                value: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+                visible: false
               }
             ],
             'uiSchema':[
@@ -215,12 +248,19 @@ describe('v2/ion/uiSchemaTransformer', function () {
           {
             'href': 'http://localhost:3000/idp/idx/identify',
             'name':'select-identify',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'method': 'POST',
             'action': jasmine.any(Function),
             'value':[
               {
                 'name':'identifier',
                 'label':'identifier',
+              },
+              {
+                name: 'stateHandle',
+                value: '01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB',
+                visible: false
               }
             ],
             'uiSchema':[
@@ -251,6 +291,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
           {
             'name': 'challenge-authenticator',
             'href': 'http://localhost:3000/idp/idx/challenge/answer',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'method': 'POST',
             'action': jasmine.any(Function),
             'value': [
@@ -265,6 +307,11 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     }
                   ]
                 }
+              },
+              {
+                name: 'stateHandle', required: true,
+                value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
+                visible: false, mutable: false
               }
             ],
             'uiSchema': [
@@ -284,6 +331,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
             'name': 'select-authenticator-authenticate',
             'href': 'http://localhost:3000/idp/idx/challenge',
             'method': 'POST',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'action': jasmine.any(Function),
             'value': [
               {
@@ -357,6 +406,12 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     }
                   }
                 ]
+              },
+              {
+                name: 'stateHandle',
+                required: true,
+                value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
+                visible: false, mutable: false
               }
             ],
             'uiSchema': [
@@ -364,6 +419,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                 'name': 'authenticator',
                 'type': 'authenticatorSelect',
                 'label-top': true,
+                'modelType': 'object',
                 'options': [
                   {
                     'label': 'Okta Password',
@@ -408,6 +464,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
           {
             'name': 'select-authenticator-enroll',
             'href': 'http://localhost:3000/idp/idx/credential/enroll',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'method': 'POST',
             'action': jasmine.any(Function),
             'value': [
@@ -487,8 +545,31 @@ describe('v2/ion/uiSchemaTransformer', function () {
                         ]
                       }
                     }
-                  }
+                  },
+                  {
+                    'label': 'Okta Security Question',
+                    'value': {
+                      'form': {
+                        'value': [
+                          {
+                            'name': 'id',
+                            'value': 'aid568g3mXgtID0X1GGG',
+                            'required': true,
+                            'mutable': false,
+                            'visible': false
+                          }
+                        ]
+                      }
+                    }
+                  },
                 ]
+              },
+              {
+                name: 'stateHandle',
+                required: true,
+                value: '02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt',
+                visible: false,
+                mutable: false
               }
             ],
             'uiSchema': [
@@ -497,6 +578,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                 'type': 'authenticatorSelect',
                 'required': true,
                 'label-top': true,
+                'modelType': 'object',
                 'options': [
                   {
                     'label': 'Okta Password',
@@ -519,6 +601,13 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     },
                     'authenticatorType': 'security_key'
                   },
+                  {
+                    'label': 'Okta Security Question',
+                    'value': {
+                      'id': 'aid568g3mXgtID0X1GGG'
+                    },
+                    'authenticatorType': 'security_question'
+                  },
                 ]
               }
             ]
@@ -536,7 +625,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
         'currentAuthenticator': {
           'type': 'phone',
           'id': 'aid568g3mXgtID0X1SLH',
-          'name': 'Okta Phone'
         },
         'user': {
           'id': 'I9bvFiq01cRFgbn',
@@ -553,6 +641,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
           {
             'name': 'select-authenticator-enroll-data',
             'href': 'http://localhost:3000/idp/idx/challenge',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'method': 'POST',
             'action': jasmine.any(Function),
             'value': [
@@ -594,6 +684,11 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     ]
                   }
                 }
+              },
+              {
+                name: 'stateHandle',
+                value: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+                visible: false
               }
             ],
             'uiSchema': [
@@ -636,6 +731,194 @@ describe('v2/ion/uiSchemaTransformer', function () {
     });
   });
 
+  it('converts authenticator enroll - security question', (done) => {
+    MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollSecurityQuestion, idxResp => {
+      const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
+      expect(result).toEqual({
+        'currentAuthenticator': {
+          'type': 'security_question',
+          'id': 'aid568g3mXgtID0X1GGG',
+        },
+        'user': {
+          'id': 'I9bvFiq01cRFgbn',
+          'passwordChanged': '2019-05-03T19:00:00.000Z',
+          'profile': {
+            'login': 'foo@example.com',
+            'firstName': 'Foo',
+            'lastName': 'Bar',
+            'locale': 'en-us',
+            'timeZone': 'UTC'
+          }
+        },
+        'remediations': [
+          {
+            'rel': [
+              'create-form'
+            ],
+            'name': 'enroll-authenticator',
+            'href': 'http://localhost:3000/idp/idx/challenge/answer',
+            'method': 'POST',
+            'accepts': 'application/vnd.okta.v1+json',
+            'action': jasmine.any(Function),
+            'value': [
+              {
+                'name': 'credentials',
+                'type': 'object',
+                'required': true,
+                'options': [
+                  {
+                    'label': 'Choose a security question',
+                    'value': {
+                      'form': {
+                        'value': [
+                          {
+                            'name': 'questionKey',
+                            'type': 'string',
+                            'required': true,
+                            'label': 'Choose a security question',
+                            'options': [
+                              {
+                                'label': 'What is the food you least liked as a child?',
+                                'value': 'disliked_food'
+                              },
+                              {
+                                'label': 'What is the name of your first stuffed animal?',
+                                'value': 'name_of_first_plush_toy'
+                              },
+                              {
+                                'label': 'Where did you go for your favorite vacation?',
+                                'value': 'favorite_vacation_location'
+                              }
+                            ]
+                          },
+                          {
+                            'name': 'answer',
+                            'label': 'Answer',
+                            'required': true,
+                            'secret': true
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    'label': 'Create my own security question',
+                    'value': {
+                      'form': {
+                        'value': [
+                          {
+                            'name': 'questionKey',
+                            'required': true,
+                            'value': 'custom',
+                            'mutable': false
+                          },
+                          {
+                            'name': 'question',
+                            'label': 'Create a security question',
+                            'required': true
+                          },
+                          {
+                            'name': 'answer',
+                            'label': 'Answer',
+                            'required': true,
+                            'secret': true
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                'name': 'stateHandle',
+                'required': true,
+                'value': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+                'visible': false,
+                'mutable': false
+              }
+            ],
+            'uiSchema': [
+              {
+                'name': 'sub_schema_local_credentials',
+                'type': 'radio',
+                'required': true,
+                'options': [
+                  {
+                    'label': 'Choose a security question',
+                    'value': 0
+                  },
+                  {
+                    'label': 'Create my own security question',
+                    'value': 1
+                  }
+                ],
+                'label-top': true,
+                'optionsUiSchemas': [
+                  [
+                    {
+                      'name': 'credentials.questionKey',
+                      'type': 'select',
+                      'required': true,
+                      'label': 'Choose a security question',
+                      'options': {
+                        'disliked_food': 'What is the food you least liked as a child?',
+                        'name_of_first_plush_toy': 'What is the name of your first stuffed animal?',
+                        'favorite_vacation_location': 'Where did you go for your favorite vacation?'
+                      },
+                      'label-top': true,
+                      'wide': true
+                    },
+                    {
+                      'name': 'credentials.answer',
+                      'label': 'Answer',
+                      'required': true,
+                      'secret': true,
+                      'label-top': true,
+                      'type': 'password',
+                      'params': {
+                        'showPasswordToggle': true
+                      }
+                    }
+                  ],
+                  [
+                    {
+                      'name': 'credentials.questionKey',
+                      'required': true,
+                      'value': 'custom',
+                      'mutable': false,
+                      'label-top': true,
+                      'type': 'text'
+                    },
+                    {
+                      'name': 'credentials.question',
+                      'label': 'Create a security question',
+                      'required': true,
+                      'label-top': true,
+                      'type': 'text'
+                    },
+                    {
+                      'name': 'credentials.answer',
+                      'label': 'Answer',
+                      'required': true,
+                      'secret': true,
+                      'label-top': true,
+                      'type': 'password',
+                      'params': {
+                        'showPasswordToggle': true
+                      }
+                    }
+                  ]
+                ],
+                'value': '0'
+              }
+            ]
+          }
+        ],
+        'idx': idxResp,
+      });
+    });
+  });
+
   it('converts identify remidiation response', (done) => {
     MockUtil.mockIntrospect(done, XHRIdentifyResponse, idxResp => {
       const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
@@ -644,6 +927,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
           {
             'name':'identify',
             'href':'http://localhost:3000/idp/idx/identify',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'method':'POST',
             'action': jasmine.any(Function),
             'value':[
@@ -655,6 +940,13 @@ describe('v2/ion/uiSchemaTransformer', function () {
                 'name':'rememberMe',
                 'label':'Remember Me',
                 'type':'boolean'
+              },
+              {
+                name: 'stateHandle',
+                required: true,
+                value: jasmine.any(String),
+                visible: false,
+                mutable: false
               }
             ],
             'uiSchema':[
@@ -678,9 +970,19 @@ describe('v2/ion/uiSchemaTransformer', function () {
           {
             'name':'select-enroll-profile',
             'href':'http://localhost:3000/idp/idx/enroll',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
             'method':'POST',
             'action': jasmine.any(Function),
-            'value':[],
+            'value':[
+              {
+                name: 'stateHandle',
+                required: true,
+                value: jasmine.any(String),
+                visible: false,
+                mutable: false
+              }
+            ],
             'uiSchema':[]
           }
         ],

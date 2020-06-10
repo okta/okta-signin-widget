@@ -68,8 +68,7 @@
     "label": "Okta Phone",
     "value": {
       "type": "phone",
-      "id": "aid568g3mXgtID0X1SLH",
-      "name": "Okta Phone"
+      "id": "aid568g3mXgtID0X1SLH"
     }
   },
   "user": {

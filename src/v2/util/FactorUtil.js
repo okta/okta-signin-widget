@@ -30,6 +30,11 @@ const factorData = {
     // TODO: need new icon for `mfa-okta-phone`
     iconClassName: 'mfa-okta-call',
   },
+  'security_question': {
+    label: loc('factor.securityQuestion', 'login'),
+    description: '',
+    iconClassName: 'mfa-okta-security-question',
+  },
 
   // Will get rid of this after fully implementing verify. OKTA-301557
   'webauthn': {
