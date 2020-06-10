@@ -91,6 +91,22 @@
                     ]
                   }
                 }
+              },
+              {
+                "label": "Okta Security Question",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aid568g3mXgtID0X1GGG",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                }
               }
             ]
           },
@@ -128,6 +144,13 @@
           "type": "phone",
           "id": "aid568g3mXgtID0X1SLH"
         }
+      },
+      {
+        "label": "Okta Security Question",
+        "value": {
+          "type": "security_question",
+          "id": "aid568g3mXgtID0X1GGG"
+        }
       }
     ]
   },
@@ -142,7 +165,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "http://localhost:3000:1802/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "accepts": "application/vnd.okta.v1+json",
     "value": [
