@@ -156,7 +156,7 @@ export default BaseFactorView.extend({
         }
       },
       ModelClass.prototype.derived
-    )
+    );
 
     // Default value for authenticator.methodType
     Object.assign(
