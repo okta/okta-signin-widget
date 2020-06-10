@@ -29,7 +29,8 @@
     // 2px top padding to align with phone number input text
     padding: 0.125rem 0 0;
   }
-  .hidden {
+  // Have to do this for more specificity than global hide
+  .hide {
     display: none;
   }
 }

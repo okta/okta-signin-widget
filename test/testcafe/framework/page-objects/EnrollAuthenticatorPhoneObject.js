@@ -18,7 +18,7 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   }
 
   extensionIsHidden () {
-    return this.form.getElement(PHONE_NUMBER_EXTENSION_SELECTOR).hasClass('hidden');
+    return this.form.getElement(PHONE_NUMBER_EXTENSION_SELECTOR).hasClass('hide');
   }
 
   getElement (selector) {

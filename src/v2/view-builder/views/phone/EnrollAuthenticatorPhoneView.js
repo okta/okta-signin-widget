@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc, Model } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseFactorView from '../shared/BaseFactorView';
@@ -16,7 +16,7 @@ const Body = BaseForm.extend({
     return loc('oie.phone.enroll.subtitle', 'login');
   },
 
-  _changeView ({ changed }) {
+  handleMethodTypeChange ({ changed }) {
     // Update the button label and value..
     const btn = this.el.querySelector('.o-form-button-bar .button-primary');
     const phoneField = this.el.querySelector('.phone-authenticator-enroll__phone');
@@ -33,20 +33,20 @@ const Body = BaseForm.extend({
       if (!phoneField.classList.contains('phone-authenticator-enroll__phone--small')) {
         phoneField.classList.add('phone-authenticator-enroll__phone--small');
       }
-      extensionField.classList.remove('hidden');
+      extensionField.classList.remove('hide');
     }
 
     if (smsSelected) {
       btn.innerText = smsBtnText;
       btn.value = smsBtnText;
       phoneField.classList.remove('phone-authenticator-enroll__phone--small');
-      if (!extensionField.classList.contains('hidden')) {
-        extensionField.classList.add('hidden');
+      if (!extensionField.classList.contains('hide')) {
+        extensionField.classList.add('hide');
       }
     }
   },
 
-  _changeCountry ({ changed }) {
+  handleCountryChange ({ changed }) {
     const countryCodeField = this.el.querySelector('.phone-authenticator-enroll__phone-code');
     countryCodeField.innerText = `+${CountryUtil.getCallingCodeForCountry(changed.country)}`;
   },
@@ -55,21 +55,23 @@ const Body = BaseForm.extend({
     return loc('oie.phone.enroll.smsButton', 'login');
   },
 
-  initialize () {
-    const argArr = Array.prototype.slice.call(arguments);
-    const { currentViewState } = argArr[0];
+  getUISchema () {
+    const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
 
+    const authenticatorIdUISchema = uiSchemas.find(({name}) => name === 'authenticator.id');
+    const methodTypeUISchema = uiSchemas.find(({name}) => name === 'authenticator.methodType');
+    const phoneNumberUISchema = uiSchemas.find(({ name }) => name === 'authenticator.phoneNumber');
     const countryUISchema = {
       'label-top': true,
-      label: 'Country',
+      label: loc('oie.phone.enroll.countryLabel', 'login'),
       type: 'select',
       options: CountryUtil.getCountries(),
       name: 'country',
     };
 
-    // Create an input group- serves as a display
-    const phoneNumberUISchema = {
-      label: 'Phone number',
+    // Create an input group - serves as a display wrapper
+    const phoneNumberWithCodeUISchema = {
+      label: loc('oie.phone.enroll.phoneLabel', 'login'),
       type: 'group',
       modelType: 'string',
       'label-top': true,
@@ -80,42 +82,31 @@ const Body = BaseForm.extend({
           label: '+1',
           className: 'phone-authenticator-enroll__phone-code',
         },
-        Object.assign({}, currentViewState.uiSchema[2]),
-      ]
+        Object.assign({}, phoneNumberUISchema),
+      ],
     };
 
     const extensionUISchema = {
-      label: 'Extension',
+      label: loc('oie.phone.enroll.phoneExtensionLabel', 'login'),
       type: 'text',
-      className: 'phone-authenticator-enroll__phone-ext hidden',
+      className: 'phone-authenticator-enroll__phone-ext hide',
       'label-top': true,
       name: 'extension',
     };
 
-    // Add country select input
-    currentViewState.uiSchema.splice(2, 0, countryUISchema);
-    currentViewState.uiSchema.splice(3, 0, phoneNumberUISchema);
-    currentViewState.uiSchema.splice(4, 1, extensionUISchema);
-
-    BaseForm.prototype.initialize.apply(this, argArr);
-
-    this.listenTo(this.model, 'change:authenticator.methodType', this._changeView.bind(this));
-    this.listenTo(this.model, 'change:country', this._changeCountry.bind(this));
+    return [
+      authenticatorIdUISchema,
+      methodTypeUISchema,
+      countryUISchema,
+      phoneNumberWithCodeUISchema,
+      extensionUISchema
+    ];
   },
 
-  saveForm () {
-    this.clearErrors();
-    this.model.unset('country', { silent: true });
-    const extension = this.model.get('extension');
-    if (extension && extension.trim().length) {
-      this.model.set('authenticator.phoneNumber',
-        `${this.model.get('authenticator.phoneNumber')}x${extension}`, {
-          silent: true
-        }
-      );
-    }
-    this.model.unset('extension', { silent: true });
-    BaseForm.prototype.saveForm.call(this, this.model);
+  initialize () {
+    BaseForm.prototype.initialize.apply(this, arguments);
+    this.listenTo(this.model, 'change:authenticator.methodType', this.handleMethodTypeChange.bind(this));
+    this.listenTo(this.model, 'change:country', this.handleCountryChange.bind(this));
   },
 });
 
@@ -143,6 +134,30 @@ export default BaseFactorView.extend({
       }
     );
 
-    return ModelClass;
+    return ModelClass.extend({
+      toJSON: function () {
+        const country = this.get('country');
+        this.unset('country', { silent: true });
+
+        // Add country code..
+        let formattedPhoneNumber = `+${CountryUtil.getCallingCodeForCountry(country)}${this.get('authenticator.phoneNumber')}`;
+        const extension = this.get('extension');
+        this.unset('extension', { silent: true });
+
+        // Add extension if present..
+        if (this.get('authenticator.methodType') === 'voice'
+          && extension && extension.trim().length) {
+          formattedPhoneNumber = `${formattedPhoneNumber}x${extension}`;
+        }
+
+        this.set('authenticator.phoneNumber',
+          formattedPhoneNumber, {
+            silent: true
+          }
+        );
+
+        return Model.prototype.toJSON.call(this, arguments);
+      },
+    });
   },
 });
