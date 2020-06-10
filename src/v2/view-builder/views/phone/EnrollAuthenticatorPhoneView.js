@@ -115,6 +115,13 @@ const Body = BaseForm.extend({
     this.listenTo(this.model, 'change:authenticator.methodType', this.handleMethodTypeChange.bind(this));
     this.listenTo(this.model, 'change:country', this.handleCountryChange.bind(this));
   },
+
+  postRender () {
+    // If voice is the only option switch to voice mode.
+    setTimeout(() => {
+      this.model.trigger('change:authenticator.methodType', {}, this.model.get('authenticator.methodType'));
+    }, 200);
+  }
 });
 
 export default BaseFactorView.extend({
@@ -158,10 +165,13 @@ export default BaseFactorView.extend({
       ModelClass.prototype.derived
     );
 
+    const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
+    const { options } = _.find(uiSchemas, ({ name }) => name === 'authenticator.methodType');
+
     // Default value for authenticator.methodType
     Object.assign(
       ModelClass.prototype.props['authenticator.methodType'], {
-        'value': 'sms'
+        'value': options[0] && options[0].value,
       },
     );  
 

@@ -13,6 +13,8 @@ const idx = {
     'authenticator-enroll-security-question',
     // 'terminal-return-expired-email',
     // 'factor-verification-email'
+    // 'authenticator-enroll-phone',
+    // 'authenticator-enroll-phone-voice',
   ],
   '/idp/idx/enroll': [
     // 'enroll-profile',
