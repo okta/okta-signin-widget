@@ -1,5 +1,7 @@
 import { Collection } from 'okta';
 import FormInputFactory from 'v2/view-builder/internals/FormInputFactory';
+import FactorEnrollOptions from 'v2/view-builder/components/FactorOptions';
+import AuthenticatorVerifyOptions from 'v2/view-builder/components/AuthenticatorVerifyOptions';
 
 describe('v2/view-builder/internals/FormInputFactory', function () {
   it('handles factorType type', function () {
@@ -21,7 +23,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     };
     const result = FormInputFactory.create(opt);
     expect(result).toEqual({
-      View: jasmine.any(Function),
+      View: FactorEnrollOptions,
       options: {
         collection: jasmine.anything(),
         name: 'factorType'
@@ -85,7 +87,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     };
     const result = FormInputFactory.create(opt);
     expect(result).toEqual({
-      View: jasmine.any(Function),
+      View: AuthenticatorVerifyOptions,
       options: {
         collection: jasmine.anything(),
         name: 'authenticator'

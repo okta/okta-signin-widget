@@ -40,47 +40,4 @@ export default class SelectFactorPageObject extends BasePageObject {
     await this.t.click(this.form.getElement(skipOptionalEnrollmentSelector));
   }
 
-  /**
-   * shall be more explicit at checking factor label and icon.
-   * @deprecated
-   */
-  hasPasswordSelectButton() {
-    return this.form.elementExist('.enroll-factor-row > .enroll-factor-description > .enroll-factor-button');
-  }
-
-  /**
-  * @deprecated
-  */
-  async selectPasswordFactor() {
-    await this.form.clickElement('.enroll-factor-row > .enroll-factor-description > .enroll-factor-button');
-  }
-
-  /**
-  * @deprecated
-  */
-  hasPasswordIcon() {
-    return this.form.elementExist('.enroll-factor-row > .enroll-factor-icon-container > .mfa-okta-password');
-  }
-
-  /**
-  * @deprecated
-  */
-  hasEmailIcon() {
-    return this.form.elementExist('.enroll-factor-row > .enroll-factor-icon-container > .mfa-okta-email');
-  }
-
-  /**
-   * @deprecated
-   */
-  getPasswordLabel() {
-    return this.form.getElement('.enroll-factor-row:first-child > .enroll-factor-description > .enroll-factor-label').textContent;
-  }
-
-  /**
-  * @deprecated
-  */
-  getEmailLabel() {
-    return this.form.getElement('.enroll-factor-row:last-child > .enroll-factor-description > .enroll-factor-label').textContent;
-  }
-
 }

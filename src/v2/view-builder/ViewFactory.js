@@ -54,9 +54,6 @@ const VIEWS_MAPPING = {
   'select-factor-enroll': {
     [DEFAULT]: SelectFactorEnrollView,
   },
-  'skip': {
-    [DEFAULT]: SelectAuthenticatorEnrollView,
-  },
   'enroll-profile': {
     [DEFAULT]: EnrollProfileView,
   },
