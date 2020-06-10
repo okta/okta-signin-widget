@@ -671,7 +671,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                             'value': 'sms'
                           },
                           {
-                            'label': 'VOICE',
+                            'label': 'Voice call',
                             'value': 'voice'
                           }
                         ]
@@ -679,7 +679,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       {
                         'name': 'phoneNumber',
                         'required': true,
-                        'type': 'string'
+                        'type': 'string',
+                        'label': 'Phone number'
                       }
                     ]
                   }
