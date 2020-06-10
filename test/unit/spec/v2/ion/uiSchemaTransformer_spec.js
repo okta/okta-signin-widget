@@ -711,7 +711,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'value': 'sms'
                   },
                   {
-                    'label': 'VOICE',
+                    'label': 'Voice call',
                     'value': 'voice'
                   }
                 ],
