@@ -116,7 +116,7 @@ const getAuthenticatorsUiSchema = ({ options, type }, authenticators) => ({
  * @param {IONForm} remeditationForm
  */
 const createUISchema = (transformedResp, remediationForm) => {
-  /* eslint complexity: 0, max-statements: 0, max-depth: [2, 3] */
+  /* eslint complexity: 0, max-statements: 0, max-depth: [2, 4] */
 
   // For cases where field itself is a form, it has a formname and we are appending the formname to each field.
   // Sort of flat the structure in order to align Courage flatten Model. The flatten structure will be converted

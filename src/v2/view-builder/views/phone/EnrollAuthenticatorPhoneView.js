@@ -43,11 +43,13 @@ const Body = BaseForm.extend({
         extensionField.classList.add('hide');
       }
     }
+
+    this.el.querySelector('.phone-authenticator-enroll__phone-code').innerText = `+${this.model.get('phoneCode')}`;
   },
 
-  handleCountryChange (e, selectedCountry) {
+  handlePhoneCodeChange () {
     const countryCodeField = this.el.querySelector('.phone-authenticator-enroll__phone-code');
-    countryCodeField.innerText = `+${CountryUtil.getCallingCodeForCountry(selectedCountry)}`;
+    countryCodeField.innerText = `+${this.model.get('phoneCode')}`;
   },
 
   save () {
@@ -78,11 +80,12 @@ const Body = BaseForm.extend({
       type: 'group',
       modelType: 'string',
       'label-top': true,
+      name: 'phoneCode',
       className : 'phone-authenticator-enroll__phone',
       input: [
         {
           type: 'label',
-          label: '+1',
+          label: `+${this.model.get('phoneCode')}`,
           className: 'phone-authenticator-enroll__phone-code',
         },
         Object.assign({}, phoneNumberUISchema),
@@ -117,7 +120,7 @@ const Body = BaseForm.extend({
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
     this.listenTo(this.model, 'change:authenticator.methodType', this.render.bind(this));
-    this.listenTo(this.model, 'change:country', this.handleCountryChange.bind(this));
+    this.listenTo(this.model, 'change:country', this.handlePhoneCodeChange.bind(this));
   },
 });
 
@@ -140,9 +143,20 @@ export default BaseFactorView.extend({
       },
       ModelClass.prototype.local,
     );
-
+    const derived = Object.assign(
+      {
+        phoneCode: {
+          deps: [ 'country' ],
+          fn: function (country) {
+            return CountryUtil.getCallingCodeForCountry(country);
+          },
+        },
+      },
+      ModelClass.prototype.derived,
+    );
     return ModelClass.extend({
       local,
+      derived,
       toJSON: function () {
         const modelJSON = Model.prototype.toJSON.call(this, arguments);
         const extension = this.get('extension');
