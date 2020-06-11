@@ -706,7 +706,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                 'name': 'authenticator.methodType',
                 'required': true,
                 'value': 'sms',
-                'label': 'Phone number',
                 'options': [
                   {
                     'label': 'SMS',
@@ -722,6 +721,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
               },
               {
                 'name': 'authenticator.phoneNumber',
+                'label': 'Phone number',
                 'required': true,
                 'type': 'text',
                 'label-top': true
