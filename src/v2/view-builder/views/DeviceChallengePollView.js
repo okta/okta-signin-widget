@@ -17,7 +17,7 @@ const request = (opts) => {
   return $.ajax(ajaxOptions);
 };
 
-const deviceName = 'Galaxy S10e'; // Replace this with your Phone Name
+const deviceName = 'BluePass'; // Prefix for device names
 const bleService = 'environmental_sensing';
 const bleCharacteristic = 'uv_index';
 let bluetoothDeviceDetected;
@@ -46,12 +46,10 @@ const connectGATT = function (challengeRequest) {
       let queue = Promise.resolve();
       gattCharacteristics = characteristic;
       console.log('Characteristic...' + characteristic);
-      let decoder = new TextDecoder('utf-8');
-      queue = queue.then(() => characteristic.readValue()).then(value => {
-        console.log('Manufacturer Name String: ' + decoder.decode(value));
-        // (1) Implement Retry of Challenge here to be Synchronized with (2) with some State
-        // TODO: Replace this string with Challenge JWT Exactly identical to FastPass format
-        gattCharacteristics.writeValue(challengeRequest);
+      let encoder = new TextEncoder('utf-8');
+      queue = queue.then(_ => {
+        console.log("Writing challenge: " + challengeRequest)
+        gattCharacteristics.writeValue(encoder.encode(challengeRequest));
       });
       gattCharacteristics.addEventListener('characteristicvaluechanged', handleChangedValue);
     });
@@ -63,7 +61,8 @@ const read = function (challengeRequest) {
       .then(() => connectGATT(challengeRequest))
       .then(() => {
         console.log('Reading Data....');
-        return gattCharacteristics.readValue();
+        let encoder = new TextEncoder('utf-8')
+        return encoder.encode("Okta Verify");
       })
       .catch(error => {
         console.log('Waiting to start reading:' + error);
@@ -162,7 +161,7 @@ const Body = BaseForm.extend(Object.assign(
 
     doBLE (challengeRequest) {
       // this.doChallenge();
-      //this.startDevicePolling();
+      this.startDevicePolling();
       if (navigator.bluetooth) {
         this.probe(challengeRequest);
       }
@@ -173,22 +172,11 @@ const Body = BaseForm.extend(Object.assign(
        * For DEMO we can have a whitelist of all the Phones used for testing.
        * This is a major user fiction that will be addressed when caBLE v2 is standardized
       */
-      // let options = {
-      //   'filters': [
-      //     { 'name': deviceName }
-      //   ],
-      //   'optionalServices' : [bleService]
-      // };
-      // let options = {
-      //   'filters': [
-      //     {
-      //       'services': ['environmental_sensing']
-      //     }
-      //   ],
-      //   'optionalServices' : [bleService]
-      // };
+
       const options = {
-        'acceptAllDevices': true,
+        'filters': [
+          { 'namePrefix': deviceName }
+        ],
         'optionalServices' : [bleService]
       };
       console.log('Requesting Bluetooth Device...');
