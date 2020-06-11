@@ -36,10 +36,6 @@
                     "required": true,
                     "options": [
                       {
-                        "label": "SMS",
-                        "value": "sms"
-                      },
-                      {
                         "label": "Voice call",
                         "value": "voice"
                       }

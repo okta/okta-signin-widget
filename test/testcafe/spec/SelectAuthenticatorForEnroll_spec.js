@@ -34,7 +34,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
-  await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-call');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-phone');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');

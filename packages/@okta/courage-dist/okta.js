@@ -122,7 +122,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_backbone__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__framework_View__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__framework_View__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
 
 
@@ -759,400 +759,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Keys__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Logger__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_ViewUtil__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseView__ = __webpack_require__(1);
-/* eslint max-params: [2, 6] */
-
-
-
-
-
-
-const LABEL_OPTIONS = ['model', 'id', 'inputId', 'type', 'label', 'sublabel', 'tooltip', 'name'];
-const CONTAINER_OPTIONS = [
-  'wide',
-  'multi',
-  'input',
-  'label-top',
-  'explain',
-  'explain-top',
-  'customExplain',
-  'model',
-  'name',
-  'type',
-  'autoRender'
-];
-const WRAPPER_OPTIONS = [
-  'model',
-  'name',
-  'label-top',
-  'readOnly',
-  'events',
-  'initialize',
-  'showWhen',
-  'bindings',
-  'render',
-  'className',
-  'data-se',
-  'toggleWhen',
-];
-const INPUT_OPTIONS = [
-  'model',
-  'name',
-  'inputId',
-  'type', // base options
-  'input', // custom input
-  'placeholder',
-  'label', // labels
-  'readOnly',
-  'read',
-  'disabled',
-  'readModeString', // modes
-  'options', // select/radio
-  'deps', // used to specify inputs that have dependencies and show a callout to user on select
-  'from',
-  'to', // model transformers,
-  'autoRender', // model attributes change event to trigger rerendering of the input
-  'inlineValidation', // control inline validating against the model on focus lost
-  'validateOnlyIfDirty', // check if field has been interacted with and then validate
-  'ariaLabel', // 508 compliance for inputs that do not have label associated with them
-  'params',
-];
-const // widgets params - for input specific widgets
-
-      OTHER_OPTIONS = ['errorField'];
-
-const ALL_OPTIONS = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].uniq(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].union(LABEL_OPTIONS, CONTAINER_OPTIONS, WRAPPER_OPTIONS, INPUT_OPTIONS, OTHER_OPTIONS));
-
-const SAVE_BUTTON_PHASES = [
-  '•         ',
-  '•  •      ',
-  '•  •  •   ',
-  '•  •  •  •',
-  '   •  •  •',
-  '      •  •',
-  '         •',
-  '          ',
-  '          ',
-  '          ',
-];
-
-function decorateDoWhen(doWhen) {
-  if (doWhen && !doWhen['__edit__']) {
-    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({ __edit__: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].constant(true) }, doWhen);
-  }
-}
-
-function createButton(options) {
-  options = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].pick(options || {}, 'action', 'id', 'className', 'text', 'type');
-
-  let timeoutId;
-  let intervalId;
-  let phaseCount;
-
-  return __WEBPACK_IMPORTED_MODULE_5__BaseView__["default"].extend({
-    tagName: 'input',
-    className: 'button',
-    events: {
-      click: function () {
-        if (options.action && !this.disabled()) {
-          options.action.call(this);
-        }
-      },
-      keyup: function (e) {
-        if (__WEBPACK_IMPORTED_MODULE_1__util_Keys__["default"].isEnter(e) && options.action && !this.disabled()) {
-          options.action.call(this);
-        }
-      }
-    },
-
-    disabled: function () {
-      return this.$el.prop('disabled') === true;
-    },
-
-    disable: function () {
-      this.$el.prop('disabled', true);
-      this.$el.addClass('btn-disabled');
-    },
-
-    enable: function () {
-      this.$el.prop('disabled', false);
-      this.$el.removeClass('btn-disabled');
-    },
-
-    initialize: function () {
-      const self = this;
-
-      this.$el.attr('type', options.type === 'save' ? 'submit' : 'button');
-      this.$el.val(options.text);
-      if (options.id) {
-        this.$el.attr('id', options.id);
-      }
-      if (options.className) {
-        this.$el.addClass(options.className);
-      }
-      if (options.type) {
-        this.$el.attr('data-type', options.type);
-      }
-
-      this.$el.mousedown(function () {
-        self.model.set('__pending__', true);
-      });
-
-      this.$el.mouseup(function () {
-        self.model.set('__pending__', false);
-      });
-
-      this.listenTo(this.model, 'form:set-saving-state', function () {
-        this.disable();
-        if (options.type === 'save') {
-          timeoutId = setTimeout(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].bind(this.__changeSaveText, this), 1000);
-        }
-      });
-      this.listenTo(this.model, 'form:clear-saving-state', function () {
-        this.enable();
-        if (options.type === 'save') {
-          clearTimeout(timeoutId);
-          clearInterval(intervalId);
-          this.$el.val(options.text);
-        }
-      });
-    },
-
-    __changeSaveText: function () {
-      phaseCount = 0;
-      intervalId = setInterval(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].bind(this.__showLoadingText, this), 200);
-    },
-
-    __showLoadingText: function () {
-      this.$el.val(SAVE_BUTTON_PHASES[phaseCount++ % SAVE_BUTTON_PHASES.length]);
-    }
-  });
-}
-
-function validateInput(options, model) {
-  /* eslint max-statements: 0, complexity: 0 */
-
-  options || (options = {});
-
-  if (options.type === 'label') {
-    if (!options.label) {
-      __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('A label input must have a "label" parameter', options);
-    }
-    return;
-  }
-
-  if (options.type === 'button') {
-    if (!options.title && !options.icon) {
-      __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('A button input must have a "title" and/or an "icon" parameter', options);
-    }
-    if (!options.click && !options.href) {
-      __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('A button input must have a "click" and/or an "href" parameter', options);
-    }
-    return;
-  }
-
-  if (!options.name && !options.input) {
-    __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('Missing "name" or "input" parameters', options);
-  }
-
-  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.name) && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.input)) {
-    throw new Error('Not allowed to have both "name" and "input" defined as array.');
-  }
-
-  if (options.type !== 'list' && options.name && model && model.allows) {
-    let names = [];
-
-    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.name)) {
-      names = options.name;
-    } else {
-      names.push(options.name);
-    }
-    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(names, function (name) {
-      if (!model.allows(name)) {
-        throw new Error('field not allowed: ' + options.name);
-      }
-    });
-  }
-
-  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.input) && options.type !== 'list') {
-    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(options.input, function (input) {
-      validateInput(input, model);
-    });
-  }
-
-  const keys = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].keys(options);
-
-  const intersection = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].intersection(keys, ALL_OPTIONS);
-
-  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(intersection) !== __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(options)) {
-    const fields = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(ALL_OPTIONS);
-
-    fields.unshift(keys);
-    __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('Invalid input parameters', __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].without.apply(null, fields), options);
-  }
-}
-
-function generateInputOptions(options, form, createFn) {
-  options = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(options);
-
-  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].contains(['list', 'group'], options.type)) {
-    options.params = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(
-      {
-        create: createFn,
-        inputs: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].map(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.input) ? options.input : [options.input], function (input) {
-          return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].first(generateInputOptions(input, form, createFn));
-        })
-      },
-      options.params || {}
-    );
-    delete options.input;
-  }
-
-  const inputs = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.input) ? __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(options.input) : [options];
-
-  return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].map(inputs, function (input) {
-    const target = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults({ model: form.model }, input, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].omit(options, 'input', 'inputs'), form.options, {
-      id: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].uniqueId('input'),
-      readOnly: form.isReadOnly(),
-      read: form.hasReadMode()
-    });
-
-    if (form.isReadOnly()) {
-      target.read = target.readOnly = true;
-    }
-    return target;
-  });
-}
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  LABEL_OPTIONS: LABEL_OPTIONS,
-  CONTAINER_OPTIONS: CONTAINER_OPTIONS,
-  WRAPPER_OPTIONS: WRAPPER_OPTIONS,
-  INPUT_OPTIONS: INPUT_OPTIONS,
-
-  generateInputOptions: generateInputOptions,
-
-  changeEventString: function (fieldNames) {
-    return 'change:' + fieldNames.join(' change:');
-  },
-
-  createReadFormButton: function (options) {
-    let action;
-    let text;
-    let ariaLabel;
-
-    if (options.type === 'cancel') {
-      text = ariaLabel = __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__["default"].localize('oform.cancel', 'courage');
-      action = function () {
-        this.model.trigger('form:cancel');
-      };
-    } else {
-      text = __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__["default"].localize('oform.edit', 'courage');
-      ariaLabel = text + ' ' + options.formTitle;
-      action = function () {
-        this.model.set('__edit__', true);
-      };
-    }
-
-    return __WEBPACK_IMPORTED_MODULE_5__BaseView__["default"].extend({
-      tagName: 'a',
-      attributes: {
-        href: '#',
-        'aria-label': ariaLabel
-      },
-      template: function () {
-        return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].escape(text);
-      },
-      events: {
-        click: function (e) {
-          e.preventDefault();
-          action.call(this);
-        }
-      }
-    });
-  },
-
-  createButton: function (options) {
-    options = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(options);
-    switch (options.type) {
-    case 'save':
-      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(options, { className: 'button-primary' });
-      break;
-    case 'cancel':
-      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(options, {
-        text: __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__["default"].localize('oform.cancel', 'courage'),
-        action: function () {
-          this.model.trigger('form:cancel');
-        }
-      });
-      break;
-    case 'previous':
-      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(options, {
-        text: __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__["default"].localize('oform.previous', 'courage'),
-        action: function () {
-          this.model.trigger('form:previous');
-        }
-      });
-      break;
-    }
-    return createButton(options);
-  },
-
-  validateInput: validateInput,
-
-  /**
-   * Applies a show-when logic on a view instance.
-   * The show-when is a map of a model field name -> a boolean or a function that returns a boolean.
-   * The view will toggle based on the field value.
-   *
-   * @param  {Okta.View} view a view instance that has a this.model attached to it
-   * @param  {Object} showWhen
-   */
-  applyShowWhen: function (view, showWhen) {
-    const toggleAndResize = function (bool) {
-      return function () {
-        // The `toggle` is here since an event may be triggered before the el is in the DOM
-        // and in that case slide events may not function as expected.
-        view.$el.toggle(bool);
-        view.model.trigger('form:resize');
-      };
-    };
-
-    __WEBPACK_IMPORTED_MODULE_4__util_ViewUtil__["a" /* default */].applyDoWhen(view, decorateDoWhen(showWhen), function (bool, options) {
-      if (!options.animate) {
-        view.$el.toggle(bool);
-      } else {
-        view.$el['slide' + (bool ? 'Down' : 'Up')](200, toggleAndResize(bool));
-      }
-    });
-  },
-
-  applyToggleWhen: function (view, toggleWhen) {
-    __WEBPACK_IMPORTED_MODULE_4__util_ViewUtil__["a" /* default */].applyDoWhen(view, decorateDoWhen(toggleWhen), function (bool, options) {
-      view.$el.toggle(bool);
-      view.model.trigger('form:resize');
-      if (options.animate) {
-        view.render();
-      }
-    });
-  }
-});
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_ButtonFactory__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_ButtonFactory__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Callout__ = __webpack_require__(29);
@@ -1624,6 +1233,397 @@ function generateInputOptions(options, form, createFn) {
     this.$el.removeClass('o-form-has-errors');
   }
 }));
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Keys__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Logger__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_ViewUtil__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseView__ = __webpack_require__(1);
+/* eslint max-params: [2, 6] */
+
+
+
+
+
+
+const LABEL_OPTIONS = ['model', 'id', 'inputId', 'type', 'label', 'sublabel', 'tooltip', 'name'];
+const CONTAINER_OPTIONS = [
+  'wide',
+  'multi',
+  'input',
+  'label-top',
+  'explain',
+  'explain-top',
+  'customExplain',
+  'model',
+  'name',
+  'type',
+  'autoRender'
+];
+const WRAPPER_OPTIONS = [
+  'model',
+  'name',
+  'label-top',
+  'readOnly',
+  'events',
+  'initialize',
+  'showWhen',
+  'bindings',
+  'render',
+  'className',
+  'data-se',
+  'toggleWhen',
+];
+const INPUT_OPTIONS = [
+  'model',
+  'name',
+  'inputId',
+  'type', // base options
+  'input', // custom input
+  'placeholder',
+  'label', // labels
+  'readOnly',
+  'read',
+  'disabled',
+  'readModeString', // modes
+  'options', // select/radio
+  'deps', // used to specify inputs that have dependencies and show a callout to user on select
+  'from',
+  'to', // model transformers,
+  'autoRender', // model attributes change event to trigger rerendering of the input
+  'inlineValidation', // control inline validating against the model on focus lost
+  'validateOnlyIfDirty', // check if field has been interacted with and then validate
+  'ariaLabel', // 508 compliance for inputs that do not have label associated with them
+  'params',
+];
+const // widgets params - for input specific widgets
+
+      OTHER_OPTIONS = ['errorField'];
+
+const ALL_OPTIONS = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].uniq(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].union(LABEL_OPTIONS, CONTAINER_OPTIONS, WRAPPER_OPTIONS, INPUT_OPTIONS, OTHER_OPTIONS));
+
+const SAVE_BUTTON_PHASES = [
+  '•         ',
+  '•  •      ',
+  '•  •  •   ',
+  '•  •  •  •',
+  '   •  •  •',
+  '      •  •',
+  '         •',
+  '          ',
+  '          ',
+  '          ',
+];
+
+function decorateDoWhen(doWhen) {
+  if (doWhen && !doWhen['__edit__']) {
+    return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend({ __edit__: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].constant(true) }, doWhen);
+  }
+}
+
+function createButton(options) {
+  options = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].pick(options || {}, 'action', 'id', 'className', 'text', 'type');
+
+  let timeoutId;
+  let intervalId;
+  let phaseCount;
+
+  return __WEBPACK_IMPORTED_MODULE_5__BaseView__["default"].extend({
+    tagName: 'input',
+    className: 'button',
+    events: {
+      click: function () {
+        if (options.action && !this.disabled()) {
+          options.action.call(this);
+        }
+      },
+      keyup: function (e) {
+        if (__WEBPACK_IMPORTED_MODULE_1__util_Keys__["default"].isEnter(e) && options.action && !this.disabled()) {
+          options.action.call(this);
+        }
+      }
+    },
+
+    disabled: function () {
+      return this.$el.prop('disabled') === true;
+    },
+
+    disable: function () {
+      this.$el.prop('disabled', true);
+      this.$el.addClass('btn-disabled');
+    },
+
+    enable: function () {
+      this.$el.prop('disabled', false);
+      this.$el.removeClass('btn-disabled');
+    },
+
+    initialize: function () {
+      const self = this;
+
+      this.$el.attr('type', options.type === 'save' ? 'submit' : 'button');
+      this.$el.val(options.text);
+      if (options.id) {
+        this.$el.attr('id', options.id);
+      }
+      if (options.className) {
+        this.$el.addClass(options.className);
+      }
+      if (options.type) {
+        this.$el.attr('data-type', options.type);
+      }
+
+      this.$el.mousedown(function () {
+        self.model.set('__pending__', true);
+      });
+
+      this.$el.mouseup(function () {
+        self.model.set('__pending__', false);
+      });
+
+      this.listenTo(this.model, 'form:set-saving-state', function () {
+        this.disable();
+        if (options.type === 'save') {
+          timeoutId = setTimeout(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].bind(this.__changeSaveText, this), 1000);
+        }
+      });
+      this.listenTo(this.model, 'form:clear-saving-state', function () {
+        this.enable();
+        if (options.type === 'save') {
+          clearTimeout(timeoutId);
+          clearInterval(intervalId);
+          this.$el.val(options.text);
+        }
+      });
+    },
+
+    __changeSaveText: function () {
+      phaseCount = 0;
+      intervalId = setInterval(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].bind(this.__showLoadingText, this), 200);
+    },
+
+    __showLoadingText: function () {
+      this.$el.val(SAVE_BUTTON_PHASES[phaseCount++ % SAVE_BUTTON_PHASES.length]);
+    }
+  });
+}
+
+function validateInput(options, model) {
+  /* eslint max-statements: 0, complexity: 0 */
+
+  options || (options = {});
+
+  if (options.type === 'label') {
+    if (!options.label) {
+      __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('A label input must have a "label" parameter', options);
+    }
+    return;
+  }
+
+  if (options.type === 'button') {
+    if (!options.title && !options.icon) {
+      __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('A button input must have a "title" and/or an "icon" parameter', options);
+    }
+    if (!options.click && !options.href) {
+      __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('A button input must have a "click" and/or an "href" parameter', options);
+    }
+    return;
+  }
+
+  if (!options.name && !options.input) {
+    __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('Missing "name" or "input" parameters', options);
+  }
+
+  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.name) && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.input)) {
+    throw new Error('Not allowed to have both "name" and "input" defined as array.');
+  }
+
+  if (options.type !== 'list' && options.name && model && model.allows) {
+    let names = [];
+
+    if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.name)) {
+      names = options.name;
+    } else {
+      names.push(options.name);
+    }
+    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(names, function (name) {
+      if (!model.allows(name)) {
+        throw new Error('field not allowed: ' + options.name);
+      }
+    });
+  }
+
+  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.input) && options.type !== 'list') {
+    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(options.input, function (input) {
+      validateInput(input, model);
+    });
+  }
+
+  const keys = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].keys(options);
+
+  const intersection = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].intersection(keys, ALL_OPTIONS);
+
+  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(intersection) !== __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].size(options)) {
+    const fields = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(ALL_OPTIONS);
+
+    fields.unshift(keys);
+    __WEBPACK_IMPORTED_MODULE_2__util_Logger__["default"].warn('Invalid input parameters', __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].without.apply(null, fields), options);
+  }
+}
+
+function generateInputOptions(options, form, createFn) {
+  options = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(options);
+
+  if (__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].contains(['list', 'group'], options.type)) {
+    options.params = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(
+      {
+        create: createFn,
+        inputs: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].map(__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.input) ? options.input : [options.input], function (input) {
+          return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].first(generateInputOptions(input, form, createFn));
+        })
+      },
+      options.params || {}
+    );
+    delete options.input;
+  }
+
+  const inputs = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].isArray(options.input) ? __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(options.input) : [options];
+
+  return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].map(inputs, function (input) {
+    const target = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults({ model: form.model }, input, __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].omit(options, 'input', 'inputs'), form.options, {
+      id: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].uniqueId('input'),
+      readOnly: form.isReadOnly(),
+      read: form.hasReadMode()
+    });
+
+    if (form.isReadOnly()) {
+      target.read = target.readOnly = true;
+    }
+    return target;
+  });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  LABEL_OPTIONS: LABEL_OPTIONS,
+  CONTAINER_OPTIONS: CONTAINER_OPTIONS,
+  WRAPPER_OPTIONS: WRAPPER_OPTIONS,
+  INPUT_OPTIONS: INPUT_OPTIONS,
+
+  generateInputOptions: generateInputOptions,
+
+  changeEventString: function (fieldNames) {
+    return 'change:' + fieldNames.join(' change:');
+  },
+
+  createReadFormButton: function (options) {
+    let action;
+    let text;
+    let ariaLabel;
+
+    if (options.type === 'cancel') {
+      text = ariaLabel = __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__["default"].localize('oform.cancel', 'courage');
+      action = function () {
+        this.model.trigger('form:cancel');
+      };
+    } else {
+      text = __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__["default"].localize('oform.edit', 'courage');
+      ariaLabel = text + ' ' + options.formTitle;
+      action = function () {
+        this.model.set('__edit__', true);
+      };
+    }
+
+    return __WEBPACK_IMPORTED_MODULE_5__BaseView__["default"].extend({
+      tagName: 'a',
+      attributes: {
+        href: '#',
+        'aria-label': ariaLabel
+      },
+      template: function () {
+        return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].escape(text);
+      },
+      events: {
+        click: function (e) {
+          e.preventDefault();
+          action.call(this);
+        }
+      }
+    });
+  },
+
+  createButton: function (options) {
+    options = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].clone(options);
+    switch (options.type) {
+    case 'save':
+      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(options, { className: 'button-primary' });
+      break;
+    case 'cancel':
+      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(options, {
+        text: __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__["default"].localize('oform.cancel', 'courage'),
+        action: function () {
+          this.model.trigger('form:cancel');
+        }
+      });
+      break;
+    case 'previous':
+      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(options, {
+        text: __WEBPACK_IMPORTED_MODULE_3__util_StringUtil__["default"].localize('oform.previous', 'courage'),
+        action: function () {
+          this.model.trigger('form:previous');
+        }
+      });
+      break;
+    }
+    return createButton(options);
+  },
+
+  validateInput: validateInput,
+
+  /**
+   * Applies a show-when logic on a view instance.
+   * The show-when is a map of a model field name -> a boolean or a function that returns a boolean.
+   * The view will toggle based on the field value.
+   *
+   * @param  {Okta.View} view a view instance that has a this.model attached to it
+   * @param  {Object} showWhen
+   */
+  applyShowWhen: function (view, showWhen) {
+    const toggleAndResize = function (bool) {
+      return function () {
+        // The `toggle` is here since an event may be triggered before the el is in the DOM
+        // and in that case slide events may not function as expected.
+        view.$el.toggle(bool);
+        view.model.trigger('form:resize');
+      };
+    };
+
+    __WEBPACK_IMPORTED_MODULE_4__util_ViewUtil__["a" /* default */].applyDoWhen(view, decorateDoWhen(showWhen), function (bool, options) {
+      if (!options.animate) {
+        view.$el.toggle(bool);
+      } else {
+        view.$el['slide' + (bool ? 'Down' : 'Up')](200, toggleAndResize(bool));
+      }
+    });
+  },
+
+  applyToggleWhen: function (view, toggleWhen) {
+    __WEBPACK_IMPORTED_MODULE_4__util_ViewUtil__["a" /* default */].applyDoWhen(view, decorateDoWhen(toggleWhen), function (bool, options) {
+      view.$el.toggle(bool);
+      view.model.trigger('form:resize');
+      if (options.animate) {
+        view.render();
+      }
+    });
+  }
+});
 
 
 /***/ }),
@@ -2172,6 +2172,66 @@ const BaseModelBaseModel = __WEBPACK_IMPORTED_MODULE_1__Model__["default"].exten
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__ = __webpack_require__(43);
+/* eslint '@okta/okta-ui/no-deprecated-methods': [0, [{ name: 'BaseButtonLink.extend', use: 'Okta.createButton'}, ]] */
+
+
+
+/**
+ * A factory method wrapper for {@link BaseButtonLink} creation
+ * @class module:Okta.internal.util.ButtonFactory
+ */
+
+function normalizeEvents(options) {
+  const events = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options.click ? { click: options.click } : {}, options.events || {});
+
+  const target = {};
+
+  __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].each(events, function (fn, eventName) {
+    target[eventName] = function (e) {
+      if (!options.href) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      fn.apply(this, arguments);
+    };
+  });
+  return target;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  /**
+   * Creates a {@link module:Okta.internal.views.components.BaseButtonLink|BaseButtonLink}.
+   * @param  {Object} options Options hash
+   * @param  {String} [options.title] The button text
+   * @param  {String} [options.icon]
+   * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
+   * @param {String} [options.href] The button link
+   * @param {Function} [options.click] On click callback
+   * @param {Object} [options.events] a [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
+   * @returns {module:Okta.internal.views.components.BaseButtonLink} BaseButtonLink prototype ("class")
+   */
+  create: function (options) {
+    options = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].clone(options);
+    options.attrs = options.attributes;
+    delete options.attributes;
+
+    return __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__["a" /* default */].extend(
+      __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options, {
+        events: normalizeEvents(options)
+      })
+    );
+  }
+});
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_BaseView__ = __webpack_require__(1);
 
 
@@ -2219,7 +2279,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2231,7 +2291,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_Logger__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__util_SchemaUtil__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__util_StringUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_forms_helpers_EnumTypeHelper__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_forms_helpers_EnumTypeHelper__ = __webpack_require__(19);
 /* eslint max-statements: [2, 16], complexity: [2, 8], max-params: [2, 8] */
 
 
@@ -2999,7 +3059,7 @@ const SchemaPropertySchemaProperties = __WEBPACK_IMPORTED_MODULE_2__BaseCollecti
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3216,7 +3276,7 @@ function isConstraintValueMatchType(value, type) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3226,8 +3286,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Logger__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SettingsModel__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ConfirmationDialog__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SettingsModel__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ConfirmationDialog__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ConfirmationDialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ConfirmationDialog__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_components_Notification__ = __webpack_require__(41);
 /* eslint max-len: [2, 150], max-params: [2, 7] */
@@ -3386,7 +3446,7 @@ function getRoute(router, route) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3459,7 +3519,7 @@ function getRoute(router, route) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3472,7 +3532,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4226,66 +4286,6 @@ __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(methods, 
 
 
 /***/ }),
-/* 23 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__ = __webpack_require__(43);
-/* eslint '@okta/okta-ui/no-deprecated-methods': [0, [{ name: 'BaseButtonLink.extend', use: 'Okta.createButton'}, ]] */
-
-
-
-/**
- * A factory method wrapper for {@link BaseButtonLink} creation
- * @class module:Okta.internal.util.ButtonFactory
- */
-
-function normalizeEvents(options) {
-  const events = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options.click ? { click: options.click } : {}, options.events || {});
-
-  const target = {};
-
-  __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].each(events, function (fn, eventName) {
-    target[eventName] = function (e) {
-      if (!options.href) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      fn.apply(this, arguments);
-    };
-  });
-  return target;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  /**
-   * Creates a {@link module:Okta.internal.views.components.BaseButtonLink|BaseButtonLink}.
-   * @param  {Object} options Options hash
-   * @param  {String} [options.title] The button text
-   * @param  {String} [options.icon]
-   * CSS class for the icon to display. See [Style guide](http://rain.okta1.com:1802/su/dev/style-guide#icons)
-   * @param {String} [options.href] The button link
-   * @param {Function} [options.click] On click callback
-   * @param {Object} [options.events] a [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
-   * @returns {module:Okta.internal.views.components.BaseButtonLink} BaseButtonLink prototype ("class")
-   */
-  create: function (options) {
-    options = __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].clone(options);
-    options.attrs = options.attributes;
-    delete options.attributes;
-
-    return __WEBPACK_IMPORTED_MODULE_1__views_components_BaseButtonLink__["a" /* default */].extend(
-      __WEBPACK_IMPORTED_MODULE_0__underscore_wrapper__["default"].extend(options, {
-        events: normalizeEvents(options)
-      })
-    );
-  }
-});
-
-
-/***/ }),
 /* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4344,7 +4344,7 @@ function _doWhen(view, doWhen, fn) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_FormUtil__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_FormUtil__ = __webpack_require__(10);
 
 
 
@@ -4452,7 +4452,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(9);
 
 
 
@@ -5010,7 +5010,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(9);
 
 
 
@@ -5181,7 +5181,7 @@ var _Model = __webpack_require__(11);
 
 var _Model2 = _interopRequireDefault(_Model);
 
-var _SchemaProperty = __webpack_require__(17);
+var _SchemaProperty = __webpack_require__(18);
 
 var _SchemaProperty2 = _interopRequireDefault(_SchemaProperty);
 
@@ -5189,11 +5189,11 @@ var _BaseController = __webpack_require__(40);
 
 var _BaseController2 = _interopRequireDefault(_BaseController);
 
-var _BaseRouter = __webpack_require__(19);
+var _BaseRouter = __webpack_require__(20);
 
 var _BaseRouter2 = _interopRequireDefault(_BaseRouter);
 
-var _ButtonFactory = __webpack_require__(23);
+var _ButtonFactory = __webpack_require__(16);
 
 var _ButtonFactory2 = _interopRequireDefault(_ButtonFactory);
 
@@ -5221,7 +5221,7 @@ var _TemplateUtil = __webpack_require__(4);
 
 var _TemplateUtil2 = _interopRequireDefault(_TemplateUtil);
 
-var _Util = __webpack_require__(16);
+var _Util = __webpack_require__(17);
 
 var _Util2 = _interopRequireDefault(_Util);
 
@@ -5257,7 +5257,7 @@ var _Toolbar = __webpack_require__(25);
 
 var _Toolbar2 = _interopRequireDefault(_Toolbar);
 
-var _FormUtil = __webpack_require__(9);
+var _FormUtil = __webpack_require__(10);
 
 var _FormUtil2 = _interopRequireDefault(_FormUtil);
 
@@ -5284,6 +5284,10 @@ var _Radio2 = _interopRequireDefault(_Radio);
 var _Select = __webpack_require__(28);
 
 var _Select2 = _interopRequireDefault(_Select);
+
+var _InputGroup = __webpack_require__(74);
+
+var _InputGroup2 = _interopRequireDefault(_InputGroup);
 
 var _TextBox = __webpack_require__(32);
 
@@ -5363,7 +5367,8 @@ var Okta = {
           PasswordBox: _PasswordBox2.default,
           CheckBox: _CheckBox2.default,
           Radio: _Radio2.default,
-          Select: _Select2.default
+          Select: _Select2.default,
+          InputGroup: _InputGroup2.default
         }
       }
     },
@@ -5380,6 +5385,7 @@ Okta.registerInput('password', _PasswordBox2.default);
 Okta.registerInput('checkbox', _CheckBox2.default);
 Okta.registerInput('radio', _Radio2.default);
 Okta.registerInput('select', _Select2.default);
+Okta.registerInput('group', _InputGroup2.default);
 
 module.exports = Okta;
 
@@ -6357,7 +6363,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseCollection__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseModel__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SchemaProperty__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SchemaProperty__ = __webpack_require__(18);
 
 
 
@@ -6458,8 +6464,8 @@ module.exports = require("okta-i18n-bundles");
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseRouter__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SettingsModel__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseRouter__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SettingsModel__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StateMachine__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_BaseView__ = __webpack_require__(1);
 /* eslint max-len: [2, 150] */
@@ -7148,7 +7154,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__ = __webpack_require__(0);
 /* eslint @okta/okta/enforce-requirejs-names: 0, @okta/okta/no-specific-modules: 0, max-params: 0, max-statements: 0 */
@@ -7370,7 +7376,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__View__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__View__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
 /* eslint-disable max-statements */
 
@@ -7629,7 +7635,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Toolbar__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helpers_ErrorBanner__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__helpers_ErrorParser__ = __webpack_require__(60);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__helpers_FormUtil__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__helpers_FormUtil__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__helpers_InputContainer__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__helpers_InputFactory__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__helpers_InputLabel__ = __webpack_require__(63);
@@ -8684,7 +8690,7 @@ const getErrorSummary = function (responseJSON = {}) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_FormUtil__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_FormUtil__ = __webpack_require__(10);
 
 
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__BaseView__["default"].extend({
@@ -8870,7 +8876,7 @@ const FIELD_REGEX = /^([\S]+): (.+)$/;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_Logger__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_Util__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_Util__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_StringUtil__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseView__ = __webpack_require__(1);
 
@@ -9244,7 +9250,7 @@ function supports(options) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FormUtil__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FormUtil__ = __webpack_require__(10);
 
 
 
@@ -9387,7 +9393,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_StringUtil__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__inputs_BooleanSelect__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__inputs_TextBoxSet__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EnumTypeHelper__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EnumTypeHelper__ = __webpack_require__(19);
 /* eslint max-statements: 0, max-params: 0 */
 
 
@@ -10872,7 +10878,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_SchemaUtil__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseInput__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseInput__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DeletableBox__ = __webpack_require__(69);
 
 
@@ -11150,7 +11156,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vendor_plugins_jquery_custominput__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseInput__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseInput__ = __webpack_require__(9);
 
 
 
@@ -11472,11 +11478,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_jquery_wrapper__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_Util__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_Util__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vendor_plugins_jquery_custominput__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BaseInput__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BaseInput__ = __webpack_require__(9);
 /* eslint max-statements: [2, 12], max-params: [2, 6] */
 
 
@@ -11595,6 +11601,146 @@ const RadioRadioOption = __WEBPACK_IMPORTED_MODULE_4__BaseView__["default"].exte
     return this.$('label:eq(0)').focus();
   }
 }));
+
+
+/***/ }),
+/* 74 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_ButtonFactory__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseView__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BaseInput__ = __webpack_require__(9);
+
+
+
+
+
+function countInputs(inputs) {
+  return __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].filter(inputs || [], function (input) {
+    return !__WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].contains(['label', 'button', 'select'], input.type);
+  }).length;
+}
+
+const InputGroupLabelInput = __WEBPACK_IMPORTED_MODULE_3__BaseInput__["a" /* default */].extend({
+  tagName: 'span',
+  initialize: function () {
+    this.$el.text(this.getModelValue());
+  },
+  editMode: function () {
+    this.toggle(true);
+  },
+  readMode: function () {
+    this.toggle(false);
+  },
+  getModelValue: function () {
+    return this.options.label;
+  },
+  toggle: function (isEditMode) {
+    this.$el.toggleClass('o-form-label-inline', isEditMode);
+    this.$el.toggleClass('o-form-control', !isEditMode);
+  },
+  focus: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].noop
+});
+
+function createButtonInput(options) {
+  return __WEBPACK_IMPORTED_MODULE_1__util_ButtonFactory__["default"].create(
+    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(
+      {
+        getReadModeString: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].constant(' '),
+        focus: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].noop
+      },
+      __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].pick(options, 'click', 'title', 'href', 'icon')
+    )
+  );
+}
+
+const InputGroupInputGroupView = __WEBPACK_IMPORTED_MODULE_2__BaseView__["default"].extend({
+  getParams: __WEBPACK_IMPORTED_MODULE_3__BaseInput__["a" /* default */].prototype.getParams,
+  getParam: __WEBPACK_IMPORTED_MODULE_3__BaseInput__["a" /* default */].prototype.getParam,
+
+  className: function () {
+    let className;
+
+    if (this.getParam('display') === 'text') {
+      className = 'o-form-input-group-subtle';
+    } else {
+      className = 'o-form-input-group';
+    }
+    if (countInputs(this.getParam('inputs')) > 1) {
+      className += ' o-form-input-group-2';
+    }
+    return className;
+  },
+
+  initialize: function () {
+    __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].each(
+      this.getParam('inputs'),
+      function (input) {
+        switch (input.type) {
+        case 'label':
+          this.add(InputGroupLabelInput, { options: input });
+          break;
+        case 'button':
+          this.add(createButtonInput(input));
+          break;
+        default:
+          input = __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].defaults(
+            {
+              model: this.model,
+              params: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].extend(
+                {
+                  autoWidth: true
+                },
+                input.params || {}
+              )
+            },
+            input
+          );
+          this.add(this.getParams().create(input));
+        }
+      },
+      this
+    );
+  },
+
+  focus: function () {
+    this.first().focus();
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_3__BaseInput__["a" /* default */].extend(
+  {
+    constructor: function (options) {
+      this.inputGroupView = new InputGroupInputGroupView(options);
+      __WEBPACK_IMPORTED_MODULE_3__BaseInput__["a" /* default */].apply(this, arguments);
+    },
+
+    editMode: function () {
+      this.inputGroupView.remove();
+      this.inputGroupView = new InputGroupInputGroupView(this.options);
+      this.$el.html(this.inputGroupView.render().el);
+    },
+
+    toStringValue: function () {
+      const strings = this.inputGroupView.map(function (input) {
+        return input.getReadModeString();
+      });
+
+      return strings.length && __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].every(strings) ? strings.join(' ') : ' ';
+    },
+
+    focus: function () {
+      this.inputGroupView.focus();
+    }
+  },
+  {
+    // test hooks
+    LabelInput: InputGroupLabelInput,
+    InputGroupView: InputGroupInputGroupView
+  }
+));
 
 
 /***/ })

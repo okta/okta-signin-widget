@@ -1,0 +1,36 @@
+.phone-authenticator-enroll {
+  .okta-form-subtitle {
+    text-align: center;
+  }
+  .chzn-container {
+    // TODO: Find a way around important
+    /* stylelint-disable declaration-no-important */
+    width: 100% !important;
+  }
+  &__phone {
+    &--small {
+      display: inline-block;
+      max-width: 70%;
+    }
+  }
+  &__phone-ext {
+    display: inline-block;
+    position: absolute;
+    width: 27%;
+    margin-left: 3%;
+  }
+  &__phone-ext.o-form-fieldset:last-child {
+    margin-bottom: 0;
+  }
+  &__phone-code {
+    min-width: 3rem;
+    text-align: center;
+    vertical-align: middle;
+    // 2px top padding to align with phone number input text
+    padding: 0.125rem 0 0;
+  }
+  // Have to do this for more specificity than global hide
+  .hide {
+    display: none;
+  }
+}
