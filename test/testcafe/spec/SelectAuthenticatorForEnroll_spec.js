@@ -36,7 +36,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
     'Set up authenticators to ensure that only you have access to your account.');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(4);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
@@ -44,7 +44,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-phone');
-  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-call');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
 
@@ -56,7 +56,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Security Question');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-security-question');
-  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Set up');
 });
 
 test.requestHooks(mockEnrollAuthenticatorPassword)(`should navigate to password enrollment page`, async t => {
