@@ -128,7 +128,7 @@ describe('v2/ion/responseTransformer', function () {
         authenticatorEnrollments: {
           value: XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value,
         },
-        currentAuthenticator: XHRAuthenticatorRequiredEmail.currentAuthenticator.value,
+        currentAuthenticatorEnrollment: XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment.value,
         'user':{
           'id':'00uwb8GLwf1HED5Xs0g3'
         },
