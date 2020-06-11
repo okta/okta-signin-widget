@@ -112,7 +112,7 @@ const Body = BaseForm.extend({
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
     this.listenTo(this.model, 'change:authenticator.methodType', this.render.bind(this));
-    this.listenTo(this.model, 'change:country', this.handlePhoneCodeChange.bind(this));
+    this.listenTo(this.model, 'change:phoneCode', this.handlePhoneCodeChange.bind(this));
   },
 });
 
