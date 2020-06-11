@@ -671,7 +671,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                             'value': 'sms'
                           },
                           {
-                            'label': 'VOICE',
+                            'label': 'Voice call',
                             'value': 'voice'
                           }
                         ]
@@ -679,7 +679,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       {
                         'name': 'phoneNumber',
                         'required': true,
-                        'type': 'string'
+                        'type': 'string',
+                        'label': 'Phone number'
                       }
                     ]
                   }
@@ -704,13 +705,14 @@ describe('v2/ion/uiSchemaTransformer', function () {
               {
                 'name': 'authenticator.methodType',
                 'required': true,
+                'value': 'sms',
                 'options': [
                   {
                     'label': 'SMS',
                     'value': 'sms'
                   },
                   {
-                    'label': 'VOICE',
+                    'label': 'Voice call',
                     'value': 'voice'
                   }
                 ],
@@ -719,6 +721,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
               },
               {
                 'name': 'authenticator.phoneNumber',
+                'label': 'Phone number',
                 'required': true,
                 'type': 'text',
                 'label-top': true

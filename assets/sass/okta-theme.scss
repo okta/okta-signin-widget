@@ -450,6 +450,18 @@
     }
   }
 
+  .mfa-okta-phone {
+    /* -- Factor Icons (large): PHONE -- */
+    background-image: url('../img/icons/mfa/phone_70x70.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): PHONE -- */
+      background-image: url('../img/icons/mfa/phone@2x.png');
+    }
+  }
+
   .mfa-email-30,
   .enroll-factor-row .mfa-okta-email {
     /* -- Factor Icons (small): EMAIL -- */
