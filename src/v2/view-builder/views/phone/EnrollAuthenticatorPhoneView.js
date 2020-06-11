@@ -19,16 +19,10 @@ const Body = BaseForm.extend({
   render () {
     BaseForm.prototype.render.apply(this, arguments);
     const selectedMethod = this.model.get('authenticator.methodType');
-    // Update the button label and value..
-    const btn = this.el.querySelector('.o-form-button-bar .button-primary');
     const phoneField = this.el.querySelector('.phone-authenticator-enroll__phone');
     const extensionField = this.el.querySelector('.phone-authenticator-enroll__phone-ext');
-    const smsBtnText = loc('oie.phone.enroll.smsButton', 'login');
-    const voiceBtnText = loc('oie.phone.enroll.voiceButton', 'login');
 
     if (selectedMethod === 'voice') {
-      btn.innerText = voiceBtnText;
-      btn.value = voiceBtnText;
       if (!phoneField.classList.contains('phone-authenticator-enroll__phone--small')) {
         phoneField.classList.add('phone-authenticator-enroll__phone--small');
       }
@@ -36,8 +30,6 @@ const Body = BaseForm.extend({
     }
 
     if (selectedMethod === 'sms') {
-      btn.innerText = smsBtnText;
-      btn.value = smsBtnText;
       phoneField.classList.remove('phone-authenticator-enroll__phone--small');
       if (!extensionField.classList.contains('hide')) {
         extensionField.classList.add('hide');
