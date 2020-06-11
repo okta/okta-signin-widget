@@ -152,11 +152,10 @@ export default BaseFactorView.extend({
       toJSON: function () {
         const modelJSON = Model.prototype.toJSON.call(this, arguments);
         const extension = this.get('extension');
-        const country = this.get('country');
+        const phoneCode = this.get('phoneCode');
 
         // Add country code..
-        let formattedPhoneNumber =
-          `+${CountryUtil.getCallingCodeForCountry(country)}${modelJSON.authenticator.phoneNumber}`;
+        let formattedPhoneNumber = `+${phoneCode}${modelJSON.authenticator.phoneNumber}`;
 
         // Add extension if present..
         if (modelJSON.authenticator.methodType === 'voice'
