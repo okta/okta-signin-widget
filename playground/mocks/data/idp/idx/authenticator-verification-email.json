@@ -162,7 +162,7 @@
       }
     ]
   },
-  "currentAuthenticator": {
+  "currentAuthenticatorEnrollment": {
     "type": "object",
     "label":"Okta Email",
     "value": {
