@@ -512,8 +512,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                             'options': [
                               { 'label': 'SMS', 'value': 'sms' },
                               { 'label': 'VOICE', 'value': 'voice' }
-                            ],
-                            'value': 'sms'
+                            ]
                           },
                           {
                             'name': 'phoneNumber',
@@ -666,7 +665,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       {
                         'name': 'methodType',
                         'required': true,
-                        'value': 'sms',
                         'options': [
                           {
                             'label': 'SMS',
@@ -708,6 +706,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                 'name': 'authenticator.methodType',
                 'required': true,
                 'value': 'sms',
+                'label': 'Phone number',
                 'options': [
                   {
                     'label': 'SMS',
