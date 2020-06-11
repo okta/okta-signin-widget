@@ -9,9 +9,39 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { ListView, loc } from 'okta';
+import { ListView, loc, View, createButton } from 'okta';
 import skipAll from './views/SkipOptionalEnrollmentButton';
-import AuthenticatorRow from './views/AuthenticatorRow';
+
+const AuthenticatorRow = View.extend({
+  className: 'authenticator-row clearfix',
+  template: '\
+        <div class="authenticator-icon-container">\
+          <div class="factor-icon authenticator-icon {{iconClassName}}">\
+          </div>\
+        </div>\
+        <div class="authenticator-description">\
+          <h3 class="authenticator-label">{{label}}</h3>\
+          {{#if factorDescription}}\
+            <p>{{factorDescription}} </p>\
+          {{/if}}\
+          <div class="authenticator-button"></div>\
+        </div>\
+      ',
+  children: function (){
+    return [[createButton({
+      className: 'button select-factor',
+      title: function () {
+        return loc('oie.enroll.authenticator.button.text', 'login');
+      },
+      click: function () {
+        this.model.trigger('selectAutheticator', this.model.get('value'));
+      }
+    }), '.authenticator-button']];
+  },
+  minimize: function () {
+    this.$el.addClass('authenticator-row-min');
+  }
+});
 
 export default ListView.extend({
 

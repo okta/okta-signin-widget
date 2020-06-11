@@ -1,9 +1,9 @@
 import BasePageObject from './BasePageObject';
 
-const factorListRowSelector = '.authenticator-list .enroll-factor-row';
+const factorListRowSelector = '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
-const factorDescriptionSelector = `${factorListRowSelector} .factor-description .authenticator-label`;
-const factorIconSelector = `${factorListRowSelector} .enroll-factor-icon-container .factor-icon`;
+const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-label`;
+const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
 const skipOptionalEnrollmentSelector = `.authenticator-list .skip-all`;
 
