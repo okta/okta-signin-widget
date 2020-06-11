@@ -1,12 +1,14 @@
 @mixin email-factor {
   .resend-email-infobox {
     margin-bottom: 15px;
+    .infobox-warning p span {
+      margin-right: 0.25rem;
+    }
   }
   .mask-email {
     font-weight: 600;
   }
   .resend-email-btn {
-    float: right;
     color: $link-text-color;
   }
 }
