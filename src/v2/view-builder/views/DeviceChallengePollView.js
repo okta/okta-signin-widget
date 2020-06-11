@@ -162,7 +162,7 @@ const Body = BaseForm.extend(Object.assign(
 
     doBLE (challengeRequest) {
       // this.doChallenge();
-      this.startDevicePolling();
+      //this.startDevicePolling();
       if (navigator.bluetooth) {
         this.probe(challengeRequest);
       }
