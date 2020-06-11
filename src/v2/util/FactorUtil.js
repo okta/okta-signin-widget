@@ -27,8 +27,7 @@ const factorData = {
   'phone': {
     label: loc('oie.phone', 'login'),
     description: '',
-    // TODO: need new icon for `mfa-okta-phone`
-    iconClassName: 'mfa-okta-call',
+    iconClassName: 'mfa-okta-phone',
   },
   'security_question': {
     label: loc('factor.securityQuestion', 'login'),

@@ -116,7 +116,7 @@ const getAuthenticatorsUiSchema = ({ options, type }, authenticators) => ({
  * @param {IONForm} remeditationForm
  */
 const createUISchema = (transformedResp, remediationForm) => {
-  /* eslint complexity: 0, max-statements: 0, max-depth: [2, 3] */
+  /* eslint complexity: 0, max-statements: 0, max-depth: [2, 4] */
 
   // For cases where field itself is a form, it has a formname and we are appending the formname to each field.
   // Sort of flat the structure in order to align Courage flatten Model. The flatten structure will be converted
@@ -169,6 +169,10 @@ const createUISchema = (transformedResp, remediationForm) => {
         } else if (ionFormField.name.indexOf('methodType') >= 0) {
           // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
           uiSchema.type = 'radio';
+          // set the default value to the first value..
+          if (ionFormField.options[0] && ionFormField.options[0].value) {
+            ionFormField.value = ionFormField.options[0].value;
+          }
         } else {
           // default to select (dropdown). no particular reason (certainly can default to radio.)
           // e.g. { name: 'questionKey', options: [], type: 'string' | null }
