@@ -49,7 +49,7 @@ const connectGATT = function (challengeRequest) {
       let encoder = new TextEncoder('utf-8');
       queue = queue.then(_ => {
         console.log("Writing challenge: " + challengeRequest)
-        gattCharacteristics.writeValue(encoder.encode(challengeRequest));
+        gattCharacteristics.writeValue(encoder.encode(JSON.stringify({ challengeRequest })));
       });
       gattCharacteristics.addEventListener('characteristicvaluechanged', handleChangedValue);
     });
