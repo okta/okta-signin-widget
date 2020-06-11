@@ -172,7 +172,7 @@
       }
     ]
   },
-  "currentAuthenticator": {
+  "currentAuthenticatorEnrollment": {
     "type": "object",
     "label": "Security Key or Biometric Authenticator (FIDO2)",
     "value": {

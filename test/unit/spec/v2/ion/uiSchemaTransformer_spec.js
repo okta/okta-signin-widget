@@ -283,7 +283,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
       const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
       expect(result).toEqual({
         'authenticatorEnrollments': _.pick(XHRAuthenticatorRequiredEmail.authenticatorEnrollments, 'value'),
-        'currentAuthenticator': XHRAuthenticatorRequiredEmail.currentAuthenticator.value,
+        'currentAuthenticatorEnrollment': XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment.value,
         'user': {
           'id': '00uwb8GLwf1HED5Xs0g3'
         },
