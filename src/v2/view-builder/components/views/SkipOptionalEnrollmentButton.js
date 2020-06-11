@@ -7,7 +7,7 @@ const skipAll = createButton({
     return loc('oie.optional.authenticator.button.title', 'login');
   },
   click: function () {
-    this.options.appState.trigger('invokeAction', this.model.get('formName'));
+    this.options.appState.trigger('invokeAction', 'skip');
   }
 });
 

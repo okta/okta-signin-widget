@@ -58,7 +58,6 @@ export default ListView.extend({
     });
     this.hasOptionalFactors = this.options.appState.hasRemediationObject('skip');
     if (this.hasOptionalFactors) {
-      this.model.set('formName', 'skip');
       this.add(skipAll);
     }
   },
