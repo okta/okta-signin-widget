@@ -49,8 +49,8 @@
   },
   "currentAuthenticator": {
     "type": "object",
-    "label": "Security Key or Biometric Authenticator (FIDO2)",
     "value": {
+      "displayName": "Security Key or Biometric Authenticator (FIDO2)",
       "catalogKey": "webauthn",
       "type": "security_key",
       "id": "aidtheidkwh282hv8g3",

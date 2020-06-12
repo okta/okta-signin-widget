@@ -17,6 +17,16 @@ export default class BaseFormObject {
     }
   }
 
+  async getFormFieldLabel(fieldName) {
+    const label = await this.form
+      .find(`[data-se="o-form-input-${fieldName}"]`)
+      .parent('[data-se="o-form-input-container"]')
+      .sibling('[data-se="o-form-label"]')
+      .child('label')
+      .textContent;
+    return label && label.trim();
+  }
+
   elementExist(selector) {
     return this.form.find(selector).exists;
   }
@@ -96,4 +106,27 @@ export default class BaseFormObject {
   async waitForTextBoxError(name) {
     await this.hasTextBoxError(name);
   }
+
+  async selectValueChozenDropdown(fieldName, index) {
+    const selectContainer = await this.form
+      .find(`[data-se="o-form-input-${fieldName}"] .chzn-container`);
+    const containerId = await selectContainer.getAttribute('id');
+    await this.t.click(selectContainer);
+
+    const option = await new Selector(`#${containerId} .chzn-results .active-result`)
+      .nth(index);
+    await this.t.click(option);
+  }
+
+  async selectRadioButtonOption(fieldName, index) {
+    const radioOption = await this.form
+      .find(`[data-se="o-form-input-${fieldName}"] .radio-label`)
+      .nth(index);
+    const radioTextContent = await radioOption.textContent;
+    const radioOptionLabel = radioTextContent.trim();
+    await this.t.click(radioOption);
+
+    return radioOptionLabel;
+  }
+
 }

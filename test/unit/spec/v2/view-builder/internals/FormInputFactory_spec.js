@@ -181,7 +181,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         'description': ''
       },
       {
-        'label': 'Email Authentication',
+        'label': 'Email',
         'authenticatorType': 'email',
         'value': {
           id: 'autwa6eDxxx2iBbtv0g3'
