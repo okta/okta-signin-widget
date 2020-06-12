@@ -1,6 +1,6 @@
 import { RequestMock } from 'testcafe';
 
-import SelectFactorPageObject from '../framework/page-objects/SelectFactorPageObject';
+import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-select-verify-options';
@@ -36,19 +36,19 @@ async function setup(t) {
 
 test.requestHooks(mockChallengePassword)(`should load select authenticator list`, async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Select an authentication factor');
-  await t.expect(selectFactorPage.getFormSubtitle()).eql('Verify with one of the following factors.');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
   await t.expect(selectFactorPage.getFactorsCount()).eql(3);
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Okta Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Security Key or Biometric Authenticator');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Security Key or Biometric Authenticator (FIDO2)');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Email Authentication');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Okta Email');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-email');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
 
@@ -56,7 +56,7 @@ test.requestHooks(mockChallengePassword)(`should load select authenticator list`
 
 test.requestHooks(mockChallengePassword)(`should navigate to password challenge page`, async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Select an authentication factor');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
   selectFactorPage.selectFactorByIndex(0);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
@@ -65,7 +65,7 @@ test.requestHooks(mockChallengePassword)(`should navigate to password challenge 
 
 test.requestHooks(mockChallengeWebauthn)(`should navigate to webauthn challenge page`, async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Select an authentication factor');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
   selectFactorPage.selectFactorByIndex(1);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
@@ -74,7 +74,7 @@ test.requestHooks(mockChallengeWebauthn)(`should navigate to webauthn challenge 
 
 test.requestHooks(mockChallengeEmail)(`should navigate to email challenge page`, async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Select an authentication factor');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
   selectFactorPage.selectFactorByIndex(2);
   const challengeFactorPage = new ChallengeFactorPageObject(t);

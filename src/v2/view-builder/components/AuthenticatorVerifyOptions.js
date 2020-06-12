@@ -9,54 +9,51 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { createButton, View, ListView } from 'okta';
+import { ListView, View, createButton, loc } from 'okta';
 
-const FactorRow = View.extend({
-  className: 'enroll-factor-row clearfix',
+const AuthenticatorRow = View.extend({
+  className: 'authenticator-row clearfix',
   template: '\
-      <div class="enroll-factor-icon-container">\
-        <div class="factor-icon enroll-factor-icon {{iconClassName}}">\
+        <div class="authenticator-icon-container">\
+          <div class="factor-icon authenticator-icon {{iconClassName}}">\
+          </div>\
         </div>\
-      </div>\
-      <div class="enroll-factor-description">\
-        <h3 class="enroll-factor-label">{{label}}</h3>\
-        {{#if description}}\
-          <p class="factor-description">{{description}}</p>\
-        {{/if}}\
-        <div class="enroll-factor-button"></div>\
-      </div>\
-    ',
+        <div class="authenticator-description">\
+          <h3 class="authenticator-label">{{label}}</h3>\
+          <div class="authenticator-button"></div>\
+        </div>\
+      ',
   children: function (){
     return [[createButton({
       className: 'button select-factor',
       title: function () {
-        return 'Select';
+        return loc('oie.verify.authenticator.button.text', 'login');
       },
       click: function () {
-        this.model.trigger('selectFactor', this.model.get('value'));
+        this.model.trigger('selectAutheticator', this.model.get('value'));
       }
-    }), '.enroll-factor-button']];
+    }), '.authenticator-button']];
   },
   minimize: function () {
-    this.$el.addClass('enroll-factor-row-min');
+    this.$el.addClass('authenticator-row-min');
   }
 });
 
 export default ListView.extend({
 
-  className: 'enroll-factor-list',
+  className: 'authenticator-verify-list authenticator-list',
 
-  item: FactorRow,
+  item: AuthenticatorRow,
 
   itemSelector: '.list-content',
 
   initialize: function () {
-    this.listenTo(this.collection,'selectFactor', function (data) {
+    this.listenTo(this.collection,'selectAutheticator', function (data) {
       this.model.set(this.options.name, data);
       this.options.appState.trigger('saveForm', this.model);
     });
   },
 
-  template: '<div class="list-content"></div>',
+  template: '<div class="list-content"> </div>',
 
 });

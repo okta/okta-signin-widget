@@ -7,6 +7,8 @@ import DeviceChallengePollView from './views/DeviceChallengePollView';
 import SSOExtensionView from './views/SSOExtensionView';
 import SelectFactorEnrollView from './views/SelectFactorEnrollView';
 import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
+import SelectAuthenticatorEnrollView from './views/SelectAuthenticatorEnrollView';
+import SelectAuthenticatorVerifyView from './views/SelectAuthenticatorVerifyView';
 import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
 import SuccessView from './views/SuccessView';
@@ -64,12 +66,12 @@ const VIEWS_MAPPING = {
     password: RequiredFactorPasswordView,
     webauthn: RequiredFactorWebauthnView,
   },
-  // TODO: rename file name by replacing `factor` with `authenticator`.
+
   'select-authenticator-authenticate': {
-    [DEFAULT]: SelectFactorAuthenticateView,
+    [DEFAULT]: SelectAuthenticatorVerifyView,
   },
   'select-authenticator-enroll': {
-    [DEFAULT]: SelectFactorEnrollView,
+    [DEFAULT]: SelectAuthenticatorEnrollView,
   },
   'select-authenticator-enroll-data': {
     phone: EnrollAuthenticatorPhoneView,
