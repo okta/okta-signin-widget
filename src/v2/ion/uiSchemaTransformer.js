@@ -104,11 +104,19 @@ const getFactorsUiSchema = ({ options }, factors) => ({
   options: createFactorTypeOptions(options, factors),
 });
 
-const getAuthenticatorsUiSchema = ({ options, type }, authenticators) => ({
-  type: 'authenticatorSelect',
-  modelType: type, // is 'object'
-  options: createAuthenticatorOptions(options, authenticators),
-});
+const getAuthenticatorsEnrollUiSchema = ({ options }, authenticators) => {
+  return {
+    type: 'authenticatorEnrollSelect',
+    options: createAuthenticatorOptions(options, authenticators),
+  };
+};
+
+const getAuthenticatorsVerifyUiSchema = ({ options }, authenticators) => {
+  return {
+    type: 'authenticatorVerifySelect',
+    options: createAuthenticatorOptions(options, authenticators),
+  };
+};
 
 /**
  *
@@ -143,44 +151,6 @@ const createUISchema = (transformedResp, remediationForm) => {
     })
     .flatten()
     .value();
-
-  const getCheckboxUiSchema = ({ label, type, required }) => ({
-    // For Remember Me checkbox, we need the label only on the right side of it.
-    placeholder: label,
-    label: false,
-    // Separating prop type for Backbone.Model
-    // from html input type
-    modelType: type,
-    // uiSchema type is the html input type desired.
-    type: 'checkbox',
-    required: required || false,
-  });
-
-  const getPasswordUiSchema = () => ({
-    type: 'password',
-    params: {
-      showPasswordToggle: true,
-    },
-  });
-
-  const getFactorsUiSchema = ({ options }, factors) => ({
-    type: 'factorSelect',
-    options: createFactorTypeOptions(options, factors),
-  });
-
-  const getAuthenticatorsEnrollUiSchema = ({ options }, authenticators) => {
-    return {
-      type: 'authenticatorEnrollSelect',
-      options: createAuthenticatorOptions(options, authenticators),
-    };
-  };
-
-  const getAuthenticatorsVerifyUiSchema = ({ options }, authenticators) => {
-    return {
-      type: 'authenticatorVerifySelect',
-      options: createAuthenticatorOptions(options, authenticators),
-    };
-  };
 
   return remediationValue.map(ionFormField => {
     const uiSchema = {

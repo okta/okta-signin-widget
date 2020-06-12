@@ -416,10 +416,10 @@ describe('v2/ion/uiSchemaTransformer', function () {
             ],
             'uiSchema': [
               {
+
                 'name': 'authenticator',
                 'type': 'authenticatorVerifySelect',
                 'label-top': true,
-                'modelType': 'object',
                 'options': [
                   {
                     'label': 'Okta Password',
@@ -578,7 +578,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                 'type': 'authenticatorEnrollSelect',
                 'required': true,
                 'label-top': true,
-                'modelType': 'object',
                 'options': [
                   {
                     'label': 'Okta Password',

@@ -20,9 +20,6 @@ const AuthenticatorRow = View.extend({
         </div>\
         <div class="authenticator-description">\
           <h3 class="authenticator-label">{{label}}</h3>\
-          {{#if factorDescription}}\
-            <p>{{factorDescription}} </p>\
-          {{/if}}\
           <div class="authenticator-button"></div>\
         </div>\
       ',
