@@ -5,6 +5,7 @@ const factorLabelSelector = `${factorListRowSelector} .enroll-factor-label`;
 const factorDescriptionSelector = '.factor-description';
 const factorIconSelector = `${factorListRowSelector} .enroll-factor-icon-container .factor-icon`;
 const factorSelectButtonSelector = `${factorListRowSelector} .enroll-factor-button .button`;
+const skipOptionalEnrollmentSelector = `.enroll-factor-list .skip-all`;
 
 export default class SelectFactorPageObject extends BasePageObject {
   constructor(t) {
@@ -33,6 +34,10 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   async selectFactorByIndex(index) {
     await this.t.click(this.form.getElement(factorSelectButtonSelector).nth(index));
+  }
+
+  async skipOptionalEnrollment() {
+    await this.t.click(this.form.getElement(skipOptionalEnrollmentSelector));
   }
 
   /**

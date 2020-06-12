@@ -19,6 +19,7 @@ const idx = [
   '/idp/idx/introspect',
   '/idp/idx/login/token/redirect',
   '/idp/idx/recover',
+  '/idp/idx/skip',
 ].map(path => {
   return templateHelper({path});
 });

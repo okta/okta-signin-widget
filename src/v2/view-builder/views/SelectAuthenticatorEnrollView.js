@@ -5,9 +5,11 @@ import { loc } from 'okta';
 
 const Body = BaseForm.extend({
   title: function () {
-    return loc('enroll.choices.setup', 'login');
+    return loc('oie.select.authenticators.enroll.title', 'login');
   },
-  subtitle: loc('enroll.choices.description', 'login'),
+  subtitle: function () {
+    return loc('oie.select.authenticators.enroll.subtitle', 'login');
+  },
   noButtonBar: true,
 });
 
