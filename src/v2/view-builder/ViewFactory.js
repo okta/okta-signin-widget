@@ -100,8 +100,8 @@ const VIEWS_MAPPING = {
   'success-redirect': {
     [DEFAULT]: SuccessView,
   },
-  // redirect remediation object looks similar to identifier view
-  'redirect': {
+  // redirect-idp remediation object looks similar to identifier view
+  'redirect-idp': {
     [DEFAULT]: IdentifierView,
   },
 };
