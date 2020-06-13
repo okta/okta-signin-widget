@@ -1,5 +1,4 @@
 import { View, createButton } from 'okta';
-import { getIdpButtons } from '../../utils/RemediationUtil';
 
 export default View.extend({
   className: 'sign-in-with-idp',
@@ -8,8 +7,7 @@ export default View.extend({
       <div class="okta-idps-container"></div>
     `,
   initialize () {
-    this.idpButtons = getIdpButtons(this.options.appState.get('idx'));
-    this.idpButtons.forEach((idpButton) => {
+    this.options.idpButtons.forEach((idpButton) => {
       this.add(createButton(idpButton), '.okta-idps-container');
     });
   }

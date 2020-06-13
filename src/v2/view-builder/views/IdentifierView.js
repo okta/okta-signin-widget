@@ -4,6 +4,7 @@ import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
 import signInWithIdps from './signin/SignInWithIdps';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
+import { getIdpButtons } from '../utils/RemediationUtil';
 
 const Body = BaseForm.extend({
 
@@ -17,8 +18,14 @@ const Body = BaseForm.extend({
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true);
     }
     //add idps
-    if (this.options.appState.hasRemediationObject('redirect')) {
-      this.add(signInWithIdps, '.o-form-button-bar');
+    const idpButtons = getIdpButtons(this.options.appState.get('idx'));
+    if (Array.isArray(idpButtons) && idpButtons.length) {
+      this.add(signInWithIdps, {
+        selector: '.o-form-button-bar',
+        options: {
+          idpButtons,
+        }
+      });
     }
     if (this.options.appState.get('currentFormName') !== 'identify') {
       this.$el.find('.button-primary').hide();
