@@ -15,7 +15,7 @@ const SHOW_RESEND_TIMEOUT = 30000;
 const ResendView = View.extend(
   {
     // To be shown after a timeout
-    className: 'phone-authenticator-verify__resend-warning hide',
+    className: 'phone-authenticator-challenge__resend-warning hide',
     events: {
       'click a.resend-link': 'handleResendLink'
     },
@@ -61,7 +61,7 @@ const ResendView = View.extend(
 
 const Body = BaseForm.extend(Object.assign(
   {
-    className: 'phone-authenticator-verify',
+    className: 'phone-authenticator-challenge',
     subtitle: ' ',
 
     title () {
@@ -83,10 +83,10 @@ const Body = BaseForm.extend(Object.assign(
       this.add(
         createButton({
           attributes: {
-            'data-se': 'phone-authenticator-verify__button--primary',
+            'data-se': 'phone-authenticator-challenge__button--primary',
             'type': 'button'
           },
-          className: 'button button-primary phone-authenticator-verify__button--primary',
+          className: 'button button-primary phone-authenticator-challenge__button--primary',
           title: primaryButtonTitle,
           click () {
             // Call the API to send a code via primary mode
@@ -102,10 +102,10 @@ const Body = BaseForm.extend(Object.assign(
         this.add(
           createButton({
             attributes: {
-              'data-se': 'phone-authenticator-verify__button--secondary',
+              'data-se': 'phone-authenticator-challenge__button--secondary',
               'type': 'button'
             },
-            className: 'phone-authenticator-verify__button--secondary',
+            className: 'phone-authenticator-challenge__button--secondary',
             title: secondaryButtonTitle,
             click () {
               // Call the API to send a code via secondary mode
@@ -134,8 +134,8 @@ const Body = BaseForm.extend(Object.assign(
       const buttonBar = this.el.querySelector('.o-form-button-bar');
       const inputFieldset = this.el.querySelector('.o-form-fieldset');
       const subtitleElement = this.el.querySelector('.okta-form-subtitle');
-      const primaryButton = this.el.querySelector('.phone-authenticator-verify__button--primary');
-      const secondaryButton = this.el.querySelector('.phone-authenticator-verify__button--secondary');
+      const primaryButton = this.el.querySelector('.phone-authenticator-challenge__button--primary');
+      const secondaryButton = this.el.querySelector('.phone-authenticator-challenge__button--secondary');
 
       const maskedPhone = this.options.appState.get('authenticatorProfile').phone;
       if (mode === 'sms' || mode === 'voice') {
@@ -185,7 +185,7 @@ const Body = BaseForm.extend(Object.assign(
         });
         this.startPolling();
       } else {
-        const resendView = this.el.querySelector('.phone-authenticator-verify__resend-warning');
+        const resendView = this.el.querySelector('.phone-authenticator-challenge__resend-warning');
         if (resendView) {
           resendView.innerText = '';
         }
