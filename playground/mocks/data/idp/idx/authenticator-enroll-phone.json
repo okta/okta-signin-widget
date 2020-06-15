@@ -66,8 +66,8 @@
   },
   "currentAuthenticator": {
     "type": "object",
-    "label": "Okta Phone",
     "value": {
+      "displayName": "Okta Phone",
       "type": "phone",
       "id": "aid568g3mXgtID0X1SLH"
     }

@@ -38,20 +38,27 @@ test.requestHooks(mockChallengePassword)(`should load select authenticator list`
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(5);
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Okta Password');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Security Key or Biometric Authenticator (FIDO2)');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Okta Email');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Email');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-email');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
 
+  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Phone');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-phone');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Security Question');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(4)).contains('mfa-okta-security-question');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Select');
 });
 
 test.requestHooks(mockChallengePassword)(`should navigate to password challenge page`, async t => {
