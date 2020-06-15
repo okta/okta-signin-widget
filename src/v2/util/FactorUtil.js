@@ -13,13 +13,13 @@ import { loc, _ } from 'okta';
 
 const factorData = {
   'email': {
-    label: loc('factor.email', 'login'),
+    label: loc('oie.email', 'login'),
     description: '',
     iconClassName: 'mfa-okta-email',
   },
 
   'password': {
-    label: loc('factor.password', 'login'),
+    label: loc('oie.password', 'login'),
     description: '',
     iconClassName: 'mfa-okta-password',
   },
@@ -29,8 +29,9 @@ const factorData = {
     description: '',
     iconClassName: 'mfa-okta-phone',
   },
+
   'security_question': {
-    label: loc('factor.securityQuestion', 'login'),
+    label: loc('oie.security.question', 'login'),
     description: '',
     iconClassName: 'mfa-okta-security-question',
   },

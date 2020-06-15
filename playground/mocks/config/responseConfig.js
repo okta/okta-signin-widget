@@ -4,7 +4,8 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    // 'authenticator-select-verify-options',
+    'authenticator-select-verify-options',
+    // 'authenticator-verification-security-question',
     // 'authenticator-select-enroll-options',
     // 'identify',
     // 'identify-locked-user,
@@ -13,8 +14,9 @@ const idx = {
     // 'authenticator-enroll-security-question',
     // 'terminal-return-expired-email',
     // 'factor-verification-email'
-    'authenticator-enroll-phone',
+    // 'authenticator-enroll-phone',
     // 'authenticator-enroll-phone-voice',
+    // 'authenticator-verification-password'
   ],
   '/idp/idx/enroll': [
     // 'enroll-profile',

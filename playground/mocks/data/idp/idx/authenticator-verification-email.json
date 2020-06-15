@@ -132,40 +132,34 @@
     "type": "array",
     "value": [
       {
-        "label": "Okta Password",
-        "value": {
-          "type": "password",
-          "authenticatorId": "autwa6eD9o02iBbtv0g1",
-          "id": "aidwboITrg4b4yAYd0g3"
-        }
+        "displayName": "Okta Password",
+        "type": "password",
+        "authenticatorId": "autwa6eD9o02iBbtv0g1",
+        "id": "aidwboITrg4b4yAYd0g3"
       },
       {
-        "label": "Security Key or Biometric Authenticator (FIDO2)",
-        "value": {
-          "type": "webauthn",
-          "authenticatorId": "autwa6eD9o02iBbtv0g2",
-          "id": "aidtheidkwh282hv8g3"
-        }
+        "displayName": "Security Key or Biometric Authenticator (FIDO2)",
+        "type": "webauthn",
+        "authenticatorId": "autwa6eD9o02iBbtv0g2",
+        "id": "aidtheidkwh282hv8g3"
       },
       {
-        "label": "Okta Email",
-        "value": {
-          "type": "email",
-          "id": "aidtm56L8gXXHI1SD0g3",
-          "authenticatorId": "autwa6eD9o02iBbtv0g3",
-          "methods": [
-            {
-              "methodType": "email"
-            }
-          ]
-        }
+        "displayName": "Okta Email",
+        "type": "email",
+        "id": "aidtm56L8gXXHI1SD0g3",
+        "authenticatorId": "autwa6eD9o02iBbtv0g3",
+        "methods": [
+          {
+            "methodType": "email"
+          }
+        ]
       }
     ]
   },
   "currentAuthenticatorEnrollment": {
     "type": "object",
-    "label":"Okta Email",
     "value": {
+      "displayName":"Okta Email",
       "type": "email",
       "id": "aidtm56L8gXXHI1SD0g3",
       "methods": [

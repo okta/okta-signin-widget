@@ -35,7 +35,7 @@ const createAuthenticatorEnrollSelectView = (opt) => {
 const createAuthenticatorVerifySelectView = (opt) => {
   var optionItems = (opt.options || [])
     .map(opt => {
-      return Object.assign({}, FactorUtil.getFactorData(opt.authenticatorType), opt);
+      return Object.assign({}, opt, FactorUtil.getFactorData(opt.authenticatorType));
     });
   return {
     View: AuthenticatorVerifyOptions,

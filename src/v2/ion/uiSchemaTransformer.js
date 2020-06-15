@@ -50,8 +50,6 @@ const createFactorTypeOptions = (options, factors) => {
  * @param {( AuthenticatorEnrollment[] || Authenticator[] )} authenticators
  */
 const createAuthenticatorOptions = (options = [], authenticators = []) => {
-  const authenticatorValues = authenticators.map(_.property('value'));
-
   return options.map(option => {
     const value = option.value && option.value.form && option.value.form.value || [];
 
@@ -68,7 +66,7 @@ const createAuthenticatorOptions = (options = [], authenticators = []) => {
       .reduce((init, v) => {
         return Object.assign(init, { [v.name]: v.value });
       }, {});
-    const authenticator = authenticatorValues.find(auth => {
+    const authenticator = authenticators.find(auth => {
       return auth.id === valueObject.id;
     }) || {};
 

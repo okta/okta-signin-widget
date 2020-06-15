@@ -96,8 +96,8 @@
   },
   "currentAuthenticator": {
     "type": "object",
-    "label": "Okta Security Question",
     "value": {
+      "displayName": "Okta Security Question",
       "type": "security_question",
       "id": "aid568g3mXgtID0X1GGG"
     }

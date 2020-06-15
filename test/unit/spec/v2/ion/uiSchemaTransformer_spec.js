@@ -622,6 +622,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
       const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
       expect(result).toEqual({
         'currentAuthenticator': {
+          'displayName': 'Okta Phone',
           'type': 'phone',
           'id': 'aid568g3mXgtID0X1SLH',
         },
@@ -738,6 +739,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
       const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
       expect(result).toEqual({
         'currentAuthenticator': {
+          'displayName': 'Okta Security Question',
           'type': 'security_question',
           'id': 'aid568g3mXgtID0X1GGG',
         },
