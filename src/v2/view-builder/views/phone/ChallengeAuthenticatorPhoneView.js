@@ -204,15 +204,6 @@ const Body = BaseForm.extend(Object.assign(
 const Footer = BaseFooter.extend({
   links () {
     const links = [];
-    // if (this.options.appState.hasRemediationObject('select-authenticator-authenticate')) {
-    //   links.push({
-    //     'type': 'link',
-    //     'label': loc('oie.footer.goback', 'login'),
-    //     'name': 'goBack',
-    //     'className': 'phone-authenticator-verify__link--back',
-    //     'actionPath': 'select-authenticator-authenticate'
-    //   });
-    // }
     addSwitchAuthenticatorLink(this.options.appState, links);
     return links;
   }

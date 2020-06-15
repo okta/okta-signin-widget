@@ -46,7 +46,7 @@ const Body = BaseForm.extend({
 
   save () {
     return this.model.get('authenticator.methodType') === 'voice'
-      ? loc('oie.phone.voice.primaryButton', 'login')
+      ? loc('oie.phone.call.primaryButton', 'login')
       : loc('oie.phone.sms.primaryButton', 'login');
   },
 
