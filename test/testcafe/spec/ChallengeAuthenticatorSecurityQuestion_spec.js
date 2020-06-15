@@ -40,7 +40,7 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 
   await t.expect(answerRequestLogger.count(() => true)).eql(1);
-  const req = await answerRequestLogger.requests[0].request;
+  const req = answerRequestLogger.requests[0].request;
   const reqBody = JSON.parse(req.body);
   await t.expect(reqBody).eql({
     credentials: {

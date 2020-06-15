@@ -97,7 +97,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     expect(result.options.collection instanceof Collection).toBe(true);
     expect(result.options.collection.toJSON()).toEqual([
       {
-        'label': 'Okta Password',
+        'label': 'Password',
         'authenticatorType': 'password',
         'value': {
           id: 'autwa6eD9o02iBbtv0g3'
@@ -106,7 +106,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         'description': ''
       },
       {
-        'label': 'Okta E-mail',
+        'label': 'Email',
         'authenticatorType': 'email',
         'value': {
           id: 'autwa6eDxxx2iBbtv0g3'

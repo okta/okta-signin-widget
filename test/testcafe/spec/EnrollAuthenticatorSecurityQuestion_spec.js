@@ -32,7 +32,11 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
   const challengeFactorPageObject = await setup(t);
 
   const radioOptionLabel = await challengeFactorPageObject.clickChooseSecurityQuestion();
+  // select 'Choose a security question' option
   await t.expect(radioOptionLabel).eql('Choose a security question');
+  // assert Custom Question textbox doesn't show up
+  await t.expect(challengeFactorPageObject.isCreateMyOwnSecurityQuestionTextBoxVisible()).notOk();
+  // select security question and type answer
   await challengeFactorPageObject.selectSecurityQuestion(1);
   await challengeFactorPageObject.setAnswerValue('test answer');
   await challengeFactorPageObject.clickVerifyButton();
@@ -43,7 +47,7 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 
   await t.expect(answerRequestLogger.count(() => true)).eql(1);
-  const req = await answerRequestLogger.requests[0].request;
+  const req = answerRequestLogger.requests[0].request;
   const reqBody = JSON.parse(req.body);
   await t.expect(reqBody).eql({
     credentials: {
@@ -61,6 +65,7 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
 
   const radioOptionLabel = await challengeFactorPageObject.clickCreateYouOwnQuestion();
   await t.expect(radioOptionLabel).eql('Create my own security question');
+  await t.expect(challengeFactorPageObject.isSecurityQuestionDropdownVisible()).notOk();
   await challengeFactorPageObject.setMyOwnSecurityQuestion('what is the hottest day in SF?');
   await challengeFactorPageObject.setAnswerValue('my foo answer');
   await challengeFactorPageObject.clickVerifyButton();
@@ -71,7 +76,7 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 
   await t.expect(answerRequestLogger.count(() => true)).eql(1);
-  const req = await answerRequestLogger.requests[0].request;
+  const req = answerRequestLogger.requests[0].request;
   const reqBody = JSON.parse(req.body);
   await t.expect(reqBody).eql({
     credentials: {

@@ -18,12 +18,7 @@ export default class BaseFormObject {
   }
 
   async getFormFieldLabel(fieldName) {
-    const label = await this.form
-      .find(`[data-se="o-form-input-${fieldName}"]`)
-      .parent('[data-se="o-form-input-container"]')
-      .sibling('[data-se="o-form-label"]')
-      .child('label')
-      .textContent;
+    const label = await this.findFormFieldInputLabel(fieldName).textContent;
     return label && label.trim();
   }
 
@@ -86,7 +81,6 @@ export default class BaseFormObject {
     return this.form.find(`.okta-form-infobox-error`).innerText;
   }
 
-
   hasTextBoxError(name) {
     return this.form.find(`.o-form-input-name-${name}.o-form-has-errors`).exists;
   }
@@ -108,8 +102,8 @@ export default class BaseFormObject {
   }
 
   async selectValueChozenDropdown(fieldName, index) {
-    const selectContainer = await this.form
-      .find(`[data-se="o-form-input-${fieldName}"] .chzn-container`);
+    const selectContainer = await this.findFormFieldInput(fieldName)
+      .find('.chzn-container');
     const containerId = await selectContainer.getAttribute('id');
     await this.t.click(selectContainer);
 
@@ -119,14 +113,31 @@ export default class BaseFormObject {
   }
 
   async selectRadioButtonOption(fieldName, index) {
-    const radioOption = await this.form
-      .find(`[data-se="o-form-input-${fieldName}"] .radio-label`)
+    const radioOption = await this.findFormFieldInput(fieldName)
+      .find('.radio-label')
       .nth(index);
     const radioTextContent = await radioOption.textContent;
     const radioOptionLabel = radioTextContent.trim();
     await this.t.click(radioOption);
 
     return radioOptionLabel;
+  }
+
+  //////////////////////////////////////////////////
+  // helper methods
+  //////////////////////////////////////////////////
+
+  findFormFieldInput(fieldName) {
+    return this.form
+      .find(`[data-se="o-form-input-${fieldName}"]`);
+  }
+
+  findFormFieldInputLabel(fieldName) {
+    return this.form
+      .find(`[data-se="o-form-input-${fieldName}"]`)
+      .parent('[data-se="o-form-input-container"]')
+      .sibling('[data-se="o-form-label"]')
+      .child('label');
   }
 
 }
