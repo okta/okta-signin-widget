@@ -1,9 +1,9 @@
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 import { RequestMock, RequestLogger } from 'testcafe';
-import authenticatorVerificationPhoneSMSThenVoice from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone';
-import authenticatorVerificationPhoneVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-2';
-import authenticatorVerificationPhoneVoiceOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice';
+import phoneVerificationSMSThenVoice from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone';
+import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-primary';
+import phoneVerificationVoiceOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidCode from '../../../playground/mocks/data/idp/idx/error-email-verify';
 
@@ -11,31 +11,31 @@ const logger = RequestLogger(/poll|resend/);
 
 const smsPrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(authenticatorVerificationPhoneSMSThenVoice)
+  .respond(phoneVerificationSMSThenVoice)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(authenticatorVerificationPhoneSMSThenVoice)
+  .respond(phoneVerificationSMSThenVoice)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
 const voicePrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(authenticatorVerificationPhoneVoiceThenSMS)
+  .respond(phoneVerificationVoiceThenSMS)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(authenticatorVerificationPhoneVoiceThenSMS)
+  .respond(phoneVerificationVoiceThenSMS)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
 const voiceOnlyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(authenticatorVerificationPhoneVoiceOnly)
+  .respond(phoneVerificationVoiceOnly)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(authenticatorVerificationPhoneVoiceOnly)
+  .respond(phoneVerificationVoiceOnly)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
 const invalidCodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(authenticatorVerificationPhoneSMSThenVoice)
+  .respond(phoneVerificationSMSThenVoice)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidCode, 403);
 
