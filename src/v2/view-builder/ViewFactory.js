@@ -22,6 +22,7 @@ import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhone
 
 // security question
 import EnrollAuthenticatorSecurityQuestion from './views/security-question/EnrollAuthenticatorSecurityQuestionView';
+import ChallengeAuthenticatorSecurityQuestion from './views/security-question/ChallengeAuthenticatorSecurityQuestion';
 
 //webauthn
 import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnView';
@@ -87,7 +88,7 @@ const VIEWS_MAPPING = {
     password: RequiredFactorPasswordView,
     webauthn: RequiredFactorWebauthnView,
     phone: null,
-    'security_question': null
+    'security_question': ChallengeAuthenticatorSecurityQuestion,
   },
   'terminal-transferred': {
     [DEFAULT]: TerminalView,
