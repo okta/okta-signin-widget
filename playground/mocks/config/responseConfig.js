@@ -19,7 +19,7 @@ const idx = {
     // 'authenticator-enroll-phone',
     // 'authenticator-verification-phone',
     // 'authenticator-verification-phone-2',
-    'authenticator-verification-phone-voice',
+    // 'authenticator-verification-phone-voice',
     // 'authenticator-enroll-phone-voice',
     // 'authenticator-verification-password'
   ],
