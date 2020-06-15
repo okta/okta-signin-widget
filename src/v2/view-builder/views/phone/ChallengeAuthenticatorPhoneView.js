@@ -90,6 +90,7 @@ const Body = BaseForm.extend(Object.assign(
           title: primaryButtonTitle,
           click () {
             // Call the API to send a code via primary mode
+            this.options.appState.trigger('invokeAction', 'currentAuthenticatorEnrollment-resend');
             this.model.set('mode', primaryMode);
           },
         })
@@ -108,6 +109,7 @@ const Body = BaseForm.extend(Object.assign(
             title: secondaryButtonTitle,
             click () {
               // Call the API to send a code via secondary mode
+              this.options.appState.trigger('invokeAction', 'currentAuthenticatorEnrollment-resend');
               this.model.set('mode', secondaryMode);
             },
           })
