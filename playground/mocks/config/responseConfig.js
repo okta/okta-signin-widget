@@ -18,7 +18,7 @@ const idx = {
     // 'factor-verification-email'
     // 'authenticator-enroll-phone',
     // 'authenticator-verification-phone',
-    // 'authenticator-verification-phone-2',
+    'authenticator-verification-phone-voice',
     // 'authenticator-verification-phone-voice',
     // 'authenticator-enroll-phone-voice',
     // 'authenticator-verification-password'
@@ -38,14 +38,14 @@ const idx = {
     // 'error-email-verify',
     // 'terminal-return-expired-email',
     // 'factor-verification-email',
-    // 'error-answer-passcode-invalid'
+    'error-answer-passcode-invalid'
   ],
   '/idp/idx/challenge/send': [
     'factor-verification-email',
   ],
   '/idp/idx/challenge/resend': [
-    'factor-verification-email',
-    // 'authenticator-verification-phone-2'
+    // 'factor-verification-email',
+    'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
     // 'authenticator-enroll-email',

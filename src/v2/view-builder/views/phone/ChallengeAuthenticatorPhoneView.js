@@ -1,5 +1,4 @@
 import {
-  _,
   loc,
   View,
   createCallout,
@@ -18,8 +17,7 @@ const ResendView = View.extend(
     // To be shown after a timeout
     className: 'phone-authenticator-verify__resend-warning hide',
     events: {
-      'click a.resend-link': 'handleResendLink',
-      'click a.phone-authenticator-verify__link--back': 'handleGoBack'
+      'click a.resend-link': 'handleResendLink'
     },
 
     initialize () {
@@ -33,10 +31,6 @@ const ResendView = View.extend(
         content: `${resendText}&nbsp;<a class='resend-link'>${linkText}</a>`,
         type: 'warning',
       }));
-    },
-
-    handleGoBack () {
-      this.model.set('mode', 'init');
     },
 
     handleResendLink () {
@@ -100,7 +94,6 @@ const Body = BaseForm.extend(Object.assign(
           },
         })
       );
-
       if (secondaryMode) {
         const secondaryButtonTitle = (secondaryMode === 'sms')
           ? loc('oie.phone.sms.secondaryButton', 'login')
@@ -131,6 +124,7 @@ const Body = BaseForm.extend(Object.assign(
       // TODO: abort ongoing request. (https://oktainc.atlassian.net/browse/OKTA-244134)
     },
 
+    /* eslint max-statements: [2, 25]*/
     render (e, mode) {
 
       BaseForm.prototype.render.apply(this, arguments);
