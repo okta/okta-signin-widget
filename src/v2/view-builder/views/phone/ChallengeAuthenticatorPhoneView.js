@@ -69,7 +69,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     save () {
-      return loc('mfa.challenge.verify', 'login');
+      return loc('oie.verify.button', 'login');
     },
 
     initialize () {
