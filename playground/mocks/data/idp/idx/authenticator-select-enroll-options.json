@@ -125,32 +125,24 @@
     "type": "array",
     "value": [
       {
-        "label": "Okta Password",
-        "value": {
-          "type": "password",
-          "id": "autwa6eD9o02iBbtv0g3"
-        }
+        "displayName": "Okta Password",
+        "type": "password",
+        "id": "autwa6eD9o02iBbtv0g3"
       },
       {
-        "label": "Security Key or Biometric Authenticator (FIDO2)",
-        "value": {
-          "type": "security_key",
-          "id": "aidtheidkwh282hv8g3"
-        }
+        "displayName": "Security Key or Biometric Authenticator (FIDO2)",
+        "type": "security_key",
+        "id": "aidtheidkwh282hv8g3"
       },
       {
-        "label": "Okta Phone",
-        "value": {
-          "type": "phone",
-          "id": "aid568g3mXgtID0X1SLH"
-        }
+        "displayName": "Okta Phone",
+        "type": "phone",
+        "id": "aid568g3mXgtID0X1SLH"
       },
       {
-        "label": "Okta Security Question",
-        "value": {
-          "type": "security_question",
-          "id": "aid568g3mXgtID0X1GGG"
-        }
+        "displayName": "Okta Security Question",
+        "type": "security_question",
+        "id": "aid568g3mXgtID0X1GGG"
       }
     ]
   },
