@@ -45,6 +45,9 @@ test.requestHooks(factorRequiredPasswordMock)(`challenge password factor`, async
 
 test.requestHooks(authenticatorRequiredPasswordMock)(`challenge password authenticator`, async t => {
   const challengeFactorPageObject = await setup(t);
+  const switchAuthenticatorButtonText = challengeFactorPageObject.getSwitchAuthenticatorButtonText();
+  await challengeFactorPageObject.switchAuthenticatorExists();
+  await t.expect(switchAuthenticatorButtonText).eql('Sign in using something else');
   await challengeFactorPageObject.verifyFactor('credentials.passcode', 'test');
   await challengeFactorPageObject.clickNextButton();
   const successPage = new SuccessPageObject(t);
@@ -55,6 +58,7 @@ test.requestHooks(authenticatorRequiredPasswordMock)(`challenge password authent
 
 test.requestHooks(invalidPasswordMock)(`challege password authenticator with invalid password`, async t => {
   const challengeFactorPageObject = await setup(t);
+  await challengeFactorPageObject.switchAuthenticatorExists();
   await challengeFactorPageObject.verifyFactor('credentials.passcode', 'test');
   await challengeFactorPageObject.clickNextButton();
   await challengeFactorPageObject.waitForPasswordError();
