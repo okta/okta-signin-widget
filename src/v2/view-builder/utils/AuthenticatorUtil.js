@@ -13,7 +13,7 @@ const addSwitchAuthenticatorLink = (appState, links = []) => {
   if (appState.hasRemediationObject('select-authenticator-authenticate')) {
     links.push({
       'type': 'link',
-      'label':  loc('oie.footer.signInWithOtherText', 'login'),
+      'label':  loc('authenticator.switch', 'login'),
       'name': 'switchAuthenticator',
       'formName': 'select-authenticator-authenticate',
     });
