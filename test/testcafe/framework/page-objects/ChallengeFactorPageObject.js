@@ -1,7 +1,9 @@
 import BasePageObject from './BasePageObject';
+import { Selector } from 'testcafe';
 
 const SWITCH_FACTOR_SELECTOR = '.auth-footer .js-switchFactor';
 const FORGOT_PASSWORD_SELECTOR = '.auth-footer .js-forgot-password';
+const SWITCH_AUTHENTICATOR_SELECTOR = '.auth-footer .js-switchAuthenticator';
 const PASSWORD_FIELD = 'credentials\\.passcode';
 
 export default class ChallengeFactorPageObject extends BasePageObject {
@@ -15,6 +17,14 @@ export default class ChallengeFactorPageObject extends BasePageObject {
 
   switchFactorExists() {
     return this.form.elementExist(SWITCH_FACTOR_SELECTOR);
+  }
+
+  switchAuthenticatorExists() {
+    return this.form.elementExist(SWITCH_AUTHENTICATOR_SELECTOR);
+  }
+
+  getSwitchAuthenticatorButtonText() {
+    return Selector(SWITCH_AUTHENTICATOR_SELECTOR).textContent;
   }
 
   forgotPasswordExists() {
