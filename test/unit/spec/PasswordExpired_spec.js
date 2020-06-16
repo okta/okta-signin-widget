@@ -12,6 +12,7 @@ define([
   'helpers/xhr/PASSWORD_WARN',
   'helpers/xhr/PASSWORD_EXPIRED',
   'helpers/xhr/PASSWORD_EXPIRED_error_complexity',
+  'helpers/xhr/PASSWORD_EXPIRED_error_noCause',
   'helpers/xhr/PASSWORD_EXPIRED_error_oldpass',
   'helpers/xhr/CUSTOM_PASSWORD_WARN',
   'helpers/xhr/CUSTOM_PASSWORD_EXPIRED',
@@ -19,7 +20,7 @@ define([
   'helpers/xhr/CANCEL'
 ],
 function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, Router,
-  $sandbox, resPassWarn, resPassExpired, resErrorComplexity,
+  $sandbox, resPassWarn, resPassExpired, resErrorComplexity, resErrorNoCause,
   resErrorOldPass, resCustomPassWarn, resCustomPassExpired, resSuccess, resCancel) {
 
   var { _ } = Okta;
@@ -449,7 +450,7 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe(
               'Password requirements were not met. Password requirements: at least 8 characters,' +
-            ' a lowercase letter, an uppercase letter, a number, no parts of your username,' +
+            ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
             ' does not include your first name, does not include your last name.'
             );
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -464,20 +465,91 @@ function (Okta, OktaAuth, LoginUtil, Util, PasswordExpiredForm, Beacon, Expect, 
                 xhr: {
                   status: 403,
                   responseType: 'json',
-                  responseText: '{"errorCode":"E0000014","errorSummary":"Update of credentials failed","errorLink":"E0000014","errorId":"oaeRXeoXe24RWqjj0R-pL03ZA","errorCauses":[{"errorSummary":"Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name."}]}',
+                  responseText: '{"errorCode":"E0000014","errorSummary":"Update of credentials failed","errorLink":"E0000014","errorId":"oaeRXeoXe24RWqjj0R-pL03ZA","errorCauses":[{"errorSummary":"Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name."}]}',
                   responseJSON: {
                     errorCode: 'E0000014',
-                    errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name.',
+                    errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name.',
                     errorLink: 'E0000014',
                     errorId: 'oaeRXeoXe24RWqjj0R-pL03ZA',
                     errorCauses: [{
-                      errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username, does not include your first name, does not include your last name.'
+                      errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name.'
                     }]
                   }
                 }
               }
             ]);
           });
+      });
+      itp('shows an simple error if showPasswordRequirementsAsHtmlList is on and if the server returns a complexity error', function () {
+        return setup({ 'features.showPasswordRequirementsAsHtmlList': true }).then(function (test) {
+          test.setNextResponse(resErrorComplexity);
+          submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
+          return Expect.waitForFormError(test.form, test);
+        }).then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe(
+            'Password requirements were not met.'
+          );
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'password-expired'
+            },
+            {
+              name: 'AuthApiError',
+              message: 'Update of credentials failed',
+              statusCode: 403,
+              xhr: {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000014","errorSummary":"Update of credentials failed","errorLink":"E0000014","errorId":"oaeRXeoXe24RWqjj0R-pL03ZA","errorCauses":[{"errorSummary":"Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name."}]}',
+                responseJSON: {
+                  errorCode: 'E0000014',
+                  errorSummary: 'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name.',
+                  errorLink: 'E0000014',
+                  errorId: 'oaeRXeoXe24RWqjj0R-pL03ZA',
+                  errorCauses: [{
+                    errorSummary: 'Password requirements were not met.'
+                  }]
+                }
+              }
+            }
+          ]);
+        });
+      });
+      itp('shows an simple error if no error cause and if showPasswordRequirementsAsHtmlList is on and if the server returns a complexity error', function () {
+        return setup({ 'features.showPasswordRequirementsAsHtmlList': true }).then(function (test) {
+          test.setNextResponse(resErrorNoCause);
+          submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
+          return Expect.waitForFormError(test.form, test);
+        }).then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe(
+            'Update of credentials failed'
+          );
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'password-expired'
+            },
+            {
+              name: 'AuthApiError',
+              message: 'Update of credentials failed',
+              statusCode: 403,
+              xhr: {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000014","errorSummary":"Update of credentials failed","errorLink":"E0000014","errorId":"oaeRXeoXe24RWqjj0R-pL03ZA"}',
+                responseJSON: {
+                  errorCode: 'E0000014',
+                  errorSummary: 'Update of credentials failed',
+                  errorLink: 'E0000014',
+                  errorId: 'oaeRXeoXe24RWqjj0R-pL03ZA',
+                }
+              }
+            }
+          ]);
+        });
       });
       itp('validates that fields are not empty', function () {
         return setup().then(function (test) {
