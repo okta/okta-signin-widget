@@ -50,7 +50,7 @@ const Footer = BaseFooter.extend({
     const links = [
       {
         'name': 'help',
-        'label': loc('needhelp', 'login'),
+        'label': loc('oie.needhelp', 'login'),
         'href': href,
       },
     ];
