@@ -57,7 +57,7 @@ test(`should have correct display texts`, async t => {
   await t.expect(rememberMeValue).eql(false);
 
   const needhelpLinkText = identityPage.getNeedhelpLinkText();
-  await t.expect(needhelpLinkText).eql('Need help signing in?');
+  await t.expect(needhelpLinkText).eql('Help');
 });
 
 test(`should show global error for invalid user`, async t => {
