@@ -217,25 +217,6 @@
             "mutable": false
           }
         ]
-      },
-      "poll": {
-        "rel": [
-          "create-form"
-        ],
-        "name": "poll",
-        "href": "http://localhost:3000/idp/idx/challenge/poll",
-        "method": "POST",
-        "accepts": "application/vnd.okta.v1+json",
-        "refresh": 4000,
-        "value": [
-          {
-            "name": "stateHandle",
-            "required": true,
-            "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
-            "visible": false,
-            "mutable": false
-          }
-        ]
       }
     }
   },

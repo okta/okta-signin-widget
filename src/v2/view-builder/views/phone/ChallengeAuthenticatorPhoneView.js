@@ -25,7 +25,7 @@ const ResendView = View.extend(
         ? loc('oie.phone.verify.sms.resendText', 'login')
         : loc('oie.phone.verify.call.resendText', 'login');
       const linkText = (this.model.get('mode') === 'sms')
-        ? loc('email.button.resend', 'login')
+        ? loc('oie.resend.link', 'login')
         : loc('oie.phone.verify.call.resendLinkText', 'login');
       this.add(createCallout({
         content: `${resendText}&nbsp;<a class='resend-link'>${linkText}</a>`,
@@ -116,7 +116,6 @@ const Body = BaseForm.extend(Object.assign(
         );
       }
 
-      this.listenTo(this.model, 'error', this.startPolling.bind(this));
       this.listenTo(this.model, 'change:mode', this.render.bind(this));
     },
 
