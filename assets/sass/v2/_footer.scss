@@ -1,13 +1,9 @@
 .siw-main-footer {
   .auth-footer {
+    display: flex;
+    flex-direction: column;
     .link {
       padding: 0.3rem 0;
-      display: block;
-    }
-    .js-cancel {
-      float: right;
-      padding: 0;
-      margin-top: 0.3rem;
     }
   }
 }

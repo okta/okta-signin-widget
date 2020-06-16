@@ -25,15 +25,15 @@ export default View.extend({
   initialize () {
     let links = _.resultCtx(this, 'links', this);
     if (this.options.appState.get('showSignoutLink')) {
-      //add cancel/signout link as the first item of links since its floated right
-      links.unshift(
+      //add cancel/signout link
+      links = links.concat([
         {
           'actionPath': 'cancel',
           'label': loc('signout', 'login'),
           'name': 'cancel',
           'type': 'link'
         },
-      );
+      ]);
     }
 
     links.forEach(link => {
