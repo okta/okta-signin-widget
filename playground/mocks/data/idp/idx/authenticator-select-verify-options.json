@@ -41,7 +41,30 @@
                 }
               },
               {
-                "label": "Security Key or Biometric Authenticator (FIDO2)",
+                "label": "FIDO2 (WebAuthn)",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "fwftheidkwh282hv8g3",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "value": "webauthn",
+                        "required": false,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "label": "FIDO2 (WebAuthn)",
                 "value": {
                   "form": {
                     "value": [
@@ -140,10 +163,16 @@
         "id": "aidwboITrg4b4yAYd0g3"
       },
       {
-        "displayName": "Security Key or Biometric Authenticator (FIDO2)",
-        "type": "webauthn",
+        "displayName": "FIDO2 (WebAuthn)",
+        "type": "security_key",
         "authenticatorId": "autwa6eD9o02iBbtv0g2",
         "id": "aidtheidkwh282hv8g3"
+      },
+      {
+        "displayName": "FIDO2 (WebAuthn)",
+        "type": "security_key",
+        "authenticatorId": "autwa6eD9o02iBbtv0g2",
+        "id": "fwftheidkwh282hv8g3"
       },
       {
         "displayName": "Okta Email",

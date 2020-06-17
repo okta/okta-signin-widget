@@ -1,5 +1,6 @@
 .siw-main-view {
-  .oie-webauthn {
+  .oie-enroll-webauthn,
+  .oie-verify-webauthn {
     .uv-required-callout {
       margin: 20px 0;
       // TODO - clean up after OKTA-303528
