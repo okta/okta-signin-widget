@@ -1,20 +1,20 @@
 import { RequestMock } from 'testcafe';
-import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
+import EnrollPasswordPageObject from '../framework/page-objects/EnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import xhrFactorEnrollPassword from '../../../playground/mocks/data/idp/idx/factor-enroll-password';
+import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrFactorEnrollPassword)
+  .respond(xhrAuthenticatorEnrollPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
-fixture(`Factor Enroll Password`)
+fixture(`Authenticator Enroll Password`)
   .requestHooks(mock);
 
 async function setup(t) {
-  const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
+  const enrollPasswordPage = new EnrollPasswordPageObject(t);
   await enrollPasswordPage.navigateToPage();
   return enrollPasswordPage;
 }

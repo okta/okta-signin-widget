@@ -4,7 +4,7 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    'factor-enroll-password',
+    'authenticator-enroll-password',
     // 'authenticator-select-verify-options',
     // 'authenticator-verification-security-question',
     // 'authenticator-select-enroll-options',
