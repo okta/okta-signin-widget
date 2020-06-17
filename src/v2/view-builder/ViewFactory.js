@@ -14,7 +14,7 @@ import TerminalView from './views/TerminalView';
 import SuccessView from './views/SuccessView';
 
 // password
-import EnrollAuthenticatorPasswordView from './views/password/EnrollAuthenticatorPasswordView';
+import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
 import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
 import ChallengeAuthenticatorPasswordView from './views/password/ChallengeAuthenticatorPasswordView';
 
@@ -61,7 +61,7 @@ const VIEWS_MAPPING = {
   },
   'enroll-factor': {
     email: RequiredFactorEmailView, // TODO EnrollFactorEmailView is unimplemented
-    password: EnrollAuthenticatorPasswordView,
+    password: EnrollFactorPasswordView,
   },
   'challenge-factor': {
     email: RequiredFactorEmailView,
@@ -79,7 +79,7 @@ const VIEWS_MAPPING = {
     phone: EnrollAuthenticatorPhoneView,
   },
   'enroll-authenticator': {
-    password: EnrollAuthenticatorPasswordView,
+    password: EnrollFactorPasswordView,
     'security_key': EnrollWebauthnView,
     phone: null,
     'security_question': EnrollAuthenticatorSecurityQuestion
