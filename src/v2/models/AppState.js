@@ -54,10 +54,10 @@ export default Model.extend({
     showSignoutLink: {
       deps: ['idx'],
       fn: function (idx = {}) {
-        const invalidSignOutSteps = ['IDENTIFY', 'ENROLL', 'SUCCESS'];
-        // hide signout for IDENTIFY, ENROLL & SUCCESS step
+        const invalidSignOutSteps = ['IDENTIFY', 'LOGIN', 'ENROLL', 'SUCCESS'];
+        // Hide signout for IDENTIFY, LOGIN, ENROLL & SUCCESS intents
         return idx.actions
-          && _.isFunction(idx.actions.cancel) && !invalidSignOutSteps.includes(idx.context.step);
+          && _.isFunction(idx.actions.cancel) && !invalidSignOutSteps.includes(idx.context.intent);
       },
     },
   },

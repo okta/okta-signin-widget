@@ -23,8 +23,8 @@ test(`should have both password and confirmPassword fields and both are required
   const enrollPasswordPage = await setup(t);
 
   // Check title
-  await t.expect(enrollPasswordPage.getFormTitle()).eql('Select a password');
-  await t.expect(enrollPasswordPage.getSaveButtonLabel()).eql('Save password');
+  await t.expect(enrollPasswordPage.getFormTitle()).eql('Set up password');
+  await t.expect(enrollPasswordPage.getSaveButtonLabel()).eql('Next');
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 

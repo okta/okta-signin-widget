@@ -4,11 +4,11 @@ import BaseForm from '../../internals/BaseForm';
 import BaseFactorView from '../shared/BaseFactorView';
 
 const Body = BaseForm.extend({
-  title: function () {
-    return loc('enroll.password.setup', 'login');
+  title () {
+    return loc('oie.password.enroll.title', 'login');
   },
-  save: function () {
-    return loc('save.password', 'login');
+  save () {
+    return loc('oie.next.button', 'login');
   },
 
   getUISchema () {
@@ -16,7 +16,7 @@ const Body = BaseForm.extend({
     return uiSchemas.concat([
       {
         name: 'confirmPassword',
-        label: loc('password.confirmPassword.placeholder','login'),
+        label: loc('oie.password.confirmPasswordLabel','login'),
         type: 'password',
         'label-top': true,
         params: {
@@ -44,16 +44,15 @@ export default BaseFactorView.extend({
     );
     return ModelClass.extend({
       local,
-      validate: function () {
+      validate () {
         if (this.get('credentials.passcode') !== this.get('confirmPassword') &&
           this.get('credential.value') !== this.get('confirmPassword')) {
-
-          var ret = {};
-          ret['confirmPassword'] = loc('password.error.match', 'login');
-          return ret;
+          const errors = {
+            'confirmPassword': loc('oie.password.match.error', 'login'),
+          };
+          return errors;
         }
       }
-
     });
   }
 });
