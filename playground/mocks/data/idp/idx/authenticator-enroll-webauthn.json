@@ -78,8 +78,7 @@
           "challenge": "zrTo0mMXyCt90mweh2HL",
           "attestation": "direct",
           "authenticatorSelection": {
-            "userVerification": "discouraged",
-            "authenticatorAttachment": "platform"
+            "userVerification": "discouraged"
           },
           "u2fParams": {
             "appid": "http://idx.okta1.com:1802"

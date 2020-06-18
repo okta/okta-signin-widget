@@ -29,6 +29,7 @@ import ChallengeAuthenticatorSecurityQuestion from './views/security-question/Ch
 //webauthn
 import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnView';
 import EnrollWebauthnView from './views/webauthn/EnrollWebauthnView';
+import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 
 // email
 // import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
@@ -89,6 +90,7 @@ const VIEWS_MAPPING = {
     email: RequiredFactorEmailView,
     password: ChallengeAuthenticatorPasswordView,
     webauthn: RequiredFactorWebauthnView,
+    'security_key': ChallengeWebauthnView,
     phone: null,
     'security_question': ChallengeAuthenticatorSecurityQuestion,
   },
