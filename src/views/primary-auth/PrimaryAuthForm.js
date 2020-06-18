@@ -62,12 +62,18 @@ define([
             if (!self.settings.get('features.deviceFingerprinting')) {
               return;
             }
+            self.options.appState.trigger('loading', true);
+            self.state.trigger('togglePrimaryAuthButton', true);
             return DeviceFingerprint.generateDeviceFingerprint(self.settings.get('baseUrl'), self.$el)
               .then(function (fingerprint) {
                 self.options.appState.set('deviceFingerprint', fingerprint);
               })
               .catch(function () {
                 // Keep going even if device fingerprint fails
+              })
+              .finally(function () {
+                self.options.appState.trigger('loading', false);
+                self.state.trigger('togglePrimaryAuthButton', false);
               });
           })
           .then(_.bind(this.model.save, this.model));
