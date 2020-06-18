@@ -16,6 +16,7 @@ import SuccessView from './views/SuccessView';
 // password
 import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
 import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
+import EnrollAuthenticatorPasswordView from './views/password/EnrollAuthenticatorPasswordView';
 
 // phone
 import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
@@ -79,7 +80,7 @@ const VIEWS_MAPPING = {
     phone: EnrollAuthenticatorPhoneView,
   },
   'enroll-authenticator': {
-    password: EnrollFactorPasswordView,
+    password: EnrollAuthenticatorPasswordView,
     'security_key': EnrollWebauthnView,
     phone: null,
     'security_question': EnrollAuthenticatorSecurityQuestion
