@@ -31,6 +31,10 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.elementExist(FORGOT_PASSWORD_SELECTOR);
   }
 
+  getForgotPasswordButtonText() {
+    return Selector(FORGOT_PASSWORD_SELECTOR).textContent;
+  }
+
   clickNextButton() {
     return this.form.clickSaveButton();
   }

@@ -16,6 +16,7 @@ import SuccessView from './views/SuccessView';
 // password
 import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
 import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
+import ChallengeAuthenticatorPasswordView from './views/password/ChallengeAuthenticatorPasswordView';
 
 // phone
 import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
@@ -85,7 +86,7 @@ const VIEWS_MAPPING = {
   },
   'challenge-authenticator': {
     email: RequiredFactorEmailView,
-    password: RequiredFactorPasswordView,
+    password: ChallengeAuthenticatorPasswordView,
     webauthn: RequiredFactorWebauthnView,
     phone: null,
     'security_question': ChallengeAuthenticatorSecurityQuestion,
