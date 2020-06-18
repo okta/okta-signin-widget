@@ -1,7 +1,7 @@
 import { RequestMock } from 'testcafe';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
-import EnrollPasswordPageObject from '../framework/page-objects/EnrollPasswordPageObject';
+import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-select-enroll-options';
@@ -63,7 +63,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should navigate to password 
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
 
   selectFactorPage.selectFactorByIndex(0);
-  const enrollPasswordPage = new EnrollPasswordPageObject(t);
+  const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 });

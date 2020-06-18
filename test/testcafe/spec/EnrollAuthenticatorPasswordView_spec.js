@@ -1,16 +1,16 @@
 import { RequestMock } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import xhrFactorEnrollPassword from '../../../playground/mocks/data/idp/idx/factor-enroll-password';
+import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrFactorEnrollPassword)
+  .respond(xhrAuthenticatorEnrollPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
-fixture(`Factor Enroll Password`)
+fixture(`Authenticator Enroll Password`)
   .requestHooks(mock);
 
 async function setup(t) {
@@ -23,8 +23,8 @@ test(`should have both password and confirmPassword fields and both are required
   const enrollPasswordPage = await setup(t);
 
   // Check title
-  await t.expect(enrollPasswordPage.getFormTitle()).eql('Select a password');
-  await t.expect(enrollPasswordPage.getSaveButtonLabel()).eql('Save password');
+  await t.expect(enrollPasswordPage.getFormTitle()).eql('Set up password');
+  await t.expect(enrollPasswordPage.getSaveButtonLabel()).eql('Next');
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 
