@@ -98,6 +98,9 @@ const VIEWS_MAPPING = {
     [DEFAULT]: TerminalView,
     'email': TerminalReturnEmailView,
   },
+  'terminal-widget-error': {
+    [DEFAULT]: TerminalView,
+  },
   'success-redirect': {
     [DEFAULT]: SuccessView,
   },

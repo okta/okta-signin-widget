@@ -63,6 +63,12 @@ export default Router.extend({
       this.settings.callGlobalError(new Errors.ConfigError(loc('error.required.el')));
     }
 
+    if (!options.apiVersion) {
+      this.settings.callGlobalError(new Errors.ConfigError(
+        loc('error.required.apiVersion')
+      ));
+    }
+
     $('body > div').on('click', function () {
       // OKTA-69769 Tooltip wont close on iPhone/iPad
       // Registering a click handler on the first div
@@ -92,8 +98,9 @@ export default Router.extend({
         this.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
         return;
       }
-      //set flashError
-      this.appState.set('flashError', err);
+      this.settings.callGlobalError(new Errors.ConfigError(
+        err
+      ));
       this.defaultAuth();
     });
 
