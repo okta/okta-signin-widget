@@ -67,7 +67,7 @@ test.requestHooks(mockChallengePassword)(`should navigate to password challenge 
 
   selectFactorPage.selectFactorByIndex(0);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Password');
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Sign in using your password');
 });
 
 test.requestHooks(mockChallengeWebauthn)(`should navigate to webauthn challenge page`, async t => {
