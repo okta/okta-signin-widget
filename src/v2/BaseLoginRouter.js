@@ -109,7 +109,7 @@ export default Router.extend({
     // transform response
     const ionResponse = _.compose(
       uiSchemaTransformer,
-      responseTransformer
+      responseTransformer.bind({}, this.settings),
     )(idxResponse);
     this.appState.setIonResponse(ionResponse);
   },

@@ -19,22 +19,17 @@ define([
   'util/BrowserFeatures',
   'util/Util',
   'util/Logger',
+  'util/IDP',
   'config/config.json'
-],
-function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
+], function (Okta, Q, Errors, BrowserFeatures, Util, Logger, IDP, config) {
 
   var SharedUtil = Okta.internal.util.Util;
-
+  var _ = Okta._;
   var DEFAULT_LANGUAGE = 'en';
-
-  var supportedIdps = ['facebook', 'google', 'linkedin', 'microsoft', 'apple'],
-      supportedResponseTypes = ['token', 'id_token', 'code'],
-      oauthRedirectTpl = Okta.tpl('{{origin}}');
-
-  var _ = Okta._,
-      ConfigError = Errors.ConfigError,
-      UnsupportedBrowserError = Errors.UnsupportedBrowserError;
-
+  var supportedResponseTypes = ['token', 'id_token', 'code'];
+  var oauthRedirectTpl = Okta.tpl('{{origin}}');
+  var ConfigError = Errors.ConfigError;
+  var UnsupportedBrowserError = Errors.UnsupportedBrowserError;
   var assetBaseUrlTpl = Okta.tpl(
     'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/{{version}}'
   );
@@ -268,9 +263,10 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       configuredSocialIdps: {
         deps: ['idps'],
         fn: function (idps) {
-          return _.map(idps, function (idp) {
+          return _.map(idps, function (idpConfig) {
+            var idp = _.clone(idpConfig);
             var type = idp.type && idp.type.toLowerCase();
-            if ( !( type && _.contains(supportedIdps, type) ) ) {
+            if ( !( type && _.contains(IDP.SUPPORTED_SOCIAL_IDPS, type) ) ) {
               type = 'general-idp';
               idp.text = idp.text || '{ Please provide a text value }';
             }

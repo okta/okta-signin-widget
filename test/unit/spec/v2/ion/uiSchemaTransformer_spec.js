@@ -1,4 +1,5 @@
 import { _ } from 'okta';
+import Settings from 'models/Settings';
 import responseTransformer from 'v2/ion/responseTransformer';
 import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';
 import MockUtil from '../../../helpers/v2/MockUtil';
@@ -13,9 +14,20 @@ import XHRAuthenticatorEnrollSecurityQuestion  from '../../../../../playground/m
 import XHRIdentifyResponse from '../../../../../playground/mocks/data/idp/idx/identify.json';
 
 describe('v2/ion/uiSchemaTransformer', function () {
+
+  let testContext;
+
+  beforeEach(() => {
+    testContext = {
+      settings: new Settings({
+        baseUrl: 'http://localhost:3000',
+      }),
+    };
+  });
+
   it('converts factor require email', (done) => {
     MockUtil.mockIntrospect(done, XHRFactorRequiredEmail, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
+      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         'factors': _.pick(XHRFactorRequiredEmail.factors, 'value'),
         'factor': XHRFactorRequiredEmail.factor.value,
@@ -119,7 +131,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts factor enroll options', (done) => {
     MockUtil.mockIntrospect(done, XHRFactorEnrollOptions, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
+      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         'factors': _.pick(XHRFactorEnrollOptions.factors, 'value'),
         'user': XHRFactorEnrollOptions.user.value,
@@ -182,7 +194,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts response with fields as form for ENROLL_PROFILE', (done) => {
     MockUtil.mockIntrospect(done, XHREnrollProfile, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
+      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         'remediations':[
           {
@@ -280,7 +292,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts authenticator require - email', (done) => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorRequiredEmail, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
+      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         'authenticatorEnrollments': _.pick(XHRAuthenticatorRequiredEmail.authenticatorEnrollments, 'value'),
         'currentAuthenticatorEnrollment': XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment.value,
@@ -454,7 +466,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts authenticator enroll - authenticator list', (done) => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollOptions, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
+      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         'authenticators': _.pick(XHRAuthenticatorEnrollOptions.authenticators, 'value'),
         'user': {
@@ -619,7 +631,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts authenticator enroll - phone', (done) => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollPhone, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
+      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         'currentAuthenticator': {
           'displayName': 'Okta Phone',
@@ -736,7 +748,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts authenticator enroll - security question', (done) => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollSecurityQuestion, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
+      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         'currentAuthenticator': {
           'displayName': 'Okta Security Question',
@@ -925,7 +937,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts identify remidiation response', (done) => {
     MockUtil.mockIntrospect(done, XHRIdentifyResponse, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer)(idxResp);
+      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         'remediations': [
           {
