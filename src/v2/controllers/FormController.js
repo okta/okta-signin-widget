@@ -32,6 +32,9 @@ export default Controller.extend({
 
   postRender () {
     const currentViewState = this.options.appState.getCurrentViewState();
+    if (!currentViewState) {
+      return;
+    }
 
     const TheView = ViewFactory.create(
       currentViewState.name,

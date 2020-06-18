@@ -315,29 +315,42 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
     const form  = new IdentifierForm($sandbox);
     beforeEach(function () {
       spyOn(Logger, 'warn');
-      signIn = new Widget({
-        baseUrl: url,
-        stateToken: '02stateToken',
-        features: {
-          router: true
-        }
-      });
+      spyOn(Logger, 'error');
     });
 
     afterEach(function () {
       signIn.remove();
     });
 
-    function setupIntrospect () {
-      spyOn(Util, 'introspectToken').and.callFake(function () {
-        return Q(idxResponse.response);
-      });
-      signIn.renderEl({ el: $sandbox });
-      return Expect.wait(() => {
-        return ($('.siw-main-body').length === 1);
-      });
+    function setupIntrospect (error, options) {
+      if (error) {
+        signIn = new Widget(options);
+        spyOn(Util, 'introspectToken').and.callFake(function () {
+          return Q.reject(error);
+        });
+        
+        signIn.renderEl({ el: $sandbox });
+        return Q();
+      } else {
+        signIn = new Widget({
+          baseUrl: url,
+          stateToken: '02stateToken',
+          apiVersion: '1.0.0',
+          features: {
+            router: true
+          }
+        });
+        spyOn(Util, 'introspectToken').and.callFake(function () {
+          return Q(idxResponse.response);
+        });
+        signIn.renderEl({ el: $sandbox });
+        return Expect.wait(() => {
+          return ($('.siw-main-body').length === 1);
+        });
+      }
     }
     Expect.describe('Introspects token and loads Identifier view for new pipeline', function () {
+
       it('calls introspect API on page load using idx-js as client', function () {
         return setupIntrospect().then(function () {
           expect(form.getTitle()).toBe('Sign In');
@@ -345,6 +358,29 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
           expect(form.getIdentifierInput().attr('name')).toBe('identifier');
           expect(form.getFormSaveButton().attr('value')).toBe('Next');
         });
+      });
+
+      it('throws an error if invalid version is passed to idx-js', function () {
+        const err = {
+          'error': 'Error: Unknown api version: 2.0.0. Use an exact semver version.'
+        };
+        return setupIntrospect(err, {
+          baseUrl: url,
+          apiVersion: '2.0.0',
+          stateToken: '02stateToken',
+          features: {
+            router: true
+          }
+        }).then(()=>{
+          // wait for introspectError to propagate and trigger handled in BaseLoginRouter which calls globalError
+          return Q();
+        })
+          .then(function () {
+            var err = Logger.error.calls.mostRecent().args[0];
+            expect(err.name).toBe('CONFIG_ERROR');
+            expect(err.message).toEqual('Error: Unknown api version: 2.0.0. Use an exact semver version.');
+            Q.resetUnhandledRejections();
+          });
       });
     });
   });

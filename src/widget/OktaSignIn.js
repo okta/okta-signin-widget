@@ -36,18 +36,19 @@ var OktaSignIn = (function () {
         Router = require('v2/WidgetRouter');
       }
       if (widgetOptions.stateToken) {
+        router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
+        if (!widgetOptions.apiVersion) {
+          widgetOptions.apiVersion = router.settings.get('apiVersion');
+        }
         Util.introspectToken(authClient, widgetOptions)
           .then(_.bind(function (response) {
-            router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
             router.appState.set('introspectSuccess', response);
             router.start();
           }, this)).catch(_.bind(function (err) {
-          // Introspect API error.
-          // Incase of an error we want to just load the LoginRouter
-            router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
-            var introspectError = isNewPipeline ? err.details: err;
-            /* idx-js sends an error object with the error response inside details
-            https://github.com/okta/okta-idx-js/blob/master/src/index.js#L14*/
+            // Introspect API error.
+            /* idx-js sends an error object with the error response inside error
+            https://github.com/okta/okta-idx-js/blob/master/src/index.js*/
+            var introspectError = isNewPipeline ? err.error: err;
             router.appState.set('introspectError', introspectError);
             router.start();
           }, this));
