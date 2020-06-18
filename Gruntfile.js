@@ -103,7 +103,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'target/css',
-            src: ['*.css', '*.css.map'],
+            src: ['*.css'],
             dest: DIST + '/css',
             rename: function (dest, src) {
               if (src === 'okta-sign-in.css') {

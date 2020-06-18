@@ -1,5 +1,5 @@
 import { RequestMock } from 'testcafe';
-import EnrollAuthenticatorPhoneObject from '../framework/page-objects/EnrollAuthenticatorPhoneObject';
+import EnrollAuthenticatorPhoneObject from '../framework/page-objects/EnrollAuthenticatorPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrAuthenticatorEnrollPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone';
 import xhrAuthenticatorEnrollPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone-voice';
