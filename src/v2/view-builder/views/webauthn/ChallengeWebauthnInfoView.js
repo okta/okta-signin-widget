@@ -1,7 +1,7 @@
 import { loc, View, createCallout } from 'okta';
 
 export default View.extend({
-  template: '<p class="idx-webauthn-enroll-text">{{i18n code="oie.verify.webauthn.instructions" bundle="login"}}</p>',
+  template: '<p class="idx-webauthn-verify-text">{{i18n code="oie.verify.webauthn.instructions" bundle="login"}}</p>',
   initialize () {
     const challengeData = this.options.appState.get('currentAuthenticatorEnrollment').contextualData.challengeData;
     if (challengeData.userVerification === 'required') {
