@@ -37,9 +37,16 @@ const createAuthenticatorVerifySelectView = (opt) => {
   // If webauthn enrollments > 1 just show one entry with a generic namne (first) so user doesnt have to select which
   // one to pick. eg) If there is yubikey5 and another unknown u2f key, user cannot identify that easily. We need to
   // do this at least  until users can give authenticator enrollments custom names.
-  const webauthnEnrollment = optionItems.find(x => x.authenticatorType === 'security_key');
+  let insertIndex;
+  const webauthnEnrollment = optionItems.find((opt, index) => {
+    if (opt.authenticatorType === 'security_key') {
+      insertIndex = index;
+      return true;
+    }
+    return false;
+  });
   optionItems = optionItems.filter(opt => opt.authenticatorType !== 'security_key');
-  optionItems.push(webauthnEnrollment);
+  webauthnEnrollment && optionItems.splice(insertIndex, 0, webauthnEnrollment);
   optionItems = optionItems.map(opt => {
     return Object.assign({}, opt, FactorUtil.getFactorData(opt.authenticatorType));
   });

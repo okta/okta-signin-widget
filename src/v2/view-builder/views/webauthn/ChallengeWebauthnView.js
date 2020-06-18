@@ -1,4 +1,4 @@
-import { loc, _, createButton } from 'okta';
+import { loc, createButton, createCallout } from 'okta';
 import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
 import BaseFactorView from '../shared/BaseFactorView';
@@ -30,6 +30,14 @@ const Body = BaseForm.extend({
         View: ChallengeWebauthnInfoView,
       }, {
         View: retryButton,
+      });
+    } else {
+      schema.push({
+        View: createCallout({
+          className: 'webauthn-not-supported',
+          type: 'error',
+          subtitle: loc('oie.webauthn.error.not.supported', 'login'),
+        }),
       });
     }
     return schema;
@@ -93,21 +101,6 @@ const Body = BaseForm.extend({
     });
   },
 
-  postRender: function () {
-    _.defer(() => {
-      if (webauthn.isNewApiAvailable()) {
-        this.getCredentialsAndSave();
-      }
-      else {
-        this.model.trigger('error', this.model, {
-          responseJSON: {
-            errorSummary: loc('oie.webauthn.error.not.supported', 'login')
-          }
-        });
-      }
-    });
-  },
-
   _startVerification: function () {
     this.$('.okta-waiting-spinner').show();
     this.$('.retry-webauthn').hide();
@@ -139,4 +132,10 @@ const Footer = BaseFooter.extend({
 export default BaseFactorView.extend({
   Body,
   Footer,
+  postRender () {
+    BaseFactorView.prototype.postRender.apply(this, arguments);
+    if (webauthn.isNewApiAvailable()) {
+      this.form.getCredentialsAndSave();
+    }
+  }, 
 });
