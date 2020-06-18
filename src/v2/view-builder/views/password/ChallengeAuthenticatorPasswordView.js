@@ -9,7 +9,7 @@ const RECOVERY_LINK_ACTION = 'currentAuthenticatorEnrollment-recover';
 const Body = BaseForm.extend({
 
   title: function () {
-    return loc('oie.challenge.password.title', 'login');
+    return loc('oie.password.challenge.title', 'login');
   },
 
   save: function () {
@@ -20,12 +20,12 @@ const Body = BaseForm.extend({
 const Footer = BaseFooter.extend({
   links: function () {
     // recovery link
-    var links = [];
+    const links = [];
 
     if (this.options.appState.getActionByPath(RECOVERY_LINK_ACTION)) {
       links.push({
         'type': 'link',
-        'label': loc('oie.forgot.password', 'login'),
+        'label': loc('oie.password.forgot.title', 'login'),
         'name': 'forgot-password',
         'actionPath': RECOVERY_LINK_ACTION,
       });
