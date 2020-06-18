@@ -32,7 +32,6 @@ export default BaseFactorView.extend({
   Body,
 
   createModelClass () {
-    console.log('here');
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign(
       {
