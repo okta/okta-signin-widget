@@ -360,24 +360,6 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
         });
       });
 
-      it('throws an error if no version is passed to idx-js', function () {
-        const err = {
-          'error': 'Using default "apiVersion" of "1.0.0". Specify "apiVersion" as a widget parameter.'
-        };
-        return setupIntrospect(err, {
-          baseUrl: url,
-          stateToken: '02stateToken',
-          features: {
-            router: true
-          }
-        }).then(function () {
-          var err = Logger.error.calls.mostRecent().args[0];
-          expect(err.name).toBe('CONFIG_ERROR');
-          expect(err.message).toEqual('Using default "apiVersion" of "1.0.0". Specify "apiVersion" as a widget parameter.');
-          Q.resetUnhandledRejections();
-        });
-      });
-
       it('throws an error if invalid version is passed to idx-js', function () {
         const err = {
           'error': 'Error: Unknown api version: 2.0.0. Use an exact semver version.'
