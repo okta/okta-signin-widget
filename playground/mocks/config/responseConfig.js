@@ -4,10 +4,11 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    'authenticator-select-verify-options',
+    // 'authenticator-select-verify-options',
     // 'authenticator-verification-security-question',
     // 'authenticator-select-enroll-options',
-    // 'identify',
+    'identify',
+    'identify-with-third-party-idps',
     // 'identify-locked-user,
     // 'authenticator-enroll-security-question',
     // 'authenticator-select-enroll-options',
