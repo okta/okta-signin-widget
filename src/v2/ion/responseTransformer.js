@@ -75,28 +75,74 @@ const getRemediationValues = (idx) => {
 };
 
 /**
- *
+ * To support `idps` configuration in OIE.
+ * https://github.com/okta/okta-signin-widget#openid-connect
+ */
+const REDIRECT_IDP_REMEDIATION = 'redirect-idp';
+const injectIdPConfigButtonToRemediation = (settings, idxResp) => {
+  const widgetRemedations = idxResp.remediations;
+  const hasIdentifyRemedation = widgetRemedations.filter(r => r.name === 'identify');
+  if (hasIdentifyRemedation.length === 0) {
+    return idxResp;
+  }
+
+  const idpsConfig = settings.get('idps');
+  if (Array.isArray(idpsConfig)) {
+    const existsRedirectIdpIds = {};
+    widgetRemedations.forEach(r => {
+      if (r.name === REDIRECT_IDP_REMEDIATION && r.idp) {
+        existsRedirectIdpIds[r.idp.id] = true;
+      }
+    });
+    const baseUrl = settings.get('baseUrl');
+    const stateHandle = idxResp.idx.context.stateHandle;
+    const redirectIdpRemedations = idpsConfig
+      .filter(c => !existsRedirectIdpIds[c.id]) // omit idps that are already in remediation.
+      .map(idpConfig => {
+        const idp = {
+          id: idpConfig.id,
+          name: idpConfig.text,
+        };
+        const redirectUri = `${baseUrl}/sso/idps/${idpConfig.id}?stateToken=${stateHandle}`;
+        if (idpConfig.className) {
+          idp.className = idpConfig.className;
+        }
+        return {
+          name: REDIRECT_IDP_REMEDIATION,
+          type: idpConfig.type,
+          idp,
+          href: redirectUri,
+        };
+      });
+    idxResp.remediations = widgetRemedations.concat(redirectIdpRemedations);
+  }
+
+  return idxResp;
+};
+
+/**
+ * @param {Models.Settings} user configuration
  * @param {idx} idx object
  * @returns {} transformed object with flattened firstlevel objects, idx and remediations array
  * Example: {
+ *  idx: {
+ *    proceed: ƒ(),
+ *    neededToProceed: [],
+ *    actions: {cancel: ƒ()},
+ *    context: {},
+ *  },
  *  remediations: [],
- *  proceed: ƒ(),
- *  neededToProceed: [],
- *  actions: {cancel: ƒ()},
- *  context: {},
  *  rawIdxState:{},
  *  factors: {},
  *  factor: {},
  *  messages: {},
  * }
  */
-const convert = (idx = {}) => {
+const convert = (settings, idx = {}) => {
   if (!isObject(idx.rawIdxState)) {
     return null;
   }
-  const resp = idx.rawIdxState;
-
-  const firstLevelObjects = getFirstLevelObjects(resp);
+  const firstLevelObjects = getFirstLevelObjects(idx.rawIdxState);
 
   const remediationValues = getRemediationValues(idx);
 
@@ -105,6 +151,9 @@ const convert = (idx = {}) => {
     remediationValues,
     { idx }
   );
+
+  injectIdPConfigButtonToRemediation(settings, result);
+
   return result;
 };
 

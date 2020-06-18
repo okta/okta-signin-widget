@@ -18,7 +18,7 @@ const Body = BaseForm.extend({
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true);
     }
     //add idps
-    const idpButtons = getIdpButtons(this.options.appState.get('idx'));
+    const idpButtons = getIdpButtons(this.options.appState.get('remediations'));
     if (Array.isArray(idpButtons) && idpButtons.length) {
       this.add(signInWithIdps, {
         selector: '.o-form-button-bar',
