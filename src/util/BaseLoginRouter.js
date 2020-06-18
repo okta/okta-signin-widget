@@ -86,6 +86,7 @@ function (Okta, BrowserFeatures, Settings,
           Logger.error(err);
         };
       }
+
       this.settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });
       this.settings.setAuthClient(options.authClient);
 

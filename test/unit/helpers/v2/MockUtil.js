@@ -13,6 +13,7 @@ const mockIntrospect = (done, mockData, assertionFn) => {
   Util.introspectToken(null, {
     baseUrl: BASE_URL,
     stateToken: '01test-state-token',
+    apiVersion: '1.0.0'
   })
     .then(assertionFn)
     .catch((error)=>{
