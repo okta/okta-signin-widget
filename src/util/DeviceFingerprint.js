@@ -34,6 +34,7 @@ define(['q', 'okta'], function (Q, Okta) {
       var deferred = Q.defer();
       var self = this;
       var $iframe;
+      var iFrameTimeout;
 
       function isWindowsPhone (userAgent) {
         return userAgent.match(/windows phone|iemobile|wpdesktop/i);
@@ -54,6 +55,8 @@ define(['q', 'okta'], function (Q, Okta) {
         if (!self.isMessageFromCorrectSource($iframe, event)) {
           return;
         }
+        // deviceFingerprint service is available, clear timeout
+        clearTimeout(iFrameTimeout);
         if (!event || !event.data || event.origin !== oktaDomainUrl) {
           handleError('no data');
           return;
@@ -88,6 +91,11 @@ define(['q', 'okta'], function (Q, Okta) {
         src: oktaDomainUrl + '/auth/services/devicefingerprint'
       });
       element.append($iframe);
+
+      iFrameTimeout = setTimeout(() => {
+        // If the iFrame does not load, throw an error
+        handleError('service not available');
+      }, 2000);
 
       return deferred.promise;
     }

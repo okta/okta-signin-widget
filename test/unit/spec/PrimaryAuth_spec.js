@@ -1225,6 +1225,51 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(ajaxArgs.requestHeaders['x-typing-pattern']).toBe(typingPattern);
           });
       });
+      itp('does not load deviceFingerprint when username field looses focus if username is empty', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
+          var deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        return setup({ features: { securityImage: true, deviceFingerprinting: true }})
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('');
+            test.form.usernameField().focusout();
+            expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+          });
+      });
+      itp('disables the "sign in" button while fetching fingerprint before model.save', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
+          var deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        return setup({ features: { securityImage: true, deviceFingerprinting: true, useDeviceFingerprintForSecurityImage: false }})
+          .then(function (test) {
+            test.securityBeacon = test.router.header.currentBeacon.$el;
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            spyOn(PrimaryAuthController.prototype, 'toggleButtonState').and.callThrough();
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            var spyCalls = PrimaryAuthController.prototype.toggleButtonState.calls;
+            expect(spyCalls.count()).toBe(3);
+            // get device fingerprint
+            expect(spyCalls.argsFor(0)).toEqual([true]);
+            // fingerprint ready
+            expect(spyCalls.argsFor(1)).toEqual([false]);
+            // submit creds to authn
+            expect(spyCalls.argsFor(2)).toEqual([true]);
+          });
+      });
     });
 
     Expect.describe('events', function () {
@@ -1249,6 +1294,32 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               var spyCalls = test.securityBeacon.toggleClass.calls;
               expect(spyCalls.count()).toBe(2);
               expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+              expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+            });
+        });
+        itp('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', function () {
+          return setup({ features: { securityImage: true, deviceFingerprinting: true, useDeviceFingerprintForSecurityImage: false }})
+            .then(function (test) {
+              test.securityBeacon = test.router.header.currentBeacon.$el;
+              test.setNextResponse(resSecurityImage);
+              test.form.setUsername('testuser');
+              return waitForBeaconChange(test);
+            })
+            .then(function (test) {
+              spyOn(test.securityBeacon, 'toggleClass');
+              test.setNextResponse(resSuccess);
+              test.form.setPassword('pass');
+              test.form.submit();
+              return Expect.waitForSpyCall(test.successSpy, test);
+            })
+            .then(function (test) {
+              var spyCalls = test.securityBeacon.toggleClass.calls;
+              expect(spyCalls.count()).toBe(4);
+              // First 2 to get fingerprint
+              expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+              expect(spyCalls.argsFor(1)).toEqual([BEACON_LOADING_CLS, false]);
+              // Last 2 for model.save
+              expect(spyCalls.argsFor(2)).toEqual([BEACON_LOADING_CLS, true]);
               expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
             });
         });
@@ -1392,6 +1463,22 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
             expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
             expect(test.form.securityBeacon().css('background-image')).toMatch(/\/base\/target\/img\/security\/default.*\.png/);
+          });
+      });
+      itp('shows beacon-loading animation while loading security image (with deviceFingerprint)', function () {
+        return setup({ features: { securityImage: true, deviceFingerprinting: true }})
+          .then(function (test) {
+            test.securityBeacon = test.router.header.currentBeacon.$el;
+            spyOn(test.securityBeacon, 'toggleClass');
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            var spyCalls = test.securityBeacon.toggleClass.calls;
+            expect(spyCalls.count()).toBe(2);
+            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
           });
       });
       itp('updates security beacon when user enters correct username', function () {
