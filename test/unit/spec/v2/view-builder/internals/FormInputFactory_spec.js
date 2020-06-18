@@ -139,6 +139,89 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
   });
 
 
+  it('filters additional webauthn enrollments for authenticatorVerify Select type', function () {
+    const opt = {
+      type: 'authenticatorVerifySelect',
+      options: [
+        {
+          'label': 'FIDO2 (WebAuthn)',
+          'authenticatorType': 'security_key',
+          'value': {
+            id: 'autwa6eDxxx2iBbtv0g3'
+          }
+        },{
+          'label': 'FIDO2 (WebAuthn)',
+          'authenticatorType': 'security_key',
+          'value': {
+            id: 'fwftheidkwh282hv8g3'
+          }
+        },{
+          'label': 'Okta Password',
+          'authenticatorType': 'password',
+          'value': {
+            id: 'autwa6eD9o02iBbtv0g3'
+          }
+        }
+      ],
+      name: 'authenticator'
+    };
+    const result = FormInputFactory.create(opt);
+    expect(result).toEqual({
+      View: AuthenticatorVerifyOptions,
+      options: {
+        collection: jasmine.anything(),
+        name: 'authenticator'
+      },
+    });
+    expect(result.options.collection instanceof Collection).toBe(true);
+    expect(result.options.collection.toJSON()).toEqual([
+      {
+        'label': 'Security Key or Biometric Authenticator',
+        'authenticatorType': 'security_key',
+        'value': {
+          id: 'autwa6eDxxx2iBbtv0g3'
+        },
+        'iconClassName': 'mfa-webauthn',
+        'description': 'Use a security key or a biometric authenticator to sign in'
+      }, {
+        'label': 'Password',
+        'authenticatorType': 'password',
+        'value': {
+          id: 'autwa6eD9o02iBbtv0g3'
+        },
+        'iconClassName': 'mfa-okta-password',
+        'description': ''
+      }
+    ]);
+    // make sure input parameter is not mutated.
+    expect(opt).toEqual({
+      type: 'authenticatorVerifySelect',
+      options: [
+        {
+          'label': 'FIDO2 (WebAuthn)',
+          'authenticatorType': 'security_key',
+          'value': {
+            id: 'autwa6eDxxx2iBbtv0g3'
+          }
+        },{
+          'label': 'FIDO2 (WebAuthn)',
+          'authenticatorType': 'security_key',
+          'value': {
+            id: 'fwftheidkwh282hv8g3'
+          }
+        },  {
+          'label': 'Okta Password',
+          'authenticatorType': 'password',
+          'value': {
+            id: 'autwa6eD9o02iBbtv0g3'
+          }
+        }
+      ],
+      name: 'authenticator'
+    });
+  });
+
+
 
   it('handles authenticatorEnrollSelect type', function () {
     const opt = {

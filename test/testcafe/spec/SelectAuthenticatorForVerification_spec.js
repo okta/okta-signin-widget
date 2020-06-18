@@ -76,7 +76,7 @@ test.requestHooks(mockChallengeWebauthn)(`should navigate to webauthn challenge 
 
   selectFactorPage.selectFactorByIndex(1);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Security Key or Biometric Authenticator');
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with Security Key or Biometric Authenticator');
 });
 
 test.requestHooks(mockChallengeEmail)(`should navigate to email challenge page`, async t => {
