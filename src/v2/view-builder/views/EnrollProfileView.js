@@ -2,6 +2,7 @@ import { loc } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
+import RemediationEnum from '../../ion/RemediationEnum';
 
 const Body = BaseForm.extend({
   title () {
@@ -14,12 +15,12 @@ const Body = BaseForm.extend({
 const Footer = BaseFooter.extend({
   links () {
     const links = [];
-    if (this.options.appState.hasRemediationObject('select-identify')) {
+    if (this.options.appState.hasRemediationObject(RemediationEnum.FORMS.SELECT_IDENTIFY)) {
       links.push({
         'type': 'link',
         'label': loc('haveaccount', 'login'),
         'name': 'back',
-        'actionPath': 'select-identify',
+        'actionPath': RemediationEnum.FORMS.SELECT_IDENTIFY,
       });
     }
     return links;

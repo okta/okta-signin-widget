@@ -2,7 +2,7 @@
     "stateHandle": "02M2crb7cM5t5rtgx3IrE1jjQ7K2FzNH_0GPT-KTlo",
     "version": "1.0.0",
     "expiresAt": "2020-01-23T21:29:08.000Z",
-    "step": "AUTHENTICATE",
+
     "intent": "LOGIN",
     "remediation": {
       "type": "array",

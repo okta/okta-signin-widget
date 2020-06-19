@@ -1,10 +1,11 @@
 import { loc } from 'okta';
+import RemediationEnum from '../../ion/RemediationEnum';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
 import signInWithIdps from './signin/SignInWithIdps';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
-import { getIdpButtons } from '../utils/RemediationUtil';
+import { createIdpButtons } from '../internals/FormInputFactory';
 
 const Body = BaseForm.extend({
 
@@ -14,11 +15,11 @@ const Body = BaseForm.extend({
   save: loc('oform.next', 'login'),
   render () {
     BaseForm.prototype.render.apply(this, arguments);
-    if (this.options.appState.hasRemediationObject('launch-authenticator')) {
+    if (this.options.appState.hasRemediationObject(RemediationEnum.FORMS.LAUNCH_AUTHENTICATOR)) {
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true);
     }
     //add idps
-    const idpButtons = getIdpButtons(this.options.appState.get('remediations'));
+    const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
     if (Array.isArray(idpButtons) && idpButtons.length) {
       this.add(signInWithIdps, {
         selector: '.o-form-button-bar',
@@ -36,26 +37,29 @@ const Body = BaseForm.extend({
 
 const Footer = BaseFooter.extend({
   links () {
-    const baseUrl = this.options.settings.get('baseUrl');
-    let href = baseUrl + '/help/login';
+
+    let helpLinkHref;
     if (this.options.settings.get('helpLinks.help') ) {
-      href = this.options.settings.get('helpLinks.help');
+      helpLinkHref = this.options.settings.get('helpLinks.help');
+    } else {
+      const baseUrl = this.options.settings.get('baseUrl');
+      helpLinkHref = baseUrl + '/help/login';
     }
-    const signupLinkObj = {
-      'type': 'link',
-      'label': loc('signup', 'login'),
-      'name': 'enroll',
-      'actionPath': 'select-enroll-profile',
-    };
+
     const links = [
       {
         'name': 'help',
         'label': loc('oie.needhelp', 'login'),
-        'href': href,
+        'href': helpLinkHref,
       },
     ];
-    if (this.options.appState.hasRemediationObject('select-enroll-profile')) {
-      links.push(signupLinkObj);
+    if (this.options.appState.hasRemediationObject(RemediationEnum.FORMS.SELECT_ENROLL_PROFILE)) {
+      links.push({
+        'type': 'link',
+        'label': loc('signup', 'login'),
+        'name': 'enroll',
+        'actionPath': RemediationEnum.FORMS.SELECT_ENROLL_PROFILE,
+      });
     }
     return links;
   }
@@ -72,7 +76,7 @@ export default BaseView.extend({
     // This is the click handler for that link
     const appState = this.options.appState;
     this.$el.find('.js-sign-up').click(function () {
-      appState.trigger('invokeAction', 'select-enroll-profile');
+      appState.trigger('invokeAction', RemediationEnum.FORMS.SELECT_ENROLL_PROFILE);
       return false;
     });
   },

@@ -12,6 +12,7 @@
 
 import { _, Model } from 'okta';
 import Logger from 'util/Logger';
+import RemediationEnum from '../ion/RemediationEnum';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -52,12 +53,12 @@ export default Model.extend({
       },
     },
     showSignoutLink: {
-      deps: ['idx'],
-      fn: function (idx = {}) {
-        const invalidSignOutSteps = ['IDENTIFY', 'ENROLL', 'SUCCESS'];
+      deps: ['idx', 'currentFormName'],
+      fn: function (idx = {}, currentFormName) {
         // hide signout for IDENTIFY, ENROLL & SUCCESS step
         return idx.actions
-          && _.isFunction(idx.actions.cancel) && !invalidSignOutSteps.includes(idx.context.step);
+          && _.isFunction(idx.actions.cancel)
+          && !RemediationEnum.NEED_HIDE_CANCEL_FORMS.includes(currentFormName);
       },
     },
   },

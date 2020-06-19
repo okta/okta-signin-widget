@@ -2,7 +2,7 @@
   "stateHandle": "02IAickZV0j0TL0JaJJUxe4GnX7YHTeZY9pCYe-pBZ",
   "version": "1.0.0",
   "expiresAt": "2020-15T17:28:11.000Z",
-  "step": "IDENTIFY",
+
   "intent": "LOGIN",
   "remediation": {
       "type": "array",
@@ -20,8 +20,8 @@
                        "value": "02IAickZV0j0TL0JaJJUxe4GnX7YHTeZY9pCYe-pBZ",
                        "required": true,
                        "visible": false
-                    }      
-                ]      
+                    }
+                ]
           }
       ]
   },

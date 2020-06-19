@@ -59,6 +59,11 @@ test.requestHooks(mockChallengePassword)(`should load select authenticator list`
   await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Security Question');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(4)).contains('mfa-okta-security-question');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Select');
+
+  // no signout link at enroll page
+  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
+
 });
 
 test.requestHooks(mockChallengePassword)(`should navigate to password challenge page`, async t => {
