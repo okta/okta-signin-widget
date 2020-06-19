@@ -5,7 +5,7 @@ const VOICE_RADIO_SELECTOR = 'input[value="voice"]';
 const PHONE_NUMBER_SELECTOR = '.phone-authenticator-enroll__phone';
 const PHONE_NUMBER_EXTENSION_SELECTOR = '.phone-authenticator-enroll__phone-ext';
 const phoneFieldName = 'authenticator\\.phoneNumber';
-export default class EnrollAuthenticatorPhoneObject extends BasePageObject {
+export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   constructor (t) {
     super (t);

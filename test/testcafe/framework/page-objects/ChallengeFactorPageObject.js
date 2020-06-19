@@ -35,8 +35,16 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return Selector(FORGOT_PASSWORD_SELECTOR).textContent;
   }
 
+  elementExists(selector) {
+    return this.form.elementExist(selector);
+  }
+
   clickNextButton() {
     return this.form.clickSaveButton();
+  }
+
+  clickElement(selector) {
+    return this.form.clickElement(selector);
   }
 
   getPageTitle() {
@@ -51,8 +59,8 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.getErrorBoxText();
   }
 
-  resendEmailView() {
-    return this.form.getElement('.resend-email-view');
+  resendEmailView(resendContainer = '.resend-email-view') {
+    return this.form.getElement(`${resendContainer}`);
   }
 
   hasPasswordError() {
@@ -71,11 +79,15 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.getTextBoxErrorMessage(PASSWORD_FIELD);
   }
 
-  async clickSendAgainLink() {
-    await this.form.clickElement('.resend-email-view a.resend-link');
+  async clickSendAgainLink(resendContainer = '.resend-email-view') {
+    await this.form.clickElement(`${resendContainer} a.resend-link`);
   }
 
-  getSaveButtonLabel() {
-    return this.form.getElement('.button-primary').value;
+  getSaveButtonLabel(saveButtonSelector = '.button-primary') {
+    return this.form.getElement(saveButtonSelector).value;
+  }
+
+  elementHasClass(elementSelector, className) {
+    return this.form.getElement(elementSelector).hasClass(className);
   }
 }

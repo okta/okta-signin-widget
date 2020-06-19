@@ -1,0 +1,20 @@
+.phone-authenticator-challenge {
+  .okta-form-subtitle {
+    text-align: center;
+  }
+  &__button--primary.link-button {
+    width: 100%;
+    text-align: center;
+    height: 3.125rem;
+    padding-top: 0.3rem;
+  }
+  &__button--secondary {
+    display: block;
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+  .hide {
+    display: none;
+  }
+}
