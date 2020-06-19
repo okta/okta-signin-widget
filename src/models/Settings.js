@@ -61,6 +61,9 @@ define([
       'logoText' : ['string', false],
       'helpSupportNumber': 'string',
 
+      // IDX API VERSION
+      'apiVersion': ['string', true, '1.0.0'],
+
       // FEATURES
       'features.router': ['boolean', true, false],
       'features.securityImage': ['boolean', true, false],
