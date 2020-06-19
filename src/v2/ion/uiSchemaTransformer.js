@@ -154,7 +154,6 @@ const createUISchema = (transformedResp, remediationForm) => {
     const uiSchema = {
       'label-top': true,
     };
-
     if (ionFormField.type === 'string' || !ionFormField.type) {
       uiSchema.type = 'text';
 

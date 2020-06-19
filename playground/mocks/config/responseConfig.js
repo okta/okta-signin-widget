@@ -4,12 +4,12 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    'authenticator-enroll-password',
+    // 'authenticator-enroll-password',
     // 'authenticator-select-verify-options',
     // 'authenticator-verification-security-question',
     // 'authenticator-select-enroll-options',
-    'identify',
-    'identify-with-third-party-idps',
+    // 'identify',
+    // 'identify-with-third-party-idps',
     // 'identify-locked-user,
     // 'authenticator-enroll-security-question',
     // 'authenticator-select-enroll-options',
@@ -17,9 +17,11 @@ const idx = {
     // 'terminal-return-expired-email',
     // 'factor-verification-email'
     // 'authenticator-enroll-phone',
-    'authenticator-verification-phone',
-    // 'authenticator-verification-phone-voice-only',
-    // 'authenticator-enroll-phone-voice',
+    // 'authenticator-verification-phone-options',
+    // 'authenticator-verification-phone-options-voice-primary',
+    // 'authenticator-verification-phone-options-voice-only',
+    'authenticator-verification-phone-sms',
+    // 'authenticator-verification-phone-voice'
     // 'authenticator-verification-password'
   ],
   '/idp/idx/enroll': [

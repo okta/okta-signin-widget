@@ -1,41 +1,46 @@
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 import { RequestMock, RequestLogger } from 'testcafe';
-import phoneVerificationSMSThenVoice from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone';
-import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-primary';
-import phoneVerificationVoiceOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-only';
+import phoneVerificationSMSThenVoiceOptions from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-options';
+import phoneVerificationVoiceThenSMSOptions from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-options-voice-primary';
+import phoneVerificationVoiceOnlyOption from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-options-voice-only';
+import smsVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms';
+import voiceVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidCode from '../../../playground/mocks/data/idp/idx/error-email-verify';
 
-const logger = RequestLogger(/poll|resend/);
+const logger = RequestLogger(/challenge|challenge\/resend|challenge\/answer/,
+  {
+    logRequestBody: true,
+    stringifyRequestBody: true,
+  }
+);
 
 const smsPrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(phoneVerificationSMSThenVoice)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(phoneVerificationSMSThenVoice)
+  .respond(phoneVerificationSMSThenVoiceOptions)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(smsVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(smsVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
 const voicePrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(phoneVerificationVoiceThenSMS)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(phoneVerificationVoiceThenSMS)
+  .respond(phoneVerificationVoiceThenSMSOptions)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(voiceVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
 const voiceOnlyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(phoneVerificationVoiceOnly)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(phoneVerificationVoiceOnly)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(success);
+  .respond(phoneVerificationVoiceOnlyOption);
 
 const invalidCodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(phoneVerificationSMSThenVoice)
+  .respond(smsVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidCode, 403);
 
@@ -48,7 +53,7 @@ async function setup(t) {
 }
 
 test
-  .requestHooks(smsPrimaryMock)(`SMS primary - has the right labels`, async t => {
+  .requestHooks(smsPrimaryMock)(`SMS primary mode - has the right labels`, async t => {
     const challengeFactorPageObject = await setup(t);
     const pageTitle = challengeFactorPageObject.getPageTitle();
     const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
@@ -59,48 +64,30 @@ test
     await t.expect(pageSubtitle).contains('Send a code via SMS to');
     await t.expect(primaryButtonText).contains('Send a code via SMS');
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
-    await t.expect(challengeFactorPageObject.getFormSubtitle())
-      .contains('Send a code via SMS to');
+    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(true);
   });
 
 test
-  .requestHooks(smsPrimaryMock)(`SMS primary - clicking on primary button changes view`, async t => {
+  .requestHooks(logger, smsPrimaryMock)(`SMS primary mode - Secondary button click`, async t => {
     const challengeFactorPageObject = await setup(t);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-fieldset', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--primary', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--secondary', 'hide')).eql(false);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
-    const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
-    await t.expect(challengeFactorPageObject.getSaveButtonLabel('input[type="submit"]')).eql('Verify');
-    await t.expect(pageSubtitle).contains('A code was sent to');
-    await t.expect(pageSubtitle).contains('Enter the code below to verify.');
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-fieldset', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--primary', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--secondary', 'hide')).eql(true);
-  });
-
-test
-  .requestHooks(smsPrimaryMock)(`SMS primary - clicking on secondary button changes view`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-fieldset', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--primary', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--secondary', 'hide')).eql(false);
     await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--secondary');
-    const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
-    await t.expect(pageSubtitle).contains('Calling');
-    await t.expect(pageSubtitle).contains('Enter the code below to verify.');
-    await t.expect(challengeFactorPageObject.getSaveButtonLabel('input[type="submit"]')).eql('Verify');
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-fieldset', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--primary', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--secondary', 'hide')).eql(true);
+    await t.expect(logger.count(() => true)).eql(1);
+    const { request: { body, method, url } } = logger.requests[0];
+    const methodTypeRequestBody = JSON.parse(body);
+    await t.expect(methodTypeRequestBody).eql({
+      authenticator: {
+        id: 'autxl8PPhwHUpOpW60g3',
+        methodType: 'voice',
+      },
+      formName: 'authenticator-verification-data',
+      stateHandle: `eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdjRlUHM0eXFjT21TcDAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..bxH8DK0q1wAeq1IN.chFU_FKuKTYWBelYcUQcyw_wtVsyGk8UfRSXs8aQuzDIugGFWYQ9QC8lxyu1ltTVOvHakB_Wy_qqYmQSTm7QIP716ZThSGaA1oYVwmePTy0Rozo8NBcYpyhsvHwqrwMbRYTW3CUROu4rH8r_wXhAoEuA82XZ7m3FVMy9xmeEGgiHOSmD-uh2tX0mdii2EKrhUAXxbH_1oF49Et0_zP6sv9CQuW5fmS2DCUETMTSiMYyUrGAqBORDdyJGljXn5qSUP_gmp7Bh96fGzYA2QxsEh4LQofSxaHtQwt-JbP2jppDsnY7d-MhZcOr16IIhmYJwt7RC0C1OyiUp32d0fElK58NgP7iF8UHGicCKiIvQfI3X4p1bVt_-aSZtmwA8GDOIw4f97kVkcT2fO9RUTJEEy5qIlIG6WlG9F8sboBx4b-K33RDsYtoYrv7ISqH2TM84ztw80KBNyfsVTN7_EzP8O_4aB03A8dZT08-dZv6Tj_6eBvEjTN9tmT6G3O3zSjgQTxeXyxEEZJiWAbwdWVCge4AT-EdDKwXUZYrwCp8y_FBOqTsh2woyw75Ll7SEmCSc5IAvh01TfnbSNc5WfXdr0AdJN3WsYIv6PiGTlIgkigWZC_uQovJHA6gUknfD3q7Jc-VT2XrGX_trbK_fLa8pHoI9Er2thqF4sYtHK136uNKKxXNpuOndUW8r2qKreFMWZz_7MZbjz1urBbAWrLzmeMjvhfFuI7BdhjIQzex0AhQ0pgMk_Epw2V0J6b81t-IkXgQSayX5KYReSgXgJGeNAP_WbhHstFQ5qFzZf11ZmrAMLBbBAUFZx28esaQoqCODFho5m2PVDx5giQm9J75-AtqYpdJyESyWY6CZlUefKqcts9dAjHkE7YHWGQ7icHFXFuc3SGt8ro5z8JV_wA6MgXuaFkk5uruz-VbiMqhBkdNoBi_qAljH2icXuqkMhgl3E96IApJzFWS1yGZl4CelULScf7wOrlgwcAHYGzu8R1QNjSWQD8bUBQBEFXEktIpFtk-tZrF0PfVvzuVZ2Yurxb7s6zRCAPhFpgq81klAxBp7QI6Pf8KLkbrtO2GNWSN1iBsQvVMYfXTY-djDpQ-8Izz5hdlapJYa6v1eGmToqb8-OTjhVYOUXzGK1A_pF0XLFjAGViJqux-XGZitKIYSXl-4vLa_ZM5H4qRKAttvlldCkLwGmFn9dwOPAliJHq42eaDtWlZU3FQdHQVNo8tLJcyugxAPWPJrnbKrKk3BxM-xRT657FFVeZLbCCkIuJhEkG-o-fHfa3tWCAVeDkbN9fXP17JXpxOrHsJ5yfNL6aJpJj77pyu_7Qq1s-qA2a60Cu9Bmfh-iC4nNZ_Z1EIG3fjxw9TQWwdUBDbOzBZ-nAt8p25XlduduVJyUMLzugPBriZRoUj1ZGJX9JWbuuptmoFKQ10XCx-3BJ3-REmpQltYE7LHCaHj0IR4XmIqBIdSUgsocQ5YbI_QtVUab_wrbzEIZARnbNSIOQPwP03kZU1KCDlmoh4y44jqIDy1QZA_squT8a3_9hYmc_jIekVwoDcb9NzoX_NIC0VdTaLP5NFGxiigGnKOF3IMHXgOEJoX3ESjK83uIwtbT8YyaHhI8ZGKnmqDV4nTSbPqyP58E6qcef1oOc4hcEnZVZl8O3QNa7z9QWbwfhXLNC6N2yNwqQ.GR_YTlIP0iEYJ2C7x3XQXg`
+    });
+    await t.expect(method).eql('post');
+    await t.expect(url).eql('http://localhost:3000/idp/idx/challenge');
   });
 
 test
-  .requestHooks(voicePrimaryMock)(`Voice Primary - has the right labels`, async t => {
+  .requestHooks(voicePrimaryMock)(`Voice primary mode - has the right labels`, async t => {
     const challengeFactorPageObject = await setup(t);
     const pageTitle = challengeFactorPageObject.getPageTitle();
     const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
@@ -111,68 +98,134 @@ test
     await t.expect(pageSubtitle).contains('Send a code via voice call to');
     await t.expect(primaryButtonText).contains('Send a code via voice call');
     await t.expect(secondaryButtonText).contains('Receive an SMS instead');
-    await t.expect(challengeFactorPageObject.getFormSubtitle())
-      .contains('Send a code via voice call to');
+    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(true);
   });
 
 test
-  .requestHooks(voicePrimaryMock)(`Voice Primary - clicking on primary button changes view`, async t => {
+  .requestHooks(voiceOnlyMock)(`Only one option - has only one primary button`, async t => {
     const challengeFactorPageObject = await setup(t);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-fieldset', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--primary', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--secondary', 'hide')).eql(false);
+    const pageTitle = challengeFactorPageObject.getPageTitle();
+    const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
+    const primaryButtonText = challengeFactorPageObject.getTextContent('.phone-authenticator-challenge__button--primary');
+    await t.expect(challengeFactorPageObject.elementExists('.phone-authenticator-challenge__button--primary')).ok();
+    await t.expect(challengeFactorPageObject.elementExists('.phone-authenticator-challenge__button--secondary')).notOk();
+    await t.expect(pageTitle).contains('Verify with your phone');
+    await t.expect(pageSubtitle).contains('Send a code via voice call to');
+    await t.expect(primaryButtonText).contains('Send a code via voice call');
+  });
+
+test
+  .requestHooks(logger, voicePrimaryMock)(`Voice primary mode - Secondary button click`, async t => {
+    const challengeFactorPageObject = await setup(t);
+    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--secondary');
+    await t.expect(logger.count(() => true)).eql(1);
+    const { request: { body, method, url } } = logger.requests[0];
+    const methodTypeRequestBody = JSON.parse(body);
+    await t.expect(methodTypeRequestBody).eql({
+      authenticator: {
+        id: 'autxl8PPhwHUpOpW60g3',
+        methodType: 'sms',
+      },
+      formName: 'authenticator-verification-data',
+      stateHandle: `eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdjRlUHM0eXFjT21TcDAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..bxH8DK0q1wAeq1IN.chFU_FKuKTYWBelYcUQcyw_wtVsyGk8UfRSXs8aQuzDIugGFWYQ9QC8lxyu1ltTVOvHakB_Wy_qqYmQSTm7QIP716ZThSGaA1oYVwmePTy0Rozo8NBcYpyhsvHwqrwMbRYTW3CUROu4rH8r_wXhAoEuA82XZ7m3FVMy9xmeEGgiHOSmD-uh2tX0mdii2EKrhUAXxbH_1oF49Et0_zP6sv9CQuW5fmS2DCUETMTSiMYyUrGAqBORDdyJGljXn5qSUP_gmp7Bh96fGzYA2QxsEh4LQofSxaHtQwt-JbP2jppDsnY7d-MhZcOr16IIhmYJwt7RC0C1OyiUp32d0fElK58NgP7iF8UHGicCKiIvQfI3X4p1bVt_-aSZtmwA8GDOIw4f97kVkcT2fO9RUTJEEy5qIlIG6WlG9F8sboBx4b-K33RDsYtoYrv7ISqH2TM84ztw80KBNyfsVTN7_EzP8O_4aB03A8dZT08-dZv6Tj_6eBvEjTN9tmT6G3O3zSjgQTxeXyxEEZJiWAbwdWVCge4AT-EdDKwXUZYrwCp8y_FBOqTsh2woyw75Ll7SEmCSc5IAvh01TfnbSNc5WfXdr0AdJN3WsYIv6PiGTlIgkigWZC_uQovJHA6gUknfD3q7Jc-VT2XrGX_trbK_fLa8pHoI9Er2thqF4sYtHK136uNKKxXNpuOndUW8r2qKreFMWZz_7MZbjz1urBbAWrLzmeMjvhfFuI7BdhjIQzex0AhQ0pgMk_Epw2V0J6b81t-IkXgQSayX5KYReSgXgJGeNAP_WbhHstFQ5qFzZf11ZmrAMLBbBAUFZx28esaQoqCODFho5m2PVDx5giQm9J75-AtqYpdJyESyWY6CZlUefKqcts9dAjHkE7YHWGQ7icHFXFuc3SGt8ro5z8JV_wA6MgXuaFkk5uruz-VbiMqhBkdNoBi_qAljH2icXuqkMhgl3E96IApJzFWS1yGZl4CelULScf7wOrlgwcAHYGzu8R1QNjSWQD8bUBQBEFXEktIpFtk-tZrF0PfVvzuVZ2Yurxb7s6zRCAPhFpgq81klAxBp7QI6Pf8KLkbrtO2GNWSN1iBsQvVMYfXTY-djDpQ-8Izz5hdlapJYa6v1eGmToqb8-OTjhVYOUXzGK1A_pF0XLFjAGViJqux-XGZitKIYSXl-4vLa_ZM5H4qRKAttvlldCkLwGmFn9dwOPAliJHq42eaDtWlZU3FQdHQVNo8tLJcyugxAPWPJrnbKrKk3BxM-xRT657FFVeZLbCCkIuJhEkG-o-fHfa3tWCAVeDkbN9fXP17JXpxOrHsJ5yfNL6aJpJj77pyu_7Qq1s-qA2a60Cu9Bmfh-iC4nNZ_Z1EIG3fjxw9TQWwdUBDbOzBZ-nAt8p25XlduduVJyUMLzugPBriZRoUj1ZGJX9JWbuuptmoFKQ10XCx-3BJ3-REmpQltYE7LHCaHj0IR4XmIqBIdSUgsocQ5YbI_QtVUab_wrbzEIZARnbNSIOQPwP03kZU1KCDlmoh4y44jqIDy1QZA_squT8a3_9hYmc_jIekVwoDcb9NzoX_NIC0VdTaLP5NFGxiigGnKOF3IMHXgOEJoX3ESjK83uIwtbT8YyaHhI8ZGKnmqDV4nTSbPqyP58E6qcef1oOc4hcEnZVZl8O3QNa7z9QWbwfhXLNC6N2yNwqQ.GR_YTlIP0iEYJ2C7x3XQXg`
+    });
+    await t.expect(method).eql('post');
+    await t.expect(url).eql('http://localhost:3000/idp/idx/challenge');
+  });
+
+test
+  .requestHooks(smsPrimaryMock)(`SMS mode - Enter code screen has the right labels`, async t => {
+    const challengeFactorPageObject = await setup(t);
     await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
     const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
     await t.expect(challengeFactorPageObject.getSaveButtonLabel('input[type="submit"]')).eql('Verify');
-    await t.expect(pageSubtitle).contains('Calling');
-    await t.expect(pageSubtitle).contains('Enter the code below to verify.');
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-fieldset', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--primary', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--secondary', 'hide')).eql(true);
-  });
-
-test
-  .requestHooks(voicePrimaryMock)(`Voice Primary - clicking on secondary button changes view`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-fieldset', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--primary', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--secondary', 'hide')).eql(false);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--secondary');
-    const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
     await t.expect(pageSubtitle).contains('A code was sent to');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
-    await t.expect(challengeFactorPageObject.getSaveButtonLabel('input[type="submit"]')).eql('Verify');
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-fieldset', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--primary', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--secondary', 'hide')).eql(true);
   });
 
 test
-  .requestHooks(voiceOnlyMock)(`Voice Only - clicking on the only primary button changes view`, async t => {
+  .requestHooks(voicePrimaryMock)(`Voice mode - Enter code screen has the right labels`, async t => {
     const challengeFactorPageObject = await setup(t);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-fieldset', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--primary', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementExists('.phone-authenticator-challenge__button--secondary')).eql(false);
     await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
     const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
     await t.expect(challengeFactorPageObject.getSaveButtonLabel('input[type="submit"]')).eql('Verify');
     await t.expect(pageSubtitle).contains('Calling');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-fieldset', 'hide')).eql(false);
-    await t.expect(challengeFactorPageObject.elementHasClass('.phone-authenticator-challenge__button--primary', 'hide')).eql(true);
-    await t.expect(challengeFactorPageObject.elementExists('.phone-authenticator-challenge__button--secondary')).eql(false);
+  });
+
+test
+  .requestHooks(logger, smsPrimaryMock)(`SMS flow`, async t => {
+    const challengeFactorPageObject = await setup(t);
+    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
+
+    await challengeFactorPageObject.verifyFactor('credentials.passcode', '1234');
+    await challengeFactorPageObject.clickNextButton();
+
+    const successPage = new SuccessPageObject(t);
+    const pageUrl = await successPage.getPageUrl();
+    await t.expect(pageUrl).eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+    await t.expect(logger.count(() => true)).eql(2);
+
+    const [ methodTypeRequest, challengeCodeRequest ] = logger.requests;
+    const methodTypeRequestBody = JSON.parse(methodTypeRequest.request.body);
+    const challengeCodeRequestBody = JSON.parse(challengeCodeRequest.request.body);
+    await t.expect(methodTypeRequestBody).eql({
+      authenticator: {
+        id: 'autxl8PPhwHUpOpW60g3',
+        methodType: 'sms',
+      },
+      formName: 'authenticator-verification-data',
+      stateHandle: `eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdjRlUHM0eXFjT21TcDAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..bxH8DK0q1wAeq1IN.chFU_FKuKTYWBelYcUQcyw_wtVsyGk8UfRSXs8aQuzDIugGFWYQ9QC8lxyu1ltTVOvHakB_Wy_qqYmQSTm7QIP716ZThSGaA1oYVwmePTy0Rozo8NBcYpyhsvHwqrwMbRYTW3CUROu4rH8r_wXhAoEuA82XZ7m3FVMy9xmeEGgiHOSmD-uh2tX0mdii2EKrhUAXxbH_1oF49Et0_zP6sv9CQuW5fmS2DCUETMTSiMYyUrGAqBORDdyJGljXn5qSUP_gmp7Bh96fGzYA2QxsEh4LQofSxaHtQwt-JbP2jppDsnY7d-MhZcOr16IIhmYJwt7RC0C1OyiUp32d0fElK58NgP7iF8UHGicCKiIvQfI3X4p1bVt_-aSZtmwA8GDOIw4f97kVkcT2fO9RUTJEEy5qIlIG6WlG9F8sboBx4b-K33RDsYtoYrv7ISqH2TM84ztw80KBNyfsVTN7_EzP8O_4aB03A8dZT08-dZv6Tj_6eBvEjTN9tmT6G3O3zSjgQTxeXyxEEZJiWAbwdWVCge4AT-EdDKwXUZYrwCp8y_FBOqTsh2woyw75Ll7SEmCSc5IAvh01TfnbSNc5WfXdr0AdJN3WsYIv6PiGTlIgkigWZC_uQovJHA6gUknfD3q7Jc-VT2XrGX_trbK_fLa8pHoI9Er2thqF4sYtHK136uNKKxXNpuOndUW8r2qKreFMWZz_7MZbjz1urBbAWrLzmeMjvhfFuI7BdhjIQzex0AhQ0pgMk_Epw2V0J6b81t-IkXgQSayX5KYReSgXgJGeNAP_WbhHstFQ5qFzZf11ZmrAMLBbBAUFZx28esaQoqCODFho5m2PVDx5giQm9J75-AtqYpdJyESyWY6CZlUefKqcts9dAjHkE7YHWGQ7icHFXFuc3SGt8ro5z8JV_wA6MgXuaFkk5uruz-VbiMqhBkdNoBi_qAljH2icXuqkMhgl3E96IApJzFWS1yGZl4CelULScf7wOrlgwcAHYGzu8R1QNjSWQD8bUBQBEFXEktIpFtk-tZrF0PfVvzuVZ2Yurxb7s6zRCAPhFpgq81klAxBp7QI6Pf8KLkbrtO2GNWSN1iBsQvVMYfXTY-djDpQ-8Izz5hdlapJYa6v1eGmToqb8-OTjhVYOUXzGK1A_pF0XLFjAGViJqux-XGZitKIYSXl-4vLa_ZM5H4qRKAttvlldCkLwGmFn9dwOPAliJHq42eaDtWlZU3FQdHQVNo8tLJcyugxAPWPJrnbKrKk3BxM-xRT657FFVeZLbCCkIuJhEkG-o-fHfa3tWCAVeDkbN9fXP17JXpxOrHsJ5yfNL6aJpJj77pyu_7Qq1s-qA2a60Cu9Bmfh-iC4nNZ_Z1EIG3fjxw9TQWwdUBDbOzBZ-nAt8p25XlduduVJyUMLzugPBriZRoUj1ZGJX9JWbuuptmoFKQ10XCx-3BJ3-REmpQltYE7LHCaHj0IR4XmIqBIdSUgsocQ5YbI_QtVUab_wrbzEIZARnbNSIOQPwP03kZU1KCDlmoh4y44jqIDy1QZA_squT8a3_9hYmc_jIekVwoDcb9NzoX_NIC0VdTaLP5NFGxiigGnKOF3IMHXgOEJoX3ESjK83uIwtbT8YyaHhI8ZGKnmqDV4nTSbPqyP58E6qcef1oOc4hcEnZVZl8O3QNa7z9QWbwfhXLNC6N2yNwqQ.GR_YTlIP0iEYJ2C7x3XQXg`
+    });
+    await t.expect(methodTypeRequest.request.method).eql('post');
+    await t.expect(methodTypeRequest.request.url).eql('http://localhost:3000/idp/idx/challenge');
+    await t.expect(challengeCodeRequestBody).eql({
+      formName: 'challenge-authenticator',
+      credentials: { passcode: '1234' },
+      stateHandle: `eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdjRlUHM0eXFjT21TcDAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..s7Gfs2YilflIYdKn.tkNBqIeHotu-kYbP9k9Fsj4faVeEc8eNlZKkbL2eBrzcqZ7M9Qm6RUOEjYEVQZncpnLiE96iEG10DV8oKTRpfoECkeuzIwi4Cbhmd7ZSePZO1i3bE4PW70ZkLcJjy2G46u4VWlGgC9bm2eRJjLh-lB3lCfS5fn-XYwFyDSsCZ2cJNtgCQzs_VIpEM6qnzMYxthNPcMcIhseAag3tK7RtKQJVqo-JpEfcieovoikacx_ZS4SaYj2yzycbAGr3Vh2ysvVZEMECM2mztj1OTVdgr9xnBPph5rcvDKkF00BjwOaDSHGwhJuFfzJ7rJXYCFOtDb0fUw57Ze6q-onb8_cBqGy6xm6iF_b4vRY4gBEp9G46tp5Hr_DrMOiX6nAWk9C6Hre7_4BIxX3GdjUqmhxuMV39renVBByAGevWaRpu4m3SR-mesxLzFPRTZYa333gjRkxVZNK2Gy68BLcLah15VH1jNVdV7Ou3nc9hzE9zcV2ueRZoSYq6h7WZ0KjLjhQTqRKe3g9XGR_DL05a26czfGJL-R1omHxUuFDlYSCd_jtKZE4TseUXQ5qfUzk0X9syqqVA36HEiJ5_CWsQ2SpxIgqir4DztivsQE1ubJfVrvPZw_-6GU391NkXE8e_B64X6ZSqgUgm5H4LuXj9Eu2VKG5z4KLKWieuHDK0Hjc1RRGuxFqcYhzySnTtK41Za4abTqVM-YYxokb9ah2yxauzpveIO0rDqjGo3kqZdVDV81kdvIzqgclooUb5X1o_fdmPjB_IUkVDkIHN9sVu1F0HkqQWp7xDmhbokAB7kVa6WIiax08UtTUfPvVK4aOLP_R61VfzImlTZ6otI6yC1yZAETauuADIz1YkB9bcBOOpJeqrom3keGeVwCmU-i0dJYGi1NLEPDm0px0OhVW77Cpi1C0aBX295Dju4-luOM3EuaBad-U5FMwDAO00qi0c3XDiaY0Bgkrmcqeo1yIl5p4cktsBs2ArzpzpEzJAmpLaIbuaihov8uy1K6e9y0Ko2VcOR930K-Cfnr-0QxX_WLtf8pB9LYENR2Gx65BxVMi9E4M1_rLG5UwBq4ATEH72a1kkTeXvDgMpwMmhIEz_nPuCcDJVZ8UDQoZU8C_T3yzOrlUHc8x2qN-FEWG3mLBGw7SAdxs3pH4eZnnQQVN4Ch4Tuc_wqMrophaxMLtWAt7Sa0L0zBpJUJsCKg_pTKH6gkjL_Tco6eIY7o78JoX7M_GSFIdF9qR3FLj9rXJrvP0qeWMrbhwgy6DhJg_bBWeKNQdclh1uRLLmbKpdCZH--lqLubZGJtd8JlkEKWW_PnDYFdDGzMwMz83owDHvw8GQ9KpqoPME-Ty0SEoMwKKdeRHCwUf90ycp7D5Jc6yHY17tr8axpjy_yCNhyI7ChtK0cnyJVsQPwkCH5q5fiiQrwX-nEny95PCpwnJzA85qGyYJusFlBO-HH8Ojcp_jTJNr3GeiBwfPQtOwQZ7AkUL7tLsls7q6MiLzCju_MGQlsFSzvV2N7wyFkCoLf9zyk7vKpU3QxfZFA6jqR-f9FOEXrWHr_0Orsd1s2k-RZ8_-SicRI5VieZj7YApi6v0LHqklqkzluwOfH-wSI4tf0En-A-rrR-1yQei7JCa0s8YXpp0mVOE.EC3UkB3_VQpE75Jet9kM4g`
+    });
+    await t.expect(challengeCodeRequest.request.method).eql('post');
+    await t.expect(challengeCodeRequest.request.url).eql('http://localhost:3000/idp/idx/challenge/answer');
+  });
+
+test
+  .requestHooks(logger, voicePrimaryMock)(`Voice flow`, async t => {
+    const challengeFactorPageObject = await setup(t);
+    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
+
+    await challengeFactorPageObject.verifyFactor('credentials.passcode', '1234');
+    await challengeFactorPageObject.clickNextButton();
+
+    const successPage = new SuccessPageObject(t);
+    const pageUrl = await successPage.getPageUrl();
+    await t.expect(pageUrl).eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+    await t.expect(logger.count(() => true)).eql(2);
+
+    const [ methodTypeRequest, challengeCodeRequest ] = logger.requests;
+    const methodTypeRequestBody = JSON.parse(methodTypeRequest.request.body);
+    const challengeCodeRequestBody = JSON.parse(challengeCodeRequest.request.body);
+    await t.expect(methodTypeRequestBody).eql({
+      authenticator: {
+        id: 'autxl8PPhwHUpOpW60g3',
+        methodType: 'voice',
+      },
+      formName: 'authenticator-verification-data',
+      stateHandle: `eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdjRlUHM0eXFjT21TcDAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..bxH8DK0q1wAeq1IN.chFU_FKuKTYWBelYcUQcyw_wtVsyGk8UfRSXs8aQuzDIugGFWYQ9QC8lxyu1ltTVOvHakB_Wy_qqYmQSTm7QIP716ZThSGaA1oYVwmePTy0Rozo8NBcYpyhsvHwqrwMbRYTW3CUROu4rH8r_wXhAoEuA82XZ7m3FVMy9xmeEGgiHOSmD-uh2tX0mdii2EKrhUAXxbH_1oF49Et0_zP6sv9CQuW5fmS2DCUETMTSiMYyUrGAqBORDdyJGljXn5qSUP_gmp7Bh96fGzYA2QxsEh4LQofSxaHtQwt-JbP2jppDsnY7d-MhZcOr16IIhmYJwt7RC0C1OyiUp32d0fElK58NgP7iF8UHGicCKiIvQfI3X4p1bVt_-aSZtmwA8GDOIw4f97kVkcT2fO9RUTJEEy5qIlIG6WlG9F8sboBx4b-K33RDsYtoYrv7ISqH2TM84ztw80KBNyfsVTN7_EzP8O_4aB03A8dZT08-dZv6Tj_6eBvEjTN9tmT6G3O3zSjgQTxeXyxEEZJiWAbwdWVCge4AT-EdDKwXUZYrwCp8y_FBOqTsh2woyw75Ll7SEmCSc5IAvh01TfnbSNc5WfXdr0AdJN3WsYIv6PiGTlIgkigWZC_uQovJHA6gUknfD3q7Jc-VT2XrGX_trbK_fLa8pHoI9Er2thqF4sYtHK136uNKKxXNpuOndUW8r2qKreFMWZz_7MZbjz1urBbAWrLzmeMjvhfFuI7BdhjIQzex0AhQ0pgMk_Epw2V0J6b81t-IkXgQSayX5KYReSgXgJGeNAP_WbhHstFQ5qFzZf11ZmrAMLBbBAUFZx28esaQoqCODFho5m2PVDx5giQm9J75-AtqYpdJyESyWY6CZlUefKqcts9dAjHkE7YHWGQ7icHFXFuc3SGt8ro5z8JV_wA6MgXuaFkk5uruz-VbiMqhBkdNoBi_qAljH2icXuqkMhgl3E96IApJzFWS1yGZl4CelULScf7wOrlgwcAHYGzu8R1QNjSWQD8bUBQBEFXEktIpFtk-tZrF0PfVvzuVZ2Yurxb7s6zRCAPhFpgq81klAxBp7QI6Pf8KLkbrtO2GNWSN1iBsQvVMYfXTY-djDpQ-8Izz5hdlapJYa6v1eGmToqb8-OTjhVYOUXzGK1A_pF0XLFjAGViJqux-XGZitKIYSXl-4vLa_ZM5H4qRKAttvlldCkLwGmFn9dwOPAliJHq42eaDtWlZU3FQdHQVNo8tLJcyugxAPWPJrnbKrKk3BxM-xRT657FFVeZLbCCkIuJhEkG-o-fHfa3tWCAVeDkbN9fXP17JXpxOrHsJ5yfNL6aJpJj77pyu_7Qq1s-qA2a60Cu9Bmfh-iC4nNZ_Z1EIG3fjxw9TQWwdUBDbOzBZ-nAt8p25XlduduVJyUMLzugPBriZRoUj1ZGJX9JWbuuptmoFKQ10XCx-3BJ3-REmpQltYE7LHCaHj0IR4XmIqBIdSUgsocQ5YbI_QtVUab_wrbzEIZARnbNSIOQPwP03kZU1KCDlmoh4y44jqIDy1QZA_squT8a3_9hYmc_jIekVwoDcb9NzoX_NIC0VdTaLP5NFGxiigGnKOF3IMHXgOEJoX3ESjK83uIwtbT8YyaHhI8ZGKnmqDV4nTSbPqyP58E6qcef1oOc4hcEnZVZl8O3QNa7z9QWbwfhXLNC6N2yNwqQ.GR_YTlIP0iEYJ2C7x3XQXg`
+    });
+    await t.expect(methodTypeRequest.request.method).eql('post');
+    await t.expect(methodTypeRequest.request.url).eql('http://localhost:3000/idp/idx/challenge');
+    await t.expect(challengeCodeRequestBody).eql({
+      formName: 'challenge-authenticator',
+      credentials: { passcode: '1234' },
+      stateHandle: `eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdjRlUHM0eXFjT21TcDAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..s7Gfs2YilflIYdKn.tkNBqIeHotu-kYbP9k9Fsj4faVeEc8eNlZKkbL2eBrzcqZ7M9Qm6RUOEjYEVQZncpnLiE96iEG10DV8oKTRpfoECkeuzIwi4Cbhmd7ZSePZO1i3bE4PW70ZkLcJjy2G46u4VWlGgC9bm2eRJjLh-lB3lCfS5fn-XYwFyDSsCZ2cJNtgCQzs_VIpEM6qnzMYxthNPcMcIhseAag3tK7RtKQJVqo-JpEfcieovoikacx_ZS4SaYj2yzycbAGr3Vh2ysvVZEMECM2mztj1OTVdgr9xnBPph5rcvDKkF00BjwOaDSHGwhJuFfzJ7rJXYCFOtDb0fUw57Ze6q-onb8_cBqGy6xm6iF_b4vRY4gBEp9G46tp5Hr_DrMOiX6nAWk9C6Hre7_4BIxX3GdjUqmhxuMV39renVBByAGevWaRpu4m3SR-mesxLzFPRTZYa333gjRkxVZNK2Gy68BLcLah15VH1jNVdV7Ou3nc9hzE9zcV2ueRZoSYq6h7WZ0KjLjhQTqRKe3g9XGR_DL05a26czfGJL-R1omHxUuFDlYSCd_jtKZE4TseUXQ5qfUzk0X9syqqVA36HEiJ5_CWsQ2SpxIgqir4DztivsQE1ubJfVrvPZw_-6GU391NkXE8e_B64X6ZSqgUgm5H4LuXj9Eu2VKG5z4KLKWieuHDK0Hjc1RRGuxFqcYhzySnTtK41Za4abTqVM-YYxokb9ah2yxauzpveIO0rDqjGo3kqZdVDV81kdvIzqgclooUb5X1o_fdmPjB_IUkVDkIHN9sVu1F0HkqQWp7xDmhbokAB7kVa6WIiax08UtTUfPvVK4aOLP_R61VfzImlTZ6otI6yC1yZAETauuADIz1YkB9bcBOOpJeqrom3keGeVwCmU-i0dJYGi1NLEPDm0px0OhVW77Cpi1C0aBX295Dju4-luOM3EuaBad-U5FMwDAO00qi0c3XDiaY0Bgkrmcqeo1yIl5p4cktsBs2ArzpzpEzJAmpLaIbuaihov8uy1K6e9y0Ko2VcOR930K-Cfnr-0QxX_WLtf8pB9LYENR2Gx65BxVMi9E4M1_rLG5UwBq4ATEH72a1kkTeXvDgMpwMmhIEz_nPuCcDJVZ8UDQoZU8C_T3yzOrlUHc8x2qN-FEWG3mLBGw7SAdxs3pH4eZnnQQVN4Ch4Tuc_wqMrophaxMLtWAt7Sa0L0zBpJUJsCKg_pTKH6gkjL_Tco6eIY7o78JoX7M_GSFIdF9qR3FLj9rXJrvP0qeWMrbhwgy6DhJg_bBWeKNQdclh1uRLLmbKpdCZH--lqLubZGJtd8JlkEKWW_PnDYFdDGzMwMz83owDHvw8GQ9KpqoPME-Ty0SEoMwKKdeRHCwUf90ycp7D5Jc6yHY17tr8axpjy_yCNhyI7ChtK0cnyJVsQPwkCH5q5fiiQrwX-nEny95PCpwnJzA85qGyYJusFlBO-HH8Ojcp_jTJNr3GeiBwfPQtOwQZ7AkUL7tLsls7q6MiLzCju_MGQlsFSzvV2N7wyFkCoLf9zyk7vKpU3QxfZFA6jqR-f9FOEXrWHr_0Orsd1s2k-RZ8_-SicRI5VieZj7YApi6v0LHqklqkzluwOfH-wSI4tf0En-A-rrR-1yQei7JCa0s8YXpp0mVOE.EC3UkB3_VQpE75Jet9kM4g`
+    });
+    await t.expect(challengeCodeRequest.request.method).eql('post');
+    await t.expect(challengeCodeRequest.request.url).eql('http://localhost:3000/idp/idx/challenge/answer');
   });
 
 test
   .requestHooks(invalidCodeMock)(`Entering invalid passcode results in an error`, async t => {
     const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
     await challengeFactorPageObject.verifyFactor('credentials.passcode', 'abcd');
     await challengeFactorPageObject.clickNextButton();
     await challengeFactorPageObject.waitForErrorBox();
@@ -180,55 +233,39 @@ test
   });
 
 test
-  .requestHooks(logger, smsPrimaryMock)(`SMS Primary - Callout appears
-    after 30 seconds once the user clicks on send code button`, async t => {
+  .requestHooks(logger, smsPrimaryMock)(`Callout appears after 30 seconds in voice mode
+  - enter code screen, resend link click`, async t => {
     const challengeFactorPageObject = await setup(t);
     await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
     await t.expect(challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning').hasClass('hide')).ok();
-    await t.wait(31000);
-    await t.expect(
-      logger.count(record => record.response.statusCode === 200
-        && record.request.url.match(/poll/))
-    ).eql(0);
+    await t.wait(30500);
     await t.expect(challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning').hasClass('hide')).notOk();
     const resendEmailView = challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning');
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
-    await challengeFactorPageObject.clickSendAgainLink('.phone-authenticator-challenge__resend-warning');
+    // await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__resend-warning');
 
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 && record.request.url.match(/resend/)
-    )).eql(2); // Twice - once on send the other on resend..
+    // await t.expect(logger.count(() => true)).eql(1);
+    // const { request: { body, method, url } } = logger.requests[0];
+    
+    // const resendReqBody = JSON.parse(body);
+    // console.log('bod', resendReqBody);
+    // await t.expect(resendReqBody).eql({
+    //   authenticator: { id: 'autxl8PPhwHUpOpW60g3', methodType: 'sms' },
+    //   formName: 'authenticator-verification-data',
+    //   stateHandle: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdjRlUHM0eXFjT21TcDAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..bxH8DK0q1wAeq1IN.chFU_FKuKTYWBelYcUQcyw_wtVsyGk8UfRSXs8aQuzDIugGFWYQ9QC8lxyu1ltTVOvHakB_Wy_qqYmQSTm7QIP716ZThSGaA1oYVwmePTy0Rozo8NBcYpyhsvHwqrwMbRYTW3CUROu4rH8r_wXhAoEuA82XZ7m3FVMy9xmeEGgiHOSmD-uh2tX0mdii2EKrhUAXxbH_1oF49Et0_zP6sv9CQuW5fmS2DCUETMTSiMYyUrGAqBORDdyJGljXn5qSUP_gmp7Bh96fGzYA2QxsEh4LQofSxaHtQwt-JbP2jppDsnY7d-MhZcOr16IIhmYJwt7RC0C1OyiUp32d0fElK58NgP7iF8UHGicCKiIvQfI3X4p1bVt_-aSZtmwA8GDOIw4f97kVkcT2fO9RUTJEEy5qIlIG6WlG9F8sboBx4b-K33RDsYtoYrv7ISqH2TM84ztw80KBNyfsVTN7_EzP8O_4aB03A8dZT08-dZv6Tj_6eBvEjTN9tmT6G3O3zSjgQTxeXyxEEZJiWAbwdWVCge4AT-EdDKwXUZYrwCp8y_FBOqTsh2woyw75Ll7SEmCSc5IAvh01TfnbSNc5WfXdr0AdJN3WsYIv6PiGTlIgkigWZC_uQovJHA6gUknfD3q7Jc-VT2XrGX_trbK_fLa8pHoI9Er2thqF4sYtHK136uNKKxXNpuOndUW8r2qKreFMWZz_7MZbjz1urBbAWrLzmeMjvhfFuI7BdhjIQzex0AhQ0pgMk_Epw2V0J6b81t-IkXgQSayX5KYReSgXgJGeNAP_WbhHstFQ5qFzZf11ZmrAMLBbBAUFZx28esaQoqCODFho5m2PVDx5giQm9J75-AtqYpdJyESyWY6CZlUefKqcts9dAjHkE7YHWGQ7icHFXFuc3SGt8ro5z8JV_wA6MgXuaFkk5uruz-VbiMqhBkdNoBi_qAljH2icXuqkMhgl3E96IApJzFWS1yGZl4CelULScf7wOrlgwcAHYGzu8R1QNjSWQD8bUBQBEFXEktIpFtk-tZrF0PfVvzuVZ2Yurxb7s6zRCAPhFpgq81klAxBp7QI6Pf8KLkbrtO2GNWSN1iBsQvVMYfXTY-djDpQ-8Izz5hdlapJYa6v1eGmToqb8-OTjhVYOUXzGK1A_pF0XLFjAGViJqux-XGZitKIYSXl-4vLa_ZM5H4qRKAttvlldCkLwGmFn9dwOPAliJHq42eaDtWlZU3FQdHQVNo8tLJcyugxAPWPJrnbKrKk3BxM-xRT657FFVeZLbCCkIuJhEkG-o-fHfa3tWCAVeDkbN9fXP17JXpxOrHsJ5yfNL6aJpJj77pyu_7Qq1s-qA2a60Cu9Bmfh-iC4nNZ_Z1EIG3fjxw9TQWwdUBDbOzBZ-nAt8p25XlduduVJyUMLzugPBriZRoUj1ZGJX9JWbuuptmoFKQ10XCx-3BJ3-REmpQltYE7LHCaHj0IR4XmIqBIdSUgsocQ5YbI_QtVUab_wrbzEIZARnbNSIOQPwP03kZU1KCDlmoh4y44jqIDy1QZA_squT8a3_9hYmc_jIekVwoDcb9NzoX_NIC0VdTaLP5NFGxiigGnKOF3IMHXgOEJoX3ESjK83uIwtbT8YyaHhI8ZGKnmqDV4nTSbPqyP58E6qcef1oOc4hcEnZVZl8O3QNa7z9QWbwfhXLNC6N2yNwqQ.GR_YTlIP0iEYJ2C7x3XQXg'
+    // });
+    // await t.expect(method).eql('post');
+    // await t.expect(url).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
 
 test
-  .requestHooks(logger, voicePrimaryMock)(`Voice Primary - Callout appears after 30 seconds once the user clicks on
-    send code button`, async t => {
+  .requestHooks(voicePrimaryMock)(`Callout appears after 30 seconds in voice mode
+  - enter code screen`, async t => {
     const challengeFactorPageObject = await setup(t);
     await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
     await t.expect(challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning').hasClass('hide')).ok();
-    await t.wait(31000);
-    await t.expect(
-      logger.count(record => record.response.statusCode === 200
-        && record.request.url.match(/poll/))
-    ).eql(0);
+    await t.wait(30500);
     await t.expect(challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning').hasClass('hide')).notOk();
     const resendEmailView = challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning');
     await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
-    await challengeFactorPageObject.clickSendAgainLink('.phone-authenticator-challenge__resend-warning');
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-      record.request.url.match(/resend/)
-    )).eql(2);
-  });
-
-test
-  .requestHooks(logger, smsPrimaryMock)(`Filling up code field and submitting results in success`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
-    await challengeFactorPageObject.verifyFactor('credentials.passcode', '1234');
-    await challengeFactorPageObject.clickNextButton();
-    const successPage = new SuccessPageObject(t);
-    const pageUrl = await successPage.getPageUrl();
-    await t.expect(pageUrl)
-      .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
   });
