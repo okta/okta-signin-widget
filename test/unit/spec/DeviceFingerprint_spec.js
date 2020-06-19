@@ -50,6 +50,32 @@ function (Expect, $sandbox, DeviceFingerprint) {
         });
     });
 
+    it('fails if the iframe does not load', function (done) {
+      DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
+        .then(function () {
+          done.fail('Fingerprint promise should have been rejected');
+        })
+        .catch(function (reason) {
+          expect(reason).toBe('service not available');
+          var $iFrame = $sandbox.find('iframe');
+          expect($iFrame).not.toExist();
+          done();
+        });
+    });
+
+    it('clears iframe timeout once the iframe loads', function () {
+      mockIFrameMessages(true);
+      bypassMessageSourceCheck();
+      var originalClearTimeout = window.clearTimeout;
+      window.clearTimeout = jasmine.createSpy('clearTimeout');
+      return DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
+        .then(function (fingerprint) {
+          expect(fingerprint).toBe('thisIsTheFingerprint');
+          expect(window.clearTimeout).toHaveBeenCalled();
+          window.clearTimeout = originalClearTimeout;
+        });
+    });
+
     it('fails if there is a problem with communicating with the iframe', function (done) {
       mockIFrameMessages(false);
       bypassMessageSourceCheck();
