@@ -64,7 +64,8 @@ const webpackConfig = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['env'],
+          presets: [['@babel/preset-env', { modules: 'commonjs' }]],
+          plugins: ['add-module-exports']
         }
       },
     ]

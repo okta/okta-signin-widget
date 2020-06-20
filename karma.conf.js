@@ -11,7 +11,6 @@ module.exports = (config) => {
     browsers: ['ChromeHeadlessNoSandbox'],
     frameworks: ['karma-overrides', 'jasmine-jquery', 'jasmine'],
     files: [
-      './node_modules/babel-polyfill/dist/polyfill.js',
       { pattern: './test/unit/main.js', watched: false },
       { pattern: './test/unit/assets/*', watched: false, included: false, served: true, nocache: false },
       { pattern: './target/css/*.css', watched: true, included: true, served: true },
@@ -71,7 +70,7 @@ module.exports = (config) => {
   if (config.reporters.includes('coverage')) {
     const rules = options.webpack.module.rules;
     const babelRule = rules.find(rule => rule.loader === 'babel-loader');
-    babelRule.query.plugins = babelRule.query.plugins.concat(['babel-plugin-istanbul']);
+    babelRule.options.plugins = babelRule.options.plugins.concat(['babel-plugin-istanbul']);
   }
 
   config.set(options);

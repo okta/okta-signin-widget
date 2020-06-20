@@ -57,9 +57,11 @@ module.exports = function (outputFilename) {
 
           },
           loader: 'babel-loader',
-          query: {
-            presets: ['env'],
-            plugins: ['transform-runtime']
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: [
+              '@babel/plugin-transform-modules-commonjs'
+            ]
           }
         },
         {

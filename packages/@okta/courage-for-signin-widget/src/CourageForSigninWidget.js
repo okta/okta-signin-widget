@@ -117,4 +117,4 @@ Okta.registerInput('radio', Radio);
 Okta.registerInput('select', Select);
 Okta.registerInput('group', InputGroup);
 
-module.exports = Okta;
+export default Okta;

@@ -5165,229 +5165,144 @@ module.exports = __webpack_require__(34);
 "use strict";
 
 
-var _BaseCollection = __webpack_require__(14);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-var _BaseCollection2 = _interopRequireDefault(_BaseCollection);
+var _BaseCollection = _interopRequireDefault(__webpack_require__(14));
 
-var _BaseModel = __webpack_require__(15);
+var _BaseModel = _interopRequireDefault(__webpack_require__(15));
 
-var _BaseModel2 = _interopRequireDefault(_BaseModel);
+var _BaseSchema = _interopRequireDefault(__webpack_require__(38));
 
-var _BaseSchema = __webpack_require__(38);
+var _Model = _interopRequireDefault(__webpack_require__(11));
 
-var _BaseSchema2 = _interopRequireDefault(_BaseSchema);
+var _SchemaProperty = _interopRequireDefault(__webpack_require__(18));
 
-var _Model = __webpack_require__(11);
+var _BaseController = _interopRequireDefault(__webpack_require__(40));
 
-var _Model2 = _interopRequireDefault(_Model);
+var _BaseRouter = _interopRequireDefault(__webpack_require__(20));
 
-var _SchemaProperty = __webpack_require__(18);
+var _ButtonFactory = _interopRequireDefault(__webpack_require__(16));
 
-var _SchemaProperty2 = _interopRequireDefault(_SchemaProperty);
+var _Class = _interopRequireDefault(__webpack_require__(44));
 
-var _BaseController = __webpack_require__(40);
+var _Cookie = _interopRequireDefault(__webpack_require__(45));
 
-var _BaseController2 = _interopRequireDefault(_BaseController);
+var _Keys = _interopRequireDefault(__webpack_require__(8));
 
-var _BaseRouter = __webpack_require__(20);
+var _Logger = _interopRequireDefault(__webpack_require__(7));
 
-var _BaseRouter2 = _interopRequireDefault(_BaseRouter);
+var _StringUtil = _interopRequireDefault(__webpack_require__(3));
 
-var _ButtonFactory = __webpack_require__(16);
+var _TemplateUtil = _interopRequireDefault(__webpack_require__(4));
 
-var _ButtonFactory2 = _interopRequireDefault(_ButtonFactory);
+var _Util = _interopRequireDefault(__webpack_require__(17));
 
-var _Class = __webpack_require__(44);
+var _handlebarsWrapper = _interopRequireDefault(__webpack_require__(47));
 
-var _Class2 = _interopRequireDefault(_Class);
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(2));
 
-var _Cookie = __webpack_require__(45);
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _Cookie2 = _interopRequireDefault(_Cookie);
+var _Backbone = _interopRequireDefault(__webpack_require__(54));
 
-var _Keys = __webpack_require__(8);
+var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
-var _Keys2 = _interopRequireDefault(_Keys);
+var _BaseDropDown = _interopRequireDefault(__webpack_require__(56));
 
-var _Logger = __webpack_require__(7);
+var _BaseForm = _interopRequireDefault(__webpack_require__(57));
 
-var _Logger2 = _interopRequireDefault(_Logger);
+var _Toolbar = _interopRequireDefault(__webpack_require__(25));
 
-var _StringUtil = __webpack_require__(3);
+var _FormUtil = _interopRequireDefault(__webpack_require__(10));
 
-var _StringUtil2 = _interopRequireDefault(_StringUtil);
+var _InputRegistry = _interopRequireDefault(__webpack_require__(26));
 
-var _TemplateUtil = __webpack_require__(4);
+var _SchemaFormFactory = _interopRequireDefault(__webpack_require__(65));
 
-var _TemplateUtil2 = _interopRequireDefault(_TemplateUtil);
+var _CheckBox = _interopRequireDefault(__webpack_require__(70));
 
-var _Util = __webpack_require__(17);
+var _PasswordBox = _interopRequireDefault(__webpack_require__(71));
 
-var _Util2 = _interopRequireDefault(_Util);
+var _Radio = _interopRequireDefault(__webpack_require__(73));
 
-var _handlebarsWrapper = __webpack_require__(47);
+var _Select = _interopRequireDefault(__webpack_require__(28));
 
-var _handlebarsWrapper2 = _interopRequireDefault(_handlebarsWrapper);
+var _InputGroup = _interopRequireDefault(__webpack_require__(74));
 
-var _jqueryWrapper = __webpack_require__(2);
+var _TextBox = _interopRequireDefault(__webpack_require__(32));
 
-var _jqueryWrapper2 = _interopRequireDefault(_jqueryWrapper);
+var _Callout = _interopRequireDefault(__webpack_require__(29));
 
-var _underscoreWrapper = __webpack_require__(0);
-
-var _underscoreWrapper2 = _interopRequireDefault(_underscoreWrapper);
-
-var _Backbone = __webpack_require__(54);
-
-var _Backbone2 = _interopRequireDefault(_Backbone);
-
-var _BaseView = __webpack_require__(1);
-
-var _BaseView2 = _interopRequireDefault(_BaseView);
-
-var _BaseDropDown = __webpack_require__(56);
-
-var _BaseDropDown2 = _interopRequireDefault(_BaseDropDown);
-
-var _BaseForm = __webpack_require__(57);
-
-var _BaseForm2 = _interopRequireDefault(_BaseForm);
-
-var _Toolbar = __webpack_require__(25);
-
-var _Toolbar2 = _interopRequireDefault(_Toolbar);
-
-var _FormUtil = __webpack_require__(10);
-
-var _FormUtil2 = _interopRequireDefault(_FormUtil);
-
-var _InputRegistry = __webpack_require__(26);
-
-var _InputRegistry2 = _interopRequireDefault(_InputRegistry);
-
-var _SchemaFormFactory = __webpack_require__(65);
-
-var _SchemaFormFactory2 = _interopRequireDefault(_SchemaFormFactory);
-
-var _CheckBox = __webpack_require__(70);
-
-var _CheckBox2 = _interopRequireDefault(_CheckBox);
-
-var _PasswordBox = __webpack_require__(71);
-
-var _PasswordBox2 = _interopRequireDefault(_PasswordBox);
-
-var _Radio = __webpack_require__(73);
-
-var _Radio2 = _interopRequireDefault(_Radio);
-
-var _Select = __webpack_require__(28);
-
-var _Select2 = _interopRequireDefault(_Select);
-
-var _InputGroup = __webpack_require__(74);
-
-var _InputGroup2 = _interopRequireDefault(_InputGroup);
-
-var _TextBox = __webpack_require__(32);
-
-var _TextBox2 = _interopRequireDefault(_TextBox);
-
-var _Callout = __webpack_require__(29);
-
-var _Callout2 = _interopRequireDefault(_Callout);
-
-var _backbone = __webpack_require__(6);
-
-var _backbone2 = _interopRequireDefault(_backbone);
+var _backbone = _interopRequireDefault(__webpack_require__(6));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Okta = {
-  Backbone: _backbone2.default,
-
-  $: _jqueryWrapper2.default,
-
-  _: _underscoreWrapper2.default,
-
-  Handlebars: _handlebarsWrapper2.default,
-
-  loc: _StringUtil2.default.localize,
-
-  createButton: _ButtonFactory2.default.create,
-
-  createCallout: _Callout2.default.create,
-
-  registerInput: _InputRegistry2.default.register,
-
-  tpl: _TemplateUtil2.default.tpl,
-
-  Model: _Model2.default,
-
-  BaseModel: _BaseModel2.default,
-
-  Collection: _BaseCollection2.default,
-
-  View: _BaseView2.default,
-
-  ListView: _Backbone2.default,
-
-  Router: _BaseRouter2.default,
-
-  Controller: _BaseController2.default,
-
-  Form: _BaseForm2.default,
-
+  Backbone: _backbone.default,
+  $: _jqueryWrapper.default,
+  _: _underscoreWrapper.default,
+  Handlebars: _handlebarsWrapper.default,
+  loc: _StringUtil.default.localize,
+  createButton: _ButtonFactory.default.create,
+  createCallout: _Callout.default.create,
+  registerInput: _InputRegistry.default.register,
+  tpl: _TemplateUtil.default.tpl,
+  Model: _Model.default,
+  BaseModel: _BaseModel.default,
+  Collection: _BaseCollection.default,
+  View: _BaseView.default,
+  ListView: _Backbone.default,
+  Router: _BaseRouter.default,
+  Controller: _BaseController.default,
+  Form: _BaseForm.default,
   internal: {
     util: {
-      Util: _Util2.default,
-      Cookie: _Cookie2.default,
-      Logger: _Logger2.default,
-      Class: _Class2.default,
-      Keys: _Keys2.default
+      Util: _Util.default,
+      Cookie: _Cookie.default,
+      Logger: _Logger.default,
+      Class: _Class.default,
+      Keys: _Keys.default
     },
-
     views: {
       components: {
-        BaseDropDown: _BaseDropDown2.default
+        BaseDropDown: _BaseDropDown.default
       },
-
       forms: {
         helpers: {
-          FormUtil: _FormUtil2.default,
-          SchemaFormFactory: _SchemaFormFactory2.default
+          FormUtil: _FormUtil.default,
+          SchemaFormFactory: _SchemaFormFactory.default
         },
-
         components: {
-          Toolbar: _Toolbar2.default
+          Toolbar: _Toolbar.default
         },
-
         inputs: {
-          TextBox: _TextBox2.default,
-          PasswordBox: _PasswordBox2.default,
-          CheckBox: _CheckBox2.default,
-          Radio: _Radio2.default,
-          Select: _Select2.default,
-          InputGroup: _InputGroup2.default
+          TextBox: _TextBox.default,
+          PasswordBox: _PasswordBox.default,
+          CheckBox: _CheckBox.default,
+          Radio: _Radio.default,
+          Select: _Select.default,
+          InputGroup: _InputGroup.default
         }
       }
     },
-
     models: {
-      BaseSchema: _BaseSchema2.default,
-      SchemaProperty: _SchemaProperty2.default
+      BaseSchema: _BaseSchema.default,
+      SchemaProperty: _SchemaProperty.default
     }
   }
 };
-
-Okta.registerInput('text', _TextBox2.default);
-Okta.registerInput('password', _PasswordBox2.default);
-Okta.registerInput('checkbox', _CheckBox2.default);
-Okta.registerInput('radio', _Radio2.default);
-Okta.registerInput('select', _Select2.default);
-Okta.registerInput('group', _InputGroup2.default);
-
-module.exports = Okta;
+Okta.registerInput('text', _TextBox.default);
+Okta.registerInput('password', _PasswordBox.default);
+Okta.registerInput('checkbox', _CheckBox.default);
+Okta.registerInput('radio', _Radio.default);
+Okta.registerInput('select', _Select.default);
+Okta.registerInput('group', _InputGroup.default);
+var _default = Okta;
+exports.default = _default;
+module.exports = exports.default;
 
 /***/ }),
 /* 35 */
