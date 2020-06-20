@@ -1,9 +1,9 @@
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
+import ChallengePhonePageObject from '../framework/page-objects/ChallengePhonePageObject';
 import { RequestMock, RequestLogger } from 'testcafe';
-import phoneVerificationSMSThenVoiceOptions from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-options';
-import phoneVerificationVoiceThenSMSOptions from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-options-voice-primary';
-import phoneVerificationVoiceOnlyOption from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-options-voice-only';
+import phoneVerificationSMSThenVoice from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice';
+import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms';
+import phoneVerificationVoiceOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-only';
 import smsVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms';
 import voiceVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -18,7 +18,7 @@ const logger = RequestLogger(/challenge|challenge\/resend|challenge\/answer/,
 
 const smsPrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(phoneVerificationSMSThenVoiceOptions)
+  .respond(phoneVerificationSMSThenVoice)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(smsVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
@@ -28,7 +28,7 @@ const smsPrimaryMock = RequestMock()
 
 const voicePrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(phoneVerificationVoiceThenSMSOptions)
+  .respond(phoneVerificationVoiceThenSMS)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(voiceVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
@@ -36,7 +36,7 @@ const voicePrimaryMock = RequestMock()
 
 const voiceOnlyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(phoneVerificationVoiceOnlyOption);
+  .respond(phoneVerificationVoiceOnly);
 
 const invalidCodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -47,30 +47,29 @@ const invalidCodeMock = RequestMock()
 fixture(`Challenge Phone Form`);
 
 async function setup(t) {
-  const challengeFactorPageObject = new ChallengeFactorPageObject(t);
-  challengeFactorPageObject.navigateToPage();
-  return challengeFactorPageObject;
+  const challengePhonePageObject = new ChallengePhonePageObject(t);
+  challengePhonePageObject.navigateToPage();
+  return challengePhonePageObject;
 }
 
 test
   .requestHooks(smsPrimaryMock)(`SMS primary mode - has the right labels`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    const pageTitle = challengeFactorPageObject.getPageTitle();
-    const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
-    const primaryButtonText = challengeFactorPageObject.getTextContent('.phone-authenticator-challenge__button--primary');
-    const secondaryButtonText = challengeFactorPageObject
-      .getTextContent('.phone-authenticator-challenge__button--secondary');
+    const challengePhonePageObject = await setup(t);
+    const pageTitle = challengePhonePageObject.getPageTitle();
+    const pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
+    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via SMS to');
+    await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
     await t.expect(primaryButtonText).contains('Send a code via SMS');
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(true);
   });
 
 test
   .requestHooks(logger, smsPrimaryMock)(`SMS primary mode - Secondary button click`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--secondary');
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickSecondaryLink();
     await t.expect(logger.count(() => true)).eql(1);
     const { request: { body, method, url } } = logger.requests[0];
     const methodTypeRequestBody = JSON.parse(body);
@@ -88,36 +87,35 @@ test
 
 test
   .requestHooks(voicePrimaryMock)(`Voice primary mode - has the right labels`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    const pageTitle = challengeFactorPageObject.getPageTitle();
-    const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
-    const primaryButtonText = challengeFactorPageObject.getTextContent('.phone-authenticator-challenge__button--primary');
-    const secondaryButtonText = challengeFactorPageObject
-      .getTextContent('.phone-authenticator-challenge__button--secondary');
+    const challengePhonePageObject = await setup(t);
+    const pageTitle = challengePhonePageObject.getPageTitle();
+    const pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
+    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via voice call to');
+    await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
     await t.expect(primaryButtonText).contains('Send a code via voice call');
     await t.expect(secondaryButtonText).contains('Receive an SMS instead');
-    await t.expect(challengeFactorPageObject.elementHasClass('.o-form-button-bar', 'hide')).eql(true);
   });
 
 test
   .requestHooks(voiceOnlyMock)(`Only one option - has only one primary button`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    const pageTitle = challengeFactorPageObject.getPageTitle();
-    const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
-    const primaryButtonText = challengeFactorPageObject.getTextContent('.phone-authenticator-challenge__button--primary');
-    await t.expect(challengeFactorPageObject.elementExists('.phone-authenticator-challenge__button--primary')).ok();
-    await t.expect(challengeFactorPageObject.elementExists('.phone-authenticator-challenge__button--secondary')).notOk();
+    const challengePhonePageObject = await setup(t);
+    const pageTitle = challengePhonePageObject.getPageTitle();
+    const pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
+    await t.expect(challengePhonePageObject.elementExists('.phone-authenticator-challenge__link')).notOk();
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via voice call to');
+    await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
     await t.expect(primaryButtonText).contains('Send a code via voice call');
   });
 
 test
   .requestHooks(logger, voicePrimaryMock)(`Voice primary mode - Secondary button click`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--secondary');
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickSecondaryLink();
     await t.expect(logger.count(() => true)).eql(1);
     const { request: { body, method, url } } = logger.requests[0];
     const methodTypeRequestBody = JSON.parse(body);
@@ -135,31 +133,31 @@ test
 
 test
   .requestHooks(smsPrimaryMock)(`SMS mode - Enter code screen has the right labels`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
-    const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
-    await t.expect(challengeFactorPageObject.getSaveButtonLabel('input[type="submit"]')).eql('Verify');
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickNextButton();
+    const pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
     await t.expect(pageSubtitle).contains('A code was sent to');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
   });
 
 test
   .requestHooks(voicePrimaryMock)(`Voice mode - Enter code screen has the right labels`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
-    const pageSubtitle = challengeFactorPageObject.getFormSubtitle();
-    await t.expect(challengeFactorPageObject.getSaveButtonLabel('input[type="submit"]')).eql('Verify');
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickNextButton();
+    const pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
     await t.expect(pageSubtitle).contains('Calling');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
   });
 
 test
   .requestHooks(logger, smsPrimaryMock)(`SMS flow`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickNextButton();
 
-    await challengeFactorPageObject.verifyFactor('credentials.passcode', '1234');
-    await challengeFactorPageObject.clickNextButton();
+    await challengePhonePageObject.verifyFactor('credentials.passcode', '1234');
+    await challengePhonePageObject.clickNextButton();
 
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
@@ -190,11 +188,11 @@ test
 
 test
   .requestHooks(logger, voicePrimaryMock)(`Voice flow`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickNextButton();
 
-    await challengeFactorPageObject.verifyFactor('credentials.passcode', '1234');
-    await challengeFactorPageObject.clickNextButton();
+    await challengePhonePageObject.verifyFactor('credentials.passcode', '1234');
+    await challengePhonePageObject.clickNextButton();
 
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
@@ -225,47 +223,33 @@ test
 
 test
   .requestHooks(invalidCodeMock)(`Entering invalid passcode results in an error`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.verifyFactor('credentials.passcode', 'abcd');
-    await challengeFactorPageObject.clickNextButton();
-    await challengeFactorPageObject.waitForErrorBox();
-    await t.expect(challengeFactorPageObject.getInvalidOTPError()).contains('Authentication failed');
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.verifyFactor('credentials.passcode', 'abcd');
+    await challengePhonePageObject.clickNextButton();
+    await challengePhonePageObject.waitForErrorBox();
+    await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('Authentication failed');
   });
 
 test
-  .requestHooks(logger, smsPrimaryMock)(`Callout appears after 30 seconds in voice mode
-  - enter code screen, resend link click`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
-    await t.expect(challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning').hasClass('hide')).ok();
+  .requestHooks(logger, smsPrimaryMock)(`Callout appears after 30 seconds in sms mode
+  - enter code screen`, async t => {
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickNextButton();
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(30500);
-    await t.expect(challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning').hasClass('hide')).notOk();
-    const resendEmailView = challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning');
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
+    const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
-    // await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__resend-warning');
-
-    // await t.expect(logger.count(() => true)).eql(1);
-    // const { request: { body, method, url } } = logger.requests[0];
-    
-    // const resendReqBody = JSON.parse(body);
-    // console.log('bod', resendReqBody);
-    // await t.expect(resendReqBody).eql({
-    //   authenticator: { id: 'autxl8PPhwHUpOpW60g3', methodType: 'sms' },
-    //   formName: 'authenticator-verification-data',
-    //   stateHandle: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdjRlUHM0eXFjT21TcDAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..bxH8DK0q1wAeq1IN.chFU_FKuKTYWBelYcUQcyw_wtVsyGk8UfRSXs8aQuzDIugGFWYQ9QC8lxyu1ltTVOvHakB_Wy_qqYmQSTm7QIP716ZThSGaA1oYVwmePTy0Rozo8NBcYpyhsvHwqrwMbRYTW3CUROu4rH8r_wXhAoEuA82XZ7m3FVMy9xmeEGgiHOSmD-uh2tX0mdii2EKrhUAXxbH_1oF49Et0_zP6sv9CQuW5fmS2DCUETMTSiMYyUrGAqBORDdyJGljXn5qSUP_gmp7Bh96fGzYA2QxsEh4LQofSxaHtQwt-JbP2jppDsnY7d-MhZcOr16IIhmYJwt7RC0C1OyiUp32d0fElK58NgP7iF8UHGicCKiIvQfI3X4p1bVt_-aSZtmwA8GDOIw4f97kVkcT2fO9RUTJEEy5qIlIG6WlG9F8sboBx4b-K33RDsYtoYrv7ISqH2TM84ztw80KBNyfsVTN7_EzP8O_4aB03A8dZT08-dZv6Tj_6eBvEjTN9tmT6G3O3zSjgQTxeXyxEEZJiWAbwdWVCge4AT-EdDKwXUZYrwCp8y_FBOqTsh2woyw75Ll7SEmCSc5IAvh01TfnbSNc5WfXdr0AdJN3WsYIv6PiGTlIgkigWZC_uQovJHA6gUknfD3q7Jc-VT2XrGX_trbK_fLa8pHoI9Er2thqF4sYtHK136uNKKxXNpuOndUW8r2qKreFMWZz_7MZbjz1urBbAWrLzmeMjvhfFuI7BdhjIQzex0AhQ0pgMk_Epw2V0J6b81t-IkXgQSayX5KYReSgXgJGeNAP_WbhHstFQ5qFzZf11ZmrAMLBbBAUFZx28esaQoqCODFho5m2PVDx5giQm9J75-AtqYpdJyESyWY6CZlUefKqcts9dAjHkE7YHWGQ7icHFXFuc3SGt8ro5z8JV_wA6MgXuaFkk5uruz-VbiMqhBkdNoBi_qAljH2icXuqkMhgl3E96IApJzFWS1yGZl4CelULScf7wOrlgwcAHYGzu8R1QNjSWQD8bUBQBEFXEktIpFtk-tZrF0PfVvzuVZ2Yurxb7s6zRCAPhFpgq81klAxBp7QI6Pf8KLkbrtO2GNWSN1iBsQvVMYfXTY-djDpQ-8Izz5hdlapJYa6v1eGmToqb8-OTjhVYOUXzGK1A_pF0XLFjAGViJqux-XGZitKIYSXl-4vLa_ZM5H4qRKAttvlldCkLwGmFn9dwOPAliJHq42eaDtWlZU3FQdHQVNo8tLJcyugxAPWPJrnbKrKk3BxM-xRT657FFVeZLbCCkIuJhEkG-o-fHfa3tWCAVeDkbN9fXP17JXpxOrHsJ5yfNL6aJpJj77pyu_7Qq1s-qA2a60Cu9Bmfh-iC4nNZ_Z1EIG3fjxw9TQWwdUBDbOzBZ-nAt8p25XlduduVJyUMLzugPBriZRoUj1ZGJX9JWbuuptmoFKQ10XCx-3BJ3-REmpQltYE7LHCaHj0IR4XmIqBIdSUgsocQ5YbI_QtVUab_wrbzEIZARnbNSIOQPwP03kZU1KCDlmoh4y44jqIDy1QZA_squT8a3_9hYmc_jIekVwoDcb9NzoX_NIC0VdTaLP5NFGxiigGnKOF3IMHXgOEJoX3ESjK83uIwtbT8YyaHhI8ZGKnmqDV4nTSbPqyP58E6qcef1oOc4hcEnZVZl8O3QNa7z9QWbwfhXLNC6N2yNwqQ.GR_YTlIP0iEYJ2C7x3XQXg'
-    // });
-    // await t.expect(method).eql('post');
-    // await t.expect(url).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
 
 test
   .requestHooks(voicePrimaryMock)(`Callout appears after 30 seconds in voice mode
   - enter code screen`, async t => {
-    const challengeFactorPageObject = await setup(t);
-    await challengeFactorPageObject.clickElement('.phone-authenticator-challenge__button--primary');
-    await t.expect(challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning').hasClass('hide')).ok();
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickNextButton();
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(30500);
-    await t.expect(challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning').hasClass('hide')).notOk();
-    const resendEmailView = challengeFactorPageObject.resendEmailView('.phone-authenticator-challenge__resend-warning');
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
+    const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
   });

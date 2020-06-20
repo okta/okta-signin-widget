@@ -4,8 +4,7 @@ import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
 import BaseFactorView from '../shared/BaseFactorView';
 import { addSwitchAuthenticatorLink } from '../../utils/AuthenticatorUtil';
-
-const SHOW_RESEND_TIMEOUT = 30000;
+import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 
 const ResendView = View.extend(
   {
@@ -57,7 +56,6 @@ const ResendView = View.extend(
 const Body = BaseForm.extend(Object.assign(
   {
     className: 'phone-authenticator-challenge',
-    subtitle: ' ',
 
     title () {
       return loc('oie.phone.verify.title', 'login');
@@ -69,25 +67,22 @@ const Body = BaseForm.extend(Object.assign(
 
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
-    },
-
-    render () {
-      BaseForm.prototype.render.apply(this, arguments);
-      const subtitleElement = this.el.querySelector('.okta-form-subtitle');
       const sendText = (this.model.get('mode') === 'sms')
         ? loc('oie.phone.verify.sms.codeSentText', 'login')
         : loc('mfa.calling', 'login');
       const enterCodeText = loc('oie.phone.verify.enterCodeText', 'login');
-      // Override message in form subtitle so that we can add html content to it.
-      // Courage form subtitle doesn't support html tags.
-      subtitleElement.innerText = '';
-      this.add(
-        `${sendText}&nbsp;<span class='strong'>${this.model.get('phoneNumber')}.</span>&nbsp;${enterCodeText}`,
-        '.okta-form-subtitle'
-      );
+
+      // Courage doesn't support HTML, hence creating a subtitle here.
+      this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">
+        ${sendText}&nbsp;<span class='strong'>${this.model.get('phoneNumber')}.</span>
+        &nbsp;${enterCodeText}</div>`, {
+          prepend: true,
+          selector: '.o-form-fieldset-container',
+        });
     },
 
     postRender () {
+      BaseForm.prototype.postRender.apply(this, arguments);
       this.add(ResendView, {
         selector: '.o-form-error-container',
         prepend: true,

@@ -17,11 +17,11 @@ const idx = {
     // 'terminal-return-expired-email',
     // 'factor-verification-email'
     // 'authenticator-enroll-phone',
-    // 'authenticator-verification-phone-options',
-    // 'authenticator-verification-phone-options-voice-primary',
-    // 'authenticator-verification-phone-options-voice-only',
-    'authenticator-verification-phone-sms',
-    // 'authenticator-verification-phone-voice'
+    // 'authenticator-verification-data-phone-sms-then-voice',
+    // 'authenticator-verification-data-phone-voice-then-sms',
+    'authenticator-verification-data-phone-voice-only',
+    // 'authenticator-verification-phone-sms',
+    // 'authenticator-verification-phone-voice',
     // 'authenticator-verification-password'
   ],
   '/idp/idx/enroll': [

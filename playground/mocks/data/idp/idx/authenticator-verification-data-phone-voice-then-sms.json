@@ -33,12 +33,12 @@
                     "required":true,
                     "options":[
                       {
-                        "label":"SMS",
-                        "value":"sms"
-                      },
-                      {
                         "label":"VOICE",
                         "value":"voice"
+                      },
+                      {
+                        "label":"SMS",
+                        "value":"sms"
                       }
                     ],
                     "mutable":false

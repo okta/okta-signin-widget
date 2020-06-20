@@ -22,7 +22,7 @@ import EnrollAuthenticatorPasswordView from './views/password/EnrollAuthenticato
 // phone
 import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
 import ChallengeAuthenticatorPhoneView from './views/phone/ChallengeAuthenticatorPhoneView';
-import ChallengeAuthenticatorPhoneOptionsView from './views/phone/ChallengeAuthenticatorPhoneOptionsView';
+import ChallengeAuthenticatorDataPhoneView from './views/phone/ChallengeAuthenticatorDataPhoneView';
 
 // security question
 import EnrollAuthenticatorSecurityQuestion from './views/security-question/EnrollAuthenticatorSecurityQuestionView';
@@ -97,7 +97,7 @@ const VIEWS_MAPPING = {
     phone: ChallengeAuthenticatorPhoneView,
   },
   'authenticator-verification-data': {
-    phone: ChallengeAuthenticatorPhoneOptionsView,
+    phone: ChallengeAuthenticatorDataPhoneView,
   },
   'terminal-transferred': {
     [DEFAULT]: TerminalView,
