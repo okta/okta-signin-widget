@@ -1,6 +1,6 @@
 import {
-  loc,
-  createButton } from 'okta';
+  _,
+  loc } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
@@ -32,7 +32,7 @@ const Body = BaseForm.extend(Object.assign(
       // Call the API to send a code via secondary mode
       const secondaryMode = this.model.get('secondaryMode');
       this.model.set('authenticator.methodType', secondaryMode);
-      this.saveForm.call(this, secondaryMode);
+      this.saveForm.call(this, arguments);
     },
 
     initialize () {
@@ -42,7 +42,7 @@ const Body = BaseForm.extend(Object.assign(
         : loc('oie.phone.verify.call.sendText', 'login');
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${sendText}
-        <div><span class="strong">${this.model.get('phoneNumber')}</span></div>
+        <div><span class="strong">${this.model.escape('phoneNumber')}</span></div>
         </div>`);
     },
 
@@ -75,16 +75,18 @@ export default BaseFactorView.extend({
   Body,
   Footer,
 
-  createModelClass () {
-    const { methods, profile } = this.options.appState.get('currentAuthenticatorEnrollment');
+  createModelClass ({ uiSchema }) {
+    // It is important to get methods from here to maintain single source of truth.
+    const { options: methods } = _.find(uiSchema, schema => schema.name === 'authenticator.methodType');
+    const { profile } = this.options.appState.get('currentAuthenticatorEnrollment');
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign({
       primaryMode: {
-        'value': methods[0].type,
+        'value': methods[0].value,
         'type': 'string',
       },
       secondaryMode: {
-        'value': methods[1] && methods[1].type,
+        'value': methods[1] && methods[1].value,
         'type': 'string',
       },
       phoneNumber: {
