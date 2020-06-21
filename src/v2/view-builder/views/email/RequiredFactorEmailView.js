@@ -5,8 +5,7 @@ import email from '../shared/email';
 import polling from '../shared/polling';
 import BaseFactorView from '../shared/BaseFactorView';
 import { addSwitchAuthenticatorLink } from '../../utils/AuthenticatorUtil';
-
-const SHOW_RESEND_TIMEOUT = 30000;
+import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 
 const ResendView = View.extend(
   {
