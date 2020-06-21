@@ -21,6 +21,8 @@ import ChallengeAuthenticatorPasswordView from './views/password/ChallengeAuthen
 
 // phone
 import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
+import ChallengeAuthenticatorPhoneView from './views/phone/ChallengeAuthenticatorPhoneView';
+import ChallengeAuthenticatorDataPhoneView from './views/phone/ChallengeAuthenticatorDataPhoneView';
 
 // security question
 import EnrollAuthenticatorSecurityQuestion from './views/security-question/EnrollAuthenticatorSecurityQuestionView';
@@ -91,8 +93,11 @@ const VIEWS_MAPPING = {
     password: ChallengeAuthenticatorPasswordView,
     webauthn: RequiredFactorWebauthnView,
     'security_key': ChallengeWebauthnView,
-    phone: null,
     'security_question': ChallengeAuthenticatorSecurityQuestion,
+    phone: ChallengeAuthenticatorPhoneView,
+  },
+  'authenticator-verification-data': {
+    phone: ChallengeAuthenticatorDataPhoneView,
   },
   'terminal-transferred': {
     [DEFAULT]: TerminalView,
