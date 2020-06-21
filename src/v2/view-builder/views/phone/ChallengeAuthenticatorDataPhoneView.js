@@ -24,15 +24,11 @@ const Body = BaseForm.extend(Object.assign(
         : loc('oie.phone.call.primaryButton', 'login');
     },
 
-    saveForm () {
-      BaseForm.prototype.saveForm.call(this, this.model);
-    },
-
     handleSecondaryLinkClick () {
       // Call the API to send a code via secondary mode
       const secondaryMode = this.model.get('secondaryMode');
       this.model.set('authenticator.methodType', secondaryMode);
-      this.saveForm.call(this, arguments);
+      this.saveForm(this.model);
     },
 
     initialize () {
