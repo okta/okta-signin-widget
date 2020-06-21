@@ -89,7 +89,7 @@ export default BaseFactorView.extend({
         'value': profile.phoneNumber,
         'type': 'string',
       },
-    });
+    }, ModelClass.prototype.local);
     return ModelClass.extend({ local });
   },
 });
