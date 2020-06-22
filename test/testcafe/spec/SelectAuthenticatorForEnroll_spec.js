@@ -4,10 +4,10 @@ import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticato
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
-import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-select-enroll-options';
+import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator';
 import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
 
-import xhrSelectOptionalAuthenticators from '../../../playground/mocks/data/idp/idx//authenticator-select-enroll-optional';
+import xhrSelectAuthenticatorsWithSkip from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-with-skip';
 import success from '../../../playground/mocks/data/idp/idx/success';
 
 const mockEnrollAuthenticatorPassword = RequestMock()
@@ -18,7 +18,7 @@ const mockEnrollAuthenticatorPassword = RequestMock()
 
 const mockOptionalAuthenticatorEnrollment = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrSelectOptionalAuthenticators)
+  .respond(xhrSelectAuthenticatorsWithSkip)
   .onRequestTo('http://localhost:3000/idp/idx/skip')
   .respond(success);
 

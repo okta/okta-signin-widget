@@ -49,7 +49,7 @@ const createFactorTypeOptions = (options, factors) => {
  * @param {AuthenticatorOption[]} options
  * @param {( AuthenticatorEnrollment[] || Authenticator[] )} authenticators
  */
-const createAuthenticatorOptions = (options = [], authenticators = []) => {
+const createAuthenticatorOptions = (options = []) => {
   return options.map(option => {
     const value = option.value && option.value.form && option.value.form.value || [];
 
@@ -66,14 +66,11 @@ const createAuthenticatorOptions = (options = [], authenticators = []) => {
       .reduce((init, v) => {
         return Object.assign(init, { [v.name]: v.value });
       }, {});
-    const authenticator = authenticators.find(auth => {
-      return auth.id === valueObject.id;
-    }) || {};
 
     return {
       label: option.label,
       value: valueObject,
-      authenticatorType: authenticator.type,
+      authenticatorType: option.relatesTo && option.relatesTo.type,
     };
   });
 };
@@ -102,17 +99,17 @@ const getFactorsUiSchema = ({ options }, factors) => ({
   options: createFactorTypeOptions(options, factors),
 });
 
-const getAuthenticatorsEnrollUiSchema = ({ options }, authenticators) => {
+const getAuthenticatorsEnrollUiSchema = ({ options }) => {
   return {
     type: 'authenticatorEnrollSelect',
-    options: createAuthenticatorOptions(options, authenticators),
+    options: createAuthenticatorOptions(options),
   };
 };
 
-const getAuthenticatorsVerifyUiSchema = ({ options }, authenticators) => {
+const getAuthenticatorsVerifyUiSchema = ({ options }) => {
   return {
     type: 'authenticatorVerifySelect',
-    options: createAuthenticatorOptions(options, authenticators),
+    options: createAuthenticatorOptions(options),
   };
 };
 
@@ -131,8 +128,6 @@ const createUISchema = (transformedResp, remediationForm) => {
   const remediationValue = _.chain(remediationForm.value || [])
     .filter(v => v.visible !== false)
     .map(v => {
-      // `v.form` is probably not right structure but `v.value.form`
-      // TODO: clean up after API stablization.
       if (v.form) {
         const inputGroupName = v.name;
         return v.form.value.map(input => {
@@ -197,13 +192,10 @@ const createUISchema = (transformedResp, remediationForm) => {
       if (ionFormField.name === 'authenticator' && remediationForm.name === 'select-authenticator-authenticate') {
         // similar to `factorId` but `authenticator` is a new way to model factors
         // hence it has different structure
-        const authenticators = transformedResp.authenticatorEnrollments
-          && transformedResp.authenticatorEnrollments.value || [];
-        Object.assign(uiSchema, getAuthenticatorsVerifyUiSchema(ionFormField, authenticators));
+        Object.assign(uiSchema, getAuthenticatorsVerifyUiSchema(ionFormField));
       } else if (ionFormField.name === 'authenticator' && remediationForm.name === 'select-authenticator-enroll') {
-        const authenticators = transformedResp.authenticators && transformedResp.authenticators.value || [];
         // TODO: OKTA-302497: use different type for enrollment flow.
-        Object.assign(uiSchema, getAuthenticatorsEnrollUiSchema(ionFormField, authenticators));
+        Object.assign(uiSchema, getAuthenticatorsEnrollUiSchema(ionFormField));
       } else {
         // e.g. { "name": "credentials", "type": "object", options: [ {value: {form: value:[]} ]
         uiSchema.optionsUiSchemas = ionFormField.options.map(opt => {

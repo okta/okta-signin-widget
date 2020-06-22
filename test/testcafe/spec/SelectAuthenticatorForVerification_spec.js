@@ -3,7 +3,7 @@ import { RequestMock } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
-import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-select-verify-options';
+import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrAuthenticatorRequiredEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import xhrAuthenticatorRequiredWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn';

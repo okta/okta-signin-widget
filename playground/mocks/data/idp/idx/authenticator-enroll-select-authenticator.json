@@ -39,7 +39,8 @@
                       }
                     ]
                   }
-                }
+                },
+                "relatesTo": "$.authenticators.value[0]"
               },
               {
                 "label": "Okta Phone",
@@ -51,29 +52,24 @@
                         "value": "aid568g3mXgtID0X1SLH",
                         "mutable": false,
                         "required": true
-                      },
-                      {
+                    },
+                    {
                         "name": "methodType",
                         "required": false,
                         "options": [
-                          {
-                            "label": "SMS",
-                            "value": "sms"
-                          },
-                          {
-                            "label": "VOICE",
-                            "value": "voice"
-                          }
+                            { "label": "SMS", "value": "sms" },
+                            { "label": "VOICE", "value": "voice" }
                         ]
-                      },
-                      {
+                    },
+                    {
                         "name": "phoneNumber",
                         "required": false,
                         "type": "string"
-                      }
+                    }
                     ]
                   }
-                }
+                },
+                "relatesTo": "$.authenticators.value[2]"
               },
               {
                 "label": "Security Key or Biometric Authenticator (FIDO2)",
@@ -96,7 +92,25 @@
                       }
                     ]
                   }
-                }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              },
+              {
+                "label": "Okta Security Question",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aid568g3mXgtID0X1GGG",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[3]"
               }
             ]
           },
@@ -108,24 +122,6 @@
             "mutable": false
           }
         ]
-      },
-      {
-        "rel": [
-          "create-form"
-        ],
-        "name": "skip",
-        "href": "http://localhost:3000/idp/idx/skip",
-        "method": "POST",
-        "accepts": "application/vnd.okta.v1+json",
-        "value": [
-          {
-            "name": "stateHandle",
-            "required": true,
-            "value": "02vWoN3BXxJ9oeJA05wdCO2sp1q-RimAkwgnN-6xaW",
-            "visible": false,
-            "mutable": false
-          }
-        ]
       }
     ]
   },
@@ -133,25 +129,28 @@
     "type": "array",
     "value": [
       {
-        "label": "Okta Password",
-        "value": {
-          "type": "password",
-          "id": "autwa6eD9o02iBbtv0g3"
-        }
+        "displayName": "Okta Password",
+        "type": "password",
+        "authenticatorId": "autwa6eD9o02iBbtv0g3",
+        "id": "password-enroll-id-123"
       },
       {
-        "label": "Security Key or Biometric Authenticator (FIDO2)",
-        "value": {
-          "type": "webauthn",
-          "id": "aidtheidkwh282hv8g3"
-        }
+        "displayName": "Security Key or Biometric Authenticator (FIDO2)",
+        "type": "security_key",
+        "authenticatorid": "aidtheidkwh282hv8g3",
+        "id": "webauthn-enroll-id-123"
       },
       {
-        "label": "Okta Phone",
-        "value": {
-          "type": "phone",
-          "id": "aid568g3mXgtID0X1SLH"
-        }
+        "displayName": "Okta Phone",
+        "type": "phone",
+        "authenticatorId": "aid568g3mXgtID0X1SLH",
+        "id": "phone-enroll-id-123"
+      },
+      {
+        "displayName": "Okta Security Question",
+        "type": "security_question",
+        "authenticatorId": "aid568g3mXgtID0X1GGG",
+        "id": "security-question-enroll-id-123"
       }
     ]
   },
@@ -166,7 +165,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "http://localhost:3000:1802/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "accepts": "application/vnd.okta.v1+json",
     "value": [
