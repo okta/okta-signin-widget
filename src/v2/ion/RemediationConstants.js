@@ -23,7 +23,7 @@ const FORMS = {
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
 };
 
-const NEED_HIDE_CANCEL_FORMS = [
+const FORMS_WITHOUT_SIGNOUT = [
   FORMS.IDENTIFY,
   FORMS.SUCCESS_REDIRECT,
   FORMS.ENROLL_PROFILE,
@@ -36,7 +36,7 @@ const NEED_HIDE_CANCEL_FORMS = [
   'enroll-factor'
 ];
 
-export default {
+export {
   FORMS,
-  NEED_HIDE_CANCEL_FORMS,
+  FORMS_WITHOUT_SIGNOUT,
 };

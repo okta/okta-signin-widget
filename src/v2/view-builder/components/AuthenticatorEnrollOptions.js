@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { ListView, loc, View, createButton } from 'okta';
-import RemediationEnum from '../../ion/RemediationEnum';
+import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import skipAll from './views/SkipOptionalEnrollmentButton';
 
 const AuthenticatorRow = View.extend({
@@ -57,7 +57,7 @@ export default ListView.extend({
       this.model.set(this.options.name, data);
       this.options.appState.trigger('saveForm', this.model);
     });
-    this.hasOptionalFactors = this.options.appState.hasRemediationObject(RemediationEnum.FORMS.SKIP);
+    this.hasOptionalFactors = this.options.appState.hasRemediationObject(RemediationForms.SKIP);
     if (this.hasOptionalFactors) {
       this.add(skipAll);
     }

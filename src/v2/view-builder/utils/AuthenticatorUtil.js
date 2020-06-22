@@ -1,5 +1,5 @@
 import { loc } from 'okta';
-import RemediationEnum from '../../ion/RemediationEnum';
+import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const addSwitchAuthenticatorLink = (appState, links = []) => {
   if (appState.hasRemediationObject('select-factor-authenticate')) {
@@ -11,12 +11,12 @@ const addSwitchAuthenticatorLink = (appState, links = []) => {
     });
   }
 
-  if (appState.hasRemediationObject(RemediationEnum.FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE)) {
+  if (appState.hasRemediationObject(RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE)) {
     links.push({
       'type': 'link',
       'label':  loc('oie.switch.authenticator', 'login'),
       'name': 'switchAuthenticator',
-      'formName': RemediationEnum.FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE,
+      'formName': RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE,
     });
   }
 

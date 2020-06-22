@@ -1,5 +1,5 @@
 import Logger from 'util/Logger';
-import RemediationEnum from '../ion/RemediationEnum';
+import { FORMS as RemediationForms } from '../ion/RemediationConstants';
 import BaseView from './internals/BaseView';
 
 // factor ignostic views
@@ -43,16 +43,16 @@ import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailVi
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
-  [RemediationEnum.FORMS.IDENTIFY]: {
+  [RemediationForms.IDENTIFY]: {
     [DEFAULT]: IdentifierView,
   },
-  [RemediationEnum.FORMS.DEVICE_CHALLENGE_POLL]: {
+  [RemediationForms.DEVICE_CHALLENGE_POLL]: {
     [DEFAULT]: DeviceChallengePollView,
   },
-  [RemediationEnum.FORMS.DEVICE_APPLE_SSO_EXTENSION]: {
+  [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
   },
-  [RemediationEnum.FORMS.CANCEL_TRANSACTION]: {
+  [RemediationForms.CANCEL_TRANSACTION]: {
     [DEFAULT]: SSOExtensionView,
   },
   'select-factor-authenticate': {
@@ -61,7 +61,7 @@ const VIEWS_MAPPING = {
   'select-factor-enroll': {
     [DEFAULT]: SelectFactorEnrollView,
   },
-  [RemediationEnum.FORMS.ENROLL_PROFILE]: {
+  [RemediationForms.ENROLL_PROFILE]: {
     [DEFAULT]: EnrollProfileView,
   },
   'enroll-factor': {
@@ -74,23 +74,23 @@ const VIEWS_MAPPING = {
     webauthn: RequiredFactorWebauthnView,
   },
 
-  [RemediationEnum.FORMS.SELECT_AUTHENTICATOR_ENROLL]: {
+  [RemediationForms.SELECT_AUTHENTICATOR_ENROLL]: {
     [DEFAULT]: SelectAuthenticatorEnrollView,
   },
-  [RemediationEnum.FORMS.AUTHENTICATOR_ENROLLMENT_DATA]: {
+  [RemediationForms.AUTHENTICATOR_ENROLLMENT_DATA]: {
     phone: EnrollAuthenticatorPhoneView,
   },
-  [RemediationEnum.FORMS.ENROLL_AUTHENTICATOR]: {
+  [RemediationForms.ENROLL_AUTHENTICATOR]: {
     password: EnrollAuthenticatorPasswordView,
     'security_key': EnrollWebauthnView,
     phone: null,
     'security_question': EnrollAuthenticatorSecurityQuestion
   },
 
-  [RemediationEnum.FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
+  [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [DEFAULT]: SelectAuthenticatorVerifyView,
   },
-  [RemediationEnum.FORMS.CHALLENGE_AUTHENTICATOR]: {
+  [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
     email: RequiredFactorEmailView,
     password: ChallengeAuthenticatorPasswordView,
     webauthn: RequiredFactorWebauthnView,
@@ -109,11 +109,11 @@ const VIEWS_MAPPING = {
     [DEFAULT]: TerminalView,
     'email': TerminalReturnEmailView,
   },
-  [RemediationEnum.FORMS.SUCCESS_REDIRECT]: {
+  [RemediationForms.SUCCESS_REDIRECT]: {
     [DEFAULT]: SuccessView,
   },
   // redirect-idp remediation object looks similar to identifier view
-  [RemediationEnum.FORMS.REDIRECT_IDP]: {
+  [RemediationForms.REDIRECT_IDP]: {
     [DEFAULT]: IdentifierView,
   },
 };

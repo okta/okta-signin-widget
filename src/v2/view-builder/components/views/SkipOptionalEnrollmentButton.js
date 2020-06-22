@@ -1,6 +1,6 @@
 
 import { createButton, loc } from 'okta';
-import RemediationEnum from '../../../ion/RemediationEnum';
+import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 
 const skipAll = createButton({
   className: 'button-primary button skip-all',
@@ -8,7 +8,7 @@ const skipAll = createButton({
     return loc('oie.optional.authenticator.button.title', 'login');
   },
   click: function () {
-    this.options.appState.trigger('invokeAction', RemediationEnum.FORMS.SKIP);
+    this.options.appState.trigger('invokeAction', RemediationForms.SKIP);
   }
 });
 

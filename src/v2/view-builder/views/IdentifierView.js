@@ -1,5 +1,5 @@
 import { loc } from 'okta';
-import RemediationEnum from '../../ion/RemediationEnum';
+import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
@@ -15,7 +15,7 @@ const Body = BaseForm.extend({
   save: loc('oform.next', 'login'),
   render () {
     BaseForm.prototype.render.apply(this, arguments);
-    if (this.options.appState.hasRemediationObject(RemediationEnum.FORMS.LAUNCH_AUTHENTICATOR)) {
+    if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_AUTHENTICATOR)) {
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true);
     }
     //add idps
@@ -53,12 +53,12 @@ const Footer = BaseFooter.extend({
         'href': helpLinkHref,
       },
     ];
-    if (this.options.appState.hasRemediationObject(RemediationEnum.FORMS.SELECT_ENROLL_PROFILE)) {
+    if (this.options.appState.hasRemediationObject(RemediationForms.SELECT_ENROLL_PROFILE)) {
       links.push({
         'type': 'link',
         'label': loc('signup', 'login'),
         'name': 'enroll',
-        'actionPath': RemediationEnum.FORMS.SELECT_ENROLL_PROFILE,
+        'actionPath': RemediationForms.SELECT_ENROLL_PROFILE,
       });
     }
     return links;
@@ -76,7 +76,7 @@ export default BaseView.extend({
     // This is the click handler for that link
     const appState = this.options.appState;
     this.$el.find('.js-sign-up').click(function () {
-      appState.trigger('invokeAction', RemediationEnum.FORMS.SELECT_ENROLL_PROFILE);
+      appState.trigger('invokeAction', RemediationForms.SELECT_ENROLL_PROFILE);
       return false;
     });
   },

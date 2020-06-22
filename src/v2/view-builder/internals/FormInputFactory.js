@@ -3,7 +3,7 @@ import FactorOptions from '../components/FactorOptions';
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
 import FactorUtil from '../utils/FactorUtil';
-import RemediationEnum from '../../ion/RemediationEnum';
+import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import IDP from '../../../util/IDP';
 
 const createFactorSelectView = (opt) => {
@@ -76,7 +76,7 @@ const create = function (uiSchemaObj) {
 };
 
 const createIdpButtons = (remediations) => {
-  const redirectObjets = remediations.filter(idp => idp.name === RemediationEnum.FORMS.REDIRECT_IDP);
+  const redirectObjets = remediations.filter(idp => idp.name === RemediationForms.REDIRECT_IDP);
 
   if (!Array.isArray(redirectObjets)) {
     return [];
