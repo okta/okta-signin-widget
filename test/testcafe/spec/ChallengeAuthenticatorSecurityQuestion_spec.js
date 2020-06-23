@@ -32,6 +32,10 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
   const challengeFactorPageObject = await setup(t);
 
   await t.expect(await challengeFactorPageObject.getAnswerLabel()).eql('Where did you go for your favorite vacation?');
+
+  await t.expect(await challengeFactorPageObject.signoutLinkExists()).ok();
+  await t.expect(challengeFactorPageObject.getSignoutLinkText()).eql('Sign Out');
+
   await challengeFactorPageObject.setAnswerValue('test answer');
   await challengeFactorPageObject.clickVerifyButton();
   const successPage = new SuccessPageObject(t);

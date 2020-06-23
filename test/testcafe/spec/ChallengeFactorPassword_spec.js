@@ -53,6 +53,9 @@ test.requestHooks(authenticatorRequiredPasswordMock)(`challenge password authent
   await challengeFactorPageObject.forgotPasswordExists();
   await t.expect(challengeFactorPageObject.getForgotPasswordButtonText()).eql('Forgot password?');
 
+  await t.expect(await challengeFactorPageObject.signoutLinkExists()).ok();
+  await t.expect(challengeFactorPageObject.getSignoutLinkText()).eql('Sign Out');
+
   // verify password
   await challengeFactorPageObject.verifyFactor('credentials.passcode', 'test');
   await challengeFactorPageObject.clickNextButton();

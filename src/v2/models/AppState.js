@@ -12,6 +12,7 @@
 
 import { _, Model } from 'okta';
 import Logger from 'util/Logger';
+import { FORMS_WITHOUT_SIGNOUT } from '../ion/RemediationConstants';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -52,12 +53,11 @@ export default Model.extend({
       },
     },
     showSignoutLink: {
-      deps: ['idx'],
-      fn: function (idx = {}) {
-        const invalidSignOutSteps = ['IDENTIFY', 'ENROLL', 'SUCCESS'];
-        // hide signout for IDENTIFY, ENROLL & SUCCESS step
+      deps: ['idx', 'currentFormName'],
+      fn: function (idx = {}, currentFormName) {
         return idx.actions
-          && _.isFunction(idx.actions.cancel) && !invalidSignOutSteps.includes(idx.context.step);
+          && _.isFunction(idx.actions.cancel)
+          && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
       },
     },
   },

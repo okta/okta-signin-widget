@@ -2,7 +2,7 @@
   "stateHandle": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
   "version": "1.0.0",
   "expiresAt": "2020-05-06T00:42:17.000Z",
-  "step": "ENROLL",
+
   "intent": "LOGIN",
   "remediation": {
     "type": "array",
