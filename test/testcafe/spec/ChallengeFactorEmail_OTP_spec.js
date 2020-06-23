@@ -36,6 +36,9 @@ test
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeFactorPageObject.getFormSubtitle())
         .contains('An email was sent to inca@clouditude.net. Check your email and enter the code below.');
+
+    await t.expect(await challengeFactorPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeFactorPageObject.getSignoutLinkText()).eql('Sign Out');
   });
 
 test

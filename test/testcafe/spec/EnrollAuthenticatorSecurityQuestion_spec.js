@@ -36,6 +36,9 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
   await t.expect(radioOptionLabel).eql('Choose a security question');
   // assert Custom Question textbox doesn't show up
   await t.expect(challengeFactorPageObject.isCreateMyOwnSecurityQuestionTextBoxVisible()).notOk();
+  // no signout link at enroll page
+  await t.expect(await challengeFactorPageObject.signoutLinkExists()).notOk();
+
   // select security question and type answer
   await challengeFactorPageObject.selectSecurityQuestion(1);
   await challengeFactorPageObject.setAnswerValue('test answer');

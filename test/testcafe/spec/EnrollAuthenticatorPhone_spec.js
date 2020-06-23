@@ -36,6 +36,8 @@ test.requestHooks(mock)(`default sms mode`, async t => {
 
   // Extension field is hidden
   await t.expect(enrollPhonePage.extensionIsHidden()).eql(true);
+
+  await t.expect(await enrollPhonePage.signoutLinkExists()).notOk();
 });
 
 test.requestHooks(mock)(`voice mode click and extension will get shown`, async t => {

@@ -2,7 +2,7 @@
   "stateHandle": "02RVeEbXyxvfla4cvDqWz_5A5xwoPXQLVQleu8pzhk",
   "version": "1.0.0",
   "expiresAt": "2019-09-30T18:58:47.000Z",
-  "step": "IDENTIFY",
+
   "intent": "LOGIN",
   "terminal": {
       "type": "object",

@@ -2,7 +2,7 @@
   "stateHandle": "02h50hMLvmuZUuoKCShHKZytlDeFRnn8KG-rcd8Ay5",
   "version": "1.0.0",
   "expiresAt": "2019-09-25T23:55:18.000Z",
-  "step": "AUTHENTICATE",
+
   "intent": "LOGIN",
   "remediation": {
     "type": "array",

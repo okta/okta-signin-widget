@@ -51,4 +51,7 @@ test.requestHooks(mockWithoutIdentify)(`should only render idp buttons with iden
   await t.expect(identityPage.getIdpButton('.social-auth-google-button').textContent).eql('Sign in with Google');
   await t.expect(identityPage.getIdpButton('.social-auth-linkedin-button').textContent).eql('Sign in with LinkedIn');
   await t.expect(identityPage.getIdpButton('.social-auth-microsoft-button').textContent).eql('Sign in with Microsoft');
+
+  // no signout link at enroll page
+  await t.expect(await identityPage.signoutLinkExists()).notOk();
 });

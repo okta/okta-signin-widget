@@ -56,6 +56,10 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
   await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Security Question');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-security-question');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Set up');
+
+  // no signout link at enroll page
+  await t.expect(await selectFactorPage.signoutLinkExists()).notOk();
+
 });
 
 test.requestHooks(mockEnrollAuthenticatorPassword)(`should navigate to password enrollment page`, async t => {

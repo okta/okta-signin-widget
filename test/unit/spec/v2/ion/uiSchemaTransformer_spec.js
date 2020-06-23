@@ -651,7 +651,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
         },
         'remediations': [
           {
-            'name': 'select-authenticator-enroll-data',
+            'name': 'authenticator-enrollment-data',
             'href': 'http://localhost:3000/idp/idx/challenge',
             'rel': [ 'create-form' ],
             'accepts': 'application/vnd.okta.v1+json',

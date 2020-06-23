@@ -58,6 +58,8 @@ test(`should have correct display texts`, async t => {
 
   const needhelpLinkText = identityPage.getNeedhelpLinkText();
   await t.expect(needhelpLinkText).eql('Help');
+
+  await t.expect(await identityPage.signoutLinkExists()).notOk();
 });
 
 test(`should show global error for invalid user`, async t => {
