@@ -13,12 +13,16 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
         authenticatorEnrollments
       });
       spyOn(appState,'hasRemediationObject').and.callFake((formName) => formName === 'select-authenticator-authenticate');
+      const currentViewState = {
+        name: 'challenge-authenticator',
+        relatesTo: {
+          value: currentAuthenticatorEnrollment
+        },
+      };
       this.view = new ChallengeWebauthnView({
         el: $sandbox,
         appState,
-        currentViewState: {
-          name: 'challenge-authenticator',
-        },
+        currentViewState,
       });
       this.view.render();
     };

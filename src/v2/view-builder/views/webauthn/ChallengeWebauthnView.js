@@ -62,7 +62,8 @@ const Body = BaseForm.extend({
     this.clearErrors();
     this._startVerification();
     this.webauthnAbortController = new AbortController();
-    const authenticatorData = this.options.appState.get('currentAuthenticatorEnrollment');
+    const relatesToObject = this.options.currentViewState.relatesTo;
+    const authenticatorData = relatesToObject && relatesToObject.value || {};
     const allowCredentials = [];
     const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments').value || [];
     authenticatorEnrollments.forEach((enrollement) => {

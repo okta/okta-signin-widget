@@ -69,20 +69,20 @@
             "type": "object",
             "options": [
               {
-                "label": "FIDO2 (WebAuthn)",
+                "label": "Okta Password",
                 "value": {
                   "form": {
                     "value": [
                       {
                         "name": "id",
-                        "value": "auteq0lLiL9o1cYoN0g4",
                         "required": true,
+                        "value": "aidwboITrg4b4yAYd0g3",
                         "mutable": false
                       },
                       {
                         "name": "methodType",
-                        "value": "webauthn",
                         "required": false,
+                        "value": "password",
                         "mutable": false
                       }
                     ]
@@ -91,33 +91,116 @@
                 "relatesTo": "$.authenticatorEnrollments.value[0]"
               },
               {
-                "label": "Okta Password",
+                "label": "FIDO2 (WebAuthn)",
                 "value": {
                   "form": {
                     "value": [
                       {
                         "name": "id",
-                        "value": "autepwdJFCg0J7vK60g4",
+                        "value": "fwftheidkwh282hv8g3",
                         "required": true,
-                        "mutable": false
+                        "mutable": false,
+                        "visible": false
                       },
                       {
                         "name": "methodType",
-                        "value": "password",
+                        "value": "webauthn",
+                        "required": false,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[1]"
+              },
+              {
+                "label": "FIDO2 (WebAuthn)",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aidtheidkwh282hv8g3",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "value": "webauthn",
+                        "required": false,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[2]"
+              },
+              {
+                "label": "Okta Email",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aidtm56L8gXXHI1SD0g3",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "value": "email",
                         "required": false,
                         "mutable": false
                       }
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[1]"
+                "relatesTo": "$.authenticatorEnrollments.value[3]"
+              },
+              {
+                "label": "Okta Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aid568g3mXgtID0X1SLH",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[4]"
+              },
+              {
+                "label": "Okta Security Question",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aid568g3mXgtID0HHSLH",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[5]"
               }
             ]
           },
           {
             "name": "stateHandle",
             "required": true,
-            "value": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
+            "value": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdnhhU2NRWG9TbzJvMjAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..40AFMvA7ix6FA2oE.Q6jiZeKfCdON5wqqMdiDQCtgLctrIrpnQzKEwub6L5KvFWcgVpdEFcoOvT1WIq9EUVOg2m_vFLV7b-PVSoCBKhKzl0IujmkjC5XyTwnDBMmJt-2-BMez0kIkABNI1BpffStyt8uJiUqGifVrZ6AqXr6zCpkGK5f7-Mu_rVF8NS2P580n2_2p9MO9haf-z56-i3DfkX-xM1a3_AQXUGr_RzDXWPXZf6mPUhYtouJz7Qdpt6n9agvqasuSz8JLehX9TIN9Y4k_M7JKxaYfdOv9Bnp7zSEtVQeG2ADzbIMKBRXA1bP_TZ7EKHInCu4gz8JR3febZLz8EZq-kaknBB_S3AvkjtzkrUyfUNo31xZhoTWO2kiMJlo_zLRqMKW8xqPNYKjtYo9rXR_v4_wA3hOCKFyKkqCD8U1Y6bbVwoicDHOZ4fNZOtcAVB8BJ8HzpAYzF8bCKHCD9CLgIU8eCezTo_Fo90Zm138Hu0rJc0LCNlG26RFv7DZ89fJbFqobS_y8bbB-MC0wsBBxf1kx1lEFUCqZFNottzXtRnpYKqvurBj_IsV9YtO9T35WZanr2gfbl98R2YpRGMF4pfp3d_6ltntY8-a8VK9cUlkjzBNXH46O-MzOTeuWQ7XgcEqK_MNENs4JMGTixBUQeQjPaDvJ_djCigciq1qyf2peAZBDlR5lozoJbNNQtxnXTYBresTm5RvEQ7qWo5IQlNDnK9Ir5pQdgM1NTPYiVDEt4TFZ4ZjLgycdLSSOv6HSw9bS85avNswJBXwlYBDHML5NpfGL-6m8uoPmtRqCG1HTFgLdSo1iGkcPtO8zcymNlUpevIEhX8QAf0GTK66723e0Qmz8lLDcsVCBVmyvFAENJ2gnR48p4Dt96nH7KRnrXOXUYa1LxJZr_ZeT7K-5WXw5a-dESuxvg18M993Kw6yDwSHsZ-6UeppWg3PPo7dKRE1aX9fisQP1uRCJzk1CtWxPu2GcFs9UZpszLuv1Y8r9DDH7FSgzlyULzOXVcNaLzkm5-RH7jxeRTiOOZxhOBIUuVgUUnkm6x4K23-TYxf4HgV_vWrQmIdEjaP5NuYRPfLkdM8qAWCkuz5r48yjl6T5XRg1wKG7OX0JZLjbmcJsTNagXSHbPsXuBd0te_fgNYT54_eGkIIklr4LbOEhKGNpZSXSWPbTPT7zhbebrUGglldI37k8WldRGywq_ZvZX6W5hucD_yWBqqXBq45LW_iNlAvtUIXBkq4WuPgWaYRIjqWnUxbAZkL_5ejddr18MOmbwV8ftbtYhvnYbYqBvDaqpsXoVKBT0g8ZTXuSs36Rrxi6wyBnXVcM0RrC8YhU6ybBWiovNo2chyPSPhFAvmJVmVL2t3lbA7SoBnWQvNtspHY8Xd8KNf-MUSuhHKXfrSRPwWC23D9qSxoUC0ubIINYBLD-WHYv_Yn7RBU7IQ4fzoLJrE6mUBz9tZ79drLOLd7vbe8MPpWJI-MHCTHD6XTMAWqd5q22EGAUa29XV4Jl4E6xZg8CybaOUOVpuia35UPLpCKK0wDofdAAUcPCo-hj7OH3U0XsCccF0GHfo7cqoYQanqfu7mypeGEf9_471KYQVNSlc1TGrrngY6_KRBMKDcx7fZne4ypsJfumhrpfbEkeltfwFsGVs1--2bFksLI8esRxR1qUHzT0.hCv29YrLBFcW8TjKwSmCXQ",
             "visible": false,
             "mutable": false
           }
@@ -129,9 +212,9 @@
     "type": "object",
     "value": {
       "type": "security_key",
-      "id": "fwftheidkwh282hv8g3",
+      "id": "auteq0lLiL9o1cYoN0g4",
       "credentialId": "7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w",
-      "authenticatorId": "auteq0lLiL9o1cYoN0g4",
+      "authenticatorId": "fwftheidkwh282hv8g3",
       "displayName": "MacBook Touch ID",
       "contextualData": {
         "challengeData": {
@@ -149,27 +232,47 @@
     "type": "array",
     "value": [
       {
-        "type": "webauthn",
-        "authenticatorId": "auteq0lLiL9o1cYoN0g4",
-        "id": "fwftheidkwh282hv8g3",
-        "credentialId": "7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w",
-        "displayName": "MacBook Touch ID",
-        "methods": [ { "type": "webauthn" } ]
-      },
-      {
-        "type": "webauthn",
-        "authenticatorId": "auteq0lLiL9o1cYoN0g4",
-        "id": "aidtheidkwh282hv8g3",
-        "credentialId": "hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w",
-        "displayName": "yubikey",
-        "methods": [ { "type": "webauthn" } ]
-      },
-      {
-        "type": "password",
-        "authenticatorId": "autepwdJFCg0J7vK60g4",
-        "id": "laeddk123Dfj329021s",
         "displayName": "Okta Password",
-        "methods": [ { "type": "password" } ]
+        "type": "password",
+        "id": "autwa6eD9o02iBbtv0g1",
+        "authenticatorId": "aidwboITrg4b4yAYd0g3"
+      },
+      {
+        "displayName": "yubikey",
+        "type": "security_key",
+        "id": "autwa6eD9o02iBbtv0g2",
+        "authenticatorId": "aidtheidkwh282hv8g3",
+        "credentialId": "hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w"
+      },
+      {
+        "displayName": "MacBook Touch ID",
+        "type": "security_key",
+        "id": "autwa6eD9o02iBbtv0g2",
+        "authenticatorId": "fwftheidkwh282hv8g3",
+        "credentialId": "7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w"
+      },
+      {
+        "displayName": "Okta Email",
+        "type": "email",
+        "authenticatorId": "aidtm56L8gXXHI1SD0g3",
+        "id": "autwa6eD9o02iBbtv0g3",
+        "methods": [
+          {
+            "methodType": "email"
+          }
+        ]
+      },
+      {
+        "displayName": "Okta Phone",
+        "type": "phone",
+        "authenticatorId": "aid568g3mXgtID0X1SLH",
+        "id": "autwa6eD9o02iBbsta82"
+      },
+      {
+        "displayName": "Okta Security Question",
+        "type": "security_question",
+        "authenticatorId": "aid568g3mXgtID0HHSLH",
+        "id": "autwa6eD9o02iBbaaa82"
       }
     ]
   },

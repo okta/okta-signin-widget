@@ -6,6 +6,6 @@
     "build": "cp -R node_modules/@okta/okta-idx-js/dist/. ../idx-dist/"
   },
   "devDependencies": {
-    "@okta/okta-idx-js": "0.5.0-g3764f26"
+    "@okta/okta-idx-js": "0.6.0-g15c3275"
   }
 }

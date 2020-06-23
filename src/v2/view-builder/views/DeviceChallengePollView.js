@@ -32,7 +32,7 @@ const Body = BaseForm.extend(Object.assign(
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
-      this.deviceChallengePollRemediation = this.options.appState.getCurrentViewState();
+      this.deviceChallengePollRemediation = this.options.currentViewState;
       this.doChallenge();
       this.startDevicePolling();
     },
@@ -155,7 +155,7 @@ const Body = BaseForm.extend(Object.assign(
 const Footer = BaseFooter.extend({
   links () {
     let links = [];
-    const deviceChallenge = this.options.appState.getCurrentViewState().relatesTo.value;
+    const deviceChallenge = this.options.currentViewState.relatesTo.value;
 
     if (deviceChallenge.challengeMethod === 'CUSTOM_URI') {
       links = [

@@ -32,7 +32,7 @@ export default {
   // currently only device remediation gets polling info from remediation
   // TODO: OKTA-278849 combine startDevicePolling and startPolling
   startDevicePolling () {
-    const pollingInterval = this.options.appState.getCurrentViewState().refresh;
+    const pollingInterval = this.options.currentViewState.refresh;
     if (_.isNumber(pollingInterval)) {
       this.polling = setInterval(() => {
         this.options.appState.trigger('saveForm', this.model);

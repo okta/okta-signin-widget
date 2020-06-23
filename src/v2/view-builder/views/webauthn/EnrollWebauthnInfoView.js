@@ -4,7 +4,8 @@ import BrowserFeatures from 'util/BrowserFeatures';
 export default View.extend({
   template: '<p class="idx-webauthn-enroll-text">{{i18n code="oie.enroll.webauthn.instructions" bundle="login"}}</p>',
   initialize () {
-    const activationData = this.options.appState.get('currentAuthenticator').contextualData.activationData;
+    const relatesToObject = this.options.currentViewState.relatesTo;
+    const activationData = relatesToObject && relatesToObject.value.contextualData.activationData;
     if (BrowserFeatures.isEdge()) {
       this.add(`
         <p class="idx-webauthn-enroll-text-edge">

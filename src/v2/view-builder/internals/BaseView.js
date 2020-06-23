@@ -20,9 +20,15 @@ export default View.extend({
 
   initialize () {
     // Add Views
-    this.add(this.Header, { selector: '.siw-main-header' });
+    this.add(this.Header, {
+      selector: '.siw-main-header',
+      options: this.options,
+    });
     this.renderForm();
-    this.add(this.Footer, { selector : '.siw-main-footer' });
+    this.add(this.Footer, {
+      selector : '.siw-main-footer',
+      options: this.options,
+    });
   },
 
   renderForm () {
@@ -47,10 +53,14 @@ export default View.extend({
 
     this.form = this.add(this.Body, {
       selector : '.siw-main-body',
-      options: {
-        model,
-        optionUiSchemaConfig,
-      },
+      options: Object.assign(
+        {},
+        this.options,
+        {
+          model,
+          optionUiSchemaConfig,
+        },
+      ),
     }).last();
 
     _.each(model.attributes, (value, key) => {
