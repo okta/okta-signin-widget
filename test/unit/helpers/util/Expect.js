@@ -161,11 +161,11 @@ define([
     return fn.wait(condition, resolveValue);
   };
 
-  fn.waitForAjaxRequests = function (numRequests, resolveValue) {
+  fn.waitForAjaxRequests = function (numRequests, resolveValue, timeout) {
     var condition = function () {
       return jasmine.Ajax.requests.count() === numRequests;
     };
-    return fn.wait(condition, resolveValue);
+    return fn.wait(condition, resolveValue, timeout);
   };
 
   /**
