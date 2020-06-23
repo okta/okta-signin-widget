@@ -50,7 +50,8 @@ const Body = BaseForm.extend({
   triggerWebauthnPrompt () {
     this.$el.find('.o-form-error-container').empty();
     this._startEnrollment();
-    const activationData = this.options.appState.get('currentAuthenticator').contextualData.activationData;
+    const relatesToObject = this.options.currentViewState.relatesTo;
+    const activationData = relatesToObject && relatesToObject.value.contextualData.activationData;
     if (webauthn.isNewApiAvailable()) {
       var options = _.extend({}, activationData, {
         challenge: CryptoUtil.strToBin(activationData.challenge),
@@ -97,5 +98,5 @@ export default BaseFactorView.extend({
   postRender () {
     BaseFactorView.prototype.postRender.apply(this, arguments);
     this.$el.find('.o-form-button-bar [type="submit"]').remove();
-  }, 
+  },
 });

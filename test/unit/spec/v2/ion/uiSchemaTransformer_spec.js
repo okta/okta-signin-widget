@@ -8,7 +8,7 @@ import XHREnrollProfile from '../../../../../playground/mocks/data/idp/idx/enrol
 import XHRFactorRequiredEmail  from '../../../../../playground/mocks/data/idp/idx/factor-verification-email.json';
 import XHRFactorEnrollOptions from '../../../../../playground/mocks/data/idp/idx/factor-enroll-options.json';
 import XHRAuthenticatorRequiredEmail  from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-email.json';
-import XHRAuthenticatorEnrollOptions  from '../../../../../playground/mocks/data/idp/idx/authenticator-select-enroll-options.json';
+import XHRAuthenticatorEnrollSelectAuthenticators  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator.json';
 import XHRAuthenticatorEnrollPhone  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-phone.json';
 import XHRAuthenticatorEnrollSecurityQuestion  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-security-question.json';
 import XHRIdentifyResponse from '../../../../../playground/mocks/data/idp/idx/identify.json';
@@ -300,164 +300,254 @@ describe('v2/ion/uiSchemaTransformer', function () {
           'id': '00uwb8GLwf1HED5Xs0g3'
         },
         'remediations': [
-          {
-            'name': 'challenge-authenticator',
-            'href': 'http://localhost:3000/idp/idx/challenge/answer',
-            'rel': [ 'create-form' ],
-            'accepts': 'application/vnd.okta.v1+json',
-            'method': 'POST',
-            'action': jasmine.any(Function),
-            'value': [
-              {
-                'name': 'credentials',
-                'form': {
-                  'value': [
+          Object.assign(
+            XHRAuthenticatorRequiredEmail.remediation.value[0],
+            {
+              'action': jasmine.any(Function),
+              'uiSchema': [
+                {
+                  'name': 'credentials.passcode',
+                  'label': 'One-time verification code',
+                  'secret': true,
+                  'label-top': true,
+                  'type': 'password',
+                  'params': {
+                    'showPasswordToggle': true
+                  }
+                }
+              ],
+              'relatesTo': XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment,
+            },
+          ),
+          Object.assign(
+            XHRAuthenticatorRequiredEmail.remediation.value[1],
+            {
+              'action': jasmine.any(Function),
+              'uiSchema': [
+                {
+
+                  'name': 'authenticator',
+                  'type': 'authenticatorVerifySelect',
+                  'label-top': true,
+                  'options': [
                     {
-                      'name': 'passcode',
-                      'label': 'One-time verification code',
-                      'secret': true
+                      'label': 'Okta Password',
+                      'value': {
+                        'id': 'aidwboITrg4b4yAYd0g3'
+                      },
+                      'authenticatorType': 'password'
+                    },
+                    {
+                      'label': 'FIDO2 (WebAuthn)',
+                      'value': {
+                        'id': 'fwftheidkwh282hv8g3'
+                      },
+                      'authenticatorType': 'security_key'
+                    },
+                    {
+                      'label': 'FIDO2 (WebAuthn)',
+                      'value': {
+                        'id': 'aidtheidkwh282hv8g3'
+                      },
+                      'authenticatorType': 'security_key'
+                    },
+                    {
+                      'label': 'Okta Email',
+                      'value': {
+                        'id': 'aidtm56L8gXXHI1SD0g3'
+                      },
+                      'authenticatorType': 'email'
+                    },
+                    {
+                      'label': 'Okta Phone',
+                      'value': {
+                        'id': 'aid568g3mXgtID0X1SLH'
+                      },
+                      'authenticatorType': 'phone'
+                    },
+                    {
+                      'label': 'Okta Security Question',
+                      'value': {
+                        'id': 'aid568g3mXgtID0HHSLH'
+                      },
+                      'authenticatorType': 'security_question'
                     }
                   ]
                 }
-              },
-              {
-                name: 'stateHandle', required: true,
-                value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
-                visible: false, mutable: false
-              }
-            ],
-            'uiSchema': [
-              {
-                'name': 'credentials.passcode',
-                'label': 'One-time verification code',
-                'secret': true,
-                'label-top': true,
-                'type': 'password',
-                'params': {
-                  'showPasswordToggle': true
-                }
-              }
-            ]
-          },
-          {
-            'name': 'select-authenticator-authenticate',
-            'href': 'http://localhost:3000/idp/idx/challenge',
-            'method': 'POST',
-            'rel': [ 'create-form' ],
-            'accepts': 'application/vnd.okta.v1+json',
-            'action': jasmine.any(Function),
-            'value': [
-              {
-                'name': 'authenticator',
-                'type': 'object',
-                'options': [
-                  {
-                    'label': 'Okta Password',
-                    'value': {
-                      'form': {
-                        'value': [
+              ],
+              'value': [
+                {
+                  'name': 'authenticator',
+                  'type': 'object',
+                  'options': [
+                    {
+                      'label': 'Okta Password',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'required': true,
+                              'value': 'aidwboITrg4b4yAYd0g3',
+                              'mutable': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'required': false,
+                              'value': 'password',
+                              'mutable': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Password',
+                        'type': 'password',
+                        'id': 'autwa6eD9o02iBbtv0g1',
+                        'authenticatorId': 'aidwboITrg4b4yAYd0g3'
+                      }
+                    },
+                    {
+                      'label': 'FIDO2 (WebAuthn)',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'fwftheidkwh282hv8g3',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'value': 'webauthn',
+                              'required': false,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'FIDO2 (WebAuthn)',
+                        'type': 'security_key',
+                        'id': 'autwa6eD9o02iBbtv0g2',
+                        'authenticatorId': 'aidtheidkwh282hv8g3'
+                      }
+                    },
+                    {
+                      'label': 'FIDO2 (WebAuthn)',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aidtheidkwh282hv8g3',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'value': 'webauthn',
+                              'required': false,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'FIDO2 (WebAuthn)',
+                        'type': 'security_key',
+                        'id': 'autwa6eD9o02iBbtv0g2',
+                        'authenticatorId': 'fwftheidkwh282hv8g3'
+                      }
+                    },
+                    {
+                      'label': 'Okta Email',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aidtm56L8gXXHI1SD0g3',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'value': 'email',
+                              'required': false,
+                              'mutable': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Email',
+                        'type': 'email',
+                        'authenticatorId': 'aidtm56L8gXXHI1SD0g3',
+                        'id': 'autwa6eD9o02iBbtv0g3',
+                        'methods': [
                           {
-                            'name': 'id',
-                            'required': true,
-                            'value': 'aidwboITrg4b4yAYd0g3',
-                            'mutable': false
-                          },
-                          {
-                            'name': 'methodType',
-                            'required': false,
-                            'value': 'password',
-                            'mutable': false
+                            'methodType': 'email'
                           }
                         ]
                       }
-                    }
-                  },
-                  {
-                    'label': 'Security Key or Biometric Authenticator (FIDO2)',
-                    'value': {
-                      'form': {
-                        'value': [
-                          {
-                            'name': 'id',
-                            'value': 'aidtheidkwh282hv8g3',
-                            'required': true,
-                            'mutable': false,
-                            'visible': false
-                          },
-                          {
-                            'name': 'methodType',
-                            'value': 'webauthn',
-                            'required': false,
-                            'mutable': false,
-                            'visible': false
-                          }
-                        ]
+                    },
+                    {
+                      'label': 'Okta Phone',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aid568g3mXgtID0X1SLH',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Phone',
+                        'type': 'phone',
+                        'authenticatorId': 'aid568g3mXgtID0X1SLH',
+                        'id': 'autwa6eD9o02iBbsta82'
+                      }
+                    },
+                    {
+                      'label': 'Okta Security Question',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aid568g3mXgtID0HHSLH',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Security Question',
+                        'type': 'security_question',
+                        'authenticatorId': 'aid568g3mXgtID0HHSLH',
+                        'id': 'autwa6eD9o02iBbaaa82'
                       }
                     }
-                  },
-                  {
-                    'label': 'Okta Email',
-                    'value': {
-                      'form': {
-                        'value': [
-                          {
-                            'name': 'id',
-                            'value': 'aidtm56L8gXXHI1SD0g3',
-                            'required': true,
-                            'mutable': false,
-                            'visible': false
-                          },
-                          {
-                            'name': 'methodType',
-                            'value': 'email',
-                            'required': false,
-                            'mutable': false
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
-              },
-              {
-                name: 'stateHandle',
-                required: true,
-                value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
-                visible: false, mutable: false
-              }
-            ],
-            'uiSchema': [
-              {
-
-                'name': 'authenticator',
-                'type': 'authenticatorVerifySelect',
-                'label-top': true,
-                'options': [
-                  {
-                    'label': 'Okta Password',
-                    'value': {
-                      'id': 'aidwboITrg4b4yAYd0g3'
-                    },
-                    'authenticatorType': 'password'
-                  },
-                  {
-                    'label': 'Security Key or Biometric Authenticator (FIDO2)',
-                    'value': {
-                      'id': 'aidtheidkwh282hv8g3'
-                    },
-                    'authenticatorType': 'webauthn'
-                  },
-                  {
-                    'label': 'Okta Email',
-                    'value': {
-                      'id': 'aidtm56L8gXXHI1SD0g3'
-                    },
-                    'authenticatorType': 'email'
-                  }
-                ]
-              }
-            ]
-          }
+                  ]
+                },
+                XHRAuthenticatorRequiredEmail.remediation.value[1].value[1],
+              ]
+            },
+          ),
         ],
         'idx': idxResp,
       });
@@ -465,10 +555,10 @@ describe('v2/ion/uiSchemaTransformer', function () {
   });
 
   it('converts authenticator enroll - authenticator list', (done) => {
-    MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollOptions, idxResp => {
+    MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollSelectAuthenticators, idxResp => {
       const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
-        'authenticators': _.pick(XHRAuthenticatorEnrollOptions.authenticators, 'value'),
+        'authenticators': _.pick(XHRAuthenticatorEnrollSelectAuthenticators.authenticators, 'value'),
         'user': {
           'id': '00utjm1GstPjCF9Ad0g3'
         },
@@ -483,8 +573,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
             'value': [
               {
                 'name': 'authenticator',
-                'type': 'object',
                 'required': true,
+                'type': 'object',
                 'options': [
                   {
                     'label': 'Okta Password',
@@ -505,6 +595,12 @@ describe('v2/ion/uiSchemaTransformer', function () {
                           }
                         ]
                       }
+                    },
+                    'relatesTo': {
+                      'displayName': 'Okta Password',
+                      'type': 'password',
+                      'authenticatorId': 'autwa6eD9o02iBbtv0g3',
+                      'id': 'password-enroll-id-123'
                     }
                   },
                   {
@@ -522,8 +618,14 @@ describe('v2/ion/uiSchemaTransformer', function () {
                             'name': 'methodType',
                             'required': false,
                             'options': [
-                              { 'label': 'SMS', 'value': 'sms' },
-                              { 'label': 'VOICE', 'value': 'voice' }
+                              {
+                                'label': 'SMS',
+                                'value': 'sms'
+                              },
+                              {
+                                'label': 'VOICE',
+                                'value': 'voice'
+                              }
                             ]
                           },
                           {
@@ -533,6 +635,12 @@ describe('v2/ion/uiSchemaTransformer', function () {
                           }
                         ]
                       }
+                    },
+                    'relatesTo': {
+                      'displayName': 'Okta Phone',
+                      'type': 'phone',
+                      'authenticatorId': 'aid568g3mXgtID0X1SLH',
+                      'id': 'phone-enroll-id-123'
                     }
                   },
                   {
@@ -556,6 +664,12 @@ describe('v2/ion/uiSchemaTransformer', function () {
                           }
                         ]
                       }
+                    },
+                    'relatesTo': {
+                      'displayName': 'Security Key or Biometric Authenticator (FIDO2)',
+                      'type': 'security_key',
+                      'authenticatorid': 'aidtheidkwh282hv8g3',
+                      'id': 'webauthn-enroll-id-123'
                     }
                   },
                   {
@@ -572,17 +686,17 @@ describe('v2/ion/uiSchemaTransformer', function () {
                           }
                         ]
                       }
+                    },
+                    'relatesTo': {
+                      'displayName': 'Okta Security Question',
+                      'type': 'security_question',
+                      'authenticatorId': 'aid568g3mXgtID0X1GGG',
+                      'id': 'security-question-enroll-id-123'
                     }
-                  },
+                  }
                 ]
               },
-              {
-                name: 'stateHandle',
-                required: true,
-                value: '02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt',
-                visible: false,
-                mutable: false
-              }
+              XHRAuthenticatorEnrollSelectAuthenticators.remediation.value[0].value[1],
             ],
             'uiSchema': [
               {
@@ -632,114 +746,234 @@ describe('v2/ion/uiSchemaTransformer', function () {
   it('converts authenticator enroll - phone', (done) => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollPhone, idxResp => {
       const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
+
+      expect(result.authenticators).toEqual({
+        value: XHRAuthenticatorEnrollPhone.authenticators.value,
+      });
+
       expect(result).toEqual({
-        'currentAuthenticator': {
-          'displayName': 'Okta Phone',
-          'type': 'phone',
-          'id': 'aid568g3mXgtID0X1SLH',
+        'currentAuthenticator': XHRAuthenticatorEnrollPhone.currentAuthenticator.value,
+        'authenticators': {
+          value: XHRAuthenticatorEnrollPhone.authenticators.value,
         },
-        'user': {
-          'id': 'I9bvFiq01cRFgbn',
-          'passwordChanged': '2019-05-03T19:00:00.000Z',
-          'profile': {
-            'login': 'foo@example.com',
-            'firstName': 'Foo',
-            'lastName': 'Bar',
-            'locale': 'en-us',
-            'timeZone': 'UTC'
-          }
-        },
+        'user': XHRAuthenticatorEnrollPhone.user.value,
         'remediations': [
-          {
-            'name': 'authenticator-enrollment-data',
-            'href': 'http://localhost:3000/idp/idx/challenge',
-            'rel': [ 'create-form' ],
-            'accepts': 'application/vnd.okta.v1+json',
-            'method': 'POST',
-            'action': jasmine.any(Function),
-            'value': [
-              {
-                'name': 'authenticator',
-                'required': true,
-                'type': 'object',
-                'visible': true,
-                'value': {
-                  'label': 'Okta Phone',
-                  'form': {
-                    'value': [
-                      {
-                        'name': 'id',
-                        'value': 'aid568g3mXgtID0X1SLH',
-                        'mutable': false,
-                        'visible': false,
-                        'required': true
-                      },
-                      {
-                        'name': 'methodType',
-                        'required': true,
-                        'options': [
-                          {
-                            'label': 'SMS',
-                            'value': 'sms'
-                          },
-                          {
-                            'label': 'Voice call',
-                            'value': 'voice'
-                          }
-                        ]
-                      },
-                      {
-                        'name': 'phoneNumber',
-                        'required': true,
-                        'type': 'string',
-                        'label': 'Phone number'
-                      }
-                    ]
-                  }
+          Object.assign(
+            {},
+            XHRAuthenticatorEnrollPhone.remediation.value[0],
+            {
+              'action': jasmine.any(Function),
+              'uiSchema': [
+                {
+                  'name': 'authenticator.id',
+                  'value': 'aid568g3mXgtID0X1SLH',
+                  'mutable': false,
+                  'visible': false,
+                  'required': true,
+                  'label-top': true,
+                  'type': 'text'
+                },
+                {
+                  'name': 'authenticator.methodType',
+                  'required': true,
+                  'value': 'sms',
+                  'options': [
+                    {
+                      'label': 'SMS',
+                      'value': 'sms'
+                    },
+                    {
+                      'label': 'Voice call',
+                      'value': 'voice'
+                    }
+                  ],
+                  'label-top': true,
+                  'type': 'radio'
+                },
+                {
+                  'name': 'authenticator.phoneNumber',
+                  'label': 'Phone number',
+                  'required': true,
+                  'type': 'text',
+                  'label-top': true
                 }
-              },
-              {
-                name: 'stateHandle',
-                value: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
-                visible: false
-              }
-            ],
-            'uiSchema': [
-              {
-                'name': 'authenticator.id',
-                'value': 'aid568g3mXgtID0X1SLH',
-                'mutable': false,
-                'visible': false,
-                'required': true,
-                'label-top': true,
-                'type': 'text'
-              },
-              {
-                'name': 'authenticator.methodType',
-                'required': true,
-                'value': 'sms',
-                'options': [
-                  {
-                    'label': 'SMS',
-                    'value': 'sms'
-                  },
-                  {
-                    'label': 'Voice call',
-                    'value': 'voice'
-                  }
-                ],
-                'label-top': true,
-                'type': 'radio'
-              },
-              {
-                'name': 'authenticator.phoneNumber',
-                'label': 'Phone number',
-                'required': true,
-                'type': 'text',
-                'label-top': true
-              }
-            ]
-          }
+              ],
+              'relatesTo': XHRAuthenticatorEnrollPhone.currentAuthenticator,
+            },
+          ),
+          Object.assign(
+            {},
+            XHRAuthenticatorEnrollSecurityQuestion.remediation.value[1],
+            {
+              'action': jasmine.any(Function),
+              'uiSchema': [
+                {
+                  'name': 'authenticator',
+                  'type': 'authenticatorEnrollSelect',
+                  'required': true,
+                  'label-top': true,
+                  'options': [
+                    {
+                      'label': 'Okta Password',
+                      'value': {
+                        'id': 'autwa6eD9o02iBbtv0g3'
+                      },
+                      'authenticatorType': 'password'
+                    },
+                    {
+                      'label': 'Okta Phone',
+                      'value': {
+                        'id': 'aid568g3mXgtID0X1SLH'
+                      },
+                      'authenticatorType': 'phone'
+                    },
+                    {
+                      'label': 'Security Key or Biometric Authenticator (FIDO2)',
+                      'value': {
+                        'id': 'aidtheidkwh282hv8g3'
+                      },
+                      'authenticatorType': 'security_key'
+                    },
+                    {
+                      'label': 'Okta Security Question',
+                      'value': {
+                        'id': 'aid568g3mXgtID0X1GGG'
+                      },
+                      'authenticatorType': 'security_question'
+                    },
+                  ]
+                }
+              ],
+              'value': [
+                {
+                  'name': 'authenticator',
+                  'required': true,
+                  'type': 'object',
+                  'options': [
+                    {
+                      'label': 'Okta Password',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'required': true,
+                              'value': 'autwa6eD9o02iBbtv0g3',
+                              'mutable': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'required': false,
+                              'value': 'password',
+                              'mutable': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Password',
+                        'type': 'password',
+                        'authenticatorId': 'autwa6eD9o02iBbtv0g3',
+                        'id': 'password-enroll-id-123'
+                      }
+                    },
+                    {
+                      'label': 'Okta Phone',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aid568g3mXgtID0X1SLH',
+                              'mutable': false,
+                              'required': true
+                            },
+                            {
+                              'name': 'methodType',
+                              'required': false,
+                              'options': [
+                                {
+                                  'label': 'SMS',
+                                  'value': 'sms'
+                                },
+                                {
+                                  'label': 'VOICE',
+                                  'value': 'voice'
+                                }
+                              ]
+                            },
+                            {
+                              'name': 'phoneNumber',
+                              'required': false,
+                              'type': 'string'
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Phone',
+                        'type': 'phone',
+                        'authenticatorId': 'aid568g3mXgtID0X1SLH',
+                        'id': 'phone-enroll-id-123'
+                      }
+                    },
+                    {
+                      'label': 'Security Key or Biometric Authenticator (FIDO2)',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aidtheidkwh282hv8g3',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'value': 'webauthn',
+                              'required': false,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Security Key or Biometric Authenticator (FIDO2)',
+                        'type': 'security_key',
+                        'authenticatorid': 'aidtheidkwh282hv8g3',
+                        'id': 'webauthn-enroll-id-123'
+                      }
+                    },
+                    {
+                      'label': 'Okta Security Question',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aid568g3mXgtID0X1GGG',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Security Question',
+                        'type': 'security_question',
+                        'authenticatorId': 'aid568g3mXgtID0X1GGG',
+                        'id': 'security-question-enroll-id-123'
+                      }
+                    }
+                  ]
+                },
+                XHRAuthenticatorEnrollSecurityQuestion.remediation.value[1].value[1],
+              ]
+            },
+          ),
         ],
         'idx': idxResp,
       });
@@ -750,186 +984,267 @@ describe('v2/ion/uiSchemaTransformer', function () {
     MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollSecurityQuestion, idxResp => {
       const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
-        'currentAuthenticator': {
-          'displayName': 'Okta Security Question',
-          'type': 'security_question',
-          'id': 'aid568g3mXgtID0X1GGG',
-        },
-        'user': {
-          'id': 'I9bvFiq01cRFgbn',
-          'passwordChanged': '2019-05-03T19:00:00.000Z',
-          'profile': {
-            'login': 'foo@example.com',
-            'firstName': 'Foo',
-            'lastName': 'Bar',
-            'locale': 'en-us',
-            'timeZone': 'UTC'
-          }
-        },
+        'currentAuthenticator': XHRAuthenticatorEnrollSecurityQuestion.currentAuthenticator.value,
+        'user': XHRAuthenticatorEnrollSecurityQuestion.user.value,
         'remediations': [
-          {
-            'rel': [
-              'create-form'
-            ],
-            'name': 'enroll-authenticator',
-            'href': 'http://localhost:3000/idp/idx/challenge/answer',
-            'method': 'POST',
-            'accepts': 'application/vnd.okta.v1+json',
-            'action': jasmine.any(Function),
-            'value': [
-              {
-                'name': 'credentials',
-                'type': 'object',
-                'required': true,
-                'options': [
-                  {
-                    'label': 'Choose a security question',
-                    'value': {
-                      'form': {
-                        'value': [
-                          {
-                            'name': 'questionKey',
-                            'type': 'string',
-                            'required': true,
-                            'label': 'Choose a security question',
-                            'options': [
-                              {
-                                'label': 'What is the food you least liked as a child?',
-                                'value': 'disliked_food'
-                              },
-                              {
-                                'label': 'What is the name of your first stuffed animal?',
-                                'value': 'name_of_first_plush_toy'
-                              },
-                              {
-                                'label': 'Where did you go for your favorite vacation?',
-                                'value': 'favorite_vacation_location'
-                              }
-                            ]
-                          },
-                          {
-                            'name': 'answer',
-                            'label': 'Answer',
-                            'required': true,
-                            'secret': true
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    'label': 'Create my own security question',
-                    'value': {
-                      'form': {
-                        'value': [
-                          {
-                            'name': 'questionKey',
-                            'required': true,
-                            'value': 'custom',
-                            'mutable': false
-                          },
-                          {
-                            'name': 'question',
-                            'label': 'Create a security question',
-                            'required': true
-                          },
-                          {
-                            'name': 'answer',
-                            'label': 'Answer',
-                            'required': true,
-                            'secret': true
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
-              },
-              {
-                'name': 'stateHandle',
-                'required': true,
-                'value': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
-                'visible': false,
-                'mutable': false
-              }
-            ],
-            'uiSchema': [
-              {
-                'name': 'sub_schema_local_credentials',
-                'type': 'radio',
-                'required': true,
-                'options': [
-                  {
-                    'label': 'Choose a security question',
-                    'value': 0
-                  },
-                  {
-                    'label': 'Create my own security question',
-                    'value': 1
-                  }
-                ],
-                'label-top': true,
-                'optionsUiSchemas': [
-                  [
+          Object.assign(
+            XHRAuthenticatorEnrollSecurityQuestion.remediation.value[0],
+            {
+              'action': jasmine.any(Function),
+              'uiSchema': [
+                {
+                  'name': 'sub_schema_local_credentials',
+                  'type': 'radio',
+                  'required': true,
+                  'options': [
                     {
-                      'name': 'credentials.questionKey',
-                      'type': 'select',
-                      'required': true,
                       'label': 'Choose a security question',
-                      'options': {
-                        'disliked_food': 'What is the food you least liked as a child?',
-                        'name_of_first_plush_toy': 'What is the name of your first stuffed animal?',
-                        'favorite_vacation_location': 'Where did you go for your favorite vacation?'
-                      },
-                      'label-top': true,
-                      'wide': true
+                      'value': 0
                     },
                     {
-                      'name': 'credentials.answer',
-                      'label': 'Answer',
-                      'required': true,
-                      'secret': true,
-                      'label-top': true,
-                      'type': 'password',
-                      'params': {
-                        'showPasswordToggle': true
-                      }
+                      'label': 'Create my own security question',
+                      'value': 1
                     }
                   ],
-                  [
+                  'label-top': true,
+                  'optionsUiSchemas': [
+                    [
+                      {
+                        'name': 'credentials.questionKey',
+                        'type': 'select',
+                        'required': true,
+                        'label': 'Choose a security question',
+                        'options': {
+                          'disliked_food': 'What is the food you least liked as a child?',
+                          'name_of_first_plush_toy': 'What is the name of your first stuffed animal?',
+                          'favorite_vacation_location': 'Where did you go for your favorite vacation?'
+                        },
+                        'label-top': true,
+                        'wide': true
+                      },
+                      {
+                        'name': 'credentials.answer',
+                        'label': 'Answer',
+                        'required': true,
+                        'secret': true,
+                        'label-top': true,
+                        'type': 'password',
+                        'params': {
+                          'showPasswordToggle': true
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        'name': 'credentials.questionKey',
+                        'required': true,
+                        'value': 'custom',
+                        'mutable': false,
+                        'label-top': true,
+                        'type': 'text'
+                      },
+                      {
+                        'name': 'credentials.question',
+                        'label': 'Create a security question',
+                        'required': true,
+                        'label-top': true,
+                        'type': 'text'
+                      },
+                      {
+                        'name': 'credentials.answer',
+                        'label': 'Answer',
+                        'required': true,
+                        'secret': true,
+                        'label-top': true,
+                        'type': 'password',
+                        'params': {
+                          'showPasswordToggle': true
+                        }
+                      }
+                    ]
+                  ],
+                  'value': '0'
+                }
+              ],
+              'relatesTo': XHRAuthenticatorEnrollSecurityQuestion.currentAuthenticator,
+            },
+          ),
+          Object.assign(
+            XHRAuthenticatorEnrollSecurityQuestion.remediation.value[1],
+            {
+              'action': jasmine.any(Function),
+              'uiSchema': [
+                {
+                  'name': 'authenticator',
+                  'type': 'authenticatorEnrollSelect',
+                  'required': true,
+                  'label-top': true,
+                  'options': [
                     {
-                      'name': 'credentials.questionKey',
-                      'required': true,
-                      'value': 'custom',
-                      'mutable': false,
-                      'label-top': true,
-                      'type': 'text'
+                      'label': 'Okta Password',
+                      'value': {
+                        'id': 'autwa6eD9o02iBbtv0g3'
+                      },
+                      'authenticatorType': 'password'
                     },
                     {
-                      'name': 'credentials.question',
-                      'label': 'Create a security question',
-                      'required': true,
-                      'label-top': true,
-                      'type': 'text'
+                      'label': 'Okta Phone',
+                      'value': {
+                        'id': 'aid568g3mXgtID0X1SLH'
+                      },
+                      'authenticatorType': 'phone'
                     },
                     {
-                      'name': 'credentials.answer',
-                      'label': 'Answer',
-                      'required': true,
-                      'secret': true,
-                      'label-top': true,
-                      'type': 'password',
-                      'params': {
-                        'showPasswordToggle': true
+                      'label': 'Security Key or Biometric Authenticator (FIDO2)',
+                      'value': {
+                        'id': 'aidtheidkwh282hv8g3'
+                      },
+                      'authenticatorType': 'security_key'
+                    },
+                    {
+                      'label': 'Okta Security Question',
+                      'value': {
+                        'id': 'aid568g3mXgtID0X1GGG'
+                      },
+                      'authenticatorType': 'security_question'
+                    },
+                  ]
+                }
+              ],
+              'value': [
+                {
+                  'name': 'authenticator',
+                  'required': true,
+                  'type': 'object',
+                  'options': [
+                    {
+                      'label': 'Okta Password',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'required': true,
+                              'value': 'autwa6eD9o02iBbtv0g3',
+                              'mutable': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'required': false,
+                              'value': 'password',
+                              'mutable': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Password',
+                        'type': 'password',
+                        'authenticatorId': 'autwa6eD9o02iBbtv0g3',
+                        'id': 'password-enroll-id-123'
+                      }
+                    },
+                    {
+                      'label': 'Okta Phone',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aid568g3mXgtID0X1SLH',
+                              'mutable': false,
+                              'required': true
+                            },
+                            {
+                              'name': 'methodType',
+                              'required': false,
+                              'options': [
+                                {
+                                  'label': 'SMS',
+                                  'value': 'sms'
+                                },
+                                {
+                                  'label': 'VOICE',
+                                  'value': 'voice'
+                                }
+                              ]
+                            },
+                            {
+                              'name': 'phoneNumber',
+                              'required': false,
+                              'type': 'string'
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Phone',
+                        'type': 'phone',
+                        'authenticatorId': 'aid568g3mXgtID0X1SLH',
+                        'id': 'phone-enroll-id-123'
+                      }
+                    },
+                    {
+                      'label': 'Security Key or Biometric Authenticator (FIDO2)',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aidtheidkwh282hv8g3',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'value': 'webauthn',
+                              'required': false,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Security Key or Biometric Authenticator (FIDO2)',
+                        'type': 'security_key',
+                        'authenticatorid': 'aidtheidkwh282hv8g3',
+                        'id': 'webauthn-enroll-id-123'
+                      }
+                    },
+                    {
+                      'label': 'Okta Security Question',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aid568g3mXgtID0X1GGG',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Security Question',
+                        'type': 'security_question',
+                        'authenticatorId': 'aid568g3mXgtID0X1GGG',
+                        'id': 'security-question-enroll-id-123'
                       }
                     }
                   ]
-                ],
-                'value': '0'
-              }
-            ]
-          }
+                },
+                XHRAuthenticatorEnrollSecurityQuestion.remediation.value[1].value[1],
+              ]
+            },
+          ),
         ],
+        'authenticators': {
+          value: XHRAuthenticatorEnrollSecurityQuestion.authenticators.value,
+        },
         'idx': idxResp,
       });
     });

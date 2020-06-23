@@ -104,7 +104,8 @@ export default BaseFactorView.extend({
   Footer,
 
   createModelClass () {
-    const { methods, profile } = this.options.appState.get('currentAuthenticatorEnrollment');
+    const relatesToObject = this.options.currentViewState.relatesTo;
+    const { methods, profile } = relatesToObject && relatesToObject.value || {};
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign({
       mode: {

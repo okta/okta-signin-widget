@@ -8,14 +8,18 @@ import EnrollWebauthnResponse from '../../../../../../playground/mocks/data/idp/
 describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
   beforeEach(function () {
     this.init = (currentAuthenticator = EnrollWebauthnResponse.currentAuthenticator.value) => {
+      const currentViewState = {
+        name: 'enroll-authenticator',
+        relatesTo: {
+          value: currentAuthenticator
+        },
+      };
       this.view = new EnrollWebauthnView({
         el: $sandbox,
         appState: new AppState({
           currentAuthenticator,
         }),
-        currentViewState: {
-          name: 'enroll-authenticator',
-        },
+        currentViewState,
       });
       this.view.render();
     };

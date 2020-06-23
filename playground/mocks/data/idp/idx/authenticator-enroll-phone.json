@@ -20,45 +20,161 @@
             "required": true,
             "type": "object",
             "visible": true,
-            "value": {
-              "label": "Okta Phone",
-              "form": {
-                "value": [
-                  {
-                    "name": "id",
-                    "value": "aid568g3mXgtID0X1SLH",
-                    "mutable": false,
-                    "visible": false,
-                    "required": true
-                  },
-                  {
-                    "name": "methodType",
-                    "required": true,
-                    "options": [
-                      {
-                        "label": "SMS",
-                        "value": "sms"
-                      },
-                      {
-                        "label": "Voice call",
-                        "value": "voice"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "phoneNumber",
-                    "required": true,
-                    "type": "string",
-                    "label": "Phone number"
-                  }
-                ]
-              }
+            "label": "Okta Phone",
+            "form": {
+              "value": [
+                {
+                  "name": "id",
+                  "value": "aid568g3mXgtID0X1SLH",
+                  "mutable": false,
+                  "visible": false,
+                  "required": true
+                },
+                {
+                  "name": "methodType",
+                  "required": true,
+                  "options": [
+                    {
+                      "label": "SMS",
+                      "value": "sms"
+                    },
+                    {
+                      "label": "Voice call",
+                      "value": "voice"
+                    }
+                  ]
+                },
+                {
+                  "name": "phoneNumber",
+                  "required": true,
+                  "type": "string",
+                  "label": "Phone number"
+                }
+              ]
             }
           },
           {
             "name": "stateHandle",
             "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
             "visible": false
+          }
+        ],
+        "relatesTo": ["$.currentAuthenticator"]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "authenticator",
+            "required": true,
+            "type": "object",
+            "options": [
+              {
+                "label": "Okta Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autwa6eD9o02iBbtv0g3",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "password",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              },
+              {
+                "label": "Okta Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aid568g3mXgtID0X1SLH",
+                        "mutable": false,
+                        "required": true
+                    },
+                    {
+                        "name": "methodType",
+                        "required": false,
+                        "options": [
+                            { "label": "SMS", "value": "sms" },
+                            { "label": "VOICE", "value": "voice" }
+                        ]
+                    },
+                    {
+                        "name": "phoneNumber",
+                        "required": false,
+                        "type": "string"
+                    }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              },
+              {
+                "label": "Security Key or Biometric Authenticator (FIDO2)",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aidtheidkwh282hv8g3",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "value": "webauthn",
+                        "required": false,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              },
+              {
+                "label": "Okta Security Question",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aid568g3mXgtID0X1GGG",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[3]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+            "visible": false,
+            "mutable": false
           }
         ]
       }
@@ -85,6 +201,35 @@
         "timeZone": "UTC"
       }
     }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "displayName": "Okta Password",
+        "type": "password",
+        "authenticatorId": "autwa6eD9o02iBbtv0g3",
+        "id": "password-enroll-id-123"
+      },
+      {
+        "displayName": "Security Key or Biometric Authenticator (FIDO2)",
+        "type": "security_key",
+        "authenticatorid": "aidtheidkwh282hv8g3",
+        "id": "webauthn-enroll-id-123"
+      },
+      {
+        "displayName": "Okta Phone",
+        "type": "phone",
+        "authenticatorId": "aid568g3mXgtID0X1SLH",
+        "id": "phone-enroll-id-123"
+      },
+      {
+        "displayName": "Okta Security Question",
+        "type": "security_question",
+        "authenticatorId": "aid568g3mXgtID0X1GGG",
+        "id": "security-question-enroll-id-123"
+      }
+    ]
   },
   "cancel": {
     "rel": [
