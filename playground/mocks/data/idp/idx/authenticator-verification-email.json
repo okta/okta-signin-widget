@@ -21,8 +21,7 @@
               "value": [
                 {
                   "name": "passcode",
-                  "label": "One-time verification code",
-                  "secret": true
+                  "label": "Enter code"
                 }
               ]
             }
