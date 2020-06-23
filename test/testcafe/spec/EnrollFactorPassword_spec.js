@@ -41,6 +41,9 @@ test(`should have both password and confirmPassword fields and both are required
   await enrollPasswordPage.waitForErrorBox();
   await t.expect(enrollPasswordPage.hasPasswordError()).eql(false);
   await t.expect(enrollPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
+
+  // no signout link at enroll page
+  await t.expect(await enrollPasswordPage.signoutLinkExists()).notOk();
 });
 
 test(`should succeed when fill same value`, async t => {

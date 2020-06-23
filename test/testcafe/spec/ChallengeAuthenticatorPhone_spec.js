@@ -64,6 +64,9 @@ test
     await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
     await t.expect(primaryButtonText).contains('Send a code via SMS');
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
+
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Sign Out');
   });
 
 test

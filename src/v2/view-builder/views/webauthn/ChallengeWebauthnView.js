@@ -4,6 +4,7 @@ import BaseFooter from '../../internals/BaseFooter';
 import BaseFactorView from '../shared/BaseFactorView';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import webauthn from '../../../../util/webauthn';
+import { addSwitchAuthenticatorLink } from '../../utils/AuthenticatorUtil';
 import ChallengeWebauthnInfoView from './ChallengeWebauthnInfoView';
 
 const Body = BaseForm.extend({
@@ -116,15 +117,8 @@ const Footer = BaseFooter.extend({
   links: function () {
     const links = [];
 
-    // check if we have a select-authenticator-authenticate form in remediation, if so add a link
-    if (this.options.appState.hasRemediationObject('select-authenticator-authenticate')) {
-      links.push({
-        'type': 'link',
-        'label': loc('oie.verify.switch.authenticator', 'login'),
-        'name': 'switchFactor',
-        'formName': 'select-authenticator-authenticate',
-      });
-    }
+    addSwitchAuthenticatorLink(this.options.appState, links);
+
     return links;
   }
 });
@@ -137,5 +131,5 @@ export default BaseFactorView.extend({
     if (webauthn.isNewApiAvailable()) {
       this.form.getCredentialsAndSave();
     }
-  }, 
+  },
 });

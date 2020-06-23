@@ -33,6 +33,8 @@ async function setup(t) {
 test.requestHooks(mock)(`should have the right labels for the fields`, async t => {
   const registrationPage = await setup(t);
   await t.expect(registrationPage.getHaveAccountLabel()).eql('Already have an account ?');
+  await t.expect(await registrationPage.signoutLinkExists()).notOk();
+
 });
 
 test.requestHooks(mock)(`should have editable fields`, async t => {
