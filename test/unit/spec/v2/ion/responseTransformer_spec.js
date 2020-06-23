@@ -55,117 +55,195 @@ describe('v2/ion/responseTransformer', function () {
     expect(transformResponse(testContext.settings, 'hello')).toBeNull();
   });
 
-  it('converts factor required email idx object', (done) => {
+  it('converts required authenticator email idx object', (done) => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorRequiredEmail, idxResp => {
       const result = transformResponse(testContext.settings, idxResp);
       expect(result).toEqual({
         'remediations': [
-          {
-            'action': jasmine.any(Function),
-            'name': 'challenge-authenticator',
-            'rel': [ 'create-form' ],
-            'accepts': 'application/vnd.okta.v1+json',
-            'href': 'http://localhost:3000/idp/idx/challenge/answer',
-            'method': 'POST',
-            'value': [
-              {
-                'name': 'credentials',
-                'form': {
-                  'value': [
+          Object.assign(
+            XHRAuthenticatorRequiredEmail.remediation.value[0],
+            {
+              'action': jasmine.any(Function),
+              'relatesTo': XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment,
+            },
+          ),
+          Object.assign(
+            XHRAuthenticatorRequiredEmail.remediation.value[1],
+            {
+              'action': jasmine.any(Function),
+              value: [
+                {
+                  'name': 'authenticator',
+                  'type': 'object',
+                  'options': [
                     {
-                      'name': 'passcode',
-                      'label': 'One-time verification code',
-                      'secret': true
+                      'label': 'Okta Password',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'required': true,
+                              'value': 'aidwboITrg4b4yAYd0g3',
+                              'mutable': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'required': false,
+                              'value': 'password',
+                              'mutable': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Password',
+                        'type': 'password',
+                        'id': 'autwa6eD9o02iBbtv0g1',
+                        'authenticatorId': 'aidwboITrg4b4yAYd0g3'
+                      }
+                    },
+                    {
+                      'label': 'FIDO2 (WebAuthn)',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'fwftheidkwh282hv8g3',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'value': 'webauthn',
+                              'required': false,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'FIDO2 (WebAuthn)',
+                        'type': 'security_key',
+                        'id': 'autwa6eD9o02iBbtv0g2',
+                        'authenticatorId': 'aidtheidkwh282hv8g3'
+                      }
+                    },
+                    {
+                      'label': 'FIDO2 (WebAuthn)',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aidtheidkwh282hv8g3',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'value': 'webauthn',
+                              'required': false,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'FIDO2 (WebAuthn)',
+                        'type': 'security_key',
+                        'id': 'autwa6eD9o02iBbtv0g2',
+                        'authenticatorId': 'fwftheidkwh282hv8g3'
+                      }
+                    },
+                    {
+                      'label': 'Okta Email',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aidtm56L8gXXHI1SD0g3',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            },
+                            {
+                              'name': 'methodType',
+                              'value': 'email',
+                              'required': false,
+                              'mutable': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Email',
+                        'type': 'email',
+                        'authenticatorId': 'aidtm56L8gXXHI1SD0g3',
+                        'id': 'autwa6eD9o02iBbtv0g3',
+                        'methods': [
+                          {
+                            'methodType': 'email'
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      'label': 'Okta Phone',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aid568g3mXgtID0X1SLH',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Phone',
+                        'type': 'phone',
+                        'authenticatorId': 'aid568g3mXgtID0X1SLH',
+                        'id': 'autwa6eD9o02iBbsta82'
+                      }
+                    },
+                    {
+                      'label': 'Okta Security Question',
+                      'value': {
+                        'form': {
+                          'value': [
+                            {
+                              'name': 'id',
+                              'value': 'aid568g3mXgtID0HHSLH',
+                              'required': true,
+                              'mutable': false,
+                              'visible': false
+                            }
+                          ]
+                        }
+                      },
+                      'relatesTo': {
+                        'displayName': 'Okta Security Question',
+                        'type': 'security_question',
+                        'authenticatorId': 'aid568g3mXgtID0HHSLH',
+                        'id': 'autwa6eD9o02iBbaaa82'
+                      }
                     }
                   ]
-                }
-              },
-              { name: 'stateHandle', required: true, value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8', visible: false, mutable: false }
-            ]
-          },
-          {
-            'action': jasmine.any(Function),
-            'name': 'select-authenticator-authenticate',
-            'href': 'http://localhost:3000/idp/idx/challenge',
-            'method': 'POST',
-            'rel': [ 'create-form' ],
-            'accepts': 'application/vnd.okta.v1+json',
-            'value': [
-              {
-                'name': 'authenticator',
-                'type': 'object',
-                'options': [
-                  {
-                    'label': 'Okta Password',
-                    'value': {
-                      'form': {
-                        'value': [
-                          {
-                            'name': 'id',
-                            'required': true,
-                            'value': 'aidwboITrg4b4yAYd0g3',
-                            'mutable': false
-                          },
-                          {
-                            'name': 'methodType',
-                            'required': false,
-                            'value': 'password',
-                            'mutable': false
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    'label': 'Security Key or Biometric Authenticator (FIDO2)',
-                    'value': {
-                      'form': {
-                        'value': [
-                          {
-                            'name': 'id',
-                            'value': 'aidtheidkwh282hv8g3',
-                            'required': true,
-                            'mutable': false,
-                            'visible': false
-                          },
-                          {
-                            'name': 'methodType',
-                            'value': 'webauthn',
-                            'required': false,
-                            'mutable': false,
-                            'visible': false
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    'label': 'Okta Email',
-                    'value': {
-                      'form': {
-                        'value': [
-                          {
-                            'name': 'id',
-                            'value': 'aidtm56L8gXXHI1SD0g3',
-                            'required': true,
-                            'mutable': false,
-                            'visible': false
-                          },
-                          {
-                            'name': 'methodType',
-                            'value': 'email',
-                            'required': false,
-                            'mutable': false
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
-              },
-              { name: 'stateHandle', required: true, value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8', visible: false, mutable: false }
-            ]
-          }
+                },
+                XHRAuthenticatorRequiredEmail.remediation.value[1].value[1],
+              ]
+            },
+          ),
         ],
         authenticatorEnrollments: {
           value: XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value,
@@ -229,43 +307,8 @@ describe('v2/ion/responseTransformer', function () {
       const result = transformResponse(testContext.settings, idxResp);
       expect(result).toEqual({
         remediations: [
-          {
-            rel: [ 'create-form' ],
-            name: 'identify',
-            method: 'POST',
-            accepts: 'application/vnd.okta.v1+json',
-            action: jasmine.any(Function),
-            href: 'http://localhost:3000/idp/idx/identify',
-            value: [
-              { name: 'identifier', label: 'Username' },
-              { name: 'rememberMe', label: 'Remember Me', type: 'boolean' },
-              {
-                name: 'stateHandle',
-                visible: false,
-                mutable: false,
-                required: true,
-                value: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..4z7WWUdd0LzIJLxz.GmOyeMJ5XtS7kZipFanQxaMd2rblpEeaWv8U5IfaJv5F2V1otwft4q1tVo3yqbedhBjN-nO5qk6qR-0Op34lmecwwmHeRyzYbhrFiLZaR88nhCFMblP8Bo5d3Opl5gkX02e0FQL-Osorxvml0XYbuO7GdTH5EkIv0Q7h0Dq7L__h_uFLies8AkJZWIDQh25RlqcEjToHCvVW31A_NJJ1Vf5c8GFuyb9LsJ9kUpZikpK6C72GPrU_LGrIW8VBT4l24dDEre4J8XvTNO7fdVDiq-H7BEeIjaY06q1zqlVLWwqOHoKpGNQ0NMhBIXB0ZZC57Me9pFI5GLIUwRDUIm1vw3t_mHJDVIcCJe9kmt29tTccZ8Zo0N3q5bSiwMoNHPLxZSOrbx-bf4fniorNH5ypJnke7pc2Q3DFmqfPrB7CE1REjAyCKBHYDAfVexYCkMfCl0E8oMFJinnLbynb7Bqvbp_DqL8h0pNIoXUF4KTTsuKQg8yCCqBhkajxlvh9G7L3Sf76o4B2itB7ldeqXzAE9H60yqhIKEZPNOHUgRC2SkWkWlH6NIaNWQ2Bi2CjnL9YvUuQmO-dpf08KeCgwfVmT4GBTGfTkXwy3pBitacCqEREen2j2iUH9mhi2LOOFaGLh0TXslcBgkGuht6P7gyH2JN6yFInQyIp33xQsqYg7nqOZG1LCrQSqoviTfI72-AC6b7tju8YEn1P0nXGbSzlCztSXl2pa95tr4L5pyX8fNydKYMTLeHEnmNtXlRB6wQYP1ljf4Tzgus7O0etyJs75znsXHZ42znxlEKGhTo3ucFe3CI-vsHF1FDDj2DVeWl21zVOTehTbBaemoD1ekD5F8OHS7SrK9Bw7PTa-lpyls1OxvE_Wsco4_eGbax_DoPm6DbCwj8hWzb5wLEs6TClZKoUJeV1MSVB3OgGBZ3AGzhwfeG0sGi5DnUpAeKqgP6IN8kziNRDmW3YE0qIY2mLs7nI438RTu__6bg1E6SH1QHMNucNbmoDR6VDIUmlYc0xEpygH6PBVqiPD64MnD73_D9IinVNzqW7KQzAvuFFQW_LGDfjuh1D-oTs1gi1wWDylibjxdJabveoJ10NHgeb6SaYHg.kf5iTnjNKsKqhz0iE5K_Yw'
-              }
-            ]
-          },
-
-          {
-            rel: [ 'create-form' ],
-            name: 'select-enroll-profile',
-            href: 'http://localhost:3000/idp/idx/enroll',
-            method: 'POST',
-            action: jasmine.any(Function),
-            accepts: 'application/vnd.okta.v1+json',
-            value: [
-              {
-                name: 'stateHandle',
-                visible: false,
-                mutable: false,
-                required: true,
-                value: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..4z7WWUdd0LzIJLxz.GmOyeMJ5XtS7kZipFanQxaMd2rblpEeaWv8U5IfaJv5F2V1otwft4q1tVo3yqbedhBjN-nO5qk6qR-0Op34lmecwwmHeRyzYbhrFiLZaR88nhCFMblP8Bo5d3Opl5gkX02e0FQL-Osorxvml0XYbuO7GdTH5EkIv0Q7h0Dq7L__h_uFLies8AkJZWIDQh25RlqcEjToHCvVW31A_NJJ1Vf5c8GFuyb9LsJ9kUpZikpK6C72GPrU_LGrIW8VBT4l24dDEre4J8XvTNO7fdVDiq-H7BEeIjaY06q1zqlVLWwqOHoKpGNQ0NMhBIXB0ZZC57Me9pFI5GLIUwRDUIm1vw3t_mHJDVIcCJe9kmt29tTccZ8Zo0N3q5bSiwMoNHPLxZSOrbx-bf4fniorNH5ypJnke7pc2Q3DFmqfPrB7CE1REjAyCKBHYDAfVexYCkMfCl0E8oMFJinnLbynb7Bqvbp_DqL8h0pNIoXUF4KTTsuKQg8yCCqBhkajxlvh9G7L3Sf76o4B2itB7ldeqXzAE9H60yqhIKEZPNOHUgRC2SkWkWlH6NIaNWQ2Bi2CjnL9YvUuQmO-dpf08KeCgwfVmT4GBTGfTkXwy3pBitacCqEREen2j2iUH9mhi2LOOFaGLh0TXslcBgkGuht6P7gyH2JN6yFInQyIp33xQsqYg7nqOZG1LCrQSqoviTfI72-AC6b7tju8YEn1P0nXGbSzlCztSXl2pa95tr4L5pyX8fNydKYMTLeHEnmNtXlRB6wQYP1ljf4Tzgus7O0etyJs75znsXHZ42znxlEKGhTo3ucFe3CI-vsHF1FDDj2DVeWl21zVOTehTbBaemoD1ekD5F8OHS7SrK9Bw7PTa-lpyls1OxvE_Wsco4_eGbax_DoPm6DbCwj8hWzb5wLEs6TClZKoUJeV1MSVB3OgGBZ3AGzhwfeG0sGi5DnUpAeKqgP6IN8kziNRDmW3YE0qIY2mLs7nI438RTu__6bg1E6SH1QHMNucNbmoDR6VDIUmlYc0xEpygH6PBVqiPD64MnD73_D9IinVNzqW7KQzAvuFFQW_LGDfjuh1D-oTs1gi1wWDylibjxdJabveoJ10NHgeb6SaYHg.kf5iTnjNKsKqhz0iE5K_Yw'
-              }
-            ],
-          }
+          Object.assign({ 'action': jasmine.any(Function) }, XHRIdentify.remediation.value[0]),
+          Object.assign({ 'action': jasmine.any(Function) }, XHRIdentify.remediation.value[1]),
         ],
         idx: idxResp,
       });
