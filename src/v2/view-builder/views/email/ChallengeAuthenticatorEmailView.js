@@ -66,6 +66,12 @@ const Body = BaseForm.extend(Object.assign(
         prepend: true,
         selector: '.o-form-error-container',
       });
+
+      this.add(ResendView, {
+        selector: '.o-form-error-container',
+      });
+      this.startPolling();
+
       // polling has been killed when click save to avoid race conditions hence resume if save failed.
       this.listenTo(this.options.model, 'error', this.startPolling.bind(this));
     },
@@ -73,15 +79,6 @@ const Body = BaseForm.extend(Object.assign(
     saveForm () {
       BaseForm.prototype.saveForm.apply(this, arguments);
       this.stopPolling();
-      // TODO: abort ongoing request. (https://oktainc.atlassian.net/browse/OKTA-244134)
-    },
-
-    postRender () {
-
-      this.add(ResendView, {
-        selector: '.o-form-error-container',
-      });
-      this.startPolling();
     },
 
     remove () {
@@ -106,7 +103,7 @@ export default BaseFactorView.extend({
   Body,
   Footer,
   createModelClass () {
-    const { profile } = this.options.appState.get('currentAuthenticatorEnrollment');
+    const { profile } = this.options.currentViewState.relatesTo.value;
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign({
       email: {
