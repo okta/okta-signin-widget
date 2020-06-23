@@ -128,7 +128,7 @@ describe('v2/ion/responseTransformer', function () {
                         ]
                       }
                     },
-                    'relatesTo':'$.authenticatorEnrollments.value[0]'
+                    'relatesTo': XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value[0],
                   },
                 ]
               },

@@ -374,7 +374,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                         ]
                       }
                     },
-                    'relatesTo':'$.authenticatorEnrollments.value[0]'
+                    'relatesTo': XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value[0]
                   },
                 ]
               },
@@ -396,7 +396,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'value': {
                       'id': 'aut1bospdDFs7q3vc0g4'
                     },
-                    'authenticatorType': undefined,
+                    'authenticatorType': 'email',
                   },
                 ]
               }
