@@ -1,7 +1,8 @@
 import { loc } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
-const PASSWORD_RECOVERY_LINK = 'currentAuthenticatorEnrollment-recover';
+const ENROLLED_PASSWORD_RECOVERY_LINK = 'currentAuthenticatorEnrollment-recover';
+const ORG_PASSWORD_RECOVERY_LINK = 'currentAuthenticator-recover';
 
 const getSwitchAuthenticatorLink = (appState) => {
   if (appState.hasRemediationObject('select-factor-authenticate')) {
@@ -33,11 +34,20 @@ const getForgotPasswordLink = (appState) => {
     'label': loc('oie.password.forgot.title', 'login'),
     'name': 'forgot-password',
   };
-  if (appState.getActionByPath(PASSWORD_RECOVERY_LINK)) {
+
+  // at identify page when only Org Authenticator Password may be available
+  if (appState.getActionByPath(ORG_PASSWORD_RECOVERY_LINK)) {
     return [
-      Object.assign({}, forgotPasswordLink, { actionPath: PASSWORD_RECOVERY_LINK }),
+      Object.assign({}, forgotPasswordLink, { actionPath: ORG_PASSWORD_RECOVERY_LINK }),
     ];
-  } else {
+  }
+  // at password verify page
+  else if (appState.getActionByPath(ENROLLED_PASSWORD_RECOVERY_LINK)) {
+    return [
+      Object.assign({}, forgotPasswordLink, { actionPath: ENROLLED_PASSWORD_RECOVERY_LINK }),
+    ];
+  }
+  else {
     return [];
   }
 };
