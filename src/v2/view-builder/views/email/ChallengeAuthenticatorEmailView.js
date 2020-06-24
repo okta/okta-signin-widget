@@ -1,11 +1,10 @@
 import { loc, View, createCallout, _ } from 'okta';
 import BaseForm from '../../internals/BaseForm';
-import BaseFooter from '../../internals/BaseFooter';
 import BaseView from '../../internals/BaseView';
 import email from '../shared/email';
 import polling from '../shared/polling';
-import BaseFactorView from '../shared/BaseFactorView';
-import { addSwitchAuthenticatorLink } from '../../utils/AuthenticatorUtil';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 
 const ResendView = View.extend(
@@ -91,17 +90,9 @@ const Body = BaseForm.extend(Object.assign(
   polling,
 ));
 
-const Footer = BaseFooter.extend({
-  links () {
-    const links = [];
-    addSwitchAuthenticatorLink(this.options.appState, links);
-    return links;
-  }
-});
-
-export default BaseFactorView.extend({
+export default BaseAuthenticatorView.extend({
   Body,
-  Footer,
+  Footer: AuthenticatorVerifyFooter,
   createModelClass () {
     const { profile } = this.options.currentViewState.relatesTo.value;
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);

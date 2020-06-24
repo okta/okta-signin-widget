@@ -11,7 +11,7 @@
  */
 import { ListView, loc, View, createButton } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
-import skipAll from './views/SkipOptionalEnrollmentButton';
+import skipAll from './SkipOptionalEnrollmentButton';
 
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',

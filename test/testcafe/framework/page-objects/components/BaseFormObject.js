@@ -8,11 +8,14 @@ export default class BaseFormObject {
 
   async setTextBoxValue(name, text) {
     const element = this.form.find(`input[name="${name}"]`);
-    if (!text) {
-      await this.t
-        .selectText(element)
-        .pressKey('delete');
-    } else {
+
+    // clear exists text
+    await this.t
+      .selectText(element)
+      .pressKey('delete');
+
+    // type new text
+    if (text) {
       await this.t.typeText(element, text);
     }
   }

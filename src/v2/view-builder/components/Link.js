@@ -33,7 +33,7 @@ const Link = View.extend({
   },
 
   postRender () {
-    //TODO OKTA-245224
+    // TODO OKTA-245224
     if (!this.options.href) {
       this.$el.click((event) => {
         const appState = this.options.appState;

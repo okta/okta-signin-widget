@@ -1,8 +1,7 @@
 import { loc } from 'okta';
 import BaseForm from '../../internals/BaseForm';
-import BaseFooter from '../../internals/BaseFooter';
-import BaseFactorView from '../shared/BaseFactorView';
-import { addSwitchAuthenticatorLink } from '../../utils/AuthenticatorUtil';
+import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const recoveryLinkAction = 'factor-recover';
 
@@ -17,27 +16,26 @@ const Body = BaseForm.extend({
   },
 });
 
-const Footer = BaseFooter.extend({
+const Footer = AuthenticatorVerifyFooter.extend({
   links: function () {
-    // recovery link
-    var links = [];
+    let links = AuthenticatorVerifyFooter.prototype.links.apply(this, arguments);
 
     if (this.options.appState.getActionByPath(recoveryLinkAction)) {
-      links.push({
-        'type': 'link',
-        'label': loc('forgotpassword', 'login'),
-        'name': 'forgot-password',
-        'actionPath': recoveryLinkAction,
-      });
+      links = [
+        {
+          'type': 'link',
+          'label': loc('forgotpassword', 'login'),
+          'name': 'forgot-password',
+          'actionPath': recoveryLinkAction,
+        }
+      ].concat(links);
     }
-
-    addSwitchAuthenticatorLink(this.options.appState, links);
 
     return links;
   }
 });
 
-export default BaseFactorView.extend({
+export default BaseAuthenticatorView.extend({
   Body,
   Footer,
 });
