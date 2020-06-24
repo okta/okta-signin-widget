@@ -19,10 +19,12 @@ const idx = {
     // 'authenticator-enroll-phone',
     // 'authenticator-verification-data-phone-sms-then-voice',
     // 'authenticator-verification-data-phone-voice-then-sms',
-    'authenticator-verification-select-authenticator',
+    // 'authenticator-verification-select-authenticator',
+    // 'authenticator-verification-data-phone-voice-only',
     // 'authenticator-verification-phone-sms',
     // 'authenticator-verification-phone-voice',
     // 'authenticator-verification-password'
+    'authenticator-verification-email'
   ],
   '/idp/idx/enroll': [
     // 'enroll-profile',
