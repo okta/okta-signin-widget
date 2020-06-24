@@ -51,6 +51,9 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.getErrorBoxText();
   }
 
+  /**
+   * @deprecated 
+   */
   resendEmailView() {
     return this.form.getElement('.resend-email-view');
   }
@@ -71,6 +74,9 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.getTextBoxErrorMessage(PASSWORD_FIELD);
   }
 
+  /**
+   * @deprecated 
+   */
   async clickSendAgainLink() {
     await this.form.clickElement('.resend-email-view a.resend-link');
   }
