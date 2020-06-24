@@ -16,15 +16,8 @@
 /* global module */
 var config  = require('./webpack.common.config');
 var plugins = require('./buildtools/webpack/plugins');
-
-function usePolyfill (webpackConfig) {
-  webpackConfig.entry.unshift('@babel/polyfill'); // needed for IE
-  const rules = webpackConfig.module.rules;
-  const babelRule = rules.find(rule => rule.loader === 'babel-loader');
-  babelRule.options.plugins = babelRule.options.plugins.concat([
-    [ '@babel/transform-runtime', { corejs: 3} ]
-  ]);
-}
+var useRuntime = require('./buildtools/webpack/runtime');
+var usePolyfill = require('./buildtools/webpack/polyfill');
 
 // 1. entryConfig (node module main entry. minified, no polyfill, external dependencies)
 var entryConfig = config('okta-sign-in.entry.js');
@@ -41,15 +34,17 @@ entryConfig.externals = {
   'underscore': true
 };
 entryConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.entry.analyzer' });
+useRuntime(entryConfig);
 
 // 2. noPolyfillConfig
 var noPolyfillConfig = config('okta-sign-in.no-polyfill.min.js');
 noPolyfillConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.no-polyfill.min.analyzer' });
+useRuntime(noPolyfillConfig);
 
 // 3. cdnConfig (with polyfill)
 var cdnConfig = config('okta-sign-in.min.js');
-usePolyfill(cdnConfig);
 cdnConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.min.analyzer' });
+usePolyfill(cdnConfig);
 
 // 4. noJqueryConfig
 var noJqueryConfig = config('okta-sign-in-no-jquery.js');
@@ -63,10 +58,11 @@ noJqueryConfig.externals = {
     'root': 'jQuery'
   }
 };
+useRuntime(noJqueryConfig);
 
 // 5. devConfig (with polyfill, unminified)
 var devConfig = config('okta-sign-in.js');
-usePolyfill(devConfig);
 devConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in.analyzer' });
+usePolyfill(devConfig);
 
 module.exports = [entryConfig, noPolyfillConfig, cdnConfig, noJqueryConfig, devConfig];
