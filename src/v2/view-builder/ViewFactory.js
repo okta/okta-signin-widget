@@ -37,6 +37,7 @@ import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 // email
 // import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
+import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
 import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
 import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
 
@@ -91,7 +92,7 @@ const VIEWS_MAPPING = {
     [DEFAULT]: SelectAuthenticatorVerifyView,
   },
   [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
-    email: RequiredFactorEmailView,
+    email: ChallengeAuthenticatorEmailView,
     password: ChallengeAuthenticatorPasswordView,
     webauthn: RequiredFactorWebauthnView,
     'security_key': ChallengeWebauthnView,
