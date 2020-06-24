@@ -11,9 +11,6 @@
           "create-form"
         ],
         "name":"challenge-authenticator",
-        "relatesTo":[
-          "$.currentAuthenticatorEnrollment"
-        ],
         "href":"http://localhost:3000/idp/idx/challenge/answer",
         "method":"POST",
         "accepts":"application/vnd.okta.v1+json",
