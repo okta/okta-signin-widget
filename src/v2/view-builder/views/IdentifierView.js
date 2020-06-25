@@ -6,6 +6,7 @@ import BaseFooter from '../internals/BaseFooter';
 import signInWithIdps from './signin/SignInWithIdps';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 import { createIdpButtons } from '../internals/FormInputFactory';
+import { getForgotPasswordLink } from '../utils/LinksUtil';
 
 const Body = BaseForm.extend({
 
@@ -37,7 +38,6 @@ const Body = BaseForm.extend({
 
 const Footer = BaseFooter.extend({
   links () {
-
     let helpLinkHref;
     if (this.options.settings.get('helpLinks.help') ) {
       helpLinkHref = this.options.settings.get('helpLinks.help');
@@ -46,22 +46,29 @@ const Footer = BaseFooter.extend({
       helpLinkHref = baseUrl + '/help/login';
     }
 
-    const links = [
+    const helpLink = [
       {
         'name': 'help',
         'label': loc('oie.needhelp', 'login'),
         'href': helpLinkHref,
       },
     ];
+
+    const signupLink = [];
     if (this.options.appState.hasRemediationObject(RemediationForms.SELECT_ENROLL_PROFILE)) {
-      links.push({
+      signupLink.push({
         'type': 'link',
         'label': loc('signup', 'login'),
         'name': 'enroll',
         'actionPath': RemediationForms.SELECT_ENROLL_PROFILE,
       });
     }
-    return links;
+
+    const forgotPasswordLink = getForgotPasswordLink(this.options.appState);
+
+    return forgotPasswordLink
+      .concat(signupLink)
+      .concat(helpLink);
   }
 });
 

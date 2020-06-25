@@ -1,7 +1,7 @@
 import { loc } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
-import BaseFactorView from '../shared/BaseFactorView';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const Body = BaseForm.extend({
   title: function () {
@@ -27,7 +27,7 @@ const Body = BaseForm.extend({
   }
 });
 
-export default BaseFactorView.extend({
+export default BaseAuthenticatorView.extend({
 
   Body,
 

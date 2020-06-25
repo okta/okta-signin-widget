@@ -1,10 +1,9 @@
 import { loc, createButton, createCallout } from 'okta';
 import BaseForm from '../../internals/BaseForm';
-import BaseFooter from '../../internals/BaseFooter';
-import BaseFactorView from '../shared/BaseFactorView';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import webauthn from '../../../../util/webauthn';
-import { addSwitchAuthenticatorLink } from '../../utils/AuthenticatorUtil';
+import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import ChallengeWebauthnInfoView from './ChallengeWebauthnInfoView';
 
 const Body = BaseForm.extend({
@@ -114,21 +113,11 @@ const Body = BaseForm.extend({
   }
 });
 
-const Footer = BaseFooter.extend({
-  links: function () {
-    const links = [];
-
-    addSwitchAuthenticatorLink(this.options.appState, links);
-
-    return links;
-  }
-});
-
-export default BaseFactorView.extend({
+export default BaseAuthenticatorView.extend({
   Body,
-  Footer,
+  Footer: AuthenticatorVerifyFooter,
   postRender () {
-    BaseFactorView.prototype.postRender.apply(this, arguments);
+    BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     if (webauthn.isNewApiAvailable()) {
       this.form.getCredentialsAndSave();
     }
