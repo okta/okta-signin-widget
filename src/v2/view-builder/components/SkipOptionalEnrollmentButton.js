@@ -1,6 +1,5 @@
-
 import { createButton, loc } from 'okta';
-import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
+import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const skipAll = createButton({
   className: 'button-primary button skip-all',

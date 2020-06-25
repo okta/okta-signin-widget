@@ -1,12 +1,14 @@
 import { loc } from 'okta';
-import BaseFactorTerminalView from '../shared/BaseFactorTerminalView';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import TerminalView from '../TerminalView';
 
-const Body = BaseFactorTerminalView.prototype.Body.extend({
+const Body = TerminalView.prototype.Body.extend({
   title () {
     return loc('closeWindow', 'login');
   },
 });
 
-export default BaseFactorTerminalView.extend({
+export default BaseAuthenticatorView.extend({
   Body,
+  Footer: TerminalView.prototype.Footer,
 });
