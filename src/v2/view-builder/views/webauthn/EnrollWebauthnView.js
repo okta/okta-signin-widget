@@ -16,7 +16,7 @@ function getExcludeCredentials (credentials = []) {
 
 const Body = BaseForm.extend({
   title: loc('oie.enroll.webauthn.title', 'login'),
-  className: 'oie-webauthn',
+  className: 'oie-enroll-webauthn',
   modelEvents: {
     'error': '_stopEnrollment',
   },
@@ -41,7 +41,7 @@ const Body = BaseForm.extend({
         View: createCallout({
           className: 'webauthn-not-supported',
           type: 'error',
-          subtitle: loc('oie.enroll.webauthn.error.not.supported', 'login'),
+          subtitle: loc('oie.webauthn.error.not.supported', 'login'),
         }),
       });
     }

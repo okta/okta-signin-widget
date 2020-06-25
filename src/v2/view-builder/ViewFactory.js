@@ -16,6 +16,8 @@ import SuccessView from './views/SuccessView';
 // password
 import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
 import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
+import EnrollAuthenticatorPasswordView from './views/password/EnrollAuthenticatorPasswordView';
+import ChallengeAuthenticatorPasswordView from './views/password/ChallengeAuthenticatorPasswordView';
 
 // phone
 import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
@@ -27,6 +29,7 @@ import ChallengeAuthenticatorSecurityQuestion from './views/security-question/Ch
 //webauthn
 import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnView';
 import EnrollWebauthnView from './views/webauthn/EnrollWebauthnView';
+import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 
 // email
 // import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
@@ -78,15 +81,16 @@ const VIEWS_MAPPING = {
     phone: EnrollAuthenticatorPhoneView,
   },
   'enroll-authenticator': {
-    password: EnrollFactorPasswordView,
+    password: EnrollAuthenticatorPasswordView,
     'security_key': EnrollWebauthnView,
     phone: null,
     'security_question': EnrollAuthenticatorSecurityQuestion
   },
   'challenge-authenticator': {
     email: RequiredFactorEmailView,
-    password: RequiredFactorPasswordView,
+    password: ChallengeAuthenticatorPasswordView,
     webauthn: RequiredFactorWebauthnView,
+    'security_key': ChallengeWebauthnView,
     phone: null,
     'security_question': ChallengeAuthenticatorSecurityQuestion,
   },

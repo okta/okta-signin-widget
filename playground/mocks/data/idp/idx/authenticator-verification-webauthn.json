@@ -1,7 +1,8 @@
 {
-  "stateHandle": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+  "stateHandle": "022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP",
   "version": "1.0.0",
-  "expiresAt": "2020-05-05T16:58:36.000Z",
+  "expiresAt": "2020-01-22T19:55:15.000Z",
+  "step": "AUTHENTICATE",
   "intent": "LOGIN",
   "remediation": {
     "type": "array",
@@ -11,27 +12,35 @@
           "create-form"
         ],
         "name": "challenge-authenticator",
+        "relatesTo": [
+          "$.currentAuthenticatorEnrollment"
+        ],
         "href": "http://localhost:3000/idp/idx/challenge/answer",
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",
         "value": [
           {
             "name": "credentials",
+            "type": "object",
+            "requred": true,
             "form": {
               "value": [
                 {
                   "name": "clientData",
                   "label": "Client Data",
+                  "required": true,
                   "visible": false
                 },
                 {
                   "name": "authenticatorData",
                   "label": "Authenticator Data",
+                  "required": true,
                   "visible": false
                 },
                 {
                   "name": "signatureData",
                   "label": "Signature Data",
+                  "required": true,
                   "visible": false
                 }
               ]
@@ -40,7 +49,7 @@
           {
             "name": "stateHandle",
             "required": true,
-            "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+            "value": "022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP",
             "visible": false,
             "mutable": false
           }
@@ -60,107 +69,57 @@
             "type": "object",
             "options": [
               {
+                "label": "FIDO2 (WebAuthn)",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "auteq0lLiL9o1cYoN0g4",
+                        "required": true,
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "value": "webauthn",
+                        "required": false,
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              },
+              {
                 "label": "Okta Password",
                 "value": {
                   "form": {
                     "value": [
                       {
                         "name": "id",
+                        "value": "autepwdJFCg0J7vK60g4",
                         "required": true,
-                        "value": "autwa6eD9o02iBbtv0g3",
                         "mutable": false
                       },
                       {
                         "name": "methodType",
-                        "required": false,
                         "value": "password",
-                        "mutable": false
-                      }
-                    ]
-                  }
-                }
-              },
-              {
-                "label": "Security Key or Biometric Authenticator (FIDO2)",
-                "value": {
-                  "form": {
-                    "value": [
-                      {
-                        "name": "id",
-                        "value": "aidtheidkwh282hv8g3",
-                        "required": true,
-                        "mutable": false,
-                        "visible": false
-                      },
-                      {
-                        "name": "methodType",
-                        "value": "webauthn",
-                        "required": false,
-                        "mutable": false,
-                        "visible": false
-                      }
-                    ]
-                  }
-                }
-              },
-              {
-                "label": "Okta Email",
-                "value": {
-                  "form": {
-                    "value": [
-                      {
-                        "name": "id",
-                        "value": "aidtm56L8gXXHI1SD0g3",
-                        "required": true,
-                        "mutable": false,
-                        "visible": false
-                      },
-                      {
-                        "name": "methodType",
-                        "value": "email",
                         "required": false,
                         "mutable": false
                       }
                     ]
                   }
-                }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[1]"
               }
             ]
           },
           {
             "name": "stateHandle",
             "required": true,
-            "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+            "value": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
             "visible": false,
             "mutable": false
-          }
-        ]
-      }
-    ]
-  },
-  "authenticatorEnrollments": {
-    "type": "array",
-    "value": [
-      {
-        "displayName": "Okta Password",
-        "type": "password",
-        "authenticatorId": "autwa6eD9o02iBbtv0g1",
-        "id": "aidwboITrg4b4yAYd0g3"
-      },
-      {
-        "displayName": "Security Key or Biometric Authenticator (FIDO2)",
-        "type": "webauthn",
-        "authenticatorId": "autwa6eD9o02iBbtv0g2",
-        "id": "aidtheidkwh282hv8g3"
-      },
-      {
-        "displayName": "Okta Email",
-        "type": "email",
-        "id": "aidtm56L8gXXHI1SD0g3",
-        "authenticatorId": "autwa6eD9o02iBbtv0g3",
-        "methods": [
-          {
-            "methodType": "email"
           }
         ]
       }
@@ -169,18 +128,55 @@
   "currentAuthenticatorEnrollment": {
     "type": "object",
     "value": {
-      "displayName": "Security Key or Biometric Authenticator (FIDO2)",
-      "profile": {
-        "name": "Security Key or Biometric Authenticator (FIDO2)"
+      "type": "security_key",
+      "id": "fwftheidkwh282hv8g3",
+      "credentialId": "7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w",
+      "authenticatorId": "auteq0lLiL9o1cYoN0g4",
+      "displayName": "MacBook Touch ID",
+      "contextualData": {
+        "challengeData": {
+          "challenge": "qjUCU0xoVe5QZ3-etDCD",
+          "userVerification": "required",
+          "extensions": {
+            "appid": "https://localhost:3000"
+          }
+        }
       },
-      "type": "webauthn",
-      "id": "aidtm56L8gXXHI1SD0g3"
+      "methods": [ { "type": "webauthn" } ]
     }
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "webauthn",
+        "authenticatorId": "auteq0lLiL9o1cYoN0g4",
+        "id": "fwftheidkwh282hv8g3",
+        "credentialId": "7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w",
+        "displayName": "MacBook Touch ID",
+        "methods": [ { "type": "webauthn" } ]
+      },
+      {
+        "type": "webauthn",
+        "authenticatorId": "auteq0lLiL9o1cYoN0g4",
+        "id": "aidtheidkwh282hv8g3",
+        "credentialId": "hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w",
+        "displayName": "yubikey",
+        "methods": [ { "type": "webauthn" } ]
+      },
+      {
+        "type": "password",
+        "authenticatorId": "autepwdJFCg0J7vK60g4",
+        "id": "laeddk123Dfj329021s",
+        "displayName": "Okta Password",
+        "methods": [ { "type": "password" } ]
+      }
+    ]
   },
   "user": {
     "type": "object",
     "value": {
-      "id": "00uwb8GLwf1HED5Xs0g3"
+      "id": "00utjm1GstPjCF9Ad0g3"
     }
   },
   "cancel": {
@@ -195,7 +191,7 @@
       {
         "name": "stateHandle",
         "required": true,
-        "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+        "value": "022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP",
         "visible": false,
         "mutable": false
       }
