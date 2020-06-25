@@ -3,9 +3,7 @@ set -e
 
 # Setup and start Sauce Connect for your TravisCI build
 SAUCE_CONNECT_VERSION=4.6.2
-SAUCE_CONNECT_URL="https://saucelabs.com/downloads/sc-${SAUCE_CONNECT_VERSION}-linux.tar.gz"
 SAUCE_CONNECT_DIR="/tmp/sauce-connect-${RANDOM}"
-SAUCE_CONNECT_DOWNLOAD="sc-latest-linux.tar.gz"
 
 BROWSER_PROVIDER_READY_FILE="/tmp/sauce-connect-ready"
 SAUCE_CONNECT_LOG="/tmp/sauce-connect"
@@ -15,9 +13,26 @@ SAUCE_CONNECT_STDERR="/tmp/sauce-connect.stderr"
 # Get Connect and start it
 mkdir -p $SAUCE_CONNECT_DIR
 cd $SAUCE_CONNECT_DIR
-curl $SAUCE_CONNECT_URL -o $SAUCE_CONNECT_DOWNLOAD
-mkdir sauce-connect
-tar --extract --file=$SAUCE_CONNECT_DOWNLOAD --strip-components=1 --directory=sauce-connect > /dev/null
+
+if [[ -z $TRAVIS ]];
+then
+  # Local MacOS
+  echo "Downloading sauce-connect for osx..."
+  SAUCE_CONNECT_URL="https://saucelabs.com/downloads/sc-${SAUCE_CONNECT_VERSION}-osx.zip"
+  SAUCE_CONNECT_DOWNLOAD="sc-latest-osx.zip"
+  curl $SAUCE_CONNECT_URL -o $SAUCE_CONNECT_DOWNLOAD
+  unzip sc-latest-osx.zip
+  mv sc-${SAUCE_CONNECT_VERSION}-osx sauce-connect
+else
+  # Travis linux
+  echo "Downloading sauce-connect for linux..."
+  mkdir sauce-connect
+  SAUCE_CONNECT_URL="https://saucelabs.com/downloads/sc-${SAUCE_CONNECT_VERSION}-linux.tar.gz"
+  SAUCE_CONNECT_DOWNLOAD="sc-latest-linux.tar.gz"
+  curl $SAUCE_CONNECT_URL -o $SAUCE_CONNECT_DOWNLOAD
+  tar --extract --file=$SAUCE_CONNECT_DOWNLOAD --strip-components=1 --directory=sauce-connect > /dev/null
+fi
+
 rm $SAUCE_CONNECT_DOWNLOAD
 
 ARGS=""

@@ -14,6 +14,7 @@ if [ "${TRAVIS_EVENT_TYPE}" = "cron" ] ; then
     yarn test:e2e
 else
     if [[ "$TEST_SUITE" == *"e2e:windows"* ]] ; then
+        echo "Executing the sauce-connect script..."
         sh ./scripts/start-sauce-connect.sh
     fi
     yarn $TEST_SUITE
