@@ -1,11 +1,8 @@
-import {
-  _,
-  loc } from 'okta';
+import { _, loc } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
-import BaseFooter from '../../internals/BaseFooter';
-import BaseFactorView from '../shared/BaseFactorView';
-import { addSwitchAuthenticatorLink } from '../../utils/AuthenticatorUtil';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 
 const Body = BaseForm.extend(Object.assign(
   {
@@ -59,17 +56,9 @@ const Body = BaseForm.extend(Object.assign(
   },
 ));
 
-const Footer = BaseFooter.extend({
-  links () {
-    const links = [];
-    addSwitchAuthenticatorLink(this.options.appState, links);
-    return links;
-  }
-});
-
-export default BaseFactorView.extend({
+export default BaseAuthenticatorView.extend({
   Body,
-  Footer,
+  Footer: AuthenticatorVerifyFooter,
 
   createModelClass ({ uiSchema }) {
     // It is important to get methods from here to maintain single source of truth.

@@ -1,6 +1,6 @@
 import { _, loc, createCallout, createButton } from 'okta';
 import BaseForm from '../../internals/BaseForm';
-import BaseFactorView from '../shared/BaseFactorView';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import webauthn from '../../../../util/webauthn';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
@@ -93,10 +93,10 @@ const Body = BaseForm.extend({
   },
 });
 
-export default BaseFactorView.extend({
+export default BaseAuthenticatorView.extend({
   Body,
   postRender () {
-    BaseFactorView.prototype.postRender.apply(this, arguments);
+    BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     this.$el.find('.o-form-button-bar [type="submit"]').remove();
   },
 });
