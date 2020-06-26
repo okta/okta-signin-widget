@@ -26,6 +26,8 @@ const getSwitchAuthenticatorLink = (appState) => {
       }
     ];
   }
+
+  return [];
 };
 
 const getForgotPasswordLink = (appState) => {

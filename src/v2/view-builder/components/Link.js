@@ -27,9 +27,12 @@ const Link = View.extend({
   },
 
   className () {
-    const nameToClass = this.options.name.replace(/[ ]/g, '-');
-
-    return `link js-${nameToClass}`;
+    const names = ['link'];
+    if (this.options.name) {
+      const nameToClass = this.options.name.replace(/[ ]/g, '-');
+      names.push(`js-${nameToClass}`);
+    }
+    return names.join(' ');
   },
 
   postRender () {
