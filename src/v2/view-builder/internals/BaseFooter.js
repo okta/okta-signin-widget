@@ -1,4 +1,4 @@
-import { View, _, loc } from 'okta';
+import { View, _, loc, $ } from 'okta';
 import Link from '../components/Link';
 
 /**
@@ -28,6 +28,16 @@ export default View.extend({
 
   initialize () {
     let links = _.resultCtx(this, 'links', this);
+
+    // safe check
+    // 1. avoid none array from override
+    // 2. ignore any none plain object arguments
+    if (!Array.isArray(links)) {
+      links = [];
+    } else {
+      links = links.filter(l => $.isPlainObject(l));
+    }
+
     if (this.options.appState.get('showSignoutLink')) {
       //add cancel/signout link
       links = links.concat([
