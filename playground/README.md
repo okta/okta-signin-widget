@@ -29,8 +29,8 @@ The mock server is implemented using [dyson.js](https://www.npmjs.com/package/dy
 - `spec-okta-api` has mocks for Okta APIs, e.g. `/api/v1/*`, `/idp/idx/*`, etc
 - `spec-device-authenticator` is for mocking 3rd-party device authenticator application.
 
-Most of cases, the response is from a JSON file, it would be good to have abstraction to avoid tedious copy/parse. Take a look at `config/templateHelper` regardling how to handle the common use in general fashion.
-Therefore in order to create mock for a URL which response is from a JSON file, e.g. `/idp/idx/foo`, you have to do two things:
+In most cases, the response is coming from a JSON file. It would be good to have abstractions to avoid tedious copy/paste. Take a look at config/templateHelper to get a sense of how to handle the common use cases in a generic fashion.
+In order to create mock, i.e have a url /idp/idx/foo, respond with JSON stored in my-foo.json, you need to do two things:
 
 1. Adds URL to `idx` object in `spec-okta-api/idp/idx/index.js`
 2. Specify JSON file name in `idx` object in `config/responseConfig` like
@@ -41,8 +41,8 @@ Therefore in order to create mock for a URL which response is from a JSON file, 
 ],
 ```
 
-Why the value is a List instead of a single String? Well, this is the poor man's solution to dynamic responses.
-It means you got different API response depends on the number of times you hit the URL.
+You may wonder why the value is a List instead of a single String? Well, this is the poor man's solution for providing dynamic responses.
+It means that you get different API response every time you hit the URL.
 
 ```
 index = (number of times - 1) `mod` (size of mock data array)
@@ -51,11 +51,13 @@ apiResponse = dataArray[index]
 
 ## Testcafe tests, playground, and mock server
 
-Testcafe tests (`/test/testcafe/spec`) are using playground application to run the tests. Does it also using mock server since mock server is started along with playground application? Apparently, it won't be ideal if it does because
-- each test expects different sets of API mocks.
-- unless the test can change mock server config during testing, leverage mock server won't work.
+Testcafe tests located under `/test/testcafe/spec` use the playground application to run the tests.
+However, they do not use the mock server even though the mock server is started along with playground application. This is not ideal for the following reasons
 
-Luckily, testcafe has its own to [intercept http request and mock response](https://devexpress.github.io/testcafe/documentation/guides/advanced-guides/intercept-http-requests.html).
+- each test expects different sets of API mocks.
+- unless the test can change mock server config during testing, leveraging the mock server won't work.
+
+Luckily, testcafe has its own API to [intercept http request and mock response](https://devexpress.github.io/testcafe/documentation/guides/advanced-guides/intercept-http-requests.html).
 
 In summary, testcafe tests are using playground application but not mock sever. Mock server is only intended to be used during manually testing, bug reproduction.
 
