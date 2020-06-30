@@ -12,12 +12,14 @@
         width: 10px;
       }
     }
-  }
-  .idx-webauthn-verify-text,
-  .idx-webauthn-enroll-text {
-    margin-bottom: 20px;
-  }
-  .okta-waiting-spinner {
-    display: none;
+
+    .okta-waiting-spinner {
+      display: none;
+    }
+
+    .idx-webauthn-verify-text,
+    .idx-webauthn-enroll-text {
+      margin-bottom: 20px;
+    }
   }
 }

@@ -82,14 +82,6 @@ module.exports = {
     open: true,
     watchContentBase: true,
     before (app) {
-      app.get('/app/UserHome', (req, res) => {
-        const respHtml = `
-          <h1>Mock User Dashboard</h1>
-          <pre id="preview-query">${JSON.stringify(req.query, null, 2)}</pre>
-          <a href="/">Back to Login</a>`;
-        res.status(200).send(respHtml);
-      });
-
       // ================================= dyson mock setup
       const mockOptions = {
         multiRequest: false,

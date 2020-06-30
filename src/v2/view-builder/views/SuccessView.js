@@ -5,7 +5,7 @@ import { loc } from 'okta';
 
 const Body = BaseForm.extend({
   title () {
-    return  loc('success.redirect', 'login');
+    return  loc('oie.success.redirect', 'login');
   },
   noButtonBar: true,
   initialize () {
@@ -15,6 +15,11 @@ const Body = BaseForm.extend({
     const url = this.options.currentViewState.href;
     Util.redirectWithFormGet(url);
   },
+
+  render () {
+    BaseForm.prototype.render.apply(this, arguments);
+    this.add('<div class="okta-waiting-spinner"></div>');
+  }
 });
 
 export default BaseView.extend({
