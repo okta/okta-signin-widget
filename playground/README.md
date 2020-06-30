@@ -1,18 +1,17 @@
 # SignIn Widget Playground
 
 ## The playground App
-In a nutshell, the playground application demonstrates customer hosted sign-in widget case, which loads sign-in widget assets and bootstrap widget via configurations.
-The configurations have been done in two folds
+
+In a nutshell, the playground application demonstrates a customer hosted sign-in widget use-case, which loads sign-in widget assets and bootstrap widget via configurations.
+
+The configuration consists of
 
 - [widgetrc](https://github.com/okta/okta-signin-widget#the-widgetrc-config-file)
-- `./main.js`
-
-What `main.js` does is initialize sign-in widget using settings from `widgetrc` plus simple success handler.
+- `./main.js`: initializes the sign-in widget using settings from widgetrc along with a simple success handler.
 
 ## Mock server
 
-While in `widgetrc` you can point `baseUrl` to any Okta tenants, it can also be set to mock server, which is started at `http://localhost:3000` when starting playground application.
-You could imagine this is just another Okta tenant but it has to handle API requests properly on its own, which of course means mock it.
+While starting the playground application, the `baseUrl` in `.widgetrc` can be used to point to any Okta tenant. Similarly it can also be set to point to the mock server, which runs at <http://localhost:3000>
 
 Here is the directory structure of `mocks` folder
 
@@ -24,7 +23,7 @@ playground/mocks
 └── spec-okta-api
 ```
 
-The mock server is implemented using [dyson.js](https://www.npmjs.com/package/dyson). Basically, you need to create a *mapping* in terms of what URI shall respond what response and those *mappings* are all living in `spec-*` folders.
+The mock server is implemented using [dyson.js](https://www.npmjs.com/package/dyson). You need to create mappings of URI(endpoints) with corresponding response. These mappings are placed in `spec-*` folders.
 
 - `spec-okta-api` has mocks for Okta APIs, e.g. `/api/v1/*`, `/idp/idx/*`, etc
 - `spec-device-authenticator` is for mocking 3rd-party device authenticator application.
