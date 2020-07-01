@@ -75,15 +75,29 @@ const create = function (uiSchemaObj) {
   return strategyFn(uiSchemaObj);
 };
 
+/**
+ * Example of `redirect-idp` remediation.
+ * {
+ *   "name": "redirect-idp",
+ *   "type": "MICROSOFT",
+ *   "idp": {
+ *      "id": "0oa2szc1K1YPgz1pe0g4",
+ *      "name": "Microsoft IDP"
+ *    },
+ *   "href": "http://localhost:3000/sso/idps/0oa2szc1K1YPgz1pe0g4?stateToken=BB...AA",
+ *   "method": "GET"
+ * }
+ *
+ */
 const createIdpButtons = (remediations) => {
-  const redirectObjets = remediations.filter(idp => idp.name === RemediationForms.REDIRECT_IDP);
+  const redirectIdpRemediations = remediations.filter(idp => idp.name === RemediationForms.REDIRECT_IDP);
 
-  if (!Array.isArray(redirectObjets)) {
+  if (!Array.isArray(redirectIdpRemediations)) {
     return [];
   }
 
   //add buttons from idp object
-  return redirectObjets.map(idpObject => {
+  return redirectIdpRemediations.map(idpObject => {
     let type = idpObject.type && idpObject.type.toLowerCase();
     let displayName;
 

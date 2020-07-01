@@ -14,24 +14,33 @@ const Body = BaseForm.extend({
     return loc('primaryauth.title', 'login');
   },
   save: loc('oform.next', 'login'),
+
   render () {
     BaseForm.prototype.render.apply(this, arguments);
+
+    // Launch Device Authenticator
     if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_AUTHENTICATOR)) {
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true);
     }
-    //add idps
+
+    // This IdentifierView has been reused for the case when there is no `identify` remediation form
+    // but only `redirect-idp` forms. At that case, no UI Schema.
+    const hasUISchemas = this.getUISchema().length > 0;
+
+    // add external idps buttons
     const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
     if (Array.isArray(idpButtons) && idpButtons.length) {
       this.add(signInWithIdps, {
         selector: '.o-form-button-bar',
         options: {
           idpButtons,
+          addSeparateLine: hasUISchemas,
         }
       });
     }
-    if (this.options.appState.get('currentFormName') !== 'identify') {
+
+    if (!hasUISchemas) {
       this.$el.find('.button-primary').hide();
-      this.$el.find('.separation-line').hide();
     }
   }
 });

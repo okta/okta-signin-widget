@@ -11,6 +11,7 @@
  */
 
 import { _ } from 'okta';
+import { FORMS as RemediationForms } from './RemediationConstants';
 
 /**
  * Transform the ion spec response into canonical format.
@@ -78,7 +79,6 @@ const getRemediationValues = (idx) => {
  * To support `idps` configuration in OIE.
  * https://github.com/okta/okta-signin-widget#openid-connect
  */
-const REDIRECT_IDP_REMEDIATION = 'redirect-idp';
 const injectIdPConfigButtonToRemediation = (settings, idxResp) => {
   const widgetRemedations = idxResp.remediations;
   const hasIdentifyRemedation = widgetRemedations.filter(r => r.name === 'identify');
@@ -90,7 +90,7 @@ const injectIdPConfigButtonToRemediation = (settings, idxResp) => {
   if (Array.isArray(idpsConfig)) {
     const existsRedirectIdpIds = {};
     widgetRemedations.forEach(r => {
-      if (r.name === REDIRECT_IDP_REMEDIATION && r.idp) {
+      if (r.name === RemediationForms.REDIRECT_IDP && r.idp) {
         existsRedirectIdpIds[r.idp.id] = true;
       }
     });
@@ -108,7 +108,7 @@ const injectIdPConfigButtonToRemediation = (settings, idxResp) => {
           idp.className = idpConfig.className;
         }
         return {
-          name: REDIRECT_IDP_REMEDIATION,
+          name: RemediationForms.REDIRECT_IDP,
           type: idpConfig.type,
           idp,
           href: redirectUri,
@@ -118,6 +118,25 @@ const injectIdPConfigButtonToRemediation = (settings, idxResp) => {
   }
 
   return idxResp;
+};
+
+/**
+ * IFF there is one `redirect-idp` remediation form, widget will automatically redirect to `redirect-idp.href`.
+ *
+ * The idea now is to reuse `success-redirect` thus converts `redirect-idp` to `success-redirect` form.
+ */
+const convertRedirectIdPToSuccessRedirectIffOneIdp = (result) => {
+  if (Array.isArray(result.remediations)) {
+    const redirectIdpRemediations = result.remediations.filter(idp => idp.name === RemediationForms.REDIRECT_IDP);
+    if (redirectIdpRemediations.length === 1 && result.remediations.length === 1) {
+      const successRedirect = {
+        name: RemediationForms.SUCCESS_REDIRECT,
+        href: redirectIdpRemediations[0].href,
+        value: [],
+      };
+      result.remediations = [ successRedirect ];
+    }
+  }
 };
 
 /**
@@ -132,7 +151,6 @@ const injectIdPConfigButtonToRemediation = (settings, idxResp) => {
  *    context: {},
  *  },
  *  remediations: [],
- *  rawIdxState:{},
  *  factors: {},
  *  factor: {},
  *  messages: {},
@@ -153,6 +171,7 @@ const convert = (settings, idx = {}) => {
   );
 
   injectIdPConfigButtonToRemediation(settings, result);
+  convertRedirectIdPToSuccessRedirectIffOneIdp(result);
 
   return result;
 };

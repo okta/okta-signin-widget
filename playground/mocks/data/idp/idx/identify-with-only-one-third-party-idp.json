@@ -1,0 +1,39 @@
+{
+  "stateHandle": "inRUXNhsc6Evt7GAb8DPAA",
+  "version": "1.0.0",
+  "expiresAt": "2020-04-13T22:55:53.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "name": "redirect-idp",
+        "type": "FACEBOOK",
+        "idp": {
+          "id": "facebook-idp-id-123",
+          "name": "Facebook IDP"
+        },
+        "href": "http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA",
+        "method": "GET"
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "inRUXNhsc6Evt7GAb8DPAA",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  }
+}
