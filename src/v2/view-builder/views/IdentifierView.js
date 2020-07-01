@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc, createCallout } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
@@ -42,7 +42,20 @@ const Body = BaseForm.extend({
     if (!hasUISchemas) {
       this.$el.find('.button-primary').hide();
     }
-  }
+  },
+  showMessages () {
+    // render messages with class INFO as warning callout
+    const messagesObj = this.options.appState.get('messages');
+    if (messagesObj && messagesObj.value.length && messagesObj.value[0].class === 'INFO'
+        && this.options.appState.get('currentFormName') === 'identify') {
+      const content = messagesObj.value[0].message;
+      const messageCallout = createCallout({
+        content: content,
+        type: 'warning',
+      });
+      this.add(messageCallout, '.o-form-error-container');
+    }
+  },
 });
 
 const Footer = BaseFooter.extend({

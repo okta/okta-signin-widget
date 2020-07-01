@@ -1,4 +1,4 @@
-import { Form, loc, createCallout } from 'okta';
+import { Form, loc } from 'okta';
 import FormInputFactory from './FormInputFactory';
 
 export default Form.extend({
@@ -18,7 +18,7 @@ export default Form.extend({
     const inputOptions = uiSchemas.map(FormInputFactory.create);
 
     //should be used before adding any other input components
-    this.addCallouts();
+    this.showMessages();
 
     inputOptions.forEach(input => {
       this.addInputOrView(input);
@@ -62,14 +62,12 @@ export default Form.extend({
     }
   },
 
-  addCallouts () {
-    const warningMsgs = this.options.appState.get('messages');
-    if (warningMsgs && warningMsgs.value.length) {
-      const messageCallout = createCallout({
-        content: warningMsgs.value[0].message,
-        type: 'warning',
-      });
-      this.add(messageCallout, '.o-form-error-container');
+  showMessages () {
+    // render messages as text
+    const messagesObj = this.options.appState.get('messages');
+    if (messagesObj && messagesObj.value.length && messagesObj.value[0].class === 'INFO') {
+      const content = messagesObj.value[0].message;
+      this.add(`<span class="terminal-content">${content}</span>`, '.o-form-content');
     }
   },
 });

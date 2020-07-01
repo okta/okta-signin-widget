@@ -5,6 +5,7 @@ import identify from '../../../playground/mocks/data/idp/idx/identify';
 import enrollProfile from '../../../playground/mocks/data/idp/idx/enroll-profile';
 import enrollProfileNew from '../../../playground/mocks/data/idp/idx/enroll-profile-new';
 import enrollProfileError from '../../../playground/mocks/data/idp/idx/error-new-signup-email';
+import enrollProfileFinish from '../../../playground/mocks/data/idp/idx/terminal-registration.json';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -19,6 +20,13 @@ const enrollProfileErrorMock = RequestMock()
   .respond(enrollProfileNew)
   .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
   .respond(enrollProfileError, 403);
+
+  const enrollProfileFinishMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(enrollProfileFinish);
+  
 
 fixture(`Registration Form`);
 
@@ -95,4 +103,11 @@ test.requestHooks(enrollProfileErrorMock)(`should show email field validation er
   await t.expect(registrationPage.hasEmailError()).eql(true);
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
   await t.expect(registrationPage.getEmailErrorMessage()).contains('\'Email\' must be in the form of an email address');
+});
+
+
+test.requestHooks(enrollProfileFinishMock)(`should show terminal screen after registration`, async t => {
+  const registrationPage = await setup(t);
+  await t.expect(registrationPage.getTerminalContent()).eql('An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account');
+  await t.expect(registrationPage.getTerminalTitle()).eql('You can close this window');
 });

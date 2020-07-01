@@ -1,6 +1,5 @@
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
-import BaseFooter from '../internals/BaseFooter';
 import { loc } from 'okta';
 
 const Body = BaseForm.extend({
@@ -15,20 +14,8 @@ const Body = BaseForm.extend({
   },
 });
 
-const Footer = BaseFooter.extend({
-  links () {
-    return [
-      {
-        'type': 'link',
-        'label': loc('backToSignin', 'login'),
-        'name': 'back',
-        'href': '/'
-      }
-    ];
-  }
-});
+// TODO add cancel link to the footer if cancel is present in the API
 
 export default BaseView.extend({
-  Body,
-  Footer
+  Body
 });

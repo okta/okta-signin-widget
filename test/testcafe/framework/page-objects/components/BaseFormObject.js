@@ -1,5 +1,7 @@
 import { Selector, ClientFunction } from 'testcafe';
 
+const TERMINAL_CONTENT = '.o-form-content .terminal-content';
+
 export default class BaseFormObject {
   constructor (t, index) {
     this.t = t;
@@ -23,6 +25,10 @@ export default class BaseFormObject {
   async getFormFieldLabel(fieldName) {
     const label = await this.findFormFieldInputLabel(fieldName).textContent;
     return label && label.trim();
+  }
+
+  getTerminalContent() {
+    return Selector(TERMINAL_CONTENT).textContent;
   }
 
   elementExist(selector) {
