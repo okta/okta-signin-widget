@@ -1,8 +1,8 @@
 import { loc } from 'okta';
+import EnrollAuthenticatorPasswordView from './EnrollAuthenticatorPasswordView';
 import BaseForm from '../../internals/BaseForm';
-import { default as EnrollAuthenticatorPasswordView, PasswordForm } from './EnrollAuthenticatorPasswordView';
 
-const Body = PasswordForm.extend({
+const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
 
   className: 'password-authenticator',
 
@@ -14,10 +14,8 @@ const Body = PasswordForm.extend({
     return loc('oie.password.expired.primaryButton', 'login');
   },
 
-  initialize () {
-    BaseForm.prototype.initialize.apply(this, arguments);
-    const passwordPolicy = this.options.appState.get('recoveryFactor');
-    this.displayPasswordPolicy(passwordPolicy);
+  getPasswordPolicy () { 
+    return this.options.appState.get('recoveryFactor').settings;
   },
 
   getUISchema () {

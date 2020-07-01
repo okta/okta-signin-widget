@@ -12,10 +12,16 @@ const Body = BaseForm.extend({
     return loc('oie.next.button', 'login');
   },
 
+  initialize () {
+    BaseForm.prototype.initialize.apply(this, arguments);
+    const policy = this.getPasswordPolicy();
+    this.displayPasswordPolicy(policy);
+  },
+
   displayPasswordPolicy (policy) {
-    if (policy && policy.settings) {
+    if (policy) {
       let listHtml = '';
-      const rulesList = getPasswordComplexityDescriptionForHtmlList( policy.settings );
+      const rulesList = getPasswordComplexityDescriptionForHtmlList( policy );
       rulesList.forEach(rule => listHtml += `<li>${rule}</li>`);
   
       this.add(
@@ -31,6 +37,10 @@ const Body = BaseForm.extend({
         }
       );
     }
+  },
+
+  getPasswordPolicy () {
+    return null; 
   },
 
   getUISchema () {
@@ -78,5 +88,3 @@ export default BaseAuthenticatorView.extend({
     });
   }
 });
-
-export { Body as PasswordForm };
