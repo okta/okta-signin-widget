@@ -21,6 +21,7 @@ const idx = {
     // 'authenticator-verification-security-question',
     // 'authenticator-verification-select-authenticator',
     // 'authenticator-verification-webauthn',
+    // 'authenticator-expired-password',
     // 'enroll-profile',
     // 'enroll-profile-new',
     // 'factor-enroll-email',

@@ -2,6 +2,7 @@ import { loc } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import { getPasswordComplexityDescriptionForHtmlList } from '../../utils/FactorUtil';
 
 const Body = BaseForm.extend({
   title () {
@@ -9,6 +10,27 @@ const Body = BaseForm.extend({
   },
   save () {
     return loc('oie.next.button', 'login');
+  },
+
+  displayPasswordPolicy (policy) {
+    if (policy && policy.settings) {
+      let listHtml = '';
+      const rulesList = getPasswordComplexityDescriptionForHtmlList( policy.settings );
+      rulesList.forEach(rule => listHtml += `<li>${rule}</li>`);
+  
+      this.add(
+        `<section class="password-authenticator__rules">
+          <div class="password-authenticator__rules-heading">
+            ${loc('password.complexity.requirements.header', 'login')}
+          </div>
+          <ul class="password-authenticator__rules-list">${listHtml}</ul>
+        </section>`,
+        {
+          prepend: true,
+          selector: '.o-form-fieldset-container',
+        }
+      );
+    }
   },
 
   getUISchema () {
@@ -56,3 +78,5 @@ export default BaseAuthenticatorView.extend({
     });
   }
 });
+
+export { Body as PasswordForm };
