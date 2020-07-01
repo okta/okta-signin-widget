@@ -1,6 +1,5 @@
 import { loc } from 'okta';
 import EnrollAuthenticatorPasswordView from './EnrollAuthenticatorPasswordView';
-import BaseForm from '../../internals/BaseForm';
 
 const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
 
