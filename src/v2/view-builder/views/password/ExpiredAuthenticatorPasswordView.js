@@ -18,22 +18,6 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
     return this.options.appState.get('recoveryFactor').settings;
   },
 
-  getUISchema () {
-    const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
-
-    return uiSchemas.concat([
-      {
-        name: 'confirmPassword',
-        label: loc('oie.password.expired.confirmPasswordLabel','login'),
-        type: 'password',
-        'label-top': true,
-        params: {
-          showPasswordToggle: true
-        }
-      }
-    ]);
-  },
-
 });
 
 export default EnrollAuthenticatorPasswordView.extend({ Body });
