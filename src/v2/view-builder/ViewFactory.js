@@ -19,6 +19,7 @@ import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView'
 import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
 import ChallengeAuthenticatorPasswordView from './views/password/ChallengeAuthenticatorPasswordView';
 import EnrollAuthenticatorPasswordView from './views/password/EnrollAuthenticatorPasswordView';
+import ExpiredAuthenticatorPasswordView from './views/password/ExpiredAuthenticatorPasswordView';
 
 // phone
 import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
@@ -86,6 +87,9 @@ const VIEWS_MAPPING = {
     'security_key': EnrollWebauthnView,
     phone: null,
     'security_question': EnrollAuthenticatorSecurityQuestion
+  },
+  [RemediationForms.RE_ENROLL_AUTHENTICATOR]: {
+    password: ExpiredAuthenticatorPasswordView,
   },
 
   [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {

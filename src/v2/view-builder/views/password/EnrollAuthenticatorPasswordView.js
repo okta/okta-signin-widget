@@ -10,7 +10,6 @@ const Body = BaseForm.extend({
   save () {
     return loc('oie.next.button', 'login');
   },
-
   getUISchema () {
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     return uiSchemas.concat([

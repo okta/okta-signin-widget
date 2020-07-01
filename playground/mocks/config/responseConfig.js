@@ -24,7 +24,8 @@ const idx = {
     // 'authenticator-verification-phone-sms',
     // 'authenticator-verification-phone-voice',
     // 'authenticator-verification-password'
-    'authenticator-verification-email'
+    // 'authenticator-verification-email',
+    'authenticator-expired-password'
   ],
   '/idp/idx/enroll': [
     // 'enroll-profile',

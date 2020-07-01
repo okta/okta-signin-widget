@@ -55,6 +55,73 @@ const getFactorData = function (factorName) {
   return factorData[key];
 };
 
+const getPasswordComplexityRequirementsAsArray = function ({ complexity }, { complexity: complexityFields }) {
+  const setExcludeAttributes = function (policyComplexity) {
+    const excludeAttributes = policyComplexity.excludeAttributes;
+    policyComplexity.excludeFirstName = _.contains(excludeAttributes, 'firstName');
+    policyComplexity.excludeLastName = _.contains(excludeAttributes, 'lastName');
+    return _.omit(policyComplexity, 'excludeAttributes');
+  };
+
+  if (complexity) {
+    const policyComplexity = setExcludeAttributes( complexity );
+
+    let requirements = _.map(policyComplexity, function ( complexityValue, complexityType ) {
+      if (complexityValue <= 0) {
+        return;
+      }
+      const { args, i18n } = complexityFields[ complexityType ];
+      return args ? loc(i18n, 'login', [complexityValue]) : loc(i18n, 'login');
+    });
+
+    return _.compact(requirements);
+  }
+  return [];
+};
+
+const getPasswordHistoryRequirementDescription = function ({ age }, i18nKeys) {
+  if (age && age.historyCount > 0) {
+    return loc(i18nKeys.history.i18n, 'login', [ age.historyCount ]);
+  }
+  return null;
+};
+
+const getPasswordRequirements = function (policy, i18nKeys) {
+  const passwordRequirements = {
+    complexity: getPasswordComplexityRequirementsAsArray(policy, i18nKeys),
+    history: [],
+  };
+
+  const historyRequirement = getPasswordHistoryRequirementDescription(policy, i18nKeys);
+  if (historyRequirement) {
+    passwordRequirements.history.push(historyRequirement);
+  }
+
+  return passwordRequirements;
+};
+
+const getPasswordComplexityDescriptionForHtmlList = function ( policy ) {
+  const passwordRequirementHtmlI18nKeys = {
+    complexity: {
+      minLength: { i18n: 'password.complexity.length.description', args: true },
+      minLowerCase: { i18n: 'password.complexity.lowercase.description' },
+      minUpperCase: { i18n: 'password.complexity.uppercase.description' },
+      minNumber: { i18n: 'password.complexity.number.description' },
+      minSymbol: { i18n: 'password.complexity.symbol.description' },
+      excludeUsername: { i18n: 'password.complexity.no_username.description' },
+      excludeFirstName: { i18n: 'password.complexity.no_first_name.description' },
+      excludeLastName: { i18n: 'password.complexity.no_last_name.description' },
+    },
+    history: { i18n: 'password.complexity.history.description' },
+  };
+  const {
+    complexity,
+    history,
+  } = getPasswordRequirements(policy, passwordRequirementHtmlI18nKeys);
+  return _.union(complexity, history);
+};
+
 module.exports = {
   getFactorData,
+  getPasswordComplexityDescriptionForHtmlList,
 };
