@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { loc, _ } from 'okta';
+import { getPasswordComplexityDescriptionForHtmlList } from '../../../util/FactorUtil';
 
 const factorData = {
   'email': {
@@ -57,4 +58,5 @@ const getFactorData = function (factorName) {
 
 module.exports = {
   getFactorData,
+  getPasswordComplexityDescriptionForHtmlList,
 };
