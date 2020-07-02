@@ -56,7 +56,7 @@ const getForgotPasswordLink = (appState) => {
 
 const goBackLink = (appState) => {
 
-  if (appState.hasRemediationObject(RemediationForms.ENROLL_AUTHENTICATOR)) {
+  if (appState.hasRemediationObject(RemediationForms.SELECT_AUTHENTICATOR_ENROLL)) {
     return [
       {
         'type': 'link',
