@@ -25,11 +25,11 @@ const Body = BaseForm.extend({
       rulesList.forEach(rule => listHtml += `<li>${rule}</li>`);
   
       this.add(
-        `<section class="password-authenticator__rules">
-          <div class="password-authenticator__rules-heading">
+        `<section>
+          <div class="password-authenticator__heading--rules">
             ${loc('password.complexity.requirements.header', 'login')}
           </div>
-          <ul class="password-authenticator__rules-list">${listHtml}</ul>
+          <ul class="password-authenticator__list">${listHtml}</ul>
         </section>`,
         {
           prepend: true,
