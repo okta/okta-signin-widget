@@ -52,6 +52,9 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(
   await t.expect(enrollSecurityQuestionPage.isCreateMyOwnSecurityQuestionTextBoxVisible()).notOk();
   // no signout link at enroll page
   await t.expect(await enrollSecurityQuestionPage.signoutLinkExists()).notOk();
+  // assert go back link shows up
+  await t.expect(await enrollSecurityQuestionPage.goBackLinkExists()).ok();
+  await t.expect(enrollSecurityQuestionPage.getGoBackLinkText()).eql('Go back');
 
   // select security question and type answer
   await enrollSecurityQuestionPage.selectSecurityQuestion(1);

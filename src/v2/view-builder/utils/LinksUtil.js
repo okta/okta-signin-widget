@@ -54,7 +54,24 @@ const getForgotPasswordLink = (appState) => {
   }
 };
 
+const goBackLink = (appState) => {
+
+  if (appState.hasRemediationObject(RemediationForms.ENROLL_AUTHENTICATOR)) {
+    return [
+      {
+        'type': 'link',
+        'label':  loc('oie.go.back', 'login'),
+        'name': 'go-back',
+        'formName': RemediationForms.SELECT_AUTHENTICATOR_ENROLL,
+      }
+    ];
+  }
+
+  return [];
+};
+
 export {
   getSwitchAuthenticatorLink,
   getForgotPasswordLink,
+  goBackLink,
 };

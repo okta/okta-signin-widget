@@ -3,6 +3,7 @@ import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { getPasswordComplexityDescriptionForHtmlList } from '../../utils/FactorUtil';
+import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 
 const Body = BaseForm.extend({
   title () {
@@ -67,6 +68,7 @@ const Body = BaseForm.extend({
 export default BaseAuthenticatorView.extend({
 
   Body,
+  Footer: AuthenticatorEnrollFooter,
 
   createModelClass () {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);

@@ -28,6 +28,10 @@ test(`should have both password and confirmPassword fields and both are required
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 
+  // assert go back link shows up
+  await t.expect(await enrollPasswordPage.goBackLinkExists()).ok();
+  await t.expect(enrollPasswordPage.getGoBackLinkText()).eql('Go back');
+
   // fields are required
   await enrollPasswordPage.clickNextButton();
   await enrollPasswordPage.waitForErrorBox();
