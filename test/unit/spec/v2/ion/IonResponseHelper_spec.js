@@ -2,68 +2,70 @@ import IonResponseHelper from 'v2/ion/IonResponseHelper';
 
 describe('v2/ion/IonResponseHelper', function () {
 
-  it('converts top level messages to global error - no messages', () => {
-    const resp = {
-    };
-    expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
-      responseJSON: {
-        errorCauses: [],
-        errorSummary: '' ,
-      }
+  describe('converts top level messages to global error', () => {
+    it('no messages', () => {
+      const resp = {
+      };
+      expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
+        responseJSON: {
+          errorCauses: [],
+          errorSummary: '' ,
+        }
+      });
     });
-  });
 
-  it('converts top level messages to global error - single message', () => {
-    const resp = {
-      messages: {
-        value: [
-          {
-            'class': 'ERROR',
-            'i18n': {
-              'key': 'foo.error',
-              'params': []
-            },
-            'message': 'Internal error foo'
-          }
-        ]
-      }
-    };
-    expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
-      responseJSON: {
-        errorCauses: [],
-        errorSummary: 'Internal error foo' ,
-      }
+    it('single message', () => {
+      const resp = {
+        messages: {
+          value: [
+            {
+              'class': 'ERROR',
+              'i18n': {
+                'key': 'foo.error',
+                'params': []
+              },
+              'message': 'Internal error foo'
+            }
+          ]
+        }
+      };
+      expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
+        responseJSON: {
+          errorCauses: [],
+          errorSummary: 'Internal error foo' ,
+        }
+      });
     });
-  });
 
-  it('converts top level messages to global error - multiple values', () => {
-    const resp = {
-      messages: {
-        value: [
-          {
-            'class': 'ERROR',
-            'i18n': {
-              'key': 'foo.error',
-              'params': []
+    it('multiple values', () => {
+      const resp = {
+        messages: {
+          value: [
+            {
+              'class': 'ERROR',
+              'i18n': {
+                'key': 'foo.error',
+                'params': []
+              },
+              'message': 'Internal error foo'
             },
-            'message': 'Internal error foo'
-          },
-          {
-            'class': 'ERROR',
-            'i18n': {
-              'key': 'bar.error',
-              'params': []
-            },
-            'message': 'bar error'
-          }
-        ]
-      }
-    };
-    expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
-      responseJSON: {
-        errorCauses: [],
-        errorSummary: 'Internal error foo. bar error' ,
-      }
+            {
+              'class': 'ERROR',
+              'i18n': {
+                'key': 'bar.error',
+                'params': []
+              },
+              'message': 'bar error'
+            }
+          ]
+        }
+      };
+      expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
+        responseJSON: {
+          errorCauses: [],
+          errorSummary: 'Internal error foo. bar error' ,
+        }
+      });
     });
   });
 
@@ -138,10 +140,18 @@ describe('v2/ion/IonResponseHelper', function () {
                       {
                         'class': 'ERROR',
                         'i18n': {
-                          'key': 'foo.error',
+                          'key': 'foo1.error',
                           'params': []
                         },
-                        'message': 'foo error'
+                        'message': 'foo1 error'
+                      },
+                      {
+                        'class': 'ERROR',
+                        'i18n': {
+                          'key': 'foo2.error',
+                          'params': []
+                        },
+                        'message': 'foo2 error'
                       }
                     ]
                   }
@@ -158,7 +168,7 @@ describe('v2/ion/IonResponseHelper', function () {
               property: 'userName', errorSummary: ['bar error'],
             },
             {
-              property: 'password', errorSummary: ['foo error'],
+              property: 'password', errorSummary: ['foo1 error', 'foo2 error'],
             }
           ],
           errorSummary: '' ,

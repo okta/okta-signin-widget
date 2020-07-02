@@ -1,6 +1,6 @@
 import { _ } from 'okta';
 
-const convertErrorMessageToErrorSummary = (maybeFormName, remediationValues = []) => {
+const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => {
   return _.chain(remediationValues)
     .filter(field => {
       return field.messages
@@ -9,7 +9,7 @@ const convertErrorMessageToErrorSummary = (maybeFormName, remediationValues = []
     })
     .map(field => {
       return {
-        property: maybeFormName ? `${maybeFormName}.${field.name}` : field.name,
+        property: formName ? `${formName}.${field.name}` : field.name,
         errorSummary: _.map(field.messages.value, (err) => err.message),
       };
     })
