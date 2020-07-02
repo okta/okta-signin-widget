@@ -138,7 +138,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 });
 
-test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionCreateQuestionErrorMock).only(`enroll custom security question error`, async t => {
+test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionCreateQuestionErrorMock)(`enroll custom security question error`, async t => {
   const enrollSecurityQuestionPage = await setup(t);
 
   const radioOptionLabel = await enrollSecurityQuestionPage.clickCreateYouOwnQuestion();
