@@ -21,6 +21,7 @@ const idx = {
     // 'authenticator-verification-security-question',
     // 'authenticator-verification-select-authenticator',
     // 'authenticator-verification-webauthn',
+    'authenticator-expired-password',
     // 'enroll-profile',
     // 'enroll-profile-new',
     // 'factor-enroll-email',
@@ -29,7 +30,7 @@ const idx = {
     // 'factor-verification-email',
     // 'factor-verification-password',
     // 'factor-verification-webauthn',
-    'identify',
+    // 'identify',
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',
     // 'identify-with-apple-sso-extension-fallback',
@@ -39,9 +40,9 @@ const idx = {
     // 'identify-with-device-probing-loopback-3',
     // 'identify-with-device-probing-loopback-challenge-not-received',
     // 'identify-with-no-sso-extension',
-    'identify-with-third-party-idps',
-    'identify-with-only-third-party-idps',
-    'identify-with-only-one-third-party-idp',
+    // 'identify-with-third-party-idps',
+    // 'identify-with-only-third-party-idps',
+    // 'identify-with-only-one-third-party-idp',
     // 'identify-with-password',
     // 'identify-with-universal-link',
     // 'select-factor-authenticate',
@@ -54,6 +55,7 @@ const idx = {
     // 'terminal-transfered',
     // 'terminal-transfered-email',
     // 'unknown-user',
+    // 'terminal-registration'
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new'

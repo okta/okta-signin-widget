@@ -1,7 +1,8 @@
-import { loc } from 'okta';
+import { loc, View } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import { getPasswordComplexityDescriptionForHtmlList } from '../../utils/FactorUtil';
 
 const Body = BaseForm.extend({
   title () {
@@ -9,6 +10,42 @@ const Body = BaseForm.extend({
   },
   save () {
     return loc('oie.next.button', 'login');
+  },
+
+  initialize () {
+    BaseForm.prototype.initialize.apply(this, arguments);
+    const policy = this.getPasswordPolicy();
+    this.displayPasswordPolicy(policy);
+  },
+
+  displayPasswordPolicy (policy) {
+    if (policy) {
+      const rulesList = getPasswordComplexityDescriptionForHtmlList( policy );
+      this.add(
+        View.extend({
+          tagName: 'section',
+          className: 'password-authenticator--rules',
+          template: 
+            `<div class="password-authenticator--heading">
+              {{i18n code="password.complexity.requirements.header" bundle="login"}}
+            </div>
+            <ul class="password-authenticator--list">
+              {{#each rulesList}}<li>{{this}}</li>{{/each}}
+            </ul>`,
+          getTemplateData: () => ({ rulesList }),
+        }),
+        {
+          prepend: true,
+          selector: '.o-form-fieldset-container',
+        }
+      );
+    }
+  },
+
+  getPasswordPolicy () {
+    // This will be overridden by password expired and password will expire soon
+    // scenarios since the policies could be different for those.
+    return null; 
   },
 
   getUISchema () {
