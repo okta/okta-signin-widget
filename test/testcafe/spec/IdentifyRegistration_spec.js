@@ -109,5 +109,4 @@ test.requestHooks(enrollProfileErrorMock)(`should show email field validation er
 test.requestHooks(enrollProfileFinishMock)(`should show terminal screen after registration`, async t => {
   const registrationPage = await setup(t);
   await t.expect(registrationPage.getTerminalContent()).eql('An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account');
-  await t.expect(registrationPage.getTerminalTitle()).eql('You can close this window');
 });

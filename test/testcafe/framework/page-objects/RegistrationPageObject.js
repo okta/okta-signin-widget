@@ -97,8 +97,4 @@ export default class RegistrationPageObject extends BasePageObject {
   getTerminalContent() {
     return this.form.getTerminalContent();
   }
-
-  getTerminalTitle() {
-    return this.form.getTitle();
-  }
 }

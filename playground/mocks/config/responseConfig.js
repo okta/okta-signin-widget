@@ -39,9 +39,9 @@ const idx = {
     // 'identify-with-device-probing-loopback-3',
     // 'identify-with-device-probing-loopback-challenge-not-received',
     // 'identify-with-no-sso-extension',
-    'identify-with-third-party-idps',
-    'identify-with-only-third-party-idps',
-    'identify-with-only-one-third-party-idp',
+    // 'identify-with-third-party-idps',
+    // 'identify-with-only-third-party-idps',
+    // 'identify-with-only-one-third-party-idp',
     // 'identify-with-password',
     // 'identify-with-universal-link',
     // 'select-factor-authenticate',
@@ -54,6 +54,7 @@ const idx = {
     // 'terminal-transfered',
     // 'terminal-transfered-email',
     // 'unknown-user',
+    // 'terminal-registration'
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new'

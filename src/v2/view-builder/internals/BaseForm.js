@@ -64,10 +64,12 @@ export default Form.extend({
 
   showMessages () {
     // render messages as text
-    const messagesObj = this.options.appState.get('messages');
-    if (messagesObj && messagesObj.value.length && messagesObj.value[0].class === 'INFO') {
-      const content = messagesObj.value[0].message;
-      this.add(`<span class="terminal-content">${content}</span>`, '.o-form-content');
+    const messagesObjs = this.options.appState.get('messages');
+    if (messagesObjs && messagesObjs.value.length) {
+      const content = messagesObjs.value.map((messagesObj) => {
+        return messagesObj.message;
+      });
+      this.add(`<span class="ion-messages-container">${content.join(' ')}</span>`, '.o-form-error-container');
     }
   },
 });

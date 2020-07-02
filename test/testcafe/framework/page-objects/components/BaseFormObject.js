@@ -1,6 +1,6 @@
 import { Selector, ClientFunction } from 'testcafe';
 
-const TERMINAL_CONTENT = '.o-form-content .terminal-content';
+const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 
 export default class BaseFormObject {
   constructor (t, index) {

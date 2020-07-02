@@ -44,9 +44,13 @@ const Body = BaseForm.extend({
     }
   },
   showMessages () {
-    // render messages with class INFO as warning callout
+    /**
+     * Renders a warning callout for unknown user flow
+     * Note: Anytime we get back `messages` object along with identify view
+     * we would render it as a warning callout
+     * */
     const messagesObj = this.options.appState.get('messages');
-    if (messagesObj && messagesObj.value.length && messagesObj.value[0].class === 'INFO'
+    if (messagesObj && messagesObj.value.length
         && this.options.appState.get('currentFormName') === 'identify') {
       const content = messagesObj.value[0].message;
       const messageCallout = createCallout({
