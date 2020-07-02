@@ -6,11 +6,15 @@ import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-ident
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentify);
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrErrorIdentify, 403);
 
 const identifyWithPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentifyWithPassword);
+  .respond(xhrIdentifyWithPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrErrorIdentify, 403);
 
 const identifyLockedUserMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -26,7 +30,7 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-fixture(`Identity Form`);
+fixture(`Identify Form`);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

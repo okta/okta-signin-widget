@@ -1,7 +1,9 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, Selector, ClientFunction } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identifyWithIdpsIdentify from '../../../playground/mocks/data/idp/idx/identify-with-third-party-idps';
 import identifyWithIdpsNoIdentify from '../../../playground/mocks/data/idp/idx/identify-with-only-third-party-idps';
+import identifyOnlyOneIdp from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp';
+import BasePageObject from '../framework/page-objects/BasePageObject';
 
 const mockWithIdentify = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -11,13 +13,23 @@ const mockWithoutIdentify = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyWithIdpsNoIdentify);
 
-fixture(`Identity With IDPs Form`);
+const mockOnlyOneIdp = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identifyOnlyOneIdp)
+  .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
+  .respond(async (req, res) => {
+    // Delay response for 2 seconds
+    await new Promise((r) => setTimeout(r, 2000));
+    res.setBody('<html><h1>A external IdP login page for testcafe testing</h1></html>');
+  });
 
-  async function setup(t) {
-    const identityPage = new IdentityPageObject(t);
-    await identityPage.navigateToPage();
-    return identityPage;
-  }
+fixture(`Identify With IDPs Form`);
+
+async function setup(t) {
+  const identityPage = new IdentityPageObject(t);
+  await identityPage.navigateToPage();
+  return identityPage;
+}
 
 test.requestHooks(mockWithIdentify) (`should render idp buttons with identifier form `, async t => {
   const identityPage = await setup(t);
@@ -54,4 +66,18 @@ test.requestHooks(mockWithoutIdentify)(`should only render idp buttons with iden
 
   // no signout link at enroll page
   await t.expect(await identityPage.signoutLinkExists()).notOk();
+});
+
+test.requestHooks(mockOnlyOneIdp)(`should auto redirect to 3rd party IdP login page`, async t => {
+  await setup(t);
+
+  // assert landing on success redirect page
+  const successRedirectPage = new BasePageObject(t);
+  await t.expect(successRedirectPage.getFormTitle()).eql('You are being redirected');
+
+  // assert redirect to IdP login page eventually
+  await t.expect(await Selector('h1').innerText).eql('A external IdP login page for testcafe testing');
+  const pageUrl = await ClientFunction(() => window.location.href)();
+  await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA');
+
 });
