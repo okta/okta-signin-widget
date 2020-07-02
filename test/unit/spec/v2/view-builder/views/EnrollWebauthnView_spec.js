@@ -17,12 +17,14 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
           value: currentAuthenticator
         },
       };
+      const appState = new AppState({
+        currentAuthenticator,
+        authenticatorEnrollments
+      });
+      spyOn(appState,'hasRemediationObject').and.callFake((formName) => formName === 'select-authenticator-enroll');
       this.view = new EnrollWebauthnView({
         el: $sandbox,
-        appState: new AppState({
-          currentAuthenticator,
-          authenticatorEnrollments
-        }),
+        appState,
         currentViewState,
       });
       this.view.render();
