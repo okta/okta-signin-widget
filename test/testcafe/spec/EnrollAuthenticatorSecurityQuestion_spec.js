@@ -4,13 +4,27 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollSecurityQuestionPageObject from '../framework/page-objects/EnrollSecurityQuestionPageObject';
 
 import xhrAuthenticatorEnrollSecurityQuestion from '../../../playground/mocks/data/idp/idx/authenticator-enroll-security-question';
-import success from '../../../playground/mocks/data/idp/idx/success';
+import xhrErrorAuthenticatorEnrollSecurityQuestion from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-security-question.json';
+import xhrErrorAuthenticatorEnrollSecurityQuestionCreateQuestion from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-security-question-create-question.json';
+import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
-const authenticatorRequiredSecurityQuestionMock = RequestMock()
+const authenticatorEnrollSecurityQuestionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollSecurityQuestion)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(success);
+  .respond(xhrSuccess);
+
+const authenticatorEnrollSecurityQuestionErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollSecurityQuestion)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrErrorAuthenticatorEnrollSecurityQuestion, 403);
+
+const authenticatorEnrollSecurityQuestionCreateQuestionErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollSecurityQuestion)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrErrorAuthenticatorEnrollSecurityQuestionCreateQuestion, 403);
 
 const answerRequestLogger = RequestLogger(
   /idx\/challenge\/answer/,
@@ -23,26 +37,26 @@ const answerRequestLogger = RequestLogger(
 fixture(`Enroll Security Question Form`);
 
 async function setup(t) {
-  const challengeFactorPage = new EnrollSecurityQuestionPageObject(t);
-  await challengeFactorPage.navigateToPage();
-  return challengeFactorPage;
+  const enrollSecurityQuestionPage = new EnrollSecurityQuestionPageObject(t);
+  await enrollSecurityQuestionPage.navigateToPage();
+  return enrollSecurityQuestionPage;
 }
 
-test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock)(`enroll security question`, async t => {
-  const challengeFactorPageObject = await setup(t);
+test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(`enroll security question`, async t => {
+  const enrollSecurityQuestionPage = await setup(t);
 
-  const radioOptionLabel = await challengeFactorPageObject.clickChooseSecurityQuestion();
+  const radioOptionLabel = await enrollSecurityQuestionPage.clickChooseSecurityQuestion();
   // select 'Choose a security question' option
   await t.expect(radioOptionLabel).eql('Choose a security question');
   // assert Custom Question textbox doesn't show up
-  await t.expect(challengeFactorPageObject.isCreateMyOwnSecurityQuestionTextBoxVisible()).notOk();
+  await t.expect(enrollSecurityQuestionPage.isCreateMyOwnSecurityQuestionTextBoxVisible()).notOk();
   // no signout link at enroll page
-  await t.expect(await challengeFactorPageObject.signoutLinkExists()).notOk();
+  await t.expect(await enrollSecurityQuestionPage.signoutLinkExists()).notOk();
 
   // select security question and type answer
-  await challengeFactorPageObject.selectSecurityQuestion(1);
-  await challengeFactorPageObject.setAnswerValue('test answer');
-  await challengeFactorPageObject.clickVerifyButton();
+  await enrollSecurityQuestionPage.selectSecurityQuestion(1);
+  await enrollSecurityQuestionPage.setAnswerValue('test answer');
+  await enrollSecurityQuestionPage.clickVerifyButton();
 
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
@@ -63,15 +77,15 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 });
 
-test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock)(`enroll custom security question`, async t => {
-  const challengeFactorPageObject = await setup(t);
+test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(`enroll custom security question`, async t => {
+  const enrollSecurityQuestionPage = await setup(t);
 
-  const radioOptionLabel = await challengeFactorPageObject.clickCreateYouOwnQuestion();
+  const radioOptionLabel = await enrollSecurityQuestionPage.clickCreateYouOwnQuestion();
   await t.expect(radioOptionLabel).eql('Create my own security question');
-  await t.expect(challengeFactorPageObject.isSecurityQuestionDropdownVisible()).notOk();
-  await challengeFactorPageObject.setMyOwnSecurityQuestion('what is the hottest day in SF?');
-  await challengeFactorPageObject.setAnswerValue('my foo answer');
-  await challengeFactorPageObject.clickVerifyButton();
+  await t.expect(enrollSecurityQuestionPage.isSecurityQuestionDropdownVisible()).notOk();
+  await enrollSecurityQuestionPage.setMyOwnSecurityQuestion('what is the hottest day in SF?');
+  await enrollSecurityQuestionPage.setAnswerValue('my foo answer');
+  await enrollSecurityQuestionPage.clickVerifyButton();
 
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
@@ -86,6 +100,61 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
       questionKey: 'custom',
       question: 'what is the hottest day in SF?',
       answer: 'my foo answer',
+    },
+    stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+  });
+  await t.expect(req.method).eql('post');
+  await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
+});
+
+test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorMock)(`enroll security question error`, async t => {
+  const enrollSecurityQuestionPage = await setup(t);
+
+  const radioOptionLabel = await enrollSecurityQuestionPage.clickChooseSecurityQuestion();
+  // select 'Choose a security question' option
+  await t.expect(radioOptionLabel).eql('Choose a security question');
+
+  // select security question and type answer
+  await enrollSecurityQuestionPage.selectSecurityQuestion(1);
+  await enrollSecurityQuestionPage.setAnswerValue('te');
+  await enrollSecurityQuestionPage.clickVerifyButton();
+
+  await t.expect(enrollSecurityQuestionPage.getAnswerInlineError()).eql('The security answer must be at least 4 characters');
+
+  await t.expect(answerRequestLogger.count(() => true)).eql(1);
+  const req = answerRequestLogger.requests[0].request;
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody).eql({
+    credentials: {
+      questionKey: 'name_of_first_plush_toy',
+      answer: 'te',
+    },
+    stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+  });
+  await t.expect(req.method).eql('post');
+  await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
+});
+
+test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionCreateQuestionErrorMock).only(`enroll custom security question error`, async t => {
+  const enrollSecurityQuestionPage = await setup(t);
+
+  const radioOptionLabel = await enrollSecurityQuestionPage.clickCreateYouOwnQuestion();
+  await t.expect(radioOptionLabel).eql('Create my own security question');
+  await t.expect(enrollSecurityQuestionPage.isSecurityQuestionDropdownVisible()).notOk();
+  await enrollSecurityQuestionPage.setMyOwnSecurityQuestion('what is the hottest day in SF?');
+  await enrollSecurityQuestionPage.setAnswerValue('my');
+  await enrollSecurityQuestionPage.clickVerifyButton();
+
+  await t.expect(enrollSecurityQuestionPage.getAnswerInlineError()).eql('The security answer must be at least 4 characters');
+
+  await t.expect(answerRequestLogger.count(() => true)).eql(1);
+  const req = answerRequestLogger.requests[0].request;
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody).eql({
+    credentials: {
+      questionKey: 'custom',
+      question: 'what is the hottest day in SF?',
+      answer: 'my',
     },
     stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
   });

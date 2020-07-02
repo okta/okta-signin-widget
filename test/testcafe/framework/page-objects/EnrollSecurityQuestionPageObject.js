@@ -37,6 +37,10 @@ export default class EnrollSecurityQuestionPageObject extends BasePageObject {
     return this.form.setTextBoxValue(ANSWER_FIELD, value);
   }
 
+  getAnswerInlineError() {
+    return this.form.getTextBoxErrorMessage(ANSWER_FIELD);
+  }
+
   clickVerifyButton() {
     return this.form.clickSaveButton();
   }
