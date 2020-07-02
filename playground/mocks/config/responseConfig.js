@@ -55,6 +55,7 @@ const idx = {
     // 'terminal-transfered',
     // 'terminal-transfered-email',
     // 'unknown-user',
+    // 'terminal-registration'
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new'
