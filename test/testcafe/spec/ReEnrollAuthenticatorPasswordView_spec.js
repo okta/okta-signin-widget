@@ -1,5 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import AuthenticatorExpiredPasswordPageObject from '../framework/page-objects/AuthenticatorExpiredPasswordPageObject';
+import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrAuthenticatorExpiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-expired-password';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -20,7 +20,7 @@ const mock = RequestMock()
 fixture(`Authenticator Expired Password`);
 
 async function setup(t) {
-  const expiredPasswordPage = new AuthenticatorExpiredPasswordPageObject(t);
+  const expiredPasswordPage = new FactorEnrollPasswordPageObject(t);
   await expiredPasswordPage.navigateToPage();
   return expiredPasswordPage;
 }

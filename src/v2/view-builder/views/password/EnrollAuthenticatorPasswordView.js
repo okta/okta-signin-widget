@@ -23,13 +23,13 @@ const Body = BaseForm.extend({
       let listHtml = '';
       const rulesList = getPasswordComplexityDescriptionForHtmlList( policy );
       rulesList.forEach(rule => listHtml += `<li>${rule}</li>`);
-  
+      
       this.add(
-        `<section class="password-authenticator__rules">
-          <div class="password-authenticator__heading--small">
-            ${loc('password.complexity.requirements.header', 'login')}
+        `<section class="password-authenticator--rules">
+          <div class="password-authenticator--heading">
+            {{i18n code="password.complexity.requirements.header" bundle="login"}}
           </div>
-          <ul class="password-authenticator__list">${listHtml}</ul>
+          <ul class="password-authenticator--list">${listHtml}</ul>
         </section>`,
         {
           prepend: true,
@@ -40,6 +40,8 @@ const Body = BaseForm.extend({
   },
 
   getPasswordPolicy () {
+    // This will be overridden by password expired and password will expire soon
+    // scenarios since the policies could be different for those.
     return null; 
   },
 
