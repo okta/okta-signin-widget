@@ -3,6 +3,7 @@ import BasePageObject from './BasePageObject';
 const passwordFieldName = 'credentials\\.passcode';
 const confirmPasswordFieldName = 'confirmPassword';
 const requirementsSelector = '.password-authenticator--rules';
+const ionMessagesSelector = '.ion-messages-container';
 /**
  * This page object will be used by 
  * password enrollment
@@ -60,5 +61,9 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   // This will be used by any password page that has requirements on it.
   getRequirements () {
     return this.form.getElement(requirementsSelector).innerText;
+  }
+
+  getIonMessages () {
+    return this.form.getElement(ionMessagesSelector).innerText;
   }
 }

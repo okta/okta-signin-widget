@@ -26,7 +26,7 @@ const Body = BaseForm.extend({
         View.extend({
           tagName: 'section',
           className: 'password-authenticator--rules',
-          template: 
+          template:
             `<div class="password-authenticator--heading">
               {{i18n code="password.complexity.requirements.header" bundle="login"}}
             </div>

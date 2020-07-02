@@ -3,7 +3,7 @@ import { Selector } from 'testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
-
+const SKIP_LINK = '.auth-footer .js-skip';
 export default class BasePageObject {
   constructor(t) {
     this.t = t;
@@ -47,5 +47,14 @@ export default class BasePageObject {
 
   getGoBackLinkText() {
     return Selector(GO_BACK_LINK).textContent;
+  }
+
+  async skipLinkExists() {
+    const elCount = await Selector(SKIP_LINK).count;
+    return elCount === 1;
+  }
+
+  getSkipLinkText() {
+    return Selector(SKIP_LINK).textContent;
   }
 }

@@ -13,6 +13,7 @@ const FORMS = {
   AUTHENTICATOR_ENROLLMENT_DATA: 'authenticator-enrollment-data',
   ENROLL_AUTHENTICATOR: 'enroll-authenticator',
   RE_ENROLL_AUTHENTICATOR: 're-enroll-authenticator',
+  RE_ENROLL_AUTHENTICATOR_WARNING: 're-enroll-authenticator-warning',
   SKIP: 'skip',
 
   SUCCESS_REDIRECT: 'success-redirect',
