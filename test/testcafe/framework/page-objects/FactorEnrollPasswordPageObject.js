@@ -2,7 +2,7 @@ import BasePageObject from './BasePageObject';
 
 const passwordFieldName = 'credentials\\.passcode';
 const confirmPasswordFieldName = 'confirmPassword';
-const requirementsSelector = '.password-authenticator--rules';
+const requirementsSelector = '[data-se="password-authenticator--rules"]';
 const ionMessagesSelector = '.ion-messages-container';
 /**
  * This page object will be used by 

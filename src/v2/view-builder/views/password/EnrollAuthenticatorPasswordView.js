@@ -25,7 +25,6 @@ const Body = BaseForm.extend({
       this.add(
         View.extend({
           tagName: 'section',
-          className: 'password-authenticator--rules',
           template:
             `<div class="password-authenticator--heading">
               {{i18n code="password.complexity.requirements.header" bundle="login"}}
@@ -34,6 +33,9 @@ const Body = BaseForm.extend({
               {{#each rulesList}}<li>{{this}}</li>{{/each}}
             </ul>`,
           getTemplateData: () => ({ rulesList }),
+          attributes: {
+            'data-se': 'password-authenticator--rules'
+          }
         }),
         {
           prepend: true,
