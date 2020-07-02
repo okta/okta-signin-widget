@@ -88,12 +88,16 @@ export default class BaseFormObject {
     return this.form.find(`.o-form-input-name-${name}.o-form-has-errors`).exists;
   }
 
-  hasTextBoxErrorMessage(name) {
-    return this.form.find(`.o-form-input-name-${name} + .o-form-input-error`).exists;
+  hasTextBoxErrorMessage(fieldName) {
+    const selectContainer = this.findFormFieldInput(fieldName)
+      .sibling('.o-form-input-error');
+    return selectContainer.exists;
   }
 
-  getTextBoxErrorMessage(name) {
-    return this.form.find(`.o-form-input-name-${name} + .o-form-input-error`).innerText;
+  getTextBoxErrorMessage(fieldName) {
+    const selectContainer = this.findFormFieldInput(fieldName)
+      .sibling('.o-form-input-error');
+    return selectContainer.innerText;
   }
 
   getCallout(selector) {
