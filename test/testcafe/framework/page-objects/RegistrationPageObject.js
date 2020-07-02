@@ -4,6 +4,7 @@ import { Selector } from 'testcafe';
 const FIRSTNAME_FIELD = 'userProfile\\.firstName';
 const LASTNAME_FIELD = 'userProfile\\.lastName';
 const EMAIL_FIELD = 'userProfile\\.email';
+
 export default class RegistrationPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -91,5 +92,9 @@ export default class RegistrationPageObject extends BasePageObject {
 
   getHaveAccountLabel() {
     return Selector('a[data-se="back"]').textContent;
+  }
+
+  getTerminalContent() {
+    return this.form.getTerminalContent();
   }
 }
