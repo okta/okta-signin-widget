@@ -1,13 +1,16 @@
 import EnrollWebauthnView from 'v2/view-builder/views/webauthn/EnrollWebauthnView';
+import BaseForm from 'v2/view-builder/internals/BaseForm';
+import CryptoUtil from 'util/CryptoUtil';
 import AppState from 'v2/models/AppState';
 import webauthn from 'util/webauthn';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
+import Expect from 'helpers/util/Expect';
 import EnrollWebauthnResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-enroll-webauthn.json';
 
 describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
   beforeEach(function () {
-    this.init = (currentAuthenticator = EnrollWebauthnResponse.currentAuthenticator.value) => {
+    this.init = (currentAuthenticator = EnrollWebauthnResponse.currentAuthenticator.value, authenticatorEnrollments = []) => {
       const currentViewState = {
         name: 'enroll-authenticator',
         relatesTo: {
@@ -18,6 +21,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
         el: $sandbox,
         appState: new AppState({
           currentAuthenticator,
+          authenticatorEnrollments
         }),
         currentViewState,
       });
@@ -84,5 +88,86 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     this.view.$('.webauthn-setup').click();
     expect(this.view.$('.webauthn-setup').css('display')).toBe('none');
     expect(this.view.$('.okta-waiting-spinner').css('display')).toBe('block');
+  });
+
+  it('saveForm is called when credentials.get succeeds', function (done) {
+    const newCredential = {
+      response: {
+        clientDataJSON: 123,
+        attestationObject: 234
+      }
+    };
+    navigator.credentials = {
+      get: jasmine.createSpy('webauthn-spy')
+    };
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
+    spyOn(BaseForm.prototype, 'saveForm');
+
+    this.init(EnrollWebauthnResponse.currentAuthenticator.value, EnrollWebauthnResponse.authenticatorEnrollments);
+    this.view.$('.webauthn-setup').click();
+
+    Expect.waitForSpyCall(this.view.form.saveForm).then(() => {
+      expect(navigator.credentials.create).toHaveBeenCalledWith({
+        publicKey: {
+          rp: {
+            name: 'idx'
+          },
+          user: {
+            id: CryptoUtil.strToBin('00utjm1GstPjCF9Ad0g3'),
+            name: 'test@okta.com',
+            displayName: 'test user'
+          },
+          pubKeyCredParams: [{
+            type: 'public-key',
+            alg: -7
+          }, {
+            type: 'public-key',
+            alg: -257
+          }],
+          challenge: CryptoUtil.strToBin('zrTo0mMXyCt90mweh2HL'),
+          attestation: 'direct',
+          authenticatorSelection: {
+            userVerification: 'discouraged'
+          },
+          u2fParams: {
+            appid: 'http://idx.okta1.com:1802'
+          },
+          excludeCredentials: [{
+            type: 'public-key',
+            id: CryptoUtil.strToBin('hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w')
+          }, {
+            type: 'public-key',
+            id: CryptoUtil.strToBin('7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w')
+          }]
+        },
+        signal: jasmine.any(Object)
+      });
+
+      expect(this.view.form.model.get('credentials')).toEqual({
+        clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
+        attestation: CryptoUtil.binToStr(newCredential.response.attestationObject)
+      });
+      expect(this.view.form.saveForm).toHaveBeenCalledWith(this.view.form.model);
+      expect(this.view.form.webauthnAbortController).toBe(null);
+      done();
+    }).catch(done.fail);
+  });
+
+  it('error is displayed when credentials.create fails', function (done) {
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    navigator.credentials = {
+      create: jasmine.createSpy('webauthn-spy')
+    };
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.reject({message: 'error from browser'}));
+
+    this.init();
+    this.view.$('.webauthn-setup').click();
+
+    Expect.waitForCss('.infobox-error').then(() => {
+      expect(this.view.$('.infobox-error')[0].textContent.trim()).toBe('error from browser');
+      expect(this.view.form.webauthnAbortController).toBe(null);
+      done();
+    }).catch(done.fail);
   });
 });

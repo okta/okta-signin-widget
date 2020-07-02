@@ -200,11 +200,34 @@
           },
           "u2fParams": {
             "appid": "http://idx.okta1.com:1802"
-          },
-          "excludeCredentials": []
+          }
         }
       }
     }
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "displayName": "Okta Password",
+        "type": "password",
+        "id": "autwa6eD9o02iBbtv0g1",
+        "authenticatorId": "aidwboITrg4b4yAYd0g3"
+      },
+      {
+        "displayName": "yubikey",
+        "type": "security_key",
+        "id": "autwa6eD9o02iBbtv0g2",
+        "authenticatorId": "aidtheidkwh282hv8g3",
+        "credentialId": "hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w"
+      },
+      {
+        "displayName": "MacBook Touch ID",
+        "type": "security_key",
+        "id": "autwa6eD9o02iBbtv0g2",
+        "authenticatorId": "fwftheidkwh282hv8g3",
+        "credentialId": "7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w"
+      }]
   },
   "authenticators": {
     "type": "array",

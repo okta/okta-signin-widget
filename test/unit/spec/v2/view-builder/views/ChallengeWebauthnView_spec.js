@@ -1,7 +1,10 @@
 import ChallengeWebauthnView from 'v2/view-builder/views/webauthn/ChallengeWebauthnView';
+import BaseForm from 'v2/view-builder/internals/BaseForm';
 import AppState from 'v2/models/AppState';
 import webauthn from 'util/webauthn';
+import CryptoUtil from 'util/CryptoUtil';
 import $sandbox from 'sandbox';
+import Expect from 'helpers/util/Expect';
 import ChallengeWebauthnResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn.json';
 
 describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
@@ -81,5 +84,64 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
     currentAuthenticatorEnrollment.contextualData.challengeData.userVerification = 'discouraged';
     this.init(currentAuthenticatorEnrollment);
     expect(this.view.$('.uv-required-callout').length).toBe(0);
+  });
+
+  it('saveForm is called with model when credentials.get succeeds', function (done) {
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    const assertion = {
+      response: {
+        clientDataJSON: 123,
+        authenticatorData: 234,
+        signature: 'magizh'
+      }
+    };
+    navigator.credentials = {
+      get: jasmine.createSpy('webauthn-spy')
+    };
+    spyOn(BaseForm.prototype, 'saveForm');
+    spyOn(navigator.credentials, 'get').and.returnValue(Promise.resolve(assertion));
+
+    this.init(ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value, ChallengeWebauthnResponse.authenticatorEnrollments);
+
+    Expect.waitForSpyCall(this.view.form.saveForm).then(() => {
+      expect(navigator.credentials.get).toHaveBeenCalledWith({
+        publicKey: {
+          allowCredentials: [{
+            type: 'public-key',
+            id: CryptoUtil.strToBin('hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w')
+          }, {
+            type: 'public-key',
+            id: CryptoUtil.strToBin('7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w')
+          }],
+          userVerification: 'required',
+          challenge: CryptoUtil.strToBin(ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value.contextualData.challengeData.challenge),
+        },
+        signal: jasmine.any(Object),
+      });
+      expect(this.view.form.model.get('credentials')).toEqual({
+        clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
+        authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
+        signatureData: CryptoUtil.binToStr(assertion.response.signature),
+      });
+      expect(this.view.form.saveForm).toHaveBeenCalledWith(this.view.form.model);
+      expect(this.view.form.webauthnAbortController).toBe(null);
+      done();
+    }).catch(done.fail);
+  });
+
+  it('error is displayed when credentials.get fails', function (done) {
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    navigator.credentials = {
+      get: jasmine.createSpy('webauthn-spy')
+    };
+    spyOn(navigator.credentials, 'get').and.returnValue(Promise.reject({message: 'error from browser'}));
+
+    this.init();
+
+    Expect.waitForCss('.infobox-error').then(() => {
+      expect(this.view.$el.find('.infobox-error')[0].textContent.trim()).toBe('error from browser');
+      expect(this.view.form.webauthnAbortController).toBe(null);
+      done();
+    }).catch(done.fail);
   });
 });

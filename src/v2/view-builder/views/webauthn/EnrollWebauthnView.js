@@ -5,13 +5,17 @@ import webauthn from '../../../../util/webauthn';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
 
-function getExcludeCredentials (credentials = []) {
-  return credentials.map((credential) => {
-    return {
-      type: 'public-key',
-      id: CryptoUtil.strToBin(credential.id),
-    };
+function getExcludeCredentials (authenticatorEnrollments = []) {
+  const credentials = [];
+  authenticatorEnrollments.forEach((enrollement) => {
+    if (enrollement.type === 'security_key') {
+      credentials.push({
+        type: 'public-key',
+        id: CryptoUtil.strToBin(enrollement.credentialId),
+      });
+    }
   });
+  return credentials;
 }
 
 const Body = BaseForm.extend({
@@ -60,7 +64,7 @@ const Body = BaseForm.extend({
           name: activationData.user.name,
           displayName: activationData.user.displayName
         },
-        excludeCredentials: getExcludeCredentials(activationData.excludeCredentials)
+        excludeCredentials: getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value)
       });
       this.webauthnAbortController = new AbortController();
       navigator.credentials.create({
