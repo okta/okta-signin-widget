@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc, View } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
@@ -20,17 +20,20 @@ const Body = BaseForm.extend({
 
   displayPasswordPolicy (policy) {
     if (policy) {
-      let listHtml = '';
       const rulesList = getPasswordComplexityDescriptionForHtmlList( policy );
-      rulesList.forEach(rule => listHtml += `<li>${rule}</li>`);
-      
       this.add(
-        `<section class="password-authenticator--rules">
-          <div class="password-authenticator--heading">
-            {{i18n code="password.complexity.requirements.header" bundle="login"}}
-          </div>
-          <ul class="password-authenticator--list">${listHtml}</ul>
-        </section>`,
+        View.extend({
+          tagName: 'section',
+          className: 'password-authenticator--rules',
+          template: 
+            `<div class="password-authenticator--heading">
+              {{i18n code="password.complexity.requirements.header" bundle="login"}}
+            </div>
+            <ul class="password-authenticator--list">
+              {{#each rulesList}}<li>{{this}}</li>{{/each}}
+            </ul>`,
+          getTemplateData: () => ({ rulesList }),
+        }),
         {
           prepend: true,
           selector: '.o-form-fieldset-container',
