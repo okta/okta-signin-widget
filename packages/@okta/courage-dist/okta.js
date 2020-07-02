@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-alpha.3613.gb21ede3 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.3624.g49301c2 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
