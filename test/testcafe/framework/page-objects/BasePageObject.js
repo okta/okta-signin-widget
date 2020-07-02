@@ -2,6 +2,7 @@ import BaseFormObject from './components/BaseFormObject';
 import { Selector } from 'testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
+const GO_BACK_LINK = '.auth-footer .js-go-back';
 
 export default class BasePageObject {
   constructor(t) {
@@ -37,5 +38,14 @@ export default class BasePageObject {
 
   getSignoutLinkText() {
     return Selector(SIGNOUT_LINK).textContent;
+  }
+
+  async goBackLinkExists() {
+    const elCount = await Selector(GO_BACK_LINK).count;
+    return elCount === 1;
+  }
+
+  getGoBackLinkText() {
+    return Selector(GO_BACK_LINK).textContent;
   }
 }

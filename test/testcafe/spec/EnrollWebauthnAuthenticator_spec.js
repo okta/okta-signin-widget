@@ -28,4 +28,8 @@ test(`should have webauthn not supported error if browser doesnt support`, async
 
   // no signout link at enroll page
   await t.expect(await enrollWebauthnPage.signoutLinkExists()).notOk();
+
+  // assert go back link shows up
+  await t.expect(await enrollWebauthnPage.goBackLinkExists()).ok();
+  await t.expect(enrollWebauthnPage.getGoBackLinkText()).eql('Go back');
 });
