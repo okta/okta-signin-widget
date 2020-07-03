@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.3298.g75d547c */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.3624.g49301c2 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -606,7 +606,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
    */
   tpl: __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].memoize(function (tpl) {
     /* eslint okta/no-specific-methods: 0 */
-    return __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.compile(tpl);
+
+    // Handlebars 4.6.x introduced a breaking change with prototype/own values. If a kill-switch
+    // is enabled - fallback to prior implementation logic. OKTA-297682
+    const runtimeOptions = {};
+
+    if (window && window.__OKTA_HANDLEBARS_FALLBACK__) {
+      runtimeOptions.allowProtoPropertiesByDefault = true;
+    }
+
+    return function (context) {
+      return __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.compile(tpl)(context, runtimeOptions);
+    };
   })
 });
 
@@ -3358,7 +3369,7 @@ function getRoute(router, route) {
      * @param  {String} options.cancel The text for the cancel button
      * @param  {Function} options.cancelFn The callback function to run when hitting "Cancel"
      * @param  {Boolean} options.noCancelButton Don't render the cancel button (useful for alert dialogs)
-     *
+     * @param  {Boolean} options.noSubmitButton Don't render the primary button (useful for alert dialogs)
      * @private
      *
      * @return {Okta.View} the dialog view
@@ -3366,7 +3377,8 @@ function getRoute(router, route) {
     _confirm: function (options) {
       options || (options = {});
       const Dialog = __WEBPACK_IMPORTED_MODULE_5_ConfirmationDialog___default.a.extend(
-        __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'content', 'danger', 'type', 'closeOnOverlayClick')
+        __WEBPACK_IMPORTED_MODULE_2__underscore_wrapper__["default"].pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'noSubmitButton',
+          'content', 'danger', 'type', 'closeOnOverlayClick')
       );
       const dialog = new Dialog({ model: this.settings });
       // The model is here because itsa part of the BaseForm paradigm.
@@ -4352,12 +4364,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   className: 'o-form-button-bar',
 
   initialize: function (options) {
-    this.addButton({
-      type: 'save',
-      text: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'save', this),
-      id: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'saveId', this),
-      className: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'saveClassName', this)
-    });
+    if (!options.noSubmitButton) {
+      this.addButton({
+        type: 'save',
+        text: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'save', this),
+        id: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'saveId', this),
+        className: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'saveClassName', this)
+      });
+    }
 
     if (!options.noCancelButton) {
       this.addButton({ type: 'cancel', text: __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__["default"].resultCtx(options, 'cancel', this) });
@@ -4450,7 +4464,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_chosen_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(9);
 
@@ -5008,7 +5022,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qtip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qtip__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Keys__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vendor_plugins_jquery_placeholder__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BaseInput__ = __webpack_require__(9);
 
@@ -5206,13 +5220,13 @@ var _jqueryWrapper = _interopRequireDefault(__webpack_require__(2));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _Backbone = _interopRequireDefault(__webpack_require__(54));
+var _Backbone = _interopRequireDefault(__webpack_require__(55));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
-var _BaseDropDown = _interopRequireDefault(__webpack_require__(56));
+var _BaseDropDown = _interopRequireDefault(__webpack_require__(57));
 
-var _BaseForm = _interopRequireDefault(__webpack_require__(57));
+var _BaseForm = _interopRequireDefault(__webpack_require__(58));
 
 var _Toolbar = _interopRequireDefault(__webpack_require__(25));
 
@@ -5220,17 +5234,17 @@ var _FormUtil = _interopRequireDefault(__webpack_require__(10));
 
 var _InputRegistry = _interopRequireDefault(__webpack_require__(26));
 
-var _SchemaFormFactory = _interopRequireDefault(__webpack_require__(65));
+var _SchemaFormFactory = _interopRequireDefault(__webpack_require__(66));
 
-var _CheckBox = _interopRequireDefault(__webpack_require__(70));
+var _CheckBox = _interopRequireDefault(__webpack_require__(71));
 
-var _PasswordBox = _interopRequireDefault(__webpack_require__(71));
+var _PasswordBox = _interopRequireDefault(__webpack_require__(72));
 
-var _Radio = _interopRequireDefault(__webpack_require__(73));
+var _Radio = _interopRequireDefault(__webpack_require__(74));
 
 var _Select = _interopRequireDefault(__webpack_require__(28));
 
-var _InputGroup = _interopRequireDefault(__webpack_require__(74));
+var _InputGroup = _interopRequireDefault(__webpack_require__(75));
 
 var _TextBox = _interopRequireDefault(__webpack_require__(32));
 
@@ -7046,12 +7060,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handlebars_helper_date__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__handlebars_helper_i18n__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__handlebars_helper_img__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__handlebars_helper_markdown__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__handlebars_helper_xsrfTokenInput__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handlebars_handle_url__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__handlebars_helper_date__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__handlebars_helper_i18n__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__handlebars_helper_img__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__handlebars_helper_markdown__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__handlebars_helper_xsrfTokenInput__ = __webpack_require__(54);
 /* eslint @okta/okta/no-specific-modules: 0 */
+
+
 
 
 
@@ -7064,6 +7081,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
+
+
+const clonedEscapeExpression = __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.Utils.escapeExpression;
+
+__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.Utils.escapeExpression = function (string) {
+  return clonedEscapeExpression(string).replace(/&#x3D;/g, '=');
+};
+
+/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_handlebars___default.a);
+
+
+/***/ }),
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7093,7 +7128,7 @@ __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('formatDate', 
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7145,7 +7180,7 @@ __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('i18n', functi
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7173,7 +7208,7 @@ __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('img', functio
   hash.src = '' + cdn + prependCachebustPrefix(hash.src);
 
   const attrs = __WEBPACK_IMPORTED_MODULE_1__underscore_wrapper__["default"].map(hash, function (value, attr) {
-    return attr + '="' + __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.Utils.escapeExpression(value) + '"';
+    return attr + '="' + (attr === 'src' ? encodeURI(value) : __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.Utils.escapeExpression(value)) + '"';
   });
 
   return new __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.SafeString('<img ' + attrs.join(' ') + '/>');
@@ -7183,13 +7218,13 @@ __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('img', functio
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_handlebars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_handlebars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__markdownToHtml__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__markdownToHtml__ = __webpack_require__(53);
 /* eslint @okta/okta/no-specific-modules: 0 */
 
 
@@ -7202,7 +7237,7 @@ __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('markdown', fu
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7246,7 +7281,7 @@ function mdToHtml(Handlebars, markdownText) {
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7267,12 +7302,12 @@ __WEBPACK_IMPORTED_MODULE_0_handlebars___default.a.registerHelper('xsrfTokenInpu
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__framework_ListView__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__framework_ListView__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BaseView__ = __webpack_require__(1);
 
 
@@ -7287,7 +7322,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7396,7 +7431,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7536,7 +7571,7 @@ const BaseDropDownDropDownOption = __WEBPACK_IMPORTED_MODULE_3__BaseView__["defa
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7546,15 +7581,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_StringUtil__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_TemplateUtil__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BaseView__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_ReadModeBar__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_ReadModeBar__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Toolbar__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helpers_ErrorBanner__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__helpers_ErrorParser__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helpers_ErrorBanner__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__helpers_ErrorParser__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__helpers_FormUtil__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__helpers_InputContainer__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__helpers_InputFactory__ = __webpack_require__(62);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__helpers_InputLabel__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__helpers_InputWrapper__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__helpers_InputContainer__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__helpers_InputFactory__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__helpers_InputLabel__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__helpers_InputWrapper__ = __webpack_require__(65);
 /* eslint max-statements: [2, 11] */
 
 
@@ -7849,6 +7884,7 @@ const getErrorSummary = function (responseJSON = {}) {
             saveClassName: saveBtnClassName,
             cancel: this.cancel || __WEBPACK_IMPORTED_MODULE_2__util_StringUtil__["default"].localize('oform.cancel', 'courage'),
             noCancelButton: this.noCancelButton || false,
+            noSubmitButton: this.noSubmitButton || false,
             hasPrevStep: this.step && this.step > 1
           },
           options || this.options
@@ -7903,6 +7939,13 @@ const getErrorSummary = function (responseJSON = {}) {
      * @default false
      */
     noCancelButton: false,
+
+    /**
+     * Should we not render a save button
+     * @type {Boolean}
+     * @default false
+     */
+    noSubmitButton: false,
 
     /**
      * The text on the save button
@@ -8600,7 +8643,7 @@ const getErrorSummary = function (responseJSON = {}) {
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8642,7 +8685,7 @@ const getErrorSummary = function (responseJSON = {}) {
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8668,7 +8711,7 @@ const template =
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8784,7 +8827,7 @@ const FIELD_REGEX = /^([\S]+): (.+)$/;
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9002,7 +9045,7 @@ const isABaseView = __WEBPACK_IMPORTED_MODULE_3__util_Util__["default"].isABaseV
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9044,7 +9087,7 @@ function supports(options) {
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9159,7 +9202,7 @@ function supports(options) {
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9299,15 +9342,15 @@ function runIf(fn, ctx) {
 
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_StringUtil__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__inputs_BooleanSelect__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__inputs_TextBoxSet__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__inputs_BooleanSelect__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__inputs_TextBoxSet__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EnumTypeHelper__ = __webpack_require__(19);
 /* eslint max-statements: 0, max-params: 0 */
 
@@ -9601,7 +9644,7 @@ function isValidSchemaProp(schemaProp, values) {
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9646,7 +9689,7 @@ const to = function (val) {
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Select Box Enhancer for jQuery and Prototype
@@ -10060,7 +10103,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
           'style': "width: " + (this.container_width()) + ";",
           'title': this.form_field.title
         };
-        this.container = $("<div />", container_props);
+        this.container = $("<div></div>", container_props);
         if (this.is_multiple) {
           this.container.html('<ul class="chzn-choices"><li class="search-field"><input type="text" value="' + this.default_text + '" class="default" autocomplete="off" style="width:25px;" /></li></ul><div class="chzn-drop"><ul class="chzn-results"></ul></div>');
         } else {
@@ -10280,7 +10323,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
 
       Chosen.prototype.result_add_group = function(group) {
         group.dom_id = this.container_id + "_g_" + group.array_index;
-        return '<li id="' + group.dom_id + '" class="group-result">' + $("<div />").text(group.label).html() + '</li>';
+        return '<li id="' + group.dom_id + '" class="group-result">' + $("<div></div>").text(group.label).html() + '</li>';
       };
 
       Chosen.prototype.result_do_highlight = function(el) {
@@ -10406,13 +10449,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
         var choice, close_link,
           _this = this;
 
-        choice = $('<li />', {
+        choice = $('<li></li>', {
           "class": "search-choice"
         }).html("<span>" + item.html + "</span>");
         if (item.disabled) {
           choice.addClass('search-choice-disabled');
         } else {
-          close_link = $('<a />', {
+          close_link = $('<a></a>', {
             href: '#',
             "class": 'search-choice-close',
             rel: item.array_index
@@ -10563,7 +10606,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
 
         this.no_results_clear();
         results = 0;
-        searchText = this.search_field.val() === this.default_text ? "" : $('<div/>').text($.trim(this.search_field.val())).html();
+        searchText = this.search_field.val() === this.default_text ? "" : $('<div></div>').text($.trim(this.search_field.val())).html();
         regexAnchor = this.search_contains ? "" : "^";
         regex = new RegExp(regexAnchor + searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
         zregex = new RegExp(searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
@@ -10746,7 +10789,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
             style = styles[_i];
             style_block += style + ":" + this.search_field.css(style) + ";";
           }
-          div = $('<div />', {
+          div = $('<div></div>', {
             'style': style_block
           });
           div.text(this.search_field.val());
@@ -10787,14 +10830,14 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_underscore_wrapper__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_SchemaUtil__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BaseInput__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DeletableBox__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DeletableBox__ = __webpack_require__(70);
 
 
 
@@ -10917,7 +10960,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Sel
 
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11061,7 +11104,7 @@ const updateArrayEvent = 'updateArray';
 
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11091,6 +11134,7 @@ const template = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl
   events: {
     'change :checkbox': 'update',
     keyup: function (e) {
+      e.preventDefault();
       if (__WEBPACK_IMPORTED_MODULE_1__util_Keys__["default"].isSpaceBar(e)) {
         this.$(':checkbox').click();
       } else if (__WEBPACK_IMPORTED_MODULE_1__util_Keys__["default"].isEnter(e)) {
@@ -11148,7 +11192,7 @@ const template = __WEBPACK_IMPORTED_MODULE_2__util_TemplateUtil__["default"].tpl
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11223,7 +11267,7 @@ const toggleTimeout = 30000;
 
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! http://mths.be/placeholder v2.0.7 by @mathias */
@@ -11385,7 +11429,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! http://mths.
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11519,7 +11563,7 @@ const RadioRadioOption = __WEBPACK_IMPORTED_MODULE_4__BaseView__["default"].exte
 
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
