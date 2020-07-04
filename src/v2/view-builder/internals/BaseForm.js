@@ -69,7 +69,7 @@ export default Form.extend({
       const content = messagesObjs.value.map((messagesObj) => {
         return messagesObj.message;
       });
-      this.add(`<span class="ion-messages-container">${content.join(' ')}</span>`, '.o-form-error-container');
+      this.add(`<div class="ion-messages-container">${content.join(' ')}</div>`, '.o-form-error-container');
     }
   },
 });
