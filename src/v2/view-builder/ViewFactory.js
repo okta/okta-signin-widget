@@ -20,7 +20,7 @@ import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordV
 import EnrollAuthenticatorPasswordView from './views/password/EnrollAuthenticatorPasswordView';
 import ChallengeAuthenticatorPasswordView from './views/password/ChallengeAuthenticatorPasswordView';
 import ReEnrollAuthenticatorPasswordView from './views/password/ReEnrollAuthenticatorPasswordView';
-
+import ReEnrollAuthenticatorWarningPasswordView from './views/password/ReEnrollAuthenticatorWarningPasswordView';
 // phone
 import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
 import ChallengeAuthenticatorPhoneView from './views/phone/ChallengeAuthenticatorPhoneView';
@@ -92,6 +92,11 @@ const VIEWS_MAPPING = {
   [RemediationForms.RE_ENROLL_AUTHENTICATOR]: {
     // Password expired scenario..
     password: ReEnrollAuthenticatorPasswordView,
+  },
+  // Will expire soon warnings for authenticators..
+  [RemediationForms.RE_ENROLL_AUTHENTICATOR_WARNING]: {
+    // Password will expire soon scenario..
+    password: ReEnrollAuthenticatorWarningPasswordView,
   },
   [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [DEFAULT]: SelectAuthenticatorVerifyView,
