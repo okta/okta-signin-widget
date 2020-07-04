@@ -14,6 +14,7 @@ const FORMS = {
   ENROLL_AUTHENTICATOR: 'enroll-authenticator',
   RE_ENROLL_AUTHENTICATOR: 're-enroll-authenticator',
   RE_ENROLL_AUTHENTICATOR_WARNING: 're-enroll-authenticator-warning',
+  RESET_AUTHENTICATOR: 'reset-authenticator',
   SKIP: 'skip',
 
   SUCCESS_REDIRECT: 'success-redirect',
@@ -33,6 +34,7 @@ const FORMS_WITHOUT_SIGNOUT = [
   FORMS.AUTHENTICATOR_ENROLLMENT_DATA,
   FORMS.ENROLL_AUTHENTICATOR,
   FORMS.REDIRECT_IDP,
+  FORMS.RESET_AUTHENTICATOR,
   // TODO: remove following when deprecating `factor`
   'select-factor-enroll',
   'enroll-factor'

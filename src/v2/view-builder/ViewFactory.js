@@ -21,6 +21,8 @@ import EnrollAuthenticatorPasswordView from './views/password/EnrollAuthenticato
 import ChallengeAuthenticatorPasswordView from './views/password/ChallengeAuthenticatorPasswordView';
 import ReEnrollAuthenticatorPasswordView from './views/password/ReEnrollAuthenticatorPasswordView';
 import ReEnrollAuthenticatorWarningPasswordView from './views/password/ReEnrollAuthenticatorWarningPasswordView';
+import ResetAuthenticatorPasswordView from './views/password/ResetAuthenticatorPasswordView';
+
 // phone
 import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
 import ChallengeAuthenticatorPhoneView from './views/phone/ChallengeAuthenticatorPhoneView';
@@ -97,6 +99,11 @@ const VIEWS_MAPPING = {
   [RemediationForms.RE_ENROLL_AUTHENTICATOR_WARNING]: {
     // Password will expire soon scenario..
     password: ReEnrollAuthenticatorWarningPasswordView,
+  },
+  // Reset forms for authenticators..
+  [RemediationForms.RESET_AUTHENTICATOR]: {
+    // Admin driven password reset..
+    password: ResetAuthenticatorPasswordView,
   },
   [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [DEFAULT]: SelectAuthenticatorVerifyView,
