@@ -4,6 +4,7 @@ import { Selector } from 'testcafe';
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
 const SKIP_LINK = '.auth-footer .js-skip';
+const ionMessagesSelector = '.ion-messages-container';
 export default class BasePageObject {
   constructor(t) {
     this.t = t;
@@ -56,5 +57,9 @@ export default class BasePageObject {
 
   getSkipLinkText() {
     return Selector(SKIP_LINK).textContent;
+  }
+
+  getIonMessages () {
+    return this.form.getElement(ionMessagesSelector).innerText;
   }
 }
