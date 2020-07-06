@@ -4,7 +4,7 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    // 'authenticator-enroll-password',
+    'authenticator-enroll-password',
     // 'authenticator-enroll-phone',
     // 'authenticator-enroll-phone-voice',
     // 'authenticator-enroll-security-question',
@@ -21,7 +21,7 @@ const idx = {
     // 'authenticator-verification-security-question',
     // 'authenticator-verification-select-authenticator',
     // 'authenticator-verification-webauthn',
-    'authenticator-reset-password',
+    // 'authenticator-reset-password',
     // 'authenticator-expired-password',
     // 'authenticator-expiry-warning-password',
     // 'enroll-profile',

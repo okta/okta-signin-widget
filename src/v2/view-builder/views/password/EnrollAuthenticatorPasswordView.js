@@ -48,7 +48,7 @@ const Body = BaseForm.extend({
   getPasswordPolicy () {
     // This will be overridden by password expired and password will expire soon
     // scenarios since the policies could be different for those.
-    return null; 
+    return this.options.appState.get('currentAuthenticator').settings;
   },
 
   getUISchema () {
