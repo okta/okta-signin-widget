@@ -40,6 +40,7 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [Registration](#registration)
   - [IdP Discovery](#idp-discovery)
   - [OpenID Connect](#openid-connect)
+  - [Smart Card IdP](#smart-card-idp)
   - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   - [Feature flags](#feature-flags)
 - [Events](#events)
@@ -1119,6 +1120,23 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     ```javascript
     authParams: {
       authScheme: 'OAUTH2'
+    }
+    ```
+
+### Smart Card IdP
+
+**:information_source: EA feature:** The Smart Card IdP feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea). This feature is only available for okta-hosted widget implementations.
+
+Settings for authentication with a Smart Card `X509` type IdP.
+
+- `text` *(optional)* - Label for the Smart Card IdP button. By default, this value will be "Sign in with PIV / CAC card".
+
+- `className` *(optional)* - Class that can be added to the Smart Card IdP button.
+
+    ```javascript
+    piv: {
+      text: 'Authenticate with a Smart Card',
+      className: 'custom-style'
     }
     ```
 
