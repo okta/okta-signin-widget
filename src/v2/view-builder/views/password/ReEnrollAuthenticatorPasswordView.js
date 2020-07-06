@@ -14,7 +14,7 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
   },
 
   getPasswordPolicy () { 
-    return this.options.appState.get('recoveryFactor').settings;
+    return this.options.appState.get('recoveryAuthenticator').settings;
   },
 
 });
