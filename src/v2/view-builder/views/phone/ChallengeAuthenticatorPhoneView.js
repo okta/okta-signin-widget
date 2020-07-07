@@ -13,6 +13,9 @@ const ResendView = View.extend(
       'click a.resend-link': 'handleResendLink'
     },
 
+    // Override this to change the resend action location from response
+    resendActionKey: 'currentAuthenticatorEnrollment-resend',
+
     initialize () {
       const resendText = (this.model.get('mode') === 'sms')
         ? loc('oie.phone.verify.sms.resendText', 'login')
@@ -27,7 +30,7 @@ const ResendView = View.extend(
     },
 
     handleResendLink () {
-      this.options.appState.trigger('invokeAction', 'currentAuthenticatorEnrollment-resend');
+      this.options.appState.trigger('invokeAction', this.resendActionKey);
       // Hide warning, but start a timeout again..
       if (!this.el.classList.contains('hide')) {
         this.el.classList.add('hide');
@@ -111,3 +114,5 @@ export default BaseAuthenticatorView.extend({
     return ModelClass.extend({ local });
   },
 });
+
+export { ResendView };

@@ -1,23 +1,23 @@
 import { RequestMock } from 'testcafe';
 import EnrollAuthenticatorPhonePageObject from '../framework/page-objects/EnrollAuthenticatorPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import xhrAuthenticatorEnrollPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone';
-import xhrAuthenticatorEnrollPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone-voice';
+import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
+import xhrAuthenticatorEnrollDataPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone-voice';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrAuthenticatorEnrollPhone)
+  .respond(xhrAuthenticatorEnrollDataPhone)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrSuccess);
 
 const voiceOnlyOptionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrAuthenticatorEnrollPhoneVoice)
+  .respond(xhrAuthenticatorEnrollDataPhoneVoice)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrSuccess);
 
-fixture(`Factor Enroll Phone`);
+fixture(`Authenticator Enroll Data Phone`);
 
 async function setup(t) {
   const enrollPhonePage = new EnrollAuthenticatorPhonePageObject(t);
