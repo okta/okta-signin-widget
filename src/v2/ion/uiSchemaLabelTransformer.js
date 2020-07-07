@@ -10,9 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/**
- * Create UI Schema into remedation object base on remediation values
- */
 import { _, loc, $ } from 'okta';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
@@ -21,7 +18,7 @@ const SECURITY_QUESTION_PREFIX = 'enroll-authenticator.security_question.credent
 
 const I18N_OVERRIDE_MAPPINGS = {
   'identify.identifier': 'primaryauth.username.placeholder',
-  'identify.passcode': 'primaryauth.password.placeholder',
+  'identify.credentials.passcode': 'primaryauth.password.placeholder',
   'identify.rememberMe': 'remember',
 
   'select-authenticator-enroll.authenticator.email': 'oie.email',
@@ -33,8 +30,10 @@ const I18N_OVERRIDE_MAPPINGS = {
   'authenticator-enrollment-data.phone.authenticator.phoneNumber': 'mfa.phoneNumber.placeholder',
 
   'enroll-authenticator.password.credentials.passcode': 'oie.password.passwordLabel',
+  'enroll-authenticator.security_question.sub_schema_local_credentials.0': 'oie.security.question.questionKey.label',
+  'enroll-authenticator.security_question.sub_schema_local_credentials.1': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
-  'enroll-authenticator.security_question.credentials.question': 'oie.security.question.create.question.label',
+  'enroll-authenticator.security_question.credentials.question': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.questionKey': 'oie.security.question.questionKey.label',
 
   'select-authenticator-authenticate.authenticator.email': 'oie.email',
@@ -63,6 +62,8 @@ const getI18nKey = (i18nPath) => {
   if (i18nKey && !Bundles.login[i18nKey]) {
     Logger.warn(`expect i18n key ${i18nKey} for ${i18nPath} but not found in 'login' bundle.`);
   }
+
+  return i18nKey;
 };
 
 const overrideLabelIfI18NPathExists = (i18nPath, value) => {
@@ -80,7 +81,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
   }
   Logger.info('i18n label transformer');
   Logger.info('\t remediationName: ', remediation.name);
-  Logger.info('\t uiSchema: ', uiSchema);
+  Logger.info('\t uiSchema: ', JSON.stringify(uiSchema));
 
   const authenticatorType = remediation.relatesTo && remediation.relatesTo.value.type
     ? `.${remediation.relatesTo.value.type}`
@@ -116,7 +117,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
         i18nPathOption = `${i18nPath}.${o.value}`;
       }
       Logger.info('\t 4: ', i18nPathOption);
-      overrideLabelIfI18NPathExists(i18nPathOption, o.label);
+      o.label = overrideLabelIfI18NPathExists(i18nPathOption, o.label);
     });
   }
 
