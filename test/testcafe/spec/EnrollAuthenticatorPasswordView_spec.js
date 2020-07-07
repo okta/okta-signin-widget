@@ -61,3 +61,14 @@ test(`should succeed when fill same value`, async t => {
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
+
+test(`should have the correct reqiurements`, async t => {
+    const enrollPasswordPage = await setup(t);
+    await t.expect(enrollPasswordPage.getRequirements()).contains('Password requirements:');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('At least 8 characters');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('An uppercase letter');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('A number');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('A lowercase letter');
+  });
