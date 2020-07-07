@@ -25,6 +25,7 @@ import ResetAuthenticatorPasswordView from './views/password/ResetAuthenticatorP
 
 // phone
 import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
+import EnrollAuthenticatorDataPhoneView from './views/phone/EnrollAuthenticatorDataPhoneView';
 import ChallengeAuthenticatorPhoneView from './views/phone/ChallengeAuthenticatorPhoneView';
 import ChallengeAuthenticatorDataPhoneView from './views/phone/ChallengeAuthenticatorDataPhoneView';
 
@@ -82,12 +83,12 @@ const VIEWS_MAPPING = {
     [DEFAULT]: SelectAuthenticatorEnrollView,
   },
   [RemediationForms.AUTHENTICATOR_ENROLLMENT_DATA]: {
-    phone: EnrollAuthenticatorPhoneView,
+    phone: EnrollAuthenticatorDataPhoneView,
   },
   [RemediationForms.ENROLL_AUTHENTICATOR]: {
     password: EnrollAuthenticatorPasswordView,
     'security_key': EnrollWebauthnView,
-    phone: null,
+    phone: EnrollAuthenticatorPhoneView,
     'security_question': EnrollAuthenticatorSecurityQuestion
   },
   // Expired scenarios for authenticators..

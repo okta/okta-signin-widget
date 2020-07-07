@@ -9,7 +9,7 @@ import XHRFactorRequiredEmail  from '../../../../../playground/mocks/data/idp/id
 import XHRFactorEnrollOptions from '../../../../../playground/mocks/data/idp/idx/factor-enroll-options.json';
 import XHRAuthenticatorRequiredEmail  from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-email.json';
 import XHRAuthenticatorEnrollSelectAuthenticators  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator.json';
-import XHRAuthenticatorEnrollPhone  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-phone.json';
+import XHRAuthenticatorEnrollDataPhone  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
 import XHRAuthenticatorEnrollSecurityQuestion  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-security-question.json';
 import XHRIdentifyResponse from '../../../../../playground/mocks/data/idp/idx/identify.json';
 
@@ -598,23 +598,23 @@ describe('v2/ion/uiSchemaTransformer', function () {
   });
 
   it('converts authenticator enroll - phone', (done) => {
-    MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollPhone, idxResp => {
+    MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollDataPhone, idxResp => {
       const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
 
       expect(result.authenticators).toEqual({
-        value: XHRAuthenticatorEnrollPhone.authenticators.value,
+        value: XHRAuthenticatorEnrollDataPhone.authenticators.value,
       });
 
       expect(result).toEqual({
-        'currentAuthenticator': XHRAuthenticatorEnrollPhone.currentAuthenticator.value,
+        'currentAuthenticator': XHRAuthenticatorEnrollDataPhone.currentAuthenticator.value,
         'authenticators': {
-          value: XHRAuthenticatorEnrollPhone.authenticators.value,
+          value: XHRAuthenticatorEnrollDataPhone.authenticators.value,
         },
-        'user': XHRAuthenticatorEnrollPhone.user.value,
+        'user': XHRAuthenticatorEnrollDataPhone.user.value,
         'remediations': [
           Object.assign(
             {},
-            XHRAuthenticatorEnrollPhone.remediation.value[0],
+            XHRAuthenticatorEnrollDataPhone.remediation.value[0],
             {
               'action': jasmine.any(Function),
               'uiSchema': [
@@ -652,7 +652,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                   'label-top': true
                 }
               ],
-              'relatesTo': XHRAuthenticatorEnrollPhone.currentAuthenticator,
+              'relatesTo': XHRAuthenticatorEnrollDataPhone.currentAuthenticator,
             },
           ),
           Object.assign(
