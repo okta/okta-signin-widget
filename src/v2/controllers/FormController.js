@@ -40,11 +40,18 @@ export default Controller.extend({
       currentViewState.name,
       this.options.appState.get('authenticatorType'),
     );
-    this.formView = this.add(TheView, {
-      options: {
-        currentViewState,
-      }
-    }).last();
+    try {
+      this.formView = this.add(TheView, {
+        options: {
+          currentViewState,
+        }
+      }).last();
+    } catch (error) {
+      // This is the place where runtime error (NPE) happens at most of time.
+      // It has been swallowed by Q.js hence add try/catch to surface up errors.
+      this.options.settings.callGlobalError(error);
+      return;
+    }
 
     this.listenTo(this.formView, 'save', this.handleFormSave);
   },
