@@ -111,3 +111,5 @@ export default BaseAuthenticatorView.extend({
     return ModelClass.extend({ local });
   },
 });
+
+export { ResendView };

@@ -5,6 +5,7 @@ const VOICE_RADIO_SELECTOR = 'input[value="voice"]';
 const PHONE_NUMBER_SELECTOR = '.phone-authenticator-enroll__phone';
 const PHONE_NUMBER_EXTENSION_SELECTOR = '.phone-authenticator-enroll__phone-ext';
 const phoneFieldName = 'authenticator\\.phoneNumber';
+const RESEND_VIEW_SELECTOR = '.phone-authenticator-enroll--warning';
 export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   constructor (t) {
@@ -45,4 +46,25 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
     return this.form.getElement(PHONE_NUMBER_SELECTOR)
       .hasClass('phone-authenticator-enroll__phone--small');
   }
+
+  clickNextButton() {
+    return this.form.clickSaveButton();
+  }
+
+  verifyFactor(name, value) {
+    return this.form.setTextBoxValue(name, value);
+  }
+
+  waitForErrorBox() {
+    return this.form.waitForErrorBox();
+  }
+
+  getInvalidOTPError() {
+    return this.form.getErrorBoxText();
+  }
+
+  resendEmailView() {
+    return this.form.getElement(RESEND_VIEW_SELECTOR);
+  }
+
 }
