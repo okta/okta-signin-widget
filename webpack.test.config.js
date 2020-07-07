@@ -3,6 +3,7 @@
 var path          = require('path');
 var commonConfig  = require('./webpack.common.config');
 var createPlugins = require('./buildtools/webpack/plugins');
+var useRuntime = require('./buildtools/webpack/runtime');
 var testConfig    = commonConfig('main-tests.js');
 var rootDir       = path.resolve(__dirname);
 var RemoveStrictPlugin = require( 'remove-strict-webpack-plugin' );
@@ -30,4 +31,7 @@ Object.assign(testConfig.resolve.alias, {
   'sandbox': `${rootDir}/test/unit/helpers/sandbox`,
   'helpers': `${rootDir}/test/unit/helpers`
 });
+
+useRuntime(testConfig);
+
 module.exports = testConfig;
