@@ -14,13 +14,13 @@ define([
   'okta',
   'views/shared/TextBox',
   'views/ResendEmailView'
-], function (Okta, TextBox,  ResendEmailView) {
+], function (Okta, TextBox, ResendEmailView) {
 
   const _ = Okta._;
   const createEmailMaskElement = function () {
     const email = this.model.get('email');
     const emailTpl = Okta.tpl('<span class="mask-email">{{email}}</span>');
-    return {factorEmail: emailTpl({email})};
+    return { factorEmail: emailTpl({ email }) };
   };
 
   const VerifyEmailCodeForm = Okta.Form.extend({
@@ -42,23 +42,28 @@ define([
     events: Object.assign({}, Okta.Form.prototype.events, {
       submit: function (e) {
         e.preventDefault();
-        this.clearErrors();
-
-        if (this.options.appState.get('isMfaChallenge')) {
-          if (this.isValid()) {
-            this.model.save();
-          }
-        } else {
-          // Send email and switch to verification view
-          this.model.set('answer', '');
-          this.model.save()
-            .then(this.renderChallengView.bind(this));
-        }
+        this.handleSubmit();
       }
     }),
 
+    handleSubmit () {
+      this.clearErrors();
+      if (this.options.appState.get('isMfaChallenge')) {
+        if (this.isValid()) {
+          this.model.save();
+        }
+      } else {
+        // Send email and switch to verification view
+        this.model.set('answer', '');
+        this.model.save()
+          .then(this.renderChallengView.bind(this));
+      }
+    },
+
     initialize: function () {
       Okta.Form.prototype.initialize.apply(this, arguments);
+
+      this.handleSubmit = _.throttle(this.handleSubmit, 100, { leading: false });
 
       // render 'Send Email' page at first place
       this.add(Okta.View.extend({
