@@ -9,16 +9,7 @@ const EnrollResendView = ResendView.extend(
   {
     // To be shown after a timeout
     className: 'phone-authenticator-enroll--warning hide',
-
-    handleResendLink () {
-      this.options.appState.trigger('invokeAction', 'currentAuthenticator-resend');
-      // Hide warning, but start a timeout again..
-      if (!this.el.classList.contains('hide')) {
-        this.el.classList.add('hide');
-      }
-      this.showCalloutAfterTimeout();
-    },
-
+    resendActionKey: 'currentAuthenticator-resend',
   },
 );
 
