@@ -49,6 +49,12 @@ const factorData = {
     description: loc('oie.webauthn.description', 'login'),
     iconClassName: 'mfa-webauthn',
   },
+
+  'app': {
+    label: loc('oie.app', 'login'),
+    description: '',
+    iconClassName: 'mfa-okta-verify',
+  },
 };
 
 const getFactorData = function (factorName) {
