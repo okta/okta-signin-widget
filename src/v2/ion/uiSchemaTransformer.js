@@ -14,9 +14,9 @@
  * Create UI Schema into remedation object base on remediation values
  */
 import { _ } from 'okta';
-import createUiSchemaForBoolean from './ion-type-handlers/boolean';
-import createUiSchemaForObject from './ion-type-handlers/object';
-import createUiSchemaForString from './ion-type-handlers/string';
+import createUiSchemaForBoolean from './ui-schema/ion-boolean-handler';
+import createUiSchemaForObject from './ui-schema/ion-object-handler';
+import createUiSchemaForString from './ui-schema/ion-string-handler';
 
 const UISchemaHandlers = {
   string: createUiSchemaForString,
@@ -38,14 +38,16 @@ const createUISchema = (transformedResp, remediationForm) => {
   const remediationValue = _.chain(remediationForm.value || [])
     .filter(v => v.visible !== false)
     .map(v => {
+      let nestedForm;
       if (v.form) {
-        const inputGroupName = v.name;
-        return v.form.value.map(input => {
-          return Object.assign({}, input, { name: inputGroupName + '.' + input.name });
-        });
+        nestedForm = v.form;
       } else if (v.value && v.value.form) {
+        nestedForm = v.value.form;
+      }
+
+      if (nestedForm) {
         const inputGroupName = v.name;
-        return v.value.form.value.map(input => {
+        return nestedForm.value.map(input => {
           return Object.assign({}, input, { name: inputGroupName + '.' + input.name });
         });
       } else {
@@ -80,10 +82,6 @@ const insertUISchema = (transformedResp) => {
   if (transformedResp) {
     transformedResp.remediations = transformedResp.remediations.map(obj => {
       obj.uiSchema = createUISchema(transformedResp, obj);
-
-      const logs = _.pick(obj, 'value', 'uiSchema', 'name', 'relatesTo');
-      logs.value = logs.value && logs.value.filter(v => v.name !== 'stateHandle');
-      // console.log(JSON.stringify(logs, null, 2));
       return obj;
     });
   }

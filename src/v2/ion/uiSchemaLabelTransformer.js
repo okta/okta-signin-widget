@@ -10,6 +10,25 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+///////////////////////////////////////////////////////////////////////////////
+//                                  How this transformer work?               //
+// 1. Figure out Path for all Labels (for normal field, or options) or Placeholder (for checkbox),e.g.
+//   - `identify.identifier`, this is the label for user name at identify page
+//   - `select-authenticator-enroll.authenticator.email`,
+//      this is for label for email authenticator at `select-authenticator-enroll` page
+// 2. Define a mapping between the path and i18n key. see `I18N_OVERRIDE_MAPPINGS`
+//   - Not all path needs i18n override. e.g.
+//     `challenge-authenticator.security_question.credentials.questionKey`,
+//     which is security question during verify step and apparently it does not
+//     need overwrite.
+//   - This mapping is subject to change when API starts sending i18n key along with label.
+//     It probably becomes a mapping between API's i18n key and key in login.properties
+//     in order to be backward compatible.
+// 3. Now find i18n value using such route: `i18n Path -> i18n key -> login.properties`
+//    If found an i18n value, replace label by this i18n value.
+//
+///////////////////////////////////////////////////////////////////////////////
+
 import { _, loc, $ } from 'okta';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
@@ -50,6 +69,9 @@ const I18N_OVERRIDE_MAPPINGS = {
 
 const getI18nKey = (i18nPath) => {
   let i18nKey;
+
+  // we can add mapping to `I18N_OVERRIDE_MAPPINGS` for all
+  // security question. It's just a bit tedious hence use following shortcut.
   if (i18nPath.indexOf(SECURITY_QUESTION_PREFIX) === 0) {
     const securityQuestionValue = i18nPath.replace(SECURITY_QUESTION_PREFIX, '');
     i18nKey = `security.${securityQuestionValue}`;
@@ -66,12 +88,19 @@ const getI18nKey = (i18nPath) => {
   return i18nKey;
 };
 
-const overrideLabelIfI18NPathExists = (i18nPath, value) => {
+/**
+ * Find i18n value using {@code i18nPath} if it exists.
+ * Otherwise return {@code defaultValue}.
+ *
+ * @param {string} i18nPath
+ * @param {string} defaultValue
+ */
+const getI18NValue = (i18nPath, defaultValue) => {
   const i18nKey = getI18nKey(i18nPath);
   if (i18nKey) {
     return loc(i18nKey, 'login');
   } else {
-    return value;
+    return defaultValue;
   }
 };
 
@@ -91,18 +120,18 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
 
   if (uiSchema.type === 'checkbox' && uiSchema.placeholder) {
     Logger.info('\t 1: ', i18nPath);
-    uiSchema.placeholder = overrideLabelIfI18NPathExists(i18nPath, uiSchema.placeholder);
+    uiSchema.placeholder = getI18NValue(i18nPath, uiSchema.placeholder);
   }
 
   if (uiSchema.label) {
     Logger.info('\t 2: ', i18nPath);
-    uiSchema.label = overrideLabelIfI18NPathExists(i18nPath, uiSchema.label);
+    uiSchema.label = getI18NValue(i18nPath, uiSchema.label);
   }
   if ($.isPlainObject(uiSchema.options)) {
     uiSchema.options = _.mapObject(uiSchema.options, (value, key) => {
       const i18nPathOption = `${i18nPath}.${key}`;
       Logger.info('\t 3: ', i18nPathOption);
-      return overrideLabelIfI18NPathExists(i18nPathOption, value);
+      return getI18NValue(i18nPathOption, value);
     });
   }
   if (Array.isArray(uiSchema.options)) {
@@ -117,7 +146,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
         i18nPathOption = `${i18nPath}.${o.value}`;
       }
       Logger.info('\t 4: ', i18nPathOption);
-      o.label = overrideLabelIfI18NPathExists(i18nPathOption, o.label);
+      o.label = getI18NValue(i18nPathOption, o.label);
     });
   }
 
