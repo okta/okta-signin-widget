@@ -38,7 +38,7 @@ test.requestHooks(mockChallengePassword)(`should load select authenticator list`
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(5);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(6);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
@@ -59,6 +59,10 @@ test.requestHooks(mockChallengePassword)(`should load select authenticator list`
   await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Security Question');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(4)).contains('mfa-okta-security-question');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(5)).eql('Okta Verify');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(5)).contains('mfa-okta-verify');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(5)).eql('Select');
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();

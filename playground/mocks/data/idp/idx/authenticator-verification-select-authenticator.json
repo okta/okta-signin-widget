@@ -42,6 +42,7 @@
                 "relatesTo": "$.authenticatorEnrollments.value[0]"
               },
               {
+
                 "label": "FIDO2 (WebAuthn)",
                 "value": {
                   "form": {
@@ -145,6 +146,30 @@
                   }
                 },
                 "relatesTo": "$.authenticatorEnrollments.value[5]"
+              },
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "auttheidkwh282hv8g3",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "value": "signed_nonce",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[6]"
               }
             ]
           },
@@ -202,6 +227,17 @@
         "type": "security_question",
         "authenticatorId": "aid568g3mXgtID0HHSLH",
         "id": "autwa6eD9o02iBbaaa82"
+      },
+      {
+        "displayName": "Okta Verify Device 1",
+        "type": "app",
+        "id": "aen1mz5J4cuNoaR3l0g4",
+        "authenticatorId": "auttheidkwh282hv8g3",
+        "methods": [
+           {
+            "type":  "signed_nonce"
+           }
+        ]
       }
     ]
   },
