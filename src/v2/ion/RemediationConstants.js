@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
- const FORMS = {
+const FORMS = {
   IDENTIFY: 'identify',
   SELECT_IDENTIFY: 'select-identify',
   SELECT_ENROLL_PROFILE: 'select-enroll-profile',
