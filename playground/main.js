@@ -50,6 +50,6 @@ signIn.renderEl(
   },
 
   function error (err) {
-    alert('ERROR: ' + err);
+    console.error('global error handler: ', err);
   }
 );
