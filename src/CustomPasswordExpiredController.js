@@ -30,7 +30,7 @@ function (Okta, FormController, FormType, Footer) {
         var expiringSoon = this.options.appState.get('isPwdExpiringSoon'),
             numDays = this.options.appState.get('passwordExpireDays');
         if (expiringSoon && numDays > 0) {
-          return Okta.loc('oie.password.expiry.warning.title', 'login', [numDays]);
+          return Okta.loc('password.expiring.title', 'login', [numDays]);
         }
         else if (expiringSoon && numDays === 0) {
           return Okta.loc('password.expiring.today', 'login');
