@@ -4,6 +4,7 @@ import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticato
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
+import xhrSelectAuthenticatorsRecovery from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-for-recovery';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrAuthenticatorRequiredEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import xhrAuthenticatorRequiredWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn';
@@ -25,6 +26,10 @@ const mockChallengeWebauthn = RequestMock()
   .respond(xhrSelectAuthenticators)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorRequiredWebauthn);
+
+const mockSelectAuthenticatorForRecovery = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsRecovery);
 
 fixture(`Select Authenticator for verification Form`);
 
@@ -68,6 +73,25 @@ test.requestHooks(mockChallengePassword)(`should load select authenticator list`
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
   await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
 
+});
+
+test.requestHooks(mockSelectAuthenticatorForRecovery)(`should load select authenticator list for recovery password`, async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Reset your password');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Verify with one of the following authenticators to reset your password.');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Security Key or Biometric Authenticator');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-webauthn');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Email');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-email');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
+
+  // signout link at enroll page
+  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
 });
 
 test.requestHooks(mockChallengePassword)(`should navigate to password challenge page`, async t => {
