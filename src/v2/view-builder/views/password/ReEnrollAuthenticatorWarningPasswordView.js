@@ -10,10 +10,10 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
   },
 
   save () {
-    return loc('oie.password.expired.primaryButton', 'login');
+    return loc('password.expired.submit', 'login');
   },
 
-  getPasswordPolicy () { 
+  getPasswordPolicy () {
     return this.options.appState.get('currentAuthenticator').settings;
   },
 });

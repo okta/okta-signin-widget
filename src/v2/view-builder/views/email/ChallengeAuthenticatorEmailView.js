@@ -51,12 +51,12 @@ const ResendView = View.extend(
 const Body = BaseForm.extend(Object.assign(
   {
     save () {
-      return loc('oie.verify.button', 'login');
+      return loc('mfa.challenge.verify', 'login');
     },
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
       const sendText = loc('oie.email.verify.sentText', 'login');
-      const enterCodeText = loc('oie.email.verify.codeText', 'login');
+      const enterCodeText = loc('email.mfa.email.sent.description.emailCodeText', 'login');
 
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">

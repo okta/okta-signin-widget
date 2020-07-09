@@ -6,14 +6,14 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
   className: 'password-authenticator',
 
   title () {
-    return loc('oie.password.expired.title', 'login');
+    return loc('password.expired.title.generic', 'login');
   },
 
   save () {
-    return loc('oie.password.expired.primaryButton', 'login');
+    return loc('password.expired.submit', 'login');
   },
 
-  getPasswordPolicy () { 
+  getPasswordPolicy () {
     return this.options.appState.get('recoveryAuthenticator').settings;
   },
 

@@ -46,7 +46,7 @@ define([
       title: _.partial(Okta.loc, 'email.enroll.title', 'login'),
       noButtonBar: false,
       autoSave: true,
-      save: _.partial(Okta.loc, 'oform.verify', 'login'),
+      save: _.partial(Okta.loc, 'oform.verify', 'login'), // TODO: deprecated by mfa.challenge.verify
       formChildren: [
         // message
         FormType.View({
