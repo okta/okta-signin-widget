@@ -1,8 +1,8 @@
 import { _ } from 'okta';
-import uiSchemaLabelTransformer from 'v2/ion/uiSchemaLabelTransformer';
+import i18nTransformer from 'v2/ion/i18nTransformer';
 import Bundles from 'util/Bundles';
 
-describe('v2/ion/uiSchemaLabelTransformer', function () {
+describe('v2/ion/i18nTransformer', function () {
   let originalLoginBundle;
 
   beforeAll(() => {
@@ -45,7 +45,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
     const resp = {
       stateHandle: 'xxx'
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       stateHandle: 'xxx'
     });
   });
@@ -59,7 +59,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'test',
@@ -102,7 +102,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'identify',
@@ -195,7 +195,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'select-authenticator-authenticate',
@@ -276,7 +276,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'challenge-authenticator',
@@ -319,7 +319,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           relatesTo: {
@@ -364,7 +364,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           relatesTo: {
@@ -419,7 +419,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'challenge-authenticator',
@@ -489,7 +489,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'select-authenticator-enroll',
@@ -563,7 +563,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'authenticator-enrollment-data',
@@ -624,7 +624,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'enroll-authenticator',
@@ -738,7 +738,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'enroll-authenticator',
@@ -852,7 +852,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         ]
       }
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       messages: {
         value: [
           {

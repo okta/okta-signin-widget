@@ -25,7 +25,7 @@ import AuthContainer from 'views/shared/AuthContainer';
 import Header from 'views/shared/Header';
 import responseTransformer from './ion/responseTransformer';
 import uiSchemaTransformer from './ion/uiSchemaTransformer';
-import uiSchemaLabelTransformer from './ion/uiSchemaLabelTransformer';
+import i18nTransformer from './ion/i18nTransformer';
 import AppState from './models/AppState';
 
 function loadLanguage (appState, languageCode, i18n, assetBaseUrl, assetRewrite) {
@@ -110,7 +110,7 @@ export default Router.extend({
   handleRemediationSuccess: function (idxResponse) {
     // transform response
     const ionResponse = _.compose(
-      uiSchemaLabelTransformer,
+      i18nTransformer,
       uiSchemaTransformer,
       responseTransformer.bind({}, this.settings),
     )(idxResponse);

@@ -163,6 +163,19 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
 
 };
 
+/**
+ * @typedef {Object} Message
+ * @property {string} message
+ * @property {Object=} i18n
+ * @property {string} i18n.key
+ * @property {string[]} i18n.params
+ */
+/**
+ * - iff `message.i18n.key` exists and has value in 'login.properties', return the value.
+ * - otherwise returns `message.message`
+ *
+ * @param {Message} message
+ */
 const getMessage = (message) => {
   if (message.i18n && message.i18n.key) {
     const i18nKey = message.i18n.key;
@@ -199,6 +212,4 @@ const uiSchemaLabelTransformer = (transformedResp) => {
   return transformedResp;
 };
 
-export default uiSchemaLabelTransformer;
-
-export { getMessage };
+export { uiSchemaLabelTransformer as default, getMessage };

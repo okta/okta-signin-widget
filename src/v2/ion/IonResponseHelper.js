@@ -11,7 +11,7 @@
  */
 
 import { _ } from 'okta';
-import { getMessage } from './uiSchemaLabelTransformer';
+import { getMessage } from './i18nTransformer';
 
 const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => {
   return _.chain(remediationValues)
