@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2019, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -25,6 +25,7 @@ import AuthContainer from 'views/shared/AuthContainer';
 import Header from 'views/shared/Header';
 import responseTransformer from './ion/responseTransformer';
 import uiSchemaTransformer from './ion/uiSchemaTransformer';
+import uiSchemaLabelTransformer from './ion/uiSchemaLabelTransformer';
 import AppState from './models/AppState';
 
 function loadLanguage (appState, languageCode, i18n, assetBaseUrl, assetRewrite) {
@@ -109,6 +110,7 @@ export default Router.extend({
   handleRemediationSuccess: function (idxResponse) {
     // transform response
     const ionResponse = _.compose(
+      uiSchemaLabelTransformer,
       uiSchemaTransformer,
       responseTransformer.bind({}, this.settings),
     )(idxResponse);
