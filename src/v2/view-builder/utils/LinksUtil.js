@@ -33,7 +33,7 @@ const getSwitchAuthenticatorLink = (appState) => {
 const getForgotPasswordLink = (appState) => {
   const forgotPasswordLink = {
     'type': 'link',
-    'label': loc('oie.password.forgot.title', 'login'),
+    'label': loc('forgotpassword', 'login'),
     'name': 'forgot-password',
   };
 

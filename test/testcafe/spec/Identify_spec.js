@@ -88,7 +88,7 @@ test.requestHooks(identifyMock)(`should have correct display texts`, async t => 
   await t.expect(identityPageTitle).eql('Sign In');
 
   const rememberMeText = identityPage.getRememberMeText();
-  await t.expect(rememberMeText).eql('Remember Me');
+  await t.expect(rememberMeText).eql('Remember me');
 
   const rememberMeValue = identityPage.getRememberMeValue();
   await t.expect(rememberMeValue).eql(false);
