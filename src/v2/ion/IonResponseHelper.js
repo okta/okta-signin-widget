@@ -11,6 +11,7 @@
  */
 
 import { _ } from 'okta';
+import { getMessage } from './uiSchemaLabelTransformer';
 
 const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => {
   return _.chain(remediationValues)
@@ -22,7 +23,7 @@ const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => 
     .map(field => {
       return {
         property: formName ? `${formName}.${field.name}` : field.name,
-        errorSummary: _.map(field.messages.value, (err) => err.message),
+        errorSummary: field.messages.value.map(getMessage),
       };
     })
     .value();
@@ -43,7 +44,7 @@ const getRemediationErrors = (res) => {
   if (!res.remediation || !Array.isArray(res.remediation.value) || res.remediation.value.length === 0) {
     return errors;
   }
-  let remediationFormFields = res.remediation.value[0].value ;
+  let remediationFormFields = res.remediation.value[0].value;
 
   if (!Array.isArray(remediationFormFields)) {
     return errors;
@@ -77,15 +78,11 @@ const getRemediationErrors = (res) => {
  * return global error summary combined into one string
  * allErrors = 'error string1. error string2'
  */
-const getGlobalErrors  = (res) => {
+const getGlobalErrors = (res) => {
   let allErrors = [];
 
-  if(res.messages && res.messages.value) {
-    _.each(res.messages.value, (value) => {
-      if(value.message) {
-        allErrors.push(value.message);
-      }
-    });
+  if (res.messages && Array.isArray(res.messages.value)) {
+    allErrors = res.messages.value.map(getMessage);
   }
 
   return allErrors.join('. ');
@@ -93,12 +90,12 @@ const getGlobalErrors  = (res) => {
 
 const convertFormErrors = (response) => {
   let errors = {
-    errorCauses : getRemediationErrors(response),
-    errorSummary : getGlobalErrors(response)
+    errorCauses: getRemediationErrors(response),
+    errorSummary: getGlobalErrors(response)
   };
 
   return {
-    responseJSON : errors
+    responseJSON: errors
   };
 };
 

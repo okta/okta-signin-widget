@@ -31,10 +31,14 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
       'security.name_of_first_plush_toy': 'first plush toy answer',
       'security.favorite_vacation_location': 'vacation location answer',
 
+      'idx.email.verification.required': 'An email has been sent. Check your inbox.',
+      'idx.foo': 'hello the {0} authenticator',
+
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
     Bundles.login = originalLoginBundle;
+    originalLoginBundle = null;
   });
 
   it('no remediations', () => {
@@ -823,5 +827,55 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
       ]
     });
   });
+
+  it('converts messages', () => {
+    const resp = {
+      messages: {
+        value: [
+          {
+            'message': 'An activation email has been sent to john@gmail.com.',
+            'i18n': {
+              'key': 'idx.email.verification.required'
+            },
+            'class': 'INFO'
+          },
+          {
+            'message': 'another {0} message',
+            'i18n': {
+              'key': 'idx.foo',
+              'params': [
+                'Email'
+              ]
+            },
+            'class': 'INFO'
+          }
+        ]
+      }
+    };
+    expect(uiSchemaLabelTransformer(resp)).toEqual({
+      messages: {
+        value: [
+          {
+            'message': 'unit test - An email has been sent. Check your inbox.',
+            'i18n': {
+              'key': 'idx.email.verification.required'
+            },
+            'class': 'INFO'
+          },
+          {
+            'message': 'unit test - hello the Email authenticator',
+            'i18n': {
+              'key': 'idx.foo',
+              'params': [
+                'Email'
+              ]
+            },
+            'class': 'INFO'
+          }
+        ]
+      }
+    });
+  });
+
 
 });

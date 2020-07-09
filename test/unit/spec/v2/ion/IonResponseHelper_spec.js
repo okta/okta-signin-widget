@@ -1,6 +1,22 @@
+import { _ } from 'okta';
 import IonResponseHelper from 'v2/ion/IonResponseHelper';
+import Bundles from 'util/Bundles';
 
 describe('v2/ion/IonResponseHelper', function () {
+  let originalLoginBundle;
+
+  beforeAll(() => {
+    originalLoginBundle = Bundles.login;
+    Bundles.login = _.mapObject({
+      'answer.too.short': 'answer must be 4+ chars',
+      'bar.error': 'hello bar error',
+
+    }, (value) => `ut override - ${value}`);
+  });
+  afterAll(() => {
+    Bundles.login = originalLoginBundle;
+    originalLoginBundle = null;
+  });
 
   describe('converts top level messages to global error', () => {
     it('no messages', () => {
@@ -9,7 +25,7 @@ describe('v2/ion/IonResponseHelper', function () {
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [],
-          errorSummary: '' ,
+          errorSummary: '',
         }
       });
     });
@@ -32,7 +48,7 @@ describe('v2/ion/IonResponseHelper', function () {
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [],
-          errorSummary: 'Internal error foo' ,
+          errorSummary: 'Internal error foo',
         }
       });
     });
@@ -63,7 +79,7 @@ describe('v2/ion/IonResponseHelper', function () {
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [],
-          errorSummary: 'Internal error foo. bar error' ,
+          errorSummary: 'Internal error foo. ut override - hello bar error',
         }
       });
     });
@@ -80,7 +96,7 @@ describe('v2/ion/IonResponseHelper', function () {
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [],
-          errorSummary: '' ,
+          errorSummary: '',
         }
       });
     });
@@ -104,7 +120,7 @@ describe('v2/ion/IonResponseHelper', function () {
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [],
-          errorSummary: '' ,
+          errorSummary: '',
         }
       });
     });
@@ -165,13 +181,13 @@ describe('v2/ion/IonResponseHelper', function () {
         responseJSON: {
           errorCauses: [
             {
-              property: 'userName', errorSummary: ['bar error'],
+              property: 'userName', errorSummary: ['ut override - hello bar error'],
             },
             {
               property: 'password', errorSummary: ['foo1 error', 'foo2 error'],
             }
           ],
-          errorSummary: '' ,
+          errorSummary: '',
         }
       });
     });
@@ -231,13 +247,13 @@ describe('v2/ion/IonResponseHelper', function () {
         responseJSON: {
           errorCauses: [
             {
-              property: 'credentials.userName', errorSummary: ['bar error'],
+              property: 'credentials.userName', errorSummary: ['ut override - hello bar error'],
             },
             {
               property: 'credentials.password', errorSummary: ['foo error'],
             }
           ],
-          errorSummary: '' ,
+          errorSummary: '',
         }
       });
     });
@@ -269,10 +285,10 @@ describe('v2/ion/IonResponseHelper', function () {
                                   {
                                     'class': 'ERROR',
                                     'i18n': {
-                                      'key': 'foo.error',
+                                      'key': 'answer.too.short',
                                       'params': []
                                     },
-                                    'message': 'foo error'
+                                    'message': 'security question answer is too short'
                                   }
                                 ]
                               }
@@ -293,10 +309,11 @@ describe('v2/ion/IonResponseHelper', function () {
         responseJSON: {
           errorCauses: [
             {
-              property: 'authenticator.answer', errorSummary: ['foo error'],
+              property: 'authenticator.answer',
+              errorSummary: ['ut override - answer must be 4+ chars'],
             }
           ],
-          errorSummary: '' ,
+          errorSummary: '',
         }
       });
     });

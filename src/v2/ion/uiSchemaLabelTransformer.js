@@ -12,6 +12,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                  How this transformer work?               //
+//
+// ## For Labels inside remediation forms
 // 1. Figure out Path for all Labels (for normal field, or options) or Placeholder (for checkbox),e.g.
 //   - `identify.identifier`, this is the label for user name at identify page
 //   - `select-authenticator-enroll.authenticator.email`,
@@ -26,6 +28,9 @@
 //     in order to be backward compatible.
 // 3. Now find i18n value using such route: `i18n Path -> i18n key -> login.properties`
 //    If found an i18n value, replace label by this i18n value.
+//
+// ## For top level messages
+// 1. Overwrite `message.message` if `message.i18n.key` exists in `login.properties`
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -158,7 +163,21 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
 
 };
 
+const getMessage = (message) => {
+  if (message.i18n && message.i18n.key) {
+    const i18nKey = message.i18n.key;
+    if (Bundles.login[i18nKey]) {
+      Logger.info(`Override messages using i18n key ${i18nKey}`);
+      // expect user config i18n properly.
+      // e.g. the i18n value shall have placeholders like `{0}`, when params is not empty.
+      return loc(i18nKey, 'login', message.i18n.params || []);
+    }
+  }
+  return message.message;
+};
+
 const uiSchemaLabelTransformer = (transformedResp) => {
+  // Try to override label using i18n value
   if (Array.isArray(transformedResp.remediations)) {
     transformedResp.remediations
       .filter(remediation => Array.isArray(remediation.uiSchema) && remediation.uiSchema.length)
@@ -166,7 +185,20 @@ const uiSchemaLabelTransformer = (transformedResp) => {
         remediation.uiSchema.forEach(uiSchema => updateLabelForUiSchema(remediation, uiSchema));
       });
   }
+
+  // Try to override `messages` using i18n value.
+  // 1. This is only handling top level `messages` object when response status is 200.
+  // 2. See `IonResponseHelper.js` where handle `messages` object when none 200 response.
+  // 3. Handling `messages` in remediation forms on 200 response is not considered yet.
+  //    Is that possible?
+  if (transformedResp.messages && Array.isArray(transformedResp.messages.value)) {
+    transformedResp.messages.value.forEach(message => {
+      message.message = getMessage(message);
+    });
+  }
   return transformedResp;
 };
 
-module.exports = uiSchemaLabelTransformer;
+export default uiSchemaLabelTransformer;
+
+export { getMessage };
