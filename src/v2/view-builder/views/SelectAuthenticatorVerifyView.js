@@ -11,13 +11,13 @@ const Body = BaseForm.extend({
   },
   subtitle: function () {
     if (this.isPasswordRecoveryFlow())  {
-      return loc('password.reset.verification', 'login');
+      return loc('oie.password.reset.verification', 'login');
     }
     return loc('oie.select.authenticators.verify.subtitle', 'login');
   },
   isPasswordRecoveryFlow () {
-    const recoveryFactor = this.options.appState.get('recoveryFactor');
-    return recoveryFactor && recoveryFactor.factorType === 'password';
+    const recoveryAuthenticator = this.options.appState.get('recoveryAuthenticator');
+    return recoveryAuthenticator && recoveryAuthenticator.type === 'password';
   },
   noButtonBar: true,
 });
@@ -25,4 +25,3 @@ const Body = BaseForm.extend({
 export default BaseView.extend({
   Body,
 });
-
