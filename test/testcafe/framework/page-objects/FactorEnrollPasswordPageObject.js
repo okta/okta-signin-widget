@@ -62,4 +62,5 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   getRequirements () {
     return this.form.getElement(requirementsSelector).innerText;
   }
+
 }

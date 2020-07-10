@@ -4,6 +4,7 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
+    'identify',
     // 'authenticator-enroll-password',
     // 'authenticator-enroll-phone',
     // 'authenticator-enroll-phone-voice',
@@ -34,7 +35,6 @@ const idx = {
     // 'factor-verification-email',
     // 'factor-verification-password',
     // 'factor-verification-webauthn',
-    // 'identify',
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',
     // 'identify-with-apple-sso-extension-fallback',
