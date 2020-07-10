@@ -1,4 +1,4 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
@@ -22,6 +22,13 @@ const mockOptionalAuthenticatorEnrollment = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/skip')
   .respond(success);
 
+const requestLogger = RequestLogger(
+    /idx\/introspect|\/credential\/enroll/,
+    {
+      logRequestBody: true,
+      stringifyRequestBody: true,
+    }
+  );
 
 fixture(`Select Authenticator for enrollment Form`);
 
@@ -70,6 +77,36 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should navigate to password 
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
+});
+
+test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)(`select password challenge page and hit switch authenticator and re-select password`, async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
+
+  selectFactorPage.selectFactorByIndex(0);
+  const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
+  await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
+  await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
+  await enrollPasswordPage.clickGoBackLink();
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
+  // re-select password
+  selectFactorPage.selectFactorByIndex(0);
+  await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
+  await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
+
+  await t.expect(requestLogger.count(() => true)).eql(3);
+  const req1 = requestLogger.requests[0].request;
+  await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
+
+  const req2 = requestLogger.requests[1].request;
+  await t.expect(req2.url).eql('http://localhost:3000/idp/idx/credential/enroll');
+  await t.expect(req2.method).eql('post');
+  await t.expect(req2.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+
+  const req3 = requestLogger.requests[2].request;
+  await t.expect(req3.url).eql('http://localhost:3000/idp/idx/credential/enroll');
+  await t.expect(req3.method).eql('post');
+  await t.expect(req3.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
 });
 
 test.requestHooks(mockOptionalAuthenticatorEnrollment)(`should skip optional enrollment and go to success`, async t => {

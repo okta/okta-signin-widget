@@ -12,7 +12,7 @@
 
 import { _, Model } from 'okta';
 import Logger from 'util/Logger';
-import { FORMS_WITHOUT_SIGNOUT } from '../ion/RemediationConstants';
+import { FORMS_WITHOUT_SIGNOUT, FORMS_WITH_STATIC_BACK_LINK } from '../ion/RemediationConstants';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -103,12 +103,34 @@ export default Model.extend({
     return currentViewState;
   },
 
-  setIonResponse (transformedResponse) {
-    // Don't re-render view if new response is same as last.
-    // Usually happening at polling and pipeline doesn't proceed to next step.
-    // expiresAt will be different for each response, hence compare objects without that property
+  shouldReRenderView (transformedResponse) {
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
-    if (_.isEqual(_.omit(transformedResponse.idx.rawIdxState, 'expiresAt'), _.omit(previousRawState, 'expiresAt') )) {
+    const identicalResponse = _.isEqual(_.omit(transformedResponse.idx.rawIdxState, 'expiresAt'),
+      _.omit(previousRawState, 'expiresAt') );
+    let reRender = true;
+
+    if (identicalResponse) {
+      /**
+       * returns false: When new response is same as last.
+       * usually happens during polling when pipeline doesn't proceed to next step.
+       * expiresAt will be different for each response, hence compare objects without that property
+       */
+      reRender = false;
+    }
+
+    if (identicalResponse && FORMS_WITH_STATIC_BACK_LINK.includes(this.get('currentFormName'))) {
+      /**
+       * returns true: We want to force reRender if you go back to selection screen from challenge or enroll screen
+       * and re-select the same authenticator for challenge. In this case also new response will be identical
+       * to the old response.
+       */
+      reRender = true;
+    }
+    return reRender;
+  },
+
+  setIonResponse (transformedResponse) {
+    if (!this.shouldReRenderView(transformedResponse)){
       return;
     }
 
