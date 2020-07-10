@@ -192,9 +192,6 @@
   "currentAuthenticator":{
     "type":"object",
     "value":{
-      "profile": {
-        "phoneNumber": "+1 XXX-XXX-4567"
-      },
       "resend":{
         "rel":[
           "create-form"

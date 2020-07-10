@@ -4,7 +4,7 @@ import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 
-const Body = BaseForm.extend(Object.assign(
+const Body = BaseForm.extend(
   {
     className: 'phone-authenticator-challenge',
     events: {
@@ -39,6 +39,14 @@ const Body = BaseForm.extend(Object.assign(
         </div>`);
     },
 
+    getUISchema () {
+      // Change the UI schema to not display radios here.
+      const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
+      const methodTypeIndex = _.findIndex(uiSchemas, schema => schema.name === 'authenticator.methodType');
+      uiSchemas.splice(methodTypeIndex, 1);
+      return uiSchemas;
+    },
+
     render () {
       BaseForm.prototype.render.apply(this, arguments);
       const secondaryMode = this.model.get('secondaryMode');
@@ -54,7 +62,7 @@ const Body = BaseForm.extend(Object.assign(
       }
     },
   },
-));
+);
 
 export default BaseAuthenticatorView.extend({
   Body,

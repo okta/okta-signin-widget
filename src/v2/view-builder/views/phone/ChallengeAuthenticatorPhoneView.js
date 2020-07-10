@@ -74,9 +74,11 @@ const Body = BaseForm.extend(Object.assign(
         : loc('mfa.calling', 'login');
       const enterCodeText = loc('oie.phone.verify.enterCodeText', 'login');
 
+      // TODO: Clean-up post M1 when phoneNumber is available in all cases - enrollment & verification.
+      const strongClass = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login') ? 'strong' : '';
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">
-        ${sendText}&nbsp;<span class='strong'>${this.model.escape('phoneNumber')}.</span>
+        ${sendText}&nbsp;<span class='${strongClass}'>${this.model.escape('phoneNumber')}.</span>
         &nbsp;${enterCodeText}</div>`, {
         prepend: true,
         selector: '.o-form-fieldset-container',
@@ -107,7 +109,8 @@ export default BaseAuthenticatorView.extend({
         'type': 'string',
       },
       phoneNumber: {
-        'value': profile.phoneNumber,
+        // TODO: Clean-up post M1 when phoneNumber is available in all cases - enrollment & verification.
+        'value': profile && profile.phoneNumber ? profile.phoneNumber : loc('oie.phone.alternate.title', 'login'),
         'type': 'string',
       }
     }, ModelClass.prototype.local );

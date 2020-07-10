@@ -39,8 +39,7 @@
                       "label":"SMS",
                       "value":"sms"
                     }
-                  ],
-                  "mutable":false
+                  ]
                 }
               ]
             },
