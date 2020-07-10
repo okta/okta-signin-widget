@@ -42,9 +42,7 @@ const Body = BaseForm.extend(
     getUISchema () {
       // Change the UI schema to not display radios here.
       const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
-      const methodTypeIndex = _.findIndex(uiSchemas, schema => schema.name === 'authenticator.methodType');
-      uiSchemas.splice(methodTypeIndex, 1);
-      return uiSchemas;
+      return uiSchemas.filter(schema => schema.name !== 'authenticator.methodType');
     },
 
     render () {
