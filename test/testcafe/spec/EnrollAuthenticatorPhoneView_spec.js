@@ -50,7 +50,7 @@ test
     const pageSubtitle = enrollPhonePageObject.getFormSubtitle();
     await t.expect(pageTitle).contains('Set up phone authentication');
     await t.expect(pageSubtitle).contains('A code was sent to');
-    await t.expect(pageSubtitle).contains('+1 XXX-XXX-4567');
+    await t.expect(pageSubtitle).contains('your phone');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
 
     await t.expect(await enrollPhonePageObject.signoutLinkExists()).notOk();
@@ -63,7 +63,7 @@ test
     const pageSubtitle = enrollPhonePageObject.getFormSubtitle();
     await t.expect(pageTitle).contains('Set up phone authentication');
     await t.expect(pageSubtitle).contains('Calling');
-    await t.expect(pageSubtitle).contains('+1 XXX-XXX-4567');
+    await t.expect(pageSubtitle).contains('your phone');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
 
     await t.expect(await enrollPhonePageObject.signoutLinkExists()).notOk();
