@@ -9,7 +9,7 @@ const Body = BaseForm.extend({
   },
 
   save () {
-    return loc('oie.verify.button', 'login');
+    return loc('mfa.challenge.verify', 'login');
   },
 
   getUISchema () {

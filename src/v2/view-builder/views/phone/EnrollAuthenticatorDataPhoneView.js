@@ -61,7 +61,7 @@ const Body = BaseForm.extend({
 
     const countryUISchema = {
       'label-top': true,
-      label: loc('oie.phone.enroll.countryLabel', 'login'),
+      label: loc('country.label', 'login'),
       type: 'select',
       options: CountryUtil.getCountries(),
       name: 'country',
@@ -69,7 +69,7 @@ const Body = BaseForm.extend({
 
     // Create an input group - serves as a display wrapper
     const phoneNumberWithCodeUISchema = {
-      label: loc('oie.phone.enroll.phoneLabel', 'login'),
+      label: loc('mfa.phoneNumber.placeholder', 'login'),
       type: 'group',
       modelType: 'string',
       'label-top': true,
@@ -86,7 +86,7 @@ const Body = BaseForm.extend({
     };
 
     const extensionUISchema = {
-      label: loc('oie.phone.enroll.phoneExtensionLabel', 'login'),
+      label: loc('phone.extention.label', 'login'),
       type: 'text',
       // Need to manually hide and show
       // - toggleWhen puts display: block on the element when it unhides hence can't be used.

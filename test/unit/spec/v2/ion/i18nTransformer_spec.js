@@ -1,8 +1,8 @@
 import { _ } from 'okta';
-import uiSchemaLabelTransformer from 'v2/ion/uiSchemaLabelTransformer';
+import i18nTransformer from 'v2/ion/i18nTransformer';
 import Bundles from 'util/Bundles';
 
-describe('v2/ion/uiSchemaLabelTransformer', function () {
+describe('v2/ion/i18nTransformer', function () {
   let originalLoginBundle;
 
   beforeAll(() => {
@@ -31,17 +31,21 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
       'security.name_of_first_plush_toy': 'first plush toy answer',
       'security.favorite_vacation_location': 'vacation location answer',
 
+      'idx.email.verification.required': 'An email has been sent. Check your inbox.',
+      'idx.foo': 'hello the {0} authenticator',
+
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
     Bundles.login = originalLoginBundle;
+    originalLoginBundle = null;
   });
 
   it('no remediations', () => {
     const resp = {
       stateHandle: 'xxx'
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       stateHandle: 'xxx'
     });
   });
@@ -55,7 +59,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'test',
@@ -98,7 +102,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'identify',
@@ -191,7 +195,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'select-authenticator-authenticate',
@@ -272,7 +276,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'challenge-authenticator',
@@ -315,7 +319,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           relatesTo: {
@@ -360,7 +364,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           relatesTo: {
@@ -415,7 +419,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'challenge-authenticator',
@@ -485,7 +489,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'select-authenticator-enroll',
@@ -559,7 +563,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'authenticator-enrollment-data',
@@ -620,7 +624,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'enroll-authenticator',
@@ -734,7 +738,7 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
         }
       ]
     };
-    expect(uiSchemaLabelTransformer(resp)).toEqual({
+    expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'enroll-authenticator',
@@ -823,5 +827,55 @@ describe('v2/ion/uiSchemaLabelTransformer', function () {
       ]
     });
   });
+
+  it('converts messages', () => {
+    const resp = {
+      messages: {
+        value: [
+          {
+            'message': 'An activation email has been sent to john@gmail.com.',
+            'i18n': {
+              'key': 'idx.email.verification.required'
+            },
+            'class': 'INFO'
+          },
+          {
+            'message': 'another {0} message',
+            'i18n': {
+              'key': 'idx.foo',
+              'params': [
+                'Email'
+              ]
+            },
+            'class': 'INFO'
+          }
+        ]
+      }
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      messages: {
+        value: [
+          {
+            'message': 'unit test - An email has been sent. Check your inbox.',
+            'i18n': {
+              'key': 'idx.email.verification.required'
+            },
+            'class': 'INFO'
+          },
+          {
+            'message': 'unit test - hello the Email authenticator',
+            'i18n': {
+              'key': 'idx.foo',
+              'params': [
+                'Email'
+              ]
+            },
+            'class': 'INFO'
+          }
+        ]
+      }
+    });
+  });
+
 
 });

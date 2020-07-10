@@ -6,14 +6,14 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
   className: 'password-authenticator',
   title () {
     const daysToExpiry = this.options.appState.get('currentAuthenticator').settings.daysToExpiry;
-    return `${loc('oie.password.expiry.warning.title', 'login', [ daysToExpiry ])}`;
+    return `${loc('password.expiring.title', 'login', [ daysToExpiry ])}`;
   },
 
   save () {
-    return loc('oie.password.expired.primaryButton', 'login');
+    return loc('password.expired.submit', 'login');
   },
 
-  getPasswordPolicy () { 
+  getPasswordPolicy () {
     return this.options.appState.get('currentAuthenticator').settings;
   },
 });

@@ -8,7 +8,7 @@ const Body = BaseForm.extend({
     return loc('oie.security.question.enroll.title', 'login');
   },
   save () {
-    return loc('oie.verify.button', 'login');
+    return loc('mfa.challenge.verify', 'login');
   },
 });
 
