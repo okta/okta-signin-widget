@@ -1,4 +1,4 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
@@ -8,6 +8,14 @@ import xhrSelectAuthenticatorsRecovery from '../../../playground/mocks/data/idp/
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrAuthenticatorRequiredEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import xhrAuthenticatorRequiredWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn';
+
+const requestLogger = RequestLogger(
+  /idx\/introspect|\/challenge/,
+  {
+    logRequestBody: true,
+    stringifyRequestBody: true,
+  }
+);
 
 const mockChallengePassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -101,6 +109,35 @@ test.requestHooks(mockChallengePassword)(`should navigate to password challenge 
   selectFactorPage.selectFactorByIndex(0);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getPageTitle()).eql('Sign in using your password');
+});
+
+test.requestHooks(requestLogger, mockChallengePassword)(`select password challenge page and hit switch authenticator and re-select password`, async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+
+  selectFactorPage.selectFactorByIndex(0);
+  const challengeFactorPage = new ChallengeFactorPageObject(t);
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Sign in using your password');
+  await challengeFactorPage.clickSwitchAuthenticatorButton();
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  // re-select password
+  selectFactorPage.selectFactorByIndex(0);
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Sign in using your password');
+
+  await t.expect(requestLogger.count(() => true)).eql(3);
+  const req1 = requestLogger.requests[0].request;
+  await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
+
+  const req2 = requestLogger.requests[1].request;
+  await t.expect(req2.url).eql('http://localhost:3000/idp/idx/challenge');
+  await t.expect(req2.method).eql('post');
+  await t.expect(req2.body).eql('{"authenticator":{"id":"aidwboITrg4b4yAYd0g3"},"stateHandle":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdnhhU2NRWG9TbzJvMjAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..40AFMvA7ix6FA2oE.Q6jiZeKfCdON5wqqMdiDQCtgLctrIrpnQzKEwub6L5KvFWcgVpdEFcoOvT1WIq9EUVOg2m_vFLV7b-PVSoCBKhKzl0IujmkjC5XyTwnDBMmJt-2-BMez0kIkABNI1BpffStyt8uJiUqGifVrZ6AqXr6zCpkGK5f7-Mu_rVF8NS2P580n2_2p9MO9haf-z56-i3DfkX-xM1a3_AQXUGr_RzDXWPXZf6mPUhYtouJz7Qdpt6n9agvqasuSz8JLehX9TIN9Y4k_M7JKxaYfdOv9Bnp7zSEtVQeG2ADzbIMKBRXA1bP_TZ7EKHInCu4gz8JR3febZLz8EZq-kaknBB_S3AvkjtzkrUyfUNo31xZhoTWO2kiMJlo_zLRqMKW8xqPNYKjtYo9rXR_v4_wA3hOCKFyKkqCD8U1Y6bbVwoicDHOZ4fNZOtcAVB8BJ8HzpAYzF8bCKHCD9CLgIU8eCezTo_Fo90Zm138Hu0rJc0LCNlG26RFv7DZ89fJbFqobS_y8bbB-MC0wsBBxf1kx1lEFUCqZFNottzXtRnpYKqvurBj_IsV9YtO9T35WZanr2gfbl98R2YpRGMF4pfp3d_6ltntY8-a8VK9cUlkjzBNXH46O-MzOTeuWQ7XgcEqK_MNENs4JMGTixBUQeQjPaDvJ_djCigciq1qyf2peAZBDlR5lozoJbNNQtxnXTYBresTm5RvEQ7qWo5IQlNDnK9Ir5pQdgM1NTPYiVDEt4TFZ4ZjLgycdLSSOv6HSw9bS85avNswJBXwlYBDHML5NpfGL-6m8uoPmtRqCG1HTFgLdSo1iGkcPtO8zcymNlUpevIEhX8QAf0GTK66723e0Qmz8lLDcsVCBVmyvFAENJ2gnR48p4Dt96nH7KRnrXOXUYa1LxJZr_ZeT7K-5WXw5a-dESuxvg18M993Kw6yDwSHsZ-6UeppWg3PPo7dKRE1aX9fisQP1uRCJzk1CtWxPu2GcFs9UZpszLuv1Y8r9DDH7FSgzlyULzOXVcNaLzkm5-RH7jxeRTiOOZxhOBIUuVgUUnkm6x4K23-TYxf4HgV_vWrQmIdEjaP5NuYRPfLkdM8qAWCkuz5r48yjl6T5XRg1wKG7OX0JZLjbmcJsTNagXSHbPsXuBd0te_fgNYT54_eGkIIklr4LbOEhKGNpZSXSWPbTPT7zhbebrUGglldI37k8WldRGywq_ZvZX6W5hucD_yWBqqXBq45LW_iNlAvtUIXBkq4WuPgWaYRIjqWnUxbAZkL_5ejddr18MOmbwV8ftbtYhvnYbYqBvDaqpsXoVKBT0g8ZTXuSs36Rrxi6wyBnXVcM0RrC8YhU6ybBWiovNo2chyPSPhFAvmJVmVL2t3lbA7SoBnWQvNtspHY8Xd8KNf-MUSuhHKXfrSRPwWC23D9qSxoUC0ubIINYBLD-WHYv_Yn7RBU7IQ4fzoLJrE6mUBz9tZ79drLOLd7vbe8MPpWJI-MHCTHD6XTMAWqd5q22EGAUa29XV4Jl4E6xZg8CybaOUOVpuia35UPLpCKK0wDofdAAUcPCo-hj7OH3U0XsCccF0GHfo7cqoYQanqfu7mypeGEf9_471KYQVNSlc1TGrrngY6_KRBMKDcx7fZne4ypsJfumhrpfbEkeltfwFsGVs1--2bFksLI8esRxR1qUHzT0.hCv29YrLBFcW8TjKwSmCXQ"}');
+
+  const req3 = requestLogger.requests[2].request;
+  await t.expect(req3.url).eql('http://localhost:3000/idp/idx/challenge');
+  await t.expect(req3.method).eql('post');
+  await t.expect(req3.body).eql('{"authenticator":{"id":"aidwboITrg4b4yAYd0g3"},"stateHandle":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdnhhU2NRWG9TbzJvMjAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..40AFMvA7ix6FA2oE.Q6jiZeKfCdON5wqqMdiDQCtgLctrIrpnQzKEwub6L5KvFWcgVpdEFcoOvT1WIq9EUVOg2m_vFLV7b-PVSoCBKhKzl0IujmkjC5XyTwnDBMmJt-2-BMez0kIkABNI1BpffStyt8uJiUqGifVrZ6AqXr6zCpkGK5f7-Mu_rVF8NS2P580n2_2p9MO9haf-z56-i3DfkX-xM1a3_AQXUGr_RzDXWPXZf6mPUhYtouJz7Qdpt6n9agvqasuSz8JLehX9TIN9Y4k_M7JKxaYfdOv9Bnp7zSEtVQeG2ADzbIMKBRXA1bP_TZ7EKHInCu4gz8JR3febZLz8EZq-kaknBB_S3AvkjtzkrUyfUNo31xZhoTWO2kiMJlo_zLRqMKW8xqPNYKjtYo9rXR_v4_wA3hOCKFyKkqCD8U1Y6bbVwoicDHOZ4fNZOtcAVB8BJ8HzpAYzF8bCKHCD9CLgIU8eCezTo_Fo90Zm138Hu0rJc0LCNlG26RFv7DZ89fJbFqobS_y8bbB-MC0wsBBxf1kx1lEFUCqZFNottzXtRnpYKqvurBj_IsV9YtO9T35WZanr2gfbl98R2YpRGMF4pfp3d_6ltntY8-a8VK9cUlkjzBNXH46O-MzOTeuWQ7XgcEqK_MNENs4JMGTixBUQeQjPaDvJ_djCigciq1qyf2peAZBDlR5lozoJbNNQtxnXTYBresTm5RvEQ7qWo5IQlNDnK9Ir5pQdgM1NTPYiVDEt4TFZ4ZjLgycdLSSOv6HSw9bS85avNswJBXwlYBDHML5NpfGL-6m8uoPmtRqCG1HTFgLdSo1iGkcPtO8zcymNlUpevIEhX8QAf0GTK66723e0Qmz8lLDcsVCBVmyvFAENJ2gnR48p4Dt96nH7KRnrXOXUYa1LxJZr_ZeT7K-5WXw5a-dESuxvg18M993Kw6yDwSHsZ-6UeppWg3PPo7dKRE1aX9fisQP1uRCJzk1CtWxPu2GcFs9UZpszLuv1Y8r9DDH7FSgzlyULzOXVcNaLzkm5-RH7jxeRTiOOZxhOBIUuVgUUnkm6x4K23-TYxf4HgV_vWrQmIdEjaP5NuYRPfLkdM8qAWCkuz5r48yjl6T5XRg1wKG7OX0JZLjbmcJsTNagXSHbPsXuBd0te_fgNYT54_eGkIIklr4LbOEhKGNpZSXSWPbTPT7zhbebrUGglldI37k8WldRGywq_ZvZX6W5hucD_yWBqqXBq45LW_iNlAvtUIXBkq4WuPgWaYRIjqWnUxbAZkL_5ejddr18MOmbwV8ftbtYhvnYbYqBvDaqpsXoVKBT0g8ZTXuSs36Rrxi6wyBnXVcM0RrC8YhU6ybBWiovNo2chyPSPhFAvmJVmVL2t3lbA7SoBnWQvNtspHY8Xd8KNf-MUSuhHKXfrSRPwWC23D9qSxoUC0ubIINYBLD-WHYv_Yn7RBU7IQ4fzoLJrE6mUBz9tZ79drLOLd7vbe8MPpWJI-MHCTHD6XTMAWqd5q22EGAUa29XV4Jl4E6xZg8CybaOUOVpuia35UPLpCKK0wDofdAAUcPCo-hj7OH3U0XsCccF0GHfo7cqoYQanqfu7mypeGEf9_471KYQVNSlc1TGrrngY6_KRBMKDcx7fZne4ypsJfumhrpfbEkeltfwFsGVs1--2bFksLI8esRxR1qUHzT0.hCv29YrLBFcW8TjKwSmCXQ"}');
+
 });
 
 test.requestHooks(mockChallengeWebauthn)(`should navigate to webauthn challenge page`, async t => {
