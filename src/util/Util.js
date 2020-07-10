@@ -216,36 +216,6 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
     return !!(token && _.isString(token) && token.startsWith('00'));
   };
 
-  Util.introspectToken = function (authClient, widgetOptions) {
-    const domain = widgetOptions.baseUrl;
-    const stateHandle = widgetOptions.stateToken;
-    const version = widgetOptions.apiVersion;
-    var trans;
-    const isV1StateToken = this.isV1StateToken(stateHandle);
-    if (isV1StateToken) {
-      // V1 pipeline uses authjs.introspect
-      trans = authClient.tx.introspect({
-        stateToken: widgetOptions.stateToken
-      });
-    } else {
-      // V2 pipeline uses idxjs.start
-      trans = start({ domain, stateHandle, version });
-    }
-    var deferred = Q.defer();
-    if (Q.isPromiseAlike(trans)) {
-      trans.then(function (trans) {
-        deferred.resolve(trans);
-      }).catch(function (errObj) {
-        deferred.reject(errObj);
-        //throw errors at the idx-js layer
-        if (!isV1StateToken) {
-          Logger.error(`Introspection Error at idx-js layer: ${errObj.error}`);
-        }
-      });
-    }
-    return deferred.promise;
-  };
-
   return Util;
 
 });

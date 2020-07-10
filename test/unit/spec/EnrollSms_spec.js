@@ -1,6 +1,5 @@
 /* eslint max-params: 0 */
 define([
-  'q',
   'okta',
   '@okta/okta-auth-js',
   'util/Util',
@@ -18,7 +17,7 @@ define([
   'helpers/xhr/MFA_ENROLL_ACTIVATE_errorActivate',
   'helpers/xhr/MFA_ENROLL_ACTIVATE_invalid_phone',
   'helpers/xhr/SUCCESS'
-], function (Q, Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, $sandbox, Router,
+], function (Okta, OktaAuth, LoginUtil, Util, AuthContainer, Form, Beacon, Expect, $sandbox, Router,
   resAllFactors,
   resExistingPhone,
   resEnrollSuccess,
@@ -339,7 +338,7 @@ define([
           .then(function () {
             expect(Util.numAjaxRequests()).toBe(2);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
-              url: 'https://foo.com/api/v1/authn',
+              url: 'https://foo.com/api/v1/authn/introspect',
               data: {
                 stateToken: 'dummy-token'
               }

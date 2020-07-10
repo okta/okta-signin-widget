@@ -53,6 +53,9 @@ function (Okta, BrowserFeatures, Settings,
     return true;
   }
 
+  /**
+   * TODO: deprecated by `util/LanguageUtil.loadLanguage`
+   */
   function loadLanguage (appState, i18n, assetBaseUrl, assetRewrite) {
     var timeout = setTimeout(function () {
       // Trigger a spinner if we're waiting on a request for a new language.

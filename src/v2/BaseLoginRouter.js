@@ -15,33 +15,26 @@
 // responsible for adding new routes)
 import { _, $, Backbone, Router, loc } from 'okta';
 import Settings from 'models/Settings';
-import BrowserFeatures from 'util/BrowserFeatures';
 import Bundles from 'util/Bundles';
 import ColorsUtil from 'util/ColorsUtil';
 import Enums from 'util/Enums';
 import Errors from 'util/Errors';
 import Logger from 'util/Logger';
+import LanguageUtil from 'util/LanguageUtil';
 import AuthContainer from 'views/shared/AuthContainer';
 import Header from 'views/shared/Header';
 import responseTransformer from './ion/responseTransformer';
 import uiSchemaTransformer from './ion/uiSchemaTransformer';
 import i18nTransformer from './ion/i18nTransformer';
 import AppState from './models/AppState';
+import idx from 'idx';
 
-function loadLanguage (appState, languageCode, i18n, assetBaseUrl, assetRewrite) {
-  const timeout = setTimeout(function () {
-    // Trigger a spinner if we're waiting on a request for a new language.
-    appState.trigger('loading', true);
-  }, 200);
-
-  return Bundles.loadLanguage(languageCode, i18n, {
-    baseUrl: assetBaseUrl,
-    rewrite: assetRewrite,
-  }).then(function () {
-    clearTimeout(timeout);
-    appState.trigger('loading', false);
-  });
-}
+const introspectStateToken = (settings) => {
+  const domain = settings.get('baseUrl');
+  const stateHandle = settings.get('stateToken');
+  const version = settings.get('apiVersion');
+  return idx.start({ domain, stateHandle, version });
+};
 
 export default Router.extend({
   Events: Backbone.Events,
@@ -57,6 +50,7 @@ export default Router.extend({
         Logger.error(err);
       };
     }
+
     this.settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });
     this.settings.setAuthClient(options.authClient);
 
@@ -84,30 +78,11 @@ export default Router.extend({
       settings: this.settings,
     });
 
-    // TODO: OKTA-244631 How to suface up the CORS error in IDX?
-    // Since in new pipeline, it invokes introspect API first
-    // hence no way to call GlobalError when CORS failure.
-    this.listenTo(this.appState, 'change:introspectError', function (appState, err) {
-      // Global error handling for CORS enabled errors
-      if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
-        this.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
-        return;
-      }
-      this.settings.callGlobalError(new Errors.ConfigError(
-        err
-      ));
-      this.defaultAuth();
-    });
-
-    this.listenTo(this.appState, 'change:introspectSuccess', function (appState, idxResponse) {
-      this.appState.trigger('remediationSuccess', idxResponse);
-    });
-
-    this.listenTo(this.appState, 'remediationSuccess', this.handleRemediationSuccess);
-
+    this.listenTo(this.appState, 'remediationSuccess', this.handleIdxResponseSuccess);
+    this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
   },
 
-  handleRemediationSuccess: function (idxResponse) {
+  handleIdxResponseSuccess (idxResponse) {
     // transform response
     const ionResponse = _.compose(
       i18nTransformer,
@@ -117,8 +92,34 @@ export default Router.extend({
     this.appState.setIonResponse(ionResponse);
   },
 
-  render: function (Controller, options = {}) {
+  handleIdxResponseFailure (error = {}) {
+    if (error && error.details && error.details.stateHandle) {
+      // 1. loosely check whether is IDX error response
+      // see idx for details: https://github.com/okta/okta-idx-js/blob/master/src/index.js
 
+      // Need to mimic IdxRespones as idx returns raw response at error case
+      this.handleIdxResponseSuccess({
+        rawIdxState: error.details,
+        context: _.pick(error.details, 'messages'),
+        neededToProceed: [],
+      });
+    } else {
+      // 2. otherwise, assume it's config error
+      this.settings.callGlobalError(new Errors.ConfigError(
+        error
+      ));
+
+      // -- TODO: OKTA-244631 How to suface up the CORS error in IDX?
+      // -- The `err` object from idx.js doesn't have XHR object
+      // Global error handling for CORS enabled errors
+      // if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
+      //   this.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
+      //   return;
+      // }
+    }
+  },
+
+  render: function (Controller, options = {}) {
     // Since we have a wrapper view, render our wrapper and use its content
     // element as our new el.
     // Note: Render it here because we know dom is ready at this point
@@ -129,14 +130,27 @@ export default Router.extend({
     // If we need to load a language (or apply custom i18n overrides), do
     // this now and re-run render after it's finished.
     if (!Bundles.isLoaded(this.settings.get('languageCode'))) {
-      return loadLanguage(
-        this.appState,
-        this.settings.get('languageCode'),
-        this.settings.get('i18n'),
-        this.settings.get('assets.baseUrl'),
-        this.settings.get('assets.rewrite')
-      )
-        .then(_.bind(this.render, this, Controller, options));
+      return LanguageUtil.loadLanguage(this.appState, this.settings)
+        .done(() => {
+          this.render(Controller, options);
+        });
+    }
+
+    // introspect stateToken when widget is bootstrap with state token
+    // and remove it from `settings` afterwards as IDX response always has
+    // state token (which will be set into AppState)
+    if (this.settings.get('stateToken')) {
+      return introspectStateToken(this.settings)
+        .then(idxResp => {
+          this.settings.unset('stateToken');
+          this.appState.trigger('remediationSuccess', idxResp);
+          this.render(Controller, options);
+        })
+        .catch(errorResp => {
+          this.settings.unset('stateToken');
+          this.appState.trigger('remediationError', errorResp.error);
+          this.render(Controller, options);
+        });
     }
 
     // Load the custom colors only on the first render

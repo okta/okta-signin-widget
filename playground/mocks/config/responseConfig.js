@@ -4,17 +4,18 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    'identify',
+    'error-internal-server-error'
     // 'authenticator-enroll-password',
     // 'authenticator-enroll-phone',
     // 'authenticator-enroll-phone-voice',
     // 'authenticator-enroll-data-phone',
     // 'authenticator-enroll-data-phone-voice',
+    // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
-    'authenticator-verification-data-phone-sms-then-voice',
+    // 'authenticator-verification-data-phone-sms-then-voice',
     // 'authenticator-verification-data-phone-voice-only',
     // 'authenticator-verification-data-phone-voice-then-sms',
     // 'authenticator-verification-email',
@@ -35,6 +36,7 @@ const idx = {
     // 'factor-verification-email',
     // 'factor-verification-password',
     // 'factor-verification-webauthn',
+    // 'identify',
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',
     // 'identify-with-apple-sso-extension-fallback',
@@ -107,6 +109,10 @@ const idx = {
 
 // ===== AUTHN
 const authn = {
+  '/api/v1/authn/introspect': [
+    'mfa-required-email',
+    // 'unauthenticated',
+  ],
   '/api/v1/authn': [
     'unauthenticated',
     'success-001'
