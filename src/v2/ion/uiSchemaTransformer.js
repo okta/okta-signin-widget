@@ -88,7 +88,7 @@ const insertUISchema = (transformedResp) => {
   return transformedResp;
 };
 
-module.exports = insertUISchema;
+export default insertUISchema;
 
 /**
  * @typedef {Object} FactorOption
