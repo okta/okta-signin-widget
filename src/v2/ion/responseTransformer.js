@@ -176,4 +176,4 @@ const convert = (settings, idx = {}) => {
   return result;
 };
 
-module.exports = convert;
+export default convert;

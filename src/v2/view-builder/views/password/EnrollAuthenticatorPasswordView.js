@@ -10,7 +10,7 @@ const Body = BaseForm.extend({
     return loc('oie.password.enroll.title', 'login');
   },
   save () {
-    return loc('oie.next.button', 'login');
+    return loc('oform.next', 'login');
   },
 
   initialize () {
@@ -89,7 +89,7 @@ export default BaseAuthenticatorView.extend({
         if (this.get('credentials.passcode') !== this.get('confirmPassword') &&
           this.get('credential.value') !== this.get('confirmPassword')) {
           const errors = {
-            'confirmPassword': loc('oie.password.match.error', 'login'),
+            'confirmPassword': loc('password.error.match', 'login'),
           };
           return errors;
         }

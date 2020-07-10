@@ -47,7 +47,7 @@ define([
 
         FormType.Toolbar({
           noCancelButton: true,
-          save: Okta.loc('oform.verify', 'login')
+          save: Okta.loc('oform.verify', 'login') // TODO: deprecated by mfa.challenge.verify
         })
       ];
     }
