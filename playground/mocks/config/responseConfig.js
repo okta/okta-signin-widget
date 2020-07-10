@@ -157,7 +157,7 @@ const emailVerificationMocks = {
 
 
 // ===== IDX
-// Windows authenticator with loopback server
+// device probe: Windows authenticator with loopback server
 const windowAuthnLoopback = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback', // 1 (response order)
@@ -169,7 +169,7 @@ const windowAuthnLoopback = {
   ],
 };
 
-// Windows authenticator with loopback server polling error (device not registered deny access)
+// device probe: Windows authenticator with loopback server polling error (device not registered deny access)
 const windowAuthnLoopbackPollingFail = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback', // 1 (response order)
@@ -182,7 +182,7 @@ const windowAuthnLoopbackPollingFail = {
   ],
 };
 
-//Windows authenticator with loopback server failfast
+// device probe: Windows authenticator with loopback server failfast
 const windowAuthnLoopbackFailfast = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback',
@@ -198,7 +198,7 @@ const windowAuthnLoopbackFailfast = {
   ],
 };
 
-// Windows/Android authenticator with custom URI
+// device probe: Windows/Android authenticator with custom URI
 const windowAuthnCustomUri = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback-challenge-not-received',
@@ -211,14 +211,14 @@ const windowAuthnCustomUri = {
   ]
 };
 
-// Apple authenticator with Redirect SSO extension
+// device probe: Apple authenticator with Redirect SSO extension
 const appleSsoExtension = {
   '/idp/idx/introspect': [
     'identify-with-apple-sso-extension',
   ],
 };
 
-// Apple authenticator when Credential SSO extension
+// device probe: Apple authenticator with Credential SSO extension
 const appleCredentialSsoExtension = {
   '/idp/idx/introspect': [
     'identify-with-apple-credential-sso-extension',
@@ -228,6 +228,7 @@ const appleCredentialSsoExtension = {
   ],
 };
 
+// device probe: Apple authenticator with universal link
 const appleUniversalLink = {
   '/idp/idx/introspect': [
     'identify-with-apple-sso-extension-fallback'
@@ -239,6 +240,58 @@ const appleUniversalLink = {
     'identify-with-universal-link',
     'identify-with-universal-link',
     'identify-with-universal-link',
+    'success',
+  ],
+};
+
+// user verification: Windows authenticator with loopback server
+const userVerificationLoopback = {
+  '/idp/idx/introspect': [
+    'identify-with-user-verification-loopback'
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-user-verification-loopback',
+    'identify-with-user-verification-loopback',
+    'identify-with-user-verification-loopback',
+    'success',
+  ],
+};
+
+// user verification: Windows/Android authenticator with custom URI
+const userVerificationCustomUri = {
+  '/idp/idx/introspect': [
+    'identify-with-device-probing-loopback-challenge-not-received',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-user-verification-custom-uri',
+  ],
+  '/idp/idx/authenticators/okta-verify/launch': [
+    'identify-with-user-verification-custom-uri',
+  ]
+};
+
+// user verification: Apple authenticator with Credential SSO extension
+const userVerificationCredentialSSOExtension = {
+  '/idp/idx/introspect': [
+    'identify-with-user-verification-credential-sso-extension'
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
+    'identify'
+  ],
+};
+
+// user verification: Apple authenticator with universal link
+const userVerificationUniversalLink = {
+  '/idp/idx/introspect': [
+    'identify-with-user-verification-universal-link'
+  ],
+  '/idp/idx/authenticators/okta-verify/launch': [
+    'identify-with-user-verification-universal-link',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-user-verification-universal-link',
+    'identify-with-user-verification-universal-link',
+    'identify-with-user-verification-universal-link',
     'success',
   ],
 };
