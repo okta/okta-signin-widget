@@ -57,6 +57,9 @@ const VIEWS_MAPPING = {
   [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
   },
+  [RemediationForms.USER_VERIFICATION_CHALLENGE_POLL]: {
+    [DEFAULT]: DeviceChallengePollView,
+  },
   [RemediationForms.CANCEL_TRANSACTION]: {
     [DEFAULT]: SSOExtensionView,
   },

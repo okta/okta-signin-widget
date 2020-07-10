@@ -7,6 +7,7 @@ import Logger from '../../../util/Logger';
 import DeviceFingerprint from '../../../util/DeviceFingerprint';
 import polling from './shared/polling';
 import Util from '../../../util/Util';
+import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -33,6 +34,11 @@ const Body = BaseForm.extend(Object.assign(
       BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
       this.deviceChallengePollRemediation = this.options.currentViewState;
+      this.currentRemediationName = this.options.currentViewState.name;
+      this.deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
+      if (this.currentRemediationName === RemediationForms.USER_VERIFICATION_CHALLENGE_POLL) {
+        this.deviceChallenge = this.deviceChallenge.contextualData.challenge.value;
+      }
       this.doChallenge();
       this.startDevicePolling();
     },
@@ -48,12 +54,11 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     doChallenge () {
-      const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
-      switch (deviceChallenge.challengeMethod) {
+      switch (this.deviceChallenge.challengeMethod) {
       case 'LOOPBACK':
         this.title = loc('signin.with.fastpass', 'login');
         this.add('<div class="spinner"></div>');
-        this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
+        this.doLoopback(this.deviceChallenge.domain, this.deviceChallenge.ports, this.deviceChallenge.challengeRequest);
         break;
       case 'CUSTOM_URI':
         this.title = loc('customUri.title', 'login');
@@ -61,7 +66,7 @@ const Body = BaseForm.extend(Object.assign(
         this.add(`
           {{{i18n code="customUri.content" bundle="login"}}}
         `);
-        this.customURI = deviceChallenge.href;
+        this.customURI = this.deviceChallenge.href;
         this.doCustomURI();
         break;
       case 'UNIVERSAL_LINK':
@@ -72,10 +77,10 @@ const Body = BaseForm.extend(Object.assign(
         this.add(createButton({
           className: 'ul-button button button-wide button-primary',
           title: loc('universalLink.button', 'login'),
-          click () {
+          click: () => {
             // only window.location.href can open universal link in iOS/MacOS
             // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
-            Util.redirect(deviceChallenge.href);
+            Util.redirect(this.deviceChallenge.href);
           }
         }));
       }
@@ -135,7 +140,11 @@ const Body = BaseForm.extend(Object.assign(
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
             if (countFailedPorts === ports.length) {
               Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              this.options.appState.trigger('invokeAction', 'authenticatorChallenge-cancel');
+              this.options.appState.trigger(
+                'invokeAction',
+                this.currentRemediationName === RemediationForms.USER_VERIFICATION_CHALLENGE_POLL ?
+                  'currentAuthenticatorEnrollment-cancel' : 'authenticatorChallenge-cancel'
+              );
             }
           });
       });
@@ -155,7 +164,12 @@ const Body = BaseForm.extend(Object.assign(
 const Footer = BaseFooter.extend({
   links () {
     let links = [];
-    const deviceChallenge = this.options.currentViewState.relatesTo.value;
+    this.deviceChallengePollRemediation = this.options.currentViewState;
+    const currentRemediationName = this.options.currentViewState.name;
+    let deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
+    if (currentRemediationName === RemediationForms.USER_VERIFICATION_CHALLENGE_POLL) {
+      deviceChallenge = deviceChallenge.contextualData.challenge.value;
+    }
 
     if (deviceChallenge.challengeMethod === 'CUSTOM_URI') {
       links = [

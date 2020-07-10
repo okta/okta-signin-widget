@@ -234,6 +234,55 @@ const appleUniversalLink = {
   ],
 };
 
+const userVerificationLoopback = {
+  '/idp/idx/introspect': [
+    'identify-with-user-verification-loopback'
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-user-verification-loopback',
+    'identify-with-user-verification-loopback',
+    'identify-with-user-verification-loopback',
+    'success',
+  ],
+};
+
+// Windows/Android authenticator with custom URI
+const userVerificationCustomUri = {
+  '/idp/idx/introspect': [
+    'identify-with-device-probing-loopback-challenge-not-received',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-user-verification-custom-uri',
+  ],
+  '/idp/idx/authenticators/okta-verify/launch': [
+    'identify-with-user-verification-custom-uri',
+  ]
+};
+
+const userVerificationCredentialSSOExtension = {
+  '/idp/idx/introspect': [
+    'identify-with-user-verification-credential-sso-extension'
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
+    'identify'
+  ],
+};
+
+const userVerificationUniversalLink = {
+  '/idp/idx/introspect': [
+    'identify-with-user-verification-universal-link'
+  ],
+  '/idp/idx/authenticators/okta-verify/launch': [
+    'identify-with-user-verification-universal-link',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-user-verification-universal-link',
+    'identify-with-user-verification-universal-link',
+    'identify-with-user-verification-universal-link',
+    'success',
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };

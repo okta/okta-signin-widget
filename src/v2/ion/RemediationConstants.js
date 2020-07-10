@@ -34,6 +34,7 @@ const FORMS = {
 
   DEVICE_CHALLENGE_POLL: 'device-challenge-poll',
   DEVICE_APPLE_SSO_EXTENSION: 'device-apple-sso-extension',
+  USER_VERIFICATION_CHALLENGE_POLL: 'user-verification-poll',
   CANCEL_TRANSACTION: 'cancel-transaction',
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
 };
