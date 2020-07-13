@@ -1,18 +1,14 @@
-import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
+import CalloutObject from './components/CalloutObject';
 
 export default class TerminalPageObject extends BasePageObject {
-  constructor(t) {
-    super(t);
-    this.body = new Selector('.terminal-state');
-    this.footer = new Selector('.siw-main-footer');
-  }
 
   getHeader() {
-    return this.body.find('[data-se="o-form-head"]').innerText;
+    return this.form.getTitle();
   }
 
-  getFooterBackLink() {
-    return this.footer.find('[data-se="back"]');
+  getErrorMessages() {
+    return new CalloutObject(this.form.el);
   }
+
 }
