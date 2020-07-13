@@ -1,4 +1,5 @@
-import Util from 'util/Util';
+import idx from 'idx';
+
 const BASE_URL = 'http://localhost:3000';
 
 const mockIntrospect = (done, mockData, assertionFn) => {
@@ -10,16 +11,18 @@ const mockIntrospect = (done, mockData, assertionFn) => {
     responseJSON: mockData,
   });
 
-  Util.introspectToken(null, {
-    baseUrl: BASE_URL,
-    stateToken: '01test-state-token',
-    apiVersion: '1.0.0'
-  })
+  const idxStartOpt = {
+    domain: BASE_URL,
+    stateHandle: '01test-state-token',
+    version: '1.0.0'
+  };
+
+  idx.start(idxStartOpt)
     .then(assertionFn)
     .catch((error)=>{
       fail(error);
     })
-    .done(() => {
+    .finally(() => {
       jasmine.Ajax.uninstall();
       done();
     });
