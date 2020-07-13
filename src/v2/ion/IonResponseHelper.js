@@ -30,12 +30,43 @@ const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => 
 };
 
 /**
+ * Although time complexity is O(n^2),
+ * the `array` is actually very small (size < 5),
+ * hence performance doesn't matter.
+ */
+const uniqWith = (array, comparator) => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+  if (!_.isFunction(comparator) || array.length === 1) {
+    return array;
+  }
+
+  const result = [];
+  for (let i = 0; i < array.length; i++) {
+    let seen = false;
+    for (let j = i + 1; j < array.length; j++) {
+      /* eslint max-depth: [2, 3] */
+      if (comparator(array[i], array[j])) {
+        seen = true;
+        break;
+      }
+    }
+    if (!seen) {
+      result.push(array[i]);
+    }
+  }
+
+  return result;
+};
+
+/**
  * returns errors
  * @example
  * errors = [
  *   {property : fieldName1, errorSummary: [errorMessage1]},
- *   {property : fieldName2, errorSummary: [errorMessage1]}
- *   {property : fieldName3, errorSummary: [errorMessage1, errorMessage2]}
+ *   {property : fieldName2, errorSummary: [errorMessage2]}
+ *   {property : fieldName3, errorSummary: [errorMessage31, errorMessage32]}
  * ]
  */
 const getRemediationErrors = (res) => {
@@ -71,7 +102,10 @@ const getRemediationErrors = (res) => {
     }
   });
 
-  return _.flatten(errors);
+  // API may return identical error on same field
+  // thus run through `uniqWith`.
+  // Check unit test for details.
+  return uniqWith(_.flatten(errors), _.isEqual);
 };
 
 /**

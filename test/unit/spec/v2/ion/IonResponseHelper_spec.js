@@ -257,7 +257,6 @@ describe('v2/ion/IonResponseHelper', function () {
         }
       });
     });
-
     it('has `options` fields messages', () => {
       const resp = {
         remediation: {
@@ -269,12 +268,146 @@ describe('v2/ion/IonResponseHelper', function () {
                   name: 'authenticator',
                   options: [
                     {
-                      label: 'xxx',
+                      label: 'select a question',
                       value: {
                         form: {
                           value: [
                             {
-                              label: 'Question',
+                              label: 'choose a question',
+                              name: 'questionKey',
+                              options: {
+                                foo: 'Foo',
+                                bar: 'Bar'
+                              }
+                            },
+                            {
+                              label: 'Answer',
+                              name: 'answer',
+                              messages: {
+                                value: [
+                                  {
+                                    'class': 'ERROR',
+                                    'i18n': {
+                                      'key': 'answer.is.short',
+                                      'params': []
+                                    },
+                                    'message': 'security question answer is too short'
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      label: 'create your own question',
+                      value: {
+                        form: {
+                          value: [
+                            {
+                              name: 'questionKey',
+                              value: 'custom',
+                            },
+                            {
+                              label: 'create you own question',
+                              name: 'question',
+                            },
+                            {
+                              label: 'Answer',
+                              name: 'answer',
+                              messages: {
+                                value: [
+                                  {
+                                    'class': 'ERROR',
+                                    'i18n': {
+                                      'key': 'answer.is.short',
+                                      'params': []
+                                    },
+                                    'message': 'security question answer is too short'
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+
+                }
+              ]
+            }
+          ]
+        }
+      };
+      expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
+        responseJSON: {
+          errorCauses: [
+            {
+              property: 'authenticator.answer',
+              errorSummary: ['security question answer is too short'],
+            }
+          ],
+          errorSummary: '',
+        }
+      });
+    });
+
+    it('has `options` fields messages with i18n override', () => {
+      const resp = {
+        remediation: {
+          value: [
+            {
+              name: 'test-form',
+              value: [
+                {
+                  name: 'authenticator',
+                  options: [
+                    {
+                      label: 'select a question',
+                      value: {
+                        form: {
+                          value: [
+                            {
+                              label: 'choose a question',
+                              name: 'questionKey',
+                              options: {
+                                foo: 'Foo',
+                                bar: 'Bar'
+                              }
+                            },
+                            {
+                              label: 'Answer',
+                              name: 'answer',
+                              messages: {
+                                value: [
+                                  {
+                                    'class': 'ERROR',
+                                    'i18n': {
+                                      'key': 'answer.too.short',
+                                      'params': []
+                                    },
+                                    'message': 'security question answer is too short'
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      label: 'create your own question',
+                      value: {
+                        form: {
+                          value: [
+                            {
+                              name: 'questionKey',
+                              value: 'custom',
+                            },
+                            {
+                              label: 'create you own question',
                               name: 'question',
                             },
                             {

@@ -88,7 +88,20 @@
                         "name": "answer",
                         "label": "Answer",
                         "required": true,
-                        "secret": true
+                        "secret": true,
+                        "messages": {
+                          "type": "array",
+                          "value": [
+                            {
+                              "class": "ERROR",
+                              "i18n": {
+                                "key": "securityQuestion.answer.tooShort",
+                                "params": []
+                              },
+                              "message": "The security answer must be at least 4 characters"
+                            }
+                          ]
+                        }
                       }
                     ]
                   }
