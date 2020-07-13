@@ -24,8 +24,8 @@ const FORMS = {
   SELECT_AUTHENTICATOR_ENROLL_DATA: 'select-authenticator-enroll-data',
   AUTHENTICATOR_ENROLLMENT_DATA: 'authenticator-enrollment-data',
   ENROLL_AUTHENTICATOR: 'enroll-authenticator',
-  RE_ENROLL_AUTHENTICATOR: 're-enroll-authenticator',
-  RE_ENROLL_AUTHENTICATOR_WARNING: 're-enroll-authenticator-warning',
+  REENROLL_AUTHENTICATOR: 'reenroll-authenticator',
+  REENROLL_AUTHENTICATOR_WARNING: 'reenroll-authenticator-warning',
   RESET_AUTHENTICATOR: 'reset-authenticator',
   SKIP: 'skip',
 
