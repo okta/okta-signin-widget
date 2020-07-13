@@ -6,6 +6,7 @@ const GO_BACK_LINK = '.auth-footer .js-go-back';
 const SKIP_LINK = '.auth-footer .js-skip';
 const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
 const ionMessagesSelector = '.ion-messages-container';
+
 export default class BasePageObject {
   constructor(t) {
     this.t = t;

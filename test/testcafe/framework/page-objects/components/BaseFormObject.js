@@ -5,11 +5,11 @@ const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 export default class BaseFormObject {
   constructor (t, index) {
     this.t = t;
-    this.form = new Selector('.o-form').nth(index || 0);
+    this.el = new Selector('.o-form').nth(index || 0);
   }
 
   async setTextBoxValue(name, text) {
-    const element = this.form.find(`input[name="${name}"]`);
+    const element = this.el.find(`input[name="${name}"]`);
 
     // clear exists text
     await this.t
@@ -32,38 +32,38 @@ export default class BaseFormObject {
   }
 
   elementExist(selector) {
-    return this.form.find(selector).exists;
+    return this.el.find(selector).exists;
   }
 
   getElement(selector) {
-    return this.form.find(selector);
+    return this.el.find(selector);
   }
 
   getTitle() {
-    return this.form.find('[data-se="o-form-head"]').innerText;
+    return this.el.find('[data-se="o-form-head"]').innerText;
   }
 
   getSubtitle() {
-    return this.form.find('[data-se="o-form-explain"]').innerText;
+    return this.el.find('[data-se="o-form-explain"]').innerText;
   }
 
   getSelectFormButtonLabel(selector) {
-    return this.form.find(selector).innerText;
+    return this.el.find(selector).innerText;
   }
 
   getTextBoxValue(name) {
-    return this.form.find(`input[name="${name}"]`).value;
+    return this.el.find(`input[name="${name}"]`).value;
   }
 
   async setCheckbox(name, value) {
-    const checked = await this.form.find(`input[name="${name}"]`).checked;
+    const checked = await this.el.find(`input[name="${name}"]`).checked;
     if (value !== checked) {
-      await this.t.click(this.form.find(`input[name="${name}"] + label`));
+      await this.t.click(this.el.find(`input[name="${name}"] + label`));
     }
   }
 
   getCheckboxValue(name) {
-    return this.form.find(`input[name="${name}"]`).checked;
+    return this.el.find(`input[name="${name}"]`).checked;
   }
 
   async focusSaveButton() {
@@ -75,23 +75,23 @@ export default class BaseFormObject {
   }
 
   async clickElement(selector) {
-    await this.t.click(this.form.find(selector));
+    await this.t.click(this.el.find(selector));
   }
 
   async clickSaveButton() {
-    await this.t.click(this.form.find('.o-form-button-bar input[data-type="save"]'));
+    await this.t.click(this.el.find('.o-form-button-bar input[data-type="save"]'));
   }
 
   async waitForErrorBox() {
-    await this.form.find(`.okta-form-infobox-error`).exists;
+    await this.el.find(`.okta-form-infobox-error`).exists;
   }
 
   getErrorBoxText() {
-    return this.form.find(`.okta-form-infobox-error`).innerText;
+    return this.el.find(`.okta-form-infobox-error`).innerText;
   }
 
   hasTextBoxError(name) {
-    return this.form.find(`.o-form-input-name-${name}.o-form-has-errors`).exists;
+    return this.el.find(`.o-form-input-name-${name}.o-form-has-errors`).exists;
   }
 
   hasTextBoxErrorMessage(fieldName) {
@@ -141,12 +141,12 @@ export default class BaseFormObject {
   //////////////////////////////////////////////////
 
   findFormFieldInput(fieldName) {
-    return this.form
+    return this.el
       .find(`[data-se="o-form-input-${fieldName}"]`);
   }
 
   findFormFieldInputLabel(fieldName) {
-    return this.form
+    return this.el
       .find(`[data-se="o-form-input-${fieldName}"]`)
       .parent('[data-se="o-form-input-container"]')
       .sibling('[data-se="o-form-label"]')

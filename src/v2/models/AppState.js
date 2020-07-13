@@ -159,6 +159,7 @@ export default Model.extend({
     if (transformedResponse.idx.context.messages) {
       transformedResponse.terminal = {
         name: 'terminal',
+        // TODO: set value is unnecessary as `messages` will be display via `BaseForm.showMessages`.
         value: transformedResponse.idx.context.messages.value && transformedResponse.idx.context.messages.value.length
           ? transformedResponse.idx.context.messages.value
           : [],

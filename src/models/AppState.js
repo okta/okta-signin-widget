@@ -45,7 +45,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         'securityImageDescription': UNDEFINED_USER_IMAGE_DESCRIPTION
       });
     }
-    
+
     // Reserved characters in the username must be escaped before the query can be safely executed
     username = encodeURIComponent(username);
     var url = securityImageUrlTpl({ baseUrl: baseUrl, username: username });
@@ -171,6 +171,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       // and AppState. Settings is the *configured* language, and is static.
       // AppState is the dynamic language state - it can be changed via a
       // language picker, etc.
+      // Note: this is conceptial feasible but not yet being implemented.
       languageCode: ['string', true],
       disableUsername: ['boolean', false, false],
       trapMfaRequiredResponse: ['boolean', false, false],

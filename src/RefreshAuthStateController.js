@@ -11,7 +11,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['q', 'okta', 'util/FormController'], function (Q, Okta, FormController) {
+define([
+  'util/FormController'
+], function (FormController) {
 
   return FormController.extend({
     className: 'refresh-auth-state',
@@ -27,31 +29,19 @@ define(['q', 'okta', 'util/FormController'], function (Q, Okta, FormController) 
       var token = this.options.token;
       this.model.startTransaction(function (authClient) {
         appState.trigger('loading', true);
-        if (this.options.appState.get('introspectSuccess') ||
-            this.options.appState.get('introspectError')) {
-          // Also handles the case when we hit introspect and are on the oldpipeline
-          this.settings.unset('stateToken');
-          var trans = this.options.appState.get('introspectSuccess');
-          var transError = this.options.appState.get('introspectError');
-          if (trans && trans.data) {
-            return Q.resolve(trans);
-          } else {
-            return Q.reject(transError);
-          }
-        } else if (token) {
-          // widget bootstrapped with statetoken only in the url and not in settings
-          // used for mobile flows
-          return authClient.tx.resume({
+        if (token) {
+          return authClient.tx.introspect({
             stateToken: token
           });
-        } else {
-          // get stateToken from cookie
-          // currently only applies to old pipeline
-          if (authClient.tx.exists()) {
-            return authClient.tx.resume();
-          }
-          appState.trigger('navigate', '');
         }
+
+        // get stateToken from cookie
+        // currently only applies to old pipeline
+        if (authClient.tx.exists()) {
+          return authClient.tx.resume();
+        }
+
+        appState.trigger('navigate', '');
       });
     },
 
