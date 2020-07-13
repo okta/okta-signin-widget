@@ -12,12 +12,10 @@
  */
 
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
-define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, Enums, idx) {
+define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
 
   var Util = {};
   var _ = Okta._;
-  var { start } = idx.default;
-
 
   var buildInputForParameter = function (name, value) {
     var input = document.createElement('input');
