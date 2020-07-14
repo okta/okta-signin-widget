@@ -92,12 +92,12 @@ const VIEWS_MAPPING = {
     'security_question': EnrollAuthenticatorSecurityQuestion
   },
   // Expired scenarios for authenticators..
-  [RemediationForms.RE_ENROLL_AUTHENTICATOR]: {
+  [RemediationForms.REENROLL_AUTHENTICATOR]: {
     // Password expired scenario..
     password: ReEnrollAuthenticatorPasswordView,
   },
   // Will expire soon warnings for authenticators..
-  [RemediationForms.RE_ENROLL_AUTHENTICATOR_WARNING]: {
+  [RemediationForms.REENROLL_AUTHENTICATOR_WARNING]: {
     // Password will expire soon scenario..
     password: ReEnrollAuthenticatorWarningPasswordView,
   },
