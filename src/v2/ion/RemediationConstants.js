@@ -36,6 +36,10 @@ const FORMS = {
   DEVICE_APPLE_SSO_EXTENSION: 'device-apple-sso-extension',
   CANCEL_TRANSACTION: 'cancel-transaction',
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
+
+  // 'terminal` is not ION Form name but only coined in widget
+  // for rendering a page that user has nothing to remediate.
+  TERMINAL: 'terminal',
 };
 
 const FORMS_WITHOUT_SIGNOUT = [

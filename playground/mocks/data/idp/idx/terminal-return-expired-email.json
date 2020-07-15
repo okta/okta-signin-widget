@@ -2,19 +2,17 @@
   "stateHandle": "02RVeEbXyxvfla4cvDqWz_5A5xwoPXQLVQleu8pzhk",
   "version": "1.0.0",
   "expiresAt": "2019-09-30T18:58:47.000Z",
-
   "intent": "LOGIN",
-  "terminal": {
-      "type": "object",
-      "value": {
-          "name": "terminal-return-expired",
-          "message": {
-              "message": "This email link has expired. To resend it, return to the screen where you requested it.",
-              "i18n": {
-                  "key": "idx.return.link.expired"
-              },
-              "class": "INFO"
-          }
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "This email link has expired. To resend it, return to the screen where you requested it.",
+        "i18n": {
+          "key": "idx.return.link.expired"
+        },
+        "class": "INFO"
       }
+    ]
   }
 }

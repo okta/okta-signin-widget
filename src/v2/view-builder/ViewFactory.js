@@ -4,15 +4,21 @@ import BaseView from './internals/BaseView';
 
 // factor ignostic views
 import IdentifierView from './views/IdentifierView';
+import TerminalView from './views/TerminalView';
+import SuccessView from './views/SuccessView';
+
+// Device (Okta Mobile)
 import DeviceChallengePollView from './views/DeviceChallengePollView';
 import SSOExtensionView from './views/SSOExtensionView';
+
+// registration
+import EnrollProfileView from './views/EnrollProfileView';
+
+// authenticator list
 import SelectFactorEnrollView from './views/SelectFactorEnrollView';
 import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
 import SelectAuthenticatorEnrollView from './views/SelectAuthenticatorEnrollView';
 import SelectAuthenticatorVerifyView from './views/SelectAuthenticatorVerifyView';
-import EnrollProfileView from './views/EnrollProfileView';
-import TerminalView from './views/TerminalView';
-import SuccessView from './views/SuccessView';
 
 // password
 import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
@@ -42,8 +48,6 @@ import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 // import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
-import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
-import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
 
 const DEFAULT = '_';
 
@@ -117,16 +121,8 @@ const VIEWS_MAPPING = {
     'security_question': ChallengeAuthenticatorSecurityQuestion,
     phone: ChallengeAuthenticatorPhoneView,
   },
-  'authenticator-verification-data': {
+  [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     phone: ChallengeAuthenticatorDataPhoneView,
-  },
-  'terminal-transferred': {
-    [DEFAULT]: TerminalView,
-    'email': TerminalTransferedEmailView,
-  },
-  'terminal-return': {
-    [DEFAULT]: TerminalView,
-    'email': TerminalReturnEmailView,
   },
   [RemediationForms.SUCCESS_REDIRECT]: {
     [DEFAULT]: SuccessView,
@@ -135,23 +131,22 @@ const VIEWS_MAPPING = {
   [RemediationForms.REDIRECT_IDP]: {
     [DEFAULT]: IdentifierView,
   },
+  [RemediationForms.TERMINAL]: {
+    [DEFAULT]: TerminalView,
+  },
 };
 
 module.exports = {
-  create (formName, factorType = DEFAULT) {
+  create (formName, authenticatorType = DEFAULT) {
     const config = VIEWS_MAPPING[formName];
     if (!config) {
-      Logger.warn(`Cannot find customized View (form: ${formName}). Fallback to default configuration.`);
-      if (formName.indexOf('terminal') === 0) {
-        return TerminalView;
-      } else {
-        return BaseView;
-      }
+      Logger.warn(`Cannot find customized View for ${formName}.`);
+      return BaseView;
     }
-    const View = config[factorType] || config[DEFAULT];
+    const View = config[authenticatorType] || config[DEFAULT];
 
     if (!View) {
-      Logger.warn(`Cannot find customized View (form: ${formName}, factor: ${factorType}). Fallback to BaseView.`);
+      Logger.warn(`Cannot find customized View for ${formName} + ${authenticatorType}.`);
       return BaseView;
     }
 
