@@ -1125,18 +1125,24 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
 
 ### Smart Card IdP
 
-**:information_source: EA feature:** The Smart Card IdP feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea). This feature is only available for okta-hosted widget implementations.
+**:information_source: EA feature:** The Smart Card IdP feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
 
 Settings for authentication with a Smart Card `X509` type IdP.
+
+- `certAuthUrl` *(required)* - The `url` property of the [MTLS SSO Endpoint Object](https://developer.okta.com/docs/reference/api/idps/#mtls-single-sign-on-sso-endpoint-object). The browser prompts the user to select a client certificate when this url is accessed.
 
 - `text` *(optional)* - Label for the Smart Card IdP button. By default, this value will be "Sign in with PIV / CAC card".
 
 - `className` *(optional)* - Class that can be added to the Smart Card IdP button.
 
+- `isCustomDomain` *(optional)* - Boolean that indicates if the request is coming from a [custom domain](https://developer.okta.com/docs/guides/custom-url-domain/overview). If omitted, it will indicate that the request is not coming from a custom domain.
+
     ```javascript
     piv: {
+      certAuthUrl: '/your/cert/validation/endpoint',
       text: 'Authenticate with a Smart Card',
-      className: 'custom-style'
+      className: 'custom-style',
+      isCustomDomain: true,
     }
     ```
 
