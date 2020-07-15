@@ -65,7 +65,7 @@ const Body = BaseForm.extend({
 const Footer = BaseFooter.extend({
   links () {
     let helpLinkHref;
-    if (this.options.settings.get('helpLinks.help') ) {
+    if (this.options.settings.get('helpLinks.help')) {
       helpLinkHref = this.options.settings.get('helpLinks.help');
     } else {
       const baseUrl = this.options.settings.get('baseUrl');
@@ -90,11 +90,22 @@ const Footer = BaseFooter.extend({
       });
     }
 
-    const forgotPasswordLink = getForgotPasswordLink(this.options.appState);
+    const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
+
+    const customHelpLinks = [];
+    if (this.options.settings.get('helpLinks.custom')) {
+      //add custom helpLinks
+      this.options.settings.get('helpLinks.custom').forEach(customHelpLink => {
+        customHelpLink.name = 'custom';
+        customHelpLink.label = customHelpLink.text;
+        customHelpLinks.push(customHelpLink);
+      });
+    }
 
     return forgotPasswordLink
       .concat(signupLink)
-      .concat(helpLink);
+      .concat(helpLink)
+      .concat(customHelpLinks);
   }
 });
 

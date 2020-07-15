@@ -30,24 +30,46 @@ const getSwitchAuthenticatorLink = (appState) => {
   return [];
 };
 
-const getForgotPasswordLink = (appState) => {
+const getForgotPasswordLink = (appState, settings) => {
   const forgotPasswordLink = {
     'type': 'link',
     'label': loc('forgotpassword', 'login'),
     'name': 'forgot-password',
   };
 
+  const customForgotPasswordHref = settings.get('helpLinks.forgotPassword');
+
   // at identify page when only Org Authenticator Password may be available
   if (appState.getActionByPath(ORG_PASSWORD_RECOVERY_LINK)) {
-    return [
-      Object.assign({}, forgotPasswordLink, { actionPath: ORG_PASSWORD_RECOVERY_LINK }),
-    ];
+    if (customForgotPasswordHref) {
+      return [
+        Object.assign({}, {
+          'href': customForgotPasswordHref,
+          'label': loc('forgotpassword', 'login'),
+          'name': 'forgot-password',
+        }),
+      ];
+    } else {
+      return [
+        Object.assign({}, forgotPasswordLink, { actionPath: ORG_PASSWORD_RECOVERY_LINK }),
+      ];
+    }
   }
   // at password verify page
   else if (appState.getActionByPath(ENROLLED_PASSWORD_RECOVERY_LINK)) {
-    return [
-      Object.assign({}, forgotPasswordLink, { actionPath: ENROLLED_PASSWORD_RECOVERY_LINK }),
-    ];
+    if (customForgotPasswordHref) {
+      return [
+        Object.assign({}, {
+          'href': customForgotPasswordHref,
+          'label': loc('forgotpassword', 'login'),
+          'name': 'forgot-password',
+        }),
+      ];
+    } else {
+      return [
+        Object.assign({}, forgotPasswordLink, { actionPath: ENROLLED_PASSWORD_RECOVERY_LINK }),
+      ];
+    }
   }
   else {
     return [];
@@ -55,7 +77,6 @@ const getForgotPasswordLink = (appState) => {
 };
 
 const goBackLink = (appState) => {
-
   if (appState.hasRemediationObject(RemediationForms.SELECT_AUTHENTICATOR_ENROLL)) {
     return [
       {
@@ -70,8 +91,29 @@ const goBackLink = (appState) => {
   return [];
 };
 
+const getSignOutLink  = (settings) => {
+  if (settings && settings.get('signOutLink')) {
+    return [
+      {
+        'label': loc('signout', 'login'),
+        'name': 'cancel',
+        'href': settings.get('signOutLink')
+      },
+    ];
+  } else {  return [
+    {
+      'actionPath': 'cancel',
+      'label': loc('signout', 'login'),
+      'name': 'cancel',
+      'type': 'link'
+    },
+  ];
+  }
+};
+
 export {
   getSwitchAuthenticatorLink,
   getForgotPasswordLink,
   goBackLink,
+  getSignOutLink
 };
