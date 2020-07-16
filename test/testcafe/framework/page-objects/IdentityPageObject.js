@@ -7,6 +7,8 @@ const NEEDHELP_SELECTOR = 'a[data-se="help"]';
 const FORGOT_PASSWORD_SELECTOR = 'a[data-se="forgot-password"]';
 const CUSTOM_CHECKBOX_SELECTOR = '.custom-checkbox';
 const REMEMBER_ME_FIELD_NAME = 'rememberMe';
+const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
+const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor (t) {
@@ -118,6 +120,22 @@ export default class IdentityPageObject extends BasePageObject {
 
   identifierFieldExists(selector) {
     return this.form.elementExist(selector);
+  }
+
+  getCustomForgotPasswordLink() {
+    return Selector(FORGOT_PASSWORD_SELECTOR).getAttribute('href');
+  }
+
+  getCustomHelpLink() {
+    return Selector(CUSTOM_HELP_LINK_SELECTOR).getAttribute('href');
+  }
+
+  getCustomHelpLinks(index) {
+    return Selector(CUSTOM_HELP_LINKS_SELECTOR).nth(index).getAttribute('href');
+  }
+
+  getCustomHelpLinksLabel(index) {
+    return Selector(CUSTOM_HELP_LINKS_SELECTOR).nth(index).textContent;
   }
 
   async clickSignUpLink() {

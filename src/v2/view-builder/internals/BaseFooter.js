@@ -39,11 +39,9 @@ export default View.extend({
       links = links.filter(l => $.isPlainObject(l));
     }
 
-    const settings = this.options.settings;
-
     if (this.options.appState.get('showSignoutLink')) {
       //add cancel/signout link
-      links = links.concat(getSignOutLink(settings));
+      links = links.concat(getSignOutLink(this.options.settings));
     }
 
     links.forEach(link => {

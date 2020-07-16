@@ -9,7 +9,7 @@ const getSwitchAuthenticatorLink = (appState) => {
     return [
       {
         'type': 'link',
-        'label':  loc('mfa.switch', 'login'),
+        'label': loc('mfa.switch', 'login'),
         'name': 'switchFactor',
         'formName': 'select-factor-authenticate',
       }
@@ -20,7 +20,7 @@ const getSwitchAuthenticatorLink = (appState) => {
     return [
       {
         'type': 'link',
-        'label':  loc('oie.switch.authenticator', 'login'),
+        'label': loc('oie.switch.authenticator', 'login'),
         'name': 'switchAuthenticator',
         'formName': RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE,
       }
@@ -39,41 +39,31 @@ const getForgotPasswordLink = (appState, settings) => {
 
   const customForgotPasswordHref = settings.get('helpLinks.forgotPassword');
 
-  // at identify page when only Org Authenticator Password may be available
-  if (appState.getActionByPath(ORG_PASSWORD_RECOVERY_LINK)) {
-    if (customForgotPasswordHref) {
-      return [
-        Object.assign({}, {
-          'href': customForgotPasswordHref,
-          'label': loc('forgotpassword', 'login'),
-          'name': 'forgot-password',
-        }),
-      ];
-    } else {
-      return [
-        Object.assign({}, forgotPasswordLink, { actionPath: ORG_PASSWORD_RECOVERY_LINK }),
-      ];
-    }
+  if (customForgotPasswordHref) {
+    return [
+      Object.assign({}, {
+        'href': customForgotPasswordHref,
+        'label': loc('forgotpassword', 'login'),
+        'name': 'forgot-password',
+      }),
+    ];
   }
+
+  // at identify page when only Org Authenticator Password may be available
+  else if (appState.getActionByPath(ORG_PASSWORD_RECOVERY_LINK)) {
+    return [
+      Object.assign({}, forgotPasswordLink, { actionPath: ORG_PASSWORD_RECOVERY_LINK })
+    ];
+  }
+
   // at password verify page
   else if (appState.getActionByPath(ENROLLED_PASSWORD_RECOVERY_LINK)) {
-    if (customForgotPasswordHref) {
-      return [
-        Object.assign({}, {
-          'href': customForgotPasswordHref,
-          'label': loc('forgotpassword', 'login'),
-          'name': 'forgot-password',
-        }),
-      ];
-    } else {
-      return [
-        Object.assign({}, forgotPasswordLink, { actionPath: ENROLLED_PASSWORD_RECOVERY_LINK }),
-      ];
-    }
+    return [
+      Object.assign({}, forgotPasswordLink, { actionPath: ENROLLED_PASSWORD_RECOVERY_LINK })
+    ];
   }
-  else {
-    return [];
-  }
+
+  return [];
 };
 
 const goBackLink = (appState) => {
@@ -81,7 +71,7 @@ const goBackLink = (appState) => {
     return [
       {
         'type': 'link',
-        'label':  loc('oie.go.back', 'login'),
+        'label': loc('oie.go.back', 'login'),
         'name': 'go-back',
         'formName': RemediationForms.SELECT_AUTHENTICATOR_ENROLL,
       }
@@ -91,7 +81,7 @@ const goBackLink = (appState) => {
   return [];
 };
 
-const getSignOutLink  = (settings) => {
+const getSignOutLink = (settings) => {
   if (settings && settings.get('signOutLink')) {
     return [
       {
@@ -100,14 +90,15 @@ const getSignOutLink  = (settings) => {
         'href': settings.get('signOutLink')
       },
     ];
-  } else {  return [
-    {
-      'actionPath': 'cancel',
-      'label': loc('signout', 'login'),
-      'name': 'cancel',
-      'type': 'link'
-    },
-  ];
+  } else {
+    return [
+      {
+        'actionPath': 'cancel',
+        'label': loc('signout', 'login'),
+        'name': 'cancel',
+        'type': 'link'
+      },
+    ];
   }
 };
 
