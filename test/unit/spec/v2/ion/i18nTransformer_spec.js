@@ -2,7 +2,7 @@ import { _ } from 'okta';
 import i18nTransformer from 'v2/ion/i18nTransformer';
 import Bundles from 'util/Bundles';
 
-describe('v2/ion/i18nTransformer', function () {
+fdescribe('v2/ion/i18nTransformer', function () {
   let originalLoginBundle;
 
   beforeAll(() => {
@@ -877,5 +877,50 @@ describe('v2/ion/i18nTransformer', function () {
     });
   });
 
-
+  it('does not convert a label if no such key exists', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'password'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'name': 'non.existent.key',
+              'label': 'Password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'password'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'name': 'non.existent.key',
+              'label': 'Password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    });
+  });
 });

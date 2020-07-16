@@ -88,7 +88,7 @@ const getI18nKey = (i18nPath) => {
 
   if (i18nKey && !Bundles.login[i18nKey]) {
     Logger.warn(`expect i18n key ${i18nKey} for ${i18nPath} but not found in 'login' bundle.`);
-    return false;
+    i18nKey = null;
   }
 
   return i18nKey;
