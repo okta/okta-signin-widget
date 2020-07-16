@@ -8,6 +8,7 @@ import XHRErrorIdentifyAccessDenied from '../../../../../playground/mocks/data/i
 import XHRSuccess from '../../../../../playground/mocks/data/idp/idx/success.json';
 import XHRIdentify from '../../../../../playground/mocks/data/idp/idx/identify.json';
 import XHRIdentifyWithThirdPartyIdps from '../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
+import XHRIdentifyButUnknownUser from '../../../../../playground/mocks/data/idp/idx/identify-unknown-user.json';
 
 describe('v2/ion/responseTransformer', function () {
 
@@ -45,7 +46,6 @@ describe('v2/ion/responseTransformer', function () {
     testContext = {
       settings: new Settings({
         baseUrl: 'http://localhost:3000',
-        idps, // would only affect identify page
       }),
     };
   });
@@ -148,11 +148,76 @@ describe('v2/ion/responseTransformer', function () {
     });
   });
 
-  it('converts ion response that has messages', (done) => {
+  it('converts identify but unknown user', (done) => {
+    MockUtil.mockIntrospect(done, XHRIdentifyButUnknownUser, idxResp => {
+      const result = transformResponse(testContext.settings, idxResp);
+      expect(result).toEqual({
+        'remediations': [
+          {
+            'action': jasmine.any(Function),
+            'name': 'identify',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
+            'href': 'http://localhost:3000/idp/idx/identify',
+            'method': 'POST',
+            'value': [
+              {
+                'name': 'identifier',
+                'label': 'Username'
+              },
+              {
+                'name': 'stateHandle',
+                'required': true,
+                'value': '02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP',
+                'visible': false,
+                'mutable': false
+              }
+            ]
+          },
+          {
+            'action': jasmine.any(Function),
+            'name': 'select-enroll-profile',
+            'href': 'http://localhost:3000/idp/idx/enroll',
+            'method': 'POST',
+            'rel': [ 'create-form' ],
+            'accepts': 'application/vnd.okta.v1+json',
+            'value': [
+              {
+                'name': 'stateHandle',
+                'required': true,
+                'value': '02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP',
+                'visible': false,
+                'mutable': false
+              }
+            ]
+          }
+        ],
+        'messages': {
+          'value': [
+            {
+              'message': 'There is no account with the email <strong> test@rain.com </strong>. <a href="#" class="js-sign-up"> Sign up </a> for an account',
+              'i18n': {
+                'key': 'idx.unknown.user',
+                'params': []
+              },
+              'class': 'INFO'
+            }
+          ]
+        },
+        idx: idxResp,
+      });
+    });
+  });
+
+  it('converts ion response that only has messages', (done) => {
     MockUtil.mockIntrospect(done, XHRErrorIdentifyAccessDenied, idxResp => {
       const result = transformResponse(testContext.settings, idxResp);
       expect(result).toEqual({
         remediations: [
+          {
+            name: 'terminal',
+            value: [],
+          }
         ],
         messages: {
           value: [
@@ -207,6 +272,7 @@ describe('v2/ion/responseTransformer', function () {
   });
 
   it('converts identify ion response with setting.idps', (done) => {
+    testContext.settings.set('idps', idps);
     MockUtil.mockIntrospect(done, XHRIdentify, idxResp => {
       const result = transformResponse(testContext.settings, idxResp);
       expect(result).toEqual({
@@ -296,6 +362,7 @@ describe('v2/ion/responseTransformer', function () {
   });
 
   it('converts identify with third party ion response without redundancy', (done) => {
+    testContext.settings.set('idps', idps);
     MockUtil.mockIntrospect(done, XHRIdentifyWithThirdPartyIdps, idxResp => {
       const result = transformResponse(testContext.settings, idxResp);
       expect(result).toEqual({

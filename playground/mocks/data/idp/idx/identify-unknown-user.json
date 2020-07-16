@@ -79,23 +79,5 @@
         "mutable": false
       }
     ]
-  },
-  "context": {
-    "rel": [
-      "create-form"
-    ],
-    "name": "context",
-    "href": "http://localhost:3000/idp/idx/context",
-    "method": "POST",
-    "accepts": "application/vnd.okta.v1+json",
-    "value": [
-      {
-        "name": "stateHandle",
-        "required": true,
-        "value": "02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP",
-        "visible": false,
-        "mutable": false
-      }
-    ]
   }
 }

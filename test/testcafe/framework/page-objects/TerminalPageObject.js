@@ -11,4 +11,8 @@ export default class TerminalPageObject extends BasePageObject {
     return new CalloutObject(this.form.el);
   }
 
+  getMessages() {
+    return this.form.getTerminalContent();
+  }
+
 }
