@@ -45,7 +45,6 @@ const factorData = {
   },
 
   'app': {
-    label: loc('oie.authenticator.okta_verify.label', 'login'),
     description: loc('oie.okta_verify.authenticator.description', 'login'),
     iconClassName: 'mfa-okta-verify',
   },

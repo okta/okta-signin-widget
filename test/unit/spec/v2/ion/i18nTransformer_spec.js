@@ -212,14 +212,14 @@ describe('v2/ion/i18nTransformer', function () {
                   'authenticatorType': 'password'
                 },
                 {
-                  'label': 'unit test - webauthn authenticator',
+                  'label': 'FIDO2 (WebAuthn)',
                   'value': {
                     'id': 'fwftheidkwh282hv8g3'
                   },
                   'authenticatorType': 'security_key'
                 },
                 {
-                  'label': 'unit test - webauthn authenticator',
+                  'label': 'FIDO2 (WebAuthn)',
                   'value': {
                     'id': 'aidtheidkwh282hv8g3'
                   },
@@ -511,7 +511,7 @@ describe('v2/ion/i18nTransformer', function () {
                   authenticatorType: 'phone'
                 },
                 {
-                  label: 'unit test - webauthn authenticator',
+                  label: 'Security Key or Biometric Authenticator (FIDO2)',
                   value: { id: 'aidtheidkwh282hv8g3' },
                   authenticatorType: 'security_key'
                 },
