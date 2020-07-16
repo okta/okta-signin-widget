@@ -9,11 +9,11 @@ describe('v2/ion/i18nTransformer', function () {
     originalLoginBundle = Bundles.login;
     Bundles.login = _.mapObject({
 
-      'oie.email': 'email authenticator',
-      'oie.password': 'password authenticator',
-      'oie.phone': 'phone authenticator',
+      'oie.authenticator.email.label': 'email authenticator',
+      'oie.authenticator.password.label': 'password authenticator',
+      'oie.authenticator.phone.label': 'phone authenticator',
       'oie.webauthn': 'webauthn authenticator',
-      'oie.security.question': 'security question authenticator',
+      'oie.authenticator.security.question.label': 'security question authenticator',
 
       'oie.password.passwordLabel': 'enter password',
       'oie.security.question.questionKey.label': 'choose a question',
@@ -212,14 +212,14 @@ describe('v2/ion/i18nTransformer', function () {
                   'authenticatorType': 'password'
                 },
                 {
-                  'label': 'unit test - webauthn authenticator',
+                  'label': 'FIDO2 (WebAuthn)',
                   'value': {
                     'id': 'fwftheidkwh282hv8g3'
                   },
                   'authenticatorType': 'security_key'
                 },
                 {
-                  'label': 'unit test - webauthn authenticator',
+                  'label': 'FIDO2 (WebAuthn)',
                   'value': {
                     'id': 'aidtheidkwh282hv8g3'
                   },
@@ -511,7 +511,7 @@ describe('v2/ion/i18nTransformer', function () {
                   authenticatorType: 'phone'
                 },
                 {
-                  label: 'unit test - webauthn authenticator',
+                  label: 'Security Key or Biometric Authenticator (FIDO2)',
                   value: { id: 'aidtheidkwh282hv8g3' },
                   authenticatorType: 'security_key'
                 },
@@ -877,5 +877,50 @@ describe('v2/ion/i18nTransformer', function () {
     });
   });
 
-
+  it('does not convert a label if no such key exists', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'password'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'name': 'non.existent.key',
+              'label': 'Type Passcode',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'password'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'name': 'non.existent.key',
+              'label': 'Type Passcode',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    });
+  });
 });

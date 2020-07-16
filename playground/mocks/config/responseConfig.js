@@ -12,7 +12,7 @@ const idx = {
     // 'authenticator-enroll-data-phone-voice',
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
-    // 'authenticator-enroll-select-authenticator',
+    'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
     // 'authenticator-verification-data-phone-sms-then-voice',
