@@ -1,5 +1,6 @@
-import { View, _, loc, $ } from 'okta';
+import { View, _, $ } from 'okta';
 import Link from '../components/Link';
+import { getSignOutLink } from '../utils/LinksUtil';
 
 /**
  * When `href` is present, the Link behaviors as normal link (anchor element).
@@ -40,14 +41,7 @@ export default View.extend({
 
     if (this.options.appState.get('showSignoutLink')) {
       //add cancel/signout link
-      links = links.concat([
-        {
-          'actionPath': 'cancel',
-          'label': loc('signout', 'login'),
-          'name': 'cancel',
-          'type': 'link'
-        },
-      ]);
+      links = links.concat(getSignOutLink(this.options.settings));
     }
 
     links.forEach(link => {
