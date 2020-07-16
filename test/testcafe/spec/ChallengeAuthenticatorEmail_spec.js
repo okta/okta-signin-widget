@@ -1,9 +1,14 @@
+import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
-import { RequestMock, RequestLogger } from 'testcafe';
+import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidOTP from '../../../playground/mocks/data/idp/idx/error-email-verify';
+import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-return-email';
+import magicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
+import terminalTransferedEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
 
 const logger = RequestLogger(/challenge|challenge\/poll|challenge\/answer/,
   {
@@ -27,6 +32,19 @@ const invalidOTPMock = RequestMock()
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
+
+const magicLinkReturnTabMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(magicLinkReturnTab);
+
+const magicLinkExpiredMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(magicLinkExpired);
+
+const magicLinkTransfer = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalTransferedEmail);
+
 
 fixture(`Challenge Email Authenticator Form`);
 
@@ -137,4 +155,26 @@ test
     await t.expect(jsonBody).eql({"stateHandle":"02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8"});
     await t.expect(lastRequestMethod).eql('post');
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
+  });
+
+
+test
+  .requestHooks(magicLinkReturnTabMock)(`challenge email factor with magic link`, async t => {
+    await setup(t);
+    const terminalPageObject = await new TerminalPageObject(t);
+    await t.expect(terminalPageObject.getMessages()).eql('Please return to the original tab.');
+  });
+
+test
+  .requestHooks(magicLinkTransfer)(`show the correct content when transferred email`, async t => {
+    await setup(t);
+    const terminalPageObject = await new TerminalPageObject(t);
+    await t.expect(terminalPageObject.getMessages()).eql('Flow continued in a new tab.');
+  });
+
+test
+  .requestHooks(magicLinkExpiredMock)(`challenge email factor with expired magic link`, async t => {
+    await setup(t);
+    const terminalPageObject = await new TerminalPageObject(t);
+    await t.expect(terminalPageObject.getMessages()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
   });

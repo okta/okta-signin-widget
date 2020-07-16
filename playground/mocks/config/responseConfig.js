@@ -4,7 +4,7 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    'error-internal-server-error'
+    // 'error-internal-server-error',
     // 'authenticator-enroll-password',
     // 'authenticator-enroll-phone',
     // 'authenticator-enroll-phone-voice',
@@ -53,12 +53,11 @@ const idx = {
     // 'identify-with-universal-link',
     // 'select-factor-authenticate',
     // 'select-factor-for-password-recovery',
-    // 'success',
+    'success',
     // 'terminal-return-email',
     // 'terminal-return-error-email',
     // 'terminal-return-expired-email',
     // 'terminal-return-stale-email',
-    // 'terminal-transfered',
     // 'terminal-transfered-email',
     // 'unknown-user',
     // 'terminal-registration'
