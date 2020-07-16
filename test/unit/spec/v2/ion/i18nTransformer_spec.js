@@ -9,11 +9,11 @@ describe('v2/ion/i18nTransformer', function () {
     originalLoginBundle = Bundles.login;
     Bundles.login = _.mapObject({
 
-      'oie.email': 'email authenticator',
-      'oie.password': 'password authenticator',
-      'oie.phone': 'phone authenticator',
+      'oie.authenticator.email.label': 'email authenticator',
+      'oie.authenticator.password.label': 'password authenticator',
+      'oie.authenticator.phone.label': 'phone authenticator',
       'oie.webauthn': 'webauthn authenticator',
-      'oie.security.question': 'security question authenticator',
+      'oie.authenticator.security.question.label': 'security question authenticator',
 
       'oie.password.passwordLabel': 'enter password',
       'oie.security.question.questionKey.label': 'choose a question',

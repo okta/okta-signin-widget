@@ -45,11 +45,17 @@ const I18N_OVERRIDE_MAPPINGS = {
   'identify.credentials.passcode': 'primaryauth.password.placeholder',
   'identify.rememberMe': 'remember',
 
-  'select-authenticator-enroll.authenticator.email': 'oie.email',
-  'select-authenticator-enroll.authenticator.password': 'oie.password',
-  'select-authenticator-enroll.authenticator.phone': 'oie.phone',
+  'select-authenticator-enroll.authenticator.email': 'oie.authenticator.email.label',
+  'select-authenticator-enroll.authenticator.password': 'oie.authenticator.password.label',
+  'select-authenticator-enroll.authenticator.phone': 'oie.authenticator.phone.label',
   'select-authenticator-enroll.authenticator.security_key': 'oie.webauthn',
-  'select-authenticator-enroll.authenticator.security_question': 'oie.security.question',
+  'select-authenticator-enroll.authenticator.security_question': 'oie.authenticator.security.question.label',
+
+  'select-authenticator-authenticate.authenticator.email': 'oie.authenticator.email.label',
+  'select-authenticator-authenticate.authenticator.password': 'oie.authenticator.password.label',
+  'select-authenticator-authenticate.authenticator.phone': 'oie.authenticator.phone.label',
+  'select-authenticator-authenticate.authenticator.security_key': 'oie.webauthn',
+  'select-authenticator-authenticate.authenticator.security_question': 'oie.authenticator.security.question.label',
 
   'authenticator-enrollment-data.phone.authenticator.phoneNumber': 'mfa.phoneNumber.placeholder',
 
@@ -59,12 +65,6 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
   'enroll-authenticator.security_question.credentials.question': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.questionKey': 'oie.security.question.questionKey.label',
-
-  'select-authenticator-authenticate.authenticator.email': 'oie.email',
-  'select-authenticator-authenticate.authenticator.password': 'oie.password',
-  'select-authenticator-authenticate.authenticator.phone': 'oie.phone',
-  'select-authenticator-authenticate.authenticator.security_key': 'oie.webauthn',
-  'select-authenticator-authenticate.authenticator.security_question': 'oie.security.question',
 
   'challenge-authenticator.email.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.password.credentials.passcode': 'mfa.challenge.password.placeholder',
@@ -88,6 +88,7 @@ const getI18nKey = (i18nPath) => {
 
   if (i18nKey && !Bundles.login[i18nKey]) {
     Logger.warn(`expect i18n key ${i18nKey} for ${i18nPath} but not found in 'login' bundle.`);
+    return false;
   }
 
   return i18nKey;
