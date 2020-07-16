@@ -1,3 +1,4 @@
+import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const factorListRowSelector = '.authenticator-list .authenticator-row';
@@ -6,6 +7,7 @@ const factorDescriptionSelector = `${factorListRowSelector} .authenticator-descr
 const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
 const skipOptionalEnrollmentSelector = `.authenticator-list .skip-all`;
+const CUSTOM_SIGN_OUT_LINK_SELECTOR = '.auth-footer .js-cancel';
 
 export default class SelectFactorPageObject extends BasePageObject {
   constructor(t) {
@@ -38,6 +40,10 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   async skipOptionalEnrollment() {
     await this.t.click(this.form.getElement(skipOptionalEnrollmentSelector));
+  }
+
+  getCustomSignOutLink() {
+    return Selector(CUSTOM_SIGN_OUT_LINK_SELECTOR).getAttribute('href');
   }
 
 }

@@ -20,7 +20,7 @@ const Footer = AuthenticatorVerifyFooter.extend({
   links: function () {
     let links = AuthenticatorVerifyFooter.prototype.links.apply(this, arguments);
 
-    links = getForgotPasswordLink(this.options.appState).concat(links);
+    links = getForgotPasswordLink(this.options.appState, this.options.settings).concat(links);
 
     return links;
   }
