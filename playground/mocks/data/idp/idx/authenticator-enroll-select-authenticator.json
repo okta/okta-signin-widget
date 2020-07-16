@@ -52,20 +52,20 @@
                         "value": "aid568g3mXgtID0X1SLH",
                         "mutable": false,
                         "required": true
-                    },
-                    {
+                      },
+                      {
                         "name": "methodType",
                         "required": false,
                         "options": [
-                            { "label": "SMS", "value": "sms" },
-                            { "label": "VOICE", "value": "voice" }
+                          { "label": "SMS", "value": "sms" },
+                          { "label": "VOICE", "value": "voice" }
                         ]
-                    },
-                    {
+                      },
+                      {
                         "name": "phoneNumber",
                         "required": false,
                         "type": "string"
-                    }
+                      }
                     ]
                   }
                 },

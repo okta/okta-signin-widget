@@ -37,14 +37,14 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         'value': 'password-id-123',
         'factorType': 'password',
         'iconClassName': 'mfa-okta-password',
-        'description': ''
+        'description': 'Choose a password for your account'
       },
       {
         'label': 'Okta E-mail',
         'value': 'email-id-123',
         'factorType': 'email',
         'iconClassName': 'mfa-okta-email',
-        'description': ''
+        'description': 'Verify with a link or code sent to your email'
       }
     ]);
     expect(opt).toEqual({
@@ -97,22 +97,22 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     expect(result.options.collection instanceof Collection).toBe(true);
     expect(result.options.collection.toJSON()).toEqual([
       {
-        'label': 'Password',
+        'label': 'Okta Password',
         'authenticatorType': 'password',
         'value': {
           id: 'autwa6eD9o02iBbtv0g3'
         },
         'iconClassName': 'mfa-okta-password',
-        'description': ''
+        'description': 'Choose a password for your account'
       },
       {
-        'label': 'Email',
+        'label': 'Okta E-mail',
         'authenticatorType': 'email',
         'value': {
           id: 'autwa6eDxxx2iBbtv0g3'
         },
         'iconClassName': 'mfa-okta-email',
-        'description': ''
+        'description': 'Verify with a link or code sent to your email'
       }
     ]);
     // make sure input parameter is not mutated.
@@ -138,19 +138,18 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     });
   });
 
-
   it('filters additional webauthn enrollments for authenticatorVerify Select type', function () {
     const opt = {
       type: 'authenticatorVerifySelect',
       options: [
         {
-          'label': 'FIDO2 (WebAuthn)',
+          'label': 'Security Key or Biometric Authenticator',
           'authenticatorType': 'security_key',
           'value': {
             id: 'autwa6eDxxx2iBbtv0g3'
           }
         },{
-          'label': 'FIDO2 (WebAuthn)',
+          'label': 'Security Key or Biometric Authenticator',
           'authenticatorType': 'security_key',
           'value': {
             id: 'fwftheidkwh282hv8g3'
@@ -184,13 +183,13 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         'iconClassName': 'mfa-webauthn',
         'description': 'Use a security key or a biometric authenticator to sign in'
       }, {
-        'label': 'Password',
+        'label': 'Okta Password',
         'authenticatorType': 'password',
         'value': {
           id: 'autwa6eD9o02iBbtv0g3'
         },
         'iconClassName': 'mfa-okta-password',
-        'description': ''
+        'description': 'Choose a password for your account'
       }
     ]);
     // make sure input parameter is not mutated.
@@ -198,13 +197,13 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       type: 'authenticatorVerifySelect',
       options: [
         {
-          'label': 'FIDO2 (WebAuthn)',
+          'label': 'Security Key or Biometric Authenticator',
           'authenticatorType': 'security_key',
           'value': {
             id: 'autwa6eDxxx2iBbtv0g3'
           }
         },{
-          'label': 'FIDO2 (WebAuthn)',
+          'label': 'Security Key or Biometric Authenticator',
           'authenticatorType': 'security_key',
           'value': {
             id: 'fwftheidkwh282hv8g3'
@@ -220,8 +219,6 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       name: 'authenticator'
     });
   });
-
-
 
   it('handles authenticatorEnrollSelect type', function () {
     const opt = {
@@ -255,22 +252,22 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     expect(result.options.collection instanceof Collection).toBe(true);
     expect(result.options.collection.toJSON()).toEqual([
       {
-        'label': 'Password',
+        'label': 'Okta Password',
         'authenticatorType': 'password',
         'value': {
           id: 'autwa6eD9o02iBbtv0g3'
         },
         'iconClassName': 'mfa-okta-password',
-        'description': ''
+        'description': 'Choose a password for your account'
       },
       {
-        'label': 'Email',
+        'label': 'Okta E-mail',
         'authenticatorType': 'email',
         'value': {
           id: 'autwa6eDxxx2iBbtv0g3'
         },
         'iconClassName': 'mfa-okta-email',
-        'description': ''
+        'description': 'Verify with a link or code sent to your email'
       }
     ]);
     // make sure input parameter is not mutated.

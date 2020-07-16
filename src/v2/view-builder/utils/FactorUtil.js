@@ -14,45 +14,38 @@ import { getPasswordComplexityDescriptionForHtmlList } from '../../../util/Facto
 
 const factorData = {
   'email': {
-    label: loc('oie.email', 'login'),
-    description: '',
+    description: loc('oie.email.authenticator.description', 'login'),
     iconClassName: 'mfa-okta-email',
   },
 
   'password': {
-    label: loc('oie.password', 'login'),
-    description: '',
+    description: loc('oie.password.authenticator.description', 'login'),
     iconClassName: 'mfa-okta-password',
   },
 
   'phone': {
-    label: loc('oie.phone', 'login'),
-    description: '',
+    description: loc('oie.phone.authenticator.description', 'login'),
     iconClassName: 'mfa-okta-phone',
   },
 
   'security_question': {
-    label: loc('oie.security.question', 'login'),
-    description: '',
+    description: loc('oie.security.question.authenticator.description', 'login'),
     iconClassName: 'mfa-okta-security-question',
   },
 
   // Will get rid of this after fully implementing verify. OKTA-301557
   'webauthn': {
-    label: loc('oie.webauthn', 'login'),
     description: loc('oie.webauthn.description', 'login'),
     iconClassName: 'mfa-webauthn',
   },
 
   'security_key': {
-    label: loc('oie.webauthn', 'login'),
     description: loc('oie.webauthn.description', 'login'),
     iconClassName: 'mfa-webauthn',
   },
 
   'app': {
-    label: loc('oie.app', 'login'),
-    description: '',
+    description: loc('oie.okta_verify.authenticator.description', 'login'),
     iconClassName: 'mfa-okta-verify',
   },
 };
