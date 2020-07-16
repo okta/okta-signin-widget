@@ -7,49 +7,60 @@ if (typeof OktaSignIn === 'undefined') {
   // Make sure OktaSignIn is available
   setTimeout(() => window.location.reload(), 2 * 1000);
 }
-
-const signIn = new OktaSignIn(signinWidgetOptions);
-
-signIn.renderEl(
-  { el: '#okta-login-container' },
-
-  function success (res) {
-    // Password recovery flow
-    if (res.status === 'FORGOT_PASSWORD_EMAIL_SENT') {
-      alert('SUCCESS: Forgot password email sent');
-      return;
-    }
-
-    // Unlock account flow
-    if (res.status === 'UNLOCK_ACCOUNT_EMAIL_SENT') {
-      alert('SUCCESS: Unlock account email sent');
-      return;
-    }
-
-    // User has completed authentication (res.status === 'SUCCESS')
-
-    // 1. Widget is not configured for OIDC, and returns a sessionToken
-    //    that needs to be exchanged for an okta session
-    if (res.session) {
-      console.log(res.user);
-      res.session.setCookieAndRedirect(signinWidgetOptions.baseUrl + '/app/UserHome');
-      return;
-    }
-
-    // 2. Widget is configured for OIDC, and returns tokens. This can be
-    //    an array of tokens or a single token, depending on the
-    //    initial configuration.
-    else if (Array.isArray(res)) {
-      console.log(res);
-      alert('SUCCESS: OIDC with multiple responseTypes. Check console.');
-    }
-    else {
-      console.log(res);
-      alert('SUCCESS: OIDC with single responseType. Check Console');
-    }
-  },
-
-  function error (err) {
-    console.error('global error handler: ', err);
+let signIn;
+const renderPlaygroundWidget = (options = {}) => {
+  if (signIn) {
+    signIn.remove();
   }
-);
+  // TODO: shall we use deep merge cause widget option has object value,
+  // which will be override when doing `Object.assign`.
+  signIn = new OktaSignIn(Object.assign(signinWidgetOptions, options));
+
+  signIn.renderEl(
+    { el: '#okta-login-container' },
+
+    function success (res) {
+      // Password recovery flow
+      if (res.status === 'FORGOT_PASSWORD_EMAIL_SENT') {
+        alert('SUCCESS: Forgot password email sent');
+        return;
+      }
+
+      // Unlock account flow
+      if (res.status === 'UNLOCK_ACCOUNT_EMAIL_SENT') {
+        alert('SUCCESS: Unlock account email sent');
+        return;
+      }
+
+      // User has completed authentication (res.status === 'SUCCESS')
+
+      // 1. Widget is not configured for OIDC, and returns a sessionToken
+      //    that needs to be exchanged for an okta session
+      if (res.session) {
+        console.log(res.user);
+        res.session.setCookieAndRedirect(signinWidgetOptions.baseUrl + '/app/UserHome');
+        return;
+      }
+
+      // 2. Widget is configured for OIDC, and returns tokens. This can be
+      //    an array of tokens or a single token, depending on the
+      //    initial configuration.
+      else if (Array.isArray(res)) {
+        console.log(res);
+        alert('SUCCESS: OIDC with multiple responseTypes. Check console.');
+      }
+      else {
+        console.log(res);
+        alert('SUCCESS: OIDC with single responseType. Check Console');
+      }
+    },
+
+    function error (err) {
+      console.error('global error handler: ', err);
+    }
+  );
+
+};
+
+window.renderPlaygroundWidget = renderPlaygroundWidget;
+renderPlaygroundWidget();

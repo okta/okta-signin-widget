@@ -4,7 +4,6 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    'identify',
     // 'authenticator-enroll-password',
     // 'authenticator-enroll-phone',
     // 'authenticator-enroll-phone-voice',
@@ -14,7 +13,7 @@ const idx = {
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
-    'authenticator-verification-data-phone-sms-then-voice',
+    // 'authenticator-verification-data-phone-sms-then-voice',
     // 'authenticator-verification-data-phone-voice-only',
     // 'authenticator-verification-data-phone-voice-then-sms',
     // 'authenticator-verification-email',
@@ -35,6 +34,7 @@ const idx = {
     // 'factor-verification-email',
     // 'factor-verification-password',
     // 'factor-verification-webauthn',
+    'identify',
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',
     // 'identify-with-apple-sso-extension-fallback',
@@ -65,7 +65,8 @@ const idx = {
     'enroll-profile-new'
   ],
   '/idp/idx/credential/enroll': [
-    'authenticator-enroll-security-question',
+    //'authenticator-enroll-security-question',
+    'authenticator-enroll-password',
   ],
   '/idp/idx/identify': [
     'identify-with-only-one-third-party-idp',
