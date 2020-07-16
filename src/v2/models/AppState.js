@@ -87,17 +87,18 @@ export default Model.extend({
   getCurrentViewState () {
     const currentFormName = this.get('currentFormName');
 
-    let currentViewState;
-    if (!_.isEmpty(this.get('remediations'))) {
-      currentViewState = this.get('remediations').filter(r => r.name === currentFormName)[0];
+    if (!currentFormName) {
+      return;
     }
 
-    if (!currentViewState) {
-      if (currentFormName) {
-        Logger.warn(`Cannot find view state for form ${currentFormName}. Fall back to terminal state.`);
-      }
+    // didn't expect `remediations` is empty. See `setIonResponse`.
+    const currentViewState = this.get('remediations').filter(r => r.name === currentFormName)[0];
 
-      currentViewState = this.get('terminal');
+    if (!currentViewState ) {
+      Logger.error('Panic!!');
+      Logger.error(`\tCannot find view state for form ${currentFormName}.`);
+      const allFormNames = this.get('remediations').map(r => r.name);
+      Logger.error(`\tAll available form names: ${allFormNames}`);
     }
 
     return currentViewState;
@@ -134,42 +135,29 @@ export default Model.extend({
       return;
     }
 
-    // `currentFormName` is default to first form of remediation object or nothing.
-    transformedResponse.currentFormName = null;
-
+    // `currentFormName` is default to first form of remediations or nothing.
+    let currentFormName = null;
     if (!_.isEmpty(transformedResponse.remediations)) {
-      transformedResponse.currentFormName = transformedResponse.remediations[0].name;
+      currentFormName = transformedResponse.remediations[0].name;
+    } else {
+      Logger.error('Panic!!');
+      Logger.error('\tNo remediation found.');
+      Logger.error('\tHere is the entire response');
+      Logger.error(JSON.stringify(transformedResponse, null, 2));
     }
 
-    if (transformedResponse.success) {
-      transformedResponse.currentFormName = transformedResponse.success.name;
-    }
-
-    // default terminal state for fall back
-    //TODO: This is a FailSafe, it needs to be removed later by this Jira: OKTA-300044
-    if (transformedResponse.idx.context.terminal && _.isEmpty(transformedResponse.idx.context.terminal.value)) {
-      transformedResponse.terminal = {
-        name: 'terminal',
-        value: [],
-        uiSchema: [],
-      };
-    }
-
-    // default terminal state for fall back
-    if (transformedResponse.idx.context.messages) {
-      transformedResponse.terminal = {
-        name: 'terminal',
-        // TODO: set value is unnecessary as `messages` will be display via `BaseForm.showMessages`.
-        value: transformedResponse.idx.context.messages.value && transformedResponse.idx.context.messages.value.length
-          ? transformedResponse.idx.context.messages.value
-          : [],
-        uiSchema: [],
-      };
-    }
-    //clear appState before setting new values
+    // clear appState before setting new values
     this.clear({silent: true});
+
     // set new app state properties
     this.set(transformedResponse);
+
+    // make sure change `currentFormName` is last step.
+    // change `currentFormName` will re-render FormController,
+    // which may depend on other derived properties hence
+    // those derived properties must be re-computed before
+    // re-rendering controller.
+    this.set({ currentFormName });
   }
 
 });
