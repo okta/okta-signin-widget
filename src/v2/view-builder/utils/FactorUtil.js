@@ -35,7 +35,6 @@ const factorData = {
 
   // Will get rid of this after fully implementing verify. OKTA-301557
   'webauthn': {
-    label: loc('oie.webauthn', 'login'),
     description: loc('oie.webauthn.description', 'login'),
     iconClassName: 'mfa-webauthn',
   },
@@ -46,7 +45,7 @@ const factorData = {
   },
 
   'app': {
-    label: loc('oie.app', 'login'),
+    label: loc('oie.authenticator.okta_verify.label', 'login'),
     description: loc('oie.okta_verify.authenticator.description', 'login'),
     iconClassName: 'mfa-okta-verify',
   },

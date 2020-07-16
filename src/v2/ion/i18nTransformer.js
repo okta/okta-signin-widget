@@ -48,13 +48,13 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-enroll.authenticator.email': 'oie.authenticator.email.label',
   'select-authenticator-enroll.authenticator.password': 'oie.authenticator.password.label',
   'select-authenticator-enroll.authenticator.phone': 'oie.authenticator.phone.label',
-  'select-authenticator-enroll.authenticator.security_key': 'oie.webauthn',
+  'select-authenticator-enroll.authenticator.security_key': 'oie.authenticator.webauthn.label',
   'select-authenticator-enroll.authenticator.security_question': 'oie.authenticator.security.question.label',
 
   'select-authenticator-authenticate.authenticator.email': 'oie.authenticator.email.label',
   'select-authenticator-authenticate.authenticator.password': 'oie.authenticator.password.label',
   'select-authenticator-authenticate.authenticator.phone': 'oie.authenticator.phone.label',
-  'select-authenticator-authenticate.authenticator.security_key': 'oie.webauthn',
+  'select-authenticator-authenticate.authenticator.security_key': 'oie.authenticator.webauthn.label',
   'select-authenticator-authenticate.authenticator.security_question': 'oie.authenticator.security.question.label',
 
   'authenticator-enrollment-data.phone.authenticator.phoneNumber': 'mfa.phoneNumber.placeholder',

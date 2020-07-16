@@ -890,7 +890,7 @@ describe('v2/ion/i18nTransformer', function () {
           uiSchema: [
             {
               'name': 'non.existent.key',
-              'label': 'Password',
+              'label': 'Type Passcode',
               'secret': true,
               'label-top': true,
               'type': 'password',
@@ -912,7 +912,7 @@ describe('v2/ion/i18nTransformer', function () {
           uiSchema: [
             {
               'name': 'non.existent.key',
-              'label': 'Password',
+              'label': 'Type Passcode',
               'secret': true,
               'label-top': true,
               'type': 'password',
