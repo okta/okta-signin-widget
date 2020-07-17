@@ -15,7 +15,7 @@ const Body = BaseForm.extend({
 
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
-    const policy = this.getPasswordPolicy();
+    const policy = this.getPasswordPolicySettings();
     this.displayPasswordPolicy(policy);
   },
 
@@ -45,10 +45,12 @@ const Body = BaseForm.extend({
     }
   },
 
-  getPasswordPolicy () {
-    // This will be overridden by password expired and password will expire soon
-    // scenarios since the policies could be different for those.
-    return this.options.appState.get('currentAuthenticator').settings;
+  getPasswordPolicySettings () {
+    // This will be overridden by following scenario since the policies could be different for those.
+    // - password reset (`ReEnrollAuthenticatorPasswordView.js`)
+    //
+    const relatesToObject = this.options.currentViewState.relatesTo;
+    return relatesToObject && relatesToObject.value && relatesToObject.value.settings;
   },
 
   getUISchema () {
@@ -87,11 +89,13 @@ export default BaseAuthenticatorView.extend({
       local,
       validate () {
         if (this.get('credentials.passcode') !== this.get('confirmPassword') &&
-          this.get('credential.value') !== this.get('confirmPassword')) {
+            this.get('credential.value') !== this.get('confirmPassword')) {
           const errors = {
             'confirmPassword': loc('password.error.match', 'login'),
           };
           return errors;
+        } else {
+          return null;
         }
       }
     });

@@ -36,7 +36,7 @@ const idx = {
     // 'factor-verification-email',
     // 'factor-verification-password',
     // 'factor-verification-webauthn',
-    // 'identify',
+    'identify',
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',
     // 'identify-with-apple-sso-extension-fallback',

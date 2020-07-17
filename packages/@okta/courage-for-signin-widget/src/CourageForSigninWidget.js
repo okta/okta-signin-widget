@@ -54,6 +54,8 @@ const Okta = {
 
   Model: Model,
 
+  // TODO: BaseModel has been deprecated and shall not be public
+  // remove this once clean up usage in widget.
   BaseModel: BaseModel,
 
   Collection: BaseCollection,
