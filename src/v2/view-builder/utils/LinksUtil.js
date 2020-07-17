@@ -31,7 +31,7 @@ const getSwitchAuthenticatorLink = (appState) => {
     return [
       {
         'type': 'link',
-        'label': loc('oie.switch.authenticator', 'login'),
+        'label': loc('oie.enroll.switch.authenticator', 'login'),
         'name': 'switchAuthenticator',
         'formName': RemediationForms.SELECT_AUTHENTICATOR_ENROLL,
       }
