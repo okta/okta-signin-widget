@@ -25,13 +25,14 @@ var config = {
 };
 
 // Travis sauceLabs tests
-if (process.env.TRAVIS) {
+if (process.env.TRAVIS || process.env.CHROME_HEADLESS) {
   if (process.env.SAUCE_PLATFORM_NAME) {
     // Mobile emulators on sauce labs
     config.sauceUser = process.env.SAUCE_USERNAME;
     config.sauceKey = process.env.SAUCE_ACCESS_KEY;
   } else {
-    // Desktop browser
+    config.directConnect = true;
+    // Headless browser
     config.capabilities = {
       'browserName': 'chrome',
       'chromeOptions': {
