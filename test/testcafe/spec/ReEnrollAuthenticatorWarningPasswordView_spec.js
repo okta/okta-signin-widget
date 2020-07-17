@@ -11,11 +11,25 @@ const logger = RequestLogger(/challenge\/answer/,
   }
 );
 
-const mock = RequestMock()
+const mockExpireInDays = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiryWarningPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
+
+const xhrAuthenticatorExpiryWarningPasswordExpireToday = JSON.parse(JSON.stringify(xhrAuthenticatorExpiryWarningPassword));
+xhrAuthenticatorExpiryWarningPasswordExpireToday.currentAuthenticator.value.settings.daysToExpiry = 0;
+
+const xhrAuthenticatorExpiryWarningPasswordExpireSoon = JSON.parse(JSON.stringify(xhrAuthenticatorExpiryWarningPassword));
+delete xhrAuthenticatorExpiryWarningPasswordExpireSoon.currentAuthenticator.value.settings.daysToExpiry;
+
+const mockExpireToday = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiryWarningPasswordExpireToday);
+
+const mockExpireSoon = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiryWarningPasswordExpireSoon);
 
 fixture(`Password Authenticator Expiry Warning`);
 
@@ -25,25 +39,31 @@ async function setup(t) {
   return passwordExpiryWarningPage;
 }
 
-test
-  .requestHooks(logger, mock)(`Should have the correct labels`, async t => {
-    const passwordExpiryWarningPage = await setup(t);
-    await t.expect(passwordExpiryWarningPage.getFormTitle()).eql('Your password will expire in 4 days');
-    await t.expect(passwordExpiryWarningPage.getSaveButtonLabel()).eql('Change Password');
-    await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Password requirements:');
-    await t.expect(passwordExpiryWarningPage.getRequirements()).contains('At least 8 characters');
-    await t.expect(passwordExpiryWarningPage.getRequirements()).contains('An uppercase letter');
-    await t.expect(passwordExpiryWarningPage.getRequirements()).contains('A lowercase letter');
-    await t.expect(passwordExpiryWarningPage.getRequirements()).contains('A number');
-    await t.expect(passwordExpiryWarningPage.getRequirements()).contains('No parts of your username');
-    await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
-    await t.expect(passwordExpiryWarningPage.getSkipLinkText()).eql('Remind me later');
-    await t.expect(passwordExpiryWarningPage.getSignoutLinkText()).eql('Sign Out');
-    await t.expect(passwordExpiryWarningPage.getIonMessages()).eql('When your password expires you will be locked out of your Okta account.');
-  });
+[
+  [ 'Your password will expire in 4 days', mockExpireInDays],
+  [ 'Your password will expire later today', mockExpireToday ],
+  [ 'Your password is expiring soon', mockExpireSoon ],
+].forEach(([ formTitle, mock ]) => {
+  test
+    .requestHooks(logger, mock)(`Should have the correct labels - expire in days`, async t => {
+      const passwordExpiryWarningPage = await setup(t);
+      await t.expect(passwordExpiryWarningPage.getFormTitle()).eql(formTitle);
+      await t.expect(passwordExpiryWarningPage.getSaveButtonLabel()).eql('Change Password');
+      await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Password requirements:');
+      await t.expect(passwordExpiryWarningPage.getRequirements()).contains('At least 8 characters');
+      await t.expect(passwordExpiryWarningPage.getRequirements()).contains('An uppercase letter');
+      await t.expect(passwordExpiryWarningPage.getRequirements()).contains('A lowercase letter');
+      await t.expect(passwordExpiryWarningPage.getRequirements()).contains('A number');
+      await t.expect(passwordExpiryWarningPage.getRequirements()).contains('No parts of your username');
+      await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+      await t.expect(passwordExpiryWarningPage.getSkipLinkText()).eql('Remind me later');
+      await t.expect(passwordExpiryWarningPage.getSignoutLinkText()).eql('Sign Out');
+      await t.expect(passwordExpiryWarningPage.getIonMessages()).eql('When your password expires you will be locked out of your Okta account.');
+    });
+});
 
 test
-  .requestHooks(logger, mock)(`should have both password and confirmPassword fields and both are required`, async t => {
+  .requestHooks(logger, mockExpireInDays)(`should have both password and confirmPassword fields and both are required`, async t => {
     const passwordExpiryWarningPage = await setup(t);
     await t.expect(passwordExpiryWarningPage.passwordFieldExists()).eql(true);
     await t.expect(passwordExpiryWarningPage.confirmPasswordFieldExists()).eql(true);
@@ -67,7 +87,7 @@ test
   });
 
 test
-  .requestHooks(logger, mock)(`should succeed when passwords match and should send password in payload`, async t => {
+  .requestHooks(logger, mockExpireInDays)(`should succeed when passwords match and should send password in payload`, async t => {
     const passwordExpiryWarningPage = await setup(t);
     const successPage = new SuccessPageObject(t);
 
