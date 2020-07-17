@@ -26,6 +26,6 @@ if ! yarn install ; then
   exit ${FAILED_SETUP}
 fi
 
-# Revert the origional change
+# Revert the original change
 sed -i "s#${OKTA_REGISTRY}#${YARN_REGISTRY}#" yarn.lock
 # ---------------------------------------------------------------------
