@@ -28,9 +28,9 @@ test(`should have both password and confirmPassword fields and both are required
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 
-  // assert go back link shows up
-  await t.expect(await enrollPasswordPage.goBackLinkExists()).ok();
-  await t.expect(enrollPasswordPage.getGoBackLinkText()).eql('Go back');
+  // assert switch authenticator link shows up
+  await t.expect(await enrollPasswordPage.switchAuthenticatorLinkExists()).ok();
+  await t.expect(enrollPasswordPage.getSwitchAuthenticatorLinkText()).eql('Sign in using something else');
 
   // fields are required
   await enrollPasswordPage.clickNextButton();
