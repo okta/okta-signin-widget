@@ -30,7 +30,11 @@ const AuthenticatorRow = View.extend({
         return loc('oie.verify.authenticator.button.text', 'login');
       },
       click: function () {
-        this.model.trigger('selectAutheticator', this.model.get('value'));
+        const value = this.model.get('value');
+        if (this.model.get('authenticatorType')=== 'app') {
+          value.methodType = 'totp';
+        }
+        this.model.trigger('selectAutheticator', value);
       }
     }), '.authenticator-button']];
   },
