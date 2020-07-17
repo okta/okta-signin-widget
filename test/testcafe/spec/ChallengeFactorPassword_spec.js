@@ -47,7 +47,7 @@ test.requestHooks(authenticatorRequiredPasswordMock)(`challenge password authent
   const challengeFactorPageObject = await setup(t);
   // assert switch authenticator link
   await challengeFactorPageObject.switchAuthenticatorExists();
-  await t.expect(challengeFactorPageObject.getSwitchAuthenticatorButtonText()).eql('Sign in using something else');
+  await t.expect(challengeFactorPageObject.getSwitchAuthenticatorButtonText()).eql('Verify using something else');
 
   // assert forgot password link
   await challengeFactorPageObject.forgotPasswordExists();
