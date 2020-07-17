@@ -72,4 +72,13 @@ export default class BasePageObject {
   async clickGoBackLink() {
     await this.t.click(Selector(GO_BACK_LINK));
   }
+
+  getSwitchAuthenticatorLinkText() {
+    return Selector(SWITCH_AUTHENTICATOR_LINK).textContent;
+  }
+
+  async switchAuthenticatorLinkExists() {
+    const elCount = await Selector(SWITCH_AUTHENTICATOR_LINK).count;
+    return elCount === 1;
+  }
 }
