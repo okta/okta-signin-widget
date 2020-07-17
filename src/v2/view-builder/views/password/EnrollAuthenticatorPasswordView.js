@@ -15,7 +15,7 @@ const Body = BaseForm.extend({
 
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
-    const policy = this.getPasswordPolicy();
+    const policy = this.getPasswordPolicySettings();
     this.displayPasswordPolicy(policy);
   },
 
@@ -45,7 +45,7 @@ const Body = BaseForm.extend({
     }
   },
 
-  getPasswordPolicy () {
+  getPasswordPolicySettings () {
     // This will be overridden by following scenario since the policies could be different for those.
     // - password reset (`ReEnrollAuthenticatorPasswordView.js`)
     //

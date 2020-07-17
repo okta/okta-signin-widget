@@ -5,7 +5,7 @@ import EnrollAuthenticatorPasswordView from './EnrollAuthenticatorPasswordView';
 const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
   className: 'password-authenticator',
   title () {
-    const passwordPolicy = this.getPasswordPolicy() || {};
+    const passwordPolicy = this.getPasswordPolicySettings() || {};
     const daysToExpiry = passwordPolicy.daysToExpiry;
 
     if (daysToExpiry > 0) {
