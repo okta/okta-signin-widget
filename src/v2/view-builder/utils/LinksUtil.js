@@ -20,9 +20,20 @@ const getSwitchAuthenticatorLink = (appState) => {
     return [
       {
         'type': 'link',
-        'label': loc('oie.switch.authenticator', 'login'),
+        'label': loc('oie.verification.switch.authenticator', 'login'),
         'name': 'switchAuthenticator',
         'formName': RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE,
+      }
+    ];
+  }
+
+  if (appState.hasRemediationObject(RemediationForms.SELECT_AUTHENTICATOR_ENROLL)) {
+    return [
+      {
+        'type': 'link',
+        'label': loc('oie.switch.authenticator', 'login'),
+        'name': 'switchAuthenticator',
+        'formName': RemediationForms.SELECT_AUTHENTICATOR_ENROLL,
       }
     ];
   }
