@@ -52,6 +52,14 @@ export default Model.extend({
           || '';
       },
     },
+    methods: {
+      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
+      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
+        return  currentAuthenticator.methods
+          || currentAuthenticatorEnrollment.methods
+          || '';
+      },
+    },
     showSignoutLink: {
       deps: ['idx', 'currentFormName'],
       fn: function (idx = {}, currentFormName) {

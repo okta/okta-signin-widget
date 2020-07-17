@@ -49,6 +49,10 @@ import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
 
+//app
+import ChallengeAuthenticatorOVTOTPView from './views/ov/ChallengeAuthenticatorOVTotpView';
+import EnrollAuthenticatorOVTotpView from './views/ov/EnrollAuthenticatorOVTotpView';
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -93,7 +97,10 @@ const VIEWS_MAPPING = {
     password: EnrollAuthenticatorPasswordView,
     'security_key': EnrollWebauthnView,
     phone: EnrollAuthenticatorPhoneView,
-    'security_question': EnrollAuthenticatorSecurityQuestion
+    'security_question': EnrollAuthenticatorSecurityQuestion,
+    app: {
+      totp: EnrollAuthenticatorOVTotpView,
+    }
   },
   // Expired scenarios for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR]: {
@@ -120,6 +127,9 @@ const VIEWS_MAPPING = {
     'security_key': ChallengeWebauthnView,
     'security_question': ChallengeAuthenticatorSecurityQuestion,
     phone: ChallengeAuthenticatorPhoneView,
+    app: {
+      totp: ChallengeAuthenticatorOVTOTPView,
+    }
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     phone: ChallengeAuthenticatorDataPhoneView,
@@ -137,13 +147,15 @@ const VIEWS_MAPPING = {
 };
 
 module.exports = {
-  create (formName, authenticatorType = DEFAULT) {
+  create (formName, authenticatorType = DEFAULT, methods = []) {
     const config = VIEWS_MAPPING[formName];
     if (!config) {
       Logger.warn(`Cannot find customized View for ${formName}.`);
       return BaseView;
     }
-    const View = config[authenticatorType] || config[DEFAULT];
+    const methodType = methods.length > 1  ? 'multiple': methods[0] && methods[0].type;
+    const View = (config[authenticatorType] && config[authenticatorType][methodType]) ||
+      config[authenticatorType] || config[DEFAULT];
 
     if (!View) {
       Logger.warn(`Cannot find customized View for ${formName} + ${authenticatorType}.`);

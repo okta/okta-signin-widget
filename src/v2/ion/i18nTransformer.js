@@ -72,6 +72,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.password.credentials.passcode': 'mfa.challenge.password.placeholder',
   'challenge-authenticator.phone.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
+  'challenge-authenticator.app.credentials.passcode': 'oie.okta_verify.totp.challenge.enterCode',
 };
 
 const getI18nKey = (i18nPath) => {
