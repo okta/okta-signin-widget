@@ -1019,7 +1019,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     - `popup` - Opens a popup to the authorization server when an External Identity Provider button is clicked. `responseMode` will be set to `okta_post_message` and cannot be overridden.
 
     - `page` - Redirect to the authorization server when an External Identity Provider button is clicked.
-  
+
     ```javascript
     // Redirects to authorization server when the IDP button is clicked, and
     // returns an access_token in the url hash (Implicit flow)
@@ -1266,6 +1266,8 @@ signIn.on('pageRendered', function (data) {
 ```
 
 ### passwordRevealed
+
+:warning: This event has been *deprecated*, do not use.
 
 Triggered when the show password button is clicked.
 

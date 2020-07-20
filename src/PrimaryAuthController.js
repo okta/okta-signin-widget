@@ -107,6 +107,12 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       'focusout input': function (e) {
         $(e.target.parentElement).removeClass('focused-input');
       },
+
+      /**
+       * @deprecated
+       * This event was originally added for tracking purpose via MixPanel.
+       * After migrating to new tracking system, it's unnecessary now.
+       */
       'click .button-show': function () {
         this.trigger('passwordRevealed');
       }
