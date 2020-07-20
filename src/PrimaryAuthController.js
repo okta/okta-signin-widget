@@ -18,10 +18,11 @@ define([
   'models/PrimaryAuth',
   'views/shared/Footer',
   'util/BaseLoginController',
+  'util/Logger',
   'util/DeviceFingerprint',
 ],
 function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthModel,
-  Footer, BaseLoginController, DeviceFingerprint) {
+  Footer, BaseLoginController, Logger, DeviceFingerprint) {
 
   var $ = Okta.$;
 
@@ -110,10 +111,11 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
 
       /**
        * @deprecated
-       * This event was originally added for tracking purpose via MixPanel.
-       * After migrating to new tracking system, it's unnecessary now.
+       * This event was originally added for capturing specific usage metrics
+       * and is now obsolete.
        */
       'click .button-show': function () {
+        Logger.deprecate('use "passwordRevealed" event is deprecated');
         this.trigger('passwordRevealed');
       }
     },
