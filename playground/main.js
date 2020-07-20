@@ -60,6 +60,14 @@ const renderPlaygroundWidget = (options = {}) => {
     }
   );
 
+  signIn.on('ready', () => {
+    console.log('===== playground widget ready event received =====');
+  });
+  signIn.on('afterRender', (opt) => {
+    console.log('===== playground widget afterRender event received =====');
+    console.log(JSON.stringify(opt));
+  });
+
 };
 
 window.renderPlaygroundWidget = renderPlaygroundWidget;

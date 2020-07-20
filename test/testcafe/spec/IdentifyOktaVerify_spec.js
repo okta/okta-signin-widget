@@ -11,7 +11,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/okta-verify/launch')
   .respond(launchAuthenticatorOption);
 
-fixture(`Identify View with Okta Verify option`)
+fixture(`Identify + Okta Verify`)
   .requestHooks(logger, mock);
 
 async function setup(t) {

@@ -26,9 +26,9 @@ const enrollProfileErrorMock = RequestMock()
   .respond(identify)
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(enrollProfileFinish);
-  
 
-fixture(`Registration Form`);
+
+fixture(`Registration`);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

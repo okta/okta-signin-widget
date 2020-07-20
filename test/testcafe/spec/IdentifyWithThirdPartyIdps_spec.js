@@ -23,7 +23,7 @@ const mockOnlyOneIdp = RequestMock()
     res.setBody('<html><h1>A external IdP login page for testcafe testing</h1></html>');
   });
 
-fixture(`Identify With IDPs Form`);
+fixture(`Identify + IDPs`);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

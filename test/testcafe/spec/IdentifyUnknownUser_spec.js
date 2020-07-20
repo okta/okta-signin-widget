@@ -12,7 +12,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(registeredUser);
 
-fixture(`Unknown user form`)
+fixture(`Identify but Unknown User`)
   .requestHooks(mock);
 
 async function setup(t) {

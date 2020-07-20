@@ -12,6 +12,7 @@
 import { _, Controller } from 'okta';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
+import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -52,6 +53,35 @@ export default Controller.extend({
       return;
     }
 
+    this.triggerAfterRenderEvent();
+  },
+
+  triggerAfterRenderEvent () {
+    const formName = this.options.appState.get('currentFormName');
+    const authenticatorType = this.options.appState.get('authenticatorType');
+    const methodType = this.options.appState.get('authenticatorMethodType');
+    const isPasswordRecoveryFlow = this.options.appState.get('isPasswordRecoveryFlow');
+
+    const v1ControllerClassName = getV1ClassName(
+      formName,
+      authenticatorType,
+      methodType,
+      isPasswordRecoveryFlow,
+    );
+
+    const eventData = {
+      controller: v1ControllerClassName,
+      formName,
+    };
+
+    if (authenticatorType) {
+      eventData.authenticatorType = authenticatorType;
+    }
+    if (methodType && authenticatorType !== methodType) {
+      eventData.methodType = methodType;
+    }
+
+    this.trigger('afterRender', eventData);
   },
 
   switchForm (formName) {

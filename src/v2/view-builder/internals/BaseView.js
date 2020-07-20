@@ -15,13 +15,21 @@ export default View.extend({
   Footer: BaseFooter,
 
   className () {
-    let classNames = ['siw-main-view'];
     const appState = this.options.appState;
 
     const formName = appState.get('currentFormName');
     const authenticatorType = appState.get('authenticatorType');
     const methodType = appState.get('authenticatorMethodType');
-    classNames = classNames.concat(getClassNameMapping(formName, authenticatorType, methodType));
+    const isPasswordRecoveryFlow = appState.get('isPasswordRecoveryFlow');
+
+    const additionalClassNames = getClassNameMapping(
+      formName,
+      authenticatorType,
+      methodType,
+      isPasswordRecoveryFlow,
+    );
+
+    const classNames = ['siw-main-view'].concat(additionalClassNames);
     return classNames.join(' ');
   },
 
