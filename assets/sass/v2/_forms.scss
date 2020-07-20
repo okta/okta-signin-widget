@@ -15,4 +15,11 @@
       margin-bottom: 1rem;
     }
   }
+
+  // Fixing OKTA-303139 here, making sure V1 stays the same.
+  .custom-checkbox {
+    label {
+      line-height: inherit;
+    }
+  }
 }
