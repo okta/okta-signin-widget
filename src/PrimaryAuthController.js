@@ -18,10 +18,11 @@ define([
   'models/PrimaryAuth',
   'views/shared/Footer',
   'util/BaseLoginController',
+  'util/Logger',
   'util/DeviceFingerprint',
 ],
 function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthModel,
-  Footer, BaseLoginController, DeviceFingerprint) {
+  Footer, BaseLoginController, Logger, DeviceFingerprint) {
 
   var $ = Okta.$;
 
@@ -107,7 +108,14 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       'focusout input': function (e) {
         $(e.target.parentElement).removeClass('focused-input');
       },
+
+      /**
+       * @deprecated
+       * This event was originally added for capturing specific usage metrics
+       * and is now obsolete.
+       */
       'click .button-show': function () {
+        Logger.deprecate('use "passwordRevealed" event is deprecated');
         this.trigger('passwordRevealed');
       }
     },
