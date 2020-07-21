@@ -1,5 +1,6 @@
 /* global Promise */
-import { $, loc, createButton } from 'okta';
+import { $, loc, createButton, View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals//BaseFooter';
@@ -52,23 +53,25 @@ const Body = BaseForm.extend(Object.assign(
       switch (deviceChallenge.challengeMethod) {
       case 'LOOPBACK':
         this.title = loc('signin.with.fastpass', 'login');
-        this.add('<div class="spinner"></div>');
+        this.add(View.extend({
+          template: hbs`<div class="spinner"></div>`
+        }));
         this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
         break;
       case 'CUSTOM_URI':
         this.title = loc('customUri.title', 'login');
         this.subtitle = loc('customUri.subtitle', 'login');
-        this.add(`
-          {{{i18n code="customUri.content" bundle="login"}}}
-        `);
+        this.add(View.extend({
+          template: hbs`{{{i18n code="customUri.content" bundle="login"}}}`
+        }));
         this.customURI = deviceChallenge.href;
         this.doCustomURI();
         break;
       case 'UNIVERSAL_LINK':
         this.title = loc('universalLink.title', 'login');
-        this.add(`
-          {{{i18n code="universalLink.content" bundle="login"}}}
-        `);
+        this.add(View.extend({
+          template: hbs`{{{i18n code="universalLink.content" bundle="login"}}}`
+        }));
         this.add(createButton({
           className: 'ul-button button button-wide button-primary',
           title: loc('universalLink.button', 'login'),

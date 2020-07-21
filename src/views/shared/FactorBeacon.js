@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 /* eslint complexity: [2, 8] */
 define([
   'okta',
@@ -22,7 +24,7 @@ function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
 
   return Okta.View.extend({
 
-    template: '\
+    template: hbs('\
       <div class="beacon-blank auth-beacon">\
         <div class="beacon-blank js-blank-beacon-border auth-beacon-border"></div>\
       </div>\
@@ -30,7 +32,7 @@ function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
         <div class="okta-sign-in-beacon-border auth-beacon-border"></div>\
       </div>\
       <div data-type="factor-types-dropdown" class="factors-dropdown-wrap"></div>\
-    ',
+    '),
 
     events: {
       'click .auth-beacon-factor': function (e) {

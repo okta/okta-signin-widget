@@ -10,19 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define(['okta', 'util/Enums'], function (Okta, Enums) {
 
   var { Util } = Okta.internal.util;
 
   return Okta.View.extend({
-    template: '\
+    template: hbs('\
       {{#if passwordWarn}}\
         <a href="#" class="link help js-skip" data-se="skip-link">\
           {{i18n code="password.expiring.later" bundle="login"}}\
         </a>\
       {{/if}}\
       <a href="#" class="link help goto js-signout" data-se="signout-link">{{i18n code="signout" bundle="login"}}</a>\
-    ',
+    '),
     className: 'auth-footer clearfix',
     events: {
       'click .js-signout' : function (e) {

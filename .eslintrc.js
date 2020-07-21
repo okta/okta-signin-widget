@@ -11,11 +11,22 @@ module.exports = {
     'sourceType': 'module',
     'ecmaVersion': 2017
   },
+  'plugins': [
+    'eslint-plugin-local-rules'
+  ],
   'globals': {
     'spyOnEvent': false,
     'JSON': true,
     'DEBUG': true
   },
+  'overrides': [
+    {
+      'files': ['src/**/*.js'],
+      'rules': {
+        'local-rules/no-bare-templates': 2,
+      }
+    }
+  ],
   'rules': {
     'camelcase': 2,
     'complexity': [2, 10],

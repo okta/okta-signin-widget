@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/FormController',
@@ -23,13 +25,17 @@ define([
 function (Okta, FormController, Enums, FormType, Util, ValidationUtil, ContactSupport, TextBox) {
 
   var _ = Okta._;
-  var noFactorsError = '<div class="okta-form-infobox-error infobox infobox-error" role="alert">\
-    <span class="icon error-16"></span>\
-    <p>{{i18n code="account.unlock.noFactorsEnabled" bundle="login"}}</p>\
-  </div>';
+  var noFactorsError = Okta.View.extend({
+    template: hbs`
+      <div class="okta-form-infobox-error infobox infobox-error" role="alert">
+        <span class="icon error-16"></span>
+        <p>{{i18n code="account.unlock.noFactorsEnabled" bundle="login"}}</p>
+      </div>
+    `
+  });
 
   var Footer = Okta.View.extend({
-    template: '\
+    template: hbs('\
       <a href="#" class="link help js-back" data-se="back-link">\
         {{i18n code="goback" bundle="login"}}\
       </a>\
@@ -38,7 +44,7 @@ function (Okta, FormController, Enums, FormType, Util, ValidationUtil, ContactSu
         {{i18n code="mfa.noAccessToEmail" bundle="login"}}\
       </a>\
       {{/if}}\
-    ',
+    '),
     className: 'auth-footer',
     events: {
       'click .js-back' : function (e) {
@@ -117,10 +123,10 @@ function (Okta, FormController, Enums, FormType, Util, ValidationUtil, ContactSu
           if (smsEnabled || callEnabled) {
             formChildren.push(FormType.View({
               View: Okta.View.extend({
-                template: '\
+                template: hbs('\
                   <p class="mobile-recovery-hint">\
                     {{i18n code="recovery.mobile.hint" bundle="login" arguments="mobileFactors"}}\
-                  </p>',
+                  </p>'),
                 getTemplateData: function () {
                   var mobileFactors;
                   if (smsEnabled && callEnabled) {

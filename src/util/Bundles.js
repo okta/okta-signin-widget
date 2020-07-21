@@ -15,18 +15,15 @@ import fetch from 'cross-fetch';
 define([
   'jquery',
   'underscore',
-  'handlebars',
   'q',
   'nls/login.json',
   'nls/country.json',
   'util/Logger',
   'config/config.json',
   'util/BrowserFeatures'
-], function ($, _, Handlebars, Q, login, country, Logger, config, BrowserFeatures) {
+], function ($, _, Q, login, country, Logger, config, BrowserFeatures) {
 
   var STORAGE_KEY = 'osw.languages';
-
-  var bundlePathTpl = Handlebars.compile('/labels/json/{{bundle}}_{{languageCode}}.json');
 
   /**
    * Converts options to our internal format, which distinguishes between
@@ -141,10 +138,7 @@ define([
     // zh-CN -> zh_CN
     languageCode = language.replace('-', '_');
 
-    path = assets.rewrite(bundlePathTpl({
-      bundle: bundle,
-      languageCode: languageCode
-    }));
+    path = assets.rewrite(encodeURI(`/labels/json/${bundle}_${languageCode}.json`));
 
     const headers = {
       'Accept': 'application/json',
