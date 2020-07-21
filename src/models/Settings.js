@@ -12,6 +12,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'q',
@@ -27,10 +29,9 @@ define([
   var _ = Okta._;
   var DEFAULT_LANGUAGE = 'en';
   var supportedResponseTypes = ['token', 'id_token', 'code'];
-  var oauthRedirectTpl = Okta.tpl('{{origin}}');
   var ConfigError = Errors.ConfigError;
   var UnsupportedBrowserError = Errors.UnsupportedBrowserError;
-  var assetBaseUrlTpl = Okta.tpl(
+  var assetBaseUrlTpl = hbs(
     'https://global.oktacdn.com/okta-signin-widget/{{version}}'
   );
 
@@ -255,9 +256,7 @@ define([
             }
           }
 
-          return oauthRedirectTpl({
-            origin: origin
-          });
+          return encodeURI(origin);
         }
       },
       // Adjusts the idps passed into the widget based on if they get explicit support

@@ -28,7 +28,8 @@ module.exports = function (outputFilename) {
 
         // Vendor files from courage that are remapped in OSW to point to an npm
         // module in our package.json dependencies
-        'handlebars': 'handlebars/dist/handlebars',
+        'handlebars/runtime': 'handlebars/dist/cjs/handlebars.runtime',
+        'handlebars$': 'handlebars/dist/cjs/handlebars.runtime',
         'qtip': '@okta/qtip2/dist/jquery.qtip.min.js',
 
         'duo': 'duo_web_sdk/index.js',
@@ -60,6 +61,7 @@ module.exports = function (outputFilename) {
           options: {
             presets: ['@babel/preset-env'],
             plugins: [
+              './packages/@okta/babel-plugin-handlebars-inline-precompile',
               '@babel/plugin-transform-modules-commonjs'
             ]
           }

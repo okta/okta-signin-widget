@@ -10,21 +10,25 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define(['okta', 'util/Enums'], function (Okta, Enums) {
 
   const _ = Okta._;
 
   return Okta.View.extend({
     className: 'hide resend-email-infobox',
-    template: '<div class="infobox infobox-warning">' +
-      '<span class="icon warning-16"></span>' +
-      '<p>' +
-      '<span>{{i18n code="email.code.not.received" bundle="login"}}</span>'+
-      '<a href="#" class="resend-email-btn">' +
-      '{{i18n code="email.button.resend" bundle="login"}}'+
-      '</a>' +
-      '</p>' +
-      '</div>',
+    template: hbs`
+      <div class="infobox infobox-warning">
+        <span class="icon warning-16"></span>
+        <p>
+          <span>{{i18n code="email.code.not.received" bundle="login"}}</span>
+          <a href="#" class="resend-email-btn">
+          {{i18n code="email.button.resend" bundle="login"}}
+          </a>
+        </p>
+      </div>
+    `,
 
     events: {
       'click .resend-email-btn': 'resendEmail',

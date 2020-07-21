@@ -10,10 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 
 const BeaconView = View.extend({
 
-  template: '\
+  template: hbs('\
     <div data-type="beacon-container" class="beacon-container">\
       <div class="beacon-blank auth-beacon">\
         <div class="beacon-blank js-blank-beacon-border auth-beacon-border"></div>\
@@ -22,7 +23,7 @@ const BeaconView = View.extend({
         <div class="okta-sign-in-beacon-border auth-beacon-border"></div>\
       </div>\
     </div >\
-    ',
+    '),
 
   getTemplateData: function () {
     return { className: this.getBeaconClassName() || '' };

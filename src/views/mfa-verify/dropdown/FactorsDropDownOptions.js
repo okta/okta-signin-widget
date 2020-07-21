@@ -10,13 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 /* eslint max-statements: [2, 16], complexity: [2, 10] */
 define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
 
   var _ = Okta._;
 
   // deviceName is escaped on BaseForm (see BaseForm's template)
-  var pushTitleTpl = Okta.tpl('{{factorName}} ({{{deviceName}}})');
+  var pushTitleTpl = hbs('{{factorName}} ({{{deviceName}}})');
   var action = function (model) {
 
     var factorIndex;

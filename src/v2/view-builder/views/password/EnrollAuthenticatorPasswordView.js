@@ -4,6 +4,7 @@ import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { getPasswordComplexityDescriptionForHtmlList } from '../../utils/FactorUtil';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
+import hbs from 'handlebars-inline-precompile';
 
 const Body = BaseForm.extend({
   title () {
@@ -26,7 +27,7 @@ const Body = BaseForm.extend({
         View.extend({
           tagName: 'section',
           template:
-            `<div class="password-authenticator--heading">
+            hbs`<div class="password-authenticator--heading">
               {{i18n code="password.complexity.requirements.header" bundle="login"}}
             </div>
             <ul class="password-authenticator--list">
