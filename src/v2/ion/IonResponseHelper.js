@@ -134,7 +134,8 @@ const convertFormErrors = (response) => {
 };
 
 const isIonErrorResponse = (response = {}) => {
-  return response.version && Array.isArray(response.messages);
+  // a little sloppy.
+  return response.version;
 };
 
 export default {
