@@ -81,10 +81,8 @@ export default Controller.extend({
           this.showFormErrors(this.formView.model, error);
         });
     } else {
-      const errorResp = {
-        errorSummary: `Invalid action selected: ${actionPath}`,
-      };
-      this.showFormErrors(this.formView.model, errorResp);
+      this.options.settings.callGlobalError(`Invalid action selected: ${actionPath}`);
+      this.showFormErrors(this.formView.model, 'Invalid action selected.');
     }
   },
 
@@ -93,10 +91,8 @@ export default Controller.extend({
 
     const idx = this.options.appState.get('idx');
     if (!idx['neededToProceed'].find(item => item.name === formName)) {
-      var errorResp = {
-        errorSummary: `Cannot find http action for "${formName}".`,
-      };
-      this.showFormErrors(this.formView.model, errorResp);
+      this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
+      this.showFormErrors(this.formView.model, 'Cannot find action to proceed.');
       return;
     }
 
@@ -122,13 +118,20 @@ export default Controller.extend({
   },
 
   showFormErrors (model, error) {
-    //check if error format is an ION response by looking for version attribute. To handle both types of responses.
-    if(error.version) {
+    if (!error) {
+      error = 'FormController - unknown error found';
+      this.options.settings.callGlobalError(error);
+    }
+
+    if(IonResponseHelper.isIonErrorResponse(error)) {
+      // check if error format is an ION response by looking for version attribute.
       const convertedErrors = IonResponseHelper.convertFormErrors(error);
       const showBanner = convertedErrors.responseJSON.errorCauses.length ? false : true;
       model.trigger('error', model, convertedErrors, showBanner);
-    } else {
+    } else if (error.errorSummary) {
       model.trigger('error', model, {responseJSON: error}, true);
+    } else {
+      model.trigger('error', model, {responseJSON: {errorSummary: String(error)}}, true);
     }
   },
 
@@ -145,7 +148,7 @@ export default Controller.extend({
    * @param {boolean} disabled whether add extra disable CSS class.
    */
   toggleFormButtonState: function (disabled) {
-    var button = this.$el.find('.o-form-button-bar .button');
+    const button = this.$el.find('.o-form-button-bar .button');
     button.toggleClass('link-button-disabled', disabled);
   },
 

@@ -133,6 +133,11 @@ const convertFormErrors = (response) => {
   };
 };
 
+const isIonErrorResponse = (response = {}) => {
+  return response.version && Array.isArray(response.messages);
+};
+
 export default {
-  convertFormErrors
+  convertFormErrors,
+  isIonErrorResponse,
 };
