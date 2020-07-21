@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/Enums',
@@ -43,7 +45,7 @@ function (Okta, Enums, FormController, FormType) {
         return [
           FormType.View({
             View: Okta.View.extend({
-              template: '\
+              template: hbs('\
               <div class="container">\
               <span class="title-icon icon icon-16 confirm-16-green"></span>\
               <h2 class="title">{{title}}</h2>\
@@ -52,7 +54,7 @@ function (Okta, Enums, FormController, FormType) {
               <a href="#" class="back-btn" data-se="back-link">\
                 {{i18n code="goback" bundle="login"}}\
               </a>\
-              ',
+              '),
               getTemplateData: function () {
                 return { 
                   'desc': Okta.loc('registration.complete.confirm.text', 'login'),

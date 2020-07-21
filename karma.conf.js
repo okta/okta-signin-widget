@@ -61,9 +61,12 @@ module.exports = (config) => {
         base: 'ChromeHeadless',
         flags: ['--no-sandbox']
       }
-
     },
-
+    customHeaders: [{
+      match: '.*.html',
+      name: 'Content-Security-Policy',
+      value: 'script-src http: \'unsafe-inline\''
+    }]
   };
 
   // instrument code for coverage report

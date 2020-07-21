@@ -10,13 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/FactorUtil',
 ],
 function (Okta, FactorUtil) {
   return Okta.View.extend({
-    template: `{{#if requirements}}
+    template: hbs`{{#if requirements}}
       <div class="password-requirements--header">
         {{i18n code="password.complexity.requirements.header" bundle="login"}}
       </div>

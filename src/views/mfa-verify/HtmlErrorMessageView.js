@@ -10,16 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta'
 ],
 function (Okta) {
 
   // Have to be unescaped for the html in enroll.windowsHello.error.notConfiguredHtml
-  var template = '\
+  var template = hbs('\
     <span class="icon error-24"></span>\
     <h4><strong>{{{message}}}</strong></h4>\
-  ';
+  ');
 
   return Okta.View.extend({
     template: template,

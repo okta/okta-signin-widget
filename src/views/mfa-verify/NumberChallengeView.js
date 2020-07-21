@@ -10,13 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
 ], function (Okta) {
 
   return Okta.View.extend({
     className: 'number-challenge-view',
-    template: `
+    template: hbs`
       <p data-se="number-challenge-instruction">
         {{{i18n code="oktaverify.numberchallenge.instruction" bundle="login" arguments="number"}}}
       </p>

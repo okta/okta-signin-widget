@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta'
 ],
@@ -19,7 +21,7 @@ function (Okta) {
   var _ = Okta._;
 
   return Okta.View.extend({
-    template: '\
+    template: hbs('\
       <a href="#" data-se="needhelp" aria-expanded="false" \
         aria-controls="help-links-container" class="link help js-help">\
       {{i18n code="needhelp" bundle="login"}}\
@@ -50,7 +52,7 @@ function (Okta) {
         </a>\
         </li>\
       </ul>\
-    ',
+    '),
     className: 'auth-footer',
 
     initialize: function () {
@@ -65,7 +67,7 @@ function (Okta) {
       if (customHelpPage) {
         helpLinkUrl = customHelpPage;
       } else {
-        helpLinkUrl = Okta.tpl('{{baseUrl}}/help/login')({baseUrl: this.settings.get('baseUrl')});
+        helpLinkUrl = hbs('{{baseUrl}}/help/login')({baseUrl: this.settings.get('baseUrl')});
       }
       return _.extend(this.settings.toJSON({verbose: true}), {helpLinkUrl: helpLinkUrl});
     },

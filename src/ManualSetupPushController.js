@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/CountryUtil',
@@ -174,11 +176,11 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
 
           FormType.View({
             View: Okta.View.extend({
-              template: '\
+              template: hbs('\
                 <p class="okta-form-subtitle o-form-explain text-align-c">\
                   {{instructions}}\
                 </p>\
-              ',
+              '),
               getTemplateData: function () {
                 return {
                   instructions: instructions
@@ -200,7 +202,9 @@ function (Okta, CountryUtil, FactorUtil, FormController, FormType, RouterUtil,
           }),
 
           FormType.View({
-            View: '<div data-type="next-button-wrap"></div>',
+            View: Okta.View.extend({
+              template: hbs('<div data-type="next-button-wrap"></div>')
+            }),
             showWhen: {activationType: 'MANUAL'}
           }),
 

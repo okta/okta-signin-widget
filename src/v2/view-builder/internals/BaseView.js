@@ -3,6 +3,7 @@ import BaseForm from './BaseForm';
 import BaseModel from './BaseModel';
 import BaseHeader from './BaseHeader';
 import BaseFooter from './BaseFooter';
+import hbs from 'handlebars-inline-precompile';
 
 export default View.extend({
 
@@ -14,9 +15,11 @@ export default View.extend({
 
   className: 'siw-main-view',
 
-  template: '<div class="siw-main-header"></div>' +
-      '<div class="siw-main-body"></div>' +
-      '<div class="siw-main-footer"></div>',
+  template: hbs`
+    <div class="siw-main-header"></div>
+    <div class="siw-main-body"></div>
+    <div class="siw-main-footer"></div>
+  `,
 
   initialize () {
     // Add Views

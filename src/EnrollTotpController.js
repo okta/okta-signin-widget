@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/FactorUtil',
@@ -34,10 +36,10 @@ function (Okta, FactorUtil, FormController, FormType,
   var AppDownloadInstructionsView = Okta.View.extend({
     attributes: { 'data-se': 'app-download-instructions' },
     className: 'app-download-instructions',
-    template: '\
+    template: hbs('\
       <span class="app-logo {{appIcon}}"></span>\
       <p class="instructions">{{{appStoreLinkText}}}</p>\
-    ',
+    '),
     initialize: function () {
       this.listenTo(this.model, 'change:__deviceType__', this.render);
     },

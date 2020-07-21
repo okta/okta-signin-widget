@@ -12,10 +12,11 @@
 import { ListView, loc, View, createButton } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import skipAll from './SkipOptionalEnrollmentButton';
+import hbs from 'handlebars-inline-precompile';
 
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
-  template: '\
+  template: hbs('\
         <div class="authenticator-icon-container">\
           <div class="factor-icon authenticator-icon {{iconClassName}}">\
           </div>\
@@ -27,7 +28,7 @@ const AuthenticatorRow = View.extend({
           {{/if}}\
           <div class="authenticator-button"></div>\
         </div>\
-      ',
+      '),
   children: function () {
     return [[createButton({
       className: 'button select-factor',
@@ -63,7 +64,7 @@ export default ListView.extend({
     }
   },
 
-  template: '<div class="list-content"> <div class="authenticator-list-title"> {{title}} </div> </div>',
+  template: hbs`<div class="list-content"> <div class="authenticator-list-title"> {{title}} </div> </div>`,
 
   getTemplateData () {
     // presence of the skip remediation form tells us that the authenticators are all optional

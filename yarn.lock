@@ -4890,6 +4890,11 @@ eslint-plugin-jasmine@^4.1.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-jasmine/-/eslint-plugin-jasmine-4.1.1.tgz#afdf8ca6a91e85041d9e0fb650af446874bf8852"
   integrity sha512-uS7kvt7RPUB/gLDwhJ/Ax0APrmkj7In8VJWkiZLYHafz2Ix74mMRJx82YZZ3zHRa/YOuTL+ig6dW/aKwdNzUuw==
 
+eslint-plugin-local-rules@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-local-rules/-/eslint-plugin-local-rules-0.1.1.tgz#4fa5921389383f10cc1e6cfeb1c24e11597e8cef"
+  integrity sha512-+Wlic7MSxhVeGJT7a8vf7thVnzlRiessyHNaaOFT7PFlQS6Ff1oMO9vD803CSI5y6Nhu/+f+bVWGUDf8SRDxvg==
+
 eslint-plugin-testcafe@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-testcafe/-/eslint-plugin-testcafe-0.2.1.tgz#4089f646dadb69b1376a01d7e608184907e6036b"

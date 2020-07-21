@@ -9,6 +9,8 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'q',
@@ -37,11 +39,11 @@ function (
   var { _, Backbone } = Okta;
 
   var Footer = Okta.View.extend({
-    template: '\
+    template: hbs('\
       <a href="#" class="link help" data-se="back-link">\
         {{i18n code="goback" bundle="login"}}\
       </a>\
-    ',
+    '),
     className: 'auth-footer',
     events: {
       'click .help' : function (e) {
@@ -207,7 +209,7 @@ function (
               form.add(SubSchema.extend({id: 'subschemas-' + name, subSchemas: subSchemas}));
             }
           });
-          var requiredFieldsLabel =  Okta.tpl('<span class="required-fields-label">{{label}}</span>')({
+          var requiredFieldsLabel =  hbs('<span class="required-fields-label">{{label}}</span>')({
             label: Okta.loc('registration.required.fields.label', 'login')
           });
           form.add(requiredFieldsLabel);
