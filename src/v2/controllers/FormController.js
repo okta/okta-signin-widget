@@ -52,7 +52,11 @@ export default Controller.extend({
       return;
     }
 
-    this.listenTo(this.formView, 'save', this.handleFormSave);
+  },
+
+  switchForm (formName) {
+    // trigger formname change to change view
+    this.options.appState.set('currentFormName', formName);
   },
 
   invokeAction (actionPath = '') {
@@ -61,7 +65,7 @@ export default Controller.extend({
       idx.proceed(actionPath, {})
         .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
-          throw error;
+          this.showFormErrors(this.formView.model, error);
         });
       return;
     }
@@ -71,32 +75,34 @@ export default Controller.extend({
     if (_.isFunction(actionFn)) {
       // TODO: OKTA-243167
       // 1. what's the approach to show spinner indicating API in fligh?
-      // 2. how to catch error?
       actionFn()
         .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
-          throw error;
+          this.showFormErrors(this.formView.model, error);
         });
     } else {
-      throw `Invalid action selected: ${actionPath}`;
+      const errorResp = {
+        errorSummary: `Invalid action selected: ${actionPath}`,
+      };
+      this.showFormErrors(this.formView.model, errorResp);
     }
-  },
-
-  switchForm (formName) {
-    // trigger formname change to change view
-    this.options.appState.set('currentFormName', formName);
   },
 
   handleFormSave (model) {
     const formName = model.get('formName');
+
     const idx = this.options.appState.get('idx');
     if (!idx['neededToProceed'].find(item => item.name === formName)) {
-      model.trigger('error', model, { errorSummary: `Cannot find http action for "${formName}".`});
+      var errorResp = {
+        errorSummary: `Cannot find http action for "${formName}".`,
+      };
+      this.showFormErrors(this.formView.model, errorResp);
       return;
     }
+
     this.toggleFormButtonState(true);
     model.trigger('request');
-    return idx.proceed(formName, model.toJSON())
+    idx.proceed(formName, model.toJSON())
       .then(this.handleIdxSuccess.bind(this))
       .catch(error => {
         if (error.proceed && error.rawIdxState) {
@@ -109,6 +115,9 @@ export default Controller.extend({
         } else {
           this.showFormErrors(model, error);
         }
+      })
+      .finally(() => {
+        this.toggleFormButtonState(false);
       });
   },
 
@@ -116,11 +125,11 @@ export default Controller.extend({
     //check if error format is an ION response by looking for version attribute. To handle both types of responses.
     if(error.version) {
       const convertedErrors = IonResponseHelper.convertFormErrors(error);
-      model.trigger('error', model, convertedErrors, convertedErrors.responseJSON.errorCauses.length ? false : true);
+      const showBanner = convertedErrors.responseJSON.errorCauses.length ? false : true;
+      model.trigger('error', model, convertedErrors, showBanner);
     } else {
-      model.trigger('error', model, {'responseJSON': error}, true);
+      model.trigger('error', model, {responseJSON: error}, true);
     }
-    this.toggleFormButtonState(false);
   },
 
   handleIdxSuccess: function (idxResp) {
