@@ -114,21 +114,78 @@
                 "relatesTo": "$.authenticatorEnrollments.value[3]"
               },
               {
-                "label": "Okta Phone",
-                "value": {
-                  "form": {
-                    "value": [
+                "label":"Phone",
+                "value":{
+                  "form":{
+                    "value":[
                       {
-                        "name": "id",
-                        "value": "aid568g3mXgtID0X1SLH",
-                        "required": true,
-                        "mutable": false,
-                        "visible": false
+                        "name":"id",
+                        "required":true,
+                        "value":"aut5v31Tb789KuCGY0g4",
+                        "mutable":false
+                      },
+                      {
+                        "name":"methodType",
+                        "type":"string",
+                        "required":false,
+                        "options":[
+                          {
+                            "label":"SMS",
+                            "value":"sms"
+                          },
+                          {
+                            "label":"Voice call",
+                            "value":"voice"
+                          }
+                        ]
+                      },
+                      {
+                        "name":"enrollmentId",
+                        "required":true,
+                        "value":"pae5ykx4eIvfslkO90g4",
+                        "mutable":false
                       }
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[4]"
+                "relatesTo":"$.authenticatorEnrollments.value[4]"
+              },
+              {
+                "label":"Phone",
+                "value":{
+                  "form":{
+                    "value":[
+                      {
+                        "name":"id",
+                        "required":true,
+                        "value":"aut5v31Tb789KuCGY0g4",
+                        "mutable":false
+                      },
+                      {
+                        "name":"methodType",
+                        "type":"string",
+                        "required":false,
+                        "options":[
+                          {
+                            "label":"SMS",
+                            "value":"sms"
+                          },
+                          {
+                            "label":"Voice call",
+                            "value":"voice"
+                          }
+                        ]
+                      },
+                      {
+                        "name":"enrollmentId",
+                        "required":true,
+                        "value":"pae5ykzcnhmdfSMuQ0g4",
+                        "mutable":false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo":"$.authenticatorEnrollments.value[5]"
               },
               {
                 "label": "Okta Security Question",
@@ -145,7 +202,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[5]"
+                "relatesTo": "$.authenticatorEnrollments.value[6]"
               },
               {
                 "label": "Okta Verify",
@@ -169,7 +226,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[6]"
+                "relatesTo": "$.authenticatorEnrollments.value[7]"
               }
             ]
           },
@@ -217,10 +274,36 @@
         ]
       },
       {
-        "displayName": "Okta Phone",
-        "type": "phone",
-        "authenticatorId": "aid568g3mXgtID0X1SLH",
-        "id": "autwa6eD9o02iBbsta82"
+        "profile":{
+          "phoneNumber":"+1 XXX-XXX-5309"
+        },
+        "type":"phone",
+        "id":"pae5ykx4eIvfslkO90g4",
+        "displayName":"Phone Number",
+        "methods":[
+          {
+            "type":"sms"
+          },
+          {
+            "type":"voice"
+          }
+        ]
+      },
+      {
+        "profile":{
+          "phoneNumber":"+1 XXX-XXX-5310"
+        },
+        "type":"phone",
+        "id":"pae5ykzcnhmdfSMuQ0g4",
+        "displayName":"Phone Number",
+        "methods":[
+          {
+            "type":"sms"
+          },
+          {
+            "type":"voice"
+          }
+        ]
       },
       {
         "displayName": "Okta Security Question",

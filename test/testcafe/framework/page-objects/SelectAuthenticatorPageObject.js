@@ -26,6 +26,11 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.form.getElement(factorListRowSelector).nth(index).find(factorDescriptionSelector).textContent;
   }
 
+  async factorDescriptionExistsByIndex(index) {
+    const elCount = await this.form.getElement(factorListRowSelector).nth(index).find(factorDescriptionSelector).count;
+    return elCount === 1;
+  }
+
   getFactorIconClassByIndex(index) {
     return this.form.getElement(factorIconSelector).nth(index).getAttribute('class');
   }
