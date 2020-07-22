@@ -19,7 +19,7 @@ const idx = {
     // 'authenticator-verification-data-phone-voice-only',
     // 'authenticator-verification-data-phone-voice-then-sms',
     // 'authenticator-verification-email',
-    // 'authenticator-verification-password',
+    'authenticator-verification-password',
     // 'authenticator-verification-phone-sms',
     // 'authenticator-verification-phone-voice',
     // 'authenticator-verification-security-question',
@@ -49,7 +49,7 @@ const idx = {
     // 'identify-with-third-party-idps',
     // 'identify-with-only-third-party-idps',
     // 'identify-with-only-one-third-party-idp',
-    'identify-with-password',
+    // 'identify-with-password',
     // 'identify-with-universal-link',
     // 'select-factor-authenticate',
     // 'select-factor-for-password-recovery',
@@ -69,7 +69,8 @@ const idx = {
     'authenticator-enroll-security-question',
   ],
   '/idp/idx/identify': [
-    'identify-with-only-one-third-party-idp',
+    // 'identify-with-only-one-third-party-idp',
+    'error-forgot-password',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge'
   ],
@@ -103,7 +104,10 @@ const idx = {
   ],
   '/idp/idx/cancel': [
     'identify',
-  ]
+  ],
+  '/idp/idx/recover': [
+    'error-forgot-password',
+  ],
 };
 
 // ===== AUTHN

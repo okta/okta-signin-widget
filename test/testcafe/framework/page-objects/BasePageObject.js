@@ -34,6 +34,10 @@ export default class BasePageObject {
     return Selector(selector).innerText;
   }
 
+  getIonMessages () {
+    return this.form.getElement(ionMessagesSelector).innerText;
+  }
+
   async signoutLinkExists() {
     const elCount = await Selector(SIGNOUT_LINK).count;
     return elCount === 1;
@@ -52,6 +56,10 @@ export default class BasePageObject {
     return Selector(GO_BACK_LINK).textContent;
   }
 
+  async clickGoBackLink() {
+    await this.t.click(Selector(GO_BACK_LINK));
+  }
+
   async skipLinkExists() {
     const elCount = await Selector(SKIP_LINK).count;
     return elCount === 1;
@@ -61,16 +69,8 @@ export default class BasePageObject {
     return Selector(SKIP_LINK).textContent;
   }
 
-  getIonMessages () {
-    return this.form.getElement(ionMessagesSelector).innerText;
-  }
-
   async clickSwitchAuthenticatorButton() {
     await this.t.click(Selector(SWITCH_AUTHENTICATOR_LINK));
-  }
-
-  async clickGoBackLink() {
-    await this.t.click(Selector(GO_BACK_LINK));
   }
 
   getSwitchAuthenticatorLinkText() {
