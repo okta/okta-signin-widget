@@ -1,6 +1,7 @@
 import { Selector, ClientFunction } from 'testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
+const FORM_INFOBOX_ERROR = '.okta-form-infobox-error';
 
 export default class BaseFormObject {
   constructor (t, index) {
@@ -82,16 +83,33 @@ export default class BaseFormObject {
     await this.t.click(this.el.find('.o-form-button-bar input[data-type="save"]'));
   }
 
+  // =====================================
+  // Error
+  // =====================================
+
+  // Error banner
   async waitForErrorBox() {
-    await this.el.find(`.okta-form-infobox-error`).exists;
+    await this.el.find(FORM_INFOBOX_ERROR).exists;
+  }
+
+  getErrorBoxCount() {
+    return this.el.find(FORM_INFOBOX_ERROR).count;
   }
 
   getErrorBoxText() {
-    return this.el.find(`.okta-form-infobox-error`).innerText;
+    return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
+  // Field error
+  /**
+   * @deprecated see hasTextBoxErrorMessage
+   */
   hasTextBoxError(name) {
     return this.el.find(`.o-form-input-name-${name}.o-form-has-errors`).exists;
+  }
+
+  async waitForTextBoxError(name) {
+    await this.hasTextBoxError(name);
   }
 
   hasTextBoxErrorMessage(fieldName) {
@@ -106,13 +124,9 @@ export default class BaseFormObject {
     return selectContainer.innerText;
   }
 
-  getCallout(selector) {
-    return Selector(selector);
-  }
-
-  async waitForTextBoxError(name) {
-    await this.hasTextBoxError(name);
-  }
+  // =====================================
+  // Chozen Dropdown
+  // =====================================
 
   async selectValueChozenDropdown(fieldName, index) {
     const selectContainer = await this.findFormFieldInput(fieldName)
@@ -136,9 +150,9 @@ export default class BaseFormObject {
     return radioOptionLabel;
   }
 
-  //////////////////////////////////////////////////
+  // =====================================
   // helper methods
-  //////////////////////////////////////////////////
+  // =====================================
 
   findFormFieldInput(fieldName) {
     return this.el
@@ -151,6 +165,14 @@ export default class BaseFormObject {
       .parent('[data-se="o-form-input-container"]')
       .sibling('[data-se="o-form-label"]')
       .child('label');
+  }
+
+  // =====================================
+  // un-categoried
+  // =====================================
+
+  getCallout(selector) {
+    return Selector(selector);
   }
 
 }
