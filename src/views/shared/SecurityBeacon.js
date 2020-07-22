@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define(['okta', 'util/Animations'], function (Okta, Animations) {
 
   var _ = Okta._,
@@ -141,7 +143,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
 
   return Okta.View.extend({
 
-    template: '\
+    template: hbs('\
     <div class="beacon-blank">\
       <div class="radial-progress-bar">\
         <div class="circle left"></div>\
@@ -153,7 +155,7 @@ define(['okta', 'util/Animations'], function (Okta, Animations) {
       <div class="okta-sign-in-beacon-border auth-beacon-border js-auth-beacon-border">\
       </div>\
     </div>\
-    ',
+    '),
     className: 'js-security-beacon',
 
     initialize: function (options) {

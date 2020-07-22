@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/RouterUtil',
@@ -17,12 +19,12 @@ define([
 ], function (Okta, RouterUtil, FactorUtil) {
 
   var _ = Okta._,
-      cardinalityTextTpl = Okta.tpl('<span class="factor-cardinality">{{cardinalityText}}</span>');
+      cardinalityTextTpl = hbs('<span class="factor-cardinality">{{cardinalityText}}</span>');
 
   var FactorRow = Okta.View.extend({
     className: 'enroll-factor-row clearfix',
 
-    template: '\
+    template: hbs('\
       <div class="enroll-factor-icon-container">\
         <div class="factor-icon enroll-factor-icon {{iconClassName}}">\
         </div>\
@@ -34,7 +36,7 @@ define([
         {{/if}}\
         <div class="enroll-factor-button"></div>\
       </div>\
-    ',
+    '),
 
     attributes: function () {
       return { 'data-se': this.model.get('factorName') };
@@ -94,12 +96,12 @@ define([
 
     itemSelector: '.list-content',
 
-    template: '\
+    template: hbs('\
       {{#if listTitle}}\
         <div class="list-title">{{listTitle}}</div>\
       {{/if}}\
       <div class="list-content"></div>\
-    ',
+    '),
 
     getTemplateData: function () {
       var json = Okta.ListView.prototype.getTemplateData.call(this);

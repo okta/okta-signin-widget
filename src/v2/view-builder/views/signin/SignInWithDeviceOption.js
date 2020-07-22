@@ -1,8 +1,9 @@
 import { View, createButton } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 
 export default View.extend({
   className: 'sign-in-with-device-option',
-  template: `
+  template: hbs`
     <div class="okta-verify-container"></div>
     <div class="separation-line"><span>OR</span></div>
   `,

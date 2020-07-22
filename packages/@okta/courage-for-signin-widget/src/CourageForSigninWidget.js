@@ -11,7 +11,6 @@ import Cookie from '@okta/courage/src/util/Cookie';
 import Keys from '@okta/courage/src/util/Keys';
 import Logger from '@okta/courage/src/util/Logger';
 import StringUtil from '@okta/courage/src/util/StringUtil';
-import TemplateUtil from '@okta/courage/src/util/TemplateUtil';
 import Util from '@okta/courage/src/util/Util';
 import Handlebars from '@okta/courage/src/util/handlebars-wrapper';
 import $ from '@okta/courage/src/util/jquery-wrapper';
@@ -33,6 +32,15 @@ import TextBox from '@okta/courage/src/views/forms/inputs/TextBox';
 import Callout from '@okta/courage/src/views/components/Callout';
 import Backbone from 'backbone';
 
+import FrameworkView from '@okta/courage/src/framework/View';
+
+// The string will be returned unchanged. All templates should be precompiled.
+FrameworkView.prototype.compileTemplate = function(str) {
+  return function fakeTemplate() {
+    return str;
+  };
+};
+
 const Okta = {
   Backbone: Backbone,
 
@@ -50,8 +58,6 @@ const Okta = {
 
   registerInput: InputRegistry.register,
 
-  tpl: TemplateUtil.tpl,
-
   Model: Model,
 
   // TODO: BaseModel has been deprecated and shall not be public
@@ -59,6 +65,8 @@ const Okta = {
   BaseModel: BaseModel,
 
   Collection: BaseCollection,
+
+  FrameworkView: FrameworkView,
 
   View: BaseView,
 

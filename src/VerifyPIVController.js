@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity:[2, 10], max-params: [2, 11] */
-
+import hbs from 'handlebars-inline-precompile';
 define([
   'okta',
   'util/FormController',
@@ -96,11 +96,12 @@ function (Okta, FormController, FormType, FooterWithBackLink) {
 
       formChildren: [
         FormType.View({
-          View:
-             '<div class="piv-verify-text">\
+          View: Okta.View.extend({
+            template: hbs('<div class="piv-verify-text">\
                <p>{{i18n code="piv.cac.card.insert" bundle="login"}}</p>\
                <div data-se="piv-waiting" class="okta-waiting-spinner"></div>\
-             </div>'
+             </div>')
+          })
         })
       ],
 
