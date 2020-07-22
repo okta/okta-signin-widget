@@ -125,7 +125,6 @@ export default Controller.extend({
     }
 
     if(IonResponseHelper.isIonErrorResponse(error)) {
-      // check if error format is an ION response by looking for version attribute.
       const convertedErrors = IonResponseHelper.convertFormErrors(error);
       const showBanner = convertedErrors.responseJSON.errorCauses.length ? false : true;
       model.trigger('error', model, convertedErrors, showBanner);
