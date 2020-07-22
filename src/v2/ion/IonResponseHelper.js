@@ -133,6 +133,13 @@ const convertFormErrors = (response) => {
   };
 };
 
+const isIonErrorResponse = (response = {}) => {
+  // check if error format is an ION response by looking for version attribute.
+  // a little sloppy.
+  return response.version;
+};
+
 export default {
-  convertFormErrors
+  convertFormErrors,
+  isIonErrorResponse,
 };

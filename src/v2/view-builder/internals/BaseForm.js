@@ -8,10 +8,16 @@ export default Form.extend({
   hasSavingState: true,
   autoSave: false,
   noCancelButton: true,
+
   title () {
     return loc('oform.title.authenticate', 'login');
   },
+
   save: loc('oform.next', 'login'),
+
+  modelEvents: {
+    'clearFormError': 'handleClearFormError',
+  },
 
   initialize () {
     const uiSchemas = this.getUISchema();
@@ -25,6 +31,12 @@ export default Form.extend({
     });
 
     this.listenTo(this, 'save', this.saveForm);
+  },
+
+  handleClearFormError () {
+    if (this.$('.o-form-error-container').hasClass('o-form-has-errors')) {
+      this.clearErrors();
+    }
   },
 
   saveForm (model) {

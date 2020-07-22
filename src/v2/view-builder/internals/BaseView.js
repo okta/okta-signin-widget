@@ -46,6 +46,7 @@ export default View.extend({
     const IonModel = this.createModelClass(
       this.options.currentViewState,
       optionUiSchemaConfig);
+
     const model = new IonModel ({
       formName: this.options.currentViewState.name,
     });
@@ -54,6 +55,7 @@ export default View.extend({
       optionUiSchemaConfig = model.toJSON({verbose: true});
     }
 
+    this.model = model;
     this.form = this.add(this.Body, {
       selector : '.siw-main-body',
       options: Object.assign(
