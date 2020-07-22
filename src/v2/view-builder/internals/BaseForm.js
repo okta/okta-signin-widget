@@ -33,7 +33,7 @@ export default Form.extend({
     this.listenTo(this, 'save', this.saveForm);
   },
 
-  handleClearFormError() {
+  handleClearFormError () {
     if (this.$('.o-form-error-container').hasClass('o-form-has-errors')) {
       this.clearErrors();
     }
