@@ -1,10 +1,10 @@
-import { RequestMock } from 'testcafe';
-import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import ChallengePasswordPageObject from '../framework/page-objects/ChallengePasswordPageObject';
+import { RequestLogger, RequestMock } from 'testcafe';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
-import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrAnvalidPassword from '../../../playground/mocks/data/idp/idx/error-answer-passcode-invalid';
 import xhrForgotPasswordError from '../../../playground/mocks/data/idp/idx/error-forgot-password';
+import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
+import ChallengePasswordPageObject from '../framework/page-objects/ChallengePasswordPageObject';
+import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
 const mockChallengeAuthenticatorPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -19,11 +19,18 @@ const mockInvalidPassword = RequestMock()
   .respond(xhrAnvalidPassword, 403);
 
 const mockCannotForgotPassword = RequestMock()
-      .onRequestTo('http://localhost:3000/idp/idx/introspect')
-      .respond(xhrAuthenticatorRequiredPassword)
-      .onRequestTo('http://localhost:3000/idp/idx/recover')
-      .respond(xhrForgotPasswordError, 403);
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorRequiredPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/recover')
+  .respond(xhrForgotPasswordError, 403);
 
+const recoveryRequestLogger = RequestLogger(
+  /idp\/idx\/recover/,
+  {
+    logRequestBody: true,
+    stringifyRequestBody: true,
+  }
+);
 
 fixture(`Challenge Authenticator Password`);
 
@@ -64,11 +71,32 @@ test.requestHooks(mockInvalidPassword)(`challege password authenticator with inv
   await t.expect(challengePasswordPage.getPasswordFieldErrorMessage()).contains('The passcode is absent or invalid');
 });
 
-test.requestHooks(mockCannotForgotPassword)(`can not recover password`, async t => {
+test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)(`can not recover password`, async t => {
   const challengePasswordPage = await setup(t);
   await challengePasswordPage.forgotPasswordLink.exists();
   await challengePasswordPage.forgotPasswordLink.click();
+  // show form error once even click twice and trigger API request twice.
+  await challengePasswordPage.forgotPasswordLink.click();
 
+  await t.expect(challengePasswordPage.form.getErrorBoxCount()).eql(1);
   await t.expect(challengePasswordPage.form.getErrorBoxText())
     .eql('Reset password is not allowed at this time. Please contact support for assistance.');
+
+  await t.expect(recoveryRequestLogger.count(() => true)).eql(2);
+
+  const req0 = recoveryRequestLogger.requests[0].request;
+  const reqBody0 = JSON.parse(req0.body);
+  await t.expect(reqBody0).eql({
+    stateHandle: 'eyJ6aXAiOiJERUYi',
+  });
+  await t.expect(req0.method).eql('post');
+  await t.expect(req0.url).eql('http://localhost:3000/idp/idx/recover');
+
+  const req1 = recoveryRequestLogger.requests[1].request;
+  const reqBody1 = JSON.parse(req1.body);
+  await t.expect(reqBody1).eql({
+    stateHandle: 'eyJ6aXAiOiJERUYi',
+  });
+  await t.expect(req1.method).eql('post');
+  await t.expect(req1.url).eql('http://localhost:3000/idp/idx/recover');
 });

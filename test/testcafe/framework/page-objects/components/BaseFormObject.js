@@ -1,6 +1,7 @@
 import { Selector, ClientFunction } from 'testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
+const FORM_INFOBOX_ERROR = '.okta-form-infobox-error';
 
 export default class BaseFormObject {
   constructor (t, index) {
@@ -88,11 +89,15 @@ export default class BaseFormObject {
 
   // Error banner
   async waitForErrorBox() {
-    await this.el.find(`.okta-form-infobox-error`).exists;
+    await this.el.find(FORM_INFOBOX_ERROR).exists;
+  }
+
+  getErrorBoxCount() {
+    return this.el.find(FORM_INFOBOX_ERROR).count;
   }
 
   getErrorBoxText() {
-    return this.el.find(`.okta-form-infobox-error`).innerText;
+    return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
   // Field error

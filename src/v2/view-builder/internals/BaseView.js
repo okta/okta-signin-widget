@@ -79,11 +79,4 @@ export default View.extend({
     return BaseModel.create(currentViewState, optionUiSchemaConfig);
   },
 
-  clearFormError () {
-    if (this.form &&
-        this.form.$('.o-form-error-container').hasClass('o-form-has-errors')) {
-      this.form.clearErrors();
-    }
-  }
-
 });

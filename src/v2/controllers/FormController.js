@@ -118,7 +118,7 @@ export default Controller.extend({
   },
 
   showFormErrors (model, error) {
-    this.formView.clearFormError();
+    model.trigger('clearFormError');
     if (!error) {
       error = 'FormController - unknown error found';
       this.options.settings.callGlobalError(error);
