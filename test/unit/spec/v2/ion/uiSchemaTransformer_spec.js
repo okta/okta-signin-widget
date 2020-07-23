@@ -397,6 +397,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       'id': 'aut1bospdDFs7q3vc0g4'
                     },
                     'authenticatorType': 'email',
+                    'relatesTo': XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value[0]
                   },
                 ]
               }
@@ -564,28 +565,32 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'value': {
                       'id': 'autwa6eD9o02iBbtv0g3'
                     },
-                    'authenticatorType': 'password'
+                    'authenticatorType': 'password',
+                    'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[0]
                   },
                   {
                     'label': 'Okta Phone',
                     'value': {
                       'id': 'aid568g3mXgtID0X1SLH'
                     },
-                    'authenticatorType': 'phone'
+                    'authenticatorType': 'phone',
+                    'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[2]
                   },
                   {
                     'label': 'Security Key or Biometric Authenticator (FIDO2)',
                     'value': {
                       'id': 'aidtheidkwh282hv8g3'
                     },
-                    'authenticatorType': 'security_key'
+                    'authenticatorType': 'security_key',
+                    'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[1]
                   },
                   {
                     'label': 'Okta Security Question',
                     'value': {
                       'id': 'aid568g3mXgtID0X1GGG'
                     },
-                    'authenticatorType': 'security_question'
+                    'authenticatorType': 'security_question',
+                    'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[3]
                   },
                 ]
               }
@@ -672,28 +677,32 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       'value': {
                         'id': 'autwa6eD9o02iBbtv0g3'
                       },
-                      'authenticatorType': 'password'
+                      'authenticatorType': 'password',
+                      'relatesTo': XHRAuthenticatorEnrollDataPhone.authenticators.value[0]
                     },
                     {
                       'label': 'Okta Phone',
                       'value': {
                         'id': 'aid568g3mXgtID0X1SLH'
                       },
-                      'authenticatorType': 'phone'
+                      'authenticatorType': 'phone',
+                      'relatesTo': XHRAuthenticatorEnrollDataPhone.authenticators.value[2]
                     },
                     {
                       'label': 'Security Key or Biometric Authenticator (FIDO2)',
                       'value': {
                         'id': 'aidtheidkwh282hv8g3'
                       },
-                      'authenticatorType': 'security_key'
+                      'authenticatorType': 'security_key',
+                      'relatesTo': XHRAuthenticatorEnrollDataPhone.authenticators.value[1]
                     },
                     {
                       'label': 'Okta Security Question',
                       'value': {
                         'id': 'aid568g3mXgtID0X1GGG'
                       },
-                      'authenticatorType': 'security_question'
+                      'authenticatorType': 'security_question',
+                      'relatesTo': XHRAuthenticatorEnrollDataPhone.authenticators.value[3]
                     },
                   ]
                 }
@@ -939,28 +948,32 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       'value': {
                         'id': 'autwa6eD9o02iBbtv0g3'
                       },
-                      'authenticatorType': 'password'
+                      'authenticatorType': 'password',
+                      'relatesTo': XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[0]
                     },
                     {
                       'label': 'Okta Phone',
                       'value': {
                         'id': 'aid568g3mXgtID0X1SLH'
                       },
-                      'authenticatorType': 'phone'
+                      'authenticatorType': 'phone',
+                      'relatesTo': XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[2]
                     },
                     {
                       'label': 'Security Key or Biometric Authenticator (FIDO2)',
                       'value': {
                         'id': 'aidtheidkwh282hv8g3'
                       },
-                      'authenticatorType': 'security_key'
+                      'authenticatorType': 'security_key',
+                      'relatesTo': XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[1]
                     },
                     {
                       'label': 'Okta Security Question',
                       'value': {
                         'id': 'aid568g3mXgtID0X1GGG'
                       },
-                      'authenticatorType': 'security_question'
+                      'authenticatorType': 'security_question',
+                      'relatesTo': XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[3]
                     },
                   ]
                 }
