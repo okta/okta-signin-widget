@@ -9,10 +9,12 @@
         margin-top: 40px;
         background: url('../img/ui/indicators/loader@1x.gif') no-repeat center;
       }
-    }
-  }
 
-  .device-challenge-poll {
+      div + div {
+        margin-top: 10px;
+      }
+    }
+
     .o-form-content {
       .okta-form-subtitle {
         font-weight: 600;

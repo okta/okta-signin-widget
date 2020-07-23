@@ -2,26 +2,26 @@ import { RequestLogger, RequestMock, ClientFunction, Selector } from 'testcafe';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
-import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
+import identifyWithUserVerificationLoopback from '../../../playground/mocks/data/idp/idx/identify-with-user-verification-loopback';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
-import identifyWithLaunchAuthenticator from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
+import identifyWithUserVerificationCustomURI from '../../../playground/mocks/data/idp/idx/identify-with-user-verification-custom-uri';
 import identifyWithSSOExtensionFallback from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback';
-import identifyWithLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/identify-with-universal-link';
+import identifyWithUserVerificationLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/identify-with-user-verification-universal-link';
 
 const BEACON_CLASS = 'mfa-okta-verify';
 
-let failureCount = 0;
+let probeSuccess = false;
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackSuccesskMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
-  .respond(identifyWithDeviceProbingLoopback)
+  .respond(identifyWithUserVerificationLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
     res.statusCode = '200';
-    if (failureCount === 2) {
+    if (probeSuccess) {
       res.setBody(identify);
     } else {
-      res.setBody(identifyWithDeviceProbingLoopback);
+      res.setBody(identifyWithUserVerificationLoopback);
     }
   })
   .onRequestTo(/2000|6511\/probe/)
@@ -38,43 +38,43 @@ const loopbackSuccesskMock = RequestMock()
 const loopbackFallbackLogger = RequestLogger(/introspect|probe|cancel|launch|poll/);
 const loopbackFallbackMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
-  .respond(identifyWithDeviceProbingLoopback)
+  .respond(identifyWithUserVerificationLoopback)
   .onRequestTo(/2000|6511|6512|6513\/probe/)
   .respond(null, 500, { 'access-control-allow-origin': '*' })
   .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
   .respond(loopbackChallengeNotReceived)
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
-  .respond(identifyWithLaunchAuthenticator)
+  .respond(identifyWithUserVerificationCustomURI)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond(identifyWithLaunchAuthenticator);
+  .respond(identifyWithUserVerificationCustomURI);
 
-const identifyWithLaunchAuthenticatorHttpCustomUri = JSON.parse(JSON.stringify(identifyWithLaunchAuthenticator));
+const identifyWithLaunchAuthenticatorHttpCustomUri = JSON.parse(JSON.stringify(identifyWithUserVerificationCustomURI));
 const mockHttpCustomUri = 'http://localhost:3000/launch-okta-verify';
 // replace custom URI with http URL so that we can mock and verify
-identifyWithLaunchAuthenticatorHttpCustomUri.authenticatorChallenge.value.href = mockHttpCustomUri;
+identifyWithLaunchAuthenticatorHttpCustomUri.currentAuthenticatorEnrollment.value.contextualData.challenge.value.href = mockHttpCustomUri;
 
 const customURILogger = RequestLogger(/launch-okta-verify/);
 const customURIMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithLaunchAuthenticatorHttpCustomUri)
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
-  .respond(identifyWithLaunchAuthenticator)
+  .respond(identifyWithUserVerificationCustomURI)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchAuthenticatorHttpCustomUri);
 
 // replace universal link with http URL so that we can mock and verify
-identifyWithLaunchUniversalLink.authenticatorChallenge.value.href = mockHttpCustomUri;
+identifyWithUserVerificationLaunchUniversalLink.currentAuthenticatorEnrollment.value.contextualData.challenge.value.href = mockHttpCustomUri;
 const universalLinkMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithSSOExtensionFallback)
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
-  .respond(identifyWithLaunchUniversalLink)
+  .respond(identifyWithUserVerificationLaunchUniversalLink)
   .onRequestTo(mockHttpCustomUri)
   .respond('<html><h1>open universal link</h1></html>')
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond(identifyWithLaunchUniversalLink);
+  .respond(identifyWithUserVerificationLaunchUniversalLink);
 
-fixture(`Device Challenge Polling View with the Loopback Server, Custom URI and Universal Link approaches`);
+fixture(`Device Challenge Polling View for user verification with the Loopback Server, Custom URI and Universal Link approaches`);
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -100,13 +100,13 @@ test
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/challenge/) &&
-      record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
+      record.request.body.match(/challengeRequest":"eyJraWQiOiJW/)
     )).eql(1);
-    failureCount = 2;
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 500 &&
       record.request.url.match(/2000|6511/)
     )).eql(2);
+    probeSuccess = true;
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
 
     const identityPage = new IdentityPageObject(t);
@@ -138,8 +138,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFormSubtitle()).eql('Launching Okta Verify...');
     await t.expect(deviceChallengePollPageObject.getContent())
       .eql('If nothing prompts from the browser, click here to launch Okta Verify, or make sure Okta Verify is installed.');
-    await t.expect(deviceChallengePollPageObject.getFooterLink().innerText).eql('Back to Sign In');
-    await t.expect(deviceChallengePollPageObject.getFooterLink().getAttribute('href')).eql('http://localhost:3000');
+    await t.expect(deviceChallengePollPageObject.getFooterLink().exists).notOk;
   });
 
 const getPageUrl = ClientFunction(() => window.location.href);
@@ -167,8 +166,11 @@ test
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verify your sign in');
-    await t.expect(deviceChallengePollPageObject.getContent()).eql('To continue, you\'ll need to use the Okta Verify app to confirm your sign in.\nSign in with Okta Verify');
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Extra verification needed');
+    await t.expect(deviceChallengePollPageObject.getContent()).eql('' +
+      'Your organization needs extra verification to make sure it\'s you signing in.\n' +
+      'To continue, confirm your screen lock in Okta Verify.\n' +
+      'Confirm screen lock');
     deviceChallengePollPageObject.clickUniversalLink();
     await t.expect(getPageUrl()).contains(mockHttpCustomUri);
     await t.expect(Selector('h1').innerText).eql('open universal link');

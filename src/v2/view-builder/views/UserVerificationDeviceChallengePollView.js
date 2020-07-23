@@ -1,11 +1,8 @@
 /* global Promise */
 import { $, loc, createButton, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import BaseView from '../internals/BaseView';
+import BaseAuthenticatorView from '../components/BaseAuthenticatorView';
 import BaseForm from '../internals/BaseForm';
-import BaseHeader from '../internals/BaseHeader';
-import HeaderBeacon from '../components/HeaderBeacon';
-import BaseFooter from '../internals//BaseFooter';
 import Logger from '../../../util/Logger';
 import DeviceFingerprint from '../../../util/DeviceFingerprint';
 import polling from './shared/polling';
@@ -51,7 +48,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     doChallenge () {
-      const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
+      const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value.contextualData.challenge.value;
       switch (deviceChallenge.challengeMethod) {
       case 'LOOPBACK':
         this.title = loc('signin.with.fastpass', 'login');
@@ -70,13 +67,16 @@ const Body = BaseForm.extend(Object.assign(
         this.doCustomURI();
         break;
       case 'UNIVERSAL_LINK':
-        this.title = loc('universalLink.title', 'login');
+        this.title = loc('universalLink.userVerification.title', 'login');
         this.add(View.extend({
-          template: hbs`{{{i18n code="universalLink.content" bundle="login"}}}`
+          template: hbs`{{i18n code="universalLink.userVerification.content.p1" bundle="login"}}`
+        }));
+        this.add(View.extend({
+          template: hbs`{{i18n code="universalLink.userVerification.content.p2" bundle="login"}}`
         }));
         this.add(createButton({
           className: 'ul-button button button-wide button-primary',
-          title: loc('oktaVerify.button', 'login'),
+          title: loc('universalLink.userVerification.button', 'login'),
           click: () => {
             // only window.location.href can open universal link in iOS/MacOS
             // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
@@ -140,7 +140,7 @@ const Body = BaseForm.extend(Object.assign(
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
             if (countFailedPorts === ports.length) {
               Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              this.options.appState.trigger('invokeAction', 'authenticatorChallenge-cancel');
+              this.options.appState.trigger('invokeAction', 'currentAuthenticatorEnrollment-cancel');
             }
           });
       });
@@ -157,31 +157,6 @@ const Body = BaseForm.extend(Object.assign(
   polling,
 ));
 
-const Footer = BaseFooter.extend({
-  links () {
-    let links = [];
-
-    const deviceChallenge = this.options.currentViewState.relatesTo.value;
-    if (deviceChallenge.challengeMethod === 'CUSTOM_URI') {
-      links = [
-        {
-          name: 'sign-in-options',
-          type: 'link',
-          label: loc('goback', 'login'),
-          href: this.settings.get('baseUrl')
-        }
-      ];
-    }
-    return links;
-  }
-});
-
-export default BaseView.extend({
-  Header: BaseHeader.extend({
-    HeaderBeacon: HeaderBeacon.extend({
-      getBeaconClassName: () => 'mfa-okta-verify'
-    }),
-  }),
-  Body,
-  Footer
+export default BaseAuthenticatorView.extend({
+  Body
 });

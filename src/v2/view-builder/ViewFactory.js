@@ -9,6 +9,7 @@ import SuccessView from './views/SuccessView';
 
 // Device (Okta Mobile)
 import DeviceChallengePollView from './views/DeviceChallengePollView';
+import UserVerificationDeviceChallengePollView from './views/UserVerificationDeviceChallengePollView';
 import SSOExtensionView from './views/SSOExtensionView';
 
 // registration
@@ -120,6 +121,7 @@ const VIEWS_MAPPING = {
     'security_key': ChallengeWebauthnView,
     'security_question': ChallengeAuthenticatorSecurityQuestion,
     phone: ChallengeAuthenticatorPhoneView,
+    app: UserVerificationDeviceChallengePollView,
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     phone: ChallengeAuthenticatorDataPhoneView,
