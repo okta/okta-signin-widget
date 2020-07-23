@@ -334,8 +334,19 @@ function (Okta, Q, Widget, Expect, Logger, $sandbox, idxResponse, introspectResp
         }
       }, options || {}));
       MockUtil.mockAjax(idxResponse);
+
+      // Add customize parser for ION request
+      jasmine.Ajax.addCustomParamParser({
+        test: function (xhr) {
+          return xhr.contentType().indexOf('application/ion+json;') >= 0;
+        },
+        parse: function jsonParser (paramString) {
+          return JSON.parse(paramString);
+        }
+      });
       signIn.renderEl({ el: $sandbox });
     }
+
     Expect.describe('Introspects token and loads Identifier view for new pipeline', function () {
 
       itp('calls introspect API on page load using idx-js as client', function () {
@@ -353,6 +364,7 @@ function (Okta, Q, Widget, Expect, Logger, $sandbox, idxResponse, introspectResp
 
             expect(jasmine.Ajax.requests.count()).toBe(1);
             const firstReq = jasmine.Ajax.requests.first();
+
             expect(firstReq.data()).toEqual({ stateToken: '02stateToken' });
             expect(firstReq.method).toBe('POST');
             expect(firstReq.url).toBe('https://foo.com/idp/idx/introspect');
