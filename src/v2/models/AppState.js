@@ -12,7 +12,8 @@
 
 import { _, Model } from 'okta';
 import Logger from 'util/Logger';
-import { FORMS_WITHOUT_SIGNOUT, FORMS_WITH_STATIC_BACK_LINK } from '../ion/RemediationConstants';
+import { FORMS_WITHOUT_SIGNOUT, FORMS_WITH_STATIC_BACK_LINK,
+  FORMS_FOR_IDENTITY_VERIFICATION } from '../ion/RemediationConstants';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -58,6 +59,12 @@ export default Model.extend({
         return currentAuthenticator.methods && currentAuthenticator.methods[0].type
           || currentAuthenticatorEnrollment.methods && currentAuthenticatorEnrollment.methods[0].type
           || '';
+      },
+    },
+    isVerifyIdentityForm: {
+      deps: ['currentFormName'],
+      fn: function (currentFormName) {
+        return FORMS_FOR_IDENTITY_VERIFICATION.includes(currentFormName);
       },
     },
     showSignoutLink: {
