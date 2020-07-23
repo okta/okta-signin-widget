@@ -107,19 +107,13 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmock)(`Callout appears after 30 seconds`, async t => {
+  .requestHooks(logger, validOTPmock)(`resend after 30 seconds`, async t => {
     const challengeEmailPageObject = await setup(t);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
-    await t.wait(30500);
+    await t.wait(31000);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengeEmailPageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
-  });
-
-test
-  .requestHooks(logger, validOTPmock)(`Callout resend link click`, async t => {
-    const challengeEmailPageObject = await setup(t);
-    await t.wait(32000);
 
     // 8 poll requests in 32 seconds and 1 resend request after click.
     await t.expect(logger.count(
@@ -161,20 +155,20 @@ test
 test
   .requestHooks(magicLinkReturnTabMock)(`challenge email factor with magic link`, async t => {
     await setup(t);
-    const terminalPageObject = await new TerminalPageObject(t);
+    const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Please return to the original tab.');
   });
 
 test
   .requestHooks(magicLinkTransfer)(`show the correct content when transferred email`, async t => {
     await setup(t);
-    const terminalPageObject = await new TerminalPageObject(t);
+    const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Flow continued in a new tab.');
   });
 
 test
   .requestHooks(magicLinkExpiredMock)(`challenge email factor with expired magic link`, async t => {
     await setup(t);
-    const terminalPageObject = await new TerminalPageObject(t);
+    const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
   });

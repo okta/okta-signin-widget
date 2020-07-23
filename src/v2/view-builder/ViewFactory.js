@@ -46,7 +46,7 @@ import EnrollWebauthnView from './views/webauthn/EnrollWebauthnView';
 import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 
 // email
-// import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
+import EnrollAuthenticatorEmailView from './views/email/EnrollAuthenticatorEmailView';
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
 
@@ -94,7 +94,8 @@ const VIEWS_MAPPING = {
     password: EnrollAuthenticatorPasswordView,
     'security_key': EnrollWebauthnView,
     phone: EnrollAuthenticatorPhoneView,
-    'security_question': EnrollAuthenticatorSecurityQuestion
+    'security_question': EnrollAuthenticatorSecurityQuestion,
+    email: EnrollAuthenticatorEmailView
   },
   // Expired scenarios for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR]: {

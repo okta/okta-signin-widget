@@ -1,5 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import EnrollAuthenticatorPhonePageObject from '../framework/page-objects/EnrollAuthenticatorPhonePageObject';
+import EnrollPhonePageObject from '../framework/page-objects/EnrollPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrAuthenticatorEnrollPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone';
 import xhrAuthenticatorEnrollPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone-voice';
@@ -38,7 +38,7 @@ const logger = RequestLogger(/challenge|challenge\/resend|challenge\/answer/,
 fixture(`Authenticator Enroll Phone`);
 
 async function setup(t) {
-  const enrollPhonePage = new EnrollAuthenticatorPhonePageObject(t);
+  const enrollPhonePage = new EnrollPhonePageObject(t);
   await enrollPhonePage.navigateToPage();
   return enrollPhonePage;
 }

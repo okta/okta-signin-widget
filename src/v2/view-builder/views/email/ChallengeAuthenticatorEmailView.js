@@ -1,107 +1,49 @@
-import { loc, View, createCallout, _ } from 'okta';
-import BaseForm from '../../internals/BaseForm';
-import BaseView from '../../internals/BaseView';
-import email from '../shared/email';
-import polling from '../shared/polling';
-import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import { View, _ } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
-import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
+import BaseAuthenticatorEmailView from './BaseAuthenticatorEmailView';
 
-const ResendView = View.extend(
-  {
-    className: 'hide resend-email-view',
-    events: {
-      'click a.resend-link' : 'handelResendLink'
-    },
+const BaseAuthenticatorEmailForm = BaseAuthenticatorEmailView.prototype.Body;
 
-    initialize () {
-      this.add(createCallout({
-        content: `${loc('email.code.not.received', 'login')}
-        <a class='resend-link'>${loc('email.button.resend', 'login')}</a>`,
-        type: 'warning',
-      }));
-    },
+// Courage doesn't support HTML, hence creating a subtitle here.
+const CheckYourEmailTitle = View.extend({
+  className: 'okta-form-subtitle',
+  attributes: {
+    'data-se': 'o-form-explain',
+  },
+  template: hbs`
+    {{i18n code="oie.email.verify.sentText" bundle="login"}}&nbsp;
+    <span class="strong">{{email}}.</span>
+    &nbsp;{{i18n code="email.mfa.email.sent.description.emailCodeText" bundle="login"}}
+  `,
 
-    handelResendLink () {
-      this.options.appState.trigger('invokeAction', 'currentAuthenticatorEnrollment-resend');
-      // Hide warning, but reinitiate to show warning again after some threshold of polling
-      if (!this.el.classList.contains('hide')) {
-        this.el.classList.add('hide');
+  getTemplateData () {
+    return _.pick(this.options, 'email');
+  },
+});
+
+const Body = BaseAuthenticatorEmailForm.extend(Object.assign({
+
+  resendEmailAction: 'currentAuthenticatorEnrollment-resend',
+
+  initialize () {
+    BaseAuthenticatorEmailForm.prototype.initialize.apply(this, arguments);
+
+    const { email } = this.options.currentViewState.relatesTo &&
+      this.options.currentViewState.relatesTo.value &&
+      this.options.currentViewState.relatesTo.value.profile;
+
+    this.add(CheckYourEmailTitle, {
+      prepend: true,
+      selector: '.o-form-error-container',
+      options: {
+        email,
       }
-      this.showCalloutWithDelay();
-    },
-
-    postRender () {
-      this.showCalloutWithDelay();
-    },
-
-    showCalloutWithDelay () {
-      this.showMeTimeout = _.delay(() => {
-        this.$el.removeClass('hide');
-      }, SHOW_RESEND_TIMEOUT);
-    },
-
-    remove () {
-      View.prototype.remove.apply(this, arguments);
-      clearTimeout(this.showMeTimeout);
-    }
+    });
   },
-);
+}));
 
-const Body = BaseForm.extend(Object.assign(
-  {
-    save () {
-      return loc('mfa.challenge.verify', 'login');
-    },
-    initialize () {
-      BaseForm.prototype.initialize.apply(this, arguments);
-      const sendText = loc('oie.email.verify.sentText', 'login');
-      const enterCodeText = loc('email.mfa.email.sent.description.emailCodeText', 'login');
-
-      // Courage doesn't support HTML, hence creating a subtitle here.
-      this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">
-        ${sendText}&nbsp;<span class='strong'>${this.model.escape('email')}.</span>
-        ${enterCodeText}</div>`, {
-        prepend: true,
-        selector: '.o-form-error-container',
-      });
-
-      this.add(ResendView, {
-        selector: '.o-form-error-container',
-      });
-      this.startPolling();
-
-      // polling has been killed when click save to avoid race conditions hence resume if save failed.
-      this.listenTo(this.options.model, 'error', this.startPolling.bind(this));
-    },
-
-    saveForm () {
-      BaseForm.prototype.saveForm.apply(this, arguments);
-      this.stopPolling();
-    },
-
-    remove () {
-      BaseForm.prototype.remove.apply(this, arguments);
-      this.stopPolling();
-    }
-  },
-
-  email,
-  polling,
-));
-
-export default BaseAuthenticatorView.extend({
+export default BaseAuthenticatorEmailView.extend({
   Body,
   Footer: AuthenticatorVerifyFooter,
-  createModelClass () {
-    const { profile } = this.options.currentViewState.relatesTo.value;
-    const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
-    const local = Object.assign({
-      email: {
-        'value': profile.email,
-        'type': 'string',
-      }
-    }, ModelClass.prototype.local );
-    return ModelClass.extend({ local });
-  },
 });
