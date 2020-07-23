@@ -11,6 +11,7 @@ const idx = [
   '/idp/idx/challenge',
   '/idp/idx/challenge/answer',
   '/idp/idx/challenge/poll',
+  '/idp/idx/challenge/send',
   '/idp/idx/challenge/resend',
   '/idp/idx/credential/enroll',
   '/idp/idx/enroll',

@@ -57,8 +57,14 @@
                         "name": "methodType",
                         "required": false,
                         "options": [
-                          { "label": "SMS", "value": "sms" },
-                          { "label": "VOICE", "value": "voice" }
+                          {
+                            "label": "SMS",
+                            "value": "sms"
+                          },
+                          {
+                            "label": "VOICE",
+                            "value": "voice"
+                          }
                         ]
                       },
                       {
@@ -111,6 +117,46 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[3]"
+              },
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aut1erh5wK1M8wA3g0g4",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "channel",
+                        "required": false,
+                        "type": "string",
+                        "options": [
+                          {
+                            "value": "qrcode",
+                            "label": "QRCODE"
+                          },
+                          {
+                            "value": "local",
+                            "label": "THIS DEVICE"
+                          },
+                          {
+                            "value": "sms",
+                            "label": "SMS"
+                          },
+                          {
+                            "value": "email",
+                            "label": "EMAIL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[4]"
               }
             ]
           },
@@ -151,6 +197,23 @@
         "type": "security_question",
         "authenticatorId": "aid568g3mXgtID0X1GGG",
         "id": "security-question-enroll-id-123"
+      },
+      {
+        "displayName": "Okta Verify",
+        "type": "app",
+        "authenticatorId": "aut1erh5wK1M8wA3g0g4",
+        "id": "okta-verify-enroll-id-123",
+        "methods": [
+          {
+            "methodType": "signed_nonce"
+          },
+          {
+            "methodType": "push"
+          },
+          {
+            "methodType": "totp"
+          }
+        ]
       }
     ]
   },

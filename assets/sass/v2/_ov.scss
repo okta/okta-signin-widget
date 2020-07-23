@@ -1,0 +1,12 @@
+.oie-enroll-ov-poll {
+  ol {
+    list-style: decimal;
+  }
+  .qrcode-container {
+    text-align: center;
+    .qrcode {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+}

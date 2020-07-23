@@ -40,6 +40,15 @@ export default {
     }
   },
 
+  startOVPolling () {
+    const pollingInterval = this.options.currentViewState.refresh;
+    if (_.isNumber(pollingInterval)) {
+      this.polling = setInterval(() => {
+        this.options.appState.trigger('saveForm', this.model);
+      }, pollingInterval);
+    }
+  },
+
   stopPolling () {
     if (this.polling) {
       clearInterval(this.polling);
