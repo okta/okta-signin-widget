@@ -52,6 +52,14 @@ export default Model.extend({
           || '';
       },
     },
+    authenticatorMethodType: {
+      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment',],
+      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
+        return currentAuthenticator.methods && currentAuthenticator.methods[0].type
+          || currentAuthenticatorEnrollment.methods && currentAuthenticatorEnrollment.methods[0].type
+          || '';
+      },
+    },
     showSignoutLink: {
       deps: ['idx', 'currentFormName'],
       fn: function (idx = {}, currentFormName) {
@@ -60,6 +68,12 @@ export default Model.extend({
           && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
       },
     },
+    isPasswordRecovery: {
+      deps: ['recoveryAuthenticator'],
+      fn: function (recoveryAuthenticator = {}) {
+        return recoveryAuthenticator && recoveryAuthenticator.type === 'password';
+      }
+    }
   },
 
   hasRemediationObject (formName) {
@@ -148,6 +162,8 @@ export default Model.extend({
 
     // clear appState before setting new values
     this.clear({silent: true});
+    // clear cache for derived props.
+    this.trigger('cache:clear');
 
     // set new app state properties
     this.set(transformedResponse);
