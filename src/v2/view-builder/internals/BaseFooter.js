@@ -39,10 +39,11 @@ export default View.extend({
       links = links.filter(l => $.isPlainObject(l));
     }
 
-    if (this.options.settings.get('features.hideSignOutLinkInMFA') &&
-        this.options.appState.get('isVerifyIdentityForm')) {
-      // do not add cancel/signout link if the config is on and it is a verify identity form
-    } else if (this.options.appState.get('showSignoutLink')) {
+    // do not add cancel/signout link if hideSignOutLinkInMFA is on and it is a verify identity form
+    // otherwise add it only if showSignoutLink is true
+    const hideSignOutConfigOverride = this.options.settings.get('features.hideSignOutLinkInMFA')
+      && this.options.appState.get('isVerifyIdentityForm');
+    if (!hideSignOutConfigOverride && this.options.appState.get('showSignoutLink')) {
       //add cancel/signout link
       links = links.concat(getSignOutLink(this.options.settings));
     }

@@ -2,7 +2,6 @@ import BaseFooter from 'v2/view-builder/internals/BaseFooter';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import Link from 'v2/view-builder/components/Link';
-import { FORMS_FOR_IDENTITY_VERIFICATION } from 'v2/ion/RemediationConstants';
 
 describe('v2/view-builder/internals/BaseFooter', function () {
 
@@ -133,28 +132,17 @@ describe('v2/view-builder/internals/BaseFooter', function () {
 
   it('does not add signout link when features.hideSignOutLinkInMFA is true, even if `showSignoutLink` is true', () => {
     spyOn(AppState.prototype, 'get').and.callFake(name => {
-      if (name === 'showSignoutLink') {
+      if (name === 'showSignoutLink' || name === 'isVerifyIdentityForm') {
         return true;
       }
-      if (name === 'currentFormName') {
-        return FORMS_FOR_IDENTITY_VERIFICATION[0];
-      }
       return undefined;
+    });
+    spyOn(Settings.prototype, 'get').and.callFake(name => {
+      return name === 'features.hideSignOutLinkInMFA';
     });
 
     const fooFooter = renderFooter([]);
 
-    expect(fooFooter.add.calls.count()).toEqual(1);
-    expect(fooFooter.add.calls.argsFor(0)).toEqual([
-      Link,
-      {
-        options: {
-          'actionPath': 'cancel',
-          'label': 'Sign Out',
-          'name': 'cancel',
-          'type': 'link'
-        }
-      }
-    ]);
+    expect(fooFooter.add).not.toHaveBeenCalled();
   });
 });
