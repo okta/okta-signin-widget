@@ -35,6 +35,7 @@ const createAuthenticatorOptions = (options = []) => {
     return {
       label: option.label,
       value: valueObject,
+      relatesTo: option.relatesTo,
       authenticatorType: option.relatesTo && option.relatesTo.type,
     };
   });
