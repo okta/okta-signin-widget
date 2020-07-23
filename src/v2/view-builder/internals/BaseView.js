@@ -4,6 +4,7 @@ import BaseModel from './BaseModel';
 import BaseHeader from './BaseHeader';
 import BaseFooter from './BaseFooter';
 import hbs from 'handlebars-inline-precompile';
+import {getClassNameMapping} from '../../ion/ViewClassNamesFactory';
 
 export default View.extend({
 
@@ -13,7 +14,16 @@ export default View.extend({
 
   Footer: BaseFooter,
 
-  className: 'siw-main-view',
+  className () {
+    let classNames = ['siw-main-view'];
+    const appState = this.options.appState;
+
+    const formName = appState.get('currentFormName');
+    const authenticatorType = appState.get('authenticatorType');
+    const methodType = appState.get('authenticatorMethodType');
+    classNames = classNames.concat(getClassNameMapping(formName, authenticatorType, methodType));
+    return classNames.join(' ');
+  },
 
   template: hbs`
     <div class="siw-main-header"></div>

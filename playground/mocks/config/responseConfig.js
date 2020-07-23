@@ -4,6 +4,7 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
+    'identify',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',
     // 'authenticator-enroll-phone',
@@ -12,14 +13,14 @@ const idx = {
     // 'authenticator-enroll-data-phone-voice',
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
-    'authenticator-enroll-select-authenticator',
+    // 'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
     // 'authenticator-verification-data-phone-sms-then-voice',
     // 'authenticator-verification-data-phone-voice-only',
     // 'authenticator-verification-data-phone-voice-then-sms',
     // 'authenticator-verification-email',
-    'authenticator-verification-password',
+    // 'authenticator-verification-password',
     // 'authenticator-verification-phone-sms',
     // 'authenticator-verification-phone-voice',
     // 'authenticator-verification-security-question',
