@@ -1,12 +1,12 @@
 import BaseView from '../internals/BaseView';
 import BaseHeader from '../internals/BaseHeader';
 import HeaderBeacon from './HeaderBeacon';
-import { getFactorData } from '../utils/FactorUtil';
+import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 
 const HeaderBeaconFactor = HeaderBeacon.extend({
   getBeaconClassName: function () {
-    const factorType = this.options.appState.get('authenticatorType');
-    return getFactorData(factorType).iconClassName;
+    const authenticatorType = this.options.appState.get('authenticatorType');
+    return getIconClassNameForBeacon(authenticatorType);
   },
 });
 

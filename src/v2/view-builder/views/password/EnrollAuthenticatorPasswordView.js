@@ -2,7 +2,7 @@ import { loc, View } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { getPasswordComplexityDescriptionForHtmlList } from '../../utils/FactorUtil';
+import { getPasswordComplexityDescriptionForHtmlList } from '../../utils/AuthenticatorUtil';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import hbs from 'handlebars-inline-precompile';
 
