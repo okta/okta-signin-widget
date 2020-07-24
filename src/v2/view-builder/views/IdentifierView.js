@@ -4,8 +4,9 @@ import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
 import signInWithIdps from './signin/SignInWithIdps';
+import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
-import { createIdpButtons } from '../internals/FormInputFactory';
+import { createIdpButtons, createCustomButtons } from '../internals/FormInputFactory';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 
 const Body = BaseForm.extend({
@@ -35,6 +36,17 @@ const Body = BaseForm.extend({
         options: {
           idpButtons,
           addSeparateLine: hasUISchemas,
+        }
+      });
+    }
+
+    const customButtons = createCustomButtons(this.options.settings);
+    if (Array.isArray(customButtons) && customButtons.length) {
+      this.add(customButtonsView, {
+        selector: '.o-form-button-bar',
+        options: {
+          customButtons,
+          addSeparateLine: true,
         }
       });
     }
