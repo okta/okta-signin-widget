@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@okta/okta-idx-js@0.6.0-g15c3275":
-  version "0.6.0-g15c3275"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@okta/okta-idx-js/-/@okta/okta-idx-js-0.6.0-g15c3275.tgz#a94c116a7b5604560af2be2cf5b6dd19cf1f7b4a"
-  integrity sha1-qUwRantWBFYK8r4s9bbdGc8fe0o=
+"@okta/okta-idx-js@0.7.0-gf7f29f6":
+  version "0.7.0-gf7f29f6"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@okta/okta-idx-js/-/@okta/okta-idx-js-0.7.0-gf7f29f6.tgz#10aed1bd44a9102d0eb9446a96dcb8aa92080500"
+  integrity sha1-EK7RvUSpEC0OuURqlty4qpIIBQA=
   dependencies:
     jsonpath "^1.0.2"
 
