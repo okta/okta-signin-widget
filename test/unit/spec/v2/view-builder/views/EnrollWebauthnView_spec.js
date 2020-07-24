@@ -2,6 +2,7 @@ import EnrollWebauthnView from 'v2/view-builder/views/webauthn/EnrollWebauthnVie
 import BaseForm from 'v2/view-builder/internals/BaseForm';
 import CryptoUtil from 'util/CryptoUtil';
 import AppState from 'v2/models/AppState';
+import Settings from 'models/Settings';
 import webauthn from 'util/webauthn';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
@@ -21,10 +22,13 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
         currentAuthenticator,
         authenticatorEnrollments
       });
-      spyOn(appState,'hasRemediationObject').and.callFake((formName) => formName === 'select-authenticator-enroll');
+      spyOn(appState, 'hasRemediationObject').and.callFake((formName) => formName === 'select-authenticator-enroll');
+      spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').and.returnValue(false);
+      const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       this.view = new EnrollWebauthnView({
         el: $sandbox,
         appState,
+        settings,
         currentViewState,
       });
       this.view.render();
