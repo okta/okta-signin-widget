@@ -2,15 +2,25 @@ import BaseFooter from 'v2/view-builder/internals/BaseFooter';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import Link from 'v2/view-builder/components/Link';
+import { FORMS_WITHOUT_SIGNOUT, FORMS_FOR_VERIFICATION } from 'v2/ion/RemediationConstants';
 
 describe('v2/view-builder/internals/BaseFooter', function () {
 
   let testContext;
 
-  const renderFooter = (links) => {
+  const renderFooter = (links, currentFormName) => {
     const FooFooter = BaseFooter.extend({
       links,
     });
+    spyOn(AppState.prototype, 'get').and.callFake(name => {
+      if(name === 'idx') {
+        return { actions: { cancel: () => {} }};
+      }
+      if (name === 'currentFormName') {
+        return currentFormName;
+      }
+    });
+
     spyOn(FooFooter.prototype, 'add');
     const fooFooter = new FooFooter({
       appState: testContext.appState,
@@ -30,17 +40,17 @@ describe('v2/view-builder/internals/BaseFooter', function () {
   });
 
   it('adds nothing when links function return undefined', function () {
-    const fooFooter = renderFooter(() => {});
+    const fooFooter = renderFooter(() => {}, FORMS_WITHOUT_SIGNOUT[0]);
 
     expect(fooFooter.add).not.toHaveBeenCalled();
   });
   it('adds nothing when links function return empty array', function () {
-    const fooFooter = renderFooter(() => {return [];});
+    const fooFooter = renderFooter(() => {return [];}, FORMS_WITHOUT_SIGNOUT[0]);
 
     expect(fooFooter.add).not.toHaveBeenCalled();
   });
   it('adds nothing when empty links array', function () {
-    const fooFooter = renderFooter([]);
+    const fooFooter = renderFooter([], FORMS_WITHOUT_SIGNOUT[0]);
 
     expect(fooFooter.add).not.toHaveBeenCalled();
   });
@@ -54,7 +64,7 @@ describe('v2/view-builder/internals/BaseFooter', function () {
         type: 'link',
       },
       undefined,
-    ]);
+    ], FORMS_WITHOUT_SIGNOUT[0]);
 
     expect(fooFooter.add.calls.count()).toEqual(1);
     expect(fooFooter.add.calls.argsFor(0)).toEqual([
@@ -70,12 +80,8 @@ describe('v2/view-builder/internals/BaseFooter', function () {
     ]);
   });
 
-  it('adds signout link when `showSignoutLink` is true', () => {
-    spyOn(AppState.prototype, 'get').and.callFake(name => {
-      return name === 'showSignoutLink';
-    });
-
-    const fooFooter = renderFooter([]);
+  it('adds signout link when `showSignoutLinkInCurrentForm` returns true', () => {
+    const fooFooter = renderFooter([], FORMS_FOR_VERIFICATION[0]);
 
     expect(fooFooter.add.calls.count()).toEqual(1);
     expect(fooFooter.add.calls.argsFor(0)).toEqual([
@@ -91,11 +97,7 @@ describe('v2/view-builder/internals/BaseFooter', function () {
     ]);
   });
 
-  it('adds other links and signout link when `showSignoutLink` is true', () => {
-    spyOn(AppState.prototype, 'get').and.callFake(name => {
-      return name === 'showSignoutLink';
-    });
-
+  it('adds other links and signout link when `showSignoutLinkInCurrentForm` returns true', () => {
     const fooFooter = renderFooter([
       {
         actionPath: 'foo',
@@ -103,7 +105,7 @@ describe('v2/view-builder/internals/BaseFooter', function () {
         name: 'foo',
         type: 'link',
       }
-    ]);
+    ], FORMS_FOR_VERIFICATION[0]);
 
     expect(fooFooter.add.calls.count()).toEqual(2);
     expect(fooFooter.add.calls.argsFor(0)).toEqual([
@@ -130,18 +132,12 @@ describe('v2/view-builder/internals/BaseFooter', function () {
     ]);
   });
 
-  it('does not add signout link when features.hideSignOutLinkInMFA is true, even if `showSignoutLink` is true', () => {
-    spyOn(AppState.prototype, 'get').and.callFake(name => {
-      if (name === 'showSignoutLink' || name === 'isVerifyIdentityForm') {
-        return true;
-      }
-      return undefined;
-    });
+  it('does not add signout link when features.hideSignOutLinkInMFA is true, even if `showSignoutLinkInCurrentForm` returns true', () => {
     spyOn(Settings.prototype, 'get').and.callFake(name => {
       return name === 'features.hideSignOutLinkInMFA';
     });
 
-    const fooFooter = renderFooter([]);
+    const fooFooter = renderFooter([], FORMS_FOR_VERIFICATION[0]);
 
     expect(fooFooter.add).not.toHaveBeenCalled();
   });

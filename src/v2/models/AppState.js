@@ -13,7 +13,7 @@
 import { _, Model } from 'okta';
 import Logger from 'util/Logger';
 import { FORMS_WITHOUT_SIGNOUT, FORMS_WITH_STATIC_BACK_LINK,
-  FORMS_FOR_IDENTITY_VERIFICATION } from '../ion/RemediationConstants';
+  FORMS_FOR_VERIFICATION } from '../ion/RemediationConstants';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -59,20 +59,6 @@ export default Model.extend({
         return currentAuthenticator.methods && currentAuthenticator.methods[0].type
           || currentAuthenticatorEnrollment.methods && currentAuthenticatorEnrollment.methods[0].type
           || '';
-      },
-    },
-    isVerifyIdentityForm: {
-      deps: ['currentFormName'],
-      fn: function (currentFormName) {
-        return FORMS_FOR_IDENTITY_VERIFICATION.includes(currentFormName);
-      },
-    },
-    showSignoutLink: {
-      deps: ['idx', 'currentFormName'],
-      fn: function (idx = {}, currentFormName) {
-        return idx.actions
-          && _.isFunction(idx.actions.cancel)
-          && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
       },
     },
     isPasswordRecovery: {
@@ -149,6 +135,18 @@ export default Model.extend({
       reRender = true;
     }
     return reRender;
+  },
+
+  showSignoutLinkInCurrentForm (hideSignOutLinkInMFA) {
+    const idxActions = this.get('idx') && this.get('idx').actions;
+    const currentFormName = this.get('currentFormName');
+    const hideSignOutConfigOverride = hideSignOutLinkInMFA
+      && FORMS_FOR_VERIFICATION.includes(currentFormName);
+
+    return !hideSignOutConfigOverride
+      && idxActions
+      && _.isFunction(idxActions.cancel)
+      && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
   },
 
   setIonResponse (transformedResponse) {
