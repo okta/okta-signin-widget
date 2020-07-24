@@ -129,7 +129,23 @@ const createIdpButtons = (remediations) => {
   });
 };
 
+const createCustomButtons = (settings) => {
+  const customButtons = settings.get('customButtons');
+  return customButtons.map(customButton => {
+    const button = {
+      attributes: {
+        'data-se': customButton.dataAttr
+      },
+      className: customButton.className  + ' default-custom-button',
+      title: customButton.title,
+      click: customButton.click
+    };
+    return button;
+  });
+};
+
 module.exports = {
   create,
   createIdpButtons,
+  createCustomButtons,
 };
