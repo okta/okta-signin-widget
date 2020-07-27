@@ -1,8 +1,13 @@
 import { ClientFunction, RequestMock } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
-import xhrSelectAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator.json';
+import xhrSelectAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
+import xhrSelectAuthenticatorEnroll from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator';
+import xhrAuthenticatorResetPassword from '../../../playground/mocks/data/idp/idx/authenticator-reset-password';
+import xhrAuthenticatorExpiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-expired-password';
+import xhrAuthenticatorExpiryWarningPassword from '../../../playground/mocks/data/idp/idx/authenticator-expiry-warning-password';
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -11,6 +16,22 @@ const identifyMock = RequestMock()
   const xhrSelectAuthenticatorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticator);
+
+  const mockEnrollAuthenticator = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorEnroll);
+
+  const mockAuthenticatorResetPassword =  RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorResetPassword);
+
+  const mockAuthenticatorPasswordExpired =  RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiredPassword);
+
+  const mockAuthenticatorPasswordExpiryWarning =  RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiryWarningPassword);
 
 const rerenderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
@@ -29,6 +50,19 @@ async function setupSelectAuthenticator(t) {
   await selectAuthenticatorPageObject.navigateToPage();
   return selectAuthenticatorPageObject;
 }
+
+async function setupResetPassword(t) {
+  const resetPasswordPage = new FactorEnrollPasswordPageObject(t);
+  await resetPasswordPage.navigateToPage();
+  return resetPasswordPage;
+}
+
+async function setupPasswordExpired(t) {
+  const expiredPasswordPage = new FactorEnrollPasswordPageObject(t);
+  await expiredPasswordPage.navigateToPage();
+  return expiredPasswordPage;
+}
+
 
 test.requestHooks(identifyMock)(`should show custom footer links`, async t => {
   const identityPage = await setup(t);
@@ -107,4 +141,39 @@ test.requestHooks(identifyMock)(`should show custom buttons links`, async t => {
   const pageUrl = await identityPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://www.example.com/');
+});
+
+test.requestHooks(mockEnrollAuthenticator)(`should show custom brandName title on select authenticator enroll page`, async t => {
+  const selectAuthenticatorPageObject = await setupSelectAuthenticator(t);
+  await rerenderWidget({
+    "brandName": "Spaghetti Inc",
+  });
+  await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(
+    'Set up authenticators for Spaghetti Inc to ensure that only you have access to your account.');
+});
+
+test.requestHooks(mockAuthenticatorResetPassword)(`should show custom brandName title on reset password page`, async t => {
+  const resetPasswordPage = await setupResetPassword(t);
+
+  await rerenderWidget({
+    "brandName": "Spaghetti Inc",
+  });
+  await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your Spaghetti Inc password');
+});
+
+test.requestHooks(mockAuthenticatorPasswordExpired)(`should show custom brandName title on password expired page`, async t => {
+  const passwordExpiredPage = await setupPasswordExpired(t);
+  await rerenderWidget({
+    "brandName": "Spaghetti Inc",
+  });
+  await t.expect(passwordExpiredPage.getFormTitle()).eql(
+    'Your Spaghetti Inc password has expired');
+});
+
+test.requestHooks(mockAuthenticatorPasswordExpiryWarning)(`should show custom brandName title on password expiring soon page`, async t => {
+  const passwordExpiryWarningPage = await setupPasswordExpired(t);
+  await rerenderWidget({
+    "brandName": "Spaghetti Inc",
+  });
+  await t.expect(passwordExpiryWarningPage.getIonMessages()).eql('When password expires you will be locked out of your Spaghetti Inc account.');
 });
