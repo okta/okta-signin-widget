@@ -1,5 +1,5 @@
 import { RequestMock } from 'testcafe';
-import EnrollAuthenticatorPhonePageObject from '../framework/page-objects/EnrollAuthenticatorPhonePageObject';
+import EnrollPhonePageObject from '../framework/page-objects/EnrollPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
 import xhrAuthenticatorEnrollDataPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone-voice';
@@ -20,7 +20,7 @@ const voiceOnlyOptionMock = RequestMock()
 fixture(`Authenticator Enroll Data Phone`);
 
 async function setup(t) {
-  const enrollPhonePage = new EnrollAuthenticatorPhonePageObject(t);
+  const enrollPhonePage = new EnrollPhonePageObject(t);
   await enrollPhonePage.navigateToPage();
   return enrollPhonePage;
 }

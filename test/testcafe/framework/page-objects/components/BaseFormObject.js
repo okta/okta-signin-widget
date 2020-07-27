@@ -3,6 +3,14 @@ import { Selector, ClientFunction } from 'testcafe';
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '.okta-form-infobox-error';
 
+const SUBMIT_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="save"]';
+const focusOnSubmitButton = () => {
+  // Client Function is not able to refer any variables defined outside this function.
+  // Not sure why at the time of writing.
+  const submitButton = '.o-form-button-bar input[data-type="save"]';
+  document.querySelector(submitButton).focus();
+};
+
 export default class BaseFormObject {
   constructor (t, index) {
     this.t = t;
@@ -67,20 +75,21 @@ export default class BaseFormObject {
     return this.el.find(`input[name="${name}"]`).checked;
   }
 
+  // =====================================
+  // Button bar
+  // =====================================
+
   async focusSaveButton() {
     // testcafe does not support actions for focus yet
-    const focus = ClientFunction(() => {
-      document.querySelector('.o-form-button-bar input[data-type="save"]').focus();
-    });
+    const focus = ClientFunction(focusOnSubmitButton);
     await focus();
   }
 
-  async clickElement(selector) {
-    await this.t.click(this.el.find(selector));
-  }
-
   async clickSaveButton() {
-    await this.t.click(this.el.find('.o-form-button-bar input[data-type="save"]'));
+    await this.t.click(this.el.find(SUBMIT_BUTTON_SELECTOR));
+  }
+  getSaveButtonLabel() {
+    return this.el.find(SUBMIT_BUTTON_SELECTOR).value;
   }
 
   // =====================================
@@ -173,6 +182,10 @@ export default class BaseFormObject {
 
   getCallout(selector) {
     return Selector(selector);
+  }
+
+  async clickElement(selector) {
+    await this.t.click(this.el.find(selector));
   }
 
 }
