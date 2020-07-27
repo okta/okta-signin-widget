@@ -12,7 +12,8 @@
 
 import { _, Model } from 'okta';
 import Logger from 'util/Logger';
-import { FORMS_WITHOUT_SIGNOUT, FORMS_WITH_STATIC_BACK_LINK } from '../ion/RemediationConstants';
+import { FORMS_WITHOUT_SIGNOUT, FORMS_WITH_STATIC_BACK_LINK,
+  FORMS_FOR_VERIFICATION } from '../ion/RemediationConstants';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -58,14 +59,6 @@ export default Model.extend({
         return currentAuthenticator.methods && currentAuthenticator.methods[0].type
           || currentAuthenticatorEnrollment.methods && currentAuthenticatorEnrollment.methods[0].type
           || '';
-      },
-    },
-    showSignoutLink: {
-      deps: ['idx', 'currentFormName'],
-      fn: function (idx = {}, currentFormName) {
-        return idx.actions
-          && _.isFunction(idx.actions.cancel)
-          && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
       },
     },
     isPasswordRecovery: {
@@ -142,6 +135,22 @@ export default Model.extend({
       reRender = true;
     }
     return reRender;
+  },
+
+  // Sign Out link will be displayed in the footer of a form, unless
+  // - widget config hideSignOutLinkInMFA=true and form is for identity verification (FORMS_FOR_VERIFICATION)
+  // - cancel remediation form is not present in the response
+  // - form is part of our list FORMS_WITHOUT_SIGNOUT
+  shouldShowSignOutLinkInCurrentForm (hideSignOutLinkInMFA) {
+    const idxActions = this.get('idx') && this.get('idx').actions;
+    const currentFormName = this.get('currentFormName');
+    const hideSignOutConfigOverride = hideSignOutLinkInMFA
+      && FORMS_FOR_VERIFICATION.includes(currentFormName);
+
+    return !hideSignOutConfigOverride
+      && idxActions
+      && _.isFunction(idxActions.cancel)
+      && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
   },
 
   setIonResponse (transformedResponse) {
