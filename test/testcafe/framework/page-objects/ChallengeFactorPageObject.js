@@ -29,6 +29,9 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.clickSaveButton();
   }
 
+  /**
+   * @deprecated {@see this.form.getTitle}
+   */
   getPageTitle() {
     return this.form.getElement('.okta-form-title').textContent;
   }
@@ -42,14 +45,14 @@ export default class ChallengeFactorPageObject extends BasePageObject {
   }
 
   /**
-   * @deprecated
+   * @deprecated {@see ChallengeEmailPageObject}
    */
   resendEmailView() {
     return this.form.getElement('.resend-email-view');
   }
 
   /**
-   * @deprecated
+   * @deprecated {@see ChallengeEmailPageObject}
    */
   async clickSendAgainLink() {
     await this.form.clickElement('.resend-email-view a.resend-link');

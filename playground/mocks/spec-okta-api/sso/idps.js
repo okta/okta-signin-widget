@@ -1,6 +1,6 @@
 const apis = [
   {
-    delay: [3000, 5000],
+    delay: [1000, 3000],
     proxy: false,
     path: '/sso/idps/:idpId',
     method: 'GET',
