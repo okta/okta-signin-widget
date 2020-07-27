@@ -1,6 +1,7 @@
 import ChallengeWebauthnView from 'v2/view-builder/views/webauthn/ChallengeWebauthnView';
 import BaseForm from 'v2/view-builder/internals/BaseForm';
 import AppState from 'v2/models/AppState';
+import Settings from 'models/Settings';
 import webauthn from 'util/webauthn';
 import CryptoUtil from 'util/CryptoUtil';
 import $sandbox from 'sandbox';
@@ -15,7 +16,9 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
         currentAuthenticatorEnrollment,
         authenticatorEnrollments
       });
-      spyOn(appState,'hasRemediationObject').and.callFake((formName) => formName === 'select-authenticator-authenticate');
+      spyOn(appState, 'hasRemediationObject').and.callFake((formName) => formName === 'select-authenticator-authenticate');
+      spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').and.returnValue(false);
+      const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       const currentViewState = {
         name: 'challenge-authenticator',
         relatesTo: {
@@ -25,6 +28,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
       this.view = new ChallengeWebauthnView({
         el: $sandbox,
         appState,
+        settings,
         currentViewState,
       });
       this.view.render();
