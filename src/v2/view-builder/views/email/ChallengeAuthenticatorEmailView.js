@@ -1,4 +1,4 @@
-import { View, _ } from 'okta';
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import BaseAuthenticatorEmailView from './BaseAuthenticatorEmailView';
@@ -18,7 +18,10 @@ const CheckYourEmailTitle = View.extend({
   `,
 
   getTemplateData () {
-    return _.pick(this.options, 'email');
+    const { email } = this.options;
+    return {
+      email,
+    };
   },
 });
 

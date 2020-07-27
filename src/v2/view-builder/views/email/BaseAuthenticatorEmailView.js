@@ -23,8 +23,8 @@ const ResendView = View.extend(
     handelResendLink () {
       this.options.appState.trigger('invokeAction', this.options.resendEmailAction);
       // Hide warning, but reinitiate to show warning again after some threshold of polling
-      if (!this.el.classList.contains('hide')) {
-        this.el.classList.add('hide');
+      if (!this.$el.hasClass('hide')) {
+        this.$el.addClass('hide');
       }
       this.showCalloutWithDelay();
     },
