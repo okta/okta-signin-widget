@@ -39,8 +39,9 @@ export default View.extend({
       links = links.filter(l => $.isPlainObject(l));
     }
 
-    if (this.options.appState.get('showSignoutLink')) {
-      //add cancel/signout link
+    // add cancel/signout link if the form qualifies for it
+    if (this.options.appState.shouldShowSignOutLinkInCurrentForm(
+      this.options.settings.get('features.hideSignOutLinkInMFA'))) {
       links = links.concat(getSignOutLink(this.options.settings));
     }
 
