@@ -5,6 +5,7 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
+    // 'authenticator-enroll-email',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',
     // 'authenticator-enroll-phone',
@@ -37,7 +38,6 @@ const idx = {
     // 'factor-verification-email',
     // 'factor-verification-password',
     // 'factor-verification-webauthn',
-    // 'identify',
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',
     // 'identify-with-apple-sso-extension-fallback',
@@ -91,7 +91,7 @@ const idx = {
     // 'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
-    // 'authenticator-enroll-email',
+    'authenticator-enroll-email',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-webauthn',

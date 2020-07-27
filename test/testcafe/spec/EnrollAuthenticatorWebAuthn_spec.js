@@ -1,5 +1,5 @@
 import { RequestMock } from 'testcafe';
-import EnrollWebauthnAuthenticatorPageObject from '../framework/page-objects/EnrollWebauthnAuthenticatorPageObject';
+import EnrollWebauthnPageObject from '../framework/page-objects/EnrollWebauthnPageObject';
 import xhrAuthenticatorEnrollWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-enroll-webauthn';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
@@ -13,7 +13,7 @@ fixture(`Enroll Webauthn Authenticator`)
   .requestHooks(mock);
 
 async function setup(t) {
-  const enrollWebauthnPage = new EnrollWebauthnAuthenticatorPageObject(t);
+  const enrollWebauthnPage = new EnrollWebauthnPageObject(t);
   await enrollWebauthnPage.navigateToPage();
   return enrollWebauthnPage;
 }
