@@ -1,16 +1,19 @@
 import { loc, View, createCallout } from 'okta';
 import BrowserFeatures from 'util/BrowserFeatures';
+import hbs from 'handlebars-inline-precompile';
 
 export default View.extend({
-  template: '<p class="idx-webauthn-enroll-text">{{i18n code="oie.enroll.webauthn.instructions" bundle="login"}}</p>',
+  // eslint-disable-next-line max-len
+  template: hbs`<p class="idx-webauthn-enroll-text">{{i18n code="oie.enroll.webauthn.instructions" bundle="login"}}</p>`,
   initialize () {
     const relatesToObject = this.options.currentViewState.relatesTo;
     const activationData = relatesToObject && relatesToObject.value.contextualData.activationData;
     if (BrowserFeatures.isEdge()) {
-      this.add(`
-        <p class="idx-webauthn-enroll-text-edge">
-          {{i18n code="oie.enroll.webauthn.instructions.edge" bundle="login"}}
-        </p>`);
+      this.add(View.extend({
+        tagName: 'p',
+        className: 'idx-webauthn-enroll-text-edge',
+        template: hbs`{{i18n code="oie.enroll.webauthn.instructions.edge" bundle="login"}}`
+      }));
     }
     if (activationData.authenticatorSelection.userVerification === 'required') {
       this.add(createCallout({

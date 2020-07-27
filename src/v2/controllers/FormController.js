@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { _, Controller } from 'okta';
-import '../../views/shared/FooterWithBackLink';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 
@@ -53,7 +52,11 @@ export default Controller.extend({
       return;
     }
 
-    this.listenTo(this.formView, 'save', this.handleFormSave);
+  },
+
+  switchForm (formName) {
+    // trigger formname change to change view
+    this.options.appState.set('currentFormName', formName);
   },
 
   invokeAction (actionPath = '') {
@@ -62,7 +65,7 @@ export default Controller.extend({
       idx.proceed(actionPath, {})
         .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
-          throw error;
+          this.showFormErrors(this.formView.model, error);
         });
       return;
     }
@@ -72,32 +75,30 @@ export default Controller.extend({
     if (_.isFunction(actionFn)) {
       // TODO: OKTA-243167
       // 1. what's the approach to show spinner indicating API in fligh?
-      // 2. how to catch error?
       actionFn()
         .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
-          throw error;
+          this.showFormErrors(this.formView.model, error);
         });
     } else {
-      throw `Invalid action selected: ${actionPath}`;
+      this.options.settings.callGlobalError(`Invalid action selected: ${actionPath}`);
+      this.showFormErrors(this.formView.model, 'Invalid action selected.');
     }
-  },
-
-  switchForm (formName) {
-    // trigger formname change to change view
-    this.options.appState.set('currentFormName', formName);
   },
 
   handleFormSave (model) {
     const formName = model.get('formName');
+
     const idx = this.options.appState.get('idx');
     if (!idx['neededToProceed'].find(item => item.name === formName)) {
-      model.trigger('error', model, { errorSummary: `Cannot find http action for "${formName}".`});
+      this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
+      this.showFormErrors(this.formView.model, 'Cannot find action to proceed.');
       return;
     }
+
     this.toggleFormButtonState(true);
     model.trigger('request');
-    return idx.proceed(formName, model.toJSON())
+    idx.proceed(formName, model.toJSON())
       .then(this.handleIdxSuccess.bind(this))
       .catch(error => {
         if (error.proceed && error.rawIdxState) {
@@ -110,18 +111,28 @@ export default Controller.extend({
         } else {
           this.showFormErrors(model, error);
         }
+      })
+      .finally(() => {
+        this.toggleFormButtonState(false);
       });
   },
 
   showFormErrors (model, error) {
-    //check if error format is an ION response by looking for version attribute. To handle both types of responses.
-    if(error.version) {
-      const convertedErrors = IonResponseHelper.convertFormErrors(error);
-      model.trigger('error', model, convertedErrors, convertedErrors.responseJSON.errorCauses.length ? false : true);
-    } else {
-      model.trigger('error', model, {'responseJSON': error}, true);
+    model.trigger('clearFormError');
+    if (!error) {
+      error = 'FormController - unknown error found';
+      this.options.settings.callGlobalError(error);
     }
-    this.toggleFormButtonState(false);
+
+    if(IonResponseHelper.isIonErrorResponse(error)) {
+      const convertedErrors = IonResponseHelper.convertFormErrors(error);
+      const showBanner = convertedErrors.responseJSON.errorCauses.length ? false : true;
+      model.trigger('error', model, convertedErrors, showBanner);
+    } else if (error.errorSummary) {
+      model.trigger('error', model, {responseJSON: error}, true);
+    } else {
+      model.trigger('error', model, {responseJSON: {errorSummary: String(error)}}, true);
+    }
   },
 
   handleIdxSuccess: function (idxResp) {
@@ -137,7 +148,7 @@ export default Controller.extend({
    * @param {boolean} disabled whether add extra disable CSS class.
    */
   toggleFormButtonState: function (disabled) {
-    var button = this.$el.find('.o-form-button-bar .button');
+    const button = this.$el.find('.o-form-button-bar .button');
     button.toggleClass('link-button-disabled', disabled);
   },
 

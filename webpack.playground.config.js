@@ -82,6 +82,12 @@ module.exports = {
     open: true,
     watchContentBase: true,
     before (app) {
+      // Enforce CSP
+      app.use('/*', function (req, res, next){
+        res.header('Content-Security-Policy', 'script-src http://localhost:3000');
+        next();
+      });
+
       // ================================= dyson mock setup
       const mockOptions = {
         multiRequest: false,

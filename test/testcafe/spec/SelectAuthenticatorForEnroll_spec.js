@@ -88,7 +88,7 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)(`select passwo
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
-  await enrollPasswordPage.clickGoBackLink();
+  await enrollPasswordPage.clickSwitchAuthenticatorButton();
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
   // re-select password
   selectFactorPage.selectFactorByIndex(0);

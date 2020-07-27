@@ -12,6 +12,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'q',
@@ -27,16 +29,14 @@ define([
   var _ = Okta._;
   var DEFAULT_LANGUAGE = 'en';
   var supportedResponseTypes = ['token', 'id_token', 'code'];
-  var oauthRedirectTpl = Okta.tpl('{{origin}}');
   var ConfigError = Errors.ConfigError;
   var UnsupportedBrowserError = Errors.UnsupportedBrowserError;
-  var assetBaseUrlTpl = Okta.tpl(
+  var assetBaseUrlTpl = hbs(
     'https://global.oktacdn.com/okta-signin-widget/{{version}}'
   );
 
   return Okta.Model.extend({
 
-    flat: true,
     authClient: undefined,
 
     local: {
@@ -104,12 +104,15 @@ define([
       },
 
       // OAUTH2
+      'clientId': 'string',
+      'redirectUri': 'string',
+      'oAuthTimeout': ['number', false],
+
       'authScheme': ['string', false, 'OAUTH2'],
       'authParams.display': {
         type: 'string',
         values: ['none', 'popup', 'page']
       },
-
       // Note: It shouldn't be necessary to override/pass in this property -
       // it will be set correctly depending on what the value of display is
       // and whether we are using Okta or a social IDP.
@@ -117,28 +120,23 @@ define([
         type: 'string',
         values: ['query', 'fragment', 'form_post', 'okta_post_message']
       },
-
       // Can either be a string or an array, i.e.
       // - Single value: 'id_token', 'token', or 'code'
       // - Multiple values: ['id_token', 'token']
       'authParams.responseType': ['any', false, 'id_token'],
       'authParams.scopes': ['array', false],
-
       'authParams.issuer': ['string', false],
       'authParams.authorizeUrl': ['string', false],
       'authParams.state': ['string', false],
       'authParams.nonce': ['string', false],
 
-      'policyId': 'string',
-      'clientId': 'string',
-      'redirectUri': 'string',
+      // External IdPs
       'idps': ['array', false, []],
       'idpDisplay': {
         type: 'string',
         values: ['PRIMARY', 'SECONDARY'],
         value: 'SECONDARY'
       },
-      'oAuthTimeout': ['number', false],
 
       // HELP LINKS
       'helpLinks.help': 'string',
@@ -150,6 +148,7 @@ define([
       'customButtons': ['array', false, []],
 
       //Registration
+      'policyId': 'string',
       'registration.click': 'function',
       'registration.parseSchema': 'function',
       'registration.preSubmit': 'function',
@@ -257,9 +256,7 @@ define([
             }
           }
 
-          return oauthRedirectTpl({
-            origin: origin
-          });
+          return encodeURI(origin);
         }
       },
       // Adjusts the idps passed into the widget based on if they get explicit support

@@ -4,6 +4,7 @@ import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identifyWithAppleRedirectSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-apple-redirect-sso-extension';
 import identifyWithAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-apple-credential-sso-extension';
 import identifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-no-sso-extension';
+import identifyUserVerificationWithCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-user-verification-credential-sso-extension';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 
 const logger = RequestLogger(/introspect/);
@@ -40,6 +41,12 @@ const credentialSSONotExistMock = RequestMock()
   .onRequestTo(/idp\/idx\/authenticators\/sso_extension\/transactions\/456\/verify\/cancel/)
   .respond(identify);
 
+const uvCredentialSSOExtensionMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyUserVerificationWithCredentialSSOExtension)
+  .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ft2FCeXuk7ov8iehMivYavZFhPxZUpBvB0/verify')
+  .respond(identify);
+
 fixture(`App SSO Extension View`);
 
 const getPageUrl = ClientFunction(() => window.location.href);
@@ -57,6 +64,19 @@ test
 
 test
 .requestHooks(logger, credentialSSOExtensionMock)(`with credential SSO Extension approach, opens the verify URL`, async t => {
+  const ssoExtensionPage = new BasePageObject(t);
+  await ssoExtensionPage.navigateToPage();
+  await t.expect(logger.count(
+    record => record.response.statusCode === 200 &&
+    record.request.url.match(/introspect/)
+  )).eql(1);
+  const identityPage = new IdentityPageObject(t);
+  await identityPage.fillIdentifierField('Test Identifier');
+  await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+});
+
+test
+.requestHooks(logger, uvCredentialSSOExtensionMock)(`with credential SSO Extension approach during user verification, opens the verify URL`, async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
   await t.expect(logger.count(

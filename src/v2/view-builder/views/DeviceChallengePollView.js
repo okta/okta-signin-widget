@@ -1,7 +1,10 @@
 /* global Promise */
-import { $, loc, createButton } from 'okta';
+import { $, loc, createButton, View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
+import BaseHeader from '../internals/BaseHeader';
+import HeaderBeacon from '../components/HeaderBeacon';
 import BaseFooter from '../internals//BaseFooter';
 import Logger from '../../../util/Logger';
 import DeviceFingerprint from '../../../util/DeviceFingerprint';
@@ -52,27 +55,29 @@ const Body = BaseForm.extend(Object.assign(
       switch (deviceChallenge.challengeMethod) {
       case 'LOOPBACK':
         this.title = loc('signin.with.fastpass', 'login');
-        this.add('<div class="spinner"></div>');
+        this.add(View.extend({
+          template: hbs`<div class="spinner"></div>`
+        }));
         this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
         break;
       case 'CUSTOM_URI':
         this.title = loc('customUri.title', 'login');
         this.subtitle = loc('customUri.subtitle', 'login');
-        this.add(`
-          {{{i18n code="customUri.content" bundle="login"}}}
-        `);
+        this.add(View.extend({
+          template: hbs`{{{i18n code="customUri.content" bundle="login"}}}`
+        }));
         this.customURI = deviceChallenge.href;
         this.doCustomURI();
         break;
       case 'UNIVERSAL_LINK':
         this.title = loc('universalLink.title', 'login');
-        this.add(`
-          {{{i18n code="universalLink.content" bundle="login"}}}
-        `);
+        this.add(View.extend({
+          template: hbs`{{{i18n code="universalLink.content" bundle="login"}}}`
+        }));
         this.add(createButton({
           className: 'ul-button button button-wide button-primary',
-          title: loc('universalLink.button', 'login'),
-          click () {
+          title: loc('oktaVerify.button', 'login'),
+          click: () => {
             // only window.location.href can open universal link in iOS/MacOS
             // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
             Util.redirect(deviceChallenge.href);
@@ -155,8 +160,8 @@ const Body = BaseForm.extend(Object.assign(
 const Footer = BaseFooter.extend({
   links () {
     let links = [];
-    const deviceChallenge = this.options.currentViewState.relatesTo.value;
 
+    const deviceChallenge = this.options.currentViewState.relatesTo.value;
     if (deviceChallenge.challengeMethod === 'CUSTOM_URI') {
       links = [
         {
@@ -172,6 +177,11 @@ const Footer = BaseFooter.extend({
 });
 
 export default BaseView.extend({
+  Header: BaseHeader.extend({
+    HeaderBeacon: HeaderBeacon.extend({
+      getBeaconClassName: () => 'mfa-okta-verify'
+    }),
+  }),
   Body,
   Footer
 });

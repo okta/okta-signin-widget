@@ -103,7 +103,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           id: 'autwa6eD9o02iBbtv0g3'
         },
         'iconClassName': 'mfa-okta-password',
-        'description': 'Choose a password for your account'
+        'description': ''
       },
       {
         'label': 'Okta E-mail',
@@ -112,7 +112,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           id: 'autwa6eDxxx2iBbtv0g3'
         },
         'iconClassName': 'mfa-okta-email',
-        'description': 'Verify with a link or code sent to your email'
+        'description': ''
       }
     ]);
     // make sure input parameter is not mutated.
@@ -181,7 +181,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           id: 'autwa6eDxxx2iBbtv0g3'
         },
         'iconClassName': 'mfa-webauthn',
-        'description': 'Use a security key or a biometric authenticator to sign in'
+        'description': ''
       }, {
         'label': 'Okta Password',
         'authenticatorType': 'password',
@@ -189,7 +189,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           id: 'autwa6eD9o02iBbtv0g3'
         },
         'iconClassName': 'mfa-okta-password',
-        'description': 'Choose a password for your account'
+        'description': ''
       }
     ]);
     // make sure input parameter is not mutated.

@@ -13,7 +13,7 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
     return loc('password.expired.submit', 'login');
   },
 
-  getPasswordPolicy () {
+  getPasswordPolicySettings () {
     return this.options.appState.get('recoveryAuthenticator').settings;
   },
 

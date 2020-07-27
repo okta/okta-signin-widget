@@ -8,6 +8,8 @@ import identifyWithLaunchAuthenticator from '../../../playground/mocks/data/idp/
 import identifyWithSSOExtensionFallback from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback';
 import identifyWithLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/identify-with-universal-link';
 
+const BEACON_CLASS = 'mfa-okta-verify';
+
 let failureCount = 0;
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackSuccesskMock = RequestMock()
@@ -89,6 +91,7 @@ async function setupLoopbackFallback(t) {
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)(`in loopback server approach, probing and polling requests are sent and responded`, async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Signing in using Okta FastPass');
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
@@ -130,6 +133,7 @@ test
     )).eql(1);
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verify account access');
     await t.expect(deviceChallengePollPageObject.getFormSubtitle()).eql('Launching Okta Verify...');
     await t.expect(deviceChallengePollPageObject.getContent())
@@ -162,6 +166,7 @@ test
     )).eql(1);
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verify your sign in');
     await t.expect(deviceChallengePollPageObject.getContent()).eql('To continue, you\'ll need to use the Okta Verify app to confirm your sign in.\nSign in with Okta Verify');
     deviceChallengePollPageObject.clickUniversalLink();

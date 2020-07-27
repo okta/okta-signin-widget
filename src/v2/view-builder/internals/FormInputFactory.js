@@ -2,14 +2,14 @@ import { Collection, _, loc } from 'okta';
 import FactorOptions from '../components/FactorOptions';
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
-import FactorUtil from '../utils/FactorUtil';
+import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification} from '../utils/AuthenticatorUtil';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import IDP from '../../../util/IDP';
 
 const createFactorSelectView = (opt) => {
   var optionItems = (opt.options || [])
     .map(opt => {
-      return Object.assign({}, FactorUtil.getFactorData(opt.factorType), opt);
+      return Object.assign({}, getAuthenticatorDataForEnroll(opt), opt);
     });
   return {
     View: FactorOptions,
@@ -23,7 +23,7 @@ const createFactorSelectView = (opt) => {
 const createAuthenticatorEnrollSelectView = (opt) => {
   var optionItems = (opt.options || [])
     .map(opt => {
-      return Object.assign({}, opt, FactorUtil.getFactorData(opt.authenticatorType));
+      return Object.assign({}, opt, getAuthenticatorDataForEnroll(opt));
     });
   return {
     View: AuthenticatorEnrollOptions,
@@ -52,7 +52,7 @@ const createAuthenticatorVerifySelectView = (opt) => {
     return true;
   });
   optionItems = optionItems.map(opt => {
-    return Object.assign({}, opt, FactorUtil.getFactorData(opt.authenticatorType));
+    return Object.assign({}, opt, getAuthenticatorDataForVerification(opt));
   });
   return {
     View: AuthenticatorVerifyOptions,
@@ -129,7 +129,23 @@ const createIdpButtons = (remediations) => {
   });
 };
 
+const createCustomButtons = (settings) => {
+  const customButtons = settings.get('customButtons');
+  return customButtons.map(customButton => {
+    const button = {
+      attributes: {
+        'data-se': customButton.dataAttr
+      },
+      className: customButton.className  + ' default-custom-button',
+      title: customButton.title,
+      click: customButton.click
+    };
+    return button;
+  });
+};
+
 module.exports = {
   create,
   createIdpButtons,
+  createCustomButtons,
 };

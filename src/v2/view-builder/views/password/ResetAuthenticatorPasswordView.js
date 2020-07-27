@@ -13,10 +13,6 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
     return loc('password.reset', 'login');
   },
 
-  getPasswordPolicy () { 
-    return this.options.appState.get('currentAuthenticator').settings;
-  },
-
 });
 
 export default EnrollAuthenticatorPasswordView.extend({ Body });

@@ -10,14 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define(['okta', 'util/Enums'], function (Okta, Enums) {
 
   return Okta.View.extend({
-    template: '\
+    template: hbs('\
       <a href="#" class="link help js-back" data-se="back-link">\
         {{i18n code="mfa.backToFactors" bundle="login"}}\
       </a>\
-    ',
+    '),
     className: 'auth-footer',
     events: {
       'click .js-back' : function (e) {

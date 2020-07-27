@@ -47,7 +47,7 @@ test(`should the correct title`, async t => {
 test(`should the correct content`, async t => {
   const identityPage = await setup(t);
   await t.expect(identityPage.getPageTitle()).eql('Sign In');
-  await t.expect(identityPage.getOktaVerifyButtonText()).eql('Sign in using Okta Verify');
+  await t.expect(identityPage.getOktaVerifyButtonText()).eql('Sign in with Okta Verify');
   await t.expect(identityPage.getSeparationLineText()).eql('OR');
   await identityPage.clickOktaVerifyButton();
   const header = new Selector('h2[data-se="o-form-head"]');

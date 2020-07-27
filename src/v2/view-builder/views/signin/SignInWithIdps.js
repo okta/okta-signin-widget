@@ -1,8 +1,9 @@
 import { View, createButton } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 
 export default View.extend({
   className: 'sign-in-with-idp',
-  template: `
+  template: hbs`
     {{#if addSeparateLine}}
     <div class="separation-line"><span>OR</span></div>
     {{/if}}

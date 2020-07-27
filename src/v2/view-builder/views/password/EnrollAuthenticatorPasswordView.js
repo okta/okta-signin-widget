@@ -2,8 +2,9 @@ import { loc, View } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { getPasswordComplexityDescriptionForHtmlList } from '../../utils/FactorUtil';
+import { getPasswordComplexityDescriptionForHtmlList } from '../../utils/AuthenticatorUtil';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
+import hbs from 'handlebars-inline-precompile';
 
 const Body = BaseForm.extend({
   title () {
@@ -15,7 +16,7 @@ const Body = BaseForm.extend({
 
   initialize () {
     BaseForm.prototype.initialize.apply(this, arguments);
-    const policy = this.getPasswordPolicy();
+    const policy = this.getPasswordPolicySettings();
     this.displayPasswordPolicy(policy);
   },
 
@@ -26,7 +27,7 @@ const Body = BaseForm.extend({
         View.extend({
           tagName: 'section',
           template:
-            `<div class="password-authenticator--heading">
+            hbs`<div class="password-authenticator--heading">
               {{i18n code="password.complexity.requirements.header" bundle="login"}}
             </div>
             <ul class="password-authenticator--list">
@@ -45,10 +46,12 @@ const Body = BaseForm.extend({
     }
   },
 
-  getPasswordPolicy () {
-    // This will be overridden by password expired and password will expire soon
-    // scenarios since the policies could be different for those.
-    return this.options.appState.get('currentAuthenticator').settings;
+  getPasswordPolicySettings () {
+    // This will be overridden by following scenario since the policies could be different for those.
+    // - password reset (`ReEnrollAuthenticatorPasswordView.js`)
+    //
+    const relatesToObject = this.options.currentViewState.relatesTo;
+    return relatesToObject && relatesToObject.value && relatesToObject.value.settings;
   },
 
   getUISchema () {
@@ -87,11 +90,13 @@ export default BaseAuthenticatorView.extend({
       local,
       validate () {
         if (this.get('credentials.passcode') !== this.get('confirmPassword') &&
-          this.get('credential.value') !== this.get('confirmPassword')) {
+            this.get('credential.value') !== this.get('confirmPassword')) {
           const errors = {
             'confirmPassword': loc('password.error.match', 'login'),
           };
           return errors;
+        } else {
+          return null;
         }
       }
     });

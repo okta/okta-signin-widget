@@ -16,8 +16,7 @@ const Body = BaseForm.extend({
     return loc('oie.select.authenticators.verify.subtitle', 'login');
   },
   isPasswordRecoveryFlow () {
-    const recoveryAuthenticator = this.options.appState.get('recoveryAuthenticator');
-    return recoveryAuthenticator && recoveryAuthenticator.type === 'password';
+    return this.options.appState.get('isPasswordRecovery');
   },
   noButtonBar: true,
 });

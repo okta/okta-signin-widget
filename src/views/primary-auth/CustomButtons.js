@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/OAuth2Util'
@@ -19,11 +21,11 @@ define([
       $ = Okta.$,
       SharedUtil = Okta.internal.util.Util;
 
-  var dividerTpl = Okta.tpl(
+  var dividerTpl = hbs(
     '<div class="auth-divider">\
       <span class="auth-divider-text">{{text}}</span>\
     </div>');
-  var formTitleTpl = Okta.tpl(
+  var formTitleTpl = hbs(
     '<h2 data-se="o-form-head" class="okta-form-title o-form-head">{{title}}</h2>'
   );
 
