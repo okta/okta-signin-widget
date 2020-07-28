@@ -357,8 +357,8 @@ var signIn = new OktaSignIn({
 });
 
 signIn.showSignInToGetTokens({
-  clientId: '{{myClientId}}',
-  redirectUri: '{{redirectUri configured in OIDC app}}',
+  clientId: '{myClientId}',
+  redirectUri: '{redirectUri configured in OIDC app}',
 
   // Return an access token from the authorization server
   getAccessToken: true,
