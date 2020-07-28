@@ -4,6 +4,11 @@ import EnrollAuthenticatorPasswordView from './EnrollAuthenticatorPasswordView';
 
 const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
   className: 'password-authenticator',
+  subtitle () {
+    if (this.options.settings.get('brandName')) {
+      return loc('password.expiring.subtitle.specific', 'login', [this.options.settings.get('brandName')]);
+    }
+  },
   title () {
     const passwordPolicy = this.getPasswordPolicySettings() || {};
     const daysToExpiry = passwordPolicy.daysToExpiry;
@@ -20,19 +25,13 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
   save () {
     return loc('password.expired.submit', 'login');
   },
-
   showMessages () {
-    // render messages as text
-    const messagesObjs = this.options.appState.get('messages');
-    if (messagesObjs && messagesObjs.value.length) {
-      let content = messagesObjs.value.map((messagesObj) => {
-        return messagesObj.message;
-      });
-      content = this.options.settings.get('brandName')?
-        [loc('password.expiring.subtitle.specific', 'login', [this.options.settings.get('brandName')])]:
-        content;
-      this.add(`<div class="ion-messages-container">${content.join(' ')}</div>`, '.o-form-error-container');
+    // if brandName is configured and messages is present, render as subtitle with brandName in context
+    if (this.options.settings.get('brandName')) {
+      return null;
     }
+    // else if brandName is not set, render messages object sent from server as text
+    EnrollAuthenticatorPasswordView.prototype.Body.prototype.showMessages.apply(this, arguments);
   },
 });
 

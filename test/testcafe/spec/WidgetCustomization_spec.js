@@ -175,5 +175,5 @@ test.requestHooks(mockAuthenticatorPasswordExpiryWarning)(`should show custom br
   await rerenderWidget({
     "brandName": "Spaghetti Inc",
   });
-  await t.expect(passwordExpiryWarningPage.getIonMessages()).eql('When password expires you will be locked out of your Spaghetti Inc account.');
+  await t.expect(passwordExpiryWarningPage.getFormSubtitle()).eql('When password expires you will be locked out of your Spaghetti Inc account.');
 });
