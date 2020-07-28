@@ -32,6 +32,7 @@ if (process.env.TRAVIS  || process.env.CHROME_HEADLESS) {
     config.sauceKey = process.env.SAUCE_ACCESS_KEY;
   } else {
     // Desktop browser
+    config.directConnect = true;
     config.capabilities = {
       'browserName': 'chrome',
       'chromeOptions': {
