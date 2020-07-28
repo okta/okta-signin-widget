@@ -32,15 +32,26 @@ const recoveryRequestLogger = RequestLogger(
   }
 );
 
-fixture(`Challenge Authenticator Password`);
+fixture('Challenge Authenticator Password');
 
 async function setup(t) {
   const challengePasswordPage = new ChallengePasswordPageObject(t);
   await challengePasswordPage.navigateToPage();
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+  await t.expect(JSON.parse(log[2])).eql({
+    controller: 'mfa-verify-password',
+    formName: 'challenge-authenticator',
+    authenticatorType: 'password',
+  });
+
   return challengePasswordPage;
 }
 
-test.requestHooks(mockChallengeAuthenticatorPassword)(`challenge password authenticator`, async t => {
+test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authenticator', async t => {
   const challengePasswordPage = await setup(t);
   // assert switch authenticator link
   await challengePasswordPage.switchAuthenticatorExists();
@@ -62,7 +73,7 @@ test.requestHooks(mockChallengeAuthenticatorPassword)(`challenge password authen
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test.requestHooks(mockInvalidPassword)(`challege password authenticator with invalid password`, async t => {
+test.requestHooks(mockInvalidPassword)('challege password authenticator with invalid password', async t => {
   const challengePasswordPage = await setup(t);
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
@@ -71,7 +82,7 @@ test.requestHooks(mockInvalidPassword)(`challege password authenticator with inv
   await t.expect(challengePasswordPage.getPasswordFieldErrorMessage()).contains('The passcode is absent or invalid');
 });
 
-test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)(`can not recover password`, async t => {
+test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {
   const challengePasswordPage = await setup(t);
   await challengePasswordPage.forgotPasswordLink.exists();
   await challengePasswordPage.forgotPasswordLink.click();

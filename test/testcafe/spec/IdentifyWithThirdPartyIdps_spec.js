@@ -3,7 +3,6 @@ import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identifyWithIdpsIdentify from '../../../playground/mocks/data/idp/idx/identify-with-third-party-idps';
 import identifyWithIdpsNoIdentify from '../../../playground/mocks/data/idp/idx/identify-with-only-third-party-idps';
 import identifyOnlyOneIdp from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp';
-import BasePageObject from '../framework/page-objects/BasePageObject';
 
 const mockWithIdentify = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -18,12 +17,12 @@ const mockOnlyOneIdp = RequestMock()
   .respond(identifyOnlyOneIdp)
   .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
   .respond(async (req, res) => {
-    // Delay response for 2 seconds
+    // Delay response for 2 seconds so that we can verify the `success redirect` screen
     await new Promise((r) => setTimeout(r, 2000));
     res.setBody('<html><h1>A external IdP login page for testcafe testing</h1></html>');
   });
 
-fixture(`Identify + IDPs`);
+fixture('Identify + IDPs');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -31,8 +30,18 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(mockWithIdentify) (`should render idp buttons with identifier form `, async t => {
+test.requestHooks(mockWithIdentify) ('should render idp buttons with identifier form ', async t => {
   const identityPage = await setup(t);
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+    await t.expect(JSON.parse(log[2])).eql({
+    controller: 'primary-auth',
+    formName: 'identify',
+  });
+
   await t.expect(identityPage.identifierFieldExists('.o-form-input .input-fix input')).eql(true);
   await t.expect(identityPage.getIdpButton('.social-auth-facebook-button').textContent).eql('Sign in with Facebook');
   await t.expect(identityPage.getIdpButton('.social-auth-google-button').textContent).eql('Sign in with Google');
@@ -41,7 +50,7 @@ test.requestHooks(mockWithIdentify) (`should render idp buttons with identifier 
 });
 
 test
-  .requestHooks(mockWithIdentify)(`clicking on idp button does redirect `, async t => {
+  .requestHooks(mockWithIdentify)('clicking on idp button does redirect ', async t => {
   const identityPage = await setup(t);
   await t.expect(identityPage.identifierFieldExists('.o-form-input .input-fix input')).eql(true);
   await t.expect(identityPage.getIdpButton('.social-auth-facebook-button').textContent).eql('Sign in with Facebook');
@@ -56,8 +65,18 @@ test
 });
 
 
-test.requestHooks(mockWithoutIdentify)(`should only render idp buttons with identifier form `, async t => {
+test.requestHooks(mockWithoutIdentify)('should only render idp buttons with identifier form ', async t => {
   const identityPage = await setup(t);
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+    await t.expect(JSON.parse(log[2])).eql({
+    controller: null,
+    formName: 'redirect-idp',
+  });
+
   await t.expect(identityPage.identifierFieldExists('.o-form-input .input-fix input')).eql(false);
   await t.expect(identityPage.getIdpButton('.social-auth-facebook-button').textContent).eql('Sign in with Facebook');
   await t.expect(identityPage.getIdpButton('.social-auth-google-button').textContent).eql('Sign in with Google');
@@ -68,12 +87,22 @@ test.requestHooks(mockWithoutIdentify)(`should only render idp buttons with iden
   await t.expect(await identityPage.signoutLinkExists()).notOk();
 });
 
-test.requestHooks(mockOnlyOneIdp)(`should auto redirect to 3rd party IdP login page`, async t => {
+test.requestHooks(mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page', async t => {
   await setup(t);
 
-  // assert landing on success redirect page
-  const successRedirectPage = new BasePageObject(t);
-  await t.expect(successRedirectPage.getFormTitle()).eql('You are being redirected');
+  // FIXME: assert landing on success redirect page
+  // import BasePageObject from '../framework/page-objects/BasePageObject';
+  // const successRedirectPage = new BasePageObject(t);
+  // await t.expect(successRedirectPage.getFormTitle()).eql('You are being redirected');
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+    await t.expect(JSON.parse(log[2])).eql({
+    controller: null,
+    formName: 'success-redirect',
+  });
 
   // assert redirect to IdP login page eventually
   await t.expect(await Selector('h1').innerText).eql('A external IdP login page for testcafe testing');

@@ -19,7 +19,7 @@ const inValidOTPmock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
 
-fixture(`Challenge Email Form`);
+fixture('Challenge Email Form');
 
 async function setup(t) {
   const challengeFactorPageObject = new ChallengeFactorPageObject(t);
@@ -28,7 +28,7 @@ async function setup(t) {
 }
 
 test
-  .requestHooks(validOTPmock)(`challenge email factor with valid OTP form has right labels`, async t => {
+  .requestHooks(validOTPmock)('challenge email factor with valid OTP form has right labels', async t => {
     const challengeFactorPageObject = await setup(t);
     const pageTitle = challengeFactorPageObject.getPageTitle();
     const saveBtnText = challengeFactorPageObject.getSaveButtonLabel();
@@ -42,7 +42,7 @@ test
   });
 
 test
-  .requestHooks(inValidOTPmock)(`challenge email factor with invalid OTP`, async t => {
+  .requestHooks(inValidOTPmock)('challenge email factor with invalid OTP', async t => {
     const challengeFactorPageObject = await setup(t);
     await challengeFactorPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeFactorPageObject.clickNextButton();
@@ -51,7 +51,7 @@ test
   });
 
 test
-  .requestHooks(validOTPmock)(`challenge email factor with valid OTP`, async t => {
+  .requestHooks(validOTPmock)('challenge email factor with valid OTP', async t => {
     const challengeFactorPageObject = await setup(t);
     await challengeFactorPageObject.verifyFactor('credentials.passcode', '1234');
     await challengeFactorPageObject.clickNextButton();

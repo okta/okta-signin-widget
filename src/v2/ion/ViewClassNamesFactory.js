@@ -14,7 +14,8 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     password: 'mfa-verify-password',
     sms: 'mfa-verify-passcode',
     voice: 'mfa-verify-passcode',
-    'security_question': 'mfa-verify-question'
+    'security_question': 'mfa-verify-question',
+    'security_key': 'mfa-verify-webauthn',
   },
   [FORMS.ENROLL_AUTHENTICATOR]: {
     email: 'enroll-email',
@@ -22,6 +23,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     sms: 'enroll-sms',
     voice: 'enroll-call',
     'security_question': 'enroll-question',
+    'security_key': 'enroll-webauthn',
   },
 
   [FORMS.SELECT_AUTHENTICATOR_ENROLL]: {

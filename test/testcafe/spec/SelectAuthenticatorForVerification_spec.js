@@ -39,7 +39,7 @@ const mockSelectAuthenticatorForRecovery = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsRecovery);
 
-fixture(`Select Authenticator for verification Form`);
+fixture('Select Authenticator for verification Form');
 
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
@@ -47,7 +47,7 @@ async function setup(t) {
   return selectFactorPageObject;
 }
 
-test.requestHooks(mockChallengePassword)(`should load select authenticator list`, async t => {
+test.requestHooks(mockChallengePassword)('should load select authenticator list', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
@@ -96,7 +96,7 @@ test.requestHooks(mockChallengePassword)(`should load select authenticator list`
 
 });
 
-test.requestHooks(mockSelectAuthenticatorForRecovery)(`should load select authenticator list for recovery password`, async t => {
+test.requestHooks(mockSelectAuthenticatorForRecovery)('should load select authenticator list for recovery password', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Reset your password');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Verify with one of the following authenticators to reset your password.');
@@ -115,7 +115,7 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)(`should load select authen
   await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
 });
 
-test.requestHooks(mockChallengePassword)(`should navigate to password challenge page`, async t => {
+test.requestHooks(mockChallengePassword)('should navigate to password challenge page', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
@@ -124,7 +124,7 @@ test.requestHooks(mockChallengePassword)(`should navigate to password challenge 
   await t.expect(challengeFactorPage.getPageTitle()).eql('Sign in using your password');
 });
 
-test.requestHooks(requestLogger, mockChallengePassword)(`select password challenge page and hit switch authenticator and re-select password`, async t => {
+test.requestHooks(requestLogger, mockChallengePassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
@@ -153,7 +153,7 @@ test.requestHooks(requestLogger, mockChallengePassword)(`select password challen
 
 });
 
-test.requestHooks(mockChallengeWebauthn)(`should navigate to webauthn challenge page`, async t => {
+test.requestHooks(mockChallengeWebauthn)('should navigate to webauthn challenge page', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
@@ -162,7 +162,7 @@ test.requestHooks(mockChallengeWebauthn)(`should navigate to webauthn challenge 
   await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with Security Key or Biometric Authenticator');
 });
 
-test.requestHooks(mockChallengeEmail)(`should navigate to email challenge page`, async t => {
+test.requestHooks(mockChallengeEmail)('should navigate to email challenge page', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 

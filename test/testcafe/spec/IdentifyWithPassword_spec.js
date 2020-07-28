@@ -17,7 +17,7 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-fixture(`Identify + Password`);
+fixture('Identify + Password');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -35,7 +35,7 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)(`should have password field and forgot password link`, async t => {
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field and forgot password link', async t => {
   const identityPage = await setup(t);
 
   await identityPage.fillIdentifierField('Test Identifier');

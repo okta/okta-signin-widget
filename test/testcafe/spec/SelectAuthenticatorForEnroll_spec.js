@@ -30,7 +30,7 @@ const requestLogger = RequestLogger(
     }
   );
 
-fixture(`Select Authenticator for enrollment Form`);
+fixture('Select Authenticator for enrollment Form');
 
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
@@ -38,7 +38,7 @@ async function setup(t) {
   return selectFactorPageObject;
 }
 
-test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authenticator list`, async t => {
+test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authenticator list', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
@@ -70,7 +70,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should load select authentic
 
 });
 
-test.requestHooks(mockEnrollAuthenticatorPassword)(`should navigate to password enrollment page`, async t => {
+test.requestHooks(mockEnrollAuthenticatorPassword)('should navigate to password enrollment page', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
 
@@ -80,7 +80,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)(`should navigate to password 
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 });
 
-test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)(`select password challenge page and hit switch authenticator and re-select password`, async t => {
+test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
 
@@ -110,7 +110,7 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)(`select passwo
   await t.expect(req3.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
 });
 
-test.requestHooks(mockOptionalAuthenticatorEnrollment)(`should skip optional enrollment and go to success`, async t => {
+test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enrollment and go to success', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
 

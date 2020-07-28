@@ -74,7 +74,7 @@ const universalLinkMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithUserVerificationLaunchUniversalLink);
 
-fixture(`Device Challenge Polling View for user verification with the Loopback Server, Custom URI and Universal Link approaches`);
+fixture('Device Challenge Polling View for user verification with the Loopback Server, Custom URI and Universal Link approaches');
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -89,7 +89,7 @@ async function setupLoopbackFallback(t) {
 }
 
 test
-  .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)(`in loopback server approach, probing and polling requests are sent and responded`, async t => {
+  .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Signing in using Okta FastPass');
@@ -115,7 +115,7 @@ test
   });
 
 test
-  .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)(`loopback fails and falls back to custom uri`, async t => {
+  .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getPageTitle()).eql('Sign In');
@@ -143,7 +143,7 @@ test
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
-  .requestHooks(customURILogger, customURIMock)(`in custom URI approach, Okta Verify is launched`, async t => {
+  .requestHooks(customURILogger, customURIMock)('in custom URI approach, Okta Verify is launched', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(customURILogger.count(
       record => record.request.url.match(/launch-okta-verify/)
@@ -155,7 +155,7 @@ test
   });
 
 test
-  .requestHooks(loopbackFallbackLogger, universalLinkMock)(`SSO Extension fails and falls back to universal link`, async t => {
+  .requestHooks(loopbackFallbackLogger, universalLinkMock)('SSO Extension fails and falls back to universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getPageTitle()).eql('Sign In');

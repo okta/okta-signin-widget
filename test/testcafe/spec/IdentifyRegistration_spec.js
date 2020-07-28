@@ -28,7 +28,7 @@ const enrollProfileErrorMock = RequestMock()
   .respond(enrollProfileFinish);
 
 
-fixture(`Registration`);
+fixture('Registration');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -36,17 +36,36 @@ async function setup(t) {
   await identityPage.clickSignUpLink();
   return new RegistrationPageObject(t);
 }
+async function verifyRegistrationPageEvent(t) {
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(5);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+    await t.expect(JSON.parse(log[2])).eql({
+    controller: 'primary-auth',
+    formName: 'identify',
+  });
+
+  await t.expect(log[3]).eql('===== playground widget afterRender event received =====');
+  await t.expect(JSON.parse(log[4])).eql({
+    controller: 'registration',
+    formName: 'enroll-profile',
+  });
+
+}
 
 /* i18n tests */
-test.requestHooks(mock)(`should have the right labels for the fields`, async t => {
+test.requestHooks(mock)('should have the right labels for the fields', async t => {
   const registrationPage = await setup(t);
+  await verifyRegistrationPageEvent(t);
   await t.expect(registrationPage.getHaveAccountLabel()).eql('Already have an account ?');
   await t.expect(await registrationPage.signoutLinkExists()).notOk();
 
 });
 
-test.requestHooks(mock)(`should have editable fields`, async t => {
+test.requestHooks(mock)('should have editable fields', async t => {
   const registrationPage = await setup(t);
+  await verifyRegistrationPageEvent(t);
 
   await registrationPage.fillFirstNameField('Test First Name');
   await registrationPage.fillLastNameField('Test Last Name');
@@ -57,8 +76,9 @@ test.requestHooks(mock)(`should have editable fields`, async t => {
   await t.expect(registrationPage.getEmail()).eql('test@email.com');
 });
 
-test.requestHooks(mock)(`should show errors if required fields are empty`, async t => {
+test.requestHooks(mock)('should show errors if required fields are empty', async t => {
   const registrationPage = await setup(t);
+  await verifyRegistrationPageEvent(t);
 
   await registrationPage.clickRegisterButton();
   await registrationPage.waitForErrorBox();
@@ -71,8 +91,9 @@ test.requestHooks(mock)(`should show errors if required fields are empty`, async
 
 });
 
-test.requestHooks(mock)(`should show errors after empty required fields are focused out`, async t => {
+test.requestHooks(mock)('should show errors after empty required fields are focused out', async t => {
   const registrationPage = await setup(t);
+  await verifyRegistrationPageEvent(t);
 
   await registrationPage.fillFirstNameField('');
   await registrationPage.fillLastNameField('');
@@ -89,8 +110,9 @@ test.requestHooks(mock)(`should show errors after empty required fields are focu
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
 });
 
-test.requestHooks(enrollProfileErrorMock)(`should show email field validation errors`, async t => {
+test.requestHooks(enrollProfileErrorMock)('should show email field validation errors', async t => {
   const registrationPage = await setup(t);
+  await verifyRegistrationPageEvent(t);
 
   await registrationPage.fillFirstNameField('abc');
   await registrationPage.fillLastNameField('xyz');
@@ -106,7 +128,23 @@ test.requestHooks(enrollProfileErrorMock)(`should show email field validation er
 });
 
 
-test.requestHooks(enrollProfileFinishMock)(`should show terminal screen after registration`, async t => {
+test.requestHooks(enrollProfileFinishMock)('should show terminal screen after registration', async t => {
   const registrationPage = await setup(t);
+
+    const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(5);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+    await t.expect(JSON.parse(log[2])).eql({
+    controller: 'primary-auth',
+    formName: 'identify',
+  });
+
+  await t.expect(log[3]).eql('===== playground widget afterRender event received =====');
+  await t.expect(JSON.parse(log[4])).eql({
+    controller: null,
+    formName: 'terminal',
+  });
+
   await t.expect(registrationPage.getTerminalContent()).eql('An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account');
 });

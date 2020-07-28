@@ -8,7 +8,7 @@ import identifyUserVerificationWithCredentialSSOExtension from '../../../playgro
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 
 const logger = RequestLogger(/introspect/);
-const verifyUrl = `http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?\
+const verifyUrl = 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?\
 challengeRequest=eyJraWQiOiJCa2Y3LTVqa2d6eE1NYjBtS0pEX3hpaUxzZFNmLXZ6cks0MmFkcmcyWXEwIiwiYWxnIjoiUlMy\
 NTYifQ.eyJpc3MiOiJodHRwczovL2R0ZGVtby53aWRlcm9jay5jb20iLCJhdWQiOiJva3RhLjYzYzA4MWRiLTFmMTMtNTA4NC04OD\
 JmLWU3OWUxZTVlMmRhNyIsImV4cCI6MTU3ODYxODEzMiwiaWF0IjoxNTc4NjE3ODMyLCJqdGkiOiJ0cmFuc2FjdGlvbklkIiwibm9\
@@ -20,7 +20,7 @@ jYVN1YmplY3ROYW1lcyI6W10sImtleVR5cGUiOiJwcm9vZk9mUG9zc2Vzc2lvbiIsImZhY3RvclR5cGU
 OjB9.aCsWAQHdU3MG6w7ZQl1csuw2UFb1yvH3es97McC6lFswAphkz6bIHNcagob2dhTwWMJ7_RbpZHqXcaZJ7skKZxYHEfdC9Uwr\
 RzdHpy_4Oeq477n4NGsJLvJNKDi_FOEulqAtCMnjh20vEJI6e4uNIxoSSCfxRCzp-0tdRIJ_7dGM-IsyFjefcnbDyFZT7s4l1tbeO\
 7KYXmWXzP00bA8jmcGLb7i9bFwhjw9OBCgdNcqxKXMLmWQA0JZritRDR6u0ZcEjykca-eUCJtG5ISQOONs_lUBGL3Ezz6QsfWtW16\
-E9QJAVEwf06gULnbw5n6wpiAiDqa4HlkKP6K5-v1Y0XQ`;
+E9QJAVEwf06gULnbw5n6wpiAiDqa4HlkKP6K5-v1Y0XQ';
 
 const redirectSSOExtensionMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
@@ -47,11 +47,11 @@ const uvCredentialSSOExtensionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ft2FCeXuk7ov8iehMivYavZFhPxZUpBvB0/verify')
   .respond(identify);
 
-fixture(`App SSO Extension View`);
+fixture('App SSO Extension View');
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
-  .requestHooks(logger, redirectSSOExtensionMock)(`with redirect SSO Extension approach, opens the verify URL`, async t => {
+  .requestHooks(logger, redirectSSOExtensionMock)('with redirect SSO Extension approach, opens the verify URL', async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
   await t.expect(logger.count(
@@ -63,7 +63,7 @@ test
 });
 
 test
-.requestHooks(logger, credentialSSOExtensionMock)(`with credential SSO Extension approach, opens the verify URL`, async t => {
+.requestHooks(logger, credentialSSOExtensionMock)('with credential SSO Extension approach, opens the verify URL', async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
   await t.expect(logger.count(
@@ -76,7 +76,7 @@ test
 });
 
 test
-.requestHooks(logger, uvCredentialSSOExtensionMock)(`with credential SSO Extension approach during user verification, opens the verify URL`, async t => {
+.requestHooks(logger, uvCredentialSSOExtensionMock)('with credential SSO Extension approach during user verification, opens the verify URL', async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
   await t.expect(logger.count(
@@ -89,7 +89,7 @@ test
 });
 
 test
-.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)(`cancels transaction when the authenticator does not exist`, async t => {
+.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('cancels transaction when the authenticator does not exist', async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
   await t.expect(credentialSSONotExistLogger.count(

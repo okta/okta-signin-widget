@@ -10,7 +10,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
-fixture(`Factor Enroll Password`)
+fixture('Factor Enroll Password')
   .requestHooks(mock);
 
 async function setup(t) {
@@ -19,7 +19,7 @@ async function setup(t) {
   return enrollPasswordPage;
 }
 
-test(`should have both password and confirmPassword fields and both are required`, async t => {
+test('should have both password and confirmPassword fields and both are required', async t => {
   const enrollPasswordPage = await setup(t);
 
   // Check title
@@ -46,7 +46,7 @@ test(`should have both password and confirmPassword fields and both are required
   await t.expect(await enrollPasswordPage.signoutLinkExists()).notOk();
 });
 
-test(`should succeed when fill same value`, async t => {
+test('should succeed when fill same value', async t => {
   const enrollPasswordPage = await setup(t);
   const successPage = new SuccessPageObject(t);
 

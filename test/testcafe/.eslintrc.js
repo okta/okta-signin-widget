@@ -11,13 +11,12 @@ module.exports = {
   'plugins': [
     'testcafe'
   ],
-  "env": {
-    "browser": true,
-    "es6": true,
+  'env': {
+    'browser': true,
+    'es6': true,
   },
   'rules': {
     'semi': 2,
     'max-len': 0,
   },
-  'root': true
 };

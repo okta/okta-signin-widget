@@ -17,16 +17,27 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
-fixture(`Authenticator Reset Password`);
+fixture('Authenticator Reset Password');
 
 async function setup(t) {
   const resetPasswordPage = new FactorEnrollPasswordPageObject(t);
   await resetPasswordPage.navigateToPage();
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+    await t.expect(JSON.parse(log[2])).eql({
+      controller: 'forgot-password',
+      formName: 'reset-authenticator',
+      authenticatorType: 'password'
+  });
+
   return resetPasswordPage;
 }
 
 test
-  .requestHooks(logger, mock)(`Should have the correct labels`, async t => {
+  .requestHooks(logger, mock)('Should have the correct labels', async t => {
     const resetPasswordPage = await setup(t);
     await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your password');
     await t.expect(resetPasswordPage.getSaveButtonLabel()).eql('Reset Password');
@@ -41,7 +52,7 @@ test
   });
 
 test
-  .requestHooks(logger, mock)(`should have both password and confirmPassword fields and both are required`, async t => {
+  .requestHooks(logger, mock)('should have both password and confirmPassword fields and both are required', async t => {
     const resetPasswordPage = await setup(t);
     await t.expect(resetPasswordPage.passwordFieldExists()).eql(true);
     await t.expect(resetPasswordPage.confirmPasswordFieldExists()).eql(true);
@@ -64,7 +75,7 @@ test
   });
 
 test
-  .requestHooks(logger, mock)(`should succeed when passwords match and should send password in payload`, async t => {
+  .requestHooks(logger, mock)('should succeed when passwords match and should send password in payload', async t => {
     const resetPasswordPage = await setup(t);
     const successPage = new SuccessPageObject(t);
 
@@ -82,9 +93,9 @@ test
     const requestBody = JSON.parse(body);
 
     await t.expect(requestBody).eql({
-      "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-      "credentials": {
-        "passcode": "abcdabcd"
+      'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+      'credentials': {
+        'passcode': 'abcdabcd'
       },
     });
   });

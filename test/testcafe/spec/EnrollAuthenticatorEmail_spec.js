@@ -30,16 +30,27 @@ const invalidOTPMock = RequestMock()
   .respond(invalidOTP, 403);
 
 
-fixture(`Enroll Email Authenticator`);
+fixture('Enroll Email Authenticator');
 
 async function setup(t) {
   const enrollEmailPageObject = new EnrollEmailPageObject(t);
-  enrollEmailPageObject.navigateToPage();
+  await enrollEmailPageObject.navigateToPage();
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+  await t.expect(JSON.parse(log[2])).eql({
+    controller: 'enroll-email',
+    formName: 'enroll-authenticator',
+    authenticatorType: 'email',
+  });
+
   return enrollEmailPageObject;
 }
 
 test
-  .requestHooks(invalidOTPMock)(`enroll with invalid OTP`, async t => {
+  .requestHooks(invalidOTPMock)('enroll with invalid OTP', async t => {
     const enrollEmailPageObject = await setup(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
@@ -52,7 +63,7 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmock)(`enroll with valid OTP`, async t => {
+  .requestHooks(logger, validOTPmock)('enroll with valid OTP', async t => {
     const enrollEmailPageObject = await setup(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
@@ -87,7 +98,7 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmock)(`resend after 30 seconds`, async t => {
+  .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
     const enrollEmailPageObject = await setup(t);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
     await t.wait(31000);
@@ -121,12 +132,12 @@ test
       }
     } = logger.requests[logger.requests.length - 1];
     let jsonBody = JSON.parse(firstRequestBody);
-    await t.expect(jsonBody).eql({"stateHandle":"eyJ6aXAiOiJER"});
+    await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
     await t.expect(firstRequestMethod).eql('post');
     await t.expect(firstRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
 
     jsonBody = JSON.parse(lastRequestBody);
-    await t.expect(jsonBody).eql({"stateHandle":"eyJ6aXAiOiJER"});
+    await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
     await t.expect(lastRequestMethod).eql('post');
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
