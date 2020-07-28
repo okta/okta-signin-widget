@@ -6,7 +6,10 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
   className: 'password-authenticator',
 
   title () {
-    return loc('password.expired.title.generic', 'login');
+    const title = this.options.settings.get('brandName')?
+      loc('password.expired.title.specific', 'login', [this.options.settings.get('brandName')]):
+      loc('password.expired.title.generic', 'login');
+    return title;
   },
 
   save () {
